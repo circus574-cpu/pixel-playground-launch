@@ -11,6 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TestRouteImport } from './routes/test'
+import { Route as ApiUploadsIndexRouteImport } from './routes/api/uploads/index'
+import { Route as ApiUploadsFromUrlRouteImport } from './routes/api/uploads/from-url'
+import { Route as ApiPublicUploadsIndexRouteImport } from './routes/api/public/uploads/index'
+import { Route as ApiPublicUploadsFromUrlRouteImport } from './routes/api/public/uploads/from-url'
+import { Route as ApiPublicUploadsOpenapiRouteImport } from './routes/api/public/uploads/openapi'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +27,98 @@ const TestRoute = TestRouteImport.update({
   path: '/test',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUploadsIndexRoute = ApiUploadsIndexRouteImport.update({
+  id: '/api/uploads/',
+  path: '/api/uploads/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUploadsFromUrlRoute = ApiUploadsFromUrlRouteImport.update({
+  id: '/api/uploads/from-url',
+  path: '/api/uploads/from-url',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicUploadsIndexRoute = ApiPublicUploadsIndexRouteImport.update({
+  id: '/api/public/uploads/',
+  path: '/api/public/uploads/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicUploadsFromUrlRoute = ApiPublicUploadsFromUrlRouteImport.update({
+  id: '/api/public/uploads/from-url',
+  path: '/api/public/uploads/from-url',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicUploadsOpenapiRoute = ApiPublicUploadsOpenapiRouteImport.update({
+  id: '/api/public/uploads/openapi',
+  path: '/api/public/uploads/openapi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/test': typeof TestRoute
+  '/api/uploads/from-url': typeof ApiUploadsFromUrlRoute
+  '/api/uploads/': typeof ApiUploadsIndexRoute
+  '/api/public/uploads/from-url': typeof ApiPublicUploadsFromUrlRoute
+  '/api/public/uploads/openapi': typeof ApiPublicUploadsOpenapiRoute
+  '/api/public/uploads/': typeof ApiPublicUploadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/test': typeof TestRoute
+  '/api/uploads/from-url': typeof ApiUploadsFromUrlRoute
+  '/api/uploads': typeof ApiUploadsIndexRoute
+  '/api/public/uploads/from-url': typeof ApiPublicUploadsFromUrlRoute
+  '/api/public/uploads/openapi': typeof ApiPublicUploadsOpenapiRoute
+  '/api/public/uploads': typeof ApiPublicUploadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/test': typeof TestRoute
+  '/api/uploads/from-url': typeof ApiUploadsFromUrlRoute
+  '/api/uploads/': typeof ApiUploadsIndexRoute
+  '/api/public/uploads/from-url': typeof ApiPublicUploadsFromUrlRoute
+  '/api/public/uploads/openapi': typeof ApiPublicUploadsOpenapiRoute
+  '/api/public/uploads/': typeof ApiPublicUploadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/test'
+  fullPaths:
+    | '/'
+    | '/test'
+    | '/api/uploads/from-url'
+    | '/api/uploads/'
+    | '/api/public/uploads/from-url'
+    | '/api/public/uploads/openapi'
+    | '/api/public/uploads/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test'
-  id: '__root__' | '/' | '/test'
+  to:
+    | '/'
+    | '/test'
+    | '/api/uploads/from-url'
+    | '/api/uploads'
+    | '/api/public/uploads/from-url'
+    | '/api/public/uploads/openapi'
+    | '/api/public/uploads'
+  id:
+    | '__root__'
+    | '/'
+    | '/test'
+    | '/api/uploads/from-url'
+    | '/api/uploads/'
+    | '/api/public/uploads/from-url'
+    | '/api/public/uploads/openapi'
+    | '/api/public/uploads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TestRoute: typeof TestRoute
+  ApiUploadsFromUrlRoute: typeof ApiUploadsFromUrlRoute
+  ApiUploadsIndexRoute: typeof ApiUploadsIndexRoute
+  ApiPublicUploadsFromUrlRoute: typeof ApiPublicUploadsFromUrlRoute
+  ApiPublicUploadsOpenapiRoute: typeof ApiPublicUploadsOpenapiRoute
+  ApiPublicUploadsIndexRoute: typeof ApiPublicUploadsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +137,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/uploads/': {
+      id: '/api/uploads/'
+      path: '/api/uploads'
+      fullPath: '/api/uploads/'
+      preLoaderRoute: typeof ApiUploadsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/uploads/from-url': {
+      id: '/api/uploads/from-url'
+      path: '/api/uploads/from-url'
+      fullPath: '/api/uploads/from-url'
+      preLoaderRoute: typeof ApiUploadsFromUrlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/uploads/': {
+      id: '/api/public/uploads/'
+      path: '/api/public/uploads'
+      fullPath: '/api/public/uploads/'
+      preLoaderRoute: typeof ApiPublicUploadsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/uploads/from-url': {
+      id: '/api/public/uploads/from-url'
+      path: '/api/public/uploads/from-url'
+      fullPath: '/api/public/uploads/from-url'
+      preLoaderRoute: typeof ApiPublicUploadsFromUrlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/uploads/openapi': {
+      id: '/api/public/uploads/openapi'
+      path: '/api/public/uploads/openapi'
+      fullPath: '/api/public/uploads/openapi'
+      preLoaderRoute: typeof ApiPublicUploadsOpenapiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TestRoute: TestRoute,
+  ApiUploadsFromUrlRoute: ApiUploadsFromUrlRoute,
+  ApiUploadsIndexRoute: ApiUploadsIndexRoute,
+  ApiPublicUploadsFromUrlRoute: ApiPublicUploadsFromUrlRoute,
+  ApiPublicUploadsOpenapiRoute: ApiPublicUploadsOpenapiRoute,
+  ApiPublicUploadsIndexRoute: ApiPublicUploadsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

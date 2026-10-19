@@ -5,4 +5,4 @@ export const uploadSketchSchema = z.object({
   name: z.string().min(1).max(200).refine(name => !/[\u0000-\u001f/\\]/.test(name), 'Nieprawidłowa nazwa pliku'),
   size: z.number().int().min(0).max(MAX_SKETCH_BYTES),
 });
-export const sketchPathSchema = z.object({ path: z.string().regex(/^[a-f0-9-]{36}--[A-Za-z0-9_-]+$/) });
+export const sketchPathSchema = z.object({ path: z.string().max(600).regex(/^(?:game-assets(?:\/[a-zA-Z0-9_-]{1,60})*\/)?[a-f0-9-]{36}--[A-Za-z0-9_-]+$/) });
