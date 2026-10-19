@@ -54,7 +54,7 @@ export const downloadSketch = createServerFn({ method: 'POST' })
     const { data: signed, error } = await supabaseAdmin.storage.from('project-sketches').createSignedUrl(data.path, 60, { download: name });
     if (error || !signed) throw new Error('Nie udało się pobrać pliku.');
     const url = new URL(signed.signedUrl);
-    const browserUrl = new URL(import.meta.env.VITE_SUPABASE_URL);
+    const browserUrl = new URL(import.meta.env['VITE_SUPABASE_URL']);
     url.protocol = browserUrl.protocol; url.host = browserUrl.host;
     return { url: url.toString() };
   });
