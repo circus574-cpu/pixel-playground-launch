@@ -1,8 +1,10 @@
 import Phaser from 'phaser';
 import { blockedAt, clearSight } from './movement';
 
+export type GameViewState = { x: number; y: number; target: null | { name: string; hp: number; maxHp: number }; defeated: number; ready: boolean };
+
 /** Client-only Phaser scene; no server-side DOM access. */
-export function mountKileGends(parent: HTMLElement): () => void {
+export function mountKileGends(parent: HTMLElement, onState?: (state: GameViewState) => void): () => void {
   class ForestScene extends Phaser.Scene {
     private hero!: Phaser.GameObjects.Container;
     private destination: Phaser.Math.Vector2 | null = null;
@@ -21,13 +23,14 @@ export function mountKileGends(parent: HTMLElement): () => void {
     private heroSprite!: Phaser.GameObjects.Sprite;
     private facing: 'down' | 'left' | 'right' | 'up' = 'down';
     private walking = false;
-    private targetLabel!: Phaser.GameObjects.Text;
+    private lastReport = 0;
+    private defeated = 0;
     constructor() { super('Forest'); }
 
     preload() {
       this.load.image('world-atlas', '/game/assets/world-v1.webp');
-      this.load.image('hero-sheet', '/game/assets/hero-walk-v1.webp');
-      this.load.image('terrain-sheet', '/game/assets/terrain-v1.webp');
+      this.load.image('hero-sheet', '/game/assets/hero-walk-v2.webp');
+      this.load.image('village', '/game/assets/village-v2.webp');
     }
 
     create() {
@@ -44,55 +47,37 @@ export function mountKileGends(parent: HTMLElement): () => void {
       const sheet = this.textures.get('hero-sheet');
       if (sheet.key !== '__MISSING') {
         const source = sheet.getSourceImage() as HTMLImageElement;
-        const w = source.width / 4, h = source.height / 4;
+        const w = Math.floor(source.width / 4), h = Math.floor(source.height / 4);
         ['down', 'left', 'right', 'up'].forEach((direction, row) => {
           for (let col = 0; col < 4; col++) sheet.add(row * 4 + col, 0, col * w, row * h, w, h);
           this.anims.create({ key: 'walk-' + direction, frames: Array.from({ length: 4 }, (_, i) => ({ key: 'hero-sheet', frame: row * 4 + i })), frameRate: 8, repeat: -1 });
         });
       }
-      const ground = this.textures.get('terrain-sheet');
-      if (ground.key !== '__MISSING') {
-        const source = ground.getSourceImage() as HTMLImageElement;
-        ground.add('grass', 0, 0, 0, source.width / 2, source.height);
-        ground.add('dirt', 0, source.width / 2, 0, source.width / 2, source.height);
-      }
-      const worldW = 1920, worldH = 1440, tile = 48;
+      const worldW = 1920, worldH = 1280;
       this.cameras.main.setBackgroundColor('#182d1b');
       this.cameras.main.setBounds(0, 0, worldW, worldH);
-      for (let y = 0; y < worldH; y += tile) for (let x = 0; x < worldW; x += tile) {
-        const path = Math.abs(x - 960) < 125 || Math.abs(y - 700) < 95;
-        this.add.image(x, y, 'terrain-sheet', path ? 'dirt' : 'grass').setOrigin(0).setDisplaySize(tile, tile);
-      }
-      // Solid trees and boulders. Their trunks/rocks are collision geometry.
-      for (let i = 0; i < 105; i++) {
-        const x = 65 + ((i * 233 + 117) % 1790), y = 70 + ((i * 397 + 51) % 1290);
-        if (Math.abs(x - 960) < 180 || Math.abs(y - 700) < 140) continue;
-        if (i % 5 === 0) {
-          this.add.image(x, y, 'world-atlas', 'rock').setDisplaySize(88, 88).setOrigin(0.5, 0.8).setDepth(y);
-          this.blocked.push(new Phaser.Geom.Rectangle(x - 27, y - 17, 54, 34));
-        } else {
-          this.add.image(x, y, 'world-atlas', 'tree').setDisplaySize(154, 178).setOrigin(0.5, 0.95).setDepth(y);
-          this.blocked.push(new Phaser.Geom.Rectangle(x - 14, y - 7, 28, 22));
-        }
-      }
-      for (const [x, y] of [[690, 430], [1120, 420], [670, 925], [1170, 950]]) {
-        this.add.image(x, y, 'world-atlas', 'house').setDisplaySize(210, 210).setOrigin(0.5, 0.90).setDepth(y);
-        this.blocked.push(new Phaser.Geom.Rectangle(x - 70, y - 110, 140, 115));
-      }
+      this.add.image(0, 0, 'village').setOrigin(0).setDisplaySize(worldW, worldH).setDepth(-100);
+      // Colliders follow the approved village artwork (1536×1024 reference coordinates).
+      const solids = [
+        [82, 105, 260, 210], [75, 510, 335, 220], [820, 92, 340, 268],
+        [555, 365, 178, 160], [403, 226, 122, 127],
+        [5, 0, 650, 75], [0, 780, 560, 244], [850, 835, 686, 189],
+        [0, 330, 80, 170], [900, 420, 100, 140], [1040, 435, 112, 128],
+        [835, 672, 135, 175], [465, 628, 96, 145], [1130, 0, 406, 215],
+        // River, with a walkable bridge at y=365..435.
+        [1260, 215, 276, 150], [1260, 435, 276, 390],
+      ];
+      for (const [x, y, w, h] of solids) this.blocked.push(new Phaser.Geom.Rectangle(x * 1.25, y * 1.25, w * 1.25, h * 1.25));
       this.hero = this.makeCharacter(960, 700, 'Gracz');
       this.heroSprite = this.hero.getAt(1) as Phaser.GameObjects.Sprite;
       this.selection = this.add.ellipse(0, 0, 58, 24).setStrokeStyle(2, 0xffd565).setVisible(false);
       this.cameras.main.startFollow(this.hero, true, 0.12, 0.12);
-      for (const [x, y] of [[1190, 690], [1360, 820], [1510, 540], [790, 1130]]) {
+      for (const [x, y] of [[1050, 730], [1430, 960], [1380, 780], [750, 930]]) {
         const body = this.makeCharacter(x, y, 'Dzik');
         const bar = this.add.rectangle(x, y - 43, 44, 5, 0xc94b38).setDepth(y + 1);
         this.enemies.push({ body, hp: 3, bar });
       }
-      const hud = this.add.text(14, 12, 'KI LEGENDS • Las Początkowy\nWASD / strzałki / dotyk: ruch • Kliknij dzika: cel • Esc: anuluj', {
-        fontFamily: 'Arial, sans-serif', fontSize: '17px', color: '#f5e5bb',
-        backgroundColor: '#101b13', padding: { x: 12, y: 10 }
-      }).setScrollFactor(0).setDepth(10000);
-      this.targetLabel = this.add.text(26, 78, '', { fontSize: '15px', color: '#ffd565', stroke: '#10200f', strokeThickness: 4 }).setScrollFactor(0).setDepth(10000);
+      onState?.({ x: this.hero.x, y: this.hero.y, target: null, defeated: 0, ready: true });
       this.keys = this.input.keyboard?.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT') as Record<string, Phaser.Input.Keyboard.Key> | undefined;
       this.input.addPointer(2);
       this.stickBase = this.add.circle(90, 440, 48, 0x101b13, 0.5).setStrokeStyle(2, 0xcee6b6, 0.5).setScrollFactor(0).setDepth(10001).setVisible(false);
@@ -117,7 +102,6 @@ export function mountKileGends(parent: HTMLElement): () => void {
           this.stickKnob.setPosition(pointer.x, pointer.y).setVisible(true);
           this.destination = null; this.target = null; return;
         }
-        if (pointer.y < 100) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
         const clicked = this.enemies.find(e => e.hp > 0 && Phaser.Math.Distance.Between(pos.x, pos.y, e.body.x, e.body.y) < 32);
         this.target = clicked ?? null;
@@ -140,7 +124,7 @@ export function mountKileGends(parent: HTMLElement): () => void {
       if (distance <= stopDistance) return true;
       const step = Math.min(distance - stopDistance, this.speed * Math.min(dt, 50) / 1000);
       const nx = this.hero.x + dx / distance * step, ny = this.hero.y + dy / distance * step;
-      const collides = (px: number, py: number) => px < 14 || py < 14 || px > 1906 || py > 1426 || blockedAt(px, py, this.blocked);
+      const collides = (px: number, py: number) => px < 14 || py < 14 || px > 1906 || py > 1266 || blockedAt(px, py, this.blocked);
       const beforeX = this.hero.x, beforeY = this.hero.y;
       if (!collides(nx, ny)) this.hero.setPosition(nx, ny);
       else if (!collides(nx, this.hero.y)) this.hero.x = nx;
@@ -154,7 +138,9 @@ export function mountKileGends(parent: HTMLElement): () => void {
 
     update(time: number, dt: number) {
       this.walking = false;
-      const k = this.keys;
+      const focused = document.activeElement;
+      const typing = focused instanceof HTMLElement && Boolean(focused.closest('input, textarea, [role=dialog]'));
+      const k = typing ? undefined : this.keys;
       const dx = Number(Boolean(k?.D.isDown || k?.RIGHT.isDown)) - Number(Boolean(k?.A.isDown || k?.LEFT.isDown)) + this.joystick.x / 48;
       const dy = Number(Boolean(k?.S.isDown || k?.DOWN.isDown)) - Number(Boolean(k?.W.isDown || k?.UP.isDown)) + this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) {
@@ -163,7 +149,7 @@ export function mountKileGends(parent: HTMLElement): () => void {
       }
       this.selection.setVisible(Boolean(this.target && this.target.hp > 0));
       if (this.target) this.selection.setPosition(this.target.body.x, this.target.body.y + 11).setDepth(this.target.body.y - 1);
-      this.targetLabel.setText(this.target ? 'Cel: Dzik • HP ' + this.target.hp + '/3' : '');
+
       if (this.target && this.target.hp > 0) {
         this.walkTowards(this.target.body.x, this.target.body.y, dt, 55);
         if (Phaser.Math.Distance.Between(this.hero.x, this.hero.y, this.target.body.x, this.target.body.y) <= 56
@@ -175,19 +161,23 @@ export function mountKileGends(parent: HTMLElement): () => void {
           this.tweens.add({ targets: hit, y: hit.y - 30, alpha: 0, duration: 500, onComplete: () => hit.destroy() });
           this.target.bar.width = Math.max(0, 44 * this.target.hp / 3);
           if (this.target.hp === 0) {
-            this.target.body.destroy(); this.target.bar.destroy(); this.target = null;
+            this.target.body.destroy(); this.target.bar.destroy(); this.target = null; this.defeated++;
           }
         }
       } else if (this.destination && this.walkTowards(this.destination.x, this.destination.y, dt)) {
         this.destination = null;
+      }
+      if (time - this.lastReport > 100) {
+        this.lastReport = time;
+        onState?.({ x: this.hero.x, y: this.hero.y, target: this.target ? { name: 'Dzik leśny', hp: this.target.hp, maxHp: 3 } : null, defeated: this.defeated, ready: true });
       }
       if (this.walking) this.heroSprite.play('walk-' + this.facing, true);
       else { this.heroSprite.stop(); this.heroSprite.setFrame({ down: 0, left: 4, right: 8, up: 12 }[this.facing] ?? 0); }
     }
   }
   const game = new Phaser.Game({
-    type: Phaser.AUTO, pixelArt: true, parent, width: 960, height: 540, backgroundColor: '#17251c',
-    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+    type: Phaser.AUTO, pixelArt: false, antialias: true, parent, width: parent.clientWidth || 960, height: parent.clientHeight || 540, backgroundColor: '#17251c',
+    scale: { mode: Phaser.Scale.RESIZE, autoCenter: Phaser.Scale.CENTER_BOTH },
     scene: [ForestScene],
   });
   return () => game.destroy(true);
