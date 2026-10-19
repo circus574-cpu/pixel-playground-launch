@@ -1,17 +1,21 @@
-# KI Legends — village prototype
+# Ki Legends — forest foundation
 
-Phaser 4.2.1, mounted only in the browser. The root route dynamically imports `mountKileGends`; type-only HUD imports never evaluate Phaser during SSR. `/test` and its private sketch storage are unchanged.
+Phaser 4.2.1, browser-only dynamic mount from the React/TanStack root route. The HTML HUD uses type-only game imports; scene code remains behind the client effect.
 
-## Current appearance
+## Current stage
 
-The approved OpenAI village background is `/game/assets/village-v2.webp` at a 1920×1280 world size. Rectangular colliders are fitted to buildings, the fountain, forest edges and river; the bridge remains traversable. This is a flattened environment background; foreground canopy occlusion and layered world editing are not implemented yet.
+Stage 0 audit: `docs/AUDIT-2026-10-19.md`. Stage 1 graphics: `docs/FOREST-ASSETS.md`. Production constraints and stage order: `docs/PRODUCTION.md`.
 
-`hero-walk-v2.webp` provides four directional four-frame walk animations. `ui-v2.webp` contains the portrait and eight painted icons in a 3×3 grid. The existing boar frame from `world-v1.webp` remains in use.
+The world is built from `world/forest-map.json` and independent OpenAI exports in `public/game/assets/forest-v3/`. `renderForest.ts` creates four autotiled layers and y-sorted object sprites. The approved flattened village illustration remains an art reference only. Object collision footprints are separate from their artwork. Minimap and world share the same data.
 
-`GameHud.tsx` renders accessible HTML over the canvas: player status, target HP, a live position marker on the minimap, quest journal, empty inventory, settings and local chat. `mountKileGends` reports actual position, target HP and defeated count at most 10 times per second. Health and KI show the initial prototype values; this stage has no incoming damage or KI consumption. Skill buttons are explicitly locked and do not implement skills. Chat is clearly local to the device and not connected to other players. No player data is persisted or sent.
+`view.ts` defines camera limits. The entire React stage enters fullscreen so the HTML HUD remains visible. The default camera zoom is 62% desktop, 48% narrow phones, with 35–100% controls. A `ki:zoom` event updates the actual Phaser camera. Fullscreen always requires a user gesture and may be denied by the browser. The remote automated browser used for QA denied fullscreen; successful native fullscreen was not claimed.
 
-Walking, click targeting and basic auto-melee remain the existing prototype mechanics. Keyboard movement ignores focused text fields and dialogs. The canvas resizes with its container. No multiplayer authority, pathfinding, quest completion or item mechanics are implemented.
+`GameHud.tsx` renders status, target HP, a moving minimap marker, local chat, journal, empty inventory, settings and locked skills. Position, target and defeated count are reported at most 10 times per second. No server gameplay or persistence is present. `/test` and its private sketch storage are untouched.
 
-## Validation
+## Explicitly unfinished
 
-TypeScript strict check for game and HUD modules; Vitest collision/line-of-sight tests. Check the published desktop and mobile layout after deployment.
+The inherited character has four animation directions, not eight. Boars are static sprites. Existing click movement stops/slides at obstacles and does not find paths. Character HP/KI are initial display values; skills, items, quests and incoming damage are not implemented. Stage 2+ is not complete and must wait for acceptance of stage 1.
+
+## Checks
+
+Run `npm install`, `npm run build`, `npx tsc --noEmit`, `npm test`. Changed TypeScript modules also pass ESLint. The offline exporter requires the four generated source images named in the asset manifest and Pillow/NumPy; it is not a runtime dependency.

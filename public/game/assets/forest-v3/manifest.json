@@ -1,0 +1,179 @@
+{
+  "version": 3,
+  "tileSize": 32,
+  "textureTileSize": 64,
+  "tileMargin": 2,
+  "tileSpacing": 4,
+  "terrainTileCount": 49,
+  "objects": [
+    {
+      "name": "oak",
+      "width": 360,
+      "height": 358,
+      "alpha": true,
+      "source": "exec-8615d23d-a85b-4495-abc0-f1772917f379.png",
+      "crop": [
+        0,
+        0,
+        0.52,
+        0.52
+      ]
+    },
+    {
+      "name": "fir",
+      "width": 332,
+      "height": 360,
+      "alpha": true,
+      "source": "exec-8615d23d-a85b-4495-abc0-f1772917f379.png",
+      "crop": [
+        0.53,
+        0,
+        1,
+        0.52
+      ]
+    },
+    {
+      "name": "bush",
+      "width": 360,
+      "height": 333,
+      "alpha": true,
+      "source": "exec-8615d23d-a85b-4495-abc0-f1772917f379.png",
+      "crop": [
+        0,
+        0.53,
+        0.5,
+        1
+      ]
+    },
+    {
+      "name": "rock",
+      "width": 360,
+      "height": 352,
+      "alpha": true,
+      "source": "exec-8615d23d-a85b-4495-abc0-f1772917f379.png",
+      "crop": [
+        0.52,
+        0.53,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "cottage",
+      "width": 273,
+      "height": 360,
+      "alpha": true,
+      "source": "exec-0c73c94c-bbdb-4e50-b42e-76716c98c9f7.png",
+      "crop": [
+        0,
+        0,
+        0.47,
+        0.5
+      ]
+    },
+    {
+      "name": "inn",
+      "width": 360,
+      "height": 322,
+      "alpha": true,
+      "source": "exec-0c73c94c-bbdb-4e50-b42e-76716c98c9f7.png",
+      "crop": [
+        0.48,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "name": "forge",
+      "width": 360,
+      "height": 321,
+      "alpha": true,
+      "source": "exec-0c73c94c-bbdb-4e50-b42e-76716c98c9f7.png",
+      "crop": [
+        0,
+        0.51,
+        0.54,
+        1
+      ]
+    },
+    {
+      "name": "market",
+      "width": 360,
+      "height": 304,
+      "alpha": true,
+      "source": "exec-0c73c94c-bbdb-4e50-b42e-76716c98c9f7.png",
+      "crop": [
+        0.55,
+        0.51,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "fountain",
+      "width": 360,
+      "height": 360,
+      "alpha": true,
+      "source": "exec-76748ebd-0160-48e5-8777-0e16383d1482.png",
+      "crop": [
+        0,
+        0,
+        0.5,
+        0.55
+      ]
+    },
+    {
+      "name": "lamp",
+      "width": 273,
+      "height": 354,
+      "alpha": true,
+      "source": "exec-76748ebd-0160-48e5-8777-0e16383d1482.png",
+      "crop": [
+        0.52,
+        0,
+        1,
+        0.55
+      ]
+    },
+    {
+      "name": "bridge",
+      "width": 360,
+      "height": 192,
+      "alpha": true,
+      "source": "exec-76748ebd-0160-48e5-8777-0e16383d1482.png",
+      "crop": [
+        0,
+        0.56,
+        0.5,
+        1
+      ]
+    },
+    {
+      "name": "fence",
+      "width": 360,
+      "height": 72,
+      "alpha": true,
+      "source": "exec-76748ebd-0160-48e5-8777-0e16383d1482.png",
+      "crop": [
+        0.51,
+        0.56,
+        1,
+        1
+      ]
+    }
+  ],
+  "sourceSha256": {
+    "terrain": "026bfca19fcbd198c983c254b30865994ca942d3e24c9c8acb5bd6c7df67212f",
+    "nature": "32047dbd617f9a6c9490d7943358dff73ec95b9a22ab91b193b8a186cefaf7a1",
+    "buildings": "43e44acc2d4d11a5f12ae64bd19bec16a0543bb71a589148f4014bba52be6d31",
+    "props": "9091d18b3a8bf8d14ea1d307b6f077b70bf66ef73d3b3a1b1899ad2cfaf6de8b"
+  },
+  "world": {
+    "width": 3072,
+    "height": 2048,
+    "objects": 291
+  },
+  "generation": "OpenAI ImageGen; model version not exposed",
+  "processing": "quadrant extraction, alpha cleanup, trim, scale, atlas packing, periodic edges, dual-grid masks, extrusion"
+}
