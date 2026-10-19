@@ -1,6 +1,6 @@
 # Ki Legends — anime direction reset, 2026-10-19
 
-Status: style candidates awaiting user approval. This document supersedes the old medieval/pixel-art direction in PRODUCTION.md. Do not integrate or publish these candidates until approved.
+Historical audit and style proposal. After presentation, the user instructed continuation. Production integration is documented in ANIME-FOREST.md. This anime direction supersedes the old medieval/pixel-art direction.
 
 ## Audit evidence
 

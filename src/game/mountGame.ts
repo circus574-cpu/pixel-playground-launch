@@ -52,11 +52,11 @@ export function mountKileGends(
       });
       this.load.image("world-atlas", "/game/assets/world-v1.webp");
       this.load.image("hero-sheet", "/game/assets/hero-walk-v2.webp");
-      this.load.image("forest-terrain", "/game/assets/forest-v3/terrain.png");
+      this.load.image("forest-terrain", "/game/assets/anime-forest-v1/terrain.png");
       this.load.atlas(
         "forest-objects",
-        "/game/assets/forest-v3/objects.webp",
-        "/game/assets/forest-v3/objects.json",
+        "/game/assets/anime-forest-v1/objects.webp",
+        "/game/assets/anime-forest-v1/objects.json",
       );
     }
 
@@ -180,7 +180,7 @@ export function mountKileGends(
       const shadow = this.add.ellipse(0, 3, 31, 11, 0x000000, 0.35);
       const sprite =
         label === "Gracz"
-          ? this.add.sprite(0, 0, "hero-sheet", 0).setDisplaySize(62, 62).setOrigin(0.5, 0.95)
+          ? this.add.sprite(0, 0, "hero-sheet", 0).setDisplaySize(96, 96).setOrigin(0.5, 0.95)
           : this.add.sprite(0, 0, "world-atlas", "boar").setDisplaySize(70, 70).setOrigin(0.5, 0.8);
       const name = this.add
         .text(0, -53, label, {

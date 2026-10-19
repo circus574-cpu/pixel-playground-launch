@@ -7,7 +7,7 @@ import {
   tileIndex,
 } from "../game/world/forest";
 import { blockedAt } from "../game/movement";
-import atlas from "../../public/game/assets/forest-v3/objects.json";
+import atlas from "../../public/game/assets/anime-forest-v1/objects.json";
 
 describe("production forest world", () => {
   it("uses independent atlas sprites and a complete tile grid, not a baked illustration", () => {
@@ -16,7 +16,7 @@ describe("production forest world", () => {
       expect(layer).toHaveLength(FOREST.rows);
       for (const row of layer) {
         expect(row).toHaveLength(FOREST.cols);
-        expect(row.every((index) => index >= -1 && index <= 48)).toBe(true);
+        expect(row.every((index) => index >= -1 && index < FOREST.terrainFrameCount)).toBe(true);
       }
     }
     for (const obj of FOREST_OBJECTS) expect(obj.kind in atlas.frames).toBe(true);
@@ -30,7 +30,7 @@ describe("production forest world", () => {
         const corners = [top[x]!, top[x + 1]!, bottom[x + 1]!, bottom[x]!];
         for (const material of [1, 2, 3] as const)
           expect(FOREST.layers[material]![y]![x]).toBe(
-            tileIndex(material, terrainMask(corners, material)),
+            tileIndex(material, terrainMask(corners, material), (y % 4) * 4 + (x % 4)),
           );
       }
   });

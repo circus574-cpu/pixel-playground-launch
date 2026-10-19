@@ -1,4 +1,4 @@
-> Aktualizacja 2026-10-19: obowiązuje nowoczesne anime fantasy 2D, nie wcześniejszy kierunek średniowieczny/pixel art. Próbki wymagają zatwierdzenia przed integracją i publikacją. Szczegóły: [ANIME-RESET.md](ANIME-RESET.md).
+> Aktualizacja 2026-10-19: obowiązuje nowoczesne anime fantasy 2D, nie wcześniejszy kierunek średniowieczny/pixel art. Po pokazaniu próbek użytkownik polecił kontynuować; aktualny etap to produkcja i integracja leśnej krainy anime. Szczegóły: [ANIME-RESET.md](ANIME-RESET.md).
 
 # Ki Legends — production contract
 

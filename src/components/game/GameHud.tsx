@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
 import "./game-hud.css";
+import "./anime-hud.css";
 import { WORLD_WIDTH, WORLD_HEIGHT, FOREST_MINIMAP } from "../../game/world/forest";
 
 type Props = {

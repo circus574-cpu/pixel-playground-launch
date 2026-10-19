@@ -1,0 +1,19 @@
+{
+  "oak": "exec-e3a5db94-ff3c-4550-a19b-a02e3ab78029.png",
+  "cottage": "exec-20e73b60-97d6-4738-99de-f9f020103a14.png",
+  "grass": "exec-266b9891-45ee-4143-9e70-4657c922f229.png",
+  "soil": "exec-e1e0d036-b17d-4597-82c0-5694bf7a1360.png",
+  "stone": "exec-d2169038-9b46-4748-b78e-2ecd166ad381.png",
+  "water": "exec-1567aa3c-cbb1-4452-84d4-5c2bf2ec8e2f.png",
+  "fir": "exec-41b2222d-af3e-4aa3-9564-4988e0e9cbd8.png",
+  "bush": "exec-ee1ee6e4-6f0f-4a9d-b25c-5055bfbb9544.png",
+  "rock": "exec-c12f1c63-cd0c-410d-98ef-262f2161a899.png",
+  "forge": "exec-afb82057-398a-4cf1-83d1-ffb7f9368201.png",
+  "inn": "exec-ac2d9327-9578-460a-a29c-18cd4273f90e.png",
+  "market": "exec-cf42fc6c-5ee4-4722-b8a9-5e71ee829c66.png",
+  "bridge": "exec-1579264d-62f5-47d6-bec5-73210aef581d.png",
+  "fountain": "exec-0843eced-ccb5-4340-bad6-34fa11d846ea.png",
+  "lamp": "exec-bfcf408e-1495-40d9-af60-3993b8cc8dc4.png",
+  "fence": "exec-c759e6fa-bc3d-409b-b35e-d37ef4802c00.png",
+  "ui": "exec-0a7dc539-7ef9-4fc3-a867-2d6ea8b3de7b.png"
+}

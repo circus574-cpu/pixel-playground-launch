@@ -16,11 +16,11 @@ export function renderForest(scene: Phaser.Scene) {
   for (const obj of FOREST_OBJECTS) {
     if (obj.kind !== "bridge") {
       scene.add
-        .image(obj.x + 10, obj.y + 14, "forest-objects", obj.kind)
-        .setDisplaySize(obj.width, obj.height)
-        .setOrigin(obj.anchorX, obj.anchorY)
-        .setTint(0x09180d)
-        .setAlpha(0.2)
+        .image(obj.x + 8, obj.y + 8, "forest-objects", obj.kind)
+        .setDisplaySize(obj.width, obj.height * 0.3)
+        .setOrigin(0.5, 0.5)
+        .setTint(0x344b68)
+        .setAlpha(0.12)
         .setDepth(-10);
     }
     scene.add

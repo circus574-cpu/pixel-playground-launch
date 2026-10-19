@@ -1,0 +1,424 @@
+/* Anime visual layer. HUD pixels are independent of Phaser camera zoom. */
+.ki-stage {
+  min-height: 0;
+  height: 100dvh;
+  background: #9bbba4;
+  color: #f3fbf8;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+.ki-hud {
+  background: none;
+}
+.ki-frame {
+  border: 1px solid #c4f2e99c;
+  border-radius: 12px;
+  background: #183c48db;
+  box-shadow: 0 4px 16px #24445226;
+}
+.ki-icon {
+  background-image: url("/game/assets/anime-forest-v1/ui.webp");
+}
+.ki-player {
+  top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left));
+  width: 222px;
+  height: 66px;
+  gap: 8px;
+  padding: 6px;
+}
+.ki-portrait {
+  width: 48px;
+  height: 50px;
+  border: 0;
+  border-radius: 9px;
+  background: #72b8af38;
+}
+.ki-portrait .ki-icon {
+  border-radius: 8px;
+}
+.ki-level {
+  width: 20px;
+  height: 19px;
+  line-height: 17px;
+  left: 14px;
+  bottom: -4px;
+  border: 1px solid #b9ede5;
+  border-radius: 7px;
+  background: #235967;
+  color: #fff;
+}
+.ki-player-name {
+  font-size: 12px;
+  margin: 0 0 4px;
+  letter-spacing: 0;
+}
+.ki-player-name > span {
+  font-size: 6px;
+  color: #b7d8da;
+  letter-spacing: 0.7px;
+}
+.ki-meter {
+  height: 12px;
+  margin-bottom: 4px;
+  background: #102c3a;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: none;
+}
+.ki-meter i {
+  inset: 0;
+  width: 100%;
+  border-radius: inherit;
+}
+.ki-meter span {
+  font:
+    9px/12px ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+.ki-hp i {
+  background: linear-gradient(90deg, #d6697b, #f49a94);
+  box-shadow: none;
+}
+.ki-energy i {
+  background: linear-gradient(90deg, #3f9fc3, #87dfdf);
+  box-shadow: none;
+}
+.ki-xp {
+  margin-top: 0;
+  height: 2px;
+  background: #315a67;
+  border: 0;
+}
+.ki-xp i {
+  height: 2px;
+  background: #b9e4b1;
+}
+.ki-map {
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  width: 124px;
+  padding: 4px;
+}
+.ki-map-large {
+  width: 124px;
+}
+.ki-map-title {
+  font-size: 9px;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+.ki-map-image {
+  border: 0;
+  border-radius: 7px;
+}
+.ki-map-image img {
+  filter: none;
+}
+.ki-map-footer {
+  display: none;
+}
+.ki-map-marker {
+  width: 7px;
+  height: 7px;
+  background: #fff0c2;
+  border-color: #32606a;
+  box-shadow: 0 0 0 2px #ffffff55;
+}
+.ki-quest,
+.ki-map-large ~ .ki-quest {
+  top: 122px;
+  right: max(10px, env(safe-area-inset-right));
+  width: 124px;
+  padding: 6px;
+  border: 0;
+  border-radius: 9px;
+  background: #244b58cc;
+}
+.ki-quest strong {
+  color: #fff1cd;
+  font-size: 10px;
+}
+.ki-quest div > span {
+  color: #dbede9;
+  font-size: 9px;
+  margin-top: 3px;
+}
+.ki-quest-diamond,
+.ki-quest-arrow {
+  color: #a8e4dc;
+}
+.ki-location {
+  top: 17px;
+  color: #fff;
+  font-size: 9px;
+  text-shadow: 0 1px 5px #21454c;
+}
+.ki-location strong {
+  font:
+    500 17px/1.3 ui-sans-serif,
+    system-ui,
+    sans-serif;
+  color: #fff;
+  letter-spacing: 0.2px;
+}
+.ki-location > span,
+.ki-location i,
+.ki-location > small {
+  display: none;
+}
+.ki-actionbar {
+  bottom: max(10px, env(safe-area-inset-bottom));
+  height: 56px;
+  padding: 5px;
+  gap: 4px;
+  background: #183c48d9;
+  border-radius: 13px;
+}
+.ki-actionbar:before,
+.ki-actionbar:after,
+.ki-action-crest,
+.ki-bar-decoration {
+  display: none;
+}
+.ki-skill {
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  border: 1px solid #a2dcd76e;
+  border-radius: 9px;
+  background: #315e6b;
+  box-shadow: none;
+}
+.ki-skill .ki-icon {
+  filter: none;
+  border-radius: 7px;
+}
+.ki-skill kbd {
+  font-size: 9px;
+}
+.ki-menu {
+  right: max(10px, env(safe-area-inset-right));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  gap: 4px;
+}
+.ki-menu-button {
+  width: 44px;
+  height: 44px;
+  padding: 4px;
+  background: #183c48d9;
+  border-radius: 10px;
+}
+.ki-menu-button:hover,
+.ki-menu-button.active {
+  border-color: #dcfff2;
+  box-shadow: 0 0 8px #9ee2d055;
+}
+.ki-view-controls {
+  right: max(10px, env(safe-area-inset-right));
+  bottom: calc(max(10px, env(safe-area-inset-bottom)) + 51px);
+  background: #183c48db;
+}
+.ki-view-controls button {
+  min-height: 36px;
+}
+.ki-help {
+  display: none;
+}
+.ki-chat {
+  bottom: max(10px, env(safe-area-inset-bottom));
+  left: max(10px, env(safe-area-inset-left));
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  background: #183c48db;
+}
+.ki-chat-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-size: 0;
+}
+.ki-chat-toggle:before {
+  content: "☷";
+  color: #e3fff8;
+  font:
+    26px/1 ui-sans-serif,
+    sans-serif;
+}
+.ki-chat-toggle > span,
+.ki-chat-content {
+  display: none;
+}
+.ki-chat-open {
+  width: min(300px, calc(100vw - 20px));
+  height: auto;
+}
+.ki-chat-open .ki-chat-toggle {
+  width: 100%;
+  height: 34px;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+.ki-chat-open .ki-chat-toggle:before {
+  content: "×";
+}
+.ki-chat-open .ki-chat-content {
+  display: block;
+}
+.ki-chat-tabs,
+.ki-chat form {
+  background: #183c48ee;
+  border-color: #9ad3cd55;
+}
+.ki-chat-tabs button {
+  color: #dbf2ec;
+  border: 0;
+}
+.ki-chat-tabs button.active {
+  background: #367281;
+  color: #fff;
+  box-shadow: none;
+}
+.ki-messages {
+  height: 94px;
+  color: #e0efeb;
+}
+.ki-messages b {
+  color: #b6e9dc;
+}
+.ki-modal {
+  border-color: #aeddd8;
+  border-radius: 16px;
+  color: #edf9f5;
+  box-shadow: 0 12px 40px #183b4866;
+}
+.ki-modal header,
+.ki-settings label,
+.ki-journal-entry {
+  border-color: #b4ded633;
+}
+.ki-modal h2,
+.ki-journal h3 {
+  color: #e7faf2;
+  font-weight: 500;
+}
+.ki-modal header button,
+.ki-view-controls button {
+  color: #dcf6ec;
+  font-family: inherit;
+}
+.ki-inventory > div {
+  background: #2b5460;
+  border-color: #a4d9d64d;
+  border-radius: 9px;
+  box-shadow: none;
+}
+.ki-journal p {
+  font:
+    14px/1.7 ui-sans-serif,
+    system-ui,
+    sans-serif;
+  color: #d9ebe5;
+}
+.ki-eyebrow,
+.ki-panel-caption,
+.ki-journal-entry {
+  color: #b9ded7;
+}
+.ki-settings input {
+  accent-color: #88d5c5;
+}
+.ki-fullscreen-setting {
+  background: #346e7b;
+  border-color: #a7e3d288;
+  color: #fff;
+  border-radius: 8px;
+}
+.ki-target > span {
+  color: #b5d9d6;
+}
+.ki-notice {
+  bottom: 82px;
+  max-width: calc(100vw - 24px);
+  white-space: normal;
+}
+.ki-hud button:focus-visible,
+.ki-hud input:focus-visible {
+  outline-color: #b9fff0;
+}
+@media (max-width: 760px) {
+  .ki-player {
+    width: 200px;
+    height: 62px;
+  }
+  .ki-portrait {
+    width: 44px;
+    height: 46px;
+  }
+  .ki-map,
+  .ki-map-large {
+    width: 94px;
+  }
+  .ki-map-title {
+    font-size: 8px;
+    line-height: 16px;
+  }
+  .ki-quest {
+    display: none;
+  }
+  .ki-location {
+    display: none;
+  }
+  .ki-actionbar {
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 50px);
+  }
+  .ki-menu {
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .ki-view-controls {
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 50px);
+    right: 10px;
+  }
+  .ki-view-controls .ki-zoom-value {
+    display: none;
+  }
+  .ki-view-controls button {
+    min-width: 38px;
+  }
+  .ki-actionbar {
+    left: 10px;
+    transform: none;
+  }
+  .ki-target {
+    top: 82px;
+    width: 160px;
+  }
+}
+@media (max-height: 500px) and (min-width: 761px) {
+  .ki-quest,
+  .ki-location {
+    display: none;
+  }
+  .ki-map,
+  .ki-map-large {
+    width: 100px;
+  }
+  .ki-player {
+    width: 210px;
+  }
+  .ki-actionbar {
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}

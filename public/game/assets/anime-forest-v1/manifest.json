@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "style": "original illustrated anime fantasy 2D",
+  "generator": "OpenAI built-in imagegen",
+  "model": "not disclosed",
+  "tileSize": 32,
+  "sourceMaterialSize": 256,
+  "textureTileSize": 64,
+  "terrainFrameCount": 784,
+  "terrainAtlasSize": [
+    1904,
+    1904
+  ],
+  "objectAtlasSize": [
+    2048,
+    1536
+  ],
+  "objects": [
+    {
+      "name": "oak",
+      "width": 496,
+      "height": 393,
+      "source": "exec-e3a5db94-ff3c-4550-a19b-a02e3ab78029.png",
+      "sourceBounds": [
+        16,
+        15,
+        1386,
+        1100
+      ]
+    },
+    {
+      "name": "fir",
+      "width": 437,
+      "height": 496,
+      "source": "exec-41b2222d-af3e-4aa3-9564-4988e0e9cbd8.png",
+      "sourceBounds": [
+        106,
+        27,
+        1129,
+        1189
+      ]
+    },
+    {
+      "name": "bush",
+      "width": 496,
+      "height": 448,
+      "source": "exec-ee1ee6e4-6f0f-4a9d-b25c-5055bfbb9544.png",
+      "sourceBounds": [
+        88,
+        60,
+        1245,
+        1105
+      ]
+    },
+    {
+      "name": "rock",
+      "width": 496,
+      "height": 445,
+      "source": "exec-c12f1c63-cd0c-410d-98ef-262f2161a899.png",
+      "sourceBounds": [
+        299,
+        61,
+        1243,
+        907
+      ]
+    },
+    {
+      "name": "cottage",
+      "width": 496,
+      "height": 467,
+      "source": "exec-20e73b60-97d6-4738-99de-f9f020103a14.png",
+      "sourceBounds": [
+        128,
+        10,
+        1275,
+        1090
+      ]
+    },
+    {
+      "name": "inn",
+      "width": 496,
+      "height": 427,
+      "source": "exec-ac2d9327-9578-460a-a29c-18cd4273f90e.png",
+      "sourceBounds": [
+        6,
+        16,
+        1308,
+        1136
+      ]
+    },
+    {
+      "name": "forge",
+      "width": 496,
+      "height": 487,
+      "source": "exec-afb82057-398a-4cf1-83d1-ffb7f9368201.png",
+      "sourceBounds": [
+        55,
+        1,
+        1214,
+        1139
+      ]
+    },
+    {
+      "name": "market",
+      "width": 496,
+      "height": 474,
+      "source": "exec-cf42fc6c-5ee4-4722-b8a9-5e71ee829c66.png",
+      "sourceBounds": [
+        140,
+        2,
+        1237,
+        1051
+      ]
+    },
+    {
+      "name": "fountain",
+      "width": 483,
+      "height": 496,
+      "source": "exec-0843eced-ccb5-4340-bad6-34fa11d846ea.png",
+      "sourceBounds": [
+        89,
+        38,
+        1205,
+        1183
+      ]
+    },
+    {
+      "name": "lamp",
+      "width": 162,
+      "height": 496,
+      "source": "exec-bfcf408e-1495-40d9-af60-3993b8cc8dc4.png",
+      "sourceBounds": [
+        296,
+        91,
+        729,
+        1414
+      ]
+    },
+    {
+      "name": "bridge",
+      "width": 496,
+      "height": 104,
+      "source": "exec-1579264d-62f5-47d6-bec5-73210aef581d.png",
+      "sourceBounds": [
+        59,
+        135,
+        2114,
+        564
+      ]
+    },
+    {
+      "name": "fence",
+      "width": 496,
+      "height": 131,
+      "source": "exec-c759e6fa-bc3d-409b-b35e-d37ef4802c00.png",
+      "sourceBounds": [
+        110,
+        240,
+        1664,
+        651
+      ]
+    }
+  ],
+  "sourceSha256": {
+    "oak": "c9f9c2b709403ffec23c5bb7c1b0da9ea5edf7d222072d7f2b54ca5e83c1f422",
+    "cottage": "67e4ba31f337d852ba398ecdceecccad8090d63bfefcef50244acd3ea85aba90",
+    "grass": "60f1df863b6f19e90edca0dc16649b79eaa7eecb31ed53ba9c195b51da55d469",
+    "soil": "84723761fcec79d727364182d450573bfedcd7310058a14f786fa0074444e384",
+    "stone": "e87fc0697475d4a937efc5c9641648902ce271267ca65ca37f0798c4b3459163",
+    "water": "e42d10fdc78653d0e17f422beac0d6ee79366e79a755fa07443b453f9c80f609",
+    "fir": "b847f381d84eb6764f4971b18aaed696ab444148f5866ea2049287219eb38abb",
+    "bush": "eefb5d960f3cf52aba3095a9be0109d6f6a1d9d78391d641855ed13ba16490b8",
+    "rock": "78d9eb3716153ee7e830a72e64816181b1f8c7e43003aac513273647c6784e36",
+    "forge": "33cf84775847f6d52e8a1e2675385a8c1b051c73ada25c21941610ea89623ca7",
+    "inn": "c5dd28e5e75775eada9b5c173640752df210c6379b29db36caa2f34e7ee2e164",
+    "market": "6a65b9ff61825624fa1a4ae997656ccc2e60065e233089d3e804abfa0cb54431",
+    "bridge": "464e534be0f0f4ad0fd1787cab74f8b29a6d7228e6aba8c8d63f525ef4d7ba46",
+    "fountain": "cc4d9f856c87b8c56174eae8613a141cb8ff8e545cecc2edfde726478569a169",
+    "lamp": "ea5a9c05a639ff19dd62097dcdbddfb2d463f67b30a268836e7e326c0a9f7212",
+    "fence": "1aef5170e12f276927815ecfc46370dabe873655137417f3cbd0614ad9915d6f",
+    "ui": "11c5a9c1a6641c78a1a43bb2f1d6857f2ede8c3f08f0173b581552cce51de66b"
+  }
+}

@@ -6,7 +6,7 @@ Phaser 4.2.1, browser-only dynamic mount from the React/TanStack root route. The
 
 Stage 0 audit: `docs/AUDIT-2026-10-19.md`. Stage 1 graphics: `docs/FOREST-ASSETS.md`. Production constraints and stage order: `docs/PRODUCTION.md`.
 
-The world is built from `world/forest-map.json` and independent OpenAI exports in `public/game/assets/forest-v3/`. `renderForest.ts` creates four autotiled layers and y-sorted object sprites. The approved flattened village illustration remains an art reference only. Object collision footprints are separate from their artwork. Minimap and world share the same data.
+The world is built from `world/forest-map.json` and independent OpenAI exports in `public/game/assets/anime-forest-v1/`. `renderForest.ts` creates four autotiled layers and y-sorted object sprites. See `docs/ANIME-FOREST.md` for the current anime export pipeline. The flattened village illustration remains an art reference only. Object collision footprints are separate from their artwork. Minimap and world share the same data.
 
 `view.ts` defines camera limits. The entire React stage enters fullscreen so the HTML HUD remains visible. The default camera zoom is 62% desktop, 48% narrow phones, with 35–100% controls. A `ki:zoom` event updates the actual Phaser camera. Fullscreen always requires a user gesture and may be denied by the browser. The remote automated browser used for QA denied fullscreen; successful native fullscreen was not claimed.
 
@@ -18,4 +18,4 @@ The inherited character has four animation directions, not eight. Boars are stat
 
 ## Checks
 
-Run `npm install`, `npm run build`, `npx tsc --noEmit`, `npm test`. Changed TypeScript modules also pass ESLint. The offline exporter requires the four generated source images named in the asset manifest and Pillow/NumPy; it is not a runtime dependency.
+Run `npm install`, `npm run build`, `npx tsc --noEmit`, `npm test`. Changed TypeScript modules also pass ESLint. The anime offline exporter requires the generated source images listed in `scripts/anime-sources.json` and Pillow/NumPy; it is not a runtime dependency.

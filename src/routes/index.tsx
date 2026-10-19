@@ -32,7 +32,7 @@ function Index() {
     ready: false,
   });
   useEffect(() => {
-    const initial = initialZoom(window.innerWidth);
+    const initial = initialZoom(window.innerWidth, window.innerHeight);
     setZoom(initial);
     if (container.current) container.current.dataset["zoom"] = String(initial);
     const update = () => setFullscreen(Boolean(document.fullscreenElement));

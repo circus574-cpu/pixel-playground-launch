@@ -4,6 +4,8 @@ describe("camera presentation", () => {
   it("starts zoomed out on desktop and farther out on narrow phones", () => {
     expect(initialZoom(1363)).toBe(0.62);
     expect(initialZoom(414)).toBe(0.48);
+    expect(initialZoom(852, 393)).toBe(0.48);
+    expect(initialZoom(1363, 393)).toBe(0.62);
   });
   it("keeps invalid or extreme settings within readable limits", () => {
     expect(clampZoom(0)).toBe(0.35);

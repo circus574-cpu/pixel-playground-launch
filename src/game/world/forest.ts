@@ -11,19 +11,24 @@ export type ForestObject = {
   anchorX: number;
   anchorY: number;
   solid: boolean;
-  footprint?: { width: number; height: number };
+  footprint?: { width: number; height: number; offsetY?: number };
 };
 export const FOREST = mapData;
 export const WORLD_WIDTH = FOREST.width;
 export const WORLD_HEIGHT = FOREST.height;
 export const FOREST_OBJECTS: readonly ForestObject[] = FOREST.objects;
-export const FOREST_MINIMAP = "/game/assets/forest-v3/minimap.webp";
+export const FOREST_MINIMAP = "/game/assets/anime-forest-v1/minimap.webp";
 export function forestObstacles(): Obstacle[] {
   const obstacles: Obstacle[] = FOREST.riverRows.map((row) => ({ ...row }));
   for (const obj of FOREST_OBJECTS) {
     if (!obj.solid || !obj.footprint) continue;
     const { width, height } = obj.footprint;
-    obstacles.push({ x: obj.x - width / 2, y: obj.y - height / 2, width, height });
+    obstacles.push({
+      x: obj.x - width / 2,
+      y: obj.y + (obj.footprint.offsetY ?? 0) - height / 2,
+      width,
+      height,
+    });
   }
   return obstacles;
 }
@@ -35,6 +40,6 @@ export function terrainMask(corners: readonly number[], material: 1 | 2 | 3): nu
     0,
   );
 }
-export function tileIndex(material: 1 | 2 | 3, mask: number): number {
-  return mask === 0 ? -1 : 1 + (material - 1) * 16 + mask;
+export function tileIndex(material: 1 | 2 | 3, mask: number, phase = 0): number {
+  return mask === 0 ? -1 : 16 + (material - 1) * 256 + phase * 16 + mask;
 }
