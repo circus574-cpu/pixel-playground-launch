@@ -1,3 +1,5 @@
+> Aktualizacja 2026-10-19: obowiązuje nowoczesne anime fantasy 2D, nie wcześniejszy kierunek średniowieczny/pixel art. Próbki wymagają zatwierdzenia przed integracją i publikacją. Szczegóły: [ANIME-RESET.md](ANIME-RESET.md).
+
 # Ki Legends — production contract
 
 Project: Ki Legends / KileGends. https://kilegends.pl/ ; GitHub `circus574-cpu/pixel-playground-launch`, `main`. Phaser 4, TypeScript, React 19, TanStack Start, Vite, Lovable/Cloudflare hosting. Develop code through GitHub; Lovable primarily synchronizes and publishes it. Polish interface, desktop and mobile browser.

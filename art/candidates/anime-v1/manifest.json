@@ -1,0 +1,101 @@
+{
+  "status": "candidate-awaiting-user-approval",
+  "generator": "built-in OpenAI imagegen",
+  "model": "not disclosed by tool",
+  "runtime_integration": false,
+  "files": [
+    {
+      "file": "cottage.webp",
+      "width": 1024,
+      "height": 830,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "e1422ec8251a8fe5bba6e61b58008b48dba9cf54e86208b2f0e0e52ce73a305e",
+      "bytes": 745452
+    },
+    {
+      "file": "grass-repeat-qa.webp",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "30e460420da109b8904a209add5bd2361ed930d4b7dfb8ca20ee22cbe39b6a7b",
+      "bytes": 294998
+    },
+    {
+      "file": "grass-seamless-128.png",
+      "width": 128,
+      "height": 128,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "a738445d3d4f0b151787f3e917d2fd01a94b9eb47f453bf151cbfcf7f98d3ec7",
+      "bytes": 31588
+    },
+    {
+      "file": "grass-seamless-256.png",
+      "width": 256,
+      "height": 256,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "115b0c7a2b47afb32c4f5de99d3a0fff57def1a62191863b87f0e5c499aa7db6",
+      "bytes": 120963
+    },
+    {
+      "file": "hero-design.webp",
+      "width": 1024,
+      "height": 936,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "8dd9b486cbfbad6fc9c73cefac80e4fb964f76add2ec7d7fe2825f585e3ad960",
+      "bytes": 359962
+    },
+    {
+      "file": "oak-first-pass.webp",
+      "width": 1024,
+      "height": 809,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "3655dfeec9710705c8bb01cc74e8e742c9003f720c643b34b943735460710b5e",
+      "bytes": 885418
+    },
+    {
+      "file": "oak-topdown.webp",
+      "width": 1024,
+      "height": 819,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "3e50580da6455d992340fa65bc346a88503c9236df195ed1d8d412a77a1c8107",
+      "bytes": 1038884
+    },
+    {
+      "file": "scale-qa.webp",
+      "width": 1280,
+      "height": 760,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "c804186c0bb7e72078938ceb2bcde06dc02b1356d04e5ab9492bb251180c98ab",
+      "bytes": 134380
+    },
+    {
+      "file": "scene-reference.webp",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "9cb68db3c90475149d427ad4051de75ce92d308a4dcd0e056078a8ed1bdf214c",
+      "bytes": 669406
+    }
+  ]
+}
