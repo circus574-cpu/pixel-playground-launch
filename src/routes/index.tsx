@@ -1,24 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
+import cover from "@/assets/cover.png.asset.json";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Ki Legends — Już wkrótce" },
+      { name: "description", content: "Ki Legends — nowa gra fantasy. Już wkrótce." },
+      { property: "og:title", content: "Ki Legends — Już wkrótce" },
+      { property: "og:description", content: "Ki Legends — nowa gra fantasy. Już wkrótce." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
+    <main className="flex min-h-screen items-center justify-center bg-background">
+      <h1 className="sr-only">Ki Legends — Już wkrótce</h1>
       <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+        src={cover.url}
+        alt="Ki Legends — Już wkrótce"
+        className="h-screen w-full object-contain"
       />
-    </div>
+    </main>
   );
 }
