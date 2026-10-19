@@ -1,0 +1,256 @@
+/* Mechanics layer: retains the painted atlas and teal anime HUD. */
+.ki-hud button:disabled {
+  cursor: default;
+  opacity: 0.48;
+}
+.ki-skill {
+  position: relative;
+}
+.ki-cooldown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #112e3cb8;
+  font: 700 16px system-ui;
+  color: #fff;
+}
+.ki-item-count {
+  position: absolute;
+  bottom: 1px;
+  right: 4px;
+  color: #fff2b7;
+  font: bold 11px system-ui;
+  text-shadow: 0 1px 3px #000;
+}
+.ki-auto {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font: 700 8px system-ui;
+  color: #b5ffce;
+}
+.ki-context-actions {
+  position: absolute;
+  bottom: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  max-width: calc(100% - 20px);
+}
+.ki-context-actions button,
+.ki-adventure-panel button,
+.ki-npc-links button {
+  border: 1px solid #a7e3d288;
+  border-radius: 8px;
+  background: #285f70ee;
+  color: #f1fff8;
+  padding: 9px 12px;
+  min-height: 40px;
+  font: 12px/1.4 system-ui;
+  white-space: normal;
+}
+.ki-context-actions kbd {
+  opacity: 0.65;
+  margin-left: 4px;
+}
+.ki-game-feedback {
+  position: absolute;
+  left: 50%;
+  top: 105px;
+  transform: translateX(-50%);
+  max-width: min(480px, calc(100% - 28px));
+  padding: 8px 12px;
+  font: 12px/1.45 system-ui;
+  text-align: center;
+  pointer-events: none;
+}
+.ki-save-warning {
+  position: absolute;
+  top: 180px;
+  left: 12px;
+  right: 12px;
+  color: #ffe2ad;
+  background: #492b28f2;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 12px;
+}
+.ki-modal {
+  max-height: calc(100dvh - 28px);
+  overflow: auto;
+  width: min(540px, calc(100vw - 24px));
+}
+.ki-modal-backdrop {
+  pointer-events: auto;
+  background: #10293470;
+}
+.ki-npc-dialogue {
+  max-width: 520px;
+}
+.ki-adventure-panel {
+  padding: 2px 2px 12px;
+  font: 13px/1.6 system-ui;
+}
+.ki-adventure-panel p {
+  margin: 10px 0;
+}
+.ki-equipped {
+  display: grid;
+  gap: 8px;
+  border-block: 1px solid #b4ded633;
+  padding: 10px 0;
+}
+.ki-equipped div {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+.ki-item-list {
+  display: grid;
+  gap: 8px;
+  padding: 12px 0;
+}
+.ki-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #b4ded62a;
+}
+.ki-item-row > div:not(.ki-trade-actions) {
+  flex: 1;
+  min-width: 0;
+}
+.ki-item-row strong {
+  display: block;
+  font-size: 12px;
+}
+.ki-item-row small {
+  display: block;
+  font-size: 11px;
+  color: #baded6;
+}
+.ki-item-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 8px;
+}
+.ki-trade-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 150px;
+}
+.ki-trade-actions button {
+  font-size: 11px;
+  padding: 6px;
+}
+.ki-quest-entry {
+  padding: 10px 0;
+  border-bottom: 1px solid #b4ded633;
+}
+.ki-quest-entry h3 {
+  margin: 0;
+  color: #ffecaf;
+}
+.ki-quest-entry small {
+  display: block;
+  margin-bottom: 7px;
+  color: #c1e9d9;
+}
+.ki-npc-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.ki-death-overlay {
+  position: absolute;
+  inset: 40% 10% auto;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  background: #2c253fd9;
+  border-radius: 16px;
+  font: 16px system-ui;
+}
+.ki-target {
+  top: 82px;
+  width: 180px;
+}
+.ki-chat-toggle {
+  font-size: 0 !important;
+  overflow: hidden;
+}
+.ki-chat-toggle:before {
+  flex: 0 0 auto;
+}
+@media (max-width: 760px) {
+  .ki-actionbar {
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 54px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .ki-view-controls {
+    top: 128px;
+    bottom: auto;
+    right: max(10px, env(safe-area-inset-right));
+  }
+  .ki-context-actions {
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 118px);
+    width: max-content;
+  }
+  .ki-game-feedback {
+    top: 187px;
+    width: calc(100% - 28px);
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  .ki-target {
+    left: 10px;
+    transform: none;
+    top: 85px;
+    width: 150px;
+  }
+  .ki-player {
+    width: 190px;
+  }
+  .ki-modal {
+    padding: 12px;
+  }
+}
+@media (max-width: 360px) {
+  .ki-player {
+    width: 176px;
+  }
+  .ki-map {
+    width: 90px;
+  }
+  .ki-skill {
+    width: 42px;
+    height: 44px;
+  }
+  .ki-trade-actions {
+    max-width: 100px;
+  }
+}
+@media (max-height: 500px) {
+  .ki-game-feedback {
+    top: 82px;
+    max-width: 360px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .ki-context-actions {
+    bottom: 78px;
+  }
+  .ki-modal {
+    max-height: calc(100dvh - 16px);
+  }
+}

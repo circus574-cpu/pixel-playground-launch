@@ -19,7 +19,7 @@
 ## Ki Legends production
 
 - Follow `docs/PRODUCTION.md` and the user's current stage constraints.
-- Current focus is stage 1 forest art. Do not expand combat, character systems or multiplayer before map acceptance.
+- The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/STAGE2-GAMEPLAY.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
 - Use independent terrain/object resources, never a complete concept illustration as the production world.
 - Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
 - Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.

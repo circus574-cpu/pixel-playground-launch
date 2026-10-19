@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GameHud } from "../components/game/GameHud";
 import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
+import { initialView, type Command } from "../game/session";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,20 +18,17 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
-function Index() {
+export function Index() {
   const container = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLElement>(null);
   const [zoom, setZoom] = useState(0.62);
   const [fullscreen, setFullscreen] = useState(false);
   const [displayNotice, setDisplayNotice] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [state, setState] = useState<GameViewState>({
-    x: 1495,
-    y: 1260,
-    target: null,
-    defeated: 0,
-    ready: false,
-  });
+  const [state, setState] = useState<GameViewState>(initialView);
+  const sendCommand = useCallback((command: Command) => {
+    container.current?.dispatchEvent(new CustomEvent("ki:command", { detail: command }));
+  }, []);
   useEffect(() => {
     const initial = initialZoom(window.innerWidth, window.innerHeight);
     setZoom(initial);
@@ -88,6 +86,7 @@ function Index() {
         onZoom={changeZoom}
         fullscreen={fullscreen}
         onFullscreen={() => void toggleFullscreen()}
+        onCommand={sendCommand}
       />
       {displayNotice && (
         <button className="ki-display-notice" onClick={() => setDisplayNotice("")}>

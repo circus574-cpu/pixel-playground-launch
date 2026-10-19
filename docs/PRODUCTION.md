@@ -1,3 +1,5 @@
+> Stage 2 authorization, 2026-10-19: the user explicitly requested a complete local gameplay loop on the existing anime forest. This supersedes the previous map-acceptance gate for combat, NPC, quest, equipment and persistence work. Preserve the artwork. Do not publish production without separate explicit authorization. See STAGE2-GAMEPLAY.md for implementation and actual validation status.
+
 > Aktualizacja 2026-10-19: obowiązuje nowoczesne anime fantasy 2D, nie wcześniejszy kierunek średniowieczny/pixel art. Po pokazaniu próbek użytkownik polecił kontynuować; aktualny etap to produkcja i integracja leśnej krainy anime. Szczegóły: [ANIME-RESET.md](ANIME-RESET.md).
 
 # Ki Legends — production contract

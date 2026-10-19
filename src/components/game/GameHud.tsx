@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
 import "./game-hud.css";
 import "./anime-hud.css";
 import { WORLD_WIDTH, WORLD_HEIGHT, FOREST_MINIMAP } from "../../game/world/forest";
+import { ABILITIES, NPCS, xpNeeded, type Ability, type Command } from "../../game/session";
+import { Inventory, QuestJournal, NpcDialogue } from "./AdventurePanels";
+import "./adventure.css";
 
 type Props = {
   state: GameViewState;
@@ -13,6 +16,7 @@ type Props = {
   onZoom: (zoom: number) => void;
   fullscreen: boolean;
   onFullscreen: () => void;
+  onCommand: (command: Command) => void;
 };
 type Panel = "inventory" | "journal" | "settings" | "map" | null;
 const iconNames = [
@@ -33,7 +37,15 @@ function Icon({ index, className = "" }: { index: number; className?: string }) 
   return <span aria-hidden="true" className={`ki-icon ${className}`} style={style} />;
 }
 
-export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }: Props) {
+export function GameHud({
+  state,
+  error,
+  zoom,
+  onZoom,
+  fullscreen,
+  onFullscreen,
+  onCommand,
+}: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
@@ -47,15 +59,32 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
   function toggle(next: Panel) {
     setPanel((p) => (p === next ? null : next));
   }
-  function skill(name: string) {
-    setNotice(`${name} — umiejętność jeszcze zablokowana`);
+  const player = state.player;
+  useEffect(() => {
+    onCommand({ type: "pause", value: panel !== null });
+    return () => onCommand({ type: "pause", value: false });
+  }, [panel, onCommand]);
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setPanel(null);
+        onCommand({ type: "dialogue", action: "close" });
+      }
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [onCommand]);
+  function closeAndResume() {
+    setPanel(null);
+    onCommand({ type: "pause", value: false });
   }
+  const tracked = state.quests.find((q) => q.status !== "done");
   return (
     <div className="ki-hud">
       <section className="ki-player ki-frame" aria-label="Postać gracza">
         <div className="ki-portrait">
           <Icon index={0} />
-          <span className="ki-level">1</span>
+          <span className="ki-level">{player.level}</span>
         </div>
         <div className="ki-player-info">
           <div className="ki-player-name">
@@ -65,26 +94,33 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
             className="ki-meter ki-hp"
             role="meter"
             aria-label="Zdrowie"
-            aria-valuenow={120}
+            aria-valuenow={Math.round(player.hp)}
             aria-valuemin={0}
-            aria-valuemax={120}
+            aria-valuemax={state.stats.maxHp}
           >
-            <i />
-            <span>120 / 120</span>
+            <i style={{ width: (player.hp / state.stats.maxHp) * 100 + "%" }} />
+            <span>
+              {Math.ceil(player.hp)} / {state.stats.maxHp}
+            </span>
           </div>
           <div
             className="ki-meter ki-energy"
             role="meter"
             aria-label="Energia KI"
-            aria-valuenow={50}
+            aria-valuenow={Math.round(player.ki)}
             aria-valuemin={0}
-            aria-valuemax={50}
+            aria-valuemax={state.stats.maxKi}
           >
-            <i />
-            <span>50 / 50</span>
+            <i style={{ width: (player.ki / state.stats.maxKi) * 100 + "%" }} />
+            <span>
+              {Math.floor(player.ki)} / {state.stats.maxKi}
+            </span>
           </div>
-          <div className="ki-xp">
-            <i />
+          <div
+            className="ki-xp"
+            aria-label={"Doświadczenie " + player.xp + "/" + xpNeeded(player.level)}
+          >
+            <i style={{ width: (player.xp / xpNeeded(player.level)) * 100 + "%" }} />
           </div>
         </div>
       </section>
@@ -126,8 +162,8 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
         <div>
-          <strong>Pierwsze kroki</strong>
-          <span>Poznaj Wioskę Początkową</span>
+          <strong>{tracked?.name ?? "Wioska ocalona"}</strong>
+          <span>{tracked?.text ?? "Trenuj i zdobywaj wyposażenie"}</span>
         </div>
         <span className="ki-quest-arrow">›</span>
       </button>
@@ -176,7 +212,7 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
             )}
             {tab === "Walka" && (
               <p>
-                <b>[Walka]</b> Pokonani przeciwnicy: {state.defeated}
+                <b>[Walka]</b> {state.log.slice(-3).join(" · ")}
               </p>
             )}
             {tab === "Gildia" && <p className="ki-chat-muted">Nie należysz jeszcze do gildii.</p>}
@@ -214,25 +250,40 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
       </section>
       <nav className="ki-actionbar ki-frame" aria-label="Umiejętności">
         <div className="ki-action-crest">KI</div>
-        {[
-          { n: 2, key: "1" },
-          { n: 1, key: "2" },
-          { n: 3, key: "3" },
-          { n: 8, key: "4" },
-          { n: 4, key: "Q" },
-        ].map(({ n, key }) => (
-          <button
-            className="ki-skill"
-            key={key}
-            title={`${iconNames[n]} — zablokowane`}
-            aria-label={`${iconNames[n]} — zablokowane`}
-            onClick={() => skill(iconNames[n] ?? "Umiejętność")}
-          >
-            <Icon index={n} />
-            <kbd>{key}</kbd>
-            <span className="ki-skill-lock">◇</span>
-          </button>
-        ))}
+        {(["flame", "pulse", "shield", "attack", "potion"] as Ability[]).map((id) => {
+          const spec = ABILITIES[id];
+          const remaining =
+            player.cooldowns[id] > 0 ? (player.cooldowns[id] / 1000).toFixed(1) : "";
+          const disabled =
+            !state.ready ||
+            player.dead ||
+            Boolean(state.dialogue) ||
+            panel !== null ||
+            player.cooldowns[id] > 0 ||
+            player.ki < spec.cost ||
+            (id === "potion" && (!player.items.potion || player.hp >= state.stats.maxHp));
+          return (
+            <button
+              className="ki-skill"
+              key={id}
+              title={
+                spec.name + " · " + spec.cost + " KI · " + spec.cooldown / 1000 + " s odnowienia"
+              }
+              aria-label={spec.name}
+              disabled={disabled}
+              onClick={(event) => {
+                onCommand({ type: "ability", ability: id });
+                event.currentTarget.blur();
+              }}
+            >
+              <Icon index={spec.icon} />
+              <kbd>{spec.key}</kbd>
+              {remaining && <span className="ki-cooldown">{remaining}</span>}
+              {id === "potion" && <span className="ki-item-count">{player.items.potion}</span>}
+              {id === "attack" && state.autoAttack && <span className="ki-auto">AUTO</span>}
+            </button>
+          );
+        })}
         <div className="ki-bar-decoration">◆</div>
       </nav>
       <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">
@@ -292,6 +343,39 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
           anuluj
         </div>
       )}
+      {state.dialogue && <NpcDialogue state={state} send={onCommand} />}
+      {!panel && !state.dialogue && (
+        <div className="ki-context-actions">
+          <button
+            onClick={(event) => {
+              onCommand({ type: "interact", npc: state.nearestNpc });
+              event.currentTarget.blur();
+            }}
+          >
+            Rozmowa · {NPCS.find((n) => n.id === state.nearestNpc)?.name} <kbd>E</kbd>
+          </button>
+          {state.nearbyLoot[0] && (
+            <button onClick={() => onCommand({ type: "loot", id: state.nearbyLoot[0]!.id })}>
+              Podnieś łup <kbd>F</kbd>
+            </button>
+          )}
+        </div>
+      )}
+      {state.saveWarning && (
+        <p className="ki-save-warning" role="alert">
+          {state.saveWarning}
+        </p>
+      )}
+      {state.notice && (
+        <p className="ki-game-feedback ki-frame" role="status">
+          {state.notice}
+        </p>
+      )}
+      {player.dead && (
+        <div className="ki-death-overlay" role="status">
+          Zostałeś pokonany · odrodzenie za chwilę
+        </div>
+      )}
       {notice && (
         <button className="ki-notice ki-frame" onClick={() => setNotice("")}>
           {notice} <span>×</span>
@@ -340,28 +424,9 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
                 ×
               </button>
             </header>
-            {panel === "inventory" && (
-              <>
-                <div className="ki-inventory">
-                  {Array.from({ length: 15 }, (_, i) => (
-                    <div key={i} />
-                  ))}
-                </div>
-                <p className="ki-panel-caption">Twój plecak jest jeszcze pusty.</p>
-              </>
-            )}
+            {panel === "inventory" && <Inventory state={state} send={onCommand} />}
             {panel === "journal" && (
-              <article className="ki-journal">
-                <span className="ki-eyebrow">POCZĄTEK PODRÓŻY</span>
-                <h3>Pierwsze kroki</h3>
-                <p>
-                  Za murami wioski zaczyna się nieznany świat. Poznaj brukowany rynek, odnajdź most
-                  nad potokiem i rozejrzyj się po okolicy.
-                </p>
-                <div className="ki-journal-entry">
-                  ◆ Wioska Początkowa <span>ODKRYTA</span>
-                </div>
-              </article>
+              <QuestJournal state={state} send={onCommand} close={closeAndResume} />
             )}
             {panel === "settings" && (
               <div className="ki-settings">
@@ -399,10 +464,25 @@ export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }
               </div>
             )}
             {panel === "map" && (
-              <div className="ki-full-map">
-                <img src={FOREST_MINIMAP} alt="Mapa wioski" />
-                <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
-              </div>
+              <>
+                <div className="ki-npc-links">
+                  {NPCS.map((n) => (
+                    <button
+                      key={n.id}
+                      onClick={() => {
+                        closeAndResume();
+                        onCommand({ type: "interact", npc: n.id });
+                      }}
+                    >
+                      Idź do {n.name} · {n.role}
+                    </button>
+                  ))}
+                </div>
+                <div className="ki-full-map">
+                  <img src={FOREST_MINIMAP} alt="Mapa wioski" />
+                  <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
+                </div>
+              </>
             )}
           </section>
         </div>

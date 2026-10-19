@@ -1,12 +1,14 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { GameHud } from "../components/game/GameHud";
-const state = { x: 1495, y: 1260, target: null, defeated: 0, ready: true };
+import { initialView } from "../game/session";
+const state = { ...initialView(), ready: true };
 afterEach(cleanup);
 describe("game interface controls", () => {
   it("opens and closes an actual inventory dialog", () => {
     render(
       <GameHud
+        onCommand={() => {}}
         state={state}
         error={null}
         zoom={0.62}
@@ -25,6 +27,7 @@ describe("game interface controls", () => {
     const onFullscreen = vi.fn();
     render(
       <GameHud
+        onCommand={() => {}}
         state={state}
         error={null}
         zoom={0.62}

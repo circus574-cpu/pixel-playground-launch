@@ -4,6 +4,8 @@ Phaser 4.2.1, browser-only dynamic mount from the React/TanStack root route. The
 
 ## Current stage
 
+Current gameplay implementation and validation limitations: docs/STAGE2-GAMEPLAY.md. Local preview: npm run playtest, then /scripts/playtest.html; no publish occurs.
+
 Stage 0 audit: `docs/AUDIT-2026-10-19.md`. Stage 1 graphics: `docs/FOREST-ASSETS.md`. Production constraints and stage order: `docs/PRODUCTION.md`.
 
 The world is built from `world/forest-map.json` and independent OpenAI exports in `public/game/assets/anime-forest-v1/`. `renderForest.ts` creates four autotiled layers and y-sorted object sprites. See `docs/ANIME-FOREST.md` for the current anime export pipeline. The flattened village illustration remains an art reference only. Object collision footprints are separate from their artwork. Minimap and world share the same data.
@@ -12,9 +14,13 @@ The world is built from `world/forest-map.json` and independent OpenAI exports i
 
 `GameHud.tsx` renders status, target HP, a moving minimap marker, local chat, journal, empty inventory, settings and locked skills. Position, target and defeated count are reported at most 10 times per second. No server gameplay or persistence is present. `/test` and its private sketch storage are untouched.
 
-## Explicitly unfinished
+## Gameplay and limits
 
-The inherited character has four animation directions, not eight. Boars are static sprites. Existing click movement stops/slides at obstacles and does not find paths. Character HP/KI are initial display values; skills, items, quests and incoming damage are not implemented. Stage 2+ is not complete and must wait for acceptance of stage 1.
+GameSession owns local PvE, four NPC interactions, three sequential quests, XP/stats, stackable loot, equipment, merchant, smith and versioned local persistence. Navigation shares the forest's real collision footprints. Phaser remains the renderer/input adapter; React sends typed commands and renders snapshots.
+
+Skills: 1 flame, 2 pulse, 3 shield, 4/Space basic attack, Q potion. E approaches the nearest NPC; F collects nearby loot. Mouse/touch can target visible actors. Journal/map offer navigation buttons. Dialogues and menu panels pause this local simulation.
+
+This is a local single-player adventure foundation, not a network MMORPG. Human walking retains four existing directions. Combat/death use procedural articulation and effects, not new hand-painted directional attack frames. NPCs reuse existing character art with role tints. Other races, regions, authoritative multiplayer and cloud-account persistence remain future work.
 
 ## Checks
 
