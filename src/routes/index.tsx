@@ -1,29 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
-import cover from "@/assets/cover.png.asset.json";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Ki Legends — Już wkrótce" },
-      { name: "description", content: "Ki Legends — nowa gra fantasy. Już wkrótce." },
-      { property: "og:title", content: "Ki Legends — Już wkrótce" },
-      { property: "og:description", content: "Ki Legends — nowa gra fantasy. Już wkrótce." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => ({ meta: [
+    { title: "Ki Legends — Gra 2D" },
+    { name: "description", content: "Ki Legends — fantasy RPG 2D w przeglądarce." },
+  ] }),
   component: Index,
 });
 
 function Index() {
+  const container = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    import("@/game/mountGame").then(({ mountKileGends }) => {
+      if (!cancelled && container.current) cleanup = mountKileGends(container.current);
+    }).catch((e: unknown) => {
+      if (!cancelled) setError(e instanceof Error ? e.message : "Nie można uruchomić gry");
+    });
+    return () => { cancelled = true; cleanup?.(); };
+  }, []);
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background">
-      <h1 className="sr-only">Ki Legends — Już wkrótce</h1>
-      <img
-        src={cover.url}
-        alt="Ki Legends — Już wkrótce"
-        className="h-screen w-full object-contain"
-      />
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#101a15] text-white">
+      {error ? <p role="alert">Błąd uruchamiania: {error}</p> : null}
+      <div ref={container} aria-label="Ki Legends — ekran gry" className="w-full max-w-[1200px] aspect-video overflow-hidden" />
     </main>
   );
 }
