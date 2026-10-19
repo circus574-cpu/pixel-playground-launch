@@ -9,6 +9,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { getSketches, unlockSketches, prepareSketchUpload, downloadSketch, lockSketches } from '@/lib/sketches.functions';
 import { uploadSketchSchema } from '@/lib/sketches.validation';
 import { SketchPreview } from '@/components/sketch-preview';
+import { UploadIntegrations } from '@/components/upload-integrations';
+import { GAME_FOLDERS } from '@/lib/uploads.validation';
 
 export const Route = createFileRoute('/test')({
   loader: () => getSketches(),
@@ -39,6 +41,8 @@ function SketchSpace() {
   const [progress, setProgress] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [previewFile, setPreviewFile] = useState<{ path: string; name: string } | null>(null);
+  const [tab, setTab] = useState<'files' | 'api'>('files');
+  const [directory, setDirectory] = useState('');
 
   async function enter(event: FormEvent) {
     event.preventDefault(); setBusy(true); setError('');
@@ -61,7 +65,7 @@ function SketchSpace() {
         const parsed = uploadSketchSchema.safeParse({ name: file.name, size: file.size });
         if (!parsed.success) throw new Error(`${file.name}: nieprawidłowa nazwa lub plik przekracza 50 MB.`);
         setStatus(`Przesyłanie: ${file.name}`);
-        const signed = await prepare({ data: parsed.data });
+        const signed = await prepare({ data: { ...parsed.data, directory: directory || undefined } });
         const { error: uploadError } = await supabase.storage.from('project-sketches').uploadToSignedUrl(signed.path, signed.token, file, { contentType: 'application/octet-stream' });
         if (uploadError) throw new Error(`Nie udało się przesłać: ${file.name}`);
         count += 1; setProgress(Math.round(count / list.length * 100));
@@ -103,10 +107,13 @@ function SketchSpace() {
         </section>
       ) : (
         <section className="mx-auto max-w-5xl px-6 py-12 sm:px-10 sm:py-16">
+          <div className="mb-8 flex gap-3 border-b border-border pb-4"><Button variant={tab === 'files' ? 'default' : 'ghost'} onClick={() => { setTab('files'); void router.invalidate(); }}><FolderOpen />Pliki</Button><Button variant={tab === 'api' ? 'default' : 'ghost'} onClick={() => setTab('api')}><LockKeyhole />API / Integracje</Button></div>
+          {tab === 'api' ? <UploadIntegrations /> : <>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-5">
             <div><h1 className="text-3xl font-semibold">Szkice projektu</h1><p className="mt-2 text-sm text-muted-foreground">KI LEGENDS · {files.length} plików</p></div>
             <Button disabled={busy} size="lg" onClick={() => inputRef.current?.click()}>{busy ? <LoaderCircle className="animate-spin" /> : <Upload />}Dodaj pliki</Button>
           </div>
+          <label className="mb-5 block text-sm">Katalog<select aria-label="Katalog plików" value={directory} onChange={event => setDirectory(event.target.value)} className="mt-2 block h-11 w-full rounded-md border border-border bg-background px-3"><option value="">/test · obecne szkice</option>{GAME_FOLDERS.map(path => <option key={path} value={path}>{path}</option>)}</select></label>
           <input ref={inputRef} type="file" multiple className="hidden" aria-label="Dodaj szkice" onChange={event => void uploadFiles(event.target.files)} />
           <div className={`flex min-h-40 flex-col items-center justify-center gap-3 rounded-md border border-dashed p-6 transition-colors ${dragging ? 'border-primary bg-primary/10' : 'border-border bg-background/60'}`} onDragOver={event => { event.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={event => { event.preventDefault(); setDragging(false); void uploadFiles(event.dataTransfer.files); }}>
             <Upload className="size-7 text-primary" />
@@ -117,12 +124,14 @@ function SketchSpace() {
           {status && <p role="status" className="mt-4 break-all text-sm text-muted-foreground">{status}</p>}
           {error && <p role="alert" className="mt-4 text-sm text-destructive">{error}</p>}
           <div className="mt-10 border-t border-border">
-            {!files.length ? <div className="flex flex-col items-center gap-3 py-12 text-muted-foreground"><FolderOpen className="size-8" /><p className="text-sm">Jeszcze bez szkiców</p></div> : files.map(file => <div key={file.path} className="flex items-center gap-4 border-b border-border bg-background/60 px-4 py-4">
+            {!files.length ? <div className="flex flex-col items-center gap-3 py-12 text-muted-foreground"><FolderOpen className="size-8" /><p className="text-sm">Jeszcze bez szkiców</p></div> : files.filter(file => !directory || file.path.startsWith(`${directory}/`)).map(file => <div key={file.path} className="flex items-center gap-4 border-b border-border bg-background/60 px-4 py-4">
               <File className="size-5 shrink-0 text-primary" /><div className="min-w-0 flex-1"><p className="break-all text-sm font-medium">{file.name}</p><p className="mt-1 text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB · {file.createdAt?.slice(0, 10)}</p></div>
+              <span className="hidden max-w-40 break-all text-xs text-muted-foreground sm:block">{file.path.includes('/') ? file.path.slice(0, file.path.lastIndexOf('/')) : '/test'}</span>
               <Button variant="ghost" size="icon" title={`Podgląd ${file.name}`} aria-label={`Podgląd ${file.name}`} onClick={() => setPreviewFile(file)}><Eye /></Button>
               <Button variant="ghost" size="icon" title={`Pobierz ${file.name}`} aria-label={`Pobierz ${file.name}`} onClick={() => void getFile(file.path)}><Download /></Button>
             </div>)}
           </div>
+          </>}
         </section>
       )}
       {unlocked && <SketchPreview file={previewFile} onClose={() => setPreviewFile(null)} />}

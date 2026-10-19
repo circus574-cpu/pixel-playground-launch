@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792427386468,
+      "tag": "0000_sketch_upload_api_security",
+      "breakpoints": true
+    }
+  ]
 }

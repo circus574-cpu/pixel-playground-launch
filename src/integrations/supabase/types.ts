@@ -14,13 +14,91 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      sketch_api_log: {
+        Row: {
+          created_at: string
+          id: string
+          operation: string
+          path: string | null
+          size: number | null
+          status: number
+          token_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          operation: string
+          path?: string | null
+          size?: number | null
+          status: number
+          token_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          operation?: string
+          path?: string | null
+          size?: number | null
+          status?: number
+          token_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sketch_api_log_token_id_fkey"
+            columns: ["token_id"]
+            isOneToOne: false
+            referencedRelation: "sketch_api_tokens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sketch_api_tokens: {
+        Row: {
+          created_at: string
+          directory: string
+          id: string
+          request_count: number
+          revoked_at: string | null
+          token_hash: string
+          window_start: string
+        }
+        Insert: {
+          created_at?: string
+          directory?: string
+          id?: string
+          request_count?: number
+          revoked_at?: string | null
+          token_hash: string
+          window_start?: string
+        }
+        Update: {
+          created_at?: string
+          directory?: string
+          id?: string
+          request_count?: number
+          revoked_at?: string | null
+          token_hash?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      consume_sketch_api_token: {
+        Args: { p_hash: string }
+        Returns: {
+          allowed: boolean
+          directory: string
+          id: string
+        }[]
+      }
+      rotate_sketch_api_token: {
+        Args: { p_directory: string; p_hash: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
