@@ -1,13 +1,14 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
 import { useRef, useState, type FormEvent } from 'react';
-import { LockKeyhole, Upload, Download, File, LoaderCircle, LogOut, FolderOpen } from 'lucide-react';
+import { LockKeyhole, Upload, Download, File, LoaderCircle, LogOut, FolderOpen, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import background from '@/assets/test-background.png.asset.json';
 import { supabase } from '@/integrations/supabase/client';
 import { getSketches, unlockSketches, prepareSketchUpload, downloadSketch, lockSketches } from '@/lib/sketches.functions';
 import { uploadSketchSchema } from '@/lib/sketches.validation';
+import { SketchPreview } from '@/components/sketch-preview';
 
 export const Route = createFileRoute('/test')({
   loader: () => getSketches(),
@@ -37,6 +38,7 @@ function SketchSpace() {
   const [status, setStatus] = useState('');
   const [progress, setProgress] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [previewFile, setPreviewFile] = useState<{ path: string; name: string } | null>(null);
 
   async function enter(event: FormEvent) {
     event.preventDefault(); setBusy(true); setError('');
@@ -117,11 +119,13 @@ function SketchSpace() {
           <div className="mt-10 border-t border-border">
             {!files.length ? <div className="flex flex-col items-center gap-3 py-12 text-muted-foreground"><FolderOpen className="size-8" /><p className="text-sm">Jeszcze bez szkiców</p></div> : files.map(file => <div key={file.path} className="flex items-center gap-4 border-b border-border bg-background/60 px-4 py-4">
               <File className="size-5 shrink-0 text-primary" /><div className="min-w-0 flex-1"><p className="break-all text-sm font-medium">{file.name}</p><p className="mt-1 text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB · {file.createdAt?.slice(0, 10)}</p></div>
+              <Button variant="ghost" size="icon" title={`Podgląd ${file.name}`} aria-label={`Podgląd ${file.name}`} onClick={() => setPreviewFile(file)}><Eye /></Button>
               <Button variant="ghost" size="icon" title={`Pobierz ${file.name}`} aria-label={`Pobierz ${file.name}`} onClick={() => void getFile(file.path)}><Download /></Button>
             </div>)}
           </div>
         </section>
       )}
+      {unlocked && <SketchPreview file={previewFile} onClose={() => setPreviewFile(null)} />}
     </main>
   );
 }
