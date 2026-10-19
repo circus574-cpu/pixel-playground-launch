@@ -36,7 +36,7 @@ export function GameHud({ state, error }: Props) {
     {state.target && <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik"><span>POZIOM 1 · BESTIA</span><strong>{state.target.name}</strong><div className="ki-meter ki-hp"><i style={{ width: `${state.target.hp / state.target.maxHp * 100}%` }} /><span>{state.target.hp} / {state.target.maxHp}</span></div></section>}
     <section className={`ki-map ki-frame ${mapSize ? 'ki-map-large' : ''}`} aria-label="Minimapa">
       <div className="ki-map-title"><span className="ki-dot" />Wioska Początkowa</div>
-      <button className="ki-map-image" aria-label="Otwórz mapę świata" onClick={() => toggle('map')}><img src="/game/assets/village-v2.webp" alt="Mapa Wioski Początkowej" /><span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} /></button>
+      <button className="ki-map-image" aria-label="Otwórz mapę świata" onClick={() => toggle('map')}><img src="/game/assets/village-v2.webp?v=2" alt="Mapa Wioski Początkowej" /><span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} /></button>
       <div className="ki-map-footer"><span>BEZPIECZNA OKOLICA</span><button onClick={() => setMapSize(v => !v)} aria-label={mapSize ? 'Zmniejsz minimapę' : 'Powiększ minimapę'}>{mapSize ? '−' : '+'}</button></div>
     </section>
     <button className="ki-quest" onClick={() => toggle('journal')}><span className="ki-quest-diamond">◆</span><div><strong>Pierwsze kroki</strong><span>Poznaj Wioskę Początkową</span></div><span className="ki-quest-arrow">›</span></button>
@@ -61,7 +61,7 @@ export function GameHud({ state, error }: Props) {
       {panel === 'inventory' && <><div className="ki-inventory">{Array.from({ length: 15 }, (_, i) => <div key={i} />)}</div><p className="ki-panel-caption">Twój plecak jest jeszcze pusty.</p></>}
       {panel === 'journal' && <article className="ki-journal"><span className="ki-eyebrow">POCZĄTEK PODRÓŻY</span><h3>Pierwsze kroki</h3><p>Za murami wioski zaczyna się nieznany świat. Poznaj brukowany rynek, odnajdź most nad potokiem i rozejrzyj się po okolicy.</p><div className="ki-journal-entry">◆ Wioska Początkowa <span>ODKRYTA</span></div></article>}
       {panel === 'settings' && <div className="ki-settings"><label><span>Podpowiedzi sterowania</span><input type="checkbox" checked={hints} onChange={e => setHints(e.target.checked)} /></label><label><span>Duża minimapa</span><input type="checkbox" checked={mapSize} onChange={e => setMapSize(e.target.checked)} /></label></div>}
-      {panel === 'map' && <div className="ki-full-map"><img src="/game/assets/village-v2.webp" alt="Mapa wioski" /><span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} /></div>}
+      {panel === 'map' && <div className="ki-full-map"><img src="/game/assets/village-v2.webp?v=2" alt="Mapa wioski" /><span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} /></div>}
     </section></div>}
   </div>;
 }

@@ -30,7 +30,7 @@ export function mountKileGends(parent: HTMLElement, onState?: (state: GameViewSt
     preload() {
       this.load.image('world-atlas', '/game/assets/world-v1.webp');
       this.load.image('hero-sheet', '/game/assets/hero-walk-v2.webp');
-      this.load.image('village', '/game/assets/village-v2.webp');
+      this.load.image('village', '/game/assets/village-v2.webp?v=2');
     }
 
     create() {
