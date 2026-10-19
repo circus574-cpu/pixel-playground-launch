@@ -142,3 +142,17 @@
     color: var(--color-foreground);
   }
 }
+
+.sketch-space {
+  --background: oklch(0.14 0.015 260);
+  --foreground: oklch(0.96 0.008 90);
+  --primary: oklch(0.82 0.1 85);
+  --primary-foreground: oklch(0.18 0.018 85);
+  --muted-foreground: oklch(0.78 0.015 260);
+  --border: oklch(0.96 0.008 90 / 24%);
+  --input: oklch(0.96 0.008 90 / 30%);
+  --accent: oklch(0.3 0.02 260);
+  --accent-foreground: oklch(0.96 0.008 90);
+  --ring: oklch(0.82 0.1 85);
+  --destructive: oklch(0.78 0.15 25);
+}
