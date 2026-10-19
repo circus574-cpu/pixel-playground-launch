@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { blockedAt, clearSight } from './movement';
+import { clampZoom, DEFAULT_ZOOM } from './view';
 
 export type GameViewState = { x: number; y: number; target: null | { name: string; hp: number; maxHp: number }; defeated: number; ready: boolean };
 
@@ -13,7 +14,7 @@ export function mountKileGends(parent: HTMLElement, onState?: (state: GameViewSt
     private target: (typeof this.enemies)[number] | null = null;
     private attackCooldown = 0;
     private readonly speed = 175;
-    private keys?: Record<string, Phaser.Input.Keyboard.Key>;
+    private keys: Record<string, Phaser.Input.Keyboard.Key> | undefined;
     private joystickId: number | null = null;
     private joystickStart = new Phaser.Math.Vector2();
     private joystick = new Phaser.Math.Vector2();
@@ -58,7 +59,7 @@ export function mountKileGends(parent: HTMLElement, onState?: (state: GameViewSt
       this.cameras.main.setBounds(0, 0, worldW, worldH);
       this.add.image(0, 0, 'village').setOrigin(0).setDisplaySize(worldW, worldH).setDepth(-100);
       // Colliders follow the approved village artwork (1536×1024 reference coordinates).
-      const solids = [
+      const solids: [number, number, number, number][] = [
         [82, 105, 260, 210], [75, 510, 335, 220], [820, 92, 340, 268],
         [555, 365, 178, 160], [403, 226, 122, 127],
         [5, 0, 650, 75], [0, 780, 560, 244], [850, 835, 686, 189],
@@ -72,7 +73,11 @@ export function mountKileGends(parent: HTMLElement, onState?: (state: GameViewSt
       this.heroSprite = this.hero.getAt(1) as Phaser.GameObjects.Sprite;
       this.selection = this.add.ellipse(0, 0, 58, 24).setStrokeStyle(2, 0xffd565).setVisible(false);
       this.cameras.main.startFollow(this.hero, true, 0.12, 0.12);
-      for (const [x, y] of [[1050, 730], [1430, 960], [1380, 780], [750, 930]]) {
+      const zoom = () => this.cameras.main.setZoom(clampZoom(Number(parent.dataset['zoom'] ?? DEFAULT_ZOOM)));
+      zoom();
+      parent.addEventListener('ki:zoom', zoom);
+      this.events.once('shutdown', () => parent.removeEventListener('ki:zoom', zoom));
+      for (const [x, y] of ([[1050, 730], [1430, 960], [1380, 780], [750, 930]] as [number, number][])) {
         const body = this.makeCharacter(x, y, 'Dzik');
         const bar = this.add.rectangle(x, y - 43, 44, 5, 0xc94b38).setDepth(y + 1);
         this.enemies.push({ body, hp: 3, bar });
@@ -136,13 +141,13 @@ export function mountKileGends(parent: HTMLElement, onState?: (state: GameViewSt
       return false;
     }
 
-    update(time: number, dt: number) {
+    override update(time: number, dt: number) {
       this.walking = false;
       const focused = document.activeElement;
       const typing = focused instanceof HTMLElement && Boolean(focused.closest('input, textarea, [role=dialog]'));
       const k = typing ? undefined : this.keys;
-      const dx = Number(Boolean(k?.D.isDown || k?.RIGHT.isDown)) - Number(Boolean(k?.A.isDown || k?.LEFT.isDown)) + this.joystick.x / 48;
-      const dy = Number(Boolean(k?.S.isDown || k?.DOWN.isDown)) - Number(Boolean(k?.W.isDown || k?.UP.isDown)) + this.joystick.y / 48;
+      const dx = Number(Boolean(k?.['D']?.isDown || k?.['RIGHT']?.isDown)) - Number(Boolean(k?.['A']?.isDown || k?.['LEFT']?.isDown)) + this.joystick.x / 48;
+      const dy = Number(Boolean(k?.['S']?.isDown || k?.['DOWN']?.isDown)) - Number(Boolean(k?.['W']?.isDown || k?.['UP']?.isDown)) + this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) {
         this.destination = null; this.target = null;
         this.walkTowards(this.hero.x + dx * 100, this.hero.y + dy * 100, dt, 0);

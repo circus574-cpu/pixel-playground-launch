@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
+import { clampZoom, DEFAULT_ZOOM } from '../../game/view';
 import type { GameViewState } from '../../game/mountGame';
 import './game-hud.css';
 
-type Props = { state: GameViewState; error: string | null };
+type Props = { state: GameViewState; error: string | null; zoom: number; onZoom: (zoom: number) => void; fullscreen: boolean; onFullscreen: () => void };
 type Panel = 'inventory' | 'journal' | 'settings' | 'map' | null;
 const iconNames = ['Portret', 'Impuls KI', 'Cięcie płomienia', 'Tarcza ducha', 'Mikstura życia', 'Ekwipunek', 'Dziennik', 'Ustawienia', 'Walka'];
 function Icon({ index, className = '' }: { index: number; className?: string }) {
@@ -11,7 +12,7 @@ function Icon({ index, className = '' }: { index: number; className?: string }) 
   return <span aria-hidden="true" className={`ki-icon ${className}`} style={style} />;
 }
 
-export function GameHud({ state, error }: Props) {
+export function GameHud({ state, error, zoom, onZoom, fullscreen, onFullscreen }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState('System');
   const [chatOpen, setChatOpen] = useState(false);
@@ -52,7 +53,13 @@ export function GameHud({ state, error }: Props) {
       </div>
       <form onSubmit={e => { e.preventDefault(); if (draft.trim()) { setMessages(m => [...m.slice(-19), draft.trim().slice(0, 240)]); setDraft(''); setTab('Ogólny'); } }}><input maxLength={240} value={draft} onChange={e => setDraft(e.target.value)} placeholder="Napisz wiadomość lokalną…" aria-label="Wiadomość lokalna" /><button aria-label="Dodaj wiadomość lokalną">↵</button></form></div>
     </section>
-    <nav className="ki-actionbar ki-frame" aria-label="Umiejętności"><div className="ki-action-crest">KI</div>{[{ n: 2, key: '1' }, { n: 1, key: '2' }, { n: 3, key: '3' }, { n: 8, key: '4' }, { n: 4, key: 'Q' }].map(({ n, key }) => <button className="ki-skill" key={key} title={`${iconNames[n]} — zablokowane`} aria-label={`${iconNames[n]} — zablokowane`} onClick={() => skill(iconNames[n])}><Icon index={n} /><kbd>{key}</kbd><span className="ki-skill-lock">◇</span></button>)}<div className="ki-bar-decoration">◆</div></nav>
+    <nav className="ki-actionbar ki-frame" aria-label="Umiejętności"><div className="ki-action-crest">KI</div>{[{ n: 2, key: '1' }, { n: 1, key: '2' }, { n: 3, key: '3' }, { n: 8, key: '4' }, { n: 4, key: 'Q' }].map(({ n, key }) => <button className="ki-skill" key={key} title={`${iconNames[n]} — zablokowane`} aria-label={`${iconNames[n]} — zablokowane`} onClick={() => skill(iconNames[n] ?? 'Umiejętność')}><Icon index={n} /><kbd>{key}</kbd><span className="ki-skill-lock">◇</span></button>)}<div className="ki-bar-decoration">◆</div></nav>
+    <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">
+      <button onClick={() => onZoom(clampZoom(zoom - 0.08))} disabled={zoom <= 0.35} aria-label="Oddal mapę" title="Oddal mapę">−</button>
+      <button className="ki-zoom-value" onClick={() => onZoom(DEFAULT_ZOOM)} aria-label="Przywróć oddalenie mapy">{Math.round(zoom * 100)}%</button>
+      <button onClick={() => onZoom(clampZoom(zoom + 0.08))} disabled={zoom >= 1} aria-label="Przybliż mapę" title="Przybliż mapę">+</button>
+      <button onClick={onFullscreen} aria-label={fullscreen ? 'Opuść pełny ekran' : 'Pełny ekran'} title="Pełny ekran">⛶</button>
+    </nav>
     <nav className="ki-menu" aria-label="Menu gry">{([{ p: 'inventory', n: 5 }, { p: 'journal', n: 6 }, { p: 'settings', n: 7 }] as const).map(({ p, n }) => <button key={p} className={`ki-menu-button ki-frame ${panel === p ? 'active' : ''}`} title={iconNames[n]} aria-label={iconNames[n]} onClick={() => toggle(p)}><Icon index={n} /></button>)}</nav>
     {hints && <div className="ki-help"><span>WASD</span> ruch <b>·</b> kliknij ziemię lub przeciwnika <b>·</b> <span>ESC</span> anuluj</div>}
     {notice && <button className="ki-notice ki-frame" onClick={() => setNotice('')}>{notice} <span>×</span></button>}
@@ -60,7 +67,7 @@ export function GameHud({ state, error }: Props) {
     {panel && <div className="ki-modal-backdrop" onClick={() => setPanel(null)}><section className="ki-modal ki-frame" role="dialog" aria-modal="true" aria-label={{ inventory: 'Ekwipunek', journal: 'Dziennik', settings: 'Ustawienia', map: 'Mapa wioski' }[panel]} onClick={e => e.stopPropagation()} onKeyDown={e => { if (e.key === 'Escape') setPanel(null); }}><header><h2>{{ inventory: 'Ekwipunek', journal: 'Dziennik podróży', settings: 'Ustawienia', map: 'Wioska Początkowa' }[panel]}</h2><button autoFocus onClick={() => setPanel(null)} aria-label="Zamknij okno">×</button></header>
       {panel === 'inventory' && <><div className="ki-inventory">{Array.from({ length: 15 }, (_, i) => <div key={i} />)}</div><p className="ki-panel-caption">Twój plecak jest jeszcze pusty.</p></>}
       {panel === 'journal' && <article className="ki-journal"><span className="ki-eyebrow">POCZĄTEK PODRÓŻY</span><h3>Pierwsze kroki</h3><p>Za murami wioski zaczyna się nieznany świat. Poznaj brukowany rynek, odnajdź most nad potokiem i rozejrzyj się po okolicy.</p><div className="ki-journal-entry">◆ Wioska Początkowa <span>ODKRYTA</span></div></article>}
-      {panel === 'settings' && <div className="ki-settings"><label><span>Podpowiedzi sterowania</span><input type="checkbox" checked={hints} onChange={e => setHints(e.target.checked)} /></label><label><span>Duża minimapa</span><input type="checkbox" checked={mapSize} onChange={e => setMapSize(e.target.checked)} /></label></div>}
+      {panel === 'settings' && <div className="ki-settings"><label><span>Oddalenie mapy · {Math.round(zoom * 100)}%</span><input aria-label="Oddalenie mapy" type="range" min={0.35} max={1} step={0.01} value={zoom} onChange={e => onZoom(Number(e.target.value))} /></label><button className="ki-fullscreen-setting" onClick={onFullscreen}>{fullscreen ? 'Opuść pełny ekran' : 'Pełny ekran'}</button><label><span>Podpowiedzi sterowania</span><input type="checkbox" checked={hints} onChange={e => setHints(e.target.checked)} /></label><label><span>Duża minimapa</span><input type="checkbox" checked={mapSize} onChange={e => setMapSize(e.target.checked)} /></label></div>}
       {panel === 'map' && <div className="ki-full-map"><img src="/game/assets/village-v2.webp?v=2" alt="Mapa wioski" /><span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} /></div>}
     </section></div>}
   </div>;
