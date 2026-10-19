@@ -12,3 +12,4 @@
 - The sketch space uses a shared-password encrypted server session, not user accounts; verify it before every storage operation.
 - Sketch files live in a private Cloud bucket with no anonymous or authenticated storage policies; guarded server functions issue upload and short-lived download capabilities.
 - Keep upload validation in a shared client-safe schema so the browser and server enforce the same filename and size rules without restricting extensions.
+- Inline previews use session-guarded short-lived storage capabilities and local typed blob URLs; render text as plain text and never send private files to third-party viewers.

@@ -59,6 +59,20 @@ export const downloadSketch = createServerFn({ method: 'POST' })
     return { url: url.toString() };
   });
 
+export const previewSketch = createServerFn({ method: 'POST' })
+  .inputValidator((input: unknown) => sketchPathSchema.parse(input))
+  .handler(async ({ data }) => {
+    checkSketchOrigin();
+    await requireSketchAccess();
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { data: signed, error } = await supabaseAdmin.storage.from('project-sketches').createSignedUrl(data.path, 60);
+    if (error || !signed) throw new Error('Nie udało się otworzyć podglądu.');
+    const url = new URL(signed.signedUrl);
+    const browserUrl = new URL(import.meta.env['VITE_SUPABASE_URL']);
+    url.protocol = browserUrl.protocol; url.host = browserUrl.host;
+    return { url: url.toString() };
+  });
+
 export const lockSketches = createServerFn({ method: 'POST' }).handler(async () => {
   checkSketchOrigin();
   const session = await sketchSession();
