@@ -1,0 +1,47 @@
+{
+  "url": "http://127.0.0.1:4175/scripts/playtest.html",
+  "renderer": "WebGL SwiftShader",
+  "build": "stage3.1-origins-loading-r1",
+  "checkedAt": "2026-10-20T09:26:16.643Z",
+  "results": [
+    {
+      "race": "legend",
+      "continent": "pyra",
+      "steps": "done",
+      "x": 1256.642156931398,
+      "y": 1231.6607204306479
+    },
+    {
+      "race": "planetary",
+      "continent": "verdant",
+      "steps": "locked",
+      "x": 1495,
+      "y": 1260
+    },
+    {
+      "race": "sage",
+      "continent": "aether",
+      "steps": "locked",
+      "x": 1150,
+      "y": 1130
+    },
+    {
+      "race": "android",
+      "continent": "nexus",
+      "steps": "locked",
+      "x": 600,
+      "y": 1120
+    }
+  ],
+  "rendererHeaders": [
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)"
+  ],
+  "errors": []
+}

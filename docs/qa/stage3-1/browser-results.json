@@ -1,0 +1,190 @@
+{
+  "sourceCommit": "028785df59bd6af0ac1facc178c940a4973ee8ef",
+  "environment": "Chromium / Phaser Canvas / local built Index",
+  "stats": {
+    "startTime": "2026-10-20T09:17:10.990Z",
+    "duration": 309328.19200000004,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "stage3-migration.spec.ts",
+      "title": "C: a real v1 fixture migrates in the browser without changing the original",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 6237
+        }
+      ]
+    },
+    {
+      "file": "stage3-pve.spec.ts",
+      "title": "D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 99023
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "title": "A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 63214
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "title": "E: touch selection, joystick, dialogue and layout 360x800",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 12066
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "title": "E: touch selection, joystick, dialogue and layout 390x844",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 12270
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "title": "E: touch selection, joystick, dialogue and layout 414x896",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 12115
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "title": "E: touch selection, joystick, dialogue and layout 852x393",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 9654
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "title": "E: touch selection, joystick, dialogue and layout 640x480",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 12131
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "title": "browser collider and camera: planetary",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 14835
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "title": "browser collider and camera: sage",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 7937
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "title": "browser collider and camera: android",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 5433
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "title": "browser collider and camera: legend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 6225
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "title": "original complete illustrations, details, accessible enlargement and no save before start",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 4176
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "title": "real Phaser progress is held by an actual resource request, then opens the correct world",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 3054
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "title": "failed real resource shows retry and reuses the same saved character",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 4285
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "title": "HP and KI remain separate at low, middle, maximum values and interface scales",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "durationMs": 35345
+        }
+      ]
+    }
+  ]
+}
