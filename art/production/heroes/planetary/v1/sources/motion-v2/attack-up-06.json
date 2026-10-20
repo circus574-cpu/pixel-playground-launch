@@ -1,0 +1,23 @@
+{
+  "id": "attack-up-06",
+  "state": "attack",
+  "direction": "up",
+  "index": 6,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "15cb64b19eee36aed4380af3f27773e5420f9482c52c5ad8106c544e71908a03",
+  "seconds": 2.099928015988553,
+  "status": "motion-review-not-installed"
+}
