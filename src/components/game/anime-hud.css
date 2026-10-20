@@ -434,3 +434,13 @@
   letter-spacing: 2px;
   color: #e5c98c;
 }
+
+.ki-race-switch {
+  min-height: 44px;
+  margin-top: 0;
+}
+.ki-race-switch-note {
+  color: #b7d8da;
+  font-size: 12px;
+  line-height: 1.5;
+}

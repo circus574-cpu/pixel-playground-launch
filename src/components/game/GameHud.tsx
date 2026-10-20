@@ -1,3 +1,4 @@
+import { TEST_RACE_SWITCH_ENABLED } from "../../game/features";
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
@@ -20,6 +21,7 @@ type Props = {
   onFullscreen: () => void;
   onCommand: (command: Command) => void;
   onCharacters?: () => void;
+  onRaceChange?: () => void;
 };
 type Panel = "inventory" | "journal" | "settings" | "map" | null;
 const iconNames = [
@@ -48,6 +50,7 @@ export function GameHud({
   onFullscreen,
   onCommand,
   onCharacters,
+  onRaceChange,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
@@ -453,6 +456,16 @@ export function GameHud({
             )}
             {panel === "settings" && (
               <div className="ki-settings">
+                {TEST_RACE_SWITCH_ENABLED && onRaceChange && (
+                  <div>
+                    <button className="ki-fullscreen-setting ki-race-switch" onClick={onRaceChange}>
+                      Zmiana rasy
+                    </button>
+                    <p className="ki-race-switch-note">
+                      Opcja testowa. Wybierz inne pochodzenie; obecna postać pozostanie zapisana.
+                    </p>
+                  </div>
+                )}
                 {onCharacters && <button onClick={onCharacters}>Zapisz i wybierz postać</button>}
                 <p>
                   Pochodzenie: {RACES[player.race].name} · tymczasowy ludzki sprite. Lokalna gra

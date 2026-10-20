@@ -31,6 +31,7 @@ export function Index() {
   const [active, setActive] = useState<CharacterSlot | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [warning, setWarning] = useState("");
+  const [startWithOrigins, setStartWithOrigins] = useState(false);
   useEffect(() => {
     try {
       const profiles = new CharacterStore(
@@ -68,7 +69,8 @@ export function Index() {
       <GameScreen
         key={active.id}
         slot={active}
-        onExit={() => {
+        onExit={(origins = false) => {
+          setStartWithOrigins(origins);
           store?.select(null);
           setActive(null);
           setSlots(store?.list() ?? []);
@@ -76,9 +78,23 @@ export function Index() {
         }}
       />
     );
-  return <CharacterSelection slots={slots} warning={warning} onCreate={create} onContinue={open} />;
+  return (
+    <CharacterSelection
+      slots={slots}
+      warning={warning}
+      onCreate={create}
+      onContinue={open}
+      startWithOrigins={startWithOrigins}
+    />
+  );
 }
-function GameScreen({ slot, onExit }: { slot: CharacterSlot; onExit: () => void }) {
+function GameScreen({
+  slot,
+  onExit,
+}: {
+  slot: CharacterSlot;
+  onExit: (origins?: boolean) => void;
+}) {
   const container = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLElement>(null);
   const [testMode, setTestMode] = useState(false);
@@ -165,6 +181,10 @@ function GameScreen({ slot, onExit }: { slot: CharacterSlot; onExit: () => void 
           fullscreen={fullscreen}
           onFullscreen={() => void toggleFullscreen()}
           onCommand={sendCommand}
+          onRaceChange={() => {
+            container.current?.dispatchEvent(new Event("ki:flush"));
+            onExit(true);
+          }}
           onCharacters={() => {
             container.current?.dispatchEvent(new Event("ki:flush"));
             onExit();
@@ -179,7 +199,7 @@ function GameScreen({ slot, onExit }: { slot: CharacterSlot; onExit: () => void 
             if (loading.phase === "error" && loading.reload) window.location.reload();
             else setAttempt((value) => value + 1);
           }}
-          onBack={onExit}
+          onBack={() => onExit()}
         />
       )}
       {testMode && (

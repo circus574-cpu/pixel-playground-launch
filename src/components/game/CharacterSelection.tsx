@@ -8,13 +8,20 @@ import "./character-selection.css";
 
 type Props = {
   slots: CharacterSlot[];
+  startWithOrigins?: boolean;
   warning: string;
   onCreate: (race: RaceId) => void;
   onContinue: (slot: CharacterSlot) => void;
 };
-export function CharacterSelection({ slots, warning, onCreate, onContinue }: Props) {
+export function CharacterSelection({
+  slots,
+  warning,
+  onCreate,
+  onContinue,
+  startWithOrigins = false,
+}: Props) {
   const [selected, setSelected] = useState<RaceId>("planetary");
-  const [showSlots, setShowSlots] = useState(slots.length > 0);
+  const [showSlots, setShowSlots] = useState(!startWithOrigins && slots.length > 0);
   const [showArt, setShowArt] = useState(false);
   const carousel = useRef<HTMLElement>(null),
     detail = useRef<HTMLElement>(null),
