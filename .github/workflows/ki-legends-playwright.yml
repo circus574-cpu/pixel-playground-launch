@@ -1,0 +1,76 @@
+name: Ki Legends Playwright QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: "Which browser suite to run"
+        type: choice
+        required: true
+        default: smoke
+        options:
+          - smoke
+          - full
+  pull_request:
+    paths:
+      - ".github/workflows/ki-legends-playwright.yml"
+      - "e2e/**"
+      - "playwright.config.ts"
+      - "src/**"
+      - "art/pipeline/**"
+      - "public/game/assets/**"
+      - "scripts/**"
+      - "tsconfig*.json"
+      - "scripts/playtest*"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ki-playwright-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-qa:
+    name: Browser QA (${{ github.event_name == 'pull_request' && 'full' || github.event.inputs.suite || 'smoke' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      CI: "true"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci --no-audit --no-fund
+      - name: TypeScript, unit tests, asset validation, lint and production build
+        run: |
+          npm run typecheck
+          npm run test
+          npm run assets:check
+          npm run lint
+          npm run build
+      - name: Install Chromium and Linux libraries
+        run: npx playwright install --with-deps chromium
+      - name: Run browser smoke tests
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.suite != 'full' }}
+        run: npx playwright test e2e/race-switch.spec.ts e2e/stage31-collision.spec.ts e2e/stage31-ui.spec.ts
+      - name: Run all browser tests
+        if: ${{ github.event_name == 'pull_request' || github.event.inputs.suite == 'full' }}
+        run: npx playwright test
+      - name: Upload traces, screenshots and JSON results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ki-legends-playwright-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+          retention-days: 7

@@ -1,0 +1,254 @@
+{
+  "source": "post-cache local focused regression",
+  "stats": {
+    "startTime": "2026-10-20T15:03:21.011Z",
+    "duration": 90984.542,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "suites": [
+    {
+      "title": "pre-gpu.spec.ts",
+      "file": "pre-gpu.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "malformed scenery atlas fails with a named error and retries without losing the slot",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3586,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T15:03:21.637Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "283585dfc1e390041e8c-29659c297a0cdf91ea4b",
+          "file": "pre-gpu.spec.ts",
+          "line": 338,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "stage3-pve.spec.ts",
+      "file": "stage3-pve.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 480000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 55547,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "PVE: Ren quest accepted\n"
+                    },
+                    {
+                      "text": "PVE: boar and loot \u001b[33m1\u001b[39m KI before \u001b[33m32\u001b[39m skill verified \u001b[33mtrue\u001b[39m\n"
+                    },
+                    {
+                      "text": "PVE: boar and loot \u001b[33m2\u001b[39m KI before \u001b[33m50\u001b[39m skill verified \u001b[33mtrue\u001b[39m\n"
+                    },
+                    {
+                      "text": "PVE: boar and loot \u001b[33m3\u001b[39m KI before \u001b[33m49.22543999999994\u001b[39m skill verified \u001b[33mtrue\u001b[39m\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T15:03:25.483Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "804fc4a7bbe3fa5abb34-a103b12e4246f8267a1e",
+          "file": "stage3-pve.spec.ts",
+          "line": 36,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "stage31-collision.spec.ts",
+      "file": "stage31-collision.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "browser collider and camera: planetary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10987,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T15:04:21.066Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bbfa3a928ea3c9f8d41e-7a595c9017737fa8da86",
+          "file": "stage31-collision.spec.ts",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "browser collider and camera: sage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6623,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T15:04:32.078Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bbfa3a928ea3c9f8d41e-f686edcc59a84d17f48f",
+          "file": "stage31-collision.spec.ts",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "browser collider and camera: android",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5784,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T15:04:38.729Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bbfa3a928ea3c9f8d41e-0538a17d7a117a3997e5",
+          "file": "stage31-collision.spec.ts",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "browser collider and camera: legend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7307,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T15:04:44.533Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bbfa3a928ea3c9f8d41e-05a92743bbe3a175cc5f",
+          "file": "stage31-collision.spec.ts",
+          "line": 10,
+          "column": 3
+        }
+      ]
+    }
+  ]
+}

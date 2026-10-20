@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function saved(page: Page) {
@@ -151,13 +151,19 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
   await visit(page, "Idź do Mio · Kupczyni");
   await page.getByRole("button", { name: "Kup · 8", exact: true }).click();
   await page.getByRole("button", { name: "Sprzedaj · 5", exact: true }).click();
+  await page.getByRole("button", { name: "Kup · 25", exact: true }).click();
   await close(page);
+  await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+  await page.getByRole("button", { name: "Załóż", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Zdejmij pancerz", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
   await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
   await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
   await page.getByRole("button", { name: "Kontynuuj podróż", exact: true }).click();
   const before = await saved(page);
   expect(before.quests).toEqual({ steps: "done", boars: "done", gear: "done" });
   expect(before.upgrade).toBe(1);
+  expect(before.armor).toBe("vest");
   expect(before.level).toBeGreaterThanOrEqual(2);
   expect(before.items.tusk).toBe(2);
   await page.reload();

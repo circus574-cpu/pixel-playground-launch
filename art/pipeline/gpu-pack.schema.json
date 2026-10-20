@@ -1,0 +1,359 @@
+{
+  "$ref": "#/definitions/KiLegendsGpuPack",
+  "definitions": {
+    "KiLegendsGpuPack": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,95}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "technical": {
+          "type": "boolean",
+          "default": false
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/id"
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "svg",
+                  "sheet",
+                  "atlas"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1
+              },
+              "atlasUrl": {
+                "type": "string"
+              },
+              "frameWidth": {
+                "type": "integer",
+                "exclusiveMinimum": 0
+              },
+              "frameHeight": {
+                "type": "integer",
+                "exclusiveMinimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "exclusiveMinimum": 0
+              },
+              "height": {
+                "type": "integer",
+                "exclusiveMinimum": 0
+              },
+              "grid": {
+                "type": "object",
+                "properties": {
+                  "columns": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "rows": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  }
+                },
+                "required": [
+                  "columns",
+                  "rows"
+                ],
+                "additionalProperties": false
+              },
+              "crops": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "integer",
+                          "minimum": 0
+                        }
+                      ]
+                    },
+                    "x": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "y": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "width": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "height": {
+                      "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/width"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "x",
+                    "y",
+                    "width",
+                    "height"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "kind",
+              "url"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/id"
+              },
+              "profile": {
+                "type": "string",
+                "enum": [
+                  "hero",
+                  "enemy",
+                  "npc"
+                ],
+                "default": "hero"
+              },
+              "size": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/width"
+                  },
+                  {
+                    "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/width"
+                  }
+                ]
+              },
+              "origin": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                ]
+              },
+              "tintable": {
+                "type": "boolean",
+                "default": false
+              },
+              "clips": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "asset": {
+                      "$ref": "#/definitions/KiLegendsGpuPack/properties/id"
+                    },
+                    "fps": {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 60
+                    },
+                    "loop": {
+                      "type": "boolean"
+                    },
+                    "directions": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/name"
+                        },
+                        "minItems": 1,
+                        "maxItems": 64
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "down",
+                          "down-left",
+                          "left",
+                          "up-left",
+                          "up",
+                          "up-right",
+                          "right",
+                          "down-right"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "asset",
+                    "fps",
+                    "loop",
+                    "directions"
+                  ],
+                  "additionalProperties": false
+                },
+                "propertyNames": {
+                  "enum": [
+                    "idle",
+                    "walk",
+                    "run",
+                    "attack",
+                    "skill",
+                    "hit",
+                    "death",
+                    "respawn"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "size",
+              "origin",
+              "clips"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "actorBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {}
+        },
+        "renderBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "asset": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/id"
+              },
+              "frame": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/name"
+              },
+              "layer": {
+                "type": "string",
+                "enum": [
+                  "below",
+                  "objects",
+                  "overhead",
+                  "atmosphere"
+                ]
+              },
+              "fit": {
+                "type": "string",
+                "enum": [
+                  "contain",
+                  "stretch"
+                ],
+                "default": "contain"
+              },
+              "tileSize": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/actors/items/properties/size"
+              }
+            },
+            "required": [
+              "asset"
+            ],
+            "additionalProperties": false
+          },
+          "default": {}
+        },
+        "effects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "asset": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/id"
+              },
+              "frames": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/name"
+                },
+                "minItems": 1
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "size": {
+                "$ref": "#/definitions/KiLegendsGpuPack/properties/actors/items/properties/size"
+              },
+              "durationMs": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 10000
+              }
+            },
+            "required": [
+              "asset",
+              "frames",
+              "fps",
+              "size",
+              "durationMs"
+            ],
+            "additionalProperties": false
+          },
+          "default": {}
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "id",
+        "version",
+        "assets"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

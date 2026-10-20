@@ -14,7 +14,15 @@
     "test:watch": "vitest",
     "playtest": "vite --config scripts/playtest.vite.ts --host 0.0.0.0",
     "build:playtest": "vite build --config scripts/playtest.vite.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "assets:technical": "tsx scripts/create-technical-art.ts",
+    "assets:import": "tsx scripts/import-game-assets.ts",
+    "assets:check": "tsx scripts/check-game-assets.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json && tsc --noEmit -p tsconfig.tools.json",
+    "assets:targets": "tsx scripts/export-gpu-targets.ts",
+    "assets:schema": "tsx scripts/export-gpu-schema.ts",
+    "bench:game": "tsx scripts/measure-game.ts",
+    "assets:pack": "tsx scripts/pack-gpu-frames.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"
@@ -97,9 +105,12 @@
     "nitro": "3.0.260603-beta",
     "postgres": "^3.4.9",
     "prettier": "^3.7.3",
+    "sharp": "^0.35.5",
+    "tsx": "^4.23.15",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "8.1.5",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "zod-to-json-schema": "^3.25.2"
   }
 }

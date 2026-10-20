@@ -1,3 +1,4 @@
+import { FOOT_RADIUS } from "./geometry";
 export type Obstacle = { x: number; y: number; width: number; height: number };
 
 /** A circular foot collider, shared by walking and attack line of sight. */
@@ -5,7 +6,7 @@ export function blockedAt(
   x: number,
   y: number,
   obstacles: readonly Obstacle[],
-  radius = 12,
+  radius = FOOT_RADIUS,
 ): boolean {
   return obstacles.some((b) => {
     const dx = x - Math.max(b.x, Math.min(x, b.x + b.width));

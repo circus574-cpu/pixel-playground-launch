@@ -1,8 +1,8 @@
 import { FOREST, FOREST_OBJECTS, FOREST_MINIMAP, forestObstacles } from "./forest";
 import { TUTORIAL_MARKET } from "../tutorial";
-import aether from "./regions/aether.json";
-import nexus from "./regions/nexus.json";
-import pyra from "./regions/pyra.json";
+import aether from "./regions/aether.json" with { type: "json" };
+import nexus from "./regions/nexus.json" with { type: "json" };
+import pyra from "./regions/pyra.json" with { type: "json" };
 import type { WorldId } from "./races";
 import type { WorldDefinition } from "./types";
 

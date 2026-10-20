@@ -1,0 +1,7998 @@
+{
+  "schemaVersion": 1,
+  "coordinatesAreReadOnly": true,
+  "contract": {
+    "schemaVersion": 1,
+    "directions": [
+      "down",
+      "down-left",
+      "left",
+      "up-left",
+      "up",
+      "up-right",
+      "right",
+      "down-right"
+    ],
+    "framePattern": "{actor}/{state}/{direction}/{frame:02}",
+    "mechanicalImpactFrame": 0,
+    "rawFrame": 512,
+    "deliveryFrame": 128,
+    "maxAtlasSide": 2048,
+    "maxWorldTextureBytes": 134217728,
+    "hero": {
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "footRadius": 12
+    },
+    "enemy": {
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ]
+    },
+    "animations": {
+      "idle": {
+        "frames": 8,
+        "fps": 6,
+        "loop": true
+      },
+      "walk": {
+        "frames": 8,
+        "fps": 16,
+        "loop": true
+      },
+      "attack": {
+        "frames": 8,
+        "fps": 16,
+        "loop": false
+      },
+      "skill": {
+        "frames": 8,
+        "fps": 12,
+        "loop": false
+      },
+      "hit": {
+        "frames": 4,
+        "fps": 16,
+        "loop": false
+      },
+      "death": {
+        "frames": 8,
+        "fps": 10,
+        "loop": false
+      },
+      "respawn": {
+        "frames": 8,
+        "fps": 12,
+        "loop": false
+      }
+    }
+  },
+  "geometry": {
+    "FOOT_RADIUS": 12,
+    "WORLD_EDGE_MARGIN": 16,
+    "INTERACTION_BOUNDS": {
+      "npc": {
+        "width": 84,
+        "height": 125,
+        "belowFoot": 20
+      },
+      "enemy": {
+        "width": 100,
+        "height": 125,
+        "belowFoot": 20
+      },
+      "loot": {
+        "width": 74,
+        "height": 60,
+        "belowFoot": 20
+      }
+    }
+  },
+  "camera": {
+    "projection": "orthographic-top-down-with-visible-south-facade",
+    "elevationDegrees": 60,
+    "keyLight": "north-west",
+    "resolution": 1,
+    "zoom": {
+      "desktop": 0.62,
+      "mobile": 0.48,
+      "min": 0.35,
+      "max": 1
+    }
+  },
+  "worlds": {
+    "verdant": {
+      "race": "planetary",
+      "name": "Verdantia",
+      "size": [
+        3072,
+        2048
+      ],
+      "spawn": {
+        "x": 1495,
+        "y": 1260
+      },
+      "questTarget": {
+        "x": 1480,
+        "y": 800,
+        "radius": 85,
+        "label": "Rynek",
+        "instruction": "Odwiedź oznaczony Rynek na północ od fontanny",
+        "action": "Podejdź do rynku"
+      },
+      "terrain": {
+        "format": "forest-autotile-64-margin2-spacing4",
+        "sourceAtlas": [
+          1904,
+          1904
+        ],
+        "worldTileSize": 32
+      },
+      "actorBindings": [
+        "verdant.hero",
+        "verdant.enemy",
+        "verdant.npc.guide",
+        "verdant.npc.hunter",
+        "verdant.npc.merchant",
+        "verdant.npc.smith"
+      ],
+      "scenery": [
+        {
+          "id": "cottage-0",
+          "binding": "object.verdant.cottage-0",
+          "sharedBinding": "object.forest.cottage",
+          "position": [
+            1040,
+            610
+          ],
+          "worldSize": [
+            500,
+            471
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 360,
+            "height": 113,
+            "offsetY": -28
+          }
+        },
+        {
+          "id": "inn-1",
+          "binding": "object.verdant.inn-1",
+          "sharedBinding": "object.forest.inn",
+          "position": [
+            1940,
+            570
+          ],
+          "worldSize": [
+            570,
+            491
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 410,
+            "height": 118,
+            "offsetY": -29
+          }
+        },
+        {
+          "id": "forge-2",
+          "binding": "object.verdant.forge-2",
+          "sharedBinding": "object.forest.forge",
+          "position": [
+            1050,
+            1510
+          ],
+          "worldSize": [
+            520,
+            511
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 374,
+            "height": 123,
+            "offsetY": -31
+          }
+        },
+        {
+          "id": "cottage-3",
+          "binding": "object.verdant.cottage-3",
+          "sharedBinding": "object.forest.cottage",
+          "position": [
+            1950,
+            1500
+          ],
+          "worldSize": [
+            500,
+            471
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 360,
+            "height": 113,
+            "offsetY": -28
+          }
+        },
+        {
+          "id": "market-4",
+          "binding": "object.verdant.market-4",
+          "sharedBinding": "object.forest.market",
+          "position": [
+            1190,
+            1020
+          ],
+          "worldSize": [
+            210,
+            201
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 151,
+            "height": 48,
+            "offsetY": -12
+          }
+        },
+        {
+          "id": "fountain-5",
+          "binding": "object.verdant.fountain-5",
+          "sharedBinding": "object.forest.fountain",
+          "position": [
+            1480,
+            1000
+          ],
+          "worldSize": [
+            145,
+            149
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 147,
+            "height": 122
+          }
+        },
+        {
+          "id": "bridge-6",
+          "binding": "object.verdant.bridge-6",
+          "sharedBinding": "object.forest.bridge",
+          "position": [
+            2463,
+            1000
+          ],
+          "worldSize": [
+            420,
+            88
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "lamp-7",
+          "binding": "object.verdant.lamp-7",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            1340,
+            750
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-8",
+          "binding": "object.verdant.lamp-8",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            1640,
+            750
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-9",
+          "binding": "object.verdant.lamp-9",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            1340,
+            1240
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-10",
+          "binding": "object.verdant.lamp-10",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            1640,
+            1240
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-11",
+          "binding": "object.verdant.lamp-11",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            900,
+            1040
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-12",
+          "binding": "object.verdant.lamp-12",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            2070,
+            1040
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-13",
+          "binding": "object.verdant.lamp-13",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            2260,
+            890
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "lamp-14",
+          "binding": "object.verdant.lamp-14",
+          "sharedBinding": "object.forest.lamp",
+          "position": [
+            2250,
+            1120
+          ],
+          "worldSize": [
+            40,
+            122
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 12,
+            "height": 12,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-15",
+          "binding": "object.verdant.fir-15",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            8,
+            12
+          ],
+          "worldSize": [
+            250,
+            284
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-16",
+          "binding": "object.verdant.oak-16",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            211,
+            55
+          ],
+          "worldSize": [
+            257,
+            204
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-17",
+          "binding": "object.verdant.oak-17",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            339,
+            31
+          ],
+          "worldSize": [
+            259,
+            205
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-18",
+          "binding": "object.verdant.oak-18",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            467,
+            74
+          ],
+          "worldSize": [
+            304,
+            241
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-19",
+          "binding": "object.verdant.fir-19",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            595,
+            50
+          ],
+          "worldSize": [
+            266,
+            302
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-20",
+          "binding": "object.verdant.oak-20",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            723,
+            26
+          ],
+          "worldSize": [
+            305,
+            242
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-21",
+          "binding": "object.verdant.oak-21",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            851,
+            69
+          ],
+          "worldSize": [
+            284,
+            225
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-22",
+          "binding": "object.verdant.oak-22",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            979,
+            45
+          ],
+          "worldSize": [
+            260,
+            206
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-23",
+          "binding": "object.verdant.fir-23",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1107,
+            21
+          ],
+          "worldSize": [
+            302,
+            343
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-24",
+          "binding": "object.verdant.oak-24",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1235,
+            64
+          ],
+          "worldSize": [
+            269,
+            213
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-25",
+          "binding": "object.verdant.oak-25",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1363,
+            40
+          ],
+          "worldSize": [
+            261,
+            207
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-26",
+          "binding": "object.verdant.fir-26",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1619,
+            59
+          ],
+          "worldSize": [
+            248,
+            281
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-27",
+          "binding": "object.verdant.oak-27",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1747,
+            35
+          ],
+          "worldSize": [
+            298,
+            236
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-28",
+          "binding": "object.verdant.oak-28",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1875,
+            78
+          ],
+          "worldSize": [
+            319,
+            253
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-29",
+          "binding": "object.verdant.oak-29",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2003,
+            54
+          ],
+          "worldSize": [
+            307,
+            243
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-30",
+          "binding": "object.verdant.fir-30",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            2131,
+            30
+          ],
+          "worldSize": [
+            291,
+            330
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-31",
+          "binding": "object.verdant.oak-31",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2259,
+            73
+          ],
+          "worldSize": [
+            273,
+            216
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-32",
+          "binding": "object.verdant.oak-32",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            49,
+            152
+          ],
+          "worldSize": [
+            303,
+            240
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-33",
+          "binding": "object.verdant.oak-33",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            177,
+            195
+          ],
+          "worldSize": [
+            318,
+            252
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-34",
+          "binding": "object.verdant.oak-34",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            305,
+            171
+          ],
+          "worldSize": [
+            288,
+            228
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-35",
+          "binding": "object.verdant.fir-35",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            433,
+            147
+          ],
+          "worldSize": [
+            301,
+            342
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-36",
+          "binding": "object.verdant.oak-36",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            561,
+            190
+          ],
+          "worldSize": [
+            314,
+            249
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-37",
+          "binding": "object.verdant.oak-37",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            689,
+            166
+          ],
+          "worldSize": [
+            301,
+            238
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-38",
+          "binding": "object.verdant.oak-38",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            817,
+            142
+          ],
+          "worldSize": [
+            271,
+            215
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-39",
+          "binding": "object.verdant.fir-39",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            945,
+            185
+          ],
+          "worldSize": [
+            266,
+            302
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-40",
+          "binding": "object.verdant.oak-40",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1073,
+            161
+          ],
+          "worldSize": [
+            297,
+            235
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-41",
+          "binding": "object.verdant.oak-41",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1201,
+            204
+          ],
+          "worldSize": [
+            261,
+            207
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-42",
+          "binding": "object.verdant.oak-42",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1329,
+            180
+          ],
+          "worldSize": [
+            285,
+            226
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-43",
+          "binding": "object.verdant.oak-43",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1585,
+            199
+          ],
+          "worldSize": [
+            292,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-44",
+          "binding": "object.verdant.oak-44",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1713,
+            175
+          ],
+          "worldSize": [
+            298,
+            236
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-45",
+          "binding": "object.verdant.oak-45",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1841,
+            151
+          ],
+          "worldSize": [
+            307,
+            243
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-46",
+          "binding": "object.verdant.fir-46",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1969,
+            194
+          ],
+          "worldSize": [
+            313,
+            355
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-47",
+          "binding": "object.verdant.oak-47",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2097,
+            170
+          ],
+          "worldSize": [
+            294,
+            233
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-48",
+          "binding": "object.verdant.oak-48",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2225,
+            146
+          ],
+          "worldSize": [
+            259,
+            205
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-49",
+          "binding": "object.verdant.oak-49",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2353,
+            189
+          ],
+          "worldSize": [
+            265,
+            210
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-50",
+          "binding": "object.verdant.oak-50",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            15,
+            292
+          ],
+          "worldSize": [
+            291,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-51",
+          "binding": "object.verdant.oak-51",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            143,
+            268
+          ],
+          "worldSize": [
+            308,
+            244
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-52",
+          "binding": "object.verdant.fir-52",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            271,
+            311
+          ],
+          "worldSize": [
+            272,
+            309
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-53",
+          "binding": "object.verdant.oak-53",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            399,
+            287
+          ],
+          "worldSize": [
+            252,
+            200
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-54",
+          "binding": "object.verdant.oak-54",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            602,
+            330
+          ],
+          "worldSize": [
+            259,
+            205
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-55",
+          "binding": "object.verdant.oak-55",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            730,
+            306
+          ],
+          "worldSize": [
+            261,
+            207
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-56",
+          "binding": "object.verdant.fir-56",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            858,
+            282
+          ],
+          "worldSize": [
+            296,
+            336
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-57",
+          "binding": "object.verdant.oak-57",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            986,
+            325
+          ],
+          "worldSize": [
+            287,
+            227
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-58",
+          "binding": "object.verdant.oak-58",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1114,
+            301
+          ],
+          "worldSize": [
+            270,
+            214
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-59",
+          "binding": "object.verdant.oak-59",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1242,
+            277
+          ],
+          "worldSize": [
+            285,
+            226
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-60",
+          "binding": "object.verdant.oak-60",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1626,
+            272
+          ],
+          "worldSize": [
+            250,
+            198
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-61",
+          "binding": "object.verdant.oak-61",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1754,
+            315
+          ],
+          "worldSize": [
+            264,
+            209
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-62",
+          "binding": "object.verdant.fir-62",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1882,
+            291
+          ],
+          "worldSize": [
+            316,
+            359
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-63",
+          "binding": "object.verdant.oak-63",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2010,
+            334
+          ],
+          "worldSize": [
+            283,
+            224
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-64",
+          "binding": "object.verdant.oak-64",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2138,
+            310
+          ],
+          "worldSize": [
+            299,
+            237
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-65",
+          "binding": "object.verdant.oak-65",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2266,
+            286
+          ],
+          "worldSize": [
+            245,
+            194
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-66",
+          "binding": "object.verdant.oak-66",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            56,
+            432
+          ],
+          "worldSize": [
+            297,
+            235
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-67",
+          "binding": "object.verdant.fir-67",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            184,
+            408
+          ],
+          "worldSize": [
+            260,
+            295
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-68",
+          "binding": "object.verdant.oak-68",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            312,
+            451
+          ],
+          "worldSize": [
+            311,
+            246
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-69",
+          "binding": "object.verdant.oak-69",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            440,
+            427
+          ],
+          "worldSize": [
+            318,
+            252
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-70",
+          "binding": "object.verdant.oak-70",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            568,
+            403
+          ],
+          "worldSize": [
+            258,
+            204
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-71",
+          "binding": "object.verdant.fir-71",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            696,
+            446
+          ],
+          "worldSize": [
+            298,
+            338
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-72",
+          "binding": "object.verdant.oak-72",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            824,
+            422
+          ],
+          "worldSize": [
+            280,
+            222
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-73",
+          "binding": "object.verdant.oak-73",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            952,
+            398
+          ],
+          "worldSize": [
+            276,
+            219
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-74",
+          "binding": "object.verdant.oak-74",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1976,
+            407
+          ],
+          "worldSize": [
+            284,
+            225
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-75",
+          "binding": "object.verdant.oak-75",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2104,
+            450
+          ],
+          "worldSize": [
+            253,
+            200
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-76",
+          "binding": "object.verdant.fir-76",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            2232,
+            426
+          ],
+          "worldSize": [
+            268,
+            304
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-77",
+          "binding": "object.verdant.oak-77",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2360,
+            402
+          ],
+          "worldSize": [
+            245,
+            194
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-78",
+          "binding": "object.verdant.fir-78",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            22,
+            572
+          ],
+          "worldSize": [
+            301,
+            342
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-79",
+          "binding": "object.verdant.oak-79",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            150,
+            548
+          ],
+          "worldSize": [
+            291,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-80",
+          "binding": "object.verdant.oak-80",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            278,
+            524
+          ],
+          "worldSize": [
+            297,
+            235
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-81",
+          "binding": "object.verdant.oak-81",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            406,
+            567
+          ],
+          "worldSize": [
+            258,
+            204
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-82",
+          "binding": "object.verdant.fir-82",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            534,
+            543
+          ],
+          "worldSize": [
+            312,
+            354
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-83",
+          "binding": "object.verdant.oak-83",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            662,
+            586
+          ],
+          "worldSize": [
+            309,
+            245
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-84",
+          "binding": "object.verdant.oak-84",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            790,
+            562
+          ],
+          "worldSize": [
+            265,
+            210
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-85",
+          "binding": "object.verdant.oak-85",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2273,
+            566
+          ],
+          "worldSize": [
+            256,
+            203
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-86",
+          "binding": "object.verdant.oak-86",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            63,
+            712
+          ],
+          "worldSize": [
+            267,
+            212
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-87",
+          "binding": "object.verdant.oak-87",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            191,
+            688
+          ],
+          "worldSize": [
+            250,
+            198
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-88",
+          "binding": "object.verdant.oak-88",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            319,
+            664
+          ],
+          "worldSize": [
+            261,
+            207
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-89",
+          "binding": "object.verdant.fir-89",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            447,
+            707
+          ],
+          "worldSize": [
+            311,
+            353
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-90",
+          "binding": "object.verdant.oak-90",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            575,
+            683
+          ],
+          "worldSize": [
+            298,
+            236
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-91",
+          "binding": "object.verdant.oak-91",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            703,
+            659
+          ],
+          "worldSize": [
+            308,
+            244
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-92",
+          "binding": "object.verdant.oak-92",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            29,
+            785
+          ],
+          "worldSize": [
+            282,
+            223
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-93",
+          "binding": "object.verdant.oak-93",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            157,
+            828
+          ],
+          "worldSize": [
+            303,
+            240
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-94",
+          "binding": "object.verdant.fir-94",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            285,
+            804
+          ],
+          "worldSize": [
+            285,
+            323
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-95",
+          "binding": "object.verdant.oak-95",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            413,
+            780
+          ],
+          "worldSize": [
+            308,
+            244
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-96",
+          "binding": "object.verdant.oak-96",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            541,
+            823
+          ],
+          "worldSize": [
+            249,
+            197
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-97",
+          "binding": "object.verdant.oak-97",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            70,
+            925
+          ],
+          "worldSize": [
+            275,
+            218
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-98",
+          "binding": "object.verdant.fir-98",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            198,
+            968
+          ],
+          "worldSize": [
+            294,
+            334
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-99",
+          "binding": "object.verdant.oak-99",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            326,
+            944
+          ],
+          "worldSize": [
+            290,
+            230
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-100",
+          "binding": "object.verdant.oak-100",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            454,
+            920
+          ],
+          "worldSize": [
+            269,
+            213
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-101",
+          "binding": "object.verdant.oak-101",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            582,
+            963
+          ],
+          "worldSize": [
+            283,
+            224
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-102",
+          "binding": "object.verdant.oak-102",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            164,
+            1041
+          ],
+          "worldSize": [
+            255,
+            202
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-103",
+          "binding": "object.verdant.fir-103",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            548,
+            1036
+          ],
+          "worldSize": [
+            274,
+            311
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-104",
+          "binding": "object.verdant.oak-104",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            77,
+            1205
+          ],
+          "worldSize": [
+            269,
+            213
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-105",
+          "binding": "object.verdant.oak-105",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            333,
+            1224
+          ],
+          "worldSize": [
+            317,
+            251
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-106",
+          "binding": "object.verdant.fir-106",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            461,
+            1200
+          ],
+          "worldSize": [
+            287,
+            326
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-107",
+          "binding": "object.verdant.oak-107",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            43,
+            1345
+          ],
+          "worldSize": [
+            291,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-108",
+          "binding": "object.verdant.oak-108",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            171,
+            1321
+          ],
+          "worldSize": [
+            278,
+            220
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-109",
+          "binding": "object.verdant.fir-109",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            299,
+            1297
+          ],
+          "worldSize": [
+            245,
+            278
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-110",
+          "binding": "object.verdant.oak-110",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            427,
+            1340
+          ],
+          "worldSize": [
+            300,
+            238
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-111",
+          "binding": "object.verdant.oak-111",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            555,
+            1316
+          ],
+          "worldSize": [
+            319,
+            253
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-112",
+          "binding": "object.verdant.oak-112",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            9,
+            1485
+          ],
+          "worldSize": [
+            292,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-113",
+          "binding": "object.verdant.fir-113",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            212,
+            1461
+          ],
+          "worldSize": [
+            318,
+            361
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-114",
+          "binding": "object.verdant.oak-114",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            340,
+            1437
+          ],
+          "worldSize": [
+            254,
+            201
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-115",
+          "binding": "object.verdant.oak-115",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            468,
+            1480
+          ],
+          "worldSize": [
+            250,
+            198
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-116",
+          "binding": "object.verdant.oak-116",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            596,
+            1456
+          ],
+          "worldSize": [
+            278,
+            220
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-117",
+          "binding": "object.verdant.fir-117",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            724,
+            1432
+          ],
+          "worldSize": [
+            294,
+            334
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-118",
+          "binding": "object.verdant.fir-118",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            2260,
+            1479
+          ],
+          "worldSize": [
+            277,
+            314
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-119",
+          "binding": "object.verdant.fir-119",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            50,
+            1558
+          ],
+          "worldSize": [
+            260,
+            295
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-120",
+          "binding": "object.verdant.oak-120",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            178,
+            1601
+          ],
+          "worldSize": [
+            291,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-121",
+          "binding": "object.verdant.oak-121",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            306,
+            1577
+          ],
+          "worldSize": [
+            306,
+            242
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-122",
+          "binding": "object.verdant.oak-122",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            434,
+            1553
+          ],
+          "worldSize": [
+            265,
+            210
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-123",
+          "binding": "object.verdant.fir-123",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            562,
+            1596
+          ],
+          "worldSize": [
+            284,
+            322
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-124",
+          "binding": "object.verdant.oak-124",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            690,
+            1572
+          ],
+          "worldSize": [
+            258,
+            204
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-125",
+          "binding": "object.verdant.oak-125",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            818,
+            1548
+          ],
+          "worldSize": [
+            278,
+            220
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-126",
+          "binding": "object.verdant.oak-126",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            946,
+            1591
+          ],
+          "worldSize": [
+            257,
+            204
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-127",
+          "binding": "object.verdant.fir-127",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            2098,
+            1576
+          ],
+          "worldSize": [
+            276,
+            313
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-128",
+          "binding": "object.verdant.oak-128",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2226,
+            1552
+          ],
+          "worldSize": [
+            272,
+            216
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-129",
+          "binding": "object.verdant.oak-129",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            16,
+            1698
+          ],
+          "worldSize": [
+            279,
+            221
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-130",
+          "binding": "object.verdant.oak-130",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            144,
+            1741
+          ],
+          "worldSize": [
+            253,
+            200
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-131",
+          "binding": "object.verdant.oak-131",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            272,
+            1717
+          ],
+          "worldSize": [
+            271,
+            215
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-132",
+          "binding": "object.verdant.fir-132",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            400,
+            1693
+          ],
+          "worldSize": [
+            304,
+            345
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-133",
+          "binding": "object.verdant.oak-133",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            528,
+            1736
+          ],
+          "worldSize": [
+            253,
+            200
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-134",
+          "binding": "object.verdant.oak-134",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            731,
+            1712
+          ],
+          "worldSize": [
+            310,
+            246
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-135",
+          "binding": "object.verdant.oak-135",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            859,
+            1688
+          ],
+          "worldSize": [
+            289,
+            229
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-136",
+          "binding": "object.verdant.fir-136",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            987,
+            1731
+          ],
+          "worldSize": [
+            245,
+            278
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-137",
+          "binding": "object.verdant.oak-137",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1115,
+            1707
+          ],
+          "worldSize": [
+            268,
+            212
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-138",
+          "binding": "object.verdant.oak-138",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1755,
+            1721
+          ],
+          "worldSize": [
+            266,
+            211
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-139",
+          "binding": "object.verdant.oak-139",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1883,
+            1697
+          ],
+          "worldSize": [
+            246,
+            195
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-140",
+          "binding": "object.verdant.fir-140",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            2011,
+            1740
+          ],
+          "worldSize": [
+            254,
+            288
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-141",
+          "binding": "object.verdant.oak-141",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2139,
+            1716
+          ],
+          "worldSize": [
+            300,
+            238
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-142",
+          "binding": "object.verdant.oak-142",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2267,
+            1692
+          ],
+          "worldSize": [
+            281,
+            223
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-143",
+          "binding": "object.verdant.oak-143",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            57,
+            1838
+          ],
+          "worldSize": [
+            272,
+            216
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-144",
+          "binding": "object.verdant.oak-144",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            185,
+            1814
+          ],
+          "worldSize": [
+            258,
+            204
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-145",
+          "binding": "object.verdant.fir-145",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            313,
+            1857
+          ],
+          "worldSize": [
+            295,
+            335
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-146",
+          "binding": "object.verdant.oak-146",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            441,
+            1833
+          ],
+          "worldSize": [
+            311,
+            246
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-147",
+          "binding": "object.verdant.oak-147",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            569,
+            1809
+          ],
+          "worldSize": [
+            280,
+            222
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-148",
+          "binding": "object.verdant.oak-148",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            697,
+            1852
+          ],
+          "worldSize": [
+            276,
+            219
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-149",
+          "binding": "object.verdant.fir-149",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            825,
+            1828
+          ],
+          "worldSize": [
+            278,
+            316
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-150",
+          "binding": "object.verdant.oak-150",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            953,
+            1804
+          ],
+          "worldSize": [
+            250,
+            198
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-151",
+          "binding": "object.verdant.oak-151",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1081,
+            1847
+          ],
+          "worldSize": [
+            267,
+            212
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-152",
+          "binding": "object.verdant.oak-152",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1209,
+            1823
+          ],
+          "worldSize": [
+            318,
+            252
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-153",
+          "binding": "object.verdant.fir-153",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1337,
+            1866
+          ],
+          "worldSize": [
+            305,
+            346
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-154",
+          "binding": "object.verdant.oak-154",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1593,
+            1818
+          ],
+          "worldSize": [
+            312,
+            247
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-155",
+          "binding": "object.verdant.oak-155",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1721,
+            1861
+          ],
+          "worldSize": [
+            267,
+            212
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-156",
+          "binding": "object.verdant.fir-156",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1849,
+            1837
+          ],
+          "worldSize": [
+            250,
+            284
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-157",
+          "binding": "object.verdant.oak-157",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1977,
+            1813
+          ],
+          "worldSize": [
+            307,
+            243
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-158",
+          "binding": "object.verdant.oak-158",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2105,
+            1856
+          ],
+          "worldSize": [
+            252,
+            200
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-159",
+          "binding": "object.verdant.oak-159",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2233,
+            1832
+          ],
+          "worldSize": [
+            315,
+            250
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-160",
+          "binding": "object.verdant.oak-160",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            23,
+            1978
+          ],
+          "worldSize": [
+            302,
+            239
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-161",
+          "binding": "object.verdant.fir-161",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            151,
+            1954
+          ],
+          "worldSize": [
+            294,
+            334
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-162",
+          "binding": "object.verdant.oak-162",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            279,
+            1997
+          ],
+          "worldSize": [
+            252,
+            200
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-163",
+          "binding": "object.verdant.oak-163",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            407,
+            1973
+          ],
+          "worldSize": [
+            286,
+            227
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-164",
+          "binding": "object.verdant.oak-164",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            535,
+            1949
+          ],
+          "worldSize": [
+            317,
+            251
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-165",
+          "binding": "object.verdant.fir-165",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            663,
+            1992
+          ],
+          "worldSize": [
+            310,
+            352
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-166",
+          "binding": "object.verdant.oak-166",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            791,
+            1968
+          ],
+          "worldSize": [
+            266,
+            211
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-167",
+          "binding": "object.verdant.oak-167",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            919,
+            1944
+          ],
+          "worldSize": [
+            259,
+            205
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-168",
+          "binding": "object.verdant.oak-168",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1122,
+            1987
+          ],
+          "worldSize": [
+            261,
+            207
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-169",
+          "binding": "object.verdant.fir-169",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1250,
+            1963
+          ],
+          "worldSize": [
+            279,
+            317
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-170",
+          "binding": "object.verdant.oak-170",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1378,
+            1939
+          ],
+          "worldSize": [
+            282,
+            223
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-171",
+          "binding": "object.verdant.oak-171",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1634,
+            1958
+          ],
+          "worldSize": [
+            312,
+            247
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-172",
+          "binding": "object.verdant.fir-172",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            1762,
+            1934
+          ],
+          "worldSize": [
+            303,
+            344
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-173",
+          "binding": "object.verdant.oak-173",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1890,
+            1977
+          ],
+          "worldSize": [
+            292,
+            231
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-174",
+          "binding": "object.verdant.oak-174",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2018,
+            1953
+          ],
+          "worldSize": [
+            261,
+            207
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-175",
+          "binding": "object.verdant.oak-175",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2146,
+            1996
+          ],
+          "worldSize": [
+            267,
+            212
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "fir-176",
+          "binding": "object.verdant.fir-176",
+          "sharedBinding": "object.forest.fir",
+          "position": [
+            2274,
+            1972
+          ],
+          "worldSize": [
+            288,
+            327
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-177",
+          "binding": "object.verdant.oak-177",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            740,
+            600
+          ],
+          "worldSize": [
+            302,
+            239
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-178",
+          "binding": "object.verdant.oak-178",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            820,
+            1350
+          ],
+          "worldSize": [
+            248,
+            196
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-179",
+          "binding": "object.verdant.oak-179",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2110,
+            1300
+          ],
+          "worldSize": [
+            276,
+            219
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-180",
+          "binding": "object.verdant.oak-180",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1720,
+            670
+          ],
+          "worldSize": [
+            297,
+            235
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-181",
+          "binding": "object.verdant.oak-181",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1200,
+            710
+          ],
+          "worldSize": [
+            249,
+            197
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-182",
+          "binding": "object.verdant.oak-182",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1760,
+            1380
+          ],
+          "worldSize": [
+            287,
+            227
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-183",
+          "binding": "object.verdant.oak-183",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            1250,
+            1390
+          ],
+          "worldSize": [
+            270,
+            214
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-184",
+          "binding": "object.verdant.oak-184",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2100,
+            940
+          ],
+          "worldSize": [
+            315,
+            250
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-185",
+          "binding": "object.verdant.oak-185",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2160,
+            650
+          ],
+          "worldSize": [
+            296,
+            235
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-186",
+          "binding": "object.verdant.oak-186",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2240,
+            1480
+          ],
+          "worldSize": [
+            248,
+            196
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-187",
+          "binding": "object.verdant.oak-187",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            710,
+            1550
+          ],
+          "worldSize": [
+            289,
+            229
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-188",
+          "binding": "object.verdant.oak-188",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            920,
+            450
+          ],
+          "worldSize": [
+            246,
+            195
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "oak-189",
+          "binding": "object.verdant.oak-189",
+          "sharedBinding": "object.forest.oak",
+          "position": [
+            2100,
+            425
+          ],
+          "worldSize": [
+            306,
+            242
+          ],
+          "origin": [
+            0.5,
+            0.94
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 24,
+            "height": 24,
+            "offsetY": 0
+          }
+        },
+        {
+          "id": "rock-190",
+          "binding": "object.verdant.rock-190",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            170,
+            200
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-191",
+          "binding": "object.verdant.bush-191",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            507,
+            463
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-192",
+          "binding": "object.verdant.bush-192",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            844,
+            726
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-193",
+          "binding": "object.verdant.bush-193",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2192,
+            1778
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-194",
+          "binding": "object.verdant.bush-194",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            206,
+            644
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-195",
+          "binding": "object.verdant.bush-195",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            543,
+            907
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-196",
+          "binding": "object.verdant.bush-196",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            880,
+            1170
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-197",
+          "binding": "object.verdant.bush-197",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1891,
+            299
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-198",
+          "binding": "object.verdant.rock-198",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            2228,
+            562
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-199",
+          "binding": "object.verdant.bush-199",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            579,
+            1351
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-200",
+          "binding": "object.verdant.bush-200",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1253,
+            217
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-201",
+          "binding": "object.verdant.bush-201",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1590,
+            480
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-202",
+          "binding": "object.verdant.rock-202",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            1927,
+            743
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-203",
+          "binding": "object.verdant.bush-203",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            278,
+            1532
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-204",
+          "binding": "object.verdant.bush-204",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            615,
+            1795
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-205",
+          "binding": "object.verdant.bush-205",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            952,
+            398
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-206",
+          "binding": "object.verdant.bush-206",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1289,
+            661
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-207",
+          "binding": "object.verdant.bush-207",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            314,
+            316
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-208",
+          "binding": "object.verdant.bush-208",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            651,
+            579
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-209",
+          "binding": "object.verdant.bush-209",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            988,
+            842
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-210",
+          "binding": "object.verdant.bush-210",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1662,
+            1368
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-211",
+          "binding": "object.verdant.bush-211",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2336,
+            234
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-212",
+          "binding": "object.verdant.bush-212",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            350,
+            760
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-213",
+          "binding": "object.verdant.bush-213",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            687,
+            1023
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-214",
+          "binding": "object.verdant.bush-214",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1361,
+            1549
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-215",
+          "binding": "object.verdant.bush-215",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1698,
+            1812
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-216",
+          "binding": "object.verdant.bush-216",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            386,
+            1204
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-217",
+          "binding": "object.verdant.rock-217",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            723,
+            1467
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-218",
+          "binding": "object.verdant.bush-218",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1060,
+            1730
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-219",
+          "binding": "object.verdant.bush-219",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1734,
+            596
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-220",
+          "binding": "object.verdant.bush-220",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2071,
+            859
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-221",
+          "binding": "object.verdant.bush-221",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2745,
+            1385
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-222",
+          "binding": "object.verdant.rock-222",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            422,
+            1648
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-223",
+          "binding": "object.verdant.bush-223",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            759,
+            251
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-224",
+          "binding": "object.verdant.bush-224",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2107,
+            1303
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-225",
+          "binding": "object.verdant.rock-225",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            2781,
+            1829
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-226",
+          "binding": "object.verdant.bush-226",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            458,
+            432
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-227",
+          "binding": "object.verdant.bush-227",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            795,
+            695
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-228",
+          "binding": "object.verdant.bush-228",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1806,
+            1484
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-229",
+          "binding": "object.verdant.bush-229",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2143,
+            1747
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-230",
+          "binding": "object.verdant.bush-230",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2817,
+            613
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-231",
+          "binding": "object.verdant.bush-231",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            494,
+            876
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-232",
+          "binding": "object.verdant.bush-232",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1842,
+            268
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-233",
+          "binding": "object.verdant.rock-233",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            2179,
+            531
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-234",
+          "binding": "object.verdant.bush-234",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            193,
+            1057
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-235",
+          "binding": "object.verdant.bush-235",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            530,
+            1320
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-236",
+          "binding": "object.verdant.bush-236",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            867,
+            1583
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-237",
+          "binding": "object.verdant.bush-237",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1204,
+            1846
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-238",
+          "binding": "object.verdant.bush-238",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1541,
+            449
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-239",
+          "binding": "object.verdant.bush-239",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2215,
+            975
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-240",
+          "binding": "object.verdant.bush-240",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            229,
+            1501
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-241",
+          "binding": "object.verdant.bush-241",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            566,
+            1764
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-242",
+          "binding": "object.verdant.bush-242",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            903,
+            367
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-243",
+          "binding": "object.verdant.bush-243",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1240,
+            630
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-244",
+          "binding": "object.verdant.bush-244",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            265,
+            285
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-245",
+          "binding": "object.verdant.bush-245",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            602,
+            548
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-246",
+          "binding": "object.verdant.bush-246",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            939,
+            811
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-247",
+          "binding": "object.verdant.bush-247",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2287,
+            203
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-248",
+          "binding": "object.verdant.bush-248",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            301,
+            729
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-249",
+          "binding": "object.verdant.bush-249",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            638,
+            992
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-250",
+          "binding": "object.verdant.rock-250",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            975,
+            1255
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-251",
+          "binding": "object.verdant.bush-251",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1312,
+            1518
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-252",
+          "binding": "object.verdant.bush-252",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1649,
+            1781
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-253",
+          "binding": "object.verdant.bush-253",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1986,
+            384
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-254",
+          "binding": "object.verdant.bush-254",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2323,
+            647
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-255",
+          "binding": "object.verdant.rock-255",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            674,
+            1436
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-256",
+          "binding": "object.verdant.bush-256",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1011,
+            1699
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-257",
+          "binding": "object.verdant.bush-257",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1348,
+            302
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-258",
+          "binding": "object.verdant.bush-258",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1685,
+            565
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-259",
+          "binding": "object.verdant.bush-259",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2022,
+            828
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-260",
+          "binding": "object.verdant.bush-260",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2696,
+            1354
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-261",
+          "binding": "object.verdant.rock-261",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            373,
+            1617
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-262",
+          "binding": "object.verdant.bush-262",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            710,
+            220
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-263",
+          "binding": "object.verdant.bush-263",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2058,
+            1272
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "rock-264",
+          "binding": "object.verdant.rock-264",
+          "sharedBinding": "object.forest.rock",
+          "position": [
+            2732,
+            1798
+          ],
+          "worldSize": [
+            74,
+            66
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 48,
+            "height": 41
+          }
+        },
+        {
+          "id": "bush-265",
+          "binding": "object.verdant.bush-265",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            409,
+            401
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-266",
+          "binding": "object.verdant.bush-266",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            746,
+            664
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-267",
+          "binding": "object.verdant.bush-267",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1083,
+            927
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-268",
+          "binding": "object.verdant.bush-268",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1757,
+            1453
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-269",
+          "binding": "object.verdant.bush-269",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2094,
+            1716
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-270",
+          "binding": "object.verdant.bush-270",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2768,
+            582
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-271",
+          "binding": "object.verdant.bush-271",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            445,
+            845
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-272",
+          "binding": "object.verdant.bush-272",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1456,
+            1634
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-273",
+          "binding": "object.verdant.bush-273",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1793,
+            237
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-274",
+          "binding": "object.verdant.bush-274",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            481,
+            1289
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-275",
+          "binding": "object.verdant.bush-275",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            818,
+            1552
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-276",
+          "binding": "object.verdant.bush-276",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1155,
+            1815
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-277",
+          "binding": "object.verdant.bush-277",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1492,
+            418
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-278",
+          "binding": "object.verdant.bush-278",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2166,
+            944
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-279",
+          "binding": "object.verdant.bush-279",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            180,
+            1470
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-280",
+          "binding": "object.verdant.bush-280",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            517,
+            1733
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-281",
+          "binding": "object.verdant.bush-281",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            854,
+            336
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-282",
+          "binding": "object.verdant.bush-282",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            1191,
+            599
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-283",
+          "binding": "object.verdant.bush-283",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            2202,
+            1388
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-284",
+          "binding": "object.verdant.bush-284",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            216,
+            254
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "bush-285",
+          "binding": "object.verdant.bush-285",
+          "sharedBinding": "object.forest.bush",
+          "position": [
+            553,
+            517
+          ],
+          "worldSize": [
+            68,
+            61
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "fence-286",
+          "binding": "object.verdant.fence-286",
+          "sharedBinding": "object.forest.fence",
+          "position": [
+            840,
+            1490
+          ],
+          "worldSize": [
+            145,
+            38
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 130,
+            "height": 12
+          }
+        },
+        {
+          "id": "fence-287",
+          "binding": "object.verdant.fence-287",
+          "sharedBinding": "object.forest.fence",
+          "position": [
+            850,
+            1580
+          ],
+          "worldSize": [
+            145,
+            38
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 130,
+            "height": 12
+          }
+        },
+        {
+          "id": "fence-288",
+          "binding": "object.verdant.fence-288",
+          "sharedBinding": "object.forest.fence",
+          "position": [
+            1180,
+            1670
+          ],
+          "worldSize": [
+            145,
+            38
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 130,
+            "height": 12
+          }
+        },
+        {
+          "id": "fence-289",
+          "binding": "object.verdant.fence-289",
+          "sharedBinding": "object.forest.fence",
+          "position": [
+            1860,
+            1700
+          ],
+          "worldSize": [
+            145,
+            38
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 130,
+            "height": 12
+          }
+        },
+        {
+          "id": "fence-290",
+          "binding": "object.verdant.fence-290",
+          "sharedBinding": "object.forest.fence",
+          "position": [
+            2090,
+            1550
+          ],
+          "worldSize": [
+            145,
+            38
+          ],
+          "origin": [
+            0.5,
+            0.5
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 130,
+            "height": 12
+          }
+        }
+      ]
+    },
+    "aether": {
+      "race": "sage",
+      "name": "Aetheria",
+      "size": [
+        2400,
+        1792
+      ],
+      "spawn": {
+        "x": 1150,
+        "y": 1130
+      },
+      "questTarget": {
+        "x": 1200,
+        "y": 650,
+        "radius": 85,
+        "label": "Źródło Pamięci",
+        "instruction": "Odwiedź oznaczony punkt: Źródło Pamięci",
+        "action": "Podejdź: Źródło Pamięci"
+      },
+      "terrain": {
+        "ground": "aether-ground",
+        "path": "aether-path",
+        "plaza": "aether-plaza",
+        "paths": [
+          {
+            "x": 1080,
+            "y": 430,
+            "width": 240,
+            "height": 1000
+          },
+          {
+            "x": 600,
+            "y": 1030,
+            "width": 1250,
+            "height": 140
+          },
+          {
+            "x": 580,
+            "y": 760,
+            "width": 160,
+            "height": 400
+          },
+          {
+            "x": 1630,
+            "y": 740,
+            "width": 150,
+            "height": 420
+          }
+        ],
+        "plazas": [
+          {
+            "x": 980,
+            "y": 530,
+            "width": 440,
+            "height": 310
+          },
+          {
+            "x": 930,
+            "y": 1020,
+            "width": 540,
+            "height": 330
+          }
+        ]
+      },
+      "actorBindings": [
+        "aether.hero",
+        "aether.enemy",
+        "aether.npc.guide",
+        "aether.npc.hunter",
+        "aether.npc.merchant",
+        "aether.npc.smith"
+      ],
+      "scenery": [
+        {
+          "id": "sanctum-0",
+          "binding": "object.aether.sanctum-0",
+          "sharedBinding": "object.sanctum",
+          "position": [
+            1200,
+            430
+          ],
+          "worldSize": [
+            470,
+            390
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 370,
+            "height": 150
+          }
+        },
+        {
+          "id": "archive-1",
+          "binding": "object.aether.archive-1",
+          "sharedBinding": "object.archive",
+          "position": [
+            660,
+            850
+          ],
+          "worldSize": [
+            370,
+            330
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 280,
+            "height": 145
+          }
+        },
+        {
+          "id": "archive-2",
+          "binding": "object.aether.archive-2",
+          "sharedBinding": "object.archive",
+          "position": [
+            1700,
+            790
+          ],
+          "worldSize": [
+            360,
+            320
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 265,
+            "height": 130
+          }
+        },
+        {
+          "id": "ki-source-3",
+          "binding": "object.aether.ki-source-3",
+          "sharedBinding": "object.ki-source",
+          "position": [
+            1200,
+            735
+          ],
+          "worldSize": [
+            170,
+            160
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 105,
+            "height": 55
+          }
+        },
+        {
+          "id": "ki-tree-4",
+          "binding": "object.aether.ki-tree-4",
+          "sharedBinding": "object.ki-tree",
+          "position": [
+            560,
+            1320
+          ],
+          "worldSize": [
+            290,
+            330
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 75,
+            "height": 60
+          }
+        },
+        {
+          "id": "ki-tree-5",
+          "binding": "object.aether.ki-tree-5",
+          "sharedBinding": "object.ki-tree",
+          "position": [
+            1800,
+            1390
+          ],
+          "worldSize": [
+            310,
+            350
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 85,
+            "height": 65
+          }
+        },
+        {
+          "id": "ki-tree-6",
+          "binding": "object.aether.ki-tree-6",
+          "sharedBinding": "object.ki-tree",
+          "position": [
+            430,
+            500
+          ],
+          "worldSize": [
+            260,
+            300
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 70,
+            "height": 60
+          }
+        },
+        {
+          "id": "ki-tree-7",
+          "binding": "object.aether.ki-tree-7",
+          "sharedBinding": "object.ki-tree",
+          "position": [
+            1950,
+            420
+          ],
+          "worldSize": [
+            270,
+            310
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 80,
+            "height": 60
+          }
+        },
+        {
+          "id": "detail-cloud-peak-8",
+          "binding": "object.aether.detail-cloud-peak-8",
+          "sharedBinding": "object.cloud-peak",
+          "position": [
+            330,
+            240
+          ],
+          "worldSize": [
+            420,
+            270
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-cloud-peak-9",
+          "binding": "object.aether.detail-cloud-peak-9",
+          "sharedBinding": "object.cloud-peak",
+          "position": [
+            780,
+            240
+          ],
+          "worldSize": [
+            420,
+            270
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-cloud-peak-10",
+          "binding": "object.aether.detail-cloud-peak-10",
+          "sharedBinding": "object.cloud-peak",
+          "position": [
+            1660,
+            240
+          ],
+          "worldSize": [
+            420,
+            270
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-cloud-peak-11",
+          "binding": "object.aether.detail-cloud-peak-11",
+          "sharedBinding": "object.cloud-peak",
+          "position": [
+            2110,
+            240
+          ],
+          "worldSize": [
+            420,
+            270
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-12",
+          "binding": "object.aether.detail-garden-12",
+          "sharedBinding": "object.garden",
+          "position": [
+            950,
+            870
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-13",
+          "binding": "object.aether.detail-garden-13",
+          "sharedBinding": "object.garden",
+          "position": [
+            1430,
+            880
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-14",
+          "binding": "object.aether.detail-garden-14",
+          "sharedBinding": "object.garden",
+          "position": [
+            810,
+            1270
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-15",
+          "binding": "object.aether.detail-garden-15",
+          "sharedBinding": "object.garden",
+          "position": [
+            1500,
+            1320
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-16",
+          "binding": "object.aether.detail-garden-16",
+          "sharedBinding": "object.garden",
+          "position": [
+            380,
+            1180
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-17",
+          "binding": "object.aether.detail-garden-17",
+          "sharedBinding": "object.garden",
+          "position": [
+            2020,
+            1170
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-18",
+          "binding": "object.aether.detail-garden-18",
+          "sharedBinding": "object.garden",
+          "position": [
+            680,
+            650
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-19",
+          "binding": "object.aether.detail-garden-19",
+          "sharedBinding": "object.garden",
+          "position": [
+            1780,
+            630
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-20",
+          "binding": "object.aether.detail-garden-20",
+          "sharedBinding": "object.garden",
+          "position": [
+            1030,
+            1550
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-garden-21",
+          "binding": "object.aether.detail-garden-21",
+          "sharedBinding": "object.garden",
+          "position": [
+            1310,
+            1530
+          ],
+          "worldSize": [
+            170,
+            120
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        }
+      ]
+    },
+    "nexus": {
+      "race": "android",
+      "name": "Nexus-9",
+      "size": [
+        2400,
+        1792
+      ],
+      "spawn": {
+        "x": 600,
+        "y": 1120
+      },
+      "questTarget": {
+        "x": 1650,
+        "y": 620,
+        "radius": 85,
+        "label": "Rdzeń Świadomości",
+        "instruction": "Odwiedź oznaczony punkt: Rdzeń Świadomości",
+        "action": "Podejdź: Rdzeń Świadomości"
+      },
+      "terrain": {
+        "ground": "nexus-ground",
+        "path": "nexus-path",
+        "plaza": "nexus-plaza",
+        "paths": [
+          {
+            "x": 470,
+            "y": 930,
+            "width": 1350,
+            "height": 180
+          },
+          {
+            "x": 1480,
+            "y": 510,
+            "width": 220,
+            "height": 600
+          },
+          {
+            "x": 610,
+            "y": 500,
+            "width": 900,
+            "height": 150
+          },
+          {
+            "x": 430,
+            "y": 1050,
+            "width": 180,
+            "height": 450
+          },
+          {
+            "x": 1670,
+            "y": 1030,
+            "width": 210,
+            "height": 420
+          }
+        ],
+        "plazas": [
+          {
+            "x": 340,
+            "y": 970,
+            "width": 460,
+            "height": 340
+          },
+          {
+            "x": 1420,
+            "y": 530,
+            "width": 470,
+            "height": 340
+          },
+          {
+            "x": 1620,
+            "y": 1320,
+            "width": 480,
+            "height": 210
+          }
+        ]
+      },
+      "actorBindings": [
+        "nexus.hero",
+        "nexus.enemy",
+        "nexus.npc.guide",
+        "nexus.npc.hunter",
+        "nexus.npc.merchant",
+        "nexus.npc.smith"
+      ],
+      "scenery": [
+        {
+          "id": "lab-0",
+          "binding": "object.nexus.lab-0",
+          "sharedBinding": "object.lab",
+          "position": [
+            550,
+            820
+          ],
+          "worldSize": [
+            430,
+            340
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 320,
+            "height": 145
+          }
+        },
+        {
+          "id": "lab-1",
+          "binding": "object.nexus.lab-1",
+          "sharedBinding": "object.lab",
+          "position": [
+            1050,
+            450
+          ],
+          "worldSize": [
+            390,
+            310
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 285,
+            "height": 140
+          }
+        },
+        {
+          "id": "reactor-2",
+          "binding": "object.nexus.reactor-2",
+          "sharedBinding": "object.reactor",
+          "position": [
+            1650,
+            430
+          ],
+          "worldSize": [
+            340,
+            350
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 245,
+            "height": 125
+          }
+        },
+        {
+          "id": "lab-3",
+          "binding": "object.nexus.lab-3",
+          "sharedBinding": "object.lab",
+          "position": [
+            1850,
+            1290
+          ],
+          "worldSize": [
+            380,
+            320
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 280,
+            "height": 130
+          }
+        },
+        {
+          "id": "terminal-4",
+          "binding": "object.nexus.terminal-4",
+          "sharedBinding": "object.terminal",
+          "position": [
+            410,
+            1420
+          ],
+          "worldSize": [
+            140,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 75,
+            "height": 65
+          }
+        },
+        {
+          "id": "terminal-5",
+          "binding": "object.nexus.terminal-5",
+          "sharedBinding": "object.terminal",
+          "position": [
+            1170,
+            1170
+          ],
+          "worldSize": [
+            140,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 75,
+            "height": 65
+          }
+        },
+        {
+          "id": "crystal-6",
+          "binding": "object.nexus.crystal-6",
+          "sharedBinding": "object.crystal",
+          "position": [
+            2070,
+            700
+          ],
+          "worldSize": [
+            220,
+            290
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 110,
+            "height": 80
+          }
+        },
+        {
+          "id": "crystal-7",
+          "binding": "object.nexus.crystal-7",
+          "sharedBinding": "object.crystal",
+          "position": [
+            330,
+            450
+          ],
+          "worldSize": [
+            200,
+            250
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 100,
+            "height": 75
+          }
+        },
+        {
+          "id": "crystal-8",
+          "binding": "object.nexus.crystal-8",
+          "sharedBinding": "object.crystal",
+          "position": [
+            1510,
+            1560
+          ],
+          "worldSize": [
+            210,
+            270
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 100,
+            "height": 75
+          }
+        },
+        {
+          "id": "detail-pylon-9",
+          "binding": "object.nexus.detail-pylon-9",
+          "sharedBinding": "object.pylon",
+          "position": [
+            340,
+            930
+          ],
+          "worldSize": [
+            100,
+            170
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-pylon-10",
+          "binding": "object.nexus.detail-pylon-10",
+          "sharedBinding": "object.pylon",
+          "position": [
+            840,
+            1020
+          ],
+          "worldSize": [
+            100,
+            170
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-pylon-11",
+          "binding": "object.nexus.detail-pylon-11",
+          "sharedBinding": "object.pylon",
+          "position": [
+            1400,
+            920
+          ],
+          "worldSize": [
+            100,
+            170
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-pylon-12",
+          "binding": "object.nexus.detail-pylon-12",
+          "sharedBinding": "object.pylon",
+          "position": [
+            1900,
+            880
+          ],
+          "worldSize": [
+            100,
+            170
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-pylon-13",
+          "binding": "object.nexus.detail-pylon-13",
+          "sharedBinding": "object.pylon",
+          "position": [
+            1500,
+            1280
+          ],
+          "worldSize": [
+            100,
+            170
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-pylon-14",
+          "binding": "object.nexus.detail-pylon-14",
+          "sharedBinding": "object.pylon",
+          "position": [
+            2000,
+            1330
+          ],
+          "worldSize": [
+            100,
+            170
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-tech-garden-15",
+          "binding": "object.nexus.detail-tech-garden-15",
+          "sharedBinding": "object.tech-garden",
+          "position": [
+            320,
+            1220
+          ],
+          "worldSize": [
+            190,
+            160
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-tech-garden-16",
+          "binding": "object.nexus.detail-tech-garden-16",
+          "sharedBinding": "object.tech-garden",
+          "position": [
+            920,
+            1170
+          ],
+          "worldSize": [
+            190,
+            160
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-tech-garden-17",
+          "binding": "object.nexus.detail-tech-garden-17",
+          "sharedBinding": "object.tech-garden",
+          "position": [
+            1920,
+            580
+          ],
+          "worldSize": [
+            190,
+            160
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-tech-garden-18",
+          "binding": "object.nexus.detail-tech-garden-18",
+          "sharedBinding": "object.tech-garden",
+          "position": [
+            1170,
+            600
+          ],
+          "worldSize": [
+            190,
+            160
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-tech-garden-19",
+          "binding": "object.nexus.detail-tech-garden-19",
+          "sharedBinding": "object.tech-garden",
+          "position": [
+            1890,
+            1450
+          ],
+          "worldSize": [
+            190,
+            160
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        }
+      ]
+    },
+    "pyra": {
+      "race": "legend",
+      "name": "Pyra",
+      "size": [
+        2400,
+        1792
+      ],
+      "spawn": {
+        "x": 1180,
+        "y": 1330
+      },
+      "questTarget": {
+        "x": 1200,
+        "y": 750,
+        "radius": 85,
+        "label": "Arena Dziedzictwa",
+        "instruction": "Odwiedź oznaczony punkt: Arena Dziedzictwa",
+        "action": "Podejdź: Arena Dziedzictwa"
+      },
+      "terrain": {
+        "ground": "pyra-ground",
+        "path": "pyra-path",
+        "plaza": "pyra-plaza",
+        "paths": [
+          {
+            "x": 1080,
+            "y": 450,
+            "width": 240,
+            "height": 1000
+          },
+          {
+            "x": 650,
+            "y": 1220,
+            "width": 1190,
+            "height": 160
+          },
+          {
+            "x": 510,
+            "y": 870,
+            "width": 170,
+            "height": 500
+          },
+          {
+            "x": 1690,
+            "y": 850,
+            "width": 170,
+            "height": 500
+          }
+        ],
+        "plazas": [
+          {
+            "x": 800,
+            "y": 610,
+            "width": 800,
+            "height": 420
+          },
+          {
+            "x": 960,
+            "y": 1180,
+            "width": 520,
+            "height": 320
+          }
+        ]
+      },
+      "actorBindings": [
+        "pyra.hero",
+        "pyra.enemy",
+        "pyra.npc.guide",
+        "pyra.npc.hunter",
+        "pyra.npc.merchant",
+        "pyra.npc.smith"
+      ],
+      "scenery": [
+        {
+          "id": "fortress-0",
+          "binding": "object.pyra.fortress-0",
+          "sharedBinding": "object.fortress",
+          "position": [
+            1200,
+            450
+          ],
+          "worldSize": [
+            570,
+            390
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 470,
+            "height": 160
+          }
+        },
+        {
+          "id": "war-shrine-1",
+          "binding": "object.pyra.war-shrine-1",
+          "sharedBinding": "object.war-shrine",
+          "position": [
+            620,
+            1150
+          ],
+          "worldSize": [
+            340,
+            340
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 260,
+            "height": 135
+          }
+        },
+        {
+          "id": "war-shrine-2",
+          "binding": "object.pyra.war-shrine-2",
+          "sharedBinding": "object.war-shrine",
+          "position": [
+            1830,
+            1000
+          ],
+          "worldSize": [
+            350,
+            340
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 270,
+            "height": 140
+          }
+        },
+        {
+          "id": "statue-3",
+          "binding": "object.pyra.statue-3",
+          "sharedBinding": "object.statue",
+          "position": [
+            860,
+            770
+          ],
+          "worldSize": [
+            160,
+            240
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 80,
+            "height": 65
+          }
+        },
+        {
+          "id": "statue-4",
+          "binding": "object.pyra.statue-4",
+          "sharedBinding": "object.statue",
+          "position": [
+            1540,
+            770
+          ],
+          "worldSize": [
+            160,
+            240
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 80,
+            "height": 65
+          }
+        },
+        {
+          "id": "basalt-5",
+          "binding": "object.pyra.basalt-5",
+          "sharedBinding": "object.basalt",
+          "position": [
+            410,
+            580
+          ],
+          "worldSize": [
+            310,
+            330
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 190,
+            "height": 110
+          }
+        },
+        {
+          "id": "basalt-6",
+          "binding": "object.pyra.basalt-6",
+          "sharedBinding": "object.basalt",
+          "position": [
+            2040,
+            460
+          ],
+          "worldSize": [
+            350,
+            350
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 210,
+            "height": 130
+          }
+        },
+        {
+          "id": "basalt-7",
+          "binding": "object.pyra.basalt-7",
+          "sharedBinding": "object.basalt",
+          "position": [
+            700,
+            1630
+          ],
+          "worldSize": [
+            280,
+            290
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 170,
+            "height": 110
+          }
+        },
+        {
+          "id": "basalt-8",
+          "binding": "object.pyra.basalt-8",
+          "sharedBinding": "object.basalt",
+          "position": [
+            1930,
+            1570
+          ],
+          "worldSize": [
+            290,
+            300
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": true,
+          "footprint": {
+            "width": 180,
+            "height": 110
+          }
+        },
+        {
+          "id": "detail-volcano-9",
+          "binding": "object.pyra.detail-volcano-9",
+          "sharedBinding": "object.volcano",
+          "position": [
+            450,
+            330
+          ],
+          "worldSize": [
+            420,
+            310
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-volcano-10",
+          "binding": "object.pyra.detail-volcano-10",
+          "sharedBinding": "object.volcano",
+          "position": [
+            1970,
+            330
+          ],
+          "worldSize": [
+            420,
+            310
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-clan-banner-11",
+          "binding": "object.pyra.detail-clan-banner-11",
+          "sharedBinding": "object.clan-banner",
+          "position": [
+            930,
+            1180
+          ],
+          "worldSize": [
+            110,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-clan-banner-12",
+          "binding": "object.pyra.detail-clan-banner-12",
+          "sharedBinding": "object.clan-banner",
+          "position": [
+            1510,
+            1160
+          ],
+          "worldSize": [
+            110,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-clan-banner-13",
+          "binding": "object.pyra.detail-clan-banner-13",
+          "sharedBinding": "object.clan-banner",
+          "position": [
+            690,
+            1320
+          ],
+          "worldSize": [
+            110,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-clan-banner-14",
+          "binding": "object.pyra.detail-clan-banner-14",
+          "sharedBinding": "object.clan-banner",
+          "position": [
+            1800,
+            1360
+          ],
+          "worldSize": [
+            110,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-clan-banner-15",
+          "binding": "object.pyra.detail-clan-banner-15",
+          "sharedBinding": "object.clan-banner",
+          "position": [
+            930,
+            550
+          ],
+          "worldSize": [
+            110,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-clan-banner-16",
+          "binding": "object.pyra.detail-clan-banner-16",
+          "sharedBinding": "object.clan-banner",
+          "position": [
+            1480,
+            550
+          ],
+          "worldSize": [
+            110,
+            180
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-basalt-17",
+          "binding": "object.pyra.detail-basalt-17",
+          "sharedBinding": "object.basalt",
+          "position": [
+            280,
+            1170
+          ],
+          "worldSize": [
+            140,
+            140
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-basalt-18",
+          "binding": "object.pyra.detail-basalt-18",
+          "sharedBinding": "object.basalt",
+          "position": [
+            2180,
+            980
+          ],
+          "worldSize": [
+            140,
+            140
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-basalt-19",
+          "binding": "object.pyra.detail-basalt-19",
+          "sharedBinding": "object.basalt",
+          "position": [
+            1500,
+            1660
+          ],
+          "worldSize": [
+            140,
+            140
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        },
+        {
+          "id": "detail-basalt-20",
+          "binding": "object.pyra.detail-basalt-20",
+          "sharedBinding": "object.basalt",
+          "position": [
+            880,
+            470
+          ],
+          "worldSize": [
+            140,
+            140
+          ],
+          "origin": [
+            0.5,
+            0.92
+          ],
+          "solid": false,
+          "footprint": null
+        }
+      ]
+    }
+  }
+}

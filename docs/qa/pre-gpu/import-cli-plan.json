@@ -1,0 +1,16 @@
+{
+  "id": "technical-rig",
+  "version": "1.0.0",
+  "digest": "ac842aa0ab18812fb2524dd57b32476aa0d5dcedd0aea781430cbc229314c9b3",
+  "assets": 1,
+  "bytesBefore": 11680,
+  "bytesAfter": 11680,
+  "worlds": {
+    "verdant": 67189024,
+    "aether": 16561440,
+    "nexus": 16561440,
+    "pyra": 16561440
+  },
+  "installed": false,
+  "directory": "game/assets/gpu/technical-rig/1.0.0-ac842aa0ab18"
+}

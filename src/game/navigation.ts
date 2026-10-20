@@ -1,3 +1,4 @@
+import { FOOT_RADIUS, WORLD_EDGE_MARGIN } from "./geometry";
 import { blockedAt, clearSight, type Obstacle } from "./movement";
 
 export type Point = { x: number; y: number };
@@ -24,11 +25,11 @@ export class Navigation {
   }
   walkable(p: Point): boolean {
     return (
-      p.x >= 16 &&
-      p.y >= 16 &&
-      p.x <= this.width - 16 &&
-      p.y <= this.height - 16 &&
-      !blockedAt(p.x, p.y, this.obstacles, 12)
+      p.x >= WORLD_EDGE_MARGIN &&
+      p.y >= WORLD_EDGE_MARGIN &&
+      p.x <= this.width - WORLD_EDGE_MARGIN &&
+      p.y <= this.height - WORLD_EDGE_MARGIN &&
+      !blockedAt(p.x, p.y, this.obstacles, FOOT_RADIUS)
     );
   }
   visible(a: Point, b: Point): boolean {
