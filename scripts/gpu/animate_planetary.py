@@ -1,7 +1,7 @@
 """Render real skeletal Planetarni clips. No frame slicing or per-frame AI redraw.
 Use --review for a short motion check; complete output requires a validated review.
 """
-import argparse, hashlib, json, math, time
+import argparse, hashlib, json, math, time, io, tarfile
 from pathlib import Path
 import bpy
 import numpy as np
@@ -102,9 +102,13 @@ def pose(state,index,count):
             segment=int(b.name.rsplit('.',1)[1]);rot(b.name,(0,0,1),(.04+segment*.025)*wind)
     bpy.context.view_layer.update()
 
-OUT=ROOT/'renders'/('planetary-motion-review-v2' if args.review else 'planetary-motion-v2')
-OUT.mkdir(parents=True,exist_ok=True)
-LOCAL=Path('/opt/ki-legends-gpu')/OUT.name;LOCAL.mkdir(exist_ok=True)
+name='planetary-motion-review-v2' if args.review else 'planetary-motion-v2'
+PERSISTENT=ROOT/'renders'/name;PERSISTENT.mkdir(parents=True,exist_ok=True)
+LOCAL=Path('/opt/ki-legends-gpu')/name;LOCAL.mkdir(exist_ok=True);OUT=LOCAL
+# Render on POSIX storage; one archived checkpoint per direction avoids 832 slow FUSE writes.
+for existing in list(PERSISTENT.glob('*.json'))+list(PERSISTENT.glob('*.report')):
+    if not (OUT/existing.name).exists():(OUT/existing.name).write_bytes(existing.read_bytes())
+
 # Preserve editable, named skeletal actions. Facing is handled by the renderer, outside each action.
 rig.animation_data_create()
 for state,(count,fps,loop) in CLIPS.items():
@@ -156,11 +160,23 @@ for state,(count,fps,loop) in CLIPS.items():
         for i in range(count):
             pose(state,i,count)
             name=f'{state}-{direction}-{i:02}'
-            image=LOCAL/(name+'.png');scene.render.filepath=str(image);start=time.monotonic();bpy.ops.render.render(write_still=True)
+            image=LOCAL/(name+'.png')
+            previous=OUT/(name+'.json')
+            if image.exists() and previous.exists():
+                metadata=json.loads(previous.read_text())
+                if hashlib.sha256(image.read_bytes()).hexdigest()!=metadata['sha256']:raise RuntimeError('Cannot resume a corrupt frame')
+                completed.append(metadata);print('FRAME_RESUMED',name,len(completed),flush=True);continue
+            scene.render.filepath=str(image);start=time.monotonic();bpy.ops.render.render(write_still=True)
             data=image.read_bytes();(OUT/image.name).write_bytes(data)
             meta={'id':name,'state':state,'direction':direction,'index':i,'fps':fps,'loop':loop,'width':512,'height':512,'origin':[.5,origin],'world_canvas':[128,128],'camera_elevation':45,'orthographic_scale':ortho,'sha256':hashlib.sha256(data).hexdigest(),'seconds':time.monotonic()-start,'status':'motion-review-not-installed'}
             (OUT/(name+'.json')).write_text(json.dumps(meta,indent=2)+'\n');completed.append(meta)
             print('FRAME_COMPLETE',name,len(completed),flush=True)
+        bundle=io.BytesIO()
+        with tarfile.open(fileobj=bundle,mode='w:gz') as archive:
+            for i in range(count):
+                for suffix in ['.png','.json']:
+                    source=OUT/f'{state}-{direction}-{i:02}{suffix}';archive.add(source,arcname=source.name)
+        (PERSISTENT/f'{state}-{direction}.tar.gz').write_bytes(bundle.getvalue())
         print('DIRECTION_COMPLETE',state,direction,flush=True)
 manifest={'source':'planetary-motion-source.blend','source_sha256':hashlib.sha256(blend.read_bytes()).hexdigest(),'frames':completed,'status':'review-required','model':'one-deforming-mesh-not-frame-redraws'}
 # Separate manifest extension avoids confusing image-pair transfer tools.

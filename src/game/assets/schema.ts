@@ -94,6 +94,7 @@ export const PackSchema = z
     id,
     version: z.string().regex(/^\d+\.\d+\.\d+$/),
     technical: z.boolean().default(false),
+    previewOnly: z.boolean().default(false),
     assets: z.array(AssetSchema).min(1),
     actors: z.array(ActorSchema).default([]),
     actorBindings: z.record(z.string(), z.string()).default({}),

@@ -16,7 +16,6 @@ import {
   worldAssets,
   actorVisual,
   worldRenderRefs,
-  catalog,
 } from "../../src/game/assets/catalog.ts";
 import { WORLD_IDS } from "../../src/game/world/races.ts";
 import { WORLDS } from "../../src/game/world/worlds.ts";
@@ -302,13 +301,20 @@ export async function validatePackage(manifest: string) {
     for (const frame of effect.frames) frameInfo({ asset: effect.asset, frame }, infos);
   return { pack, infos, files };
 }
-export async function checkActiveAssets(root = process.cwd()) {
+export async function checkActiveAssets(root = process.cwd(), includePreview = false) {
+  const packs = JSON.parse(
+    await readFile(path.join(root, "src/game/assets/imported.json"), "utf8"),
+  );
+  const source = makeCatalog(
+    packs.map((p: unknown) => PackSchema.parse(p)),
+    includePreview,
+  );
   const results: Record<
     string,
     { textures: number; rgbaBytes: number; terrainCacheBytes: number }
   > = {};
   const measured = new Map<string, Inspected>();
-  for (const a of catalog.assets.values())
+  for (const a of source.assets.values())
     measured.set(
       a.id,
       await inspectAsset(
@@ -318,7 +324,7 @@ export async function checkActiveAssets(root = process.cwd()) {
       ),
     );
   for (const world of WORLD_IDS) {
-    const assets = worldAssets(world);
+    const assets = worldAssets(world, false, source);
     let bytes = 0;
     for (const a of assets) {
       const i = measured.get(a.id)!;
@@ -336,7 +342,7 @@ export async function checkActiveAssets(root = process.cwd()) {
       terrainCacheBytes:
         world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0,
     };
-    validateWorldReferences(world, catalog, measured);
+    validateWorldReferences(world, source, measured);
   }
   return results;
 }
@@ -414,7 +420,7 @@ export async function importPackage(
         "Asset ID owned by another package: " + asset.id,
       );
   // Validate links and the complete replacement catalogue before touching active files.
-  const combined = makeCatalog([...others, pack]);
+  const combined = makeCatalog([...others, pack], true);
   for (const actor of combined.actors.values())
     for (const clip of Object.values(actor.clips))
       requireThat(combined.assets.has(clip.asset), "Clip references unknown asset: " + clip.asset);

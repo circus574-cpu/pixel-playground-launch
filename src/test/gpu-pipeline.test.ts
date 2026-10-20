@@ -265,3 +265,24 @@ it("keeps grounded framing explicit and rejects it for enemy/NPC profiles", asyn
   expect(() => frameLayout("npc", "verdant", "npc", "1.0.0", "grounded")).toThrow("heroes only");
   expect(frameLayout("hero", "pyra").pack.actors[0]!.origin).toEqual([0.5, 0.95]);
 });
+
+it("keeps unapproved hero packs opt-in while validating and importing their actual files", async () => {
+  const f = await delivery(),
+    root = await app(f.root);
+  f.pack.previewOnly = true;
+  f.pack.actorBindings = { "verdant.hero": "technical-mannequin" };
+  await f.save();
+  await importPackage(f.manifest, { root, install: true });
+  const packs = JSON.parse(
+    await readFile(path.join(root, "src/game/assets/imported.json"), "utf8"),
+  ).map((p: unknown) => PackSchema.parse(p));
+  expect(worldAssets("verdant", false, makeCatalog(packs)).map((a) => a.id)).not.toContain(
+    "technical-rig",
+  );
+  expect(worldAssets("verdant", false, makeCatalog(packs, true)).map((a) => a.id)).toContain(
+    "technical-rig",
+  );
+  expect(worldAssets("aether", false, makeCatalog(packs, true)).map((a) => a.id)).not.toContain(
+    "technical-rig",
+  );
+});
