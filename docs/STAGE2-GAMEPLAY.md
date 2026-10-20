@@ -3,9 +3,10 @@
 ## Status
 
 Zaimplementowano lokalną pętlę PvE. Nie jest to sieciowe MMORPG.
-Pełnego kryterium ukończenia etapu nie oznaczono jako spełnionego: nowa wersja
-wymaga jeszcze ręcznego testu sceny Phaser w przeglądarce oraz kontroli mobilnego
-układu. Produkcji nie publikowano — użytkownik wymaga osobnego polecenia.
+20.10.2026 użytkownik zlecił publikację i testy. Wersja została opublikowana
+na kilegends.pl; wykonano rzeczywistą pętlę rozgrywki w przeglądarce i kontrolę
+układu mobilnego. Szczegółowe wyniki oraz granice weryfikacji znajdują się
+w docs/QA-STAGE2-2026-10-20.md. Fizyczny telefon pozostaje do osobnego testu.
 
 ## Audyt przed zmianami
 
@@ -112,18 +113,15 @@ Zaliczone przed zapisem: pełny tsc --noEmit, ESLint zmienionych modułów (bez
 błędów i ostrzeżeń), npm test (40/40), npm run build oraz npm run build:playtest.
 Build podglądu ostrzega o rozmiarze chunku Phaser; nie jest to błąd kompilacji.
 
-To testy modelu i DOM w jsdom, NIE rzeczywista rozgrywka w przeglądarce.
-Pełnego scenariusza z renderowaniem Phaser i mobilnym wejściem nie zaliczono.
-Automatyczna kontrola odrzuciła przesłanie prywatnego kodu do AppDeploy,
-ponieważ ta usługa nie miała autoryzacji dla tego repozytorium. Chmurowa
-przeglądarka blokuje też lokalny protokół file://. Nie obchodzono tych ograniczeń.
-Lokalny podgląd jest przygotowany poleceniem npm run playtest.
+Powyższe testy modelu i DOM uzupełniono 20.10.2026 rzeczywistą rozgrywką
+na opublikowanej produkcji. Scenariusz komputerowy obejmował nowy zapis,
+trzy zadania, walkę, obrażenia, wszystkie umiejętności, łupy, wyposażenie,
+handel i odświeżenie. Szczegóły: docs/QA-STAGE2-2026-10-20.md.
 
 ## Pozostałe prace i następny etap
 
-1. Dokończyć rzeczywistą kontrolę przeglądarkową na autoryzowanym podglądzie
-   albo po osobnym poleceniu publikacji w Lovable. Sprawdzić cały scenariusz,
-   świeży zapis, reload, mobilny układ, wybór sprite'ów i brak błędów konsoli.
+1. Utrzymać regresyjne testy rozgrywki opisane w raporcie QA; dodać automatyczny
+   test przeglądarkowy w CI, gdy dostępny będzie runner z renderowaniem Phaser.
 2. Fizyczny Android/iPhone: dotyk, wielodotyk, pamięć, FPS, fullscreen.
 3. Osobne finalne grafiki NPC i spójne kierunkowe klatki ataku/śmierci.
    Aktualni NPC świadomie używają istniejącej grafiki postaci z tintem,

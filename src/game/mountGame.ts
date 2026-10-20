@@ -309,7 +309,9 @@ export function mountKileGends(
           event.target === "player" ? "#ffa1a1" : event.type === "heal" ? "#a4ffd6" : "#fff0a1",
         );
       if (event.type === "hit" && actor) {
-        actor.sprite.setTint(event.target === "player" ? 0xff7777 : 0xffefd0).setTintFill();
+        actor.sprite
+          .setTint(event.target === "player" ? 0xff7777 : 0xffefd0)
+          .setTintMode(Phaser.TintModes.FILL);
         this.time.delayedCall(130, () => actor.sprite.clearTint());
         if (event.target === "player") this.cameras.main.shake(100, 0.002);
       }
