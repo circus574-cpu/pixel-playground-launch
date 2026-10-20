@@ -23,3 +23,13 @@ Użytkownik zakończył pracę na dziś. Render zatrzymano świadomie, bez dekla
 7. Przetestować wizualnie wszystkie stany, kontakt stóp, osiem kierunków, touch/mobile, walkę i zapis. Dopiero potem przedstawić użytkownikowi. NPC i przeciwnicy nadal wymagają wykonania; innych ras nie rozpoczynać.
 
 Walidacja kodu: TypeScript, lint (0 błędów/7 istniejących ostrzeżeń), build przeszły. Pełny E2E uruchomiono przed pauzą; wynik końcowy trzeba odczytać z zapisanych raportów, nie zakładać PASS. Nie wykonano testów nowego bohatera w grze, bo brak kompletnej paczki.
+
+## Zamknięcie sesji i koszty
+
+Checkpoint zapisano także na `/workspace/ki-legends-gpu/checkpoints/planetary-20261020/`: archiwum **28 096 269 bajtów**, manifest SHA-256, listy wersji bibliotek ComfyUI/Blendera. Archiwum odczytano ponownie z montowania i porównano hash. Dwa potrzebne checkpointy modeli pozostają w `/workspace/ki-legends-gpu/models/checkpoints/`; sprawdzono ich istnienie i rozmiary. `/workspace` jest zamontowane jako `fuse.geesefs`, ale środowisko nie ujawnia identyfikatora produktu RunPod Network Volume. API konta nie pozwoliło go zweryfikować. Nie utożsamiać tego ustalenia z potwierdzeniem konkretnego produktu Network Volume.
+
+Na wyraźne zlecenie użytkownika usunięto wyłącznie `env-wan.tar`, `wan2.2_ti2v_5B_fp16.safetensors` i `wan2.2_vae.safetensors` oraz ich znaczniki gotowości. Zwolniono **16 079 472 608 bajtów**. Pozostawiono Qwen/Ollamę, współdzielone encodery, wyniki/workflow WAN i pozostałe projekty. Log operacji: `/workspace/ki-legends-gpu/wan-removal-20261020.json`.
+
+Render zatrzymany. **Pod nie został zatrzymany przez API**: REST wcześniej 403, GraphQL z kluczem konta zwraca `Unauthorized`. Użytkownik musi nacisnąć **Stop** w panelu RunPod; nie Terminate. Zatrzymanie procesu renderowania i usunięcie modeli nie zatrzymują naliczania ceny GPU ani opłaty za przydzielony rozmiar storage.
+
+Niezależnie pobrano z GitHub LFS i porównano SHA-256 **181 obiektów** punktu wznowienia (179 klatek, podgląd źródła i `.blend`). Wyniki nie istnieją wyłącznie na GPU. Kod: 98/98 testów jednostkowych PASS. Końcowe E2E przerwano na prośbę zakończenia sesji; szczegółowy wynik znajduje się w raporcie obok dokumentacji, bez deklaracji pełnego PASS. Nie opublikowano zmian ani nie scalono ich do main.
