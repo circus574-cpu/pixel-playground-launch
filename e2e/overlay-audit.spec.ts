@@ -1,4 +1,4 @@
-import { test, expect, type Page, type CDPSession } from "@playwright/test";
+import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
@@ -201,22 +201,11 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
   await start(page, "Planetarni");
-  // A valid isolated low-HP save keeps this failure-state test short. PvE progression is tested normally elsewhere.
-  await page.addInitScript(() => {
-    const key =
-      "ki-legends:adventure:v1:character:" +
-      localStorage.getItem("ki-legends:adventure:v1:active-character");
-    const raw = JSON.parse(localStorage.getItem(key)!);
-    raw.player.hp = 1;
-    localStorage.setItem(key, JSON.stringify(raw));
-  });
-  await page.reload();
-  await expect(page.locator(".ki-hud")).toBeVisible();
   const canvas = page.locator(".ki-canvas");
   await canvas.evaluate((el) =>
     el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", x: 2050, y: 1030 } })),
   );
-  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 20000 });
+  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
   await page.screenshot({ path: evidence + "/death.png" });
   await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });

@@ -1,3 +1,4 @@
+import { uiTextureUrl } from "../../game/assets/catalog";
 import { TEST_RACE_SWITCH_ENABLED } from "../../game/features";
 import { GameMessage } from "./GameMessage";
 import { useGameMessage, type MessageEvent } from "./useGameMessage";
@@ -151,7 +152,10 @@ export function GameHud({
   }
   const tracked = state.quests.find((q) => q.status !== "done");
   return (
-    <div className="ki-hud">
+    <div
+      className="ki-hud"
+      style={{ "--ki-ui-image": `url("${uiTextureUrl()}")` } as CSSProperties}
+    >
       <section className="ki-player ki-frame" aria-label="Postać gracza">
         <div className="ki-portrait">
           <Icon index={0} />

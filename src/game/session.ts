@@ -108,6 +108,7 @@ export type GameEvent = Point & {
   type: "hit" | "attack" | "death" | "respawn" | "level" | "loot" | "shield" | "heal";
   text?: string;
   target?: string;
+  source?: string;
   ability?: Ability;
   to?: Point;
 };
@@ -734,6 +735,13 @@ export class GameSession {
         if (range > 57) this.moveEnemy(e, p, dt * 0.12, dt);
         if (range <= 68 && !e.attackIn && this.nav.visible(e, p)) {
           e.attackIn = 1400;
+          this.emit({
+            type: "attack",
+            ...e,
+            source: e.id,
+            target: "player",
+            to: { x: p.x, y: p.y },
+          });
           const damage = Math.max(1, Math.round((9 - s.defense) * (p.shield > 0 ? 0.4 : 1)));
           p.hp = Math.max(0, p.hp - damage);
           this.combatIn = 4500;

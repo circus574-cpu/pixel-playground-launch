@@ -1,4 +1,8 @@
+import { sizeScenery, sizeTile } from "../assets/scenery";
 import type Phaser from "phaser";
+import { textureBinding } from "../assets/catalog";
+import { atmosphere } from "../assets/atmosphere";
+import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "./types";
 import { renderForest } from "./renderForest";
 import { coversPlayer } from "./visibility";
@@ -8,21 +12,31 @@ import type { Point } from "../navigation";
 export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.terrain) return renderForest(scene);
   const terrain = world.terrain;
-  scene.add
-    .tileSprite(0, 0, world.width, world.height, terrain.ground)
+  const ground = textureBinding("terrain." + terrain.ground, { asset: terrain.ground }),
+    path = textureBinding("terrain." + terrain.path, { asset: terrain.path }),
+    plaza = textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza });
+  const updateAtmosphere = atmosphere(scene, world.id);
+  sizeTile(
+    scene.add.tileSprite(0, 0, world.width, world.height, ground.asset, ground.frame),
+    ground.tileSize,
+  )
     .setOrigin(0)
-    .setDepth(-1000);
+    .setDepth(renderDepth("ground"));
   for (const area of terrain.paths)
-    scene.add
-      .tileSprite(area.x, area.y, area.width, area.height, terrain.path)
+    sizeTile(
+      scene.add.tileSprite(area.x, area.y, area.width, area.height, path.asset, path.frame),
+      path.tileSize,
+    )
       .setOrigin(0)
-      .setDepth(-999);
+      .setDepth(renderDepth("paths"));
   for (const area of terrain.plazas)
-    scene.add
-      .tileSprite(area.x, area.y, area.width, area.height, terrain.plaza)
+    sizeTile(
+      scene.add.tileSprite(area.x, area.y, area.width, area.height, plaza.asset, plaza.frame),
+      plaza.tileSize,
+    )
       .setOrigin(0)
-      .setDepth(-998);
-  const hazards = scene.add.graphics().setDepth(-990);
+      .setDepth(renderDepth("paths") + 1);
+  const hazards = scene.add.graphics().setDepth(renderDepth("below") - 1);
   for (const o of world.obstacles) {
     hazards.fillStyle(world.id === "pyra" ? 0x2a2029 : world.id === "nexus" ? 0x091722 : 0x15343b);
     hazards.fillRect(o.x, o.y, o.width, o.height);
@@ -42,17 +56,27 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       hazards.strokePath();
     }
   }
-  const scenery = world.objects.map((object) => ({
-    object,
-    image: scene.add
-      .image(object.x, object.y, object.asset!)
-      .setOrigin(object.anchorX, object.anchorY)
-      .setDisplaySize(object.width, object.height)
-      .setDepth(object.y),
-  }));
+  const scenery = world.objects.map((object) => {
+    const ref = textureBinding(
+      "object." + world.id + "." + object.id,
+      textureBinding("object." + object.asset, { asset: object.asset! }),
+    );
+    return {
+      object,
+      image: sizeScenery(
+        scene.add
+          .image(object.x, object.y, ref.asset, ref.frame)
+          .setOrigin(object.anchorX, object.anchorY),
+        object.width,
+        object.height,
+        ref.fit,
+      ).setDepth(renderDepth(ref.layer ?? "objects", object.y)),
+    };
+  });
   // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
     updateVisibility(player: Point) {
+      updateAtmosphere();
       const view = scene.cameras.main.worldView;
       for (const { object: o, image } of scenery) {
         const left = o.x - o.width * o.anchorX,

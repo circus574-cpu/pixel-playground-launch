@@ -22,7 +22,7 @@
   box-shadow: 0 4px 16px #24445226;
 }
 .ki-icon {
-  background-image: url("/game/assets/anime-forest-v1/ui.webp");
+  background-image: var(--ki-ui-image);
 }
 .ki-player {
   top: max(10px, env(safe-area-inset-top));

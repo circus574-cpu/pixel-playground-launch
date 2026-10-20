@@ -1,27 +1,14 @@
-# Ki Legends — forest foundation
+# Ki Legends — architecture
 
-Phaser 4.2.1, browser-only dynamic mount from the React/TanStack root route. The HTML HUD uses type-only game imports; scene code remains behind the client effect.
+Phaser 4.2.1 renders a local PvE game. React/TanStack mounts it dynamically and renders a HUD driven by typed `GameSession` snapshots/commands. There is no authoritative multiplayer or account backend.
 
-## Current stage
+- `session.ts`: movement/combat rules, enemy AI, quests, loot, equipment, economy and existing browser saves. `characters.ts`: independent character slots and legacy migration. This stage does not extend saves.
+- `movement.ts`, `navigation.ts`, `geometry.ts`: shared clearance, attack line of sight, A*, movement and input bounds; artwork cannot change them.
+- `world/worlds.ts`, `forest-map.json`, `regions/*.json`: four worlds, unchanged coordinates and footprints. Verdantia keeps four forest tile layers; three regions use terrain/decor definitions. `renderForest.ts` / `renderWorld.ts`: shared render adapters, Y depth, culling/occlusion.
+- `assets/catalog.ts`: legacy+versioned imported assets, per-world actor/decor/terrain/effect bindings, active-world preload selection. `schema.ts` / `contract.ts`: machine contract. `phaserAssets.ts`: image/sheet/atlas loader and frame validation. `actorAnimation.ts`: directional state presentation, with existing-art fallback. `layers.ts`, `scenery.ts`, `atmosphere.ts`: independent display layers/scales. `telemetry.ts`: read-only once/second measurements.
+- `mountGame.ts`: the single Phaser scene/input/render lifecycle for all worlds. Handles movement, touch joystick, actual gameplay events, loader progress/errors and idempotent scene disposal.
+- `components/game`: origin artwork/selection, real loader, HUD/dialogues/inventory/settings and expiring messages. Temporary race-change testing remains enabled in `features.ts`.
 
-Current gameplay implementation and validation limitations: docs/STAGE2-GAMEPLAY.md. Local preview: npm run playtest, then /scripts/playtest.html; no publish occurs.
+Production GPU contract, raw-frame packer, importer, asset schemas, targets and rollback: [GPU_ASSET_PIPELINE.md](../../docs/GPU_ASSET_PIPELINE.md). QA, measurements and branch/PR status: [PRE_GPU_STABILIZATION.md](../../docs/PRE_GPU_STABILIZATION.md).
 
-Stage 0 audit: `docs/AUDIT-2026-10-19.md`. Stage 1 graphics: `docs/FOREST-ASSETS.md`. Production constraints and stage order: `docs/PRODUCTION.md`.
-
-The world is built from `world/forest-map.json` and independent OpenAI exports in `public/game/assets/anime-forest-v1/`. `renderForest.ts` creates four autotiled layers and y-sorted object sprites. See `docs/ANIME-FOREST.md` for the current anime export pipeline. The flattened village illustration remains an art reference only. Object collision footprints are separate from their artwork. Minimap and world share the same data.
-
-`view.ts` defines camera limits. The entire React stage enters fullscreen so the HTML HUD remains visible. The default camera zoom is 62% desktop, 48% narrow phones, with 35–100% controls. A `ki:zoom` event updates the actual Phaser camera. Fullscreen always requires a user gesture and may be denied by the browser. The remote automated browser used for QA denied fullscreen; successful native fullscreen was not claimed.
-
-`GameHud.tsx` renders status, target HP, a moving minimap marker, local chat, journal, empty inventory, settings and locked skills. Position, target and defeated count are reported at most 10 times per second. No server gameplay or persistence is present. `/test` and its private sketch storage are untouched.
-
-## Gameplay and limits
-
-GameSession owns local PvE, four NPC interactions, three sequential quests, XP/stats, stackable loot, equipment, merchant, smith and versioned local persistence. Navigation shares the forest's real collision footprints. Phaser remains the renderer/input adapter; React sends typed commands and renders snapshots.
-
-Skills: 1 flame, 2 pulse, 3 shield, 4/Space basic attack, Q potion. E approaches the nearest NPC; F collects nearby loot. Mouse/touch can target visible actors. Journal/map offer navigation buttons. Dialogues and menu panels pause this local simulation.
-
-This is a local single-player adventure foundation, not a network MMORPG. Human walking retains four existing directions. Combat/death use procedural articulation and effects, not new hand-painted directional attack frames. NPCs reuse existing character art with role tints. Other races, regions, authoritative multiplayer and cloud-account persistence remain future work.
-
-## Checks
-
-Run `npm install`, `npm run build`, `npx tsc --noEmit`, `npm test`. Changed TypeScript modules also pass ESLint. The anime offline exporter requires the generated source images listed in `scripts/anime-sources.json` and Pillow/NumPy; it is not a runtime dependency.
+Run `npm run typecheck`, `npm test`, `npm run assets:check`, `npm run lint`, `npm run build`, `npm run build:playtest`, `npm run test:e2e`. The real `Index` playtest is `/scripts/playtest.html`; the isolated art preview adds `?ki-art=technical`. Production URLs ignore that preview flag. `/test` and private sketch functionality are preserved.

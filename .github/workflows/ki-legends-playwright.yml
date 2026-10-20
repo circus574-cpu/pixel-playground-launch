@@ -16,7 +16,11 @@ on:
       - ".github/workflows/ki-legends-playwright.yml"
       - "e2e/**"
       - "playwright.config.ts"
-      - "src/game/**"
+      - "src/**"
+      - "art/pipeline/**"
+      - "public/game/assets/**"
+      - "scripts/**"
+      - "tsconfig*.json"
       - "scripts/playtest*"
       - "package.json"
       - "package-lock.json"
@@ -30,7 +34,7 @@ concurrency:
 
 jobs:
   browser-qa:
-    name: Browser QA (${{ github.event.inputs.suite || 'smoke' }})
+    name: Browser QA (${{ github.event_name == 'pull_request' && 'full' || github.event.inputs.suite || 'smoke' }})
     runs-on: ubuntu-latest
     timeout-minutes: 55
     env:
@@ -45,6 +49,13 @@ jobs:
           cache: npm
       - name: Install project dependencies
         run: npm ci --no-audit --no-fund
+      - name: TypeScript, unit tests, asset validation, lint and production build
+        run: |
+          npm run typecheck
+          npm run test
+          npm run assets:check
+          npm run lint
+          npm run build
       - name: Install Chromium and Linux libraries
         run: npx playwright install --with-deps chromium
       - name: Run browser smoke tests

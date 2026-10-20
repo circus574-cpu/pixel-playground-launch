@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
 import { readFileSync } from "node:fs";
 import type { WorldDefinition } from "../src/game/world/types";

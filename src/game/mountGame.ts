@@ -1,8 +1,13 @@
+import { INTERACTION_BOUNDS } from "./geometry";
 import Phaser from "phaser";
 import { readUiPreferences } from "./uiPreferences";
 import type { GameLoadingState } from "./loading";
-import { CHARACTER_VISUALS, SHARED_ASSETS, regionAssets } from "./world/assets";
-import { facingDirection, walkFrame } from "./world/characterVisual";
+import { actorVisual, catalog, worldAssets } from "./assets/catalog";
+import { queueAssets, prepareTextures, registerActorAnimations } from "./assets/phaserAssets";
+import { ActorAnimation } from "./assets/actorAnimation";
+import type { ActorVisual } from "./assets/schema";
+import { renderDepth } from "./assets/layers";
+import { installRenderTelemetry } from "./assets/telemetry";
 import { RACES, type RaceId } from "./world/races";
 import { playtestSaveKey } from "./playtest";
 import { renderWorld } from "./world/renderWorld";
@@ -24,6 +29,9 @@ type Actor = {
   bar: Phaser.GameObjects.Rectangle;
   name: Phaser.GameObjects.Text;
   track: Phaser.GameObjects.Rectangle;
+  visual: ActorVisual;
+  animation: ActorAnimation;
+  facing: Point;
 };
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
@@ -50,14 +58,20 @@ export function mountKileGends(
   const world = session.world;
   let worldLabels = readUiPreferences().worldLabels;
   parent.dataset["worldLabels"] = String(worldLabels);
-  const visual = CHARACTER_VISUALS[RACES[session.player.race].visual];
+  // Diagnostic art is available only on the isolated local playtest document.
+  const preview =
+    location.pathname === "/scripts/playtest.html" &&
+    new URLSearchParams(location.search).get("ki-art") === "technical";
+  const visual = actorVisual(world.id, "hero", undefined, preview);
+  const assets = worldAssets(world.id, preview);
+  const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private updateVisibility?: (player: Point) => void;
     private hero!: Actor;
     private enemies = new Map<string, Actor>();
     private selection!: Phaser.GameObjects.Ellipse;
-    private shield!: Phaser.GameObjects.Ellipse;
+    private shield!: Phaser.GameObjects.Ellipse | Phaser.GameObjects.Sprite;
     private loot = new Map<string, Phaser.GameObjects.Container>();
     private keys: Record<string, Phaser.Input.Keyboard.Key> | undefined;
     private joystickId: number | null = null;
@@ -68,7 +82,8 @@ export function mountKileGends(
     private stickBase!: Phaser.GameObjects.Arc;
     private stickKnob!: Phaser.GameObjects.Arc;
     private lastReport = 0;
-    private attackUntil = 0;
+    private animationTime = 0;
+    private suspended = false;
     private loadFailed = false;
     constructor() {
       super("Forest");
@@ -87,31 +102,18 @@ export function mountKileGends(
             progress,
           });
       });
-      this.load.on("loaderror", () => {
+      this.load.on("loaderror", (file: Phaser.Loader.File) => {
         this.loadFailed = true;
         loading({
           phase: "error",
           progress: null,
           message:
-            "Nie udało się pobrać zasobów świata. Sprawdź połączenie i ponów próbę. Twój zapis pozostaje bezpieczny.",
+            "Nie udało się pobrać zasobu: " +
+            file.key +
+            ". Sprawdź połączenie i ponów próbę. Twój zapis pozostaje bezpieczny.",
         });
       });
-      this.load.image(SHARED_ASSETS.creatures.key, SHARED_ASSETS.creatures.url);
-      if (visual.kind === "atlas" && visual.atlasUrl)
-        this.load.atlas(visual.key, visual.url, visual.atlasUrl);
-      else this.load.image(visual.key, visual.url);
-      if (world.id === "verdant") {
-        this.load.image(SHARED_ASSETS.forestTerrain.key, SHARED_ASSETS.forestTerrain.url);
-        this.load.atlas(
-          SHARED_ASSETS.forestObjects.key,
-          SHARED_ASSETS.forestObjects.url,
-          SHARED_ASSETS.forestObjects.atlas,
-        );
-      } else for (const asset of regionAssets(world)) this.load.svg(asset.key, asset.url);
-      this.load.spritesheet(SHARED_ASSETS.ui.key, SHARED_ASSETS.ui.url, {
-        frameWidth: SHARED_ASSETS.ui.frameWidth,
-        frameHeight: SHARED_ASSETS.ui.frameHeight,
-      });
+      queueAssets(this, assets);
     }
     create() {
       if (this.loadFailed) {
@@ -124,63 +126,60 @@ export function mountKileGends(
         this.game.events.once(Phaser.Core.Events.POST_RENDER, () => {
           if (!this.loadFailed)
             loading({ phase: "ready", message: "Świat gotowy", progress: null });
+          parent.dataset["loadMs"] = String(Math.round(performance.now() - loadStarted));
         });
-      } catch {
+      } catch (error) {
         this.loadFailed = true;
         loading({
           phase: "error",
           progress: null,
-          message: "Nie udało się przygotować świata. Ponów próbę. Zapis postaci został zachowany.",
+          message:
+            "Nie udało się przygotować świata. " +
+            (error instanceof Error ? error.message : "Błąd zasobów.") +
+            " Ponów próbę. Zapis postaci został zachowany.",
         });
         this.scene.pause();
       }
     }
     private initializeWorld() {
-      const atlas = this.textures.get("world-atlas");
-      const source = atlas.getSourceImage() as HTMLImageElement;
-      atlas.add(
-        "boar",
-        0,
-        source.width * 0.515625,
-        source.height * 0.546875,
-        source.width * 0.484375,
-        source.height * 0.453125,
-      );
-      const sheet = this.textures.get(visual.key);
-      const image = sheet.getSourceImage() as HTMLImageElement;
-      const w = Math.floor(image.width / visual.columns),
-        h = Math.floor(image.height / visual.directions.length);
-      visual.directions.forEach((direction, row) => {
-        if (visual.kind === "sheet")
-          for (let col = 0; col < visual.frames; col++)
-            sheet.add(row * visual.columns + col, 0, col * w, row * h, w, h);
-        this.anims.create({
-          key: "walk-" + direction,
-          frames: Array.from({ length: visual.frames }, (_, i) => ({
-            key: visual.key,
-            frame: walkFrame(visual, direction, i),
-          })),
-          frameRate: visual.frameRate,
-          repeat: -1,
-        });
-      });
+      prepareTextures(this, assets);
+      for (const [id, effect] of Object.entries(catalog.effects).filter(
+        ([key]) => !key.includes(".") || key.startsWith(world.id + "."),
+      ))
+        for (const frame of effect.frames)
+          if (!this.textures.get(effect.asset).has(String(frame)))
+            throw new Error("Brak klatki efektu: " + id + "/" + frame);
+      releaseScene.push(installRenderTelemetry(this, parent));
+      parent.dataset["textureIds"] = JSON.stringify(assets.map((a) => a.id));
       this.cameras.main
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
       this.updateVisibility = renderWorld(this, world).updateVisibility;
-      this.hero = this.actor(session.player, "Ty · " + RACES[session.player.race].name, "hero");
+      this.hero = this.actor(
+        session.player,
+        "Ty · " + RACES[session.player.race].name,
+        "hero",
+        visual,
+      );
       for (const e of session.enemies)
-        this.enemies.set(e.id, this.actor(e, world.enemyName, "enemy"));
-      for (const n of session.npcs) this.actor(n, n.name, "npc").sprite.setTint(n.tint);
+        this.enemies.set(
+          e.id,
+          this.actor(e, world.enemyName, "enemy", actorVisual(world.id, "enemy")),
+        );
+      for (const n of session.npcs) {
+        const actor = this.actor(n, n.name, "npc", actorVisual(world.id, "npc", n.id));
+        if (actor.visual.tintable) actor.sprite.setTint(n.tint);
+      }
       this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
-      this.shield = this.add
-        .ellipse(0, 0, 100, 112, 0x85dfe8, 0.13)
-        .setStrokeStyle(3, 0xaffff4)
-        .setVisible(false);
+      const shieldArt = catalog.renderBindings["effect.shield"];
+      this.shield = shieldArt
+        ? this.add.sprite(0, 0, shieldArt.asset, shieldArt.frame).setDisplaySize(100, 112)
+        : this.add.ellipse(0, 0, 100, 112, 0x85dfe8, 0.13).setStrokeStyle(3, 0xaffff4);
+      this.shield.setVisible(false);
       const beacon = this.add
         .ellipse(world.market.x, world.market.y, 66, 28)
         .setStrokeStyle(3, 0xfff0a1)
-        .setDepth(9002);
+        .setDepth(renderDepth("below", world.market.y));
       this.tweens.add({ targets: beacon, alpha: 0.35, duration: 900, yoyo: true, repeat: -1 });
       this.events.on("postupdate", () => {
         const active =
@@ -206,6 +205,7 @@ export function mountKileGends(
       const save = () => {
         session.flush();
         this.resetStick();
+        this.input.keyboard?.resetKeys();
       };
       parent.addEventListener("ki:flush", save);
       window.addEventListener("pagehide", save);
@@ -253,12 +253,12 @@ export function mountKileGends(
         .circle(0, 0, 48, 0x183c48, 0.5)
         .setStrokeStyle(2, 0xb8f2df)
         .setScrollFactor(0)
-        .setDepth(10001)
+        .setDepth(renderDepth("controls"))
         .setVisible(false);
       this.stickKnob = this.add
         .circle(0, 0, 20, 0xcee6b6, 0.7)
         .setScrollFactor(0)
-        .setDepth(10002)
+        .setDepth(renderDepth("combat"))
         .setVisible(false);
       this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
         if (pointer.id !== this.joystickId) return;
@@ -287,13 +287,26 @@ export function mountKileGends(
       });
       this.input.on("gameout", () => this.resetStick());
       const blur = () => {
+        this.suspended = true;
         this.resetStick();
+        this.input.keyboard?.resetKeys();
+        parent.dataset["focused"] = "false";
         session.flush();
+        this.report();
+      };
+      const focus = () => {
+        this.suspended = false;
+        this.resetStick();
+        this.input.keyboard?.resetKeys();
+        parent.dataset["focused"] = "true";
+        this.report();
       };
       const gameEvents = this.game.events;
       gameEvents.on("blur", blur);
+      gameEvents.on("focus", focus);
       const releaseBlur = () => {
         gameEvents.off("blur", blur);
+        gameEvents.off("focus", focus);
       };
       releaseScene.push(releaseBlur);
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseBlur);
@@ -318,13 +331,15 @@ export function mountKileGends(
     }
     private interactAt(pos: Point) {
       if (session.dialogue || session.paused || session.player.dead) return;
-      const hit = (p: Point, width: number, height: number) =>
-        Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + 20;
-      const npc = session.npcs.find((n) => hit(n, 84, 125));
+      const hit = (
+        p: Point,
+        { width, height, belowFoot }: { width: number; height: number; belowFoot: number },
+      ) => Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + belowFoot;
+      const npc = session.npcs.find((n) => hit(n, INTERACTION_BOUNDS.npc));
       const enemy = session.enemies
-        .filter((e) => e.hp > 0 && hit(e, 100, 125))
+        .filter((e) => e.hp > 0 && hit(e, INTERACTION_BOUNDS.enemy))
         .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
-      const loot = session.loot.find((l) => hit(l, 74, 60));
+      const loot = session.loot.find((l) => hit(l, INTERACTION_BOUNDS.loot));
       if (npc) session.command({ type: "interact", npc: npc.id });
       else if (enemy) session.command({ type: "target", id: enemy.id });
       else if (loot) session.command({ type: "loot", id: loot.id });
@@ -339,15 +354,16 @@ export function mountKileGends(
       this.stickBase?.setVisible(false);
       this.stickKnob?.setVisible(false);
     }
-    private actor(p: Point, label: string, kind: Actor["kind"]): Actor {
+    private actor(p: Point, label: string, kind: Actor["kind"], config: ActorVisual): Actor {
       const boar = kind === "enemy";
       const shadow = this.add.ellipse(0, 3, boar ? 50 : 31, 11, 0x102c3a, 0.3);
-      const sprite = boar
-        ? this.add.sprite(0, 0, "world-atlas", "boar").setDisplaySize(84, 84).setOrigin(0.5, 0.8)
-        : this.add
-            .sprite(0, 0, visual.key, walkFrame(visual, visual.directions[0]!, 0))
-            .setDisplaySize(visual.width, visual.height)
-            .setOrigin(visual.originX, visual.originY);
+      registerActorAnimations(this, config);
+      const clip = config.clips.idle!,
+        first = Object.values(clip.directions)[0]![0]!;
+      const sprite = this.add
+        .sprite(0, 0, clip.asset, first)
+        .setDisplaySize(...config.size)
+        .setOrigin(...config.origin);
       const name = this.add
         .text(p.x, p.y - 94, label, {
           fontSize: "12px",
@@ -358,20 +374,25 @@ export function mountKileGends(
         })
         .setOrigin(0.5)
         .setResolution(2)
-        .setDepth(9001)
+        .setDepth(renderDepth("labels"))
         .setVisible(false);
       if (label.startsWith("Ty ·")) name.setColor("#fff1a8");
-      const track = this.add.rectangle(p.x, p.y - 76, 64, 6, 0x16313e).setDepth(9000);
+      const track = this.add
+        .rectangle(p.x, p.y - 76, 64, 6, 0x16313e)
+        .setDepth(renderDepth("labels") - 1);
       const bar = this.add
         .rectangle(p.x - 32, p.y - 76, 64, 6, boar ? 0xe4818e : 0x8de0c6)
         .setOrigin(0, 0.5)
-        .setDepth(9001);
+        .setDepth(renderDepth("labels"));
       if (!boar) {
         track.setVisible(false);
         bar.setVisible(false);
       }
       const actor = {
         kind,
+        visual: config,
+        animation: new ActorAnimation(sprite, config),
+        facing: { x: 0, y: 1 },
         body: this.add.container(p.x, p.y, [shadow, sprite]).setDepth(p.y),
         sprite,
         bar,
@@ -390,7 +411,7 @@ export function mountKileGends(
           strokeThickness: 4,
         })
         .setOrigin(0.5)
-        .setDepth(10004);
+        .setDepth(renderDepth("labels") + 2);
       this.tweens.add({
         targets: label,
         y: label.y - 45,
@@ -399,7 +420,37 @@ export function mountKileGends(
         onComplete: () => label.destroy(),
       });
     }
+    private texturedEffect(id: string, p: Point, to?: Point) {
+      const spec = catalog.effects[world.id + "." + id] ?? catalog.effects[id];
+      if (!spec) return false;
+      const key = "effect/" + world.id + "/" + id;
+      if (!this.anims.exists(key))
+        this.anims.create({
+          key,
+          frames: spec.frames.map((frame) => ({ key: spec.asset, frame })),
+          frameRate: spec.fps,
+          repeat: 0,
+        });
+      const sprite = this.add
+        .sprite(p.x, p.y - 30, spec.asset, spec.frames[0])
+        .setDisplaySize(...spec.size)
+        .setDepth(renderDepth("combat", p.y));
+      if (spec.frames.length > 1) sprite.play(key);
+      if (to)
+        this.tweens.add({ targets: sprite, x: to.x, y: to.y - 30, duration: spec.durationMs });
+      this.time.delayedCall(spec.durationMs, () => sprite.destroy());
+      return true;
+    }
     private effect(event: GameEvent) {
+      if (event.type === "attack" && event.source) {
+        const source = this.enemies.get(event.source);
+        if (source) {
+          if (event.to) source.facing = { x: event.to.x - event.x, y: event.to.y - event.y };
+          source.animation.trigger("attack", this.animationTime, source.facing);
+        }
+        this.texturedEffect("enemy-attack", event);
+        return;
+      }
       const actor =
         event.target === "player"
           ? this.hero
@@ -413,6 +464,8 @@ export function mountKileGends(
           event.target === "player" ? "#ffa1a1" : event.type === "heal" ? "#a4ffd6" : "#fff0a1",
         );
       if (event.type === "hit" && actor) {
+        actor.animation.trigger("hit", this.animationTime);
+        this.texturedEffect("hit", event);
         actor.sprite
           .setTint(event.target === "player" ? 0xff7777 : 0xffefd0)
           .setTintMode(Phaser.TintModes.FILL);
@@ -420,39 +473,58 @@ export function mountKileGends(
         if (event.target === "player") this.cameras.main.shake(100, 0.002);
       }
       if (event.type === "death" && actor) {
+        this.texturedEffect("death", event);
+        actor.animation.trigger("death", this.animationTime);
         this.tweens.killTweensOf(actor.body);
-        this.tweens.add({
-          targets: actor.body,
-          alpha: 0,
-          angle: 75,
-          duration: 550,
-          onComplete: () => actor.body.setVisible(false),
-        });
+        if (!actor.visual.clips.death)
+          this.tweens.add({
+            targets: actor.body,
+            alpha: 0,
+            angle: 75,
+            duration: 550,
+            onComplete: () => actor.body.setVisible(false),
+          });
       }
       if (event.type === "respawn") {
-        const body = actor?.body ?? this.hero.body;
+        this.texturedEffect("respawn", event);
+        const revived = actor ?? this.hero;
+        revived.animation.trigger("respawn", this.animationTime);
+        const body = revived.body;
         this.tweens.killTweensOf(body);
         body.setAlpha(1).setAngle(0).setVisible(true);
       }
       if (event.type === "attack") {
-        this.attackUntil = this.time.now + 240;
+        this.hero.animation.trigger(
+          event.ability === "attack" ? "attack" : "skill",
+          this.animationTime,
+          session.facing,
+        );
         const dir = session.facing,
           sprite = this.hero.sprite;
         this.tweens.killTweensOf(sprite);
         sprite.setPosition(0, 0).setAngle(0);
-        this.tweens.add({
-          targets: sprite,
-          x: dir.x * 13,
-          y: dir.y * 13,
-          angle: dir.x >= 0 ? 12 : -12,
-          duration: 110,
-          yoyo: true,
-        });
+        if (!this.hero.visual.clips[event.ability === "attack" ? "attack" : "skill"])
+          this.tweens.add({
+            targets: sprite,
+            x: dir.x * 13,
+            y: dir.y * 13,
+            angle: dir.x >= 0 ? 12 : -12,
+            duration: 110,
+            yoyo: true,
+          });
+        if (
+          this.texturedEffect(
+            event.ability ?? "attack",
+            event,
+            event.ability === "pulse" ? event.to : undefined,
+          )
+        )
+          return;
         if (event.ability === "pulse" && event.to) {
           const orb = this.add
             .circle(event.x, event.y - 35, 13, 0xb2ffff, 0.9)
             .setStrokeStyle(5, 0x5dd2f1, 0.5)
-            .setDepth(10002);
+            .setDepth(renderDepth("combat"));
           this.tweens.add({
             targets: orb,
             x: event.to.x,
@@ -461,7 +533,7 @@ export function mountKileGends(
             onComplete: () => orb.destroy(),
           });
         } else {
-          const slash = this.add.graphics().setDepth(10002),
+          const slash = this.add.graphics().setDepth(renderDepth("combat")),
             angle = Math.atan2(dir.y, dir.x);
           slash.lineStyle(
             event.ability === "flame" ? 10 : 5,
@@ -480,10 +552,12 @@ export function mountKileGends(
         }
       }
       if (event.type === "level" || event.type === "heal" || event.type === "loot") {
+        if (event.type === "heal") this.hero.animation.trigger("skill", this.animationTime);
+        if (this.texturedEffect(event.type, event)) return;
         const ring = this.add
           .ellipse(event.x, event.y, 40, 20)
           .setStrokeStyle(4, event.type === "level" ? 0xffea9a : 0x9cffe0)
-          .setDepth(event.y + 1);
+          .setDepth(renderDepth("combat", event.y + 1));
         this.tweens.add({
           targets: ring,
           scaleX: 4,
@@ -492,6 +566,10 @@ export function mountKileGends(
           duration: 800,
           onComplete: () => ring.destroy(),
         });
+      }
+      if (event.type === "shield") {
+        this.hero.animation.trigger("skill", this.animationTime);
+        this.texturedEffect("shield", event);
       }
     }
     private report() {
@@ -505,13 +583,20 @@ export function mountKileGends(
       parent.dataset["npcLabels"] = String(npcLabels);
       parent.dataset["enemyLabels"] = String(enemyLabels);
       parent.dataset["world"] = world.id;
+      parent.dataset["actorVisual"] = this.hero.visual.id;
+      parent.dataset["animationState"] = this.hero.animation.state;
+      parent.dataset["animationFrame"] = String(this.hero.sprite.frame.name);
+      parent.dataset["enemies"] = JSON.stringify(
+        session.enemies.map((e) => ({ id: e.id, x: e.x, y: e.y, hp: e.hp, mode: e.mode })),
+      );
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
     }
     override update(time: number, delta: number) {
-      if (!this.hero || this.loadFailed || document.hidden) return;
+      if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
       const dt = Math.min(delta, 100);
+      if (!session.paused && !session.dialogue) this.animationTime += dt;
       session.tick(dt);
       this.updateVisibility?.(session.player);
       const focused = document.activeElement;
@@ -529,25 +614,47 @@ export function mountKileGends(
         this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
       this.hero.body.setPosition(session.player.x, session.player.y).setDepth(session.player.y);
-      const direction = facingDirection(session.facing, visual.directions);
-      if (session.moving && !session.player.dead && time > this.attackUntil)
-        this.hero.sprite.play("walk-" + direction, true);
-      else {
-        this.hero.sprite.stop();
-        this.hero.sprite.setFrame(walkFrame(visual, direction, 0));
-      }
+      this.hero.animation.update(
+        this.animationTime,
+        session.moving,
+        session.player.dead,
+        session.facing,
+        session.paused || !!session.dialogue,
+      );
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
+        const vx = e.x - a.body.x,
+          vy = e.y - a.body.y;
+        if (Math.hypot(vx, vy) > 0.01) {
+          a.facing.x = vx;
+          a.facing.y = vy;
+        }
+        a.animation.update(
+          this.animationTime,
+          Math.hypot(vx, vy) > 0.01,
+          e.hp <= 0,
+          a.facing,
+          session.paused || !!session.dialogue,
+        );
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
         const engaged = e.hp > 0 && (e.mode === "chase" || session.targetId === e.id);
         a.track.setVisible(engaged);
         a.bar.setVisible(engaged);
-        if (e.hp > 0)
+        if (e.hp > 0 && !a.visual.clips.attack)
           a.sprite.y =
             Math.sin(time / (e.mode === "chase" ? 75 : 180) + e.home.x) *
             (e.mode === "chase" ? 2 : 0.7);
       }
+      for (const actor of this.actors)
+        if (actor.kind === "npc")
+          actor.animation.update(
+            this.animationTime,
+            false,
+            false,
+            actor.facing,
+            session.paused || !!session.dialogue,
+          );
       let nearestNpc: Actor | undefined,
         nearestDistance = 190;
       for (const actor of this.actors)
@@ -580,10 +687,10 @@ export function mountKileGends(
         const top = a.name.y - a.name.displayHeight / 2,
           bottom = a.name.y + a.name.displayHeight / 2;
         const clear =
-          right < session.player.x - visual.width * visual.originX ||
-          left > session.player.x + visual.width * (1 - visual.originX) ||
-          bottom < session.player.y - visual.height * visual.originY ||
-          top > session.player.y + visual.height * (1 - visual.originY);
+          right < session.player.x - visual.size[0] * visual.origin[0] ||
+          left > session.player.x + visual.size[0] * (1 - visual.origin[0]) ||
+          bottom < session.player.y - visual.size[1] * visual.origin[1] ||
+          top > session.player.y + visual.size[1] * (1 - visual.origin[1]);
         a.name.setVisible(
           !quiet &&
             clear &&
@@ -601,12 +708,15 @@ export function mountKileGends(
       this.shield
         .setVisible(session.player.shield > 0)
         .setPosition(session.player.x, session.player.y - 40)
-        .setDepth(session.player.y + 1);
+        .setDepth(renderDepth("combat", session.player.y + 1));
       for (const l of session.loot)
         if (!this.loot.has(l.id)) {
           const icon = this.add.image(0, -17, "ui-icons", 5).setDisplaySize(34, 34);
           // The pickup action is labelled in the HUD; loot on the ground needs only its icon.
-          this.loot.set(l.id, this.add.container(l.x, l.y, [icon]).setDepth(9002));
+          this.loot.set(
+            l.id,
+            this.add.container(l.x, l.y, [icon]).setDepth(renderDepth("actors", l.y + 1)),
+          );
         }
       for (const [id, body] of this.loot)
         if (!session.loot.some((l) => l.id === id)) {

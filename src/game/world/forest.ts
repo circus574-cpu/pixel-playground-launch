@@ -1,4 +1,4 @@
-import mapData from "./forest-map.json";
+import mapData from "./forest-map.json" with { type: "json" };
 import type { Obstacle } from "../movement";
 
 export type ForestObject = {
