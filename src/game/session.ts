@@ -268,6 +268,12 @@ export class GameSession {
         attackIn: 900,
       };
     });
+    const nextQuest = (Object.keys(QUEST_NAMES) as QuestId[]).find(
+      (id) => this.player.quests[id] !== "done",
+    );
+    this.notice = nextQuest
+      ? this.questText(nextQuest)
+      : "Wioska ocalona! Trenuj i zdobywaj wyposażenie.";
     if (saves?.warning) this.say(saves.warning);
   }
   get target() {

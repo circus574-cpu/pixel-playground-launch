@@ -96,6 +96,7 @@ describe("complete adventure on the actual forest collision map", () => {
     game.flush();
     const restored = new GameSession(new SaveStore(storage));
     expect(restored.player).toEqual(game.player);
+    expect(restored.notice).toContain("Wioska ocalona");
   }, 20000);
   it("all NPCs, tutorial point and living boars can be reached from spawn", () => {
     const game = new GameSession();
