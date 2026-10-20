@@ -1,0 +1,62 @@
+{
+  "race": "planetary",
+  "world": "verdant",
+  "status": "awaiting-user-approval",
+  "source_sha256": "ef9c876c5d88f7af1ad6e2972e61a26646594d1fad0592323d907dfdade90921",
+  "source_foreground_bbox": [
+    197,
+    128,
+    805,
+    955
+  ],
+  "master_size": [
+    512,
+    512
+  ],
+  "design_origin": [
+    0.5,
+    0.95
+  ],
+  "scale_previews": {
+    "desktop": {
+      "sprite_size_world": 96,
+      "zoom": 0.62,
+      "canvas_px": 60
+    },
+    "mobile": {
+      "sprite_size_world": 96,
+      "zoom": 0.48,
+      "canvas_px": 46
+    }
+  },
+  "not_installed": true,
+  "animations_generated": 0,
+  "other_races_generated": 0,
+  "files": [
+    {
+      "file": "approval-board.png",
+      "bytes": 307713,
+      "sha256": "ece5cd6b47063b694ba64a0da5ba9e41fa6c8589f44582fc4c6e7f3904f2cdce"
+    },
+    {
+      "file": "planetary-design-master-512.png",
+      "bytes": 167476,
+      "sha256": "b1ca9621438128821156a9f0c986a35ada110d934d42f73af0daa5afe91117ec"
+    },
+    {
+      "file": "planetary-scale-128.png",
+      "bytes": 16757,
+      "sha256": "7c83770b05bdf6d49e68bceb229d5e9d5d789b37377f632151050cc5be464676"
+    },
+    {
+      "file": "planetary-scale-46.png",
+      "bytes": 3412,
+      "sha256": "14eb7c7ed9c0b89e8e46301d4feb9a35dfe9c795887ffd24acfdb82bb295cd1b"
+    },
+    {
+      "file": "planetary-scale-60.png",
+      "bytes": 5052,
+      "sha256": "876df12d863da8b57ff8ed134899f91629ae376272a63a9875aaf285cda6639e"
+    }
+  ]
+}
