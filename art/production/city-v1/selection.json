@@ -1,0 +1,198 @@
+[
+  {
+    "id": "city-verdant-cottage",
+    "world": "verdant",
+    "binding": "object.forest.cottage",
+    "source": "art/production/city-v1/sources/environment-comparison/verdant-cottage-guided.png"
+  },
+  {
+    "id": "city-verdant-inn",
+    "world": "verdant",
+    "binding": "object.forest.inn",
+    "source": "art/production/city-v1/sources/environment-objects/verdant-inn.png"
+  },
+  {
+    "id": "city-verdant-forge",
+    "world": "verdant",
+    "binding": "object.forest.forge",
+    "source": "art/production/city-v1/sources/environment-objects/verdant-forge.png"
+  },
+  {
+    "id": "city-verdant-market",
+    "world": "verdant",
+    "binding": "object.forest.market",
+    "source": "art/production/city-v1/sources/environment-objects/verdant-market.png"
+  },
+  {
+    "id": "city-aether-sanctum",
+    "world": "aether",
+    "binding": "object.sanctum",
+    "source": "art/production/city-v1/sources/environment-comparison/aether-sanctum-guided.png"
+  },
+  {
+    "id": "city-aether-archive",
+    "world": "aether",
+    "binding": "object.archive",
+    "source": "art/production/city-v1/sources/environment-objects/aether-archive.png"
+  },
+  {
+    "id": "city-aether-tree",
+    "world": "aether",
+    "binding": "object.ki-tree",
+    "source": "art/production/city-v1/sources/environment-objects/aether-tree.png"
+  },
+  {
+    "id": "city-aether-peak",
+    "world": "aether",
+    "binding": "object.cloud-peak",
+    "source": "art/production/city-v1/sources/environment-objects/aether-peak.png"
+  },
+  {
+    "id": "city-aether-source",
+    "world": "aether",
+    "binding": "object.ki-source",
+    "source": "art/production/city-v1/sources/city-details/aether-source.png"
+  },
+  {
+    "id": "city-aether-garden",
+    "world": "aether",
+    "binding": "object.garden",
+    "source": "art/production/city-v1/sources/city-details/aether-garden.png"
+  },
+  {
+    "id": "city-nexus-lab",
+    "world": "nexus",
+    "binding": "object.lab",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-reactor.png"
+  },
+  {
+    "id": "city-nexus-reactor",
+    "world": "nexus",
+    "binding": "object.reactor",
+    "source": "art/production/city-v1/sources/environment-comparison/nexus-lab-free.png"
+  },
+  {
+    "id": "city-nexus-terminal",
+    "world": "nexus",
+    "binding": "object.terminal",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-terminal.png"
+  },
+  {
+    "id": "city-nexus-crystal",
+    "world": "nexus",
+    "binding": "object.crystal",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-crystal.png"
+  },
+  {
+    "id": "city-nexus-pylon",
+    "world": "nexus",
+    "binding": "object.pylon",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-pylon.png"
+  },
+  {
+    "id": "city-nexus-garden",
+    "world": "nexus",
+    "binding": "object.tech-garden",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-garden.png"
+  },
+  {
+    "id": "city-pyra-fortress",
+    "world": "pyra",
+    "binding": "object.fortress",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-fortress.png"
+  },
+  {
+    "id": "city-pyra-shrine",
+    "world": "pyra",
+    "binding": "object.war-shrine",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-shrine.png"
+  },
+  {
+    "id": "city-pyra-monument",
+    "world": "pyra",
+    "binding": "object.statue",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-monument.png"
+  },
+  {
+    "id": "city-pyra-banner",
+    "world": "pyra",
+    "binding": "object.clan-banner",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-banner.png"
+  },
+  {
+    "id": "city-pyra-basalt",
+    "world": "pyra",
+    "binding": "object.basalt",
+    "source": "art/production/city-v1/sources/city-details/pyra-basalt.png"
+  },
+  {
+    "id": "city-pyra-volcano",
+    "world": "pyra",
+    "binding": "object.volcano",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-volcano.png",
+    "largestComponent": true
+  },
+  {
+    "id": "city-aether-ground",
+    "world": "aether",
+    "binding": "terrain.aether-ground",
+    "source": "art/production/city-v1/sources/environment-objects/aether-ground.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-aether-path",
+    "world": "aether",
+    "binding": "terrain.aether-path",
+    "source": "art/production/city-v1/sources/environment-objects/aether-path.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-aether-plaza",
+    "world": "aether",
+    "binding": "terrain.aether-plaza",
+    "source": "art/production/city-v1/sources/environment-objects/aether-plaza.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-nexus-ground",
+    "world": "nexus",
+    "binding": "terrain.nexus-ground",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-ground.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-nexus-path",
+    "world": "nexus",
+    "binding": "terrain.nexus-path",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-path.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-nexus-plaza",
+    "world": "nexus",
+    "binding": "terrain.nexus-plaza",
+    "source": "art/production/city-v1/sources/environment-objects/nexus-plaza.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-pyra-ground",
+    "world": "pyra",
+    "binding": "terrain.pyra-ground",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-ground.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-pyra-path",
+    "world": "pyra",
+    "binding": "terrain.pyra-path",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-path.png",
+    "kind": "tile"
+  },
+  {
+    "id": "city-pyra-plaza",
+    "world": "pyra",
+    "binding": "terrain.pyra-plaza",
+    "source": "art/production/city-v1/sources/environment-objects/pyra-plaza.png",
+    "kind": "tile"
+  }
+]

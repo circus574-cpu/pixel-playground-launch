@@ -1,0 +1,14 @@
+{
+  "id": "aether-garden",
+  "width": 1024,
+  "height": 1024,
+  "sha256": "884b34708a7237b8a9f55751f21a15386ce6ba430e61e08b443195a9d4c88ad7",
+  "bytes": 536469,
+  "blender": "4.5.3 LTS",
+  "camera_elevation": 60,
+  "engine": "Cycles CUDA",
+  "seconds": 6.734545244995388,
+  "status": "procedural-prop-pending-review",
+  "world": "aether",
+  "binding": "object.garden"
+}

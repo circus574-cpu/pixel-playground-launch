@@ -1,0 +1,15 @@
+{
+  "id": "aether-pulse-01",
+  "world": "aether",
+  "frame": 1,
+  "frames": 8,
+  "fps": 16,
+  "durationMs": 500,
+  "sha256": "bc03f8117c855d76b9f7ef2036e04c4a6a2086e63602e065a3a5f7a872cb246b",
+  "width": 512,
+  "height": 512,
+  "engine": "Cycles CUDA",
+  "blender": "4.5.3 LTS",
+  "seconds": 3.2888812919991324,
+  "status": "generated-pending-review"
+}

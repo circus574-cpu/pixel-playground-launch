@@ -1,0 +1,15 @@
+{
+  "id": "pyra-pulse-04",
+  "world": "pyra",
+  "frame": 4,
+  "frames": 8,
+  "fps": 16,
+  "durationMs": 500,
+  "sha256": "7e75f390a690b39bda71279135ea835589027af8085c937275062ba9857c686c",
+  "width": 512,
+  "height": 512,
+  "engine": "Cycles CUDA",
+  "blender": "4.5.3 LTS",
+  "seconds": 3.8712493359926157,
+  "status": "generated-pending-review"
+}

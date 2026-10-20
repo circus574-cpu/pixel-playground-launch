@@ -1,5 +1,50 @@
 [
   {
+    "file": "art/production/city-v1/sources/city-details/aether-garden.blend",
+    "bytes": 1944971,
+    "sha256": "a4e2ff2f37c4994cda310dd2b5251f541b6ee303e5d3a3a8d4bc4d327d76ad98"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-garden.json",
+    "bytes": 370,
+    "sha256": "d582a6e90f4f00568eb65b676363aa7e4e4fe7575cdc58be3b19c4e60c6c7b91"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-garden.png",
+    "bytes": 536469,
+    "sha256": "884b34708a7237b8a9f55751f21a15386ce6ba430e61e08b443195a9d4c88ad7"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-source.blend",
+    "bytes": 849357,
+    "sha256": "ec305efb4ff0d41a2cd0040a69208171d492036fc82775dd585f491e783a3632"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-source.json",
+    "bytes": 373,
+    "sha256": "929bc3f93cef7e36bbaf3b7e728304e4ada72d78406fe22749f6cb4209ff4bbe"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-source.png",
+    "bytes": 609884,
+    "sha256": "c0f0503ad4db63ea0bfc4ab790b3d9528a189af08a435502fd87d42d5b1a0dd8"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/pyra-basalt.blend",
+    "bytes": 792378,
+    "sha256": "84eea2ecdd70de5ab3a9fde7ddcd1c939be7c69b82b29bb20bfef55b866038ba"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/pyra-basalt.json",
+    "bytes": 366,
+    "sha256": "e79618b920b94987c5b14d4cda2be14cd341d42ea3e41a2d171b1b55f9e938da"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/pyra-basalt.png",
+    "bytes": 796930,
+    "sha256": "98ab3bfc389435cd618fda1dba3bf60396c4c36f9358a053df1486e8036cbc19"
+  },
+  {
     "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-free.json",
     "bytes": 2869,
     "sha256": "33580684b8e743d0d0a9018d3657398f47ff58447fa0b945ed02688027d92bbf"
@@ -438,6 +483,346 @@
     "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.png",
     "bytes": 883331,
     "sha256": "4b751ff72dc8dfd059b4e407b249631c2a43f6839051f2e270c247e2c1e4c8b0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-00.blend",
+    "bytes": 624944,
+    "sha256": "a3af2e94eee35d3d2ef9c28f22bb1821fdb5d5bed3555aeb2c2ebbbaeed07fc1"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-00.json",
+    "bytes": 353,
+    "sha256": "7e8293a15bdb85a798badfbd65f6e61eb4380ac5e676eacb8f881e8cdecad462"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-00.png",
+    "bytes": 63497,
+    "sha256": "6eb05f3679b901487a8b086f78967902ac1281c80b31c489e6a98435baa1c911"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-01.json",
+    "bytes": 353,
+    "sha256": "d0ca5f8428ab8a8b7db867002a0f5440faeb46eece439b2c6cdbe829957e9563"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-01.png",
+    "bytes": 86302,
+    "sha256": "bc03f8117c855d76b9f7ef2036e04c4a6a2086e63602e065a3a5f7a872cb246b"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-02.json",
+    "bytes": 353,
+    "sha256": "e0730e2bc4e1768d30e983591deb00ba12779de0151ad3384ca241c501d193e5"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-02.png",
+    "bytes": 113912,
+    "sha256": "6f6fd990475de7e93e6963e503e1ca801d1acee56e2542e4965cda3681bf2025"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-03.json",
+    "bytes": 353,
+    "sha256": "a8ebd0b5dcde639e0d9ca2a308d8e68ebd5a4874f4b087e35bbc520cd700f882"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-03.png",
+    "bytes": 128176,
+    "sha256": "9e1b9780c8cc63f7475b754a56685986c893ea7b7c6d34c3d8fbb9be8ed98e58"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-04.json",
+    "bytes": 352,
+    "sha256": "d463920cf46f87824b66d69b215ac21784b2840867879aa67dc622784963d4e2"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-04.png",
+    "bytes": 131534,
+    "sha256": "072bee5608b08ba71d5c7df8f8c2c68e7462b72577eab2a7d1de9148d47c39d8"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-05.json",
+    "bytes": 352,
+    "sha256": "e4cdf4a0330c00e02de5cf4a270b119c06299d86080091bf05704f0f8bfeecce"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-05.png",
+    "bytes": 116219,
+    "sha256": "bdbf20f9b74673d6fc3bc728c7d9062b115286698c1ca660b8bc1316e3f41dda"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-06.json",
+    "bytes": 353,
+    "sha256": "804b8c1eccaa60c23f141457fda0a90b3a46b8eace618c2aa9d1077e1b44e43a"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-06.png",
+    "bytes": 88806,
+    "sha256": "2fac93db80de2a316c4127a25425fe2d148192ec3ac23a73566dd0c82edebe53"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-07.json",
+    "bytes": 353,
+    "sha256": "ccda8f77f725ad5fa31da1ad46f41ce97c5b0ca8b2543d6f1ba6a2422aebb637"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-07.png",
+    "bytes": 63521,
+    "sha256": "9a3cdb183d5b3d1ca043b97d2656cb14e160f23b3eab18170c52a786d41e87a7"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-00.blend",
+    "bytes": 637984,
+    "sha256": "15f6fa488abe026aab7e08fd7ef82d2dffcb60885543f29b6e10393cb8eb078a"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-00.json",
+    "bytes": 350,
+    "sha256": "9e36aa556be9ff8e28c74322588379b0028d05c4975e898f7f3bb5b36254999e"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-00.png",
+    "bytes": 65617,
+    "sha256": "fa2b4d5e3ad8981acc76d55a710c0b9400cbdcfd8957b597231b73b725c6dafa"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-01.json",
+    "bytes": 349,
+    "sha256": "368b781bfd425b83501ce4ad4ea957533ac95660311d2d5ca3dd919771944c8e"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-01.png",
+    "bytes": 93161,
+    "sha256": "01f49196efe73efd6fade83affe0ac690fe20d6b77fcfc2e2271b58221b36710"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-02.json",
+    "bytes": 351,
+    "sha256": "ef60edf48632e92d26160fbabd4139c7e71a962e6b1e857b410d32b0c3565ae0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-02.png",
+    "bytes": 115375,
+    "sha256": "33a2b0d458fc81c9c90e6d7e364912100043661991ecf45fb78dcf4d1114526d"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-03.json",
+    "bytes": 351,
+    "sha256": "9ca2c095b9e818ca845dbc097b7c41ab456c61bf900d66c4b366343cfd99c9a4"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-03.png",
+    "bytes": 125810,
+    "sha256": "2f0896c25d6950ee370029ec477bab32565bd1ca86715ba4cb45e18134216ace"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-04.json",
+    "bytes": 350,
+    "sha256": "19484aba43e28b1b07c079ee8dfb431fae2236f323621d831e846e4ccc4eee18"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-04.png",
+    "bytes": 131120,
+    "sha256": "e73d05d76f16d69238418c26344a6c2f34daea091c21913b39bd3e931213fecf"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-05.json",
+    "bytes": 351,
+    "sha256": "848938c4382d30ef9fbf70efae75ad41623bc9c4efff85f93d800235aab5e6dd"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-05.png",
+    "bytes": 118201,
+    "sha256": "5008aab0ba71be5d3221bb18f7e008af1facc472ffea41cc199b8f1cf90afba9"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-06.json",
+    "bytes": 350,
+    "sha256": "75662f2a59f693f34cc74bf1c21862fa07971ad1ccea9eeec0d2ffb09ef061ba"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-06.png",
+    "bytes": 94250,
+    "sha256": "7c05661a50d9aaec193737f336679b25870055607c855535b4af1b41a4fe70cc"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-07.json",
+    "bytes": 350,
+    "sha256": "52efde264b610439e5eeb93a99b5481c77d6663f64229c7f8d0979071860a443"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-07.png",
+    "bytes": 65475,
+    "sha256": "dce9d3fd300e89cc68ca680df8c5b5433b8ffb11d6c727a99605a52a568325ad"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-00.blend",
+    "bytes": 651024,
+    "sha256": "3cc6d2a750a8689dd6bbb13a20b394b82082cca1f50644330c9a6c93ef5973a6"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-00.json",
+    "bytes": 348,
+    "sha256": "112e6a278fad0277be3ee1df655c8bffcb5fe3f7abdbe54c7eb42743949c820f"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-00.png",
+    "bytes": 65937,
+    "sha256": "30956e0b24f217e23931efbb8b2b363efa7de4de0318e44ed624d17821e144e3"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-01.json",
+    "bytes": 349,
+    "sha256": "4f365edf62bcb8115ebf35e183a3ea87a8067593259f4172231da909dfe15a06"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-01.png",
+    "bytes": 95348,
+    "sha256": "4e5358c17ed2b63b48d13ede59d3ef2739d1c8bd68b05e637f2bf3546688f007"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-02.json",
+    "bytes": 348,
+    "sha256": "342a625471b07b269d72903679391a77d29fe401311e92f72da2a9f960a591c4"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-02.png",
+    "bytes": 119444,
+    "sha256": "8530b68f64b747cf673604a0c90ebac290460f90ce4253f9f080f2e4c23d70e9"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-03.json",
+    "bytes": 349,
+    "sha256": "de13a5c74a5d219db0077d10943eeca2ba54859b750f59650b4539f092861a75"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-03.png",
+    "bytes": 133243,
+    "sha256": "b25c633ad902d144d2d0fc6953d5e12e0288d78a9377d5bd94e42ec2c222a74f"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-04.json",
+    "bytes": 349,
+    "sha256": "1640d6b303c818b263d3a3e07548971a6e4e232f6c0ca3c9d0e0d738da77012a"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-04.png",
+    "bytes": 137396,
+    "sha256": "7e75f390a690b39bda71279135ea835589027af8085c937275062ba9857c686c"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-05.json",
+    "bytes": 349,
+    "sha256": "cc31fb280555dd419e3e94487a6715bcc559689c1751b24eb193eb3bf9fab1b6"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-05.png",
+    "bytes": 123251,
+    "sha256": "161c10f065d3ca506e95bf8f1c299442fbb9985c83150aebdf9acd9f55c5d3e9"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-06.json",
+    "bytes": 349,
+    "sha256": "0d8127a799794b439272a623d92974748f30956d742c04a08e08b0ddcc083499"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-06.png",
+    "bytes": 96397,
+    "sha256": "fde4f16a992d520929e930227124ed90ea58efb79b3b556b8570386c572e1259"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-07.json",
+    "bytes": 348,
+    "sha256": "b7836017aeca40888d4744a7b501b41c688c433ac111fa1918f6c5cd13cf4a0c"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-07.png",
+    "bytes": 66164,
+    "sha256": "25e87fbf35cf5e27167fc6e5758b95f95fc6d9636085072568610623db8eddea"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-00.blend",
+    "bytes": 611904,
+    "sha256": "854bf2461328f93b9c03df103f061538433506b27cc5af2ebaa91883628e9a05"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-00.json",
+    "bytes": 355,
+    "sha256": "fd0d1f23db7b6936326a5868ecc87ab2125965dfe6e5381a848a4be8482626b2"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-00.png",
+    "bytes": 65404,
+    "sha256": "5de8f12196c37609a8cfcd57374092fd2d60e3d8ebb9d88c4148a2d25eddc9de"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-01.json",
+    "bytes": 355,
+    "sha256": "492120965bf72bebe4f1210a7f9ea2d2731e3e15fe4ae6b0954dc0a6aa085c14"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-01.png",
+    "bytes": 94166,
+    "sha256": "34c3dc739c837697bfee73c2266f03b26933b43b2656d63609f199a87145be33"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-02.json",
+    "bytes": 354,
+    "sha256": "d76ba4af7b7b3f1a080bf6783d47c8edeeca85a8e594f22ecb3f2b9faa2514d3"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-02.png",
+    "bytes": 117408,
+    "sha256": "02b23fbf804a75985665969da22439e54c5fc335bdd293e23a4bf033c42ed33c"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-03.json",
+    "bytes": 353,
+    "sha256": "1cb7401ff8fff1a9367158541161c7ae31460b0d86417ab5215c38be11620e85"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-03.png",
+    "bytes": 129730,
+    "sha256": "8b662f4293c78ab50623635a0a7823b1e9ccc8b3c71c4d3f40a502fbf5edad03"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-04.json",
+    "bytes": 355,
+    "sha256": "888600c07e0245f4fb76ad22f90a7dfac09537ce3d9ee7ee77d4d24513731cbe"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-04.png",
+    "bytes": 134211,
+    "sha256": "8ebcb59157c35831dc16ac924b73a63daea52a15ef7dae9c775511207efb04c0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-05.json",
+    "bytes": 355,
+    "sha256": "1e06cea73ccbb7574fb9539147129991cc0410be1a3bed3d65216dacca9d0a0e"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-05.png",
+    "bytes": 119974,
+    "sha256": "f56b445f1d3ebe5cdd98e4485ef47b258d59c8ffc7b240f7ff72802db5d63899"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-06.json",
+    "bytes": 354,
+    "sha256": "5c8cf9ac22dca4009f73ff1659ea56697b10576ebc77fae624985b427bfc63a3"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-06.png",
+    "bytes": 95507,
+    "sha256": "6e35a9ed7d1c7d66b2ec739184232bdf27ebc357eeec458557482f2e873959f0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-07.json",
+    "bytes": 354,
+    "sha256": "475d65b1c3e0887680d726b0ae408d07e2dec705c13ac85513599041d83868b0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-07.png",
+    "bytes": 65397,
+    "sha256": "5da9bf4e0ee406852b86b6a936a3464b491f6b559fe830feb14c288323d56590"
   },
   {
     "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-45.json",

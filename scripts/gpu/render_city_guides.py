@@ -80,43 +80,44 @@ def render(name):
  for p in [target,blend]:(OUT/p.name).write_bytes(p.read_bytes())
  data={'id':name,'width':1024,'height':1024,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'bytes':target.stat().st_size,'blender':bpy.app.version_string,'camera_elevation':60,'engine':'Cycles CUDA','seconds':time.monotonic()-start,'status':'geometry-guide'}
  (OUT/(name+'.json')).write_text(json.dumps(data,indent=2)+'\n');print('GUIDE_COMPLETE',name,flush=True)
-for world in ['verdant','aether','nexus','pyra']:
- s=setup();stone=mat('Warm stone','d5ccb4');gold=mat('Aged brass','cba34f',.5);dark=mat('Structural dark','29313b',.25);wood=mat('Walnut','563821');leaf=mat('Jade foliage','3e7843');blue=mat('Cyan light','48d9ff',.2,2);amber=mat('Amber windows','ffb849',0,1);purple=mat('Amethyst','8250b3',.3);red=mat('Crimson','932735');basalt=mat('Basalt','34313a');fire=mat('Furnace','ff5820',.1,2)
- if world=='verdant':
-  house(0,0,3.6,2.5,1.7,stone,wood,leaf,amber,gold)
-  for side in [-1,1]:
-   for j in range(7):ball('Ivy leaves',(side*1.8,-1.35,.35+j*.24),(.19,.10,.23),leaf)
-  for xx in [-1.3,1.3]:line('Lantern support',(xx,-1.5,1.7),(xx,-1.9,1.7),.035,wood);ball('Amber lantern',(xx,-1.9,1.45),(.14,.14,.22),amber)
- elif world=='aether':
-  house(0,0,3.5,2.7,1.8,stone,gold,purple,blue,gold)
-  for xx in [-2.0,2.0]:
-   cyl('Academy tower',(xx,.6,1.55),.55,3.1,stone)
-   for zz in [.3,1.3,2.5,3.0]:cyl('Golden tower ring',(xx,.6,zz),.59,.12,gold)
-   cone('Violet roof',(xx,.6,3.75),.75,1.3,purple)
-   crystal((xx,.6,4.4),.12,.6,blue)
-  crystal((0,.4,3.2),.24,.9,purple)
- elif world=='nexus':
-  cube('Laboratory base',(0,0,.15),(4.2,3.0,.3),dark)
-  cube('Main white laboratory',(0,0,1.05),(3.7,2.6,1.8),stone,.16)
-  for xx in [-1.5,-.75,0,.75,1.5]:window(xx,-1.35,1.1,.43,.8,dark,blue)
-  cube('Central entrance',(0,-1.5,.7),(.7,.14,1.3),dark)
-  for xx in [-2,2]:
-   cube('White fin',(xx,0,1.2),(.25,2.4,2.2),stone)
-   cube('Cyan conduit',(xx,-1.26,1.2),(.07,.07,2),blue)
-  cyl('Reactor drum',(0,.25,2.2),1,.55,dark)
-  cyl('Reactor platform',(0,.25,2.5),1.1,.12,gold)
-  crystal((0,.25,2.55),.45,1.7,blue)
-  for xx in [-.9,.9]:line('Reactor rails',(xx,.25,2.5),(xx,.25,3.8),.06,stone)
- else:
-  cube('Fortress base',(0,0,.16),(5.4,2.9,.32),basalt)
-  house(0,0,3.1,2.5,1.8,basalt,gold,red,fire,gold)
-  for xx in [-2.0,2.0]:
-   cube('Fortress tower',(xx,.1,1.6),(1.2,2.6,3.2),basalt)
-   for z in [.35,1.1,2,2.9]:cube('Tower belt',(xx,.1,z),(1.3,2.7,.13),gold)
-   roof(xx,.1,3.2,1.6,2.9,.8,red,gold)
-   for z in [1.25,2.25]:window(xx,-1.25,z,.25,.5,gold,fire)
-   cube('Crimson banner',(xx+.4,-1.35,2.1),(.23,.035,1.25),red)
-  cube('Furnace gate',(0,-1.35,.85),(1.05,.1,1.6),fire)
-  for xx in [-.44,-.22,0,.22,.44]:cube('Iron portcullis',(xx,-1.43,.85),(.045,.06,1.6),dark)
- render(world+'-guide')
-print('ALL_GUIDES_COMPLETE',flush=True)
+if __name__ == '__main__':
+    for world in ['verdant','aether','nexus','pyra']:
+     s=setup();stone=mat('Warm stone','d5ccb4');gold=mat('Aged brass','cba34f',.5);dark=mat('Structural dark','29313b',.25);wood=mat('Walnut','563821');leaf=mat('Jade foliage','3e7843');blue=mat('Cyan light','48d9ff',.2,2);amber=mat('Amber windows','ffb849',0,1);purple=mat('Amethyst','8250b3',.3);red=mat('Crimson','932735');basalt=mat('Basalt','34313a');fire=mat('Furnace','ff5820',.1,2)
+     if world=='verdant':
+      house(0,0,3.6,2.5,1.7,stone,wood,leaf,amber,gold)
+      for side in [-1,1]:
+       for j in range(7):ball('Ivy leaves',(side*1.8,-1.35,.35+j*.24),(.19,.10,.23),leaf)
+      for xx in [-1.3,1.3]:line('Lantern support',(xx,-1.5,1.7),(xx,-1.9,1.7),.035,wood);ball('Amber lantern',(xx,-1.9,1.45),(.14,.14,.22),amber)
+     elif world=='aether':
+      house(0,0,3.5,2.7,1.8,stone,gold,purple,blue,gold)
+      for xx in [-2.0,2.0]:
+       cyl('Academy tower',(xx,.6,1.55),.55,3.1,stone)
+       for zz in [.3,1.3,2.5,3.0]:cyl('Golden tower ring',(xx,.6,zz),.59,.12,gold)
+       cone('Violet roof',(xx,.6,3.75),.75,1.3,purple)
+       crystal((xx,.6,4.4),.12,.6,blue)
+      crystal((0,.4,3.2),.24,.9,purple)
+     elif world=='nexus':
+      cube('Laboratory base',(0,0,.15),(4.2,3.0,.3),dark)
+      cube('Main white laboratory',(0,0,1.05),(3.7,2.6,1.8),stone,.16)
+      for xx in [-1.5,-.75,0,.75,1.5]:window(xx,-1.35,1.1,.43,.8,dark,blue)
+      cube('Central entrance',(0,-1.5,.7),(.7,.14,1.3),dark)
+      for xx in [-2,2]:
+       cube('White fin',(xx,0,1.2),(.25,2.4,2.2),stone)
+       cube('Cyan conduit',(xx,-1.26,1.2),(.07,.07,2),blue)
+      cyl('Reactor drum',(0,.25,2.2),1,.55,dark)
+      cyl('Reactor platform',(0,.25,2.5),1.1,.12,gold)
+      crystal((0,.25,2.55),.45,1.7,blue)
+      for xx in [-.9,.9]:line('Reactor rails',(xx,.25,2.5),(xx,.25,3.8),.06,stone)
+     else:
+      cube('Fortress base',(0,0,.16),(5.4,2.9,.32),basalt)
+      house(0,0,3.1,2.5,1.8,basalt,gold,red,fire,gold)
+      for xx in [-2.0,2.0]:
+       cube('Fortress tower',(xx,.1,1.6),(1.2,2.6,3.2),basalt)
+       for z in [.35,1.1,2,2.9]:cube('Tower belt',(xx,.1,z),(1.3,2.7,.13),gold)
+       roof(xx,.1,3.2,1.6,2.9,.8,red,gold)
+       for z in [1.25,2.25]:window(xx,-1.25,z,.25,.5,gold,fire)
+       cube('Crimson banner',(xx+.4,-1.35,2.1),(.23,.035,1.25),red)
+      cube('Furnace gate',(0,-1.35,.85),(1.05,.1,1.6),fire)
+      for xx in [-.44,-.22,0,.22,.44]:cube('Iron portcullis',(xx,-1.43,.85),(.045,.06,1.6),dark)
+     render(world+'-guide')
+    print('ALL_GUIDES_COMPLETE',flush=True)

@@ -1,0 +1,15 @@
+{
+  "id": "verdant-pulse-05",
+  "world": "verdant",
+  "frame": 5,
+  "frames": 8,
+  "fps": 16,
+  "durationMs": 500,
+  "sha256": "f56b445f1d3ebe5cdd98e4485ef47b258d59c8ffc7b240f7ff72802db5d63899",
+  "width": 512,
+  "height": 512,
+  "engine": "Cycles CUDA",
+  "blender": "4.5.3 LTS",
+  "seconds": 3.4894731959939236,
+  "status": "generated-pending-review"
+}

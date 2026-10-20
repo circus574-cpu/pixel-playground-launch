@@ -1,0 +1,14 @@
+{
+  "id": "pyra-basalt",
+  "width": 1024,
+  "height": 1024,
+  "sha256": "98ab3bfc389435cd618fda1dba3bf60396c4c36f9358a053df1486e8036cbc19",
+  "bytes": 796930,
+  "blender": "4.5.3 LTS",
+  "camera_elevation": 60,
+  "engine": "Cycles CUDA",
+  "seconds": 6.428864206987782,
+  "status": "procedural-prop-pending-review",
+  "world": "pyra",
+  "binding": "object.basalt"
+}
