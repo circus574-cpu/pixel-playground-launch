@@ -214,7 +214,16 @@ export async function validatePackage(manifest: string) {
         ? (["idle", "walk"] as const)
         : (Object.keys(GPU_CONTRACT.animations) as (keyof typeof GPU_CONTRACT.animations)[]);
     if (!pack.technical) {
-      const expected = actor.profile === "enemy" ? GPU_CONTRACT.enemy : GPU_CONTRACT.hero;
+      requireThat(
+        actor.presentation !== "grounded" || actor.profile === "hero",
+        "Grounded presentation currently supports heroes only: " + actor.id,
+      );
+      const expected =
+        actor.presentation === "grounded"
+          ? GPU_CONTRACT.groundedHero
+          : actor.profile === "enemy"
+            ? GPU_CONTRACT.enemy
+            : GPU_CONTRACT.hero;
       requireThat(
         actor.size.every((n, i) => n === expected.size[i]) &&
           actor.origin.every((n, i) => n === expected.origin[i]),

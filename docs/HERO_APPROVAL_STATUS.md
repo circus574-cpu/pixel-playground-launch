@@ -41,3 +41,11 @@ Użytkownik zaakceptował przedstawiony wzorzec słowami „Jest dobrze startuj 
 ## Model techniczny — aktualny stan
 
 Zabezpieczono osiem kierunków modelu w `sources/rig-calibration-v2` wraz z edytowalnym `.blend`. Poprawiono sRGB, zamknięte rękawice i buty. To kalibracja, bez instalacji w grze. Skrypt `animate_planetary.py` definiuje siedem rzeczywistych animacji szkieletowych; pierwszy render ruchu wymaga kontroli wizualnej, marginesów i punktu stóp. Nie oznacza to gotowych 416 klatek ani zaliczenia testów w grze.
+
+## Ruch — próba i korekta kamery
+
+Zapisano poza GPU 64 realne klatki próby (`sources/motion-trial-v1`) i źródło `.blend` z siedmioma nazwanymi akcjami. To próba odrzucona do instalacji: boczny kadr przycina włosy, a sylwetka jest zbyt duża. Nie traktować liczby klatek jako odbioru jakości.
+
+Nowy jawny profil `grounded` zachowuje collider 12 i pozycję stóp w świecie; zwiększa zapas canvasu do 128 jednostek, z punktem gruntu `[0.5, 0.75]`. Kamera źródła: 45°, ortho 7.0. Zmniejsza około 430 px sylwetki w poprzednim renderze do około 362 px; na canvasie świata 128 daje około 91 jednostek, blisko zatwierdzonego mastera (około 90). Stały kadr dla wszystkich klatek, bez przycinania/centrowania każdej klatki. Profil `legacy` pozostaje domyślny. Importer odrzuca inne wymiary/pivot i nie dopuszcza nowego profilu dla NPC/przeciwników bez osobnej specyfikacji.
+
+Weryfikacja tego etapu: pełny TypeScript PASS, build PASS, 97/97 testów jednostkowych PASS. Lint po skorygowaniu formatowania plików wygenerowanych wcześniej przez Lovable: 0 błędów, 7 dotychczasowych ostrzeżeń. Pełne E2E w toku; nie ma jeszcze wyniku testów nowego bohatera w grze. Nowy profil jest przygotowany, ale żaden actorBinding nie został podmieniony.

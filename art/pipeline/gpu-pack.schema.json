@@ -153,6 +153,13 @@
                 ],
                 "default": "hero"
               },
+              "presentation": {
+                "type": "string",
+                "enum": [
+                  "legacy",
+                  "grounded"
+                ]
+              },
               "size": {
                 "type": "array",
                 "minItems": 2,

@@ -65,6 +65,7 @@ export const ActorSchema = z
   .object({
     id,
     profile: z.enum(["hero", "enemy", "npc"]).default("hero"),
+    presentation: z.enum(["legacy", "grounded"]).optional(),
     size,
     origin: z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]),
     tintable: z.boolean().default(false),

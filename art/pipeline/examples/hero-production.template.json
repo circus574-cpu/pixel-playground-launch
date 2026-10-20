@@ -27,6 +27,7 @@
     {
       "id": "hero-planetary",
       "profile": "hero",
+      "presentation": "legacy",
       "size": [
         96,
         96

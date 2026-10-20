@@ -4,19 +4,21 @@ Use --review for a short motion check; complete output requires a validated revi
 import argparse, hashlib, json, math, time
 from pathlib import Path
 import bpy
+import numpy as np
 from mathutils import Quaternion, Vector
 
-parser=argparse.ArgumentParser();parser.add_argument('--review',action='store_true');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--review',action='store_true');parser.add_argument('--validate-only',action='store_true');parser.add_argument('--render-validated',action='store_true');args=parser.parse_args()
 ROOT=Path('/workspace/ki-legends-gpu')
 SOURCE=Path('/opt/ki-legends-gpu/planetary-rig-v2/planetary-rig-down.blend')
 bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
 rig=bpy.data.objects['hero-planetary'];scene=bpy.context.scene
 scene.render.use_freestyle=False  # contours are checked separately; avoid CPU bottleneck during motion QA
-scene.cycles.samples=24
+scene.cycles.samples=16
+scene.render.use_persistent_data=True
 prefs=bpy.context.preferences.addons['cycles'].preferences;prefs.compute_device_type='CUDA';prefs.get_devices()
 for d in prefs.devices:d.use=d.type=='CUDA'
 scene.cycles.device='GPU'
-origin=.76;ortho=5.9
+origin=.75;ortho=7.0
 cam=scene.camera;cam.data.ortho_scale=ortho
 target=Vector((0,0,(origin-.5)*ortho/math.cos(math.pi/4)))
 cam.location=target+Vector((0,-10,10));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
@@ -67,7 +69,7 @@ def pose(state,index,count):
         for side in ['L','R']:leg(side)
     elif state=='walk':
         # 205 world units/s at 16 fps: a jog. Stance stroke follows speed, not arbitrary foot sliding.
-        rig.location.z=-.19+.025*math.cos(t*math.tau*2)
+        rig.location.z=-.32+.025*math.cos(t*math.tau*2)
         stroke=205*(8/16)*.30/(128/ortho*math.sin(math.pi/4))
         for side,offset,sign in [('L',0,1),('R',.5,-1)]:
             phase=(t+offset)%1
@@ -100,7 +102,7 @@ def pose(state,index,count):
             segment=int(b.name.rsplit('.',1)[1]);rot(b.name,(0,0,1),(.04+segment*.025)*wind)
     bpy.context.view_layer.update()
 
-OUT=ROOT/'renders'/('planetary-motion-review-v1' if args.review else 'planetary-motion-v1')
+OUT=ROOT/'renders'/('planetary-motion-review-v2' if args.review else 'planetary-motion-v2')
 OUT.mkdir(parents=True,exist_ok=True)
 LOCAL=Path('/opt/ki-legends-gpu')/OUT.name;LOCAL.mkdir(exist_ok=True)
 # Preserve editable, named skeletal actions. Facing is handled by the renderer, outside each action.
@@ -115,6 +117,37 @@ for state,(count,fps,loop) in CLIPS.items():
     action['fps']=fps;action['loop']=loop
 rig.animation_data.action=None
 blend=LOCAL/'planetary-motion-source.blend';bpy.ops.wm.save_as_mainfile(filepath=str(blend));(OUT/blend.name).write_bytes(blend.read_bytes())
+# Project only vertices referenced by evaluated polygons (the CC0 source includes unused helpers).
+# Validate every pose/facing before spending GPU time, with one global camera and no recropping.
+if args.render_validated:
+    report=json.loads((OUT/'motion-preflight.report').read_text())
+    if len(report['bounds'])!=416 or report['violations']:raise RuntimeError('Full fixed-camera preflight must pass before rendering')
+else:
+    projection=np.array(cam.matrix_world.inverted())
+    bounds=[]
+    for state,(count,fps,loop) in CLIPS.items():
+        for direction,angle in DIRECTIONS.items():
+            rig.rotation_euler.z=math.radians(angle)
+            for i in range(count):
+                pose(state,i,count);graph=bpy.context.evaluated_depsgraph_get();low=np.array([float('inf'),float('inf')]);high=-low
+                for obj in scene.objects:
+                    if obj.type!='MESH' or obj.hide_render:continue
+                    evaluated=obj.evaluated_get(graph);mesh=evaluated.to_mesh()
+                    xyz=np.empty(len(mesh.vertices)*3,dtype=np.float64);mesh.vertices.foreach_get('co',xyz)
+                    ids=np.empty(len(mesh.loops),dtype=np.int32);mesh.loops.foreach_get('vertex_index',ids)
+                    if len(ids):
+                        points=xyz.reshape((-1,3))[np.unique(ids)]
+                        matrix=projection@np.array(evaluated.matrix_world)
+                        xyz=points@matrix[:3,:3].T+matrix[:3,3]
+                        pixels=np.column_stack(((.5+xyz[:,0]/ortho)*512,(.5-xyz[:,1]/ortho)*512))
+                        low=np.minimum(low,pixels.min(axis=0));high=np.maximum(high,pixels.max(axis=0))
+                    evaluated.to_mesh_clear()
+                bounds.append({'state':state,'direction':direction,'index':i,'bounds':[*low.tolist(),*high.tolist()]})
+    violations=[b for b in bounds if min(b['bounds'][:2])<8 or max(b['bounds'][2:])>504]
+    (OUT/'motion-preflight.report').write_text(json.dumps({'bounds':bounds,'violations':violations,'fixed_camera':True},indent=2)+'\n')
+    print('GEOMETRY_PREFLIGHT',len(bounds),'poses;',len(violations),'margin violations',flush=True)
+    if violations:raise RuntimeError('Fixed camera crops animation geometry: '+json.dumps(violations[:3]))
+    if args.validate_only:raise SystemExit(0)
 completed=[]
 for state,(count,fps,loop) in CLIPS.items():
     for direction,angle in DIRECTIONS.items():
