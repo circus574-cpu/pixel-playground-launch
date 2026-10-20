@@ -1,0 +1,10 @@
+{
+  "deploymentId": "e610d96b-ccfa-4ae2-a6b6-0aff58274177",
+  "publishedCommit": "4fc89ca5060f1f5c54cf65dc7a2dc7ad72354037",
+  "build": "stage3.1-origins-loading-r1",
+  "verifiedAt": "2026-10-20T09:30:17.515Z",
+  "status": "live-verified",
+  "domains": ["https://kilegends.pl/", "https://pixel-playground-launch.lovable.app/"],
+  "productionOriginsPassed": 4,
+  "fullArtHashesMatch": true
+}

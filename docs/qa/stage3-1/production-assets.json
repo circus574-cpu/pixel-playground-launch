@@ -1,0 +1,36 @@
+[
+  {
+    "asset": "planetary-full.webp",
+    "status": 200,
+    "sha256": "db5caf89604fe974cbf38bd750795f3e362f954c695d8df94ba149e7598ea851",
+    "matchesRepository": true
+  },
+  {
+    "asset": "sage-full.webp",
+    "status": 200,
+    "sha256": "46801a39930815b6621a8433e5396f25fee22460604cbda4158c617fc5d99147",
+    "matchesRepository": true
+  },
+  {
+    "asset": "android-full.webp",
+    "status": 200,
+    "sha256": "04559d7507f7c3bfa92ebbbf4f1f2b43734546546fd262fa8bfeaaf1afa0eef0",
+    "matchesRepository": true
+  },
+  {
+    "asset": "legend-full.webp",
+    "status": 200,
+    "sha256": "ba7c4d962595ae469adeaa00939549af2f77597caf175f29fff2122e75a87e80",
+    "matchesRepository": true
+  },
+  {
+    "url": "https://kilegends.pl/",
+    "status": 200,
+    "kiBuild": "stage3.1-origins-loading-r1"
+  },
+  {
+    "url": "https://pixel-playground-launch.lovable.app/",
+    "status": 200,
+    "kiBuild": "stage3.1-origins-loading-r1"
+  }
+]

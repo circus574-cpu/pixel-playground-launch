@@ -1,0 +1,51 @@
+{
+  "url": "https://kilegends.pl/",
+  "renderer": "Canvas",
+  "build": "stage3.1-origins-loading-r1",
+  "checkedAt": "2026-10-20T09:30:17.515Z",
+  "results": [
+    {
+      "race": "legend",
+      "continent": "pyra",
+      "steps": "done",
+      "xp": 40,
+      "x": 1256.189220934118,
+      "y": 1233.2555221786429
+    },
+    {
+      "race": "planetary",
+      "continent": "verdant",
+      "steps": "done",
+      "xp": 40,
+      "x": 1572,
+      "y": 1156.73825
+    },
+    {
+      "race": "sage",
+      "continent": "aether",
+      "steps": "done",
+      "xp": 40,
+      "x": 1205.5577424358896,
+      "y": 1036.6587560573503
+    },
+    {
+      "race": "android",
+      "continent": "nexus",
+      "steps": "done",
+      "xp": 40,
+      "x": 775.8689817011872,
+      "y": 1074.6829658655224
+    }
+  ],
+  "rendererHeaders": [
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)"
+  ],
+  "errors": []
+}

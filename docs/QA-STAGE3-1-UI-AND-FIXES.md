@@ -130,7 +130,21 @@ Commity implementacji:
 - `028785d` — rzeczywisty loader, retry, inicjalizacja wybranej postaci, spójne wartości HP/KI, regresje UI i kolizji.
 - `4a7d803` — ekran błędu bez kolizji ze stopką w krótkim widoku poziomym i rozszerzona próba błędu/retry na czterech viewportach.
 
-Pełny przebieg i ponowne testy poprawki zaliczone. Kod jest na gałęzi roboczej; przygotowano integrację `main`. Publikacja Lovable i weryfikacja domeny produkcyjnej pozostają w toku.
+`4fc89ca5060f1f5c54cf65dc7a2dc7ad72354037` — raport QA, zrzuty i wyniki. Całą gałąź scalono do `main` przez fast-forward po testach i wysłano do GitHub, zachowując historię. Lovable potwierdził synchronizację dokładnie tego SHA i gotowość projektu.
+
+**PUBLIKACJA POTWIERDZONA** — 2026-10-20, około 09:31 UTC.
+
+- Deployment Lovable: `e610d96b-ccfa-4ae2-a6b6-0aff58274177`.
+- Opublikowany commit: `4fc89ca5060f1f5c54cf65dc7a2dc7ad72354037`.
+- Build: `stage3.1-origins-loading-r1`.
+- [kilegends.pl](https://kilegends.pl/) i [domena Lovable](https://pixel-playground-launch.lovable.app/) zwracają HTTP 200 i nowy znacznik buildu. API przyjęło publikację jako `pending`; sukces potwierdzono później na działających domenach i w grze.
+- Produkcja, Chromium/Canvas 1366 × 900: **4/4 pochodzenia PASS**. Otworzono każdą oryginalną ilustrację, wybrano rasę, uruchomiono przypisany świat, sprawdzono nazwę osady i kontynentu, rozmawiano z przewodnikiem, przyjęto zadanie, dotarto do lokalnego celu, wrócono po nagrodę i odświeżono. Wszystkie cztery zapisy zachowały właściwą rasę, kontynent, `steps: done` i `xp: 40`. Zero błędów konsoli/JavaScript i brakujących zasobów. [Wyniki produkcji](qa/stage3-1/production-results.json).
+- W Pyrze HUD wyświetlił „Twierdza Popiołu / Pyra” i test jawnie wykluczył „Verdantia”. Aira prowadziła na rynek, Kaena do Areny Dziedzictwa.
+- Cztery pełne obrazy WebP pobrane z produkcji mają dokładnie te same SHA-256 co pliki repozytorium. [Kontrola zasobów i domen](qa/stage3-1/production-assets.json).
+
+Zrzuty produkcji: [wybór pochodzenia](qa/stage3-1/production-origin.png), [Pyra](qa/stage3-1/production-pyra.png), [Verdantia](qa/stage3-1/production-verdant.png), [Aetheria](qa/stage3-1/production-aether.png), [Nexus-9](qa/stage3-1/production-nexus.png).
+
+Po wdrożeniu dodano wyłącznie ten zapis weryfikacji i artefakty QA; kod aplikacji pozostaje identyczny z opublikowanym commitem. Przy aktywnym zapisie powrót do wyboru ras: **Ustawienia → Zapisz i wybierz postać → Nowa podróż**. Nie usuwa to istniejących postaci.
 
 ## Pozostałe ograniczenia
 
