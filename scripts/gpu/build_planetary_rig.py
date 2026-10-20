@@ -4,7 +4,7 @@ CC0 anatomical source; no sliced illustration frames or per-frame AI redraws.
 import bpy,math,json,hashlib,time,random
 from pathlib import Path
 from mathutils import Vector,Quaternion
-ROOT=Path('/workspace/ki-legends-gpu');BASE=ROOT/'source/planetary-rig-base';OUT=ROOT/'renders/planetary-rig-review-v1';OUT.mkdir(parents=True,exist_ok=True);LOCAL=Path('/opt/ki-legends-gpu/planetary-rig-v2');LOCAL.mkdir(exist_ok=True)
+ROOT=Path('/workspace/ki-legends-gpu');BASE=ROOT/'source/planetary-rig-base';OUT=ROOT/'renders/planetary-rig-review-v2';OUT.mkdir(parents=True,exist_ok=True);LOCAL=Path('/opt/ki-legends-gpu/planetary-rig-v2');LOCAL.mkdir(exist_ok=True)
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 vertices=[];faces=[];group=''
 for line in (BASE/'base.obj').read_text().splitlines():

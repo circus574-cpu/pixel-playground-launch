@@ -26,7 +26,7 @@ To jeden nowo wygenerowany na RTX A6000 wzorzec wyglądu, nie działająca anima
 | Androidy / Nexus-9 | Nie rozpoczęto |
 | Legendy / Pyra | Nie rozpoczęto |
 
-Po zatwierdzeniu czterech wzorców powstają spójne modele/rig i rzeczywiste animacje ośmiokierunkowe. Nie tworzyć ich przez wycinanie ilustracji ani niezależne losowanie kolejnych klatek. Punkt stóp, proporcje i identyfikacja wyposażenia muszą przejść kontrolę na pełnym zestawie ruchów, zanim nastąpi produkcja wszystkich klatek.
+Po akceptacji Planetarnego najpierw powstaje jego kompletny zestaw; inne rasy pozostają wstrzymane. Animacje są renderowane z jednego modelu i riga. Nie tworzyć ich przez wycinanie ilustracji ani niezależne losowanie kolejnych klatek. Punkt stóp, proporcje i identyfikacja wyposażenia muszą przejść kontrolę na pełnym zestawie ruchów, zanim nastąpi produkcja wszystkich klatek.
 
 ## Zabezpieczona wcześniejsza praca i koszt GPU
 
@@ -37,3 +37,7 @@ Dostępny terminal pozwala generować i zabezpieczać pliki. Odczyt sterującego
 ## Akceptacja użytkownika
 
 Użytkownik zaakceptował przedstawiony wzorzec słowami „Jest dobrze startuj z tworzeniem tej rasy kompletnie”. Aktywny zakres: kompletny Planetarny, bez rozpoczynania innych ras. Rozpoczęto budowę modelu i riga z licencjonowanej bazy anatomicznej CC0, własnym strojem i geometrią włosów; animacje będą pochodzić z jednego modelu, bez wycinania ilustracji. Późniejszy wpis o akceptacji zastępuje wcześniejszy status oczekiwania w zachowanych metadanych historycznego wzorca.
+
+## Model techniczny — aktualny stan
+
+Zabezpieczono osiem kierunków modelu w `sources/rig-calibration-v2` wraz z edytowalnym `.blend`. Poprawiono sRGB, zamknięte rękawice i buty. To kalibracja, bez instalacji w grze. Skrypt `animate_planetary.py` definiuje siedem rzeczywistych animacji szkieletowych; pierwszy render ruchu wymaga kontroli wizualnej, marginesów i punktu stóp. Nie oznacza to gotowych 416 klatek ani zaliczenia testów w grze.
