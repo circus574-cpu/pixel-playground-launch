@@ -38,6 +38,22 @@ async function app(root: string) {
   return target;
 }
 describe("GPU import validates actual pixels, frames and immutable publication", () => {
+  it("keeps preview deliveries out of normal worlds and validates their opt-in replacement", async () => {
+    const f = await delivery();
+    f.pack.previewOnly = true;
+    f.pack.actorBindings = { "aether.hero": "technical-mannequin" };
+    await f.save();
+    const pack = PackSchema.parse(f.pack);
+    const normal = makeCatalog([pack]);
+    const preview = makeCatalog([pack], true);
+    expect(worldAssets("aether", false, normal).map((a) => a.id)).not.toContain("technical-rig");
+    expect(worldAssets("aether", false, preview).map((a) => a.id)).toContain("technical-rig");
+    expect(worldAssets("verdant", false, preview).map((a) => a.id)).not.toContain("technical-rig");
+    const root = await app(f.root);
+    const result = await importPackage(f.manifest, { root });
+    expect(result.installed).toBe(false);
+    expect(result.worlds["aether"]).toBeLessThan(GPU_CONTRACT.maxWorldTextureBytes);
+  });
   it("imports losslessly, rebinds only Aetheria and leaves character saves/other worlds alone", async () => {
     const f = await delivery(),
       root = await app(f.root);

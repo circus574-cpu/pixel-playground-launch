@@ -13,8 +13,8 @@ session=new_session('u2net',providers=['CPUExecutionProvider'])
 args.delivery.mkdir(parents=True,exist_ok=True)
 records=[]
 for meta in sorted(args.source.glob('*.json')):
- info=json.loads(meta.read_text());name=info['id']
- if name not in BINDINGS:continue
+ info=json.loads(meta.read_text());name=info['id'].removesuffix('-guided').removesuffix('-free')
+ if name not in BINDINGS or not info['id'].endswith('-guided'):continue
  raw=meta.with_suffix('.png')
  assert hashlib.sha256(raw.read_bytes()).hexdigest()==info['sha256']
  ref=next(o for o in targets[info['world']]['scenery'] if o['sharedBinding']==BINDINGS[name])
