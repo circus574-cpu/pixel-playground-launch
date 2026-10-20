@@ -1,0 +1,23 @@
+{
+  "id": "attack-right-00",
+  "state": "attack",
+  "direction": "right",
+  "index": 0,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.76
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 5.9,
+  "sha256": "0b8b83778ac876a06e25c381c36ea3b0ebe5bfd99a1ed1dd80e3036d3c89ebf8",
+  "seconds": 2.7590810200053966,
+  "status": "motion-review-not-installed"
+}
