@@ -1,0 +1,99 @@
+{
+  "id": "aether-plaza",
+  "world": "aether",
+  "binding": "terrain.aether-plaza",
+  "kind": "tile",
+  "prompt": "seamless flat floor texture, pale ivory marble square slabs, subtle violet and gold vein details, elegant wizard city pavement, top down overhead view, evenly distributed, hand painted fantasy texture, flat lighting",
+  "seed": 5742049,
+  "workflow": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "seamless flat floor texture, pale ivory marble square slabs, subtle violet and gold vein details, elegant wizard city pavement, top down overhead view, evenly distributed, hand painted fantasy texture, flat lighting, professional hand-painted 2D fantasy game asset, intricate clear materials, vibrant but harmonious colors, fine ink details, masterpiece, orthographic overhead texture, fills entire canvas, no white background, no perspective",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "people, characters, person, girl, boy, face, portrait, armor, weapon character, photograph, photorealism, lowpoly, clay, basic shapes, cropped, cut off, out of frame, text, logo, watermark, UI, interface, sky, horizon, object, building, person, perspective, shadows, vignette, border",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 1024,
+        "height": 1024,
+        "batch_size": 1
+      }
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 5742049,
+        "steps": 10,
+        "cfg": 2.0,
+        "sampler_name": "dpmpp_sde",
+        "scheduler": "sgm_uniform",
+        "denoise": 1.0,
+        "model": [
+          "1",
+          0
+        ],
+        "positive": [
+          "2",
+          0
+        ],
+        "negative": [
+          "3",
+          0
+        ],
+        "latent_image": [
+          "4",
+          0
+        ]
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "5",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "city-v1/objects/aether-plaza",
+        "images": [
+          "6",
+          0
+        ]
+      }
+    }
+  },
+  "seconds": 5.453937329002656,
+  "sha256": "d06613dcffe7499855c3ea6de3ae356ff7a4f176c120c211ba79a827d8763783",
+  "model_revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "model_sha256": "4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083",
+  "status": "generated-pending-visual-review"
+}
