@@ -198,6 +198,16 @@ export function NpcDialogue({ state, send }: { state: GameViewState; send: SendC
                   {unlocked ? "Przyjmij zadanie" : "Najpierw ukończ poprzednie zadanie"}
                 </button>
               )}
+              {npc.id === "guide" && q === "active" && (
+                <button
+                  onClick={() => {
+                    send({ type: "dialogue", action: "close" });
+                    send({ type: "move", ...TUTORIAL_MARKET });
+                  }}
+                >
+                  Podejdź do rynku
+                </button>
+              )}
               {q === "ready" && (
                 <button onClick={() => send({ type: "dialogue", action: "claim" })}>
                   Odbierz nagrodę
