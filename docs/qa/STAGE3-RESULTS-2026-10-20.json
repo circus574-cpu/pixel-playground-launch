@@ -1,0 +1,68 @@
+{
+  "baseCommit": "33c687497deba5ddf83d2f00010aa05cba1dea4e",
+  "gameplayCommit": "9ad98ed",
+  "unitDOM": {
+    "passed": 58,
+    "files": 11
+  },
+  "browser": {
+    "stats": {
+      "startTime": "2026-10-20T08:18:05.387Z",
+      "duration": 194497.832,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "C: a real v1 fixture migrates in the browser without changing the original",
+        "ok": true,
+        "status": ["expected"]
+      },
+      {
+        "title": "D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload",
+        "ok": true,
+        "status": ["expected"]
+      },
+      {
+        "title": "A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching",
+        "ok": true,
+        "status": ["expected"]
+      },
+      {
+        "title": "E: touch selection, joystick, dialogue and layout 360x800",
+        "ok": true,
+        "status": ["expected"]
+      },
+      {
+        "title": "E: touch selection, joystick, dialogue and layout 414x896",
+        "ok": true,
+        "status": ["expected"]
+      },
+      {
+        "title": "E: touch selection, joystick, dialogue and layout 852x393",
+        "ok": true,
+        "status": ["expected"]
+      },
+      {
+        "title": "E: touch selection, joystick, dialogue and layout 640x480",
+        "ok": true,
+        "status": ["expected"]
+      }
+    ]
+  },
+  "typecheck": "full tsconfig and tsconfig.e2e passed",
+  "build": "production and playtest passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 7
+  },
+  "webglSmoke": [
+    "verdant tutorial baseline",
+    "nexus start/exit",
+    "pyra start/exit",
+    "aether start/exit"
+  ],
+  "physicalDeviceTested": false
+}

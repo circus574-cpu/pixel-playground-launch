@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "status": "specification-only-no-gpu-job-started",
+  "projection": "orthographic-top-down-with-visible-south-facade",
+  "camera": {
+    "azimuthDegrees": 0,
+    "elevationDegrees": 60,
+    "rollDegrees": 0,
+    "lockedForAllAssets": true
+  },
+  "lighting": { "key": "north-west", "bakedContactShadow": false, "auraSeparate": true },
+  "character": {
+    "sourceFrame": [512, 512],
+    "runtimeCurrentWorldSize": [96, 96],
+    "futureWorldHeightTrials": [128, 144, 160],
+    "feetAnchor": [0.5, 0.95],
+    "collisionRadiusWorldUnits": 12,
+    "directions": ["down", "down-left", "left", "up-left", "up", "up-right", "right", "down-right"],
+    "states": { "idle": 8, "walk": 8, "attack": 8, "hit": 4, "death": 8 },
+    "fps": { "idle": 6, "walk": 10, "attack": 12, "hit": 12, "death": 10 },
+    "namePattern": "hero/{state}/{direction}/{frame:02}",
+    "firstDelivery": "one-canonical-hero-before-four-race-batch"
+  },
+  "terrain": {
+    "sourceTile": [256, 256],
+    "runtimeTile": [64, 64],
+    "edges": "seamless-plus-corner-masks",
+    "extrudePixels": 2,
+    "paddingPixels": 4
+  },
+  "objects": {
+    "sourceMax": [1024, 1024],
+    "defaultAnchor": [0.5, 0.92],
+    "footprint": "separate-world-space-width-height-offsetY-from-region-json"
+  },
+  "atlas": {
+    "format": "Phaser-JSON-hash",
+    "image": "RGBA-PNG-or-lossless-WebP",
+    "preferredMaxSize": [2048, 2048],
+    "transparentBackground": true,
+    "trim": "preserve-sourceSize-spriteSourceSize-and-feet"
+  },
+  "sourceLayout": "art/source/{race}/{asset}/source.blend",
+  "frameLayout": "art/renders/{race}/{state}/{direction}/{frame:02}.png",
+  "runtimeLayout": "public/game/assets/{pack}/{atlas}.webp + {atlas}.json",
+  "validation": [
+    "canonical-identity",
+    "same-camera-and-light",
+    "contact-at-feet",
+    "no-aura-on-body",
+    "no-frame-flicker",
+    "no-cut-feet",
+    "readable-at-360x800",
+    "collision-independent-from-art",
+    "atlas-padding-no-bleed"
+  ]
+}
