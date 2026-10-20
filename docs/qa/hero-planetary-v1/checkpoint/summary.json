@@ -1,0 +1,18 @@
+{
+  "unit_passed": 98,
+  "unit_failed": 0,
+  "e2e_passed": 45,
+  "e2e_failed": 0,
+  "e2e_interrupted": 1,
+  "e2e_not_run": 1,
+  "reason": "User ended work for today; interrupted Android PvE, Legend PvE not run",
+  "original_stats": {
+    "startTime": "2026-10-20T19:10:22.689Z",
+    "duration": 809351.718,
+    "expected": 45,
+    "skipped": 2,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "hero_ingame_tests": "not executed; incomplete actor pack not installed"
+}

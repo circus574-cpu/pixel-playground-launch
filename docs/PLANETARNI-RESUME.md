@@ -33,3 +33,5 @@ Na wyraźne zlecenie użytkownika usunięto wyłącznie `env-wan.tar`, `wan2.2_t
 Render zatrzymany. **Pod nie został zatrzymany przez API**: REST wcześniej 403, GraphQL z kluczem konta zwraca `Unauthorized`. Użytkownik musi nacisnąć **Stop** w panelu RunPod; nie Terminate. Zatrzymanie procesu renderowania i usunięcie modeli nie zatrzymują naliczania ceny GPU ani opłaty za przydzielony rozmiar storage.
 
 Niezależnie pobrano z GitHub LFS i porównano SHA-256 **181 obiektów** punktu wznowienia (179 klatek, podgląd źródła i `.blend`). Wyniki nie istnieją wyłącznie na GPU. Kod: 98/98 testów jednostkowych PASS. Końcowe E2E przerwano na prośbę zakończenia sesji; szczegółowy wynik znajduje się w raporcie obok dokumentacji, bez deklaracji pełnego PASS. Nie opublikowano zmian ani nie scalono ich do main.
+
+Końcowy wynik przerwanego E2E: **45 PASS, 0 FAIL, 1 przerwany, 1 niewykonany**. Przerwano PvE Androidów na polecenie końca sesji; PvE Legendów nie uruchomiono. To nie jest zaliczenie całego pakietu. Raporty: `qa/hero-planetary-v1/checkpoint/`. Draft PR: https://github.com/circus574-cpu/pixel-playground-launch/pull/4.
