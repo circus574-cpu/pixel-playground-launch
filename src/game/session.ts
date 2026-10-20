@@ -250,6 +250,7 @@ export class GameSession {
   paused = false;
   autoAttack = false;
   notice = "Porozmawiaj z Airą. Klikaj postacie lub użyj przycisku Rozmowa.";
+  noticeId = 0;
   log: string[] = [];
   events: GameEvent[] = [];
   moving = false;
@@ -306,6 +307,7 @@ export class GameSession {
     return this.enemies.find((e) => e.id === this.targetId && e.hp > 0);
   }
   say(text: string) {
+    this.noticeId++;
     this.notice = text;
     this.log = [...this.log.slice(-19), text];
   }
@@ -810,6 +812,7 @@ export class GameSession {
       ready: true,
       dialogue: this.dialogue,
       notice: this.notice,
+      noticeId: this.noticeId,
       log: [...this.log],
       saveWarning: this.saves?.warning ?? "",
       quests: (Object.keys(QUEST_NAMES) as QuestId[]).map((id) => ({
@@ -838,6 +841,7 @@ export function initialView(player?: Player): GameViewState {
     ready: false,
     dialogue: null,
     notice: "",
+    noticeId: 0,
     log: [],
     saveWarning: "",
     quests: [],

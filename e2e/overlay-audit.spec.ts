@@ -1,0 +1,281 @@
+import { test, expect, type Page, type CDPSession } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+const path =
+  process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
+const evidence = "docs/qa/overlay-audit";
+async function start(page: Page, race = "Legendy") {
+  await page.goto(path);
+  await page.getByRole("button", { name: "Wybierz: " + race, exact: true }).click();
+  await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  await expect(page.locator(".ki-hud")).toBeVisible();
+}
+async function settings(page: Page) {
+  await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+}
+async function listenerCount(cdp: CDPSession) {
+  const response = await cdp.send("Runtime.evaluate", {
+    expression: "(getEventListeners(window).pagehide || []).length",
+    includeCommandLineAPI: true,
+    returnByValue: true,
+  });
+  return response.result.value as number;
+}
+function overlaps(
+  a: { x: number; y: number; width: number; height: number },
+  b: { x: number; y: number; width: number; height: number },
+) {
+  return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+}
+for (const [width, height] of [
+  [1280, 900],
+  [360, 800],
+  [390, 844],
+  [414, 896],
+  [852, 393],
+] as const)
+  test(
+    "clear world, dismiss/expire guidance, dialogs and persistent options " + width,
+    async ({ page, context }) => {
+      await mkdir(evidence, { recursive: true });
+      await page.setViewportSize({ width, height });
+      const errors: string[] = [];
+      page.on("pageerror", (e) => errors.push(e.message));
+      page.on("console", (m) => {
+        if (m.type() === "error") errors.push(m.text());
+      });
+      await page.goto(path);
+      const cdp = await context.newCDPSession(page),
+        baseline = await listenerCount(cdp);
+      await page.getByRole("button", { name: "Wybierz: Legendy", exact: true }).click();
+      await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+      await expect(page.locator(".ki-hud")).toBeVisible();
+      const canvas = page.locator(".ki-canvas");
+      await expect(page.locator(".ki-game-feedback")).toHaveCount(0);
+      await expect
+        .poll(async () => Number(await canvas.getAttribute("data-npc-labels")))
+        .toBeLessThanOrEqual(1);
+      await page.screenshot({ path: evidence + "/clean-" + width + ".png" });
+      await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
+      const message = page.getByRole("status", { name: "Komunikat gry", exact: true });
+      await expect(message).toBeVisible();
+      const box = (await message.boundingBox())!;
+      for (const selector of [
+        ".ki-player",
+        ".ki-map",
+        ".ki-actionbar",
+        ".ki-context-actions",
+        ".ki-view-controls",
+      ])
+        expect(overlaps(box, (await page.locator(selector).boundingBox())!), selector).toBe(false);
+      // Real camera-space hero bounds, including camera clamping on portrait maps.
+      const hero = await canvas.evaluate((el) => {
+        const z = Number((el as HTMLElement).dataset["zoom"]),
+          px = Number((el as HTMLElement).dataset["playerX"]),
+          py = Number((el as HTMLElement).dataset["playerY"]);
+        const sx = Math.max(0, Math.min(2400 - el.clientWidth / z, px - el.clientWidth / z / 2)),
+          sy = Math.max(0, Math.min(1792 - el.clientHeight / z, py - el.clientHeight / z / 2));
+        return {
+          x: (px - sx) * z - 48 * z,
+          y: (py - sy) * z - 91.2 * z,
+          width: 96 * z,
+          height: 96 * z,
+        };
+      });
+      expect(overlaps(box, hero)).toBe(false);
+      const textBox = (await message.locator("p").boundingBox())!;
+      expect(
+        await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, {
+          x: textBox.x + 5,
+          y: textBox.y + 5,
+        }),
+      ).toBe("CANVAS");
+      await page.screenshot({ path: evidence + "/message-" + width + ".png" });
+      await expect(message).toHaveCount(0, { timeout: 6500 });
+      await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
+      await expect(message).toBeVisible();
+      await page.getByRole("button", { name: "Zamknij komunikat", exact: true }).click();
+      await page.waitForTimeout(300);
+      await expect(message).toHaveCount(0);
+      await page.getByRole("button", { name: /Rozmowa · Kaena/ }).click();
+      await expect(page.getByRole("dialog", { name: "Rozmowa: Kaena", exact: true })).toBeVisible();
+      await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
+      await expect(page.locator(".ki-npc-dialogue .ki-game-feedback")).toBeVisible();
+      await expect(page.locator(".ki-notification-rail")).toHaveCount(0);
+      await page.screenshot({ path: evidence + "/dialogue-" + width + ".png" });
+      await expect(page.locator(".ki-npc-dialogue .ki-game-feedback")).toHaveCount(0, {
+        timeout: 6500,
+      });
+      await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+      await expect(message).toHaveCount(0);
+      await settings(page);
+      await page.getByRole("checkbox", { name: "Komunikaty w grze", exact: true }).uncheck();
+      await page.getByRole("checkbox", { name: "Nazwy postaci w pobliżu", exact: true }).uncheck();
+      await page.getByRole("checkbox", { name: "Duża minimapa", exact: true }).check();
+      await page.getByText("Sterowanie i pomoc", { exact: true }).click();
+      await page.screenshot({ path: evidence + "/settings-" + width + ".png" });
+      await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+      await expect(canvas).toHaveAttribute("data-world-labels", "false");
+      await expect.poll(async () => Number(await canvas.getAttribute("data-npc-labels"))).toBe(0);
+      await expect
+        .poll(async () => (await page.locator(".ki-map").boundingBox())!.width)
+        .toBe(width <= 760 ? 130 : 180);
+      expect(
+        overlaps(
+          (await page.locator(".ki-map").boundingBox())!,
+          (await page.locator(".ki-player").boundingBox())!,
+        ),
+      ).toBe(false);
+      expect(
+        overlaps(
+          (await page.locator(".ki-map").boundingBox())!,
+          (await page.locator(".ki-view-controls").boundingBox())!,
+        ),
+      ).toBe(false);
+      await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
+      await expect(message).toHaveCount(0);
+      await page.getByRole("button", { name: /Czat lokalny/ }).click();
+      await expect(page.getByRole("log")).toContainText("Wybierz dzika");
+      await page.getByRole("tab", { name: "Ogólny", exact: true }).click();
+      await page
+        .getByRole("textbox", { name: "Wiadomość lokalna", exact: true })
+        .fill("Test widoczności gry");
+      await page.getByRole("textbox", { name: "Wiadomość lokalna", exact: true }).press("Enter");
+      await expect(page.getByRole("log")).toContainText("Test widoczności gry");
+      await page.keyboard.press("Escape");
+      await expect(page.locator(".ki-chat-open")).toHaveCount(0);
+      await page.reload();
+      await expect(page.locator(".ki-hud")).toBeVisible();
+      await settings(page);
+      await expect(
+        page.getByRole("checkbox", { name: "Komunikaty w grze", exact: true }),
+      ).not.toBeChecked();
+      await expect(
+        page.getByRole("checkbox", { name: "Nazwy postaci w pobliżu", exact: true }),
+      ).not.toBeChecked();
+      await expect(
+        page.getByRole("checkbox", { name: "Duża minimapa", exact: true }),
+      ).toBeChecked();
+      await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+      await expect(page.locator("canvas")).toHaveCount(0);
+      await expect.poll(() => listenerCount(cdp)).toBe(baseline);
+      await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
+      await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+      await expect(page.locator(".ki-hud")).toBeVisible();
+      await expect(canvas).toHaveAttribute("data-world-labels", "false");
+      await expect(page.locator(".ki-game-feedback")).toHaveCount(0);
+      await settings(page);
+      await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+      await expect(page.locator("canvas")).toHaveCount(0);
+      await expect.poll(() => listenerCount(cdp)).toBe(baseline);
+      expect(errors).toEqual([]);
+    },
+  );
+
+test("save failure stays actionable after normal guidance is disabled or dismissed", async ({
+  page,
+}) => {
+  await start(page, "Planetarni");
+  await settings(page);
+  await page.getByRole("checkbox", { name: "Komunikaty w grze", exact: true }).uncheck();
+  await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+  // This context deliberately simulates a full storage quota; no real player data is used.
+  await page.evaluate(() => {
+    const original = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key, value) {
+      if (key.includes(":character:")) throw new DOMException("QA quota", "QuotaExceededError");
+      return original.call(this, key, value);
+    };
+  });
+  const warning = page.getByRole("alert", { name: "Problem z zapisem", exact: true });
+  await expect(warning).toBeVisible();
+  await page.getByRole("button", { name: "Zamknij ostrzeżenie o zapisie", exact: true }).click();
+  await expect(warning).toHaveCount(0);
+  await expect(page.getByLabel("Problem z zapisem", { exact: true })).toBeVisible();
+  await settings(page);
+  await expect(
+    page.getByRole("dialog", { name: "Ustawienia", exact: true }).getByRole("alert"),
+  ).toContainText("Nie udało się zapisać");
+  await expect(page.locator(".ki-notification-rail")).toHaveCount(0);
+  await page.screenshot({ path: evidence + "/save-warning.png" });
+});
+
+test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
+  await start(page, "Planetarni");
+  // A valid isolated low-HP save keeps this failure-state test short. PvE progression is tested normally elsewhere.
+  await page.addInitScript(() => {
+    const key =
+      "ki-legends:adventure:v1:character:" +
+      localStorage.getItem("ki-legends:adventure:v1:active-character");
+    const raw = JSON.parse(localStorage.getItem(key)!);
+    raw.player.hp = 1;
+    localStorage.setItem(key, JSON.stringify(raw));
+  });
+  await page.reload();
+  await expect(page.locator(".ki-hud")).toBeVisible();
+  const canvas = page.locator(".ki-canvas");
+  await canvas.evaluate((el) =>
+    el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", x: 2050, y: 1030 } })),
+  );
+  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 20000 });
+  await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
+  await page.screenshot({ path: evidence + "/death.png" });
+  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
+  await expect
+    .poll(async () => Number(await canvas.getAttribute("data-player-x")))
+    .toBeCloseTo(1495, 0);
+  await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
+    "aria-valuenow",
+    "120",
+  );
+  await page.evaluate(() => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  });
+  const before = Number(await canvas.getAttribute("data-player-x"));
+  await page.keyboard.down("ArrowRight");
+  await page.waitForTimeout(350);
+  await page.keyboard.up("ArrowRight");
+  await expect
+    .poll(async () => Number(await canvas.getAttribute("data-player-x")))
+    .toBeGreaterThan(before + 20);
+});
+
+test("combat messages leave the actual target panel clear at every HUD breakpoint", async ({
+  browser,
+  baseURL,
+}) => {
+  for (const [width, height] of [
+    [360, 800],
+    [390, 844],
+    [414, 896],
+    [640, 480],
+    [852, 393],
+    [1280, 900],
+  ]) {
+    const page = await browser.newPage({
+      ...(baseURL ? { baseURL } : {}),
+      viewport: { width: width!, height: height! },
+    });
+    try {
+      await start(page);
+      // Use the same public command adapter as a canvas click, without changing session state.
+      await page.locator(".ki-canvas").evaluate((el) =>
+        el.dispatchEvent(
+          new CustomEvent("ki:command", {
+            detail: { type: "target", id: "boar-0" },
+          }),
+        ),
+      );
+      const target = page.locator(".ki-target"),
+        message = page.getByRole("status", { name: "Komunikat gry", exact: true });
+      await expect(target).toBeVisible();
+      await expect(message).toBeVisible();
+      expect(
+        overlaps((await target.boundingBox())!, (await message.boundingBox())!),
+        String(width),
+      ).toBe(false);
+      await page.screenshot({ path: evidence + "/combat-" + width + ".png" });
+    } finally {
+      await page.close();
+    }
+  }
+});

@@ -56,28 +56,7 @@
   opacity: 0.65;
   margin-left: 4px;
 }
-.ki-game-feedback {
-  position: absolute;
-  left: 50%;
-  top: 160px;
-  transform: translateX(-50%);
-  max-width: min(480px, calc(100% - 28px));
-  padding: 8px 12px;
-  font: 12px/1.45 system-ui;
-  text-align: center;
-  pointer-events: none;
-}
-.ki-save-warning {
-  position: absolute;
-  top: 180px;
-  left: 12px;
-  right: 12px;
-  color: #ffe2ad;
-  background: #492b28f2;
-  border-radius: 8px;
-  padding: 8px;
-  font-size: 12px;
-}
+
 .ki-modal {
   max-height: calc(100dvh - 28px);
   overflow: auto;
@@ -206,12 +185,7 @@
     bottom: calc(max(8px, env(safe-area-inset-bottom)) + 118px);
     width: max-content;
   }
-  .ki-game-feedback {
-    top: 187px;
-    width: calc(100% - 28px);
-    font-size: 11px;
-    padding: 6px 8px;
-  }
+
   .ki-target {
     left: 10px;
     transform: none;
@@ -241,12 +215,6 @@
   }
 }
 @media (max-height: 500px) {
-  .ki-game-feedback {
-    top: 152px;
-    max-width: 360px;
-    padding: 4px 8px;
-    font-size: 11px;
-  }
   .ki-context-actions {
     bottom: 78px;
   }

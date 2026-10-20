@@ -1,8 +1,15 @@
 import { TEST_RACE_SWITCH_ENABLED } from "../../game/features";
+import { GameMessage } from "./GameMessage";
+import { useGameMessage, type MessageEvent } from "./useGameMessage";
+import {
+  readUiPreferences,
+  writeUiPreferences,
+  type UiPreferences,
+} from "../../game/uiPreferences";
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
@@ -11,6 +18,7 @@ import "./anime-hud.css";
 import { ABILITIES, xpNeeded, type Ability, type Command } from "../../game/session";
 import { Inventory, QuestJournal, NpcDialogue } from "./AdventurePanels";
 import "./adventure.css";
+import "./game-messages.css";
 
 type Props = {
   state: GameViewState;
@@ -22,6 +30,8 @@ type Props = {
   onCommand: (command: Command) => void;
   onCharacters?: () => void;
   onRaceChange?: () => void;
+  onWorldLabels?: (visible: boolean) => void;
+  systemNotice?: MessageEvent;
 };
 type Panel = "inventory" | "journal" | "settings" | "map" | null;
 const iconNames = [
@@ -51,20 +61,67 @@ export function GameHud({
   onCommand,
   onCharacters,
   onRaceChange,
+  onWorldLabels,
+  systemNotice,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
-  const [hints, setHints] = useState(true);
-  const [notice, setNotice] = useState("");
-  const [mapSize, setMapSize] = useState(false);
+  const messageLog = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (messageLog.current) messageLog.current.scrollTop = messageLog.current.scrollHeight;
+  }, [state.noticeId, tab, chatOpen, messages]);
+  const [preferences, setPreferences] = useState(readUiPreferences);
+  const [hiddenSaveWarning, setHiddenSaveWarning] = useState("");
+  const scope = panel ? "panel:" + panel : state.dialogue ? "npc:" + state.dialogue : "world";
+  const gameMessage = useGameMessage(
+    { id: state.noticeId, text: state.notice },
+    scope,
+    preferences.messages && !state.player.dead && state.notice !== state.saveWarning,
+  );
+  const systemMessage = useGameMessage(systemNotice ?? { id: 0, text: "" }, scope);
+  const currentMessage = systemMessage.message ? systemMessage : gameMessage;
+  const hasWarning = Boolean(
+    state.saveWarning && hiddenSaveWarning !== state.saveWarning && panel !== "settings",
+  );
+  const feedback = (
+    <>
+      {hasWarning && (
+        <GameMessage
+          text={state.saveWarning}
+          warning
+          onDismiss={() => setHiddenSaveWarning(state.saveWarning)}
+        />
+      )}
+      {currentMessage.message?.scope === scope && (
+        <GameMessage text={currentMessage.message.text} onDismiss={currentMessage.dismiss} />
+      )}
+    </>
+  );
+  function changePreference(key: keyof UiPreferences, value: boolean) {
+    setPreferences((current) => {
+      const next = { ...current, [key]: value };
+      return next;
+    });
+  }
+  useEffect(() => {
+    writeUiPreferences(preferences);
+  }, [preferences]);
+  useEffect(() => {
+    onWorldLabels?.(preferences.worldLabels);
+  }, [preferences.worldLabels, onWorldLabels]);
+  useEffect(() => {
+    if (state.dialogue) setChatOpen(false);
+  }, [state.dialogue]);
   const world = WORLDS[state.player.continent];
   const npcs = world.npcs;
   const x = Math.max(0, Math.min(100, (state.x / world.width) * 100));
   const y = Math.max(0, Math.min(100, (state.y / world.height) * 100));
   function toggle(next: Panel) {
+    setChatOpen(false);
+    if (state.dialogue) onCommand({ type: "dialogue", action: "close" });
     setPanel((p) => (p === next ? null : next));
   }
   const player = state.player;
@@ -75,6 +132,12 @@ export function GameHud({
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        setChatOpen(false);
+        if (
+          document.activeElement instanceof HTMLElement &&
+          document.activeElement.closest(".ki-chat")
+        )
+          document.activeElement.blur();
         setPanel(null);
         onCommand({ type: "dialogue", action: "close" });
       }
@@ -146,7 +209,10 @@ export function GameHud({
           </div>
         </section>
       )}
-      <section className={`ki-map ki-frame ${mapSize ? "ki-map-large" : ""}`} aria-label="Minimapa">
+      <section
+        className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
+        aria-label="Minimapa"
+      >
         <div className="ki-map-title">
           <span className="ki-dot" />
           {world.settlement}
@@ -175,10 +241,10 @@ export function GameHud({
         <div className="ki-map-footer">
           <span>{world.name.toUpperCase()}</span>
           <button
-            onClick={() => setMapSize((v) => !v)}
-            aria-label={mapSize ? "Zmniejsz minimapę" : "Powiększ minimapę"}
+            onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
+            aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
           >
-            {mapSize ? "−" : "+"}
+            {preferences.largeMinimap ? "−" : "+"}
           </button>
         </div>
       </section>
@@ -223,7 +289,7 @@ export function GameHud({
               </button>
             ))}
           </div>
-          <div className="ki-messages" role="log" aria-live="polite">
+          <div ref={messageLog} className="ki-messages" role="log" aria-live="polite">
             {tab === "System" && (
               <>
                 <p>
@@ -232,7 +298,9 @@ export function GameHud({
                 <p>
                   <b>[System]</b> Odkryto: {world.settlement}.
                 </p>
-                <p className="ki-chat-muted">Twoja podróż zaczyna się tutaj.</p>
+                {state.log.slice(-6).map((entry, index) => (
+                  <p key={index}>{entry}</p>
+                ))}
               </>
             )}
             {tab === "Walka" && (
@@ -359,17 +427,22 @@ export function GameHud({
             onClick={() => toggle(p)}
           >
             <Icon index={n} />
+            {p === "settings" && state.saveWarning && (
+              <span className="ki-save-indicator" aria-label="Problem z zapisem">
+                !
+              </span>
+            )}
           </button>
         ))}
       </nav>
-      {hints && (
-        <div className="ki-help">
-          <span>WASD</span> ruch <b>·</b> kliknij ziemię lub przeciwnika <b>·</b> <span>ESC</span>{" "}
-          anuluj
-        </div>
+      {!panel && state.dialogue && (
+        <NpcDialogue
+          state={state}
+          send={onCommand}
+          feedback={<div className="ki-inline-messages">{feedback}</div>}
+        />
       )}
-      {state.dialogue && <NpcDialogue state={state} send={onCommand} />}
-      {!panel && !state.dialogue && (
+      {!panel && !state.dialogue && !chatOpen && (
         <div className="ki-context-actions">
           {player.quests.steps === "active" && (
             <button
@@ -396,25 +469,15 @@ export function GameHud({
           )}
         </div>
       )}
-      {state.saveWarning && (
-        <p className="ki-save-warning" role="alert">
-          {state.saveWarning}
-        </p>
-      )}
-      {state.notice && (
-        <p className="ki-game-feedback ki-frame" role="status">
-          {state.notice}
-        </p>
+      {!panel && !state.dialogue && (
+        <div className="ki-notification-rail" aria-label="Powiadomienia gry">
+          {feedback}
+        </div>
       )}
       {player.dead && (
         <div className="ki-death-overlay" role="status">
           Zostałeś pokonany · odrodzenie za chwilę
         </div>
-      )}
-      {notice && (
-        <button className="ki-notice ki-frame" onClick={() => setNotice("")}>
-          {notice} <span>×</span>
-        </button>
       )}
       {panel && (
         <div className="ki-modal-backdrop" onClick={() => setPanel(null)}>
@@ -450,6 +513,7 @@ export function GameHud({
                 ×
               </button>
             </header>
+            <div className="ki-inline-messages">{feedback}</div>
             {panel === "inventory" && <Inventory state={state} send={onCommand} />}
             {panel === "journal" && (
               <QuestJournal state={state} send={onCommand} close={closeAndResume} />
@@ -466,7 +530,11 @@ export function GameHud({
                     </p>
                   </div>
                 )}
-                {onCharacters && <button onClick={onCharacters}>Zapisz i wybierz postać</button>}
+                {onCharacters && (
+                  <button className="ki-fullscreen-setting" onClick={onCharacters}>
+                    Zapisz i wybierz postać
+                  </button>
+                )}
                 <p>
                   Pochodzenie: {RACES[player.race].name} · tymczasowy ludzki sprite. Lokalna gra
                   PvE.
@@ -487,21 +555,46 @@ export function GameHud({
                   {fullscreen ? "Opuść pełny ekran" : "Pełny ekran"}
                 </button>
                 <label>
-                  <span>Podpowiedzi sterowania</span>
+                  <span>Komunikaty w grze</span>
                   <input
                     type="checkbox"
-                    checked={hints}
-                    onChange={(e) => setHints(e.target.checked)}
+                    checked={preferences.messages}
+                    onChange={(e) => changePreference("messages", e.target.checked)}
+                  />
+                </label>
+                <label>
+                  <span>Nazwy postaci w pobliżu</span>
+                  <input
+                    type="checkbox"
+                    checked={preferences.worldLabels}
+                    onChange={(e) => changePreference("worldLabels", e.target.checked)}
                   />
                 </label>
                 <label>
                   <span>Duża minimapa</span>
                   <input
                     type="checkbox"
-                    checked={mapSize}
-                    onChange={(e) => setMapSize(e.target.checked)}
+                    checked={preferences.largeMinimap}
+                    onChange={(e) => changePreference("largeMinimap", e.target.checked)}
                   />
                 </label>
+                {state.saveWarning && (
+                  <p role="alert" className="ki-settings-save-warning">
+                    {state.saveWarning}
+                  </p>
+                )}
+                <details className="ki-controls-guide">
+                  <summary>Sterowanie i pomoc</summary>
+                  <p>
+                    Kliknij ziemię, aby iść, postać, aby porozmawiać, lub przeciwnika, aby walczyć.
+                    Na telefonie przeciągnij palcem po wolnym obszarze w lewym dolnym rogu.
+                  </p>
+                  <p>
+                    WASD / strzałki — ruch · E — rozmowa · 1–4 — umiejętności · Q — mikstura · F —
+                    łup · Escape — zamknij okno lub anuluj działanie. Cele i wskazówki znajdziesz w
+                    Dzienniku. Ostatnie zdarzenia są w czacie System.
+                  </p>
+                </details>
               </div>
             )}
             {panel === "map" && (

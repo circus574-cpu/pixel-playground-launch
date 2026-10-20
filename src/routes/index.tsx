@@ -100,7 +100,12 @@ function GameScreen({
   const [testMode, setTestMode] = useState(false);
   const [zoom, setZoom] = useState(0.62);
   const [fullscreen, setFullscreen] = useState(false);
-  const [displayNotice, setDisplayNotice] = useState("");
+  const [displayNotice, setDisplayNotice] = useState({ id: 0, text: "" });
+  const displayMessage = (text: string) =>
+    setDisplayNotice((previous) => ({ id: previous.id + 1, text }));
+  const setWorldLabels = useCallback((visible: boolean) => {
+    container.current?.dispatchEvent(new CustomEvent("ki:labels", { detail: visible }));
+  }, []);
   const [loading, setLoading] = useState<GameLoadingState>(preparingWorld);
   const [attempt, setAttempt] = useState(0);
   const [state, setState] = useState<GameViewState>(() => initialView(slot.player!));
@@ -128,9 +133,9 @@ function GameScreen({
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
       else if (stage.current?.requestFullscreen) await stage.current.requestFullscreen();
-      else setDisplayNotice("Ta przeglądarka nie udostępnia pełnego ekranu.");
+      else displayMessage("Ta przeglądarka nie udostępnia pełnego ekranu.");
     } catch {
-      setDisplayNotice("Nie udało się włączyć pełnego ekranu. Spróbuj ponownie.");
+      displayMessage("Nie udało się włączyć pełnego ekranu. Spróbuj ponownie.");
     }
   }
   useEffect(() => {
@@ -181,6 +186,8 @@ function GameScreen({
           fullscreen={fullscreen}
           onFullscreen={() => void toggleFullscreen()}
           onCommand={sendCommand}
+          onWorldLabels={setWorldLabels}
+          systemNotice={displayNotice}
           onRaceChange={() => {
             container.current?.dispatchEvent(new Event("ki:flush"));
             onExit(true);
@@ -206,11 +213,6 @@ function GameScreen({
         <div className="ki-playtest-badge">
           TEST 3 · oddzielny zapis · <a href="/">Powrót</a>
         </div>
-      )}
-      {displayNotice && (
-        <button className="ki-display-notice" onClick={() => setDisplayNotice("")}>
-          {displayNotice} ×
-        </button>
       )}
     </main>
   );

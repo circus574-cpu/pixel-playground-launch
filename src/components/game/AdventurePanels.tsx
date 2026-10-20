@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { WORLDS } from "../../game/world/worlds";
 import {
   ITEMS,
@@ -157,7 +158,15 @@ export function QuestJournal({
     </div>
   );
 }
-export function NpcDialogue({ state, send }: { state: GameViewState; send: SendCommand }) {
+export function NpcDialogue({
+  state,
+  send,
+  feedback,
+}: {
+  state: GameViewState;
+  send: SendCommand;
+  feedback?: ReactNode;
+}) {
   const world = WORLDS[state.player.continent];
   const npc = world.npcs.find((n) => n.id === state.dialogue);
   if (!npc) return null;
@@ -201,6 +210,7 @@ export function NpcDialogue({ state, send }: { state: GameViewState; send: SendC
             ×
           </button>
         </header>
+        {feedback}
         <div className="ki-adventure-panel">
           <p>{text}</p>
           {npc.id !== "merchant" && (

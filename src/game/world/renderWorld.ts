@@ -50,17 +50,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       .setDisplaySize(object.width, object.height)
       .setDepth(object.y),
   }));
-  for (const l of world.landmarks) {
-    scene.add
-      .text(l.x, l.y - 90, l.label, {
-        fontSize: "24px",
-        color: "#e6e7cd",
-        stroke: "#182a39",
-        strokeThickness: 5,
-      })
-      .setOrigin(0.5)
-      .setDepth(-5);
-  }
+  // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
     updateVisibility(player: Point) {
       const view = scene.cameras.main.worldView;

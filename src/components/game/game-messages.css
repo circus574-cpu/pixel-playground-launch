@@ -1,0 +1,145 @@
+/* Transient messages stay beside the HUD, away from the character and touch controls. */
+.ki-notification-rail {
+  position: absolute;
+  top: 92px;
+  left: max(10px, env(safe-area-inset-left));
+  width: min(280px, calc(100% - 20px));
+  display: grid;
+  gap: 6px;
+  pointer-events: none;
+}
+.ki-game-message {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  align-items: start;
+  margin: 0;
+  border: 1px solid #90c6c16b;
+  border-radius: 9px;
+  background: #153540ec;
+  color: #edf9f5;
+  box-shadow: 0 3px 12px #06171c38;
+  text-align: left;
+  font:
+    12px/1.5 system-ui,
+    sans-serif;
+}
+.ki-game-message p {
+  margin: 0;
+  padding: 9px 0 9px 11px;
+  overflow-wrap: anywhere;
+}
+.ki-notification-rail .ki-game-message p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ki-game-message button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #d6eee7;
+  font-size: 20px;
+  pointer-events: auto;
+}
+.ki-game-message button:hover {
+  background: #d5f3e918;
+}
+.ki-game-message button:focus-visible {
+  outline: 2px solid #ffe2a1;
+  outline-offset: -4px;
+}
+.ki-game-message.ki-save-warning {
+  background: #482f27ed;
+  border-color: #e8b176;
+  color: #ffe8bd;
+}
+.ki-inline-messages {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.ki-controls-guide {
+  padding: 14px 0;
+  font: 12px/1.6 system-ui;
+}
+.ki-controls-guide summary {
+  cursor: pointer;
+  min-height: 36px;
+  padding: 8px 0;
+  color: #d5eee7;
+}
+.ki-controls-guide p {
+  color: #bedcd6;
+}
+.ki-save-indicator {
+  position: absolute;
+  right: -4px;
+  top: -6px;
+  border-radius: 50%;
+  background: #9b452b;
+  color: #fff0cd;
+  padding: 0 6px;
+  font: bold 14px/20px system-ui;
+}
+.ki-menu-button {
+  position: relative;
+}
+@media (max-width: 760px) {
+  .ki-target ~ .ki-notification-rail {
+    top: 173px;
+  }
+  .ki-notification-rail {
+    width: min(250px, calc(100% - 20px));
+  }
+  .ki-game-message {
+    font-size: 11px;
+  }
+}
+@media (max-height: 500px) {
+  .ki-notification-rail {
+    width: 240px;
+    top: 82px;
+  }
+}
+
+/* The old large-map checkbox changed a class whose width was overridden by the theme. */
+.ki-map.ki-map-large {
+  width: 180px;
+}
+.ki-map.ki-map-large ~ .ki-quest {
+  top: 182px;
+}
+@media (max-width: 760px) {
+  .ki-map.ki-map-large {
+    width: 130px;
+  }
+  .ki-map.ki-map-large ~ .ki-view-controls {
+    top: 158px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ki-map {
+    transition: none;
+  }
+}
+@media (max-width: 500px) {
+  /* Leave room for the mobile camera controls on the right, even for three-line messages. */
+  .ki-notification-rail {
+    width: calc(100% - 170px);
+  }
+}
+
+/* Voluntary windows own the pointer layer; context prompts never cover their tabs or close button. */
+.ki-chat-open {
+  z-index: 10;
+}
+.ki-hud .ki-modal-backdrop {
+  z-index: 20;
+}
+.ki-death-overlay {
+  z-index: 15;
+  pointer-events: none;
+}

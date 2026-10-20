@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { readUiPreferences } from "./uiPreferences";
 import type { GameLoadingState } from "./loading";
 import { CHARACTER_VISUALS, SHARED_ASSETS, regionAssets } from "./world/assets";
 import { facingDirection, walkFrame } from "./world/characterVisual";
@@ -17,6 +18,7 @@ import {
 import { distance, type Point } from "./navigation";
 export type { GameViewState } from "./session";
 type Actor = {
+  kind: "hero" | "npc" | "enemy";
   body: Phaser.GameObjects.Container;
   sprite: Phaser.GameObjects.Sprite;
   bar: Phaser.GameObjects.Rectangle;
@@ -31,6 +33,7 @@ export function mountKileGends(
   options?: { saveKey: string; race: RaceId; onLoading?: (state: GameLoadingState) => void },
 ): () => void {
   let disposed = false;
+  const releaseScene: (() => void)[] = [];
   const loading = (state: GameLoadingState) => {
     if (!disposed) options?.onLoading?.(state);
   };
@@ -45,6 +48,8 @@ export function mountKileGends(
     options?.race,
   );
   const world = session.world;
+  let worldLabels = readUiPreferences().worldLabels;
+  parent.dataset["worldLabels"] = String(worldLabels);
   const visual = CHARACTER_VISUALS[RACES[session.player.race].visual];
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
@@ -163,9 +168,10 @@ export function mountKileGends(
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
       this.updateVisibility = renderWorld(this, world).updateVisibility;
-      this.hero = this.actor(session.player, "Ty · " + RACES[session.player.race].name);
-      for (const e of session.enemies) this.enemies.set(e.id, this.actor(e, world.enemyName, true));
-      for (const n of session.npcs) this.actor(n, n.name + " · " + n.role).sprite.setTint(n.tint);
+      this.hero = this.actor(session.player, "Ty · " + RACES[session.player.race].name, "hero");
+      for (const e of session.enemies)
+        this.enemies.set(e.id, this.actor(e, world.enemyName, "enemy"));
+      for (const n of session.npcs) this.actor(n, n.name, "npc").sprite.setTint(n.tint);
       this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
       this.shield = this.add
         .ellipse(0, 0, 100, 112, 0x85dfe8, 0.13)
@@ -175,26 +181,22 @@ export function mountKileGends(
         .ellipse(world.market.x, world.market.y, 66, 28)
         .setStrokeStyle(3, 0xfff0a1)
         .setDepth(9002);
-      const beaconLabel = this.add
-        .text(world.market.x, world.market.y - 50, "◆ " + world.market.label, {
-          fontSize: "17px",
-          color: "#fff1b1",
-          stroke: "#193e48",
-          strokeThickness: 4,
-        })
-        .setOrigin(0.5)
-        .setDepth(9003);
       this.tweens.add({ targets: beacon, alpha: 0.35, duration: 900, yoyo: true, repeat: -1 });
       this.events.on("postupdate", () => {
-        const active = session.player.quests.steps === "active";
+        const active =
+          session.player.quests.steps === "active" && !session.paused && !session.dialogue;
         beacon.setVisible(active);
-        beaconLabel.setVisible(active).setScale(1 / this.cameras.main.zoom);
       });
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
       const zoom = () =>
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
       zoom();
       parent.addEventListener("ki:zoom", zoom);
+      const labels = (event: Event) => {
+        worldLabels = Boolean((event as CustomEvent<boolean>).detail);
+        parent.dataset["worldLabels"] = String(worldLabels);
+      };
+      parent.addEventListener("ki:labels", labels);
       const command = (event: Event) => {
         session.command((event as CustomEvent<Command>).detail);
         this.resetStick();
@@ -208,14 +210,21 @@ export function mountKileGends(
       parent.addEventListener("ki:flush", save);
       window.addEventListener("pagehide", save);
       document.addEventListener("visibilitychange", save);
-      this.events.once("shutdown", () => {
+      let released = false;
+      const release = () => {
+        if (released) return;
+        released = true;
         parent.removeEventListener("ki:zoom", zoom);
+        parent.removeEventListener("ki:labels", labels);
         parent.removeEventListener("ki:command", command);
         parent.removeEventListener("ki:flush", save);
         window.removeEventListener("pagehide", save);
         document.removeEventListener("visibilitychange", save);
         session.flush();
-      });
+      };
+      releaseScene.push(release);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, release);
+      this.events.once(Phaser.Scenes.Events.DESTROY, release);
       this.keys = this.input.keyboard?.addKeys("W,A,S,D,UP,DOWN,LEFT,RIGHT") as
         Record<string, Phaser.Input.Keyboard.Key> | undefined;
       this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
@@ -281,8 +290,14 @@ export function mountKileGends(
         this.resetStick();
         session.flush();
       };
-      this.game.events.on("blur", blur);
-      this.events.once("shutdown", () => this.game.events.off("blur", blur));
+      const gameEvents = this.game.events;
+      gameEvents.on("blur", blur);
+      const releaseBlur = () => {
+        gameEvents.off("blur", blur);
+      };
+      releaseScene.push(releaseBlur);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseBlur);
+      this.events.once(Phaser.Scenes.Events.DESTROY, releaseBlur);
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
         if (session.dialogue || session.paused || session.player.dead) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
@@ -324,7 +339,8 @@ export function mountKileGends(
       this.stickBase?.setVisible(false);
       this.stickKnob?.setVisible(false);
     }
-    private actor(p: Point, label: string, boar = false): Actor {
+    private actor(p: Point, label: string, kind: Actor["kind"]): Actor {
+      const boar = kind === "enemy";
       const shadow = this.add.ellipse(0, 3, boar ? 50 : 31, 11, 0x102c3a, 0.3);
       const sprite = boar
         ? this.add.sprite(0, 0, "world-atlas", "boar").setDisplaySize(84, 84).setOrigin(0.5, 0.8)
@@ -342,7 +358,8 @@ export function mountKileGends(
         })
         .setOrigin(0.5)
         .setResolution(2)
-        .setDepth(9001);
+        .setDepth(9001)
+        .setVisible(false);
       if (label.startsWith("Ty ·")) name.setColor("#fff1a8");
       const track = this.add.rectangle(p.x, p.y - 76, 64, 6, 0x16313e).setDepth(9000);
       const bar = this.add
@@ -354,6 +371,7 @@ export function mountKileGends(
         bar.setVisible(false);
       }
       const actor = {
+        kind,
         body: this.add.container(p.x, p.y, [shadow, sprite]).setDepth(p.y),
         sprite,
         bar,
@@ -477,6 +495,15 @@ export function mountKileGends(
       }
     }
     private report() {
+      let npcLabels = 0,
+        enemyLabels = 0;
+      for (const actor of this.actors)
+        if (actor.name.visible) {
+          if (actor.kind === "npc") npcLabels++;
+          if (actor.kind === "enemy") enemyLabels++;
+        }
+      parent.dataset["npcLabels"] = String(npcLabels);
+      parent.dataset["enemyLabels"] = String(enemyLabels);
       parent.dataset["world"] = world.id;
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
@@ -513,21 +540,56 @@ export function mountKileGends(
         const a = this.enemies.get(e.id)!;
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
-        a.name.setVisible(e.hp > 0);
-        a.track.setVisible(e.hp > 0);
-        a.bar.setVisible(e.hp > 0);
+        const engaged = e.hp > 0 && (e.mode === "chase" || session.targetId === e.id);
+        a.track.setVisible(engaged);
+        a.bar.setVisible(engaged);
         if (e.hp > 0)
           a.sprite.y =
             Math.sin(time / (e.mode === "chase" ? 75 : 180) + e.home.x) *
             (e.mode === "chase" ? 2 : 0.7);
       }
+      let nearestNpc: Actor | undefined,
+        nearestDistance = 190;
+      for (const actor of this.actors)
+        if (actor.kind === "npc") {
+          const d = distance(session.player, actor.body);
+          if (d < nearestDistance) {
+            nearestNpc = actor;
+            nearestDistance = d;
+          }
+        }
+      let labelledEnemy = session.targetId ? this.enemies.get(session.targetId) : undefined;
+      if (!labelledEnemy) {
+        let nearest = 200;
+        for (const enemy of session.enemies)
+          if (enemy.hp > 0 && enemy.mode === "chase") {
+            const d = distance(session.player, enemy);
+            if (d < nearest) {
+              nearest = d;
+              labelledEnemy = this.enemies.get(enemy.id);
+            }
+          }
+      }
+      const quiet =
+        !worldLabels || Boolean(session.dialogue) || session.paused || session.player.dead;
       for (const a of this.actors) {
-        a.name
-          .setPosition(
-            a.body.x,
-            a.body.y - 94 - (a === this.hero ? 24 / this.cameras.main.zoom : 0),
-          )
-          .setScale(1 / this.cameras.main.zoom);
+        a.name.setPosition(a.body.x, a.body.y - 104).setScale(1 / this.cameras.main.zoom);
+        // A name is less important than the hero's silhouette. Never paint it over the body.
+        const left = a.name.x - a.name.displayWidth / 2,
+          right = a.name.x + a.name.displayWidth / 2;
+        const top = a.name.y - a.name.displayHeight / 2,
+          bottom = a.name.y + a.name.displayHeight / 2;
+        const clear =
+          right < session.player.x - visual.width * visual.originX ||
+          left > session.player.x + visual.width * (1 - visual.originX) ||
+          bottom < session.player.y - visual.height * visual.originY ||
+          top > session.player.y + visual.height * (1 - visual.originY);
+        a.name.setVisible(
+          !quiet &&
+            clear &&
+            ((a.kind === "npc" && a === nearestNpc && !labelledEnemy) ||
+              (a.kind === "enemy" && a === labelledEnemy)),
+        );
         a.track.setPosition(a.body.x, a.body.y - 76);
         a.bar.setPosition(a.body.x - 32, a.body.y - 76);
       }
@@ -543,15 +605,8 @@ export function mountKileGends(
       for (const l of session.loot)
         if (!this.loot.has(l.id)) {
           const icon = this.add.image(0, -17, "ui-icons", 5).setDisplaySize(34, 34);
-          const label = this.add
-            .text(0, 8, "◆ Łup · kliknij", {
-              fontSize: "16px",
-              color: "#ffe6a0",
-              stroke: "#183c48",
-              strokeThickness: 4,
-            })
-            .setOrigin(0.5);
-          this.loot.set(l.id, this.add.container(l.x, l.y, [icon, label]).setDepth(9002));
+          // The pickup action is labelled in the HUD; loot on the ground needs only its icon.
+          this.loot.set(l.id, this.add.container(l.x, l.y, [icon]).setDepth(9002));
         }
       for (const [id, body] of this.loot)
         if (!session.loot.some((l) => l.id === id)) {
@@ -579,6 +634,7 @@ export function mountKileGends(
   });
   return () => {
     disposed = true;
+    for (const release of releaseScene.splice(0)) release();
     session.flush();
     game.destroy(true);
   };
