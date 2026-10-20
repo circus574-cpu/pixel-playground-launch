@@ -1,0 +1,42 @@
+{
+  "planetary": {
+    "card": "/game/assets/origins-v1/planetary-480.webp",
+    "preview": "/game/assets/origins-v1/planetary-960.webp",
+    "full": "/game/assets/origins-v1/planetary-full.webp",
+    "width": 1152,
+    "height": 1392,
+    "original": "/game/assets/stage3/references/planetary.jpg",
+    "sourceSha256": "c9153912519f69f16431e1be21e0a955c5a27889f4c90673a5b1a2b7342ce1a4",
+    "crop": [0, 0, 1152, 1392]
+  },
+  "sage": {
+    "card": "/game/assets/origins-v1/sage-480.webp",
+    "preview": "/game/assets/origins-v1/sage-960.webp",
+    "full": "/game/assets/origins-v1/sage-full.webp",
+    "width": 1152,
+    "height": 1392,
+    "original": "/game/assets/stage3/references/sage.jpg",
+    "sourceSha256": "a0f3faab56a789e45661e076af18a2b73ed96856090626da33be05151d8de9b4",
+    "crop": [0, 0, 1152, 1392]
+  },
+  "android": {
+    "card": "/game/assets/origins-v1/android-480.webp",
+    "preview": "/game/assets/origins-v1/android-960.webp",
+    "full": "/game/assets/origins-v1/android-full.webp",
+    "width": 1152,
+    "height": 1392,
+    "original": "/game/assets/stage3/references/android.jpg",
+    "sourceSha256": "86bbfebf312938388aa1d7623d279fab293da2d819422981790e122bc88b766a",
+    "crop": [0, 0, 1152, 1392]
+  },
+  "legend": {
+    "card": "/game/assets/origins-v1/legend-480.webp",
+    "preview": "/game/assets/origins-v1/legend-960.webp",
+    "full": "/game/assets/origins-v1/legend-full.webp",
+    "width": 1152,
+    "height": 1392,
+    "original": "/game/assets/stage3/references/legend.jpg",
+    "sourceSha256": "e1c9c27298b82250731b8a38eb78024834597b71b8312f52e5e00127797a77ba",
+    "crop": [0, 0, 1152, 1392]
+  }
+}

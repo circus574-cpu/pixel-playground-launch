@@ -1,7 +1,9 @@
-import { useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { RACES, RACE_IDS, type RaceId } from "../../game/world/races";
 import { WORLDS } from "../../game/world/worlds";
 import { slotTitle, type CharacterSlot } from "../../game/characters";
+import { BrandMark } from "./BrandMark";
+import { RaceArtwork } from "./RaceArtwork";
 import "./character-selection.css";
 
 type Props = {
@@ -13,14 +15,51 @@ type Props = {
 export function CharacterSelection({ slots, warning, onCreate, onContinue }: Props) {
   const [selected, setSelected] = useState<RaceId>("planetary");
   const [showSlots, setShowSlots] = useState(slots.length > 0);
+  const [showArt, setShowArt] = useState(false);
+  const carousel = useRef<HTMLElement>(null),
+    detail = useRef<HTMLElement>(null),
+    artButton = useRef<HTMLButtonElement>(null);
   const race = RACES[selected],
     world = WORLDS[race.world];
+  function choose(id: RaceId, openDetail = false) {
+    setSelected(id);
+    if (openDetail)
+      requestAnimationFrame(() => {
+        detail.current?.scrollIntoView({
+          block: "start",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "instant"
+            : "smooth",
+        });
+        detail.current?.focus({ preventScroll: true });
+      });
+  }
+  function pageRace(index: number) {
+    const id = RACE_IDS[(index + RACE_IDS.length) % RACE_IDS.length]!;
+    setSelected(id);
+    const item = carousel.current?.querySelector<HTMLElement>(`[data-race="${id}"]`),
+      track = carousel.current;
+    if (item && track && window.matchMedia("(max-width: 700px)").matches)
+      track.scrollTo({
+        left:
+          track.scrollLeft + item.getBoundingClientRect().left - track.getBoundingClientRect().left,
+        behavior: "instant",
+      });
+  }
+  function onCarouselKey(event: KeyboardEvent) {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    pageRace(RACE_IDS.indexOf(selected) + (event.key === "ArrowRight" ? 1 : -1));
+  }
+  function closeArt() {
+    setShowArt(false);
+    requestAnimationFrame(() => artButton.current?.focus());
+  }
   return (
     <main className="ki-origins" style={{ "--origin-color": race.color } as CSSProperties}>
       <header className="ki-origins-header">
-        <a href="/" aria-label="Ki Legends — początek" className="ki-wordmark">
-          KI <span>LEGENDS</span>
-          <small>KRONIKI CZTERECH ŚWIATÓW</small>
+        <a href="/" aria-label="Ki Legends — początek">
+          <BrandMark />
         </a>
         <nav aria-label="Postacie">
           <button aria-pressed={!showSlots} onClick={() => setShowSlots(false)}>
@@ -40,14 +79,11 @@ export function CharacterSelection({ slots, warning, onCreate, onContinue }: Pro
         <section className="ki-roster" aria-label="Zapisane postacie">
           <p className="ki-origin-eyebrow">TWOJE HISTORIE</p>
           <h1>Wróć na swój szlak.</h1>
-          <p>
-            Każda postać ma osobny postęp na tym urządzeniu. Nowa podróż zachowuje istniejące
-            zapisy.
-          </p>
+          <p>Każda postać ma własną historię zapisaną na tym urządzeniu.</p>
           <div className="ki-slot-grid">
             {slots.map((slot) => (
               <article key={slot.id} className="ki-slot">
-                {slot.player && <img src={RACES[slot.player.race].portrait} alt="" />}
+                {slot.player && <RaceArtwork race={slot.player.race} />}
                 <div>
                   <small>
                     {slot.id === "legacy"
@@ -69,7 +105,7 @@ export function CharacterSelection({ slots, warning, onCreate, onContinue }: Pro
               </article>
             ))}
           </div>
-          {!slots.length && <p>Nie masz jeszcze zapisanej postaci.</p>}
+          {!slots.length && <p>Twoja pierwsza historia dopiero się zaczyna.</p>}
           <button className="ki-origin-primary" onClick={() => setShowSlots(false)}>
             Utwórz nową postać
           </button>
@@ -77,25 +113,47 @@ export function CharacterSelection({ slots, warning, onCreate, onContinue }: Pro
       ) : (
         <>
           <section className="ki-origin-intro">
-            <p className="ki-origin-eyebrow">JEDNA ENERGIA. CZTERY DROGI.</p>
-            <h1>
-              Skąd zacznie się
-              <br />
-              <em>twoja legenda?</em>
-            </h1>
+            <div>
+              <p className="ki-origin-eyebrow">WYBIERZ SWOJE POCHODZENIE</p>
+              <h1>Cztery drogi do wielkości.</h1>
+            </div>
             <p>
-              Wybierz pochodzenie. Odkryj swój kontynent.
+              Odkryj bohatera. Poznaj jego świat.
               <br />
-              Pierwszy krok należy do ciebie.
+              Zdecyduj, gdzie zacznie się twoja legenda.
             </p>
           </section>
-          <section className="ki-race-grid" aria-label="Cztery rasy">
+          <section
+            ref={carousel}
+            className="ki-race-grid"
+            aria-label="Cztery rasy"
+            onKeyDown={onCarouselKey}
+            onScroll={() => {
+              const track = carousel.current;
+              if (!track || !window.matchMedia("(max-width: 700px)").matches) return;
+              const left = track.getBoundingClientRect().left;
+              let closest: RaceId = selected,
+                best = Infinity;
+              for (const id of RACE_IDS) {
+                const el = track.querySelector(`[data-race="${id}"]`);
+                if (el) {
+                  const delta = Math.abs(el.getBoundingClientRect().left - left);
+                  if (delta < best) {
+                    best = delta;
+                    closest = id;
+                  }
+                }
+              }
+              setSelected(closest);
+            }}
+          >
             {RACE_IDS.map((id, index) => {
               const r = RACES[id],
                 w = WORLDS[r.world];
               return (
                 <article
                   key={id}
+                  data-race={id}
                   className={"ki-race-card " + (selected === id ? "selected" : "")}
                   style={{ "--race-color": r.color } as CSSProperties}
                 >
@@ -103,70 +161,147 @@ export function CharacterSelection({ slots, warning, onCreate, onContinue }: Pro
                     className="ki-race-preview"
                     aria-label={"Podgląd kontynentu: " + r.name}
                     aria-pressed={selected === id}
-                    onClick={() => setSelected(id)}
+                    onClick={() => choose(id, true)}
                   >
-                    <img
-                      src={r.portrait}
-                      alt={"Referencja artystyczna rasy " + r.name}
-                      loading={index ? "lazy" : "eager"}
-                    />
+                    <RaceArtwork race={id} eager={index === 0} />
                     <span className="ki-race-number">0{index + 1}</span>
-                    <span className="ki-race-copy">
-                      <small>{w.name}</small>
-                      <strong>{r.name}</strong>
-                      <span>{r.title}</span>
-                    </span>
-                    <span className="ki-preview-caption">
-                      {selected === id ? "◆ OGLĄDASZ KONTYNENT" : "ODKRYJ KONTYNENT →"}
+                    <span className="ki-race-seal" aria-hidden="true">
+                      ◇
                     </span>
                   </button>
+                  <div className="ki-race-copy">
+                    <small>{w.name}</small>
+                    <h2>{r.name}</h2>
+                    <p>{r.title}</p>
+                  </div>
                   <button
                     className="ki-race-choose"
                     aria-label={"Wybierz: " + r.name}
-                    onClick={() => onCreate(id)}
+                    onClick={() => choose(id, true)}
                   >
-                    Wybierz: {r.name} <span>→</span>
+                    Wybierz {r.name}
+                    <span aria-hidden="true">→</span>
                   </button>
                 </article>
               );
             })}
           </section>
-          <section className="ki-continent-preview" aria-label={"Podgląd: " + world.name}>
-            <div className="ki-world-preview-image">
-              <img src={world.minimap} alt={"Mapa regionu startowego: " + world.settlement} />
-              <span>REGION STARTOWY · PODGLĄD MAPY</span>
+          <nav className="ki-race-pagination" aria-label="Przewijanie ras">
+            <button
+              aria-label="Poprzednia rasa"
+              onClick={() => pageRace(RACE_IDS.indexOf(selected) - 1)}
+            >
+              ←
+            </button>
+            <div>
+              {RACE_IDS.map((id, index) => (
+                <button
+                  key={id}
+                  aria-label={"Pokaż rasę: " + RACES[id].name}
+                  aria-current={selected === id ? "true" : undefined}
+                  onClick={() => pageRace(index)}
+                >
+                  <span>0{index + 1}</span>
+                </button>
+              ))}
             </div>
-            <div className="ki-world-preview-copy">
+            <button
+              aria-label="Następna rasa"
+              onClick={() => pageRace(RACE_IDS.indexOf(selected) + 1)}
+            >
+              →
+            </button>
+          </nav>
+          <section
+            ref={detail}
+            tabIndex={-1}
+            className="ki-origin-detail"
+            aria-label={"Pochodzenie: " + race.name}
+            data-selected-race={selected}
+          >
+            <div className="ki-detail-portrait">
+              <RaceArtwork key={selected} race={selected} variant="preview" />
+              <button
+                ref={artButton}
+                aria-label={"Otwórz pełną ilustrację: " + race.name}
+                onClick={() => setShowArt(true)}
+              >
+                Powiększ ilustrację <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <div className="ki-detail-copy">
               <p className="ki-origin-eyebrow">
-                {race.name} / {world.settlement}
+                {world.name} / {world.settlement}
               </p>
-              <h2>{world.name}</h2>
+              <h2>{race.name}</h2>
+              <p className="ki-detail-title">{race.title}</p>
               <p>{race.description}</p>
-              <p>{world.description}</p>
-              <p className="ki-origin-architecture">{world.architecture}</p>
               <div className="ki-origin-details">
                 <div>
-                  <small>KULTURA</small>
+                  <h3>Kultura</h3>
                   <p>{race.culture}</p>
                 </div>
                 <div>
-                  <small>ENERGIA</small>
+                  <h3>Energia KI</h3>
                   <p>{race.energy}</p>
                 </div>
               </div>
+              <section className="ki-continent-preview" aria-label={"Podgląd: " + world.name}>
+                <img
+                  src={world.minimap}
+                  loading="lazy"
+                  decoding="async"
+                  alt={"Mapa regionu startowego: " + world.settlement}
+                />
+                <div>
+                  <small>KONTYNENT STARTOWY</small>
+                  <h3>{world.name}</h3>
+                  <small>{world.settlement}</small>
+                  <p>{world.description}</p>
+                  <p className="ki-origin-architecture">{world.architecture}</p>
+                </div>
+              </section>
               <button className="ki-origin-primary" onClick={() => onCreate(selected)}>
-                Rozpocznij w {world.name} <span>→</span>
+                Rozpocznij przygodę <span aria-hidden="true">→</span>
               </button>
+              <p className="ki-start-caption">
+                {race.name} · {world.name} · nowy, osobny zapis
+              </p>
             </div>
           </section>
           <footer className="ki-origins-footer">
-            <span>◆ Lokalna przygoda PvE · zapis na urządzeniu</span>
+            <span>Lokalna przygoda PvE · postęp na tym urządzeniu</span>
             <span>
-              Ilustracje: referencje z dokumentu. W grze wspólny ludzki sprite; nowe krainy używają
-              zasobów tymczasowych.
+              Oryginalne ilustracje Ki Legends. W rozgrywce wspólny ludzki sprite; nowe krainy
+              korzystają z tymczasowej grafiki.
             </span>
           </footer>
         </>
+      )}
+      {showArt && (
+        <div className="ki-art-backdrop" onClick={closeArt}>
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-label={"Ilustracja: " + race.name}
+            className="ki-art-modal"
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") closeArt();
+              if (e.key === "Tab") e.preventDefault();
+            }}
+          >
+            <header>
+              <h2>
+                {race.name} <span>{world.name}</span>
+              </h2>
+              <button autoFocus aria-label="Zamknij ilustrację" onClick={closeArt}>
+                Zamknij ×
+              </button>
+            </header>
+            <RaceArtwork key={selected} race={selected} variant="full" eager />
+          </section>
+        </div>
       )}
     </main>
   );

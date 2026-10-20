@@ -4,6 +4,7 @@ const races = [
     name: "Planetarni",
     id: "planetary",
     world: "verdant",
+    continent: "Verdantia",
     guide: "Aira",
     settlement: "Wioska Początkowa",
     action: "Podejdź do rynku",
@@ -15,6 +16,7 @@ const races = [
     name: "Mędrcy",
     id: "sage",
     world: "aether",
+    continent: "Aetheria",
     guide: "Sora",
     settlement: "Sanktuarium Tysiąca Źródeł",
     action: "Podejdź: Źródło Pamięci",
@@ -26,6 +28,7 @@ const races = [
     name: "Androidy",
     id: "android",
     world: "nexus",
+    continent: "Nexus-9",
     guide: "LYRA-7",
     settlement: "Węzeł Świadomości",
     action: "Podejdź: Rdzeń Świadomości",
@@ -37,6 +40,7 @@ const races = [
     name: "Legendy",
     id: "legend",
     world: "pyra",
+    continent: "Pyra",
     guide: "Kaena",
     settlement: "Twierdza Popiołu",
     action: "Podejdź: Arena Dziedzictwa",
@@ -89,6 +93,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
       race.world === "verdant" ? 768 : 2400,
     );
     await page.getByRole("button", { name: "Wybierz: " + race.name, exact: true }).click();
+    await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const canvas = page.locator(`.ki-canvas[data-world="${race.world}"]`);
     await expect(canvas).toBeVisible();
     await expect
@@ -96,6 +101,8 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
       .toBeCloseTo(race.x, 0);
     await expect(page.locator(".ki-player-name")).toContainText(race.name.toUpperCase());
     await expect(page.locator(".ki-map-title")).toContainText(race.settlement);
+    await expect(page.locator(".ki-location")).toContainText(race.continent);
+    await expect(page.getByRole("button", { name: race.action, exact: true })).toHaveCount(0);
     await page.screenshot({ path: info.outputPath(race.world + "-start.png") });
     await page.getByRole("button", { name: new RegExp("Rozmowa · " + race.guide) }).click();
     await expect(
@@ -103,6 +110,11 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     ).toBeVisible();
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await expect(page.getByRole("button", { name: race.action, exact: true })).toBeVisible();
+    if (race.id !== "planetary")
+      await expect(page.getByRole("button", { name: "Podejdź do rynku", exact: true })).toHaveCount(
+        0,
+      );
     await page.getByRole("button", { name: race.action, exact: true }).click();
     await expect
       .poll(async () => (await saved(page))?.quests.steps, { timeout: 120_000 })
@@ -146,6 +158,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
 
 for (const [width, height] of [
   [360, 800],
+  [390, 844],
   [414, 896],
   [852, 393],
   [640, 480],
@@ -164,6 +177,31 @@ for (const [width, height] of [
     await expect(
       page.getByRole("button", { name: "Podgląd kontynentu: Planetarni", exact: true }),
     ).toBeVisible();
+    await page
+      .locator(".ki-race-card img")
+      .first()
+      .evaluate((img) => (img as HTMLImageElement).decode());
+    await page.screenshot({ path: "docs/qa/stage3-1/selection-" + width + "x" + height + ".png" });
+    if (width <= 700) {
+      const track = page.locator(".ki-race-grid");
+      const bounds = await track.boundingBox();
+      const touch = await context.newCDPSession(page);
+      const y = bounds!.y + 120;
+      await touch.send("Input.dispatchTouchEvent", {
+        type: "touchStart",
+        touchPoints: [{ x: width - 50, y, id: 1 }],
+      });
+      for (let step = 1; step <= 6; step++) {
+        await touch.send("Input.dispatchTouchEvent", {
+          type: "touchMove",
+          touchPoints: [{ x: width - 50 - (step * (width - 100)) / 6, y, id: 1 }],
+        });
+        await page.waitForTimeout(35);
+      }
+      await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await expect.poll(() => track.evaluate((el) => el.scrollLeft)).toBeGreaterThan(80);
+      await page.getByRole("button", { name: "Pokaż rasę: Planetarni", exact: true }).tap();
+    }
     await page.mouse.move(width / 2, height / 2);
     await page.mouse.wheel(0, height);
     await expect
@@ -180,6 +218,15 @@ for (const [width, height] of [
       true,
     );
     await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).tap();
+    await page.getByRole("button", { name: "Otwórz pełną ilustrację: Mędrcy", exact: true }).tap();
+    const fullArt = page.getByRole("dialog", { name: "Ilustracja: Mędrcy" }).locator("img");
+    await fullArt.evaluate((el) => (el as HTMLImageElement).decode());
+    const artBounds = await fullArt.boundingBox();
+    expect(artBounds!.y + artBounds!.height).toBeLessThanOrEqual(height);
+    await page.screenshot({ path: "docs/qa/stage3-1/illustration-mobile-" + width + ".png" });
+    await page.getByRole("button", { name: "Zamknij ilustrację", exact: true }).tap();
+
+    await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).tap();
     const canvas = page.locator('.ki-canvas[data-world="aether"]');
     await expect(canvas).toBeVisible();
     await page.getByRole("button", { name: /Rozmowa · Sora/ }).tap();

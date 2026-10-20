@@ -53,6 +53,7 @@ test("C: a real v1 fixture migrates in the browser without changing the original
   await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
   await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
   await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
+  await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(page.locator('.ki-canvas[data-world="aether"]')).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem("ki-legends:adventure:v1"))).toBe(raw);
 });

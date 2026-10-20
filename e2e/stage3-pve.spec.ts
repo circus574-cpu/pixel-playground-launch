@@ -46,6 +46,7 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
   });
   await page.goto(path);
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
+  await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(page.locator('.ki-canvas[data-world="verdant"]')).toBeVisible();
   await page.getByRole("button", { name: /Rozmowa · Aira/ }).click();
   await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
