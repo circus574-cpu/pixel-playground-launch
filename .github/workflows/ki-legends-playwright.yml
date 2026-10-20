@@ -48,10 +48,10 @@ jobs:
       - name: Install Chromium and Linux libraries
         run: npx playwright install --with-deps chromium
       - name: Run browser smoke tests
-        if: ${{ github.event.inputs.suite != 'full' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.suite != 'full' }}
         run: npx playwright test e2e/race-switch.spec.ts e2e/stage31-collision.spec.ts e2e/stage31-ui.spec.ts
       - name: Run all browser tests
-        if: ${{ github.event.inputs.suite == 'full' }}
+        if: ${{ github.event_name == 'pull_request' || github.event.inputs.suite == 'full' }}
         run: npx playwright test
       - name: Upload traces, screenshots and JSON results
         if: always()
