@@ -1,0 +1,95 @@
+{
+  "cuda_check": "passed",
+  "comfyui_tag": "v0.3.76",
+  "comfyui_commit": "30c259cac8c08ff8d015f9aff3151cb525c9b702",
+  "torch": "2.4.1+cu124",
+  "node": "v22.23.3",
+  "project_commit": "b51fc1928a6600035cc6c169205dd7adceb5fe86",
+  "asset_tool_unit_tests": {
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0
+  },
+  "bootstrap_warm_idempotency": "passed; no duplicate ComfyUI process",
+  "cold_stop_start_test": "not performed",
+  "models_downloaded": 0,
+  "credentials_exported": false,
+  "filesystem": "fuse.geesefs for /workspace; POSIX runtime in /opt",
+  "frontend": "HTTP 8188 protected with basic auth; username kilegends; existing JUPYTER_PASSWORD",
+  "entrypoint_repair": "separate cmd arguments /bin/bash -c exec /start.sh",
+  "workspace_root": "/workspace/ki-legends-gpu",
+  "render": {
+    "blender": "4.5.3 LTS",
+    "engine": "CYCLES",
+    "compute_type": "CUDA",
+    "devices": [
+      "NVIDIA RTX A6000"
+    ],
+    "samples": 16,
+    "resolution": [
+      512,
+      512
+    ],
+    "rgba": true,
+    "camera_elevation_degrees": 60,
+    "feet_anchor": [
+      0.5,
+      0.9499999731779099
+    ],
+    "render_seconds": 3.056990658995346,
+    "png_sha256": "73ee0dca638662681ba67a78a11e5188fd01f7e64db1e755286bc83ec1d640e7",
+    "purpose": "neutral technical calibration only; no final race artwork or animation claim"
+  },
+  "workflow": {
+    "frontend_http": 200,
+    "frontend_title": "ComfyUI",
+    "javascript_http": 200,
+    "websocket": "status event received",
+    "workflow_status": "success",
+    "workflow": "LoadImage -> JoinImageWithAlpha -> SaveImage; no AI weights",
+    "output": "/workspace/ki-legends-gpu/output/qa/gpu-calibration-roundtrip_00001_.png",
+    "mode": "RGBA",
+    "size": [
+      512,
+      512
+    ],
+    "alpha_max_delta": 1,
+    "transparent_border_px": 8,
+    "gpu_devices": [
+      {
+        "name": "cuda:0 NVIDIA RTX A6000 : cudaMallocAsync",
+        "type": "cuda",
+        "index": 0,
+        "vram_total": 47699722240,
+        "vram_free": 47416410112,
+        "torch_vram_total": 0,
+        "torch_vram_free": 0
+      }
+    ],
+    "checkpoints_downloaded": 0
+  },
+  "asset_import": {
+    "id": "gpu-calibration",
+    "version": "1.0.0",
+    "digest": "4c6e43f2d30c1d07033a7a355a8e360d327d010bce10db00a07e1d07efd098bc",
+    "assets": 1,
+    "bytesBefore": 160098,
+    "bytesAfter": 44940,
+    "worlds": {
+      "verdant": 67189024,
+      "aether": 16561440,
+      "nexus": 16561440,
+      "pyra": 16561440
+    },
+    "installed": false,
+    "directory": "game/assets/gpu/gpu-calibration/1.0.0-4c6e43f2d30c"
+  },
+  "cache": {
+    "status": "verified",
+    "archive": "runtime-20261020-v1.tar.gz",
+    "bytes": 1169795882,
+    "entries": 89777,
+    "auth_secrets_excluded": true,
+    "actual_cold_restart_performed": false
+  }
+}

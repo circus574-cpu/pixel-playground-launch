@@ -121,3 +121,7 @@ Końcowy commit po `f739f0d` dodaje wyłącznie dokumentację i zachowane dowody
 - Publikacja, scalenie main oraz rozbudowa sieciowa nie należą do tego etapu. Właściwe lokalne uruchomienie workera udokumentowano; genericzne `npm run preview` nie obsługuje układu tego Cloudflare builda.
 
 **GOTOWE WARUNKOWO.** Silnik i pipeline są gotowe do pierwszej kanonicznej dostawy GPU bez przebudowy mechaniki: 95/95 unit, 47/47 E2E, pełny lokalny worker i import CLI przeszły. Warunki dotyczą akceptacji pierwszej oprawy i fizycznej wydajności Androida przed masową produkcją/publikacją, a nie zastąpienia niewykonanych testów deklaracją PASS.
+
+## Uzupełnienie: rzeczywiste uruchomienie GPU
+
+Po zamknięciu testów silnika użytkownik udostępnił działający terminal RunPod. Naprawiono i uruchomiono środowisko CUDA/ComfyUI/Blender oraz sprawdzono rzeczywisty render i import. [Raport uruchomienia GPU](RUNPOD_GPU_SETUP.md) zawiera dowody, wersje i ograniczenia. Wcześniejszy zapis „nie uruchamiano GPU” opisuje stan pierwotnego etapu stabilizacji; obecny test nie obejmuje generowania docelowych postaci ani inference AI.
