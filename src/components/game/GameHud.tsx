@@ -1,3 +1,4 @@
+import { TUTORIAL_MARKET } from "../../game/tutorial";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
@@ -134,6 +135,9 @@ export function GameHud({
               {state.target.hp} / {state.target.maxHp}
             </span>
           </div>
+          <small className="ki-target-range">
+            {state.target.inRange ? "Atak podstawowy w zasięgu" : "Poza zasięgiem lub przeszkoda"}
+          </small>
         </section>
       )}
       <section className={`ki-map ki-frame ${mapSize ? "ki-map-large" : ""}`} aria-label="Minimapa">
@@ -346,6 +350,16 @@ export function GameHud({
       {state.dialogue && <NpcDialogue state={state} send={onCommand} />}
       {!panel && !state.dialogue && (
         <div className="ki-context-actions">
+          {player.quests.steps === "active" && (
+            <button
+              onClick={(event) => {
+                onCommand({ type: "move", ...TUTORIAL_MARKET });
+                event.currentTarget.blur();
+              }}
+            >
+              Podejdź do rynku
+            </button>
+          )}
           <button
             onClick={(event) => {
               onCommand({ type: "interact", npc: state.nearestNpc });

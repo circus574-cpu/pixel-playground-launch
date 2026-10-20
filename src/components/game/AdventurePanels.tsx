@@ -1,3 +1,4 @@
+import { TUTORIAL_MARKET } from "../../game/tutorial";
 import {
   ITEMS,
   ITEM_IDS,
@@ -122,7 +123,7 @@ export function QuestJournal({
               onClick={() => {
                 close();
                 if (q.id === "steps" && q.status === "active")
-                  send({ type: "move", x: 1480, y: 800 });
+                  send({ type: "move", ...TUTORIAL_MARKET });
                 else
                   send({
                     type: "interact",
@@ -154,7 +155,9 @@ export function NpcDialogue({ state, send }: { state: GameViewState; send: SendC
     (npc.id === "hunter" ? p.quests.steps === "done" : p.quests.boars === "done");
   const text = {
     guide:
-      "Witaj, wędrowcze. Klikaj ziemię, aby iść. Na telefonie możesz też przeciągać palcem w lewym dolnym obszarze. Odwiedź oznaczony rynek na północ od fontanny i wróć do mnie.",
+      "Witaj, wędrowcze. Klikaj ziemię, aby iść. Na telefonie możesz też przeciągać palcem w lewym dolnym obszarze. " +
+      TUTORIAL_MARKET.instruction +
+      ". Szukaj złotego znacznika ◆ Rynek albo użyj przycisku Podejdź do rynku. Potem wróć do mnie po nagrodę.",
     hunter:
       "Dziki krążą przy wschodniej drodze i na zachód od rynku. Przyjmij zadanie, pokonaj trzy i wróć. Kliknięcie dzika uruchamia podejście i autoatak. Skróty 1–4 i Q odpowiadają przyciskom na dole.",
     merchant:

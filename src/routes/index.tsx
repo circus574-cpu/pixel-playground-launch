@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameHud } from "../components/game/GameHud";
 import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
+import { isPlaytest } from "../game/playtest";
 import { initialView, type Command } from "../game/session";
 
 export const Route = createFileRoute("/")({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/")({
 export function Index() {
   const container = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLElement>(null);
+  const [testMode, setTestMode] = useState(false);
   const [zoom, setZoom] = useState(0.62);
   const [fullscreen, setFullscreen] = useState(false);
   const [displayNotice, setDisplayNotice] = useState("");
@@ -30,6 +32,7 @@ export function Index() {
     container.current?.dispatchEvent(new CustomEvent("ki:command", { detail: command }));
   }, []);
   useEffect(() => {
+    setTestMode(isPlaytest(window.location.search));
     const initial = initialZoom(window.innerWidth, window.innerHeight);
     setZoom(initial);
     if (container.current) container.current.dataset["zoom"] = String(initial);
@@ -88,6 +91,11 @@ export function Index() {
         onFullscreen={() => void toggleFullscreen()}
         onCommand={sendCommand}
       />
+      {testMode && (
+        <div className="ki-playtest-badge">
+          TEST 2.1 · oddzielny zapis · <a href="/">Powrót</a>
+        </div>
+      )}
       {displayNotice && (
         <button className="ki-display-notice" onClick={() => setDisplayNotice("")}>
           {displayNotice} ×

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { TUTORIAL_MARKET } from "./tutorial";
 import { FOREST, forestObstacles, WORLD_HEIGHT, WORLD_WIDTH } from "./world/forest";
 import { Navigation, distance, type Point } from "./navigation";
 
@@ -160,11 +161,14 @@ export class SaveStore {
   private expected: string | null = null;
   private writable = true;
   warning = "";
-  constructor(private storage: StoragePort | null) {}
+  constructor(
+    private storage: StoragePort | null,
+    private key = SAVE_KEY,
+  ) {}
   load(): Player | undefined {
     try {
       if (!this.storage) throw new Error("storage unavailable");
-      const raw = this.storage.getItem(SAVE_KEY);
+      const raw = this.storage.getItem(this.key);
       this.expected = raw;
       if (!raw) return undefined;
       const data = SaveSchema.safeParse(JSON.parse(raw));
@@ -199,7 +203,7 @@ export class SaveStore {
   save(p: Player): boolean {
     if (!this.storage || !this.writable) return false;
     try {
-      if (this.storage.getItem(SAVE_KEY) !== this.expected) {
+      if (this.storage.getItem(this.key) !== this.expected) {
         this.writable = false;
         this.warning =
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
@@ -210,7 +214,7 @@ export class SaveStore {
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
-      this.storage.setItem(SAVE_KEY, next);
+      this.storage.setItem(this.key, next);
       this.expected = next;
       return true;
     } catch {
@@ -355,9 +359,7 @@ export class GameSession {
       if (c.action === "accept") {
         if (npc.id === "guide" && p.quests.steps === "locked") {
           p.quests.steps = "active";
-          this.say(
-            "Pierwsze kroki: odwiedź latarnię na północ od fontanny (rynek), potem wróć do Airy.",
-          );
+          this.say(TUTORIAL_MARKET.instruction + ", potem wróć do Airy.");
         } else if (
           npc.id === "hunter" &&
           p.quests.steps === "done" &&
@@ -662,7 +664,7 @@ export class GameSession {
       if (!loot) this.pendingLoot = null;
       else if (distance(p, loot) <= 90) this.command({ type: "loot", id: loot.id });
     }
-    if (p.quests.steps === "active" && distance(p, { x: 1480, y: 800 }) < 85) {
+    if (p.quests.steps === "active" && distance(p, TUTORIAL_MARKET) < TUTORIAL_MARKET.radius) {
       p.visited = true;
       p.quests.steps = "ready";
       this.say("Rynek odwiedzony. Wróć do Airy po nagrodę.");
@@ -739,7 +741,7 @@ export class GameSession {
     if (id === "steps")
       return q === "locked"
         ? "Porozmawiaj z Airą przy miejscu startowym"
-        : "Odwiedź rynek na północ od fontanny";
+        : TUTORIAL_MARKET.instruction;
     if (id === "boars")
       return q === "locked"
         ? "Po Pierwszych krokach porozmawiaj z Renem"
@@ -755,7 +757,14 @@ export class GameSession {
       player: structuredClone(this.player),
       stats: stats(this.player),
       target: this.target
-        ? { name: "Dzik leśny", hp: this.target.hp, maxHp: this.target.maxHp }
+        ? {
+            name: "Dzik leśny",
+            hp: this.target.hp,
+            maxHp: this.target.maxHp,
+            inRange:
+              distance(this.player, this.target) <= ABILITIES.attack.range &&
+              this.nav.visible(this.player, this.target),
+          }
         : null,
       defeated: this.player.kills,
       ready: true,

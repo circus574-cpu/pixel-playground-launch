@@ -64,6 +64,18 @@ describe("HUD and actual rules integration", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(session.dialogue).toBeNull();
   });
+  it("reaches the market from the direct tutorial action without opening a panel", () => {
+    const session = new GameSession(),
+      ui = mountSession(session);
+    fireEvent.click(screen.getByRole("button", { name: /Rozmowa · Aira/ }));
+    ui.advance(() => session.dialogue === "guide");
+    fireEvent.click(screen.getByRole("button", { name: "Przyjmij zadanie" }));
+    fireEvent.click(screen.getByRole("button", { name: "Zamknij rozmowę" }));
+    fireEvent.click(screen.getByRole("button", { name: "Podejdź do rynku" }));
+    ui.advance(() => session.player.quests.steps === "ready");
+    expect(session.paused).toBe(false);
+    expect(screen.queryByRole("button", { name: "Podejdź do rynku" })).toBeNull();
+  });
   it("uses a real potion and equipment without permanently pausing movement", () => {
     const session = new GameSession();
     session.player.hp = 20;

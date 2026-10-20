@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { TUTORIAL_MARKET } from "./tutorial";
+import { playtestSaveKey } from "./playtest";
 import { renderForest } from "./world/renderForest";
 import { WORLD_WIDTH, WORLD_HEIGHT } from "./world/forest";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
@@ -31,9 +33,10 @@ export function mountKileGends(
   } catch {
     /* SaveStore reports unavailable storage. */
   }
-  const session = new GameSession(new SaveStore(storage));
+  const session = new GameSession(new SaveStore(storage, playtestSaveKey(window.location.search)));
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
+    private updateVisibility?: (player: Point) => void;
     private hero!: Actor;
     private enemies = new Map<string, Actor>();
     private selection!: Phaser.GameObjects.Ellipse;
@@ -102,8 +105,8 @@ export function mountKileGends(
         });
       });
       this.cameras.main.setBackgroundColor("#172b1a").setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-      renderForest(this);
-      this.hero = this.actor(session.player, "Wędrowiec");
+      this.updateVisibility = renderForest(this).updateVisibility;
+      this.hero = this.actor(session.player, "Ty · Wędrowiec");
       for (const e of session.enemies) this.enemies.set(e.id, this.actor(e, "Dzik leśny", true));
       for (const n of session.npcs) this.actor(n, n.name + " · " + n.role).sprite.setTint(n.tint);
       this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
@@ -111,21 +114,24 @@ export function mountKileGends(
         .ellipse(0, 0, 100, 112, 0x85dfe8, 0.13)
         .setStrokeStyle(3, 0xaffff4)
         .setVisible(false);
-      const beacon = this.add.ellipse(1480, 800, 66, 28).setStrokeStyle(3, 0xfff0a1).setDepth(799);
+      const beacon = this.add
+        .ellipse(TUTORIAL_MARKET.x, TUTORIAL_MARKET.y, 66, 28)
+        .setStrokeStyle(3, 0xfff0a1)
+        .setDepth(9002);
       const beaconLabel = this.add
-        .text(1480, 750, "◆ Rynek", {
+        .text(TUTORIAL_MARKET.x, TUTORIAL_MARKET.y - 50, "◆ " + TUTORIAL_MARKET.label, {
           fontSize: "17px",
           color: "#fff1b1",
           stroke: "#193e48",
           strokeThickness: 4,
         })
         .setOrigin(0.5)
-        .setDepth(801);
+        .setDepth(9003);
       this.tweens.add({ targets: beacon, alpha: 0.35, duration: 900, yoyo: true, repeat: -1 });
       this.events.on("postupdate", () => {
         const active = session.player.quests.steps === "active";
         beacon.setVisible(active);
-        beaconLabel.setVisible(active);
+        beaconLabel.setVisible(active).setScale(1 / this.cameras.main.zoom);
       });
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
       const zoom = () =>
@@ -257,7 +263,7 @@ export function mountKileGends(
         .setOrigin(0.5)
         .setResolution(2)
         .setDepth(9001);
-      if (label === "Wędrowiec") name.setVisible(false);
+      if (label.startsWith("Ty ·")) name.setColor("#fff1a8");
       const track = this.add.rectangle(p.x, p.y - 76, 64, 6, 0x16313e).setDepth(9000);
       const bar = this.add
         .rectangle(p.x - 32, p.y - 76, 64, 6, boar ? 0xe4818e : 0x8de0c6)
@@ -397,6 +403,7 @@ export function mountKileGends(
       if (!this.hero || this.loadFailed || document.hidden) return;
       const dt = Math.min(delta, 100);
       session.tick(dt);
+      this.updateVisibility?.(session.player);
       const focused = document.activeElement;
       const typing =
         focused instanceof HTMLElement &&
