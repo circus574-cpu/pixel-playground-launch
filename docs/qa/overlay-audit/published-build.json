@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-20T12:31:54.009674+00:00",
+  "deploymentId": "d41bdd00-438e-4d60-9693-1f5adfcea7c9",
+  "releaseCommit": "f9298e9fa71d15e1eb2545e8bfab56d70440c54e",
+  "results": [
+    {
+      "url": "https://kilegends.pl/",
+      "status": 200,
+      "build": "stage3.2-clear-gameplay-r1"
+    },
+    {
+      "url": "https://pixel-playground-launch.lovable.app/",
+      "status": 200,
+      "build": "stage3.2-clear-gameplay-r1"
+    }
+  ]
+}

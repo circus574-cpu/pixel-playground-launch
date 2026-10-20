@@ -51,12 +51,30 @@ Osobny rzeczywisty test **WebGL / SwiftShader** (640×480): uruchomienie, popraw
 - Po: [czysty telefon](qa/overlay-audit/clean-390.png), [czysty desktop](qa/overlay-audit/clean-1280.png), [komunikat przy HUD](qa/overlay-audit/message-390.png), [komunikat w dialogu](qa/overlay-audit/dialogue-390.png), [ustawienia](qa/overlay-audit/settings-390.png), [poziomo](qa/overlay-audit/clean-852.png).
 - Stany awaryjne: [zapis — pełny komunikat w ustawieniach](qa/overlay-audit/save-warning.png), [odrodzenie](qa/overlay-audit/death.png).
 
+## Powtórzenie kontroli lokalnej
+
+```sh
+npx tsc --noEmit
+npx tsc --noEmit -p tsconfig.e2e.json
+npm run test
+npm run lint
+npm run build
+npm run build:playtest
+npm run test:e2e
+```
+
+Playwright używa rzeczywistego `Index` i adaptera Phaser w Chromium/Canvas. Osobny test WebGL powyżej ma własny, węższy zakres. Pełny zestaw zawiera obecnie 26 przypadków: wykonano pełne 25 przed ostatnią korektą odstępu CSS, następnie 8 obejmujących wszystkie zmienione przypadki i nową regresję panelu celu. Nie deklarujemy drugiego pełnego przebiegu 26/26.
+
 ## Ograniczenia
 
 Testy mobile to emulacja dotyku i viewportów w Chromium, bez fizycznych telefonów, Safari/iOS i pomiarów FPS na docelowym sprzęcie. Testy powtarzalnej zmiany postaci mierzą usunięcie listenerów aplikacji; nie są pełnym profilem pamięci całego Phaser. Zależność Phaser posiada własny listener widoczności dokumentu; nie modyfikowano dostawcy. Symulacja braku miejsca i zapis 1 HP dotyczą wyłącznie izolowanych danych QA. Żaden istniejący zapis użytkownika nie był modyfikowany.
 
 ## Commity i publikacja
 
-- Kod i testy: `1598e3e` — `fix(game): expire guidance and keep gameplay overlays clear`.
-- Wszystkie wymagane lokalne kontrole zakończone; gałąź przygotowana do scalenia do `main` bez przepisywania historii.
-- Publikacja Lovable i potwierdzenie publicznego builda oczekują na końcową weryfikację. Identyfikator wdrożenia i rzeczywiste wyniki produkcji zostaną dopisane po jej wykonaniu; akceptacja zlecenia wdrożenia nie jest wynikiem PASS.
+- Kod i testy: `1598e3e5ebb3d49fb87f57b98fca68ce13875afd` — `fix(game): expire guidance and keep gameplay overlays clear`.
+- Raport i lokalne dowody QA: `f9298e9fa71d15e1eb2545e8bfab56d70440c54e`. Gałąź scalona fast-forward do `main`, bez przepisywania historii; Lovable potwierdził synchronizację tego SHA przed publikacją.
+- **OPUBLIKOWANO i zweryfikowano** https://kilegends.pl/ oraz https://pixel-playground-launch.lovable.app/ — HTTP 200 i meta `ki-build=stage3.2-clear-gameplay-r1`, 2026-10-20 12:31:54 UTC. [Dowód wersji](qa/overlay-audit/published-build.json).
+- Lovable deployment: `d41bdd00-438e-4d60-9693-1f5adfcea7c9`.
+- **Rzeczywista kontrola produkcji w Chromium: PASS**. Cztery pełne ścieżki lokalnych zadań eksploracji (Kaena, Aira, Sora, LYRA-7), prawidłowe światy/nazwy, pełne oryginalne ilustracje, nawigacja do celu, powrót, nagroda 40 XP i zachowanie postępu po odświeżeniu osobnych zapisów. Na 390×844 dodatkowo: rzeczywiste zniknięcie komunikatu po 5 s, ręczne zamknięcie, wyłączenie komunikatów/etykiet, odświeżenie zachowujące ustawienia i testowy przycisk Zmiana rasy. Brak błędów konsoli, wyjątków i błędów zasobów. [Wyniki produkcji](qa/overlay-audit/production-results.json).
+- Zrzuty produkcji: [telefon bez nakładek](qa/overlay-audit/production-clean-390.png), [krótki komunikat](qa/overlay-audit/production-message-390.png), [ustawienia](qa/overlay-audit/production-settings-390.png), [Verdantia](qa/overlay-audit/production-verdant.png), [Aetheria](qa/overlay-audit/production-aether.png), [Nexus-9](qa/overlay-audit/production-nexus.png), [Pyra](qa/overlay-audit/production-pyra.png).
+- Końcowe uzupełnienie raportu i dowodów produkcji nie zmienia opublikowanego kodu gry.

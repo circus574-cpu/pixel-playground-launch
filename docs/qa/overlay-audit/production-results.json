@@ -1,0 +1,71 @@
+{
+  "url": "https://kilegends.pl/",
+  "renderer": "Canvas",
+  "build": "stage3.2-clear-gameplay-r1",
+  "checkedAt": "2026-10-20T12:33:08.102Z",
+  "results": [
+    {
+      "race": "legend",
+      "continent": "pyra",
+      "steps": "done",
+      "xp": 40,
+      "x": 1256.0487004393285,
+      "y": 1232.2790169513733
+    },
+    {
+      "race": "planetary",
+      "continent": "verdant",
+      "steps": "done",
+      "xp": 40,
+      "x": 1572,
+      "y": 1154.60355
+    },
+    {
+      "race": "sage",
+      "continent": "aether",
+      "steps": "done",
+      "xp": 40,
+      "x": 1205.560711125035,
+      "y": 1036.6618006061374
+    },
+    {
+      "race": "android",
+      "continent": "nexus",
+      "steps": "done",
+      "xp": 40,
+      "x": 772.2106859888341,
+      "y": 1067.9899392176956
+    }
+  ],
+  "rendererHeaders": [
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)",
+    "%cPhaser v4.2.1 (Canvas | Web Audio)"
+  ],
+  "errors": [],
+  "releaseCommit": "f9298e9fa71d15e1eb2545e8bfab56d70440c54e",
+  "deploymentId": "d41bdd00-438e-4d60-9693-1f5adfcea7c9",
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "checks": [
+      "no persistent startup notice",
+      "real expiry after 5 s",
+      "manual close",
+      "disable messages",
+      "disable world labels",
+      "preferences preserved on reload",
+      "temporary race switch returns to four cards"
+    ],
+    "passed": true
+  }
+}
