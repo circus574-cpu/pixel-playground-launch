@@ -3,13 +3,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameHud } from "../components/game/GameHud";
 import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
-import { isPlaytest } from "../game/playtest";
+import { isPlaytest, STAGE21_BUILD } from "../game/playtest";
 import { initialView, type Command } from "../game/session";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Ki Legends — Wioska Początkowa" },
+      { name: "ki-build", content: STAGE21_BUILD },
       {
         name: "description",
         content:
@@ -93,7 +94,7 @@ export function Index() {
       />
       {testMode && (
         <div className="ki-playtest-badge">
-          TEST 2.1 · oddzielny zapis · <a href="/">Powrót</a>
+          TEST 2.1 r3 · oddzielny zapis · <a href="/">Powrót</a>
         </div>
       )}
       {displayNotice && (
