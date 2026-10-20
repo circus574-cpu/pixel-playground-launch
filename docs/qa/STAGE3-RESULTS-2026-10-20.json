@@ -64,5 +64,18 @@
     "pyra start/exit",
     "aether start/exit"
   ],
-  "physicalDeviceTested": false
+  "physicalDeviceTested": false,
+  "publication": {
+    "status": "verified-live",
+    "url": "https://kilegends.pl/",
+    "codeCommit": "9508cdfa8930b12ff5d7af2bef56b12350cdc392",
+    "deploymentId": "b6ba5cef-16a8-484c-b44f-d2f871da46de",
+    "build": "stage3-four-continents-r1",
+    "verifiedAtUTC": "2026-10-20T08:24:19Z",
+    "smoke": "Android choice, Nexus spawn, LYRA-7 quest, actual movement to Core, refresh preserves race/world/position/quest",
+    "consoleErrors": 0,
+    "portraitsLoaded": 4,
+    "portraitDimensions": [1152, 1536],
+    "fullE2EExecutedAgainst": "local production playtest build"
+  }
 }

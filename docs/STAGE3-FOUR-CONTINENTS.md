@@ -184,9 +184,23 @@ Gałąź robocza: `feat/stage3-four-continents`.
 - `a5162ab` — cztery pochodzenia, cztery mapy, wspólna architektura, sloty, migracja,
   manifesty, adapter 4/8 kierunków, poprawka gestu joysticka i 58 testów.
 - `9ad98ed` — poprawki kompaktowego UI, przewijania selektora, bezpiecznej tożsamości v3 i klatki atlasu.
-- Commit testów i dokumentacji — Playwright, aktualne lockfile, kontrakt GPU/Blendera i raport wykonania.
+- `9508cdf` — Playwright, aktualne lockfile, kontrakt GPU/Blendera i raport wykonania.
 
-Wypchnięto gałąź do GitHub. Powiązany Lovable:
-`https://lovable.dev/projects/e81106fd-0dd8-47e7-95cc-df4e97e3d071`.
-Status integracji z main i publikacji jest aktualizowany po końcowym przejściu testów.
-Nie utożsamiać samego push z publikacją https://kilegends.pl/.
+Gałąź roboczą scalono fast-forward do `main` po końcowych testach.
+Wersja aplikacji opublikowana z `9508cdfa8930b12ff5d7af2bef56b12350cdc392`.
+Lovable potwierdził dokładnie ten SHA przed uruchomieniem publikacji.
+Projekt: https://lovable.dev/projects/e81106fd-0dd8-47e7-95cc-df4e97e3d071.
+Deployment: `b6ba5cef-16a8-484c-b44f-d2f871da46de`.
+
+**Produkcja zweryfikowana: https://kilegends.pl/**, 20.10.2026 około 08:24 UTC.
+Domena zgłasza `ki-build=stage3-four-continents-r1` (wcześniej `stage2.1-r3`).
+Rzeczywisty Chromium na domenie: wybór Androidów → Nexus-9 → rozmowa z LYRA-7 →
+przyjęcie Pierwszych kroków → marsz do Rdzenia Świadomości → zadanie ready → reload.
+Zachowano `race=android`, `continent=nexus`, cel ready i pozycję około (1593,638).
+Brak błędów konsoli. Osobna kontrola potwierdziła załadowanie wszystkich czterech
+portretów 1152×1536 i brak HTTP 4xx/5xx podczas otwierania selektora.
+Pełne 7 E2E wykonano na buildzie lokalnym; test produkcyjny był opisanym smoke testem,
+a nie powtórzeniem wszystkich siedmiu scenariuszy na domenie.
+
+Końcowy commit raportu publikacji może być nowszy od `9508cdf`; zmienia tylko dokumentację,
+nie opublikowany kod. Repozytorium i domena zawierają tę samą logikę etapu 3.
