@@ -1,0 +1,469 @@
+.ki-origins {
+  --origin-color: #b9d994;
+  min-height: 100dvh;
+  overflow: auto;
+  background: radial-gradient(ellipse at 50% 25%, #193138 0%, #0e1a24 47%, #0a111b 100%);
+  color: #e9e8db;
+  font-family: Arial, sans-serif;
+  padding: 0 max(24px, calc((100vw - 1400px) / 2));
+}
+.ki-origins * {
+  box-sizing: border-box;
+}
+.ki-origins button,
+.ki-origins a {
+  -webkit-tap-highlight-color: transparent;
+}
+.ki-origins button {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.ki-origins button:focus-visible,
+.ki-origins a:focus-visible {
+  outline: 3px solid #e2c585;
+  outline-offset: 4px;
+}
+.ki-origins-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 27px 0;
+  border-bottom: 1px solid #acb8af26;
+  gap: 20px;
+}
+.ki-wordmark {
+  font:
+    700 27px Georgia,
+    serif;
+  letter-spacing: 3px;
+  text-decoration: none;
+  color: #e4c787;
+}
+.ki-wordmark span {
+  color: #f3ead6;
+}
+.ki-wordmark small {
+  display: block;
+  font:
+    9px Arial,
+    sans-serif;
+  letter-spacing: 3px;
+  margin-top: 7px;
+  color: #8da9ac;
+}
+.ki-origins-header nav {
+  display: flex;
+  gap: 8px;
+}
+.ki-origins-header button {
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #a8b9ba;
+  min-height: 44px;
+}
+.ki-origins-header button[aria-pressed="true"] {
+  color: #efdbac;
+  border-color: #d7c08a50;
+  background: #d7c08a0a;
+}
+.ki-origins-header button span {
+  margin-left: 8px;
+  opacity: 0.6;
+}
+.ki-origin-intro {
+  padding: 43px 0 32px;
+  text-align: center;
+}
+.ki-origin-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: #bdc6b6;
+  text-transform: uppercase;
+}
+.ki-origin-intro h1,
+.ki-roster h1 {
+  font:
+    normal clamp(35px, 4.3vw, 60px)/1.08 Georgia,
+    serif;
+  margin: 17px 0;
+  letter-spacing: -1px;
+}
+.ki-origin-intro h1 em {
+  font-style: normal;
+  color: #d8c292;
+}
+.ki-origin-intro > p:last-child {
+  color: #91a8ad;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.ki-race-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.ki-race-card {
+  background: #15242b;
+  border: 1px solid #50606380;
+  border-radius: 5px;
+  overflow: hidden;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.ki-race-card.selected {
+  border-color: var(--race-color);
+  box-shadow: 0 0 24px #94c8b012;
+  transform: translateY(-4px);
+}
+.ki-race-preview {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 345px;
+  padding: 0;
+  border: 0;
+  background: #1a2c31;
+  text-align: left;
+}
+.ki-race-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #0b1824 0%, #0b1824cf 14%, transparent 72%);
+  z-index: -1;
+}
+.ki-race-preview > img {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 25%;
+  opacity: 0.83;
+  transition: transform 0.4s;
+}
+.ki-race-preview:hover > img {
+  transform: scale(1.035);
+}
+.ki-race-number {
+  position: absolute;
+  left: 18px;
+  top: 17px;
+  font:
+    15px Georgia,
+    serif;
+  color: #f4e5be;
+  text-shadow: 0 1px 5px #000;
+}
+.ki-race-copy {
+  position: absolute;
+  left: 20px;
+  right: 14px;
+  bottom: 52px;
+  display: grid;
+  gap: 7px;
+}
+.ki-race-copy small {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--race-color);
+  font-size: 9px;
+}
+.ki-race-copy strong {
+  font:
+    normal 31px Georgia,
+    serif;
+}
+.ki-race-copy > span {
+  font-size: 11px;
+  color: #bbc7c4;
+  line-height: 1.4;
+}
+.ki-preview-caption {
+  position: absolute;
+  bottom: 19px;
+  left: 20px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--race-color);
+}
+.ki-race-choose {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 49px;
+  padding: 13px 20px;
+  border: 0;
+  border-top: 1px solid #bac3ae20;
+  background: #11212b;
+  font-size: 12px !important;
+  color: #d8e0d7 !important;
+}
+.ki-race-choose:hover {
+  background: #243b42;
+}
+.ki-race-choose span {
+  color: var(--race-color);
+}
+.ki-continent-preview {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  border: 1px solid #a3b9ae36;
+  margin: 28px 0 24px;
+  background: #14252c80;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.ki-world-preview-image {
+  position: relative;
+  min-height: 330px;
+  background: #12212a;
+}
+.ki-world-preview-image img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+}
+.ki-world-preview-image > span {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 9px 12px;
+  background: #08151de0;
+  color: #c9d5cf;
+}
+.ki-world-preview-copy {
+  padding: 27px 32px;
+}
+.ki-world-preview-copy h2 {
+  font:
+    normal 34px Georgia,
+    serif;
+  color: var(--origin-color);
+  margin: 14px 0;
+}
+.ki-world-preview-copy > p:not(.ki-origin-eyebrow) {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #bacac5;
+}
+.ki-origin-architecture {
+  color: #92aaac !important;
+}
+.ki-origin-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid #a4b1a928;
+  padding-top: 16px;
+  margin-top: 18px;
+}
+.ki-origin-details small {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--origin-color);
+}
+.ki-origin-details p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #b6c4c0;
+}
+.ki-origin-primary {
+  padding: 14px 23px;
+  min-height: 48px;
+  border: 1px solid #cfb877;
+  background: linear-gradient(130deg, #e3ca8e, #bc9b5e);
+  color: #192631 !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  border-radius: 3px;
+}
+.ki-origin-primary span {
+  margin-left: 26px;
+}
+.ki-origins-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  color: #81969c;
+  padding: 0 0 25px;
+  font-size: 10px;
+  line-height: 1.7;
+}
+.ki-origins-footer span:last-child {
+  max-width: 540px;
+  text-align: right;
+}
+.ki-roster {
+  max-width: 1100px;
+  margin: 55px auto;
+}
+.ki-roster > p:not(.ki-origin-eyebrow) {
+  color: #a9bdbb;
+  line-height: 1.6;
+}
+.ki-slot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 30px 0;
+}
+.ki-slot {
+  display: flex;
+  gap: 20px;
+  border: 1px solid #77959260;
+  background: #192d35;
+  padding: 18px;
+  border-radius: 5px;
+}
+.ki-slot img {
+  width: 90px;
+  height: 140px;
+  object-fit: cover;
+}
+.ki-slot small {
+  color: #c3b180;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+.ki-slot h2 {
+  font:
+    22px Georgia,
+    serif;
+}
+.ki-slot p {
+  font-size: 12px;
+  color: #aebfbd;
+}
+.ki-slot button {
+  border: 1px solid #afbeaa60;
+  background: #2a444a;
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  min-height: 44px;
+}
+.ki-slot button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ki-origin-warning {
+  padding: 14px;
+  background: #573c26;
+  border: 1px solid #d9ae73;
+  font-size: 13px;
+}
+@media (min-width: 1600px) {
+  .ki-race-preview {
+    height: 390px;
+  }
+}
+@media (max-width: 800px) {
+  .ki-origins {
+    padding: 0 18px;
+  }
+  .ki-origins-header {
+    padding: 18px 0;
+  }
+  .ki-wordmark {
+    font-size: 20px;
+  }
+  .ki-wordmark small {
+    letter-spacing: 1px;
+    font-size: 8px;
+  }
+  .ki-origins-header button {
+    padding: 9px;
+    font-size: 11px;
+  }
+  .ki-origin-intro {
+    padding: 27px 0 22px;
+  }
+  .ki-race-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .ki-race-preview {
+    height: 280px;
+  }
+  .ki-race-copy {
+    left: 14px;
+    bottom: 48px;
+  }
+  .ki-race-copy strong {
+    font-size: 27px;
+  }
+  .ki-race-number,
+  .ki-preview-caption {
+    left: 14px;
+  }
+  .ki-race-copy > span {
+    font-size: 10px;
+  }
+  .ki-race-choose {
+    padding: 12px 14px;
+    font-size: 11px !important;
+  }
+  .ki-continent-preview {
+    grid-template-columns: 1fr;
+  }
+  .ki-world-preview-image {
+    min-height: 260px;
+  }
+  .ki-world-preview-copy {
+    padding: 23px;
+  }
+  .ki-origins-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ki-origins-footer span:last-child {
+    text-align: left;
+  }
+  .ki-slot-grid {
+    grid-template-columns: 1fr;
+  }
+  .ki-roster {
+    margin: 35px auto;
+  }
+}
+@media (max-width: 390px) {
+  .ki-origins {
+    padding: 0 12px;
+  }
+  .ki-race-preview {
+    height: 250px;
+  }
+  .ki-origin-details {
+    gap: 15px;
+  }
+  .ki-wordmark {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+  .ki-race-copy strong {
+    font-size: 25px;
+  }
+  .ki-origins-header nav {
+    gap: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ki-race-card,
+  .ki-race-preview > img {
+    transition: none;
+  }
+}

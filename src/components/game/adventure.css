@@ -272,3 +272,19 @@
   color: inherit;
   text-decoration: underline;
 }
+
+.ki-landmark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 9px;
+  line-height: 1;
+  color: #e9e0ae;
+  text-shadow: 0 1px 2px #09212d;
+  pointer-events: none;
+}
+.ki-landmark-energy {
+  color: #9bffed;
+}
+.ki-landmark-danger {
+  color: #ff9885;
+}

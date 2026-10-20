@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { TUTORIAL_MARKET } from "./tutorial";
-import { FOREST, forestObstacles, WORLD_HEIGHT, WORLD_WIDTH } from "./world/forest";
+import { WORLDS, worldObstacles } from "./world/worlds";
+import { RACES, RACE_IDS, WORLD_IDS, type RaceId } from "./world/races";
+import type { WorldDefinition } from "./world/types";
 import { Navigation, distance, type Point } from "./navigation";
 
 export const ITEMS = {
@@ -57,13 +58,16 @@ const status = z.enum(["locked", "active", "ready", "done"]);
 const finite = (max: number) => z.number().finite().min(0).max(max);
 const itemSchema = z.enum(["potion", "tusk", "sword", "vest"]);
 const PlayerSchema = z.object({
+  race: z.enum(RACE_IDS).default("planetary"),
+  continent: z.enum(WORLD_IDS).default("verdant"),
+  startContinent: z.enum(WORLD_IDS).default("verdant"),
   level: z.number().int().min(1).max(100),
   xp: finite(1000000).int(),
   hp: finite(10000),
   ki: finite(10000),
   gold: finite(1000000).int(),
-  x: finite(WORLD_WIDTH),
-  y: finite(WORLD_HEIGHT),
+  x: finite(3072),
+  y: finite(2048),
   items: z.object({
     potion: finite(99).int(),
     tusk: finite(99).int(),
@@ -88,13 +92,7 @@ const PlayerSchema = z.object({
 });
 export type Player = z.infer<typeof PlayerSchema>;
 export type NpcId = "guide" | "hunter" | "merchant" | "smith";
-export const NPCS: { id: NpcId; name: string; role: string; x: number; y: number; tint: number }[] =
-  [
-    { id: "guide", name: "Aira", role: "Przewodniczka", x: 1570, y: 1250, tint: 0xa8f0cf },
-    { id: "hunter", name: "Ren", role: "Strażnik lasu", x: 1850, y: 1070, tint: 0xffc7a4 },
-    { id: "merchant", name: "Mio", role: "Kupczyni", x: 1260, y: 1100, tint: 0xd6b3ff },
-    { id: "smith", name: "Taro", role: "Kowal", x: 1260, y: 1560, tint: 0xa4d5ff },
-  ];
+export const NPCS = WORLDS.verdant.npcs;
 export type Enemy = Point & {
   id: string;
   home: Point;
@@ -132,14 +130,18 @@ export const stats = (p: Player) => ({
   attack: 18 + (p.level - 1) * 3 + (p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0),
   defense: p.level - 1 + (p.armor ? ITEMS[p.armor].defense : 0),
 });
-export function newPlayer(): Player {
+export function newPlayer(race: RaceId = "planetary"): Player {
+  const continent = RACES[race].world;
   return {
     level: 1,
     xp: 0,
     hp: 120,
     ki: 50,
     gold: 20,
-    ...FOREST.spawn,
+    race,
+    continent,
+    startContinent: continent,
+    ...WORLDS[continent].spawn,
     items: { potion: 3, tusk: 0, sword: 0, vest: 0 },
     weapon: null,
     armor: null,
@@ -153,7 +155,11 @@ export function newPlayer(): Player {
   };
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
-const SaveSchema = z.object({ version: z.literal(1), revision: z.string(), player: PlayerSchema });
+const SaveSchema = z.object({
+  version: z.union([z.literal(1), z.literal(3)]),
+  revision: z.string(),
+  player: PlayerSchema,
+});
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
 /** Dedicated local demo save. Invalid/newer saves and other tabs are never overwritten. */
@@ -170,7 +176,7 @@ export class SaveStore {
       if (!this.storage) throw new Error("storage unavailable");
       const raw = this.storage.getItem(this.key);
       this.expected = raw;
-      if (!raw) return undefined;
+      if (raw === null) return undefined;
       const data = SaveSchema.safeParse(JSON.parse(raw));
       if (!data.success) {
         this.writable = false;
@@ -181,6 +187,10 @@ export class SaveStore {
       const p = data.data.player,
         s = stats(p);
       if (
+        p.startContinent !== RACES[p.race].world ||
+        p.continent !== p.startContinent ||
+        p.x > WORLDS[p.continent].width ||
+        p.y > WORLDS[p.continent].height ||
         p.xp >= xpNeeded(p.level) ||
         (p.weapon && !p.items.sword) ||
         (p.armor && !p.items.vest) ||
@@ -210,7 +220,7 @@ export class SaveStore {
         return false;
       }
       const next = JSON.stringify({
-        version: 1,
+        version: 3,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -226,7 +236,8 @@ export class SaveStore {
 
 export class GameSession {
   player: Player;
-  readonly nav = new Navigation(WORLD_WIDTH, WORLD_HEIGHT, forestObstacles());
+  readonly nav: Navigation;
+  readonly world: WorldDefinition;
   readonly npcs: typeof NPCS;
   enemies: Enemy[];
   loot: Loot[] = [];
@@ -248,17 +259,22 @@ export class GameSession {
   private combatIn = 0;
   private respawnIn = 0;
   private counter = 0;
-  constructor(readonly saves?: SaveStore) {
-    this.player = saves?.load() ?? newPlayer();
-    const safe = this.nav.safe(this.player.dead ? FOREST.spawn : this.player);
+  constructor(
+    readonly saves?: SaveStore,
+    race: RaceId = "planetary",
+  ) {
+    this.player = saves?.load() ?? newPlayer(race);
+    this.world = WORLDS[this.player.continent];
+    this.nav = new Navigation(this.world.width, this.world.height, worldObstacles(this.world));
+    const safe = this.nav.safe(this.player.dead ? this.world.spawn : this.player);
     Object.assign(this.player, safe);
     if (this.player.dead || this.player.hp <= 0) {
       this.player.dead = false;
       this.player.hp = stats(this.player).maxHp;
       this.player.ki = stats(this.player).maxKi;
     }
-    this.npcs = NPCS.map((n) => ({ ...n, ...this.nav.safe(n) }));
-    this.enemies = FOREST.enemies.map((p, i) => {
+    this.npcs = this.world.npcs.map((n) => ({ ...n, ...this.nav.safe(n) }));
+    this.enemies = this.world.enemies.map((p, i) => {
       const home = this.nav.safe(p);
       return {
         id: "boar-" + i,
@@ -277,7 +293,9 @@ export class GameSession {
     );
     this.notice = nextQuest
       ? this.questText(nextQuest)
-      : "Wioska ocalona! Trenuj i zdobywaj wyposażenie.";
+      : this.world.id === "verdant"
+        ? "Wioska ocalona! Trenuj i zdobywaj wyposażenie."
+        : "Region ocalony! Trenuj i odkrywaj świat.";
     if (saves?.warning) this.say(saves.warning);
   }
   get target() {
@@ -359,17 +377,17 @@ export class GameSession {
       if (c.action === "accept") {
         if (npc.id === "guide" && p.quests.steps === "locked") {
           p.quests.steps = "active";
-          this.say(TUTORIAL_MARKET.instruction + ", potem wróć do Airy.");
+          this.say(this.world.market.instruction + ", potem wróć do " + this.npcs[0]!.name + ".");
         } else if (
           npc.id === "hunter" &&
           p.quests.steps === "done" &&
           p.quests.boars === "locked"
         ) {
           p.quests.boars = "active";
-          this.say("Zagrożenie w lesie: pokonaj 3 dziki i wróć do Rena.");
+          this.say(this.world.huntName + ": pokonaj 3 dziki i wróć do " + this.npcs[1]!.name + ".");
         } else if (npc.id === "smith" && p.quests.boars === "done" && p.quests.gear === "locked") {
           p.quests.gear = p.weapon === "sword" ? "ready" : "active";
-          this.say("Załóż Ostrze strażnika w ekwipunku, potem wróć do Taro.");
+          this.say("Załóż Ostrze strażnika w ekwipunku, potem wróć do " + this.npcs[3]!.name + ".");
         } else this.say("To zadanie jest już przyjęte albo wymaga poprzedniego zadania.");
       }
       if (c.action === "claim") {
@@ -377,7 +395,9 @@ export class GameSession {
           p.quests.steps = "done";
           this.award(40);
           this.say(
-            "Pierwsze kroki ukończone. +40 XP. Ren przy wschodniej drodze potrzebuje pomocy.",
+            this.world.id === "verdant"
+              ? "Pierwsze kroki ukończone. +40 XP. Ren przy wschodniej drodze potrzebuje pomocy."
+              : "Pierwsze kroki ukończone. +40 XP. Odwiedź: " + this.npcs[1]!.name,
           );
         } else if (npc.id === "hunter" && p.quests.boars === "ready") {
           if (!this.add("sword")) return;
@@ -403,7 +423,8 @@ export class GameSession {
       return;
     }
     if (c.type === "trade") {
-      if (this.nearbyNpc()?.id !== "merchant") return this.say("Porozmawiaj z Mio, aby handlować.");
+      if (this.nearbyNpc()?.id !== "merchant")
+        return this.say("Porozmawiaj z kupcem, aby handlować.");
       const item = ITEMS[c.item];
       if (c.buy) {
         if (!item.price) return;
@@ -562,7 +583,11 @@ export class GameSession {
         this.player.kills = Math.min(3, this.player.kills + 1);
         if (this.player.kills === 3) {
           this.player.quests.boars = "ready";
-          this.say("3/3 dzików. Wróć do Rena po nagrodę.");
+          this.say(
+            "3/3 dzików. Wróć do " +
+              (this.world.id === "verdant" ? "Rena" : this.npcs[1]!.name) +
+              " po nagrodę.",
+          );
         }
       }
       this.award(20);
@@ -615,7 +640,7 @@ export class GameSession {
     if (p.dead) {
       this.respawnIn -= dt;
       if (this.respawnIn <= 0) {
-        Object.assign(p, this.nav.safe(FOREST.spawn));
+        Object.assign(p, this.nav.safe(this.world.spawn));
         p.dead = false;
         p.hp = s.maxHp;
         p.ki = s.maxKi;
@@ -664,10 +689,14 @@ export class GameSession {
       if (!loot) this.pendingLoot = null;
       else if (distance(p, loot) <= 90) this.command({ type: "loot", id: loot.id });
     }
-    if (p.quests.steps === "active" && distance(p, TUTORIAL_MARKET) < TUTORIAL_MARKET.radius) {
+    if (p.quests.steps === "active" && distance(p, this.world.market) < this.world.market.radius) {
       p.visited = true;
       p.quests.steps = "ready";
-      this.say("Rynek odwiedzony. Wróć do Airy po nagrodę.");
+      this.say(
+        this.world.id === "verdant"
+          ? "Rynek odwiedzony. Wróć do Airy po nagrodę."
+          : this.world.market.label + " — odkryto. Wróć do: " + this.npcs[0]!.name,
+      );
       this.flush();
     }
     for (const e of this.enemies) {
@@ -735,19 +764,26 @@ export class GameSession {
   }
   questText(id: QuestId): string {
     const q = this.player.quests[id];
+    const forest = this.world.id === "verdant";
+    const names = forest
+      ? { steps: "Airy", boars: "Rena", gear: "Taro" }
+      : {
+          steps: this.npcs[0]!.name,
+          boars: this.npcs[1]!.name,
+          gear: this.npcs[3]!.name,
+        };
     if (q === "done") return "Ukończone · nagroda odebrana";
-    if (q === "ready")
-      return "Wróć do " + { steps: "Airy", boars: "Rena", gear: "Taro" }[id] + " po nagrodę";
+    if (q === "ready") return "Wróć do " + names[id] + " po nagrodę";
     if (id === "steps")
       return q === "locked"
-        ? "Porozmawiaj z Airą przy miejscu startowym"
-        : TUTORIAL_MARKET.instruction;
+        ? "Porozmawiaj z " + names.steps + " przy miejscu startowym"
+        : this.world.market.instruction;
     if (id === "boars")
       return q === "locked"
-        ? "Po Pierwszych krokach porozmawiaj z Renem"
+        ? "Po Pierwszych krokach porozmawiaj z " + names.boars
         : "Pokonaj dziki: " + this.player.kills + "/3";
     return q === "locked"
-      ? "Po Zagrożeniu porozmawiaj z kowalem Taro"
+      ? "Po polowaniu porozmawiaj z kowalem " + names.gear
       : "Załóż Ostrze strażnika w ekwipunku";
   }
   snapshot() {
@@ -758,7 +794,7 @@ export class GameSession {
       stats: stats(this.player),
       target: this.target
         ? {
-            name: "Dzik leśny",
+            name: this.world.enemyName,
             hp: this.target.hp,
             maxHp: this.target.maxHp,
             inRange:
@@ -774,7 +810,7 @@ export class GameSession {
       saveWarning: this.saves?.warning ?? "",
       quests: (Object.keys(QUEST_NAMES) as QuestId[]).map((id) => ({
         id,
-        name: QUEST_NAMES[id],
+        name: id === "boars" ? this.world.huntName : QUEST_NAMES[id],
         status: this.player.quests[id],
         text: this.questText(id),
       })),

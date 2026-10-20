@@ -38,8 +38,18 @@ export function renderForest(scene: Phaser.Scene) {
     obstacles: forestObstacles(),
     groundLayers,
     updateVisibility(player: Point) {
-      for (const { object, image } of scenery)
-        image.setAlpha(coversPlayer(object, player) ? 0.28 : 1);
+      const view = scene.cameras.main.worldView;
+      for (const { object, image } of scenery) {
+        const left = object.x - object.width * object.anchorX;
+        const top = object.y - object.height * object.anchorY;
+        const visible =
+          left < view.right + 128 &&
+          left + object.width > view.left - 128 &&
+          top < view.bottom + 128 &&
+          top + object.height > view.top - 128;
+        image.setVisible(visible);
+        if (visible) image.setAlpha(coversPlayer(object, player) ? 0.28 : 1);
+      }
     },
   };
 }

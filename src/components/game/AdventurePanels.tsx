@@ -1,8 +1,7 @@
-import { TUTORIAL_MARKET } from "../../game/tutorial";
+import { WORLDS } from "../../game/world/worlds";
 import {
   ITEMS,
   ITEM_IDS,
-  NPCS,
   xpNeeded,
   type Command,
   type GameViewState,
@@ -101,6 +100,7 @@ export function QuestJournal({
   send: SendCommand;
   close: () => void;
 }) {
+  const world = WORLDS[state.player.continent];
   return (
     <div className="ki-adventure-panel">
       {state.quests.map((q) => (
@@ -123,7 +123,7 @@ export function QuestJournal({
               onClick={() => {
                 close();
                 if (q.id === "steps" && q.status === "active")
-                  send({ type: "move", ...TUTORIAL_MARKET });
+                  send({ type: "move", ...world.market });
                 else
                   send({
                     type: "interact",
@@ -132,8 +132,21 @@ export function QuestJournal({
               }}
             >
               {q.id === "steps" && q.status === "active"
-                ? "Idź na rynek"
-                : "Idź do " + (q.id === "steps" ? "Airy" : q.id === "boars" ? "Rena" : "Taro")}
+                ? world.id === "verdant"
+                  ? "Idź na rynek"
+                  : world.market.action
+                : "Idź do " +
+                  (world.id === "verdant"
+                    ? q.id === "steps"
+                      ? "Airy"
+                      : q.id === "boars"
+                        ? "Rena"
+                        : "Taro"
+                    : world.npcs.find(
+                        (n) =>
+                          n.id ===
+                          (q.id === "steps" ? "guide" : q.id === "boars" ? "hunter" : "smith"),
+                      )!.name)}
             </button>
           )}
         </article>
@@ -145,7 +158,8 @@ export function QuestJournal({
   );
 }
 export function NpcDialogue({ state, send }: { state: GameViewState; send: SendCommand }) {
-  const npc = NPCS.find((n) => n.id === state.dialogue);
+  const world = WORLDS[state.player.continent];
+  const npc = world.npcs.find((n) => n.id === state.dialogue);
   if (!npc) return null;
   const p = state.player;
   const quest = npc.id === "guide" ? "steps" : npc.id === "hunter" ? "boars" : "gear";
@@ -153,18 +167,20 @@ export function NpcDialogue({ state, send }: { state: GameViewState; send: SendC
   const unlocked =
     npc.id === "guide" ||
     (npc.id === "hunter" ? p.quests.steps === "done" : p.quests.boars === "done");
-  const text = {
-    guide:
-      "Witaj, wędrowcze. Klikaj ziemię, aby iść. Na telefonie możesz też przeciągać palcem w lewym dolnym obszarze. " +
-      TUTORIAL_MARKET.instruction +
-      ". Szukaj złotego znacznika ◆ Rynek albo użyj przycisku Podejdź do rynku. Potem wróć do mnie po nagrodę.",
-    hunter:
-      "Dziki krążą przy wschodniej drodze i na zachód od rynku. Przyjmij zadanie, pokonaj trzy i wróć. Kliknięcie dzika uruchamia podejście i autoatak. Skróty 1–4 i Q odpowiadają przyciskom na dole.",
-    merchant:
-      "U mnie kupisz mikstury i pancerz. Płacę za kły dzików. Monety i przedmioty pozostaną na tym urządzeniu po odświeżeniu.",
-    smith:
-      "Ren daje ostrze za obronę wioski. Przyjmij u mnie zadanie, załóż je w ekwipunku i wróć. Za 15 monet mogę też raz ulepszyć założone ostrze o 4 ataku.",
-  }[npc.id];
+  const text =
+    npc.dialogue ??
+    {
+      guide:
+        "Witaj, wędrowcze. Klikaj ziemię, aby iść. Na telefonie możesz też przeciągać palcem w lewym dolnym obszarze. " +
+        world.market.instruction +
+        ". Szukaj złotego znacznika ◆ Rynek albo użyj przycisku Podejdź do rynku. Potem wróć do mnie po nagrodę.",
+      hunter:
+        "Dziki krążą przy wschodniej drodze i na zachód od rynku. Przyjmij zadanie, pokonaj trzy i wróć. Kliknięcie dzika uruchamia podejście i autoatak. Skróty 1–4 i Q odpowiadają przyciskom na dole.",
+      merchant:
+        "U mnie kupisz mikstury i pancerz. Płacę za kły dzików. Monety i przedmioty pozostaną na tym urządzeniu po odświeżeniu.",
+      smith:
+        "Ren daje ostrze za obronę wioski. Przyjmij u mnie zadanie, załóż je w ekwipunku i wróć. Za 15 monet mogę też raz ulepszyć założone ostrze o 4 ataku.",
+    }[npc.id];
   return (
     <div className="ki-modal-backdrop">
       <section
@@ -202,10 +218,10 @@ export function NpcDialogue({ state, send }: { state: GameViewState; send: SendC
                 <button
                   onClick={() => {
                     send({ type: "dialogue", action: "close" });
-                    send({ type: "move", ...TUTORIAL_MARKET });
+                    send({ type: "move", ...world.market });
                   }}
                 >
-                  Podejdź do rynku
+                  {world.market.action}
                 </button>
               )}
               {q === "ready" && (

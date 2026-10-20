@@ -1,0 +1,475 @@
+{
+  "id": "nexus",
+  "race": "android",
+  "name": "Nexus-9",
+  "settlement": "Węzeł Świadomości",
+  "description": "Metaliczne równiny, pola kryształów i oświetlone korytarze dawnej sieci.",
+  "architecture": "Laboratoria, reaktory i szklane terminale połączone siecią platform.",
+  "width": 2400,
+  "height": 1792,
+  "spawn": {
+    "x": 600,
+    "y": 1120
+  },
+  "background": "#122536",
+  "minimap": "/game/assets/stage3/nexus-minimap.svg",
+  "market": {
+    "x": 1650,
+    "y": 620,
+    "radius": 85,
+    "label": "Rdzeń Świadomości",
+    "instruction": "Odwiedź oznaczony punkt: Rdzeń Świadomości",
+    "action": "Podejdź: Rdzeń Świadomości"
+  },
+  "npcs": [
+    {
+      "id": "guide",
+      "name": "LYRA-7",
+      "role": "Przewodniczka sieci",
+      "x": 690,
+      "y": 1120,
+      "tint": 11071695,
+      "dialogue": "Pierwsze pytanie brzmi: kim chcesz się stać? Zsynchronizuj się z Rdzeniem Świadomości, a potem wróć do węzła."
+    },
+    {
+      "id": "hunter",
+      "name": "AXON",
+      "role": "Strażnik perymetru",
+      "x": 1910,
+      "y": 720,
+      "tint": 16762788,
+      "dialogue": "Organiczne dziki naruszają obwody na obrzeżach sieci. Pokonaj trzy i przynieś dane z patrolu."
+    },
+    {
+      "id": "merchant",
+      "name": "MIRA-2",
+      "role": "Operatorka wymiany",
+      "x": 420,
+      "y": 1080,
+      "tint": 14070783,
+      "dialogue": "Wymiana zasobów stabilizuje węzeł. Przyjmuję kły; oferuję mikstury i pancerze."
+    },
+    {
+      "id": "smith",
+      "name": "HEF-4",
+      "role": "Inżynier uzbrojenia",
+      "x": 820,
+      "y": 1180,
+      "tint": 10802687,
+      "dialogue": "Ulepszenie zwiększa skuteczność ostrza. Najpierw je załóż; kalibracja kosztuje 15 monet."
+    }
+  ],
+  "enemies": [
+    {
+      "x": 2020,
+      "y": 1000
+    },
+    {
+      "x": 2080,
+      "y": 1530
+    },
+    {
+      "x": 1140,
+      "y": 1410
+    },
+    {
+      "x": 800,
+      "y": 1450
+    }
+  ],
+  "enemyName": "Dzik z perymetru",
+  "huntName": "Patrol perymetru",
+  "landmarks": [
+    {
+      "x": 570,
+      "y": 1100,
+      "label": "Węzeł Świadomości",
+      "kind": "settlement"
+    },
+    {
+      "x": 1650,
+      "y": 620,
+      "label": "Rdzeń",
+      "kind": "energy"
+    },
+    {
+      "x": 2070,
+      "y": 1510,
+      "label": "Perymetr",
+      "kind": "danger"
+    }
+  ],
+  "objects": [
+    {
+      "id": "lab-0",
+      "kind": "lab",
+      "asset": "lab",
+      "x": 550,
+      "y": 820,
+      "width": 430,
+      "height": 340,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 320,
+        "height": 145
+      }
+    },
+    {
+      "id": "lab-1",
+      "kind": "lab",
+      "asset": "lab",
+      "x": 1050,
+      "y": 450,
+      "width": 390,
+      "height": 310,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 285,
+        "height": 140
+      }
+    },
+    {
+      "id": "reactor-2",
+      "kind": "reactor",
+      "asset": "reactor",
+      "x": 1650,
+      "y": 430,
+      "width": 340,
+      "height": 350,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 245,
+        "height": 125
+      }
+    },
+    {
+      "id": "lab-3",
+      "kind": "lab",
+      "asset": "lab",
+      "x": 1850,
+      "y": 1290,
+      "width": 380,
+      "height": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 280,
+        "height": 130
+      }
+    },
+    {
+      "id": "terminal-4",
+      "kind": "terminal",
+      "asset": "terminal",
+      "x": 410,
+      "y": 1420,
+      "width": 140,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 75,
+        "height": 65
+      }
+    },
+    {
+      "id": "terminal-5",
+      "kind": "terminal",
+      "asset": "terminal",
+      "x": 1170,
+      "y": 1170,
+      "width": 140,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 75,
+        "height": 65
+      }
+    },
+    {
+      "id": "crystal-6",
+      "kind": "crystal",
+      "asset": "crystal",
+      "x": 2070,
+      "y": 700,
+      "width": 220,
+      "height": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 110,
+        "height": 80
+      }
+    },
+    {
+      "id": "crystal-7",
+      "kind": "crystal",
+      "asset": "crystal",
+      "x": 330,
+      "y": 450,
+      "width": 200,
+      "height": 250,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 100,
+        "height": 75
+      }
+    },
+    {
+      "id": "crystal-8",
+      "kind": "crystal",
+      "asset": "crystal",
+      "x": 1510,
+      "y": 1560,
+      "width": 210,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 100,
+        "height": 75
+      }
+    },
+    {
+      "id": "detail-pylon-9",
+      "kind": "pylon",
+      "asset": "pylon",
+      "x": 340,
+      "y": 930,
+      "width": 100,
+      "height": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-pylon-10",
+      "kind": "pylon",
+      "asset": "pylon",
+      "x": 840,
+      "y": 1020,
+      "width": 100,
+      "height": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-pylon-11",
+      "kind": "pylon",
+      "asset": "pylon",
+      "x": 1400,
+      "y": 920,
+      "width": 100,
+      "height": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-pylon-12",
+      "kind": "pylon",
+      "asset": "pylon",
+      "x": 1900,
+      "y": 880,
+      "width": 100,
+      "height": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-pylon-13",
+      "kind": "pylon",
+      "asset": "pylon",
+      "x": 1500,
+      "y": 1280,
+      "width": 100,
+      "height": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-pylon-14",
+      "kind": "pylon",
+      "asset": "pylon",
+      "x": 2000,
+      "y": 1330,
+      "width": 100,
+      "height": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-tech-garden-15",
+      "kind": "tech-garden",
+      "asset": "tech-garden",
+      "x": 320,
+      "y": 1220,
+      "width": 190,
+      "height": 160,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-tech-garden-16",
+      "kind": "tech-garden",
+      "asset": "tech-garden",
+      "x": 920,
+      "y": 1170,
+      "width": 190,
+      "height": 160,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-tech-garden-17",
+      "kind": "tech-garden",
+      "asset": "tech-garden",
+      "x": 1920,
+      "y": 580,
+      "width": 190,
+      "height": 160,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-tech-garden-18",
+      "kind": "tech-garden",
+      "asset": "tech-garden",
+      "x": 1170,
+      "y": 600,
+      "width": 190,
+      "height": 160,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-tech-garden-19",
+      "kind": "tech-garden",
+      "asset": "tech-garden",
+      "x": 1890,
+      "y": 1450,
+      "width": 190,
+      "height": 160,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    }
+  ],
+  "obstacles": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 110
+    },
+    {
+      "x": 0,
+      "y": 110,
+      "width": 130,
+      "height": 1572
+    },
+    {
+      "x": 2270,
+      "y": 110,
+      "width": 130,
+      "height": 1572
+    },
+    {
+      "x": 820,
+      "y": 670,
+      "width": 470,
+      "height": 180
+    },
+    {
+      "x": 1300,
+      "y": 1240,
+      "width": 160,
+      "height": 240
+    },
+    {
+      "x": 180,
+      "y": 1600,
+      "width": 900,
+      "height": 100
+    }
+  ],
+  "terrain": {
+    "ground": "nexus-ground",
+    "path": "nexus-path",
+    "plaza": "nexus-plaza",
+    "paths": [
+      {
+        "x": 470,
+        "y": 930,
+        "width": 1350,
+        "height": 180
+      },
+      {
+        "x": 1480,
+        "y": 510,
+        "width": 220,
+        "height": 600
+      },
+      {
+        "x": 610,
+        "y": 500,
+        "width": 900,
+        "height": 150
+      },
+      {
+        "x": 430,
+        "y": 1050,
+        "width": 180,
+        "height": 450
+      },
+      {
+        "x": 1670,
+        "y": 1030,
+        "width": 210,
+        "height": 420
+      }
+    ],
+    "plazas": [
+      {
+        "x": 340,
+        "y": 970,
+        "width": 460,
+        "height": 340
+      },
+      {
+        "x": 1420,
+        "y": 530,
+        "width": 470,
+        "height": 340
+      },
+      {
+        "x": 1620,
+        "y": 1320,
+        "width": 480,
+        "height": 210
+      }
+    ]
+  }
+}

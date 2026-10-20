@@ -1,8 +1,9 @@
 import Phaser from "phaser";
-import { TUTORIAL_MARKET } from "./tutorial";
+import { CHARACTER_VISUALS, SHARED_ASSETS, regionAssets } from "./world/assets";
+import { facingDirection, walkFrame } from "./world/characterVisual";
+import { RACES, type RaceId } from "./world/races";
 import { playtestSaveKey } from "./playtest";
-import { renderForest } from "./world/renderForest";
-import { WORLD_WIDTH, WORLD_HEIGHT } from "./world/forest";
+import { renderWorld } from "./world/renderWorld";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import {
   GameSession,
@@ -26,6 +27,7 @@ type Actor = {
 export function mountKileGends(
   parent: HTMLElement,
   onState?: (state: GameViewState) => void,
+  options?: { saveKey: string; race: RaceId },
 ): () => void {
   let storage: Storage | null = null;
   try {
@@ -33,7 +35,12 @@ export function mountKileGends(
   } catch {
     /* SaveStore reports unavailable storage. */
   }
-  const session = new GameSession(new SaveStore(storage, playtestSaveKey(window.location.search)));
+  const session = new GameSession(
+    new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
+    options?.race,
+  );
+  const world = session.world;
+  const visual = CHARACTER_VISUALS[RACES[session.player.race].visual];
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private updateVisibility?: (player: Point) => void;
@@ -44,6 +51,8 @@ export function mountKileGends(
     private loot = new Map<string, Phaser.GameObjects.Container>();
     private keys: Record<string, Phaser.Input.Keyboard.Key> | undefined;
     private joystickId: number | null = null;
+    private pendingTouch: Point | null = null;
+    private joystickDragging = false;
     private joystickStart = new Phaser.Math.Vector2();
     private joystick = new Phaser.Math.Vector2();
     private stickBase!: Phaser.GameObjects.Arc;
@@ -58,17 +67,21 @@ export function mountKileGends(
       this.load.on("loaderror", () => {
         this.loadFailed = true;
       });
-      this.load.image("world-atlas", "/game/assets/world-v1.webp");
-      this.load.image("hero-sheet", "/game/assets/hero-walk-v2.webp");
-      this.load.image("forest-terrain", "/game/assets/anime-forest-v1/terrain.png");
-      this.load.atlas(
-        "forest-objects",
-        "/game/assets/anime-forest-v1/objects.webp",
-        "/game/assets/anime-forest-v1/objects.json",
-      );
-      this.load.spritesheet("ui-icons", "/game/assets/anime-forest-v1/ui.webp", {
-        frameWidth: 256,
-        frameHeight: 256,
+      this.load.image(SHARED_ASSETS.creatures.key, SHARED_ASSETS.creatures.url);
+      if (visual.kind === "atlas" && visual.atlasUrl)
+        this.load.atlas(visual.key, visual.url, visual.atlasUrl);
+      else this.load.image(visual.key, visual.url);
+      if (world.id === "verdant") {
+        this.load.image(SHARED_ASSETS.forestTerrain.key, SHARED_ASSETS.forestTerrain.url);
+        this.load.atlas(
+          SHARED_ASSETS.forestObjects.key,
+          SHARED_ASSETS.forestObjects.url,
+          SHARED_ASSETS.forestObjects.atlas,
+        );
+      } else for (const asset of regionAssets(world)) this.load.svg(asset.key, asset.url);
+      this.load.spritesheet(SHARED_ASSETS.ui.key, SHARED_ASSETS.ui.url, {
+        frameWidth: SHARED_ASSETS.ui.frameWidth,
+        frameHeight: SHARED_ASSETS.ui.frameHeight,
       });
     }
     create() {
@@ -91,23 +104,30 @@ export function mountKileGends(
         source.width * 0.484375,
         source.height * 0.453125,
       );
-      const sheet = this.textures.get("hero-sheet");
+      const sheet = this.textures.get(visual.key);
       const image = sheet.getSourceImage() as HTMLImageElement;
-      const w = Math.floor(image.width / 4),
-        h = Math.floor(image.height / 4);
-      ["down", "left", "right", "up"].forEach((direction, row) => {
-        for (let col = 0; col < 4; col++) sheet.add(row * 4 + col, 0, col * w, row * h, w, h);
+      const w = Math.floor(image.width / visual.columns),
+        h = Math.floor(image.height / visual.directions.length);
+      visual.directions.forEach((direction, row) => {
+        if (visual.kind === "sheet")
+          for (let col = 0; col < visual.frames; col++)
+            sheet.add(row * visual.columns + col, 0, col * w, row * h, w, h);
         this.anims.create({
           key: "walk-" + direction,
-          frames: Array.from({ length: 4 }, (_, i) => ({ key: "hero-sheet", frame: row * 4 + i })),
-          frameRate: 8,
+          frames: Array.from({ length: visual.frames }, (_, i) => ({
+            key: visual.key,
+            frame: walkFrame(visual, direction, i),
+          })),
+          frameRate: visual.frameRate,
           repeat: -1,
         });
       });
-      this.cameras.main.setBackgroundColor("#172b1a").setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-      this.updateVisibility = renderForest(this).updateVisibility;
-      this.hero = this.actor(session.player, "Ty · Wędrowiec");
-      for (const e of session.enemies) this.enemies.set(e.id, this.actor(e, "Dzik leśny", true));
+      this.cameras.main
+        .setBackgroundColor(world.background)
+        .setBounds(0, 0, world.width, world.height);
+      this.updateVisibility = renderWorld(this, world).updateVisibility;
+      this.hero = this.actor(session.player, "Ty · " + RACES[session.player.race].name);
+      for (const e of session.enemies) this.enemies.set(e.id, this.actor(e, world.enemyName, true));
       for (const n of session.npcs) this.actor(n, n.name + " · " + n.role).sprite.setTint(n.tint);
       this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
       this.shield = this.add
@@ -115,11 +135,11 @@ export function mountKileGends(
         .setStrokeStyle(3, 0xaffff4)
         .setVisible(false);
       const beacon = this.add
-        .ellipse(TUTORIAL_MARKET.x, TUTORIAL_MARKET.y, 66, 28)
+        .ellipse(world.market.x, world.market.y, 66, 28)
         .setStrokeStyle(3, 0xfff0a1)
         .setDepth(9002);
       const beaconLabel = this.add
-        .text(TUTORIAL_MARKET.x, TUTORIAL_MARKET.y - 50, "◆ " + TUTORIAL_MARKET.label, {
+        .text(world.market.x, world.market.y - 50, "◆ " + world.market.label, {
           fontSize: "17px",
           color: "#fff1b1",
           stroke: "#193e48",
@@ -148,11 +168,13 @@ export function mountKileGends(
         session.flush();
         this.resetStick();
       };
+      parent.addEventListener("ki:flush", save);
       window.addEventListener("pagehide", save);
       document.addEventListener("visibilitychange", save);
       this.events.once("shutdown", () => {
         parent.removeEventListener("ki:zoom", zoom);
         parent.removeEventListener("ki:command", command);
+        parent.removeEventListener("ki:flush", save);
         window.removeEventListener("pagehide", save);
         document.removeEventListener("visibilitychange", save);
         session.flush();
@@ -194,16 +216,28 @@ export function mountKileGends(
         .setVisible(false);
       this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
         if (pointer.id !== this.joystickId) return;
-        this.joystick
-          .set(pointer.x - this.joystickStart.x, pointer.y - this.joystickStart.y)
-          .limit(48);
+        const dx = pointer.x - this.joystickStart.x,
+          dy = pointer.y - this.joystickStart.y;
+        if (!this.joystickDragging && Math.hypot(dx, dy) < 10) return;
+        if (!this.joystickDragging) {
+          this.joystickDragging = true;
+          this.pendingTouch = null;
+          session.command({ type: "cancel" });
+          this.stickBase.setPosition(this.joystickStart.x, this.joystickStart.y).setVisible(true);
+          this.stickKnob.setVisible(true);
+        }
+        this.joystick.set(dx, dy).limit(48);
         this.stickKnob.setPosition(
           this.joystickStart.x + this.joystick.x,
           this.joystickStart.y + this.joystick.y,
         );
       });
       this.input.on("pointerup", (pointer: Phaser.Input.Pointer) => {
-        if (pointer.id === this.joystickId) this.resetStick();
+        if (pointer.id === this.joystickId) {
+          const tap = this.pendingTouch;
+          this.resetStick();
+          if (tap) this.interactAt(tap);
+        }
       });
       this.input.on("gameout", () => this.resetStick());
       const blur = () => {
@@ -215,34 +249,40 @@ export function mountKileGends(
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
         if (session.dialogue || session.paused || session.player.dead) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
-        const hit = (p: Point, width: number, height: number) =>
-          Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + 20;
-        const npc = session.npcs.find((n) => hit(n, 84, 125));
-        const enemy = session.enemies
-          .filter((e) => e.hp > 0 && hit(e, 100, 125))
-          .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
-        const loot = session.loot.find((l) => hit(l, 74, 60));
-        if (npc) session.command({ type: "interact", npc: npc.id });
-        else if (enemy) session.command({ type: "target", id: enemy.id });
-        else if (loot) session.command({ type: "loot", id: loot.id });
-        else if (
+        if (
           pointer.wasTouch &&
           pointer.x < this.scale.width * 0.32 &&
-          pointer.y > this.scale.height * 0.55 &&
-          this.joystickId === null
+          pointer.y > this.scale.height * 0.55
         ) {
-          session.command({ type: "cancel" });
+          if (this.joystickId !== null) return;
           this.joystickId = pointer.id;
           this.joystickStart.set(pointer.x, pointer.y);
-          this.stickBase.setPosition(pointer.x, pointer.y).setVisible(true);
-          this.stickKnob.setPosition(pointer.x, pointer.y).setVisible(true);
-        } else session.command({ type: "move", x: pos.x, y: pos.y });
+          this.pendingTouch = { x: pos.x, y: pos.y };
+          this.joystickDragging = false;
+        } else this.interactAt(pos);
         this.report();
       });
       this.report();
     }
+    private interactAt(pos: Point) {
+      if (session.dialogue || session.paused || session.player.dead) return;
+      const hit = (p: Point, width: number, height: number) =>
+        Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + 20;
+      const npc = session.npcs.find((n) => hit(n, 84, 125));
+      const enemy = session.enemies
+        .filter((e) => e.hp > 0 && hit(e, 100, 125))
+        .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
+      const loot = session.loot.find((l) => hit(l, 74, 60));
+      if (npc) session.command({ type: "interact", npc: npc.id });
+      else if (enemy) session.command({ type: "target", id: enemy.id });
+      else if (loot) session.command({ type: "loot", id: loot.id });
+      else session.command({ type: "move", x: pos.x, y: pos.y });
+      this.report();
+    }
     private resetStick() {
       this.joystickId = null;
+      this.pendingTouch = null;
+      this.joystickDragging = false;
       this.joystick.set(0, 0);
       this.stickBase?.setVisible(false);
       this.stickKnob?.setVisible(false);
@@ -251,7 +291,10 @@ export function mountKileGends(
       const shadow = this.add.ellipse(0, 3, boar ? 50 : 31, 11, 0x102c3a, 0.3);
       const sprite = boar
         ? this.add.sprite(0, 0, "world-atlas", "boar").setDisplaySize(84, 84).setOrigin(0.5, 0.8)
-        : this.add.sprite(0, 0, "hero-sheet", 0).setDisplaySize(96, 96).setOrigin(0.5, 0.95);
+        : this.add
+            .sprite(0, 0, visual.key, 0)
+            .setDisplaySize(visual.width, visual.height)
+            .setOrigin(visual.originX, visual.originY);
       const name = this.add
         .text(p.x, p.y - 94, label, {
           fontSize: "12px",
@@ -397,6 +440,9 @@ export function mountKileGends(
       }
     }
     private report() {
+      parent.dataset["world"] = world.id;
+      parent.dataset["playerX"] = String(session.player.x);
+      parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
     }
     override update(time: number, delta: number) {
@@ -419,20 +465,12 @@ export function mountKileGends(
         this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
       this.hero.body.setPosition(session.player.x, session.player.y).setDepth(session.player.y);
-      const face = session.facing;
-      const direction =
-        Math.abs(face.x) > Math.abs(face.y)
-          ? face.x < 0
-            ? "left"
-            : "right"
-          : face.y < 0
-            ? "up"
-            : "down";
+      const direction = facingDirection(session.facing, visual.directions);
       if (session.moving && !session.player.dead && time > this.attackUntil)
         this.hero.sprite.play("walk-" + direction, true);
       else {
         this.hero.sprite.stop();
-        this.hero.sprite.setFrame({ down: 0, left: 4, right: 8, up: 12 }[direction]);
+        this.hero.sprite.setFrame(walkFrame(visual, direction, 0));
       }
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;

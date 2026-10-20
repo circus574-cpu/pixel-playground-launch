@@ -1,0 +1,489 @@
+{
+  "id": "aether",
+  "race": "sage",
+  "name": "Aetheria",
+  "settlement": "Sanktuarium Tysiąca Źródeł",
+  "description": "Górskie tarasy, magiczne źródła i ogrody pod opieką wiekowych drzew.",
+  "architecture": "Szmaragdowe świątynie, biblioteki i białe kamienne dziedzińce.",
+  "width": 2400,
+  "height": 1792,
+  "spawn": {
+    "x": 1150,
+    "y": 1130
+  },
+  "background": "#193c42",
+  "minimap": "/game/assets/stage3/aether-minimap.svg",
+  "market": {
+    "x": 1200,
+    "y": 650,
+    "radius": 85,
+    "label": "Źródło Pamięci",
+    "instruction": "Odwiedź oznaczony punkt: Źródło Pamięci",
+    "action": "Podejdź: Źródło Pamięci"
+  },
+  "npcs": [
+    {
+      "id": "guide",
+      "name": "Sora",
+      "role": "Opiekunka źródeł",
+      "x": 1240,
+      "y": 1130,
+      "tint": 11071695,
+      "dialogue": "Zanim otworzysz księgę, naucz się słuchać. Odwiedź Źródło Pamięci i wróć. Jego cisza jest pierwszą lekcją KI."
+    },
+    {
+      "id": "hunter",
+      "name": "Ishin",
+      "role": "Strażnik ogrodów",
+      "x": 1460,
+      "y": 750,
+      "tint": 16762788,
+      "dialogue": "Zdziczałe bestie niszczą korzenie świętego gaju. Uspokój trzy, a powierz ci ostrze strażnika."
+    },
+    {
+      "id": "merchant",
+      "name": "Mei",
+      "role": "Archiwistka wymiany",
+      "x": 970,
+      "y": 1090,
+      "tint": 14070783,
+      "dialogue": "Wiedza krąży tak jak towary. Wymień kły na mikstury i wyposażenie."
+    },
+    {
+      "id": "smith",
+      "name": "Enso",
+      "role": "Rzemieślnik pieczęci",
+      "x": 1370,
+      "y": 1190,
+      "tint": 10802687,
+      "dialogue": "Dobre ostrze wymaga skupienia. Załóż je i wróć; wzmocnię jego pieczęć za 15 monet."
+    }
+  ],
+  "enemies": [
+    {
+      "x": 1820,
+      "y": 1080
+    },
+    {
+      "x": 1870,
+      "y": 1510
+    },
+    {
+      "x": 900,
+      "y": 1450
+    },
+    {
+      "x": 470,
+      "y": 1100
+    }
+  ],
+  "enemyName": "Dzik z mglistych ogrodów",
+  "huntName": "Równowaga ogrodów",
+  "landmarks": [
+    {
+      "x": 1200,
+      "y": 1120,
+      "label": "Sanktuarium",
+      "kind": "settlement"
+    },
+    {
+      "x": 1200,
+      "y": 650,
+      "label": "Źródło Pamięci",
+      "kind": "energy"
+    },
+    {
+      "x": 1900,
+      "y": 1520,
+      "label": "Dziki gaj",
+      "kind": "danger"
+    }
+  ],
+  "objects": [
+    {
+      "id": "sanctum-0",
+      "kind": "sanctum",
+      "asset": "sanctum",
+      "x": 1200,
+      "y": 430,
+      "width": 470,
+      "height": 390,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 370,
+        "height": 150
+      }
+    },
+    {
+      "id": "archive-1",
+      "kind": "archive",
+      "asset": "archive",
+      "x": 660,
+      "y": 850,
+      "width": 370,
+      "height": 330,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 280,
+        "height": 145
+      }
+    },
+    {
+      "id": "archive-2",
+      "kind": "archive",
+      "asset": "archive",
+      "x": 1700,
+      "y": 790,
+      "width": 360,
+      "height": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 265,
+        "height": 130
+      }
+    },
+    {
+      "id": "ki-source-3",
+      "kind": "ki-source",
+      "asset": "ki-source",
+      "x": 1200,
+      "y": 735,
+      "width": 170,
+      "height": 160,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 105,
+        "height": 55
+      }
+    },
+    {
+      "id": "ki-tree-4",
+      "kind": "ki-tree",
+      "asset": "ki-tree",
+      "x": 560,
+      "y": 1320,
+      "width": 290,
+      "height": 330,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 75,
+        "height": 60
+      }
+    },
+    {
+      "id": "ki-tree-5",
+      "kind": "ki-tree",
+      "asset": "ki-tree",
+      "x": 1800,
+      "y": 1390,
+      "width": 310,
+      "height": 350,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 85,
+        "height": 65
+      }
+    },
+    {
+      "id": "ki-tree-6",
+      "kind": "ki-tree",
+      "asset": "ki-tree",
+      "x": 430,
+      "y": 500,
+      "width": 260,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 70,
+        "height": 60
+      }
+    },
+    {
+      "id": "ki-tree-7",
+      "kind": "ki-tree",
+      "asset": "ki-tree",
+      "x": 1950,
+      "y": 420,
+      "width": 270,
+      "height": 310,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 80,
+        "height": 60
+      }
+    },
+    {
+      "id": "detail-cloud-peak-8",
+      "kind": "cloud-peak",
+      "asset": "cloud-peak",
+      "x": 330,
+      "y": 240,
+      "width": 420,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-cloud-peak-9",
+      "kind": "cloud-peak",
+      "asset": "cloud-peak",
+      "x": 780,
+      "y": 240,
+      "width": 420,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-cloud-peak-10",
+      "kind": "cloud-peak",
+      "asset": "cloud-peak",
+      "x": 1660,
+      "y": 240,
+      "width": 420,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-cloud-peak-11",
+      "kind": "cloud-peak",
+      "asset": "cloud-peak",
+      "x": 2110,
+      "y": 240,
+      "width": 420,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-12",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 950,
+      "y": 870,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-13",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 1430,
+      "y": 880,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-14",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 810,
+      "y": 1270,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-15",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 1500,
+      "y": 1320,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-16",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 380,
+      "y": 1180,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-17",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 2020,
+      "y": 1170,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-18",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 680,
+      "y": 650,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-19",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 1780,
+      "y": 630,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-20",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 1030,
+      "y": 1550,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "detail-garden-21",
+      "kind": "garden",
+      "asset": "garden",
+      "x": 1310,
+      "y": 1530,
+      "width": 170,
+      "height": 120,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    }
+  ],
+  "obstacles": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 100
+    },
+    {
+      "x": 0,
+      "y": 100,
+      "width": 150,
+      "height": 1592
+    },
+    {
+      "x": 2250,
+      "y": 100,
+      "width": 150,
+      "height": 1592
+    },
+    {
+      "x": 200,
+      "y": 940,
+      "width": 670,
+      "height": 70
+    },
+    {
+      "x": 1530,
+      "y": 940,
+      "width": 670,
+      "height": 70
+    },
+    {
+      "x": 160,
+      "y": 1550,
+      "width": 650,
+      "height": 160
+    },
+    {
+      "x": 1670,
+      "y": 1570,
+      "width": 550,
+      "height": 130
+    }
+  ],
+  "terrain": {
+    "ground": "aether-ground",
+    "path": "aether-path",
+    "plaza": "aether-plaza",
+    "paths": [
+      {
+        "x": 1080,
+        "y": 430,
+        "width": 240,
+        "height": 1000
+      },
+      {
+        "x": 600,
+        "y": 1030,
+        "width": 1250,
+        "height": 140
+      },
+      {
+        "x": 580,
+        "y": 760,
+        "width": 160,
+        "height": 400
+      },
+      {
+        "x": 1630,
+        "y": 740,
+        "width": 150,
+        "height": 420
+      }
+    ],
+    "plazas": [
+      {
+        "x": 980,
+        "y": 530,
+        "width": 440,
+        "height": 310
+      },
+      {
+        "x": 930,
+        "y": 1020,
+        "width": 540,
+        "height": 330
+      }
+    ]
+  }
+}

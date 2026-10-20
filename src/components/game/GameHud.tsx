@@ -1,12 +1,12 @@
-import { TUTORIAL_MARKET } from "../../game/tutorial";
+import { WORLDS } from "../../game/world/worlds";
+import { RACES } from "../../game/world/races";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
 import "./game-hud.css";
 import "./anime-hud.css";
-import { WORLD_WIDTH, WORLD_HEIGHT, FOREST_MINIMAP } from "../../game/world/forest";
-import { ABILITIES, NPCS, xpNeeded, type Ability, type Command } from "../../game/session";
+import { ABILITIES, xpNeeded, type Ability, type Command } from "../../game/session";
 import { Inventory, QuestJournal, NpcDialogue } from "./AdventurePanels";
 import "./adventure.css";
 
@@ -18,6 +18,7 @@ type Props = {
   fullscreen: boolean;
   onFullscreen: () => void;
   onCommand: (command: Command) => void;
+  onCharacters?: () => void;
 };
 type Panel = "inventory" | "journal" | "settings" | "map" | null;
 const iconNames = [
@@ -46,6 +47,7 @@ export function GameHud({
   fullscreen,
   onFullscreen,
   onCommand,
+  onCharacters,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
@@ -55,8 +57,10 @@ export function GameHud({
   const [hints, setHints] = useState(true);
   const [notice, setNotice] = useState("");
   const [mapSize, setMapSize] = useState(false);
-  const x = Math.max(0, Math.min(100, (state.x / WORLD_WIDTH) * 100));
-  const y = Math.max(0, Math.min(100, (state.y / WORLD_HEIGHT) * 100));
+  const world = WORLDS[state.player.continent];
+  const npcs = world.npcs;
+  const x = Math.max(0, Math.min(100, (state.x / world.width) * 100));
+  const y = Math.max(0, Math.min(100, (state.y / world.height) * 100));
   function toggle(next: Panel) {
     setPanel((p) => (p === next ? null : next));
   }
@@ -89,7 +93,7 @@ export function GameHud({
         </div>
         <div className="ki-player-info">
           <div className="ki-player-name">
-            Wędrowiec <span>CZŁOWIEK</span>
+            Wędrowiec <span>{RACES[player.race].name.toUpperCase()}</span>
           </div>
           <div
             className="ki-meter ki-hp"
@@ -142,18 +146,31 @@ export function GameHud({
       <section className={`ki-map ki-frame ${mapSize ? "ki-map-large" : ""}`} aria-label="Minimapa">
         <div className="ki-map-title">
           <span className="ki-dot" />
-          Wioska Początkowa
+          {world.settlement}
         </div>
         <button
           className="ki-map-image"
           aria-label="Otwórz mapę świata"
           onClick={() => toggle("map")}
         >
-          <img src={FOREST_MINIMAP} alt="Mapa Wioski Początkowej" />
+          <img src={world.minimap} alt={"Mapa: " + world.settlement} />
+          {world.landmarks.map((l) => (
+            <span
+              key={l.label}
+              className={"ki-landmark ki-landmark-" + l.kind}
+              title={l.label}
+              style={{
+                left: `${(l.x / world.width) * 100}%`,
+                top: `${(l.y / world.height) * 100}%`,
+              }}
+            >
+              ◆
+            </span>
+          ))}
           <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
         </button>
         <div className="ki-map-footer">
-          <span>BEZPIECZNA OKOLICA</span>
+          <span>{world.name.toUpperCase()}</span>
           <button
             onClick={() => setMapSize((v) => !v)}
             aria-label={mapSize ? "Zmniejsz minimapę" : "Powiększ minimapę"}
@@ -165,16 +182,18 @@ export function GameHud({
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
         <div>
-          <strong>{tracked?.name ?? "Wioska ocalona"}</strong>
+          <strong>
+            {tracked?.name ?? (world.id === "verdant" ? "Wioska ocalona" : "Region ocalony")}
+          </strong>
           <span>{tracked?.text ?? "Trenuj i zdobywaj wyposażenie"}</span>
         </div>
         <span className="ki-quest-arrow">›</span>
       </button>
       <div className="ki-location">
         <span>KI LEGENDS</span>
-        <strong>Wioska Początkowa</strong>
+        <strong>{world.settlement}</strong>
         <i />
-        Dolina Szmaragdowego Potoku
+        {world.name}
       </div>
       <section
         className={`ki-chat ki-frame ${chatOpen ? "ki-chat-open" : ""}`}
@@ -208,7 +227,7 @@ export function GameHud({
                   <b>[System]</b> Witaj w Ki Legends!
                 </p>
                 <p>
-                  <b>[System]</b> Odkryto: Wioska Początkowa.
+                  <b>[System]</b> Odkryto: {world.settlement}.
                 </p>
                 <p className="ki-chat-muted">Twoja podróż zaczyna się tutaj.</p>
               </>
@@ -352,11 +371,11 @@ export function GameHud({
           {player.quests.steps === "active" && (
             <button
               onClick={(event) => {
-                onCommand({ type: "move", ...TUTORIAL_MARKET });
+                onCommand({ type: "move", ...world.market });
                 event.currentTarget.blur();
               }}
             >
-              Podejdź do rynku
+              {world.market.action}
             </button>
           )}
           <button
@@ -365,7 +384,7 @@ export function GameHud({
               event.currentTarget.blur();
             }}
           >
-            Rozmowa · {NPCS.find((n) => n.id === state.nearestNpc)?.name} <kbd>E</kbd>
+            Rozmowa · {npcs.find((n) => n.id === state.nearestNpc)?.name} <kbd>E</kbd>
           </button>
           {state.nearbyLoot[0] && (
             <button onClick={() => onCommand({ type: "loot", id: state.nearbyLoot[0]!.id })}>
@@ -399,7 +418,7 @@ export function GameHud({
           <div className="ki-frame">
             <span className="ki-loading-rune">◆</span>
             <h1>KI LEGENDS</h1>
-            <p>{error || "Wkraczasz do Wioski Początkowej…"}</p>
+            <p>{error || "Wkraczasz do: " + world.settlement + "…"}</p>
           </div>
         </div>
       )}
@@ -414,7 +433,7 @@ export function GameHud({
                 inventory: "Ekwipunek",
                 journal: "Dziennik",
                 settings: "Ustawienia",
-                map: "Mapa wioski",
+                map: "Mapa regionu",
               }[panel]
             }
             onClick={(e) => e.stopPropagation()}
@@ -429,7 +448,7 @@ export function GameHud({
                     inventory: "Ekwipunek",
                     journal: "Dziennik podróży",
                     settings: "Ustawienia",
-                    map: "Wioska Początkowa",
+                    map: world.settlement,
                   }[panel]
                 }
               </h2>
@@ -443,6 +462,11 @@ export function GameHud({
             )}
             {panel === "settings" && (
               <div className="ki-settings">
+                {onCharacters && <button onClick={onCharacters}>Zapisz i wybierz postać</button>}
+                <p>
+                  Pochodzenie: {RACES[player.race].name} · tymczasowy ludzki sprite. Lokalna gra
+                  PvE.
+                </p>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
                   <input
@@ -479,7 +503,7 @@ export function GameHud({
             {panel === "map" && (
               <>
                 <div className="ki-npc-links">
-                  {NPCS.map((n) => (
+                  {npcs.map((n) => (
                     <button
                       key={n.id}
                       onClick={() => {
@@ -492,7 +516,7 @@ export function GameHud({
                   ))}
                 </div>
                 <div className="ki-full-map">
-                  <img src={FOREST_MINIMAP} alt="Mapa wioski" />
+                  <img src={world.minimap} alt={"Mapa: " + world.settlement} />
                   <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
                 </div>
               </>
