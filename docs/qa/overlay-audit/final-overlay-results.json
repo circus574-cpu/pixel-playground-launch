@@ -1,0 +1,92 @@
+{
+  "stats": {
+    "startTime": "2026-10-20T12:27:01.510Z",
+    "duration": 152318.86800000002,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 1280",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 22899
+        }
+      ]
+    },
+    {
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 360",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 16932
+        }
+      ]
+    },
+    {
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 390",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 20800
+        }
+      ]
+    },
+    {
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 414",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 21128
+        }
+      ]
+    },
+    {
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 852",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 18866
+        }
+      ]
+    },
+    {
+      "title": "save failure stays actionable after normal guidance is disabled or dismissed",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 13760
+        }
+      ]
+    },
+    {
+      "title": "death message ends on real respawn and subsequent movement works",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 18525
+        }
+      ]
+    },
+    {
+      "title": "combat messages leave the actual target panel clear at every HUD breakpoint",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 18232
+        }
+      ]
+    }
+  ]
+}

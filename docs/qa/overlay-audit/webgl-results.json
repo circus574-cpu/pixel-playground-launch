@@ -1,0 +1,51 @@
+{
+  "url": "http://127.0.0.1:4175/scripts/playtest.html",
+  "renderer": "WebGL SwiftShader",
+  "build": "stage3.2-clear-gameplay-r1",
+  "checkedAt": "2026-10-20T12:25:08.418Z",
+  "results": [
+    {
+      "race": "legend",
+      "continent": "pyra",
+      "steps": "done",
+      "xp": 40,
+      "x": 1257.2318236828896,
+      "y": 1235.1671798746381
+    },
+    {
+      "race": "planetary",
+      "continent": "verdant",
+      "steps": "locked",
+      "xp": 0,
+      "x": 1495,
+      "y": 1260
+    },
+    {
+      "race": "sage",
+      "continent": "aether",
+      "steps": "locked",
+      "xp": 0,
+      "x": 1150,
+      "y": 1130
+    },
+    {
+      "race": "android",
+      "continent": "nexus",
+      "steps": "locked",
+      "xp": 0,
+      "x": 600,
+      "y": 1120
+    }
+  ],
+  "rendererHeaders": [
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)",
+    "%cPhaser v4.2.1 (WebGL | Web Audio)"
+  ],
+  "errors": []
+}

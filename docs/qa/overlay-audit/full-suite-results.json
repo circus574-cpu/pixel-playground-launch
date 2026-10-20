@@ -1,0 +1,313 @@
+{
+  "stats": {
+    "startTime": "2026-10-20T10:03:53.767Z",
+    "duration": 454684.163,
+    "expected": 25,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "renderer": "Chromium Canvas; real browser, built Index component",
+  "tests": [
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 1280",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 21469
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 360",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 16931
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 390",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 16604
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 414",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17042
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 852",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 15524
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 174,
+      "title": "save failure stays actionable after normal guidance is disabled or dismissed",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12622
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 202,
+      "title": "death message ends on real respawn and subsequent movement works",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 18012
+        }
+      ]
+    },
+    {
+      "file": "race-switch.spec.ts",
+      "line": 8,
+      "title": "temporary race switch preserves each save 1280",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 14466
+        }
+      ]
+    },
+    {
+      "file": "race-switch.spec.ts",
+      "line": 8,
+      "title": "temporary race switch preserves each save 390",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 11296
+        }
+      ]
+    },
+    {
+      "file": "stage3-migration.spec.ts",
+      "line": 4,
+      "title": "C: a real v1 fixture migrates in the browser without changing the original",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 5850
+        }
+      ]
+    },
+    {
+      "file": "stage3-pve.spec.ts",
+      "line": 36,
+      "title": "D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 97593
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 79,
+      "title": "A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 62080
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 360x800",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12008
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 390x844",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 13121
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 414x896",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12687
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 852x393",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 9490
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 640x480",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 11410
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: planetary",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 13397
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: sage",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 6866
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: android",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 6642
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: legend",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 7474
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 13,
+      "title": "original complete illustrations, details, accessible enlargement and no save before start",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 4847
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 62,
+      "title": "real Phaser progress is held by an actual resource request, then opens the correct world",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 3142
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 106,
+      "title": "failed real resource shows retry and reuses the same saved character",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 4816
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 166,
+      "title": "HP and KI remain separate at low, middle, maximum values and interface scales",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 37278
+        }
+      ]
+    }
+  ]
+}
