@@ -155,4 +155,15 @@ npm run bench:game
 KI_BENCH_WEBGL=1 npm run bench:game
 ```
 
+Lokalny podgląd pełnego artefaktu Cloudflare/Nitro (bez publikacji):
+
+```sh
+npm run build
+WRANGLER_SEND_METRICS=false npm exec --yes --package=wrangler@4.151.3 -- wrangler dev --config .output/server/wrangler.json --local --port 4186
+# W drugim terminalu:
+KI_QA_BASE_URL=http://127.0.0.1:4186 npm run test:e2e -- e2e/stage3.spec.ts --grep 'A/B/C'
+```
+
+Genericzne `npm run preview` z TanStack szuka `dist/server/server.js` i nie odpowiada układowi tego Cloudflare builda. Nie stosować tego polecenia jako testu gotowego workera. Wrangler uruchamiany z `--local` nie publikuje gry i nie wymaga zmiany targetu hostingu. Dokładną wersję użytego lokalnego runtime przypięto w przykładzie; nie dodano go do zależności aplikacji.
+
 Walidacja struktury/pikseli nie ocenia tożsamości, płynności ruchu, poprawności kończyn, rytmu kroków ani zgodności kamery z ilustracjami. Przed masową generacją potrzebna jest akceptacja jednego wzorca w grze; potem cztery rasy, NPC/fauna, świat i efekty. Wyniki lokalnej/CI regresji oraz rzeczywistych pomiarów znajdują się w `docs/PRE_GPU_STABILIZATION.md`. Fizyczny Android i jakość jeszcze nieistniejącej oprawy nie są oznaczane PASS na podstawie headless Chromium.

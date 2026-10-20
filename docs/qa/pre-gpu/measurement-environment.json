@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-20T15:11:52.460Z",
+  "platform": "linux",
+  "arch": "x64",
+  "kernel": "6.18.55",
+  "cpuModel": "AMD EPYC 9V74 80-Core Processor",
+  "logicalCpus": 3,
+  "hostRamBytes": 10452471808,
+  "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+  "node": "v24.19.0",
+  "cpuMax": "200000 100000",
+  "memoryMax": "8589934592",
+  "qualification": "Shared cloud Linux host; not physical Android or hardware WebGL; measurements are not a production SLA."
+}

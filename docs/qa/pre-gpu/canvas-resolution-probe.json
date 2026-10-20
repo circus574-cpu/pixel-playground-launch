@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-20T14:29:41.101Z",
+  "environment": "Chromium emulated DPR 3, not physical Android",
+  "data": {
+    "viewport": [
+      390,
+      844
+    ],
+    "devicePixelRatio": 3,
+    "backing": [
+      390,
+      844
+    ],
+    "css": [
+      390,
+      844
+    ],
+    "backingScale": 1
+  }
+}

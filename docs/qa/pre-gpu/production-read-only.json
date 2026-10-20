@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-20T15:15:35.390213+00:00",
+  "url": "https://kilegends.pl/",
+  "httpStatus": 200,
+  "buildMeta": [
+    "<meta name=\"ki-build\" content=\"stage3.2-clear-gameplay-r1\"/>"
+  ],
+  "qualification": "Read-only production check. This task has not deployed or changed main."
+}

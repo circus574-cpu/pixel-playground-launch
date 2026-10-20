@@ -9,7 +9,7 @@
     "githubRun": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39419390691",
     "cause": "JSON module imports in world definitions miss with { type: \"json\" }",
     "fix": "Explicit JSON import attributes in forest.ts and worlds.ts",
-    "rerun": "3/3 passed locally, 0 skipped",
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed.",
     "trace": "Unavailable: collection failed before a browser was launched",
     "screenshot": "Unavailable: collection failed before a browser was launched"
   },
@@ -17,7 +17,7 @@
     "category": "engine-regression-caught-during-development",
     "race": "sage",
     "continent": "aether",
-    "action": "Start game, choose Talk to Sora, then accept first quest",
+    "action": "Start game, approach Sora, then accept the local first quest through dialogue",
     "expected": "Character approaches Sora and dialogue offers Accept",
     "actual": "World renders but simulation does not tick; Accept times out after 30 s",
     "cause": "New update guard relied on Phaser.hasFocus being initially true; headless window never emitted initial focus event",
@@ -25,13 +25,13 @@
     "screenshot": "failures/initial-focus/sage/test-failed-1.png",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/sage.zip",
     "context": "failures/initial-focus/sage/error-context.md",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
   },
   {
     "category": "engine-regression-caught-during-development",
     "race": "android",
     "continent": "nexus",
-    "action": "Start game, choose Talk to Sora, then accept first quest",
+    "action": "Start game, approach LYRA-7, then accept the local first quest through dialogue",
     "expected": "Character approaches Sora and dialogue offers Accept",
     "actual": "World renders but simulation does not tick; Accept times out after 30 s",
     "cause": "New update guard relied on Phaser.hasFocus being initially true; headless window never emitted initial focus event",
@@ -39,13 +39,13 @@
     "screenshot": "failures/initial-focus/android/test-failed-1.png",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/android.zip",
     "context": "failures/initial-focus/android/error-context.md",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
   },
   {
     "category": "engine-regression-caught-during-development",
     "race": "legend",
     "continent": "pyra",
-    "action": "Start game, choose Talk to Sora, then accept first quest",
+    "action": "Start game, approach Kaena, then accept the local first quest through dialogue",
     "expected": "Character approaches Sora and dialogue offers Accept",
     "actual": "World renders but simulation does not tick; Accept times out after 30 s",
     "cause": "New update guard relied on Phaser.hasFocus being initially true; headless window never emitted initial focus event",
@@ -53,7 +53,7 @@
     "screenshot": "failures/initial-focus/legend/test-failed-1.png",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/legend.zip",
     "context": "failures/initial-focus/legend/error-context.md",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
   },
   {
     "category": "qa-harness",
@@ -67,7 +67,7 @@
     "screenshot": "failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/test-failed-1.png",
     "context": "failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/error-context.md",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844.zip",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
   },
   {
     "category": "qa-harness",
@@ -81,7 +81,7 @@
     "screenshot": "failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/test-failed-1.png",
     "context": "failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/error-context.md",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844.zip",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
   },
   {
     "category": "qa-harness",
@@ -95,7 +95,7 @@
     "screenshot": "failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/test-failed-1.png",
     "context": "failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/error-context.md",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/pre-gpu-Android-android-39-4bb84--directions-android-390x844.zip",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
   },
   {
     "category": "qa-harness-projected-goal",
@@ -109,6 +109,20 @@
     "context": "failures/pyra-approach/error-context.md",
     "screenshot": "failures/pyra-approach/test-failed-1.png",
     "trace": "/workspace/scratch/pre-gpu/failure-traces/pyra-approach.zip",
-    "rerun": "pending"
+    "rerun": "PASS in final GitHub Actions 47/47 (f739f0d); zero skips/retries/flaky. All four-race gameplay scenarios actually executed."
+  },
+  {
+    "category": "local-hosting-command",
+    "race": "all (before game start)",
+    "continent": "all",
+    "action": "Run npm run preview against the Cloudflare/Nitro production build and open /",
+    "expected": "Reach race selection",
+    "actual": "ERR_MODULE_NOT_FOUND: dist/server/server.js; browser times out before selection",
+    "cause": "Generic TanStack vite preview expects the non-Nitro dist layout; this repository produces a Cloudflare module in .output/server",
+    "fix": "Use local Cloudflare worker runtime for the Cloudflare build; no deployment or host technology change",
+    "screenshot": "failures/wrong-vite-preview/test-failed-1.png",
+    "context": "failures/wrong-vite-preview/error-context.md",
+    "trace": "/workspace/scratch/pre-gpu/failure-traces/wrong-vite-preview.zip",
+    "rerun": "PASS using Wrangler 4.151.3 --local with the actual Cloudflare .output: full A/B/C four-world scenario, 56.5 s, all four quests/rewards/save/reload/switching, zero browser errors."
   }
 ]

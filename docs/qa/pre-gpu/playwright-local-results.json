@@ -1,0 +1,611 @@
+{
+  "code": "38310ad runtime; 82b961d adds importer-only pivot rejection",
+  "stats": {
+    "startTime": "2026-10-20T14:15:47.959Z",
+    "duration": 1084043.321,
+    "expected": 46,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 1280",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 21626,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 360",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 16813,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 390",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17123,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 414",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17215,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 36,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 852",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 16107,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 174,
+      "title": "save failure stays actionable after normal guidance is disabled or dismissed",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 14286,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 202,
+      "title": "death message ends on real respawn and subsequent movement works",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 33287,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "overlay-audit.spec.ts",
+      "line": 231,
+      "title": "combat messages leave the actual target panel clear at every HUD breakpoint",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17506,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 189,
+      "title": "real defeat, respawn and movement: planetary",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 35147,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 189,
+      "title": "real defeat, respawn and movement: sage",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 27946,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 189,
+      "title": "real defeat, respawn and movement: android",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 31856,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 189,
+      "title": "real defeat, respawn and movement: legend",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 29566,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 231,
+      "title": "imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 6595,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 274,
+      "title": "real pursuit, return, enemy collision and world boundary: planetary",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 34041,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 274,
+      "title": "real pursuit, return, enemy collision and world boundary: sage",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 24317,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 274,
+      "title": "real pursuit, return, enemy collision and world boundary: android",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 25190,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 274,
+      "title": "real pursuit, return, enemy collision and world boundary: legend",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 22380,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: planetary 390x844",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 27663,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: planetary 852x393",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 30376,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: sage 390x844",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 19165,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: sage 852x393",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 15688,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: android 390x844",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17546,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: android 852x393",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 15664,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: legend 390x844",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 14200,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "pre-gpu.spec.ts",
+      "line": 75,
+      "title": "real Android input in eight directions: legend 852x393",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12241,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "race-switch.spec.ts",
+      "line": 8,
+      "title": "temporary race switch preserves each save 1280",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 19957,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "race-switch.spec.ts",
+      "line": 8,
+      "title": "temporary race switch preserves each save 390",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 11646,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3-migration.spec.ts",
+      "line": 4,
+      "title": "C: a real v1 fixture migrates in the browser without changing the original",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 6822,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3-pve.spec.ts",
+      "line": 36,
+      "title": "D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 109003,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 79,
+      "title": "A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 64267,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 360x800",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12146,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 390x844",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12449,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 414x896",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12063,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 852x393",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 9984,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage3.spec.ts",
+      "line": 166,
+      "title": "E: touch selection, joystick, dialogue and layout 640x480",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 12476,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: planetary",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 16034,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: sage",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 7088,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: android",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 6534,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-collision.spec.ts",
+      "line": 10,
+      "title": "browser collider and camera: legend",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 7747,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 13,
+      "title": "original complete illustrations, details, accessible enlargement and no save before start",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 5055,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 62,
+      "title": "real Phaser progress is held by an actual resource request, then opens the correct world",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 3498,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 106,
+      "title": "failed real resource shows retry and reuses the same saved character",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 5145,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "stage31-ui.spec.ts",
+      "line": 166,
+      "title": "HP and KI remain separate at low, middle, maximum values and interface scales",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 37003,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "three-races-pve.spec.ts",
+      "line": 64,
+      "title": "real PvE journey: sage — quests, 3 kills, loot, equipment, merchant and smith",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 50969,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "three-races-pve.spec.ts",
+      "line": 64,
+      "title": "real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 75519,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "three-races-pve.spec.ts",
+      "line": 64,
+      "title": "real PvE journey: legend — quests, 3 kills, loot, equipment, merchant and smith",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 50843,
+          "retry": 0
+        }
+      ]
+    }
+  ]
+}

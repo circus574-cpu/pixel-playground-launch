@@ -1,5 +1,7 @@
 # Kolejka produkcji grafiki — Ki Legends
 
+> Aktualny kontrakt produkcyjny: [GPU_ASSET_PIPELINE.md](GPU_ASSET_PIPELINE.md), `art/pipeline/gpu-production-targets.json` i `gpu-pack.schema.json`. Poniższa historyczna kolejka etapu 3 określa kierunek artystyczny. Parametry 288 klatek, przyszła skala i planowany adapter nie są już specyfikacją dostawy: wdrożony pipeline wymaga **416 klatek 128²**, zachowuje skalę 96 jednostek i ma działający adapter animacji.
+
 Status: lista i kontrakt, bez uruchamiania GPU, modeli AI ani płatnych usług.
 Maszynowa specyfikacja: `art/pipeline/stage3-render-contract.json`.
 Wzorce artystyczne: PDF koncepcyjny z 20.10.2026, wszystkie ilustracje obejrzane.
