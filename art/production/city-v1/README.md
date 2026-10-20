@@ -1,0 +1,9 @@
+# City production sources — GPU batch 2026-10-20
+
+Directions derive from the user's city designs only; reference characters are not used. Race/continent names remain Planetarni/Verdantia, Mędrcy/Aetheria, Androidy/Nexus-9 and Legendy/Pyra.
+
+Source images and Blender files use Git LFS. Install Git LFS and run `git lfs pull` to retrieve them; browser deliveries use separately optimized WebP in public/game/assets and do not depend on LFS checkout at runtime. No checkpoint is redistributed. Model source revision/hash and license text are retained alongside this file.
+
+`sources/rejected-text-only/`: four raw text-only outputs, **REJECTED**, not installed in the game. Aether/Nexus/Pyra failed object identity (decorative/character-like forms rather than architecture); Verdantia failed complete-object framing. Workflows/seeds/checksums are kept for diagnosis. The next workflow uses Blender geometry to constrain camera, silhouette and complete framing. A successfully executed inference is not a visual acceptance.
+
+Raw masters and geometry guides must be secured outside RunPod and verified through a fresh LFS download before the next accepted set is produced. Optimized deliveries undergo importer and in-game tests separately. This directory is source storage, not a game release.
