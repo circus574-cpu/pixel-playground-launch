@@ -1,0 +1,12 @@
+{
+  "id": "pyra-guide",
+  "width": 1024,
+  "height": 1024,
+  "sha256": "d9f2724537f9ad973de5928cb9aada78cc25938622f4e78f14539762e1a7512a",
+  "bytes": 905699,
+  "blender": "4.5.3 LTS",
+  "camera_elevation": 60,
+  "engine": "Cycles CUDA",
+  "seconds": 8.02678312601347,
+  "status": "geometry-guide"
+}

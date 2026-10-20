@@ -39,7 +39,7 @@ widget:
     align-items: center;
     height: 100vh;
   }
-  
+
   .title {
     font-size: 2.5em;
     text-align: center;
@@ -50,20 +50,20 @@ widget:
     padding: 0.5em 0;
     background: transparent;
   }
-  
+
   .title span {
     background: -webkit-linear-gradient(45deg, #7ed56f, #28b485);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  
+
   .custom-table {
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
     margin-top: 2em;
   }
-  
+
   .custom-table td {
     /* FIXED: Changed from 50% to 33.33% because there are 3 columns */
     width: 33.33%;
@@ -103,7 +103,7 @@ widget:
   .custom-image-container:hover .nsfw-filter {
     filter: none;
   }
-  
+
   .overlay {
     position: absolute;
     bottom: 0;
@@ -134,13 +134,13 @@ widget:
     color: transparent;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   } /* FIXED: Added missing closing brace here */
-  
+
   .overlay-subtext {
     font-size: 0.75em;
     margin-top: 0.5em;
     font-style: italic;
   }
-    
+
   .overlay,
   .overlay-subtext {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -178,12 +178,12 @@ widget:
     </td>
   </tr>
 </table>
-        
+
 **Animagine XL 3.1** is an update in the Animagine XL V3 series, enhancing the previous version, Animagine XL 3.0. This open-source, anime-themed text-to-image model has been improved for generating anime-style images with higher quality. It includes a broader range of characters from well-known anime series, an optimized dataset, and new aesthetic tags for better image creation. Built on Stable Diffusion XL, Animagine XL 3.1 aims to be a valuable resource for anime fans, artists, and content creators by producing accurate and detailed representations of anime characters.
 
 ## Model Details
 - **Developed by**: [Cagliostro Research Lab](https://huggingface.co/cagliostrolab)
-- **Model type**: Diffusion-based text-to-image generative model 
+- **Model type**: Diffusion-based text-to-image generative model
 - **Model Description**: Animagine XL 3.1 generates high-quality anime images from textual prompts. It boasts enhanced hand anatomy, improved concept understanding, and advanced prompt interpretation.
 - **License**: [CreativeML Open RAIL++-M License](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/blob/main/LICENSE.md)
 - **Fine-tuned from**: [Animagine XL 3.0](https://huggingface.co/cagliostrolab/animagine-xl-3.0)
@@ -209,9 +209,9 @@ import torch
 from diffusers import DiffusionPipeline
 
 pipe = DiffusionPipeline.from_pretrained(
-    "cagliostrolab/animagine-xl-3.1", 
-    torch_dtype=torch.float16, 
-    use_safetensors=True, 
+    "cagliostrolab/animagine-xl-3.1",
+    torch_dtype=torch.float16,
+    use_safetensors=True,
 )
 pipe.to('cuda')
 
@@ -219,10 +219,10 @@ prompt = "1girl, souryuu asuka langley, neon genesis evangelion, solo, upper bod
 negative_prompt = "nsfw, lowres, (bad), text, error, fewer, extra, missing, worst quality, jpeg artifacts, low quality, watermark, unfinished, displeasing, oldest, early, chromatic aberration, signature, extra digits, artistic error, username, scan, [abstract]"
 
 image = pipe(
-    prompt, 
+    prompt,
     negative_prompt=negative_prompt,
     width=832,
-    height=1216, 
+    height=1216,
     guidance_scale=7,
     num_inference_steps=28
 ).images[0]
@@ -260,7 +260,7 @@ Quality tags now consider both scores and post ratings to ensure a balanced qual
 
 ### Rating Modifiers
 
-We've also streamlined our rating tags for simplicity and clarity, aiming to establish global rules that can be applied across different models. For example, the tag 'rating: general' is now simply 'general', and 'rating: sensitive' has been condensed to 'sensitive'. 
+We've also streamlined our rating tags for simplicity and clarity, aiming to establish global rules that can be applied across different models. For example, the tag 'rating: general' is now simply 'general', and 'rating: sensitive' has been condensed to 'sensitive'.
 
 | Rating Modifier   | Rating Criterion |
 |-------------------|------------------|
@@ -306,7 +306,7 @@ For higher quality outcomes, prepend prompts with:
 masterpiece, best quality, very aesthetic, absurdres
 ```
 
-it’s recommended to use a lower classifier-free guidance (CFG Scale) of around 5-7, sampling steps below 30, and to use Euler Ancestral (Euler a) as a sampler. 
+it’s recommended to use a lower classifier-free guidance (CFG Scale) of around 5-7, sampling steps below 30, and to use Euler Ancestral (Euler a) as a sampler.
 
 ### Multi Aspect Resolution
 
@@ -357,7 +357,7 @@ This model supports generating images at the following dimensions:
 | **LR Scheduler**                | Constant with Warmup                     | Cosine Annealing Warm Restart                  |
 | **LR Scheduler Args**           | Warmup Steps: 100                        | Num Cycles: 10, Min LR: 1e-6, LR Decay: 0.9, First Cycle Steps: 9,099 |
 
-Source code and training config are available here: https://github.com/cagliostrolab/sd-scripts/tree/main/notebook 
+Source code and training config are available here: https://github.com/cagliostrolab/sd-scripts/tree/main/notebook
 
 ### Acknowledgements
 
@@ -390,12 +390,12 @@ Thank you all for your support and expertise in pushing the boundaries of anime-
 
 While Animagine XL 3.1 represents a significant advancement in anime-style image generation, it is important to acknowledge its limitations:
 
-1. **Anime-Focused**: This model is specifically designed for generating anime-style images and is not suitable for creating realistic photos. 
+1. **Anime-Focused**: This model is specifically designed for generating anime-style images and is not suitable for creating realistic photos.
 2. **Prompt Complexity**: This model may not be suitable for users who expect high-quality results from short or simple prompts. The training focus was on concept understanding rather than aesthetic refinement, which may require more detailed and specific prompts to achieve the desired output.
 3. **Prompt Format**: Animagine XL 3.1 is optimized for Danbooru-style tags rather than natural language prompts. For best results, users are encouraged to format their prompts using the appropriate tags and syntax.
-4. **Anatomy and Hand Rendering**: Despite the improvements made in anatomy and hand rendering, there may still be instances where the model produces suboptimal results in these areas. 
+4. **Anatomy and Hand Rendering**: Despite the improvements made in anatomy and hand rendering, there may still be instances where the model produces suboptimal results in these areas.
 5. **Dataset Size**: The dataset used for training Animagine XL 3.1 consists of approximately 870,000 images. When combined with the previous iteration's dataset (1.2 million), the total training data amounts to around 2.1 million images. While substantial, this dataset size may still be considered limited in scope for an "ultimate" anime model.
-6. **NSFW Content**: Animagine XL 3.1 has been designed to generate more balanced NSFW content. However, it is important to note that the model may still produce NSFW results, even if not explicitly prompted. 
+6. **NSFW Content**: Animagine XL 3.1 has been designed to generate more balanced NSFW content. However, it is important to note that the model may still produce NSFW results, even if not explicitly prompted.
 
 By acknowledging these limitations, we aim to provide transparency and set realistic expectations for users of Animagine XL 3.1. Despite these constraints, we believe that the model represents a significant step forward in anime-style image generation and offers a powerful tool for artists, designers, and enthusiasts alike.
 

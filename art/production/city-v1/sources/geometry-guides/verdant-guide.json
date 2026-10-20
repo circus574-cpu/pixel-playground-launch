@@ -1,0 +1,12 @@
+{
+  "id": "verdant-guide",
+  "width": 1024,
+  "height": 1024,
+  "sha256": "4b751ff72dc8dfd059b4e407b249631c2a43f6839051f2e270c247e2c1e4c8b0",
+  "bytes": 883331,
+  "blender": "4.5.3 LTS",
+  "camera_elevation": 60,
+  "engine": "Cycles CUDA",
+  "seconds": 6.835750553000253,
+  "status": "geometry-guide"
+}

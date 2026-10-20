@@ -1,0 +1,107 @@
+{
+  "id": "verdant-cottage-45",
+  "world": "verdant",
+  "seed": 741110,
+  "denoise": 0.45,
+  "workflow": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "animagine-xl-3.1.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "isometric building, no humans, scenery, game asset, full building, white background, a single exquisite woodland fantasy guild house, timber framing and cream stone walls, elaborate moss green shingled roof, carved oak pillars, amber glass lanterns, leafy ivy vines, small wooden front porch, arched entrance facing viewer, hand-painted botanical details, one standalone building, orthographic elevated view, fully visible roof and foundations, highly detailed hand-painted anime fantasy architecture, centered, no crop, single building",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "people, person, character, face, girl, boy, armor, weapon, dress, portrait, text, watermark, scenery background, cityscape, cropped, out of frame, photograph",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "4": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "city-guides/verdant-guide.png"
+      }
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 741110,
+        "steps": 28,
+        "cfg": 7.0,
+        "sampler_name": "euler_ancestral",
+        "scheduler": "normal",
+        "denoise": 0.45,
+        "model": [
+          "1",
+          0
+        ],
+        "positive": [
+          "2",
+          0
+        ],
+        "negative": [
+          "3",
+          0
+        ],
+        "latent_image": [
+          "8",
+          0
+        ]
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "5",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "city-v1/guided/verdant-cottage-45",
+        "images": [
+          "6",
+          0
+        ]
+      }
+    },
+    "8": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "4",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    }
+  },
+  "seconds": 14.49993877200177,
+  "sha256": "030a39458a829bffeb7847e5293b43e82103269b6135cc3ce1df5cd1341fd0b8",
+  "guide_sha256": "4b751ff72dc8dfd059b4e407b249631c2a43f6839051f2e270c247e2c1e4c8b0",
+  "status": "generated-pending-visual-review"
+}

@@ -1,0 +1,107 @@
+{
+  "id": "aether-sanctum-60",
+  "world": "aether",
+  "seed": 741111,
+  "denoise": 0.6,
+  "workflow": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "animagine-xl-3.1.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "isometric building, no humans, scenery, game asset, full building, white background, a single magnificent wizard academy temple building, ivory limestone, intricate golden filigree, layered violet indigo roof spires, hovering amethyst crystal above roof, tall arched stained glass windows, turquoise magical lamps, symmetrical central entrance facing viewer, one standalone building, orthographic elevated view, fully visible roof and foundations, highly detailed hand-painted anime fantasy architecture, centered, no crop, single building",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "people, person, character, face, girl, boy, armor, weapon, dress, portrait, text, watermark, scenery background, cityscape, cropped, out of frame, photograph",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "4": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "city-guides/aether-guide.png"
+      }
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 741111,
+        "steps": 28,
+        "cfg": 7.0,
+        "sampler_name": "euler_ancestral",
+        "scheduler": "normal",
+        "denoise": 0.6,
+        "model": [
+          "1",
+          0
+        ],
+        "positive": [
+          "2",
+          0
+        ],
+        "negative": [
+          "3",
+          0
+        ],
+        "latent_image": [
+          "8",
+          0
+        ]
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "5",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "city-v1/guided/aether-sanctum-60",
+        "images": [
+          "6",
+          0
+        ]
+      }
+    },
+    "8": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "4",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    }
+  },
+  "seconds": 6.025243625001167,
+  "sha256": "dfd04ae4021bae30b77738983dc86383760bfe4790d55274dc082bb2a690ff20",
+  "guide_sha256": "30584065e0a8711abd56630bb6b783d4f89c4975a9338aac72b7ad9503a5f7fd",
+  "status": "generated-pending-visual-review"
+}

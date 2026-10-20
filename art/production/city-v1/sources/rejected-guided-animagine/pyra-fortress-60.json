@@ -1,0 +1,107 @@
+{
+  "id": "pyra-fortress-60",
+  "world": "pyra",
+  "seed": 741113,
+  "denoise": 0.6,
+  "workflow": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "animagine-xl-3.1.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "isometric building, no humans, scenery, game asset, full building, white background, a single monumental volcanic fantasy fortress gatehouse, dark charcoal basalt stone walls, red tiled roofs and golden trims, glowing orange furnace gate facing viewer, two fortified towers with crimson banners, intricate metal ornaments, restrained ember light, one standalone building, orthographic elevated view, fully visible roof and foundations, highly detailed hand-painted anime fantasy architecture, centered, no crop, single building",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "people, person, character, face, girl, boy, armor, weapon, dress, portrait, text, watermark, scenery background, cityscape, cropped, out of frame, photograph",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "4": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "city-guides/pyra-guide.png"
+      }
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 741113,
+        "steps": 28,
+        "cfg": 7.0,
+        "sampler_name": "euler_ancestral",
+        "scheduler": "normal",
+        "denoise": 0.6,
+        "model": [
+          "1",
+          0
+        ],
+        "positive": [
+          "2",
+          0
+        ],
+        "negative": [
+          "3",
+          0
+        ],
+        "latent_image": [
+          "8",
+          0
+        ]
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "5",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "city-v1/guided/pyra-fortress-60",
+        "images": [
+          "6",
+          0
+        ]
+      }
+    },
+    "8": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "4",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    }
+  },
+  "seconds": 6.025524480995955,
+  "sha256": "59d32b04f30d03ba4e4429196384938a40fe9782fd0b90ac9f0d580f52425383",
+  "guide_sha256": "d9f2724537f9ad973de5928cb9aada78cc25938622f4e78f14539762e1a7512a",
+  "status": "generated-pending-visual-review"
+}
