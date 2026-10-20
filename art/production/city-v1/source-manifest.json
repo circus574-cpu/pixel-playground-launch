@@ -1,0 +1,262 @@
+[
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-guided.json",
+    "bytes": 3033,
+    "sha256": "5433aeca73a6938cb87dc8a8c6c8fd23803fcd48d26a982b889179d90dcd5d71"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-guided.json",
+    "bytes": 3016,
+    "sha256": "3a0c4a2e7bddc5d0c9b37eb2611f01465197d9794fb391ce65e0fc118e92dbaf"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-guided.png",
+    "bytes": 1116217,
+    "sha256": "1f23ee3eed1f8789b6326563901cd60541908cd5bec3b460628739284321dcba"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-free.png",
+    "bytes": 1278912,
+    "sha256": "e85eacd9ab67e932af3205b449327ac1139de8c36f454f82c2679622b175585b"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-free.png",
+    "bytes": 1758382,
+    "sha256": "5bc3802b0ca71e93c5d129be02288224fc9be672bf1976089e3c2a31a268cb62"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-free.png",
+    "bytes": 1188375,
+    "sha256": "76d488b845938ac666e951a3822bc597ada94a1927de17111d093b9b3c5e387d"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-guided.json",
+    "bytes": 3033,
+    "sha256": "4b65486c4eec251d72358a445572baf4d0c35bb829f793faed7388b210a6dd16"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-free.json",
+    "bytes": 2853,
+    "sha256": "0ec0a8139a15789014b9c7b900b8624a0bef9afb28507c8833f1faa2846f6567"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-free.png",
+    "bytes": 1791216,
+    "sha256": "4b118fcf6d649d19f757581be26b33a4cc2977d9f02021ee49047b2a05107021"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-guided.png",
+    "bytes": 937003,
+    "sha256": "b7db2d274933c2bd9078d2fc60147b6cdcec6c84e754d48a63b45927b60e49f2"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-guided.png",
+    "bytes": 1223806,
+    "sha256": "27efc54414f286980455af2ff9b2a0a07e61526eb224a6f74db00035799fad6f"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-free.json",
+    "bytes": 2869,
+    "sha256": "064cfe0de2490844552eb7c28dbcf63bd3b3c3469b42506c4c8fc9adb69c48d6"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-free.json",
+    "bytes": 2853,
+    "sha256": "3ff48d028981804d6a99bca7156a144e13a2bec67be317134bc78fdde40bd970"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-guided.json",
+    "bytes": 3015,
+    "sha256": "f4fe8b298244e88aefeede93cd3f32854988423cafab5db4d8aff9bff32a3fe6"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-guided.png",
+    "bytes": 1049988,
+    "sha256": "0c5cc14d9fde457ec9504f6ce9b5e4af2eabfb9dc5588891364f004cc9638039"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-free.json",
+    "bytes": 2869,
+    "sha256": "33580684b8e743d0d0a9018d3657398f47ff58447fa0b945ed02688027d92bbf"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/aether-sanctum.png",
+    "bytes": 1518543,
+    "sha256": "773c139dee39ae32b226287557c2800c7ecb39fd5aad0aabf516225cb5d62a55"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/pyra-fortress.png",
+    "bytes": 1531090,
+    "sha256": "08bff900ab0ae7b082d6df42b6eca155f2cea24e16727a2bce701c4af8699b9b"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/verdant-cottage.png",
+    "bytes": 1467452,
+    "sha256": "6e469ebd93783ab2d6e682a7b309409a2c53a6b63c49c15150ba5667160a8163"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/aether-sanctum.json",
+    "bytes": 3008,
+    "sha256": "eeca8671d59a7b9169808358616158bd04c3ff747f581209c5de76a1a0ab5191"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/nexus-lab.png",
+    "bytes": 1841612,
+    "sha256": "d4a0b4f85683b6a507f15583e85d41788d4e9c5191dfd5e229aef3366a47f432"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/verdant-cottage.json",
+    "bytes": 3009,
+    "sha256": "725f8d928fb601a163c4d0fb65ebed83edee7faf8190f177c9e0018e17d4d4c8"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/nexus-lab.json",
+    "bytes": 2992,
+    "sha256": "c866558a94a66ec355de4902bc595fb5d22ca5d29390b9b8a0c699da05b0f7f1"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/pyra-fortress.json",
+    "bytes": 2991,
+    "sha256": "d739f80a6c75b77cff1addd99d545fd61e359d3d7dadb1d114c2e6de4d527ff5"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-60.json",
+    "bytes": 2688,
+    "sha256": "d44d90a6056751dbf45af33b290279697226757a5b3829ca8bb952326d76c14b"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-45.png",
+    "bytes": 545908,
+    "sha256": "2a725f54f5151114823ca323562d27136cd16405c60ffb72f49596ca3912e9ac"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-60.json",
+    "bytes": 2686,
+    "sha256": "4a9bcb935e3527ecc40e4cd8eea0ebd0185b9592bf657460013f0a484f111372"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-60.png",
+    "bytes": 450048,
+    "sha256": "7cb3d6680c4531e632512706fb5a0afc1ef3d18b669ea6f685852c01f7fe767a"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-60.json",
+    "bytes": 2669,
+    "sha256": "9ab9231647e20120beeaa6162811ebe35a2f7810bc2ad7fb97c0757ac4b1f583"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-45.png",
+    "bytes": 511476,
+    "sha256": "030a39458a829bffeb7847e5293b43e82103269b6135cc3ce1df5cd1341fd0b8"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-60.png",
+    "bytes": 547166,
+    "sha256": "92ca3d15ed4dcb8757a4eb520c45866da54ae9567fd7a20448d884818bdadb0e"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-60.json",
+    "bytes": 2668,
+    "sha256": "ffcf0778fcd036497faf8b9340b8a33655e5ad5529426db2ff8ab25466e6328f"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-45.png",
+    "bytes": 432671,
+    "sha256": "6991dad39f064eae517e92b0eae6fb55a79a017bf79067003d30953f1a7d3279"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-45.json",
+    "bytes": 2689,
+    "sha256": "c8d4ae02ff4486f1debcd741ec751fe6312ffa34b7d52c1d1bd9d9b714613d13"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-60.png",
+    "bytes": 550985,
+    "sha256": "59d32b04f30d03ba4e4429196384938a40fe9782fd0b90ac9f0d580f52425383"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-45.png",
+    "bytes": 511572,
+    "sha256": "a03ace5c8c361a4fea76bf70a6a98d9963dfa68422408c70c35d2fad636f1d4c"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-45.json",
+    "bytes": 2670,
+    "sha256": "0971974abd8dc39e7e8afeb70e662de5c68b1e2802f58f4322e6afddf98faf17"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-45.json",
+    "bytes": 2688,
+    "sha256": "c4e54e1de1e1ceff017f40cdbfacfba632b3561a889586799775c10ecae290b5"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-45.json",
+    "bytes": 2670,
+    "sha256": "35a5e3a0111f81dd60a1d0b23870e8fb455e810c217bcf8d23ee98f6e264bf3d"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-60.png",
+    "bytes": 461800,
+    "sha256": "dfd04ae4021bae30b77738983dc86383760bfe4790d55274dc082bb2a690ff20"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.blend",
+    "bytes": 1623186,
+    "sha256": "e1a4999ab275031c4b0511ccb6200ff523ed29afbc45e84d4a97445dd3c740c0"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.png",
+    "bytes": 883331,
+    "sha256": "4b751ff72dc8dfd059b4e407b249631c2a43f6839051f2e270c247e2c1e4c8b0"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/pyra-guide.blend",
+    "bytes": 3460337,
+    "sha256": "c77bd99794474182569fa2fe4f3b16ad91b61d365ef6241661d366377f6aa4be"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/aether-guide.blend",
+    "bytes": 1643038,
+    "sha256": "e0f8075a6d23036d5792b34bc6c5c343bd5b039b731c5dfa59fca39e57153b42"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/aether-guide.json",
+    "bytes": 303,
+    "sha256": "0662324c8ae2f0e43c263e314a6f9058ad9119d6781e903d0f12de1a2f7eb9a3"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/nexus-guide.png",
+    "bytes": 792972,
+    "sha256": "3e6209ac6655eea203fd65fc40672980259a821ac41cbcbcdf28f24bf69d0914"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/pyra-guide.png",
+    "bytes": 905699,
+    "sha256": "d9f2724537f9ad973de5928cb9aada78cc25938622f4e78f14539762e1a7512a"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.json",
+    "bytes": 303,
+    "sha256": "e9ccd76c12beae189a9564662a5fa1aa86dac7da9c3a0f3348b159f306225896"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/nexus-guide.json",
+    "bytes": 301,
+    "sha256": "4052cb4213e8a784c3dfee900d739037742a3431df0362fe204855a7024d3957"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/nexus-guide.blend",
+    "bytes": 904674,
+    "sha256": "8afeedad8f13d66a0fedb2b5b925796635975eb336725f840db7d18730b739a8"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/aether-guide.png",
+    "bytes": 780847,
+    "sha256": "30584065e0a8711abd56630bb6b783d4f89c4975a9338aac72b7ad9503a5f7fd"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/pyra-guide.json",
+    "bytes": 299,
+    "sha256": "466f22a6fb10f827c617bc85a023f1ed2462c4b9c6e8711b6ab4e3593fa92213"
+  }
+]
