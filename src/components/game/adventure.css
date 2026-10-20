@@ -59,7 +59,7 @@
 .ki-game-feedback {
   position: absolute;
   left: 50%;
-  top: 105px;
+  top: 160px;
   transform: translateX(-50%);
   max-width: min(480px, calc(100% - 28px));
   padding: 8px 12px;
@@ -242,7 +242,7 @@
 }
 @media (max-height: 500px) {
   .ki-game-feedback {
-    top: 82px;
+    top: 152px;
     max-width: 360px;
     padding: 4px 8px;
     font-size: 11px;

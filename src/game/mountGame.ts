@@ -16,6 +16,8 @@ type Actor = {
   body: Phaser.GameObjects.Container;
   sprite: Phaser.GameObjects.Sprite;
   bar: Phaser.GameObjects.Rectangle;
+  name: Phaser.GameObjects.Text;
+  track: Phaser.GameObjects.Rectangle;
 };
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
@@ -31,6 +33,7 @@ export function mountKileGends(
   }
   const session = new GameSession(new SaveStore(storage));
   class ForestScene extends Phaser.Scene {
+    private actors: Actor[] = [];
     private hero!: Actor;
     private enemies = new Map<string, Actor>();
     private selection!: Phaser.GameObjects.Ellipse;
@@ -208,9 +211,9 @@ export function mountKileGends(
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
         const hit = (p: Point, width: number, height: number) =>
           Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + 20;
-        const npc = session.npcs.find((n) => hit(n, 84, 100));
+        const npc = session.npcs.find((n) => hit(n, 84, 125));
         const enemy = session.enemies
-          .filter((e) => e.hp > 0 && hit(e, 90, 80))
+          .filter((e) => e.hp > 0 && hit(e, 100, 125))
           .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
         const loot = session.loot.find((l) => hit(l, 74, 60));
         if (npc) session.command({ type: "interact", npc: npc.id });
@@ -244,26 +247,35 @@ export function mountKileGends(
         ? this.add.sprite(0, 0, "world-atlas", "boar").setDisplaySize(84, 84).setOrigin(0.5, 0.8)
         : this.add.sprite(0, 0, "hero-sheet", 0).setDisplaySize(96, 96).setOrigin(0.5, 0.95);
       const name = this.add
-        .text(0, -89, label, {
-          fontSize: "16px",
+        .text(p.x, p.y - 94, label, {
+          fontSize: "12px",
           fontFamily: "Arial",
           color: boar ? "#fff0d1" : "#e4fff0",
           stroke: "#183c48",
           strokeThickness: 4,
         })
-        .setOrigin(0.5);
+        .setOrigin(0.5)
+        .setResolution(2)
+        .setDepth(9001);
       if (label === "Wędrowiec") name.setVisible(false);
-      const track = this.add.rectangle(0, -70, 64, 6, 0x16313e);
-      const bar = this.add.rectangle(-32, -70, 64, 6, boar ? 0xe4818e : 0x8de0c6).setOrigin(0, 0.5);
+      const track = this.add.rectangle(p.x, p.y - 76, 64, 6, 0x16313e).setDepth(9000);
+      const bar = this.add
+        .rectangle(p.x - 32, p.y - 76, 64, 6, boar ? 0xe4818e : 0x8de0c6)
+        .setOrigin(0, 0.5)
+        .setDepth(9001);
       if (!boar) {
         track.setVisible(false);
         bar.setVisible(false);
       }
-      return {
-        body: this.add.container(p.x, p.y, [shadow, sprite, name, track, bar]).setDepth(p.y),
+      const actor = {
+        body: this.add.container(p.x, p.y, [shadow, sprite]).setDepth(p.y),
         sprite,
         bar,
+        name,
+        track,
       };
+      this.actors.push(actor);
+      return actor;
     }
     private float(p: Point, text: string, color: string) {
       const label = this.add
@@ -417,10 +429,18 @@ export function mountKileGends(
         const a = this.enemies.get(e.id)!;
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
+        a.name.setVisible(e.hp > 0);
+        a.track.setVisible(e.hp > 0);
+        a.bar.setVisible(e.hp > 0);
         if (e.hp > 0)
           a.sprite.y =
             Math.sin(time / (e.mode === "chase" ? 75 : 180) + e.home.x) *
             (e.mode === "chase" ? 2 : 0.7);
+      }
+      for (const a of this.actors) {
+        a.name.setPosition(a.body.x, a.body.y - 94).setScale(1 / this.cameras.main.zoom);
+        a.track.setPosition(a.body.x, a.body.y - 76);
+        a.bar.setPosition(a.body.x - 32, a.body.y - 76);
       }
       this.selection.setVisible(Boolean(session.target));
       if (session.target)
@@ -442,7 +462,7 @@ export function mountKileGends(
               strokeThickness: 4,
             })
             .setOrigin(0.5);
-          this.loot.set(l.id, this.add.container(l.x, l.y, [icon, label]).setDepth(l.y + 1));
+          this.loot.set(l.id, this.add.container(l.x, l.y, [icon, label]).setDepth(9002));
         }
       for (const [id, body] of this.loot)
         if (!session.loot.some((l) => l.id === id)) {
