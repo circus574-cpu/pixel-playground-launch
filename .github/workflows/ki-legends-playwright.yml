@@ -35,7 +35,6 @@ jobs:
     timeout-minutes: 55
     env:
       CI: "true"
-      PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,7 +49,7 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run browser smoke tests
         if: ${{ github.event.inputs.suite != 'full' }}
-        run: npx playwright test e2e/race-switch.spec.ts e2e/stage31-collision.spec.ts e2e/stage31-ui.spec.ts --project=chromium
+        run: npx playwright test e2e/race-switch.spec.ts e2e/stage31-collision.spec.ts e2e/stage31-ui.spec.ts
       - name: Run all browser tests
         if: ${{ github.event.inputs.suite == 'full' }}
         run: npx playwright test
