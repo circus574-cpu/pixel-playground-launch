@@ -125,6 +125,23 @@ test("failed real resource shows retry and reuses the same saved character", asy
     localStorage.getItem("ki-legends:adventure:v1:active-character"),
   );
   await page.screenshot({ path: evidence + "/loading-error.png" });
+  for (const [width, height] of [
+    [360, 800],
+    [390, 844],
+    [414, 896],
+    [852, 393],
+  ] as const) {
+    await page.setViewportSize({ width, height });
+    const box = await page.locator(".ki-loading-error").boundingBox();
+    expect(box!.y).toBeGreaterThanOrEqual(0);
+    expect(box!.y + box!.height).toBeLessThanOrEqual(height);
+    const footer = page.locator(".ki-loading-footer");
+    if (await footer.isVisible())
+      expect(box!.y + box!.height + 8).toBeLessThanOrEqual((await footer.boundingBox())!.y);
+    await expect(page.getByRole("button", { name: "Ponów próbę", exact: true })).toBeInViewport();
+    await page.screenshot({ path: evidence + "/loading-error-" + width + ".png" });
+  }
+  await page.setViewportSize({ width: 1280, height: 900 });
   const failedRequests = requests;
   failing = false;
   await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
