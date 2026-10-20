@@ -292,7 +292,7 @@ export function mountKileGends(
       const sprite = boar
         ? this.add.sprite(0, 0, "world-atlas", "boar").setDisplaySize(84, 84).setOrigin(0.5, 0.8)
         : this.add
-            .sprite(0, 0, visual.key, 0)
+            .sprite(0, 0, visual.key, walkFrame(visual, visual.directions[0]!, 0))
             .setDisplaySize(visual.width, visual.height)
             .setOrigin(visual.originX, visual.originY);
       const name = this.add

@@ -1,5 +1,6 @@
 .ki-origins {
   --origin-color: #b9d994;
+  height: 100dvh;
   min-height: 100dvh;
   overflow: auto;
   background: radial-gradient(ellipse at 50% 25%, #193138 0%, #0e1a24 47%, #0a111b 100%);

@@ -288,3 +288,10 @@
 .ki-landmark-danger {
   color: #ff9885;
 }
+
+/* Keep touch context actions above the raised skill bar in compact landscape. */
+@media (max-height: 500px) and (max-width: 760px) {
+  .ki-context-actions {
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 118px);
+  }
+}

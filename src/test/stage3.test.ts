@@ -122,7 +122,16 @@ describe("non-destructive character slots", () => {
     expect(store.list().find((s) => s.id === "legacy")?.player?.gold).toBe(178);
   });
   it("keeps corrupt and future saves visible, protected, and allows a separate new game", () => {
-    for (const raw of ["", "{broken", JSON.stringify({ version: 99 })]) {
+    for (const raw of [
+      "",
+      "{broken",
+      JSON.stringify({ version: 99 }),
+      JSON.stringify({
+        version: 3,
+        revision: "incomplete",
+        player: { ...new GameSession().player, race: undefined },
+      }),
+    ]) {
       localStorage.clear();
       localStorage.setItem(SAVE_KEY, raw);
       const store = new CharacterStore(localStorage, SAVE_KEY);

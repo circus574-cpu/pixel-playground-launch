@@ -58,9 +58,9 @@ const status = z.enum(["locked", "active", "ready", "done"]);
 const finite = (max: number) => z.number().finite().min(0).max(max);
 const itemSchema = z.enum(["potion", "tusk", "sword", "vest"]);
 const PlayerSchema = z.object({
-  race: z.enum(RACE_IDS).default("planetary"),
-  continent: z.enum(WORLD_IDS).default("verdant"),
-  startContinent: z.enum(WORLD_IDS).default("verdant"),
+  race: z.enum(RACE_IDS),
+  continent: z.enum(WORLD_IDS),
+  startContinent: z.enum(WORLD_IDS),
   level: z.number().int().min(1).max(100),
   xp: finite(1000000).int(),
   hp: finite(10000),
@@ -155,11 +155,15 @@ export function newPlayer(race: RaceId = "planetary"): Player {
   };
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
-const SaveSchema = z.object({
-  version: z.union([z.literal(1), z.literal(3)]),
-  revision: z.string(),
-  player: PlayerSchema,
+const LegacyPlayerSchema = PlayerSchema.extend({
+  race: z.enum(RACE_IDS).default("planetary"),
+  continent: z.enum(WORLD_IDS).default("verdant"),
+  startContinent: z.enum(WORLD_IDS).default("verdant"),
 });
+const SaveSchema = z.discriminatedUnion("version", [
+  z.object({ version: z.literal(1), revision: z.string(), player: LegacyPlayerSchema }),
+  z.object({ version: z.literal(3), revision: z.string(), player: PlayerSchema }),
+]);
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
 /** Dedicated local demo save. Invalid/newer saves and other tabs are never overwritten. */
