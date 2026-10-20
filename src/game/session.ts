@@ -827,8 +827,8 @@ export class GameSession {
   }
 }
 export type GameViewState = ReturnType<GameSession["snapshot"]>;
-export function initialView(): GameViewState {
-  const p = newPlayer();
+export function initialView(player?: Player): GameViewState {
+  const p = player ? structuredClone(player) : newPlayer();
   return {
     ...p,
     player: p,

@@ -422,3 +422,15 @@
     bottom: max(8px, env(safe-area-inset-bottom));
   }
 }
+
+/* Shared brand mark; location still comes exclusively from the selected world. */
+.ki-location .ki-brand {
+  margin-bottom: 8px;
+}
+.ki-location .ki-brand strong {
+  font:
+    normal 16px/1 Georgia,
+    serif;
+  letter-spacing: 2px;
+  color: #e5c98c;
+}

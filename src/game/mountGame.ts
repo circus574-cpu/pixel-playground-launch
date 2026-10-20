@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import type { GameLoadingState } from "./loading";
 import { CHARACTER_VISUALS, SHARED_ASSETS, regionAssets } from "./world/assets";
 import { facingDirection, walkFrame } from "./world/characterVisual";
 import { RACES, type RaceId } from "./world/races";
@@ -27,8 +28,12 @@ type Actor = {
 export function mountKileGends(
   parent: HTMLElement,
   onState?: (state: GameViewState) => void,
-  options?: { saveKey: string; race: RaceId },
+  options?: { saveKey: string; race: RaceId; onLoading?: (state: GameLoadingState) => void },
 ): () => void {
+  let disposed = false;
+  const loading = (state: GameLoadingState) => {
+    if (!disposed) options?.onLoading?.(state);
+  };
   let storage: Storage | null = null;
   try {
     storage = window.localStorage;
@@ -64,8 +69,27 @@ export function mountKileGends(
       super("Forest");
     }
     preload() {
+      loading({
+        phase: "assets",
+        message: "Ładowanie kontynentu: " + world.name + "…",
+        progress: 0,
+      });
+      this.load.on("progress", (progress: number) => {
+        if (!this.loadFailed)
+          loading({
+            phase: "assets",
+            message: "Ładowanie kontynentu: " + world.name + "…",
+            progress,
+          });
+      });
       this.load.on("loaderror", () => {
         this.loadFailed = true;
+        loading({
+          phase: "error",
+          progress: null,
+          message:
+            "Nie udało się pobrać zasobów świata. Sprawdź połączenie i ponów próbę. Twój zapis pozostaje bezpieczny.",
+        });
       });
       this.load.image(SHARED_ASSETS.creatures.key, SHARED_ASSETS.creatures.url);
       if (visual.kind === "atlas" && visual.atlasUrl)
@@ -86,14 +110,27 @@ export function mountKileGends(
     }
     create() {
       if (this.loadFailed) {
-        parent.dispatchEvent(
-          new CustomEvent("ki:error", {
-            detail: "Nie udało się wczytać zasobów świata. Odśwież stronę.",
-          }),
-        );
         this.scene.pause();
         return;
       }
+      loading({ phase: "building", message: "Przywoływanie bohatera…", progress: null });
+      try {
+        this.initializeWorld();
+        this.game.events.once(Phaser.Core.Events.POST_RENDER, () => {
+          if (!this.loadFailed)
+            loading({ phase: "ready", message: "Świat gotowy", progress: null });
+        });
+      } catch {
+        this.loadFailed = true;
+        loading({
+          phase: "error",
+          progress: null,
+          message: "Nie udało się przygotować świata. Ponów próbę. Zapis postaci został zachowany.",
+        });
+        this.scene.pause();
+      }
+    }
+    private initializeWorld() {
       const atlas = this.textures.get("world-atlas");
       const source = atlas.getSourceImage() as HTMLImageElement;
       atlas.add(
@@ -532,6 +569,7 @@ export function mountKileGends(
     type: Phaser.AUTO,
     pixelArt: false,
     antialias: true,
+    loader: { timeout: 20000, maxRetries: 1 },
     parent,
     width: parent.clientWidth || 960,
     height: parent.clientHeight || 540,
@@ -540,6 +578,7 @@ export function mountKileGends(
     scene: [ForestScene],
   });
   return () => {
+    disposed = true;
     session.flush();
     game.destroy(true);
   };

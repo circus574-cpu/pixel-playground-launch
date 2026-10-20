@@ -1,0 +1,291 @@
+.ki-bootstrap {
+  position: relative;
+  height: 100dvh;
+  background: #0c1722;
+}
+.ki-loading-screen {
+  --loading-color: #d9c58c;
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #eae3ce;
+  background: #0a1720;
+  font:
+    13px/1.7 Arial,
+    sans-serif;
+}
+.ki-loading-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+}
+.ki-loading-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, #0b172067, #07131cea 75%),
+    linear-gradient(0deg, #07121c, transparent 40%, #07121c7a);
+}
+.ki-loading-content {
+  position: relative;
+  width: min(580px, calc(100% - 48px));
+  padding: 35px 0;
+  text-align: center;
+}
+.ki-loading-brand {
+  position: relative;
+}
+.ki-loading-screen .ki-brand {
+  flex-direction: column;
+  gap: 18px;
+}
+.ki-loading-screen .ki-brand > svg {
+  width: 76px;
+  height: 76px;
+}
+.ki-loading-screen .ki-brand strong {
+  font-size: clamp(36px, 5.5vw, 64px);
+  letter-spacing: 5px;
+}
+.ki-loading-screen .ki-brand small {
+  display: none;
+}
+.ki-loading-motto {
+  position: relative;
+  color: #d5d8c7;
+  font:
+    normal 18px Georgia,
+    serif;
+  margin: 17px 0 35px;
+  letter-spacing: 1px;
+}
+.ki-energy-orbit {
+  position: absolute;
+  top: 5px;
+  left: calc(50% - 105px);
+  width: 210px;
+  height: 210px;
+  border: 1px solid color-mix(in srgb, var(--loading-color) 22%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 70px color-mix(in srgb, var(--loading-color) 9%, transparent);
+  animation: ki-orbit-breathe 5s ease-in-out infinite;
+}
+.ki-energy-orbit::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid color-mix(in srgb, var(--loading-color) 15%, transparent);
+  transform: rotate(45deg);
+}
+.ki-loading-location {
+  position: relative;
+  color: var(--loading-color);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 28px 0 20px;
+}
+.ki-loading-progress {
+  position: relative;
+  height: 5px;
+  background: #b5bdb41c;
+  border: 1px solid #b8bd9e26;
+  width: 82%;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.ki-loading-progress > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #a88b50, var(--loading-color));
+  box-shadow: 0 0 12px var(--loading-color);
+}
+.ki-loading-progress[data-indeterminate="true"] > span {
+  width: 30%;
+  animation: ki-load-search 1.8s ease-in-out infinite;
+}
+.ki-loading-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: 82%;
+  margin: 15px auto 0;
+  color: #b5c9c5;
+  font-size: 12px;
+  text-align: left;
+}
+.ki-loading-status strong {
+  font-weight: normal;
+  color: #e2d09d;
+  font-variant-numeric: tabular-nums;
+}
+.ki-loading-caption {
+  display: block;
+  width: 82%;
+  margin: 7px auto 0;
+  text-align: left;
+  color: #768f93;
+  font-size: 9px;
+}
+.ki-loading-footer {
+  position: absolute;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #a6b9b4;
+  text-align: center;
+  font-size: 11px;
+}
+.ki-loading-footer small {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: #748b8e;
+}
+.ki-loading-error {
+  position: relative;
+  background: #0e2029ed;
+  border: 1px solid #be9a6460;
+  border-radius: 5px;
+  padding: 24px;
+  margin-top: 10px;
+}
+.ki-loading-error h1 {
+  font:
+    normal 24px Georgia,
+    serif;
+  color: #e8d1a3;
+  margin: 0 0 14px;
+}
+.ki-loading-error p {
+  color: #b9cac4;
+  margin: 12px 0 20px;
+  font-size: 13px;
+}
+.ki-loading-error > div {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ki-loading-error button {
+  font:
+    12px Arial,
+    sans-serif;
+  cursor: pointer;
+  min-height: 46px;
+  padding: 12px 20px;
+  color: #e3e3cd;
+  border: 1px solid #adb5a65c;
+  border-radius: 3px;
+  background: #233d43;
+}
+.ki-loading-error .ki-load-retry {
+  background: linear-gradient(135deg, #dec38b, #b79659);
+  color: #182731;
+  border-color: #ddc58e;
+}
+.ki-loading-error button:focus-visible {
+  outline: 3px solid #e5d28f;
+  outline-offset: 3px;
+}
+@keyframes ki-orbit-breathe {
+  50% {
+    opacity: 0.4;
+    transform: scale(1.025);
+  }
+}
+@keyframes ki-load-search {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(440%);
+  }
+}
+@media (max-width: 600px) {
+  .ki-loading-screen .ki-brand strong {
+    font-size: 38px;
+    letter-spacing: 3px;
+  }
+  .ki-loading-screen .ki-brand > svg {
+    width: 62px;
+    height: 62px;
+  }
+  .ki-loading-motto {
+    font-size: 16px;
+  }
+  .ki-loading-content {
+    width: calc(100% - 32px);
+  }
+  .ki-loading-status,
+  .ki-loading-progress,
+  .ki-loading-caption {
+    width: 90%;
+  }
+  .ki-loading-footer {
+    bottom: max(22px, env(safe-area-inset-bottom));
+    font-size: 10px;
+  }
+  .ki-loading-error {
+    padding: 20px 14px;
+  }
+  .ki-loading-error h1 {
+    font-size: 22px;
+  }
+}
+@media (max-height: 500px) {
+  .ki-loading-content {
+    padding: 5px 0;
+  }
+  .ki-loading-screen .ki-brand {
+    flex-direction: row;
+    gap: 15px;
+  }
+  .ki-loading-screen .ki-brand > svg {
+    width: 46px;
+    height: 46px;
+  }
+  .ki-loading-screen .ki-brand strong {
+    font-size: 42px;
+  }
+  .ki-loading-motto {
+    margin: 12px 0 16px;
+    font-size: 16px;
+  }
+  .ki-loading-location {
+    margin: 15px 0;
+  }
+  .ki-energy-orbit {
+    display: none;
+  }
+  .ki-loading-footer {
+    bottom: 14px;
+    gap: 4px;
+  }
+  .ki-loading-error {
+    padding: 12px 18px;
+  }
+  .ki-loading-error p {
+    margin: 8px 0 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce), (update: slow) {
+  .ki-energy-orbit,
+  .ki-loading-progress[data-indeterminate="true"] > span {
+    animation: none;
+  }
+  .ki-loading-progress[data-indeterminate="true"] > span {
+    opacity: 0.55;
+  }
+}

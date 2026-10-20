@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { GameLoadingScreen } from "../components/game/GameLoadingScreen";
+import { preparingWorld, type GameLoadingState } from "../game/loading";
 import { CharacterSelection } from "../components/game/CharacterSelection";
 import { CharacterStore, type CharacterSlot } from "../game/characters";
 import { playtestSaveKey } from "../game/playtest";
@@ -57,8 +59,8 @@ export function Index() {
   };
   if (!loaded)
     return (
-      <main className="ki-origins">
-        <p role="status">Otwieranie kronik Ki Legends…</p>
+      <main className="ki-bootstrap">
+        <GameLoadingScreen state={preparingWorld()} />
       </main>
     );
   if (active?.player)
@@ -83,8 +85,9 @@ function GameScreen({ slot, onExit }: { slot: CharacterSlot; onExit: () => void 
   const [zoom, setZoom] = useState(0.62);
   const [fullscreen, setFullscreen] = useState(false);
   const [displayNotice, setDisplayNotice] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [state, setState] = useState<GameViewState>(initialView);
+  const [loading, setLoading] = useState<GameLoadingState>(preparingWorld);
+  const [attempt, setAttempt] = useState(0);
+  const [state, setState] = useState<GameViewState>(() => initialView(slot.player!));
   const sendCommand = useCallback((command: Command) => {
     container.current?.dispatchEvent(new CustomEvent("ki:command", { detail: command }));
   }, []);
@@ -115,9 +118,8 @@ function GameScreen({ slot, onExit }: { slot: CharacterSlot; onExit: () => void 
     }
   }
   useEffect(() => {
-    const resourceError = (event: Event) => setError(String((event as CustomEvent<string>).detail));
-    container.current?.addEventListener("ki:error", resourceError);
-    const host = container.current;
+    setLoading(preparingWorld());
+    setState(initialView(slot.player!));
     let cancelled = false;
     let cleanup: (() => void) | undefined;
     import("../game/mountGame")
@@ -128,34 +130,58 @@ function GameScreen({ slot, onExit }: { slot: CharacterSlot; onExit: () => void 
             (next) => {
               if (!cancelled) setState(next);
             },
-            { saveKey: slot.key, race: slot.player!.race },
+            {
+              saveKey: slot.key,
+              race: slot.player!.race,
+              onLoading: (next) => {
+                if (!cancelled) setLoading(next);
+              },
+            },
           );
       })
-      .catch((e: unknown) => {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Nie można uruchomić gry");
+      .catch(() => {
+        if (!cancelled)
+          setLoading({
+            phase: "error",
+            message: "Nie można uruchomić silnika gry. Sprawdź połączenie i ponów próbę.",
+            progress: null,
+            reload: true,
+          });
       });
     return () => {
       cancelled = true;
-      host?.removeEventListener("ki:error", resourceError);
       cleanup?.();
     };
-  }, [slot.key, slot.player]);
+  }, [slot.key, slot.player, attempt]);
   return (
     <main ref={stage} className="ki-stage">
       <div ref={container} className="ki-canvas" aria-label="Ki Legends — ekran gry" />
-      <GameHud
-        state={state}
-        error={error}
-        zoom={zoom}
-        onZoom={changeZoom}
-        fullscreen={fullscreen}
-        onFullscreen={() => void toggleFullscreen()}
-        onCommand={sendCommand}
-        onCharacters={() => {
-          container.current?.dispatchEvent(new Event("ki:flush"));
-          onExit();
-        }}
-      />
+      {state.ready && loading.phase === "ready" && (
+        <GameHud
+          state={state}
+          error={null}
+          zoom={zoom}
+          onZoom={changeZoom}
+          fullscreen={fullscreen}
+          onFullscreen={() => void toggleFullscreen()}
+          onCommand={sendCommand}
+          onCharacters={() => {
+            container.current?.dispatchEvent(new Event("ki:flush"));
+            onExit();
+          }}
+        />
+      )}
+      {loading.phase !== "ready" && (
+        <GameLoadingScreen
+          state={loading}
+          race={slot.player!.race}
+          onRetry={() => {
+            if (loading.phase === "error" && loading.reload) window.location.reload();
+            else setAttempt((value) => value + 1);
+          }}
+          onBack={onExit}
+        />
+      )}
       {testMode && (
         <div className="ki-playtest-badge">
           TEST 3 · oddzielny zapis · <a href="/">Powrót</a>

@@ -1,3 +1,4 @@
+import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
 import { useEffect, useState } from "react";
@@ -41,7 +42,6 @@ function Icon({ index, className = "" }: { index: number; className?: string }) 
 
 export function GameHud({
   state,
-  error,
   zoom,
   onZoom,
   fullscreen,
@@ -99,7 +99,7 @@ export function GameHud({
             className="ki-meter ki-hp"
             role="meter"
             aria-label="Zdrowie"
-            aria-valuenow={Math.round(player.hp)}
+            aria-valuenow={Math.ceil(player.hp)}
             aria-valuemin={0}
             aria-valuemax={state.stats.maxHp}
           >
@@ -112,7 +112,7 @@ export function GameHud({
             className="ki-meter ki-energy"
             role="meter"
             aria-label="Energia KI"
-            aria-valuenow={Math.round(player.ki)}
+            aria-valuenow={Math.floor(player.ki)}
             aria-valuemin={0}
             aria-valuemax={state.stats.maxKi}
           >
@@ -190,7 +190,7 @@ export function GameHud({
         <span className="ki-quest-arrow">›</span>
       </button>
       <div className="ki-location">
-        <span>KI LEGENDS</span>
+        <BrandMark compact />
         <strong>{world.settlement}</strong>
         <i />
         {world.name}
@@ -412,15 +412,6 @@ export function GameHud({
         <button className="ki-notice ki-frame" onClick={() => setNotice("")}>
           {notice} <span>×</span>
         </button>
-      )}
-      {(!state.ready || error) && (
-        <div className="ki-loading">
-          <div className="ki-frame">
-            <span className="ki-loading-rune">◆</span>
-            <h1>KI LEGENDS</h1>
-            <p>{error || "Wkraczasz do: " + world.settlement + "…"}</p>
-          </div>
-        </div>
       )}
       {panel && (
         <div className="ki-modal-backdrop" onClick={() => setPanel(null)}>
