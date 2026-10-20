@@ -225,20 +225,27 @@ export function GameHud({
           </div>
         </div>
       </section>
-      {state.target && (
-        <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik">
-          <span>
-            {state.target.inRange ? "BESTIA · ATAK W ZASIĘGU" : "BESTIA · PODEJDŹ BLIŻEJ"}
-          </span>
-          <strong>{state.target.name}</strong>
-          <div className="ki-meter ki-hp">
-            <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
+      <div className="ki-status-stack">
+        {state.target && (
+          <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik">
             <span>
-              {state.target.hp} / {state.target.maxHp}
+              {state.target.inRange ? "BESTIA · ATAK W ZASIĘGU" : "BESTIA · PODEJDŹ BLIŻEJ"}
             </span>
+            <strong>{state.target.name}</strong>
+            <div className="ki-meter ki-hp">
+              <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
+              <span>
+                {state.target.hp} / {state.target.maxHp}
+              </span>
+            </div>
+          </section>
+        )}
+        {!panel && !state.dialogue && (
+          <div className="ki-notification-rail" aria-label="Powiadomienia gry">
+            {feedback}
           </div>
-        </section>
-      )}
+        )}
+      </div>
       <section
         className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
         aria-label="Minimapa"
@@ -528,11 +535,7 @@ export function GameHud({
           )}
         </div>
       )}
-      {!panel && !state.dialogue && (
-        <div className="ki-notification-rail" aria-label="Powiadomienia gry">
-          {feedback}
-        </div>
-      )}
+
       {player.dead && (
         <div className="ki-death-overlay" role="status">
           Zostałeś pokonany · odrodzenie za chwilę
