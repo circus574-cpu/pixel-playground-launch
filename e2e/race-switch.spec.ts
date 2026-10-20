@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect } from "./fixtures";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
@@ -26,7 +27,7 @@ for (const viewport of [
       ["Androidy", "nexus"],
       ["Legendy", "pyra"],
     ]) {
-      await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+      await openHudTool(page, "Ustawienia");
       if (name === "Mędrcy") await page.screenshot({ path: info.outputPath("settings.png") });
       await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
       await expect(page.getByRole("region", { name: "Cztery rasy" })).toBeVisible();
@@ -39,7 +40,7 @@ for (const viewport of [
       await expect(page.locator(".ki-hud")).toBeVisible();
       await expect(page.locator(".ki-canvas")).toHaveAttribute("data-world", world!);
     }
-    await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+    await openHudTool(page, "Ustawienia");
     await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
     const old = await page.evaluate(
       ({ base, id }) => JSON.parse(localStorage.getItem(base + ":character:" + id)!),

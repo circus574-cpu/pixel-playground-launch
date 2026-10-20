@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
@@ -194,7 +195,7 @@ test("HP and KI remain separate at low, middle, maximum values and interface sca
     );
     await page.reload();
     await expect(page.locator(".ki-hud")).toBeVisible();
-    await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+    await openHudTool(page, "Ustawienia");
     const health = page.getByRole("meter", { name: "Zdrowie", exact: true }),
       energy = page.getByRole("meter", { name: "Energia KI", exact: true });
     const visibleHp = Number(await health.getAttribute("aria-valuenow"));

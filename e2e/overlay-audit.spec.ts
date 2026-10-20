@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
@@ -10,7 +11,7 @@ async function start(page: Page, race = "Legendy") {
   await expect(page.locator(".ki-hud")).toBeVisible();
 }
 async function settings(page: Page) {
-  await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+  await openHudTool(page, "Ustawienia");
 }
 async function listenerCount(cdp: CDPSession) {
   const response = await cdp.send("Runtime.evaluate", {
@@ -65,8 +66,11 @@ for (const [width, height] of [
         ".ki-actionbar",
         ".ki-context-actions",
         ".ki-view-controls",
-      ])
-        expect(overlaps(box, (await page.locator(selector).boundingBox())!), selector).toBe(false);
+      ]) {
+        const other = await page.locator(selector).boundingBox();
+        if (other) expect(overlaps(box, other), selector).toBe(false);
+        else expect(selector).toBe(".ki-view-controls"); // Folded into the voluntary mobile menu.
+      }
       // Real camera-space hero bounds, including camera clamping on portrait maps.
       const hero = await canvas.evaluate((el) => {
         const z = Number((el as HTMLElement).dataset["zoom"]),
@@ -118,22 +122,26 @@ for (const [width, height] of [
       await expect.poll(async () => Number(await canvas.getAttribute("data-npc-labels"))).toBe(0);
       await expect
         .poll(async () => (await page.locator(".ki-map").boundingBox())!.width)
-        .toBe(width <= 760 ? 130 : 180);
+        .toBe(width <= 760 || height <= 500 ? 130 : 180);
       expect(
         overlaps(
           (await page.locator(".ki-map").boundingBox())!,
           (await page.locator(".ki-player").boundingBox())!,
         ),
       ).toBe(false);
+      const menuToggle = page.getByRole("button", { name: "Menu gry", exact: true });
+      const compact = await menuToggle.isVisible();
+      if (compact) await menuToggle.click();
       expect(
         overlaps(
           (await page.locator(".ki-map").boundingBox())!,
           (await page.locator(".ki-view-controls").boundingBox())!,
         ),
       ).toBe(false);
+      if (compact) await menuToggle.click();
       await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
       await expect(message).toHaveCount(0);
-      await page.getByRole("button", { name: /Czat lokalny/ }).click();
+      await openHudTool(page, "Czat lokalny");
       await expect(page.getByRole("log")).toContainText("Wybierz dzika");
       await page.getByRole("tab", { name: "Ogólny", exact: true }).click();
       await page

@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
 import { readFileSync } from "node:fs";
@@ -94,6 +95,6 @@ for (const race of RACE_IDS)
     expect(travelled).toBeLessThan(35);
     await expect(page.locator(".ki-map-marker").first()).toBeVisible();
     expect((await page.locator("canvas").boundingBox())!.width).toBe(1280);
-    await page.getByRole("button", { name: "Przybliż mapę", exact: true }).click();
+    await openHudTool(page, "Przybliż mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.7");
   });

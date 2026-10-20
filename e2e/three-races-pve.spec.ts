@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, type RaceId } from "../src/game/world/races";
 import { WORLDS } from "../src/game/world/worlds";
@@ -86,7 +87,7 @@ for (const race of races) {
     await expect
       .poll(async () => (await state(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
-    await page.getByRole("button", { name: "Dziennik", exact: true }).click();
+    await openHudTool(page, "Dziennik");
     await page.getByRole("button", { name: "Idź do " + race.guide, exact: true }).click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     await close(page);
@@ -161,7 +162,7 @@ for (const race of races) {
     );
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
     await close(page);
-    await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+    await openHudTool(page, "Ekwipunek");
     await page.getByRole("button", { name: "Załóż", exact: true }).click();
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
     await visit(
@@ -181,7 +182,7 @@ for (const race of races) {
     await page.getByRole("button", { name: "Sprzedaj · 5", exact: true }).click();
     await page.getByRole("button", { name: "Kup · 25", exact: true }).click();
     await close(page);
-    await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+    await openHudTool(page, "Ekwipunek");
     await page.getByRole("button", { name: "Załóż", exact: true }).click();
     await expect(page.getByRole("button", { name: "Zdejmij pancerz", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();

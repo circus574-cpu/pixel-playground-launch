@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect } from "./fixtures";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
@@ -49,7 +50,7 @@ test("C: a real v1 fixture migrates in the browser without changing the original
   expect(state.migrant.player.gold).toBe(177);
   expect(state.migrant.player.quests.steps).toBe("done");
   await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
-  await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+  await openHudTool(page, "Ustawienia");
   await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
   await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
   await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();

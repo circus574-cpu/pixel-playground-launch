@@ -47,3 +47,18 @@ export const test = base.extend<{ diagnostics: void }>({
     { auto: true },
   ],
 });
+
+/** Mobile tools are deliberately folded; follow the same taps as a player. */
+export async function openHudTool(page: import("@playwright/test").Page, name: string) {
+  const button = page.getByRole("button", { name, exact: true });
+  if (!(await button.isVisible()))
+    await page.getByRole("button", { name: "Menu gry", exact: true }).click();
+  await button.click();
+  const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+  if (
+    (name === "Oddal mapę" || name === "Przybliż mapę") &&
+    (await toggle.isVisible()) &&
+    (await toggle.getAttribute("aria-expanded")) === "true"
+  )
+    await toggle.click();
+}
