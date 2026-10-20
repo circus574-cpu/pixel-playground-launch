@@ -1,3 +1,4 @@
+import { terrainCacheBytes } from "../../src/game/world/terrainBlits.ts";
 import sharp from "sharp";
 import { createHash } from "node:crypto";
 import { readFile, writeFile, mkdir, realpath, rename, rm, stat } from "node:fs/promises";
@@ -293,7 +294,10 @@ export async function validatePackage(manifest: string) {
   return { pack, infos, files };
 }
 export async function checkActiveAssets(root = process.cwd()) {
-  const results: Record<string, { textures: number; rgbaBytes: number }> = {};
+  const results: Record<
+    string,
+    { textures: number; rgbaBytes: number; terrainCacheBytes: number }
+  > = {};
   const measured = new Map<string, Inspected>();
   for (const a of catalog.assets.values())
     measured.set(
@@ -312,10 +316,17 @@ export async function checkActiveAssets(root = process.cwd()) {
       bytes += i.width * i.height * 4;
     }
     requireThat(
-      bytes <= GPU_CONTRACT.maxWorldTextureBytes,
+      bytes +
+        (world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0) <=
+        GPU_CONTRACT.maxWorldTextureBytes,
       "World exceeds 128 MiB decoded texture budget: " + world,
     );
-    results[world] = { textures: assets.length, rgbaBytes: bytes };
+    results[world] = {
+      textures: assets.length,
+      rgbaBytes: bytes,
+      terrainCacheBytes:
+        world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0,
+    };
     validateWorldReferences(world, catalog, measured);
   }
   return results;
@@ -415,10 +426,14 @@ export async function importPackage(
       bytes += info.width * info.height * 4;
     }
     requireThat(
-      bytes <= GPU_CONTRACT.maxWorldTextureBytes,
+      bytes +
+        (world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0) <=
+        GPU_CONTRACT.maxWorldTextureBytes,
       "World exceeds decoded texture budget: " + world,
     );
-    worlds[world] = bytes;
+    worlds[world] =
+      bytes +
+      (world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0);
     validateWorldReferences(world, combined, measured);
   }
   const result = {

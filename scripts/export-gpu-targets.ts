@@ -1,3 +1,4 @@
+import { FOREST } from "../src/game/world/forest.ts";
 import { writeFile } from "node:fs/promises";
 import { GPU_CONTRACT } from "../src/game/assets/contract.ts";
 import { WORLDS } from "../src/game/world/worlds.ts";
@@ -26,6 +27,7 @@ const targets = {
         terrain: w.terrain ?? {
           format: "forest-autotile-64-margin2-spacing4",
           sourceAtlas: [1904, 1904],
+          worldTileSize: FOREST.tileSize,
         },
         actorBindings: [
           w.id + ".hero",

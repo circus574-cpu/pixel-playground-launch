@@ -96,7 +96,7 @@ npm run test:e2e
 
 ## Inne formaty i manifest
 
-Importer przyjmuje PNG/WebP z prawdziwymi pikselami 8-bitowymi, image, spritesheet lub Phaser JSON hash. Odrzuca zdalne URL, ścieżki wychodzące poza dostawę, uszkodzone obrazy, brakujące klatki, błędne wymiary, zduplikowane identyfikatory, obrót ramek oraz błędny trim. Atlas maks. **2048 px na bok**, wejście obrazu maks. 32 MiB, zoptymalizowany obraz maks. 8 MiB. Aktywny świat maks. **128 MiB bazowych tekstur RGBA**; to budżet, nie gwarancja FPS ani pełny pomiar pamięci GPU.
+Importer przyjmuje PNG/WebP z prawdziwymi pikselami 8-bitowymi, image, spritesheet lub Phaser JSON hash. Odrzuca zdalne URL, ścieżki wychodzące poza dostawę, uszkodzone obrazy, brakujące klatki, błędne wymiary, zduplikowane identyfikatory, obrót ramek oraz błędny trim. Atlas maks. **2048 px na bok**, wejście obrazu maks. 32 MiB, zoptymalizowany obraz maks. 8 MiB. Aktywny świat maks. **128 MiB bazowych tekstur RGBA**, z rezerwą **25 165 824 B** na sześć chunków terenu Verdantii; to budżet, nie gwarancja FPS ani pełny pomiar pamięci GPU.
 
 Atlasy mogą być trimowane przy zachowaniu `sourceSize` i `spriteSourceSize` oraz stałej kotwicy; `rotated` musi być false. Pola `pivot`/`anchor` w klatkach są odrzucane: Phaser nadpisuje nimi kotwicę przy każdej zmianie klatki; kotwica pochodzi wyłącznie z konfiguracji aktora/mapy. Repeatable terrain/weather nie może być trimowane. Packer postaci świadomie zachowuje pełne canvasy i przezroczyste brzegi. Ręczny packer obiektów musi zapewnić padding/extrude przeciw przeciekom; obiekt nie może dotykać sąsiedniej ramki.
 
@@ -124,13 +124,13 @@ Konkretne identyfikatory instancji pobierać z pliku targets, nie zgadywać z pr
 
 ### Szczególny przypadek Verdantii
 
-Zachowujemy zaakceptowany układ lasu. Atlas podłoża **1904×1904**, komórka **64**, margin **2**, spacing **4**, siatka **28×28**. Indeksy 0–15 to trawa, kolejne grupy po 256 to soil/stone/water zgodnie z `forest.ts` i `build_anime_forest.py`. Cztery warstwy tilemapy i ich dane pozostają. Zamiana `terrain.verdant` wymaga pełnego obrazu w tym układzie, bez atlasowego `frame` ani `tileSize`.
+Zachowujemy zaakceptowany układ lasu. Atlas podłoża **1904×1904**, komórka **64**, margin **2**, spacing **4**, siatka **28×28**. Komórka źródłowa 64 px jest w obecnym lesie skalowana do **32 jednostek świata**; nie pomylić jej z kaflami 64 jednostek w trzech nowych krainach. Indeksy 0–15 to trawa, kolejne grupy po 256 to soil/stone/water zgodnie z `forest.ts` i `build_anime_forest.py`. Cztery warstwy danych pozostają. Domyślnie są składane raz, wraz ze statycznymi cieniami, do sześciu tekstur po 1024²; oryginalny renderer tilemap zachowano jako fallback przez `STATIC_TERRAIN_CACHE_ENABLED=false`. Zamiana `terrain.verdant` wymaga pełnego obrazu w tym układzie, bez atlasowego `frame` ani `tileSize`.
 
 Obiekty lasu mogą być zastępowane osobnymi referencjami atlasowymi `object.forest.oak` itd. oraz konkretnymi instancjami `object.verdant.<id>`. Nie trzeba przerabiać mapy na jednolity obraz.
 
 ## Warstwy, ładowanie, rollback
 
-Podłoże i ścieżki → dekoracje pod stopami → obiekty i aktorzy sortowani po Y stóp → overhead → atmosfera → walka → etykiety/sterowanie. Las ma osobne warstwy masek terenu. Obiekty/cienie poza kamerą są culled; zasłaniająca grafika nadal przygasa do 0.28. Nie wolno wypalać całego miasta ani mapy do jednej tekstury.
+Podłoże i ścieżki → dekoracje pod stopami → obiekty i aktorzy sortowani po Y stóp → overhead → atmosfera → walka → etykiety/sterowanie. Las ma osobne warstwy masek terenu. Chunki podłoża i obiekty poza kamerą są culled; cienie statyczne są wypalone wyłącznie w warstwie pod stopami i nie tworzą osobnych obiektów każdej klatki. Cache nie zawiera budynków, koron, aktorów ani footprintów. Zwolnienie sceny usuwa wygenerowane tekstury; zasłaniająca grafika nadal przygasa do 0.28. Nie wolno wypalać całego miasta ani mapy do jednej tekstury.
 
 Scena ładuje tylko referencje bieżącego świata, aktorów i efektów. Ilustracje pochodzenia nie są sprite'ami. Neutralny rig nie jest ładowany w normalnej grze; podgląd jest dostępny wyłącznie pod lokalnym `/scripts/playtest.html?ki-art=technical`.
 

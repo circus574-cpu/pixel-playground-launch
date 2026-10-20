@@ -75,6 +75,8 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   });
   // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
+    terrainMode: "region",
+    dispose: () => {},
     updateVisibility(player: Point) {
       updateAtmosphere();
       const view = scene.cameras.main.worldView;

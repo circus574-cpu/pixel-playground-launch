@@ -334,3 +334,27 @@ for (const race of RACE_IDS)
     expect(p.x).toBeLessThanOrEqual(world.width - 16);
     await page.screenshot({ path: info.outputPath(race + "-world-edge.png") });
   });
+
+test("malformed scenery atlas fails with a named error and retries without losing the slot", async ({
+  page,
+}) => {
+  await page.route("**/anime-forest-v1/objects.json", (route) =>
+    route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
+  );
+  await page.goto(entry);
+  await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
+  await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  const error = page.getByRole("alert", { name: "Ładowanie Ki Legends", exact: true });
+  await expect(error).toBeVisible();
+  await expect(error).toContainText("Brak klatki świata: forest-objects/");
+  const slot = await page.evaluate(() =>
+    localStorage.getItem("ki-legends:adventure:v1:active-character"),
+  );
+  await page.unroute("**/anime-forest-v1/objects.json");
+  await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
+  await expect(page.locator(".ki-hud")).toBeVisible();
+  expect(
+    await page.evaluate(() => localStorage.getItem("ki-legends:adventure:v1:active-character")),
+  ).toBe(slot);
+  await expect(page.locator(".ki-canvas")).toHaveAttribute("data-terrain-mode", "cached");
+});

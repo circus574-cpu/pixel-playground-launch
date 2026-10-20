@@ -52,42 +52,28 @@ try {
         if (m.type() === "error") errors.push(m.text());
         if (m.text().includes("Phaser v4.2.1 (")) headers.push(m.text());
       });
-      await page.addInitScript(() => {
-        const counters = { calls: 0 };
-        (window as Window & { __kiDrawCalls?: typeof counters }).__kiDrawCalls = counters;
-        const seen = new Map<object, Set<string>>();
+      // Literal browser code avoids tsx/esbuild's Node-only __name helper in serialization.
+      await page.addInitScript({
+        content: `(() => {
+        const counters = {calls: 0}; window.__kiDrawCalls = counters;
+        const seen = new Map();
         for (const context of [window.WebGLRenderingContext, window.WebGL2RenderingContext]) {
           if (!context) continue;
-          let proto: object | null = context.prototype;
+          let proto = context.prototype;
           while (proto && proto !== Object.prototype) {
-            for (const key of [
-              "drawArrays",
-              "drawElements",
-              "drawArraysInstanced",
-              "drawElementsInstanced",
-            ]) {
+            for (const key of ["drawArrays", "drawElements", "drawArraysInstanced", "drawElementsInstanced"]) {
               const descriptor = Object.getOwnPropertyDescriptor(proto, key);
-              if (
-                !descriptor ||
-                typeof descriptor.value !== "function" ||
-                seen.get(proto)?.has(key)
-              )
-                continue;
-              const keys = seen.get(proto) ?? new Set<string>();
-              keys.add(key);
-              seen.set(proto, keys);
-              const original = descriptor.value as (...args: unknown[]) => unknown;
-              Object.defineProperty(proto, key, {
-                ...descriptor,
-                value: function (this: unknown, ...args: unknown[]) {
-                  counters.calls++;
-                  return Reflect.apply(original, this, args);
-                },
-              });
+              if (!descriptor || typeof descriptor.value !== "function" || seen.get(proto)?.has(key)) continue;
+              const keys = seen.get(proto) || new Set(); keys.add(key); seen.set(proto, keys);
+              const original = descriptor.value;
+              Object.defineProperty(proto, key, {...descriptor, value: function(...args) {
+                counters.calls++; return Reflect.apply(original, this, args);
+              }});
             }
-            proto = Object.getPrototypeOf(proto) as object | null;
+            proto = Object.getPrototypeOf(proto);
           }
         }
+      })();`,
       });
       const opened = performance.now();
       await page.goto(base);

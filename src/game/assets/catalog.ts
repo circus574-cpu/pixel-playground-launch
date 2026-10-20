@@ -57,6 +57,8 @@ const baseAssets: AssetDefinition[] = [
     version: "legacy-2",
     kind: "image",
     url: human.url,
+    width: 1254,
+    height: 1254,
     grid: { columns: human.columns, rows: human.directions.length },
   },
   {
@@ -64,6 +66,8 @@ const baseAssets: AssetDefinition[] = [
     version: "legacy-1",
     kind: "image",
     url: SHARED_ASSETS.creatures.url,
+    width: 1254,
+    height: 1254,
     crops: [{ name: "boar", x: 646.59375, y: 685.78125, width: 607.40625, height: 568.21875 }],
   },
   {
@@ -71,6 +75,8 @@ const baseAssets: AssetDefinition[] = [
     version: "anime-forest-1",
     kind: "sheet",
     url: SHARED_ASSETS.ui.url,
+    width: 768,
+    height: 768,
     frameWidth: 256,
     frameHeight: 256,
   },
@@ -88,6 +94,8 @@ const baseAssets: AssetDefinition[] = [
     kind: "atlas",
     url: SHARED_ASSETS.forestObjects.url,
     atlasUrl: SHARED_ASSETS.forestObjects.atlas,
+    width: 2048,
+    height: 1536,
   },
   ...[
     ...new Map(

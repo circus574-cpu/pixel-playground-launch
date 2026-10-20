@@ -2,7 +2,7 @@ import { INTERACTION_BOUNDS } from "./geometry";
 import Phaser from "phaser";
 import { readUiPreferences } from "./uiPreferences";
 import type { GameLoadingState } from "./loading";
-import { actorVisual, catalog, worldAssets } from "./assets/catalog";
+import { actorVisual, catalog, worldAssets, worldRenderRefs } from "./assets/catalog";
 import { queueAssets, prepareTextures, registerActorAnimations } from "./assets/phaserAssets";
 import { ActorAnimation } from "./assets/actorAnimation";
 import type { ActorVisual } from "./assets/schema";
@@ -143,6 +143,9 @@ export function mountKileGends(
     }
     private initializeWorld() {
       prepareTextures(this, assets);
+      for (const ref of worldRenderRefs(world.id))
+        if (ref.frame !== undefined && !this.textures.get(ref.asset).has(String(ref.frame)))
+          throw new Error("Brak klatki świata: " + ref.asset + "/" + ref.frame);
       for (const [id, effect] of Object.entries(catalog.effects).filter(
         ([key]) => !key.includes(".") || key.startsWith(world.id + "."),
       ))
@@ -154,7 +157,10 @@ export function mountKileGends(
       this.cameras.main
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
-      this.updateVisibility = renderWorld(this, world).updateVisibility;
+      const rendering = renderWorld(this, world);
+      this.updateVisibility = rendering.updateVisibility;
+      parent.dataset["terrainMode"] = rendering.terrainMode;
+      releaseScene.push(rendering.dispose);
       this.hero = this.actor(
         session.player,
         "Ty · " + RACES[session.player.race].name,

@@ -58,6 +58,10 @@ for (const race of RACE_IDS)
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     await expect(page.locator(".ki-hud")).toBeVisible();
     const canvas = page.locator(".ki-canvas");
+    await expect(canvas).toHaveAttribute(
+      "data-terrain-mode",
+      worldId === "verdant" ? "cached" : "region",
+    );
     const position = async () => ({
       x: Number(await canvas.getAttribute("data-player-x")),
       y: Number(await canvas.getAttribute("data-player-y")),

@@ -1,3 +1,5 @@
+import { STATIC_TERRAIN_CACHE_ENABLED } from "../features";
+import { cacheForestTerrain } from "./cacheForestTerrain";
 import { sizeScenery } from "../assets/scenery";
 import Phaser from "phaser";
 import { textureBinding } from "../assets/catalog";
@@ -12,30 +14,37 @@ export function renderForest(scene: Phaser.Scene) {
   const updateAtmosphere = atmosphere(scene, "verdant");
   const terrain = textureBinding("terrain.verdant", { asset: "forest-terrain" });
   const groundLayers: Phaser.Tilemaps.TilemapLayer[] = [];
-  FOREST.layers.forEach((data, index) => {
-    const map = scene.make.tilemap({ data, tileWidth: 64, tileHeight: 64 });
-    const tileset = map.addTilesetImage(terrain.asset, terrain.asset, 64, 64, 2, 4);
-    if (!tileset) throw new Error("Nie można otworzyć tekstur leśnej krainy.");
-    const layer = map.createLayer(0, tileset, 0, 0, false) as Phaser.Tilemaps.TilemapLayer;
-    layer.setScale(FOREST.tileSize / 64).setDepth(renderDepth("ground") + index);
-    layer.setCullPadding(2, 2);
-    groundLayers.push(layer);
-  });
+  const objectRefs = new Map(
+    FOREST_OBJECTS.map((obj) => [
+      obj.id,
+      textureBinding(
+        "object.verdant." + obj.id,
+        textureBinding("object.forest." + obj.kind, { asset: "forest-objects", frame: obj.kind }),
+      ),
+    ]),
+  );
+  const cache = STATIC_TERRAIN_CACHE_ENABLED
+    ? cacheForestTerrain(scene, terrain.asset, objectRefs)
+    : null;
+  if (!cache)
+    FOREST.layers.forEach((data, index) => {
+      const map = scene.make.tilemap({ data, tileWidth: 64, tileHeight: 64 });
+      const tileset = map.addTilesetImage(terrain.asset, terrain.asset, 64, 64, 2, 4);
+      if (!tileset) throw new Error("Nie można otworzyć tekstur leśnej krainy.");
+      const layer = map.createLayer(0, tileset, 0, 0, false) as Phaser.Tilemaps.TilemapLayer;
+      layer.setScale(FOREST.tileSize / 64).setDepth(renderDepth("ground") + index);
+      layer.setCullPadding(2, 2);
+      groundLayers.push(layer);
+    });
   const scenery: {
     object: (typeof FOREST_OBJECTS)[number];
     image: Phaser.GameObjects.Image;
     shadow?: Phaser.GameObjects.Image;
   }[] = [];
   for (const obj of FOREST_OBJECTS) {
-    const ref = textureBinding(
-      "object.verdant." + obj.id,
-      textureBinding("object.forest." + obj.kind, {
-        asset: "forest-objects",
-        frame: obj.kind,
-      }),
-    );
+    const ref = objectRefs.get(obj.id)!;
     let shadow: Phaser.GameObjects.Image | undefined;
-    if (obj.kind !== "bridge") {
+    if (!cache && obj.kind !== "bridge") {
       shadow = scene.add
         .image(obj.x + 8, obj.y + 8, ref.asset, ref.frame)
         .setDisplaySize(obj.width, obj.height * 0.3)
@@ -56,9 +65,12 @@ export function renderForest(scene: Phaser.Scene) {
   }
   return {
     obstacles: forestObstacles(),
+    terrainMode: cache ? "cached" : "indexed",
+    dispose: () => cache?.dispose(),
     groundLayers,
     updateVisibility(player: Point) {
       updateAtmosphere();
+      cache?.updateVisibility();
       const view = scene.cameras.main.worldView;
       for (const { object, image, shadow } of scenery) {
         const left = object.x - object.width * object.anchorX;

@@ -136,7 +136,8 @@
         "sourceAtlas": [
           1904,
           1904
-        ]
+        ],
+        "worldTileSize": 32
       },
       "actorBindings": [
         "verdant.hero",
