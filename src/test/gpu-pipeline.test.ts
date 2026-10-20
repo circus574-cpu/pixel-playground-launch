@@ -213,3 +213,26 @@ it("packs a complete 416-frame neutral render delivery and rejects overwrite", a
     "Output already exists",
   );
 }, 60000);
+
+it("rejects atlas frame pivots that Phaser would use to override the configured feet", async () => {
+  const f = await delivery(),
+    atlasFile = path.join(f.source, "actor.json"),
+    atlas = JSON.parse(await readFile(atlasFile, "utf8"));
+  const first = Object.values(
+    atlas.frames as Record<
+      string,
+      { pivot?: { x: number; y: number }; anchor?: { x: number; y: number } }
+    >,
+  )[0]!;
+  first.pivot = { x: 0.5, y: 0.5 };
+  await writeFile(atlasFile, JSON.stringify(atlas));
+  await expect(validatePackage(f.manifest)).rejects.toThrow(
+    "Keep pivots in actor/map configuration",
+  );
+  delete first.pivot;
+  first.anchor = { x: 0.5, y: 0.95 };
+  await writeFile(atlasFile, JSON.stringify(atlas));
+  await expect(validatePackage(f.manifest)).rejects.toThrow(
+    "Keep pivots in actor/map configuration",
+  );
+});

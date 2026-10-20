@@ -100,6 +100,11 @@ export async function inspectAsset(
         "Invalid atlas frame: " + name,
       );
       requireThat(!f.rotated, "Rotated frames are unsupported: " + name);
+      // Phaser applies these on every animation frame, overriding the actor's feet anchor.
+      requireThat(
+        !("pivot" in f) && !("anchor" in f),
+        "Keep pivots in actor/map configuration, not atlas frames: " + name,
+      );
       requireThat(
         s &&
           t &&
