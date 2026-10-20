@@ -447,7 +447,12 @@ export function mountKileGends(
             (e.mode === "chase" ? 2 : 0.7);
       }
       for (const a of this.actors) {
-        a.name.setPosition(a.body.x, a.body.y - 94).setScale(1 / this.cameras.main.zoom);
+        a.name
+          .setPosition(
+            a.body.x,
+            a.body.y - 94 - (a === this.hero ? 24 / this.cameras.main.zoom : 0),
+          )
+          .setScale(1 / this.cameras.main.zoom);
         a.track.setPosition(a.body.x, a.body.y - 76);
         a.bar.setPosition(a.body.x - 32, a.body.y - 76);
       }

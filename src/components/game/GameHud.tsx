@@ -127,7 +127,9 @@ export function GameHud({
       </section>
       {state.target && (
         <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik">
-          <span>POZIOM 1 · BESTIA</span>
+          <span>
+            {state.target.inRange ? "BESTIA · ATAK W ZASIĘGU" : "BESTIA · PODEJDŹ BLIŻEJ"}
+          </span>
           <strong>{state.target.name}</strong>
           <div className="ki-meter ki-hp">
             <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
@@ -135,9 +137,6 @@ export function GameHud({
               {state.target.hp} / {state.target.maxHp}
             </span>
           </div>
-          <small className="ki-target-range">
-            {state.target.inRange ? "Atak podstawowy w zasięgu" : "Poza zasięgiem lub przeszkoda"}
-          </small>
         </section>
       )}
       <section className={`ki-map ki-frame ${mapSize ? "ki-map-large" : ""}`} aria-label="Minimapa">
