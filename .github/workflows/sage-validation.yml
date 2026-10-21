@@ -41,7 +41,7 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
       - name: Sage browser regression
-        run: npx playwright test e2e/sage-preview.spec.ts --project=chromium
+        run: npx playwright test e2e/sage-preview.spec.ts
       - name: Save Playwright failure artifacts
         if: failure()
         uses: actions/upload-artifact@v4
