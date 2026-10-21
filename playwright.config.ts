@@ -74,7 +74,8 @@ export default defineConfig({
       ? []
       : [
           {
-            command: "npm run dev -- --host 127.0.0.1 --port 4176",
+            command:
+              "npx vite --config scripts/application-qa.vite.ts --host 127.0.0.1 --port 4176",
             url: "http://127.0.0.1:4176",
             env: {
               SESSION_SECRET: "ki-legends-local-qa-session-only-20261021",
