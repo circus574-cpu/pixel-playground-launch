@@ -26,7 +26,7 @@ scene.render.use_persistent_data=True
 prefs=bpy.context.preferences.addons['cycles'].preferences;prefs.compute_device_type='CUDA';prefs.get_devices()
 for d in prefs.devices:d.use=d.type=='CUDA'
 scene.cycles.device='GPU'
-origin=.75;ortho=7.0
+origin=.75;ortho=8.0
 cam=scene.camera;cam.data.ortho_scale=ortho
 target=Vector((0,0,(origin-.5)*ortho/math.cos(math.pi/4)))
 cam.location=target+Vector((0,-10,10));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
@@ -75,10 +75,10 @@ def fold(amount):
     rot('head',(1,0,0),-.18*kneel)
     for side in ['L','R']:leg(side,-.50*kneel,0)
     rig.rotation_euler.y=math.radians(82)*fall
-    rig.location.x=-1.65*fall*math.cos(rig.rotation_euler.z)
-    rig.location.y=-1.65*fall*math.sin(rig.rotation_euler.z)
-    # Spine/chest -.68 + wrist -.86 turns staff near horizontal along local Y.
-    rot('hand.L',(1,0,0),-.86*kneel)
+    rig.location.x=-2.60*fall*math.cos(rig.rotation_euler.z)
+    rig.location.y=-2.60*fall*math.sin(rig.rotation_euler.z)
+    # Counter-rotate the wrist to keep the staff forward during the side fall.
+    rot('hand.L',(1,0,0),1.25*kneel)
     rot('upper_arm.R',(0,1,0),-.16*kneel)
     rot('forearm.R',(1,0,0),.18*kneel)
 

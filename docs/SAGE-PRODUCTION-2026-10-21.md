@@ -19,3 +19,7 @@ CC0 MakeHuman anatomical mesh/weights at revision `a8bc2d54ff0ac92e78ff71431b102
 ## GPU / restoration
 
 Owner-started pod `8yts4ka55ffhxs` was read-only checked: RTX A6000, torch2.4.1+cu124 CUDA available, Blender4.5.3LTS available, ComfyUI backend HTTP200. Existing isolated restoration is healthy; no reinstall needed. PR #9 runtime-restore report records actual inference test and verified self-contained archive. No pod lifecycle action performed. Only owner may change power/hardware/billing. Full power-cycle restore has not been tested by an agent.
+
+## Calibration revisions
+
+Four initial rig views were rendered at ortho7.0; they are calibration evidence, not delivered animation frames. Full416pose preflight rejected30, then16 death/respawn bounds violations before producing animation PNGs. Corrections center the fallen rig in its facing and counter-rotate the staff wrist. Final animation uses one fixed ortho8.0 canvas for every state/direction, preserving45° perspective and(.5,.75)origin. The larger canvas accommodates the long staff and sideways body; it is not per-frame recropping.
