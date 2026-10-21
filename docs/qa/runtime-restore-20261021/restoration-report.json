@@ -1,0 +1,83 @@
+{
+  "pod_id": "8yts4ka55ffhxs",
+  "software_ready": true,
+  "pod_lifecycle_actions": [],
+  "lifecycle_policy": "Only the owner starts, stops, restarts or terminates pods. No automatic shutdown after GPU work or during CPU tests.",
+  "blender": "4.5.3 LTS",
+  "python_private": "3.11.13",
+  "comfyui": "0.3.76",
+  "torch_private": "2.4.1+cu124",
+  "base_image_torch_unchanged": {
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8"
+  },
+  "pip_check_comfy": "PASS",
+  "pip_check_blender": "PASS",
+  "cuda_matrix": "PASS",
+  "blender_cuda": {
+    "blender": "4.5.3 LTS",
+    "engine": "CYCLES",
+    "compute_type": "CUDA",
+    "devices": [
+      "NVIDIA RTX A6000"
+    ],
+    "samples": 16,
+    "resolution": [
+      512,
+      512
+    ],
+    "rgba": true,
+    "camera_elevation_degrees": 60,
+    "feet_anchor": [
+      0.5,
+      0.9499999731779099
+    ],
+    "render_seconds": 2.506039002997568,
+    "png_sha256": "09b4e273a827aa8591574bb1a79d2a66a28c1ca0c45def9670107c572eddfd39",
+    "purpose": "neutral technical calibration only; no final race artwork or animation claim"
+  },
+  "inference": {
+    "prompt_id": "3614e374-a7ce-4a6b-b4a2-b984e609ea92",
+    "status": "success",
+    "model": "animagine-xl-3.1.safetensors",
+    "steps": 2,
+    "width": 512,
+    "height": 512,
+    "output": "/workspace/ki-legends-gpu/output/qa/restore-20261021-8yts4ka55ffhxs_00001_.png",
+    "sha256": "542ac2d2820065f233b69fde3b9b569c23154ba29e6c5b24a4ea946461f56889",
+    "seconds": 121.3,
+    "purpose": "runtime inference smoke test only, not a production asset"
+  },
+  "ui": {
+    "frontend_http": 200,
+    "javascript_http": 200,
+    "websocket": "status",
+    "database": "sqlite:////opt/ki-legends-gpu/user/comfyui.db",
+    "database_created": true,
+    "authentication": "Basic Auth required; password not recorded",
+    "pod_lifecycle_actions": []
+  },
+  "models_sha_verified_now": true,
+  "checkpoint_frames": 416,
+  "project": {
+    "head": "ff56cfc8666c1c61624bc0a83a5b65c1b76c107c",
+    "path": "/opt/ki-legends-project-current",
+    "assets_check": true,
+    "transfer": "Git archive without .env or credentials"
+  },
+  "snapshot": {
+    "archive": "/workspace/ki-legends-gpu/runtime-cache/runtime-20261021-py311-cu124-v2.tar.gz",
+    "sha256": "43e13e2d67bbc1a4ce785b3672a962096c59f9e46d5fc01674e3b143314c8c77",
+    "bytes": 4151697010,
+    "entries": 105179,
+    "readback_verified": true,
+    "torch_and_cuda_wheels_included": true,
+    "credentials_and_git_excluded": true,
+    "python_interpreter_requirement": "/usr/bin/python3.11 on the owner-selected image",
+    "pod_lifecycle_actions": []
+  },
+  "warm_bootstrap_same_comfy_pid": true,
+  "comfy_pid": "1869",
+  "cold_stop_start_test_performed": false,
+  "external_comfy_port": "8188/http is not exposed in the pod configuration; services tested locally through Jupyter access. No pod configuration changes made."
+}

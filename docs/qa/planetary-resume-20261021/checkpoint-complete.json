@@ -1,0 +1,11 @@
+{
+  "frames": 416,
+  "original_179_unchanged": true,
+  "new_frames": 237,
+  "fresh_preflight_max_delta": 0.0,
+  "archive": "/workspace/ki-legends-gpu/checkpoints/planetary-20261021-complete/planetary-motion-v2-complete-20261021.tar.gz",
+  "bytes": 60077990,
+  "sha256": "e326caa9739b96f6911716ff5c5313721842ee90ca840a4cc6fa8f3f664171cd",
+  "visual_approval": false,
+  "script_change": "ROOT output archive directory only; camera/rig/poses unchanged"
+}

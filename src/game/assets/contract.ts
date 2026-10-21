@@ -10,6 +10,8 @@ export const GPU_CONTRACT = {
   maxAtlasSide: 2048,
   maxWorldTextureBytes: 128 * 1024 * 1024,
   hero: { size: [96, 96], origin: [0.5, 0.95], footRadius: 12 },
+  // Fixed 45° skeletal camera: room below the ground anchor for a real stride.
+  groundedHero: { size: [128, 128], origin: [0.5, 0.75], footRadius: 12 },
   enemy: { size: [84, 84], origin: [0.5, 0.8] },
   animations: {
     idle: { frames: 8, fps: 6, loop: true },

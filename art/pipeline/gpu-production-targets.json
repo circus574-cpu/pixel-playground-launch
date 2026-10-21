@@ -30,6 +30,17 @@
       ],
       "footRadius": 12
     },
+    "groundedHero": {
+      "size": [
+        128,
+        128
+      ],
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "footRadius": 12
+    },
     "enemy": {
       "size": [
         84,

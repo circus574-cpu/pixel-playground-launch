@@ -1,0 +1,23 @@
+{
+  "id": "death-left-05",
+  "state": "death",
+  "direction": "left",
+  "index": 5,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "31c8cc0dd54038a5744adc8ea749e9c104678268a6bd22cdb42f18886489a7c5",
+  "seconds": 2.0890392849978525,
+  "status": "motion-review-not-installed"
+}

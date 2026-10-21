@@ -1,0 +1,23 @@
+{
+  "id": "death-up-left-04",
+  "state": "death",
+  "direction": "up-left",
+  "index": 4,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "549f406cfeaa01b890df9ba858fa87f854e3f8022968abf5c37dbc8206787f99",
+  "seconds": 2.8302321470109746,
+  "status": "motion-review-not-installed"
+}

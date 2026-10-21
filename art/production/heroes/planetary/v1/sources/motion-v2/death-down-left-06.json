@@ -1,0 +1,23 @@
+{
+  "id": "death-down-left-06",
+  "state": "death",
+  "direction": "down-left",
+  "index": 6,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "a463a308603153ecec1b8fb9823973767814455284af603a3e87b80a25a26725",
+  "seconds": 2.0262832609878387,
+  "status": "motion-review-not-installed"
+}

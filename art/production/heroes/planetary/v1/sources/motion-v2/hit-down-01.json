@@ -1,0 +1,23 @@
+{
+  "id": "hit-down-01",
+  "state": "hit",
+  "direction": "down",
+  "index": 1,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "187b5456441fa6d97d6cf729c47e23f215d7ec6171700e4152353a7480aeb27c",
+  "seconds": 2.278554326010635,
+  "status": "motion-review-not-installed"
+}

@@ -1,0 +1,26 @@
+
+> test:e2e
+> playwright test e2e/planetary-preview.spec.ts --output=/tmp/ki-planetary-preview-e2e --reporter=list
+
+[WebServer] (node:5557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter]
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:5579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:5611) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/planetary-preview.spec.ts:15:1 › Planetarni preview preserves the same save and stays out of default visuals and other races (11.9s)
+  ✓  2 e2e/planetary-preview.spec.ts:48:3 › Planetarni has real eight-direction movement and skill animation at 1280px (12.4s)
+  ✓  3 e2e/planetary-preview.spec.ts:48:3 › Planetarni has real eight-direction movement and skill animation at 390px (7.3s)
+  ✓  4 e2e/planetary-preview.spec.ts:94:1 › a broken Planetarni atlas retries without losing the character (6.0s)
+
+  4 passed (42.2s)

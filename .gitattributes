@@ -1,0 +1,6 @@
+art/production/**/sources/**/*.png filter=lfs diff=lfs merge=lfs -text
+art/production/**/sources/**/*.blend filter=lfs diff=lfs merge=lfs -text
+art/production/**/sources/**/*.obj filter=lfs diff=lfs merge=lfs -text
+art/production/**/sources/**/*.mhw filter=lfs diff=lfs merge=lfs -text
+art/production/**/sources/**/*.target filter=lfs diff=lfs merge=lfs -text
+art/production/**/sources/**/*.mhskel filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,103 @@
+{
+  "base_main": "70e6e49683241236ccd7ce9da90059e3144f82b3",
+  "historical_pr4": "7c50e8d5a93a3cf98c094f1ee341829fd6b0354c",
+  "pod": "52s0jgxh6vxo0s",
+  "frames": 416,
+  "new_frames": 237,
+  "original_frames_unchanged": 179,
+  "states": {
+    "idle": 64,
+    "walk": 64,
+    "attack": 64,
+    "skill": 64,
+    "hit": 32,
+    "death": 64,
+    "respawn": 64
+  },
+  "rgba_512_with_alpha_border_at_least_8": true,
+  "min_alpha_border": 23,
+  "preflight_poses": 416,
+  "preflight_delta_from_original": 0.0,
+  "blender": "4.5.3 LTS",
+  "cycles": "CUDA, 16 samples, denoise",
+  "camera_elevation": 45,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "collider_radius_unchanged": 12,
+  "visual_approval": false,
+  "frames_manifest": "art/production/heroes/planetary/v1/sources/motion-v2/motion.manifest",
+  "source_blend_sha256": "b31b11337979fb7c70b8dfbca812c5a4570e62f78d9d730c4e0956f4430f5f2a",
+  "complete_archive": {
+    "frames": 416,
+    "original_179_unchanged": true,
+    "new_frames": 237,
+    "fresh_preflight_max_delta": 0.0,
+    "archive": "/workspace/ki-legends-gpu/checkpoints/planetary-20261021-complete/planetary-motion-v2-complete-20261021.tar.gz",
+    "bytes": 60077990,
+    "sha256": "e326caa9739b96f6911716ff5c5313721842ee90ca840a4cc6fa8f3f664171cd",
+    "visual_approval": false,
+    "script_change": "ROOT output archive directory only; camera/rig/poses unchanged"
+  },
+  "runtime_models": {
+    "runtime_archive_sha_verified": true,
+    "checkpoint_sha_verified": true,
+    "model_sha_verified": true,
+    "checkpoint": {
+      "completed_frames": 179,
+      "target_frames": 416,
+      "archive": "/workspace/ki-legends-gpu/checkpoints/planetary-20261020/planetary-checkpoint-20261020.tar.gz",
+      "archive_bytes": 28096269,
+      "sha256": "12ef03f13ab24f802ccec65b06201bc66c45f88e37f5e4b633c4f9513d581b4c",
+      "models": [
+        {
+          "path": "/workspace/ki-legends-gpu/models/checkpoints/animagine-xl-3.1.safetensors",
+          "bytes": 6938325776,
+          "download_sha256": "e3c47aedb06418c6c331443cd89f2b3b3b34b7ed2102a3d4c4408a8d35aad6b0",
+          "verification": "download SHA was verified during setup; size/existence checked at pause"
+        },
+        {
+          "path": "/workspace/ki-legends-gpu/models/checkpoints/DreamShaperXL_Turbo_v2_1.safetensors",
+          "bytes": 6939220250,
+          "download_sha256": "4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083",
+          "verification": "download SHA was verified during setup; size/existence checked at pause"
+        }
+      ],
+      "mount": "/workspace fuse.geesefs",
+      "runpod_network_volume_id": "not exposed in environment; account API access unavailable",
+      "status": "paused-by-user-not-complete",
+      "render": {
+        "camera_elevation": 45,
+        "ortho": 7,
+        "origin": [
+          0.5,
+          0.75
+        ],
+        "raw_frame": [
+          512,
+          512
+        ],
+        "world_canvas": [
+          128,
+          128
+        ],
+        "collider_radius": 12,
+        "cycles_samples": 16,
+        "states": [
+          "idle",
+          "walk",
+          "attack",
+          "skill",
+          "hit",
+          "death",
+          "respawn"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "idle-down-03",
+  "state": "idle",
+  "direction": "down",
+  "index": 3,
+  "fps": 6,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "ff2eba895063b6c3f2f5b34926406e4be000f6a82833da7649556866df4ee251",
+  "seconds": 2.735414975002641,
+  "status": "motion-review-not-installed"
+}

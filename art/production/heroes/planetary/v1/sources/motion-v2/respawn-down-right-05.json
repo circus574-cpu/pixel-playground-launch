@@ -1,0 +1,23 @@
+{
+  "id": "respawn-down-right-05",
+  "state": "respawn",
+  "direction": "down-right",
+  "index": 5,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "1c457b29a11bc97e84861c2f5f79f84246621026397b77c2d8fb4bedfc8e53f8",
+  "seconds": 1.7227431039791554,
+  "status": "motion-review-not-installed"
+}

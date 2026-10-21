@@ -1,0 +1,226 @@
+{
+  "base_main": "70e6e49683241236ccd7ce9da90059e3144f82b3",
+  "code": "grounded/opt-in support applied; runtime package not installed in this initial playtest build",
+  "command": "CI=true npm run test:e2e -- --output=/tmp/ki-planetary-baseline-e2e --reporter=list",
+  "passed": 54,
+  "failed": 0,
+  "summary": "54 passed (15.9m)",
+  "tests": [
+    {
+      "index": 1,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD Planetarni 360x640 \u203a single dock, clear play area and real touch tools (5.1s)"
+    },
+    {
+      "index": 2,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD Planetarni 390x640 \u203a single dock, clear play area and real touch tools (3.9s)"
+    },
+    {
+      "index": 3,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD M\u0119drcy 390x844 \u203a single dock, clear play area and real touch tools (3.6s)"
+    },
+    {
+      "index": 4,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD Androidy 390x640 \u203a single dock, clear play area and real touch tools (2.8s)"
+    },
+    {
+      "index": 5,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD Legendy 414x896 \u203a single dock, clear play area and real touch tools (3.5s)"
+    },
+    {
+      "index": 6,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD Androidy 852x393 \u203a single dock, clear play area and real touch tools (2.6s)"
+    },
+    {
+      "index": 7,
+      "result": "e2e/hud-layout.spec.ts:16:5 \u203a tidy HUD Planetarni 1280x900 \u203a single dock, clear play area and real touch tools (5.5s)"
+    },
+    {
+      "index": 8,
+      "result": "e2e/overlay-audit.spec.ts:37:3 \u203a clear world, dismiss/expire guidance, dialogs and persistent options 1280 (21.1s)"
+    },
+    {
+      "index": 9,
+      "result": "e2e/overlay-audit.spec.ts:37:3 \u203a clear world, dismiss/expire guidance, dialogs and persistent options 360 (17.8s)"
+    },
+    {
+      "index": 10,
+      "result": "e2e/overlay-audit.spec.ts:37:3 \u203a clear world, dismiss/expire guidance, dialogs and persistent options 390 (17.9s)"
+    },
+    {
+      "index": 11,
+      "result": "e2e/overlay-audit.spec.ts:37:3 \u203a clear world, dismiss/expire guidance, dialogs and persistent options 414 (17.6s)"
+    },
+    {
+      "index": 12,
+      "result": "e2e/overlay-audit.spec.ts:37:3 \u203a clear world, dismiss/expire guidance, dialogs and persistent options 852 (16.7s)"
+    },
+    {
+      "index": 13,
+      "result": "e2e/overlay-audit.spec.ts:182:1 \u203a save failure stays actionable after normal guidance is disabled or dismissed (7.3s)"
+    },
+    {
+      "index": 14,
+      "result": "e2e/overlay-audit.spec.ts:210:1 \u203a death message ends on real respawn and subsequent movement works (29.2s)"
+    },
+    {
+      "index": 15,
+      "result": "e2e/overlay-audit.spec.ts:239:1 \u203a combat messages leave the actual target panel clear at every HUD breakpoint (17.4s)"
+    },
+    {
+      "index": 16,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android planetary 390x844 \u203a real Android input in eight directions: planetary 390x844 (14.1s)"
+    },
+    {
+      "index": 17,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android planetary 852x393 \u203a real Android input in eight directions: planetary 852x393 (13.2s)"
+    },
+    {
+      "index": 18,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android sage 390x844 \u203a real Android input in eight directions: sage 390x844 (14.1s)"
+    },
+    {
+      "index": 19,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android sage 852x393 \u203a real Android input in eight directions: sage 852x393 (13.6s)"
+    },
+    {
+      "index": 20,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android android 390x844 \u203a real Android input in eight directions: android 390x844 (14.0s)"
+    },
+    {
+      "index": 21,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android android 852x393 \u203a real Android input in eight directions: android 852x393 (12.6s)"
+    },
+    {
+      "index": 22,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android legend 390x844 \u203a real Android input in eight directions: legend 390x844 (12.6s)"
+    },
+    {
+      "index": 23,
+      "result": "e2e/pre-gpu.spec.ts:76:7 \u203a Android legend 852x393 \u203a real Android input in eight directions: legend 852x393 (11.9s)"
+    },
+    {
+      "index": 24,
+      "result": "e2e/pre-gpu.spec.ts:190:3 \u203a real defeat, respawn and movement: planetary (30.4s)"
+    },
+    {
+      "index": 25,
+      "result": "e2e/pre-gpu.spec.ts:190:3 \u203a real defeat, respawn and movement: sage (28.7s)"
+    },
+    {
+      "index": 26,
+      "result": "e2e/pre-gpu.spec.ts:190:3 \u203a real defeat, respawn and movement: android (32.2s)"
+    },
+    {
+      "index": 27,
+      "result": "e2e/pre-gpu.spec.ts:190:3 \u203a real defeat, respawn and movement: legend (30.4s)"
+    },
+    {
+      "index": 28,
+      "result": "e2e/pre-gpu.spec.ts:232:1 \u203a imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (6.2s)"
+    },
+    {
+      "index": 29,
+      "result": "e2e/pre-gpu.spec.ts:275:3 \u203a real pursuit, return, enemy collision and world boundary: planetary (25.4s)"
+    },
+    {
+      "index": 30,
+      "result": "e2e/pre-gpu.spec.ts:275:3 \u203a real pursuit, return, enemy collision and world boundary: sage (20.0s)"
+    },
+    {
+      "index": 31,
+      "result": "e2e/pre-gpu.spec.ts:275:3 \u203a real pursuit, return, enemy collision and world boundary: android (23.8s)"
+    },
+    {
+      "index": 32,
+      "result": "e2e/pre-gpu.spec.ts:275:3 \u203a real pursuit, return, enemy collision and world boundary: legend (20.4s)"
+    },
+    {
+      "index": 33,
+      "result": "e2e/pre-gpu.spec.ts:338:1 \u203a malformed scenery atlas fails with a named error and retries without losing the slot (4.4s)"
+    },
+    {
+      "index": 34,
+      "result": "e2e/race-switch.spec.ts:9:3 \u203a temporary race switch preserves each save 1280 (13.4s)"
+    },
+    {
+      "index": 35,
+      "result": "e2e/race-switch.spec.ts:9:3 \u203a temporary race switch preserves each save 390 (12.0s)"
+    },
+    {
+      "index": 36,
+      "result": "e2e/stage3-migration.spec.ts:5:1 \u203a C: a real v1 fixture migrates in the browser without changing the original (4.5s)"
+    },
+    {
+      "index": 37,
+      "result": "e2e/stage3-pve.spec.ts:37:1 \u203a D: real forest UI \u2014 Ren, three boars, skills, XP, loot, merchant, smith and reload (54.2s)"
+    },
+    {
+      "index": 38,
+      "result": "e2e/stage3.spec.ts:80:1 \u203a A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching (54.4s)"
+    },
+    {
+      "index": 39,
+      "result": "e2e/stage3.spec.ts:167:3 \u203a E: touch selection, joystick, dialogue and layout 360x800 (11.5s)"
+    },
+    {
+      "index": 40,
+      "result": "e2e/stage3.spec.ts:167:3 \u203a E: touch selection, joystick, dialogue and layout 390x844 (12.5s)"
+    },
+    {
+      "index": 41,
+      "result": "e2e/stage3.spec.ts:167:3 \u203a E: touch selection, joystick, dialogue and layout 414x896 (12.9s)"
+    },
+    {
+      "index": 42,
+      "result": "e2e/stage3.spec.ts:167:3 \u203a E: touch selection, joystick, dialogue and layout 852x393 (10.4s)"
+    },
+    {
+      "index": 43,
+      "result": "e2e/stage3.spec.ts:167:3 \u203a E: touch selection, joystick, dialogue and layout 640x480 (14.3s)"
+    },
+    {
+      "index": 44,
+      "result": "e2e/stage31-collision.spec.ts:11:3 \u203a browser collider and camera: planetary (11.5s)"
+    },
+    {
+      "index": 45,
+      "result": "e2e/stage31-collision.spec.ts:11:3 \u203a browser collider and camera: sage (7.3s)"
+    },
+    {
+      "index": 46,
+      "result": "e2e/stage31-collision.spec.ts:11:3 \u203a browser collider and camera: android (5.1s)"
+    },
+    {
+      "index": 47,
+      "result": "e2e/stage31-collision.spec.ts:11:3 \u203a browser collider and camera: legend (6.4s)"
+    },
+    {
+      "index": 48,
+      "result": "e2e/stage31-ui.spec.ts:14:1 \u203a original complete illustrations, details, accessible enlargement and no save before start (5.1s)"
+    },
+    {
+      "index": 49,
+      "result": "e2e/stage31-ui.spec.ts:63:1 \u203a real Phaser progress is held by an actual resource request, then opens the correct world (7.5s)"
+    },
+    {
+      "index": 50,
+      "result": "e2e/stage31-ui.spec.ts:107:1 \u203a failed real resource shows retry and reuses the same saved character (8.1s)"
+    },
+    {
+      "index": 51,
+      "result": "e2e/stage31-ui.spec.ts:167:1 \u203a HP and KI remain separate at low, middle, maximum values and interface scales (18.9s)"
+    },
+    {
+      "index": 52,
+      "result": "e2e/three-races-pve.spec.ts:74:3 \u203a real PvE journey: sage \u2014 quests, 3 kills, loot, equipment, merchant and smith (50.9s)"
+    },
+    {
+      "index": 53,
+      "result": "e2e/three-races-pve.spec.ts:74:3 \u203a real PvE journey: android \u2014 quests, 3 kills, loot, equipment, merchant and smith (1.1m)"
+    },
+    {
+      "index": 54,
+      "result": "e2e/three-races-pve.spec.ts:74:3 \u203a real PvE journey: legend \u2014 quests, 3 kills, loot, equipment, merchant and smith (57.6s)"
+    }
+  ]
+}

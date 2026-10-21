@@ -1,0 +1,23 @@
+{
+  "id": "skill-up-left-01",
+  "state": "skill",
+  "direction": "up-left",
+  "index": 1,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "8dd521e0f5bac3fe664a17f1650d1a9c14faeef6bebe9059bd5e43f15e574d33",
+  "seconds": 2.541782473010244,
+  "status": "motion-review-not-installed"
+}

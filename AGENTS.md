@@ -18,6 +18,7 @@
 
 ## Ki Legends production
 
+- GPU pod lifecycle is owner-only. Never call Start, Stop, Restart or Terminate, including after renders, during CPU tests, for cleanup or to retry capacity. The owner performs these actions. This explicit instruction supersedes historical advice to stop GPU rental automatically.
 - Follow `docs/PRODUCTION.md` and the user's current stage constraints.
 - The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/STAGE2-GAMEPLAY.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
 - Use independent terrain/object resources, never a complete concept illustration as the production world.

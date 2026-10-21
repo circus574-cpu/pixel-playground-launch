@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/workspace/ki-legends-gpu/models/checkpoints/animagine-xl-3.1.safetensors",
+    "bytes": 6938325776,
+    "download_sha256": "e3c47aedb06418c6c331443cd89f2b3b3b34b7ed2102a3d4c4408a8d35aad6b0",
+    "verification": "Fresh full SHA-256 and size readback on pod 8yts4ka55ffhxs during this restoration",
+    "sha256": "e3c47aedb06418c6c331443cd89f2b3b3b34b7ed2102a3d4c4408a8d35aad6b0",
+    "verified": true
+  },
+  {
+    "path": "/workspace/ki-legends-gpu/models/checkpoints/DreamShaperXL_Turbo_v2_1.safetensors",
+    "bytes": 6939220250,
+    "download_sha256": "4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083",
+    "verification": "Fresh full SHA-256 and size readback on pod 8yts4ka55ffhxs during this restoration",
+    "sha256": "4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083",
+    "verified": true
+  }
+]

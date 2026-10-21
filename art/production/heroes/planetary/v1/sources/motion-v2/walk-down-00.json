@@ -1,0 +1,23 @@
+{
+  "id": "walk-down-00",
+  "state": "walk",
+  "direction": "down",
+  "index": 0,
+  "fps": 16,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "dca1c5b69e3fe540399c3e0ea40ac11c5e6da548e9ce78156a65d37ee5ca1c74",
+  "seconds": 2.035845577993314,
+  "status": "motion-review-not-installed"
+}
