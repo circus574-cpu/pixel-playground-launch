@@ -208,7 +208,10 @@ export function PlanetMap() {
       gesture.current = { ...p, region: hit?.getAttribute("data-region") ?? null, moved: false };
     } else if (pointers.current.size === 2) {
       if (gesture.current) gesture.current.moved = true;
-      const [a, b] = [...pointers.current.values()] as [{ x: number; y: number }, { x: number; y: number }];
+      const [a, b] = [...pointers.current.values()] as [
+        { x: number; y: number },
+        { x: number; y: number },
+      ];
       pinch.current = {
         dist: Math.hypot(a.x - b.x, a.y - b.y) || 1,
         mx: (a.x + b.x) / 2,
@@ -228,12 +231,17 @@ export function PlanetMap() {
       if (!g.moved && Math.hypot(p.x - g.x, p.y - g.y) > 6) g.moved = true;
       if (g.moved) setView((v) => panBy(v, p.x - prev.x, p.y - prev.y, w, h));
     } else if (pointers.current.size === 2 && pinch.current) {
-      const [a, b] = [...pointers.current.values()] as [{ x: number; y: number }, { x: number; y: number }];
+      const [a, b] = [...pointers.current.values()] as [
+        { x: number; y: number },
+        { x: number; y: number },
+      ];
       const dist = Math.hypot(a.x - b.x, a.y - b.y) || 1;
       const mx = (a.x + b.x) / 2;
       const my = (a.y + b.y) / 2;
       const last = pinch.current;
-      setView((v) => panBy(zoomAt(v, dist / last.dist, mx, my, w, h), mx - last.mx, my - last.my, w, h));
+      setView((v) =>
+        panBy(zoomAt(v, dist / last.dist, mx, my, w, h), mx - last.mx, my - last.my, w, h),
+      );
       pinch.current = { dist, mx, my };
     }
   };
@@ -316,8 +324,8 @@ export function PlanetMap() {
       </header>
 
       <p className="pm-notice" role="note">
-        <strong>Podgląd demonstracyjny.</strong> Mapa nie jest połączona z grą: nie pokazuje
-        pozycji Twojej postaci i nie odczytuje ani nie zmienia zapisów. Ukształtowanie terenu jest
+        <strong>Podgląd demonstracyjny.</strong> Mapa nie jest połączona z grą: nie pokazuje pozycji
+        Twojej postaci i nie odczytuje ani nie zmienia zapisów. Ukształtowanie terenu jest
         generowane proceduralnie — w projekcie nie ma jeszcze gotowych grafik mapy planety.
       </p>
 
@@ -402,7 +410,12 @@ export function PlanetMap() {
                     className="pm-land"
                     vectorEffect="non-scaling-stroke"
                   />
-                  <path d={inner} style={{ fill: region.shade }} className="pm-highland" aria-hidden />
+                  <path
+                    d={inner}
+                    style={{ fill: region.shade }}
+                    className="pm-highland"
+                    aria-hidden
+                  />
                   <g aria-hidden className="pm-deco">
                     {deco.map((d, i) => (
                       <Glyph key={i} d={d} terrain={region.terrain} />

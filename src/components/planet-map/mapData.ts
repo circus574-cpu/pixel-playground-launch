@@ -116,7 +116,7 @@ export const QUEST_ISLANDS: MapRegion[] = ISLAND_SPOTS.map(([x, y, rx, ry], i) =
   id: `island-${i + 1}`,
   kind: "island",
   name: `Wyspa questowa ${NUMERALS[i]}`,
-  numeral: NUMERALS[i],
+  numeral: NUMERALS[i] ?? String(i + 1),
   summary: "Nazwa robocza. Treść, przeciwnicy i nagrody zostaną określone w przyszłych etapach.",
   status: ISLAND_STATUS,
   terrain: "isle",

@@ -11,9 +11,7 @@
   --pm-ocean-2: #0e2633;
   --pm-demo: #e0784a;
   min-height: 100dvh;
-  background:
-    radial-gradient(circle at 20% 0%, #1b2b2c 0, transparent 55%),
-    var(--pm-bg);
+  background: radial-gradient(circle at 20% 0%, #1b2b2c 0, transparent 55%), var(--pm-bg);
   color: var(--pm-text);
   font:
     15px/1.5 Arial,
