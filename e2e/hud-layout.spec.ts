@@ -21,6 +21,12 @@ for (const [race, width, height] of cases)
       await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
       await expect(page.locator(".ki-hud")).toBeVisible();
       const compact = width < 1000;
+      if (!compact) {
+        const quest = await page.locator(".ki-quest").boundingBox();
+        const camera = (await page.locator(".ki-view-controls").boundingBox())!;
+        if (quest) expect(camera.y).toBeGreaterThanOrEqual(quest.y + quest.height);
+      }
+
       await expect(page.locator(".ki-skill")).toHaveCount(5);
       const hp = (await page.getByRole("meter", { name: "Zdrowie", exact: true }).boundingBox())!;
       const ki = (await page

@@ -11,11 +11,8 @@
   display: none;
 }
 .ki-hud .ki-view-controls {
-  top: 116px;
-  bottom: auto;
-}
-.ki-hud:has(.ki-map-large) .ki-view-controls {
-  top: 174px;
+  top: auto;
+  bottom: calc(var(--hud-bottom) + 52px);
 }
 .ki-hud .ki-player-info {
   min-width: 0;

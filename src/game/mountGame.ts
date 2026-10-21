@@ -595,6 +595,9 @@ export function mountKileGends(
       parent.dataset["enemies"] = JSON.stringify(
         session.enemies.map((e) => ({ id: e.id, x: e.x, y: e.y, hp: e.hp, mode: e.mode })),
       );
+      // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
+      parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
+      parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());

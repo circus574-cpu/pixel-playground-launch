@@ -262,7 +262,7 @@ for (const [width, height] of [
     await expect
       .poll(async () => (await saved(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
-    await page.getByRole("button", { name: "Ekwipunek", exact: true }).tap();
+    await openHudTool(page, "Ekwipunek", "touch");
     await expect(page.getByRole("dialog", { name: "Ekwipunek", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).tap();
     await page.screenshot({ path: info.outputPath("world.png") });

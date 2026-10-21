@@ -45,22 +45,28 @@ async function move(page: Page, x: number, y: number) {
     )
     .toBeLessThan(95);
 }
-async function clickWorld(page: Page, x: number, y: number, width: number, height: number) {
+async function clickRenderedEnemy(page: Page, id: string, offsetY: number) {
   const point = await page.locator(".ki-canvas").evaluate(
     (el, p) => {
-      const zoom = Number((el as HTMLElement).dataset["zoom"] ?? 0.62);
-      const px = Number((el as HTMLElement).dataset["playerX"]);
-      const py = Number((el as HTMLElement).dataset["playerY"]);
-      const w = el.clientWidth,
-        h = el.clientHeight;
-      const scrollX = Math.max(0, Math.min(p.width - w / zoom, px - w / zoom / 2));
-      const scrollY = Math.max(0, Math.min(p.height - h / zoom, py - h / zoom / 2));
-      return { x: (p.x - scrollX) * zoom, y: (p.y - scrollY) * zoom };
+      const data = (el as HTMLElement).dataset;
+      const enemy = (
+        JSON.parse(data["enemies"] ?? "[]") as { id: string; x: number; y: number; hp: number }[]
+      ).find((e) => e.id === p.id && e.hp > 0);
+      if (!enemy) return null;
+      const zoom = Number(data["zoom"] ?? 0.62);
+      return {
+        x: (enemy.x - Number(data["cameraX"])) * zoom,
+        y: (enemy.y + p.offsetY - Number(data["cameraY"])) * zoom,
+      };
     },
-    { x, y, width, height },
+    { id, offsetY },
   );
+  if (!point) return;
+  const hit = await page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.tagName, point);
+  expect(hit, "Rendered enemy must be exposed to a real player click").toBe("CANVAS");
   await page.locator("canvas").click({ position: point });
 }
+
 for (const race of races) {
   test(`real PvE journey: ${race.id} — quests, 3 kills, loot, equipment, merchant and smith`, async ({
     page,
@@ -103,19 +109,12 @@ for (const race of races) {
       const enemy = world.enemies[index]!;
       await move(page, enemy.x - 130, enemy.y + 90);
       let selected = false;
-      for (const [dx, dy] of [
-        [0, -40],
-        [-40, -40],
-        [40, -40],
-        [0, 5],
-        [-40, 5],
-        [40, 5],
-      ] as const) {
+      for (const dy of [-30, -20, -40, -10, -25, -35]) {
         if (await page.locator(".ki-target").count()) {
           selected = true;
           break;
         }
-        await clickWorld(page, enemy.x + dx, enemy.y + dy, world.width, world.height);
+        await clickRenderedEnemy(page, "boar-" + index, dy);
         await page.waitForTimeout(300);
       }
       selected ||= (await page.locator(".ki-target").count()) > 0;
