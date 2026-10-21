@@ -46,12 +46,12 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
         const px = x + (seed % 39) - 19;
         const py = y + ((seed * 7) % 43) - 21;
         const onPath = [...terrain.paths, ...terrain.plazas].some(
-          (r) => px > r.x - 30 && px < r.x + r.width + 30 &&
+          (r) =>
+            px > r.x - 30 && px < r.x + r.width + 30 &&
             py > r.y - 30 && py < r.y + r.height + 30,
         );
         const blocked = world.obstacles.some(
-          (r) => px > r.x && px < r.x + r.width &&
-            py > r.y && py < r.y + r.height,
+          (r) => px > r.x && px < r.x + r.width && py > r.y && py < r.y + r.height,
         );
         if (onPath || blocked) continue;
         // Aetheria: living KI gardens. Nexus-9: synthetic circuitry and energy nodes.
