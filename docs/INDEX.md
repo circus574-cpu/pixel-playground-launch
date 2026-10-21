@@ -15,6 +15,10 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
 - Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Nie jest jeszcze umieszczony w repozytorium.** Wymagane dodanie binarnego oryginału do `docs/design/` i weryfikacja SHA-256. Nie zastępować go tekstowym streszczeniem.
 
+
+## Aktualny stan architektury i multiplayer (21.10.2026)
+- [Macierz faktycznych wdrożeń, rozbieżności dokumentacji oraz bramki do multiplayer](ARCHITECTURE-MULTIPLAYER-READINESS-2026-10-21.md). Rozdziela main od otwartych PR #11/#12, produkcję zasobów od runtime i zadania P0/P1/P2. Jest bieżącym uzupełnieniem historycznych raportów etapów 2 i 3.
+
 ## Hierarchia i stan
 1. Wyraźne decyzje właściciela oraz zatwierdzony kanon mają pierwszeństwo.
 2. Odróżniaj **koncepcję**, **implementację**, **zweryfikowane testy** i **zatwierdzoną publikację**.
