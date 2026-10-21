@@ -22,7 +22,9 @@ export function CharacterSelection({
   startWithOrigins = false,
   requestedContinent,
 }: Props) {
-  const [selected, setSelected] = useState<RaceId>(requestedContinent === "aether" ? "sage" : "planetary");
+  const [selected, setSelected] = useState<RaceId>(
+    requestedContinent === "aether" ? "sage" : "planetary",
+  );
   const [showSlots, setShowSlots] = useState(!startWithOrigins && slots.length > 0);
   const [showArt, setShowArt] = useState(false);
   const carousel = useRef<HTMLElement>(null),
@@ -122,7 +124,9 @@ export function CharacterSelection({
               </article>
             ))}
           </div>
-          {!visibleSlots.length && <p>Brak postaci na wybranym kontynencie. Pozostałe zapisy są zachowane.</p>}
+          {!visibleSlots.length && (
+            <p>Brak postaci na wybranym kontynencie. Pozostałe zapisy są zachowane.</p>
+          )}
           <button className="ki-origin-primary" onClick={() => setShowSlots(false)}>
             Utwórz nową postać
           </button>
@@ -161,7 +165,8 @@ export function CharacterSelection({
                   }
                 }
               }
-              if (!requestedContinent || RACES[closest].world === requestedContinent) setSelected(closest);
+              if (!requestedContinent || RACES[closest].world === requestedContinent)
+                setSelected(closest);
             }}
           >
             {RACE_IDS.map((id, index) => {
@@ -283,7 +288,18 @@ export function CharacterSelection({
                   <p className="ki-origin-architecture">{world.architecture}</p>
                 </div>
               </section>
-              <button className="ki-origin-primary" onClick={() => onCreate(requestedContinent === "aether" ? "sage" : requestedContinent === "verdant" ? "planetary" : selected)}>
+              <button
+                className="ki-origin-primary"
+                onClick={() =>
+                  onCreate(
+                    requestedContinent === "aether"
+                      ? "sage"
+                      : requestedContinent === "verdant"
+                        ? "planetary"
+                        : selected,
+                  )
+                }
+              >
                 Rozpocznij przygodę <span aria-hidden="true">→</span>
               </button>
               <p className="ki-start-caption">
