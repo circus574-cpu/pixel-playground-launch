@@ -213,6 +213,7 @@ it.each(["legacy", "grounded"] as const)(
       "hero",
       "1.0.0",
       presentation,
+      presentation === "grounded" ? "lanczos2" : "lanczos3",
     );
     expect(result.frames).toBe(416);
     expect(result.pages).toBe(2);

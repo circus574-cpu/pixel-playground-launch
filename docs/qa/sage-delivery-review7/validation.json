@@ -1,0 +1,61 @@
+{
+  "source_bundle_sha256": "f1611e6c2770c9b8228d5462e3d3622517ec2d272918e3f5445001e57faadf49",
+  "raw_frames": 416,
+  "clips": 56,
+  "atlas_frames": 416,
+  "missing_references": 0,
+  "previewOnly": true,
+  "binding": {
+    "aether.hero": "hero-sage"
+  },
+  "presentation": "grounded",
+  "origin": [0.5, 0.75],
+  "size": [128, 128],
+  "resize_kernel": "lanczos2",
+  "default_kernel_unchanged": "lanczos3",
+  "delivery_directory": "public/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3",
+  "digest": "bafe591d3ac33ade27ce9216b2e5a10bae0ca610a4468fa53425b5ca48bf54c2",
+  "files": [
+    {
+      "path": "public/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-0.json",
+      "bytes": 47357,
+      "sha256": "6051ed89b6d47215254df9e5e77f0080f5bc22bc60d18021c6261d45c957dcf8"
+    },
+    {
+      "path": "public/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-0.webp",
+      "bytes": 1487264,
+      "sha256": "72afcd0bd6645037a0c43fbb07ce9e5d62f19164eec8b30cdafd6573e403c6bb"
+    },
+    {
+      "path": "public/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-1.json",
+      "bytes": 29677,
+      "sha256": "e5486b891ff8b7674697772830527f0f8795b6c32a64697f15ee718e264ff176"
+    },
+    {
+      "path": "public/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-1.webp",
+      "bytes": 996794,
+      "sha256": "ca8a7051c9ba3f0592c27ed86e08e9fa09fd12e7ba754b5009c1ae236e0147e0"
+    },
+    {
+      "path": "public/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/pack.json",
+      "bytes": 22249,
+      "sha256": "af945f121851983bf3022d7f3a082a766fd81efe62c10cfc205b4a67e9146e64"
+    }
+  ],
+  "checks": {
+    "raw_validation": "416 PASS SHA/RGBA512/nonempty/margin8/groundorigin/nonfrozenclips",
+    "full_typecheck": "PASS",
+    "pipeline_tests": "12/12 PASS",
+    "playwright_canvas": "5/5 PASS,50.9s",
+    "build_playtest": "PASS",
+    "playwright_swiftshader_configuration": "1/1 save/default-race test PASS,34.0s; no hardware performance certification",
+    "assets_default": "PASS; verdant total67189024,aether16561440,nexus16561440,pyra16561440",
+    "assets_include_preview": "PASS; aether43824416 bytes with14textures; other worlds unchanged"
+  },
+  "limitations": [
+    "Final owner motion acceptance remains open",
+    "Physical Android and hardware WebGL untested",
+    "No license clearance inferred for original reference",
+    "No merge or game publication"
+  ]
+}

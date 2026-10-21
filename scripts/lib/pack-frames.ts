@@ -12,6 +12,7 @@ export async function packFrames(
   profile: "hero" | "enemy" | "npc" = "hero",
   version = "1.0.0",
   presentation: "legacy" | "grounded" = "legacy",
+  resizeKernel: "lanczos3" | "lanczos2" = "lanczos3",
 ) {
   const rawSide = GPU_CONTRACT.rawFrame,
     side = GPU_CONTRACT.deliveryFrame;
@@ -47,7 +48,7 @@ export async function packFrames(
       )
         throw Error("Raw render must be 512x512 8-bit RGBA PNG: " + frame.path);
       const raw = await sharp(file)
-        .resize(side, side, { kernel: "lanczos3" })
+        .resize(side, side, { kernel: resizeKernel })
         .toColourspace("srgb")
         .ensureAlpha()
         .raw()
