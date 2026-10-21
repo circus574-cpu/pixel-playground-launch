@@ -30,3 +30,13 @@ Przy każdej zmianie kanonu dodawać datę, źródło, właściciela decyzji i p
 | D-018 | 2026-10-21 | GPU wyłączony według właściciela; restart/koszt wyłącznie po nowej zgodzie | PR #8 HANDOFF |
 | D-019 | 2026-10-21 | Trwałe dowody LFS dla 181 obiektów, ale nie pełny backup modeli/runtime i woluminu | PR #8 GPU_PRODUCTION, gpu-lfs-verification.json |
 | D-020 | 2026-10-21 | Publikacja HUD wcześniej wykonana i testowana; przekazanie #8 nie upoważnia do kolejnej | PR #8 HANDOFF, #7 |
+
+
+## Uzupełnienia chronologiczne z PR #8
+| ID | Data | Ustalenie / korekta | Dowód i status |
+| --- | --- | --- | --- |
+| D-015 | 2026-10-20/21 | Priorytet bohatera Planetarnych przed innymi rasami i masową produkcją miast; zatwierdzony **wzorzec** wyglądu nie oznacza zatwierdzenia riga | `GPU_PRODUCTION.md`, PR #4 — POTWIERDZONE jako kierunek |
+| D-016 | 2026-10-20/21 | Nie instalować niepełnych klipów; profil `grounded` #4 jest inny niż kontrakt main | `PLANETARNI-RESUME.md`, `GPU_PRODUCTION.md` — POTWIERDZONE technicznie |
+| D-017 | 2026-10-21 | PR #5/#7 naprawiły HUD bez zastępowania zasad walki, zapisów ani systemu `/test` | merge `5e72796`, `86a1e41`, CI `39540694141` — POTWIERDZONE |
+| D-018 | 2026-10-21 | GPU pozostaje wyłączone; nie uruchamiać, nie pobierać modeli ani nie zmieniać woluminu bez nowej zgody | przekazanie właściciela w PR #8 — POTWIERDZONE jako ograniczenie procesu; fizyczny stan GPU NIEZWERYFIKOWANY |
+| D-019 | 2026-10-21 | Dokumentacja PR #8 i PR #6 pozostaje osobna, bez automatycznego scalenia i publikacji | żądanie właściciela — POTWIERDZONE |
