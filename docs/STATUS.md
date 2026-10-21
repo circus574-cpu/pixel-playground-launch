@@ -4,7 +4,7 @@
 ## Repozytorium i zakres
 GitHub: https://github.com/circus574-cpu/pixel-playground-launch
 Produkcja: https://kilegends.pl/
-Dokumentacyjny punkt odniesienia: drzewo `main` SHA `8045a0bd2ebe77bcbd00dcedf17d8b48e13b3d40` odczytane podczas rekonstrukcji; **jest to SHA drzewa, nie commit**. Ostateczny commit gry należy dopisać po zakończeniu prac Codexa.
+Dokumentacyjny punkt odniesienia: drzewo `main` SHA `8045a0bd2ebe77bcbd00dcedf17d8b48e13b3d40` odczytane podczas rekonstrukcji; **jest to historyczny commit**, co potwierdza późniejszy odczyt endpointu commits opisany poniżej; wcześniejsza klasyfikacja jako wyłącznie SHA drzewa była błędna. Aktualny commit main wskazano w sekcji aktualizacji po PR #8.
 
 ## Potwierdzone dokumentacją i historycznymi testami (nie jest to świeży re-test)
 - Lokalne PvE, A*, NPC, zadania, walka, HP/KI/XP, łupy, handel, ulepszenia, zapisy.
