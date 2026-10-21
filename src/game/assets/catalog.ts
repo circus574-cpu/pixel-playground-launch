@@ -125,11 +125,13 @@ export function makeCatalog(packs: readonly AssetPack[], includePreview = false)
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Preview art never replaces the accepted production visuals without explicit opt-in. */
+/** Sage is active in Aetheria; Planetary artwork keeps its existing opt-in switch. */
+const planetaryPreviewEnabled =
+  typeof window !== "undefined" &&
+  new URLSearchParams(window.location.search).get("ki-hero-art") === "1";
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),
-  typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("ki-hero-art") === "1",
+  planetaryPreviewEnabled ? ["hero-sage", "hero-planetary"] : ["hero-sage"],
 );
 export const technicalPack = PackSchema.parse(technical);
 export function actorVisual(
