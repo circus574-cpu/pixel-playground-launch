@@ -27,6 +27,7 @@ export const Route = createFileRoute("/")({
 });
 export function Index() {
   const [store, setStore] = useState<CharacterStore | null>(null);
+  const [mapNotice, setMapNotice] = useState(false);
   const [slots, setSlots] = useState<CharacterSlot[]>([]);
   const [active, setActive] = useState<CharacterSlot | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -48,6 +49,9 @@ export function Index() {
       );
     }
     setLoaded(true);
+    // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("continent") === "verdant") setMapNotice(true);
   }, []);
   const open = (slot: CharacterSlot) => {
     store?.select(slot);
@@ -79,6 +83,8 @@ export function Index() {
       />
     );
   return (
+    <>
+    {mapNotice && <div role="status" style={{ padding: "12px", textAlign: "center" }}>Verdantia — wybierz istniejącą postać Planetarnych lub utwórz nową, aby wejść do gry.</div>}
     <CharacterSelection
       slots={slots}
       warning={warning}
@@ -86,6 +92,7 @@ export function Index() {
       onContinue={open}
       startWithOrigins={startWithOrigins}
     />
+    </>
   );
 }
 function GameScreen({
