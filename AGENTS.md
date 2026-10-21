@@ -24,3 +24,4 @@
 - Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
 - Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.
 - Preserve `/test`, storage guards, secrets, unrelated features and published git history.
+- The /mapa preview renders a painted raster atlas with transparent SVG hitboxes traced from that image; regenerate outlines whenever the atlas changes so clicks stay aligned.
