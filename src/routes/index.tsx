@@ -84,14 +84,19 @@ export function Index() {
     );
   return (
     <>
-    {mapNotice && <div role="status" style={{ padding: "12px", textAlign: "center" }}>Verdantia — utwórz postać Planetarnych albo wybierz istniejącą postać w zakładce „Twoje postacie”.</div>}
-    <CharacterSelection
-      slots={slots}
-      warning={warning}
-      onCreate={create}
-      onContinue={open}
-      startWithOrigins={startWithOrigins || mapNotice}
-    />
+      {mapNotice && (
+        <div role="status" style={{ padding: "12px", textAlign: "center" }}>
+          Verdantia — utwórz postać Planetarnych albo wybierz istniejącą postać w zakładce „Twoje
+          postacie”.
+        </div>
+      )}
+      <CharacterSelection
+        slots={slots}
+        warning={warning}
+        onCreate={create}
+        onContinue={open}
+        startWithOrigins={startWithOrigins || mapNotice}
+      />
     </>
   );
 }
