@@ -20,6 +20,7 @@ import { ABILITIES, xpNeeded, type Ability, type Command } from "../../game/sess
 import { Inventory, QuestJournal, NpcDialogue } from "./AdventurePanels";
 import "./adventure.css";
 import "./game-messages.css";
+import "./hud-layout.css";
 
 type Props = {
   state: GameViewState;
@@ -68,6 +69,9 @@ export function GameHud({
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const tools = useRef<HTMLDivElement>(null);
+  const toolsToggle = useRef<HTMLButtonElement>(null);
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
   const messageLog = useRef<HTMLDivElement>(null);
@@ -114,13 +118,34 @@ export function GameHud({
     onWorldLabels?.(preferences.worldLabels);
   }, [preferences.worldLabels, onWorldLabels]);
   useEffect(() => {
-    if (state.dialogue) setChatOpen(false);
+    if (state.dialogue) {
+      setChatOpen(false);
+      setToolsOpen(false);
+    }
   }, [state.dialogue]);
+  useEffect(() => {
+    if (!toolsOpen) return;
+    const dismiss = (event: PointerEvent) => {
+      const node = event.target;
+      if (
+        node instanceof Node &&
+        !tools.current?.contains(node) &&
+        !toolsToggle.current?.contains(node)
+      )
+        setToolsOpen(false);
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, [toolsOpen]);
   const world = WORLDS[state.player.continent];
   const npcs = world.npcs;
+  const nearbyNpc = npcs.find(
+    (n) => n.id === state.nearestNpc && Math.hypot(n.x - state.x, n.y - state.y) <= 180,
+  );
   const x = Math.max(0, Math.min(100, (state.x / world.width) * 100));
   const y = Math.max(0, Math.min(100, (state.y / world.height) * 100));
   function toggle(next: Panel) {
+    setToolsOpen(false);
     setChatOpen(false);
     if (state.dialogue) onCommand({ type: "dialogue", action: "close" });
     setPanel((p) => (p === next ? null : next));
@@ -133,10 +158,11 @@ export function GameHud({
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        setToolsOpen(false);
         setChatOpen(false);
         if (
           document.activeElement instanceof HTMLElement &&
-          document.activeElement.closest(".ki-chat")
+          document.activeElement.closest(".ki-chat, .ki-tools, .ki-tools-toggle")
         )
           document.activeElement.blur();
         setPanel(null);
@@ -199,25 +225,32 @@ export function GameHud({
           </div>
         </div>
       </section>
-      {state.target && (
-        <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik">
-          <span>
-            {state.target.inRange ? "BESTIA · ATAK W ZASIĘGU" : "BESTIA · PODEJDŹ BLIŻEJ"}
-          </span>
-          <strong>{state.target.name}</strong>
-          <div className="ki-meter ki-hp">
-            <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
+      <div className="ki-status-stack">
+        {state.target && (
+          <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik">
             <span>
-              {state.target.hp} / {state.target.maxHp}
+              {state.target.inRange ? "BESTIA · ATAK W ZASIĘGU" : "BESTIA · PODEJDŹ BLIŻEJ"}
             </span>
+            <strong>{state.target.name}</strong>
+            <div className="ki-meter ki-hp">
+              <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
+              <span>
+                {state.target.hp} / {state.target.maxHp}
+              </span>
+            </div>
+          </section>
+        )}
+        {!panel && !state.dialogue && (
+          <div className="ki-notification-rail" aria-label="Powiadomienia gry">
+            {feedback}
           </div>
-        </section>
-      )}
+        )}
+      </div>
       <section
         className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
         aria-label="Minimapa"
       >
-        <div className="ki-map-title">
+        <div className="ki-map-title" title={world.settlement}>
           <span className="ki-dot" />
           {world.settlement}
         </div>
@@ -274,6 +307,7 @@ export function GameHud({
       >
         <button
           className="ki-chat-toggle"
+          aria-label="Czat lokalny"
           onClick={() => setChatOpen((v) => !v)}
           aria-expanded={chatOpen}
         >
@@ -383,62 +417,88 @@ export function GameHud({
         })}
         <div className="ki-bar-decoration">◆</div>
       </nav>
-      <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">
-        <button
-          onClick={() => onZoom(clampZoom(zoom - 0.08))}
-          disabled={zoom <= 0.35}
-          aria-label="Oddal mapę"
-          title="Oddal mapę"
-        >
-          −
-        </button>
-        <button
-          className="ki-zoom-value"
-          onClick={() => onZoom(DEFAULT_ZOOM)}
-          aria-label="Przywróć oddalenie mapy"
-        >
-          {Math.round(zoom * 100)}%
-        </button>
-        <button
-          onClick={() => onZoom(clampZoom(zoom + 0.08))}
-          disabled={zoom >= 1}
-          aria-label="Przybliż mapę"
-          title="Przybliż mapę"
-        >
-          +
-        </button>
-        <button
-          onClick={onFullscreen}
-          aria-label={fullscreen ? "Opuść pełny ekran" : "Pełny ekran"}
-          title="Pełny ekran"
-        >
-          ⛶
-        </button>
-      </nav>
-      <nav className="ki-menu" aria-label="Menu gry">
-        {(
-          [
-            { p: "inventory", n: 5 },
-            { p: "journal", n: 6 },
-            { p: "settings", n: 7 },
-          ] as const
-        ).map(({ p, n }) => (
+      <button
+        ref={toolsToggle}
+        className="ki-tools-toggle ki-frame"
+        aria-label="Menu gry"
+        aria-expanded={toolsOpen}
+        aria-controls="ki-tools"
+        onClick={(event) => {
+          setToolsOpen((v) => !v);
+          setChatOpen(false);
+          event.currentTarget.blur();
+        }}
+      >
+        <span aria-hidden="true">{toolsOpen ? "×" : "☰"}</span>
+      </button>
+      <div ref={tools} id="ki-tools" className={`ki-tools ${toolsOpen ? "is-open" : ""}`}>
+        <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">
           <button
-            key={p}
-            className={`ki-menu-button ki-frame ${panel === p ? "active" : ""}`}
-            title={iconNames[n]}
-            aria-label={iconNames[n]}
-            onClick={() => toggle(p)}
+            onClick={() => onZoom(clampZoom(zoom - 0.08))}
+            disabled={zoom <= 0.35}
+            aria-label="Oddal mapę"
+            title="Oddal mapę"
           >
-            <Icon index={n} />
-            {p === "settings" && state.saveWarning && (
-              <span className="ki-save-indicator" aria-label="Problem z zapisem">
-                !
-              </span>
-            )}
+            −
           </button>
-        ))}
-      </nav>
+          <button
+            className="ki-zoom-value"
+            onClick={() => onZoom(DEFAULT_ZOOM)}
+            aria-label="Przywróć oddalenie mapy"
+          >
+            {Math.round(zoom * 100)}%
+          </button>
+          <button
+            onClick={() => onZoom(clampZoom(zoom + 0.08))}
+            disabled={zoom >= 1}
+            aria-label="Przybliż mapę"
+            title="Przybliż mapę"
+          >
+            +
+          </button>
+          <button
+            onClick={onFullscreen}
+            aria-label={fullscreen ? "Opuść pełny ekran" : "Pełny ekran"}
+            title="Pełny ekran"
+          >
+            ⛶
+          </button>
+        </nav>
+        <nav className="ki-menu" aria-label="Menu gry">
+          {(
+            [
+              { p: "inventory", n: 5 },
+              { p: "journal", n: 6 },
+              { p: "settings", n: 7 },
+            ] as const
+          ).map(({ p, n }) => (
+            <button
+              key={p}
+              className={`ki-menu-button ki-frame ${panel === p ? "active" : ""}`}
+              title={iconNames[n]}
+              aria-label={iconNames[n]}
+              onClick={() => toggle(p)}
+            >
+              <Icon index={n} />
+            </button>
+          ))}
+          <button
+            className="ki-menu-chat ki-menu-button ki-frame"
+            aria-label="Czat lokalny"
+            onClick={() => {
+              setToolsOpen(false);
+              setChatOpen(true);
+            }}
+          >
+            <span aria-hidden="true">☷</span>
+          </button>
+        </nav>
+      </div>
+      {state.saveWarning && (
+        <span className="ki-save-indicator ki-save-status" aria-label="Problem z zapisem">
+          !
+        </span>
+      )}
       {!panel && state.dialogue && (
         <NpcDialogue
           state={state}
@@ -446,9 +506,9 @@ export function GameHud({
           feedback={<div className="ki-inline-messages">{feedback}</div>}
         />
       )}
-      {!panel && !state.dialogue && !chatOpen && (
+      {!panel && !state.dialogue && !chatOpen && !toolsOpen && !player.dead && (
         <div className="ki-context-actions">
-          {player.quests.steps === "active" && (
+          {player.quests.steps === "active" && !state.target && (
             <button
               onClick={(event) => {
                 onCommand({ type: "move", ...world.market });
@@ -458,14 +518,16 @@ export function GameHud({
               {world.market.action}
             </button>
           )}
-          <button
-            onClick={(event) => {
-              onCommand({ type: "interact", npc: state.nearestNpc });
-              event.currentTarget.blur();
-            }}
-          >
-            Rozmowa · {npcs.find((n) => n.id === state.nearestNpc)?.name} <kbd>E</kbd>
-          </button>
+          {nearbyNpc && !state.target && (
+            <button
+              onClick={(event) => {
+                onCommand({ type: "interact", npc: nearbyNpc.id });
+                event.currentTarget.blur();
+              }}
+            >
+              Rozmowa · {nearbyNpc.name} <kbd>E</kbd>
+            </button>
+          )}
           {state.nearbyLoot[0] && (
             <button onClick={() => onCommand({ type: "loot", id: state.nearbyLoot[0]!.id })}>
               Podnieś łup <kbd>F</kbd>
@@ -473,11 +535,7 @@ export function GameHud({
           )}
         </div>
       )}
-      {!panel && !state.dialogue && (
-        <div className="ki-notification-rail" aria-label="Powiadomienia gry">
-          {feedback}
-        </div>
-      )}
+
       {player.dead && (
         <div className="ki-death-overlay" role="status">
           Zostałeś pokonany · odrodzenie za chwilę

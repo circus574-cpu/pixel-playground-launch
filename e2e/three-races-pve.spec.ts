@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, type RaceId } from "../src/game/world/races";
 import { WORLDS } from "../src/game/world/worlds";
@@ -44,22 +45,31 @@ async function move(page: Page, x: number, y: number) {
     )
     .toBeLessThan(95);
 }
-async function clickWorld(page: Page, x: number, y: number, width: number, height: number) {
+async function clickRenderedEnemy(page: Page, id: string, offsetY: number) {
   const point = await page.locator(".ki-canvas").evaluate(
     (el, p) => {
-      const zoom = Number((el as HTMLElement).dataset["zoom"] ?? 0.62);
-      const px = Number((el as HTMLElement).dataset["playerX"]);
-      const py = Number((el as HTMLElement).dataset["playerY"]);
-      const w = el.clientWidth,
-        h = el.clientHeight;
-      const scrollX = Math.max(0, Math.min(p.width - w / zoom, px - w / zoom / 2));
-      const scrollY = Math.max(0, Math.min(p.height - h / zoom, py - h / zoom / 2));
-      return { x: (p.x - scrollX) * zoom, y: (p.y - scrollY) * zoom };
+      const data = (el as HTMLElement).dataset;
+      const enemy = (
+        JSON.parse(data["enemies"] ?? "[]") as { id: string; x: number; y: number; hp: number }[]
+      ).find((e) => e.id === p.id && e.hp > 0);
+      if (!enemy) return null;
+      const zoom = Number(data["zoom"] ?? 0.62);
+      // Phaser zooms around the camera centre, not the top-left scroll origin.
+      return {
+        x: (enemy.x - Number(data["cameraX"]) - el.clientWidth / 2) * zoom + el.clientWidth / 2,
+        y:
+          (enemy.y + p.offsetY - Number(data["cameraY"]) - el.clientHeight / 2) * zoom +
+          el.clientHeight / 2,
+      };
     },
-    { x, y, width, height },
+    { id, offsetY },
   );
+  if (!point) return;
+  const hit = await page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.tagName, point);
+  expect(hit, "Rendered enemy must be exposed to a real player click").toBe("CANVAS");
   await page.locator("canvas").click({ position: point });
 }
+
 for (const race of races) {
   test(`real PvE journey: ${race.id} — quests, 3 kills, loot, equipment, merchant and smith`, async ({
     page,
@@ -86,7 +96,7 @@ for (const race of races) {
     await expect
       .poll(async () => (await state(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
-    await page.getByRole("button", { name: "Dziennik", exact: true }).click();
+    await openHudTool(page, "Dziennik");
     await page.getByRole("button", { name: "Idź do " + race.guide, exact: true }).click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     await close(page);
@@ -102,19 +112,12 @@ for (const race of races) {
       const enemy = world.enemies[index]!;
       await move(page, enemy.x - 130, enemy.y + 90);
       let selected = false;
-      for (const [dx, dy] of [
-        [0, -40],
-        [-40, -40],
-        [40, -40],
-        [0, 5],
-        [-40, 5],
-        [40, 5],
-      ] as const) {
+      for (const dy of [-30, -20, -40, -10, -25, -35]) {
         if (await page.locator(".ki-target").count()) {
           selected = true;
           break;
         }
-        await clickWorld(page, enemy.x + dx, enemy.y + dy, world.width, world.height);
+        await clickRenderedEnemy(page, "boar-" + index, dy);
         await page.waitForTimeout(300);
       }
       selected ||= (await page.locator(".ki-target").count()) > 0;
@@ -161,7 +164,7 @@ for (const race of races) {
     );
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
     await close(page);
-    await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+    await openHudTool(page, "Ekwipunek");
     await page.getByRole("button", { name: "Załóż", exact: true }).click();
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
     await visit(
@@ -181,7 +184,7 @@ for (const race of races) {
     await page.getByRole("button", { name: "Sprzedaj · 5", exact: true }).click();
     await page.getByRole("button", { name: "Kup · 25", exact: true }).click();
     await close(page);
-    await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+    await openHudTool(page, "Ekwipunek");
     await page.getByRole("button", { name: "Załóż", exact: true }).click();
     await expect(page.getByRole("button", { name: "Zdejmij pancerz", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();

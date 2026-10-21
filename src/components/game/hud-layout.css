@@ -1,0 +1,303 @@
+/* HUD geometry lives here, after the legacy skin. One dock; the world owns the centre. */
+.ki-hud {
+  --hud-edge: 10px;
+  --hud-bottom: max(8px, env(safe-area-inset-bottom));
+}
+.ki-tools {
+  display: contents;
+}
+.ki-tools-toggle,
+.ki-menu-chat {
+  display: none;
+}
+.ki-hud .ki-view-controls {
+  top: auto;
+  bottom: calc(var(--hud-bottom) + 52px);
+}
+.ki-hud .ki-player-info {
+  min-width: 0;
+}
+.ki-hud .ki-context-actions:empty {
+  display: none;
+}
+.ki-hud .ki-context-actions {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud {
+    --hud-edge: 8px;
+  }
+  .ki-hud .ki-player {
+    top: max(8px, env(safe-area-inset-top));
+    left: max(var(--hud-edge), env(safe-area-inset-left));
+    width: 176px;
+    height: 56px;
+    padding: 5px;
+    gap: 6px;
+    border-radius: 10px;
+    background: #142f3bd9;
+  }
+  .ki-hud .ki-portrait {
+    width: 34px;
+    height: 38px;
+  }
+  .ki-hud .ki-level {
+    left: 8px;
+    bottom: -5px;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+  .ki-hud .ki-player-name {
+    font-size: 10px;
+    line-height: 12px;
+    margin-bottom: 3px;
+  }
+  .ki-hud .ki-player-name > span {
+    display: none;
+  }
+  .ki-hud .ki-meter {
+    height: 11px;
+    margin-bottom: 3px;
+  }
+  .ki-hud .ki-meter span {
+    font-size: 9px;
+    line-height: 11px;
+  }
+  .ki-hud .ki-xp {
+    height: 2px;
+    margin-top: 0;
+  }
+  .ki-hud .ki-map {
+    top: max(8px, env(safe-area-inset-top));
+    right: max(var(--hud-edge), env(safe-area-inset-right));
+    width: 88px;
+    padding: 3px;
+    border-radius: 10px;
+    background: #142f3bd9;
+  }
+  .ki-hud .ki-map.ki-map-large {
+    width: 130px;
+  }
+  .ki-hud .ki-map-title {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 8px;
+    line-height: 15px;
+  }
+  .ki-hud .ki-dot {
+    width: 4px;
+    height: 4px;
+    margin-right: 3px;
+  }
+  .ki-hud .ki-quest,
+  .ki-hud .ki-location {
+    display: none;
+  }
+  .ki-hud .ki-target {
+    top: 72px;
+    left: max(var(--hud-edge), env(safe-area-inset-left));
+    width: 150px;
+    padding: 5px 7px;
+    transform: none;
+  }
+  .ki-hud .ki-target > span {
+    font-size: 7px;
+    margin-bottom: 2px;
+  }
+  .ki-hud .ki-target strong {
+    font-size: 11px;
+  }
+  .ki-hud .ki-target .ki-meter {
+    margin-top: 4px;
+  }
+  .ki-hud .ki-actionbar {
+    left: auto;
+    right: max(var(--hud-edge), env(safe-area-inset-right));
+    bottom: var(--hud-bottom);
+    height: 52px;
+    padding: 3px;
+    gap: 3px;
+    transform: none;
+    border-radius: 11px;
+    background: #142f3bd9;
+  }
+  .ki-hud .ki-skill {
+    width: 44px;
+    height: 44px;
+    padding: 1px;
+    border-radius: 8px;
+  }
+  .ki-hud .ki-skill kbd,
+  .ki-hud .ki-context-actions kbd {
+    display: none;
+  }
+  .ki-hud .ki-context-actions {
+    bottom: calc(var(--hud-bottom) + 60px);
+    left: 50%;
+    width: max-content;
+    max-width: calc(100% - 16px);
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  .ki-hud .ki-context-actions button {
+    min-height: 44px;
+    min-width: 0;
+    padding: 6px 10px;
+    font-size: 11px;
+    line-height: 14px;
+    border-radius: 9px;
+    background: #173d48e6;
+  }
+  .ki-hud .ki-tools-toggle {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    left: max(var(--hud-edge), env(safe-area-inset-left));
+    bottom: var(--hud-bottom);
+    width: 48px;
+    height: 52px;
+    padding: 0;
+    font: 24px/1 system-ui;
+    background: #142f3bd9;
+    border-radius: 11px;
+  }
+  .ki-hud .ki-tools {
+    display: none;
+    position: absolute;
+    left: max(var(--hud-edge), env(safe-area-inset-left));
+    bottom: calc(var(--hud-bottom) + 60px);
+    width: 236px;
+    padding: 7px;
+    border: 1px solid #9ecbc26b;
+    border-radius: 12px;
+    background: #122e3bf5;
+    box-shadow: 0 6px 24px #0005;
+    z-index: 12;
+    pointer-events: auto;
+  }
+  .ki-hud .ki-tools.is-open {
+    display: grid;
+    gap: 7px;
+  }
+  .ki-hud .ki-menu,
+  .ki-hud .ki-view-controls {
+    position: static;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    gap: 4px;
+    transform: none;
+  }
+  .ki-hud .ki-menu {
+    grid-row: 1;
+  }
+  .ki-hud .ki-menu-button {
+    width: 48px;
+    height: 48px;
+    padding: 4px;
+    border-radius: 9px;
+  }
+  .ki-hud .ki-menu-chat {
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+  }
+  .ki-hud .ki-view-controls button {
+    min-width: 44px;
+    min-height: 44px;
+    border: 1px solid #9ecbc233;
+    border-radius: 8px;
+    font-size: 20px;
+  }
+  .ki-hud .ki-view-controls .ki-zoom-value {
+    display: block;
+    font-size: 11px;
+  }
+  .ki-hud .ki-chat:not(.ki-chat-open) {
+    display: none;
+  }
+  .ki-hud .ki-chat-open {
+    bottom: calc(var(--hud-bottom) + 60px);
+    left: var(--hud-edge);
+    width: min(300px, calc(100% - 16px));
+  }
+  .ki-hud .ki-chat-open .ki-chat-toggle {
+    min-height: 44px;
+  }
+  .ki-hud .ki-notification-rail {
+    top: 74px;
+    left: var(--hud-edge);
+    width: min(240px, calc(100% - 156px));
+  }
+  .ki-hud .ki-target ~ .ki-notification-rail {
+    top: 142px;
+  }
+  .ki-hud .ki-game-message {
+    font-size: 10px;
+  }
+  .ki-hud .ki-game-message p {
+    padding: 7px 0 7px 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ki-tools,
+  .ki-tools-toggle {
+    transition: none;
+  }
+}
+.ki-hud > .ki-save-status {
+  top: auto;
+  bottom: 46px;
+  right: 6px;
+  z-index: 13;
+  pointer-events: none;
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud > .ki-save-status {
+    left: 44px;
+    right: auto;
+    bottom: calc(var(--hud-bottom) + 42px);
+  }
+}
+
+/* Target names can wrap. Feedback follows their real height instead of a guessed offset. */
+.ki-status-stack {
+  position: absolute;
+  top: 92px;
+  left: max(10px, env(safe-area-inset-left));
+  width: min(280px, calc(100% - 20px));
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+.ki-hud .ki-status-stack .ki-target {
+  position: static;
+  width: min(180px, 100%);
+  transform: none;
+  margin: 0;
+}
+.ki-hud .ki-status-stack .ki-notification-rail {
+  position: static;
+  width: 100%;
+  transform: none;
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-status-stack {
+    top: 74px;
+    left: 8px;
+    width: min(240px, calc(100% - 156px));
+  }
+  .ki-hud .ki-status-stack .ki-target {
+    width: min(150px, 100%);
+  }
+}

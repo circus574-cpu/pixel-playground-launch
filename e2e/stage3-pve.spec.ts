@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
@@ -54,7 +55,7 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
   await expect
     .poll(async () => (await saved(page))?.quests.steps, { timeout: 120000 })
     .toBe("ready");
-  await page.getByRole("button", { name: "Dziennik", exact: true }).click();
+  await openHudTool(page, "Dziennik");
   await page.getByRole("button", { name: "Idź do Airy", exact: true }).click();
   await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
   await close(page);
@@ -141,7 +142,7 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
   await visit(page, "Idź do Taro · Kowal");
   await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
   await close(page);
-  await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+  await openHudTool(page, "Ekwipunek");
   await page.getByRole("button", { name: "Załóż", exact: true }).click();
   await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
   await visit(page, "Idź do Taro · Kowal");
@@ -153,11 +154,11 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
   await page.getByRole("button", { name: "Sprzedaj · 5", exact: true }).click();
   await page.getByRole("button", { name: "Kup · 25", exact: true }).click();
   await close(page);
-  await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+  await openHudTool(page, "Ekwipunek");
   await page.getByRole("button", { name: "Załóż", exact: true }).click();
   await expect(page.getByRole("button", { name: "Zdejmij pancerz", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
-  await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+  await openHudTool(page, "Ustawienia");
   await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
   await page.getByRole("button", { name: "Kontynuuj podróż", exact: true }).click();
   const before = await saved(page);

@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 const races = [
   {
@@ -59,7 +60,7 @@ async function saved(page: Page) {
   });
 }
 async function returnToCharacters(page: Page) {
-  await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+  await openHudTool(page, "Ustawienia");
   await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
   await expect(page.locator("canvas")).toHaveCount(0);
 }
@@ -119,7 +120,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     await expect
       .poll(async () => (await saved(page))?.quests.steps, { timeout: 120_000 })
       .toBe("ready");
-    await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+    await openHudTool(page, "Ustawienia");
     await expect(page.getByRole("dialog", { name: "Ustawienia", exact: true })).toBeVisible();
     await page.waitForTimeout(250);
     const moved = {
@@ -138,7 +139,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     await expect
       .poll(() => page.locator(".ki-map-marker").first().getAttribute("style"))
       .toBe(marker);
-    await page.getByRole("button", { name: "Dziennik", exact: true }).click();
+    await openHudTool(page, "Dziennik");
     await page.getByRole("button", { name: race.back, exact: true }).click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     expect((await saved(page)).quests.steps).toBe("done");
@@ -261,26 +262,25 @@ for (const [width, height] of [
     await expect
       .poll(async () => (await saved(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
-    await page.getByRole("button", { name: "Ekwipunek", exact: true }).tap();
+    await openHudTool(page, "Ekwipunek", "touch");
     await expect(page.getByRole("dialog", { name: "Ekwipunek", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).tap();
     await page.screenshot({ path: info.outputPath("world.png") });
     const skills = await page
       .getByRole("navigation", { name: "Umiejętności", exact: true })
       .boundingBox();
+    expect(skills!.y + skills!.height).toBeLessThanOrEqual(height + 1);
+    const actions = await page.locator(".ki-context-actions").boundingBox();
+    if (actions) expect(actions.y + actions.height).toBeLessThanOrEqual(skills!.y);
+    else await expect(page.locator(".ki-context-actions")).toBeHidden();
+    const menu = page.getByRole("button", { name: "Menu gry", exact: true });
+    await menu.tap();
     const controls = await page
       .getByRole("navigation", { name: "Widok mapy", exact: true })
       .boundingBox();
-    expect(skills!.y + skills!.height).toBeLessThanOrEqual(height + 1);
     expect(controls!.x + controls!.width).toBeLessThanOrEqual(width + 1);
-    expect(
-      skills!.x + skills!.width <= controls!.x ||
-        controls!.x + controls!.width <= skills!.x ||
-        skills!.y + skills!.height <= controls!.y ||
-        controls!.y + controls!.height <= skills!.y,
-    ).toBe(true);
-    const actions = await page.locator(".ki-context-actions").boundingBox();
-    expect(actions!.y + actions!.height).toBeLessThanOrEqual(skills!.y);
+    expect(skills!.y).toBeGreaterThanOrEqual(controls!.y + controls!.height);
+    await menu.tap();
     expect(errors).toEqual([]);
     await context.close();
   });

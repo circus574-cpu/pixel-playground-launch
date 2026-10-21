@@ -1,3 +1,4 @@
+import { openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
 import { WORLDS, worldObstacles } from "../src/game/world/worlds";
@@ -54,7 +55,7 @@ async function groundClick(page: Page, x: number, y: number, width: number, heig
       return;
     }
     const zoomOut = page.getByRole("button", { name: "Oddal mapę", exact: true });
-    if (await zoomOut.isEnabled()) await zoomOut.click();
+    if (await zoomOut.isEnabled()) await openHudTool(page, "Oddal mapę");
     else break;
   }
   throw new Error("Mouse test goal is hidden by HUD or outside the viewport even at minimum zoom");
@@ -255,7 +256,7 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
     .poll(() => canvas.getAttribute("data-animation-frame"))
     .toMatch(/technical\/walk\/right\//);
   await page.keyboard.up("ArrowRight");
-  await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
+  await openHudTool(page, "Ustawienia");
   await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
   await page.route("**/gpu/technical-rig/**/technical-rig.json", (route) =>
     route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
@@ -316,8 +317,7 @@ for (const race of RACE_IDS)
     await expect.poll(async () => (await enemies())[0]?.mode, { timeout: 15000 }).toBe("patrol");
     expect((await enemies())[0]!.hp).toBe(66);
     // Show the whole world, then click beyond its right edge on the actual canvas.
-    for (let i = 0; i < 4; i++)
-      await page.getByRole("button", { name: "Oddal mapę", exact: true }).click();
+    for (let i = 0; i < 4; i++) await openHudTool(page, "Oddal mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.35");
     await page.locator("canvas").click({ position: { x: 1260, y: 450 } });
     await expect
