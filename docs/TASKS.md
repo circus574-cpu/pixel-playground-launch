@@ -38,3 +38,16 @@ Stan: 2026-10-21, rekonstrukcja; nie modyfikuje istniejących zadań Codexa.
 - [ ] **Niezależna kontrola:** zweryfikować wszystkie logi i artefakty #8, fizyczny Android, sprzętowy WebGL, produkcję/commit, prawa licencyjne; nie utożsamiać 7/7 historycznych testów domeny z testem nowego GPU.
 - [ ] **Po akceptacji Planetarnych:** pozostałe rasy, NPC/fauna, środowisko i efekty KI; kontrola stylistyki i rzeczywistej sceny.
 - [ ] **Utrzymać dokumenty:** #6 i #8 na osobnych gałęziach do zatwierdzenia; nie scalać ani nie publikować.
+
+
+## Aktualizacja z PR #8 — stan wykonania i blokady
+- [x] **Raportowo wykonane, z dowodami:** HUD PR #5 i QA PR #7, merge na main `86a1e41`; CI `39540694141` success; świeże lokalne 97 unit / 54 E2E według FINAL_TESTS #8. Oznaczenie dotyczy bazowej gry, nie GPU.
+- [x] **Raportowo wykonane:** pobranie i hash 181 obiektów LFS, 179 PNG i .blend w PR #8; zakres ograniczony do `motion-v2`.
+- [ ] Dokończyć Planetarnego: attack 13, skill 64, hit 32, death 64, respawn 64 = **237** brakujących klatek; następnie odbiór jakości, import opt-in, test w rzeczywistym Phaserze.
+- [ ] Uzgodnić main (96 / origin .95 / kamera 60°) z #4 grounded (128 / .75 / 45°), w tym importer/packer/manifest i kolizję; nie przenosić 98 testów unit #4 jako wynik main.
+- [ ] Wznowienie GPU tylko po zgodzie: sprawdzić tożsamość woluminu, kompletność modeli Animagine/DreamShaper, runtime, kopie, cold restart i ryzyko FUSE; nie wykonywać automatycznej reinstalacji.
+- [ ] Weryfikacja produkcji na obecnym SHA: deployment, statyczny marker nie wystarcza; nie utożsamiać wcześniejszego 7/7 domeny z bieżącym deploy.
+- [ ] Fizyczny Android, sprzętowy WebGL, długie sesje, termika, sieć mobilna, pomiary pamięci/tekstur.
+- [ ] Pełny przegląd licencji modeli/assetów, zwłaszcza CreativeML Open RAIL++-M, U²-Net, referencje wizualne.
+- [ ] Zweryfikować i uporządkować stare sprzeczne zapisy (np. cztery rasy kontra Human/Orc/Dwarf/Elf, techniczny rig kontra finalny bohater), bez usuwania historii.
+- [ ] Po akceptacji Planetarnego kontynuować NPC/przeciwników, potem miasta i pozostałe rasy zgodnie z nowym poleceniem właściciela.
