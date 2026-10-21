@@ -11,6 +11,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Etap PvE](STAGE2-GAMEPLAY.md)
 - [Testy ras](TESTING-RACE-SWITCH.md)
 - [Raport stabilizacji PvE](QA-STAGE2-2026-10-20.md)
+- [Globus 3D /mapa](MAPA-GLOBUS-3D.md)
 - [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
 - Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Nie jest jeszcze umieszczony w repozytorium.** Wymagane dodanie binarnego oryginału do `docs/design/` i weryfikacja SHA-256. Nie zastępować go tekstowym streszczeniem.
 

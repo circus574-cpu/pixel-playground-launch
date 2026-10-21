@@ -25,7 +25,7 @@
 - Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
 - Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.
 - Preserve `/test`, storage guards, secrets, unrelated features and published git history.
-- The /mapa preview renders a painted raster atlas with transparent SVG hitboxes traced from that image; regenerate outlines whenever the atlas changes so clicks stay aligned.
+- /mapa shows a lazily loaded WebGL globe wrapping the painted equirectangular atlas, with the flat atlas plus transparent SVG hitboxes as the 2D view and no-WebGL fallback; both views pick regions from the same traced outlines, so regenerate outlines and `scripts/build_globe_textures.py` outputs whenever the atlas changes.
 
 ## Shared project knowledge — required for every agent
 
@@ -34,3 +34,4 @@
 - Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
 - **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
 - Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
+- Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.

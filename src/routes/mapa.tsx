@@ -1,20 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PlanetMap } from "../components/planet-map/PlanetMap";
+import { MapaView } from "../components/planet-map/MapaView";
 
 export const Route = createFileRoute("/mapa")({
   head: () => ({
     meta: [
-      { title: "Mapa planety Superior — DEMO · Ki Legends" },
+      { title: "Planeta Superior — globus 3D · Ki Legends" },
       {
         name: "description",
         content:
-          "Interaktywny podgląd DEMO mapy planety Superior: Verdantia, Aetheria, Nexus-9, Pyra i sześć przyszłych wysp questowych.",
+          "Interaktywny globus 3D planety Superior: Verdantia, Aetheria, Nexus-9, Pyra i sześć przyszłych wysp questowych, z płaską mapą atlasu jako alternatywą.",
       },
-      { property: "og:title", content: "Mapa planety Superior — DEMO · Ki Legends" },
+      { property: "og:title", content: "Planeta Superior — globus 3D · Ki Legends" },
       {
         property: "og:description",
         content:
-          "Cztery kontynenty pochodzeń i sześć planowanych wysp questowych w interaktywnym podglądzie mapy Ki Legends.",
+          "Obracaj planetę Superior, poznaj cztery kontynenty pochodzeń i sześć planowanych wysp questowych Ki Legends.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -24,5 +24,5 @@ export const Route = createFileRoute("/mapa")({
 });
 
 function MapaPage() {
-  return <PlanetMap />;
+  return <MapaView />;
 }
