@@ -199,7 +199,11 @@ export function PlanetMap() {
   const onPointerDown = (e: ReactPointerEvent<SVGSVGElement>) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     stopAnimation();
-    e.currentTarget.setPointerCapture?.(e.pointerId);
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {
+      // Capture is an enhancement; gestures still work without it.
+    }
     const p = local(e);
     pointers.current.set(e.pointerId, p);
     if (pointers.current.size === 1) {
