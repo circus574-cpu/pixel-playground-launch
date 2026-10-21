@@ -1,0 +1,40 @@
+HISTORICAL REFERENCE ONLY — command retained in the workspace from the previous GPU session.
+Not executed during handoff; target archive existence is not revalidated while GPU is off.
+
+set -e
+python - <<'PY'
+from pathlib import Path
+import tarfile,json,hashlib,shutil,subprocess
+root=Path('/workspace/ki-legends-gpu');out=root/'checkpoints/planetary-20261020';out.mkdir(parents=True,exist_ok=True)
+source=Path('/opt/ki-legends-gpu/planetary-motion-v2');local=Path('/opt/ki-legends-gpu/planetary-checkpoint-20261020.tar.gz')
+with tarfile.open(local,'w:gz') as tar:
+ for meta in source.glob('*.json'):
+  tar.add(meta,arcname='planetary-motion-v2/'+meta.name)
+  for suffix in ['.png','.blend']:
+   p=meta.with_suffix(suffix)
+   if p.exists():tar.add(p,arcname='planetary-motion-v2/'+p.name)
+ for p in list(source.glob('*.manifest'))+list(source.glob('*.report')):tar.add(p,arcname='planetary-motion-v2/'+p.name)
+ for p in Path('/opt/ki-legends-gpu/planetary-rig-v2').glob('*.blend'):tar.add(p,arcname='planetary-rig-v2/'+p.name)
+ for p in (root/'source/planetary-rig-base').iterdir():
+  if p.is_file():tar.add(p,arcname='rig-base/'+p.name)
+ for name in ['animate_planetary.py','build_planetary_rig.py','fetch_planetary_rig_base.py','planetary-rig-base.json']:
+  p=Path('/opt/ki-legends-gpu/scripts')/name
+  if p.exists():tar.add(p,arcname='scripts/'+p.name)
+ for p in [root/'bootstrap.sh',root/'wan-removal-20261020.json']:
+  if p.exists():tar.add(p,arcname=p.name)
+target=out/local.name;shutil.copyfile(local,target)
+assert hashlib.file_digest(local.open('rb'),'sha256').hexdigest()==hashlib.file_digest(target.open('rb'),'sha256').hexdigest()
+models=[]
+for name,size,sha in [('animagine-xl-3.1.safetensors',6938325776,'e3c47aedb06418c6c331443cd89f2b3b3b34b7ed2102a3d4c4408a8d35aad6b0'),('DreamShaperXL_Turbo_v2_1.safetensors',6939220250,'4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083')]:
+ p=root/'models/checkpoints'/name
+ assert p.exists() and p.stat().st_size==size, 'Missing persistent model '+name
+ models.append({'path':str(p),'bytes':size,'download_sha256':sha,'verification':'download SHA was verified during setup; size/existence checked at pause'})
+manifest={'completed_frames':179,'target_frames':416,'archive':str(target),'archive_bytes':target.stat().st_size,'sha256':hashlib.file_digest(target.open('rb'),'sha256').hexdigest(),'models':models,'mount':'/workspace fuse.geesefs','runpod_network_volume_id':'not exposed in environment; account API access unavailable','status':'paused-by-user-not-complete','render':{'camera_elevation':45,'ortho':7,'origin':[.5,.75],'raw_frame':[512,512],'world_canvas':[128,128],'collider_radius':12,'cycles_samples':16,'states':['idle','walk','attack','skill','hit','death','respawn']}}
+(out/'checkpoint.json').write_text(json.dumps(manifest,indent=2)+'\n')
+for env in ['comfy-venv','blender-venv']:
+ command=[f'/opt/ki-legends-gpu/{env}/bin/python','-c','import importlib.metadata as m; print("\\n".join(sorted(d.metadata["Name"]+"=="+d.version for d in m.distributions())))']
+ result=subprocess.run(command,capture_output=True,text=True,check=True);(out/(env+'-packages.txt')).write_text(result.stdout)
+print('CHECKPOINT_STORED_AND_READBACK_VERIFIED',target.stat().st_size,'bytes')
+print('REQUIRED_MODELS_ON_MOUNT',len(models))
+print('NETWORK_VOLUME_PRODUCT_ID_UNCONFIRMED; mounted filesystem is fuse.geesefs')
+PY

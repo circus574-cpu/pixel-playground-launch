@@ -1,0 +1,74 @@
+{
+  "checked_at": "2026-10-21T04:28:55.933343+00:00",
+  "base_commit": "86a1e411339bc41fb218d4633ed2a7bd81e1f167",
+  "branch": "docs/codex-cloud-handoff-20261021",
+  "pull_requests": [
+    {
+      "headRefName": "docs/mobile-hud-verification-20261021",
+      "headRefOid": "ea8648968acad9899e918ef706009f7022547b5e",
+      "isDraft": false,
+      "number": 7,
+      "state": "MERGED",
+      "title": "docs: wyniki QA i opublikowany mobilny HUD",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/7"
+    },
+    {
+      "headRefName": "docs/ki-legends-knowledge-reconstruction-20261021",
+      "headRefOid": "d020074dc70761632436e167d3e26d13e8beaf03",
+      "isDraft": true,
+      "number": 6,
+      "state": "OPEN",
+      "title": "docs: rekonstrukcja wiedzy i kanonu KI Legends (do zatwierdzenia)",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/6"
+    },
+    {
+      "headRefName": "fix/mobile-hud-layout-20261020",
+      "headRefOid": "7a52aaeb0412b671e6d9e0bf0825980b7bc131e9",
+      "isDraft": false,
+      "number": 5,
+      "state": "MERGED",
+      "title": "Uporządkowany HUD mobilny: jeden pasek i zwijane narzędzia",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/5"
+    },
+    {
+      "headRefName": "feat/gpu-hero-approval-20261020",
+      "headRefOid": "7c50e8d5a93a3cf98c094f1ee341829fd6b0354c",
+      "isDraft": true,
+      "number": 4,
+      "state": "OPEN",
+      "title": "WIP: Planetarni hero rig and 179-frame production checkpoint",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/4"
+    },
+    {
+      "headRefName": "docs/runpod-gpu-setup-20261020",
+      "headRefOid": "bbe248576c4e43098034aad84c667109912e62a2",
+      "isDraft": false,
+      "number": 3,
+      "state": "OPEN",
+      "title": "Document repaired RunPod GPU runtime and verified asset workflow",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/3"
+    },
+    {
+      "headRefName": "feat/pre-gpu-stabilization-20261020",
+      "headRefOid": "b51fc1928a6600035cc6c169205dd7adceb5fe86",
+      "isDraft": false,
+      "number": 2,
+      "state": "MERGED",
+      "title": "Stabilize four-race PvE and prepare the GPU asset pipeline",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/2"
+    },
+    {
+      "headRefName": "qa/playwright-github-actions-20261020",
+      "headRefOid": "e8edb7a55ab9913456528f82279ef1f66f3fc3ef",
+      "isDraft": false,
+      "number": 1,
+      "state": "MERGED",
+      "title": "ci: bezpłatne testy Ki Legends w Playwright przez GitHub Actions",
+      "url": "https://github.com/circus574-cpu/pixel-playground-launch/pull/1"
+    }
+  ],
+  "worktrees_before": "ki-legends: 7c50e8d feat/gpu-hero-approval-20261020, clean; ki-hud: ea86489 docs/mobile-hud-verification-20261021, clean",
+  "gpu_remote_changes": false,
+  "production_deployment": false,
+  "main_merge": false
+}

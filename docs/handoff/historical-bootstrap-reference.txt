@@ -1,0 +1,25 @@
+HISTORICAL REFERENCE ONLY — extracted from local prepare-persistence.sh, not re-read from GPU.
+Later final-health.sh added a missing-only /post_start.sh hook before install_links.py.
+Do not overwrite a live bootstrap with this fragment. Cold restore is untested.
+
+#!/bin/bash
+set -euo pipefail
+runtime=/opt/ki-legends-gpu
+cache=/workspace/ki-legends-gpu/runtime-cache
+if [ ! -x "$runtime/comfy-venv/bin/python" ] || [ ! -x "$runtime/blender-venv/bin/python" ] || [ ! -x "$runtime/node/bin/node" ]; then
+  cd "$cache"
+  sha256sum -c runtime-20261020-v1.sha256
+  tar -xzf runtime-20261020-v1.tar.gz -C /opt --no-same-owner
+fi
+if ! python - <<'PY'
+import ctypes
+for lib in ['libXrender.so.1','libXi.so.6','libXfixes.so.3','libxkbcommon.so.0','libSM.so.6','libICE.so.6','libEGL.so.1','libgomp.so.1']:ctypes.CDLL(lib)
+PY
+then
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update -qq
+  apt-get install -y --no-install-recommends libxrender1 libxi6 libxfixes3 libxkbcommon0 libsm6 libice6 libegl1 libgomp1
+fi
+python "$runtime/scripts/install_links.py"
+ki-gpu-check
+ki-comfy-start

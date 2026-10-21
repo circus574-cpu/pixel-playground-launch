@@ -1,0 +1,146 @@
+[
+  {
+    "status": "A",
+    "path": "docs/MOBILE-HUD-LAYOUT-2026-10-20.md"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Androidy-390x640.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Androidy-852x393.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Legendy-414x896.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Mędrcy-390x844.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Planetarni-1280x900.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Planetarni-360x640.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/Planetarni-390x640.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/after-390x640.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/before-390x640.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/full-local-e2e.txt"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/panel-measurements.json"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/production-e2e.txt"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/tools-360x640-Planetarni.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/tools-390x640-Androidy.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/tools-390x640-Planetarni.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/tools-390x844-Mędrcy.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/tools-414x896-Legendy.png"
+  },
+  {
+    "status": "A",
+    "path": "docs/qa/mobile-hud-layout/tools-852x393-Androidy.png"
+  },
+  {
+    "status": "M",
+    "path": "e2e/fixtures.ts"
+  },
+  {
+    "status": "A",
+    "path": "e2e/hud-layout.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/overlay-audit.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/pre-gpu.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/race-switch.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/stage3-migration.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/stage3-pve.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/stage3.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/stage31-collision.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/stage31-ui.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "e2e/three-races-pve.spec.ts"
+  },
+  {
+    "status": "M",
+    "path": "src/components/game/GameHud.tsx"
+  },
+  {
+    "status": "A",
+    "path": "src/components/game/hud-layout.css"
+  },
+  {
+    "status": "M",
+    "path": "src/game/mountGame.ts"
+  },
+  {
+    "status": "M",
+    "path": "src/integrations/supabase/previewAuthStorage.ts"
+  },
+  {
+    "status": "M",
+    "path": "src/integrations/supabase/types.ts"
+  },
+  {
+    "status": "M",
+    "path": "src/test/game-hud.test.tsx"
+  }
+]
