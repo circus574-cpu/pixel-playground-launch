@@ -486,7 +486,7 @@ export function PlanetMap() {
                 </g>
               )}
 
-              <g className="pm-compass" transform="translate(1910 905)" aria-hidden>
+              <g className="pm-compass" transform="translate(90 910)" aria-hidden>
                 <circle r="44" />
                 <path d="M0 -38L8 0L0 38L-8 0Z" />
                 <text y="-50" fontSize="22">
