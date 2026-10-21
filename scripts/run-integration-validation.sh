@@ -22,6 +22,7 @@ JS
   printf '%s: exit %s\n' "$label" "$result"
   return "$result"
 }
+record initial-source-integrity git diff --exit-code HEAD --
 record npm-ci npm ci
 record typecheck npm run typecheck
 record unit npm run test
@@ -29,7 +30,9 @@ record assets npm run assets:check
 record lint npm run lint
 record build npm run build
 record e2e npm run test:e2e
+record source-integrity git diff --exit-code HEAD --
 cp -a test-results "$output/full-e2e-artifacts"
 record software-webgl npx playwright test --project=software-webgl
 cp -a test-results "$output/software-webgl-artifacts"
+record final-source-integrity git diff --exit-code HEAD --
 printf 'Validation completed on %s; evidence: %s\n' "$revision" "$output"

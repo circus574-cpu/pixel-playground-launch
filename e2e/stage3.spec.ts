@@ -182,7 +182,7 @@ for (const [width, height] of [
       .locator(".ki-race-card img")
       .first()
       .evaluate((img) => (img as HTMLImageElement).decode());
-    await page.screenshot({ path: "docs/qa/stage3-1/selection-" + width + "x" + height + ".png" });
+    await page.screenshot({ path: info.outputPath("selection-" + width + "x" + height + ".png") });
     if (width <= 700) {
       const track = page.locator(".ki-race-grid");
       const bounds = await track.boundingBox();
@@ -224,7 +224,7 @@ for (const [width, height] of [
     await fullArt.evaluate((el) => (el as HTMLImageElement).decode());
     const artBounds = await fullArt.boundingBox();
     expect(artBounds!.y + artBounds!.height).toBeLessThanOrEqual(height);
-    await page.screenshot({ path: "docs/qa/stage3-1/illustration-mobile-" + width + ".png" });
+    await page.screenshot({ path: info.outputPath("illustration-mobile-" + width + ".png") });
     await page.getByRole("button", { name: "Zamknij ilustrację", exact: true }).tap();
 
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).tap();

@@ -13,6 +13,8 @@ Osobna gałąź `integration/ki-regressions-20261021`, utworzona z aktualnego `m
 
 Pełne logi obu historycznych nieudanych przebiegów odczytano. Pobranie starego archiwum artefaktów PR #12 przez środowisko wykonawcze zwróciło HTTP 403 z hosta wyników Actions; przyczynę ustalono z pełnych logów i nowych rzeczywistych testów. Nie przedstawia się tego archiwum jako pobranego.
 
+- Pełny lokalny przebieg ujawnił historyczne zapisy zrzutów do śledzonych `docs/qa/`. Nowe zrzuty zachowano osobno, a 25 oryginalnych plików odtworzono bajt w bajt z Git. Cztery starsze pliki testów zapisują teraz wyłącznie do `testInfo.outputPath`/`outputDir`. Runner sprawdza brak zmian w śledzonych źródłach przed i po Playwright; nie usuwa asercji.
+
 ## Konfiguracja testów
 
 `npm run test:e2e` uruchamia wszystkie projekty: gameplay (Canvas), software-webgl (oba GPU atlasy i cykl życia bohaterów), application-canvas (prawdziwe trasy i zamknięty `/test`) oraz application-webgl (globus, nawigacja i sprzątanie). `testMatch` przypisuje testy do właściwego renderera; nie usuwa testów z pełnego przebiegu. Oddzielny workflow uruchamia `--project=software-webgl`. Oba workflow checkoutują dokładny SHA głowy PR i zapisują `qa-tested-sha.txt` w artefaktach.
