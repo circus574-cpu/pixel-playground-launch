@@ -25,3 +25,7 @@ Słowa „kontynent” i „region startowy” nie oznaczają gotowej pełnej ma
 
 ## Luki do zatwierdzenia przez właściciela
 Geneza świata i KI; chronologia epok; relacje między rasami; szczegółowe biografie bohaterów i NPC; frakcje, polityka, antagonistyczne siły; kampania fabularna; geografia poza czterema startowymi mapami; zasady podróży między kontynentami. **Nie uzupełniać ich samodzielnie.**
+
+
+## Potwierdzenie kanonu z przekazania PR #8
+PR #8 potwierdza wszystkie cztery nazwy ras/regionów i przewodników: Aira/Rynek, Sora/Źródło Pamięci, LYRA-7/Rdzeń Świadomości, Kaena/Arena Dziedzictwa. Oryginalne ilustracje ras w `public/game/assets/origins-v1/` i `src/game/world/origin-art.json` są referencją selektora, **nie** źródłem animacji. Historyczny PDF `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` oraz nowe referencje miast nie były dostępne w filesystemie Codexa podczas handoff; nie rekonstruować ich nieznanej treści. Wzorzec Planetarnego zaakceptowano, animacje i inne rasy nie są zaakceptowane produkcyjnie. Kanon nie obejmuje elfów/orków/ludzi jako osobnych nowych ras.
