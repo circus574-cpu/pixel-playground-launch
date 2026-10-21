@@ -45,3 +45,7 @@ The corrected painted v2 identity was shown to the owner; owner instructed to co
 ## Eight-view acceptance and gait QA
 
 Owner reviewed the eight v3 painted directional masters and authorized animation production. This accepts the base appearance, not the resulting motion. Two physical-stride gait candidates produced42sampleframes each on the running GPU. Candidate2 passed joint-target and alpha-margin checks but visual inspection found severe robe folding in the right-facing walk. These samples are QA evidence, not accepted production frames. A gentler deformation and corrected garment weights are required before the full416render. GPU lifecycle remains exclusively owner-controlled.
+
+## Painted-view motion review limits
+
+All eight approved master directions are identifiable and preserve the ivory/emerald/gold identity. They are independently painted views, so hair/robe volume, ornamental panels, staff crown and overlapping sleeves may change visibly while turning. The compositor camera is45degrees; the source illustrations have no verified common3Dprojection. The bounded2Dgait is not proven foot planting or matched to engine205worldunits/s. Death uses a flat puppet rotation, not anatomical3Dcollapse. These limitations require explicit visual review; rendering all416frames does not imply final acceptance.

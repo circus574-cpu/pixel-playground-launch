@@ -2,7 +2,7 @@
 Eight directional painted masters remain the visual source. No per-frame AI redraw,
 mirroring, image slicing, recropping, or invented hidden geometry is used.
 """
-import argparse, hashlib, io, json, math, tarfile, time
+import argparse, hashlib, io, itertools, json, math, tarfile, time
 from pathlib import Path
 import bpy
 import numpy as np
@@ -12,8 +12,8 @@ from mathutils import Vector, Quaternion
 P=argparse.ArgumentParser()
 P.add_argument('--masters',type=Path,required=True)
 P.add_argument('--landmarks',type=Path)
-P.add_argument('--output',type=Path,default=Path('/opt/ki-legends-gpu/sage-painted-v3-motion'))
-P.add_argument('--persistent',type=Path,default=Path('/workspace/ki-legends-gpu/renders/sage-painted-v3-motion'))
+P.add_argument('--output',type=Path,default=Path('/opt/ki-legends-gpu/sage-painted-v3-motion-review7'))
+P.add_argument('--persistent',type=Path,default=Path('/workspace/ki-legends-gpu/renders/sage-painted-v3-motion-review7'))
 P.add_argument('--samples',action='store_true')
 P.add_argument('--calibration',action='store_true',help='Eight neutral rest-match renders only; not production frames')
 P.add_argument('--validate-only',action='store_true')
@@ -71,6 +71,11 @@ configs={d:{**default_config(d),**CONFIG.get(d,{})} for d in DIRECTIONS}
 for d in DIRECTIONS:
     configs[d]['joints']={**default_config(d)['joints'],**CONFIG.get(d,{}).get('joints',{})}
 save_json(OUT/'landmarks-used.json',configs);save_json(PERSIST/'landmarks-used.json',configs)
+BOOT_POLYGONS={'down': {'L': [[277, 329], [295, 329], [298, 346], [300, 363], [278, 363], [274, 346]], 'R': [[217, 341], [235, 341], [238, 358], [234, 385], [212, 385], [214, 358]]}, 'down-left': {'L': [[290, 339], [308, 339], [311, 356], [316, 385], [294, 385], [287, 356]], 'R': [[206, 338], [224, 338], [227, 355], [218, 383], [196, 383], [203, 355]]}, 'down-right': {'L': [[274, 324], [292, 324], [295, 341], [298, 359], [276, 359], [271, 341]], 'R': [[219, 342], [237, 342], [240, 359], [236, 385], [214, 385], [216, 359]]}, 'right': {'L': [[251, 316], [269, 316], [272, 333], [272, 343], [250, 343], [248, 333]], 'R': [[233, 340], [251, 340], [254, 357], [263, 385], [241, 385], [230, 357]]}, 'up': {'L': [[211, 342], [229, 342], [232, 359], [231, 384], [209, 384], [208, 359]], 'R': [[281, 343], [299, 343], [302, 360], [303, 385], [281, 385], [278, 360]]}, 'up-left': {'L': [[212, 340], [230, 340], [233, 357], [234, 385], [212, 385], [209, 357]], 'R': [[275, 333], [293, 333], [296, 350], [299, 373], [277, 373], [272, 350]]}, 'up-right': {'L': [[215, 339], [233, 339], [236, 356], [228, 380], [206, 380], [212, 356]], 'R': [[284, 342], [302, 342], [305, 359], [306, 385], [284, 385], [281, 359]]}, 'left': {'L': [[254, 342], [272, 342], [275, 359], [268, 385], [246, 385], [251, 359]], 'R': [[249, 322], [267, 322], [270, 339], [265, 350], [243, 350], [246, 339]]}}
+for direction in DIRECTIONS:
+    configs[direction].setdefault('boot_polygons',BOOT_POLYGONS[direction])
+    configs[direction]['boot_mask_provenance']='Small candidate boot envelopes derived from manually estimated ankle and foot-contact landmarks, requiring visual review.'
+save_json(OUT/'landmarks-used.json',configs);save_json(PERSIST/'landmarks-used.json',configs)
 source_hashes={d:sha(A.masters/(d+'.png')) for d in DIRECTIONS}
 identity=hashlib.sha256(json.dumps({'masters':source_hashes,'configs':configs,'grid':A.grid,'samples':A.samples_per_pixel,'script':sha(__file__)},sort_keys=True).encode()).hexdigest()
 # Preserve old attempts; refusing mixed-source resume is intentional.
@@ -84,7 +89,7 @@ for arc in PERSIST.glob('*.tar.gz'):
             target=OUT/m.name
             if not target.exists():target.write_bytes(tf.extractfile(m).read())
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
-scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.device='GPU';scene.cycles.samples=A.samples_per_pixel;scene.cycles.use_denoising=False
+scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.device='GPU';scene.cycles.samples=A.samples_per_pixel;scene.cycles.use_denoising=False;scene.cycles.seed=0;scene.cycles.use_animated_seed=False
 prefs=bpy.context.preferences.addons['cycles'].preferences;prefs.compute_device_type='CUDA';prefs.get_devices()
 for dev in prefs.devices:dev.use=dev.type=='CUDA'
 scene.render.resolution_x=scene.render.resolution_y=512;scene.render.resolution_percentage=100
@@ -125,6 +130,10 @@ def build(direction):
     bone('staff','hand.'+staff_hand,'staff-tip','hand.'+staff_hand)
     bpy.ops.object.mode_set(mode='OBJECT');rig.select_set(False)
     for b in rig.pose.bones:b.rotation_mode='QUATERNION'
+    for side in ['L','R']:
+        arm.bones['shin.'+side].inherit_scale='NONE'
+        arm.bones['foot.'+side].inherit_scale='NONE'
+        # Screen-projection changes in thigh/shin length must not resize boots.
     vertices=[];uv=[];faces=[];lookup={}
     def vertex(x,y):
         key=x,y
@@ -152,22 +161,30 @@ def build(direction):
             if polygon_contains((x,y),mask['polygon']):
                 row={mask['bone']:float(mask.get('weight',1))};break
         if row is None:
-            candidates=['pelvis','chest','head']
-            left_side=min(['L','R'],key=lambda side:j['shoulder.'+side][0]);right_side='R' if left_side=='L' else 'L'
-            belt_y=j['pelvis'][1];hip_y=max(j['hip.L'][1],j['hip.R'][1]);neck_y=j['neck'][1]
+            neck_y=j['neck'][1];hip_y=max(j['hip.L'][1],j['hip.R'][1])
             if y<neck_y-8:candidates=['head']
-            elif y<hip_y+8:
-                side=left_side if x<j['shoulder.'+left_side][0]-5 else right_side if x>j['shoulder.'+right_side][0]+5 else None
-                if side:
-                    candidates=['upper_arm.'+side,'forearm.'+side,'hand.'+side,'hair.'+side]
-                    if side==staff_hand:candidates.append('staff')
+            elif y<hip_y+8:candidates=['pelvis','chest','head']
             else:
-                close_boot=[side for side in ['L','R'] if y>j['ankle.'+side][1]-12 and abs(x-j['ankle.'+side][0])<19]
-                if close_boot:
-                    side=min(close_boot,key=lambda q:abs(x-j['ankle.'+q][0]));candidates=['shin.'+side,'foot.'+side]
-                else:candidates=['robe.R','robe.L','thigh.R','thigh.L']
+                boot_sides=[side for side in ['L','R'] if polygon_contains((x,y),config['boot_polygons'][side])]
+                if boot_sides:
+                    side=min(boot_sides,key=lambda side:math.dist((x,y),j['ankle.'+side]));candidates=['foot.'+side]
+                else:candidates=['robe.R','robe.L','pelvis']
             ranked=sorted((segment_distance((x,y),*specs[name]),name) for name in candidates)[:2]
-            row={name:1/max(4,dist)**3 for dist,name in ranked}
+            row={name:1/max(4,dist)**3 for dist,name in ranked};base_total=sum(row.values());row={name:value/base_total for name,value in row.items()}
+            # Continuous arm influence, replacing the discontinuous shoulder-X/hip-Y gate.
+            # 36px feather exceeds the maximum free-hand displacement; preserve derivatives.
+            if y<hip_y+54 and not any(name.startswith('foot.') for name in candidates):
+                arms={}
+                for side in ['L','R']:
+                    names=['upper_arm.'+side,'forearm.'+side,'hand.'+side]
+                    distances={name:segment_distance((x,y),*specs[name]) for name in names}
+                    strength=math.exp(-(min(distances.values())/36)**2)*smooth((y-min(j['shoulder.L'][1],j['shoulder.R'][1])+18)/34)
+                    local={name:1/max(5,dist)**3 for name,dist in distances.items()};denom=sum(local.values())
+                    for name,value in local.items():arms[name]=strength*value/denom
+                strength=min(.85,sum(arms.values()))
+                if strength>1e-8:
+                    denominator=sum(arms.values());row={name:value*(1-strength) for name,value in row.items()}
+                    for name,value in arms.items():row[name]=row.get(name,0)+strength*value/denominator
         total=sum(row.values())
         if total<=0:raise RuntimeError('Invalid zero mask weight')
         for name,weight in row.items():groups[name].add([index],weight/total,'REPLACE')
@@ -185,44 +202,10 @@ def translate(direction,name,dx,dy):
     # Pixel deltas: positive Y is down, same as landmark JSON.
     rest=REST[direction][name];RIGS[direction].pose.bones[name].location=rest.inverted()@(X*(dx*SCALE)-V*(dy*SCALE))
 
-def gait_target(direction,index,side):
-    g=configs[direction].get('gait',{});count,fps,_=CLIPS['walk'];cycle=count/fps;duty=g.get('stance_fraction',.30)
-    velocity=g.get('speed_world_per_second',205)*g.get('source_pixels_per_world_unit',4)
-    stroke=velocity*cycle*duty;phase=(index/count+(0 if side=='L' else .5))%1
-    if phase<duty:step=stroke*.5-velocity*cycle*phase;lift=0
-    else:
-        swing=(phase-duty)/(1-duty);step=-stroke*.5+stroke*swing
-        lift=g.get('swing_lift_pixels',35)*math.sin(math.pi*swing)
-    vx,vy=VECTORS[direction]
-    return vx*step,vy*step-lift,phase<duty
+MOTION_LIMITATIONS={'technique':'bounded painted 2D puppet locomotion','foot_swing_pixels':3,'foot_lift_pixels':1,'pelvis_drop_pixels':0,'death_technique':'rigid planar root fall and reverse','speed_matched_to_engine':False,'footplant_validated':False,'note':'The painted robe cannot reveal new leg surfaces. This safe bounded puppet gait deliberately does not claim biomechanical running or speed-matched foot contact.'}
+save_json(OUT/'gait-targets.json',MOTION_LIMITATIONS);atomic(PERSIST/'gait-targets.json',(OUT/'gait-targets.json').read_bytes())
+ACTUAL_JOINTS={}
 
-GAIT={}
-for direction in DIRECTIONS:
-    j=configs[direction]['joints'];required=0;targets=[]
-    for i in range(CLIPS['walk'][0]):
-        for side in ['L','R']:
-            dx,dy,contact=gait_target(direction,i,side);h=np.array(j['hip.'+side],float);k=np.array(j['knee.'+side],float);a=np.array(j['ankle.'+side],float)
-            length=float(np.linalg.norm(k-h)+np.linalg.norm(a-k));xx=a[0]+dx-h[0];yy=a[1]+dy-h[1]
-            if abs(xx)>=length:raise RuntimeError('Stride cannot fit painted limb lengths in '+direction+' '+side)
-            required=max(required,yy-math.sqrt(max(.001,length*length-xx*xx)))
-            targets.append({'index':i,'side':side,'dx':dx,'dy':dy,'stance':contact,'limb_length':length})
-    for target in targets:
-        side=target['side'];index=target['index'];drop=required+1.0+1.5*(1-math.cos(index/8*math.tau*2))
-        h=np.array(j['hip.'+side],float)+[0,drop];a=np.array(j['ankle.'+side],float)+[target['dx'],target['dy']]
-        reach=float(np.linalg.norm(a-h));target['required_distance']=reach;target['reach_excess_pixels']=max(0,reach-target['limb_length']);target['pelvis_drop_pixels']=drop
-    GAIT[direction]={'pelvis_drop_pixels':required+1.0,'max_reach_excess_pixels':max(t['reach_excess_pixels'] for t in targets),'stance_source_pixels_per_second':configs[direction].get('gait',{}).get('speed_world_per_second',205)*configs[direction].get('gait',{}).get('source_pixels_per_world_unit',4),'targets':targets,'note':'Exact source-space stance speed; large body drop is a known limitation of single-plane painted limbs and requires visual review.'}
-save_json(OUT/'gait-targets.json',GAIT);atomic(PERSIST/'gait-targets.json',(OUT/'gait-targets.json').read_bytes())
-
-def leg(direction,side,dx,dy,pelvis_drop=0):
-    j=configs[direction]['joints'];original_hip=np.array(j['hip.'+side],float);h=original_hip+np.array([0,pelvis_drop]);k=np.array(j['knee.'+side],float);a=np.array(j['ankle.'+side],float)
-    target=a+np.array([dx,dy]);u=k-original_hip;v=a-k;l1=float(np.linalg.norm(u));l2=float(np.linalg.norm(v));delta=target-h
-    actual=float(np.linalg.norm(delta));length=min(actual,l1+l2-.001)
-    if actual>l1+l2+.05:raise RuntimeError('Unreachable gait target '+direction+' '+side+' '+str(actual-(l1+l2)))
-    gamma=math.atan2(-delta[1],delta[0]);alpha=math.acos(max(-1,min(1,(l1*l1+length*length-l2*l2)/(2*l1*length))))
-    cross=u[0]*v[1]-u[1]*v[0];bend=1 if cross>=0 else -1
-    first=gamma+bend*alpha;knee=h+np.array([math.cos(first),-math.sin(first)])*l1
-    second=math.atan2(-(target-knee)[1],(target-knee)[0]);rest1=math.atan2(-u[1],u[0]);rest2=math.atan2(-v[1],v[0]);d1=first-rest1;d2=(second-first)-(rest2-rest1)
-    rotate(direction,'thigh.'+side,d1);rotate(direction,'shin.'+side,d2);rotate(direction,'foot.'+side,-d1-d2)
 
 def pose(direction,state,index,count):
     rig=RIGS[direction]
@@ -231,16 +214,13 @@ def pose(direction,state,index,count):
     if state=='idle':
         translate(direction,'chest',0,-.7*wave);rotate(direction,'head',.008*wave)
     elif state=='walk':
-        drop=GAIT[direction]['pelvis_drop_pixels']+1.5*(1-math.cos(t*math.tau*2))
-        translate(direction,'pelvis',0,drop)
+        vx,vy=VECTORS[direction]
         for side,offset in [('L',0),('R',.5)]:
-            dx,dy,stance=gait_target(direction,index,side);leg(direction,side,dx,dy,drop)
-            phase=(t+offset)%1;amp=.02 if side==staff_hand else .12
+            phase=(t+offset)%1;swing=math.sin(phase*math.tau)*3;lift=max(0,math.sin(phase*math.tau))*1
+            translate(direction,'foot.'+side,vx*swing,vy*swing-lift)
+            amp=.006 if side==staff_hand else .025
             rotate(direction,'upper_arm.'+side,amp*math.sin(phase*math.tau))
-            # Keep long cloth hems from dragging simply because the pelvis lowered.
-            bone=RIGS[direction].pose.bones['robe.'+side];a,b=GEOMETRY[direction]['robe.'+side];length=math.dist(a,b)
-            bone.scale.y=max(.35,(length-drop)/max(1,length))
-        translate(direction,'chest',0,-1.0*math.cos(t*math.tau*2))
+        translate(direction,'chest',0,-.4*math.cos(t*math.tau*2))
     elif state=='attack':
         strength=math.sin(math.pi*p)**1.25
         rotate(direction,'upper_arm.'+free,-.20*strength);rotate(direction,'forearm.'+free,.22*strength);rotate(direction,'hand.'+free,-.12*strength)
@@ -255,18 +235,32 @@ def pose(direction,state,index,count):
         amount=smooth(p) if state=='death' else 1-smooth(p);fall=smooth((amount-.2)/.8);conf=configs[direction]['death']
         rotate(direction,'root',math.radians(conf['angle_degrees'])*fall)
         dx,dy=conf['translate_pixels'];translate(direction,'root',dx*fall,dy*fall+conf.get('vertical_arc_pixels',0)*math.sin(math.pi*fall))
-        rotate(direction,'chest',-.10*amount);rotate(direction,'head',-.08*amount);rotate(direction,'forearm.'+free,.18*amount)
-    wind=wave if state in ['idle','walk'] else math.sin(p*math.pi)
+        # Root-only painted collapse: internal bends would drag the rigid staff through adjacent robe pixels.
+        # This is explicitly a planar rigid fall, not a physically reconstructed lying character.
+    wind=0 if state in ['death','respawn'] else wave if state in ['idle','walk'] else math.sin(p*math.pi)
     for side,sign in [('L',1),('R',-1)]:
-        rotate(direction,'robe.'+side,sign*.018*wind);rotate(direction,'hair.'+side,sign*.012*wind)
+        rotate(direction,'robe.'+side,sign*.006*wind);rotate(direction,'hair.'+side,sign*.008*wind)
     bpy.context.view_layer.update()
+
 
 def visible(direction):
     for d,obj in OBJECTS.items():obj.hide_render=d!=direction
 
-def bounds(direction):
+FOLDOVERS=[]
+def bounds(direction,state,index):
     obj=OBJECTS[direction];graph=bpy.context.evaluated_depsgraph_get();ev=obj.evaluated_get(graph);mesh=ev.to_mesh();xyz=np.empty(len(mesh.vertices)*3);mesh.vertices.foreach_get('co',xyz)
-    matrix=np.array(cam.matrix_world.inverted()@ev.matrix_world);p=xyz.reshape((-1,3))@matrix[:3,:3].T+matrix[:3,3];ev.to_mesh_clear();xx=(.5+p[:,0]/7)*512;yy=(.5-p[:,1]/7)*512
+    matrix=np.array(cam.matrix_world.inverted()@ev.matrix_world);p=xyz.reshape((-1,3))@matrix[:3,:3].T+matrix[:3,3]
+    triangles=np.array([tuple(poly.vertices) for poly in mesh.polygons],dtype=int);screen=p[triangles,:2]
+    area=(screen[:,1,0]-screen[:,0,0])*(screen[:,2,1]-screen[:,0,1])-(screen[:,1,1]-screen[:,0,1])*(screen[:,2,0]-screen[:,0,0])
+    # Image-grid triangles have negative signed area in the camera-up plane.
+    bad=np.where(area>=-1e-8)[0]
+    if len(bad):
+        details=[]
+        for faceid in bad[:30]:
+            ids=triangles[faceid].tolist();details.append({'triangle':int(faceid),'signed_area_pixels':float(area[faceid]/SCALE**2),'vertices':[{'id':vid,'source_pixel':[256+obj.data.vertices[vid].co.dot(X)/SCALE,384-obj.data.vertices[vid].co.dot(V)/SCALE],'posed_pixel':[float(256+p[vid,0]/SCALE),float(256-p[vid,1]/SCALE)],'weights':{obj.vertex_groups[g.group].name:g.weight for g in obj.data.vertices[vid].groups}} for vid in ids]})
+        save_json(OUT/'foldover-failure.json',{'direction':direction,'state':state,'index':index,'bad_triangle_count':len(bad),'triangles':bad[:100].tolist(),'details':details})
+        FOLDOVERS.append({'direction':direction,'state':state,'index':index,'bad_triangle_count':len(bad),'details':details})
+    ev.to_mesh_clear();xx=(.5+p[:,0]/7)*512;yy=(.5-p[:,1]/7)*512
     return [float(xx.min()),float(yy.min()),float(xx.max()),float(yy.max())]
 # Editable actions for each directional painted rig, authored from the same pose evaluator.
 for direction,rig in RIGS.items():
@@ -291,15 +285,17 @@ if A.calibration:
         calibration.append({'direction':direction,'opaque_rgb_mean_absolute_error':mae,'sha256':sha(target),'pixels_compared':int(opaque.sum())})
         print('REST_MATCH',direction,mae,flush=True)
     save_json(OUT/'rest-match.json',calibration);atomic(PERSIST/'rest-match.json',(OUT/'rest-match.json').read_bytes());raise SystemExit(0)
+save_json(OUT/'gait-actual-joints.json',ACTUAL_JOINTS);atomic(PERSIST/'gait-actual-joints.json',(OUT/'gait-actual-joints.json').read_bytes())
 records=[]
 for direction in DIRECTIONS:
     for state,(count,fps,loop) in CLIPS.items():
         for i in range(count):
-            pose(direction,state,i,count);b=bounds(direction);records.append({'state':state,'direction':direction,'index':i,'bounds':b})
+            pose(direction,state,i,count);b=bounds(direction,state,i);records.append({'state':state,'direction':direction,'index':i,'bounds':b})
 violations=[r for r in records if min(r['bounds'][:2])<8 or max(r['bounds'][2:])>504]
-report={'identity':identity,'bounds':records,'violations':violations,'fixed_camera':True,'expected_count':416}
+report={'identity':identity,'bounds':records,'violations':violations,'fixed_camera':True,'expected_count':416,'triangle_foldover_check':'FAIL' if FOLDOVERS else 'PASS','foldovers':FOLDOVERS,'motion_limitations':MOTION_LIMITATIONS}
 save_json(OUT/'motion-preflight.report',report);atomic(PERSIST/'motion-preflight.report',(OUT/'motion-preflight.report').read_bytes())
 print('GEOMETRY_PREFLIGHT',len(records),'poses;',len(violations),'violations',flush=True)
+if FOLDOVERS:raise RuntimeError('Painted triangle foldovers in '+str(len(FOLDOVERS))+' poses; see complete preflight report')
 if violations:raise RuntimeError('Fixed painted rig exceeds8px margin: '+json.dumps(violations[:8]))
 if A.validate_only:raise SystemExit(0)
 completed=[]
@@ -328,9 +324,9 @@ for direction in DIRECTIONS:
         archive=f'{state}-{direction}'+('-samples' if A.samples else '')+'.tar.gz';atomic(PERSIST/archive,buffer.getvalue())
         progress={'source_identity':identity,'completed_in_batch':len(completed),'sample_mode':A.samples,'last_state':state,'last_direction':direction};save_json(PERSIST/'progress.json',progress)
         print('DIRECTION_COMPLETE',state,direction,flush=True)
-manifest={'source':blend.name,'source_sha256':sha(blend),'source_identity':identity,'frames':completed,'expected_full_count':416,'sample_mode':A.samples,'status':'review-required','technique':'painted-2D-deforming-puppet','not_3d_reconstruction':True,'masters':source_hashes}
+manifest={'source':blend.name,'source_sha256':sha(blend),'source_identity':identity,'frames':completed,'expected_full_count':416,'sample_mode':A.samples,'status':'review-required','technique':'painted-2D-deforming-puppet','not_3d_reconstruction':True,'masters':source_hashes,'motion_limitations':MOTION_LIMITATIONS}
 save_json(OUT/'motion.manifest',manifest);atomic(PERSIST/'motion.manifest',(OUT/'motion.manifest').read_bytes())
-for file in ['rig-build.json','landmarks-used.json']:atomic(PERSIST/file,(OUT/file).read_bytes())
+for file in ['rig-build.json','landmarks-used.json','gait-targets.json','gait-actual-joints.json']:atomic(PERSIST/file,(OUT/file).read_bytes())
 first=OUT/(completed[0]['id']+'.png');atomic(OUT/'sage-painted-source.png',first.read_bytes());save_json(OUT/'sage-painted-source.json',{'sha256':sha(first),'blend_sha256':sha(blend),'status':'editable-painted-2D-source'})
 for suffix in ['.png','.json']:atomic(PERSIST/('sage-painted-source'+suffix),(OUT/('sage-painted-source'+suffix)).read_bytes())
 print('MOTION_BATCH_COMPLETE',len(completed),flush=True)
