@@ -1,0 +1,9 @@
+{
+  "tool": "image_gen.imagegen",
+  "kind": "reference-guided edited character master, not an animation or completed3Dmodel",
+  "references": "two owner-supplied canonical Sage illustrations in conversation",
+  "sha256": "0e1c015387ff3c5fd0c7ee86f55357ed1476c27a2b945bf8b8f8ebc536cafd64",
+  "prior_v1": "owner rejected procedural model;42sample frames excluded from accepted production count",
+  "accepted_animation_frames": 0,
+  "license_review": "Existing illustration rights and generated-asset provenance require final owner/legal review; no new third-party modelweights used for this image."
+}

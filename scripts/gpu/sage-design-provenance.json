@@ -1,0 +1,16 @@
+{
+  "race": "sage",
+  "world": "aether",
+  "canonical_name": "Mędrcy — Aetheria",
+  "reference": "public/game/assets/origins-v1/sage-full.webp",
+  "original_reference": "public/game/assets/stage3/references/sage.jpg",
+  "original_reference_sha256": "a0f3faab56a789e45661e076af18a2b73ed96856090626da33be05151d8de9b4",
+  "appearance_observed": ["long ivory hair tied in a high knot", "pointed ears", "ivory and emerald layered ceremonial robes", "gold armor and borders", "emerald gemstones", "gold staff with emerald sphere and orbit cage in left hand"],
+  "canon_source": "src/game/world/races.ts",
+  "canon": ["Strażnicy pradawnych źródeł KI", "Szkoły energii, medytacja i mistrzowie starożytnych rytuałów", "Skupione KI · duchowa dyscyplina"],
+  "geometry": "new procedural robe panels, hair, staff and costume over shared CC0 MakeHuman anatomical base; editable skeletal rig",
+  "anatomical_source": "scripts/gpu/planetary-rig-base.json",
+  "license_limit": "MakeHuman base CC0; existing illustration provenance is inherited from repository and not independently cleared by this model build. New procedural geometry does not clear existing reference rights.",
+  "review_status": "calibration candidate; no final visual acceptance claimed",
+  "gameplay": "no racial bonuses or mechanics invented"
+}

@@ -1,0 +1,6 @@
+Pod8yts4ka55ffhxs, owner-started, running.
+RTXA6000,271MiB memory during initial check,0%busy.
+Comfy isolatedtorch2.4.1+cu124;cuda_available=True.
+Blenderbpy4.5.3LTS. Comfybackend8189/system_stats HTTP200.
+No lifecycle/hardware/billing action performed.
+First four calibration PNGs and editable BLEND produced; these are not416animation frames.

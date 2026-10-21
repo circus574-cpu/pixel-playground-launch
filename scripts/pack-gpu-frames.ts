@@ -3,12 +3,15 @@ const [source, output, ...args] = process.argv.slice(2),
   options = Object.fromEntries(args.map((a) => a.replace(/^--/, "").split("=")));
 if (!source || !output) {
   console.error(
-    "Usage: npm run assets:pack -- renders/hero output/hero --id=hero-planetary --world=verdant [--profile=hero|enemy|npc] [--version=1.0.0]",
+    "Usage: npm run assets:pack -- renders/hero output/hero --id=hero-planetary --world=verdant [--profile=hero|enemy|npc] [--version=1.0.0] [--presentation=legacy|grounded]",
   );
   process.exitCode = 1;
 } else
   try {
     const profile = options["profile"] ?? "hero";
+    const presentation = options["presentation"] ?? "legacy";
+    if (presentation !== "legacy" && presentation !== "grounded")
+      throw Error("Invalid presentation");
     if (!["hero", "enemy", "npc"].includes(profile)) throw Error("Invalid actor profile");
     console.log(
       JSON.stringify(
@@ -19,6 +22,7 @@ if (!source || !output) {
           options["world"] ?? "verdant",
           profile as "hero" | "enemy" | "npc",
           options["version"] ?? "1.0.0",
+          presentation,
         ),
         null,
         2,
