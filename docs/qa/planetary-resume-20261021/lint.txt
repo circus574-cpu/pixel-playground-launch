@@ -166,4 +166,3 @@
 
 ✖ 143 problems (136 errors, 7 warnings)
   135 errors and 0 warnings potentially fixable with the `--fix` option.
-

@@ -4,7 +4,8 @@
 
 The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
 vite v8.1.5 building client environment for production...
-[2Ktransforming...[plugin tanstack-start-core::server-fn:client] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[2K
+transforming...[plugin tanstack-start-core::server-fn:client] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:client] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:client] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:client] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
@@ -23,13 +24,14 @@ computing gzip size...
 .output/public/assets/mountGame-DOTp1ndG.js     1,400.25 kB │ gzip: 366.87 kB
 
 ✓ built in 2.24s
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
 vite v8.1.5 building ssr environment for production...
-[2Ktransforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[2K
+transforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:ssr] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts?tss-serverfn-split:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:ssr] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts?tss-serverfn-split:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:ssr] /workspace/ki-planetary-resume/src/lib/sketches.functions.ts?tss-serverfn-split:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
@@ -74,7 +76,8 @@ vite v8.1.5 building nitro environment for production...
 
  WARN  inlineDynamicImports option is ignored because the codeSplitting option is specified.
 
-[2Ktransforming...✓ 2080 modules transformed.
+[2K
+transforming...✓ 2080 modules transformed.
 rendering chunks...
 computing gzip size...
 .output/server/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs                 0.23 kB │ gzip:     0.16 kB

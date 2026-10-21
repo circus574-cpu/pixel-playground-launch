@@ -102,6 +102,15 @@ Nowy checkpoint:
 - Szczegóły odtwarzania i pełne logi pozostają w
   `/workspace/ki-legends-gpu/resumes/planetary-20261021/session-evidence/`.
 
+Źródła zabezpieczono również w GitHub LFS na osobnej gałęzi, commit
+`07f6a147e7bcfb62544ab3a24050a13a84d51d49`. Następnie pobrano je ponownie do
+oddzielnego, pustego cache: **426 ścieżek / 425 unikalnych obiektów,
+72 210 441 B unikalnych danych**. Każdy SHA-256 i rozmiar jest zgodny:
+[pełny readback LFS](qa/planetary-resume-20261021/lfs-readback.json).
+Różnica liczby plików/obiektów wynika z identycznego podglądu źródła i jednej
+klatki, nie z brakującego pliku. Potwierdzenie obejmuje źródła tej dostawy,
+nie modele AI ani kompletny runtime.
+
 ## Pakowanie i opt-in
 
 Istniejący `prepare_planetary_delivery.py` zaliczył 416/416; następnie wykonano
@@ -149,6 +158,8 @@ Supabase oraz deklarację nieprzypisywanego ponownie timera. Porównanie AST
 **0 błędów / 7 zastanych ostrzeżeń**. Nie wykonywano operacji na Supabase ani
 zmian polityk, bucketu czy sesji szkicownika. Historyczne zrzuty QA przywrócono;
 nowe dowody zapisano oddzielnie.
+Tekstowe kopie logów mają usunięte końcowe białe znaki; pełny log renderu
+zachowano bez zmian w `render.log.gz`.
 
 ## Odbiór i dalsze bramki
 
