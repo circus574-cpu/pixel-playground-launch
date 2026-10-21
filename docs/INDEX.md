@@ -2,6 +2,15 @@
 
 Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
 
+## Dokumentacja audytowa i bieżąca
+- [Architektura i źródła implementacji](ARCHITECTURE.md)
+- [Roadmap i bramy etapów](ROADMAP.md)
+- [Rejestr decyzji](DECISIONS.md)
+- [Status zweryfikowany / main vs PR](STATUS.md)
+- [Otwarte zadania i usterki](TASKS.md)
+- [Historia zmian](CHANGELOG.md)
+- [Roboczy raport QA PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md) — tylko gałąź PR, nie main.
+
 ## Źródła
 - [Instrukcje dla agentów](../AGENTS.md)
 - [Produkcja i zasady publikacji](PRODUCTION.md)
