@@ -95,6 +95,7 @@ export function Index() {
       )}
       <CharacterSelection
         slots={slots}
+        requestedContinent={mapNotice || undefined}
         warning={warning}
         onCreate={create}
         onContinue={open}
