@@ -41,3 +41,7 @@ NewTripoSR environment was copied with dereferenced symlinks (no hard links), so
 RawTripoSR and the high-resolution front-projected candidate were visually inspected and rejected: melted hair/cloth geometry and missing faithful face/silhouette. Do not render416 production frames from these candidates. Geometry/provenance success is not visual acceptance. Their source files remain on the persistentvolume for audit.
 
 The corrected painted v2 identity was shown to the owner; owner instructed to continue. Production now uses explicitly labelled2D painted directional masters and an editable deforming2Dpuppet rig in Blender/CUDA, preserving detailedillustration rather than claiming a successful3Dreconstruction. No independently redrawnAIanimationframes. Sourceviews are being generated; acceptedanimationcount remains0/416 until actualvalidrenderoutput.
+
+## Eight-view acceptance and gait QA
+
+Owner reviewed the eight v3 painted directional masters and authorized animation production. This accepts the base appearance, not the resulting motion. Two physical-stride gait candidates produced42sampleframes each on the running GPU. Candidate2 passed joint-target and alpha-margin checks but visual inspection found severe robe folding in the right-facing walk. These samples are QA evidence, not accepted production frames. A gentler deformation and corrected garment weights are required before the full416render. GPU lifecycle remains exclusively owner-controlled.
