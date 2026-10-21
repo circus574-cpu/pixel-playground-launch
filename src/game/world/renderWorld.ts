@@ -75,6 +75,31 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
         }
       }
     }
+    if (world.id === "nexus") {
+      // The central reactor's power conduits follow existing walkable plazas.
+      // Purely visual: they never change the pathfinder's obstacle map.
+      const circuits = scene.add.graphics().setDepth(renderDepth("paths") + 2);
+      for (const [i, area] of terrain.paths.entries()) {
+        const horizontal = area.width >= area.height;
+        const cx = area.x + area.width / 2;
+        const cy = area.y + area.height / 2;
+        circuits.lineStyle(3, 0x51cde9, 0.33);
+        if (horizontal) {
+          circuits.lineBetween(area.x + 24, cy, area.x + area.width - 24, cy);
+        } else {
+          circuits.lineBetween(cx, area.y + 24, cx, area.y + area.height - 24);
+        }
+        circuits.fillStyle(0xa2f5ff, 0.58);
+        circuits.fillCircle(cx, cy, i % 2 ? 7 : 5);
+        circuits.lineStyle(1, 0xb3efff, 0.45);
+        circuits.strokeCircle(cx, cy, 13);
+      }
+      // Reactor containment ring, visible around the core on the east side.
+      circuits.lineStyle(5, 0x67dfff, 0.3);
+      circuits.strokeEllipse(world.market.x, world.market.y, 310, 180);
+      circuits.lineStyle(2, 0xb0f5ff, 0.48);
+      circuits.strokeEllipse(world.market.x, world.market.y, 255, 140);
+    }
     // Inlays are world-space and do not affect collision or save coordinates.
     const courtyard = terrain.plazas[1];
     if (courtyard) {
