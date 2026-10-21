@@ -48,7 +48,9 @@ export function CharacterSelection({
       });
   }
   function pageRace(index: number) {
-    const id = RACE_IDS[(index + RACE_IDS.length) % RACE_IDS.length]!;
+    const id = requestedContinent
+      ? RACE_IDS.find((candidate) => RACES[candidate].world === requestedContinent)!
+      : RACE_IDS[(index + RACE_IDS.length) % RACE_IDS.length]!;
     if (requestedContinent && RACES[id].world !== requestedContinent) return;
     setSelected(id);
     const item = carousel.current?.querySelector<HTMLElement>(`[data-race="${id}"]`),
