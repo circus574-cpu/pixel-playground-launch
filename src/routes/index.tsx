@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 });
 export function Index() {
   const [store, setStore] = useState<CharacterStore | null>(null);
-  const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | false>(false);
+  const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(false);
   const [slots, setSlots] = useState<CharacterSlot[]>([]);
   const [active, setActive] = useState<CharacterSlot | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -51,8 +51,8 @@ export function Index() {
     setLoaded(true);
     // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
     const params = new URLSearchParams(window.location.search);
-    if (params.get("continent") === "verdant" || params.get("continent") === "aether") {
-      setMapNotice(params.get("continent") === "verdant" ? "verdant" : "aether");
+    if (["verdant", "aether", "nexus", "pyra"].includes(params.get("continent") ?? "")) {
+      setMapNotice(params.get("continent") as "verdant" | "aether" | "nexus" | "pyra");
       setActive(null);
     }
   }, []);
@@ -89,7 +89,7 @@ export function Index() {
     <>
       {mapNotice && (
         <div role="status" style={{ padding: "12px", textAlign: "center" }}>
-          {mapNotice === "verdant" ? "Verdantia — Planetarni" : "Aetheria — Mędrcy"}: wybierz
+          {({ verdant: "Verdantia — Planetarni", aether: "Aetheria — Mędrcy", nexus: "Nexus-9 — Androidy", pyra: "Pyra — Legendy" } as const)[mapNotice]}: wybierz
           istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
         </div>
       )}
