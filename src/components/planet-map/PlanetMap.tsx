@@ -157,13 +157,12 @@ export function PlanetMap() {
       const h = Math.max(1, el.clientHeight);
       sizeRef.current = { w, h };
       setSize({ w, h });
-      setView((v) => {
-        if (!measured.current) {
-          measured.current = true;
-          return initialView(w, h);
-        }
-        return clampView(v, w, h);
-      });
+      if (!measured.current) {
+        measured.current = true;
+        setView(initialView(w, h));
+      } else {
+        setView((v) => clampView(v, w, h));
+      }
     };
     apply();
     const ro = new ResizeObserver(apply);

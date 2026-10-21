@@ -316,7 +316,6 @@
   right: 10px;
   bottom: 10px;
   display: flex;
-  flex-direction: column;
   gap: 6px;
   align-items: center;
 }
@@ -555,7 +554,8 @@
   }
   .pm-viewport {
     aspect-ratio: auto;
-    height: min(62dvh, 520px);
+    height: clamp(280px, 100vw, 62dvh);
+    min-height: 0;
     max-height: none;
   }
   .pm-side {
