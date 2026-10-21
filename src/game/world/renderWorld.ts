@@ -94,6 +94,36 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
         circuits.lineStyle(1, 0xb3efff, 0.45);
         circuits.strokeCircle(cx, cy, 13);
       }
+      // Peripheral sensor arrays and illuminated platform seams. Keep all
+      // graphics in world coordinates so zoom and camera scrolling stay aligned.
+      for (const [i, platform] of terrain.plazas.entries()) {
+        const inset = 22;
+        circuits.lineStyle(2, 0x6ccfe8, 0.42);
+        circuits.strokeRect(
+          platform.x + inset,
+          platform.y + inset,
+          platform.width - inset * 2,
+          platform.height - inset * 2,
+        );
+        for (let x = platform.x + 55; x < platform.x + platform.width - 30; x += 72) {
+          circuits.fillStyle(i % 2 ? 0x85dfff : 0x4eb4cf, 0.68);
+          circuits.fillRect(x, platform.y + inset - 3, 14, 6);
+          circuits.fillRect(x, platform.y + platform.height - inset - 3, 14, 6);
+        }
+      }
+      // Peripheral warning markers identify the physical boundary of the facility.
+      for (const [i, obstacle] of world.obstacles.entries()) {
+        if (i < 3) continue; // outer walls are already drawn by the hazard renderer
+        const count = Math.max(1, Math.floor(obstacle.width / 96));
+        for (let j = 0; j < count; j++) {
+          const mx = obstacle.x + ((j + 0.5) * obstacle.width) / count;
+          const my = obstacle.y + 12;
+          circuits.fillStyle(0xffbc72, 0.58);
+          circuits.fillTriangle(mx - 7, my + 6, mx + 7, my + 6, mx, my - 7);
+          circuits.fillStyle(0x182b3a, 0.8);
+          circuits.fillCircle(mx, my + 2, 2);
+        }
+      }
       // Reactor containment ring, visible around the core on the east side.
       circuits.lineStyle(5, 0x67dfff, 0.3);
       circuits.strokeEllipse(world.market.x, world.market.y, 310, 180);
