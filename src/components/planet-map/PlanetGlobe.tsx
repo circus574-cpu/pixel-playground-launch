@@ -603,10 +603,13 @@ export default function PlanetGlobe({
   const markerEls = useRef(new Map<string, HTMLElement>());
   /** Unmounting disposes the renderer, which fires an expected context loss. */
   const leaving = useRef(false);
+  const releaseRenderer = useRef<(() => void) | null>(null);
   useEffect(() => {
     leaving.current = false;
     return () => {
       leaving.current = true;
+      releaseRenderer.current?.();
+      releaseRenderer.current = null;
     };
   }, []);
 
@@ -690,10 +693,19 @@ export default function PlanetGlobe({
             gl.toneMapping = THREE.NeutralToneMapping;
             gl.toneMappingExposure = 1.05;
             gl.setClearColor(0x000000, 0);
-            gl.domElement.addEventListener("webglcontextlost", (ev) => {
+            const canvas = gl.domElement;
+            const onContextLost = (ev: Event) => {
               ev.preventDefault();
               if (!leaving.current) onFail("context-lost");
-            });
+            };
+            canvas.addEventListener("webglcontextlost", onContextLost);
+            releaseRenderer.current = () => {
+              canvas.removeEventListener("webglcontextlost", onContextLost);
+              if (import.meta.env.DEV) {
+                const diagnostics = window as unknown as { __pg?: { gl: unknown } };
+                if (diagnostics.__pg?.gl === gl) delete diagnostics.__pg;
+              }
+            };
           }}
         >
           <Rig

@@ -27,7 +27,9 @@ export const Route = createFileRoute("/")({
 });
 export function Index() {
   const [store, setStore] = useState<CharacterStore | null>(null);
-  const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(false);
+  const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(
+    false,
+  );
   const [slots, setSlots] = useState<CharacterSlot[]>([]);
   const [active, setActive] = useState<CharacterSlot | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -89,8 +91,17 @@ export function Index() {
     <>
       {mapNotice && (
         <div role="status" style={{ padding: "12px", textAlign: "center" }}>
-          {({ verdant: "Verdantia — Planetarni", aether: "Aetheria — Mędrcy", nexus: "Nexus-9 — Androidy", pyra: "Pyra — Legendy" } as const)[mapNotice]}: wybierz
-          istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
+          {
+            (
+              {
+                verdant: "Verdantia — Planetarni",
+                aether: "Aetheria — Mędrcy",
+                nexus: "Nexus-9 — Androidy",
+                pyra: "Pyra — Legendy",
+              } as const
+            )[mapNotice]
+          }
+          : wybierz istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
         </div>
       )}
       <CharacterSelection
