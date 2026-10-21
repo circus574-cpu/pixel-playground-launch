@@ -939,7 +939,7 @@ export default function PlanetGlobe({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
-            {(selectedRegion.id === "verdant" || selectedRegion.id === "aether") && (
+            {["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
               <Link
                 to="/"
                 search={{ continent: selectedRegion.id } as never}
