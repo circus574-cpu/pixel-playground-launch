@@ -1,0 +1,30 @@
+{
+  "states": [
+    "idle",
+    "walk",
+    "attack",
+    "skill",
+    "hit",
+    "death",
+    "respawn"
+  ],
+  "directions": [
+    "down",
+    "down-left",
+    "left",
+    "up-left",
+    "up",
+    "up-right",
+    "right",
+    "down-right"
+  ],
+  "total": 416,
+  "missing": [],
+  "canvas": [
+    1152,
+    1148
+  ],
+  "controls": "PASS",
+  "pageErrors": [],
+  "verifiedAt": "2026-10-21T13:53:03.153Z"
+}
