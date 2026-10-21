@@ -20,3 +20,7 @@ Dokumentacyjny punkt odniesienia: drzewo `main` SHA `8045a0bd2ebe77bcbd00dcedf17
 
 ## Werdykt przejściowy
 **NIEZWERYFIKOWANE — bez zgody na publikację nowych zmian.** Brak końcowego SHA i kompletu niezależnych dowodów dla bieżącej produkcji GPU. Stan uzupełnić dopiero po zamknięciu napraw Codexa, bez ingerencji w jego gałęzie.
+
+
+## Sprawdzona kotwica historii
+Bezpośrednio odczytana historia `main`: 79 commitów, od `dad00cb77760242916c556adb1286c543648c5fe` (2026-10-16) do commita `8045a0bd2ebe77bcbd00dcedf17d8b48e13b3d40` (2026-10-20). Wcześniejszy identyfikator drzewa `main` ma tę samą wartość wyświetloną przez odczyt API w tym przypadku; jako bazowy **commit** traktować odczyt z endpointu commits, nie sam odczyt drzewa. Nie jest to końcowy SHA prac GPU.
