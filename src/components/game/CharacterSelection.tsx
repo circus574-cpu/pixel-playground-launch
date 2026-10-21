@@ -65,6 +65,7 @@ export function CharacterSelection({
   function onCarouselKey(event: KeyboardEvent) {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
+    if (requestedContinent) return;
     pageRace(RACE_IDS.indexOf(selected) + (event.key === "ArrowRight" ? 1 : -1));
   }
   function closeArt() {
@@ -192,6 +193,7 @@ export function CharacterSelection({
                     <p>{r.title}</p>
                   </div>
                   <button
+                    disabled={Boolean(requestedContinent && r.world !== requestedContinent)}
                     className="ki-race-choose"
                     aria-label={"Wybierz: " + r.name}
                     onClick={() => choose(id, true)}
@@ -205,6 +207,7 @@ export function CharacterSelection({
           </section>
           <nav className="ki-race-pagination" aria-label="Przewijanie ras">
             <button
+              disabled={Boolean(requestedContinent)}
               aria-label="Poprzednia rasa"
               onClick={() => pageRace(RACE_IDS.indexOf(selected) - 1)}
             >
@@ -214,6 +217,7 @@ export function CharacterSelection({
               {RACE_IDS.map((id, index) => (
                 <button
                   key={id}
+                  disabled={Boolean(requestedContinent && RACES[id].world !== requestedContinent)}
                   aria-label={"Pokaż rasę: " + RACES[id].name}
                   aria-current={selected === id ? "true" : undefined}
                   onClick={() => pageRace(index)}
@@ -223,6 +227,7 @@ export function CharacterSelection({
               ))}
             </div>
             <button
+              disabled={Boolean(requestedContinent)}
               aria-label="Następna rasa"
               onClick={() => pageRace(RACE_IDS.indexOf(selected) + 1)}
             >
