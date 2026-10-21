@@ -60,3 +60,10 @@ Proste SVG/proceduralne bryły udające ukończone miasto, identyczne budynki pr
 Etap i świat; commit/PR; dokładne nazwy i liczba assetów; hashe masterów/atlasów; format/rozmiar; udokumentowane źródła/licencje; zrzuty i nagrania in-engine; wynik testów z SHA; pomiary sprzętowe lub jawne NIEZWERYFIKOWANE; regresje; decyzja właściciela; następny etap. Żadna deklaracja „gotowe” bez dowodu.
 
 **Status wszystkich sześciu etapów z tego planu: PLANOWANE — nie zlecono automatycznego uruchomienia GPU i nie potwierdzono wykonania.**
+
+## Identyfikacja odnalezionego oryginału PDF
+- Nazwa: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf`.
+- Rozmiar: **5 343 097 bajtów**; 12 stron; data na dokumencie: 2026-10-20.
+- SHA-256 rzeczywistych bajtów: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+- Dwie odnalezione kopie lokalne mają identyczny SHA-256.
+- **STATUS: ORYGINALNY PLIK PDF NIEZAPISANY W GITHUB.** Repozytoryjne narzędzie tekstowe nie obsługuje przesyłania binarnego PDF. Nie uznawać wpisu SHA za archiwizację.
