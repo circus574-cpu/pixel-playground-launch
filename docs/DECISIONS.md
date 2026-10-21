@@ -19,3 +19,14 @@ Statusy: **POTWIERDZONE** = ustalenie właściciela lub zachowany dokument; **HI
 | D-014 | otwarte | Szczegółowa fabuła, klasy, bonusy rasowe, sieciowy backend, ekonomia MMO, monetizacja | OTWARTE; nie zakładać wdrożenia |
 
 Przy każdej zmianie kanonu dodawać datę, źródło, właściciela decyzji i powiązany commit/PR. Nie przepisywać historii w sposób sugerujący, że koncepcja była wdrożona.
+
+
+## Doprecyzowania po PR #8 — nie zmieniają historycznego kanonu
+| ID | Data | Ustalenie / granica | Dowód |
+| --- | --- | --- | --- |
+| D-015 | 2026-10-21 | Naprawy HUD #5/#7 zakończone i scalone; testy bazowego PvE 97/54 na 86a1e41 | PR #8 FINAL_TESTS; Actions 39540694141 na 7a52aae |
+| D-016 | 2026-10-21 | Zatwierdzony wzorzec Planetarnego ≠ kompletna animacja; 179/416, #4 draft | PR #8 HANDOFF/GPU_PRODUCTION, #4 |
+| D-017 | 2026-10-21 | Nie scalać profilu grounded 128/0.75/45° bez zgodności z main 96/0.95/60° | PR #8 TECHNICAL_STATE/GPU_PRODUCTION |
+| D-018 | 2026-10-21 | GPU wyłączony według właściciela; restart/koszt wyłącznie po nowej zgodzie | PR #8 HANDOFF |
+| D-019 | 2026-10-21 | Trwałe dowody LFS dla 181 obiektów, ale nie pełny backup modeli/runtime i woluminu | PR #8 GPU_PRODUCTION, gpu-lfs-verification.json |
+| D-020 | 2026-10-21 | Publikacja HUD wcześniej wykonana i testowana; przekazanie #8 nie upoważnia do kolejnej | PR #8 HANDOFF, #7 |
