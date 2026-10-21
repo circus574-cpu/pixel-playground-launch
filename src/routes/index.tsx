@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 });
 export function Index() {
   const [store, setStore] = useState<CharacterStore | null>(null);
-  const [mapNotice, setMapNotice] = useState(false);
+  const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | false>(false);
   const [slots, setSlots] = useState<CharacterSlot[]>([]);
   const [active, setActive] = useState<CharacterSlot | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -51,7 +51,10 @@ export function Index() {
     setLoaded(true);
     // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
     const params = new URLSearchParams(window.location.search);
-    if (params.get("continent") === "verdant") setMapNotice(true);
+    if (params.get("continent") === "verdant" || params.get("continent") === "aether") {
+      setMapNotice(params.get("continent") === "verdant" ? "verdant" : "aether");
+      setActive(null);
+    }
   }, []);
   const open = (slot: CharacterSlot) => {
     store?.select(slot);
@@ -86,8 +89,7 @@ export function Index() {
     <>
       {mapNotice && (
         <div role="status" style={{ padding: "12px", textAlign: "center" }}>
-          Verdantia — utwórz postać Planetarnych albo wybierz istniejącą postać w zakładce „Twoje
-          postacie”.
+          {mapNotice === "verdant" ? "Verdantia — Planetarni" : "Aetheria — Mędrcy"}: wybierz istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
         </div>
       )}
       <CharacterSelection
