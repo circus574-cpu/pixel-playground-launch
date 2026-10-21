@@ -57,3 +57,26 @@ ten dokument nie deklaruje sukcesu kontroli, które jeszcze trwają.
 Wymagania odbioru artystycznego, licencji i fizycznego Androida z dokumentu
 `QA-INTEGRATION-REGRESSIONS-2026-10-21.md` pozostają aktualne. Zielone testy nie
 stanowią zgody na merge ani publikację.
+
+## Dodatkowy błąd wykryty podczas wymaganej regresji WebGL
+
+Na `b9f44577cb7bc1bab737c67000369b7a25919e26` pełne kontrole statyczne,
+130/130 Vitest, zasoby, lint i build przeszły. Lokalny pełny Playwright zaliczył
+43 scenariusze bez błędów, po czym został celowo przerwany przed zmianą kodu;
+nie jest deklarowany jako kompletny PASS.
+
+Osobny [Software WebGL 39673680742](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39673680742)
+zakończył się 7/8. Pobrano i otwarto artefakt `12381195616`. Planetarny nie
+osiągnął ekranu śmierci przed upływem 60 s. Stan HUD w artefakcie: 4/120 HP;
+telemetria: 4,9 FPS, P50 260,1 ms. Historia obejmuje rzeczywiste attack/hit/death,
+bez respawn; ostatnia diagnostyka po błędzie pokazuje już końcową klatkę death.
+Kod `GameSession.tick()` oraz adapter Phaser ograniczają krok do 100 ms,
+więc przy takim FPS zegar symulacji działa wolniej od zegara oczekiwań Playwright.
+To odrębny problem synchronizacji testu, nie awaria /test ani dowód utraty zapisu.
+
+`hero-lifecycle.spec.ts` sprawdza teraz rzeczywisty spadek HP do ≤30 przed
+uruchomieniem oczekiwania na końcową śmierć. Jest to dodatkowa asercja postępu
+walki, nie zmiana HP, obrażeń, czasu symulacji, priorytetów animacji ani gry.
+Zachowano wszystkie dotychczasowe asercje, limit 60 s dla śmierci, limit 6 s dla
+odrodzenia i całkowity limit scenariusza 180 s. Pełny przebieg oraz osobny
+Software WebGL muszą ponownie przejść na końcowym SHA obejmującym obie poprawki.

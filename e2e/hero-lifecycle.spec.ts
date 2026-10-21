@@ -67,6 +67,18 @@ for (const [race, worldId, actor] of [
       )
       .toBe(true);
     await command({ type: "cancel" });
+    // Software WebGL may render below 10 FPS; the game's 100 ms tick cap
+    // deliberately slows simulation then. Observe real damage progression
+    // before timing the final defeat, without changing HP or game clocks.
+    await expect
+      .poll(async () =>
+        Number(
+          await page
+            .getByRole("meter", { name: "Zdrowie", exact: true })
+            .getAttribute("aria-valuenow"),
+        ),
+      )
+      .toBeLessThanOrEqual(30);
     await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
     await expect(canvas).toHaveAttribute("data-animation-state", "death");
     await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
