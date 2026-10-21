@@ -26,6 +26,10 @@
 - Preserve `/test`, storage guards, secrets, unrelated features and published git history.
 - The /mapa preview renders a painted raster atlas with transparent SVG hitboxes traced from that image; regenerate outlines whenever the atlas changes so clicks stay aligned.
 
-## GPU lifecycle — owner only
+## Shared project knowledge — required for every agent
 
-Only the project owner starts, stops, restarts or terminates GPU instances, or changes hardware/billing. Agents may use an already running instance and manage authorized production processes. Never stop the instance after rendering, during tests or for cleanup. This rule supersedes historical automatic-shutdown advice. Preserve existing models, checkpoints, Qwen/Ollama and persistent volume data.
+- Before planning or implementing Ki Legends changes, read [docs/INDEX.md](docs/INDEX.md) and the relevant linked source documents from the current commit. Do not rely solely on chat memory or PR descriptions.
+- The owner-provided 12-page design PDF is a source document; see [docs/design/RASY_I_ETAPY.md](docs/design/RASY_I_ETAPY.md) for an interim text index. The original binary PDF must still be uploaded and verified before claiming archival completeness.
+- Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
+- **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
+- Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.

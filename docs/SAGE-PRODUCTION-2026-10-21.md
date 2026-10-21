@@ -23,3 +23,7 @@ Owner-started pod `8yts4ka55ffhxs` was read-only checked: RTX A6000, torch2.4.1+
 ## Calibration revisions
 
 Four initial rig views were rendered at ortho7.0; they are calibration evidence, not delivered animation frames. Full416pose preflight rejected30, then16 death/respawn bounds violations before producing animation PNGs. Corrections center the fallen rig in its facing and counter-rotate the staff wrist. Final animation uses one fixed ortho8.0 canvas for every state/direction, preserving45° perspective and(.5,.75)origin. The larger canvas accommodates the long staff and sideways body; it is not per-frame recropping.
+
+## Newly archived owner source
+
+During production main advanced to `4b73c5a889496f0333fd83434a50991a429b398f`, adding the original12page design PDF. Read its actual text (including Mędrcy page5), current docs/INDEX and owner rules. PDF SHA256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. It confirms ivory/emerald/gold,long robes,ritual jewelry,ornate staffs and luminous circles; distance,barriers/support are conceptual targets,not new mechanics implemented here. Current main documentation/AGENTS are preserved verbatim in this independent branch to avoid conflicting policy copies. The index still historically says the PDF is missing; the binary is now present as confirmed above.
