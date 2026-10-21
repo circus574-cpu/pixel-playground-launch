@@ -25,3 +25,9 @@ Docelowo duże, czytelne postacie anime w ośmiu kierunkach, spójne animacje id
 
 ## Status i przyszłość
 Potwierdzona dokumentacją bazowa pętla PvE i cztery grywalne regiony nie oznaczają czterech ukończonych wizualnie kontynentów. Nowe rasowe postacie, pełna oprawa miast, animacje i integracja GPU są w toku/niezweryfikowane na finalnym SHA. Multiplayer, arena/PvP i pełna gospodarka sieciowa to kierunki przyszłe, bez potwierdzonego zatwierdzonego zakresu technicznego. Nie wymyślać klas, talentów, rasowych bonusów, fabuły kampanii ani monetizacji.
+
+
+## Korekta stanu po PR #8
+Rzeczywisty runtime `main` nadal pokazuje wspólnego człowieka we wszystkich czterech pochodzeniach. Akceptacja przez właściciela dotyczyła wzorca wyglądu Planetarnego (pomarańczowy szal, jasna tunika, ciemne rękawice/buty), **nie** kompletnych animacji. PR #4 ma 179/416 klatek i nie przeszedł odbioru postaci w grze. Nie ma sprintu w obecnym gameplay, dlatego profil produkcyjny Planetarnego wymaga idle, walk, attack, skill, hit, death, respawn, bez `run` jako obowiązkowego klipu. Bazowy atak jest naliczany według `GameSession`, nie czasu kontaktu rysunkowej animacji.
+
+HUD po PR #5/#7 ma pięć skilli min. 44×44 px, mobilne zwijane narzędzia, status-stack, odległościowy przycisk rozmowy i zachowane krytyczne ostrzeżenia zapisu. Odróżniać technicznie zaliczony UX od ostatecznej artystycznej akceptacji gry. Obecna kolejność produkcji: kompletny Planetarny → NPC/przeciwnicy → otoczenie, a kolejne rasy po odrębnej akceptacji. Szczegóły: HANDOFF/GPU_PRODUCTION w PR #8.
