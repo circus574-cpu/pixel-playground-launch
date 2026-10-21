@@ -307,13 +307,14 @@ it("a race-specific preview opt-in cannot activate another race pack", async () 
   expect(source.actorBindings["verdant.hero"]).toBeUndefined();
 });
 
-
 describe("Sage default game integration", () => {
   it("selects the 416-frame Sage atlas in Aetheria without a URL flag", () => {
     const sage = actorVisual("aether", "hero", undefined, false, catalog);
     expect(sage.id).toBe("hero-sage");
-    expect(Object.values(sage.clips).reduce((sum, clip) =>
-      sum + Object.values(clip.directions).reduce((n, frames) => n + frames.length, 0), 0)).toBe(416);
+    const frameCount = Object.values(sage.clips).flatMap((clip) =>
+      Object.values(clip.directions).flat(),
+    ).length;
+    expect(frameCount).toBe(416);
     expect(worldAssets("aether", false, catalog).map((asset) => asset.id)).toEqual(
       expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]),
     );
@@ -321,7 +322,8 @@ describe("Sage default game integration", () => {
   it("preserves the original hero for the other three continents", () => {
     for (const world of ["verdant", "nexus", "pyra"] as const) {
       expect(actorVisual(world, "hero", undefined, false, catalog).id).toBe("human-v2");
-      expect(worldAssets(world, false, catalog).map((asset) => asset.id)).not.toContain("hero-sage-page-0");
+      const textures = worldAssets(world, false, catalog).map((asset) => asset.id);
+      expect(textures).not.toContain("hero-sage-page-0");
     }
   });
 });
