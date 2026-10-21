@@ -269,19 +269,18 @@ for (const [width, height] of [
     const skills = await page
       .getByRole("navigation", { name: "Umiejętności", exact: true })
       .boundingBox();
+    expect(skills!.y + skills!.height).toBeLessThanOrEqual(height + 1);
+    const actions = await page.locator(".ki-context-actions").boundingBox();
+    if (actions) expect(actions.y + actions.height).toBeLessThanOrEqual(skills!.y);
+    else await expect(page.locator(".ki-context-actions")).toBeHidden();
+    const menu = page.getByRole("button", { name: "Menu gry", exact: true });
+    await menu.tap();
     const controls = await page
       .getByRole("navigation", { name: "Widok mapy", exact: true })
       .boundingBox();
-    expect(skills!.y + skills!.height).toBeLessThanOrEqual(height + 1);
     expect(controls!.x + controls!.width).toBeLessThanOrEqual(width + 1);
-    expect(
-      skills!.x + skills!.width <= controls!.x ||
-        controls!.x + controls!.width <= skills!.x ||
-        skills!.y + skills!.height <= controls!.y ||
-        controls!.y + controls!.height <= skills!.y,
-    ).toBe(true);
-    const actions = await page.locator(".ki-context-actions").boundingBox();
-    expect(actions!.y + actions!.height).toBeLessThanOrEqual(skills!.y);
+    expect(skills!.y).toBeGreaterThanOrEqual(controls!.y + controls!.height);
+    await menu.tap();
     expect(errors).toEqual([]);
     await context.close();
   });
