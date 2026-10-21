@@ -1,5 +1,5 @@
 import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
-import { RACES, RACE_IDS, type RaceId } from "../../game/world/races";
+import { RACES, RACE_IDS, type RaceId, type WorldId } from "../../game/world/races";
 import { WORLDS } from "../../game/world/worlds";
 import { slotTitle, type CharacterSlot } from "../../game/characters";
 import { BrandMark } from "./BrandMark";
@@ -9,6 +9,7 @@ import "./character-selection.css";
 type Props = {
   slots: CharacterSlot[];
   startWithOrigins?: boolean;
+  requestedContinent?: WorldId;
   warning: string;
   onCreate: (race: RaceId) => void;
   onContinue: (slot: CharacterSlot) => void;
@@ -19,16 +20,21 @@ export function CharacterSelection({
   onCreate,
   onContinue,
   startWithOrigins = false,
+  requestedContinent,
 }: Props) {
-  const [selected, setSelected] = useState<RaceId>("planetary");
+  const [selected, setSelected] = useState<RaceId>(requestedContinent === "aether" ? "sage" : "planetary");
   const [showSlots, setShowSlots] = useState(!startWithOrigins && slots.length > 0);
   const [showArt, setShowArt] = useState(false);
   const carousel = useRef<HTMLElement>(null),
     detail = useRef<HTMLElement>(null),
     artButton = useRef<HTMLButtonElement>(null);
+  const visibleSlots = requestedContinent
+    ? slots.filter((slot) => slot.player?.continent === requestedContinent)
+    : slots;
   const race = RACES[selected],
     world = WORLDS[race.world];
   function choose(id: RaceId, openDetail = false) {
+    if (requestedContinent && RACES[id].world !== requestedContinent) return;
     setSelected(id);
     if (openDetail)
       requestAnimationFrame(() => {
@@ -43,6 +49,7 @@ export function CharacterSelection({
   }
   function pageRace(index: number) {
     const id = RACE_IDS[(index + RACE_IDS.length) % RACE_IDS.length]!;
+    if (requestedContinent && RACES[id].world !== requestedContinent) return;
     setSelected(id);
     const item = carousel.current?.querySelector<HTMLElement>(`[data-race="${id}"]`),
       track = carousel.current;
@@ -73,7 +80,7 @@ export function CharacterSelection({
             Nowa podróż
           </button>
           <button aria-pressed={showSlots} onClick={() => setShowSlots(true)}>
-            Twoje postacie <span>{slots.length}</span>
+            Twoje postacie <span>{visibleSlots.length}</span>
           </button>
         </nav>
       </header>
@@ -88,7 +95,7 @@ export function CharacterSelection({
           <h1>Wróć na swój szlak.</h1>
           <p>Każda postać ma własną historię zapisaną na tym urządzeniu.</p>
           <div className="ki-slot-grid">
-            {slots.map((slot) => (
+            {visibleSlots.map((slot) => (
               <article key={slot.id} className="ki-slot">
                 {slot.player && <RaceArtwork race={slot.player.race} />}
                 <div>
@@ -112,7 +119,7 @@ export function CharacterSelection({
               </article>
             ))}
           </div>
-          {!slots.length && <p>Twoja pierwsza historia dopiero się zaczyna.</p>}
+          {!visibleSlots.length && <p>Brak postaci na wybranym kontynencie. Pozostałe zapisy są zachowane.</p>}
           <button className="ki-origin-primary" onClick={() => setShowSlots(false)}>
             Utwórz nową postać
           </button>
@@ -151,7 +158,7 @@ export function CharacterSelection({
                   }
                 }
               }
-              setSelected(closest);
+              if (!requestedContinent || RACES[closest].world === requestedContinent) setSelected(closest);
             }}
           >
             {RACE_IDS.map((id, index) => {
@@ -168,6 +175,7 @@ export function CharacterSelection({
                     className="ki-race-preview"
                     aria-label={"Podgląd kontynentu: " + r.name}
                     aria-pressed={selected === id}
+                    disabled={Boolean(requestedContinent && r.world !== requestedContinent)}
                     onClick={() => choose(id, true)}
                   >
                     <RaceArtwork race={id} eager={index === 0} />
@@ -268,7 +276,7 @@ export function CharacterSelection({
                   <p className="ki-origin-architecture">{world.architecture}</p>
                 </div>
               </section>
-              <button className="ki-origin-primary" onClick={() => onCreate(selected)}>
+              <button className="ki-origin-primary" onClick={() => onCreate(requestedContinent === "aether" ? "sage" : requestedContinent === "verdant" ? "planetary" : selected)}>
                 Rozpocznij przygodę <span aria-hidden="true">→</span>
               </button>
               <p className="ki-start-caption">
