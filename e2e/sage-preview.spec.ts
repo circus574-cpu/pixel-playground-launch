@@ -38,15 +38,15 @@ async function progression(page: Page, id: string | null) {
   );
 }
 
-test("Mędrcy preview preserves the same save and stays out of default visuals and other races", async ({
+test("Mędrcy default visual preserves the save and stays isolated from other races", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await start(page, false);
   const canvas = page.locator(".ki-canvas");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
-  await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-sage-page/);
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
+  await expect(canvas).toHaveAttribute("data-texture-ids", /hero-sage-page/);
   const id = await activeId(page);
   const saved = await progression(page, id);
   const legacy = await page.evaluate((key) => localStorage.getItem(key), base);
@@ -55,11 +55,9 @@ test("Mędrcy preview preserves the same save and stays out of default visuals a
   expect(await activeId(page)).toBe(id);
   expect(await progression(page, id)).toEqual(saved);
   await page.goto(entry);
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
   expect(await activeId(page)).toBe(id);
   expect(await progression(page, id)).toEqual(saved);
-  await page.goto(entry + "?ki-sage-art=1");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
   for (const [race, world] of [
     ["Planetarni", "verdant"],
     ["Androidy", "nexus"],
