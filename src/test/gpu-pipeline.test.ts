@@ -286,3 +286,22 @@ it("keeps unapproved hero packs opt-in while validating and importing their actu
     "technical-rig",
   );
 });
+
+it("a race-specific preview opt-in cannot activate another race pack", async () => {
+  const f = await delivery();
+  const sage = PackSchema.parse({
+    ...f.pack,
+    id: "hero-sage",
+    previewOnly: true,
+    actorBindings: { "aether.hero": "technical-mannequin" },
+  });
+  const planetary = PackSchema.parse({
+    ...f.pack,
+    id: "hero-planetary",
+    previewOnly: true,
+    actorBindings: { "verdant.hero": "technical-mannequin" },
+  });
+  const source = makeCatalog([sage, planetary], ["hero-sage"]);
+  expect(source.actorBindings["aether.hero"]).toBe("technical-mannequin");
+  expect(source.actorBindings["verdant.hero"]).toBeUndefined();
+});

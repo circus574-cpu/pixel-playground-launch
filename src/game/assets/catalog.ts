@@ -105,7 +105,10 @@ const baseAssets: AssetDefinition[] = [
     ).values(),
   ].map((a) => ({ id: a.key, version: "stage3-1", kind: "svg" as const, url: a.url })),
 ];
-export function makeCatalog(packs: readonly AssetPack[], includePreview = false) {
+export function makeCatalog(
+  packs: readonly AssetPack[],
+  includePreview: boolean | readonly string[] = false,
+) {
   const assets = new Map(baseAssets.map((a) => [a.id, a]));
   const actors = new Map([hero, boar].map((a) => [a.id, a]));
   const actorBindings: Record<string, string> = {
@@ -116,7 +119,12 @@ export function makeCatalog(packs: readonly AssetPack[], includePreview = false)
   const renderBindings: AssetPack["renderBindings"] = {};
   const effects: AssetPack["effects"] = {};
   for (const pack of packs) {
-    if (pack.previewOnly && !includePreview) continue;
+    if (
+      pack.previewOnly &&
+      includePreview !== true &&
+      (!Array.isArray(includePreview) || !includePreview.includes(pack.id))
+    )
+      continue;
     for (const asset of pack.assets) assets.set(asset.id, asset);
     for (const actor of pack.actors) actors.set(actor.id, actor);
     Object.assign(actorBindings, pack.actorBindings);
@@ -129,7 +137,9 @@ export function makeCatalog(packs: readonly AssetPack[], includePreview = false)
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),
   typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("ki-sage-art") === "1",
+    new URLSearchParams(window.location.search).get("ki-sage-art") === "1"
+    ? ["hero-sage"]
+    : false,
 );
 export const technicalPack = PackSchema.parse(technical);
 export function actorVisual(
