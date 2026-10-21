@@ -26,3 +26,15 @@ Stan: 2026-10-21, rekonstrukcja; nie modyfikuje istniejących zadań Codexa.
 
 ## Zasady
 Żaden checkbox nie jest zamykany na podstawie samego raportu Codexa. Dopisać dowód (commit, test run, screenshot/trace lub produkcyjny wynik) i audytora. Nie kasować wcześniejszych niezamkniętych usterek.
+
+
+## Aktualizacja operacyjna po PR #8 (2026-10-21)
+- [x] **HUD #5/#7:** naprawy geometrii, mobilnych narzędzi, statusów, przycisku rozmowy i regresji testów scalone do main; dowody #8/FINAL_TESTS.
+- [x] **Kod main 86a1e41 — dowody testów Codexa:** 97/97 unit, 54/54 E2E, typecheck, assets:check, lint, build; osobno GitHub Actions success na 7a52aae. To nie są niezależnie ponowione lokalnie testy audytora.
+- [x] **Wybrany checkpoint Planetarnych:** 181 obiektów LFS (31 918 089 B) zhashowanych według raportu #8; 179 PNG z poprawnymi metadanymi/alpha.
+- [ ] **GPU:** po zgodzie właściciela sprawdzić wyłączony pod, ID woluminu, modele, kopie runtime, cold restart, brakujące dane; nic nie nadpisywać.
+- [ ] **Planetarni:** dokończyć 237 klatek (attack 13, skill 64, hit 32, death 64, respawn 64); sprawdzić animacje, 416/416 i opt-in.
+- [ ] **Kontrakt:** uzgodnić legacy 96/0.95/60° vs grounded 128/0.75/45° z #4, walidację, importer i brak regresji.
+- [ ] **Niezależna kontrola:** zweryfikować wszystkie logi i artefakty #8, fizyczny Android, sprzętowy WebGL, produkcję/commit, prawa licencyjne; nie utożsamiać 7/7 historycznych testów domeny z testem nowego GPU.
+- [ ] **Po akceptacji Planetarnych:** pozostałe rasy, NPC/fauna, środowisko i efekty KI; kontrola stylistyki i rzeczywistej sceny.
+- [ ] **Utrzymać dokumenty:** #6 i #8 na osobnych gałęziach do zatwierdzenia; nie scalać ani nie publikować.
