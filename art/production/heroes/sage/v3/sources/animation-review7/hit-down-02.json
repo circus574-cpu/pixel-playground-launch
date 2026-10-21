@@ -1,0 +1,31 @@
+{
+  "id": "hit-down-02",
+  "state": "hit",
+  "direction": "down",
+  "index": 2,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    131,
+    48,
+    397,
+    386
+  ],
+  "sha256": "9f95f0fcb420d98621d47320f44a53d41a220c7a7627c1ff42272522c9794661",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.08437138100271113,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

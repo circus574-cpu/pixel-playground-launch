@@ -1,0 +1,31 @@
+{
+  "id": "death-right-04",
+  "state": "death",
+  "direction": "right",
+  "index": 4,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    119,
+    62,
+    446,
+    345
+  ],
+  "sha256": "f70af43d8ca02db4b73a2dc2b7b738bd92add6416dfa44c7273905f66ff9ed9e",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.08145989099284634,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

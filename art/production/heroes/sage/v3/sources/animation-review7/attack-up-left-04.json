@@ -1,0 +1,31 @@
+{
+  "id": "attack-up-left-04",
+  "state": "attack",
+  "direction": "up-left",
+  "index": 4,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    116,
+    47,
+    386,
+    387
+  ],
+  "sha256": "fa15866b4e6948e361220955d1e6931fd857157fdfe496f8eae3db84fcfe9ae8",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.11449960499885492,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

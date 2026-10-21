@@ -1,0 +1,31 @@
+{
+  "id": "hit-up-01",
+  "state": "hit",
+  "direction": "up",
+  "index": 1,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    133,
+    47,
+    397,
+    386
+  ],
+  "sha256": "5b87014eedb07464162ede08b5149553a5dcc655d6a9e3bb7455b5f32320bb1e",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.10340399999404326,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "skill-right-04",
+  "state": "skill",
+  "direction": "right",
+  "index": 4,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    105,
+    46,
+    329,
+    387
+  ],
+  "sha256": "4a77e2a79d40a9663b8d687bbc4e6fa76f37cb0527166cabaf2db1f445d5066a",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.08985374600160867,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

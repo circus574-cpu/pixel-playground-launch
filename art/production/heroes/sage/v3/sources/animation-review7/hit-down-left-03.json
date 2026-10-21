@@ -1,0 +1,31 @@
+{
+  "id": "hit-down-left-03",
+  "state": "hit",
+  "direction": "down-left",
+  "index": 3,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    115,
+    48,
+    422,
+    387
+  ],
+  "sha256": "f12367d9365e0ee3ba7b90f0de30f006e6612b013d6a384b8425515d2f9d7856",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.15974802200798877,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

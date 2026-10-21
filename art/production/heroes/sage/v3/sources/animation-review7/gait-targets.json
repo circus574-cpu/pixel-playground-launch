@@ -1,0 +1,10 @@
+{
+  "technique": "bounded painted 2D puppet locomotion",
+  "foot_swing_pixels": 3,
+  "foot_lift_pixels": 1,
+  "pelvis_drop_pixels": 0,
+  "death_technique": "rigid planar root fall and reverse",
+  "speed_matched_to_engine": false,
+  "footplant_validated": false,
+  "note": "The painted robe cannot reveal new leg surfaces. This safe bounded puppet gait deliberately does not claim biomechanical running or speed-matched foot contact."
+}

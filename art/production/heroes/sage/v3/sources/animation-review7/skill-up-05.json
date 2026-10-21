@@ -1,0 +1,31 @@
+{
+  "id": "skill-up-05",
+  "state": "skill",
+  "direction": "up",
+  "index": 5,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    134,
+    46,
+    398,
+    386
+  ],
+  "sha256": "50ce704478adec4d27275e223aef5b3d4aae53c8990ed1932b734339cda53141",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.09107965099974535,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

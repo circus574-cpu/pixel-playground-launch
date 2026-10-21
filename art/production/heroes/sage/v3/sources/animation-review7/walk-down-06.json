@@ -1,0 +1,31 @@
+{
+  "id": "walk-down-06",
+  "state": "walk",
+  "direction": "down",
+  "index": 6,
+  "fps": 16,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    132,
+    48,
+    397,
+    388
+  ],
+  "sha256": "6c5d3401efc9bb14ad57eea5c8704463c1c84179657a1e7f44aa35767c1cd7cb",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.1517263779824134,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

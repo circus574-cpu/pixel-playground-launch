@@ -1,0 +1,31 @@
+{
+  "id": "idle-right-02",
+  "state": "idle",
+  "direction": "right",
+  "index": 2,
+  "fps": 6,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    105,
+    47,
+    329,
+    387
+  ],
+  "sha256": "b72a6288157c8b32501d232db2d74c7d77d1024557baa3ad11fad42a2bf3a1b0",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.09524176697595976,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

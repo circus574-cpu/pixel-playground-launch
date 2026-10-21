@@ -1,0 +1,31 @@
+{
+  "id": "attack-left-07",
+  "state": "attack",
+  "direction": "left",
+  "index": 7,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    179,
+    48,
+    419,
+    386
+  ],
+  "sha256": "e99c99c15e35e3a87fc1c62403930c4837da16e0e0711b71a737860aefb9660b",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.10795697700814344,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

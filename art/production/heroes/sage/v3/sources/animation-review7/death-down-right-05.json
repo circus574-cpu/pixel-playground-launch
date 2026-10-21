@@ -1,0 +1,31 @@
+{
+  "id": "death-down-right-05",
+  "state": "death",
+  "direction": "down-right",
+  "index": 5,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    129,
+    109,
+    493,
+    393
+  ],
+  "sha256": "a49aa7ef99f67d459958f93c50ac5cebe2227f1cb19cb66a7e88ca4b92fb25ca",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.16614538000430912,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "attack-down-right-06",
+  "state": "attack",
+  "direction": "down-right",
+  "index": 6,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    113,
+    48,
+    386,
+    387
+  ],
+  "sha256": "2b7f3a8547e3ea5ba54c6f6872aeb755fc1195bb8bc4cc30c4cf25be29fac5e7",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.172457849024795,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

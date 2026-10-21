@@ -1,0 +1,31 @@
+{
+  "id": "respawn-left-00",
+  "state": "respawn",
+  "direction": "left",
+  "index": 0,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    127,
+    155,
+    465,
+    431
+  ],
+  "sha256": "373c56203210bb254ca83591a94dd6a6d97652bfde47cd89ed6c8ba94f3d0de9",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.11647046500002034,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

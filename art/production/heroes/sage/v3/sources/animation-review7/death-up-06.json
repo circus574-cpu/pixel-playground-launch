@@ -1,0 +1,31 @@
+{
+  "id": "death-up-06",
+  "state": "death",
+  "direction": "up",
+  "index": 6,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    123,
+    115,
+    446,
+    415
+  ],
+  "sha256": "c53acad319da63c0eac956f039a8804dfb87d619858d19d79120766e201489a6",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.15455188197665848,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

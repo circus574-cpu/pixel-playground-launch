@@ -1,0 +1,31 @@
+{
+  "id": "skill-down-06",
+  "state": "skill",
+  "direction": "down",
+  "index": 6,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    132,
+    47,
+    397,
+    386
+  ],
+  "sha256": "0b41207fb99930641b12ff7db14da3a0cd0e0997f90e4b54e038a7296ac69637",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.1397528270026669,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

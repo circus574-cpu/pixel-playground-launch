@@ -1,0 +1,31 @@
+{
+  "id": "attack-down-07",
+  "state": "attack",
+  "direction": "down",
+  "index": 7,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    132,
+    48,
+    397,
+    386
+  ],
+  "sha256": "e324bcf41dfbdc90fd5dd582913623ced4f38c12867a895050810c5d5f999f74",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.10005777500919066,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

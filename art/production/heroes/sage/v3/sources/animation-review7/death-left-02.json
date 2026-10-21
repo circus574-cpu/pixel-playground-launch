@@ -1,0 +1,31 @@
+{
+  "id": "death-left-02",
+  "state": "death",
+  "direction": "left",
+  "index": 2,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    179,
+    48,
+    419,
+    386
+  ],
+  "sha256": "dd7be87db37f28bb164e2d96271df652e9f705272a8745bb9f1e2d92e258789b",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.12872174300719053,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

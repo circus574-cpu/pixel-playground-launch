@@ -1,0 +1,94 @@
+{
+  "identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "technique": "painted-2D-deforming-puppet",
+  "directions": {
+    "down": {
+      "vertices": 1075,
+      "triangles": 1920,
+      "alpha_bounds": [
+        133,
+        49,
+        396,
+        385
+      ],
+      "master_sha256": "b7f2ad84f9d4f5da955a1bef859a76e88a920bd5201e2be10de14598a772a5c7"
+    },
+    "down-left": {
+      "vertices": 1273,
+      "triangles": 2302,
+      "alpha_bounds": [
+        116,
+        50,
+        421,
+        386
+      ],
+      "master_sha256": "a6895d6c5f2974fe6fddfed59d56870ad0d0bb891a68cb611685aa80cfd06765"
+    },
+    "left": {
+      "vertices": 971,
+      "triangles": 1754,
+      "alpha_bounds": [
+        180,
+        49,
+        418,
+        385
+      ],
+      "master_sha256": "6a203312103ccdfdbcff80a4035a1dcb3638478c5eacc5b2ec5e608344497976"
+    },
+    "up-left": {
+      "vertices": 1149,
+      "triangles": 2072,
+      "alpha_bounds": [
+        117,
+        49,
+        385,
+        385
+      ],
+      "master_sha256": "f5bcaf9ae4c9d9de0338816103d161d0ab383d5d9bae13aa9db37cbab189d9e1"
+    },
+    "up": {
+      "vertices": 1069,
+      "triangles": 1924,
+      "alpha_bounds": [
+        135,
+        49,
+        397,
+        385
+      ],
+      "master_sha256": "a731fd738d8e1b78337c0a77bf5e5e680c7aa1da5d0113b4e055ceea3e2a7a4f"
+    },
+    "up-right": {
+      "vertices": 1163,
+      "triangles": 2098,
+      "alpha_bounds": [
+        118,
+        49,
+        403,
+        385
+      ],
+      "master_sha256": "97a042239f0ae2afea346270461a3255b451f3f60e8cfaab1c81228a1c4f3eef"
+    },
+    "right": {
+      "vertices": 935,
+      "triangles": 1682,
+      "alpha_bounds": [
+        106,
+        49,
+        327,
+        385
+      ],
+      "master_sha256": "352f102b38365ef652556baf7be8cf91458ecffe34160db899b356bd75d5e64f"
+    },
+    "down-right": {
+      "vertices": 1128,
+      "triangles": 2026,
+      "alpha_bounds": [
+        114,
+        49,
+        385,
+        385
+      ],
+      "master_sha256": "1e5d9a77c5e5da3c344b9479e4b8ec0bfab39f5541046b84fa83d3ffc09526eb"
+    }
+  }
+}

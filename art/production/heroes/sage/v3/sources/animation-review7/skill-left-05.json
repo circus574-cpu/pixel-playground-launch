@@ -1,0 +1,31 @@
+{
+  "id": "skill-left-05",
+  "state": "skill",
+  "direction": "left",
+  "index": 5,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    179,
+    46,
+    419,
+    386
+  ],
+  "sha256": "41c582776900baa95b28b933d459ed0d1912c5e70f4d83bc9c1e6635a76832ba",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.10577291398658417,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}

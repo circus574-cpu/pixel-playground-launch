@@ -1,0 +1,31 @@
+{
+  "id": "walk-up-left-07",
+  "state": "walk",
+  "direction": "up-left",
+  "index": 7,
+  "fps": 16,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7,
+  "alpha_bounds": [
+    115,
+    48,
+    387,
+    388
+  ],
+  "sha256": "2457034c2b34881c684401ff231262cc97cb7fee8c0b1c5529c28c7962668d70",
+  "source_identity": "39751be99734bf7750e1cfbfd2bfa0c1f3354aa4f3f88ebcf9661994b393768d",
+  "seconds": 0.13254936700104736,
+  "status": "review-required",
+  "technique": "painted-2D-deforming-puppet"
+}
