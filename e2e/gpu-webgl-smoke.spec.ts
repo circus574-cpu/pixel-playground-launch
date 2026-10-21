@@ -37,7 +37,10 @@ for (const hero of heroes) {
       await expect(actor).toHaveAttribute("data-world", hero.world);
       await expect(actor).toHaveAttribute("data-actor-visual", hero.actor);
       await expect(actor).toHaveAttribute("data-texture-ids", new RegExp(hero.texture));
-      await expect(actor).toHaveAttribute("data-animation-frame", new RegExp(`^${hero.actor}/idle/`));
+      await expect(actor).toHaveAttribute(
+        "data-animation-frame",
+        new RegExp(`^${hero.actor}/idle/`),
+      );
       await expect(actor).toHaveAttribute("data-metrics", /.+/);
       await expect
         .poll(async () => {
