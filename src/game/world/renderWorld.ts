@@ -38,7 +38,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       .setDepth(renderDepth("paths") + 1);
   // World-space surface detail, rendered in Phaser rather than on the atlas/globe.
   // Deterministic, camera-independent placement; no save, collision or navigation changes.
-  if (world.id === "aether") {
+  if (world.id === "aether" || world.id === "nexus") {
     const detail = scene.add.graphics().setDepth(renderDepth("ground") + 1);
     for (let y = 170; y < world.height - 110; y += 112) {
       for (let x = 180; x < world.width - 160; x += 128) {
@@ -54,7 +54,15 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
             py > r.y && py < r.y + r.height,
         );
         if (onPath || blocked) continue;
-        // Mossy ground tufts and small luminescent KI flowers.
+        // Aetheria: living KI gardens. Nexus-9: synthetic circuitry and energy nodes.
+        if (world.id === "nexus") {
+          detail.lineStyle(2, 0x4a9bb4, 0.35);
+          detail.lineBetween(px - 18, py, px + 18, py);
+          detail.lineBetween(px + 18, py, px + 18, py - 14);
+          detail.fillStyle(0x82e9ff, 0.6);
+          detail.fillCircle(px + 18, py - 14, 3);
+          continue;
+        }
         detail.lineStyle(2, seed % 3 ? 0x73aa94 : 0x9bc7ae, 0.45);
         detail.lineBetween(px - 7, py + 3, px - 2, py - 5);
         detail.lineBetween(px, py + 4, px + 2, py - 8);
@@ -67,14 +75,14 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
         }
       }
     }
-    // Concentric ceremonial inlays on the sanctuary courtyard.
+    // Inlays are world-space and do not affect collision or save coordinates.
     const courtyard = terrain.plazas[1];
     if (courtyard) {
       const cx = courtyard.x + courtyard.width / 2;
       const cy = courtyard.y + courtyard.height / 2;
-      detail.lineStyle(3, 0xcde9d0, 0.28);
+      detail.lineStyle(3, world.id === "nexus" ? 0x66dcff : 0xcde9d0, 0.28);
       detail.strokeCircle(cx, cy, 125);
-      detail.lineStyle(2, 0x79e8d5, 0.32);
+      detail.lineStyle(2, world.id === "nexus" ? 0x9beaff : 0x79e8d5, 0.32);
       detail.strokeCircle(cx, cy, 96);
     }
   }
