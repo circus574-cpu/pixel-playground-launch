@@ -36,6 +36,48 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     )
       .setOrigin(0)
       .setDepth(renderDepth("paths") + 1);
+  // World-space surface detail, rendered in Phaser rather than on the atlas/globe.
+  // Deterministic, camera-independent placement; no save, collision or navigation changes.
+  if (world.id === "aether") {
+    const detail = scene.add.graphics().setDepth(renderDepth("ground") + 1);
+    for (let y = 170; y < world.height - 110; y += 112) {
+      for (let x = 180; x < world.width - 160; x += 128) {
+        const seed = (x * 17 + y * 31) % 101;
+        const px = x + (seed % 39) - 19;
+        const py = y + ((seed * 7) % 43) - 21;
+        const onPath = [...terrain.paths, ...terrain.plazas].some(
+          (r) => px > r.x - 30 && px < r.x + r.width + 30 &&
+            py > r.y - 30 && py < r.y + r.height + 30,
+        );
+        const blocked = world.obstacles.some(
+          (r) => px > r.x && px < r.x + r.width &&
+            py > r.y && py < r.y + r.height,
+        );
+        if (onPath || blocked) continue;
+        // Mossy ground tufts and small luminescent KI flowers.
+        detail.lineStyle(2, seed % 3 ? 0x73aa94 : 0x9bc7ae, 0.45);
+        detail.lineBetween(px - 7, py + 3, px - 2, py - 5);
+        detail.lineBetween(px, py + 4, px + 2, py - 8);
+        detail.lineBetween(px + 7, py + 3, px + 4, py - 3);
+        if (seed % 4 === 0) {
+          detail.fillStyle(0xa5fff0, 0.75);
+          detail.fillCircle(px + 13, py - 9, 2.5);
+          detail.fillStyle(0x5cd7c5, 0.2);
+          detail.fillCircle(px + 13, py - 9, 8);
+        }
+      }
+    }
+    // Concentric ceremonial inlays on the sanctuary courtyard.
+    const courtyard = terrain.plazas[1];
+    if (courtyard) {
+      const cx = courtyard.x + courtyard.width / 2;
+      const cy = courtyard.y + courtyard.height / 2;
+      detail.lineStyle(3, 0xcde9d0, 0.28);
+      detail.strokeCircle(cx, cy, 125);
+      detail.lineStyle(2, 0x79e8d5, 0.32);
+      detail.strokeCircle(cx, cy, 96);
+    }
+  }
   const hazards = scene.add.graphics().setDepth(renderDepth("below") - 1);
   for (const o of world.obstacles) {
     hazards.fillStyle(world.id === "pyra" ? 0x2a2029 : world.id === "nexus" ? 0x091722 : 0x15343b);
