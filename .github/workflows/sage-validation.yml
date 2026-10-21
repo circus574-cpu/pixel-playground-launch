@@ -40,7 +40,11 @@ jobs:
         run: npm run build
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
-      - name: Sage browser regression
+      - name: Full browser regression (all regions, saves and combat)
+        run: npx playwright test
+      - name: Sage browser regression with software WebGL
+        env:
+          KI_QA_WEBGL: '1'
         run: npx playwright test e2e/sage-preview.spec.ts
       - name: Save Playwright failure artifacts
         if: failure()
