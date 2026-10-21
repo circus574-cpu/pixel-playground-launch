@@ -25,3 +25,13 @@ Specyfikacja docelowa: `docs/GPU_ASSET_PIPELINE.md`; 512px RGBA master, 128px kl
 
 ## Granice
 Nie utożsamiać przejścia testów syntetycznych/importera z zatwierdzeniem oprawy. Nie utożsamiać emulowanego viewportu z testem na fizycznym telefonie. Nie utożsamiać mergowania z wdrożeniem. Ostateczny SHA, testy i produkcję weryfikować po zamknięciu PR Codexa.
+
+
+## Aktualny kontrakt kodu main i granica GPU — odczyt PR #8
+Stan `main` `86a1e411339bc41fb218d4633ed2a7bd81e1f167`: jedna scena Phaser, render w warstwach, `GameSession`, A* siatka 24, promień kolizji stóp 12, prędkość 205 jednostek/s, zoom 0,35–1 (domyślnie desktop 0,62, mobile 0,48), `STATIC_TERRAIN_CACHE_ENABLED=true`, `TEST_RACE_SWITCH_ENABLED=true`. Wspólny ludzki spritesheet nadal reprezentuje cztery pochodzenia w runtime. `?ki-art=technical` działa tylko w izolowanym playteście; nie jest publikacją bohatera.
+
+HUD: końcowa warstwa `hud-layout.css` po wcześniejszych CSS; breakpoint szerokość ≤760 px lub wysokość ≤500 px przy szerokości ≤1100; zwijane menu, wspólny dolny rząd, status-stack i zasięg przycisku rozmowy NPC 180 jednostek (bez walki/otwartych okien). Naprawy PR #5/#7 zachowują mechanikę, zapisy i niezależny `/test`. Zob. `docs/MOBILE-HUD-LAYOUT-2026-10-20.md` na main oraz `docs/TECHNICAL_STATE.md` w PR #8.
+
+**Rozdzielić kontrakty:** main: aktor 96 jednostek, origin (0,5;0,95), kamera renderu 60°. Draft #4: `presentation=grounded`, aktor 128, origin (0,5;0,75), kamera ortho 45°, opt-in `?ki-hero-art=1` i `previewOnly`. Te parametry **nie są wdrożone w main**. Main importer/packer nie przyjmuje automatycznie nowego profilu; integracja wymaga uzgodnienia, testów i oddzielnej zgody.
+
+Raport #8 wskazuje stały marker `pre-gpu-engine-r1` zamiast pełnego SHA w meta `ki-build`: sam marker nie potwierdza zgodności produkcji z commitem. Dokumentacyjny PR nie uruchamia automatycznie CI filtrowanego na kod.
