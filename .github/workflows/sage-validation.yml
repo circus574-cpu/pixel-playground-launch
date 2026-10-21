@@ -1,0 +1,53 @@
+name: Sage integration validation
+
+on:
+  push:
+    branches:
+      - sage/aetheria-20261021
+  pull_request:
+    paths:
+      - 'src/game/**'
+      - 'src/test/**'
+      - 'e2e/**'
+      - 'public/game/assets/gpu/hero-sage/**'
+      - '.github/workflows/sage-validation.yml'
+  workflow_dispatch:
+
+jobs:
+  sage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate all TypeScript projects
+        run: npm run typecheck
+      - name: Check assets
+        run: npm run assets:check
+      - name: Unit and integration tests
+        run: npm test -- --run
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Sage browser regression
+        run: npx playwright test e2e/sage-preview.spec.ts --project=chromium
+      - name: Save Playwright failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sage-playwright-failures
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
