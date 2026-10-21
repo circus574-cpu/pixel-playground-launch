@@ -154,7 +154,12 @@ export function blobShape(seed: number, roughness: number) {
     1 + harmonics.reduce((sum, h) => sum + h.amp * Math.sin(h.k * theta + h.phase), 0);
 }
 
-export function regionPoint(region: MapRegion, theta: number, t: number, shape = blobShape(region.seed, region.roughness)): Point {
+export function regionPoint(
+  region: MapRegion,
+  theta: number,
+  t: number,
+  shape = blobShape(region.seed, region.roughness),
+): Point {
   const m = shape(theta) * t;
   return {
     x: region.center.x + Math.cos(theta) * region.radius.x * m,
@@ -192,7 +197,11 @@ export function regionDecorations(region: MapRegion, count: number): Decoration[
   return Array.from({ length: count }, () => {
     const theta = r() * Math.PI * 2;
     const t = Math.sqrt(r()) * 0.78;
-    return { ...regionPoint(region, theta, t, shape), size: 0.7 + r() * 0.6, variant: Math.floor(r() * 3) };
+    return {
+      ...regionPoint(region, theta, t, shape),
+      size: 0.7 + r() * 0.6,
+      variant: Math.floor(r() * 3),
+    };
   });
 }
 
@@ -233,7 +242,14 @@ export function clampView(v: View, cw: number, ch: number): View {
 }
 
 /** Zoom by factor keeping the map point under (px, py) stationary on screen. */
-export function zoomAt(v: View, factor: number, px: number, py: number, cw: number, ch: number): View {
+export function zoomAt(
+  v: View,
+  factor: number,
+  px: number,
+  py: number,
+  cw: number,
+  ch: number,
+): View {
   const fit = fitScale(cw, ch);
   const s = clamp(v.s * factor, fit, fit * MAX_ZOOM);
   const mx = v.cx + (px - cw / 2) / v.s;
