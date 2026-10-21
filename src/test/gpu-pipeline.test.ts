@@ -296,9 +296,7 @@ describe("Sage and Planetary integration on current main", () => {
     );
     expect(frames).toHaveLength(416);
     const assets = worldAssets("aether", false, catalog).map((a) => a.id);
-    expect(assets).toEqual(
-      expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]),
-    );
+    expect(assets).toEqual(expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]));
   });
 
   it("does not change Androidy, Legendy or default Planetarni", () => {
