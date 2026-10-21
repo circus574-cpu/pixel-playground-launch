@@ -19,3 +19,7 @@ To historia dokumentacyjna, nie zastępuje `git log`. Nie przypisywać datom i o
 
 ## Do uzupełnienia
 Dokładny rejestr wszystkich commitów i PR od pierwszego commita, powiązanie wersji produkcyjnej z SHA, zamknięte błędy/regresje i wyniki końcowego audytu. Bez bezpośrednich dowodów nie przypisywać ich jako faktów.
+
+
+## Weryfikacja osi Git (2026-10-21)
+Bezpośredni odczyt GitHub `commits?sha=main&per_page=100` zwrócił **79 commitów** na osiągalnej historii `main`, od `dad00cb77760242916c556adb1286c543648c5fe` (2026-10-16, szablon TanStack) do `8045a0bd2ebe77bcbd00dcedf17d8b48e13b3d40` (2026-10-20, „Lovable update”). Ważne kotwice: `d0a2ba66d620715c2d82222758b8971600640e4a` (merge PR #2, stabilizacja przed GPU), `f739f0d9bbf194bfffebcbf95bc569dcece2ddff` (cache terenu), `38310adf343496e4839521d1749e964de8a7f492` (pipeline animacji). Pełna historia jest dostępna w Git; nie przypisano automatycznie znaczenia 79 commitom bez analizy każdego diffu. Gałęzie robocze mogą zawierać dodatkowe commity nieosiągalne z `main`.
