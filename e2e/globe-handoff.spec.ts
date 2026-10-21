@@ -3,6 +3,8 @@ import { test, expect } from "./fixtures";
 for (const [continent, race, world] of [
   ["verdant", "Planetarni", "verdant"],
   ["aether", "Mędrcy", "aether"],
+  ["nexus", "Androidy", "nexus"],
+  ["pyra", "Legendy", "pyra"],
 ] as const) {
   test("globe handoff respects " + continent + " and preserves other saves", async ({ page }) => {
     await page.goto("/");
@@ -16,7 +18,9 @@ for (const [continent, race, world] of [
     );
     await page.goto("/?continent=" + continent);
     await expect(page.getByRole("status")).toContainText(
-      continent === "verdant" ? "Verdantia" : "Aetheria",
+      ({ verdant: "Verdantia", aether: "Aetheria", nexus: "Nexus-9", pyra: "Pyra" } as const)[
+        continent
+      ],
     );
     await page.getByRole("button", { name: /Twoje postacie/ }).click();
     await expect(page.getByRole("button", { name: "Kontynuuj podróż", exact: true })).toHaveCount(
