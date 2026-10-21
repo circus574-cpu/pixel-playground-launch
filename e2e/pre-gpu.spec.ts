@@ -84,7 +84,11 @@ for (const race of RACE_IDS)
         await expect
           .poll(() => page.locator(".ki-canvas").getAttribute("data-metrics"))
           .not.toBeNull();
-        expect(await page.locator(".ki-canvas").getAttribute("data-actor-visual")).toBe("human-v2");
+        const expectedVisual = race === "sage" ? "hero-sage" : "human-v2";
+        await expect(page.locator(".ki-canvas")).toHaveAttribute(
+          "data-actor-visual",
+          expectedVisual,
+        );
         const candidates = [];
         for (let dx = -400; dx <= 400; dx += 80)
           for (let dy = -400; dy <= 400; dy += 80) {
