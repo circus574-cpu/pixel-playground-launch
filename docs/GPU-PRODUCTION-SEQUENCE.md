@@ -2,6 +2,11 @@
 
 **Decyzja właściciela: 2026-10-21.** Ten dokument określa **kolejność zleceń**, nie stan wykonania. Działania wykonywane wyłącznie po uruchomieniu GPU przez właściciela. Żadnego automatycznego start/stop/restart/terminate, zakupu usług, merge ani publikacji.
 
+## Oryginalny kanon ilustracji (bez obrazów z internetu)
+Źródło: **Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf**, 12 stron, 20.10.2026 — odnaleziony w plikach projektu ChatGPT; oryginalny binarny PDF nadal wymaga archiwizacji i SHA-256 w GitHub. Ilustracje wzorcowe: **str. 4 Planetarni; str. 5 Mędrcy; str. 6 Androidy; str. 7 Legendy; str. 8 dodatkowe referencje skali i świata**. Na stronach 4–7 lewy obraz pokazuje sylwetkę i kostium, prawy perspektywę w grze. Nie zastępować ich stockami, losowymi obrazami internetowymi ani nową tożsamością postaci. Miasta mają być nową produkcją opartą na kanonie ras i krajobrazów — PDF nie jest gotowym zestawem kompletnych lokacji.
+
+Przed realizacją pozyskać i zweryfikować binarny oryginał PDF w `docs/design/` oraz przygotować wizualny odbiór ujęć 4–8. Nie oznaczać go jako zarchiwizowanego w GitHub, dopóki nie ma potwierdzonego commita i sumy.
+
 ## Zasada nadrzędna
 Kolejność jest sztywna: **(1) Androidy → (2) Legendy → (3) Verdantia/Planetarni → (4) Aetheria/Mędrcy → (5) Nexus-9/Androidy → (6) Pyra/Legendy**. Każdy numer jest osobną dostawą, etap nie przechodzi dalej bez testów i **wizualnej akceptacji właściciela**. Wersje i dowody muszą znaleźć się w GitHub, również gdy wykonawca traci kontekst.
 
