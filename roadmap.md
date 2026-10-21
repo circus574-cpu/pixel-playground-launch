@@ -6,3 +6,4 @@
 - [x] Replace primitive /mapa geography with a real detailed painted atlas and aligned hitboxes.
 - [x] Refine mobile atlas controls and verify desktop/mobile interactions and existing routes.
 - [x] Run unit tests and confirm preview build; report exact commit without publishing.
+- [x] Upgrade /mapa to a lazy 3D globe with 2D fallback, tests and docs (not published).

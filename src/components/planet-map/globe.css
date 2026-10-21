@@ -1,0 +1,218 @@
+/* 3D globe of planet Superior — layered on the shared .planet-map chrome. */
+.planet-globe {
+  background: #02060c;
+}
+.pg-space {
+  position: absolute;
+  inset: -6%;
+  background-size: cover;
+  background-position: 50% 50%;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.pg-stage {
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+.pg-stage:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--pm-gold-hi);
+}
+.pg-canvas {
+  position: absolute !important;
+  inset: 0;
+  touch-action: none;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.pg-canvas:active {
+  cursor: grabbing;
+}
+.planet-globe.is-ready .pg-canvas {
+  opacity: 1;
+}
+
+/* ---------- markers ---------- */
+.pg-markers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.pg-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #f6efdf;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  text-shadow:
+    0 1px 2px rgb(2 6 12 / 0.95),
+    0 0 12px rgb(2 6 12 / 0.8);
+  transition: background 0.15s;
+}
+.planet-globe:not(.is-ready) .pg-marker {
+  visibility: hidden;
+}
+.pg-marker:hover,
+.pg-marker.is-selected {
+  background: rgb(8 18 28 / 0.42);
+}
+.pg-name {
+  font:
+    normal 15px/1.1 Georgia,
+    "Times New Roman",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.pg-people {
+  font:
+    700 9.5px/1.2 Arial,
+    sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pm-gold-hi);
+}
+.pg-marker.is-selected .pg-name {
+  color: var(--pm-gold-hi);
+}
+.pg-island {
+  padding: 0;
+  border-radius: 50%;
+}
+.pg-num {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border: 1px solid rgb(240 215 154 / 0.55);
+  border-radius: 999px;
+  background: rgb(8 18 28 / 0.55);
+  font:
+    normal 12px/1 Georgia,
+    serif;
+  color: var(--pm-gold-hi);
+  text-shadow: none;
+}
+.pg-island.is-selected .pg-num,
+.pg-island:hover .pg-num {
+  border-color: var(--pm-gold-hi);
+  background: rgb(215 189 123 / 0.25);
+}
+
+/* ---------- chrome tweaks ---------- */
+.pm-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  margin-left: 4px;
+  padding: 0 12px;
+  border: 1px solid var(--pm-line);
+  border-radius: 9px;
+  background: rgb(236 228 210 / 0.05);
+  color: var(--pm-text);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.pm-mode:hover {
+  color: var(--pm-gold-hi);
+  background: rgb(236 228 210 / 0.1);
+}
+.pg-chip {
+  border-color: rgb(215 189 123 / 0.35);
+  background: rgb(8 14 22 / 0.6);
+  color: var(--pm-muted);
+}
+.pg-chip strong {
+  color: var(--pm-gold-hi);
+}
+.pm-notice {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  max-width: min(520px, calc(100vw - 120px));
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid var(--pm-line);
+  border-radius: 12px;
+  background: var(--pm-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 12.5px;
+  color: var(--pm-text);
+  text-align: center;
+}
+
+/* ---------- loading ---------- */
+.pg-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
+  color: var(--pm-muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+.pg-ring {
+  width: 54px;
+  height: 54px;
+  border: 2px solid rgb(240 215 154 / 0.18);
+  border-top-color: var(--pm-gold-hi);
+  border-radius: 50%;
+  animation: pg-spin 1.1s linear infinite;
+}
+@keyframes pg-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .pm-mode span {
+    display: none;
+  }
+  .pm-mode {
+    width: 34px;
+    padding: 0;
+    justify-content: center;
+    margin-left: auto;
+  }
+  .pg-name {
+    font-size: 13px;
+  }
+  .pg-people {
+    font-size: 8.5px;
+  }
+  .pm-notice {
+    bottom: auto;
+    top: calc(max(10px, env(safe-area-inset-top)) + 104px);
+    max-width: calc(100vw - 20px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-canvas,
+  .pg-ring {
+    transition: none;
+    animation: none;
+  }
+}

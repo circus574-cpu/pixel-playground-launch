@@ -1,12 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Globe2, Layers, Minus, Plus, X } from "lucide-react";
+import { ArrowLeft, Globe2, Layers, Minus, Orbit, Plus, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
@@ -31,6 +30,7 @@ import {
   type MapRegion,
   type View,
 } from "./mapData";
+import { thumbStyle } from "./thumb";
 import "./planet-map.css";
 
 type Size = { w: number; h: number };
@@ -39,18 +39,15 @@ type Gesture = { x: number; y: number; region: string | null; moved: boolean };
 const FALLBACK: Size = { w: 1280, h: 800 };
 const PATHS = Object.fromEntries(REGIONS.map((r) => [r.id, regionPath(r)]));
 
-/** Small crop of the painted atlas centred on a region, for the legend. */
-function thumbStyle(region: MapRegion, size = 48): CSSProperties {
-  const side = Math.max(region.radius.x, region.radius.y) * 2 * 1.08;
-  const k = size / side;
-  return {
-    backgroundImage: `url(${atlasLo})`,
-    backgroundSize: `${MAP_W * k}px ${MAP_H * k}px`,
-    backgroundPosition: `${-(region.center.x - side / 2) * k}px ${-(region.center.y - side / 2) * k}px`,
-  };
-}
-
-export function PlanetMap() {
+export function PlanetMap({
+  onShowGlobe,
+  notice,
+}: {
+  /** Switch back to the 3D globe; omitted when WebGL 2 is unavailable. */
+  onShowGlobe?: (() => void) | undefined;
+  /** Why the flat atlas is shown instead of the globe, if not by choice. */
+  notice?: string | null | undefined;
+} = {}) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const sizeRef = useRef<Size>(FALLBACK);
@@ -526,7 +523,26 @@ export function PlanetMap() {
             Planeta Superior <span className="pm-demo">DEMO</span>
           </h1>
         </div>
+        {onShowGlobe && (
+          <Button
+            variant="ghost"
+            type="button"
+            className="pm-mode"
+            onClick={onShowGlobe}
+            aria-label="Globus 3D"
+            title="Globus 3D"
+          >
+            <Orbit size={15} aria-hidden />
+            <span>Globus 3D</span>
+          </Button>
+        )}
       </header>
+
+      {notice && (
+        <p className="pm-notice" role="status">
+          {notice}
+        </p>
+      )}
 
       <p className="pm-demo-chip" role="note">
         <strong>DEMO</strong> · niepołączona z grą · bez pozycji gracza
