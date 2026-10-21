@@ -711,9 +711,9 @@ export function PlanetMap({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
-            {selectedRegion.id === "verdant" && (
-              <Link to="/" search={{ continent: "verdant" } as never} className="pm-enter-world">
-                Wejdź do gry — Verdantia
+            {(selectedRegion.id === "verdant" || selectedRegion.id === "aether") && (
+              <Link to="/" search={{ continent: selectedRegion.id } as never} className="pm-enter-world">
+                Wejdź do gry — {selectedRegion.name}
               </Link>
             )}
             <p className="pm-status">{selectedRegion.status}</p>
