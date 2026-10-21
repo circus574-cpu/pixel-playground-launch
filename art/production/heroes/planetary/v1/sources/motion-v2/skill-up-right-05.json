@@ -1,0 +1,23 @@
+{
+  "id": "skill-up-right-05",
+  "state": "skill",
+  "direction": "up-right",
+  "index": 5,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "92797d32a6a8dae394d28b7871a0881b64dfe5e9d39654fb16354125037ef1f0",
+  "seconds": 2.7357953669852577,
+  "status": "motion-review-not-installed"
+}

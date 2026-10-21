@@ -1,0 +1,20 @@
+
+> assets:import
+> tsx scripts/import-game-assets.ts /workspace/artifacts/ki-planetary-20261021/delivery/manifest.json
+
+{
+  "id": "hero-planetary",
+  "version": "1.0.0",
+  "digest": "1868eaa1c9f85e8f3803de4a01e92007de16ec5e0a8c8f0d59a4ce4f5060ba46",
+  "assets": 2,
+  "bytesBefore": 2129296,
+  "bytesAfter": 2129296,
+  "worlds": {
+    "verdant": 94452000,
+    "aether": 16561440,
+    "nexus": 16561440,
+    "pyra": 16561440
+  },
+  "installed": false,
+  "directory": "game/assets/gpu/hero-planetary/1.0.0-1868eaa1c9f8"
+}

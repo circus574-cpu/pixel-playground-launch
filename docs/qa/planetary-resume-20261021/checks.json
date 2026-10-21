@@ -1,0 +1,49 @@
+{
+  "baseline-e2e": {
+    "passed": 54,
+    "failed": 0,
+    "log": "baseline-e2e.txt"
+  },
+  "preview-e2e": {
+    "passed": 4,
+    "failed": 0,
+    "log": "preview-e2e.txt"
+  },
+  "preview-touch-e2e": {
+    "passed": 1,
+    "failed": 0,
+    "log": "preview-touch-e2e.txt"
+  },
+  "preview-gameplay-e2e": {
+    "passed": 2,
+    "failed": 0,
+    "log": "preview-gameplay-e2e.txt"
+  },
+  "unit": {
+    "passed": 110,
+    "failed": 0,
+    "log": "unit-final.txt"
+  },
+  "storage_after_formatting": {
+    "passed": 14,
+    "failed": 0,
+    "log": "storage-regression.txt"
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 7,
+    "log": "lint-final.txt"
+  },
+  "typecheck": {
+    "result": "PASS",
+    "log": "typecheck.txt"
+  },
+  "assets": {
+    "result": "PASS",
+    "log": "assets-check.txt"
+  },
+  "build": {
+    "result": "PASS",
+    "log": "build-final.txt"
+  }
+}

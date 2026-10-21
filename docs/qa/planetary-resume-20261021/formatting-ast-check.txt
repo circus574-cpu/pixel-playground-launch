@@ -1,0 +1,2 @@
+AST_MATCH_EXCEPT_APPROVED_TIMER_DECLARATION src/integrations/supabase/previewAuthStorage.ts
+AST_MATCH_EXCEPT_APPROVED_TIMER_DECLARATION src/integrations/supabase/types.ts

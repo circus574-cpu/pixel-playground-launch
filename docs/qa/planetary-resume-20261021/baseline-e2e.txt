@@ -1,0 +1,86 @@
+
+> test:e2e
+> playwright test --output=/tmp/ki-planetary-baseline-e2e --reporter=list
+
+[WebServer] (node:2116) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:2138) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 54 tests using 1 worker
+
+(node:2170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 360x640 › single dock, clear play area and real touch tools (5.1s)
+  ✓   2 e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 390x640 › single dock, clear play area and real touch tools (3.9s)
+  ✓   3 e2e/hud-layout.spec.ts:16:5 › tidy HUD Mędrcy 390x844 › single dock, clear play area and real touch tools (3.6s)
+  ✓   4 e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 390x640 › single dock, clear play area and real touch tools (2.8s)
+  ✓   5 e2e/hud-layout.spec.ts:16:5 › tidy HUD Legendy 414x896 › single dock, clear play area and real touch tools (3.5s)
+  ✓   6 e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 852x393 › single dock, clear play area and real touch tools (2.6s)
+  ✓   7 e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 1280x900 › single dock, clear play area and real touch tools (5.5s)
+  ✓   8 e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 1280 (21.1s)
+  ✓   9 e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 360 (17.8s)
+  ✓  10 e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 390 (17.9s)
+  ✓  11 e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 414 (17.6s)
+  ✓  12 e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 852 (16.7s)
+  ✓  13 e2e/overlay-audit.spec.ts:182:1 › save failure stays actionable after normal guidance is disabled or dismissed (7.3s)
+  ✓  14 e2e/overlay-audit.spec.ts:210:1 › death message ends on real respawn and subsequent movement works (29.2s)
+  ✓  15 e2e/overlay-audit.spec.ts:239:1 › combat messages leave the actual target panel clear at every HUD breakpoint (17.4s)
+  ✓  16 e2e/pre-gpu.spec.ts:76:7 › Android planetary 390x844 › real Android input in eight directions: planetary 390x844 (14.1s)
+  ✓  17 e2e/pre-gpu.spec.ts:76:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 (13.2s)
+  ✓  18 e2e/pre-gpu.spec.ts:76:7 › Android sage 390x844 › real Android input in eight directions: sage 390x844 (14.1s)
+  ✓  19 e2e/pre-gpu.spec.ts:76:7 › Android sage 852x393 › real Android input in eight directions: sage 852x393 (13.6s)
+  ✓  20 e2e/pre-gpu.spec.ts:76:7 › Android android 390x844 › real Android input in eight directions: android 390x844 (14.0s)
+  ✓  21 e2e/pre-gpu.spec.ts:76:7 › Android android 852x393 › real Android input in eight directions: android 852x393 (12.6s)
+  ✓  22 e2e/pre-gpu.spec.ts:76:7 › Android legend 390x844 › real Android input in eight directions: legend 390x844 (12.6s)
+  ✓  23 e2e/pre-gpu.spec.ts:76:7 › Android legend 852x393 › real Android input in eight directions: legend 852x393 (11.9s)
+  ✓  24 e2e/pre-gpu.spec.ts:190:3 › real defeat, respawn and movement: planetary (30.4s)
+  ✓  25 e2e/pre-gpu.spec.ts:190:3 › real defeat, respawn and movement: sage (28.7s)
+  ✓  26 e2e/pre-gpu.spec.ts:190:3 › real defeat, respawn and movement: android (32.2s)
+  ✓  27 e2e/pre-gpu.spec.ts:190:3 › real defeat, respawn and movement: legend (30.4s)
+  ✓  28 e2e/pre-gpu.spec.ts:232:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (6.2s)
+  ✓  29 e2e/pre-gpu.spec.ts:275:3 › real pursuit, return, enemy collision and world boundary: planetary (25.4s)
+  ✓  30 e2e/pre-gpu.spec.ts:275:3 › real pursuit, return, enemy collision and world boundary: sage (20.0s)
+  ✓  31 e2e/pre-gpu.spec.ts:275:3 › real pursuit, return, enemy collision and world boundary: android (23.8s)
+  ✓  32 e2e/pre-gpu.spec.ts:275:3 › real pursuit, return, enemy collision and world boundary: legend (20.4s)
+  ✓  33 e2e/pre-gpu.spec.ts:338:1 › malformed scenery atlas fails with a named error and retries without losing the slot (4.4s)
+  ✓  34 e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 1280 (13.4s)
+  ✓  35 e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 390 (12.0s)
+  ✓  36 e2e/stage3-migration.spec.ts:5:1 › C: a real v1 fixture migrates in the browser without changing the original (4.5s)
+PVE: Ren quest accepted
+PVE: boar and loot 1 KI before 32 skill verified true
+PVE: boar and loot 2 KI before 50 skill verified true
+PVE: boar and loot 3 KI before 50 skill verified true
+  ✓  37 e2e/stage3-pve.spec.ts:37:1 › D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload (54.2s)
+Verified Planetarni verdant
+Verified Mędrcy aether
+Verified Androidy nexus
+Verified Legendy pyra
+  ✓  38 e2e/stage3.spec.ts:80:1 › A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching (54.4s)
+  ✓  39 e2e/stage3.spec.ts:167:3 › E: touch selection, joystick, dialogue and layout 360x800 (11.5s)
+  ✓  40 e2e/stage3.spec.ts:167:3 › E: touch selection, joystick, dialogue and layout 390x844 (12.5s)
+  ✓  41 e2e/stage3.spec.ts:167:3 › E: touch selection, joystick, dialogue and layout 414x896 (12.9s)
+  ✓  42 e2e/stage3.spec.ts:167:3 › E: touch selection, joystick, dialogue and layout 852x393 (10.4s)
+  ✓  43 e2e/stage3.spec.ts:167:3 › E: touch selection, joystick, dialogue and layout 640x480 (14.3s)
+  ✓  44 e2e/stage31-collision.spec.ts:11:3 › browser collider and camera: planetary (11.5s)
+  ✓  45 e2e/stage31-collision.spec.ts:11:3 › browser collider and camera: sage (7.3s)
+  ✓  46 e2e/stage31-collision.spec.ts:11:3 › browser collider and camera: android (5.1s)
+  ✓  47 e2e/stage31-collision.spec.ts:11:3 › browser collider and camera: legend (6.4s)
+  ✓  48 e2e/stage31-ui.spec.ts:14:1 › original complete illustrations, details, accessible enlargement and no save before start (5.1s)
+  ✓  49 e2e/stage31-ui.spec.ts:63:1 › real Phaser progress is held by an actual resource request, then opens the correct world (7.5s)
+  ✓  50 e2e/stage31-ui.spec.ts:107:1 › failed real resource shows retry and reuses the same saved character (8.1s)
+  ✓  51 e2e/stage31-ui.spec.ts:167:1 › HP and KI remain separate at low, middle, maximum values and interface scales (18.9s)
+  ✓  52 e2e/three-races-pve.spec.ts:74:3 › real PvE journey: sage — quests, 3 kills, loot, equipment, merchant and smith (50.9s)
+  ✓  53 e2e/three-races-pve.spec.ts:74:3 › real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith (1.1m)
+  ✓  54 e2e/three-races-pve.spec.ts:74:3 › real PvE journey: legend — quests, 3 kills, loot, equipment, merchant and smith (57.6s)
+
+  Slow test file: e2e/pre-gpu.spec.ts (5.5m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  54 passed (15.9m)

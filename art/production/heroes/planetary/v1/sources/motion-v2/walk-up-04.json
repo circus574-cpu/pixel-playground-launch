@@ -1,0 +1,23 @@
+{
+  "id": "walk-up-04",
+  "state": "walk",
+  "direction": "up",
+  "index": 4,
+  "fps": 16,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "eec257c3ed4c2f051d4ea6d9e94699f2b1cd2923d8b36bc0bc5587e3d2a6a955",
+  "seconds": 1.825215554999886,
+  "status": "motion-review-not-installed"
+}

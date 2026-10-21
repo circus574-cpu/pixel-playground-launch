@@ -1,0 +1,23 @@
+{
+  "id": "death-up-right-02",
+  "state": "death",
+  "direction": "up-right",
+  "index": 2,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "6707f3a749f69b97b4ae2ca40f16350a439425f8fed0cbbb6382d58788c092a2",
+  "seconds": 2.5448503229999915,
+  "status": "motion-review-not-installed"
+}

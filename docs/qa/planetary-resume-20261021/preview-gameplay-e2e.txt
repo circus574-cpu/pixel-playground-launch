@@ -1,0 +1,28 @@
+
+> test:e2e
+> playwright test e2e/stage3-pve.spec.ts e2e/pre-gpu.spec.ts -g D: real forest UI|real defeat, respawn and movement: planetary --output=/tmp/ki-planetary-gameplay-e2e --reporter=list
+
+[WebServer] (node:6058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:6092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6113) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:6140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/pre-gpu.spec.ts:190:3 › real defeat, respawn and movement: planetary (32.4s)
+PVE: Ren quest accepted
+PVE: boar and loot 1 KI before 32 skill verified true
+PVE: boar and loot 2 KI before 50 skill verified true
+PVE: boar and loot 3 KI before 50 skill verified true
+  ✓  2 e2e/stage3-pve.spec.ts:37:1 › D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload (50.2s)
+
+  2 passed (1.4m)

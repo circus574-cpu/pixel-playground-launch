@@ -1,0 +1,23 @@
+{
+  "id": "hit-up-left-02",
+  "state": "hit",
+  "direction": "up-left",
+  "index": 2,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "d3cd436417ffc3635e290a9c87b59b728c9a43417b27b1f57b5fdb428233694d",
+  "seconds": 1.9858040800027084,
+  "status": "motion-review-not-installed"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "respawn-up-left-07",
+  "state": "respawn",
+  "direction": "up-left",
+  "index": 7,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "fb11e22b8ef9c4d0bd3e4ec9007a52cb6b9646fcfdd6e24fed0e349818a92902",
+  "seconds": 1.6051308760070242,
+  "status": "motion-review-not-installed"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "attack-left-05",
+  "state": "attack",
+  "direction": "left",
+  "index": 5,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "cbfb8c7f7dc054f4ec22fa42512b7815c5984582d2cbc5acbd7a20eb21f6f3cd",
+  "seconds": 2.090435856996919,
+  "status": "motion-review-not-installed"
+}

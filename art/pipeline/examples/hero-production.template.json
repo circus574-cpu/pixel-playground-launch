@@ -3,6 +3,7 @@
   "id": "hero-planetary",
   "version": "1.0.0",
   "technical": false,
+  "previewOnly": false,
   "assets": [
     {
       "id": "hero-planetary-page-0",
@@ -27,6 +28,7 @@
     {
       "id": "hero-planetary",
       "profile": "hero",
+      "presentation": "legacy",
       "size": [
         96,
         96

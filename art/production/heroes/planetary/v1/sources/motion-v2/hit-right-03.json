@@ -1,0 +1,23 @@
+{
+  "id": "hit-right-03",
+  "state": "hit",
+  "direction": "right",
+  "index": 3,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "33cb362a7b003a224ac57f812682e111b918c08f45189261ea28b9119515cf5b",
+  "seconds": 2.9164526159875095,
+  "status": "motion-review-not-installed"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "skill-down-06",
+  "state": "skill",
+  "direction": "down",
+  "index": 6,
+  "fps": 12,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "7c998ad30352627eded6d05e9045a8e686ed19a9fc40aaffd0163c1de2417e55",
+  "seconds": 1.977140306000365,
+  "status": "motion-review-not-installed"
+}
