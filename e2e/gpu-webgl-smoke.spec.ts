@@ -44,8 +44,14 @@ for (const hero of heroes) {
       const nav = new Navigation(world.width, world.height, worldObstacles(world));
       const before = await playerPosition(page);
       const offsets = [
-        [100, 0], [0, 100], [-100, 0], [0, -100],
-        [70, 70], [-70, 70], [70, -70], [-70, -70],
+        [100, 0],
+        [0, 100],
+        [-100, 0],
+        [0, -100],
+        [70, 70],
+        [-70, 70],
+        [70, -70],
+        [-70, -70],
       ];
       const target = offsets
         .map(([dx, dy]) => ({ x: before.x + dx!, y: before.y + dy! }))
@@ -56,7 +62,7 @@ for (const hero of heroes) {
       }, target!);
 
       await expect
-        .poll(() => distance(before, await playerPosition(page)), { timeout: 60000 })
+        .poll(async () => distance(before, await playerPosition(page)), { timeout: 60000 })
         .toBeGreaterThan(5);
       await expect
         .poll(() => actor.getAttribute("data-animation-frame"), { timeout: 30000 })
