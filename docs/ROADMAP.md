@@ -21,3 +21,11 @@ Rekonstrukcja 2026-10-21; nie jest obietnicą terminów. Status końcowy wymaga 
 
 ## Bramki
 Każdy etap wymaga: zadania i kryteriów akceptacji, SHA, różnicy kodu, testów, sprawdzenia desktop/mobile, kontroli regresji, aktualizacji dokumentacji, decyzji audytora i osobnej zgody właściciela na publikację.
+
+
+## Aktualizacja kolejności po przekazaniu #8
+**Zamknięte według dowodów:** naprawa mobilnego/desktopowego HUD w PR #5, dokumentacja QA PR #7, bazowy kod `86a1e41`; raportowane 97/97 unit, 54/54 E2E, pełne typecheck/assets/lint/build PASS. Dodatkowo wcześniej opublikowano HUD i raportowano 7/7 testów produkcji. Nie utożsamiać z wdrożeniem grafiki GPU.
+
+**Wstrzymane/nieukończone:** priorytet właściciela to kompletny Planetarny przed pozostałymi rasami i masową produkcją miast. Checkpoint 179/416; najpierw dokończyć 237 klatek, obejrzeć animacje, uzgodnić profil `grounded` z main, spakować/importować opt-in, przetestować w grze, uzyskać akceptację. Potem NPC/przeciwnicy, a następnie otoczenie dopasowane do skali. Wcześniejsze etapy produkcji miast pozostają archiwum, nie nakazem natychmiastowego wznowienia.
+
+**Bramki sprzętowe:** GPU wyłączone; wznowienie wymaga zgody właściciela, kontroli woluminu/runtime/modeli i kosztów. Przed komercyjną publikacją dodatkowo kontrola licencji, fizyczny Android/sprzętowy WebGL, wydajność i porównanie deploy z SHA. Źródło: `docs/GPU_PRODUCTION.md` i `docs/HANDOFF.md` w PR #8.
