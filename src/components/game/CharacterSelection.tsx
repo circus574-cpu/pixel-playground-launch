@@ -9,7 +9,7 @@ import "./character-selection.css";
 type Props = {
   slots: CharacterSlot[];
   startWithOrigins?: boolean;
-  requestedContinent?: WorldId;
+  requestedContinent?: WorldId | undefined;
   warning: string;
   onCreate: (race: RaceId) => void;
   onContinue: (slot: CharacterSlot) => void;
