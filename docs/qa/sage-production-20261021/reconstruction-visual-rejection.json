@@ -1,0 +1,12 @@
+{
+  "raw_triposr": "rejected",
+  "front_projection": "rejected",
+  "reasons": [
+    "Melted or fused cloth/hair geometry",
+    "Face and silhouette do not preserve approved painted identity"
+  ],
+  "rig_ready": false,
+  "accepted_animation_frames": 0,
+  "source_archive": "/workspace/ki-legends-gpu/renders/sage-triposr-pilot-v1",
+  "new_workflow": "painted directional2Dmasters with deforming Blender rig"
+}

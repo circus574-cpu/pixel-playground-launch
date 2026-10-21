@@ -35,3 +35,6 @@ dist-ssr
 # Browser regression evidence
 /test-results*/
 /playwright-report/
+
+# Python GPU production tools
+__pycache__/

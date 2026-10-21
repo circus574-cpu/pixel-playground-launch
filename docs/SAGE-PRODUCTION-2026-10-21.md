@@ -31,3 +31,13 @@ During production main advanced to `4b73c5a889496f0333fd83434a50991a429b398f`, a
 ## Owner visual correction — v1 rejected
 
 Owner rejected the simplified procedural v1 after seeing the two rig views, and supplied two detailed painted Sage references. All42 generated v1 sample frames remain technical/rejected evidence;0accepted production frames,full416render notstarted. Saved the corrected reference-guided image_gen master under v2/sources/visual-master. It is a single visual master,not a textured3D rig or completed animation. Nextproduction must preserve the ornate illustrated identity; passing geometry alone is insufficient. GPU power was notchanged.
+
+## Isolated reconstruction pilot
+
+NewTripoSR environment was copied with dereferenced symlinks (no hard links), so pip changes cannot mutate ComfyUI. PinnedMIT code/weights, torchmcubesMPL2, headlessEGL. Fixed missing scikit-build-core>=1 and upstreambake CPU/CUDA tensor mismatch inside thisisolatedcopy. Actual CUDA inference generated280751UVvertices/344278faces,2048RGBAtexture,OBJ andGLB. These are staticunreviewed candidates,not a rig or416frame set. OriginalComfy torch2.4.1+cu124/transformers4.57.6 unchanged; allthreevenvs pipcheckPASS andComfyAPI200 afterinstallation. Model5b52193 cachedonpersistentvolume with5fileSHAreadback. AdditionalfrontUVprojection test retainsoriginalreferencepixels onactual3Dgeometry; registrationrequiresvisualreview.
+
+## Reconstruction rejected; painted2Drig production
+
+RawTripoSR and the high-resolution front-projected candidate were visually inspected and rejected: melted hair/cloth geometry and missing faithful face/silhouette. Do not render416 production frames from these candidates. Geometry/provenance success is not visual acceptance. Their source files remain on the persistentvolume for audit.
+
+The corrected painted v2 identity was shown to the owner; owner instructed to continue. Production now uses explicitly labelled2D painted directional masters and an editable deforming2Dpuppet rig in Blender/CUDA, preserving detailedillustration rather than claiming a successful3Dreconstruction. No independently redrawnAIanimationframes. Sourceviews are being generated; acceptedanimationcount remains0/416 until actualvalidrenderoutput.

@@ -8,12 +8,14 @@ import numpy as np
 from mathutils import Quaternion, Vector
 
 parser=argparse.ArgumentParser()
+parser.add_argument('--replay-rejected-v1-for-qa',action='store_true',help='Historical QA only; owner rejected this appearance')
 parser.add_argument('--review',action='store_true',help='Four full clips in two directions')
 parser.add_argument('--samples',action='store_true',help='Three poses of every state in down/right: 42 actual frames')
 parser.add_argument('--validate-only',action='store_true')
 parser.add_argument('--render-validated',action='store_true',help='Reuse matching, clean 416-pose preflight')
 parser.add_argument('--review-approved',action='store_true',help='Operator has visually checked sample renders')
 args=parser.parse_args()
+if not args.replay_rejected_v1_for_qa:parser.error('Rejected v1 appearance; retained for historical QA only. Use the painted production workflow.')
 if not (args.review or args.samples or args.validate_only or args.review_approved):
     parser.error('Inspect samples first, then use --review-approved for complete production')
 ROOT=Path('/workspace/ki-legends-gpu')
