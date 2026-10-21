@@ -54,9 +54,12 @@ async function clickRenderedEnemy(page: Page, id: string, offsetY: number) {
       ).find((e) => e.id === p.id && e.hp > 0);
       if (!enemy) return null;
       const zoom = Number(data["zoom"] ?? 0.62);
+      // Phaser zooms around the camera centre, not the top-left scroll origin.
       return {
-        x: (enemy.x - Number(data["cameraX"])) * zoom,
-        y: (enemy.y + p.offsetY - Number(data["cameraY"])) * zoom,
+        x: (enemy.x - Number(data["cameraX"]) - el.clientWidth / 2) * zoom + el.clientWidth / 2,
+        y:
+          (enemy.y + p.offsetY - Number(data["cameraY"]) - el.clientHeight / 2) * zoom +
+          el.clientHeight / 2,
       };
     },
     { id, offsetY },
