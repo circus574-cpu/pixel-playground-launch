@@ -939,6 +939,11 @@ export default function PlanetGlobe({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
+            {selectedRegion.id === "verdant" && (
+              <Link to="/" search={{ continent: "verdant" } as never} className="pm-enter-world">
+                Wejdź do gry — Verdantia
+              </Link>
+            )}
             <p className="pm-status">{selectedRegion.status}</p>
           </>
         )}
