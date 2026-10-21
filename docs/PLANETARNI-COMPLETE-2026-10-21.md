@@ -1,5 +1,9 @@
 # Planetarni motion-v2 — komplet techniczny i podgląd, 2026-10-21
 
+Aktualizacja operacyjna: [runtime przywrócony na nowym podzie](GPU-RUNTIME-RESTORE-2026-10-21.md).
+Wyłącznie właściciel wykonuje Start/Stop/Restart/Terminate podów; historyczne
+zalecenie automatycznego wyłączania GPU zostało odwołane.
+
 **416/416 klatek; kandydat do odbioru wizualnego, nie zatwierdzenie produkcyjne.**
 Właściciel włączył GPU i zlecił kontynuację według dokumentacji. Wykonano brakujące
 237 klatek, zabezpieczono źródła i przygotowano opt-in w osobnej gałęzi.
