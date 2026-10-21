@@ -1,0 +1,12 @@
+{
+  "frames": 179,
+  "states": {
+    "idle": 64,
+    "walk": 64,
+    "attack": 51
+  },
+  "metadata_sha_matches": true,
+  "png_errors": [],
+  "meaning": "integrity/dimensions/alpha border check only, not visual acceptance or runtime test",
+  "editable_blend_sha_matches_paired_metadata": true
+}

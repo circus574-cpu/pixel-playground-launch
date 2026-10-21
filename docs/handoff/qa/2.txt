@@ -1,0 +1,12 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 /workspace/ki-handoff
+
+
+ Test Files  16 passed (16)
+      Tests  97 passed (97)
+   Start at  04:19:48
+   Duration  25.69s (transform 710ms, setup 661ms, import 1.77s, tests 17.12s, environment 4.22s)

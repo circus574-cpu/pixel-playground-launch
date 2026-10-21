@@ -1,0 +1,11 @@
+{
+  "purpose": "CPU background removal used by prepare_hero_review.py and city delivery scripts",
+  "path": "/workspace/scratch/u2net/u2net.onnx",
+  "bytes": 175997641,
+  "sha256": "8d10d2f3bb75ae3b6d527c77944fc5e7dcd94b29809d47a739a7a728a912b491",
+  "rembg": "2.0.76",
+  "onnxruntime": "1.31.0",
+  "Pillow": "12.3.0",
+  "persistent_backup_verified": false,
+  "license_review": "not independently completed during handoff"
+}

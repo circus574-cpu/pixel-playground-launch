@@ -10,7 +10,7 @@ Stan audytu: **2026-10-21 UTC**. Dokument powstał na osobnej gałęzi `docs/cod
 - **Instrukcja / plan**: nie oznacza wdrożenia ani zaakceptowania grafiki.
 - **Niezweryfikowane**: brak dostępu albo brak zachowanego dowodu; nie zamieniać na PASS.
 
-Repo: https://github.com/circus574-cpu/pixel-playground-launch . Produkcja: https://kilegends.pl/ . Dokumenty szczegółowe: [TECHNICAL_STATE](TECHNICAL_STATE.md), [GPU_PRODUCTION](GPU_PRODUCTION.md). Pliki tej gałęzi należy odczytać z PR przekazania, dopóki właściciel nie zatwierdzi scalenia.
+Repo: https://github.com/circus574-cpu/pixel-playground-launch . Produkcja: https://kilegends.pl/ . Dokumenty szczegółowe: [TECHNICAL_STATE](TECHNICAL_STATE.md), [GPU_PRODUCTION](GPU_PRODUCTION.md). PR przekazania: [#8](https://github.com/circus574-cpu/pixel-playground-launch/pull/8). Pliki tej gałęzi należy odczytać z PR przekazania, dopóki właściciel nie zatwierdzi scalenia.
 
 ## Ostatni stan i zachowanie gry
 
@@ -62,7 +62,7 @@ Wcześniejsza publikacja HUD została **wykonana przed poleceniem przekazania**,
 ## Próby nieudane i pułapki wznowienia
 
 - Pierwszy pełny CI HUD [39486734284](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39486734284): 48 PASS / 6 FAIL. Pięć błędów testu schowanych narzędzi i jeden statycznego celowania. Kolejny lokalny przebieg potwierdził brak korekty środka zoomu. Poprawiono automat i powtórzono; nie maskowano problemów skip/wyższym timeoutem ani zmianą zasad walki.
-- Końcowy CI [39540694141](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39540694141): 97/97 unit, 54/54 E2E (17,3 min), pełny TypeScript/assets/lint/build PASS. Lokalne 54/54 (14,4 min). Wyniki nie obejmują nowego, nieukończonego bohatera z #4.
+- Końcowy CI [39540694141](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39540694141): 97/97 unit, 54/54 E2E (17,3 min), pełny TypeScript/assets/lint/build PASS. Lokalne 54/54 (14,4 min). Wyniki nie obejmują nowego, nieukończonego bohatera z #4. **Podczas przekazania powtórzono kontrole na kodzie `86a1e41`: 97/97 unit, 54/54 Playwright (14,9 min), typecheck/assets/lint/build PASS; pełne komendy i logi w FINAL_TESTS.**
 - Przy `KI_QA_BASE_URL` podać także `KI_QA_PATH=/scripts/playtest.html` dla izolowanego playtestu; `/` jest poprawne na produkcji, nie dla statycznego playtest builda.
 - Nie uruchamiać równoległych Playwrightów zapisujących do tego samego `test-results`: występowało ENOENT przy zamykaniu trace. Osobne `--output` i brak równoległego przebudowywania serwowanych assetów.
 - `gh` w tym środowisku ma starsze opcje: `gh pr checks --json` nie działa; edycja PR może wpadać w stary Projects GraphQL. Używać REST z plikiem JSON. Długie `gh run watch` raz zakończyło się 401 poświadczeń; świeży krótki odczyt API działał. Nie logować tokenów ani rozpoczynać interaktywnego loginu w ciemno.
@@ -88,6 +88,7 @@ Przeczytano wszystkie dziewięć zmienionych plików #6: AGENTS oraz ARCHITECTUR
 - Rozróżnić zaakceptowany **wzorzec** Planetarnego od niezaakceptowanych, niepełnych animacji i braku integracji w grze. Liczba klatek to stan plików, nie odbiór artystyczny.
 - Bazowy kontrakt main: 96 / 0.95 / 60°; propozycja #4: `grounded` 128 / 0.75 / 45°. Nie łączyć tych standardów w jeden rzekomo wdrożony format.
 - Nie przenosić 98 unit z #4 na main (97), ani 45 PASS + przerwany test na pełne PASS. Oddzielić 54 E2E obecnego main od testów nowej grafiki, które są NIEWYKONANE.
+- Starsze `review-manifest.json`/plansza wzorca mają historyczny stan oczekiwania i 0 animacji; późniejszy `planetary-master.json`, HERO_APPROVAL_STATUS i PLANETARNI-RESUME dokumentują akceptację oraz 179 klatek. Czytać je chronologicznie, nie kasować historii ani nie cofać akceptacji na podstawie starej miniatury.
 - 89 PNG w gałęzi miast zawiera odrzucone eksperymenty i 32 klatki efektów, nie 89 zatwierdzonych obiektów. `selection.json` jest wyborem technicznym, nie zgodą właściciela.
 - Doczepić aktualne potwierdzenie LFS: 181 obiektów świeżo pobranych i zhashowanych. Nie rozszerzać go na modele znajdujące się tylko na woluminie ani wszystkie assety innych gałęzi.
 - Publikacja HUD była osobnym, wcześniejszym działaniem z udokumentowaną weryfikacją. Obecne przekazanie i PR #6 nie są zgodą na nowe wdrożenie.

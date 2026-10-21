@@ -1,0 +1,126 @@
+
+> build
+> vite build
+
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+vite v8.1.5 building client environment for production...
+
+transforming...[plugin tanstack-start-core::server-fn:client] /workspace/ki-handoff/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-handoff/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-handoff/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-handoff/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 2073 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/public/assets/index-Di7Sgcgp.css        48.71 kB │ gzip:  11.10 kB
+.output/public/assets/styles-Dgi_b9pB.css       75.19 kB │ gzip:  12.69 kB
+.output/public/assets/test-DjSMAhgK.js          82.17 kB │ gzip:  27.88 kB
+.output/public/assets/index-CGRuJ-eg.js        868.79 kB │ gzip: 225.39 kB
+.output/public/assets/mountGame-D3egR89K.js  1,400.25 kB │ gzip: 366.87 kB
+
+✓ built in 1.46s
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+vite v8.1.5 building ssr environment for production...
+
+transforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts?tss-serverfn-split:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts?tss-serverfn-split:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts?tss-serverfn-split:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-handoff/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 134 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/assets/router-Di7Sgcgp.css                                 48.71 kB │ gzip: 11.10 kB
+node_modules/.nitro/vite/services/ssr/assets/styles-Dgi_b9pB.css                                 75.19 kB │ gzip: 12.69 kB
+node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-DGMd10fP.js                    0.24 kB │ gzip:  0.17 kB
+node_modules/.nitro/vite/services/ssr/assets/sketches.validation-Cl_UhvEd.js                      0.45 kB │ gzip:  0.31 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DZ6eO0ql.js               0.54 kB │ gzip:  0.31 kB
+node_modules/.nitro/vite/services/ssr/assets/client.server-KzwUIAkW.js                            1.73 kB │ gzip:  0.78 kB
+node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-T5C9Yu1m.js    1.75 kB │ gzip:  0.70 kB
+node_modules/.nitro/vite/services/ssr/assets/start-CfxDmlR6.js                                    2.02 kB │ gzip:  0.89 kB
+node_modules/.nitro/vite/services/ssr/assets/test-BkP1oIMv.js                                     2.92 kB │ gzip:  1.28 kB
+node_modules/.nitro/vite/services/ssr/assets/createCsrfMiddleware-D3nRZ758.js                     3.22 kB │ gzip:  1.02 kB
+node_modules/.nitro/vite/services/ssr/assets/request-response-rLlcIJpU.js                         3.59 kB │ gzip:  1.21 kB
+node_modules/.nitro/vite/services/ssr/index.js                                                    4.61 kB │ gzip:  1.92 kB
+node_modules/.nitro/vite/services/ssr/assets/client-lA-dy7HM.js                                   7.43 kB │ gzip:  2.47 kB
+node_modules/.nitro/vite/services/ssr/assets/sketches.functions-C-6ZJU-C.js                       8.67 kB │ gzip:  2.64 kB
+node_modules/.nitro/vite/services/ssr/assets/createServerFn-BRj02a3E.js                           9.98 kB │ gzip:  3.02 kB
+node_modules/.nitro/vite/services/ssr/assets/test-BTOpxGl6.js                                    21.33 kB │ gzip:  6.22 kB
+node_modules/.nitro/vite/services/ssr/assets/mountGame-CUjxZI9N.js                               42.75 kB │ gzip: 12.78 kB
+node_modules/.nitro/vite/services/ssr/assets/server-BxF_EeeN.js                                  60.50 kB │ gzip: 15.53 kB
+node_modules/.nitro/vite/services/ssr/assets/router-IzHGdKLz.js                                  69.57 kB │ gzip: 17.92 kB
+node_modules/.nitro/vite/services/ssr/assets/view-DNa-YVVu.js                                   386.89 kB │ gzip: 31.52 kB
+
+✓ built in 434ms
+
+[nitro] ◐ Building [Nitro] (preset: cloudflare-module, compatibility: 2026-10-21)
+[nitro] ✔ Generated public .output/public
+vite v8.1.5 building nitro environment for production...
+
+ WARN  inlineDynamicImports option is ignored because the codeSplitting option is specified.
+
+
+transforming...✓ 2078 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/server/_ssr/empty-plugin-adapters-DGMd10fP.mjs                 0.24 kB │ gzip:     0.17 kB
+.output/server/_tanstack-start-manifest_v-DZ6eO0ql.mjs                 0.61 kB │ gzip:     0.36 kB
+.output/server/_ssr/sketches.validation-Cl_UhvEd.mjs                   0.62 kB │ gzip:     0.41 kB
+.output/server/_chunks/ssr-renderer.mjs                                0.63 kB │ gzip:     0.37 kB
+.output/server/_libs/hookable.mjs                                      1.18 kB │ gzip:     0.53 kB
+.output/server/_libs/tanstack__react-query.mjs                         1.73 kB │ gzip:     0.81 kB
+.output/server/_ssr/client.server-KzwUIAkW.mjs                         1.84 kB │ gzip:     0.85 kB
+.output/server/_libs/radix-ui__primitive.mjs                           1.84 kB │ gzip:     0.73 kB
+.output/server/_ssr/start-CfxDmlR6.mjs                                 1.91 kB │ gzip:     0.86 kB
+.output/server/_ssr/test-BkP1oIMv.mjs                                  2.91 kB │ gzip:     1.29 kB
+.output/server/__23tanstack-start-server-fn-resolver-T5C9Yu1m.mjs      3.03 kB │ gzip:     1.27 kB
+.output/server/_ssr/createCsrfMiddleware-D3nRZ758.mjs                  3.12 kB │ gzip:     1.02 kB
+.output/server/_libs/class-variance-authority+clsx.mjs                 3.20 kB │ gzip:     1.25 kB
+.output/server/_ssr/request-response-rLlcIJpU.mjs                      3.64 kB │ gzip:     1.25 kB
+.output/server/_ssr/ssr.mjs                                            4.56 kB │ gzip:     1.93 kB
+.output/server/_libs/radix-ui__react-context+react.mjs                 5.82 kB │ gzip:     1.72 kB
+.output/server/_ssr/client-lA-dy7HM.mjs                                7.49 kB │ gzip:     2.52 kB
+.output/server/_libs/lucide-react.mjs                                  7.96 kB │ gzip:     1.99 kB
+.output/server/_ssr/sketches.functions-C-6ZJU-C.mjs                    8.70 kB │ gzip:     2.66 kB
+.output/server/_ssr/createServerFn-BRj02a3E.mjs                        9.49 kB │ gzip:     3.02 kB
+.output/server/_libs/tanstack__history.mjs                            12.51 kB │ gzip:     3.72 kB
+.output/server/_libs/supabase__functions-js.mjs                       12.59 kB │ gzip:     3.49 kB
+.output/server/_libs/h3+rou3+srvx.mjs                                 17.39 kB │ gzip:     5.00 kB
+.output/server/_libs/@radix-ui/react-compose-refs+[...].mjs           17.75 kB │ gzip:     4.88 kB
+.output/server/_ssr/test-BTOpxGl6.mjs                                 23.38 kB │ gzip:     6.36 kB
+.output/server/_libs/@tanstack/router-core+[...].mjs                  29.81 kB │ gzip:     8.00 kB
+.output/server/index.mjs                                              34.85 kB │ gzip:     8.11 kB
+.output/server/_libs/supabase__supabase-js.mjs                        37.89 kB │ gzip:    11.18 kB
+.output/server/_libs/h3-v2+rou3+srvx+unenv.mjs                        40.73 kB │ gzip:    10.91 kB
+.output/server/_ssr/mountGame-CUjxZI9N.mjs                            42.59 kB │ gzip:    12.81 kB
+.output/server/_libs/supabase__phoenix.mjs                            50.55 kB │ gzip:    12.78 kB
+.output/server/_ssr/server-BxF_EeeN.mjs                               59.30 kB │ gzip:    15.44 kB
+.output/server/_ssr/router-IzHGdKLz.mjs                               78.62 kB │ gzip:    18.22 kB
+.output/server/_libs/supabase__realtime-js+unenv.mjs                  82.12 kB │ gzip:    20.96 kB
+.output/server/_libs/tailwind-merge.mjs                               88.94 kB │ gzip:    15.72 kB
+.output/server/_libs/@radix-ui/react-dialog+[...].mjs                 92.06 kB │ gzip:    21.72 kB
+.output/server/_libs/zod.mjs                                         100.28 kB │ gzip:    17.37 kB
+.output/server/_libs/supabase__postgrest-js.mjs                      110.47 kB │ gzip:    23.21 kB
+.output/server/_libs/tanstack__query-core.mjs                        113.42 kB │ gzip:    26.69 kB
+.output/server/_libs/@supabase/storage-js+[...].mjs                  127.54 kB │ gzip:    23.95 kB
+.output/server/_libs/supabase__auth-js.mjs                           319.72 kB │ gzip:    64.80 kB
+.output/server/_ssr/view-DNa-YVVu.mjs                                386.59 kB │ gzip:    31.53 kB
+.output/server/_libs/@tanstack/react-router+[...].mjs                780.05 kB │ gzip:   165.31 kB
+.output/server/_libs/phaser.mjs                                    7,081.02 kB │ gzip: 1,231.97 kB
+
+✓ built in 1.14s
+[nitro] ℹ Using auto generated worker name: tanstack-start-ts
+ℹ Generated .output/server/wrangler.json
+ℹ Generated .wrangler/deploy/config.json
+ℹ Generated .output/public/_headers
+ℹ Generated .output/nitro.json
+
+[nitro] ✔ You can preview this build using npx vite preview
+[nitro] ✔ You can deploy this build using npx nitro deploy --prebuilt

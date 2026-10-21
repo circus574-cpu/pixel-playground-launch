@@ -1,0 +1,26 @@
+
+> assets:check
+> tsx scripts/check-game-assets.ts
+
+{
+  "verdant": {
+    "textures": 5,
+    "rgbaBytes": 42023200,
+    "terrainCacheBytes": 25165824
+  },
+  "aether": {
+    "textures": 12,
+    "rgbaBytes": 16561440,
+    "terrainCacheBytes": 0
+  },
+  "nexus": {
+    "textures": 12,
+    "rgbaBytes": 16561440,
+    "terrainCacheBytes": 0
+  },
+  "pyra": {
+    "textures": 12,
+    "rgbaBytes": 16561440,
+    "terrainCacheBytes": 0
+  }
+}
