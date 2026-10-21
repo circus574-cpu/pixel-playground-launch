@@ -3,6 +3,7 @@
 Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
 
 ## Dokumentacja audytowa i bieżąca
+- [Osobna kolejka GPU: Androidy → Legendy → miasta czterech ras](GPU-PRODUCTION-SEQUENCE.md)
 - [Architektura i źródła implementacji](ARCHITECTURE.md)
 - [Roadmap i bramy etapów](ROADMAP.md)
 - [Rejestr decyzji](DECISIONS.md)
