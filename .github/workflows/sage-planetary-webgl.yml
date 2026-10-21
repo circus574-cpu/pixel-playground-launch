@@ -1,9 +1,6 @@
 name: Sage and Planetary WebGL regressions
 
 on:
-  push:
-    branches:
-      - integration/sage-plus-planetary-20261021
   pull_request:
     paths:
       - ".github/workflows/sage-planetary-webgl.yml"
