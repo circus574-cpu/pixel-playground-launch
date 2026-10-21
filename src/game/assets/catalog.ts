@@ -133,13 +133,13 @@ export function makeCatalog(
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Preview art never replaces the accepted production visuals without explicit opt-in. */
+/** The completed Sage atlas is the default hero visual in Aetheria only.
+ * Keep the pack's previewOnly metadata until final visual/licensing approval;
+ * explicit inclusion here does not change visuals in the other three worlds.
+ */
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),
-  typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("ki-sage-art") === "1"
-    ? ["hero-sage"]
-    : false,
+  ["hero-sage"],
 );
 export const technicalPack = PackSchema.parse(technical);
 export function actorVisual(
