@@ -89,7 +89,8 @@ export function Index() {
     <>
       {mapNotice && (
         <div role="status" style={{ padding: "12px", textAlign: "center" }}>
-          {mapNotice === "verdant" ? "Verdantia — Planetarni" : "Aetheria — Mędrcy"}: wybierz istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
+          {mapNotice === "verdant" ? "Verdantia — Planetarni" : "Aetheria — Mędrcy"}: wybierz
+          istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
         </div>
       )}
       <CharacterSelection
@@ -97,7 +98,7 @@ export function Index() {
         warning={warning}
         onCreate={create}
         onContinue={open}
-        startWithOrigins={startWithOrigins || mapNotice}
+        startWithOrigins={startWithOrigins || Boolean(mapNotice)}
       />
     </>
   );
