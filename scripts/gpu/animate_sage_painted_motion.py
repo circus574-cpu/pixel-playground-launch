@@ -72,7 +72,7 @@ for d in DIRECTIONS:
     configs[d]['joints']={**default_config(d)['joints'],**CONFIG.get(d,{}).get('joints',{})}
 save_json(OUT/'landmarks-used.json',configs);save_json(PERSIST/'landmarks-used.json',configs)
 source_hashes={d:sha(A.masters/(d+'.png')) for d in DIRECTIONS}
-identity=hashlib.sha256(json.dumps({'masters':source_hashes,'configs':configs,'grid':A.grid,'script':sha(__file__)},sort_keys=True).encode()).hexdigest()
+identity=hashlib.sha256(json.dumps({'masters':source_hashes,'configs':configs,'grid':A.grid,'samples':A.samples_per_pixel,'script':sha(__file__)},sort_keys=True).encode()).hexdigest()
 # Preserve old attempts; refusing mixed-source resume is intentional.
 marker=OUT/'source-identity.json'
 if marker.exists() and json.loads(marker.read_text())['identity']!=identity:raise RuntimeError('Output belongs to a different source/config; use a new versioned output path')
@@ -254,7 +254,7 @@ def pose(direction,state,index,count):
     elif state in ['death','respawn']:
         amount=smooth(p) if state=='death' else 1-smooth(p);fall=smooth((amount-.2)/.8);conf=configs[direction]['death']
         rotate(direction,'root',math.radians(conf['angle_degrees'])*fall)
-        dx,dy=conf['translate_pixels'];translate(direction,'root',dx*fall,dy*fall)
+        dx,dy=conf['translate_pixels'];translate(direction,'root',dx*fall,dy*fall+conf.get('vertical_arc_pixels',0)*math.sin(math.pi*fall))
         rotate(direction,'chest',-.10*amount);rotate(direction,'head',-.08*amount);rotate(direction,'forearm.'+free,.18*amount)
     wind=wave if state in ['idle','walk'] else math.sin(p*math.pi)
     for side,sign in [('L',1),('R',-1)]:

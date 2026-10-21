@@ -1570,7 +1570,8 @@
       "translate_pixels": [
         -125,
         -95
-      ]
+      ],
+      "vertical_arc_pixels": 24
     },
     "anchor_review": {
       "source": [
