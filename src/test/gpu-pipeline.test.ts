@@ -5,7 +5,7 @@ import path from "node:path";
 import os from "node:os";
 import sharp from "sharp";
 import { validatePackage, importPackage } from "../../scripts/lib/gpu-import";
-import { makeCatalog, worldAssets } from "../game/assets/catalog";
+import { makeCatalog, worldAssets, actorVisual, catalog } from "../game/assets/catalog";
 import { PackSchema, DIRECTIONS } from "../game/assets/schema";
 import { GPU_CONTRACT } from "../game/assets/contract";
 const roots: string[] = [];
@@ -305,4 +305,23 @@ it("a race-specific preview opt-in cannot activate another race pack", async () 
   const source = makeCatalog([sage, planetary], ["hero-sage"]);
   expect(source.actorBindings["aether.hero"]).toBe("technical-mannequin");
   expect(source.actorBindings["verdant.hero"]).toBeUndefined();
+});
+
+
+describe("Sage default game integration", () => {
+  it("selects the 416-frame Sage atlas in Aetheria without a URL flag", () => {
+    const sage = actorVisual("aether", "hero", undefined, false, catalog);
+    expect(sage.id).toBe("hero-sage");
+    expect(Object.values(sage.clips).reduce((sum, clip) =>
+      sum + Object.values(clip.directions).reduce((n, frames) => n + frames.length, 0), 0)).toBe(416);
+    expect(worldAssets("aether", false, catalog).map((asset) => asset.id)).toEqual(
+      expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]),
+    );
+  });
+  it("preserves the original hero for the other three continents", () => {
+    for (const world of ["verdant", "nexus", "pyra"] as const) {
+      expect(actorVisual(world, "hero", undefined, false, catalog).id).toBe("human-v2");
+      expect(worldAssets(world, false, catalog).map((asset) => asset.id)).not.toContain("hero-sage-page-0");
+    }
+  });
 });
