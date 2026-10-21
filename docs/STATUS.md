@@ -36,3 +36,18 @@ Bezpośrednio odczytana historia `main`: 79 commitów, od `dad00cb77760242916c55
 **GPU/bohater:** PR #4 na `7c50e8d5a93a3cf98c094f1ee341829fd6b0354c` nadal DRAFT OPEN; 179/416 klatek (idle 64, walk 64, attack 51), brak 237. Nie ma pełnego aktora ani zatwierdzonego testu w grze. Raport #8: pobrano i sprawdzono SHA/rozmiary 181 obiektów LFS (31 918 089 B), 179 PNG oraz edytowalny .blend; jest to **dowód z raportu i artefaktów Codexa**, nie nasz ponowny download. Nie dowodzi obecności modeli ani pełnego woluminu. GPU wyłączone według właściciela przekazanego Codexowi.
 
 **Werdykt:** bazowe PvE/HUD mają mocne dowody automatyczne; pełna oprawa GPU, fizyczny Android, produkcja aktualnego SHA i finalny odbiór wizualny pozostają NIEZWERYFIKOWANE. Brak zgody na nowe wdrożenie.
+
+
+## Rozbieżności PR #6 ↔ PR #8 i sposób rozstrzygnięcia
+1. **Stara baza 8045a0b kontra aktualny 86a1e41** — nie konflikt kodu, lecz nieaktualny status PR #6; niniejsza aktualizacja wyraźnie nadpisuje wyłącznie interpretację stanu bieżącego, nie historię.
+2. **„GPU pipeline gotowy” kontra „bohater gotowy”** — importer/test techniczny ≠ ukończona grafika. PR #4 ma tylko 179/416 klatek, brak instalacji i testu w grze.
+3. **Profil main 96/.95/60° kontra #4 grounded 128/.75/45°** — realna niezgodność kontraktów, wymaga integracji i testu; nie łączyć automatycznie.
+4. **Wcześniejszy priorytet miast kontra nowy priorytet Planetarnego** — decyzja sekwencyjna, nie błąd danych: miasta wstrzymane, bohater najpierw.
+5. **97/54 testów main kontra 98/45 częściowo przerwane testy #4** — odrębne commity i zakresy, brak podstaw do przenoszenia PASS.
+6. **„LFS zapisane” kontra „wszystko bezpieczne”** — PR #8 potwierdza pobranie 181 obiektów checkpointu, nie pełny wolumin, modele, inne binaria ani cold restore.
+7. **„HUD opublikowany” kontra „nie publikować”** — poprzedni deployment HUD według #8 miał miejsce przed zakazem nowych wdrożeń; nie oznacza zgody na następne.
+8. **Wcześniejsze liczenie 89 PNG jako postęp** — obejmuje odrzuty, porównania i 32 klatki KI, a nie 89 zaakceptowanych elementów.
+9. **Brak pełnego SHA w znaczniku produkcyjnym** — marker `pre-gpu-engine-r1` nie stanowi dowodu tożsamości wersji; aktualny deploy do niezależnej kontroli.
+10. **Historyczne `docs/PRODUCTION.md` zawiera starsze rasy** — nadrzędny kanon czterech ras z etapu 3 i decyzji właściciela; historycznego dokumentu nie usuwano.
+
+**Brak sprzeczności w samym kanonie ras i lokalnym charakterze PvE.** Powyższe są różnicami czasowymi, zakresowymi lub technicznymi; punkty 3, 6 i 9 pozostają otwartymi ryzykami. Wszystkie statusy dotyczą stanu odczytanego 2026-10-21, wymagają odświeżenia przed merge/release.
