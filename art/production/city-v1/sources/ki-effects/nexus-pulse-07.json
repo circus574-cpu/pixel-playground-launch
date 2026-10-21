@@ -1,0 +1,15 @@
+{
+  "id": "nexus-pulse-07",
+  "world": "nexus",
+  "frame": 7,
+  "frames": 8,
+  "fps": 16,
+  "durationMs": 500,
+  "sha256": "dce9d3fd300e89cc68ca680df8c5b5433b8ffb11d6c727a99605a52a568325ad",
+  "width": 512,
+  "height": 512,
+  "engine": "Cycles CUDA",
+  "blender": "4.5.3 LTS",
+  "seconds": 4.093632456002524,
+  "status": "generated-pending-review"
+}

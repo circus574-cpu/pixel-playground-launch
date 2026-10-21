@@ -1,0 +1,99 @@
+{
+  "id": "aether-ground",
+  "world": "aether",
+  "binding": "terrain.aether-ground",
+  "kind": "tile",
+  "prompt": "seamless flat ground texture, emerald green grass with tiny violet clover leaves, subtle moss and natural soil flecks, even distribution, top down overhead view, hand painted fantasy texture, flat lighting, no horizon, no large objects",
+  "seed": 5742047,
+  "workflow": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "seamless flat ground texture, emerald green grass with tiny violet clover leaves, subtle moss and natural soil flecks, even distribution, top down overhead view, hand painted fantasy texture, flat lighting, no horizon, no large objects, professional hand-painted 2D fantasy game asset, intricate clear materials, vibrant but harmonious colors, fine ink details, masterpiece, orthographic overhead texture, fills entire canvas, no white background, no perspective",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "people, characters, person, girl, boy, face, portrait, armor, weapon character, photograph, photorealism, lowpoly, clay, basic shapes, cropped, cut off, out of frame, text, logo, watermark, UI, interface, sky, horizon, object, building, person, perspective, shadows, vignette, border",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 1024,
+        "height": 1024,
+        "batch_size": 1
+      }
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 5742047,
+        "steps": 10,
+        "cfg": 2.0,
+        "sampler_name": "dpmpp_sde",
+        "scheduler": "sgm_uniform",
+        "denoise": 1.0,
+        "model": [
+          "1",
+          0
+        ],
+        "positive": [
+          "2",
+          0
+        ],
+        "negative": [
+          "3",
+          0
+        ],
+        "latent_image": [
+          "4",
+          0
+        ]
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "5",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "city-v1/objects/aether-ground",
+        "images": [
+          "6",
+          0
+        ]
+      }
+    }
+  },
+  "seconds": 5.0318019059923245,
+  "sha256": "9f54f2e152c4fea35adf3ff942437a469f65fd5679b8614726f873d357bea719",
+  "model_revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "model_sha256": "4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083",
+  "status": "generated-pending-visual-review"
+}

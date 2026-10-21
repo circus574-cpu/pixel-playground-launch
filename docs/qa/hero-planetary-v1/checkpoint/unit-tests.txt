@@ -1,0 +1,12 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 /workspace/ki-legends
+
+
+ Test Files  16 passed (16)
+      Tests  98 passed (98)
+   Start at  19:18:54
+   Duration  59.93s (transform 1.50s, setup 1.26s, import 3.35s, tests 43.10s, environment 8.68s)

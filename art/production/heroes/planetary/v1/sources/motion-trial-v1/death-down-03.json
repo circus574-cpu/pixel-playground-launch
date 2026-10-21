@@ -1,0 +1,23 @@
+{
+  "id": "death-down-03",
+  "state": "death",
+  "direction": "down",
+  "index": 3,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.76
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 5.9,
+  "sha256": "519f227ae1e18962e053abb085b4c341a65a1a4e07f013cdc0610842aa6e3340",
+  "seconds": 2.2122371689911233,
+  "status": "motion-review-not-installed"
+}

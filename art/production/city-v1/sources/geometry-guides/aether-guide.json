@@ -1,0 +1,12 @@
+{
+  "id": "aether-guide",
+  "width": 1024,
+  "height": 1024,
+  "sha256": "30584065e0a8711abd56630bb6b783d4f89c4975a9338aac72b7ad9503a5f7fd",
+  "bytes": 780847,
+  "blender": "4.5.3 LTS",
+  "camera_elevation": 60,
+  "engine": "Cycles CUDA",
+  "seconds": 7.6051077129959594,
+  "status": "geometry-guide"
+}

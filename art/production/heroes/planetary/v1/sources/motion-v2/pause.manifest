@@ -1,0 +1,4125 @@
+{
+  "completed": 179,
+  "target": 416,
+  "frames": [
+    {
+      "id": "idle-down-right-03",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2b4d636ac6438dc04da31f226cb646c797a7cc72f103cd21022fe0508e5fd2d2",
+      "seconds": 2.123622144004912,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-04",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6477b0df221fb8bd820d942cdbed82772a37807837573403a58ede65769a1fb9",
+      "seconds": 1.9178294120065402,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-06",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1c46e7f3603cef748d73c337fac7116f361b34fbcf9811f56e37128536a740d8",
+      "seconds": 2.1712194879946765,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-00",
+      "state": "idle",
+      "direction": "down",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "12be0bdbb89d20d7e757e42ae9f8455811b53b1a6200ab5e65e5f2f36fff2fe0",
+      "seconds": 2.8527293850056594,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-01",
+      "state": "idle",
+      "direction": "down",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "a8b224046f466feba6aadfad243be0e4c0f05abef61c4bc2316af85965192600",
+      "seconds": 2.4084816480026348,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-02",
+      "state": "idle",
+      "direction": "down",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "f8b19193ebd74ac8e304486ef5d6c441257bf6c4b47f7d1a2c3537406e639dd5",
+      "seconds": 2.3902254510030616,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-03",
+      "state": "idle",
+      "direction": "down",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ff2eba895063b6c3f2f5b34926406e4be000f6a82833da7649556866df4ee251",
+      "seconds": 2.735414975002641,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-04",
+      "state": "idle",
+      "direction": "down",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "074fb624d875b38137314b6b4f7a324c16920b8eb1b609e67e0bf00615e3ea5e",
+      "seconds": 1.991733276998275,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-05",
+      "state": "idle",
+      "direction": "down",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ff4ef42b675d6c318c35bb54a193c20d11c1266c8d18b8209f484d731eb00163",
+      "seconds": 2.33554299500247,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-06",
+      "state": "idle",
+      "direction": "down",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "854323f40515a73d1d4e57e373a0906ae947d8f3f0f2a86efab27895bba22248",
+      "seconds": 2.254169075997197,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-07",
+      "state": "idle",
+      "direction": "down",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "663b07a92b16e06d0447eaca6e679f82c43b3e764272623cd0f56455f055b040",
+      "seconds": 2.105661665002117,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-00",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ea9e6238f7de96a3bc7b853af8849f12ceba3b70f1a8f66d1a56d11e5f9150c9",
+      "seconds": 2.526203721005004,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-01",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "06e80d5a2506f3516dffe92bbd3cf498cd4ae3f114f32a8263162154ee0dae13",
+      "seconds": 2.2042924069974106,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-02",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ee1bf8503ec6f57d7efad83d0949c075281281afebde427722ffff5961aabf14",
+      "seconds": 2.0242743550043087,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-03",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "0dae15c054d56b0c5c5c1ccd04dcd14035c86f4bd4eff02e10a2ae97bf0e2458",
+      "seconds": 2.3223837449913844,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-04",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "124c432faf996bb80f90a976ecc8819d7e1c7e8b16a513034a45052d8eea9d8d",
+      "seconds": 1.9783970230055274,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-05",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "bd964c1469e7c793e77e47b49cfa26184b3594b5f59ca3360cd150e00ca455ae",
+      "seconds": 2.0289650519989664,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-06",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "a89a18027528c939a123cb3f8f56217ae82c54e6c4102fc012810026ffecdd6b",
+      "seconds": 2.2112534820043948,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-left-07",
+      "state": "idle",
+      "direction": "down-left",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2e3842ffdeeda17ae8b98b8c780d73f25d4efa5599219ba74288d24dd5ad108e",
+      "seconds": 2.026233458003844,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-00",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "bf3f87bbdb1b00b086b5dbc1f60a93680320e2f575df636c78dd2532cdd44a88",
+      "seconds": 2.1591597749938956,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-01",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "91b0fa5d68db6ed65709d2b3856cb1f0c5a834280b6f355c31bc59fa58b96299",
+      "seconds": 2.057982988000731,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-02",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "9f217110fe7092aeb0b3da4c956f3a627ff53ead940dfd417abbf0ed3a965054",
+      "seconds": 2.1375970789958956,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-05",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e0b17620f6d6bed75be42b28f69681d54779a94a01c53f9a96e5719761239cde",
+      "seconds": 2.0393653200007975,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-down-right-07",
+      "state": "idle",
+      "direction": "down-right",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "f0dbb3dd1950636e62d8007e95484876120af7dc83860f7d0d4a009f47b3b67e",
+      "seconds": 2.1717359199974453,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-00",
+      "state": "idle",
+      "direction": "left",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "88cf1ca575d77bb9cd7cf861640bdd92f46f05d229226733a20fb660c8976ba4",
+      "seconds": 1.9666417030093726,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-01",
+      "state": "idle",
+      "direction": "left",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6b456fc26822f02b69d73efc282e01ec60f4ee3aa2586708ee3ca62f109395fd",
+      "seconds": 2.0012068720097886,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-02",
+      "state": "idle",
+      "direction": "left",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "dad5f6fbfb5b5ceb1bff73f28d98e578baf9d940aae97a03dce4de1cd91cd33d",
+      "seconds": 2.0480044730065856,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-03",
+      "state": "idle",
+      "direction": "left",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "56341639e6adfc64bfeb4845f28be83149fc8f0e779973fa850cd0fb60f38a20",
+      "seconds": 2.0445207779994234,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-04",
+      "state": "idle",
+      "direction": "left",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "37c21e87b87f029effae0d602ba8683224aa1552c0446a8bedd5b1e72acaf856",
+      "seconds": 1.9643884210090619,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-05",
+      "state": "idle",
+      "direction": "left",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ffdf713bbd484065435c7767c7d260ab0b4ecb8d1958f44e37942d360a87d635",
+      "seconds": 2.139112977994955,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-06",
+      "state": "idle",
+      "direction": "left",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e905dad6f7d2bf882cb099d86f34df9150a454eeafb5626223a0936b00a2610c",
+      "seconds": 2.0256359849881846,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-left-07",
+      "state": "idle",
+      "direction": "left",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "51dfd03dd3b7d244583d0d08ffbdec3918e3c0cd0e373bcc77837314605b6fa8",
+      "seconds": 2.129466832993785,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-00",
+      "state": "idle",
+      "direction": "right",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "8d8e7d1b49f998b19ba85a7b664288a4936386de848a90b0fea94726f2cf6ab1",
+      "seconds": 2.0699706619925564,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-01",
+      "state": "idle",
+      "direction": "right",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "8beed688439ba44d077715702befe0c5f338fa555d46caf0b3c27a259ac01a0c",
+      "seconds": 2.091027746006148,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-02",
+      "state": "idle",
+      "direction": "right",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2599d499b86a845e580c82b7196059f390bc7c3ed5ceac6b86ec47049eab2f91",
+      "seconds": 2.126125396011048,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-03",
+      "state": "idle",
+      "direction": "right",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "54c6b8da2270b138573346adf58016bc9aa56c93958da932b76be332f1c70bab",
+      "seconds": 2.006527288001962,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-04",
+      "state": "idle",
+      "direction": "right",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1ee2c37c77a71994c001918813fe25f867017a7f05cb7bae08d9593a9e7db04b",
+      "seconds": 2.1406999619939597,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-05",
+      "state": "idle",
+      "direction": "right",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ad03f1f6a1843c7e87f251bed7eac4d0e02fcb64392c1d0918e86fb684d41d3c",
+      "seconds": 1.8529465530009475,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-06",
+      "state": "idle",
+      "direction": "right",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b7f5fc6a4641b14804d096eaf049fbb3acadf648017d703d7d67bb7977c3866a",
+      "seconds": 2.14893307100283,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-right-07",
+      "state": "idle",
+      "direction": "right",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "7491554613c1875bd866042375f672d381f5ce45ac5d479af28e327c4142007a",
+      "seconds": 2.147761904008803,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-00",
+      "state": "idle",
+      "direction": "up",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1c4775982e91aad5ca5f7b69ad7feefb3e67da6fd21ade8118ad56402689df0b",
+      "seconds": 2.256406191998394,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-01",
+      "state": "idle",
+      "direction": "up",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "0aa70b42930a266eef395df3a4bb4776bda1c9251565ee9b1dbc89f7bdd9a7cc",
+      "seconds": 1.9576973100047326,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-02",
+      "state": "idle",
+      "direction": "up",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "7fa17c8d0d781111ffa295e2cf1d31cd2486f02c26c77cde27babbae92ea3320",
+      "seconds": 1.980892733001383,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-03",
+      "state": "idle",
+      "direction": "up",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "f48ba644f5ba0eafefaa07e4b6f4b180980b81d86cedb6842c7a689e96cf29da",
+      "seconds": 2.4483351450035116,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-04",
+      "state": "idle",
+      "direction": "up",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "7724a3305aa230e32451a668a716e41f77cff075547d56da16c7dcaf9983c013",
+      "seconds": 2.32441459200345,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-05",
+      "state": "idle",
+      "direction": "up",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3890b7b3a202d10755f9d54ac736a7eed53b58f067360c6ef93e2ce0aa5a764d",
+      "seconds": 2.5027011890051654,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-06",
+      "state": "idle",
+      "direction": "up",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3fbbcb4aba9ee36892ea6aa8502cc5335497f4a896e5ffc0cad56b17c725209f",
+      "seconds": 2.4371677239978453,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-07",
+      "state": "idle",
+      "direction": "up",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "651fb45b2524b5e0fc9b6634c5b002704302151d904791ca3f5f21de1a879d1b",
+      "seconds": 2.3563907530042343,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-00",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "eef0e32694f91476ed8e3679fa609c243b17b4a3398272b8b1b38957d32f8c2d",
+      "seconds": 1.9340054690110264,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-01",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2438948bcfaa07032442e1a589f2fc58af09d4c11ecc3cb81365abac217c7cad",
+      "seconds": 1.9920717289933236,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-02",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6c0e58c1b5bb052f4847f7d59818bd7d5c668c043f71931247b3cbeecd575d8c",
+      "seconds": 1.9692268090002472,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-03",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "54083888800161005a2d9b914546eca1538ec1bc50e9a5ca50a8e4d7430afb37",
+      "seconds": 2.0391062010021415,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-04",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "de95af355251b5eca41fec6cfe46e759915965c636f7e64c80e07832c6aee115",
+      "seconds": 2.0656071660050657,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-05",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e357cc9b6ec42bd074d658ba03f4f05ad89e4c01e403f439c04beface4a43e38",
+      "seconds": 1.8634217419894412,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-06",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3f33a0a7fd85c9c73d7d76a597b60c7e9e3cc5aafb859958e6a8f771512a995b",
+      "seconds": 1.9238198379898677,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-left-07",
+      "state": "idle",
+      "direction": "up-left",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "bb849dd4f32c5fc673a04aab57e12739c6254a92b37fb22c1f1f080d126f303d",
+      "seconds": 2.323386100004427,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-00",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 0,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6c7351c6b45744c58716c7da89d16c8f63a877635d4d4e72f82912e505944e1d",
+      "seconds": 2.4829775039979722,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-01",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 1,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "793d605d085bf03848a848d189f83a5c695b812f1b0cfb374737febe0ab749c9",
+      "seconds": 2.4115174199978355,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-02",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 2,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2cb078ef60c58f303fccfb6be5477b055d88c0f8c46d771765848a347c8f86ac",
+      "seconds": 2.447486862001824,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-03",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 3,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "42a4d45fe3650de05fa39cf3988e5eba62d78d7f868b3bf5f914aab3c52f96b7",
+      "seconds": 2.4591626199980965,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-04",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 4,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "231aeaef940e37abbcb6aa8abd38ebf476eb14b5ae589aa37c50721cfbaeaefa",
+      "seconds": 2.3550661799963564,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-05",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 5,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b15160bbc471d6bc11b398b5928102b99617915ba6c580c966c6a37396575c84",
+      "seconds": 2.373350740992464,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-06",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 6,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "f8378358fae129d163af2752cabd794a22c7a772b2d5594c52e892c05adf9eea",
+      "seconds": 1.9741470820008544,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "idle-up-right-07",
+      "state": "idle",
+      "direction": "up-right",
+      "index": 7,
+      "fps": 6,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "166666d1bcde3e25b344794e7df9d4a27d63f04aa739f4dab4afa629b926e1ee",
+      "seconds": 2.1468143700039946,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-00",
+      "state": "walk",
+      "direction": "down",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "dca1c5b69e3fe540399c3e0ea40ac11c5e6da548e9ce78156a65d37ee5ca1c74",
+      "seconds": 2.035845577993314,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-01",
+      "state": "walk",
+      "direction": "down",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "a5c907bf4abf54305b3607c2f9e506d2ec5c01a8d255de63ee0e17efa955fbeb",
+      "seconds": 2.089814729988575,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-02",
+      "state": "walk",
+      "direction": "down",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "292aedd4763bd6c2f78c917cbb7cc8e5de4e2046038018af740b6ffa766b22dc",
+      "seconds": 2.368037842999911,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-03",
+      "state": "walk",
+      "direction": "down",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "adb051f50844eedfe45774646a38a777a50dfe001bec474be8b58778158c5f8d",
+      "seconds": 1.9269160380063113,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-04",
+      "state": "walk",
+      "direction": "down",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "5340d1914d96a0b9935e6299b15d7ef7e500cce1c024743f48480853bfbe643c",
+      "seconds": 2.1866106530069374,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-05",
+      "state": "walk",
+      "direction": "down",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "eb7f7008ee615cdd9c6ee086c74a394264aa79edfd9dc8029e03f0d76cac0cf6",
+      "seconds": 2.551136050009518,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-06",
+      "state": "walk",
+      "direction": "down",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "c7aa63a7f0528a0c40e7509de2310cf4d7b3f1f5d945609960144c2a3cc68ea9",
+      "seconds": 2.131729679997079,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-07",
+      "state": "walk",
+      "direction": "down",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "5208233e1cae0c23efb1c9414e2d9ccbd2e3d68cbc7ce162c66231550d6ec648",
+      "seconds": 2.8268016899965005,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-00",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3f45130b41030b9a10c47b04f18921960a16801eb2407be90e84127f0bcf21d0",
+      "seconds": 2.077322817000095,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-01",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e8ff9eed519455509cefbc1d065c0a7794fce51877df41ae19dee9d995e69678",
+      "seconds": 2.1443300120008644,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-02",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b4c0d03a956f775662cc06ac9bcddf28505d3df36936ae19030dad03f66f2126",
+      "seconds": 2.116896387000452,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-03",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "bf938959d8bb8f39f316d8070b28cad15b6f13a6f6a0166d86320a9d216181e0",
+      "seconds": 2.0997153479984263,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-04",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "57a6ab384d377f2b15362c61c8b85f6bfee38fe70ed1588fac27762a4caf83a5",
+      "seconds": 2.0016693329962436,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-05",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3b32adf23ed431c01eb2e4e2219ab2d960472c2a6e406b46c47ef8b27995d518",
+      "seconds": 2.0819602670089807,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-06",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1ec2398ccd924c8c81d3255e2ce286a42096c51cd8a352aa53c338e29f44d72c",
+      "seconds": 2.144351101000211,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-left-07",
+      "state": "walk",
+      "direction": "down-left",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6b0403506905fbd15a64d112670909710769e40557a3eec51b683f5481566e59",
+      "seconds": 2.034136246991693,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-00",
+      "state": "walk",
+      "direction": "left",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "67cbab5a05f886ff57ae16e6aa25e306e172217ed664f2a946675d8e92a8d3fc",
+      "seconds": 1.8837164470023708,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-01",
+      "state": "walk",
+      "direction": "left",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "a10d15c55d985f10eaee5ca625fabf376ed2b0f4a413b413ac26724881fad50d",
+      "seconds": 1.9834293400053866,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-02",
+      "state": "walk",
+      "direction": "left",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "fc23076080ef369cd9b610f5dffd764190c4fbb556be4c57935342a5e4798add",
+      "seconds": 1.9907829289877554,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-03",
+      "state": "walk",
+      "direction": "left",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "7188d0f9be22b7b0d6448a71df377a71970bd5e72cd2bf32e9c6dc6d83df926e",
+      "seconds": 2.0290241170005174,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-04",
+      "state": "walk",
+      "direction": "left",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "60acb1ef7eb961f8d11d1d01678c06347eedd061e25a17b2e8f3725ded75fe01",
+      "seconds": 1.954641371004982,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-05",
+      "state": "walk",
+      "direction": "left",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "802db05e83b5610400126a4a8da484ddb40ee37c6898b6e5db0d690012283881",
+      "seconds": 1.9676106920087477,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-06",
+      "state": "walk",
+      "direction": "left",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "721e8c607fde4aaace0ac8f51c0b58aca461f07c7f241722c219f4a8a785cd0b",
+      "seconds": 2.162419617001433,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-left-07",
+      "state": "walk",
+      "direction": "left",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "835c47230478fcb02554e9d70eeb33f8cccbce30900806edccb06ad2b594d466",
+      "seconds": 2.0579259269870818,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-00",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "311c215a220e73ef56d5a6c5dc85e78d3828905c18c1472d6b20212ca5d47ea0",
+      "seconds": 2.010045992996311,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-01",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "5885cf1c84d0362696d51aa8c85b9bf7357fa4dfa193479c2a0faef441344e69",
+      "seconds": 2.1058790670067538,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-02",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "04018d19597dcb5912bc57665e6e5a15ec5457c8f8b945dde941ca28900b045f",
+      "seconds": 2.0149623320030514,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-03",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ce727279bf40dc85527ea8ecd9d0516d352030a2fa4db5b77bb97dee4057e3f1",
+      "seconds": 2.1022128940094262,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-04",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e78928e13ee2fc097e72218d88b1b10421005d42940fc61acec38453e4837b9a",
+      "seconds": 2.0086067510128487,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-05",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "159678ea5fa6c8cb15dc60630062e368f950557c17de33863ea5ecf867c69885",
+      "seconds": 1.9533490039902972,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-06",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1e716125e11ac3c5f1fec91d0d6f0d6b078a7e55312bc0ca3941cefdb35c092c",
+      "seconds": 2.0632415959989885,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-left-07",
+      "state": "walk",
+      "direction": "up-left",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6f241e94f0c82c0f99291032157592628a959703f486ba671cd3cae43e4077b8",
+      "seconds": 2.0235549270000774,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-00",
+      "state": "walk",
+      "direction": "up",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "8e0d1b082cfdce225050329dedadd5acdfe7535964e2d12ec2349f34baa41dde",
+      "seconds": 2.0990424570045434,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-01",
+      "state": "walk",
+      "direction": "up",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2c8090e96936fa6a04e2e66d361d2e0922412a82b6b3d3a51795621e291939cd",
+      "seconds": 2.121566198009532,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-02",
+      "state": "walk",
+      "direction": "up",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "8514e957791d32c6f25d1920c189cc7fa4babd2220610344c1f7b7417b80ae43",
+      "seconds": 1.856137540002237,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-03",
+      "state": "walk",
+      "direction": "up",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2a8e673e862164e7afd546b33f28be7a9473b841a96410190480e6e268fd4299",
+      "seconds": 2.0282947730011074,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-04",
+      "state": "walk",
+      "direction": "up",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "eec257c3ed4c2f051d4ea6d9e94699f2b1cd2923d8b36bc0bc5587e3d2a6a955",
+      "seconds": 1.825215554999886,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-05",
+      "state": "walk",
+      "direction": "up",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "24acffe0c4f7e6716691b1b910b666d48f6811c18625b0bf38ca576da0a3b99f",
+      "seconds": 1.9535318599955644,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-06",
+      "state": "walk",
+      "direction": "up",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b2dd1b292cd6a721cc138fe59541dcb060d9eb89dd01ecff22c6536c5965fd35",
+      "seconds": 2.026999198991689,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-07",
+      "state": "walk",
+      "direction": "up",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "d9004d07d7d2430110605b32cabb628f9c7bc21225578939fae7e1e768515630",
+      "seconds": 2.145639095993829,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-00",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e4a84afcfed80de03627c298ad69f3e33ede77f6f45f2fc70b85190bbce13f0b",
+      "seconds": 1.966231729995343,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-01",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "909d3226c75d24adc926ad1b4ffefea5ad46a24115356f04d57dd31bc9d8f757",
+      "seconds": 1.9779594999999972,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-02",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b187aa94db2993b06ea45289da26d7aa5f96a6dcbf6b341712a826fac9da978a",
+      "seconds": 2.0935481950000394,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-03",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "31b5d45c01ae0bff71a7f463ebd655b7571f461e3d70d911e69b711b25660000",
+      "seconds": 2.102089972991962,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-04",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "504c7e0a6d47c258d71a975998f1747508cdd8539d69de49d56483e2a0217434",
+      "seconds": 2.1457409330032533,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-05",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "a5afe1725509c56396dc9e620a00a8c0ff67e5951b279400ccd50645534ef8e7",
+      "seconds": 2.15102979799849,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-06",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ba910d5fc11f0788ea65a869a56e59d76b0050957a56a2fd06a07a9653717c3f",
+      "seconds": 2.054476352990605,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-up-right-07",
+      "state": "walk",
+      "direction": "up-right",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3cf76839bdb3e9fd9d64e68071b4dd21096101832b751cc77acb763a05625e56",
+      "seconds": 2.043629196996335,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-00",
+      "state": "walk",
+      "direction": "right",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "548c36f8783d4479ec1d0ef30fc6d04664b550dd8cf8c5b4410c3975c177a445",
+      "seconds": 2.0219266600033734,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-01",
+      "state": "walk",
+      "direction": "right",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "f7939e14f659b786d6dc03b81a5f0c4bd0df82cd428e8f07119dbd01581216b4",
+      "seconds": 2.0779899609915446,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-02",
+      "state": "walk",
+      "direction": "right",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "cb3ccae0345d23078094570fcf46ee325cd295b1bc542461e3320bb5cf3b2ef5",
+      "seconds": 2.075916991001577,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-03",
+      "state": "walk",
+      "direction": "right",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "4bef3eab1f6626c1d83fa6c7c8f45efb72716be8b2ca04a18fadbe352f98a97f",
+      "seconds": 1.9287633799976902,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-04",
+      "state": "walk",
+      "direction": "right",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "9e0643f6c53c2ce78fce8fe36009b3a9c7b1e8ffe942029fb7a7c9ebf6262637",
+      "seconds": 2.1276801869971678,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-05",
+      "state": "walk",
+      "direction": "right",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e7eb0bc5daa4cce4bdacd4f4160968196aa8bf7fef49b1bc19a93c7ac6e7990a",
+      "seconds": 2.028324454993708,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-06",
+      "state": "walk",
+      "direction": "right",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "dce2f355cf564d424b0e96bed3d9b982a58f1e5e077424d3f0b5f8d2945584ce",
+      "seconds": 2.058907717000693,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-right-07",
+      "state": "walk",
+      "direction": "right",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "755a698a3f386f2b83097393dcee1abf78f7ed143e209eac34b12b2d362a7c67",
+      "seconds": 1.9923751460009953,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-00",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 0,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "d42179e83cc41bdf06c9427f2e9086000e050b9dfa01707a75509f39fab58a26",
+      "seconds": 1.8980671460012672,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-01",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 1,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "fa5c527b965f8379e2465ac8f0a481dab665643a5e5b3ab2eab90a1c80c52d23",
+      "seconds": 2.014075855986448,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-02",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 2,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e92243989fee8ddd47aae30250d82e0efb6f1c77672c88422b60830d4d200de3",
+      "seconds": 2.0436227840109495,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-03",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 3,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ddb30ef3b3ac1bf47897fe130db63900a27031e5245952d291d7b8e88b058e55",
+      "seconds": 2.0433447280083783,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-04",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 4,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b5395e0776c50395f7c2b7c04614948b068dd889d8580aa83f1d8460f945006f",
+      "seconds": 2.1639565419900464,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-05",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 5,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "90b975bac24e717f572779afe61ccb646d968a80c8980a275a70d770229320ff",
+      "seconds": 2.1646556769992458,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-06",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 6,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b76653fe5358f5aa8b0709e3b2fef52206e55439755f12a3d8694e4b7f280811",
+      "seconds": 1.9102319730009185,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "walk-down-right-07",
+      "state": "walk",
+      "direction": "down-right",
+      "index": 7,
+      "fps": 16,
+      "loop": true,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "cf3d74d87b05efc668f360f6941c38f7393cf966b522ebff0b9fe42edd4ce9a6",
+      "seconds": 1.920598444994539,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-00",
+      "state": "attack",
+      "direction": "down",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "fa1a071b0a5ffcf35d9acd8f4631001c66a45e97d862122a48ffa43e32b93c08",
+      "seconds": 2.043452976999106,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-01",
+      "state": "attack",
+      "direction": "down",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "eb07af68fc945ab49086860434c2f16747cd89978ceff0f6def8f69ab1567f2f",
+      "seconds": 1.965859449992422,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-02",
+      "state": "attack",
+      "direction": "down",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3037951e5b2d74acf08f04f9c09faf1a43a352c4574638607519b0f1aa0834d6",
+      "seconds": 1.8543574560026173,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-03",
+      "state": "attack",
+      "direction": "down",
+      "index": 3,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "e2dddc12438dea9095014d85d7d1a383f67911ce5a43ece3474a55afc5114b90",
+      "seconds": 1.8721893160109175,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-04",
+      "state": "attack",
+      "direction": "down",
+      "index": 4,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "bbb7ad6bfc29cfd28188290b04b0b985cb8f02a3f4618cbd78a0d26c3a8d4b22",
+      "seconds": 2.0992203499918105,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-05",
+      "state": "attack",
+      "direction": "down",
+      "index": 5,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1012b912bab438b7ca8d3769b4450a44d014f93fbdce8db1c9813107a8f8812b",
+      "seconds": 2.2333428150013788,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-06",
+      "state": "attack",
+      "direction": "down",
+      "index": 6,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "7934c07f8eb1f3f33548de1ed064232bf1d2039e343039d463f89c7c70ce9c16",
+      "seconds": 2.100070568994852,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-07",
+      "state": "attack",
+      "direction": "down",
+      "index": 7,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "737346f7aa32265d53b0627d999b68f305ffa981ecea0b77d9824d57dfb5d775",
+      "seconds": 1.9627580819942523,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-00",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "505a4faec7e13122ec88f7ae8bb25531f35ddcf5fd82f8bbf010ee67893f3dca",
+      "seconds": 2.018577524999273,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-01",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "843afe95f90a3fff254b1e6219a630a201bca3d4c3bd50a8b20cb208e88ccab9",
+      "seconds": 2.051352473994484,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-02",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b5d613cca1b55dadcf831157a3021acfb47e77358e6e7d3eeebb703a5a95a1e9",
+      "seconds": 2.0618749409914017,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-03",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 3,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "93761815aca28daf1b4bcd3297c217f9c1dcc8017b20807866bd306f645135d9",
+      "seconds": 2.0492227470094804,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-04",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 4,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "eccfc21c4ba22485962b9696fd53258a803f1676de3f4730411622482468c7b9",
+      "seconds": 2.0529049210017547,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-05",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 5,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "0faaa0b9ddb50e36ddc08e74ee5491547505318103db90a752cdd4ecf7b1f695",
+      "seconds": 2.0672106450074352,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-06",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 6,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "5548f5ae7001939d5b216f13d2259d3b38c2a20427d38c05ca838040ae3f9602",
+      "seconds": 1.8328962049999973,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-down-left-07",
+      "state": "attack",
+      "direction": "down-left",
+      "index": 7,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "135b28702e313958ef1111498155d29680ddd224745e6ca1f08e3dcfa31dee12",
+      "seconds": 2.02598264500557,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-00",
+      "state": "attack",
+      "direction": "left",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "28add94560386c6da65a31a2dcf6ef95b4fed8b8a24efe48a89f588363cd11bd",
+      "seconds": 1.9279152540111681,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-01",
+      "state": "attack",
+      "direction": "left",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "c348daddd863fff5c2014130a3a2fe9467d908066d015eaeea50fcbe90d364fd",
+      "seconds": 2.127930358008598,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-02",
+      "state": "attack",
+      "direction": "left",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b887db52084641e99f28a317e8a91da6389547e55b42513b076b7975208ecbcd",
+      "seconds": 2.0688849949947326,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-03",
+      "state": "attack",
+      "direction": "left",
+      "index": 3,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6fb7d28219b60b0962d9554f48051bc9a6e44246b05db5a8266f35e4ea19a52c",
+      "seconds": 1.9999475889926543,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-04",
+      "state": "attack",
+      "direction": "left",
+      "index": 4,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "d8bbb6c858afe255d162f4be95c9c12f4511d4f461c4d57a6fa098df09fcfc9a",
+      "seconds": 2.1258291420090245,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-05",
+      "state": "attack",
+      "direction": "left",
+      "index": 5,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "cbfb8c7f7dc054f4ec22fa42512b7815c5984582d2cbc5acbd7a20eb21f6f3cd",
+      "seconds": 2.090435856996919,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-06",
+      "state": "attack",
+      "direction": "left",
+      "index": 6,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "86640b2169577b2ae67815f0d01b2dceee8d59d580f3d99650b139bf47f55e35",
+      "seconds": 2.0177576749993023,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-left-07",
+      "state": "attack",
+      "direction": "left",
+      "index": 7,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "49837a46b17bb866d76d0ab7f15dc65b9c66a08279f64247de3e7a2ded2afb11",
+      "seconds": 2.0486096930108033,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-00",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "b810253436e155605184da633ada210c3b72a98ac0c7c1d2bde90d5891c76ce6",
+      "seconds": 2.005910246996791,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-01",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "151317dedf3d644771c9f532ce44971686cd5421c45e83eb535ae8fa0087e0c8",
+      "seconds": 2.062905856000725,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-02",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "d7c09c11bf762e88641dac6d80b02109a96da019841e86611852010ffa6789f7",
+      "seconds": 1.867364973993972,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-03",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 3,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "ffc89adc565c827db29061f5ac60c5e347b77bbe52e7fe3316af59ae643b83af",
+      "seconds": 2.159647649998078,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-04",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 4,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "15a988423cc44c46349ec2c47f4fbbf8278f5bd2ada34c632fc0c9961e9abc73",
+      "seconds": 2.0261097389884526,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-05",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 5,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "3114f154c5b22ad2b9d1f7ea0bd25bb72bd25703e4f0b0562dff4cb01991faf9",
+      "seconds": 2.1062089190090774,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-06",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 6,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "4faa208effdea0a61abf91078ac54b95dd954f1b7117ea02fa0d09c2fbf2b813",
+      "seconds": 2.070480089998455,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-left-07",
+      "state": "attack",
+      "direction": "up-left",
+      "index": 7,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "64e52d46449bd2ee3a869d837812edd664d2d6fad6465325455ebcab19c5d9ce",
+      "seconds": 2.045041583987768,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-00",
+      "state": "attack",
+      "direction": "up",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "1df403228c8b9d1c9844e41a052b4616b4a4fb5348ed72151232e4b7071bab5d",
+      "seconds": 2.040971244001412,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-01",
+      "state": "attack",
+      "direction": "up",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "34d6990fc110b8f47dc57ef7e61385e510169ad3261ec9536c2cbf1838008a5a",
+      "seconds": 1.966858271000092,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-02",
+      "state": "attack",
+      "direction": "up",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "450a995a444a6a472ec60c809465f56479401504d1be603792d8a92e1188cd19",
+      "seconds": 2.0362980409990996,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-03",
+      "state": "attack",
+      "direction": "up",
+      "index": 3,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "2fd46ed1cc6c8629b0616f3e945d60fc08a2216a4ec41d42252cccfe7a3da446",
+      "seconds": 2.0234211520000827,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-04",
+      "state": "attack",
+      "direction": "up",
+      "index": 4,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "748f7fa16e6495e9b0398af814d280c7169c5e8927693692ec8d03452cbeb3f1",
+      "seconds": 1.9670474419981474,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-05",
+      "state": "attack",
+      "direction": "up",
+      "index": 5,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "6b178e37a8b48446954169bc7ed35447fa437c0d3ccf3c358fd6f60d93634ed2",
+      "seconds": 1.9493574280058965,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-06",
+      "state": "attack",
+      "direction": "up",
+      "index": 6,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "15cb64b19eee36aed4380af3f27773e5420f9482c52c5ad8106c544e71908a03",
+      "seconds": 2.099928015988553,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-07",
+      "state": "attack",
+      "direction": "up",
+      "index": 7,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "74fe97c9c7ce587e5c3f30af1098a58282527c5b121f32c276802d7a598dac94",
+      "seconds": 2.16174096299801,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-00",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "a28c9adae4cd7db1b11b758bbe31e3ded481f4bdde9646f609cff2f2508a1a8d",
+      "seconds": 2.1812070029991446,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-01",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "17505d28522d42d5b754a968394609c36d0b19704f7974b59f02546e2f216c20",
+      "seconds": 2.130505474997335,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-02",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "4a1cfe1e3feb350d990a4a7ffb5a891f57a5cc208ed56dbca72fcff520338e91",
+      "seconds": 2.129230688995449,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-03",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 3,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "f765bd0182b41f246da06299fa400e341f025adfae986a3c169b15d8cb6ef2ae",
+      "seconds": 2.0556015870097326,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-04",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 4,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "5a7d54641cda357cc2391e7297dbd208aea63cc274beef0e699e1c8d192f4f7e",
+      "seconds": 1.9465639810077846,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-05",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 5,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "402476bcc3aab50c12b88efd562bb3ddf0f874ef57768cc8f0a1fead0786c6ea",
+      "seconds": 2.012248319995706,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-06",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 6,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "cfcac6a1e196ed7f14522b4918d64e6a5d2d656d3a99b865f5e6e50b4f52b410",
+      "seconds": 1.907115485999384,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-up-right-07",
+      "state": "attack",
+      "direction": "up-right",
+      "index": 7,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "51d92cdb0a8a141e648a472fd6abd4c83e09825f1ba31f689493239a39c567fc",
+      "seconds": 2.016095753002446,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-right-00",
+      "state": "attack",
+      "direction": "right",
+      "index": 0,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "0cd2dd340b998ab5ca38ffc01f3483b058ccc2732a7490c16923097ee69d279b",
+      "seconds": 1.8478085480019217,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-right-01",
+      "state": "attack",
+      "direction": "right",
+      "index": 1,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "8155b5be3c9b0dc690e86c9beaae33d1242c567502b53a3937e8d16302d991e2",
+      "seconds": 2.0868461320060305,
+      "status": "motion-review-not-installed"
+    },
+    {
+      "id": "attack-right-02",
+      "state": "attack",
+      "direction": "right",
+      "index": 2,
+      "fps": 16,
+      "loop": false,
+      "width": 512,
+      "height": 512,
+      "origin": [
+        0.5,
+        0.75
+      ],
+      "world_canvas": [
+        128,
+        128
+      ],
+      "camera_elevation": 45,
+      "orthographic_scale": 7.0,
+      "sha256": "d90aaa4b4f78079688d6d0f1f0aa6815ab723c620debeeaa22c3420734d858d2",
+      "seconds": 1.985650782007724,
+      "status": "motion-review-not-installed"
+    }
+  ],
+  "resume": "/opt/ki-legends-gpu/blender-venv/bin/python /opt/ki-legends-gpu/scripts/animate_planetary.py --render-validated",
+  "status": "paused-by-user"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "planetary-rig-down-left",
+  "direction": "down-left",
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.78
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 5.65,
+  "sha256": "c648e48a964a8933db9d10f2e1f2f85632a12465129c79db4af618faca3bc3b7",
+  "seconds": 5.252002994006034,
+  "status": "rig-visual-calibration-not-installed"
+}

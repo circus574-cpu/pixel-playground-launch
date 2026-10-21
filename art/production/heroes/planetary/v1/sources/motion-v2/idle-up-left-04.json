@@ -1,0 +1,23 @@
+{
+  "id": "idle-up-left-04",
+  "state": "idle",
+  "direction": "up-left",
+  "index": 4,
+  "fps": 6,
+  "loop": true,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.75
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 7.0,
+  "sha256": "de95af355251b5eca41fec6cfe46e759915965c636f7e64c80e07832c6aee115",
+  "seconds": 2.0656071660050657,
+  "status": "motion-review-not-installed"
+}

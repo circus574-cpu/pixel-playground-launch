@@ -11,10 +11,11 @@ export async function packFrames(
   world: string,
   profile: "hero" | "enemy" | "npc" = "hero",
   version = "1.0.0",
+  presentation: "legacy" | "grounded" = "legacy",
 ) {
   const rawSide = GPU_CONTRACT.rawFrame,
     side = GPU_CONTRACT.deliveryFrame;
-  const layout = frameLayout(id, world, profile, version),
+  const layout = frameLayout(id, world, profile, version, presentation),
     out = path.resolve(output),
     staging = out + ".tmp-" + process.pid;
   try {

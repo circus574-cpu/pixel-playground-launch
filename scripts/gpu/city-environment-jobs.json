@@ -1,0 +1,194 @@
+[
+  {
+    "id": "verdant-cottage",
+    "world": "verdant",
+    "binding": "object.forest.cottage",
+    "guide": true,
+    "prompt": "a single compact woodland guild cottage building, warm ivory stone and oak timber, moss green shingle roof with carved eaves, amber lanterns and ivy, whole small building centered, full roof and roots visible, no surrounding landscape"
+  },
+  {
+    "id": "nexus-lab",
+    "world": "nexus",
+    "binding": "object.lab",
+    "guide": true,
+    "prompt": "a wide low sprawling futuristic laboratory building, white ceramic horizontal architecture, dark navy structural metal, glowing electric blue crystal reactor and cyan windows, broad symmetrical facade, central double door, elegant sci-fi fantasy engineering, no cathedral, no church, no gothic tower"
+  },
+  {
+    "id": "pyra-fortress",
+    "world": "pyra",
+    "binding": "object.fortress",
+    "guide": true,
+    "prompt": "a wide monumental fortress gatehouse made of BLACK volcanic basalt blocks, charcoal black walls, dark crimson roofs, gold iron fittings, two square defensive towers, blazing orange furnace portal, red banners, lava energy vents, dark warrior citadel, black stone fortress, no white stone, no Asian temple"
+  },
+  {
+    "id": "verdant-inn",
+    "world": "verdant",
+    "binding": "object.forest.inn",
+    "prompt": "a single welcoming two storey woodland fantasy inn, stone ground floor, carved oak timber framing, moss green gabled shingle roofs, amber windows, wooden balcony, ivy and rose window boxes, small entrance porch, no surrounding landscape"
+  },
+  {
+    "id": "verdant-forge",
+    "world": "verdant",
+    "binding": "object.forest.forge",
+    "prompt": "a single woodland fantasy blacksmith forge building, timber frame, warm gray stone, moss green roof, broad tall stone chimney, open orange glowing smithy doorway, iron tools and stacked firewood neatly attached to facade, no people"
+  },
+  {
+    "id": "verdant-market",
+    "world": "verdant",
+    "binding": "object.forest.market",
+    "prompt": "a single exquisite wooden fantasy market stall, green and cream striped curved canvas awning, oak posts, baskets of red apples and vegetables, small wooden counter, ivy, whole compact stall"
+  },
+  {
+    "id": "aether-archive",
+    "world": "aether",
+    "binding": "object.archive",
+    "prompt": "a single ornate arcane library building, ivory limestone, purple curved shingle roof, tall indigo stained glass windows, golden decorative arches, small amethyst roof crystal, heavy carved double door, ancient magical knowledge"
+  },
+  {
+    "id": "aether-source",
+    "world": "aether",
+    "binding": "object.ki-source",
+    "prompt": "a single magical circular fountain, low ivory stone basin with golden rim, luminous turquoise water, levitating purple crystal above the center, small golden runic pillars, full low fountain viewed from above"
+  },
+  {
+    "id": "aether-tree",
+    "world": "aether",
+    "binding": "object.ki-tree",
+    "prompt": "a single ancient magical tree, twisting pale silver bark, beautiful dense layered turquoise and violet foliage canopy, tiny gold hanging lanterns, emerald crystal roots, full tree from canopy tip to roots, no landscape"
+  },
+  {
+    "id": "aether-peak",
+    "world": "aether",
+    "binding": "object.cloud-peak",
+    "prompt": "a single isolated floating pale stone rock formation with amethyst crystals, small moss terraces and hanging roots, full miniature floating island rock, fantasy magic terrain prop, no surrounding landscape, no sky"
+  },
+  {
+    "id": "aether-garden",
+    "world": "aether",
+    "binding": "object.garden",
+    "prompt": "a single low oval raised fantasy garden planter, ornate ivory stone border with golden trim, lush emerald foliage and violet glowing flowers, tiny amethyst crystals, compact garden prop viewed from above"
+  },
+  {
+    "id": "nexus-reactor",
+    "world": "nexus",
+    "binding": "object.reactor",
+    "prompt": "a single futuristic energy reactor building, dark navy metallic base, white ceramic outer ribs, large luminous cyan crystal within a circular reactor chamber, angular glass canopy, gold circuitry, compact sci-fi fantasy structure, no people"
+  },
+  {
+    "id": "nexus-terminal",
+    "world": "nexus",
+    "binding": "object.terminal",
+    "prompt": "a single futuristic freestanding computer terminal console, white ceramic pedestal, silver and navy casing, brilliant cyan glass touchscreen with abstract circuit lines, compact science fantasy game prop, no readable letters"
+  },
+  {
+    "id": "nexus-crystal",
+    "world": "nexus",
+    "binding": "object.crystal",
+    "prompt": "a single cluster of tall transparent electric blue luminous crystals, faceted cyan quartz shards rising from a small dark metal base, science fantasy power crystal, elegant magical technology prop"
+  },
+  {
+    "id": "nexus-pylon",
+    "world": "nexus",
+    "binding": "object.pylon",
+    "prompt": "a single elegant technological street lamp pylon, tall slim white ceramic and navy metallic post, gold trim, small floating blue energy crystal light at top, freestanding science fantasy city lamp"
+  },
+  {
+    "id": "nexus-garden",
+    "world": "nexus",
+    "binding": "object.tech-garden",
+    "prompt": "a single compact futuristic garden planter, low white ceramic oval container, lush green ferns and white flowering plants, delicate cyan glowing circuit lights around base, anime science fantasy decorative city prop"
+  },
+  {
+    "id": "pyra-shrine",
+    "world": "pyra",
+    "binding": "object.war-shrine",
+    "prompt": "a single imposing small warrior shrine building, black basalt stone, heavy dark crimson roof, carved golden sun symbols, glowing orange gate, iron braziers at entrance, crimson banners, volcanic fantasy architecture, no white walls"
+  },
+  {
+    "id": "pyra-monument",
+    "world": "pyra",
+    "binding": "object.statue",
+    "prompt": "a single monumental carved stone sword monument, huge black basalt blade pointing upward on a square stepped dark stone pedestal, gold rune inlays, faint orange ember core, warrior honor memorial, no person, no face, no warrior character"
+  },
+  {
+    "id": "pyra-basalt",
+    "world": "pyra",
+    "binding": "object.basalt",
+    "prompt": "a single cluster of rugged black basalt boulders, dark angular volcanic rock formations with restrained glowing orange cracks, stylized hand painted volcanic terrain prop, full compact rock cluster, no landscape"
+  },
+  {
+    "id": "pyra-volcano",
+    "world": "pyra",
+    "binding": "object.volcano",
+    "prompt": "a single isolated volcanic rocky mound, dark charcoal mountain cone with small glowing orange lava crater and thin lava rivulets, fantasy terrain prop, full small mountain visible, no sky or surrounding scenery"
+  },
+  {
+    "id": "pyra-banner",
+    "world": "pyra",
+    "binding": "object.clan-banner",
+    "prompt": "a single tall warrior clan banner, elegant black wrought iron pole with gold spear finial, flowing dark crimson cloth with simple golden sun emblem, weighted black basalt base, freestanding fantasy prop, no text"
+  },
+  {
+    "id": "aether-ground",
+    "world": "aether",
+    "binding": "terrain.aether-ground",
+    "kind": "tile",
+    "prompt": "seamless flat ground texture, emerald green grass with tiny violet clover leaves, subtle moss and natural soil flecks, even distribution, top down overhead view, hand painted fantasy texture, flat lighting, no horizon, no large objects"
+  },
+  {
+    "id": "aether-path",
+    "world": "aether",
+    "binding": "terrain.aether-path",
+    "kind": "tile",
+    "prompt": "seamless flat ground texture, pale warm ivory limestone paving blocks, small irregular stones, subtle gold and violet mineral flecks, worn magical city walkway, top down overhead view, evenly distributed, hand painted fantasy texture, flat lighting"
+  },
+  {
+    "id": "aether-plaza",
+    "world": "aether",
+    "binding": "terrain.aether-plaza",
+    "kind": "tile",
+    "prompt": "seamless flat floor texture, pale ivory marble square slabs, subtle violet and gold vein details, elegant wizard city pavement, top down overhead view, evenly distributed, hand painted fantasy texture, flat lighting"
+  },
+  {
+    "id": "nexus-ground",
+    "world": "nexus",
+    "binding": "terrain.nexus-ground",
+    "kind": "tile",
+    "prompt": "seamless flat ground texture, dark desaturated slate blue metallic mineral ground, subtle fine gravel and tiny cyan crystal flecks, top down overhead view, evenly distributed, hand painted science fantasy texture, flat lighting"
+  },
+  {
+    "id": "nexus-path",
+    "world": "nexus",
+    "binding": "terrain.nexus-path",
+    "kind": "tile",
+    "prompt": "seamless flat floor texture, silver blue futuristic metal square walkway panels, fine dark grooves and very thin cyan circuit seams, worn elegant science fantasy city path, top down overhead view, evenly distributed, hand painted texture"
+  },
+  {
+    "id": "nexus-plaza",
+    "world": "nexus",
+    "binding": "terrain.nexus-plaza",
+    "kind": "tile",
+    "prompt": "seamless flat floor texture, clean light silver white ceramic square paving panels, delicate blue circuit inlays, futuristic fantasy city plaza, top down overhead view, uniform distribution, hand painted texture, flat lighting"
+  },
+  {
+    "id": "pyra-ground",
+    "world": "pyra",
+    "binding": "terrain.pyra-ground",
+    "kind": "tile",
+    "prompt": "seamless flat ground texture, dark charcoal volcanic gravel and cracked basalt earth, subtle rust red dust and tiny restrained orange ember cracks, top down overhead view, evenly distributed, hand painted fantasy texture, flat lighting"
+  },
+  {
+    "id": "pyra-path",
+    "world": "pyra",
+    "binding": "terrain.pyra-path",
+    "kind": "tile",
+    "prompt": "seamless flat ground texture, worn dark brown red volcanic cobblestones, irregular basalt paving blocks, subtle glowing ember flecks in gaps, warrior fortress walkway, top down overhead view, hand painted fantasy texture, flat lighting"
+  },
+  {
+    "id": "pyra-plaza",
+    "world": "pyra",
+    "binding": "terrain.pyra-plaza",
+    "kind": "tile",
+    "prompt": "seamless flat floor texture, charcoal black basalt rectangular paving slabs, subtle gold cracks and red dust, monumental dark fortress plaza stone, top down overhead view, evenly distributed, hand painted fantasy texture, flat lighting"
+  }
+]

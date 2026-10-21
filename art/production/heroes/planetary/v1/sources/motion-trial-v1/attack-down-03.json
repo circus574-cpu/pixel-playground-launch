@@ -1,0 +1,23 @@
+{
+  "id": "attack-down-03",
+  "state": "attack",
+  "direction": "down",
+  "index": 3,
+  "fps": 16,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.76
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 5.9,
+  "sha256": "40661f77ba75b4e907c51a4c7ac457d5756b16a5a40624c03698546beb87d21b",
+  "seconds": 2.4610923410073156,
+  "status": "motion-review-not-installed"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "death-right-02",
+  "state": "death",
+  "direction": "right",
+  "index": 2,
+  "fps": 10,
+  "loop": false,
+  "width": 512,
+  "height": 512,
+  "origin": [
+    0.5,
+    0.76
+  ],
+  "world_canvas": [
+    128,
+    128
+  ],
+  "camera_elevation": 45,
+  "orthographic_scale": 5.9,
+  "sha256": "1f50b369658230eee6d84e32bdc915b6191051f84b282b617a31c7d3ae2c4210",
+  "seconds": 2.1746577689918922,
+  "status": "motion-review-not-installed"
+}

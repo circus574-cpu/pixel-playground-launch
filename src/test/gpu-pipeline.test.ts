@@ -187,32 +187,52 @@ describe("GPU import validates actual pixels, frames and immutable publication",
   });
 });
 
-it("packs a complete 416-frame neutral render delivery and rejects overwrite", async () => {
-  const { frameLayout } = await import("../../scripts/lib/frame-layout");
-  const { packFrames } = await import("../../scripts/lib/pack-frames");
-  const root = await mkdtemp(path.join(os.tmpdir(), "ki-frames-"));
-  roots.push(root);
-  const source = path.join(root, "renders"),
-    out = path.join(root, "delivery"),
-    layout = frameLayout("hero-test", "verdant");
-  for (const [i, frame] of layout.sources.entries()) {
-    const filename = path.join(source, frame.path);
-    await mkdir(path.dirname(filename), { recursive: true });
-    const shape = Buffer.from(
-      `<svg width="512" height="512"><rect x="${180 + (i % 20)}" y="180" width="100" height="240" rx="20" fill="rgb(${60 + (i % 150)},${50 + (Math.floor(i / 3) % 150)},130)"/></svg>`,
+it.each(["legacy", "grounded"] as const)(
+  "packs a complete 416-frame %s render delivery and rejects overwrite",
+  async (presentation) => {
+    const { frameLayout } = await import("../../scripts/lib/frame-layout");
+    const { packFrames } = await import("../../scripts/lib/pack-frames");
+    const root = await mkdtemp(path.join(os.tmpdir(), "ki-frames-"));
+    roots.push(root);
+    const source = path.join(root, "renders"),
+      out = path.join(root, "delivery"),
+      layout = frameLayout("hero-test", "verdant", "hero", "1.0.0", presentation);
+    for (const [i, frame] of layout.sources.entries()) {
+      const filename = path.join(source, frame.path);
+      await mkdir(path.dirname(filename), { recursive: true });
+      const shape = Buffer.from(
+        `<svg width="512" height="512"><rect x="${180 + (i % 20)}" y="180" width="100" height="240" rx="20" fill="rgb(${60 + (i % 150)},${50 + (Math.floor(i / 3) % 150)},130)"/></svg>`,
+      );
+      await sharp(shape).png().toFile(filename);
+    }
+    const result = await packFrames(
+      source,
+      out,
+      "hero-test",
+      "verdant",
+      "hero",
+      "1.0.0",
+      presentation,
     );
-    await sharp(shape).png().toFile(filename);
-  }
-  const result = await packFrames(source, out, "hero-test", "verdant");
-  expect(result.frames).toBe(416);
-  expect(result.pages).toBe(2);
-  const validated = await validatePackage(result.manifest);
-  expect(validated.pack.actors[0]!.clips.attack!.directions["down-left"]).toHaveLength(8);
-  expect(validated.infos.get("hero-test-page-1")!.height).toBe(1280);
-  await expect(packFrames(source, out, "hero-test", "verdant")).rejects.toThrow(
-    "Output already exists",
-  );
-}, 60000);
+    expect(result.frames).toBe(416);
+    expect(result.pages).toBe(2);
+    const expected = presentation === "grounded" ? GPU_CONTRACT.groundedHero : GPU_CONTRACT.hero;
+    const validated = await validatePackage(result.manifest);
+    expect(validated.pack.actors[0]!.size).toEqual(expected.size);
+    expect(validated.pack.actors[0]!.origin).toEqual(expected.origin);
+    const wrong = JSON.parse(await readFile(result.manifest, "utf8"));
+    wrong.actors[0].origin = [0.5, 0.5];
+    await writeFile(result.manifest, JSON.stringify(wrong));
+    await expect(validatePackage(result.manifest)).rejects.toThrow("scale/feet anchor");
+    await writeFile(result.manifest, JSON.stringify(validated.pack));
+    expect(validated.pack.actors[0]!.clips.attack!.directions["down-left"]).toHaveLength(8);
+    expect(validated.infos.get("hero-test-page-1")!.height).toBe(1280);
+    await expect(packFrames(source, out, "hero-test", "verdant")).rejects.toThrow(
+      "Output already exists",
+    );
+  },
+  60000,
+);
 
 it("rejects atlas frame pivots that Phaser would use to override the configured feet", async () => {
   const f = await delivery(),
@@ -234,5 +254,35 @@ it("rejects atlas frame pivots that Phaser would use to override the configured 
   await writeFile(atlasFile, JSON.stringify(atlas));
   await expect(validatePackage(f.manifest)).rejects.toThrow(
     "Keep pivots in actor/map configuration",
+  );
+});
+
+it("keeps grounded framing explicit and rejects it for enemy/NPC profiles", async () => {
+  const { frameLayout } = await import("../../scripts/lib/frame-layout");
+  expect(() => frameLayout("enemy", "verdant", "enemy", "1.0.0", "grounded")).toThrow(
+    "heroes only",
+  );
+  expect(() => frameLayout("npc", "verdant", "npc", "1.0.0", "grounded")).toThrow("heroes only");
+  expect(frameLayout("hero", "pyra").pack.actors[0]!.origin).toEqual([0.5, 0.95]);
+});
+
+it("keeps unapproved hero packs opt-in while validating and importing their actual files", async () => {
+  const f = await delivery(),
+    root = await app(f.root);
+  f.pack.previewOnly = true;
+  f.pack.actorBindings = { "verdant.hero": "technical-mannequin" };
+  await f.save();
+  await importPackage(f.manifest, { root, install: true });
+  const packs = JSON.parse(
+    await readFile(path.join(root, "src/game/assets/imported.json"), "utf8"),
+  ).map((p: unknown) => PackSchema.parse(p));
+  expect(worldAssets("verdant", false, makeCatalog(packs)).map((a) => a.id)).not.toContain(
+    "technical-rig",
+  );
+  expect(worldAssets("verdant", false, makeCatalog(packs, true)).map((a) => a.id)).toContain(
+    "technical-rig",
+  );
+  expect(worldAssets("aether", false, makeCatalog(packs, true)).map((a) => a.id)).not.toContain(
+    "technical-rig",
   );
 });

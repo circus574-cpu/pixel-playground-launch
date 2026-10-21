@@ -5,6 +5,7 @@ export function frameLayout(
   world: string,
   profile: ActorVisual["profile"] = "hero",
   version = "1.0.0",
+  presentation: "legacy" | "grounded" = "legacy",
 ) {
   if (!["verdant", "aether", "nexus", "pyra"].includes(world)) throw Error("Unknown target world");
   const side = GPU_CONTRACT.deliveryFrame,
@@ -72,7 +73,14 @@ export function frameLayout(
     }
     clips[state] = { asset: page.asset, fps: spec.fps, loop: spec.loop, directions };
   }
-  const scale = profile === "enemy" ? GPU_CONTRACT.enemy : GPU_CONTRACT.hero;
+  if (presentation === "grounded" && profile !== "hero")
+    throw Error("Grounded presentation supports heroes only");
+  const scale =
+    presentation === "grounded"
+      ? GPU_CONTRACT.groundedHero
+      : profile === "enemy"
+        ? GPU_CONTRACT.enemy
+        : GPU_CONTRACT.hero;
   const pack = PackSchema.parse({
     schemaVersion: 1,
     id,
@@ -87,7 +95,9 @@ export function frameLayout(
       width: p.width,
       height: p.height,
     })),
-    actors: [{ id, profile, size: scale.size, origin: scale.origin, tintable: false, clips }],
+    actors: [
+      { id, profile, presentation, size: scale.size, origin: scale.origin, tintable: false, clips },
+    ],
     actorBindings: { [world + "." + profile]: id },
     renderBindings: {},
     effects: {},

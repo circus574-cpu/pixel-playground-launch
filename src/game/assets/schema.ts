@@ -65,6 +65,7 @@ export const ActorSchema = z
   .object({
     id,
     profile: z.enum(["hero", "enemy", "npc"]).default("hero"),
+    presentation: z.enum(["legacy", "grounded"]).optional(),
     size,
     origin: z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]),
     tintable: z.boolean().default(false),
@@ -93,6 +94,7 @@ export const PackSchema = z
     id,
     version: z.string().regex(/^\d+\.\d+\.\d+$/),
     technical: z.boolean().default(false),
+    previewOnly: z.boolean().default(false),
     assets: z.array(AssetSchema).min(1),
     actors: z.array(ActorSchema).default([]),
     actorBindings: z.record(z.string(), z.string()).default({}),

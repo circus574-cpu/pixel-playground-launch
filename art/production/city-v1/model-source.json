@@ -1,0 +1,18 @@
+{
+  "repo": "cagliostrolab/animagine-xl-3.1",
+  "revision": "483f0c322568ed13697ed01dd0be07204746d12b",
+  "file": {
+    "type": "file",
+    "oid": "343ecf758fd01f463a4516c9f2f2f3ff028de259",
+    "size": 6938325776,
+    "lfs": {
+      "oid": "e3c47aedb06418c6c331443cd89f2b3b3b34b7ed2102a3d4c4408a8d35aad6b0",
+      "size": 6938325776,
+      "pointerSize": 135
+    },
+    "xetHash": "81f59ef856482f5053d23fec5fdda8c386bf92506ce48b0deaccf96cff2087e1",
+    "path": "animagine-xl-3.1.safetensors"
+  },
+  "license": "CreativeML Open RAIL++-M",
+  "purpose": "original city environment props, no reference characters"
+}

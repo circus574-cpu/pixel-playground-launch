@@ -1,0 +1,18 @@
+{
+  "repo": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "file": {
+    "type": "file",
+    "oid": "5e213368ec64924b66f2bcbeb3dcc6c24770e5e7",
+    "size": 6939220250,
+    "lfs": {
+      "oid": "4496b36d48bfd7cfe4e5dbce3485db567bcefa2bef7238d290dbd45612125083",
+      "size": 6939220250,
+      "pointerSize": 135
+    },
+    "xetHash": "c15d972a2461edc947d8c8f83241d699f7e24a9698152a401a0e8c30df8502f7",
+    "path": "DreamShaperXL_Turbo_v2_1.safetensors"
+  },
+  "license": "CreativeML Open RAIL++-M",
+  "reason": "Animagine text-only rejects architecture identity; guided variants preserve simple geometry without target material detail"
+}

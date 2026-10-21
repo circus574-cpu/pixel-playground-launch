@@ -20,6 +20,10 @@
           "type": "boolean",
           "default": false
         },
+        "previewOnly": {
+          "type": "boolean",
+          "default": false
+        },
         "assets": {
           "type": "array",
           "items": {
@@ -152,6 +156,13 @@
                   "npc"
                 ],
                 "default": "hero"
+              },
+              "presentation": {
+                "type": "string",
+                "enum": [
+                  "legacy",
+                  "grounded"
+                ]
               },
               "size": {
                 "type": "array",

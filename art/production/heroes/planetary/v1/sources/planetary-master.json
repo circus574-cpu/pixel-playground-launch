@@ -1,0 +1,114 @@
+{
+  "id": "planetary-master",
+  "race": "planetary",
+  "world": "verdant",
+  "purpose": "single hero identity approval; not a runtime animation",
+  "status": "approved-by-user",
+  "reference": "original project origins-v1/planetary-full.webp",
+  "reference_sha256": "db5caf89604fe974cbf38bd750795f3e362f954c695d8df94ba149e7598ea851",
+  "model_revision": "483f0c322568ed13697ed01dd0be07204746d12b",
+  "model_sha256": "e3c47aedb06418c6c331443cd89f2b3b3b34b7ed2102a3d4c4408a8d35aad6b0",
+  "seed": 5741001,
+  "workflow": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "animagine-xl-3.1.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "1boy, solo, adult male, full body, standing, short spiky brown hair, amber brown eyes, strong athletic build, confident calm expression, orange scarf, asymmetrical white sleeveless fantasy tunic, brown leather chest harness, bronze and dark steel armored gauntlets, small turquoise crystal inset in gauntlets, dark olive gray loose trousers, layered white and amber split tabard, brown leather belts and pouches, bronze trimmed armored boots, restrained gold ornaments, both hands visible, complete feet visible, fully clothed, full character design, relaxed ready stance, high angle three quarter view, anime fantasy game protagonist, clean precise linework, beautifully painted materials, readable silhouette, isolated on pure white background, no surrounding scenery, wide white margin on all sides, masterpiece, best quality, very aesthetic",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "nsfw, nude, naked, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, cut off hair, out of frame, close up, portrait, text, logo, watermark, signature, multiple people, duplicate character, extra limbs, missing hands, malformed hands, landscape, city, street, paving stones, ground texture, aura, flames, floating energy, sword, staff, shield",
+        "clip": [
+          "1",
+          1
+        ]
+      }
+    },
+    "4": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "hero-review/planetary-reference.png"
+      }
+    },
+    "5": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "4",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "6": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 5741001,
+        "steps": 28,
+        "cfg": 6.5,
+        "sampler_name": "euler_ancestral",
+        "scheduler": "normal",
+        "denoise": 0.62,
+        "model": [
+          "1",
+          0
+        ],
+        "positive": [
+          "2",
+          0
+        ],
+        "negative": [
+          "3",
+          0
+        ],
+        "latent_image": [
+          "5",
+          0
+        ]
+      }
+    },
+    "7": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "6",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      }
+    },
+    "8": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "heroes/planetary-review-v1",
+        "images": [
+          "7",
+          0
+        ]
+      }
+    }
+  },
+  "seconds": 10.121899969992228,
+  "width": 1024,
+  "height": 1024,
+  "sha256": "ef9c876c5d88f7af1ad6e2972e61a26646594d1fad0592323d907dfdade90921",
+  "approval_instruction": "Jest dobrze startuj z tworzeniem tej rasy kompletnie"
+}

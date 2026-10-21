@@ -1,0 +1,14 @@
+{
+  "id": "aether-source",
+  "width": 1024,
+  "height": 1024,
+  "sha256": "c0f0503ad4db63ea0bfc4ab790b3d9528a189af08a435502fd87d42d5b1a0dd8",
+  "bytes": 609884,
+  "blender": "4.5.3 LTS",
+  "camera_elevation": 60,
+  "engine": "Cycles CUDA",
+  "seconds": 6.690016043008654,
+  "status": "procedural-prop-pending-review",
+  "world": "aether",
+  "binding": "object.ki-source"
+}

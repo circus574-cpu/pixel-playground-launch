@@ -1,0 +1,947 @@
+[
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-garden.blend",
+    "bytes": 1944971,
+    "sha256": "a4e2ff2f37c4994cda310dd2b5251f541b6ee303e5d3a3a8d4bc4d327d76ad98"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-garden.json",
+    "bytes": 370,
+    "sha256": "d582a6e90f4f00568eb65b676363aa7e4e4fe7575cdc58be3b19c4e60c6c7b91"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-garden.png",
+    "bytes": 536469,
+    "sha256": "884b34708a7237b8a9f55751f21a15386ce6ba430e61e08b443195a9d4c88ad7"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-source.blend",
+    "bytes": 849357,
+    "sha256": "ec305efb4ff0d41a2cd0040a69208171d492036fc82775dd585f491e783a3632"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-source.json",
+    "bytes": 373,
+    "sha256": "929bc3f93cef7e36bbaf3b7e728304e4ada72d78406fe22749f6cb4209ff4bbe"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/aether-source.png",
+    "bytes": 609884,
+    "sha256": "c0f0503ad4db63ea0bfc4ab790b3d9528a189af08a435502fd87d42d5b1a0dd8"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/pyra-basalt.blend",
+    "bytes": 792378,
+    "sha256": "84eea2ecdd70de5ab3a9fde7ddcd1c939be7c69b82b29bb20bfef55b866038ba"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/pyra-basalt.json",
+    "bytes": 366,
+    "sha256": "e79618b920b94987c5b14d4cda2be14cd341d42ea3e41a2d171b1b55f9e938da"
+  },
+  {
+    "file": "art/production/city-v1/sources/city-details/pyra-basalt.png",
+    "bytes": 796930,
+    "sha256": "98ab3bfc389435cd618fda1dba3bf60396c4c36f9358a053df1486e8036cbc19"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-free.json",
+    "bytes": 2869,
+    "sha256": "33580684b8e743d0d0a9018d3657398f47ff58447fa0b945ed02688027d92bbf"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-free.png",
+    "bytes": 1188375,
+    "sha256": "76d488b845938ac666e951a3822bc597ada94a1927de17111d093b9b3c5e387d"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-guided.json",
+    "bytes": 3033,
+    "sha256": "5433aeca73a6938cb87dc8a8c6c8fd23803fcd48d26a982b889179d90dcd5d71"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/aether-sanctum-guided.png",
+    "bytes": 1049988,
+    "sha256": "0c5cc14d9fde457ec9504f6ce9b5e4af2eabfb9dc5588891364f004cc9638039"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-free.json",
+    "bytes": 2853,
+    "sha256": "3ff48d028981804d6a99bca7156a144e13a2bec67be317134bc78fdde40bd970"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-free.png",
+    "bytes": 1278912,
+    "sha256": "e85eacd9ab67e932af3205b449327ac1139de8c36f454f82c2679622b175585b"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-guided.json",
+    "bytes": 3016,
+    "sha256": "3a0c4a2e7bddc5d0c9b37eb2611f01465197d9794fb391ce65e0fc118e92dbaf"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/nexus-lab-guided.png",
+    "bytes": 937003,
+    "sha256": "b7db2d274933c2bd9078d2fc60147b6cdcec6c84e754d48a63b45927b60e49f2"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-free.json",
+    "bytes": 2853,
+    "sha256": "0ec0a8139a15789014b9c7b900b8624a0bef9afb28507c8833f1faa2846f6567"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-free.png",
+    "bytes": 1791216,
+    "sha256": "4b118fcf6d649d19f757581be26b33a4cc2977d9f02021ee49047b2a05107021"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-guided.json",
+    "bytes": 3015,
+    "sha256": "f4fe8b298244e88aefeede93cd3f32854988423cafab5db4d8aff9bff32a3fe6"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/pyra-fortress-guided.png",
+    "bytes": 1116217,
+    "sha256": "1f23ee3eed1f8789b6326563901cd60541908cd5bec3b460628739284321dcba"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-free.json",
+    "bytes": 2869,
+    "sha256": "064cfe0de2490844552eb7c28dbcf63bd3b3c3469b42506c4c8fc9adb69c48d6"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-free.png",
+    "bytes": 1758382,
+    "sha256": "5bc3802b0ca71e93c5d129be02288224fc9be672bf1976089e3c2a31a268cb62"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-guided.json",
+    "bytes": 3033,
+    "sha256": "4b65486c4eec251d72358a445572baf4d0c35bb829f793faed7388b210a6dd16"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-comparison/verdant-cottage-guided.png",
+    "bytes": 1223806,
+    "sha256": "27efc54414f286980455af2ff9b2a0a07e61526eb224a6f74db00035799fad6f"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-archive.json",
+    "bytes": 3004,
+    "sha256": "938bbe1bdf83b13f5eb07ac2d7deb918543d7cdb501673c1b016a058c86b5bb5"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-archive.png",
+    "bytes": 1396817,
+    "sha256": "1945288e26229d52e01031e04c1830707fd226b63752ff79673ab7469f3ea075"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-garden.json",
+    "bytes": 2953,
+    "sha256": "5fd43fc07db032f4fa9626fb8e47d3040d039a5590f061d6db0e1181a79944ea"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-garden.png",
+    "bytes": 1747684,
+    "sha256": "4cc05e06d8ddea32faf26fe8c4a46d2e0a90e97c8496931a32b0826f3c4f9ef8"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-ground.json",
+    "bytes": 2932,
+    "sha256": "0ef69829ea827a038b970fb9ba80b0d9180767b62d48c02ec141cc92f48f8682"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-ground.png",
+    "bytes": 1985246,
+    "sha256": "9f54f2e152c4fea35adf3ff942437a469f65fd5679b8614726f873d357bea719"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-path.json",
+    "bytes": 2951,
+    "sha256": "56536c342f92d41ea19d7c91443eeba45ee0babf603fc668f88172d58eaf01b5"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-path.png",
+    "bytes": 1609654,
+    "sha256": "1d8b1494ce82ad007a7a2b1015a9e7b948b263b8ae015637edfe343cf1d66e89"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-peak.json",
+    "bytes": 2973,
+    "sha256": "992275bb4eef14fe01d61bf93a2fe196a42f1e4d76bb0258cc1ed2404887c1e3"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-peak.png",
+    "bytes": 1378261,
+    "sha256": "a700ddf910447d34142964727e03c3e858e512a78ddf96bb11ebe268ecd5f124"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-plaza.json",
+    "bytes": 2888,
+    "sha256": "b94a12800992bc8613591dae3374900558a1ad14cb6bcf662b004e273a536c1a"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-plaza.png",
+    "bytes": 1537854,
+    "sha256": "d06613dcffe7499855c3ea6de3ae356ff7a4f176c120c211ba79a827d8763783"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-source.json",
+    "bytes": 2966,
+    "sha256": "5ab381706da7c575d9d0487f3b70a521fc2deb39f231d5598322a6217d29d422"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-source.png",
+    "bytes": 1307802,
+    "sha256": "36eee86fe8a0afc322fca7eed7481cf10b26e83745d9649efb53c813eb83ab13"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-tree.json",
+    "bytes": 2981,
+    "sha256": "e6d94229e91275bb792cb8e136962030480a7d0b47a912f9cbd806d2eee0b490"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/aether-tree.png",
+    "bytes": 1472771,
+    "sha256": "6c12c635e062124cbd63502b0f79020133802ec7a5f1d8d192f7f8d162373484"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-crystal.json",
+    "bytes": 2938,
+    "sha256": "97984f2319a556b0288af6bacccc12e8839c8aab95e7207e2f3c0ce47b44642e"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-crystal.png",
+    "bytes": 1197779,
+    "sha256": "16fb7bc471cd0ff5bacf468e1588a8cba4b2970b267406a857ec495b76da97e1"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-garden.json",
+    "bytes": 2979,
+    "sha256": "d5cd4e761fba4f7b0c27a3f8ac5f6f8fb5e2df9ec7c2dd1be99fd15b168c36ac"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-garden.png",
+    "bytes": 1384685,
+    "sha256": "8cb2c71f10597de2576c935a04d1093db31c3a41fdab1e07ac515b98c2e32b3d"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-ground.json",
+    "bytes": 2911,
+    "sha256": "2a0e197215d25360400b28a58d5eb774a12c687dc71d1588be1e785ca9f49b81"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-ground.png",
+    "bytes": 2017602,
+    "sha256": "8e8f0585fd70aa6db84e32161da7706d7c92e6376dec9cfd1de11d2640bfeb26"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-lab.json",
+    "bytes": 3309,
+    "sha256": "d9d808359bdd5f99098cc41c3a09ed8bc94066db70ecd351ff7be795cd6a77c4"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-lab.png",
+    "bytes": 506391,
+    "sha256": "e6880fcdc56ea13484fe17f898d0ac5d493f86afd4bd35121803a9ba0a8f6fdc"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-path.json",
+    "bytes": 2925,
+    "sha256": "80eed680738732304f8f7dbf660d25cf932a3b06ab47efe63937497f928338bf"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-path.png",
+    "bytes": 1800182,
+    "sha256": "3bc4af8578b0816b584bfdb8ecc2c3a55795069c6d69c2dfe65588f5d506a284"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-plaza.json",
+    "bytes": 2906,
+    "sha256": "5546078e5af29555683521ca88f98ad99d88ba8efb6796179db08c8ed5af6f16"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-plaza.png",
+    "bytes": 1532101,
+    "sha256": "3c2bcfc92ba0db991507afeef82176dfae43ddbeb0e9983a1de3d5055927530c"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-pylon.json",
+    "bytes": 2932,
+    "sha256": "b6143a57355c3c4ff19928f3f464eab0b5c98b1f04bbc2d9fe9273a71b6c6146"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-pylon.png",
+    "bytes": 976586,
+    "sha256": "9f3936a1423651ce5e21d39a5db57affa1b978743c120a89919c0e1a89b76944"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-reactor.json",
+    "bytes": 3027,
+    "sha256": "fc10e2a7d2aeff93cb8ddbdebb8e0c79754f3edb16cab7265209b6b89a1814d2"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-reactor.png",
+    "bytes": 1322833,
+    "sha256": "7a1739f0df3c0b7503296d4d777b7728bf877a26d4019a5c84af117f766f4a9e"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-terminal.json",
+    "bytes": 2997,
+    "sha256": "6c70e451431289fa9fe1da20a7d40cecea46c30ff53b182d4c331539f8d79df6"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/nexus-terminal.png",
+    "bytes": 1020871,
+    "sha256": "ee38cc68208646c6e801a5b661efbf3486ca3e94b2851e65291f3bfc1f0b2a20"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-banner.json",
+    "bytes": 2968,
+    "sha256": "fda8b6a3ed04bcba57c1a54e21b709391f997ad523791b8543ac35f4716a4d3f"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-banner.png",
+    "bytes": 959822,
+    "sha256": "bc7b7cf924bff14073d25884d6c0b42ef7ed69c0671673340425a8af4394408c"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-basalt.json",
+    "bytes": 2963,
+    "sha256": "10953a5301de4c2a16bc97cd0ff36562b6e49c91421b7bdc5144b4741a8f2940"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-basalt.png",
+    "bytes": 1564751,
+    "sha256": "2f76479d7099d9ee482c89c625c1d07ce0bfa33e9f7422e7194f5ec3030fed4a"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-fortress.json",
+    "bytes": 3330,
+    "sha256": "12934d6f1d9f4f94dbe0dbea7a31838c2ef1b0a3fe79c198bdd5f862340e0df0"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-fortress.png",
+    "bytes": 612778,
+    "sha256": "f4f1d10b484636a4195d6dcfdc0a1db95637a8cddb6597096771d3a6cfa1b297"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-ground.json",
+    "bytes": 2923,
+    "sha256": "aa60ceb8d284b12aab9384c5d362e16fd13718a1e424e4a8c2c6398e70fe08a6"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-ground.png",
+    "bytes": 1697652,
+    "sha256": "858d885eea86c30ff3356437232c232ef2332d1d3b04bcc9bdc5cf25b6249d10"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-monument.json",
+    "bytes": 3020,
+    "sha256": "fe46803700d0c43327ec2a5c8a97ac8b056b78441160ed4bd5b88386e7cd5d11"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-monument.png",
+    "bytes": 1046385,
+    "sha256": "d1b6c23a201e95fbdb9f89e308a38e87c31974ef5ef557a3081784b3b5ae731f"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-path.json",
+    "bytes": 2917,
+    "sha256": "7be0a28840919ad00277f970c46c723fdc9b9f46dbd9b79b0bbeb4dc3c5c990e"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-path.png",
+    "bytes": 1637485,
+    "sha256": "78904b1c86519d5e58d56266013d5ee75279b94ca05b3ef95cfb8294a4617552"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-plaza.json",
+    "bytes": 2920,
+    "sha256": "a44360c1c060025596854c49c9b9483444bf5fb8e7c207a733ea0075f4d71683"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-plaza.png",
+    "bytes": 1453983,
+    "sha256": "e536e3e4918c6b714cb0c1dcbed1567bca5778f0cb481522ac5d56d6116641fb"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-shrine.json",
+    "bytes": 3007,
+    "sha256": "b8ee3ea84bd917d487e8eeb51ed59f6f00de7794b0cb4b5f3e450910420b6b0b"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-shrine.png",
+    "bytes": 1128468,
+    "sha256": "594dd70faed395c47d6a0e7ab6a597dc99a49a493ee439464464c7c61ab53b61"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-volcano.json",
+    "bytes": 2964,
+    "sha256": "55bc26d8b4082e6c93d8e157e13f5664d09cda6b949da13eeee6f14c8f4b31e4"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/pyra-volcano.png",
+    "bytes": 1740544,
+    "sha256": "ca794f217254677aadc32a4a1169410fb29b7bc319d543e973f334503d78bec7"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-cottage.json",
+    "bytes": 3206,
+    "sha256": "dcae9aeda3945ef51072f41648eba285facd51f5c7781b04e457a83cc2403f53"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-cottage.png",
+    "bytes": 812586,
+    "sha256": "437d5a77e42bc743aed7e8968a18732488732f6b9bc957f34b1347e6545784da"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-forge.json",
+    "bytes": 3016,
+    "sha256": "5f08c0fcb9ea95ab37b08d93dccb3a2dee5fbec1645b9e4f2e21ed2530af8ea2"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-forge.png",
+    "bytes": 1419668,
+    "sha256": "e17776d86d19b9dd9d510be1e90e46b830e46aba61b9d61168944fd6ff3576e3"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-inn.json",
+    "bytes": 3020,
+    "sha256": "1887471ddc24654e7865c14249f0fe4044d815e374b254f93e3f643925d1de64"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-inn.png",
+    "bytes": 1484279,
+    "sha256": "e7e5d0bf2bf4d1ae58c71fd88120d916c9a56998fff57c7ff8341c28ab36ebba"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-market.json",
+    "bytes": 2935,
+    "sha256": "18952ca94e015ee89373bf78c578694079a50afd1f6e4bf338520bd878eef79c"
+  },
+  {
+    "file": "art/production/city-v1/sources/environment-objects/verdant-market.png",
+    "bytes": 1411892,
+    "sha256": "deaf7d12b22a3f7582bcd23cf1372cdfed15c4196940a148fd8d956132c52a02"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/aether-guide.blend",
+    "bytes": 1643038,
+    "sha256": "e0f8075a6d23036d5792b34bc6c5c343bd5b039b731c5dfa59fca39e57153b42"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/aether-guide.json",
+    "bytes": 303,
+    "sha256": "0662324c8ae2f0e43c263e314a6f9058ad9119d6781e903d0f12de1a2f7eb9a3"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/aether-guide.png",
+    "bytes": 780847,
+    "sha256": "30584065e0a8711abd56630bb6b783d4f89c4975a9338aac72b7ad9503a5f7fd"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/nexus-guide.blend",
+    "bytes": 904674,
+    "sha256": "8afeedad8f13d66a0fedb2b5b925796635975eb336725f840db7d18730b739a8"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/nexus-guide.json",
+    "bytes": 301,
+    "sha256": "4052cb4213e8a784c3dfee900d739037742a3431df0362fe204855a7024d3957"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/nexus-guide.png",
+    "bytes": 792972,
+    "sha256": "3e6209ac6655eea203fd65fc40672980259a821ac41cbcbcdf28f24bf69d0914"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/pyra-guide.blend",
+    "bytes": 3460337,
+    "sha256": "c77bd99794474182569fa2fe4f3b16ad91b61d365ef6241661d366377f6aa4be"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/pyra-guide.json",
+    "bytes": 299,
+    "sha256": "466f22a6fb10f827c617bc85a023f1ed2462c4b9c6e8711b6ab4e3593fa92213"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/pyra-guide.png",
+    "bytes": 905699,
+    "sha256": "d9f2724537f9ad973de5928cb9aada78cc25938622f4e78f14539762e1a7512a"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.blend",
+    "bytes": 1623186,
+    "sha256": "e1a4999ab275031c4b0511ccb6200ff523ed29afbc45e84d4a97445dd3c740c0"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.json",
+    "bytes": 303,
+    "sha256": "e9ccd76c12beae189a9564662a5fa1aa86dac7da9c3a0f3348b159f306225896"
+  },
+  {
+    "file": "art/production/city-v1/sources/geometry-guides/verdant-guide.png",
+    "bytes": 883331,
+    "sha256": "4b751ff72dc8dfd059b4e407b249631c2a43f6839051f2e270c247e2c1e4c8b0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-00.blend",
+    "bytes": 624944,
+    "sha256": "a3af2e94eee35d3d2ef9c28f22bb1821fdb5d5bed3555aeb2c2ebbbaeed07fc1"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-00.json",
+    "bytes": 353,
+    "sha256": "7e8293a15bdb85a798badfbd65f6e61eb4380ac5e676eacb8f881e8cdecad462"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-00.png",
+    "bytes": 63497,
+    "sha256": "6eb05f3679b901487a8b086f78967902ac1281c80b31c489e6a98435baa1c911"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-01.json",
+    "bytes": 353,
+    "sha256": "d0ca5f8428ab8a8b7db867002a0f5440faeb46eece439b2c6cdbe829957e9563"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-01.png",
+    "bytes": 86302,
+    "sha256": "bc03f8117c855d76b9f7ef2036e04c4a6a2086e63602e065a3a5f7a872cb246b"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-02.json",
+    "bytes": 353,
+    "sha256": "e0730e2bc4e1768d30e983591deb00ba12779de0151ad3384ca241c501d193e5"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-02.png",
+    "bytes": 113912,
+    "sha256": "6f6fd990475de7e93e6963e503e1ca801d1acee56e2542e4965cda3681bf2025"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-03.json",
+    "bytes": 353,
+    "sha256": "a8ebd0b5dcde639e0d9ca2a308d8e68ebd5a4874f4b087e35bbc520cd700f882"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-03.png",
+    "bytes": 128176,
+    "sha256": "9e1b9780c8cc63f7475b754a56685986c893ea7b7c6d34c3d8fbb9be8ed98e58"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-04.json",
+    "bytes": 352,
+    "sha256": "d463920cf46f87824b66d69b215ac21784b2840867879aa67dc622784963d4e2"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-04.png",
+    "bytes": 131534,
+    "sha256": "072bee5608b08ba71d5c7df8f8c2c68e7462b72577eab2a7d1de9148d47c39d8"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-05.json",
+    "bytes": 352,
+    "sha256": "e4cdf4a0330c00e02de5cf4a270b119c06299d86080091bf05704f0f8bfeecce"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-05.png",
+    "bytes": 116219,
+    "sha256": "bdbf20f9b74673d6fc3bc728c7d9062b115286698c1ca660b8bc1316e3f41dda"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-06.json",
+    "bytes": 353,
+    "sha256": "804b8c1eccaa60c23f141457fda0a90b3a46b8eace618c2aa9d1077e1b44e43a"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-06.png",
+    "bytes": 88806,
+    "sha256": "2fac93db80de2a316c4127a25425fe2d148192ec3ac23a73566dd0c82edebe53"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-07.json",
+    "bytes": 353,
+    "sha256": "ccda8f77f725ad5fa31da1ad46f41ce97c5b0ca8b2543d6f1ba6a2422aebb637"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/aether-pulse-07.png",
+    "bytes": 63521,
+    "sha256": "9a3cdb183d5b3d1ca043b97d2656cb14e160f23b3eab18170c52a786d41e87a7"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-00.blend",
+    "bytes": 637984,
+    "sha256": "15f6fa488abe026aab7e08fd7ef82d2dffcb60885543f29b6e10393cb8eb078a"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-00.json",
+    "bytes": 350,
+    "sha256": "9e36aa556be9ff8e28c74322588379b0028d05c4975e898f7f3bb5b36254999e"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-00.png",
+    "bytes": 65617,
+    "sha256": "fa2b4d5e3ad8981acc76d55a710c0b9400cbdcfd8957b597231b73b725c6dafa"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-01.json",
+    "bytes": 349,
+    "sha256": "368b781bfd425b83501ce4ad4ea957533ac95660311d2d5ca3dd919771944c8e"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-01.png",
+    "bytes": 93161,
+    "sha256": "01f49196efe73efd6fade83affe0ac690fe20d6b77fcfc2e2271b58221b36710"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-02.json",
+    "bytes": 351,
+    "sha256": "ef60edf48632e92d26160fbabd4139c7e71a962e6b1e857b410d32b0c3565ae0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-02.png",
+    "bytes": 115375,
+    "sha256": "33a2b0d458fc81c9c90e6d7e364912100043661991ecf45fb78dcf4d1114526d"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-03.json",
+    "bytes": 351,
+    "sha256": "9ca2c095b9e818ca845dbc097b7c41ab456c61bf900d66c4b366343cfd99c9a4"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-03.png",
+    "bytes": 125810,
+    "sha256": "2f0896c25d6950ee370029ec477bab32565bd1ca86715ba4cb45e18134216ace"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-04.json",
+    "bytes": 350,
+    "sha256": "19484aba43e28b1b07c079ee8dfb431fae2236f323621d831e846e4ccc4eee18"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-04.png",
+    "bytes": 131120,
+    "sha256": "e73d05d76f16d69238418c26344a6c2f34daea091c21913b39bd3e931213fecf"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-05.json",
+    "bytes": 351,
+    "sha256": "848938c4382d30ef9fbf70efae75ad41623bc9c4efff85f93d800235aab5e6dd"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-05.png",
+    "bytes": 118201,
+    "sha256": "5008aab0ba71be5d3221bb18f7e008af1facc472ffea41cc199b8f1cf90afba9"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-06.json",
+    "bytes": 350,
+    "sha256": "75662f2a59f693f34cc74bf1c21862fa07971ad1ccea9eeec0d2ffb09ef061ba"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-06.png",
+    "bytes": 94250,
+    "sha256": "7c05661a50d9aaec193737f336679b25870055607c855535b4af1b41a4fe70cc"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-07.json",
+    "bytes": 350,
+    "sha256": "52efde264b610439e5eeb93a99b5481c77d6663f64229c7f8d0979071860a443"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/nexus-pulse-07.png",
+    "bytes": 65475,
+    "sha256": "dce9d3fd300e89cc68ca680df8c5b5433b8ffb11d6c727a99605a52a568325ad"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-00.blend",
+    "bytes": 651024,
+    "sha256": "3cc6d2a750a8689dd6bbb13a20b394b82082cca1f50644330c9a6c93ef5973a6"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-00.json",
+    "bytes": 348,
+    "sha256": "112e6a278fad0277be3ee1df655c8bffcb5fe3f7abdbe54c7eb42743949c820f"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-00.png",
+    "bytes": 65937,
+    "sha256": "30956e0b24f217e23931efbb8b2b363efa7de4de0318e44ed624d17821e144e3"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-01.json",
+    "bytes": 349,
+    "sha256": "4f365edf62bcb8115ebf35e183a3ea87a8067593259f4172231da909dfe15a06"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-01.png",
+    "bytes": 95348,
+    "sha256": "4e5358c17ed2b63b48d13ede59d3ef2739d1c8bd68b05e637f2bf3546688f007"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-02.json",
+    "bytes": 348,
+    "sha256": "342a625471b07b269d72903679391a77d29fe401311e92f72da2a9f960a591c4"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-02.png",
+    "bytes": 119444,
+    "sha256": "8530b68f64b747cf673604a0c90ebac290460f90ce4253f9f080f2e4c23d70e9"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-03.json",
+    "bytes": 349,
+    "sha256": "de13a5c74a5d219db0077d10943eeca2ba54859b750f59650b4539f092861a75"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-03.png",
+    "bytes": 133243,
+    "sha256": "b25c633ad902d144d2d0fc6953d5e12e0288d78a9377d5bd94e42ec2c222a74f"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-04.json",
+    "bytes": 349,
+    "sha256": "1640d6b303c818b263d3a3e07548971a6e4e232f6c0ca3c9d0e0d738da77012a"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-04.png",
+    "bytes": 137396,
+    "sha256": "7e75f390a690b39bda71279135ea835589027af8085c937275062ba9857c686c"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-05.json",
+    "bytes": 349,
+    "sha256": "cc31fb280555dd419e3e94487a6715bcc559689c1751b24eb193eb3bf9fab1b6"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-05.png",
+    "bytes": 123251,
+    "sha256": "161c10f065d3ca506e95bf8f1c299442fbb9985c83150aebdf9acd9f55c5d3e9"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-06.json",
+    "bytes": 349,
+    "sha256": "0d8127a799794b439272a623d92974748f30956d742c04a08e08b0ddcc083499"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-06.png",
+    "bytes": 96397,
+    "sha256": "fde4f16a992d520929e930227124ed90ea58efb79b3b556b8570386c572e1259"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-07.json",
+    "bytes": 348,
+    "sha256": "b7836017aeca40888d4744a7b501b41c688c433ac111fa1918f6c5cd13cf4a0c"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/pyra-pulse-07.png",
+    "bytes": 66164,
+    "sha256": "25e87fbf35cf5e27167fc6e5758b95f95fc6d9636085072568610623db8eddea"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-00.blend",
+    "bytes": 611904,
+    "sha256": "854bf2461328f93b9c03df103f061538433506b27cc5af2ebaa91883628e9a05"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-00.json",
+    "bytes": 355,
+    "sha256": "fd0d1f23db7b6936326a5868ecc87ab2125965dfe6e5381a848a4be8482626b2"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-00.png",
+    "bytes": 65404,
+    "sha256": "5de8f12196c37609a8cfcd57374092fd2d60e3d8ebb9d88c4148a2d25eddc9de"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-01.json",
+    "bytes": 355,
+    "sha256": "492120965bf72bebe4f1210a7f9ea2d2731e3e15fe4ae6b0954dc0a6aa085c14"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-01.png",
+    "bytes": 94166,
+    "sha256": "34c3dc739c837697bfee73c2266f03b26933b43b2656d63609f199a87145be33"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-02.json",
+    "bytes": 354,
+    "sha256": "d76ba4af7b7b3f1a080bf6783d47c8edeeca85a8e594f22ecb3f2b9faa2514d3"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-02.png",
+    "bytes": 117408,
+    "sha256": "02b23fbf804a75985665969da22439e54c5fc335bdd293e23a4bf033c42ed33c"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-03.json",
+    "bytes": 353,
+    "sha256": "1cb7401ff8fff1a9367158541161c7ae31460b0d86417ab5215c38be11620e85"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-03.png",
+    "bytes": 129730,
+    "sha256": "8b662f4293c78ab50623635a0a7823b1e9ccc8b3c71c4d3f40a502fbf5edad03"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-04.json",
+    "bytes": 355,
+    "sha256": "888600c07e0245f4fb76ad22f90a7dfac09537ce3d9ee7ee77d4d24513731cbe"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-04.png",
+    "bytes": 134211,
+    "sha256": "8ebcb59157c35831dc16ac924b73a63daea52a15ef7dae9c775511207efb04c0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-05.json",
+    "bytes": 355,
+    "sha256": "1e06cea73ccbb7574fb9539147129991cc0410be1a3bed3d65216dacca9d0a0e"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-05.png",
+    "bytes": 119974,
+    "sha256": "f56b445f1d3ebe5cdd98e4485ef47b258d59c8ffc7b240f7ff72802db5d63899"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-06.json",
+    "bytes": 354,
+    "sha256": "5c8cf9ac22dca4009f73ff1659ea56697b10576ebc77fae624985b427bfc63a3"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-06.png",
+    "bytes": 95507,
+    "sha256": "6e35a9ed7d1c7d66b2ec739184232bdf27ebc357eeec458557482f2e873959f0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-07.json",
+    "bytes": 354,
+    "sha256": "475d65b1c3e0887680d726b0ae408d07e2dec705c13ac85513599041d83868b0"
+  },
+  {
+    "file": "art/production/city-v1/sources/ki-effects/verdant-pulse-07.png",
+    "bytes": 65397,
+    "sha256": "5da9bf4e0ee406852b86b6a936a3464b491f6b559fe830feb14c288323d56590"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-45.json",
+    "bytes": 2688,
+    "sha256": "c4e54e1de1e1ceff017f40cdbfacfba632b3561a889586799775c10ecae290b5"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-45.png",
+    "bytes": 432671,
+    "sha256": "6991dad39f064eae517e92b0eae6fb55a79a017bf79067003d30953f1a7d3279"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-60.json",
+    "bytes": 2686,
+    "sha256": "4a9bcb935e3527ecc40e4cd8eea0ebd0185b9592bf657460013f0a484f111372"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/aether-sanctum-60.png",
+    "bytes": 461800,
+    "sha256": "dfd04ae4021bae30b77738983dc86383760bfe4790d55274dc082bb2a690ff20"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-45.json",
+    "bytes": 2670,
+    "sha256": "0971974abd8dc39e7e8afeb70e662de5c68b1e2802f58f4322e6afddf98faf17"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-45.png",
+    "bytes": 511572,
+    "sha256": "a03ace5c8c361a4fea76bf70a6a98d9963dfa68422408c70c35d2fad636f1d4c"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-60.json",
+    "bytes": 2669,
+    "sha256": "9ab9231647e20120beeaa6162811ebe35a2f7810bc2ad7fb97c0757ac4b1f583"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/nexus-lab-60.png",
+    "bytes": 450048,
+    "sha256": "7cb3d6680c4531e632512706fb5a0afc1ef3d18b669ea6f685852c01f7fe767a"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-45.json",
+    "bytes": 2670,
+    "sha256": "35a5e3a0111f81dd60a1d0b23870e8fb455e810c217bcf8d23ee98f6e264bf3d"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-45.png",
+    "bytes": 545908,
+    "sha256": "2a725f54f5151114823ca323562d27136cd16405c60ffb72f49596ca3912e9ac"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-60.json",
+    "bytes": 2668,
+    "sha256": "ffcf0778fcd036497faf8b9340b8a33655e5ad5529426db2ff8ab25466e6328f"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/pyra-fortress-60.png",
+    "bytes": 550985,
+    "sha256": "59d32b04f30d03ba4e4429196384938a40fe9782fd0b90ac9f0d580f52425383"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-45.json",
+    "bytes": 2689,
+    "sha256": "c8d4ae02ff4486f1debcd741ec751fe6312ffa34b7d52c1d1bd9d9b714613d13"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-45.png",
+    "bytes": 511476,
+    "sha256": "030a39458a829bffeb7847e5293b43e82103269b6135cc3ce1df5cd1341fd0b8"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-60.json",
+    "bytes": 2688,
+    "sha256": "d44d90a6056751dbf45af33b290279697226757a5b3829ca8bb952326d76c14b"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-guided-animagine/verdant-cottage-60.png",
+    "bytes": 547166,
+    "sha256": "92ca3d15ed4dcb8757a4eb520c45866da54ae9567fd7a20448d884818bdadb0e"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/aether-sanctum.json",
+    "bytes": 3008,
+    "sha256": "eeca8671d59a7b9169808358616158bd04c3ff747f581209c5de76a1a0ab5191"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/aether-sanctum.png",
+    "bytes": 1518543,
+    "sha256": "773c139dee39ae32b226287557c2800c7ecb39fd5aad0aabf516225cb5d62a55"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/nexus-lab.json",
+    "bytes": 2992,
+    "sha256": "c866558a94a66ec355de4902bc595fb5d22ca5d29390b9b8a0c699da05b0f7f1"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/nexus-lab.png",
+    "bytes": 1841612,
+    "sha256": "d4a0b4f85683b6a507f15583e85d41788d4e9c5191dfd5e229aef3366a47f432"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/pyra-fortress.json",
+    "bytes": 2991,
+    "sha256": "d739f80a6c75b77cff1addd99d545fd61e359d3d7dadb1d114c2e6de4d527ff5"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/pyra-fortress.png",
+    "bytes": 1531090,
+    "sha256": "08bff900ab0ae7b082d6df42b6eca155f2cea24e16727a2bce701c4af8699b9b"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/verdant-cottage.json",
+    "bytes": 3009,
+    "sha256": "725f8d928fb601a163c4d0fb65ebed83edee7faf8190f177c9e0018e17d4d4c8"
+  },
+  {
+    "file": "art/production/city-v1/sources/rejected-text-only/verdant-cottage.png",
+    "bytes": 1467452,
+    "sha256": "6e469ebd93783ab2d6e682a7b309409a2c53a6b63c49c15150ba5667160a8163"
+  }
+]
