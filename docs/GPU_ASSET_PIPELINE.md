@@ -167,3 +167,9 @@ KI_QA_BASE_URL=http://127.0.0.1:4186 npm run test:e2e -- e2e/stage3.spec.ts --gr
 Genericzne `npm run preview` z TanStack szuka `dist/server/server.js` i nie odpowiada układowi tego Cloudflare builda. Nie stosować tego polecenia jako testu gotowego workera. Wrangler uruchamiany z `--local` nie publikuje gry i nie wymaga zmiany targetu hostingu. Dokładną wersję użytego lokalnego runtime przypięto w przykładzie; nie dodano go do zależności aplikacji.
 
 Walidacja struktury/pikseli nie ocenia tożsamości, płynności ruchu, poprawności kończyn, rytmu kroków ani zgodności kamery z ilustracjami. Przed masową generacją potrzebna jest akceptacja jednego wzorca w grze; potem cztery rasy, NPC/fauna, świat i efekty. Wyniki lokalnej/CI regresji oraz rzeczywistych pomiarów znajdują się w `docs/PRE_GPU_STABILIZATION.md`. Fizyczny Android i jakość jeszcze nieistniejącej oprawy nie są oznaczane PASS na podstawie headless Chromium.
+
+## GPU lifecycle policy (2026-10-21)
+
+Only the owner controls instance power and hardware/billing. Agents must never start, stop, restart or terminate an instance, including after renders. Authorized software jobs may run on the owner-started GPU; preserve models and volume data. Historical automatic-shutdown instructions are superseded, not an authorization.
+
+The opt-in Aetheria production uses 512×512 RGBA masters, 128×128 delivery, a fixed 45° camera and origin (0.5,0.75); legacy defaults above remain the default game presentation.

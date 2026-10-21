@@ -25,3 +25,7 @@
 - Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.
 - Preserve `/test`, storage guards, secrets, unrelated features and published git history.
 - The /mapa preview renders a painted raster atlas with transparent SVG hitboxes traced from that image; regenerate outlines whenever the atlas changes so clicks stay aligned.
+
+## GPU lifecycle — owner only
+
+Only the project owner starts, stops, restarts or terminates GPU instances, or changes hardware/billing. Agents may use an already running instance and manage authorized production processes. Never stop the instance after rendering, during tests or for cleanup. This rule supersedes historical automatic-shutdown advice. Preserve existing models, checkpoints, Qwen/Ollama and persistent volume data.
