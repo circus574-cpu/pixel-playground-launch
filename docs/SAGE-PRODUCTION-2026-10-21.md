@@ -27,3 +27,7 @@ Four initial rig views were rendered at ortho7.0; they are calibration evidence,
 ## Newly archived owner source
 
 During production main advanced to `4b73c5a889496f0333fd83434a50991a429b398f`, adding the original12page design PDF. Read its actual text (including Mędrcy page5), current docs/INDEX and owner rules. PDF SHA256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. It confirms ivory/emerald/gold,long robes,ritual jewelry,ornate staffs and luminous circles; distance,barriers/support are conceptual targets,not new mechanics implemented here. Current main documentation/AGENTS are preserved verbatim in this independent branch to avoid conflicting policy copies. The index still historically says the PDF is missing; the binary is now present as confirmed above.
+
+## Owner visual correction — v1 rejected
+
+Owner rejected the simplified procedural v1 after seeing the two rig views, and supplied two detailed painted Sage references. All42 generated v1 sample frames remain technical/rejected evidence;0accepted production frames,full416render notstarted. Saved the corrected reference-guided image_gen master under v2/sources/visual-master. It is a single visual master,not a textured3D rig or completed animation. Nextproduction must preserve the ornate illustrated identity; passing geometry alone is insufficient. GPU power was notchanged.
