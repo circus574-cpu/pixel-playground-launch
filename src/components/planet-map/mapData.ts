@@ -190,6 +190,9 @@ export function regionPath(region: MapRegion, scale = 1, steps = 64) {
 
 export type Decoration = Point & { size: number; variant: number };
 
+/** Round so server and browser render identical attribute strings. */
+const round = (v: number, digits = 1) => Math.round(v * 10 ** digits) / 10 ** digits;
+
 /** Deterministic terrain glyph positions inside a region. */
 export function regionDecorations(region: MapRegion, count: number): Decoration[] {
   const r = rng(region.seed * 31 + 5);
@@ -197,9 +200,11 @@ export function regionDecorations(region: MapRegion, count: number): Decoration[
   return Array.from({ length: count }, () => {
     const theta = r() * Math.PI * 2;
     const t = Math.sqrt(r()) * 0.78;
+    const p = regionPoint(region, theta, t, shape);
     return {
-      ...regionPoint(region, theta, t, shape),
-      size: 0.7 + r() * 0.6,
+      x: round(p.x),
+      y: round(p.y),
+      size: round(0.7 + r() * 0.6, 2),
       variant: Math.floor(r() * 3),
     };
   });
@@ -209,9 +214,9 @@ export function regionDecorations(region: MapRegion, count: number): Decoration[
 export function fogClouds(count: number, seed = 777): Decoration[] {
   const r = rng(seed);
   return Array.from({ length: count }, () => ({
-    x: r() * MAP_W,
-    y: r() * MAP_H,
-    size: 50 + r() * 110,
+    x: round(r() * MAP_W),
+    y: round(r() * MAP_H),
+    size: round(50 + r() * 110),
     variant: 0,
   }));
 }
