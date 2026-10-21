@@ -1,0 +1,191 @@
+{
+  "before": {
+    "viewport": [
+      390,
+      640
+    ],
+    "panels": [
+      {
+        "class": "ki-player ki-frame",
+        "box": {
+          "x": 10,
+          "y": 10,
+          "width": 190,
+          "height": 62,
+          "top": 10,
+          "right": 200,
+          "bottom": 72,
+          "left": 10
+        }
+      },
+      {
+        "class": "ki-map ki-frame ",
+        "box": {
+          "x": 286,
+          "y": 10,
+          "width": 94,
+          "height": 104.71875,
+          "top": 10,
+          "right": 380,
+          "bottom": 114.71875,
+          "left": 286
+        }
+      },
+      {
+        "class": "ki-chat ki-frame ",
+        "box": {
+          "x": 10,
+          "y": 586,
+          "width": 44,
+          "height": 44,
+          "top": 586,
+          "right": 54,
+          "bottom": 630,
+          "left": 10
+        }
+      },
+      {
+        "class": "ki-actionbar ki-frame",
+        "box": {
+          "x": 71,
+          "y": 522,
+          "width": 248,
+          "height": 56,
+          "top": 522,
+          "right": 319,
+          "bottom": 578,
+          "left": 71
+        }
+      },
+      {
+        "class": "ki-view-controls ki-frame",
+        "box": {
+          "x": 254,
+          "y": 128,
+          "width": 126,
+          "height": 44,
+          "top": 128,
+          "right": 380,
+          "bottom": 172,
+          "left": 254
+        }
+      },
+      {
+        "class": "ki-menu",
+        "box": {
+          "x": 240,
+          "y": 588,
+          "width": 140,
+          "height": 44,
+          "top": 588,
+          "right": 380,
+          "bottom": 632,
+          "left": 240
+        }
+      }
+    ],
+    "panelArea": 49151.5625,
+    "coverage": 0.19692132411858973
+  },
+  "after": {
+    "viewport": [
+      390,
+      640
+    ],
+    "panels": [
+      {
+        "class": "ki-player ki-frame",
+        "box": {
+          "x": 8,
+          "y": 8,
+          "width": 176,
+          "height": 56,
+          "top": 8,
+          "right": 184,
+          "bottom": 64,
+          "left": 8
+        }
+      },
+      {
+        "class": "ki-map ki-frame ",
+        "box": {
+          "x": 294,
+          "y": 8,
+          "width": 88,
+          "height": 82.71875,
+          "top": 8,
+          "right": 382,
+          "bottom": 90.71875,
+          "left": 294
+        }
+      },
+      {
+        "class": "ki-chat ki-frame ",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      {
+        "class": "ki-actionbar ki-frame",
+        "box": {
+          "x": 142,
+          "y": 580,
+          "width": 240,
+          "height": 52,
+          "top": 580,
+          "right": 382,
+          "bottom": 632,
+          "left": 142
+        }
+      },
+      {
+        "class": "ki-tools-toggle ki-frame",
+        "box": {
+          "x": 8,
+          "y": 580,
+          "width": 48,
+          "height": 52,
+          "top": 580,
+          "right": 56,
+          "bottom": 632,
+          "left": 8
+        }
+      },
+      {
+        "class": "ki-view-controls ki-frame",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      {
+        "class": "ki-menu",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      }
+    ],
+    "panelArea": 32111.25,
+    "coverage": 0.12865084134615384
+  }
+}
