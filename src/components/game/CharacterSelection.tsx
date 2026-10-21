@@ -23,7 +23,13 @@ export function CharacterSelection({
   requestedContinent,
 }: Props) {
   const [selected, setSelected] = useState<RaceId>(
-    requestedContinent === "aether" ? "sage" : "planetary",
+    requestedContinent === "aether"
+      ? "sage"
+      : requestedContinent === "nexus"
+        ? "android"
+        : requestedContinent === "pyra"
+          ? "legend"
+          : "planetary",
   );
   const [showSlots, setShowSlots] = useState(!startWithOrigins && slots.length > 0);
   const [showArt, setShowArt] = useState(false);
