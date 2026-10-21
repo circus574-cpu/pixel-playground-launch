@@ -22,4 +22,4 @@ Owner accepted the eight painted directional masters and authorized animation pr
 
 The canonical illustration's original rights/provenance remain an open project issue; generated painted masters do not clear reference rights. MakeHumanCC0 and TripoSRMIT/torchmcubesMPL2 describe retained rejected pilots, not the final painted rig dependency. Installed Animagine/DreamShaper models are not dependencies of these final sprites. See the v3 production provenance for actual source lineage. No merge or game publication was performed.
 
-Evidence: [validation.json](qa/sage-delivery-review7/validation.json), [Playwright](qa/sage-delivery-review7/playwright-canvas.log), [interactive review checks](qa/sage-delivery-review7/offline-review.json).
+Evidence: [validation.json](qa/sage-delivery-review7/validation.json), [Playwright](qa/sage-delivery-review7/playwright-canvas.txt), [interactive review checks](qa/sage-delivery-review7/offline-review.json).

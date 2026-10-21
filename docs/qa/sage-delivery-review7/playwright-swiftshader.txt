@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:15146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/sage-preview.spec.ts:41:1 › Mędrcy preview preserves the same save and stays out of default visuals and other races (33.2s)
+
+  1 passed (34.0s)
