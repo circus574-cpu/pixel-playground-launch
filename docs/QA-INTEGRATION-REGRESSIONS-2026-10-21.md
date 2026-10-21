@@ -15,6 +15,8 @@ Pełne logi obu historycznych nieudanych przebiegów odczytano. Pobranie starego
 
 - Pełny lokalny przebieg ujawnił historyczne zapisy zrzutów do śledzonych `docs/qa/`. Nowe zrzuty zachowano osobno, a 25 oryginalnych plików odtworzono bajt w bajt z Git. Cztery starsze pliki testów zapisują teraz wyłącznie do `testInfo.outputPath`/`outputDir`. Runner sprawdza brak zmian w śledzonych źródłach przed i po Playwright; nie usuwa asercji.
 
+- Oddzielny WebGL na `c413acc` ujawnił błąd kolejności w nowym teście cyklu życia: 6/8 PASS, oba niepowodzenia oczekiwały ataku wysłanego podczas wyżej priorytetowej reakcji `hit`. Zachowano priorytety gry, wszystkie asercje i timeouty; test czeka teraz na zakończenie reakcji przed atakiem. Na błędzie zapisuje również całą zaobserwowaną historię klatek.
+
 ## Konfiguracja testów
 
 `npm run test:e2e` uruchamia wszystkie projekty: gameplay (Canvas), software-webgl (oba GPU atlasy i cykl życia bohaterów), application-canvas (prawdziwe trasy i zamknięty `/test`) oraz application-webgl (globus, nawigacja i sprzątanie). `testMatch` przypisuje testy do właściwego renderera; nie usuwa testów z pełnego przebiegu. Oddzielny workflow uruchamia `--project=software-webgl`. Oba workflow checkoutują dokładny SHA głowy PR i zapisują `qa-tested-sha.txt` w artefaktach.

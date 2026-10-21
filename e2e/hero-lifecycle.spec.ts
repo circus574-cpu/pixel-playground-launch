@@ -2,6 +2,20 @@ import { test, expect } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 import type { Command } from "../src/game/session";
 
+test.afterEach(async ({ page }, info) => {
+  if (info.status === info.expectedStatus) return;
+  const frames = await page
+    .evaluate(() => [
+      ...((window as unknown as { __observedActorFrames?: Set<string> }).__observedActorFrames ??
+        []),
+    ])
+    .catch(() => []);
+  await info.attach("observed-animation-history-on-failure", {
+    body: JSON.stringify(frames),
+    contentType: "application/json",
+  });
+});
+
 for (const [race, worldId, actor] of [
   ["Planetarni", "verdant", "hero-planetary"],
   ["Mędrcy", "aether", "hero-sage"],
@@ -39,6 +53,9 @@ for (const [race, worldId, actor] of [
       "aria-valuenow",
       "120",
     );
+    // A real hit legitimately preempts lower-priority attack presentation.
+    // Wait until that reaction finishes before testing a player attack.
+    await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
     await command({ type: "ability", ability: "attack" });
     await expect
       .poll(() =>
