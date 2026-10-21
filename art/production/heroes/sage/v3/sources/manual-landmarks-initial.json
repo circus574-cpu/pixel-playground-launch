@@ -1,0 +1,1929 @@
+{
+  "schema": "sage-painted-landmarks-initial-v1",
+  "coordinate_system": "512x512 top-left origin, x right,y down",
+  "source": "art/production/heroes/sage/v3/sources/masters",
+  "anchor_definition": "x midpoint of visible physical boot contact positions, y lowest physical boot sole; excludes staff/robe/tassels",
+  "target_anchor": [
+    256,
+    384
+  ],
+  "status": "initial manual review; polygons are candidate masks requiring alpha-composited overlay review where shaft overlaps sleeves/hands",
+  "directions": {
+    "down": {
+      "anchor": [
+        252,
+        383
+      ],
+      "head": [
+        255,
+        96
+      ],
+      "neck": [
+        255,
+        115
+      ],
+      "shoulders": {
+        "L": [
+          290,
+          132
+        ],
+        "R": [
+          218,
+          132
+        ]
+      },
+      "elbows": {
+        "L": [
+          317,
+          167
+        ],
+        "R": [
+          207,
+          173
+        ]
+      },
+      "hands": {
+        "L": [
+          341,
+          177
+        ],
+        "R": [
+          201,
+          220
+        ]
+      },
+      "belt": [
+        255,
+        175
+      ],
+      "hips": {
+        "L": [
+          272,
+          214
+        ],
+        "R": [
+          239,
+          214
+        ]
+      },
+      "knees": {
+        "L": [
+          278,
+          293
+        ],
+        "R": [
+          225,
+          306
+        ]
+      },
+      "ankles": {
+        "L": [
+          282,
+          340
+        ],
+        "R": [
+          222,
+          352
+        ]
+      },
+      "feet": {
+        "L": [
+          285,
+          359
+        ],
+        "R": [
+          219,
+          381
+        ]
+      },
+      "staff_tip": [
+        313,
+        333
+      ],
+      "staff_image_side": "right",
+      "staff_polygon": [
+        [
+          355,
+          48
+        ],
+        [
+          367,
+          60
+        ],
+        [
+          361,
+          74
+        ],
+        [
+          374,
+          86
+        ],
+        [
+          378,
+          105
+        ],
+        [
+          369,
+          122
+        ],
+        [
+          363,
+          131
+        ],
+        [
+          372,
+          144
+        ],
+        [
+          374,
+          181
+        ],
+        [
+          359,
+          182
+        ],
+        [
+          359,
+          157
+        ],
+        [
+          351,
+          143
+        ],
+        [
+          344,
+          162
+        ],
+        [
+          340,
+          202
+        ],
+        [
+          329,
+          258
+        ],
+        [
+          317,
+          332
+        ],
+        [
+          308,
+          339
+        ],
+        [
+          307,
+          328
+        ],
+        [
+          320,
+          256
+        ],
+        [
+          331,
+          201
+        ],
+        [
+          337,
+          158
+        ],
+        [
+          325,
+          157
+        ],
+        [
+          326,
+          133
+        ],
+        [
+          332,
+          128
+        ],
+        [
+          332,
+          117
+        ],
+        [
+          320,
+          107
+        ],
+        [
+          318,
+          90
+        ],
+        [
+          325,
+          74
+        ],
+        [
+          341,
+          63
+        ],
+        [
+          344,
+          51
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        4,
+        1
+      ],
+      "foot_ground_midpoint": [
+        252.0,
+        370.0
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        341,
+        177
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "visible-estimate"
+    },
+    "down-left": {
+      "anchor": [
+        252,
+        382
+      ],
+      "head": [
+        244,
+        94
+      ],
+      "neck": [
+        249,
+        115
+      ],
+      "shoulders": {
+        "L": [
+          289,
+          133
+        ],
+        "R": [
+          224,
+          128
+        ]
+      },
+      "elbows": {
+        "L": [
+          325,
+          171
+        ],
+        "R": [
+          205,
+          176
+        ]
+      },
+      "hands": {
+        "L": [
+          355,
+          181
+        ],
+        "R": [
+          195,
+          214
+        ]
+      },
+      "belt": [
+        249,
+        177
+      ],
+      "hips": {
+        "L": [
+          268,
+          216
+        ],
+        "R": [
+          231,
+          216
+        ]
+      },
+      "knees": {
+        "L": [
+          285,
+          303
+        ],
+        "R": [
+          219,
+          303
+        ]
+      },
+      "ankles": {
+        "L": [
+          295,
+          349
+        ],
+        "R": [
+          211,
+          348
+        ]
+      },
+      "feet": {
+        "L": [
+          301,
+          380
+        ],
+        "R": [
+          203,
+          378
+        ]
+      },
+      "staff_tip": [
+        316,
+        333
+      ],
+      "staff_image_side": "right",
+      "staff_polygon": [
+        [
+          363,
+          48
+        ],
+        [
+          376,
+          55
+        ],
+        [
+          375,
+          69
+        ],
+        [
+          387,
+          80
+        ],
+        [
+          391,
+          101
+        ],
+        [
+          384,
+          116
+        ],
+        [
+          375,
+          125
+        ],
+        [
+          381,
+          145
+        ],
+        [
+          389,
+          158
+        ],
+        [
+          392,
+          183
+        ],
+        [
+          376,
+          185
+        ],
+        [
+          376,
+          162
+        ],
+        [
+          368,
+          145
+        ],
+        [
+          362,
+          173
+        ],
+        [
+          355,
+          202
+        ],
+        [
+          342,
+          256
+        ],
+        [
+          321,
+          333
+        ],
+        [
+          311,
+          340
+        ],
+        [
+          309,
+          331
+        ],
+        [
+          329,
+          253
+        ],
+        [
+          344,
+          201
+        ],
+        [
+          350,
+          173
+        ],
+        [
+          345,
+          153
+        ],
+        [
+          338,
+          150
+        ],
+        [
+          341,
+          132
+        ],
+        [
+          348,
+          126
+        ],
+        [
+          349,
+          118
+        ],
+        [
+          337,
+          106
+        ],
+        [
+          333,
+          91
+        ],
+        [
+          340,
+          73
+        ],
+        [
+          356,
+          61
+        ],
+        [
+          358,
+          49
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        4,
+        2
+      ],
+      "foot_ground_midpoint": [
+        252.0,
+        379.0
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        355,
+        181
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "visible-estimate"
+    },
+    "down-right": {
+      "anchor": [
+        272,
+        383
+      ],
+      "head": [
+        268,
+        96
+      ],
+      "neck": [
+        270,
+        116
+      ],
+      "shoulders": {
+        "L": [
+          296,
+          131
+        ],
+        "R": [
+          235,
+          137
+        ]
+      },
+      "elbows": {
+        "L": [
+          321,
+          162
+        ],
+        "R": [
+          230,
+          183
+        ]
+      },
+      "hands": {
+        "L": [
+          347,
+          172
+        ],
+        "R": [
+          222,
+          230
+        ]
+      },
+      "belt": [
+        282,
+        177
+      ],
+      "hips": {
+        "L": [
+          293,
+          217
+        ],
+        "R": [
+          260,
+          218
+        ]
+      },
+      "knees": {
+        "L": [
+          298,
+          291
+        ],
+        "R": [
+          249,
+          307
+        ]
+      },
+      "ankles": {
+        "L": [
+          299,
+          335
+        ],
+        "R": [
+          244,
+          353
+        ]
+      },
+      "feet": {
+        "L": [
+          303,
+          355
+        ],
+        "R": [
+          241,
+          381
+        ]
+      },
+      "staff_tip": [
+        322,
+        330
+      ],
+      "staff_image_side": "right",
+      "staff_polygon": [
+        [
+          358,
+          49
+        ],
+        [
+          369,
+          55
+        ],
+        [
+          364,
+          71
+        ],
+        [
+          376,
+          82
+        ],
+        [
+          384,
+          100
+        ],
+        [
+          379,
+          113
+        ],
+        [
+          369,
+          126
+        ],
+        [
+          375,
+          141
+        ],
+        [
+          381,
+          154
+        ],
+        [
+          381,
+          181
+        ],
+        [
+          368,
+          181
+        ],
+        [
+          368,
+          156
+        ],
+        [
+          358,
+          142
+        ],
+        [
+          352,
+          169
+        ],
+        [
+          348,
+          208
+        ],
+        [
+          339,
+          263
+        ],
+        [
+          327,
+          329
+        ],
+        [
+          318,
+          338
+        ],
+        [
+          315,
+          329
+        ],
+        [
+          327,
+          260
+        ],
+        [
+          336,
+          206
+        ],
+        [
+          339,
+          169
+        ],
+        [
+          331,
+          157
+        ],
+        [
+          331,
+          137
+        ],
+        [
+          335,
+          127
+        ],
+        [
+          339,
+          117
+        ],
+        [
+          329,
+          107
+        ],
+        [
+          327,
+          90
+        ],
+        [
+          334,
+          73
+        ],
+        [
+          350,
+          61
+        ],
+        [
+          350,
+          51
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        -16,
+        1
+      ],
+      "foot_ground_midpoint": [
+        272.0,
+        368.0
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        347,
+        172
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "visible-estimate"
+    },
+    "right": {
+      "anchor": [
+        297,
+        383
+      ],
+      "head": [
+        286,
+        97
+      ],
+      "neck": [
+        280,
+        117
+      ],
+      "shoulders": {
+        "L": [
+          294,
+          132
+        ],
+        "R": [
+          267,
+          137
+        ]
+      },
+      "elbows": {
+        "L": [
+          320,
+          158
+        ],
+        "R": [
+          274,
+          185
+        ]
+      },
+      "hands": {
+        "L": [
+          341,
+          166
+        ],
+        "R": [
+          279,
+          233
+        ]
+      },
+      "belt": [
+        286,
+        179
+      ],
+      "hips": {
+        "L": [
+          296,
+          216
+        ],
+        "R": [
+          278,
+          218
+        ]
+      },
+      "knees": {
+        "L": [
+          300,
+          285
+        ],
+        "R": [
+          282,
+          304
+        ]
+      },
+      "ankles": {
+        "L": [
+          301,
+          327
+        ],
+        "R": [
+          283,
+          351
+        ]
+      },
+      "feet": {
+        "L": [
+          302,
+          339
+        ],
+        "R": [
+          293,
+          381
+        ]
+      },
+      "staff_tip": [
+        328,
+        333
+      ],
+      "staff_image_side": "right",
+      "staff_polygon": [
+        [
+          346,
+          49
+        ],
+        [
+          358,
+          55
+        ],
+        [
+          355,
+          71
+        ],
+        [
+          367,
+          83
+        ],
+        [
+          374,
+          99
+        ],
+        [
+          371,
+          116
+        ],
+        [
+          361,
+          126
+        ],
+        [
+          366,
+          139
+        ],
+        [
+          372,
+          148
+        ],
+        [
+          373,
+          175
+        ],
+        [
+          359,
+          176
+        ],
+        [
+          360,
+          152
+        ],
+        [
+          351,
+          140
+        ],
+        [
+          348,
+          165
+        ],
+        [
+          342,
+          205
+        ],
+        [
+          339,
+          257
+        ],
+        [
+          333,
+          330
+        ],
+        [
+          326,
+          337
+        ],
+        [
+          323,
+          331
+        ],
+        [
+          327,
+          257
+        ],
+        [
+          331,
+          205
+        ],
+        [
+          335,
+          164
+        ],
+        [
+          327,
+          151
+        ],
+        [
+          327,
+          135
+        ],
+        [
+          331,
+          125
+        ],
+        [
+          333,
+          118
+        ],
+        [
+          320,
+          107
+        ],
+        [
+          315,
+          91
+        ],
+        [
+          321,
+          75
+        ],
+        [
+          337,
+          61
+        ],
+        [
+          338,
+          50
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        -41,
+        1
+      ],
+      "foot_ground_midpoint": [
+        297.5,
+        360.0
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        341,
+        166
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "visible-estimate"
+    },
+    "up": {
+      "anchor": [
+        279,
+        383
+      ],
+      "head": [
+        282,
+        94
+      ],
+      "neck": [
+        283,
+        117
+      ],
+      "shoulders": {
+        "L": [
+          243,
+          133
+        ],
+        "R": [
+          321,
+          134
+        ]
+      },
+      "elbows": {
+        "L": [
+          219,
+          164
+        ],
+        "R": [
+          345,
+          170
+        ]
+      },
+      "hands": {
+        "L": [
+          195,
+          177
+        ],
+        "R": [
+          356,
+          208
+        ]
+      },
+      "belt": [
+        272,
+        181
+      ],
+      "hips": {
+        "L": [
+          255,
+          219
+        ],
+        "R": [
+          289,
+          219
+        ]
+      },
+      "knees": {
+        "L": [
+          250,
+          306
+        ],
+        "R": [
+          304,
+          307
+        ]
+      },
+      "ankles": {
+        "L": [
+          243,
+          353
+        ],
+        "R": [
+          313,
+          354
+        ]
+      },
+      "feet": {
+        "L": [
+          243,
+          380
+        ],
+        "R": [
+          315,
+          381
+        ]
+      },
+      "staff_tip": [
+        213,
+        289
+      ],
+      "staff_image_side": "left",
+      "staff_polygon": [
+        [
+          190,
+          48
+        ],
+        [
+          202,
+          55
+        ],
+        [
+          207,
+          65
+        ],
+        [
+          217,
+          76
+        ],
+        [
+          222,
+          93
+        ],
+        [
+          216,
+          108
+        ],
+        [
+          205,
+          119
+        ],
+        [
+          210,
+          135
+        ],
+        [
+          216,
+          142
+        ],
+        [
+          216,
+          158
+        ],
+        [
+          205,
+          160
+        ],
+        [
+          205,
+          142
+        ],
+        [
+          197,
+          132
+        ],
+        [
+          197,
+          166
+        ],
+        [
+          200,
+          211
+        ],
+        [
+          210,
+          258
+        ],
+        [
+          218,
+          288
+        ],
+        [
+          211,
+          295
+        ],
+        [
+          204,
+          286
+        ],
+        [
+          196,
+          256
+        ],
+        [
+          189,
+          210
+        ],
+        [
+          186,
+          175
+        ],
+        [
+          181,
+          159
+        ],
+        [
+          171,
+          178
+        ],
+        [
+          169,
+          157
+        ],
+        [
+          172,
+          138
+        ],
+        [
+          178,
+          129
+        ],
+        [
+          177,
+          118
+        ],
+        [
+          168,
+          107
+        ],
+        [
+          167,
+          91
+        ],
+        [
+          174,
+          76
+        ],
+        [
+          185,
+          67
+        ],
+        [
+          185,
+          52
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        -23,
+        1
+      ],
+      "foot_ground_midpoint": [
+        279.0,
+        380.5
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        195,
+        177
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "partially-occluded-estimate"
+    },
+    "up-left": {
+      "anchor": [
+        266,
+        383
+      ],
+      "head": [
+        239,
+        94
+      ],
+      "neck": [
+        247,
+        115
+      ],
+      "shoulders": {
+        "L": [
+          221,
+          130
+        ],
+        "R": [
+          294,
+          137
+        ]
+      },
+      "elbows": {
+        "L": [
+          196,
+          162
+        ],
+        "R": [
+          317,
+          172
+        ]
+      },
+      "hands": {
+        "L": [
+          170,
+          172
+        ],
+        "R": [
+          333,
+          216
+        ]
+      },
+      "belt": [
+        261,
+        180
+      ],
+      "hips": {
+        "L": [
+          243,
+          221
+        ],
+        "R": [
+          279,
+          218
+        ]
+      },
+      "knees": {
+        "L": [
+          238,
+          308
+        ],
+        "R": [
+          286,
+          296
+        ]
+      },
+      "ankles": {
+        "L": [
+          231,
+          351
+        ],
+        "R": [
+          294,
+          344
+        ]
+      },
+      "feet": {
+        "L": [
+          233,
+          381
+        ],
+        "R": [
+          298,
+          369
+        ]
+      },
+      "staff_tip": [
+        186,
+        279
+      ],
+      "staff_image_side": "left",
+      "staff_polygon": [
+        [
+          158,
+          48
+        ],
+        [
+          170,
+          54
+        ],
+        [
+          177,
+          66
+        ],
+        [
+          188,
+          77
+        ],
+        [
+          193,
+          96
+        ],
+        [
+          184,
+          113
+        ],
+        [
+          176,
+          121
+        ],
+        [
+          180,
+          138
+        ],
+        [
+          188,
+          149
+        ],
+        [
+          189,
+          159
+        ],
+        [
+          179,
+          162
+        ],
+        [
+          174,
+          145
+        ],
+        [
+          168,
+          140
+        ],
+        [
+          171,
+          168
+        ],
+        [
+          176,
+          208
+        ],
+        [
+          184,
+          249
+        ],
+        [
+          192,
+          277
+        ],
+        [
+          184,
+          285
+        ],
+        [
+          177,
+          277
+        ],
+        [
+          170,
+          249
+        ],
+        [
+          163,
+          207
+        ],
+        [
+          161,
+          174
+        ],
+        [
+          153,
+          159
+        ],
+        [
+          143,
+          178
+        ],
+        [
+          137,
+          173
+        ],
+        [
+          139,
+          153
+        ],
+        [
+          144,
+          138
+        ],
+        [
+          145,
+          124
+        ],
+        [
+          136,
+          108
+        ],
+        [
+          134,
+          92
+        ],
+        [
+          142,
+          76
+        ],
+        [
+          154,
+          64
+        ],
+        [
+          152,
+          51
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        -10,
+        1
+      ],
+      "foot_ground_midpoint": [
+        265.5,
+        375.0
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        170,
+        172
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "partially-occluded-estimate"
+    },
+    "up-right": {
+      "anchor": [
+        255,
+        383
+      ],
+      "head": [
+        276,
+        97
+      ],
+      "neck": [
+        274,
+        119
+      ],
+      "shoulders": {
+        "L": [
+          232,
+          141
+        ],
+        "R": [
+          300,
+          139
+        ]
+      },
+      "elbows": {
+        "L": [
+          204,
+          157
+        ],
+        "R": [
+          327,
+          187
+        ]
+      },
+      "hands": {
+        "L": [
+          176,
+          164
+        ],
+        "R": [
+          342,
+          231
+        ]
+      },
+      "belt": [
+        283,
+        189
+      ],
+      "hips": {
+        "L": [
+          261,
+          229
+        ],
+        "R": [
+          294,
+          231
+        ]
+      },
+      "knees": {
+        "L": [
+          235,
+          308
+        ],
+        "R": [
+          293,
+          309
+        ]
+      },
+      "ankles": {
+        "L": [
+          223,
+          350
+        ],
+        "R": [
+          292,
+          353
+        ]
+      },
+      "feet": {
+        "L": [
+          216,
+          376
+        ],
+        "R": [
+          294,
+          381
+        ]
+      },
+      "staff_tip": [
+        181,
+        249
+      ],
+      "staff_image_side": "left",
+      "staff_polygon": [
+        [
+          171,
+          48
+        ],
+        [
+          182,
+          54
+        ],
+        [
+          184,
+          66
+        ],
+        [
+          196,
+          78
+        ],
+        [
+          201,
+          96
+        ],
+        [
+          193,
+          111
+        ],
+        [
+          183,
+          120
+        ],
+        [
+          190,
+          135
+        ],
+        [
+          194,
+          149
+        ],
+        [
+          190,
+          164
+        ],
+        [
+          182,
+          167
+        ],
+        [
+          179,
+          146
+        ],
+        [
+          173,
+          140
+        ],
+        [
+          177,
+          161
+        ],
+        [
+          180,
+          201
+        ],
+        [
+          186,
+          246
+        ],
+        [
+          179,
+          254
+        ],
+        [
+          173,
+          247
+        ],
+        [
+          167,
+          205
+        ],
+        [
+          165,
+          169
+        ],
+        [
+          159,
+          155
+        ],
+        [
+          156,
+          177
+        ],
+        [
+          146,
+          179
+        ],
+        [
+          144,
+          164
+        ],
+        [
+          147,
+          148
+        ],
+        [
+          151,
+          136
+        ],
+        [
+          151,
+          122
+        ],
+        [
+          142,
+          108
+        ],
+        [
+          142,
+          91
+        ],
+        [
+          150,
+          75
+        ],
+        [
+          163,
+          65
+        ],
+        [
+          162,
+          51
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        1,
+        1
+      ],
+      "foot_ground_midpoint": [
+        255.0,
+        378.5
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        176,
+        164
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "partially-occluded-estimate"
+    },
+    "left": {
+      "anchor": [
+        235,
+        383
+      ],
+      "head": [
+        239,
+        96
+      ],
+      "neck": [
+        248,
+        116
+      ],
+      "shoulders": {
+        "L": [
+          252,
+          133
+        ],
+        "R": [
+          263,
+          131
+        ]
+      },
+      "elbows": {
+        "L": [
+          228,
+          162
+        ],
+        "R": [
+          262,
+          182
+        ]
+      },
+      "hands": {
+        "L": [
+          194,
+          174
+        ],
+        "R": [
+          253,
+          222
+        ]
+      },
+      "belt": [
+        248,
+        180
+      ],
+      "hips": {
+        "L": [
+          244,
+          222
+        ],
+        "R": [
+          259,
+          216
+        ]
+      },
+      "knees": {
+        "L": [
+          238,
+          306
+        ],
+        "R": [
+          248,
+          291
+        ]
+      },
+      "ankles": {
+        "L": [
+          242,
+          353
+        ],
+        "R": [
+          237,
+          333
+        ]
+      },
+      "feet": {
+        "L": [
+          236,
+          381
+        ],
+        "R": [
+          233,
+          346
+        ]
+      },
+      "staff_tip": [
+        220,
+        347
+      ],
+      "staff_image_side": "left",
+      "staff_polygon": [
+        [
+          180,
+          48
+        ],
+        [
+          191,
+          53
+        ],
+        [
+          196,
+          64
+        ],
+        [
+          207,
+          78
+        ],
+        [
+          214,
+          96
+        ],
+        [
+          209,
+          113
+        ],
+        [
+          199,
+          124
+        ],
+        [
+          208,
+          140
+        ],
+        [
+          213,
+          155
+        ],
+        [
+          207,
+          166
+        ],
+        [
+          199,
+          162
+        ],
+        [
+          197,
+          144
+        ],
+        [
+          190,
+          140
+        ],
+        [
+          194,
+          173
+        ],
+        [
+          201,
+          217
+        ],
+        [
+          209,
+          274
+        ],
+        [
+          224,
+          345
+        ],
+        [
+          216,
+          353
+        ],
+        [
+          209,
+          345
+        ],
+        [
+          195,
+          277
+        ],
+        [
+          187,
+          218
+        ],
+        [
+          183,
+          177
+        ],
+        [
+          177,
+          157
+        ],
+        [
+          175,
+          180
+        ],
+        [
+          166,
+          191
+        ],
+        [
+          161,
+          185
+        ],
+        [
+          163,
+          164
+        ],
+        [
+          166,
+          146
+        ],
+        [
+          172,
+          134
+        ],
+        [
+          172,
+          123
+        ],
+        [
+          160,
+          109
+        ],
+        [
+          159,
+          93
+        ],
+        [
+          167,
+          77
+        ],
+        [
+          180,
+          66
+        ],
+        [
+          176,
+          53
+        ]
+      ],
+      "translation_to_anchor_256_384": [
+        21,
+        1
+      ],
+      "foot_ground_midpoint": [
+        234.5,
+        363.5
+      ],
+      "anatomical_staff_hand": "L",
+      "staff_hand": [
+        194,
+        174
+      ],
+      "occluded_landmarks": "Some hips/knees/elbows and far hand inferred beneath opaque robe/hair; initial manual rig guides, not measured anatomical truth.",
+      "staff_mask_caveat": "Polygon follows estimated complete staff envelope, including lower shaft where robe can occlude it. Use visible staff segmentation/occlusion matte before extraction; do not rigidly move sampled robe/hand pixels with staff.",
+      "staff_tip_confidence": "visible-estimate"
+    }
+  }
+}

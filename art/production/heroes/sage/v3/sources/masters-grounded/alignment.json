@@ -1,0 +1,122 @@
+[
+  {
+    "direction": "down",
+    "input_sha256": "e446f1238d0d5e7876fc081a9218ee1cfa2ad6cd2408228a6dc79a841483d454",
+    "output_sha256": "b7f2ad84f9d4f5da955a1bef859a76e88a920bd5201e2be10de14598a772a5c7",
+    "translation": [
+      4,
+      1
+    ],
+    "alpha_bounds": [
+      133,
+      49,
+      396,
+      385
+    ]
+  },
+  {
+    "direction": "down-left",
+    "input_sha256": "8621f0f68b7c410eef97ca28b3dec52a7a9f8954e2698afcad67765b98d26416",
+    "output_sha256": "a6895d6c5f2974fe6fddfed59d56870ad0d0bb891a68cb611685aa80cfd06765",
+    "translation": [
+      4,
+      2
+    ],
+    "alpha_bounds": [
+      116,
+      50,
+      421,
+      386
+    ]
+  },
+  {
+    "direction": "down-right",
+    "input_sha256": "0534570ea4acddc07c3beea6ee196696bc8deff65e0f06cdebe7873af73476b0",
+    "output_sha256": "1e5d9a77c5e5da3c344b9479e4b8ec0bfab39f5541046b84fa83d3ffc09526eb",
+    "translation": [
+      -16,
+      1
+    ],
+    "alpha_bounds": [
+      114,
+      49,
+      385,
+      385
+    ]
+  },
+  {
+    "direction": "right",
+    "input_sha256": "43aafcbb1349ab086418915c59cd068cd68abe8a459a7b827a669c07d84bec5a",
+    "output_sha256": "352f102b38365ef652556baf7be8cf91458ecffe34160db899b356bd75d5e64f",
+    "translation": [
+      -41,
+      1
+    ],
+    "alpha_bounds": [
+      106,
+      49,
+      327,
+      385
+    ]
+  },
+  {
+    "direction": "up",
+    "input_sha256": "59f3529f42868b3ab0bd72f551449de007414924a1f1c234d1c8456be58de83a",
+    "output_sha256": "a731fd738d8e1b78337c0a77bf5e5e680c7aa1da5d0113b4e055ceea3e2a7a4f",
+    "translation": [
+      -23,
+      1
+    ],
+    "alpha_bounds": [
+      135,
+      49,
+      397,
+      385
+    ]
+  },
+  {
+    "direction": "up-left",
+    "input_sha256": "a7ce2a483b0523099b64d497dd08cdf0f931ad8e0bba15e2aaa102957ea0bfde",
+    "output_sha256": "f5bcaf9ae4c9d9de0338816103d161d0ab383d5d9bae13aa9db37cbab189d9e1",
+    "translation": [
+      -10,
+      1
+    ],
+    "alpha_bounds": [
+      117,
+      49,
+      385,
+      385
+    ]
+  },
+  {
+    "direction": "up-right",
+    "input_sha256": "f28ee9860582f9d6d804690540ba3f1ceae6b3eb2475c60fefd771b320e1595f",
+    "output_sha256": "97a042239f0ae2afea346270461a3255b451f3f60e8cfaab1c81228a1c4f3eef",
+    "translation": [
+      1,
+      1
+    ],
+    "alpha_bounds": [
+      118,
+      49,
+      403,
+      385
+    ]
+  },
+  {
+    "direction": "left",
+    "input_sha256": "898b90309ffb70d33acf25f38a9a0a10793c099216c10cb7811ebb617de8b515",
+    "output_sha256": "6a203312103ccdfdbcff80a4035a1dcb3638478c5eacc5b2ec5e608344497976",
+    "translation": [
+      21,
+      1
+    ],
+    "alpha_bounds": [
+      180,
+      49,
+      418,
+      385
+    ]
+  }
+]

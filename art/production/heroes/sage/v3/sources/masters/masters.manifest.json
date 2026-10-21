@@ -1,0 +1,270 @@
+{
+  "technique": "painted directional source sprites for deforming2D rig",
+  "canvas": [
+    512,
+    512
+  ],
+  "fixed_origin": [
+    0.5,
+    0.75
+  ],
+  "target_alpha_height": 336,
+  "directions": [
+    {
+      "direction": "down",
+      "raw_sheet": "directions-a.png",
+      "raw_sha256": "343349ce57dc2dbbb5dd3b4199c03f8a6f19a7e4c3f41279d5656e8bb4e1e88d",
+      "cell": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_bounds": [
+        83,
+        9,
+        560,
+        618
+      ],
+      "scale": 0.5517241379310345,
+      "paste": [
+        129,
+        48
+      ],
+      "alpha_bounds": [
+        129,
+        48,
+        392,
+        384
+      ],
+      "removed_red_artifact_pixels": 3875,
+      "removed_small_alpha_component_pixels": 19857,
+      "sha256": "e446f1238d0d5e7876fc081a9218ee1cfa2ad6cd2408228a6dc79a841483d454",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "down-right",
+      "raw_sheet": "directions-b.png",
+      "raw_sha256": "e807e177f5e6c06e5c5d21b87e7857ec306dbbe4493e3dc8b68ea7d441b7cc08",
+      "cell": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_bounds": [
+        88,
+        9,
+        572,
+        610
+      ],
+      "scale": 0.5590682196339434,
+      "paste": [
+        130,
+        48
+      ],
+      "alpha_bounds": [
+        130,
+        48,
+        401,
+        384
+      ],
+      "removed_red_artifact_pixels": 5252,
+      "removed_small_alpha_component_pixels": 30359,
+      "sha256": "0534570ea4acddc07c3beea6ee196696bc8deff65e0f06cdebe7873af73476b0",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "left",
+      "raw_sheet": "directions-a.png",
+      "raw_sha256": "343349ce57dc2dbbb5dd3b4199c03f8a6f19a7e4c3f41279d5656e8bb4e1e88d",
+      "cell": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_bounds": [
+        142,
+        5,
+        563,
+        599
+      ],
+      "scale": 0.5656565656565656,
+      "paste": [
+        159,
+        48
+      ],
+      "alpha_bounds": [
+        159,
+        48,
+        397,
+        384
+      ],
+      "removed_red_artifact_pixels": 2160,
+      "removed_small_alpha_component_pixels": 20903,
+      "sha256": "898b90309ffb70d33acf25f38a9a0a10793c099216c10cb7811ebb617de8b515",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "up-left",
+      "raw_sheet": "directions-a.png",
+      "raw_sha256": "343349ce57dc2dbbb5dd3b4199c03f8a6f19a7e4c3f41279d5656e8bb4e1e88d",
+      "cell": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_bounds": [
+        90,
+        9,
+        553,
+        589
+      ],
+      "scale": 0.5793103448275863,
+      "paste": [
+        127,
+        48
+      ],
+      "alpha_bounds": [
+        127,
+        48,
+        395,
+        384
+      ],
+      "removed_red_artifact_pixels": 3916,
+      "removed_small_alpha_component_pixels": 19057,
+      "sha256": "a7ce2a483b0523099b64d497dd08cdf0f931ad8e0bba15e2aaa102957ea0bfde",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "up",
+      "raw_sheet": "directions-b.png",
+      "raw_sha256": "e807e177f5e6c06e5c5d21b87e7857ec306dbbe4493e3dc8b68ea7d441b7cc08",
+      "cell": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_bounds": [
+        138,
+        13,
+        605,
+        613
+      ],
+      "scale": 0.56,
+      "paste": [
+        158,
+        48
+      ],
+      "alpha_bounds": [
+        158,
+        48,
+        420,
+        384
+      ],
+      "removed_red_artifact_pixels": 3372,
+      "removed_small_alpha_component_pixels": 21593,
+      "sha256": "59f3529f42868b3ab0bd72f551449de007414924a1f1c234d1c8456be58de83a",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "right",
+      "raw_sheet": "directions-b.png",
+      "raw_sha256": "e807e177f5e6c06e5c5d21b87e7857ec306dbbe4493e3dc8b68ea7d441b7cc08",
+      "cell": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_bounds": [
+        117,
+        9,
+        516,
+        615
+      ],
+      "scale": 0.5544554455445545,
+      "paste": [
+        147,
+        48
+      ],
+      "alpha_bounds": [
+        147,
+        48,
+        368,
+        384
+      ],
+      "removed_red_artifact_pixels": 2878,
+      "removed_small_alpha_component_pixels": 27975,
+      "sha256": "43aafcbb1349ab086418915c59cd068cd68abe8a459a7b827a669c07d84bec5a",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "down-left",
+      "raw_sheet": "directions-c.png",
+      "raw_sha256": "0fa3a5bf57e372e6b729fc7bf52dafe1095f2907fdbbe04132cec1f48fd8bb68",
+      "cell": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_bounds": [
+        76,
+        16,
+        852,
+        871
+      ],
+      "scale": 0.3929824561403509,
+      "paste": [
+        112,
+        48
+      ],
+      "alpha_bounds": [
+        112,
+        48,
+        417,
+        384
+      ],
+      "removed_red_artifact_pixels": 4674,
+      "removed_small_alpha_component_pixels": 28311,
+      "sha256": "8621f0f68b7c410eef97ca28b3dec52a7a9f8954e2698afcad67765b98d26416",
+      "status": "directional-source-master-not-animation-frame"
+    },
+    {
+      "direction": "up-right",
+      "raw_sheet": "directions-c.png",
+      "raw_sha256": "0fa3a5bf57e372e6b729fc7bf52dafe1095f2907fdbbe04132cec1f48fd8bb68",
+      "cell": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_bounds": [
+        90,
+        19,
+        813,
+        871
+      ],
+      "scale": 0.39436619718309857,
+      "paste": [
+        117,
+        48
+      ],
+      "alpha_bounds": [
+        117,
+        48,
+        402,
+        384
+      ],
+      "removed_red_artifact_pixels": 3523,
+      "removed_small_alpha_component_pixels": 24877,
+      "sha256": "f28ee9860582f9d6d804690540ba3f1ceae6b3eb2475c60fefd771b320e1595f",
+      "status": "directional-source-master-not-animation-frame"
+    }
+  ]
+}
