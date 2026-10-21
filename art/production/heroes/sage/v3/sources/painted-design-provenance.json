@@ -1,0 +1,54 @@
+{
+  "race": "sage",
+  "world": "aether",
+  "technique": "painted-2D-deforming-puppet",
+  "not_3d_reconstruction": true,
+  "owner_approved_eight_base_views": true,
+  "animation_approval": "pending",
+  "directional_masters": {
+    "down-left": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/down-left.png",
+      "sha256": "a6895d6c5f2974fe6fddfed59d56870ad0d0bb891a68cb611685aa80cfd06765"
+    },
+    "down-right": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/down-right.png",
+      "sha256": "1e5d9a77c5e5da3c344b9479e4b8ec0bfab39f5541046b84fa83d3ffc09526eb"
+    },
+    "down": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/down.png",
+      "sha256": "b7f2ad84f9d4f5da955a1bef859a76e88a920bd5201e2be10de14598a772a5c7"
+    },
+    "left": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/left.png",
+      "sha256": "6a203312103ccdfdbcff80a4035a1dcb3638478c5eacc5b2ec5e608344497976"
+    },
+    "right": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/right.png",
+      "sha256": "352f102b38365ef652556baf7be8cf91458ecffe34160db899b356bd75d5e64f"
+    },
+    "up-left": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/up-left.png",
+      "sha256": "f5bcaf9ae4c9d9de0338816103d161d0ab383d5d9bae13aa9db37cbab189d9e1"
+    },
+    "up-right": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/up-right.png",
+      "sha256": "97a042239f0ae2afea346270461a3255b451f3f60e8cfaab1c81228a1c4f3eef"
+    },
+    "up": {
+      "path": "art/production/heroes/sage/v3/sources/masters-grounded/up.png",
+      "sha256": "a731fd738d8e1b78337c0a77bf5e5e680c7aa1da5d0113b4e055ceea3e2a7a4f"
+    }
+  },
+  "source_generation": "image_gen reference-guided directional illustrations; raw sheets and corrected visual master retained under v2/v3",
+  "reference_rights": "Owner-supplied character references; independent third-party rights clearance remains unresolved. Generated derivatives do not resolve reference rights.",
+  "excluded_pilots": [
+    "Rejected MakeHuman procedural v1",
+    "Rejected TripoSR geometry pilot"
+  ],
+  "runtime": "Blender/CUDA painted grid mesh with editable armatures, UVs, and fixed orthographic camera",
+  "restrictions": [
+    "Opt-in preview only",
+    "No default sprite replacement",
+    "No final animation or foot-contact acceptance implied"
+  ]
+}
