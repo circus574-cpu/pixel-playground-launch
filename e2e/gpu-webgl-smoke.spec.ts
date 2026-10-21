@@ -39,6 +39,12 @@ for (const hero of heroes) {
       await expect(actor).toHaveAttribute("data-texture-ids", new RegExp(hero.texture));
       await expect(actor).toHaveAttribute("data-animation-frame", new RegExp(`^${hero.actor}/idle/`));
       await expect(actor).toHaveAttribute("data-metrics", /.+/);
+      await expect
+        .poll(async () => {
+          const metrics = await actor.getAttribute("data-metrics");
+          return metrics ? (JSON.parse(metrics) as { renderer: string }).renderer : null;
+        })
+        .toBe("WebGL");
 
       const world = WORLDS[hero.world];
       const nav = new Navigation(world.width, world.height, worldObstacles(world));
