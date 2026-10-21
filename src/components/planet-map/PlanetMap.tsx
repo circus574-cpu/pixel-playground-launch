@@ -347,6 +347,12 @@ export function PlanetMap() {
               <stop offset="0.62" stopColor="#030a12" stopOpacity="0" />
               <stop offset="1" stopColor="#030a12" stopOpacity="0.62" />
             </radialGradient>
+            <linearGradient id="pm-edge-fade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#04101b" stopOpacity="0.95" />
+              <stop offset="0.07" stopColor="#04101b" stopOpacity="0" />
+              <stop offset="0.93" stopColor="#04101b" stopOpacity="0" />
+              <stop offset="1" stopColor="#04101b" stopOpacity="0.95" />
+            </linearGradient>
             <filter id="pm-soft" x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="16" />
             </filter>
@@ -422,6 +428,7 @@ export function PlanetMap() {
             />
           )}
           <rect width={MAP_W} height={MAP_H} fill="url(#pm-vignette)" className="pm-vig" />
+          <rect width={MAP_W} height={MAP_H} fill="url(#pm-edge-fade)" className="pm-vig" />
 
           <g className="pm-hits">
             {REGIONS.map((region) => (
