@@ -7,8 +7,10 @@ import {
   QUEST_ISLANDS,
   REGIONS,
   clampView,
+  containsPoint,
   fitScale,
   initialView,
+  wholeView,
   zoomAt,
 } from "../components/planet-map/mapData";
 import { WORLDS } from "../game/world/worlds";
@@ -42,20 +44,46 @@ describe("/mapa planet Superior preview", () => {
     expect(QUEST_ISLANDS.every((i) => i.kind === "island")).toBe(true);
   });
 
-  it("keeps every region inside the map", () => {
+  it("keeps every traced outline inside the map", () => {
     for (const r of REGIONS) {
-      expect(r.center.x - r.radius.x * 1.4).toBeGreaterThan(0);
-      expect(r.center.x + r.radius.x * 1.4).toBeLessThan(MAP_W);
-      expect(r.center.y - r.radius.y * 1.4).toBeGreaterThan(0);
-      expect(r.center.y + r.radius.y * 1.4).toBeLessThan(MAP_H);
+      expect(r.outline.length).toBeGreaterThan(20);
+      for (const p of r.outline) {
+        expect(p.x).toBeGreaterThanOrEqual(0);
+        expect(p.x).toBeLessThanOrEqual(MAP_W);
+        expect(p.y).toBeGreaterThanOrEqual(0);
+        expect(p.y).toBeLessThanOrEqual(MAP_H);
+      }
     }
   });
 
-  it("limits zoom between whole planet and 8x", () => {
-    const v = initialView(1000, 500);
+  it("places every label and settlement on its own painted region", () => {
+    for (const r of REGIONS) {
+      expect(containsPoint(r, r.label), `${r.id} label`).toBe(true);
+      if (r.settlementPoint) {
+        expect(containsPoint(r, r.settlementPoint), `${r.id} settlement`).toBe(true);
+      }
+      for (const other of REGIONS) {
+        if (other.id === r.id) continue;
+        expect(containsPoint(other, r.label), `${r.id} label in ${other.id}`).toBe(false);
+      }
+    }
+  });
+
+  it("limits zoom between whole planet and 4x", () => {
+    const v = wholeView(1000, 500);
     expect(zoomAt(v, 0.1, 500, 250, 1000, 500).s).toBe(fitScale(1000, 500));
     expect(zoomAt(v, 100, 500, 250, 1000, 500).s).toBe(fitScale(1000, 500) * MAX_ZOOM);
-    expect(MAX_ZOOM).toBe(8);
+    expect(MAX_ZOOM).toBe(4);
+  });
+
+  it("shows the whole planet on landscape screens at start", () => {
+    expect(initialView(1280, 640).s).toBe(fitScale(1280, 640));
+  });
+
+  it("fills most of a portrait phone without changing the atlas aspect ratio", () => {
+    const v = initialView(390, 844);
+    expect(v.s * MAP_H).toBeGreaterThanOrEqual(780);
+    expect(v.cx).toBe(620);
   });
 
   it("keeps the map point under the cursor fixed while zooming", () => {

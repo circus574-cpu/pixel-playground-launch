@@ -1,11 +1,20 @@
 /**
- * Procedural data for the /mapa DEMO preview of planet Superior.
- * Pure, deterministic and browser-safe: no randomness at module scope,
- * no storage access, no dependency on game sessions or saves.
+ * Data for the /mapa DEMO preview of planet Superior.
+ *
+ * The terrain is a painted raster atlas (src/assets/planet-map/atlas-*.webp).
+ * Region outlines in atlasRegions.json were traced from that exact image, in
+ * map units (MAP_W x MAP_H), so hitboxes, labels and markers stay aligned with
+ * the painted coastlines at every zoom level.
+ *
+ * Pure, deterministic and browser-safe: no storage access, no dependency on
+ * game sessions or saves.
  */
+import outlines from "./atlasRegions.json";
+
 export const MAP_W = 2000;
 export const MAP_H = 1000;
-export const MAX_ZOOM = 8;
+/** The high-resolution atlas is 3840 px wide; beyond 4x it would only blur. */
+export const MAX_ZOOM = 4;
 
 export type Point = { x: number; y: number };
 export type RegionKind = "continent" | "island";
@@ -15,210 +24,134 @@ export type MapRegion = {
   name: string;
   people?: string;
   settlement?: string;
+  /** Painted city or sanctuary on the atlas. */
   settlementPoint?: Point;
   summary: string;
   status: string;
   numeral?: string;
-  terrain: "forest" | "sanctum" | "tech" | "volcanic" | "isle";
-  fill: string;
-  shade: string;
+  /** Where the name label sits, on open land of the region. */
+  label: Point;
+  /** Outline traced from the atlas image, in map units. */
+  outline: Point[];
+  /** Bounding-box centre and half-size of the outline. */
   center: Point;
   radius: Point;
-  seed: number;
-  roughness: number;
 };
 
 const CONTINENT_STATUS = "Region startowy dostępny w obecnej wersji gry (lokalne PvE).";
 const ISLAND_STATUS = "Przyszła wyspa questowa — planowana, jeszcze niedostępna w grze.";
 
+const OUTLINES: Record<string, number[][]> = outlines;
+
+function withOutline(region: Omit<MapRegion, "outline" | "center" | "radius">): MapRegion {
+  const raw = OUTLINES[region.id];
+  if (!raw || raw.length < 3) throw new Error(`Missing atlas outline: ${region.id}`);
+  const outline = raw.map(([x = 0, y = 0]) => ({ x, y }));
+  const xs = outline.map((p) => p.x);
+  const ys = outline.map((p) => p.y);
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  return {
+    ...region,
+    outline,
+    center: { x: (x0 + x1) / 2, y: (y0 + y1) / 2 },
+    radius: { x: (x1 - x0) / 2, y: (y1 - y0) / 2 },
+  };
+}
+
 export const CONTINENTS: MapRegion[] = [
-  {
+  withOutline({
     id: "verdant",
     kind: "continent",
     name: "Verdantia",
     people: "Planetarni",
     settlement: "Wioska Początkowa",
-    settlementPoint: { x: 640, y: 440 },
-    summary: "Leśne doliny, rzeki i szlaki podróżników. Żywa energia ziemi i rzemiosło.",
+    settlementPoint: { x: 755, y: 498 },
+    label: { x: 470, y: 470 },
+    summary:
+      "Gęste lasy, kręte rzeki, wielkie jezioro i grzbiet ośnieżonych gór. Żywa energia ziemi i rzemiosło.",
     status: CONTINENT_STATUS,
-    terrain: "forest",
-    fill: "#5f8a45",
-    shade: "#3f6630",
-    center: { x: 620, y: 420 },
-    radius: { x: 270, y: 180 },
-    seed: 11,
-    roughness: 0.16,
-  },
-  {
+  }),
+  withOutline({
     id: "aether",
     kind: "continent",
     name: "Aetheria",
     people: "Mędrcy",
     settlement: "Sanktuarium Tysiąca Źródeł",
-    settlementPoint: { x: 1310, y: 300 },
-    summary: "Tarasy, biblioteki i źródła skupionego KI wśród prastarych drzew.",
+    settlementPoint: { x: 1396, y: 273 },
+    label: { x: 1250, y: 395 },
+    summary:
+      "Lodowe szczyty, lodowce i świecące turkusowo źródła skupionego KI wśród świątynnych tarasów.",
     status: CONTINENT_STATUS,
-    terrain: "sanctum",
-    fill: "#4f9a8c",
-    shade: "#2f6d64",
-    center: { x: 1330, y: 290 },
-    radius: { x: 250, y: 165 },
-    seed: 23,
-    roughness: 0.18,
-  },
-  {
+  }),
+  withOutline({
     id: "nexus",
     kind: "continent",
     name: "Nexus-9",
     people: "Androidy",
     settlement: "Węzeł Świadomości",
-    settlementPoint: { x: 1440, y: 720 },
-    summary: "Laboratoria, reaktor i syntetyczna energia rdzenia. Świadomość maszyn.",
+    settlementPoint: { x: 1453, y: 711 },
+    label: { x: 1260, y: 820 },
+    summary:
+      "Cybernetyczna metropolia wokół świecącego reaktora, autostrady-obwody, doki i skaliste płaskowyże.",
     status: CONTINENT_STATUS,
-    terrain: "tech",
-    fill: "#4b6f91",
-    shade: "#2e4b66",
-    center: { x: 1420, y: 725 },
-    radius: { x: 240, y: 155 },
-    seed: 37,
-    roughness: 0.14,
-  },
-  {
+  }),
+  withOutline({
     id: "pyra",
     kind: "continent",
     name: "Pyra",
     people: "Legendy",
     settlement: "Twierdza Popiołu",
-    settlementPoint: { x: 560, y: 790 },
-    summary: "Wulkaniczne szczeliny, areny klanów i kamienne monumenty honoru.",
+    settlementPoint: { x: 750, y: 688 },
+    label: { x: 400, y: 850 },
+    summary:
+      "Czynne wulkany, rzeki lawy spływające do morza, bazaltowe pustkowia i kaniony z czerwonej skały.",
     status: CONTINENT_STATUS,
-    terrain: "volcanic",
-    fill: "#9a5a3c",
-    shade: "#6b3a26",
-    center: { x: 560, y: 790 },
-    radius: { x: 225, y: 135 },
-    seed: 41,
-    roughness: 0.2,
-  },
+  }),
 ];
 
-const ISLAND_SPOTS: Array<[number, number, number, number]> = [
-  [985, 165, 62, 42],
-  [1005, 525, 70, 46],
-  [1835, 250, 58, 44],
-  [1850, 690, 66, 48],
-  [165, 235, 60, 40],
-  [995, 875, 64, 40],
-];
 const NUMERALS = ["I", "II", "III", "IV", "V", "VI"];
+/** Label spots on each painted island (same order as the numerals). */
+const ISLAND_LABELS: Point[] = [
+  { x: 975, y: 158 },
+  { x: 1000, y: 540 },
+  { x: 1850, y: 258 },
+  { x: 1830, y: 730 },
+  { x: 160, y: 225 },
+  { x: 975, y: 905 },
+];
 
-export const QUEST_ISLANDS: MapRegion[] = ISLAND_SPOTS.map(([x, y, rx, ry], i) => ({
-  id: `island-${i + 1}`,
-  kind: "island",
-  name: `Wyspa questowa ${NUMERALS[i]}`,
-  numeral: NUMERALS[i] ?? String(i + 1),
-  summary: "Nazwa robocza. Treść, przeciwnicy i nagrody zostaną określone w przyszłych etapach.",
-  status: ISLAND_STATUS,
-  terrain: "isle",
-  fill: "#8b8a5e",
-  shade: "#5d5c3e",
-  center: { x, y },
-  radius: { x: rx, y: ry },
-  seed: 100 + i * 7,
-  roughness: 0.22,
-}));
+export const QUEST_ISLANDS: MapRegion[] = NUMERALS.map((numeral, i) =>
+  withOutline({
+    id: `island-${i + 1}`,
+    kind: "island",
+    name: `Wyspa questowa ${numeral}`,
+    numeral,
+    label: ISLAND_LABELS[i] ?? { x: MAP_W / 2, y: MAP_H / 2 },
+    summary: "Nazwa robocza. Treść, przeciwnicy i nagrody zostaną określone w przyszłych etapach.",
+    status: ISLAND_STATUS,
+  }),
+);
 
 export const REGIONS: MapRegion[] = [...CONTINENTS, ...QUEST_ISLANDS];
 
-/** Deterministic PRNG (mulberry32). */
-export function rng(seed: number) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+/** Closed SVG path of a region outline. */
+export function regionPath(region: MapRegion) {
+  return `M${region.outline.map((p) => `${p.x} ${p.y}`).join("L")}Z`;
 }
 
-/** Radius multiplier of a star-shaped blob at angle theta. */
-export function blobShape(seed: number, roughness: number) {
-  const r = rng(seed);
-  const harmonics = [2, 3, 4, 5, 7, 9].map((k) => ({
-    k,
-    amp: (roughness * (0.6 + r() * 0.8)) / Math.sqrt(k - 1),
-    phase: r() * Math.PI * 2,
-  }));
-  return (theta: number) =>
-    1 + harmonics.reduce((sum, h) => sum + h.amp * Math.sin(h.k * theta + h.phase), 0);
-}
-
-export function regionPoint(
-  region: MapRegion,
-  theta: number,
-  t: number,
-  shape = blobShape(region.seed, region.roughness),
-): Point {
-  const m = shape(theta) * t;
-  return {
-    x: region.center.x + Math.cos(theta) * region.radius.x * m,
-    y: region.center.y + Math.sin(theta) * region.radius.y * m,
-  };
-}
-
-/** Smooth closed path (Catmull-Rom to cubic Bézier) of a region outline. */
-export function regionPath(region: MapRegion, scale = 1, steps = 64) {
-  const shape = blobShape(region.seed, region.roughness);
-  const pts = Array.from({ length: steps }, (_, i) =>
-    regionPoint(region, (i / steps) * Math.PI * 2, scale, shape),
-  );
-  const n = pts.length;
-  const f = (v: number) => v.toFixed(1);
-  let d = `M${f(pts[0]!.x)} ${f(pts[0]!.y)}`;
-  for (let i = 0; i < n; i++) {
-    const p0 = pts[(i - 1 + n) % n]!;
-    const p1 = pts[i]!;
-    const p2 = pts[(i + 1) % n]!;
-    const p3 = pts[(i + 2) % n]!;
-    const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
-    const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
-    d += `C${f(c1.x)} ${f(c1.y)} ${f(c2.x)} ${f(c2.y)} ${f(p2.x)} ${f(p2.y)}`;
+/** Even-odd point-in-polygon test against the traced outline. */
+export function containsPoint(region: MapRegion, p: Point) {
+  const o = region.outline;
+  let inside = false;
+  for (let i = 0, j = o.length - 1; i < o.length; j = i++) {
+    const a = o[i];
+    const b = o[j];
+    if (!a || !b) continue;
+    if (a.y > p.y !== b.y > p.y && p.x < ((b.x - a.x) * (p.y - a.y)) / (b.y - a.y) + a.x) {
+      inside = !inside;
+    }
   }
-  return `${d}Z`;
-}
-
-export type Decoration = Point & { size: number; variant: number };
-
-/** Round so server and browser render identical attribute strings. */
-const round = (v: number, digits = 1) => Math.round(v * 10 ** digits) / 10 ** digits;
-
-/** Deterministic terrain glyph positions inside a region. */
-export function regionDecorations(region: MapRegion, count: number): Decoration[] {
-  const r = rng(region.seed * 31 + 5);
-  const shape = blobShape(region.seed, region.roughness);
-  return Array.from({ length: count }, () => {
-    const theta = r() * Math.PI * 2;
-    const t = Math.sqrt(r()) * 0.78;
-    const p = regionPoint(region, theta, t, shape);
-    return {
-      x: round(p.x),
-      y: round(p.y),
-      size: round(0.7 + r() * 0.6, 2),
-      variant: Math.floor(r() * 3),
-    };
-  });
-}
-
-/** Deterministic fog cloud puffs covering the whole map. */
-export function fogClouds(count: number, seed = 777): Decoration[] {
-  const r = rng(seed);
-  return Array.from({ length: count }, () => ({
-    x: round(r() * MAP_W),
-    y: round(r() * MAP_H),
-    size: round(50 + r() * 110),
-    variant: 0,
-  }));
+  return inside;
 }
 
 // ---------- Viewport math (zoom / pan) ----------
@@ -230,7 +163,20 @@ export function fitScale(cw: number, ch: number) {
   return Math.min(cw / MAP_W, ch / MAP_H);
 }
 
+/**
+ * Landscape screens see the whole planet. Portrait phones start with the map
+ * filling more of the height (the whole planet is one tap away via the globe
+ * button), so the painted terrain is not a thin strip.
+ */
 export function initialView(cw: number, ch: number): View {
+  const fit = fitScale(cw, ch);
+  const portrait = cw < 900 && ch > cw * 1.15;
+  const s = portrait ? Math.min(fit * MAX_ZOOM, Math.max(fit, ch / MAP_H)) : fit;
+  return clampView({ cx: MAP_W * 0.31, cy: MAP_H / 2, s }, cw, ch);
+}
+
+/** Whole planet fitted into the viewport. */
+export function wholeView(cw: number, ch: number): View {
   return { cx: MAP_W / 2, cy: MAP_H / 2, s: fitScale(cw, ch) };
 }
 
@@ -267,7 +213,8 @@ export function panBy(v: View, dx: number, dy: number, cw: number, ch: number): 
 }
 
 export function focusOn(region: MapRegion, cw: number, ch: number): View {
-  const s = Math.min(cw / (region.radius.x * 2 * 1.7), ch / (region.radius.y * 2 * 1.7));
+  const pad = region.kind === "island" ? 2.6 : 1.35;
+  const s = Math.min(cw / (region.radius.x * 2 * pad), ch / (region.radius.y * 2 * pad));
   return clampView({ cx: region.center.x, cy: region.center.y, s }, cw, ch);
 }
 

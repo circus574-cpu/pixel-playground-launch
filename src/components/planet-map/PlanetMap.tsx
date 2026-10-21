@@ -1,14 +1,18 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Maximize2, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Globe2, Layers, Minus, Plus, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import { Button } from "@/components/ui/button";
+import atlasHi from "@/assets/planet-map/atlas-3840.webp";
+import atlasLo from "@/assets/planet-map/atlas-1920.webp";
 import {
   CONTINENTS,
   MAP_H,
@@ -17,73 +21,33 @@ import {
   REGIONS,
   clampView,
   focusOn,
-  fogClouds,
   initialView,
   panBy,
-  regionDecorations,
   regionPath,
   viewBox,
+  wholeView,
   zoomAt,
   zoomLevel,
-  type Decoration,
   type MapRegion,
   type View,
 } from "./mapData";
 import "./planet-map.css";
 
 type Size = { w: number; h: number };
-type Geometry = { region: MapRegion; path: string; inner: string; deco: Decoration[] };
 type Gesture = { x: number; y: number; region: string | null; moved: boolean };
 
-const FALLBACK: Size = { w: 1000, h: 500 };
-const GRID = Array.from({ length: 15 }, (_, i) => (i + 1) * 125);
+const FALLBACK: Size = { w: 1280, h: 800 };
+const PATHS = Object.fromEntries(REGIONS.map((r) => [r.id, regionPath(r)]));
 
-function Glyph({ d, terrain }: { d: Decoration; terrain: MapRegion["terrain"] }) {
-  const k = d.size;
-  switch (terrain) {
-    case "forest":
-      return (
-        <g transform={`translate(${d.x} ${d.y}) scale(${k})`}>
-          <circle r="8" className="pm-g-tree" />
-          <circle r="3.5" cx="-2.5" cy="-2.5" className="pm-g-tree-hi" />
-        </g>
-      );
-    case "sanctum":
-      return d.variant === 1 ? (
-        <circle cx={d.x} cy={d.y} r={6 * k} className="pm-g-spring" />
-      ) : (
-        <path
-          transform={`translate(${d.x} ${d.y}) scale(${k})`}
-          d="M-10 6L0 -10L10 6Z"
-          className="pm-g-peak"
-        />
-      );
-    case "tech":
-      return d.variant === 2 ? (
-        <path
-          transform={`translate(${d.x} ${d.y}) scale(${k})`}
-          d="M-12 0H-2V-8H10"
-          className="pm-g-circuit"
-        />
-      ) : (
-        <rect
-          x={d.x - 5 * k}
-          y={d.y - 5 * k}
-          width={10 * k}
-          height={10 * k}
-          className="pm-g-node"
-        />
-      );
-    case "volcanic":
-      return (
-        <g transform={`translate(${d.x} ${d.y}) scale(${k})`}>
-          <path d="M-11 7L0 -11L11 7Z" className="pm-g-volcano" />
-          {d.variant === 0 && <circle cy="-10" r="3" className="pm-g-lava" />}
-        </g>
-      );
-    default:
-      return <circle cx={d.x} cy={d.y} r={5 * k} className="pm-g-isle" />;
-  }
+/** Small crop of the painted atlas centred on a region, for the legend. */
+function thumbStyle(region: MapRegion, size = 48): CSSProperties {
+  const side = Math.max(region.radius.x, region.radius.y) * 2 * 1.08;
+  const k = size / side;
+  return {
+    backgroundImage: `url(${atlasLo})`,
+    backgroundSize: `${MAP_W * k}px ${MAP_H * k}px`,
+    backgroundPosition: `${-(region.center.x - side / 2) * k}px ${-(region.center.y - side / 2) * k}px`,
+  };
 }
 
 export function PlanetMap() {
@@ -98,22 +62,15 @@ export function PlanetMap() {
 
   const [size, setSize] = useState<Size>(FALLBACK);
   const [view, setView] = useState<View>(() => initialView(FALLBACK.w, FALLBACK.h));
+  const [ready, setReady] = useState(false);
+  const [hiRes, setHiRes] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
   const [fog, setFog] = useState(false);
   const [perspective, setPerspective] = useState<string>("verdant");
+  /** null = layout default (open on desktop, closed on phones). */
+  const [legend, setLegend] = useState<boolean | null>(null);
 
-  const geometry = useMemo<Geometry[]>(
-    () =>
-      REGIONS.map((region) => ({
-        region,
-        path: regionPath(region),
-        inner: regionPath(region, 0.66, 48),
-        deco: regionDecorations(region, region.kind === "continent" ? 48 : 5),
-      })),
-    [],
-  );
-  const clouds = useMemo(() => fogClouds(110), []);
-  const revealed = geometry.find((g) => g.region.id === perspective) ?? geometry[0]!;
   const selectedRegion = REGIONS.find((r) => r.id === selected) ?? null;
 
   const stopAnimation = () => {
@@ -133,7 +90,7 @@ export function PlanetMap() {
     let from: View | null = null;
     const start = performance.now();
     const step = (now: number) => {
-      const t = Math.min(1, (now - start) / 380);
+      const t = Math.min(1, (now - start) / 520);
       const e = 1 - Math.pow(1 - t, 3);
       setView((current) => {
         from ??= current;
@@ -148,7 +105,7 @@ export function PlanetMap() {
     anim.current = requestAnimationFrame(step);
   }, []);
 
-  // Track container size; first real measurement shows the whole planet.
+  // Track container size; the first real measurement sets the opening view.
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -160,6 +117,7 @@ export function PlanetMap() {
       if (!measured.current) {
         measured.current = true;
         setView(initialView(w, h));
+        setReady(true);
       } else {
         setView((v) => clampView(v, w, h));
       }
@@ -170,6 +128,22 @@ export function PlanetMap() {
     return () => {
       ro.disconnect();
       stopAnimation();
+      // StrictMode re-runs effects; let the next run measure afresh.
+      measured.current = false;
+    };
+  }, []);
+
+  // Load the 3840 px atlas after first paint; the 1920 px one shows meanwhile.
+  useEffect(() => {
+    let alive = true;
+    const img = new Image();
+    img.src = atlasHi;
+    img
+      .decode()
+      .then(() => alive && setHiRes(true))
+      .catch(() => undefined);
+    return () => {
+      alive = false;
     };
   }, []);
 
@@ -192,7 +166,8 @@ export function PlanetMap() {
   }, []);
 
   const local = (e: { clientX: number; clientY: number }) => {
-    const rect = svgRef.current!.getBoundingClientRect();
+    const rect = svgRef.current?.getBoundingClientRect();
+    if (!rect) return { x: 0, y: 0 };
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
@@ -256,10 +231,13 @@ export function PlanetMap() {
     if (pointers.current.size === 0) {
       const g = gesture.current;
       gesture.current = null;
-      if (e.type === "pointerup" && g && !g.moved) setSelected(g.region);
+      if (e.type === "pointerup" && g && !g.moved) {
+        setSelected(g.region);
+        if (g.region) setLegend((l) => (isNarrow() ? false : l));
+      }
     } else if (pointers.current.size === 1) {
       const [rest] = [...pointers.current.values()];
-      gesture.current = { ...rest!, region: null, moved: true };
+      if (rest) gesture.current = { ...rest, region: null, moved: true };
     }
   };
 
@@ -267,15 +245,17 @@ export function PlanetMap() {
     const { w, h } = sizeRef.current;
     animateTo(zoomAt(view, factor, w / 2, h / 2, w, h));
   };
-  const reset = () => {
+  const showWhole = () => {
     const { w, h } = sizeRef.current;
-    animateTo(initialView(w, h));
+    animateTo(wholeView(w, h));
   };
   const focusRegion = (region: MapRegion) => {
     setSelected(region.id);
+    if (isNarrow()) setLegend(false);
     const { w, h } = sizeRef.current;
     animateTo(focusOn(region, w, h));
   };
+  const toggleLegend = () => setLegend((l) => !(l ?? size.w > 1600));
 
   const onMapKey = (e: KeyboardEvent<SVGSVGElement>) => {
     const { w, h } = sizeRef.current;
@@ -291,7 +271,9 @@ export function PlanetMap() {
       setSelected(regionId);
     } else if (pan[e.key]) {
       e.preventDefault();
-      const [dx, dy] = pan[e.key]!;
+      const delta = pan[e.key];
+      if (!delta) return;
+      const [dx, dy] = delta;
       setView((v) => panBy(v, dx, dy, w, h));
     } else if (e.key === "+" || e.key === "=") {
       e.preventDefault();
@@ -301,22 +283,235 @@ export function PlanetMap() {
       zoomButton(1 / 1.4);
     } else if (e.key === "0") {
       e.preventDefault();
-      reset();
+      showWhole();
     } else if (e.key === "Escape") {
       setSelected(null);
     }
   };
 
   const zoom = zoomLevel(view, size.w, size.h);
-  const px = (screen: number, min: number) => Math.max(min, screen / view.s);
-  const showSettlements = zoom >= 1.6;
+  /** Map units for a constant on-screen size (px). */
+  const px = (screen: number) => screen / view.s;
+  const labelPx = Math.min(30, Math.max(13, 15 * Math.pow(zoom, 0.3)));
+  const showSettlements = zoom >= 1.7;
   const isRevealed = (id: string) => !fog || id === perspective;
+  const legendOpen = legend ?? size.w > 1600;
+  const legendClass = legendOpen ? " is-open" : " is-closed";
+
+  const atlasImage = useMemo(
+    () => (
+      <>
+        <image
+          href={atlasLo}
+          width={MAP_W}
+          height={MAP_H}
+          preserveAspectRatio="none"
+          className="pm-atlas"
+        />
+        {hiRes && (
+          <image
+            href={atlasHi}
+            width={MAP_W}
+            height={MAP_H}
+            preserveAspectRatio="none"
+            className="pm-atlas pm-atlas-hi"
+          />
+        )}
+      </>
+    ),
+    [hiRes],
+  );
 
   return (
-    <main className="planet-map">
-      <header className="pm-header">
-        <Link to="/" className="pm-back">
-          <ArrowLeft aria-hidden size={16} /> Wróć do gry
+    <main
+      className={`planet-map${ready ? " is-ready" : ""}${legendOpen || selectedRegion ? " has-panel" : ""}`}
+    >
+      <div ref={wrapRef} className="pm-viewport">
+        <svg
+          ref={svgRef}
+          className="pm-svg"
+          viewBox={viewBox(view, size.w, size.h)}
+          preserveAspectRatio="none"
+          role="group"
+          aria-label="Interaktywna mapa planety Superior, wersja DEMO"
+          aria-describedby="pm-help"
+          tabIndex={0}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerEnd}
+          onPointerCancel={onPointerEnd}
+          onKeyDown={onMapKey}
+        >
+          <defs>
+            <radialGradient id="pm-vignette" cx="50%" cy="50%" r="72%">
+              <stop offset="0.62" stopColor="#030a12" stopOpacity="0" />
+              <stop offset="1" stopColor="#030a12" stopOpacity="0.62" />
+            </radialGradient>
+            <filter id="pm-soft" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="16" />
+            </filter>
+            <filter id="pm-fog-filter" x="0" y="0" width="100%" height="100%">
+              <feGaussianBlur stdDeviation="5" />
+              <feColorMatrix
+                type="matrix"
+                values="0.16 0.2 0.06 0 0.03  0.16 0.22 0.06 0 0.05  0.16 0.22 0.1 0 0.09  0 0 0 1 0"
+              />
+            </filter>
+            <mask
+              id="pm-fog-mask"
+              maskUnits="userSpaceOnUse"
+              x={0}
+              y={0}
+              width={MAP_W}
+              height={MAP_H}
+            >
+              <rect width={MAP_W} height={MAP_H} fill="white" />
+              <path
+                d={PATHS[perspective]}
+                fill="black"
+                stroke="black"
+                strokeWidth={60}
+                strokeLinejoin="round"
+                filter="url(#pm-soft)"
+              />
+            </mask>
+            {selectedRegion && (
+              <mask
+                id="pm-spot-mask"
+                maskUnits="userSpaceOnUse"
+                x={0}
+                y={0}
+                width={MAP_W}
+                height={MAP_H}
+              >
+                <rect width={MAP_W} height={MAP_H} fill="white" />
+                <path
+                  d={PATHS[selectedRegion.id]}
+                  fill="black"
+                  stroke="black"
+                  strokeWidth={30}
+                  strokeLinejoin="round"
+                  filter="url(#pm-soft)"
+                />
+              </mask>
+            )}
+          </defs>
+
+          {atlasImage}
+
+          {fog && (
+            <g mask="url(#pm-fog-mask)" className="pm-fog" aria-hidden>
+              <image
+                href={atlasLo}
+                width={MAP_W}
+                height={MAP_H}
+                preserveAspectRatio="none"
+                filter="url(#pm-fog-filter)"
+              />
+              <rect width={MAP_W} height={MAP_H} />
+            </g>
+          )}
+
+          {selectedRegion && (
+            <rect
+              width={MAP_W}
+              height={MAP_H}
+              mask="url(#pm-spot-mask)"
+              className="pm-spot"
+              aria-hidden
+            />
+          )}
+          <rect width={MAP_W} height={MAP_H} fill="url(#pm-vignette)" className="pm-vig" />
+
+          <g className="pm-hits">
+            {REGIONS.map((region) => (
+              <path
+                key={region.id}
+                d={PATHS[region.id]}
+                data-region={region.id}
+                tabIndex={0}
+                role="button"
+                aria-pressed={selected === region.id}
+                aria-label={
+                  region.kind === "continent"
+                    ? `${region.name} — kontynent ${region.people}`
+                    : `${region.name} — przyszła wyspa questowa`
+                }
+                className={`pm-hit pm-${region.kind}${selected === region.id ? " is-selected" : ""}${hovered === region.id ? " is-hovered" : ""}`}
+                vectorEffect="non-scaling-stroke"
+                onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(region.id)}
+                onPointerLeave={() => setHovered((h) => (h === region.id ? null : h))}
+                onFocus={() => setHovered(region.id)}
+                onBlur={() => setHovered(null)}
+              />
+            ))}
+          </g>
+
+          {CONTINENTS.map((c) =>
+            c.settlementPoint && (showSettlements || selected === c.id) ? (
+              <g key={`set-${c.id}`} className="pm-settlement" aria-hidden>
+                <rect
+                  x={c.settlementPoint.x - px(4.5)}
+                  y={c.settlementPoint.y - px(4.5)}
+                  width={px(9)}
+                  height={px(9)}
+                  transform={`rotate(45 ${c.settlementPoint.x} ${c.settlementPoint.y})`}
+                  vectorEffect="non-scaling-stroke"
+                />
+                <text
+                  className={zoom < 3 ? "pm-settlement-name-hidden" : undefined}
+                  x={c.settlementPoint.x}
+                  y={c.settlementPoint.y + px(20)}
+                  fontSize={px(12)}
+                  strokeWidth={px(3)}
+                >
+                  {c.settlement}
+                </text>
+              </g>
+            ) : null,
+          )}
+
+          <g className="pm-labels" aria-hidden>
+            {CONTINENTS.map((c) => (
+              <text
+                key={c.id}
+                x={c.label.x}
+                y={c.label.y}
+                fontSize={px(labelPx)}
+                strokeWidth={px(4)}
+                className={`pm-label${isRevealed(c.id) ? "" : " is-fogged"}`}
+              >
+                {c.name.toUpperCase()}
+                <tspan
+                  x={c.label.x}
+                  dy={px(labelPx * 0.95)}
+                  fontSize={px(labelPx * 0.52)}
+                  className="pm-sub"
+                >
+                  {c.people}
+                </tspan>
+              </text>
+            ))}
+            {QUEST_ISLANDS.map((i) => (
+              <text
+                key={i.id}
+                x={i.label.x}
+                y={i.label.y}
+                fontSize={px(labelPx * 0.72)}
+                strokeWidth={px(3.5)}
+                className="pm-label pm-island-label"
+              >
+                {i.numeral}
+              </text>
+            ))}
+          </g>
+        </svg>
+      </div>
+
+      <header className="pm-topbar">
+        <Link to="/" className="pm-back" aria-label="Wróć do gry">
+          <ArrowLeft aria-hidden size={16} />
+          <span>Gra</span>
         </Link>
         <div className="pm-title">
           <p className="pm-eyebrow">Ki Legends · Atlas</p>
@@ -326,329 +521,192 @@ export function PlanetMap() {
         </div>
       </header>
 
-      <p className="pm-notice" role="note">
-        <strong>Podgląd demonstracyjny.</strong> Mapa nie jest połączona z grą: nie pokazuje pozycji
-        Twojej postaci i nie odczytuje ani nie zmienia zapisów. Ukształtowanie terenu jest
-        generowane proceduralnie — w projekcie nie ma jeszcze gotowych grafik mapy planety.
+      <p className="pm-demo-chip" role="note">
+        <strong>DEMO</strong> · niepołączona z grą · bez pozycji gracza
       </p>
 
-      <div className="pm-layout">
-        <section className="pm-stage" aria-label="Mapa">
-          <div ref={wrapRef} className="pm-viewport">
-            <svg
-              ref={svgRef}
-              className="pm-svg"
-              viewBox={viewBox(view, size.w, size.h)}
-              preserveAspectRatio="none"
-              role="group"
-              aria-label="Interaktywna mapa planety Superior, wersja DEMO"
-              aria-describedby="pm-help"
-              tabIndex={0}
-              onPointerDown={onPointerDown}
-              onPointerMove={onPointerMove}
-              onPointerUp={onPointerEnd}
-              onPointerCancel={onPointerEnd}
-              onKeyDown={onMapKey}
-            >
-              <defs>
-                <radialGradient id="pm-ocean" cx="50%" cy="50%" r="70%">
-                  <stop offset="0" className="pm-ocean-a" />
-                  <stop offset="1" className="pm-ocean-b" />
-                </radialGradient>
-                <filter id="pm-soft" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="22" />
-                </filter>
-                <mask
-                  id="pm-fog-mask"
-                  maskUnits="userSpaceOnUse"
-                  x={-200}
-                  y={-200}
-                  width={MAP_W + 400}
-                  height={MAP_H + 400}
-                >
-                  <rect x={-200} y={-200} width={MAP_W + 400} height={MAP_H + 400} fill="white" />
-                  <path
-                    d={revealed.path}
-                    fill="black"
-                    stroke="black"
-                    strokeWidth={70}
-                    filter="url(#pm-soft)"
-                  />
-                </mask>
-              </defs>
+      <div className="pm-controls" role="toolbar" aria-label="Sterowanie mapą">
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() => zoomButton(1.4)}
+          aria-label="Przybliż"
+          title="Przybliż"
+        >
+          <Plus size={18} aria-hidden />
+        </Button>
+        <output className="pm-zoom" aria-label="Powiększenie">
+          {Math.round(zoom * 100)}%
+        </output>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() => zoomButton(1 / 1.4)}
+          aria-label="Oddal"
+          title="Oddal"
+        >
+          <Minus size={18} aria-hidden />
+        </Button>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={showWhole}
+          aria-label="Pokaż całą planetę"
+          title="Pokaż całą planetę"
+        >
+          <Globe2 size={17} aria-hidden />
+        </Button>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={toggleLegend}
+          aria-label="Legenda i warstwy"
+          title="Legenda i warstwy"
+          aria-expanded={legendOpen}
+          aria-controls="pm-legend-panel"
+          className="pm-legend-toggle"
+        >
+          <Layers size={17} aria-hidden />
+        </Button>
+      </div>
 
-              <rect x={-8000} y={-8000} width={18000} height={17000} className="pm-abyss" />
-              <rect width={MAP_W} height={MAP_H} fill="url(#pm-ocean)" />
-              <g className="pm-grid" aria-hidden>
-                {GRID.map((x) => (
-                  <line key={`m${x}`} x1={x} y1={0} x2={x} y2={MAP_H} />
-                ))}
-                {GRID.filter((y) => y < MAP_H).map((y) => (
-                  <line key={`p${y}`} x1={0} y1={y} x2={MAP_W} y2={y} />
-                ))}
-                <line x1={0} y1={MAP_H / 2} x2={MAP_W} y2={MAP_H / 2} className="pm-equator" />
-              </g>
+      <aside id="pm-legend-panel" className={`pm-panel${legendClass}`} aria-label="Legenda mapy">
+        <div className="pm-panel-head">
+          <h2>Atlas Superior</h2>
+          <Button
+            variant="ghost"
+            type="button"
+            className="pm-icon"
+            onClick={() => setLegend(false)}
+            aria-label="Zamknij legendę"
+            title="Zamknij legendę"
+          >
+            <X size={16} aria-hidden />
+          </Button>
+        </div>
 
-              {geometry.map(({ region, path }) => (
-                <path key={`shelf-${region.id}`} d={path} className="pm-shelf" aria-hidden />
-              ))}
+        <h3 className="pm-h3">Kontynenty</h3>
+        <ul className="pm-legend">
+          {CONTINENTS.map((c) => (
+            <li key={c.id}>
+              <Button
+                variant="ghost"
+                type="button"
+                aria-pressed={selected === c.id}
+                onClick={() => focusRegion(c)}
+              >
+                <span className="pm-thumb" style={thumbStyle(c)} aria-hidden />
+                <span>
+                  <strong>{c.name}</strong>
+                  <small>{c.people}</small>
+                </span>
+              </Button>
+            </li>
+          ))}
+        </ul>
 
-              {geometry.map(({ region, path, inner, deco }) => (
-                <g
-                  key={region.id}
-                  className={`pm-region pm-${region.kind}${selected === region.id ? " is-selected" : ""}`}
-                >
-                  <path
-                    d={path}
-                    data-region={region.id}
-                    tabIndex={0}
-                    role="button"
-                    aria-pressed={selected === region.id}
-                    aria-label={
-                      region.kind === "continent"
-                        ? `${region.name} — kontynent ${region.people}`
-                        : `${region.name} — przyszła wyspa questowa`
-                    }
-                    style={{ fill: region.fill }}
-                    className="pm-land"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  <path
-                    d={inner}
-                    style={{ fill: region.shade }}
-                    className="pm-highland"
-                    aria-hidden
-                  />
-                  <g aria-hidden className="pm-deco">
-                    {deco.map((d, i) => (
-                      <Glyph key={i} d={d} terrain={region.terrain} />
-                    ))}
-                  </g>
-                </g>
-              ))}
+        <h3 className="pm-h3">Wyspy questowe · planowane</h3>
+        <ul className="pm-legend pm-legend-islands">
+          {QUEST_ISLANDS.map((i) => (
+            <li key={i.id}>
+              <Button
+                variant="ghost"
+                type="button"
+                aria-pressed={selected === i.id}
+                onClick={() => focusRegion(i)}
+                aria-label={`Wyspa questowa ${i.numeral} (nazwa robocza)`}
+              >
+                <span className="pm-thumb pm-thumb-sm" style={thumbStyle(i, 34)} aria-hidden />
+                <strong>{i.numeral}</strong>
+              </Button>
+            </li>
+          ))}
+        </ul>
 
-              {CONTINENTS.map((c) =>
-                c.settlementPoint && (showSettlements || selected === c.id) ? (
-                  <g key={`set-${c.id}`} className="pm-settlement" aria-hidden>
-                    <rect
-                      x={c.settlementPoint.x - px(6, 5)}
-                      y={c.settlementPoint.y - px(6, 5)}
-                      width={px(12, 10)}
-                      height={px(12, 10)}
-                      transform={`rotate(45 ${c.settlementPoint.x} ${c.settlementPoint.y})`}
-                      vectorEffect="non-scaling-stroke"
-                    />
-                    <text
-                      x={c.settlementPoint.x}
-                      y={c.settlementPoint.y + px(22, 18)}
-                      fontSize={px(12, 12)}
-                    >
-                      {c.settlement}
-                    </text>
-                  </g>
-                ) : null,
-              )}
+        <h3 className="pm-h3">Mgła wojny · podgląd</h3>
+        <label className="pm-toggle">
+          <input type="checkbox" checked={fog} onChange={(e) => setFog(e.target.checked)} />
+          <span>Pokaż mgłę wojny</span>
+        </label>
+        {fog && (
+          <fieldset className="pm-perspective">
+            <legend>Odkryty kontynent startowy</legend>
+            {CONTINENTS.map((c) => (
+              <label key={c.id}>
+                <input
+                  type="radio"
+                  name="pm-perspective"
+                  value={c.id}
+                  checked={perspective === c.id}
+                  onChange={() => setPerspective(c.id)}
+                />
+                {c.people} · {c.name}
+              </label>
+            ))}
+          </fieldset>
+        )}
+        <p className="pm-small">
+          Wyłącznie wizualizacja. Mapa nie odczytuje postępu, nie zna pozycji gracza i nie zapisuje
+          niczego w grze ani w przeglądarce.
+        </p>
+        <p id="pm-help" className="sr-only">
+          Przeciągnij, aby przesunąć. Kółko myszy, szczypanie lub +/− zmieniają powiększenie.
+          Kliknij region, aby zobaczyć opis. Klawiatura: strzałki, + / −, 0.
+        </p>
+      </aside>
 
-              <g className="pm-labels" aria-hidden>
-                {CONTINENTS.map((c) => (
-                  <text
-                    key={c.id}
-                    x={c.center.x}
-                    y={c.center.y - c.radius.y * 0.12}
-                    fontSize={px(16, 38)}
-                    className="pm-label"
-                  >
-                    {c.name}
-                    <tspan x={c.center.x} dy={px(15, 30)} fontSize={px(11, 22)} className="pm-sub">
-                      {c.people}
-                    </tspan>
-                  </text>
-                ))}
-                {QUEST_ISLANDS.map((i) => (
-                  <text
-                    key={i.id}
-                    x={i.center.x}
-                    y={i.center.y + px(5, 8)}
-                    fontSize={px(13, 24)}
-                    className="pm-label pm-island-label"
-                  >
-                    {i.numeral}
-                  </text>
-                ))}
-              </g>
-
-              {fog && (
-                <g mask="url(#pm-fog-mask)" className="pm-fog" aria-hidden>
-                  <rect x={-200} y={-200} width={MAP_W + 400} height={MAP_H + 400} />
-                  {clouds.map((c, i) => (
-                    <circle key={i} cx={c.x} cy={c.y} r={c.size} />
-                  ))}
-                </g>
-              )}
-
-              <g className="pm-compass" transform="translate(90 910)" aria-hidden>
-                <circle r="44" />
-                <path d="M0 -38L8 0L0 38L-8 0Z" />
-                <text y="-50" fontSize="22">
-                  N
-                </text>
-              </g>
-              <rect
-                width={MAP_W}
-                height={MAP_H}
-                className="pm-frame"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-
-            <div className="pm-ribbon" aria-hidden>
-              DEMO · bez pozycji gracza
-            </div>
-            <div className="pm-controls">
-              <button type="button" onClick={() => zoomButton(1.4)} aria-label="Przybliż">
-                <Plus size={18} aria-hidden />
-              </button>
-              <button type="button" onClick={() => zoomButton(1 / 1.4)} aria-label="Oddal">
-                <Minus size={18} aria-hidden />
-              </button>
-              <button type="button" onClick={reset} aria-label="Pokaż całą planetę">
-                <Maximize2 size={16} aria-hidden />
-              </button>
-              <output className="pm-zoom" aria-label="Powiększenie">
-                {Math.round(zoom * 100)}%
-              </output>
-            </div>
-          </div>
-          <p id="pm-help" className="pm-help">
-            Przeciągnij, aby przesunąć. Kółko myszy, gest szczypania lub przyciski +/− zmieniają
-            powiększenie. Kliknij region, aby zobaczyć opis. Klawiatura: strzałki, + / −, 0.
-          </p>
-        </section>
-
-        <aside className="pm-side">
-          <section className="pm-card pm-details" aria-live="polite">
-            {selectedRegion ? (
-              <>
+      <section
+        className={`pm-details${selectedRegion ? " is-open" : ""}`}
+        aria-live="polite"
+        aria-label="Opis regionu"
+      >
+        {selectedRegion && (
+          <>
+            <div className="pm-details-head">
+              <span className="pm-thumb pm-thumb-lg" style={thumbStyle(selectedRegion, 64)} />
+              <div>
                 <p className="pm-kind">
                   {selectedRegion.kind === "continent" ? "Kontynent" : "Wyspa questowa · planowana"}
                 </p>
                 <h2>{selectedRegion.name}</h2>
-                {selectedRegion.people && (
-                  <p className="pm-meta">
-                    Pochodzenie: <strong>{selectedRegion.people}</strong>
-                    <br />
-                    Region startowy: <strong>{selectedRegion.settlement}</strong>
-                  </p>
-                )}
-                <p>{selectedRegion.summary}</p>
-                <p className="pm-status">{selectedRegion.status}</p>
-                {fog && !isRevealed(selectedRegion.id) && (
-                  <p className="pm-fog-note">W podglądzie mgły ten obszar jest nieodkryty.</p>
-                )}
-                <div className="pm-actions">
-                  <button type="button" onClick={() => focusRegion(selectedRegion)}>
-                    Przybliż region
-                  </button>
-                  <button type="button" className="pm-ghost" onClick={() => setSelected(null)}>
-                    Zamknij
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="pm-kind">Wybierz region</p>
-                <h2>Superior</h2>
-                <p>
-                  Cztery kanoniczne kontynenty i sześć przyszłych wysp questowych. Kliknij region na
-                  mapie albo w legendzie.
-                </p>
-              </>
+              </div>
+              <Button
+                variant="ghost"
+                type="button"
+                className="pm-icon"
+                onClick={() => setSelected(null)}
+                aria-label="Zamknij opis"
+                title="Zamknij opis"
+              >
+                <X size={16} aria-hidden />
+              </Button>
+            </div>
+            {selectedRegion.people && (
+              <p className="pm-meta">
+                Pochodzenie <strong>{selectedRegion.people}</strong> · Region startowy{" "}
+                <strong>{selectedRegion.settlement}</strong>
+              </p>
             )}
-          </section>
-
-          <section className="pm-card" aria-labelledby="pm-legend-c">
-            <h3 id="pm-legend-c">Kontynenty</h3>
-            <ul className="pm-legend">
-              {CONTINENTS.map((c) => (
-                <li key={c.id}>
-                  <button
-                    type="button"
-                    aria-pressed={selected === c.id}
-                    onClick={() => focusRegion(c)}
-                  >
-                    <span className="pm-swatch" style={{ background: c.fill }} aria-hidden />
-                    <span>
-                      <strong>{c.name}</strong>
-                      <small>{c.people}</small>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="pm-card" aria-labelledby="pm-legend-i">
-            <h3 id="pm-legend-i">Wyspy questowe (planowane)</h3>
-            <ul className="pm-legend pm-legend-islands">
-              {QUEST_ISLANDS.map((i) => (
-                <li key={i.id}>
-                  <button
-                    type="button"
-                    aria-pressed={selected === i.id}
-                    onClick={() => focusRegion(i)}
-                  >
-                    <span className="pm-swatch pm-swatch-island" aria-hidden>
-                      {i.numeral}
-                    </span>
-                    <span>
-                      <strong>Wyspa {i.numeral}</strong>
-                      <small>nazwa robocza</small>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <ul className="pm-symbols">
-              <li>
-                <span className="pm-sym-settlement" aria-hidden /> Region startowy (widoczny po
-                przybliżeniu)
-              </li>
-              <li>
-                <span className="pm-sym-grid" aria-hidden /> Siatka południków i równik
-              </li>
-            </ul>
-          </section>
-
-          <section className="pm-card" aria-labelledby="pm-fog-h">
-            <h3 id="pm-fog-h">Mgła wojny · podgląd</h3>
-            <label className="pm-toggle">
-              <input type="checkbox" checked={fog} onChange={(e) => setFog(e.target.checked)} />
-              <span>Pokaż mgłę wojny</span>
-            </label>
-            {fog && (
-              <fieldset className="pm-perspective">
-                <legend>Odkryty kontynent startowy</legend>
-                {CONTINENTS.map((c) => (
-                  <label key={c.id}>
-                    <input
-                      type="radio"
-                      name="pm-perspective"
-                      value={c.id}
-                      checked={perspective === c.id}
-                      onChange={() => setPerspective(c.id)}
-                    />
-                    {c.people} · {c.name}
-                  </label>
-                ))}
-              </fieldset>
+            <p>{selectedRegion.summary}</p>
+            <p className="pm-status">{selectedRegion.status}</p>
+            {fog && !isRevealed(selectedRegion.id) && (
+              <p className="pm-fog-note">W podglądzie mgły ten obszar jest nieodkryty.</p>
             )}
-            <p className="pm-small">
-              Wyłącznie wizualizacja. Nie odczytuje postępu i nie zapisuje niczego w grze ani w
-              przeglądarce.
-            </p>
-          </section>
-        </aside>
-      </div>
+            <Button
+              variant="ghost"
+              type="button"
+              className="pm-primary"
+              onClick={() => focusRegion(selectedRegion)}
+            >
+              Przybliż region
+            </Button>
+          </>
+        )}
+      </section>
     </main>
   );
+}
+
+function isNarrow() {
+  return typeof window !== "undefined" && window.matchMedia("(max-width: 900px)").matches;
 }
