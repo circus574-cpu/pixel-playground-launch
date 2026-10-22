@@ -124,6 +124,8 @@ def frames_for(h):
             if state in ("death", "respawn"):  # lie on the ground line and stay centred while falling
                 p = i / max(1, n - 1); q = smooth(p) if state == "death" else 1 - smooth(p); Q = P[h.solid]
                 P = P + np.array([(256 - (Q[:, 0].min() + Q[:, 0].max()) / 2) * min(1.0, q * 4), min(0.0, ANCHOR[1] - Q[:, 1].max())], np.float32)
+            Qg = P[h.solid][:, 1].max()  # ground clamp: the lowest point never sinks below the ground line (lunges, swings)
+            if Qg > ANCHOR[1] + 2: P = P - np.array([0.0, Qg - ANCHOR[1] - 2], np.float32)
             yield state, i, n, fps, loop, P
 
 heroes = {d: Hero(d) for d in DIRS if not REVIEW or d in ("down", "right")}
@@ -134,7 +136,7 @@ worst = max(((np.abs(P[heroes[d].solid] - heroes[d].V[heroes[d].solid]).max(), d
 print("WORST_DISPLACEMENT", round(float(worst[0]), 1), worst[1:], flush=True)
 allv = np.concatenate([P[heroes[d].solid] for d, *_, P in plan]); dx = allv[:, 0] - ANCHOR[0]; dy = allv[:, 1] - ANCHOR[1]
 fit = [1.0]
-for lo, hi, arr, anc in ((SAFE - ANCHOR[0], 512 - SAFE - ANCHOR[0], dx, 0), (SAFE - ANCHOR[1], 512 - 14 - ANCHOR[1], dy, 0)):  # bottom: the feet sit 25px above the edge already
+for lo, hi, arr, anc in ((SAFE - ANCHOR[0], 512 - SAFE - ANCHOR[0], dx, 0), (SAFE - ANCHOR[1], 512 - SAFE - ANCHOR[1], dy, 0)):
     pos = arr[arr > 1e-6]; neg = arr[arr < -1e-6]
     if len(pos): fit.append(hi / pos.max())
     if len(neg): fit.append(lo / neg.min())
