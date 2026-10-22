@@ -134,7 +134,7 @@ worst = max(((np.abs(P[heroes[d].solid] - heroes[d].V[heroes[d].solid]).max(), d
 print("WORST_DISPLACEMENT", round(float(worst[0]), 1), worst[1:], flush=True)
 allv = np.concatenate([P[heroes[d].solid] for d, *_, P in plan]); dx = allv[:, 0] - ANCHOR[0]; dy = allv[:, 1] - ANCHOR[1]
 fit = [1.0]
-for lo, hi, arr, anc in ((SAFE - ANCHOR[0], 512 - SAFE - ANCHOR[0], dx, 0), (SAFE - ANCHOR[1], 512 - SAFE - ANCHOR[1], dy, 0)):
+for lo, hi, arr, anc in ((SAFE - ANCHOR[0], 512 - SAFE - ANCHOR[0], dx, 0), (SAFE - ANCHOR[1], 512 - 14 - ANCHOR[1], dy, 0)):  # bottom: the feet sit 25px above the edge already
     pos = arr[arr > 1e-6]; neg = arr[arr < -1e-6]
     if len(pos): fit.append(hi / pos.max())
     if len(neg): fit.append(lo / neg.min())
