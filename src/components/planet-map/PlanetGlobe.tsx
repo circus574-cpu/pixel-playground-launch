@@ -6,9 +6,9 @@
  * outlines through UV → atlas coordinates. Isolated from the game: it reads no
  * saves or sessions and writes nothing to storage.
  */
-import { Link } from "@tanstack/react-router";
 import { Canvas, useFrame, useLoader, useThree, type ThreeEvent } from "@react-three/fiber";
-import { ArrowLeft, Layers, Map as MapIcon, Minus, Plus, RotateCcw, X } from "lucide-react";
+import { BackToGame, PlayerChip, RegionGameNote, type GameLink } from "./MapChrome";
+import { Layers, Map as MapIcon, Minus, Plus, RotateCcw, X } from "lucide-react";
 import {
   Suspense,
   useCallback,
@@ -578,7 +578,9 @@ const aspect = () => window.innerWidth / Math.max(1, window.innerHeight);
 export default function PlanetGlobe({
   onShowFlat,
   onFail,
-}: {
+  current,
+  onClose,
+}: GameLink & {
   onShowFlat: () => void;
   onFail: (reason: GlobeFailure) => void;
 }) {
@@ -593,7 +595,7 @@ export default function PlanetGlobe({
   );
   const [reduced] = useState(prefersReducedMotion);
   const [ready, setReady] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(current ?? null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [legend, setLegend] = useState<boolean | null>(null);
   const [wide, setWide] = useState(() => window.innerWidth > 1600);
@@ -639,6 +641,14 @@ export default function PlanetGlobe({
     [focusRegion],
   );
   const onReady = useCallback(() => setReady(true), []);
+  // Opened with an active character: fly to that continent once the planet is ready.
+  const focusedCurrent = useRef(false);
+  useEffect(() => {
+    if (!ready || focusedCurrent.current) return;
+    focusedCurrent.current = true;
+    const here = REGIONS.find((r) => r.id === current);
+    if (here) focusRegion(here);
+  }, [ready, current, focusRegion]);
 
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
     const step = 0.28;
@@ -745,7 +755,7 @@ export default function PlanetGlobe({
                 if (el) markerEls.current.set(r.id, el);
                 else markerEls.current.delete(r.id);
               }}
-              className={`pg-marker pg-${r.kind}${selected === r.id ? " is-selected" : ""}`}
+              className={`pg-marker pg-${r.kind}${selected === r.id ? " is-selected" : ""}${current === r.id ? " is-current" : ""}`}
               aria-pressed={selected === r.id}
               aria-label={
                 r.kind === "continent"
@@ -758,6 +768,7 @@ export default function PlanetGlobe({
             >
               {r.kind === "continent" ? (
                 <>
+                  {current === r.id && <span className="pg-here">Tu jesteś</span>}
                   <span className="pg-name">{r.name}</span>
                   <span className="pg-people">{r.people}</span>
                 </>
@@ -777,10 +788,7 @@ export default function PlanetGlobe({
       )}
 
       <header className="pm-topbar">
-        <Link to="/" className="pm-back" aria-label="Wróć do gry">
-          <ArrowLeft aria-hidden size={16} />
-          <span>Gra</span>
-        </Link>
+        <BackToGame onClose={onClose} />
         <div className="pm-title">
           <p className="pm-eyebrow">Ki Legends · Atlas</p>
           <h1>Planeta Superior</h1>
@@ -801,9 +809,7 @@ export default function PlanetGlobe({
         </Button>
       </header>
 
-      <p className="pm-demo-chip pg-chip" role="note">
-        <strong>Podgląd atlasu</strong> · niepołączony z grą · bez pozycji gracza
-      </p>
+      <PlayerChip current={current} globe />
 
       <div className="pm-controls" role="toolbar" aria-label="Sterowanie globusem">
         <Button
@@ -908,8 +914,8 @@ export default function PlanetGlobe({
           ))}
         </ul>
         <p className="pm-small">
-          Wyłącznie wizualizacja. Globus nie odczytuje postępu, nie zna pozycji gracza i nie
-          zapisuje niczego w grze ani w przeglądarce.
+          Globus tylko odczytuje, w której krainie jest Twoja aktywna postać. Niczego nie zapisuje w
+          grze ani w przeglądarce.
         </p>
         <p id="pg-help" className="sr-only">
           Przeciągnij, aby obrócić planetę. Kółko myszy lub szczypanie zmienia powiększenie. Kliknij
@@ -951,15 +957,7 @@ export default function PlanetGlobe({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
-            {["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
-              <Link
-                to="/"
-                search={{ continent: selectedRegion.id } as never}
-                className="pm-enter-world"
-              >
-                Wejdź do gry — {selectedRegion.name}
-              </Link>
-            )}
+            <RegionGameNote region={selectedRegion} current={current} onClose={onClose} />
             <p className="pm-status">{selectedRegion.status}</p>
           </>
         )}

@@ -216,3 +216,17 @@
     animation: none;
   }
 }
+
+/* ---------- game link: "you are here" ---------- */
+.pg-here {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #f0d79a;
+  color: #10202c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.pg-marker.is-current .pg-name {
+  color: #f0d79a;
+}

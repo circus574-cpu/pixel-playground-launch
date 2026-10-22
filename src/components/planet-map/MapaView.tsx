@@ -7,6 +7,7 @@ import { Component, lazy, Suspense, useCallback, useEffect, useState, type React
 import spaceUrl from "@/assets/planet-map/space.jpg";
 import { PlanetMap } from "./PlanetMap";
 import { supportsWebGL2 } from "./webgl";
+import type { GameLink } from "./MapChrome";
 import "./planet-map.css";
 import "./globe.css";
 
@@ -50,7 +51,11 @@ export function GlobeLoading() {
   );
 }
 
-export function MapaView({ probe = supportsWebGL2 }: { probe?: () => boolean }) {
+export function MapaView({
+  probe = supportsWebGL2,
+  current,
+  onClose,
+}: GameLink & { probe?: () => boolean }) {
   const [mode, setMode] = useState<Mode>("checking");
   const [canGlobe, setCanGlobe] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -73,6 +78,8 @@ export function MapaView({ probe = supportsWebGL2 }: { probe?: () => boolean }) 
   if (mode === "flat") {
     return (
       <PlanetMap
+        current={current}
+        onClose={onClose}
         notice={notice}
         onShowGlobe={
           canGlobe
@@ -89,7 +96,12 @@ export function MapaView({ probe = supportsWebGL2 }: { probe?: () => boolean }) 
   return (
     <GlobeBoundary key={attempt} onError={onBoundaryError}>
       <Suspense fallback={<GlobeLoading />}>
-        <PlanetGlobe onShowFlat={() => setMode("flat")} onFail={fallBack} />
+        <PlanetGlobe
+          current={current}
+          onClose={onClose}
+          onShowFlat={() => setMode("flat")}
+          onFail={fallBack}
+        />
       </Suspense>
     </GlobeBoundary>
   );

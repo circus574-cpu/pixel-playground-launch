@@ -29,3 +29,15 @@ Status: **zaimplementowane i przetestowane w podglądzie; nieopublikowane.** Pub
 - Mgła wojny jest dostępna tylko w widoku 2D.
 - Rzut równoprostokątny lekko rozciąga atlas przy biegunach; ląd leży w pasie, gdzie zniekształcenie jest niewielkie.
 - Wyspy mają nazwy robocze; brak integracji z rozgrywką i podróżą między kontynentami.
+
+## Połączenie z grą (22.10.2026)
+
+- W grze: minimapa → „Mapa planety Superior · 2D / 3D” otwiera globus 3D (z przełącznikiem
+  na mapę 2D) jako nakładkę; gra jest wstrzymana, „Gra” wraca do mapy regionu.
+- Obie wersje zaznaczają kontynent aktywnej postaci („Tu jesteś”) i od razu na nim się
+  ustawiają. Odczyt jest wyłącznie do odczytu (`readActiveContinent` w `MapChrome.tsx`);
+  mapa niczego nie zapisuje.
+- `/mapa` odczytuje tę samą aktywną postać. Inny kontynent prowadzi do wyboru postaci
+  (z gry: podpowiedź, ze strony `/mapa`: link „Wejdź do gry”).
+- Zgodność nazw, ras i osad z grą sprawdza `src/test/planet-game-link.test.ts`.
+- Mapki regionów Nexus-9 i Pyra są generowane z grafik anime: `scripts/build_region_minimap.py`.

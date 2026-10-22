@@ -10,7 +10,7 @@ import {
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
@@ -35,7 +35,11 @@ type Props = {
   onWorldLabels?: (visible: boolean) => void;
   systemNotice?: MessageEvent;
 };
-type Panel = "inventory" | "journal" | "settings" | "map" | null;
+type Panel = "inventory" | "journal" | "settings" | "map" | "planet" | null;
+/** Planet atlas (2D map + 3D globe) loads only when opened from the world map. */
+const PlanetAtlas = lazy(() =>
+  import("../planet-map/MapaView").then((m) => ({ default: m.MapaView })),
+);
 const iconNames = [
   "Portret",
   "Impuls KI",
@@ -541,7 +545,25 @@ export function GameHud({
           Zostałeś pokonany · odrodzenie za chwilę
         </div>
       )}
-      {panel && (
+      {panel === "planet" && (
+        <div
+          className="ki-planet-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mapa planety"
+        >
+          <Suspense
+            fallback={
+              <div className="ki-planet-loading" role="status">
+                Wczytywanie mapy planety…
+              </div>
+            }
+          >
+            <PlanetAtlas current={state.player.continent} onClose={() => setPanel("map")} />
+          </Suspense>
+        </div>
+      )}
+      {panel && panel !== "planet" && (
         <div className="ki-modal-backdrop" onClick={() => setPanel(null)}>
           <section
             className="ki-modal ki-frame"
@@ -553,7 +575,7 @@ export function GameHud({
                 journal: "Dziennik",
                 settings: "Ustawienia",
                 map: "Mapa regionu",
-              }[panel]
+              }[panel as Exclude<Panel, "planet" | null>]
             }
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => {
@@ -568,7 +590,7 @@ export function GameHud({
                     journal: "Dziennik podróży",
                     settings: "Ustawienia",
                     map: world.settlement,
-                  }[panel]
+                  }[panel as Exclude<Panel, "planet" | null>]
                 }
               </h2>
               <button autoFocus onClick={() => setPanel(null)} aria-label="Zamknij okno">
@@ -661,6 +683,10 @@ export function GameHud({
             )}
             {panel === "map" && (
               <>
+                <button className="ki-planet-open" onClick={() => setPanel("planet")}>
+                  <span aria-hidden>◎</span> Mapa planety Superior · 2D / 3D
+                  <small>Tu jesteś: {world.name}</small>
+                </button>
                 <div className="ki-npc-links">
                   {npcs.map((n) => (
                     <button
