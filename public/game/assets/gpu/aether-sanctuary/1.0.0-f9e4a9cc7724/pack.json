@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "id": "aether-sanctuary",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "aether-art-sanctum",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-sanctum.webp",
+      "width": 1024,
+      "height": 862
+    },
+    {
+      "id": "aether-art-archive",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-archive.webp",
+      "width": 768,
+      "height": 673
+    },
+    {
+      "id": "aether-art-ki-source",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-ki-source.webp",
+      "width": 512,
+      "height": 486
+    },
+    {
+      "id": "aether-art-ki-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-ki-tree.webp",
+      "width": 562,
+      "height": 640
+    },
+    {
+      "id": "aether-art-cloud-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-cloud-peak.webp",
+      "width": 768,
+      "height": 506
+    },
+    {
+      "id": "aether-art-garden",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-garden.webp",
+      "width": 384,
+      "height": 265
+    },
+    {
+      "id": "aether-art-aether-ground",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-aether-ground.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aether-art-aether-path",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-aether-path.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aether-art-aether-plaza",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-aether-plaza.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aether-art-aether-wall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-sanctuary/1.0.0-f9e4a9cc7724/aether-art-aether-wall.webp",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.sanctum": {
+      "asset": "aether-art-sanctum",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.81
+      ]
+    },
+    "object.archive": {
+      "asset": "aether-art-archive",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.79
+      ]
+    },
+    "object.ki-source": {
+      "asset": "aether-art-ki-source",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84
+      ]
+    },
+    "object.ki-tree": {
+      "asset": "aether-art-ki-tree",
+      "fit": "contain"
+    },
+    "object.cloud-peak": {
+      "asset": "aether-art-cloud-peak",
+      "fit": "contain"
+    },
+    "object.garden": {
+      "asset": "aether-art-garden",
+      "fit": "contain"
+    },
+    "terrain.aether-ground": {
+      "asset": "aether-art-aether-ground",
+      "fit": "stretch",
+      "tileSize": [
+        320,
+        320
+      ]
+    },
+    "terrain.aether-path": {
+      "asset": "aether-art-aether-path",
+      "fit": "stretch",
+      "tileSize": [
+        208,
+        208
+      ]
+    },
+    "terrain.aether-plaza": {
+      "asset": "aether-art-aether-plaza",
+      "fit": "stretch",
+      "tileSize": [
+        288,
+        288
+      ]
+    },
+    "terrain.aether-wall": {
+      "asset": "aether-art-aether-wall",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    }
+  },
+  "effects": {}
+}

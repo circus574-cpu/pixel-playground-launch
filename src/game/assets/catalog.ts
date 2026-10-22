@@ -237,7 +237,7 @@ export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[
         source,
       ),
     );
-  for (const key of ["atmosphere." + worldId, "effect.shield"]) {
+  for (const key of ["atmosphere." + worldId, "effect.shield", "terrain." + worldId + "-wall"]) {
     const ref = source.renderBindings[key];
     if (ref) refs.push(ref);
   }
