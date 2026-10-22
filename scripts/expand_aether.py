@@ -80,7 +80,7 @@ FP = {  # kind -> (width, height, footprint or None)
 }
 NEW = [
     ("pagoda", 2780, 770), ("pagoda", 520, 2000), ("archive", 2160, 1975),
-    ("koi-pond", 2520, 820), ("koi-pond", 900, 2300),
+    ("koi-pond", 2440, 830), ("koi-pond", 900, 2300),
     ("spirit-gate", 2050, 1170), ("spirit-gate", 1272, 1700), ("spirit-gate", 2700, 965),
     *[("stone-lantern", x, y) for x, y in [(1060, 1520), (1430, 1520), (1080, 2080), (1350, 1990),
                                             (2580, 1110), (2770, 1080), (2640, 1430), (2430, 1600),
