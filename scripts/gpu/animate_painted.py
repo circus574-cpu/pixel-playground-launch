@@ -10,7 +10,8 @@ import cv2, numpy as np
 
 race, MAST, KPDIR, TAG = sys.argv[1], Path(sys.argv[2]), Path(sys.argv[3]), sys.argv[4]
 REVIEW = "--review" in sys.argv
-OUT = Path("/workspace/ki-legends-gpu/renders") / ("%s-painted-motion-%s%s" % (race, TAG, "-review" if REVIEW else "")); OUT.mkdir(parents=True, exist_ok=True)
+import os
+OUT = Path(os.environ.get("KI_OUT_ROOT", "/workspace/ki-legends-gpu/renders")) / ("%s-painted-motion-%s%s" % (race, TAG, "-review" if REVIEW else "")); OUT.mkdir(parents=True, exist_ok=True)  # KI_OUT_ROOT: render to local disk, archive afterwards
 DIRS = ["down", "down-left", "left", "up-left", "up", "up-right", "right", "down-right"]
 FACING = {"down": 0, "down-left": -.7, "left": -1, "up-left": -.7, "up": 0, "up-right": .7, "right": 1, "down-right": .7}
 CLIPS = {"idle": (8, 6, True), "walk": (8, 16, True), "attack": (8, 16, False), "skill": (8, 12, False), "hit": (4, 16, False), "death": (8, 10, False), "respawn": (8, 12, False)}
