@@ -53,20 +53,30 @@ class Hero:
         solid = cv2.dilate(alpha, np.ones((9, 9), np.uint8)); self.solid = solid[np.clip(V[:, 1].astype(int), 0, 511), np.clip(V[:, 0].astype(int), 0, 511)] > 0  # vertices on the character, used for the margin fit
         self.V = V; self.tris = np.array(tris, dtype=np.int32); names = list(self.bones)
         D = np.stack([seg_dist(V, np.array(self.bones[n][0]), np.array(self.bones[n][1])) for n in names], 1)
-        sig = np.array([22 if n in ("torso",) else 14 if n.startswith(("head",)) else 10 for n in names])
-        Wt = np.exp(-(D / sig) ** 2) + 1e-4; Wt[:, names.index("torso")] += .03
-        self.W = Wt / Wt.sum(1, keepdims=True); self.names = names
+        CH = {"body": ["torso", "head"], "armL": ["uarmL", "farmL", "handL"], "armR": ["uarmR", "farmR", "handR"], "legL": ["thighL", "shinL", "footL"], "legR": ["thighR", "shinR", "footR"]}
+        ix = {n: i for i, n in enumerate(names)}; tau = 7.0
+        dch = {c: D[:, [ix[b] for b in bs]].min(axis=1) for c, bs in CH.items()}; dch["body"] = dch["body"] - 25.0  # far-away cloth follows the body
+        logits = np.stack([-dch[c] / tau for c in CH], 1); cw = np.exp(logits - logits.max(1, keepdims=True)); cw /= cw.sum(1, keepdims=True)
+        Wt = np.zeros_like(D)
+        for k, (c, bs) in enumerate(CH.items()):
+            sub = D[:, [ix[b] for b in bs]]; wb = np.exp(-(sub / 12.0) ** 2) + 1e-4; wb /= wb.sum(1, keepdims=True)
+            for j, b in enumerate(bs): Wt[:, ix[b]] = cw[:, k] * wb[:, j]
+        self.W = Wt / np.maximum(Wt.sum(1, keepdims=True), 1e-9); self.names = names; self.cw = {c: cw[:, k] for k, c in enumerate(CH)}
         below = np.clip((V[:, 1] - pel[1]) / 120.0, 0, 1); self.cloth = below * (1 - np.exp(-(np.min(D[:, [names.index(n) for n in names if n.startswith(('thigh', 'shin'))]], axis=1) / 18) ** 2) * 0.5)
     def mats(self, ang, root):
         M = {}
         for n in self.names:
             h, _, par = self.bones[n]; R = rotm(ang.get(n, 0.0), h); M[n] = (M[par] if par else (root if n == "torso" else root)) @ R
         return M
-    def pose(self, root, ang, sway, phase):
+    def pose(self, root, ang, sway, phase, lift=None):
         M = self.mats(ang, root); Vh = np.concatenate([self.V, np.ones((len(self.V), 1), np.float32)], 1)
         out = np.zeros_like(self.V)
         for i, n in enumerate(self.names): out += self.W[:, i:i + 1] * (Vh @ M[n].T)[:, :2]
-        out[:, 0] += sway * self.cloth * np.sin(phase + self.V[:, 1] / 55.0); return out
+        out[:, 0] += sway * self.cloth * np.sin(phase + self.V[:, 1] / 55.0)
+        for s, amount in (lift or {}).items():  # raise a foot by shortening the leg chain (front/back walk, steps)
+            hy, ay = self.joints[s.lower() + "_hip"][1], self.joints[s.lower() + "_ank"][1]
+            out[:, 1] -= amount * self.cw["leg" + s] * np.clip((self.V[:, 1] - hy) / max(ay - hy, 1.0), 0, 1) ** 1.3
+        return out
     def render(self, P):
         mx = np.full((512, 512), -1, np.float32); my = np.full((512, 512), -1, np.float32)
         for t in self.tris:
@@ -83,7 +93,7 @@ class Hero:
         return np.clip(np.concatenate([rgb, a], 2), 0, 255).astype(np.uint8)
 
 def pose_params(h, state, i, n):
-    f = h.f; a = max(abs(f), .3); sgn = 1 if f >= 0 else -1; ang = {}; tx = ty = 0.0; rr = 0.0; sway = 3.0; t = i / n; p = i / max(1, n - 1); w = math.tau * t
+    f = h.f; a = max(abs(f), .3); sgn = 1 if f >= 0 else -1; ang = {}; tx = ty = 0.0; rr = 0.0; sway = 3.0; t = i / n; p = i / max(1, n - 1); w = math.tau * t; lift = {}
     def fwd(name, amount): ang[name] = ang.get(name, 0.0) - (f if f else 1) * amount * (1 if f else 0.0) + (0 if f else amount * .0)
     def swing(name, amount):  # forward rotation of a limb hanging down; front/back views swing little
         ang[name] = ang.get(name, 0.0) - (f * amount if f else 0.0)
@@ -91,7 +101,7 @@ def pose_params(h, state, i, n):
         ty = 2 * math.sin(w); ang["head"] = .02 * math.sin(w); ang["uarmL"] = .03 * math.sin(w); ang["uarmR"] = -.03 * math.sin(w); sway = 3.5
     elif state == "walk":
         for s, ph in (("L", 0), ("R", math.pi)):
-            q = w + ph; swing("thigh" + s, .55 * a * math.sin(q)); swing("shin" + s, -.9 * a * max(0, math.cos(q)) + 0.0)
+            q = w + ph; swing("thigh" + s, .45 * a * math.sin(q)); swing("shin" + s, -.7 * a * max(0, math.cos(q)) + 0.0); lift[s] = (16 if f == 0 else 8) * max(0.0, math.sin(q + math.pi / 2))
             ang["thigh" + s] += (.12 if f == 0 else 0) * math.sin(q) * (1 if s == "L" else -1)
             swing("uarm" + s, -.40 * a * math.sin(q)); swing("farm" + s, .25 * a * (1 + math.cos(q)) * -1)
         ty = -4 * a * abs(math.sin(w)) - (3 if f == 0 else 0) * abs(math.sin(w)); rr = .05 * f; sway = 6 * (.4 + a)
@@ -112,15 +122,15 @@ def pose_params(h, state, i, n):
         for s in "LR": swing("thigh" + s, -.45 * math.sin(min(1, q * 2) * math.pi / 2) * a); swing("shin" + s, .9 * math.sin(min(1, q * 2) * math.pi / 2) * a)
         for s in "LR": swing("uarm" + s, -.5 * q * a)
         sway = 2
-    return ang, tx, ty, rr, sway, w
+    return ang, tx, ty, rr, sway, w, lift
 
 def frames_for(h):
     for state, (n, fps, loop) in CLIPS.items():
         if REVIEW and (state not in ("walk", "attack", "death", "respawn") or h.d not in ("down", "right")): continue
         for i in range(n):
-            ang, tx, ty, rr, sway, w = pose_params(h, state, i, n)
+            ang, tx, ty, rr, sway, w, lift = pose_params(h, state, i, n)
             root = transl(tx, ty) @ rotm(rr, h.feet)
-            P = h.pose(root, ang, sway, w)
+            P = h.pose(root, ang, sway, w, lift)
             if state in ("death", "respawn"):  # lie on the ground line and stay centred while falling
                 p = i / max(1, n - 1); q = smooth(p) if state == "death" else 1 - smooth(p); Q = P[h.solid]
                 P = P + np.array([(256 - (Q[:, 0].min() + Q[:, 0].max()) / 2) * min(1.0, q * 4), min(0.0, ANCHOR[1] - Q[:, 1].max())], np.float32)
