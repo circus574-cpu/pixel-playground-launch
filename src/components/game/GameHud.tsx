@@ -11,6 +11,7 @@ import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
 import { useEffect, useRef, useState } from "react";
+import { GameWorldGlobe } from "./GameWorldGlobe";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
@@ -35,7 +36,7 @@ type Props = {
   onWorldLabels?: (visible: boolean) => void;
   systemNotice?: MessageEvent;
 };
-type Panel = "inventory" | "journal" | "settings" | "map" | null;
+type Panel = "inventory" | "journal" | "settings" | "map" | "globe" | null;
 const iconNames = [
   "Portret",
   "Impuls KI",
@@ -277,6 +278,14 @@ export function GameHud({
         </button>
         <div className="ki-map-footer">
           <span>{world.name.toUpperCase()}</span>
+          <button
+            className="ki-globe-quick"
+            aria-label="Otwórz globus 3D w grze"
+            title="Planeta Superior — globus 3D"
+            onClick={() => toggle("globe")}
+          >
+            🌐
+          </button>
           <button
             onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
             aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
@@ -541,7 +550,8 @@ export function GameHud({
           Zostałeś pokonany · odrodzenie za chwilę
         </div>
       )}
-      {panel && (
+      {panel === "globe" && <GameWorldGlobe onClose={() => setPanel(null)} />}
+      {panel && panel !== "globe" && (
         <div className="ki-modal-backdrop" onClick={() => setPanel(null)}>
           <section
             className="ki-modal ki-frame"
@@ -598,8 +608,8 @@ export function GameHud({
                   </button>
                 )}
                 <p>
-                  Pochodzenie: {RACES[player.race].name} · tymczasowy ludzki sprite. Lokalna gra
-                  PvE.
+                  Pochodzenie: {RACES[player.race].name}. Planetarni i Mędrcy używają animowanych
+                  postaci swojej rasy; pozostałe grafiki są jeszcze w przygotowaniu. Lokalna gra PvE.
                 </p>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
@@ -661,6 +671,13 @@ export function GameHud({
             )}
             {panel === "map" && (
               <>
+                <button
+                  className="ki-globe-map-link"
+                  onClick={() => setPanel("globe")}
+                  aria-label="Otwórz globus 3D planety Superior bez opuszczania gry"
+                >
+                  🌐 Otwórz globus 3D planety Superior
+                </button>
                 <div className="ki-npc-links">
                   {npcs.map((n) => (
                     <button
