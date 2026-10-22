@@ -50,7 +50,15 @@ export function GlobeLoading() {
   );
 }
 
-export function MapaView({ probe = supportsWebGL2 }: { probe?: () => boolean }) {
+export function MapaView({
+  probe = supportsWebGL2,
+  embedded = false,
+  onClose,
+}: {
+  probe?: () => boolean;
+  embedded?: boolean;
+  onClose?: () => void;
+}) {
   const [mode, setMode] = useState<Mode>("checking");
   const [canGlobe, setCanGlobe] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -74,6 +82,8 @@ export function MapaView({ probe = supportsWebGL2 }: { probe?: () => boolean }) 
     return (
       <PlanetMap
         notice={notice}
+        embedded={embedded}
+        onClose={onClose}
         onShowGlobe={
           canGlobe
             ? () => {
@@ -89,7 +99,7 @@ export function MapaView({ probe = supportsWebGL2 }: { probe?: () => boolean }) 
   return (
     <GlobeBoundary key={attempt} onError={onBoundaryError}>
       <Suspense fallback={<GlobeLoading />}>
-        <PlanetGlobe onShowFlat={() => setMode("flat")} onFail={fallBack} />
+        <PlanetGlobe onShowFlat={() => setMode("flat")} onFail={fallBack} embedded={embedded} onClose={onClose} />
       </Suspense>
     </GlobeBoundary>
   );
