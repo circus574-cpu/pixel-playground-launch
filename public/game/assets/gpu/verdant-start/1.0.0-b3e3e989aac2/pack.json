@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "id": "verdant-start",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "verdant-art-cottage",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-cottage.webp",
+      "width": 512,
+      "height": 476
+    },
+    {
+      "id": "verdant-art-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-inn.webp",
+      "width": 512,
+      "height": 420
+    },
+    {
+      "id": "verdant-art-forge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-forge.webp",
+      "width": 512,
+      "height": 488
+    },
+    {
+      "id": "verdant-art-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-market.webp",
+      "width": 384,
+      "height": 372
+    },
+    {
+      "id": "verdant-art-fountain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-fountain.webp",
+      "width": 367,
+      "height": 384
+    },
+    {
+      "id": "verdant-art-lamp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-lamp.webp",
+      "width": 60,
+      "height": 256
+    },
+    {
+      "id": "verdant-art-fence",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-fence.webp",
+      "width": 384,
+      "height": 110
+    },
+    {
+      "id": "verdant-art-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-bridge.webp",
+      "width": 768,
+      "height": 167
+    },
+    {
+      "id": "verdant-art-terrain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-start/1.0.0-b3e3e989aac2/verdant-art-terrain.webp",
+      "width": 1904,
+      "height": 1904
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.forest.cottage": {
+      "asset": "verdant-art-cottage",
+      "fit": "contain"
+    },
+    "object.forest.inn": {
+      "asset": "verdant-art-inn",
+      "fit": "contain"
+    },
+    "object.forest.forge": {
+      "asset": "verdant-art-forge",
+      "fit": "contain"
+    },
+    "object.forest.market": {
+      "asset": "verdant-art-market",
+      "fit": "contain"
+    },
+    "object.forest.fountain": {
+      "asset": "verdant-art-fountain",
+      "fit": "contain"
+    },
+    "object.forest.lamp": {
+      "asset": "verdant-art-lamp",
+      "fit": "contain"
+    },
+    "object.forest.fence": {
+      "asset": "verdant-art-fence",
+      "fit": "contain"
+    },
+    "object.forest.bridge": {
+      "asset": "verdant-art-bridge",
+      "fit": "contain"
+    },
+    "terrain.verdant": {
+      "asset": "verdant-art-terrain",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}
