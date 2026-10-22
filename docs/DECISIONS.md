@@ -14,3 +14,7 @@ Data przeglądu: 2026-10-21. Tutaj zapisywane są jedynie decyzje potwierdzone i
 Odbiór animacji Mędrców, referencji/licencji, urządzeń mobilnych oraz rozszerzenia do multiplayer pozostają otwarte. Brak wpisu o zgodzie na scalanie PR #15 lub jego wdrożenie.
 
 Nowe decyzje dopisywać z datą, autorem decyzji i dowodem (PR/commit/dokument). Nie przepisywać historii jako współczesnego kanonu.
+
+## 22.10.2026 — rozwój ras na osobnej gałęzi
+
+Właściciel zatwierdził kanoniczne nazwy Planetarni/Verdantia, Mędrcy/Aetheria, Androidy/Nexus-9, Legendy/Pyra oraz zlecił osobiste wykonanie rozwoju i czytelnego interfejsu na osobnej gałęzi. Grafika postaci pozostaje zadaniem Codexa. Zakaz kredytów Lovable i osobna zgoda na merge/publikację obowiązują. Robocze rozstrzygnięcia balansu nie są zatwierdzeniem właściciela: patrz [RACE-PROGRESSION.md](RACE-PROGRESSION.md).

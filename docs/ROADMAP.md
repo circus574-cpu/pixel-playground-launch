@@ -1,5 +1,9 @@
 # KI Legends — plan prac i bramy jakości
 
+## Rozwój ras — osobna gałąź 22.10.2026
+Pierwsza dostawa: drzewka, statystyki, runtime walki, świadoma migracja i UI. Następnie odbiór parametrów prototypu, przeciwnicy/statusy/bossowie, rozkład treści i ekonomii 1–20 dla każdej krainy, dłuższe testy balansu oraz sprzętu. Pełny podział i bramy: [RACE-PROGRESSION.md](RACE-PROGRESSION.md). To nie jest zgoda na publikację.
+
+
 Stan 2026-10-21. Historia szczegółowa: [STAGE2-GAMEPLAY.md](STAGE2-GAMEPLAY.md), [STAGE3-FOUR-CONTINENTS.md](STAGE3-FOUR-CONTINENTS.md), [STAGE3-GPU-ASSET-LIST.md](STAGE3-GPU-ASSET-LIST.md); ten plik nie zastępuje tych dokumentów.
 
 ## Obecny etap: lokalne PvE, cztery pochodzenia

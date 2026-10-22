@@ -1,0 +1,493 @@
+{
+  "testedCodeCommit": "bd4ba5477321c77b360aaf39c39c743bc671f436",
+  "baseCommit": "66a615dec1d4259e1bf668956ec1cb09e9aa177e",
+  "browser": "Chromium 153; Canvas and SwiftShader WebGL; no physical-device claim",
+  "checks": {
+    "vitest": {
+      "passed": 174,
+      "files": 27
+    },
+    "typescript": "passed: app, e2e, tools",
+    "lint": {
+      "errors": 0,
+      "preExistingWarnings": 9
+    },
+    "applicationBuild": "passed",
+    "playtestBuild": "passed",
+    "assetCheck": "passed"
+  },
+  "newE2E": {
+    "stats": {
+      "startTime": "2026-10-22T21:37:39.619Z",
+      "duration": 301769.39,
+      "expected": 32,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cases": [
+      {
+        "file": "race-progression.spec.ts",
+        "title": "planetary: progression UI, learning, allocation and reload (desktop)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 12735
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "planetary: progression UI, learning, allocation and reload (mobile)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 6117
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "sage: progression UI, learning, allocation and reload (desktop)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 10229
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "sage: progression UI, learning, allocation and reload (mobile)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 6090
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "android: progression UI, learning, allocation and reload (desktop)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 9189
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "android: progression UI, learning, allocation and reload (mobile)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 6371
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "legend: progression UI, learning, allocation and reload (desktop)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 8222
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "legend: progression UI, learning, allocation and reload (mobile)",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 5098
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "new character opens the four-race planner without granting levels or spending points",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 3607
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "planetary: real movement, learned skill and enemy defeat with racial rules",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 9352
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "sage: real movement, learned skill and enemy defeat with racial rules",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 10286
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "android: real movement, learned skill and enemy defeat with racial rules",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 15017
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "legend: real movement, learned skill and enemy defeat with racial rules",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 9057
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "racial HUD touch geometry 360x640",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 1600
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "racial HUD touch geometry 390x844",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 1335
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "racial HUD touch geometry 852x393",
+        "project": "gameplay",
+        "status": "passed",
+        "durationMs": 1257
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "planetary: progression UI, learning, allocation and reload (desktop)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 18404
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "planetary: progression UI, learning, allocation and reload (mobile)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 11846
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "sage: progression UI, learning, allocation and reload (desktop)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 15570
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "sage: progression UI, learning, allocation and reload (mobile)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 9203
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "android: progression UI, learning, allocation and reload (desktop)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 12710
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "android: progression UI, learning, allocation and reload (mobile)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 8567
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "legend: progression UI, learning, allocation and reload (desktop)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 11988
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "legend: progression UI, learning, allocation and reload (mobile)",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 6761
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "new character opens the four-race planner without granting levels or spending points",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 8530
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "planetary: real movement, learned skill and enemy defeat with racial rules",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 20957
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "sage: real movement, learned skill and enemy defeat with racial rules",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 18469
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "android: real movement, learned skill and enemy defeat with racial rules",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 18945
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "legend: real movement, learned skill and enemy defeat with racial rules",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 14864
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "racial HUD touch geometry 360x640",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 2565
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "racial HUD touch geometry 390x844",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 1803
+      },
+      {
+        "file": "race-progression.spec.ts",
+        "title": "racial HUD touch geometry 852x393",
+        "project": "software-webgl",
+        "status": "passed",
+        "durationMs": 1764
+      }
+    ]
+  },
+  "baselineComparisons": [
+    {
+      "sourceCommit": "66a615dec1d4259e1bf668956ec1cb09e9aa177e",
+      "stats": {
+        "startTime": "2026-10-22T21:23:16.367Z",
+        "duration": 100945.151,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "file": "aether-art-preview.spec.ts",
+          "title": "Aetheria anime start point loads only behind its review switch",
+          "project": "gameplay",
+          "status": "failed",
+          "durationMs": 73845,
+          "error": "Error: expect(locator).not.toHaveAttribute(expected) failed\n\nLocator: locator('.ki-canvas')\nExpected pattern: not /aether-art-/\nReceived string: \"[\\\"ui-icons\\\",\\\"hero-sage-page-0\\\",\\\"hero-sage-page-1\\\",\\\"hero-sheet\\\",\\\"world-atlas\\\",\\\"aether-art-aether-ground\\\",\\\"aether-art-aether-path\\\",\\\"aether-art-aether-plaza\\\",\\\"aether-art-sanctum\\\",\\\"aether-art-archive\\\",\\\"aether-art-ki-source\\\",\\\"aether-art-ki-tree\\\",\\\"aether-art-cloud-peak\\\",\\\"aether-art-garden\\\",\\\"aether-x-pagoda\\\",\\\"aether-x-koi-pond\\\""
+        }
+      ]
+    },
+    {
+      "sourceCommit": "66a615dec1d4259e1bf668956ec1cb09e9aa177e",
+      "stats": {
+        "startTime": "2026-10-22T21:32:29.535Z",
+        "duration": 124699.239,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "file": "pre-gpu.spec.ts",
+          "title": "real Android input in eight directions: planetary 390x844",
+          "project": "gameplay",
+          "status": "failed",
+          "durationMs": 94280,
+          "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.ki-canvas')\nExpected: \"false\"\nReceived: \"\"\nTimeout:  60000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.ki-canvas') with timeout 60000ms\n  - waiting for locator('.ki-canvas')\n    2 × locator resolved to <div data-zoom=\"0.48\" class=\"ki-canvas\" data-load-ms=\"932\" data-npc-labels=\"0\" data-world=\"verdant\" data-enemy-labels=\"0\" data-world-labels=\"true\" data-animation-frame=\"9\" data-terrain-mode=\"cached\" data-animation"
+        }
+      ]
+    },
+    {
+      "sourceCommit": "66a615dec1d4259e1bf668956ec1cb09e9aa177e",
+      "stats": {
+        "startTime": "2026-10-22T21:41:24.986Z",
+        "duration": 35168.117,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "file": "hero-lifecycle.spec.ts",
+          "title": "hero-sage: all seven clips follow real combat, defeat and respawn",
+          "project": "gameplay",
+          "status": "passed",
+          "durationMs": 31195
+        }
+      ]
+    }
+  ],
+  "incompleteFullRegression": {
+    "buildStartedAtCommit": "c002bb7",
+    "scheduled": 121,
+    "status": "interrupted after blocking failures; not a passing full suite",
+    "passed": 21,
+    "failed": 9,
+    "interrupted": 1,
+    "notStarted": 90,
+    "completedCases": [
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/aether-art-preview.spec.ts:12:1 › Aetheria anime start point loads only behind its review switch (1.2m)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hero-lifecycle.spec.ts:23:3 › hero-planetary: all seven clips follow real combat, defeat and respawn (32.2s)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/hero-lifecycle.spec.ts:23:3 › hero-sage: all seven clips follow real combat, defeat and respawn (1.8m)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 360x640 › single dock, clear play area and real touch tools (4.9s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 390x640 › single dock, clear play area and real touch tools (5.3s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Mędrcy 390x844 › single dock, clear play area and real touch tools (5.5s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 390x640 › single dock, clear play area and real touch tools (4.4s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Legendy 414x896 › single dock, clear play area and real touch tools (5.0s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 852x393 › single dock, clear play area and real touch tools (4.9s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 1280x900 › single dock, clear play area and real touch tools (5.2s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 1280 (25.8s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 360 (22.1s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 390 (19.5s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 414 (20.3s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:37:3 › clear world, dismiss/expire guidance, dialogs and persistent options 852 (17.6s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:182:1 › save failure stays actionable after normal guidance is disabled or dismissed (7.4s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:210:1 › death message ends on real respawn and subsequent movement works (29.3s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/overlay-audit.spec.ts:239:1 › combat messages leave the actual target panel clear at every HUD breakpoint (24.9s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/planetary-preview.spec.ts:15:1 › Planetarni preview preserves the same save and stays out of default visuals and other races (13.9s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/planetary-preview.spec.ts:48:3 › Planetarni has real eight-direction movement and skill animation at 1280px (13.9s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/planetary-preview.spec.ts:48:3 › Planetarni has real eight-direction movement and skill animation at 390px (8.4s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/planetary-preview.spec.ts:94:1 › a broken Planetarni atlas retries without losing the character (6.7s)"
+      },
+      {
+        "status": "passed",
+        "project": "gameplay",
+        "title": "e2e/planetary-preview.spec.ts:113:3 › Planetarni touch preview › real touch joystick animates all eight directions and a tapped skill (7.3s)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android planetary 390x844 › real Android input in eight directions: planetary 390x844 (1.5m)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 (1.7m)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android sage 390x844 › real Android input in eight directions: sage 390x844 (1.6m)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android sage 852x393 › real Android input in eight directions: sage 852x393 (1.4m)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android android 390x844 › real Android input in eight directions: android 390x844 (1.3m)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android android 852x393 › real Android input in eight directions: android 852x393 (1.4m)"
+      },
+      {
+        "status": "failed",
+        "project": "gameplay",
+        "title": "e2e/pre-gpu.spec.ts:76:7 › Android legend 390x844 › real Android input in eight directions: legend 390x844 (1.4m)"
+      }
+    ]
+  },
+  "finalHeroRetest": {
+    "testedCodeCommit": "bd4ba5477321c77b360aaf39c39c743bc671f436",
+    "stats": {
+      "startTime": "2026-10-22T21:42:57.163Z",
+      "duration": 30918.685999999998,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "case": "hero-sage: all seven clips follow real combat, defeat and respawn",
+    "status": "passed"
+  }
+}

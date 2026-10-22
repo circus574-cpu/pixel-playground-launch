@@ -1,5 +1,13 @@
 # KI Legends — changelog zweryfikowanych etapów
 
+## 2026-10-22 — rozwój ras (osobna gałąź, nieopublikowane)
+- 116 węzłów, wzrost 1–20, zależności/wykluczenia, zestaw i reset.
+- Wspólny runtime zdolności rasowych i osobny interfejs desktop/mobile.
+- Świadoma aktywacja i format v4 z kopią odzyskiwania oraz zachowanymi cooldownami.
+- Archiwizacja dwóch aneksów źródłowych z SHA-256. Bez zmian grafiki postaci.
+- Stan testów i ograniczenia: [VALIDATION.md](qa/race-progression/VALIDATION.md), [specyfikacja](RACE-PROGRESSION.md).
+
+
 To rejestr orientacyjny; dokładna historia i autorstwo pozostają w Git. Nie przenosi niezakończonych PR do pozycji opublikowanych.
 
 ## 2026-10-21 — prace w toku, NIEOPUBLIKOWANE

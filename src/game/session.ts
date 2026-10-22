@@ -3,6 +3,18 @@ import { WORLDS, worldObstacles } from "./world/worlds";
 import { RACES, RACE_IDS, WORLD_IDS, type RaceId } from "./world/races";
 import type { WorldDefinition } from "./world/types";
 import { Navigation, distance, type Point } from "./navigation";
+import {
+  ProgressionSchema,
+  newProgression,
+  raceStats,
+  validateProgression,
+  learnSkill,
+  learnReason,
+  equipSkill,
+  resetSkills,
+} from "./progression/model";
+import { RaceCombat } from "./progression/combat";
+import { NODES, skillId } from "./progression/catalog";
 
 export const ITEMS = {
   potion: {
@@ -84,11 +96,12 @@ const PlayerSchema = z.object({
     flame: finite(3500),
     pulse: finite(5000),
     shield: finite(10000),
-    attack: finite(650),
+    attack: finite(1000),
     potion: finite(6000),
   }),
   shield: finite(5000),
   dead: z.boolean(),
+  progression: ProgressionSchema.optional(),
 });
 export type Player = z.infer<typeof PlayerSchema>;
 export type NpcId = "guide" | "hunter" | "merchant" | "smith";
@@ -102,6 +115,8 @@ export type Enemy = Point & {
   timer: number;
   attackIn: number;
   patrol: Point;
+  defense?: number;
+  barrier?: number;
 };
 export type Loot = Point & { id: string; item: ItemId; quantity: number; gold: number };
 export type GameEvent = Point & {
@@ -112,7 +127,7 @@ export type GameEvent = Point & {
   ability?: Ability;
   to?: Point;
 };
-export type Command =
+type LegacyCommand =
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
   | { type: "ability"; ability: Ability }
@@ -124,16 +139,38 @@ export type Command =
   | { type: "loot"; id: string }
   | { type: "pause"; value: boolean }
   | { type: "cancel" };
+export type ProgressionCommand =
+  | { type: "activate-progression" }
+  | { type: "learn-skill"; id: string }
+  | { type: "equip-skill"; id: string; slot: number }
+  | { type: "reset-skills" }
+  | { type: "cast-skill"; id: string }
+  | { type: "skill-slot"; slot: number };
+export type Command = LegacyCommand | ProgressionCommand;
 export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
-export const stats = (p: Player) => ({
-  maxHp: 120 + (p.level - 1) * 20,
-  maxKi: 50 + (p.level - 1) * 5,
-  attack: 18 + (p.level - 1) * 3 + (p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0),
-  defense: p.level - 1 + (p.armor ? ITEMS[p.armor].defense : 0),
-});
-export function newPlayer(race: RaceId = "planetary"): Player {
+export const stats = (p: Player) =>
+  p.progression
+    ? raceStats(
+        p.race,
+        p.level,
+        p.progression,
+        p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
+        p.armor ? ITEMS[p.armor].defense : 0,
+      )
+    : {
+        maxHp: 120 + (p.level - 1) * 20,
+        maxKi: 50 + (p.level - 1) * 5,
+        attack: 18 + (p.level - 1) * 3 + (p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0),
+        defense: p.level - 1 + (p.armor ? ITEMS[p.armor].defense : 0),
+        speed: 205,
+        kiRegen: 4,
+        crit: 0,
+        interval: 650,
+        range: 78,
+      };
+export function newPlayer(race: RaceId = "planetary", progression = false): Player {
   const continent = RACES[race].world;
-  return {
+  const p: Player = {
     level: 1,
     xp: 0,
     hp: 120,
@@ -154,6 +191,12 @@ export function newPlayer(race: RaceId = "planetary"): Player {
     shield: 0,
     dead: false,
   };
+  if (progression) {
+    p.progression = newProgression(race);
+    p.hp = stats(p).maxHp;
+    p.ki = stats(p).maxKi;
+  }
+  return p;
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
 const LegacyPlayerSchema = PlayerSchema.extend({
@@ -164,6 +207,11 @@ const LegacyPlayerSchema = PlayerSchema.extend({
 const SaveSchema = z.discriminatedUnion("version", [
   z.object({ version: z.literal(1), revision: z.string(), player: LegacyPlayerSchema }),
   z.object({ version: z.literal(3), revision: z.string(), player: PlayerSchema }),
+  z.object({
+    version: z.literal(4),
+    revision: z.string(),
+    player: PlayerSchema.extend({ progression: ProgressionSchema }),
+  }),
 ]);
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
@@ -192,6 +240,8 @@ export class SaveStore {
       const p = data.data.player,
         s = stats(p);
       if (
+        (p.progression &&
+          (data.data.version !== 4 || !validateProgression(p.race, p.level, p.progression))) ||
         p.startContinent !== RACES[p.race].world ||
         p.continent !== p.startContinent ||
         p.x > WORLDS[p.continent].width ||
@@ -224,8 +274,14 @@ export class SaveStore {
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
         return false;
       }
+      if (p.progression && !validateProgression(p.race, p.level, p.progression))
+        throw new Error("invalid skill allocation");
+      if (p.progression && this.expected !== null && JSON.parse(this.expected).version !== 4) {
+        const backup = "ki-legends:recovery:before-v4:" + this.key;
+        if (this.storage.getItem(backup) === null) this.storage.setItem(backup, this.expected);
+      }
       const next = JSON.stringify({
-        version: 3,
+        version: p.progression ? 4 : 3,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -265,11 +321,13 @@ export class GameSession {
   private combatIn = 0;
   private respawnIn = 0;
   private counter = 0;
+  readonly raceCombat: RaceCombat;
   constructor(
     readonly saves?: SaveStore,
     race: RaceId = "planetary",
+    progression = false,
   ) {
-    this.player = saves?.load() ?? newPlayer(race);
+    this.player = saves?.load() ?? newPlayer(race, progression);
     this.world = WORLDS[this.player.continent];
     this.nav = new Navigation(this.world.width, this.world.height, worldObstacles(this.world));
     const safe = this.nav.safe(this.player.dead ? this.world.spawn : this.player);
@@ -294,6 +352,11 @@ export class GameSession {
         attackIn: 900,
       };
     });
+    this.raceCombat = new RaceCombat(
+      this,
+      (e, amount) => this.hurtEnemy(e, amount),
+      (event) => this.emit(event),
+    );
     const nextQuest = (Object.keys(QUEST_NAMES) as QuestId[]).find(
       (id) => this.player.quests[id] !== "done",
     );
@@ -351,7 +414,7 @@ export class GameSession {
     this.route = this.nav.path(this.player, to);
     if (!this.route.length && !silent) this.say("Brak przejścia. Wybierz inne miejsce.");
   }
-  command(c: Command) {
+  command(c: Command | ProgressionCommand) {
     const p = this.player;
     if (c.type === "pause") {
       this.paused = c.value;
@@ -376,6 +439,44 @@ export class GameSession {
     }
     if (p.dead) {
       this.say("Odradzasz się w wiosce…");
+      return;
+    }
+    if (["activate-progression", "learn-skill", "equip-skill", "reset-skills"].includes(c.type)) {
+      if (
+        this.combatIn > 0 ||
+        this.raceCombat.inCombat ||
+        this.raceCombat.busy ||
+        this.raceCombat.hasEffects
+      )
+        return this.say("Zmieniaj rozwój poza walką, po wygaśnięciu efektów.");
+      if (c.type === "activate-progression") {
+        if (!p.progression) {
+          const previous = stats(p);
+          p.progression = newProgression(p.race);
+          const next = stats(p);
+          p.hp = Math.min(p.hp, next.maxHp, (p.hp / previous.maxHp) * next.maxHp);
+          p.ki = Math.min(p.ki, next.maxKi, (p.ki / previous.maxKi) * next.maxKi);
+          this.say("Rozwój rasy włączony. Korzeń poznany; resztę punktów wydaj w drzewku.");
+        }
+      } else if (p.progression) {
+        const old = stats(p);
+        if (c.type === "learn-skill") {
+          const reason = learnReason(p.race, p.level, p.progression, c.id);
+          if (reason) return this.say(reason);
+          learnSkill(p.race, p.level, p.progression, c.id);
+          this.say("Poznano: " + NODES[c.id]!.name);
+        } else if (c.type === "equip-skill") {
+          if (!equipSkill(p.progression, c.id, c.slot))
+            return this.say("Nieprawidłowe miejsce na pasku.");
+        } else if (c.type === "reset-skills") {
+          resetSkills(p.race, p.progression);
+          this.say("Punkty zwrócone. Odnowienia, HP i Ki zachowane.");
+        }
+        const next = stats(p);
+        p.hp = Math.min(p.hp, next.maxHp, (p.hp / old.maxHp) * next.maxHp);
+        p.ki = Math.min(p.ki, next.maxKi, (p.ki / old.maxKi) * next.maxKi);
+      }
+      this.flush();
       return;
     }
     if (c.type === "dialogue") {
@@ -468,8 +569,20 @@ export class GameSession {
       return;
     }
     if (this.dialogue || this.paused) return this.say("Zamknij okno, aby kontynuować.");
+    if (c.type === "cast-skill") {
+      this.raceCombat.cast(c.id);
+      return;
+    }
+    if (c.type === "skill-slot") {
+      const id = p.progression?.loadout[c.slot];
+      if (id) this.raceCombat.cast(id);
+      else this.say("Wybierz umiejętność do tego miejsca w drzewku.");
+      return;
+    }
+    if (this.raceCombat.locked) return this.say("System chwilowo zablokowany.");
     if (c.type === "ability") return this.use(c.ability);
     if (c.type === "move") {
+      this.raceCombat.onMove();
       if (!Number.isFinite(c.x) || !Number.isFinite(c.y)) return;
       this.targetId = null;
       this.autoAttack = false;
@@ -519,6 +632,15 @@ export class GameSession {
     }
   }
   private use(ability: Ability) {
+    if (this.player.progression && ability !== "potion") {
+      if (ability === "attack") this.raceCombat.basic();
+      else {
+        const id = this.player.progression.loadout[["flame", "pulse", "shield"].indexOf(ability)];
+        if (id) this.raceCombat.cast(id);
+        else this.say("Wybierz umiejętność w drzewku rozwoju.");
+      }
+      return;
+    }
     const p = this.player,
       spec = ABILITIES[ability],
       s = stats(p);
@@ -568,10 +690,16 @@ export class GameSession {
   }
   private hurtEnemy(e: Enemy, amount: number) {
     if (e.hp <= 0 || e.mode === "return") return;
+    if (e.barrier) {
+      const absorbed = Math.min(e.barrier, amount);
+      e.barrier -= absorbed;
+      amount -= absorbed;
+    }
     e.hp = Math.max(0, e.hp - amount);
     e.mode = "chase";
-    this.emit({ type: "hit", ...e, target: e.id, text: "-" + amount });
+    this.emit({ type: "hit", ...e, target: e.id, text: "-" + Math.round(amount) });
     if (!e.hp) {
+      this.raceCombat.onKill();
       e.mode = "dead";
       e.timer = 18000;
       this.emit({ type: "death", ...e, target: e.id });
@@ -602,6 +730,8 @@ export class GameSession {
   }
   manual(dx: number, dy: number, dt: number) {
     if (this.paused || this.dialogue || this.player.dead) return;
+    this.raceCombat.onMove();
+    if (this.raceCombat.locked) return;
     this.route = [];
     this.pendingNpc = null;
     this.pendingLoot = null;
@@ -626,7 +756,7 @@ export class GameSession {
   }
   private movePlayer(to: Point, dt: number) {
     const before = { x: this.player.x, y: this.player.y };
-    const next = this.nav.step(before, to, (205 * dt) / 1000);
+    const next = this.nav.step(before, to, (this.raceCombat.speed * dt) / 1000);
     Object.assign(this.player, next);
     this.moving = distance(before, next) > 0.01;
     if (this.moving) {
@@ -658,8 +788,9 @@ export class GameSession {
       }
       return;
     }
-    p.ki = Math.min(s.maxKi, p.ki + dt * 0.004);
-    if (!this.combatIn) p.hp = Math.min(s.maxHp, p.hp + dt * 0.003);
+    this.raceCombat.tick(dt);
+    p.ki = Math.min(s.maxKi, p.ki + (dt * this.raceCombat.kiRegen) / 1000);
+    if (!this.combatIn && !this.raceCombat.inCombat) p.hp = Math.min(s.maxHp, p.hp + dt * 0.003);
     this.pathIn -= dt;
     const target = this.target;
     if (this.autoAttack && target) {
@@ -668,7 +799,7 @@ export class GameSession {
         this.targetId = null;
         this.route = [];
         this.say("Dzik wraca na swoje terytorium.");
-      } else if (distance(p, target) <= ABILITIES.attack.range && this.nav.visible(p, target)) {
+      } else if (distance(p, target) <= s.range && this.nav.visible(p, target)) {
         this.route = [];
         if (!p.cooldowns.attack) this.use("attack");
       } else if (this.pathIn <= 0) {
@@ -676,7 +807,7 @@ export class GameSession {
         this.pathIn = 600;
       }
     }
-    if (this.route.length) {
+    if (this.route.length && !this.raceCombat.busy && !this.raceCombat.locked) {
       this.movePlayer(this.route[0]!, dt);
       if (distance(p, this.route[0]!) < 5) this.route.shift();
     }
@@ -720,6 +851,7 @@ export class GameSession {
         }
         continue;
       }
+      if (this.raceCombat.stunned(e.id)) continue;
       if (e.mode === "chase" && (distance(e, e.home) > 330 || distance(e, p) > 420 || p.dead))
         e.mode = "return";
       if (e.mode === "patrol" && distance(e, p) < 155 && this.nav.visible(e, p)) e.mode = "chase";
@@ -732,7 +864,7 @@ export class GameSession {
         }
       } else if (e.mode === "chase") {
         const range = distance(e, p);
-        if (range > 57) this.moveEnemy(e, p, dt * 0.12, dt);
+        if (range > 57) this.moveEnemy(e, p, dt * 0.12 * this.raceCombat.enemySpeed(e.id), dt);
         if (range <= 68 && !e.attackIn && this.nav.visible(e, p)) {
           e.attackIn = 1400;
           this.emit({
@@ -742,12 +874,15 @@ export class GameSession {
             target: "player",
             to: { x: p.x, y: p.y },
           });
-          const damage = Math.max(1, Math.round((9 - s.defense) * (p.shield > 0 ? 0.4 : 1)));
-          p.hp = Math.max(0, p.hp - damage);
+          const damage = p.progression
+            ? this.raceCombat.receive(e, 9)
+            : Math.max(1, Math.round((9 - s.defense) * (p.shield > 0 ? 0.4 : 1)));
+          if (!p.progression) p.hp = Math.max(0, p.hp - damage);
           this.combatIn = 4500;
           this.emit({ type: "hit", ...p, target: "player", text: "-" + damage });
           if (p.hp <= 0) {
             p.dead = true;
+            this.raceCombat.clear();
             this.respawnIn = 3000;
             this.targetId = null;
             this.autoAttack = false;
@@ -801,11 +936,22 @@ export class GameSession {
       : "Załóż Ostrze strażnika w ekwipunku";
   }
   snapshot() {
+    const racial = this.raceCombat.view();
     return {
       x: this.player.x,
       y: this.player.y,
       player: structuredClone(this.player),
-      stats: stats(this.player),
+      stats: {
+        ...stats(this.player),
+        ...(racial
+          ? {
+              attack: racial.attack,
+              defense: racial.defense,
+              speed: racial.speed,
+              kiRegen: racial.kiRegen,
+            }
+          : {}),
+      },
       target: this.target
         ? {
             name: this.world.enemyName,
@@ -834,6 +980,8 @@ export class GameSession {
         [...this.npcs].sort((a, b) => distance(a, this.player) - distance(b, this.player))[0]?.id ??
         ("guide" as NpcId),
       autoAttack: this.autoAttack,
+      progression: racial,
+      inCombat: this.combatIn > 0 || this.raceCombat.inCombat,
     };
   }
 }
@@ -856,6 +1004,8 @@ export function initialView(player?: Player): GameViewState {
     nearbyLoot: [],
     nearestNpc: "guide",
     autoAttack: false,
+    progression: null,
+    inCombat: false,
   };
 }
 export function decodeItem(value: unknown) {

@@ -1,0 +1,703 @@
+KI LEGENDS
+Aneks do dokumentu projektowego | Statystyki ras i drzewka umiejętności (poziomy
+1–20)
+ANEKS • WERSJA KONCEPCYJNA 1.0
+
+
+01 | Statystyki ras
+Wartości czterech ras na poziomie 1 oraz przyrost na poziom. Wartość na poziomie L = wartość bazowa +
+przyrost × (L − 1); statystyki całkowite są zaokrąglane do najbliższej liczby całkowitej (połówki w górę).
+
+
+Poziom 1
+ Statystyka                          Planetarni               Mędrcy                Androidy                Legendy
+                                  Mobilny wojownik       Mag dystansowy i      Precyzyjny strzelec    Wojownik w zwarciu
+ Styl
+                                       wręcz                wsparcie               z tarczami              i burst
+ Mechanika rasowa               Adaptacja do terenu        Kręgi światła        Ładunek Rdzenia                Żar
+ Zdolność startowa                   Cios Szlaku             Pocisk Ki          Strzał Impulsowy         Uderzenie Żaru
+ Życie                                   125                    100                    115                     140
+ Ki                                      50                      80                     60                     40
+ Atak                                    12                      14                     12                     14
+ Obrona                                   5                      3                       7                      4
+ Szybkość ruchu (j./s)                   185                    170                    175                     170
+ Regeneracja Ki (na s)                  1,00                    2,00                   1,20                   0,80
+ Szansa krytyku (%)                     5,00                    5,00                   8,00                   6,00
+ Odstęp ataków (ms)                      650                    800                    700                     750
+
+Przyrost na poziom
+ Statystyka                          Planetarni               Mędrcy                Androidy                Legendy
+ Życie                                   +36                    +28                    +34                    +42
+ Ki                                      +4                     +7                      +5                     +3
+ Atak                                    +4                    +4,6                    +3,8                   +4,6
+ Obrona                                 +2,4                   +1,6                     +3                     +2
+ Szybkość ruchu (j./s)                    —                      —                      —                       —
+ Regeneracja Ki (na s)                  +0,05                  +0,10                  +0,06                  +0,04
+ Szansa krytyku (%)                     +0,25                  +0,20                  +0,40                  +0,30
+ Odstęp ataków (ms)                       —                      —                      —                       —
+
+Szybkość ruchu i odstęp ataku nie rosną z poziomem (zmieniają je tylko zdolności z drzewek). Punkt odniesienia w obecnym
+kodzie gry: szybkość 175 j./s i odstęp ataku 700 ms.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                     1
+Wartości na poziomach 10 i 20
+                        Planetarni    Planetarni     Mędrcy       Mędrcy    Androidy    Androidy      Legendy       Legendy
+Statystyka               poz. 10       poz. 20       poz. 10      poz. 20    poz. 10     poz. 20       poz. 10       poz. 20
+
+Życie                      449           809           352          632       421         761              518        938
+
+Ki                          86           126           143          213       105         155              67         97
+
+Atak                        48            88            55          101       46          84               55         101
+
+Obrona                      27            51            17          33        34          64               22         42
+
+Szybkość ruchu
+                           185           185           170          170       175         175              170        170
+(j./s)
+
+Regeneracja Ki (na
+                           1,45          1,95          2,90         3,90      1,74        2,34             1,16       1,56
+s)
+
+Szansa krytyku
+                           7,25          9,75          6,80         8,80     11,60       15,60             8,70      11,70
+(%)
+
+Odstęp ataków
+                           650           650           800          800       700         700              750        750
+(ms)
+
+
+Test kontrolny: atak podstawowy wobec przeciwników z bestiariusza
+Proponowany model obrażeń do testów: obrażenia = max(1, Atak × mnożnik zdolności − Obrona celu
+/ 2). W tabeli: liczba uderzeń potrzebnych graczowi, by pokonać przeciwnika / liczba uderzeń przeciwnika, by
+pokonać gracza.
+
+Starcie                                                        Planetarni     Mędrcy           Androidy           Legendy
+Gracz poz. 1 vs Szary Dzik Szlaku (HP 54, atak 9, obrona 3)      6 / 20        5 / 14            6 / 21            5 / 20
+Gracz poz. 10 vs Zgaszony Adept (HP 350, atak 41, obrona
+19)
+                                                                10 / 17        8 / 11            10 / 18           8 / 18
+
+Gracz poz. 20 vs Kaldor, Zgaszony Czempion (HP 3120,
+atak 121, obrona 60)
+                                                                 54 / 9        44 / 7            58 / 9           44 / 10
+
+Złota zasada próby: przeciwnicy z pola mają przegrywać z graczem tego samego poziomu, a bossowie wymagać zdolności z
+drzewka (mnożniki ×1,4–×4,5), mikstur i uniku. Przy bossie poz. 20 sam atak podstawowy nie wystarcza.
+
+Dlaczego rasy różnią się w ten sposób
+• Planetarni: najszybsi, z najkrótszym odstępem ataku; średnie życie i obrona.
+• Mędrcy: najwięcej Ki i jego regeneracji, wysoki atak na trafienie (równy Legendom), ale najmniej życia i
+  obrony.
+• Androidy: najwyższa obrona i szansa krytyku, średnie życie, najniższy atak na trafienie.
+• Legendy: najwięcej życia i wysoki atak, ale najmniej Ki i ataki wolniejsze niż u Planetarnych i Androidów.
+• Atak podstawowy na sekundę (Atak / odstęp ataku) różni się między rasami o 8% na poz. 1 i o 11% na poz.
+  20.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                         2
+02 | Zasady drzewek umiejętności
+• Punkty: każdy poziom daje 1 punkt umiejętności (poz. 1–20 = 20 punktów). Każdy węzeł kosztuje 1 punkt.
+• Układ: każda rasa ma własne drzewko: korzeń (zdolność startowa, poz. 1), 3 gałęzie po 9 węzłów i Tryb KI.
+  Razem 29 węzłów, w tym 3 pary wyboru, więc do nauczenia jest najwyżej 26. Punktów jest 20, więc
+  pełnego drzewka nie da się zdobyć.
+• Wymagania: węzeł wymaga poprzednika (zapis „A2|A3” oznacza: wystarczy jeden z nich) oraz
+  minimalnego poziomu postaci.
+• Wybór: w każdej gałęzi węzły 7 i 8 wykluczają się (wybierasz jeden). Węzeł 7 wymaga węzła 5, a węzeł 8
+  węzła 6.
+• Tryb KI: wymaga poziomu 20 i dowolnej zdolności ostatecznej (węzeł 9 w dowolnej gałęzi).
+• Style gry: głębokie drzewko to jedna gałąź w całości (9 punktów z korzeniem). Szeroki szkielet to korzeń i
+  najkrótsza ścieżka do trzech zdolności ostatecznych (19 punktów), a z Trybem KI dokładnie 20.
+• Reset: propozycja: pierwszy reset punktów darmowy do poz. 10, kolejne płatne (cena do ustalenia).
+
+Minimalny poziom węzła
+Węzeł               Rola                                                                         Poz. min.
+X1                  Pierwsza zdolność aktywna gałęzi                                                 2
+X2, X3              Dwie pasywki (obie do nauczenia)                                                 4
+X4                  Druga zdolność aktywna                                                           7
+X5, X6              Dwie pasywki ulepszające                                                         10
+X7, X8              Wybór: jedno ulepszenie z pary                                                   13
+X9                  Zdolność ostateczna gałęzi                                                       16
+Tryb KI             Forma rasowa                                                                     20
+
+Typy węzłów
+• Aktywna: zdolność używana przez gracza (koszt Ki, odnowienie, mnożnik obrażeń).
+• Pasywna: stały bonus lub modyfikacja zdolności.
+• Wybór: ulepszenie z pary wykluczającej się.
+• Ostateczna: najsilniejsza zdolność gałęzi (poz. 16+).
+• Tryb KI: forma rasowa z osobnym efektem aury (zgodnie z zasadami artystycznymi dokumentu).
+
+Zmiany względem dokumentu scenariuszy i wymagania techniczne
+• Ten aneks zastępuje stały harmonogram zdolności ze scenariuszy ras (zdolności na poz. 1, 3, 6, 9, 12, 15,
+  18, 20). Wszystkie osiem nazw zdolności każdej rasy zostało w drzewku. Zadania typu „Nagroda:
+  [zdolność]” trzeba przepisać, bo zdolności gracz wybiera w drzewku.
+• Nowe mechaniki do wdrożenia: oznaczenie typu terenu w mapie (Adaptacja), paski zasobów (Ładunek
+  Rdzenia, Żar), kręgi światła, tarcze i odbicia obrażeń, kanałowanie, efekty stanu (podpalenie, ogłuszenie,
+  spowolnienie).
+• Wszystkie wartości są propozycją do testów i balansu, nie są jeszcze wdrożone w grze.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                         3
+03 | Planetarni — drzewko umiejętności
+Kraina startowa: Terranova. Odkrywcy i wojownicy związani z żywą energią świata. Walczą w zwarciu, są
+najszybsi i dopasowują się do otoczenia. Gałęzie: mobilność i unik, ziemia i obszar, regeneracja i ochrona.
+
+
+                                                          KORZEŃ • poz. 1
+
+
+                                                         Cios Szlaku
+
+
+
+
+           Szlak Wędrowca                               Żywa Ziemia                                          Pieśń Korzeni
+                mobilność i unik                        obszar i adaptacja                                regeneracja i ochrona
+
+
+                      A1                                         B1                                                 C1
+
+                                                                                                                Korzenny
+                 Szybki Unik                             Impuls Ziemi
+                                                                                                                 Oddech
+
+
+
+
+          A2                       A3              B2                         B3                        C2                       C3
+
+                                                                                                                            Leśna
+      Lekki Krok             Pęd Szlaku        Adaptacja              Kamienna Skóra              Zielona Krew
+                                                                                                                         Cierpliwość
+
+
+
+
+                      A4                                         B4                                                 C4
+
+
+                 Wir Energii                            Kruszący Stąp                                          Tarcza Liści
+
+
+
+
+          A5                       A6              B5                         B6                        C5                       C6
+
+                                                                                                    Korzenie
+    Wiatr w Plecy          Oko Zwiadowcy       Rezonans                  Żyła Ziemi                                      Ziarno Życia
+                                                                                                   Odporności
+
+
+
+                WYBIERZ JEDNO                            WYBIERZ JEDNO                                        WYBIERZ JEDNO
+
+
+
+          A7                       A8              B7                         B8                        C7                       C8
+
+
+     Cios z Cienia          Nieuchwytny      Głaz Strażnik               Trzęsienie               Strażnik Gaju               Dar Lasu
+
+
+
+
+                      A9                                         B9                                                 C9
+
+
+               Burza Wędrowca                            Gniew Doliny                                         Pieśń Korzeni
+
+
+
+
+                                                          TRYB KI • poz. 20
+
+
+                                               Forma Rezonansu Świata
+
+
+      Aktywna               Pasywna        Wybór               Ostateczna          Linie: wymagany poprzednik (wystarczy jeden z połączonych).
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                                     4
+03 | Planetarni — węzły drzewka
+Kod Nazwa                        Typ       Wymaga Poz. Efekt
+  R   Cios Szlaku              Startowa        —        1    Atak wręcz ×1,0 co 650 ms; trzeci cios serii ×1,3. Bez kosztu Ki.
+                                                             Zryw w wybranym kierunku (160 j.), 0,4 s nietykalności; 8 Ki; odn. 6
+ A1   Szybki Unik              Aktywna      korzeń      2
+                                                             s.
+ A2   Lekki Krok               Pasywna        A1        4    +6% szybkości ruchu.
+ A3   Pęd Szlaku               Pasywna        A1        4    Po uniku następny atak zadaje +25% obrażeń (5 s).
+ A4   Wir Energii              Aktywna       A2|A3      7    Wirujący atak wokół postaci ×1,8, promień 140 j.; 18 Ki; odn. 10 s.
+ A5   Wiatr w Plecy            Pasywna        A4        10   Po pokonaniu wroga +15% szybkości ruchu przez 4 s.
+ A6   Oko Zwiadowcy            Pasywna        A4        10   +5% szansy krytyku.
+ A7   Cios z Cienia             Wybór         A5        13   Pierwszy atak po uniku zawsze jest krytyczny. Wyklucza A8.
+                                                             Odnowienie Uniku −30%, po uniku +20% obrony przez 1 s.
+ A8   Nieuchwytny               Wybór         A6        13
+                                                             Wyklucza A7.
+                                                             Seria 5 szybkich uderzeń w pobliskich wrogów, łącznie ×4,0; 35 Ki;
+ A9   Burza Wędrowca          Ostateczna     A7|A8      16
+                                                             odn. 30 s.
+                                                             Uderzenie w ziemię ×1,4, promień 120 j., spowolnienie 30% na 2 s;
+ B1   Impuls Ziemi             Aktywna      korzeń      2
+                                                             10 Ki; odn. 6 s.
+                                                             Bonus zależny od terenu: las +30% regeneracji Ki, skały +10%
+ B2   Adaptacja                Pasywna        B1        4
+                                                             obrony, woda +8% szybkości.
+ B3   Kamienna Skóra           Pasywna        B1        4    +8% obrony.
+ B4   Kruszący Stąp            Aktywna       B2|B3      7    Skok i uderzenie ×2,0, ogłuszenie 1 s; 18 Ki; odn. 10 s.
+ B5   Rezonans                 Pasywna        B4        10   Impuls Ziemi uderza drugi raz po 0,5 s za 60% obrażeń.
+ B6   Żyła Ziemi               Pasywna        B4        10   Impuls Ziemi zwraca 5 Ki za każdego trafionego wroga (maks. 15).
+                                                             Kruszący Stąp tworzy osłonę pochłaniającą 15% maks. życia przez 5
+ B7   Głaz Strażnik             Wybór         B5        13
+                                                             s. Wyklucza B8.
+ B8   Trzęsienie                Wybór         B6        13   Impuls Ziemi: promień +40% i ogłuszenie 0,5 s. Wyklucza B7.
+                                                             Ogromne uderzenie obszarowe ×4,0, ogłuszenie 1,5 s; 35 Ki; odn.
+ B9   Gniew Doliny            Ostateczna     B7|B8      16
+                                                             30 s.
+ C1   Korzenny Oddech          Aktywna      korzeń      2    Leczy 12% maks. życia w ciągu 4 s; 12 Ki; odn. 12 s.
+ C2   Zielona Krew             Pasywna        C1        4    +10% maks. życia.
+ C3   Leśna Cierpliwość        Pasywna        C1        4    Poza walką regeneracja życia 1% maks. na sekundę.
+ C4   Tarcza Liści             Aktywna       C2|C3      7    Tarcza pochłaniająca 18% maks. życia przez 5 s; 18 Ki; odn. 12 s.
+ C5   Korzenie Odporności      Pasywna        C4        10   Czas trwania efektów kontroli na postaci −25%.
+ C6   Ziarno Życia             Pasywna        C4        10   Leczenie z Korzennego Oddechu +30%.
+ C7   Strażnik Gaju             Wybór         C5        13   Tarcza Liści odbija 20% obrażeń wręcz. Wyklucza C8.
+ C8   Dar Lasu                  Wybór         C6        13   Korzenny Oddech zwraca 15 Ki. Wyklucza C7.
+ C9   Pieśń Korzeni           Ostateczna     C7|C8      16   Leczy 40% maks. życia i daje tarczę 20% na 6 s; 35 Ki; odn. 45 s.
+      Forma Rezonansu                      A9, B9 lub        20 s: +20% Ataku, +15% Obrony, +10% szybkości ruchu; aura jako
+  T                             Tryb KI                 20
+      Świata                                   C9            osobny efekt; 50 Ki; odn. 120 s.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                             5
+04 | Mędrcy — drzewko umiejętności
+Kraina startowa: Eldoria. Strażnicy dawnej wiedzy i mistycznej energii. Walczą z dystansu, kontrolują pole
+walki i wspierają. Gałęzie: pieczęcie i obrażenia, kręgi i bariery, skupienie i zasoby.
+
+
+                                                                KORZEŃ • poz. 1
+
+
+                                                                 Pocisk Ki
+
+
+
+
+                 Pieczęcie                                Kręgi i Bariery                                             Skupienie
+                znaki i obrażenia                            kontrola pola walki                                     zasoby i wsparcie
+
+
+                       A1                                              B1                                                   C1
+
+                                                                 Świetlista
+                Pieczęć Energii                                                                                        Skupienie KI
+                                                                  Bariera
+
+
+
+
+          A2                        A3                  B2                            B3                        C2                       C3
+
+                                                                                                                                   Mądrość
+     Znak Wiedzy            Szybka Pieczęć     Kontrola Kręgu                Gęste Światło               Głęboki Oddech
+                                                                                                                                  Strażników
+
+
+
+
+                       A4                                              B4                                                   C4
+
+                                                                  Krąg                                                  Medytacja
+                 Strumień Ki
+                                                               Spowolnienia                                              Bojowa
+
+
+
+
+          A5                        A6                  B5                            B6                        C5                       C6
+
+                                                                                                                                    Strumień
+     Echo Pieczęci          Precyzja Mędrca           Odbicie               Strażnik Kręgu                Czysty Umysł
+                                                                                                                                     Wiedzy
+
+
+
+                WYBIERZ JEDNO                                  WYBIERZ JEDNO                                          WYBIERZ JEDNO
+
+
+
+          A7                        A8                  B7                            B8                        C7                       C8
+
+                               Pieczęć                                                                                              Skupienie
+      Złoty Krąg                                      Kopuła                        Lustro                 Dar Mędrca
+                              Skupienia                                                                                              Mistrza
+
+
+
+
+                       A9                                              B9                                                   C9
+
+                                                                 Świątynia
+                 Sąd Światła                                                                                         Pełnia Skupienia
+                                                                  Światła
+
+
+
+
+                                                                TRYB KI • poz. 20
+
+
+                                                        Forma Oświecenia
+
+
+      Aktywna                Pasywna          Wybór                  Ostateczna            Linie: wymagany poprzednik (wystarczy jeden z połączonych).
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                                             6
+04 | Mędrcy — węzły drzewka
+Kod Nazwa                        Typ       Wymaga Poz. Efekt
+  R   Pocisk Ki                Startowa        —        1    Pocisk dystansowy ×1,0 co 800 ms, zasięg 420 j. Bez kosztu Ki.
+ A1   Pieczęć Energii          Aktywna      korzeń      2    Znak na celu; po 3 s wybucha za ×2,0; 12 Ki; odn. 8 s.
+ A2   Znak Wiedzy              Pasywna        A1        4    Wrogowie z pieczęcią przyjmują +10% obrażeń.
+ A3   Szybka Pieczęć           Pasywna        A1        4    Odnowienie Pieczęci Energii −20%.
+ A4   Strumień Ki              Aktywna       A2|A3      7    Kanałowany promień 3 s, łącznie ×2,4 (co 0,5 s); 20 Ki; odn. 12 s.
+ A5   Echo Pieczęci            Pasywna        A4        10   Wybuch Pieczęci rani też pobliskich wrogów za 50% obrażeń.
+ A6   Precyzja Mędrca          Pasywna        A4        10   +8% szansy krytyku.
+                                                             Wybuch Pieczęci tworzy krąg obrażeń o promieniu 120 j. Wyklucza
+ A7   Złoty Krąg                Wybór         A5        13
+                                                             A8.
+ A8   Pieczęć Skupienia         Wybór         A6        13   Wybuch Pieczęci zwraca 15 Ki. Wyklucza A7.
+ A9   Sąd Światła             Ostateczna     A7|A8      16   Po 1,5 s słup światła w dużym obszarze ×4,2; 35 Ki; odn. 30 s.
+ B1   Świetlista Bariera       Aktywna      korzeń      2    Tarcza pochłaniająca 15% maks. życia przez 4 s; 12 Ki; odn. 10 s.
+                                                             Zdolności zostawiają krąg światła (5 s): +10% obrony postaci w jego
+ B2   Kontrola Kręgu           Pasywna        B1        4
+                                                             obrębie.
+ B3   Gęste Światło            Pasywna        B1        4    Bariera trwa o 2 s dłużej.
+ B4   Krąg Spowolnienia        Aktywna       B2|B3      7    Krąg na 5 s: wrogowie w nim −40% szybkości; 18 Ki; odn. 12 s.
+ B5   Odbicie                  Pasywna        B4        10   Bariera odbija 15% obrażeń z pocisków.
+ B6   Strażnik Kręgu           Pasywna        B4        10   Wrogowie w kręgach zadają −10% obrażeń.
+ B7   Kopuła                    Wybór         B5        13   Pojemność Bariery +30%. Wyklucza B8.
+ B8   Lustro                    Wybór         B6        13   Bariera odbija pierwszy atak wroga w całości. Wyklucza B7.
+                                                             Wielki krąg na 8 s: +30% obrony postaci, wrogowie −30%
+ B9   Świątynia Światła       Ostateczna     B7|B8      16
+                                                             szybkości; 35 Ki; odn. 40 s.
+                                                             Kanałowanie 3 s: odnawia 30% maks. Ki (przerywane ruchem lub
+ C1   Skupienie KI             Aktywna      korzeń      2
+                                                             trafieniem); odn. 15 s.
+ C2   Głęboki Oddech           Pasywna        C1        4    +15% maks. Ki.
+ C3   Mądrość Strażników       Pasywna        C1        4    Koszty Ki zdolności −8%.
+ C4   Medytacja Bojowa         Aktywna       C2|C3      7    Kanałowanie 3 s: leczy 20% maks. życia; 10 Ki; odn. 15 s.
+ C5   Czysty Umysł             Pasywna        C4        10   Czas trwania efektów kontroli na postaci −25%.
+ C6   Strumień Wiedzy          Pasywna        C4        10   Po Skupieniu KI następna zdolność zadaje +25% obrażeń (6 s).
+ C7   Dar Mędrca                Wybór         C5        13   Medytacja Bojowa leczy o 50% więcej. Wyklucza C8.
+ C8   Skupienie Mistrza         Wybór         C6        13   Skupienie KI nie jest przerywane ruchem. Wyklucza C7.
+                                                             8 s: zdolności nie kosztują Ki i zadają +30% obrażeń; 20 Ki; odn. 60
+ C9   Pełnia Skupienia        Ostateczna     C7|C8      16
+                                                             s.
+                                           A9, B9 lub        20 s: +25% Ataku, odnowienia zdolności −30%, +15% Obrony; aura
+  T   Forma Oświecenia          Tryb KI                 20
+                                               C9            jako osobny efekt; 50 Ki; odn. 120 s.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                              7
+05 | Androidy — drzewko umiejętności
+Kraina startowa: Nexaris. Technologicznie udoskonalone istoty. Strzelają precyzyjnie, bronią się tarczami i
+zarządzają Ładunkiem Rdzenia. Gałęzie: systemy celownicze, pancerz i tarcze, Rdzeń.
+
+
+                                                            KORZEŃ • poz. 1
+
+
+                                                      Strzał Impulsowy
+
+
+
+
+        Systemy Celownicze                           Pancerz i Tarcze                                               Rdzeń
+                precyzja i krytyki                        osłony i odporność                                   zasób i wyładowania
+
+
+                       A1                                          B1                                                  C1
+
+                                                               Tarcza                                            Wyładowanie
+                 Namierzanie
+                                                             Plazmowa                                              Rdzenia
+
+
+
+
+          A2                         A3              B2                         B3                        C2                         C3
+
+                                                                           Generator                 Zarządzanie
+      Kalibracja             Stabilizatory    Płyty Pancerne                                                                  Radiatory
+                                                                            Tarczy                    Rdzeniem
+
+
+
+
+                       A4                                          B4                                                  C4
+
+                    Salwa                                    Impuls                                              Rozładowanie
+                  Precyzyjna                               Odpychający                                             Awaryjne
+
+
+
+
+          A5                         A6              B5                         B6                        C5                         C6
+
+                               Szybkie           Protokół                                            Rezerwowy
+   Analiza Słabości                                                     Samonaprawa                                         Optymalizacja
+                            Przeładowanie        Adaptacji                                           Akumulator
+
+
+
+                WYBIERZ JEDNO                              WYBIERZ JEDNO                                         WYBIERZ JEDNO
+
+
+
+          A7                         A8              B7                         B8                        C7                         C8
+
+                                                                            Tarcza                   Przeciążony
+       Snajper                       Rój      Tarcza Kolcowa                                                                Stabilny Rdzeń
+                                                                           Modułowa                     Rdzeń
+
+
+
+
+                       A9                                          B9                                                  C9
+
+                   Protokół                                                                                      Przeciążenie
+                                                            Fortyfikacja
+                   Egzekucji                                                                                       Systemu
+
+
+
+
+                                                            TRYB KI • poz. 20
+
+
+                                                 Forma Pełnego Rdzenia
+
+
+      Aktywna                 Pasywna        Wybór               Ostateczna          Linie: wymagany poprzednik (wystarczy jeden z połączonych).
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                                       8
+05 | Androidy — węzły drzewka
+Kod Nazwa                        Typ       Wymaga Poz. Efekt
+                                                             Strzał ×1,0 co 700 ms, zasięg 360 j.; każdy strzał +4 Ładunku
+  R   Strzał Impulsowy         Startowa        —        1    Rdzenia (maks. 100). Przy 100 przegrzanie: 2 s bez strzałów.
+                                                             Ładunek opada o 6/s poza strzelaniem.
+                                                             Oznacza cel na 6 s: +15% szansy krytyku przeciw niemu; 8 Ki; odn.
+ A1   Namierzanie              Aktywna      korzeń      2
+                                                             8 s.
+ A2   Kalibracja               Pasywna        A1        4    +6% szansy krytyku.
+ A3   Stabilizatory            Pasywna        A1        4    Zasięg strzałów +15%.
+ A4   Salwa Precyzyjna         Aktywna       A2|A3      7    Trzy strzały w oznaczony cel, łącznie ×2,2; 18 Ki; odn. 10 s.
+ A5   Analiza Słabości         Pasywna        A4        10   Oznaczeni wrogowie mają −10% obrony.
+      Szybkie
+ A6                            Pasywna        A4        10   Odstęp strzałów −8%.
+      Przeładowanie
+                                                             +40% obrażeń przeciw oznaczonym, odstęp strzałów +10%.
+ A7   Snajper                   Wybór         A5        13
+                                                             Wyklucza A8.
+                                                             Strzał rozdziela się na 2 dodatkowe pobliskie cele (po 40% obrażeń).
+ A8   Rój                       Wybór         A6        13
+                                                             Wyklucza A7.
+                                                             Strzał ×4,0 w oznaczony cel, ×6,0 gdy cel ma poniżej 30% życia; 35
+ A9   Protokół Egzekucji      Ostateczna     A7|A8      16
+                                                             Ki; odn. 30 s.
+ B1   Tarcza Plazmowa          Aktywna      korzeń      2    Tarcza pochłaniająca 18% maks. życia przez 5 s; 12 Ki; odn. 10 s.
+ B2   Płyty Pancerne           Pasywna        B1        4    +8% obrony.
+ B3   Generator Tarczy         Pasywna        B1        4    Pojemność Tarczy +25%.
+                                                             Fala ×1,2 odpycha pobliskich wrogów i ogłusza na 0,5 s; 18 Ki; odn.
+ B4   Impuls Odpychający       Aktywna       B2|B3      7
+                                                             12 s.
+ B5   Protokół Adaptacji       Pasywna        B4        10   Tarcza Plazmowa odbija 25% obrażeń z pocisków.
+ B6   Samonaprawa              Pasywna        B4        10   Regeneracja życia 0,5% maks. na sekundę.
+ B7   Tarcza Kolcowa            Wybór         B5        13   Tarcza odbija 30% obrażeń wręcz. Wyklucza B8.
+ B8   Tarcza Modułowa           Wybór         B6        13   Odnowienie Tarczy −35%. Wyklucza B7.
+ B9   Fortyfikacja            Ostateczna     B7|B8      16   6 s: +60% obrony i odporność na efekty kontroli; 35 Ki; odn. 40 s.
+      Wyładowanie                                            Zużywa cały Ładunek: obrażenia ×(1,0 + Ładunek/50), do ×3,0 przy
+ C1                            Aktywna      korzeń      2
+      Rdzenia                                                100, w linii przed postacią; 15 Ki; odn. 8 s.
+      Zarządzanie
+ C2                            Pasywna        C1        4    Przegrzanie trwa 1 s zamiast 2 s; Ładunek opada o 50% szybciej.
+      Rdzeniem
+ C3   Radiatory                Pasywna        C1        4    Każdy strzał dodaje o 15% mniej Ładunku.
+      Rozładowanie
+ C4                            Aktywna       C2|C3      7    Zeruje Ładunek i leczy 10% maks. życia; 0 Ki; odn. 20 s.
+      Awaryjne
+      Rezerwowy
+ C5                            Pasywna        C4        10   +12% maks. Ki.
+      Akumulator
+ C6   Optymalizacja            Pasywna        C4        10   Koszt Ki Wyładowania Rdzenia −20%.
+                                                             Maks. Ładunek 150 (Wyładowanie do ×4,0); przegrzanie przy 150.
+ C7   Przeciążony Rdzeń         Wybór         C5        13
+                                                             Wyklucza C8.
+ C8   Stabilny Rdzeń            Wybór         C6        13   Przegrzanie nigdy nie następuje; maks. Ładunek 70. Wyklucza C7.
+      Przeciążenie                                           6 s: zdolności nie kosztują Ki, +40% obrażeń; potem 2 s wyłączenia
+ C9                           Ostateczna     C7|C8      16
+      Systemu                                                (brak akcji); 35 Ki; odn. 45 s.
+      Forma Pełnego                        A9, B9 lub        20 s: +25% Ataku, +15% Obrony, przegrzanie wyłączone; aura jako
+  T                             Tryb KI                 20
+      Rdzenia                                  C9            osobny efekt; 50 Ki; odn. 120 s.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                            9
+06 | Legendy — drzewko umiejętności
+Kraina startowa: Valthera. Potężni wojownicy o aurze wyjątkowej siły. Walczą w zwarciu, łączą ciosy w
+kombinacje i wybuchają energią Ki. Gałęzie: ogień walki, żelazna wola, wybuch Ki.
+
+
+                                                           KORZEŃ • poz. 1
+
+
+                                                         Uderzenie Żaru
+
+
+
+
+               Ogień Walki                               Żelazna Wola                                         Wybuch KI
+           kombinacje i płomienie                        przełamanie i szał                                     burst i Żar
+
+
+                      A1                                          B1                                                C1
+
+
+                Ogniste Cięcie                             Przełamanie                                         Wybuch Ki
+
+
+
+
+          A2                     A3                 B2                         B3                        C2                      C3
+
+      Rozgrzane                                Hartowana                   Honor
+                           Łańcuch Ciosów                                                               Żar              Ognisty Oddech
+       Ostrza                                    Skóra                    Wojownika
+
+
+
+
+                      A4                                          B4                                                C4
+
+                    Szarża
+                                                         Płomienny Szał                                       Eksplozja Żaru
+                  Płomienia
+
+
+
+
+          A5                     A6                 B5                         B6                        C5                      C6
+
+     Rozżarzone                                                                                       Szybkie
+                           Okrucieństwo       Żelazna Wola             Krew Legendy                                       Nieugaszony
+       Pięści                                                                                       Rozżarzenie
+
+
+
+                WYBIERZ JEDNO                             WYBIERZ JEDNO                                       WYBIERZ JEDNO
+
+
+
+          A7                     A8                 B7                         B8                        C7                      C8
+
+                                                                        Kontrolowany
+   Taniec Płomieni         Pojedynkowicz       Wściekłość                                             Wulkan                  Detonator
+                                                                             Żar
+
+
+
+
+                      A9                                          B9                                                C9
+
+                                                                                                                 Ognisty
+                 Tysiąc Cięć                             Ostatni Płomień
+                                                                                                                Kataklizm
+
+
+
+
+                                                           TRYB KI • poz. 20
+
+
+                                              Forma Płomiennego Legendy
+
+
+      Aktywna               Pasywna         Wybór               Ostateczna          Linie: wymagany poprzednik (wystarczy jeden z połączonych).
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                                    10
+06 | Legendy — węzły drzewka
+Kod Nazwa                        Typ       Wymaga Poz. Efekt
+                                                             Cios wręcz ×1,0 co 750 ms; każde trafienie +4 Żaru (maks. 100).
+  R   Uderzenie Żaru           Startowa        —        1    Żar daje +0,1% obrażeń za punkt (maks. +10%) i opada o 5/s poza
+                                                             walką.
+ A1   Ogniste Cięcie           Aktywna      korzeń      2    Kombinacja 3 cięć, łącznie ×1,8; 10 Ki; odn. 6 s.
+ A2   Rozgrzane Ostrza         Pasywna        A1        4    Cięcia podpalają na 3 s (łącznie 30% Ataku).
+ A3   Łańcuch Ciosów           Pasywna        A1        4    Po 3 trafieniach z rzędu odstęp ataków −10% na 4 s.
+ A4   Szarża Płomienia         Aktywna       A2|A3      7    Doskok (200 j.) i cięcie ×2,2; 18 Ki; odn. 10 s.
+ A5   Rozżarzone Pięści        Pasywna        A4        10   +8% Ataku.
+ A6   Okrucieństwo             Pasywna        A4        10   +6% szansy krytyku.
+ A7   Taniec Płomieni           Wybór         A5        13   Ogniste Cięcie ma 5 cięć (łącznie ×2,6). Wyklucza A8.
+                                                             +25% obrażeń, gdy w zasięgu 200 j. jest tylko jeden wróg. Wyklucza
+ A8   Pojedynkowicz             Wybór         A6        13
+                                                             A7.
+ A9   Tysiąc Cięć             Ostateczna     A7|A8      16   Seria 8 cięć, łącznie ×4,2; 35 Ki; odn. 30 s.
+                                                             Cios kruszący ×1,5, ogłuszenie 1,2 s i zniszczenie osłon wroga; 12
+ B1   Przełamanie              Aktywna      korzeń      2
+                                                             Ki; odn. 8 s.
+ B2   Hartowana Skóra          Pasywna        B1        4    +8% obrony.
+ B3   Honor Wojownika          Pasywna        B1        4    +10% maks. życia.
+ B4   Płomienny Szał           Aktywna       B2|B3      7    8 s: +30% Ataku, −20% obrony; 18 Ki; odn. 25 s.
+ B5   Żelazna Wola             Pasywna        B4        10   W Szale odporność na ogłuszenie.
+ B6   Krew Legendy             Pasywna        B4        10   Po pokonaniu wroga leczy 3% maks. życia.
+ B7   Wściekłość                Wybór         B5        13   Szał trwa o 4 s dłużej i daje dodatkowe +10% Ataku. Wyklucza B8.
+ B8   Kontrolowany Żar          Wybór         B6        13   Szał nie obniża obrony. Wyklucza B7.
+                                                             5 s: pierwszy śmiertelny cios zostawia 1 punkt życia i leczy 30%
+ B9   Ostatni Płomień         Ostateczna     B7|B8      16
+                                                             maks. życia; 35 Ki; odn. 90 s.
+ C1   Wybuch Ki                Aktywna      korzeń      2    Eksplozja wokół postaci ×1,8, promień 150 j.; 15 Ki; odn. 8 s.
+ C2   Żar                      Pasywna        C1        4    Żar rośnie o 50% szybciej i opada 2× wolniej.
+ C3   Ognisty Oddech           Pasywna        C1        4    Wybuch Ki podpala na 4 s (łącznie 40% Ataku).
+                                                             Zużywa cały Żar: obszarowo ×(1,0 + Żar/50), do ×3,0 przy 100; 20
+ C4   Eksplozja Żaru           Aktywna       C2|C3      7
+                                                             Ki; odn. 12 s.
+ C5   Szybkie Rozżarzenie      Pasywna        C4        10   Walka zaczyna się z 20 Żaru.
+ C6   Nieugaszony              Pasywna        C4        10   Przy 100 Żaru regeneracja Ki +50%.
+ C7   Wulkan                    Wybór         C5        13   Eksplozja Żaru: promień +50%. Wyklucza C8.
+ C8   Detonator                 Wybór         C6        13   Eksplozja Żaru: +25% obrażeń, promień −20%. Wyklucza C7.
+                                                             Kolumna ognia w dużym obszarze ×4,5 i podpalenie na 5 s; 35 Ki;
+ C9   Ognisty Kataklizm       Ostateczna     C7|C8      16
+                                                             odn. 30 s.
+      Forma Płomiennego                    A9, B9 lub        20 s: +30% Ataku, Żar utrzymuje się na 100; aura jako osobny
+  T                             Tryb KI                 20
+      Legendy                                  C9            efekt; 50 Ki; odn. 120 s.
+
+
+
+
+KI LEGENDS • Aneks: Statystyki ras i drzewka umiejętności • 22.10.2026                                                            11
+

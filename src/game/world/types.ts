@@ -32,6 +32,8 @@ export type WorldDefinition = {
   landmarks: Landmark[];
   objects: readonly RegionObject[];
   obstacles: readonly Obstacle[];
+  /** Gameplay metadata, independent of texture pixels and art packs. */
+  adaptationZones?: (Obstacle & { kind: "forest" | "rock" | "water" })[];
   terrain?: {
     ground: string;
     path: string;

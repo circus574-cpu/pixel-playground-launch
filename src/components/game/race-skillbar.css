@@ -1,0 +1,257 @@
+.ki-race-actionbar {
+  position: absolute;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px 6px;
+  background: #0d1b24ed;
+  border: 1px solid #456068;
+  border-radius: 13px;
+  pointer-events: auto;
+  max-width: calc(100% - 20px);
+}
+.ki-race-skill {
+  position: relative;
+  width: 52px;
+  min-width: 0;
+  flex-shrink: 1;
+  border: 0;
+  color: #cae4e0;
+  background: none;
+  padding: 0 0 5px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.ki-race-skill > span {
+  height: 46px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #45646a;
+  background: #1c333b;
+  font-size: 24px;
+}
+.ki-race-skill svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.6;
+}
+.ki-race-skill.is-ultimate > span {
+  border-color: #a2925e;
+  background: #383628;
+  color: #ecdd99;
+}
+.ki-race-skill.is-form > span {
+  color: #d3b6f6;
+  border-color: #796294;
+  background: #2a233f;
+}
+.ki-race-skill.is-potion > span {
+  color: #efa4a7;
+  border-color: #935a65;
+  background: #34232f;
+}
+.ki-race-skill kbd {
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  font: 9px system-ui;
+  color: #aec7cf;
+}
+.ki-race-skill > small {
+  display: block;
+  margin-top: 6px;
+  height: 20px;
+  font-size: 8px;
+  line-height: 1.2;
+  max-width: 55px;
+  overflow: hidden;
+}
+.ki-race-skill:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ki-race-skill:focus-visible {
+  outline: 2px solid #b9d994;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+.ki-race-cooldown {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  background: #08131cc7;
+  border-radius: 8px;
+  font-size: 15px;
+  color: white;
+}
+.ki-race-potion-count {
+  position: absolute;
+  top: 29px;
+  right: 4px;
+  font-size: 10px;
+  background: #0d1522;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+.ki-race-auto {
+  position: absolute;
+  top: 31px;
+  left: 8px;
+  font-size: 8px;
+  color: #e9dc9e;
+}
+.ki-race-bar-divider {
+  height: 40px;
+  width: 1px;
+  background: #40525a;
+  margin: 4px 2px;
+}
+.ki-racial-resource {
+  font-size: 9px;
+  color: #b8cdd2;
+  padding-top: 4px;
+  line-height: 1.4;
+}
+.ki-racial-resource i {
+  display: block;
+  height: 3px;
+  margin-top: 3px;
+  border-radius: 2px;
+  background: #70b9d0;
+  max-width: 100%;
+}
+.ki-race-progress-button {
+  font: inherit !important;
+  color: #d0e6c9 !important;
+  position: relative;
+}
+.ki-race-progress-button > span {
+  font-size: 22px;
+}
+.ki-race-progress-button > b {
+  position: absolute;
+  right: 0;
+  top: -4px;
+  background: #c3db94;
+  color: #1c2b1d;
+  border-radius: 7px;
+  padding: 1px 4px;
+  font-size: 9px;
+}
+@media (max-width: 600px) {
+  .ki-race-actionbar {
+    gap: 5px;
+    padding: 8px 8px 3px;
+    bottom: max(9px, env(safe-area-inset-bottom));
+    width: 338px;
+  }
+  .ki-race-skill {
+    width: 40px;
+  }
+  .ki-race-skill > span {
+    height: 40px;
+    border-radius: 7px;
+  }
+  .ki-race-skill svg {
+    width: 21px;
+    height: 21px;
+  }
+  .ki-race-skill > small {
+    font-size: 7px;
+    height: 17px;
+  }
+  .ki-race-bar-divider {
+    margin: 3px 0;
+    height: 35px;
+  }
+  .ki-race-cooldown {
+    height: 40px;
+    font-size: 13px;
+  }
+  .ki-race-auto {
+    font-size: 7px;
+    left: 4px;
+    top: 27px;
+  }
+  .ki-race-potion-count {
+    top: 25px;
+  }
+  .ki-racial-resource {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud .ki-tools.is-open {
+    width: min(280px, calc(100vw - 24px));
+  }
+  .ki-hud.ki-racial-hud .ki-tools-toggle {
+    bottom: calc(var(--hud-bottom) + 90px);
+  }
+  .ki-hud.ki-racial-hud .ki-context-actions {
+    bottom: calc(var(--hud-bottom) + 90px);
+    left: calc(50% + 28px);
+    max-width: calc(100% - 80px);
+    flex-wrap: wrap;
+  }
+  .ki-hud.ki-racial-hud .ki-tools {
+    bottom: calc(var(--hud-bottom) + 150px);
+  }
+}
+@media (max-width: 600px) {
+  .ki-race-actionbar {
+    width: calc(100% - 16px);
+    max-width: 390px;
+    gap: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .ki-race-skill {
+    flex: 1;
+    min-width: 44px;
+    width: auto;
+    min-height: 60px;
+  }
+  .ki-race-bar-divider {
+    margin: 3px 0;
+    width: 1px;
+    flex-shrink: 0;
+  }
+  .ki-race-skill > span {
+    height: 44px;
+  }
+  .ki-race-cooldown {
+    height: 44px;
+  }
+}
+.ki-tree-feedback {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #a4b9bc;
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud.ki-racial-hud .ki-player {
+    height: auto;
+    min-height: 80px;
+  }
+  .ki-hud.ki-racial-hud .ki-target {
+    top: 96px;
+  }
+}
+@media (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud.ki-racial-hud .ki-tools-toggle {
+    bottom: calc(var(--hud-bottom) + 110px);
+  }
+  .ki-hud.ki-racial-hud .ki-context-actions {
+    bottom: calc(var(--hud-bottom) + 110px);
+  }
+  .ki-hud.ki-racial-hud .ki-tools {
+    bottom: calc(var(--hud-bottom) + 170px);
+  }
+}

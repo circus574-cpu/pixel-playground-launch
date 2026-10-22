@@ -36,6 +36,10 @@ export const WORLDS: Record<WorldId, WorldDefinition> = {
     ],
     objects: FOREST_OBJECTS,
     obstacles: forestObstacles(),
+    adaptationZones: [
+      ...FOREST.riverRows.map((row) => ({ ...row, kind: "water" as const })),
+      { x: 1410, y: 730, width: 180, height: 150, kind: "rock" },
+    ],
   },
   aether: aether as unknown as WorldDefinition,
   nexus: nexus as WorldDefinition,

@@ -1,6 +1,11 @@
 import { defineConfig } from "@playwright/test";
 import { existsSync } from "node:fs";
 const canvasArgs = ["--no-sandbox", "--disable-webgl"];
+const executable = process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"]
+  ? { executablePath: process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"] }
+  : existsSync("/usr/bin/chromium")
+    ? { executablePath: "/usr/bin/chromium" }
+    : {};
 const webglArgs = [
   "--no-sandbox",
   "--use-gl=angle",
@@ -20,11 +25,7 @@ export default defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     launchOptions: {
-      ...(process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"]
-        ? { executablePath: process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"] }
-        : existsSync("/usr/bin/chromium")
-          ? { executablePath: "/usr/bin/chromium" }
-          : {}),
+      ...executable,
       args: process.env["KI_QA_WEBGL"] ? webglArgs : canvasArgs,
     },
   },
@@ -39,15 +40,16 @@ export default defineConfig({
         "**/gpu-webgl-smoke.spec.ts",
         "**/hero-lifecycle.spec.ts",
         "**/world-rendering.spec.ts",
+        "**/race-progression.spec.ts",
       ],
-      use: { launchOptions: { args: webglArgs } },
+      use: { launchOptions: { ...executable, args: webglArgs } },
     },
     {
       name: "application-canvas",
       testMatch: appTests,
       use: {
         baseURL: process.env["KI_QA_APP_URL"] ?? "http://127.0.0.1:4176",
-        launchOptions: { args: canvasArgs },
+        launchOptions: { ...executable, args: canvasArgs },
       },
     },
     {
@@ -55,7 +57,7 @@ export default defineConfig({
       testMatch: ["**/globe-handoff.spec.ts", "**/globe-rendering.spec.ts"],
       use: {
         baseURL: process.env["KI_QA_APP_URL"] ?? "http://127.0.0.1:4176",
-        launchOptions: { args: webglArgs },
+        launchOptions: { ...executable, args: webglArgs },
       },
     },
   ],

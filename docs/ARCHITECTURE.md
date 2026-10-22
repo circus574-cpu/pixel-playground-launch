@@ -1,5 +1,9 @@
 # KI Legends — architektura (indeks źródeł)
 
+## Aktualizacja gałęzi rozwoju, 22.10.2026
+Baza tej pracy: `66a615dec1d4259e1bf668956ec1cb09e9aa177e`. PR #15 i #16 są już scalone; opisy poniżej zachowano jako historyczny odczyt 21.10.2026. Osobna gałąź dodaje katalog, model rozwoju i runtime efektów w `src/game/progression/`, interfejs drzewek i świadomą migrację do v4. Szczegóły: [RACE-PROGRESSION.md](RACE-PROGRESSION.md). Grafika postaci, multiplayer i produkcja poza zakresem tej dostawy.
+
+
 Stan audytu: 2026-10-21. Gałąź produkcyjna `main` na commicie `b3872c73c9df06e2a793190a6120f0948b021cb0`. Dokument indeksuje istniejące źródła; nie zastępuje szczegółowej dokumentacji.
 
 ## Stos

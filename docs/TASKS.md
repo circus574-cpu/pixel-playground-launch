@@ -1,5 +1,15 @@
 # KI Legends — aktywny rejestr zadań i usterek
 
+## Gałąź rozwoju — 22.10.2026
+- RPG-01: odbiór katalogu 116 węzłów, wzrostu, alokacji i migracji v4. Dowody: testy i [specyfikacja](RACE-PROGRESSION.md).
+- RPG-02: odbiór interfejsu, zestawu bojowego i efektów w Canvas/Software WebGL. Stan: [walidacja](qa/race-progression/VALIDATION.md).
+- RPG-03: zatwierdzenie roboczych parametrów kręgów, DoT, form i zestawu czterech zdolności.
+- RPG-04: kampanie 1–20, bestiariusz na czterech mapach, nagrody/XP i pełne symulacje buildów — następny etap, niewdrożone.
+- RPG-05: fizyczny Android i sprzętowy WebGL — niewykonane.
+
+Historyczna tabela poniżej opisuje stan 21.10.2026. PR #15/#16 są już scalone; nie zamyka to automatycznie nierozwiązanych odbiorów mobilnych i produkcyjnych.
+
+
 Aktualizacja: 2026-10-21. Po każdej zmianie sprawdzić aktualne commity oraz CI i poprawić [STATUS.md](STATUS.md); nie zamykać zgłoszeń deklaracją wykonawcy.
 
 | ID | Priorytet | Zadanie | Warunek zamknięcia |

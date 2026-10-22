@@ -72,6 +72,7 @@ export function mountKileGends(
     private enemies = new Map<string, Actor>();
     private selection!: Phaser.GameObjects.Ellipse;
     private shield!: Phaser.GameObjects.Ellipse | Phaser.GameObjects.Sprite;
+    private raceEffects!: Phaser.GameObjects.Graphics;
     private loot = new Map<string, Phaser.GameObjects.Container>();
     private keys: Record<string, Phaser.Input.Keyboard.Key> | undefined;
     private joystickId: number | null = null;
@@ -182,6 +183,8 @@ export function mountKileGends(
         ? this.add.sprite(0, 0, shieldArt.asset, shieldArt.frame).setDisplaySize(100, 112)
         : this.add.ellipse(0, 0, 100, 112, 0x85dfe8, 0.13).setStrokeStyle(3, 0xaffff4);
       this.shield.setVisible(false);
+      this.raceEffects = this.add.graphics();
+      this.raceEffects.setDepth(renderDepth("below"));
       const beacon = this.add
         .ellipse(world.market.x, world.market.y, 66, 28)
         .setStrokeStyle(3, 0xfff0a1)
@@ -247,6 +250,10 @@ export function mountKileGends(
           Escape: { type: "cancel" },
           f: { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" },
         };
+        if (session.player.progression) {
+          for (let slot = 0; slot < 4; slot++) map[String(slot + 1)] = { type: "skill-slot", slot };
+          map["t"] = { type: "cast-skill", id: session.player.race + ".T" };
+        }
         const action = map[event.key] ?? map[event.key.toLowerCase()];
         if (action && !event.repeat) {
           event.preventDefault();
@@ -714,8 +721,26 @@ export function mountKileGends(
         this.selection
           .setPosition(session.target.x, session.target.y + 7)
           .setDepth(session.target.y - 1);
+      const racial = session.raceCombat.view();
+      this.raceEffects.clear();
+      if (racial) {
+        for (const circle of racial.circles) {
+          this.raceEffects.fillStyle(0x77ddd2, 0.12);
+          this.raceEffects.fillCircle(circle.x, circle.y, circle.radius);
+          this.raceEffects.lineStyle(2, 0x9cf1db, 0.6);
+          this.raceEffects.strokeCircle(circle.x, circle.y, circle.radius);
+        }
+        if (racial.form > 0) {
+          this.raceEffects.lineStyle(
+            4,
+            Phaser.Display.Color.HexStringToColor(RACES[session.player.race].color).color,
+            0.7,
+          );
+          this.raceEffects.strokeEllipse(session.player.x, session.player.y, 85, 38);
+        }
+      }
       this.shield
-        .setVisible(session.player.shield > 0)
+        .setVisible(session.player.shield > 0 || (racial?.shield ?? 0) > 0)
         .setPosition(session.player.x, session.player.y - 40)
         .setDepth(renderDepth("combat", session.player.y + 1));
       for (const l of session.loot)

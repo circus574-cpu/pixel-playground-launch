@@ -31,10 +31,16 @@
 ## Shared project knowledge — required for every agent
 
 - Before planning or implementing Ki Legends changes, read [docs/INDEX.md](docs/INDEX.md) and the relevant linked source documents from the current commit. Do not rely solely on chat memory or PR descriptions.
-- The owner-provided 12-page design PDF is a source document; see [docs/design/RASY_I_ETAPY.md](docs/design/RASY_I_ETAPY.md) for an interim text index. The original binary PDF must still be uploaded and verified before claiming archival completeness.
+- The owner-provided 12-page design PDF is a source document; see [docs/design/RASY_I_ETAPY.md](docs/design/RASY_I_ETAPY.md) for an interim text index. The original binary PDF is archived in `docs/design/original-pdf-parts/`; verify it with `restore.py` before using the visual references.
 - Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
 - **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
 - Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
 - Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.
 - Region curved roads/courts (`terrain.roads`, `terrain.courts`) are presentation-only and baked into chunk textures by `src/game/world/renderRoads.ts`; collision always comes from obstacles and footprints so saves and navigation stay independent of art.
 - The planet atlas (2D/3D) is shared by /mapa and the in-game overlay via MapaView props (`current`, `onClose`); it only reads the active character continent through MapChrome and never imports game session code, keeping /mapa light.
+
+## Race progression branch, 2026-10-22
+
+- Read `docs/RACE-PROGRESSION.md` for the owner-authorized skill-tree work, canonical world names, source PDFs, opt-in migration and prototype balance decisions.
+- Keep character artwork/atlas/rig work separate: the owner assigned it to Codex. Do not modify `src/game/assets/imported.json` or actor assets for progression UI work.
+- v4 progression saves must preserve byte-identical pre-v4 recovery data and stale-tab guards. Resetting points or swapping loadout slots must not restore cooldowns, HP or Ki.

@@ -1,5 +1,11 @@
 # KI Legends — zweryfikowany status projektu
 
+## Aktualizacja wykonawcy — gałąź rozwoju, 22.10.2026
+Aktualna baza odczytana z GitHub i sklonowana: `66a615dec1d4259e1bf668956ec1cb09e9aa177e`. PR #15 i #16: scalone (potwierdzone API GitHub); archiwum oryginalnego PDF jest obecne w checkoutcie. Poniższy status `b3872c73` jest historyczny, nie bieżący.
+
+Nowa praca na `feat/race-progression-skill-trees-20261022`: katalog 116 węzłów, statystyki 1–20, walka rasowa opt-in, zapis v4 z kopią, interfejs desktop/mobile. Nie scalono i nie opublikowano. Zakres, ograniczenia i nieukończone treści: [RACE-PROGRESSION.md](RACE-PROGRESSION.md). Faktyczne wyniki: [VALIDATION.md](qa/race-progression/VALIDATION.md). Produkcja i fizyczny Android nie były przedmiotem odbioru tej sesji.
+
+
 **Odczyt 2026-10-21.** Repozytorium `circus574-cpu/pixel-playground-launch`. `main`: `b3872c73c9df06e2a793190a6120f0948b021cb0`. PR #15: `b9f44577cb7bc1bab737c67000369b7a25919e26` odczytany przed ostatnią aktualizacją dokumentacji; sprawdzić HEAD przy następnym audycie.
 
 ## Main vs propozycje

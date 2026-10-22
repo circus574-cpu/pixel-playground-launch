@@ -18,6 +18,9 @@ import "./game-hud.css";
 import "./anime-hud.css";
 import { ABILITIES, xpNeeded, type Ability, type Command } from "../../game/session";
 import { Inventory, QuestJournal, NpcDialogue } from "./AdventurePanels";
+import { SkillTree } from "./SkillTree";
+import { RaceSkillBar } from "./RaceSkillBar";
+import { availablePoints } from "../../game/progression/model";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
@@ -71,6 +74,7 @@ export function GameHud({
   systemNotice,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
+  const [skillsOpen, setSkillsOpen] = useState(false);
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -156,12 +160,13 @@ export function GameHud({
   }
   const player = state.player;
   useEffect(() => {
-    onCommand({ type: "pause", value: panel !== null });
+    onCommand({ type: "pause", value: panel !== null || skillsOpen });
     return () => onCommand({ type: "pause", value: false });
-  }, [panel, onCommand]);
+  }, [panel, skillsOpen, onCommand]);
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        setSkillsOpen(false);
         setToolsOpen(false);
         setChatOpen(false);
         if (
@@ -183,7 +188,7 @@ export function GameHud({
   const tracked = state.quests.find((q) => q.status !== "done");
   return (
     <div
-      className="ki-hud"
+      className={`ki-hud ${player.progression ? "ki-racial-hud" : ""}`}
       style={{ "--ki-ui-image": `url("${uiTextureUrl()}")` } as CSSProperties}
     >
       <section className="ki-player ki-frame" aria-label="Postać gracza">
@@ -195,6 +200,29 @@ export function GameHud({
           <div className="ki-player-name">
             Wędrowiec <span>{RACES[player.race].name.toUpperCase()}</span>
           </div>
+          {state.progression && (
+            <div className="ki-racial-resource" aria-label="Stan rozwoju rasy">
+              {state.progression.label && (
+                <>
+                  <span>
+                    {state.progression.label}: {Math.floor(state.progression.resource)} /{" "}
+                    {state.progression.maxResource}
+                  </span>
+                  <i
+                    style={{
+                      width: `${(state.progression.resource / state.progression.maxResource) * 100}%`,
+                    }}
+                  />
+                </>
+              )}
+              {state.progression.shield > 0 && <span> Osłona: {state.progression.shield} HP</span>}
+              {state.progression.form > 0 && (
+                <span> · Tryb KI {Math.ceil(state.progression.form / 1000)} s</span>
+              )}
+              {state.progression.channel && <span> · {state.progression.channel}</span>}
+              {(player.progression?.overheat ?? 0) > 0 && <span> · Przegrzanie</span>}
+            </div>
+          )}
           <div
             className="ki-meter ki-hp"
             role="meter"
@@ -239,7 +267,7 @@ export function GameHud({
             <div className="ki-meter ki-hp">
               <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
               <span>
-                {state.target.hp} / {state.target.maxHp}
+                {Math.ceil(state.target.hp)} / {state.target.maxHp}
               </span>
             </div>
           </section>
@@ -383,44 +411,52 @@ export function GameHud({
           </form>
         </div>
       </section>
-      <nav className="ki-actionbar ki-frame" aria-label="Umiejętności">
-        <div className="ki-action-crest">KI</div>
-        {(["flame", "pulse", "shield", "attack", "potion"] as Ability[]).map((id) => {
-          const spec = ABILITIES[id];
-          const remaining =
-            player.cooldowns[id] > 0 ? (player.cooldowns[id] / 1000).toFixed(1) : "";
-          const disabled =
-            !state.ready ||
-            player.dead ||
-            Boolean(state.dialogue) ||
-            panel !== null ||
-            player.cooldowns[id] > 0 ||
-            player.ki < spec.cost ||
-            (id === "potion" && (!player.items.potion || player.hp >= state.stats.maxHp));
-          return (
-            <button
-              className="ki-skill"
-              key={id}
-              title={
-                spec.name + " · " + spec.cost + " KI · " + spec.cooldown / 1000 + " s odnowienia"
-              }
-              aria-label={spec.name}
-              disabled={disabled}
-              onClick={(event) => {
-                onCommand({ type: "ability", ability: id });
-                event.currentTarget.blur();
-              }}
-            >
-              <Icon index={spec.icon} />
-              <kbd>{spec.key}</kbd>
-              {remaining && <span className="ki-cooldown">{remaining}</span>}
-              {id === "potion" && <span className="ki-item-count">{player.items.potion}</span>}
-              {id === "attack" && state.autoAttack && <span className="ki-auto">AUTO</span>}
-            </button>
-          );
-        })}
-        <div className="ki-bar-decoration">◆</div>
-      </nav>
+      {player.progression ? (
+        <RaceSkillBar
+          state={state}
+          send={onCommand}
+          disabled={!state.ready || panel !== null || skillsOpen}
+        />
+      ) : (
+        <nav className="ki-actionbar ki-frame" aria-label="Umiejętności">
+          <div className="ki-action-crest">KI</div>
+          {(["flame", "pulse", "shield", "attack", "potion"] as Ability[]).map((id) => {
+            const spec = ABILITIES[id];
+            const remaining =
+              player.cooldowns[id] > 0 ? (player.cooldowns[id] / 1000).toFixed(1) : "";
+            const disabled =
+              !state.ready ||
+              player.dead ||
+              Boolean(state.dialogue) ||
+              panel !== null ||
+              player.cooldowns[id] > 0 ||
+              player.ki < spec.cost ||
+              (id === "potion" && (!player.items.potion || player.hp >= state.stats.maxHp));
+            return (
+              <button
+                className="ki-skill"
+                key={id}
+                title={
+                  spec.name + " · " + spec.cost + " KI · " + spec.cooldown / 1000 + " s odnowienia"
+                }
+                aria-label={spec.name}
+                disabled={disabled}
+                onClick={(event) => {
+                  onCommand({ type: "ability", ability: id });
+                  event.currentTarget.blur();
+                }}
+              >
+                <Icon index={spec.icon} />
+                <kbd>{spec.key}</kbd>
+                {remaining && <span className="ki-cooldown">{remaining}</span>}
+                {id === "potion" && <span className="ki-item-count">{player.items.potion}</span>}
+                {id === "attack" && state.autoAttack && <span className="ki-auto">AUTO</span>}
+              </button>
+            );
+          })}
+          <div className="ki-bar-decoration">◆</div>
+        </nav>
+      )}
       <button
         ref={toolsToggle}
         className="ki-tools-toggle ki-frame"
@@ -469,6 +505,23 @@ export function GameHud({
           </button>
         </nav>
         <nav className="ki-menu" aria-label="Menu gry">
+          <button
+            className="ki-menu-button ki-frame ki-race-progress-button"
+            title="Rozwój postaci"
+            aria-label="Rozwój postaci"
+            onClick={() => {
+              setToolsOpen(false);
+              setChatOpen(false);
+              setPanel(null);
+              if (state.dialogue) onCommand({ type: "dialogue", action: "close" });
+              setSkillsOpen(true);
+            }}
+          >
+            <span aria-hidden="true">✧</span>
+            {player.progression && availablePoints(player.level, player.progression) > 0 && (
+              <b>{availablePoints(player.level, player.progression)}</b>
+            )}
+          </button>
           {(
             [
               { p: "inventory", n: 5 },
@@ -498,6 +551,9 @@ export function GameHud({
           </button>
         </nav>
       </div>
+      {skillsOpen && (
+        <SkillTree state={state} send={onCommand} onClose={() => setSkillsOpen(false)} />
+      )}
       {state.saveWarning && (
         <span className="ki-save-indicator ki-save-status" aria-label="Problem z zapisem">
           !

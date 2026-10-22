@@ -1,5 +1,11 @@
 # Ki Legends — indeks dokumentacji dla agentów
 
+## Rozwój czterech ras — praca na osobnej gałęzi, 22.10.2026
+- [Specyfikacja, źródła i reguły prototypu](RACE-PROGRESSION.md)
+- [Wyniki weryfikacji tej gałęzi](qa/race-progression/VALIDATION.md)
+- Aneksy źródłowe: `docs/design/annexes/`. Nazwy krain ustalone przez właściciela: Verdantia, Aetheria, Nexus-9, Pyra.
+
+
 Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
 
 ## Dokumentacja audytowa i bieżąca
@@ -30,7 +36,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Nexus-9 i Pyra — anime punkty startowe (podgląd do oceny)](NEXUS-PYRA-ANIME-START.md)
 - [Verdantia — alternatywna wioska startowa (podgląd do oceny)](VERDANT-ANIME-START.md)
 - [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
-- Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany na gałęzi tego PR bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum nie znajduje się jeszcze w `main`; wymaga scalenia PR #16. Nie zastępować tekstowym streszczeniem.
+- Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany w repozytorium bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum jest obecne po scaleniu PR #16; odtworzenie i SHA-256 potwierdzono podczas prac nad rozwojem ras 22.10.2026. Nie zastępować tekstowym streszczeniem.
 
 ## Hierarchia i stan
 1. Wyraźne decyzje właściciela oraz zatwierdzony kanon mają pierwszeństwo.

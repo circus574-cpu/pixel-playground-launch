@@ -1,0 +1,1769 @@
+{
+  "source": "22.10.2026 annex v1.0; canonical world names per owner",
+  "nodes": [
+    {
+      "id": "planetary.R",
+      "race": "planetary",
+      "code": "R",
+      "name": "Cios Szlaku",
+      "description": "Atak wręcz ×1,0 co 650 ms. Trzeci cios serii ×1,3. Bez kosztu Ki.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "root",
+      "level": 1,
+      "requires": [],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A1",
+      "race": "planetary",
+      "code": "A1",
+      "name": "Szybki Unik",
+      "description": "Zryw 160 j. w kierunku ruchu; nietykalność przez 0,4 s.",
+      "cost": 8,
+      "cooldown": 6000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "planetary.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A2",
+      "race": "planetary",
+      "code": "A2",
+      "name": "Lekki Krok",
+      "description": "+6% szybkości ruchu.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "planetary.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A3",
+      "race": "planetary",
+      "code": "A3",
+      "name": "Pęd Szlaku",
+      "description": "Po uniku następny atak zadaje +25% obrażeń; okno 5 s.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "planetary.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A4",
+      "race": "planetary",
+      "code": "A4",
+      "name": "Wir Energii",
+      "description": "Atak wokół postaci ×1,8, promień 140 j.",
+      "cost": 18,
+      "cooldown": 10000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "planetary.A2",
+        "planetary.A3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A5",
+      "race": "planetary",
+      "code": "A5",
+      "name": "Wiatr w Plecy",
+      "description": "Po pokonaniu wroga +15% szybkości przez 4 s.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "planetary.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A6",
+      "race": "planetary",
+      "code": "A6",
+      "name": "Oko Zwiadowcy",
+      "description": "+5 punktów procentowych szansy krytyku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "planetary.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.A7",
+      "race": "planetary",
+      "code": "A7",
+      "name": "Cios z Cienia",
+      "description": "Pierwszy atak po uniku zawsze krytyczny. Wyklucza Nieuchwytnego.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "planetary.A5"
+      ],
+      "excludes": "planetary.A8"
+    },
+    {
+      "id": "planetary.A8",
+      "race": "planetary",
+      "code": "A8",
+      "name": "Nieuchwytny",
+      "description": "Odnowienie Uniku −30%; po uniku +20% obrony przez 1 s. Wyklucza Cios z Cienia.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "planetary.A6"
+      ],
+      "excludes": "planetary.A7"
+    },
+    {
+      "id": "planetary.A9",
+      "race": "planetary",
+      "code": "A9",
+      "name": "Burza Wędrowca",
+      "description": "Pięć szybkich uderzeń w pobliskich wrogów, łącznie ×4,0.",
+      "cost": 35,
+      "cooldown": 30000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "planetary.A7",
+        "planetary.A8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B1",
+      "race": "planetary",
+      "code": "B1",
+      "name": "Impuls Ziemi",
+      "description": "Obszarowo ×1,4, promień 120 j.; spowolnienie 30% przez 2 s.",
+      "cost": 10,
+      "cooldown": 6000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "planetary.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B2",
+      "race": "planetary",
+      "code": "B2",
+      "name": "Adaptacja",
+      "description": "Las: regeneracja Ki +30%. Skały: obrona +10%. Woda: szybkość +8%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "planetary.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B3",
+      "race": "planetary",
+      "code": "B3",
+      "name": "Kamienna Skóra",
+      "description": "+8% obrony.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "planetary.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B4",
+      "race": "planetary",
+      "code": "B4",
+      "name": "Kruszący Stąp",
+      "description": "Skok i uderzenie ×2,0; ogłuszenie 1 s.",
+      "cost": 18,
+      "cooldown": 10000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "planetary.B2",
+        "planetary.B3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B5",
+      "race": "planetary",
+      "code": "B5",
+      "name": "Rezonans",
+      "description": "Impuls Ziemi uderza ponownie po 0,5 s za 60% obrażeń.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "planetary.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B6",
+      "race": "planetary",
+      "code": "B6",
+      "name": "Żyła Ziemi",
+      "description": "Impuls zwraca 5 Ki za trafionego wroga, maksymalnie 15 na użycie.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "planetary.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.B7",
+      "race": "planetary",
+      "code": "B7",
+      "name": "Głaz Strażnik",
+      "description": "Kruszący Stąp daje osłonę 15% maks. HP na 5 s. Wyklucza Trzęsienie.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "planetary.B5"
+      ],
+      "excludes": "planetary.B8"
+    },
+    {
+      "id": "planetary.B8",
+      "race": "planetary",
+      "code": "B8",
+      "name": "Trzęsienie",
+      "description": "Impuls: promień +40% i ogłuszenie 0,5 s. Wyklucza Głaz Strażnik.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "planetary.B6"
+      ],
+      "excludes": "planetary.B7"
+    },
+    {
+      "id": "planetary.B9",
+      "race": "planetary",
+      "code": "B9",
+      "name": "Gniew Doliny",
+      "description": "Uderzenie obszarowe ×4,0; ogłuszenie 1,5 s.",
+      "cost": 35,
+      "cooldown": 30000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "planetary.B7",
+        "planetary.B8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C1",
+      "race": "planetary",
+      "code": "C1",
+      "name": "Korzenny Oddech",
+      "description": "Leczy 12% maks. HP w ciągu 4 s.",
+      "cost": 12,
+      "cooldown": 12000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "planetary.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C2",
+      "race": "planetary",
+      "code": "C2",
+      "name": "Zielona Krew",
+      "description": "+10% maksymalnego życia.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "planetary.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C3",
+      "race": "planetary",
+      "code": "C3",
+      "name": "Leśna Cierpliwość",
+      "description": "Poza walką regeneruje 1% maks. HP na sekundę.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "planetary.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C4",
+      "race": "planetary",
+      "code": "C4",
+      "name": "Tarcza Liści",
+      "description": "Osłona pochłaniająca 18% maks. HP przez 5 s.",
+      "cost": 18,
+      "cooldown": 12000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "planetary.C2",
+        "planetary.C3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C5",
+      "race": "planetary",
+      "code": "C5",
+      "name": "Korzenie Odporności",
+      "description": "Czas kontroli na postaci −25%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "planetary.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C6",
+      "race": "planetary",
+      "code": "C6",
+      "name": "Ziarno Życia",
+      "description": "Leczenie Korzennego Oddechu +30%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "planetary.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.C7",
+      "race": "planetary",
+      "code": "C7",
+      "name": "Strażnik Gaju",
+      "description": "Tarcza Liści odbija 20% obrażeń wręcz. Wyklucza Dar Lasu.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "planetary.C5"
+      ],
+      "excludes": "planetary.C8"
+    },
+    {
+      "id": "planetary.C8",
+      "race": "planetary",
+      "code": "C8",
+      "name": "Dar Lasu",
+      "description": "Korzenny Oddech po zakończeniu zwraca 15 Ki. Wyklucza Strażnika Gaju.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "planetary.C6"
+      ],
+      "excludes": "planetary.C7"
+    },
+    {
+      "id": "planetary.C9",
+      "race": "planetary",
+      "code": "C9",
+      "name": "Pieśń Korzeni",
+      "description": "Leczy 40% maks. HP i daje osłonę 20% na 6 s.",
+      "cost": 35,
+      "cooldown": 45000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "planetary.C7",
+        "planetary.C8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "planetary.T",
+      "race": "planetary",
+      "code": "T",
+      "name": "Forma Rezonansu Świata",
+      "description": "20 s: +20% Ataku, +15% Obrony, +10% szybkości.",
+      "cost": 50,
+      "cooldown": 120000,
+      "kind": "form",
+      "level": 20,
+      "requires": [
+        "planetary.A9",
+        "planetary.B9",
+        "planetary.C9"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.R",
+      "race": "sage",
+      "code": "R",
+      "name": "Pocisk Ki",
+      "description": "Pocisk ×1,0 co 800 ms; zasięg 420 j. Bez kosztu Ki.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "root",
+      "level": 1,
+      "requires": [],
+      "excludes": null
+    },
+    {
+      "id": "sage.A1",
+      "race": "sage",
+      "code": "A1",
+      "name": "Pieczęć Energii",
+      "description": "Znak na celu wybucha po 3 s za ×2,0.",
+      "cost": 12,
+      "cooldown": 8000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "sage.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.A2",
+      "race": "sage",
+      "code": "A2",
+      "name": "Znak Wiedzy",
+      "description": "Wrogowie z pieczęcią przyjmują +10% obrażeń.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "sage.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.A3",
+      "race": "sage",
+      "code": "A3",
+      "name": "Szybka Pieczęć",
+      "description": "Odnowienie Pieczęci −20%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "sage.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.A4",
+      "race": "sage",
+      "code": "A4",
+      "name": "Strumień Ki",
+      "description": "Kanałowany promień przez 3 s; sześć trafień co 0,5 s, łącznie ×2,4.",
+      "cost": 20,
+      "cooldown": 12000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "sage.A2",
+        "sage.A3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.A5",
+      "race": "sage",
+      "code": "A5",
+      "name": "Echo Pieczęci",
+      "description": "Wybuch rani pobliskich wrogów za 50% obrażeń.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "sage.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.A6",
+      "race": "sage",
+      "code": "A6",
+      "name": "Precyzja Mędrca",
+      "description": "+8 punktów procentowych szansy krytyku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "sage.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.A7",
+      "race": "sage",
+      "code": "A7",
+      "name": "Złoty Krąg",
+      "description": "Pieczęć tworzy krąg obrażeń o promieniu 120 j. Wyklucza Pieczęć Skupienia. Parametry kręgu są opisane w specyfikacji prototypu.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "sage.A5"
+      ],
+      "excludes": "sage.A8"
+    },
+    {
+      "id": "sage.A8",
+      "race": "sage",
+      "code": "A8",
+      "name": "Pieczęć Skupienia",
+      "description": "Wybuch Pieczęci po trafieniu zwraca 15 Ki. Wyklucza Złoty Krąg.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "sage.A6"
+      ],
+      "excludes": "sage.A7"
+    },
+    {
+      "id": "sage.A9",
+      "race": "sage",
+      "code": "A9",
+      "name": "Sąd Światła",
+      "description": "Po 1,5 s słup światła w dużym obszarze ×4,2.",
+      "cost": 35,
+      "cooldown": 30000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "sage.A7",
+        "sage.A8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B1",
+      "race": "sage",
+      "code": "B1",
+      "name": "Świetlista Bariera",
+      "description": "Osłona 15% maks. HP na 4 s.",
+      "cost": 12,
+      "cooldown": 10000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "sage.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B2",
+      "race": "sage",
+      "code": "B2",
+      "name": "Kontrola Kręgu",
+      "description": "Zdolności tworzą na 5 s krąg: +10% obrony w jego obrębie.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "sage.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B3",
+      "race": "sage",
+      "code": "B3",
+      "name": "Gęste Światło",
+      "description": "Bariera trwa o 2 s dłużej.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "sage.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B4",
+      "race": "sage",
+      "code": "B4",
+      "name": "Krąg Spowolnienia",
+      "description": "Krąg na 5 s: szybkość wrogów −40%.",
+      "cost": 18,
+      "cooldown": 12000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "sage.B2",
+        "sage.B3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B5",
+      "race": "sage",
+      "code": "B5",
+      "name": "Odbicie",
+      "description": "Bariera odbija 15% obrażeń z pocisków.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "sage.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B6",
+      "race": "sage",
+      "code": "B6",
+      "name": "Strażnik Kręgu",
+      "description": "Wrogowie w kręgach zadają −10% obrażeń.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "sage.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.B7",
+      "race": "sage",
+      "code": "B7",
+      "name": "Kopuła",
+      "description": "Pojemność Bariery +30%. Wyklucza Lustro.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "sage.B5"
+      ],
+      "excludes": "sage.B8"
+    },
+    {
+      "id": "sage.B8",
+      "race": "sage",
+      "code": "B8",
+      "name": "Lustro",
+      "description": "Bariera odbija pierwszy atak w całości. Wyklucza Kopułę.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "sage.B6"
+      ],
+      "excludes": "sage.B7"
+    },
+    {
+      "id": "sage.B9",
+      "race": "sage",
+      "code": "B9",
+      "name": "Świątynia Światła",
+      "description": "Krąg na 8 s: +30% obrony postaci, wrogowie −30% szybkości.",
+      "cost": 35,
+      "cooldown": 40000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "sage.B7",
+        "sage.B8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C1",
+      "race": "sage",
+      "code": "C1",
+      "name": "Skupienie KI",
+      "description": "Kanałowanie 3 s: odnawia 30% maks. Ki. Ruch lub trafienie przerywa.",
+      "cost": 0,
+      "cooldown": 15000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "sage.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C2",
+      "race": "sage",
+      "code": "C2",
+      "name": "Głęboki Oddech",
+      "description": "+15% maks. Ki.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "sage.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C3",
+      "race": "sage",
+      "code": "C3",
+      "name": "Mądrość Strażników",
+      "description": "Koszty zdolności −8%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "sage.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C4",
+      "race": "sage",
+      "code": "C4",
+      "name": "Medytacja Bojowa",
+      "description": "Kanałowanie 3 s: leczy 20% maks. HP.",
+      "cost": 10,
+      "cooldown": 15000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "sage.C2",
+        "sage.C3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C5",
+      "race": "sage",
+      "code": "C5",
+      "name": "Czysty Umysł",
+      "description": "Czas kontroli na postaci −25%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "sage.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C6",
+      "race": "sage",
+      "code": "C6",
+      "name": "Strumień Wiedzy",
+      "description": "Po ukończeniu Skupienia następna zdolność +25% obrażeń przez 6 s.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "sage.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.C7",
+      "race": "sage",
+      "code": "C7",
+      "name": "Dar Mędrca",
+      "description": "Medytacja leczy o 50% więcej. Wyklucza Skupienie Mistrza.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "sage.C5"
+      ],
+      "excludes": "sage.C8"
+    },
+    {
+      "id": "sage.C8",
+      "race": "sage",
+      "code": "C8",
+      "name": "Skupienie Mistrza",
+      "description": "Skupienie KI nie jest przerywane ruchem. Wyklucza Dar Mędrca.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "sage.C6"
+      ],
+      "excludes": "sage.C7"
+    },
+    {
+      "id": "sage.C9",
+      "race": "sage",
+      "code": "C9",
+      "name": "Pełnia Skupienia",
+      "description": "8 s: zdolności nie kosztują Ki i zadają +30% obrażeń.",
+      "cost": 20,
+      "cooldown": 60000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "sage.C7",
+        "sage.C8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "sage.T",
+      "race": "sage",
+      "code": "T",
+      "name": "Forma Oświecenia",
+      "description": "20 s: +25% Ataku, odnowienia −30%, +15% Obrony.",
+      "cost": 50,
+      "cooldown": 120000,
+      "kind": "form",
+      "level": 20,
+      "requires": [
+        "sage.A9",
+        "sage.B9",
+        "sage.C9"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.R",
+      "race": "android",
+      "code": "R",
+      "name": "Strzał Impulsowy",
+      "description": "Strzał ×1,0 co 700 ms, zasięg 360 j.; +4 Ładunku. Limit 100, przegrzanie 2 s. Po przerwie Ładunek opada 6/s.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "root",
+      "level": 1,
+      "requires": [],
+      "excludes": null
+    },
+    {
+      "id": "android.A1",
+      "race": "android",
+      "code": "A1",
+      "name": "Namierzanie",
+      "description": "Oznacza cel na 6 s: +15 punktów procentowych szansy krytyku przeciw niemu.",
+      "cost": 8,
+      "cooldown": 8000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "android.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.A2",
+      "race": "android",
+      "code": "A2",
+      "name": "Kalibracja",
+      "description": "+6 punktów procentowych szansy krytyku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "android.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.A3",
+      "race": "android",
+      "code": "A3",
+      "name": "Stabilizatory",
+      "description": "Zasięg strzałów +15%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "android.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.A4",
+      "race": "android",
+      "code": "A4",
+      "name": "Salwa Precyzyjna",
+      "description": "Trzy strzały w oznaczony cel, łącznie ×2,2.",
+      "cost": 18,
+      "cooldown": 10000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "android.A2",
+        "android.A3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.A5",
+      "race": "android",
+      "code": "A5",
+      "name": "Analiza Słabości",
+      "description": "Oznaczeni wrogowie mają −10% obrony.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "android.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.A6",
+      "race": "android",
+      "code": "A6",
+      "name": "Szybkie Przeładowanie",
+      "description": "Odstęp strzałów −8%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "android.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.A7",
+      "race": "android",
+      "code": "A7",
+      "name": "Snajper",
+      "description": "+40% obrażeń przeciw oznaczonym; odstęp strzałów +10%. Wyklucza Rój.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "android.A5"
+      ],
+      "excludes": "android.A8"
+    },
+    {
+      "id": "android.A8",
+      "race": "android",
+      "code": "A8",
+      "name": "Rój",
+      "description": "Strzał trafia dwa dodatkowe pobliskie cele za 40% obrażeń każdy. Wyklucza Snajpera.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "android.A6"
+      ],
+      "excludes": "android.A7"
+    },
+    {
+      "id": "android.A9",
+      "race": "android",
+      "code": "A9",
+      "name": "Protokół Egzekucji",
+      "description": "Strzał ×4,0 w oznaczony cel; ×6,0 gdy cel ma mniej niż 30% HP.",
+      "cost": 35,
+      "cooldown": 30000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "android.A7",
+        "android.A8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B1",
+      "race": "android",
+      "code": "B1",
+      "name": "Tarcza Plazmowa",
+      "description": "Osłona 18% maks. HP na 5 s.",
+      "cost": 12,
+      "cooldown": 10000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "android.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B2",
+      "race": "android",
+      "code": "B2",
+      "name": "Płyty Pancerne",
+      "description": "+8% obrony.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "android.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B3",
+      "race": "android",
+      "code": "B3",
+      "name": "Generator Tarczy",
+      "description": "Pojemność Tarczy +25%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "android.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B4",
+      "race": "android",
+      "code": "B4",
+      "name": "Impuls Odpychający",
+      "description": "Fala ×1,2; odpycha pobliskich wrogów i ogłusza na 0,5 s.",
+      "cost": 18,
+      "cooldown": 12000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "android.B2",
+        "android.B3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B5",
+      "race": "android",
+      "code": "B5",
+      "name": "Protokół Adaptacji",
+      "description": "Tarcza odbija 25% obrażeń z pocisków.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "android.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B6",
+      "race": "android",
+      "code": "B6",
+      "name": "Samonaprawa",
+      "description": "Regeneracja 0,5% maks. HP na sekundę.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "android.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.B7",
+      "race": "android",
+      "code": "B7",
+      "name": "Tarcza Kolcowa",
+      "description": "Tarcza odbija 30% obrażeń wręcz. Wyklucza Tarczę Modułową.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "android.B5"
+      ],
+      "excludes": "android.B8"
+    },
+    {
+      "id": "android.B8",
+      "race": "android",
+      "code": "B8",
+      "name": "Tarcza Modułowa",
+      "description": "Odnowienie Tarczy −35%. Wyklucza Tarczę Kolcową.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "android.B6"
+      ],
+      "excludes": "android.B7"
+    },
+    {
+      "id": "android.B9",
+      "race": "android",
+      "code": "B9",
+      "name": "Fortyfikacja",
+      "description": "6 s: +60% obrony i odporność na kontrolę.",
+      "cost": 35,
+      "cooldown": 40000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "android.B7",
+        "android.B8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C1",
+      "race": "android",
+      "code": "C1",
+      "name": "Wyładowanie Rdzenia",
+      "description": "Zużywa Ładunek: obrażenia w linii ×(1 + Ładunek/50), do ×3 przy 100.",
+      "cost": 15,
+      "cooldown": 8000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "android.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C2",
+      "race": "android",
+      "code": "C2",
+      "name": "Zarządzanie Rdzeniem",
+      "description": "Przegrzanie 1 s; Ładunek opada o 50% szybciej.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "android.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C3",
+      "race": "android",
+      "code": "C3",
+      "name": "Radiatory",
+      "description": "Strzał dodaje o 15% mniej Ładunku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "android.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C4",
+      "race": "android",
+      "code": "C4",
+      "name": "Rozładowanie Awaryjne",
+      "description": "Zeruje Ładunek i leczy 10% maks. HP.",
+      "cost": 0,
+      "cooldown": 20000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "android.C2",
+        "android.C3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C5",
+      "race": "android",
+      "code": "C5",
+      "name": "Rezerwowy Akumulator",
+      "description": "+12% maks. Ki.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "android.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C6",
+      "race": "android",
+      "code": "C6",
+      "name": "Optymalizacja",
+      "description": "Koszt Wyładowania −20%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "android.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.C7",
+      "race": "android",
+      "code": "C7",
+      "name": "Przeciążony Rdzeń",
+      "description": "Limit Ładunku 150; Wyładowanie do ×4. Wyklucza Stabilny Rdzeń.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "android.C5"
+      ],
+      "excludes": "android.C8"
+    },
+    {
+      "id": "android.C8",
+      "race": "android",
+      "code": "C8",
+      "name": "Stabilny Rdzeń",
+      "description": "Brak przegrzania; limit Ładunku 70. Wyklucza Przeciążony Rdzeń.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "android.C6"
+      ],
+      "excludes": "android.C7"
+    },
+    {
+      "id": "android.C9",
+      "race": "android",
+      "code": "C9",
+      "name": "Przeciążenie Systemu",
+      "description": "6 s: darmowe zdolności i +40% obrażeń; potem 2 s bez akcji.",
+      "cost": 35,
+      "cooldown": 45000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "android.C7",
+        "android.C8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "android.T",
+      "race": "android",
+      "code": "T",
+      "name": "Forma Pełnego Rdzenia",
+      "description": "20 s: +25% Ataku, +15% Obrony, przegrzanie wyłączone.",
+      "cost": 50,
+      "cooldown": 120000,
+      "kind": "form",
+      "level": 20,
+      "requires": [
+        "android.A9",
+        "android.B9",
+        "android.C9"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.R",
+      "race": "legend",
+      "code": "R",
+      "name": "Uderzenie Żaru",
+      "description": "Cios ×1,0 co 750 ms; trafienie daje 4 Żaru. Każdy punkt +0,1% obrażeń, limit 100. Poza walką −5/s.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "root",
+      "level": 1,
+      "requires": [],
+      "excludes": null
+    },
+    {
+      "id": "legend.A1",
+      "race": "legend",
+      "code": "A1",
+      "name": "Ogniste Cięcie",
+      "description": "Trzy cięcia, łącznie ×1,8.",
+      "cost": 10,
+      "cooldown": 6000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "legend.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.A2",
+      "race": "legend",
+      "code": "A2",
+      "name": "Rozgrzane Ostrza",
+      "description": "Cięcie podpala na 3 s za łącznie 30% Ataku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "legend.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.A3",
+      "race": "legend",
+      "code": "A3",
+      "name": "Łańcuch Ciosów",
+      "description": "Po trzech trafieniach odstęp ataków −10% na 4 s.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "legend.A1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.A4",
+      "race": "legend",
+      "code": "A4",
+      "name": "Szarża Płomienia",
+      "description": "Doskok do 200 j. i cięcie ×2,2.",
+      "cost": 18,
+      "cooldown": 10000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "legend.A2",
+        "legend.A3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.A5",
+      "race": "legend",
+      "code": "A5",
+      "name": "Rozżarzone Pięści",
+      "description": "+8% Ataku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "legend.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.A6",
+      "race": "legend",
+      "code": "A6",
+      "name": "Okrucieństwo",
+      "description": "+6 punktów procentowych szansy krytyku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "legend.A4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.A7",
+      "race": "legend",
+      "code": "A7",
+      "name": "Taniec Płomieni",
+      "description": "Ogniste Cięcie: pięć cięć, łącznie ×2,6. Wyklucza Pojedynkowicza.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "legend.A5"
+      ],
+      "excludes": "legend.A8"
+    },
+    {
+      "id": "legend.A8",
+      "race": "legend",
+      "code": "A8",
+      "name": "Pojedynkowicz",
+      "description": "+25% obrażeń, gdy w promieniu 200 j. jest tylko jeden wróg. Wyklucza Taniec Płomieni.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "legend.A6"
+      ],
+      "excludes": "legend.A7"
+    },
+    {
+      "id": "legend.A9",
+      "race": "legend",
+      "code": "A9",
+      "name": "Tysiąc Cięć",
+      "description": "Osiem cięć, łącznie ×4,2.",
+      "cost": 35,
+      "cooldown": 30000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "legend.A7",
+        "legend.A8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B1",
+      "race": "legend",
+      "code": "B1",
+      "name": "Przełamanie",
+      "description": "Cios ×1,5, ogłuszenie 1,2 s i zniszczenie osłony celu.",
+      "cost": 12,
+      "cooldown": 8000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "legend.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B2",
+      "race": "legend",
+      "code": "B2",
+      "name": "Hartowana Skóra",
+      "description": "+8% obrony.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "legend.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B3",
+      "race": "legend",
+      "code": "B3",
+      "name": "Honor Wojownika",
+      "description": "+10% maks. HP.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "legend.B1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B4",
+      "race": "legend",
+      "code": "B4",
+      "name": "Płomienny Szał",
+      "description": "8 s: +30% Ataku i −20% obrony.",
+      "cost": 18,
+      "cooldown": 25000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "legend.B2",
+        "legend.B3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B5",
+      "race": "legend",
+      "code": "B5",
+      "name": "Żelazna Wola",
+      "description": "W Szale odporność na ogłuszenie.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "legend.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B6",
+      "race": "legend",
+      "code": "B6",
+      "name": "Krew Legendy",
+      "description": "Pokonanie wroga leczy 3% maks. HP.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "legend.B4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.B7",
+      "race": "legend",
+      "code": "B7",
+      "name": "Wściekłość",
+      "description": "Szał trwa o 4 s dłużej i daje dodatkowe +10% Ataku. Wyklucza Kontrolowany Żar.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "legend.B5"
+      ],
+      "excludes": "legend.B8"
+    },
+    {
+      "id": "legend.B8",
+      "race": "legend",
+      "code": "B8",
+      "name": "Kontrolowany Żar",
+      "description": "Szał nie obniża obrony. Wyklucza Wściekłość.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "legend.B6"
+      ],
+      "excludes": "legend.B7"
+    },
+    {
+      "id": "legend.B9",
+      "race": "legend",
+      "code": "B9",
+      "name": "Ostatni Płomień",
+      "description": "Przez 5 s pierwszy śmiertelny cios pozostawia 1 HP i leczy 30% maks. HP.",
+      "cost": 35,
+      "cooldown": 90000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "legend.B7",
+        "legend.B8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C1",
+      "race": "legend",
+      "code": "C1",
+      "name": "Wybuch Ki",
+      "description": "Wybuch wokół postaci ×1,8, promień 150 j.",
+      "cost": 15,
+      "cooldown": 8000,
+      "kind": "active",
+      "level": 2,
+      "requires": [
+        "legend.R"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C2",
+      "race": "legend",
+      "code": "C2",
+      "name": "Żar",
+      "description": "Żar rośnie o 50% szybciej i opada dwa razy wolniej.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "legend.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C3",
+      "race": "legend",
+      "code": "C3",
+      "name": "Ognisty Oddech",
+      "description": "Wybuch Ki podpala na 4 s za łącznie 40% Ataku.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 4,
+      "requires": [
+        "legend.C1"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C4",
+      "race": "legend",
+      "code": "C4",
+      "name": "Eksplozja Żaru",
+      "description": "Zużywa Żar: obszarowo ×(1 + Żar/50), do ×3 przy 100.",
+      "cost": 20,
+      "cooldown": 12000,
+      "kind": "active",
+      "level": 7,
+      "requires": [
+        "legend.C2",
+        "legend.C3"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C5",
+      "race": "legend",
+      "code": "C5",
+      "name": "Szybkie Rozżarzenie",
+      "description": "Nowa walka zaczyna się z co najmniej 20 Żaru.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "legend.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C6",
+      "race": "legend",
+      "code": "C6",
+      "name": "Nieugaszony",
+      "description": "Przy 100 Żaru regeneracja Ki +50%.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "passive",
+      "level": 10,
+      "requires": [
+        "legend.C4"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.C7",
+      "race": "legend",
+      "code": "C7",
+      "name": "Wulkan",
+      "description": "Promień Eksplozji +50%. Wyklucza Detonatora.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "legend.C5"
+      ],
+      "excludes": "legend.C8"
+    },
+    {
+      "id": "legend.C8",
+      "race": "legend",
+      "code": "C8",
+      "name": "Detonator",
+      "description": "Eksplozja +25% obrażeń, promień −20%. Wyklucza Wulkan.",
+      "cost": 0,
+      "cooldown": 0,
+      "kind": "choice",
+      "level": 13,
+      "requires": [
+        "legend.C6"
+      ],
+      "excludes": "legend.C7"
+    },
+    {
+      "id": "legend.C9",
+      "race": "legend",
+      "code": "C9",
+      "name": "Ognisty Kataklizm",
+      "description": "Obszarowo ×4,5 i podpalenie na 5 s. Parametry podpalenia opisuje specyfikacja prototypu.",
+      "cost": 35,
+      "cooldown": 30000,
+      "kind": "ultimate",
+      "level": 16,
+      "requires": [
+        "legend.C7",
+        "legend.C8"
+      ],
+      "excludes": null
+    },
+    {
+      "id": "legend.T",
+      "race": "legend",
+      "code": "T",
+      "name": "Forma Płomiennego Legendy",
+      "description": "20 s: +30% Ataku, Żar utrzymywany na 100.",
+      "cost": 50,
+      "cooldown": 120000,
+      "kind": "form",
+      "level": 20,
+      "requires": [
+        "legend.A9",
+        "legend.B9",
+        "legend.C9"
+      ],
+      "excludes": null
+    }
+  ]
+}
