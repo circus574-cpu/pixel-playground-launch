@@ -27,6 +27,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Raport stabilizacji PvE](QA-STAGE2-2026-10-20.md)
 - [Globus 3D /mapa](MAPA-GLOBUS-3D.md)
 - [Aetheria — anime punkt startowy (podgląd do oceny)](AETHER-ANIME-START.md)
+- [Nexus-9 i Pyra — anime punkty startowe (podgląd do oceny)](NEXUS-PYRA-ANIME-START.md)
 - [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
 - Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany na gałęzi tego PR bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum nie znajduje się jeszcze w `main`; wymaga scalenia PR #16. Nie zastępować tekstowym streszczeniem.
 

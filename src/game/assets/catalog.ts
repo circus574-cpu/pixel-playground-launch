@@ -138,6 +138,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-hero-art": ["hero-planetary"],
   /** Anime start point of Aetheria, awaiting the owner's review. */
   "ki-aether-art": ["aether-sanctuary"],
+  "ki-nexus-art": ["nexus-start"],
+  "ki-pyra-art": ["pyra-start"],
 };
 /** Sage is active in Aetheria; other preview artwork keeps its opt-in switch. */
 export function previewPacks(search: string): string[] {

@@ -8,3 +8,5 @@
 - [x] Run unit tests and confirm preview build; report exact commit without publishing.
 - [x] Upgrade /mapa to a lazy 3D globe with 2D fallback, tests and docs (not published).
 - [x] Aetheria anime start-point art pack behind ?ki-aether-art=1 for owner review (not published).
+- [x] Prepare and integrate anime start art for Nexus-9 and Pyra; preserve accepted Verdantia and defer animations.
+- [x] Verify new region art and save/collision regression; document review links without publication.
