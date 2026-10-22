@@ -12,7 +12,7 @@
     "y": 1330
   },
   "background": "#35272f",
-  "minimap": "/game/assets/stage3/pyra-minimap.svg",
+  "minimap": "/game/assets/stage3/pyra-minimap.webp",
   "market": {
     "x": 1200,
     "y": 750,

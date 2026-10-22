@@ -12,7 +12,7 @@
     "y": 1120
   },
   "background": "#122536",
-  "minimap": "/game/assets/stage3/nexus-minimap.svg",
+  "minimap": "/game/assets/stage3/nexus-minimap.webp",
   "market": {
     "x": 1650,
     "y": 620,
