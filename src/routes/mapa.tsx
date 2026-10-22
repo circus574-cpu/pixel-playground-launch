@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { MapaView } from "../components/planet-map/MapaView";
+import { readActiveContinent } from "../components/planet-map/MapChrome";
 
 export const Route = createFileRoute("/mapa")({
   head: () => ({
@@ -24,5 +26,13 @@ export const Route = createFileRoute("/mapa")({
 });
 
 function MapaPage() {
-  return <MapaView />;
+  // Read-only: highlight the active character's continent ("Tu jesteś").
+  const [current, setCurrent] = useState<string | null>(null);
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    setCurrent(readActiveContinent(window.localStorage));
+    setChecked(true);
+  }, []);
+  if (!checked) return <MapaView key="pending" />;
+  return <MapaView key={current ?? "none"} current={current} />;
 }

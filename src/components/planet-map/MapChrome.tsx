@@ -74,3 +74,21 @@ export function RegionGameNote({ region, current, onClose }: GameLink & { region
     </Link>
   );
 }
+
+/** Must equal SAVE_KEY in src/game/session.ts (checked by a unit test). */
+export const GAME_SAVE_KEY = "ki-legends:adventure:v1";
+
+/** Read-only: continent of the active character slot, without loading game code. */
+export function readActiveContinent(storage: Pick<Storage, "getItem"> | null) {
+  try {
+    const id = storage?.getItem(GAME_SAVE_KEY + ":active-character");
+    if (!id) return null;
+    const raw = storage?.getItem(GAME_SAVE_KEY + ":character:" + id);
+    if (!raw) return null;
+    const continent = (JSON.parse(raw) as { player?: { continent?: unknown } }).player?.continent;
+    const value = typeof continent === "string" ? continent : "verdant";
+    return (GAME_CONTINENTS as readonly string[]).includes(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
