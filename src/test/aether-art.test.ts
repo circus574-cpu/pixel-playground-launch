@@ -8,32 +8,28 @@ const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
 const pack = packs.find((p) => p.id === "aether-sanctuary")!;
 
 describe("Aetheria anime start-point art", () => {
-  it("stays a preview pack behind ?ki-aether-art=1", () => {
-    expect(pack.previewOnly).toBe(true);
-    expect(previewPacks("")).not.toContain("aether-sanctuary");
-    expect(previewPacks("?ki-aether-art=1")).toContain("aether-sanctuary");
+  it("is the default Aetheria art (owner moved it into the game)", () => {
+    expect(pack.previewOnly).toBe(false);
+    expect(packs.find((p) => p.id === "aether-expansion")?.previewOnly).toBe(false);
     expect(previewPacks("?ki-aether-art=1")).toContain("hero-sage");
   });
 
   it("replaces every Aetheria object and terrain texture when enabled", () => {
-    const source = makeCatalog(packs, ["hero-sage", "aether-sanctuary"]);
+    const source = makeCatalog(packs, ["hero-sage"]);
     const ids = worldAssets("aether", false, source).map((a) => a.id);
     for (const object of WORLDS.aether.objects)
-      expect(source.renderBindings["object." + object.asset]?.asset).toMatch(/^aether-art-/);
+      expect(source.renderBindings["object." + object.asset]?.asset).toMatch(/^aether-(art|x)-/);
     for (const key of ["ground", "path", "plaza"] as const)
       expect(ids).toContain("aether-art-" + WORLDS.aether.terrain![key]);
     expect(ids).toContain("aether-art-aether-wall");
     expect(ids.some((id) => WORLDS.aether.objects.some((o) => o.asset === id))).toBe(false);
   });
 
-  it("keeps the flat textures and other continents unchanged by default", () => {
-    const source = makeCatalog(packs, ["hero-sage"]);
+  it("uses the painted textures by default", () => {
+    const source = makeCatalog(packs, previewPacks(""));
     expect(worldRenderRefs("aether", source).some((r) => r.asset.startsWith("aether-art-"))).toBe(
-      false,
+      true,
     );
-    const enabled = makeCatalog(packs, ["hero-sage", "aether-sanctuary"]);
-    for (const world of ["verdant", "nexus", "pyra"] as const)
-      expect(worldRenderRefs(world, enabled)).toEqual(worldRenderRefs(world, source));
   });
 
   it("does not change collision footprints, spawn or layout", () => {

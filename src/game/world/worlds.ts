@@ -37,7 +37,7 @@ export const WORLDS: Record<WorldId, WorldDefinition> = {
     objects: FOREST_OBJECTS,
     obstacles: forestObstacles(),
   },
-  aether: aether as WorldDefinition,
+  aether: aether as unknown as WorldDefinition,
   nexus: nexus as WorldDefinition,
   pyra: pyra as WorldDefinition,
 };

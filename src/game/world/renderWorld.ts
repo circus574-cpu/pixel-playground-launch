@@ -6,6 +6,7 @@ import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "./types";
 import { renderForest } from "./renderForest";
 import { coversPlayer } from "./visibility";
+import { bakeRoads } from "./renderRoads";
 import type { Point } from "../navigation";
 
 /** One adapter per map format, one shared scene and lifecycle for all continents. */
@@ -39,6 +40,10 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     )
       .setOrigin(0)
       .setDepth(renderDepth("paths") + 1);
+  const roads =
+    terrain.roads?.length || terrain.courts?.length
+      ? bakeRoads(scene, world.id, world, terrain.roads ?? [], terrain.courts ?? [], path, plaza)
+      : null;
   // World-space surface detail, rendered in Phaser rather than on the atlas/globe.
   // Deterministic, camera-independent placement; no save, collision or navigation changes.
   if ((world.id === "aether" || world.id === "nexus") && !paintedGround) {
@@ -193,9 +198,10 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
     terrainMode: "region",
-    dispose: () => {},
+    dispose: () => roads?.dispose(),
     updateVisibility(player: Point) {
       updateAtmosphere();
+      roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
       for (const { object: o, image } of scenery) {
         const left = o.x - o.width * o.anchorX,

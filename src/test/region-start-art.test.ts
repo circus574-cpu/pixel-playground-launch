@@ -7,12 +7,11 @@ import { WORLDS } from "../game/world/worlds";
 const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
 for (const world of ["nexus", "pyra"] as const) {
   describe(world + " anime start art", () => {
-    it("is opt-in until owner acceptance", () => {
+    it("is the default art in the game", () => {
       const pack = packs.find((p) => p.id === world + "-start");
-      expect(pack?.previewOnly).toBe(true);
-      expect(previewPacks("")).not.toContain(world + "-start");
-      expect(previewPacks("?ki-" + world + "-art=1")).toContain(world + "-start");
-      expect(previewPacks("?ki-" + world + "-art=0")).not.toContain(world + "-start");
+      expect(pack?.previewOnly).toBe(false);
+      const ids = worldAssets(world, false, makeCatalog(packs, previewPacks(""))).map((a) => a.id);
+      expect(ids).toContain(world + "-art-ground");
     });
     it("loads independent images for every object and all four surfaces", () => {
       const source = makeCatalog(packs, [world + "-start"]);
