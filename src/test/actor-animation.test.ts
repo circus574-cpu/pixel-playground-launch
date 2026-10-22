@@ -60,7 +60,7 @@ describe("animation presentation remains separate from mechanical actions", () =
     };
     const animation = new ActorAnimation(
       sprite as unknown as Phaser.GameObjects.Sprite,
-      actorVisual("pyra", "hero"),
+      actorVisual("pyra", "npc"),
     );
     animation.trigger("skill", 0);
     animation.update(1, false, false, { x: 0, y: 1 });

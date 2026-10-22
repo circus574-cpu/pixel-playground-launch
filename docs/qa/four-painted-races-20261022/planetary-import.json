@@ -1,0 +1,16 @@
+{
+  "id": "hero-planetary-painted",
+  "version": "1.0.0",
+  "digest": "046664cc3ff13a6f19fe74fbb6371c5ddc6a9e6d23160cc13e02416a593be766",
+  "assets": 2,
+  "bytesBefore": 3992308,
+  "bytesAfter": 3992308,
+  "worlds": {
+    "verdant": 99164960,
+    "aether": 63166752,
+    "nexus": 54149920,
+    "pyra": 55920416
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/hero-planetary-painted/1.0.0-046664cc3ff1"
+}

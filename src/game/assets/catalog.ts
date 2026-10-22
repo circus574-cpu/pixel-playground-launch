@@ -135,7 +135,6 @@ export function makeCatalog(
 }
 /** Packs enabled by each opt-in review switch (`?<param>=1`). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
-  "ki-hero-art": ["hero-planetary"],
   /** Anime start point of Aetheria, awaiting the owner's review. */
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],
@@ -143,15 +142,12 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
 };
-/** Sage is active in Aetheria; other preview artwork keeps its opt-in switch. */
+/** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
-  return [
-    "hero-sage",
-    ...Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) =>
-      params.get(param) === "1" ? packs : [],
-    ),
-  ];
+  return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) =>
+    params.get(param) === "1" ? packs : [],
+  );
 }
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),

@@ -930,3 +930,18 @@ Liczba wpisów: **729**: 704 śledzone pliki + 2 deskryptory zewnętrzne + 11 wy
 | src/assets/planet-map/space.jpg | Deklarowane narzędzie obrazów Lovable; dostawca/model/sesja nieustalone | Grafiki chmur i kosmosu dodane przez Lovable | Warunki usługi Lovable; brak powiązania tej generacji z kontem/warunkami | WARUNKOWA: aktualne warunki mówią o AI Output z zastrzeżeniem praw osób trzecich; nie dowodzą historii tych plików | docs/MAPA-GLOBUS-3D.md; evidence/terms-lovable.html; Git 3830180 | POCHODZENIE_OPISANE_PRAWA_NIEPOTWIERDZONE |
 
 Rejestr generowany z `docs/licenses/asset-inventory.json`; statusy nie są zatwierdzeniem publikacji.
+
+
+## Aneks — cztery malowane rasy z dostawy Claude’a, 22.10.2026
+
+Dostawa `83d4c06b91bb34e0d3353f31e9574bfffc6d7de9` i nowa integracja dodają
+zasoby spoza historycznego spisu 729 wpisów powyżej. Indywidualne ścieżki, hashe,
+rozmiary, deklarowane narzędzia i nierozstrzygnięcia praw są w
+[osobnym rejestrze](licenses/four-painted-races-20261022.json).
+[Raport integracji](FOUR-PAINTED-RACES-INTEGRATION-2026-10-22.md) rozdziela
+walidację techniczną od odbioru estetycznego i komercyjnych uprawnień.
+Nie przypisano nowym aktorom licencji CC0 MakeHuman ani pochodzenia OpenAI
+ze starszego Mędrca: nowe paczki bazują na malowanych widokach Animagine,
+ControlNet, IP-Adapter i deformacji siatki. Prawa do referencji i outputu,
+licencje konkretnych modeli i rembg isnet-anime nadal wymagają dowodów.
+Oryginalne PNG na GPU są tylko wskazane w provenance — nie zbadano ich ponownie.

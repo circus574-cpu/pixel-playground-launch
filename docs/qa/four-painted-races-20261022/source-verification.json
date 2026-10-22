@@ -1,0 +1,406 @@
+[
+  {
+    "race": "planetary",
+    "checks": [
+      {
+        "path": "docs/design/identity/planetary-v1/planetary-s5741102-d62.png",
+        "sha256": "086d7e1377b2c8639c9c01532298631e44e952d18b9bfdc64733e27214a3eeb8"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-down-left.png",
+        "sha256": "ad7c4cfe9ae27353ab75f3906edbd909693eb3a0f656605f91d8e8a03dd63baf"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-down-right.png",
+        "sha256": "d0cd8b5b64f3e08490f81dd40de73dc495a47caeb59dfe9c5dafa8fd2d144872"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+        "sha256": "e0d2f123ff8a131eb5ebd877e1bc4b92acf3af7c26c3d529188d937ea73abca4"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-left.png",
+        "sha256": "4cfaa50456c702a72c0cc151b5b46c6068b024f68258c9865bcb68fd94199fce"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-right.png",
+        "sha256": "babe4970f651c277d5215cb571d66062b3ad0acea7ca975805c789818cb08232"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-up-left.png",
+        "sha256": "80fa71d850119965494fc850adf535d5522cdabfd99beecae7e254d20619595d"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-up-right.png",
+        "sha256": "3074c02f4a13d531f2756f4625a3044b9c2a34117d9bb6479b38263619ea2e5f"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/masters/planetary-master-up.png",
+        "sha256": "772906503fa74602024e4de7155ffd393f61c3acf4e18700ddfc8781344e33e6"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-down-s5741103.webp",
+        "sha256": "5ae592836c121cc171557d413a1f0220546672b0b9fdcab5ce82c40ddf55770c"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-down-left-s5741103.webp",
+        "sha256": "d27e58312644bc4acfc7b11d21cd56ea060c3657e87527f0bf75fe726de9e54e"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-left-s5741103.webp",
+        "sha256": "970e4bf33cf18b376f06fc98ad5eb270b6ee1fef6eebc577f3356e0f2f69a278"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-up-left-s5741103.webp",
+        "sha256": "ae4b386b050733ab38aabc86e055bb1ff9437fbfc1f30f5426ddc3a258eb9210"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-up-s5741103.webp",
+        "sha256": "5945c53b117da17aaee07d605d807d10794048ebd00a6647d510b4e173d79520"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-up-right-s5741103.webp",
+        "sha256": "8f22a62da877fda869bd7744e0e52c3cf7acb0da8b71bcaec2d5c5b04754c1ae"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-right-s5741103.webp",
+        "sha256": "4b825e8dfbc28ae916946a54ec26f7cfdfc8db3db1844c9cf951564da5fa5542"
+      },
+      {
+        "path": "art/production/heroes/planetary/painted-v1/painted-views/planetary-down-right-s5741103.webp",
+        "sha256": "2a1d3b90fbe7e81b24865389e17d96a0b7b6d3984581ded194ba946d0c2b6a02"
+      },
+      {
+        "path": "deliveries/hero-planetary-painted-1.0.0/manifest.json",
+        "sha256": "ae59e5153b5a90c35e5aa46b44bec61c5407928364e585bc5907c5655e43dea5"
+      }
+    ],
+    "sourceRights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)",
+    "rawFramesOnGpuOnly": "ki-legends-gpu/deliveries-src/layout-planetary-v6.tar (416 PNG 512x512)",
+    "scriptChecks": [
+      {
+        "path": "scripts/gpu/painted_views.py",
+        "sha256": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df"
+      },
+      {
+        "path": "scripts/gpu/matte_masters.py",
+        "sha256": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f"
+      },
+      {
+        "path": "scripts/gpu/animate_painted.py",
+        "sha256": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d"
+      },
+      {
+        "path": "scripts/gpu/android_pose_keypoints.py",
+        "sha256": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc"
+      },
+      {
+        "path": "scripts/gpu/planetary_pose_keypoints.py",
+        "sha256": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+      }
+    ]
+  },
+  {
+    "race": "sage",
+    "checks": [
+      {
+        "path": "docs/design/identity/sage-v2/sage-s5741102-d55.png",
+        "sha256": "f8c049347ccf2ffa0e3364c8c2bfa46488d37edf528c02a9066cad393a10d38a"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-down-left.png",
+        "sha256": "338df7e0d94482e7f6985eb351fbe37501a5977113b5c3381c227b0f1b0032f0"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-down-right.png",
+        "sha256": "a6bcf7887fee54ecdb3577ad2aff2b67e8d192586f328794edd8f58db513f42e"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-down.png",
+        "sha256": "1251ccb4c83f0410bf76398188b45c74ab451e1d40b01ef296d4dca0417f39df"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-left.png",
+        "sha256": "e425cf9dcefec7eb42dd0af2ea09b91b013b76fb6c14584cfe9bc830f979326e"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-right.png",
+        "sha256": "bd848373718559645cc49c3b5a02b06e7bd6f2f69878454a364328db866cf4c8"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-up-left.png",
+        "sha256": "039a658c307dcbe90bd4f79d75ae4d7413577d807df9d8c155012eef330c7256"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-up-right.png",
+        "sha256": "332d5fb604be429fd9f6c70e1407f7a4be3dc1fb6417311ba8cba85773dfffe9"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/masters/sage-master-up.png",
+        "sha256": "d1c588b96a24001c320137771be0947072e8e0e2296e09f92170807bad1c6a7e"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-down-s5741102.webp",
+        "sha256": "7b6293a871dffa6122fd70e84ca59209bf66fa91f767ebd15b1ddffb6305df38"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-down-left-s5741102.webp",
+        "sha256": "306df2e528ef04990ce1c1f950ddc810b89b2d15f6848b2d5e3a9950d67fa681"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-left-s5741102.webp",
+        "sha256": "d9e1ec1c1c27c9da74016a0600a1feeec139dc43968a8bd6c42d704bd4f0ec87"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-up-left-s5741102.webp",
+        "sha256": "a3feafb806b580b1f88b13c4157f71175ec573a925f47c7d5ff49506358905ea"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-up-s5741102.webp",
+        "sha256": "40e3de32a888667028b2d952b6124b3cb741c4a9819702e944f617d60faf13ca"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-up-right-s5741102.webp",
+        "sha256": "6fe41214bd17c819386dfc0ce1ec9802f4369c8b7e10fe90be785bccd1b18147"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-right-s5741102.webp",
+        "sha256": "afa7d7c0977a3d87a7e8e838862c7efbb453bcbb9dff14db44a2c1ece2a1eb4e"
+      },
+      {
+        "path": "art/production/heroes/sage/painted-v1/painted-views/sage-down-right-s5741102.webp",
+        "sha256": "5fa7f9e4db6985878a7421609af6284451713d577ed93d9e05dc4450c4850ba2"
+      },
+      {
+        "path": "deliveries/hero-sage-painted-1.0.0/manifest.json",
+        "sha256": "1aed6563555daaece5e7230afcf39f9d94d2eac6ff095537c8932ad0bc47566a"
+      }
+    ],
+    "sourceRights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)",
+    "rawFramesOnGpuOnly": "ki-legends-gpu/deliveries-src/layout-sage-v6.tar (416 PNG 512x512)",
+    "scriptChecks": [
+      {
+        "path": "scripts/gpu/painted_views.py",
+        "sha256": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df"
+      },
+      {
+        "path": "scripts/gpu/matte_masters.py",
+        "sha256": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f"
+      },
+      {
+        "path": "scripts/gpu/animate_painted.py",
+        "sha256": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d"
+      },
+      {
+        "path": "scripts/gpu/android_pose_keypoints.py",
+        "sha256": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc"
+      },
+      {
+        "path": "scripts/gpu/planetary_pose_keypoints.py",
+        "sha256": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+      }
+    ]
+  },
+  {
+    "race": "android",
+    "checks": [
+      {
+        "path": "docs/design/identity/android-v1/android-s5741102-d62.png",
+        "sha256": "02a5fdc8cd3f465267c44a05cfb01b8f46ff24cd8cb98911c68047ff9b50ae67"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-down-left.png",
+        "sha256": "95370d4a8fd1e25b8c8325506ddd86e2b05327ceb80177b5a28fec443067a60f"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-down-right.png",
+        "sha256": "d0cb87fbead54992c8e20820f0ab621e4714b2f0dfbc3d73d09bd18d02b06e31"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-down.png",
+        "sha256": "d30a922bcd6d4f87fcf5dcb3934ab7a9496fc6909aa22873457bf3f00127e4e7"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-left.png",
+        "sha256": "b174ff2b8bf772f5f19e8e899914248aec814a8f0401f195831743fa7ad9874e"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-right.png",
+        "sha256": "422038d24901fddc33bf3f6d789e381974c07408d1ee610ef4b39ec16963bda9"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-up-left.png",
+        "sha256": "7e6cd87ac138a6e8b88dd29088658a82b0d543aa9b1b4e4b084858014577f7fc"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-up-right.png",
+        "sha256": "de2f9c149d1528704303f8b55d4f1bed5d0b366b181701576f3b380e59144aaa"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/masters/android-master-up.png",
+        "sha256": "d58eeb527b24797324762510c193e1c5b87da0fbb70049623830e713b62d5f43"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-down-s5741102.webp",
+        "sha256": "4b0fb5c4977960b68298bb8bcb20d77fb9d2f27f962e7fe4eafc815dcdfc833f"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-down-left-s5741102.webp",
+        "sha256": "db07b6e77c8272c5501729b6258958477f16a7c96a47bf1b6ac5b3ae204ba2ce"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-left-s5741102.webp",
+        "sha256": "a2172c50338e76f38468f6bae62ae44d908b7a92e90badd0bca945e3507c77d5"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-up-left-s5741102.webp",
+        "sha256": "3654a3880fadae74432725d03070c532dc898e0db42bfc2bc3b1d90c6f34350b"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-up-s5741102.webp",
+        "sha256": "8ba208cad128927c55206a82c503059bd35e6796e05d24278858be373284769f"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-up-right-s5741102.webp",
+        "sha256": "9f46e02809c8d05d2fb56048e33069d6195e1dff1bce7b787c3ccdd7b4dd7032"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-right-s5741102.webp",
+        "sha256": "1815b41a82826fa5863dd40af64d10c726ac4dbb8671a3e9402c7567b4361751"
+      },
+      {
+        "path": "art/production/heroes/android/painted-v1/painted-views/android-down-right-s5741102.webp",
+        "sha256": "36eeb92350357722c31ae61b1130b7478c51daf88ad78659aa46627a1b772848"
+      },
+      {
+        "path": "deliveries/hero-android-1.0.0/manifest.json",
+        "sha256": "e729ce083a3afc67296492f5154006efa2a996b3b45c52b3972a6101409556f4"
+      }
+    ],
+    "sourceRights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)",
+    "rawFramesOnGpuOnly": "ki-legends-gpu/deliveries-src/layout-android-v6.tar (416 PNG 512x512)",
+    "scriptChecks": [
+      {
+        "path": "scripts/gpu/painted_views.py",
+        "sha256": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df"
+      },
+      {
+        "path": "scripts/gpu/matte_masters.py",
+        "sha256": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f"
+      },
+      {
+        "path": "scripts/gpu/animate_painted.py",
+        "sha256": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d"
+      },
+      {
+        "path": "scripts/gpu/android_pose_keypoints.py",
+        "sha256": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc"
+      },
+      {
+        "path": "scripts/gpu/planetary_pose_keypoints.py",
+        "sha256": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+      }
+    ]
+  },
+  {
+    "race": "legend",
+    "checks": [
+      {
+        "path": "docs/design/identity/legend-v1/legend-s5741102-d62.png",
+        "sha256": "35421413ffe928e53aa50916fa2028cdb3d89cf5c0db3d0982c6db32d29d121b"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-down-left.png",
+        "sha256": "ad22cc45f7267a18601690583cb2f8b8bf560b095a09c743e1270cbb778d0ee7"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-down-right.png",
+        "sha256": "3a01b52aa1945e787aca938c850a104a7188e9fc88f5fa22d1d0553bcb54efb9"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-down.png",
+        "sha256": "158b6372606ae6f46944c8939c91ac0dbafe0fd08a35adf068d3dded9ed78662"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-left.png",
+        "sha256": "ae8a854c0c7e4855f98b252c512e58b58b728d6b1707d3b4eb538241c3c73d06"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-right.png",
+        "sha256": "6ea79e22797b97ae47ceeffe7350207f43aaed3af662c70ee615dada5c6266ac"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-up-left.png",
+        "sha256": "1aabb81392553e4d317436799750b8f2c3ef6091e24fe24c3a9a552372daf812"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-up-right.png",
+        "sha256": "f48b5d9117961c5b46d34fb5aac99344221a4e1c6995b60c30c1ccc012a66aad"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/masters/legend-master-up.png",
+        "sha256": "897236279e937c86cbd046338dff24dd64b57fb160887f6678c02169e3046fe2"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-down-s5741102.webp",
+        "sha256": "e301371ee20343b6215ae6f31bc6c04773272e88ae5d81a5ef4eda45d847c495"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-down-left-s5741102.webp",
+        "sha256": "849e7f7991e93d6057669af9ae9e61e1fa2809416d68342ff7026c7e85bbe752"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-left-s5741102.webp",
+        "sha256": "776217a5238be350bf5985d85ad72775aef89f004dffc26418ea9742862f473d"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-up-left-s5741102.webp",
+        "sha256": "cc953d894f4dc18a1017a533ebaa17de5ef47c90fad79844b2200477ae8ffc65"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-up-s5741102.webp",
+        "sha256": "27d21dd3ee992f138ba22946ab58c05d7995f4537eafb37840b34c4c78309c9a"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-up-right-s5741102.webp",
+        "sha256": "529b18cd306413b42431ad2c9726fa56bdc938f5cf67469b0af7526b95167f6a"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-right-s5741102.webp",
+        "sha256": "c556f76a24009e25f1280430e0200bf33e302c88155bc170756114b9ca2342bc"
+      },
+      {
+        "path": "art/production/heroes/legend/painted-v1/painted-views/legend-down-right-s5741102.webp",
+        "sha256": "fda1c470d7089b6b79fd1d8552db246a56b2512bb50b41eebe7a38ebf2a0403c"
+      },
+      {
+        "path": "deliveries/hero-legend-1.0.0/manifest.json",
+        "sha256": "844973d5d4a7b59c83b9e82e43bab741158ef6c76e95bed0445518689a688ee1"
+      }
+    ],
+    "sourceRights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)",
+    "rawFramesOnGpuOnly": "ki-legends-gpu/deliveries-src/layout-legend-v6.tar (416 PNG 512x512)",
+    "scriptChecks": [
+      {
+        "path": "scripts/gpu/painted_views.py",
+        "sha256": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df"
+      },
+      {
+        "path": "scripts/gpu/matte_masters.py",
+        "sha256": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f"
+      },
+      {
+        "path": "scripts/gpu/animate_painted.py",
+        "sha256": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d"
+      },
+      {
+        "path": "scripts/gpu/android_pose_keypoints.py",
+        "sha256": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc"
+      },
+      {
+        "path": "scripts/gpu/planetary_pose_keypoints.py",
+        "sha256": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+      }
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "id": "hero-android",
+  "version": "1.0.0",
+  "digest": "f49d5582052e7d83ab145feb72e1c2182920e65dadb232974cf3c5485d48f4a2",
+  "assets": 2,
+  "bytesBefore": 4667560,
+  "bytesAfter": 4667560,
+  "worlds": {
+    "verdant": 99164960,
+    "aether": 63166752,
+    "nexus": 54149920,
+    "pyra": 28657440
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/hero-android/1.0.0-f49d5582052e"
+}

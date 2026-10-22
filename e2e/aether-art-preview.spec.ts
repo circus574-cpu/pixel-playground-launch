@@ -14,10 +14,10 @@ test("Aetheria anime start point loads only behind its review switch", async ({ 
   page.on("pageerror", (error) => errors.push(error.message));
   const canvas = page.locator(".ki-canvas");
   await startSage(page);
-  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
   await expect(canvas).not.toHaveAttribute("data-texture-ids", /aether-art-/);
   await page.goto(entry + "?ki-aether-art=1");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
   await expect(canvas).toHaveAttribute("data-texture-ids", /aether-art-sanctum/);
   await expect(canvas).toHaveAttribute("data-texture-ids", /aether-art-aether-ground/);
   expect(errors).toEqual([]);

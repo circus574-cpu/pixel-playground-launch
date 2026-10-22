@@ -287,38 +287,66 @@ it("keeps unapproved hero packs opt-in while validating and importing their actu
   );
 });
 
-describe("Sage and Planetary integration on current main", () => {
-  it("activates all 416 Sage frames on Aetheria without a URL flag", () => {
-    const sage = actorVisual("aether", "hero", undefined, false, catalog);
-    expect(sage.id).toBe("hero-sage");
-    const frames = Object.values(sage.clips).flatMap((clip) =>
-      Object.values(clip.directions).flat(),
-    );
-    expect(frames).toHaveLength(416);
-    const assets = worldAssets("aether", false, catalog).map((a) => a.id);
-    expect(assets).toEqual(expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]));
-  });
+describe("four painted hero deliveries", () => {
+  const heroes = {
+    verdant: "hero-planetary-painted",
+    aether: "hero-sage-painted",
+    nexus: "hero-android",
+    pyra: "hero-legend",
+  } as const;
 
-  it("does not change Androidy, Legendy or default Planetarni", () => {
-    for (const world of ["verdant", "nexus", "pyra"] as const) {
-      const visual = actorVisual(world, "hero", undefined, false, catalog);
-      expect(visual.id).toBe("human-v2");
-      const assets = worldAssets(world, false, catalog).map((a) => a.id);
+  for (const [world, id] of Object.entries(heroes)) {
+    it(`activates ${id} without flags and loads no other hero's atlas`, () => {
+      const hero = actorVisual(world as keyof typeof heroes, "hero", undefined, false, catalog);
+      expect(hero.id).toBe(id);
+      expect(hero.size).toEqual([96, 96]);
+      expect(hero.origin).toEqual([0.5, 0.95]);
+      expect(Object.keys(hero.clips).sort()).toEqual([
+        "attack",
+        "death",
+        "hit",
+        "idle",
+        "respawn",
+        "skill",
+        "walk",
+      ]);
+      const frames = Object.values(hero.clips).flatMap((clip) =>
+        Object.values(clip.directions).flat(),
+      );
+      expect(frames).toHaveLength(416);
+      expect(new Set(frames).size).toBe(416);
+      for (const clip of Object.values(hero.clips))
+        expect(Object.keys(clip.directions).sort()).toEqual([...DIRECTIONS].sort());
+      const assets = worldAssets(world as keyof typeof heroes, false, catalog).map((a) => a.id);
+      expect(assets).toEqual(expect.arrayContaining([id + "-page-0", id + "-page-1"]));
+      for (const other of Object.values(heroes))
+        if (other !== id) expect(assets).not.toContain(other + "-page-0");
       expect(assets).not.toContain("hero-sage-page-0");
-    }
-  });
+      expect(assets).not.toContain("hero-planetary-page-0");
+      expect(actorVisual(world as keyof typeof heroes, "npc").id).toBe("human-v2");
+      expect(actorVisual(world as keyof typeof heroes, "enemy").id).toBe("boar-v1");
+    });
+  }
 
-  it("retains opt-in Planetary art independently of default Sage", async () => {
-    const manifestPath = path.join(process.cwd(), "src/game/assets/imported.json");
-    const data: unknown[] = JSON.parse(await readFile(manifestPath, "utf8"));
+  it("keeps legacy hero flags from replacing the new default bindings", async () => {
+    const { previewPacks } = await import("../game/assets/catalog");
+    const data: unknown[] = JSON.parse(
+      await readFile(path.join(process.cwd(), "src/game/assets/imported.json"), "utf8"),
+    );
     const packs = data.map((pack) => PackSchema.parse(pack));
-    const both = makeCatalog(packs, ["hero-sage", "hero-planetary"]);
-    const planetary = actorVisual("verdant", "hero", undefined, false, both);
-    const sage = actorVisual("aether", "hero", undefined, false, both);
-    expect(planetary.id).toBe("hero-planetary");
-    expect(sage.id).toBe("hero-sage");
-    const assets = worldAssets("verdant", false, both).map((a) => a.id);
-    expect(assets).toContain("hero-planetary-page-0");
-    expect(assets).not.toContain("hero-sage-page-0");
+    for (const search of [
+      "",
+      "?ki-hero-art=1",
+      "?ki-sage-art=1",
+      "?ki-hero-art=1&ki-aether-art=1",
+    ]) {
+      const source = makeCatalog(packs, previewPacks(search));
+      for (const [world, id] of Object.entries(heroes))
+        expect(actorVisual(world as keyof typeof heroes, "hero", undefined, false, source).id).toBe(
+          id,
+        );
+    }
+    for (const id of Object.values(heroes))
+      expect(packs.find((pack) => pack.id === id)?.previewOnly).toBe(false);
   });
 });

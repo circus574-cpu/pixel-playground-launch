@@ -1,4 +1,4 @@
-name: Sage and Planetary WebGL regressions
+name: Four hero WebGL regressions
 
 on:
   pull_request:
@@ -36,13 +36,13 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
-      - name: Both GPU heroes in software WebGL
+      - name: Four painted heroes in software WebGL
         run: npx playwright test --project=software-webgl
       - name: Software WebGL results, traces and screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sage-planetary-webgl-${{ github.sha }}
+          name: four-heroes-webgl-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             qa-tested-sha.txt
             test-results/

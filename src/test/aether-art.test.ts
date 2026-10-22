@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import imported from "../game/assets/imported.json" with { type: "json" };
 import { PackSchema } from "../game/assets/schema";
-import { makeCatalog, previewPacks, worldAssets, worldRenderRefs } from "../game/assets/catalog";
+import {
+  actorVisual,
+  makeCatalog,
+  previewPacks,
+  worldAssets,
+  worldRenderRefs,
+} from "../game/assets/catalog";
 import { WORLDS, worldObstacles } from "../game/world/worlds";
 
 const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
@@ -11,11 +17,11 @@ describe("Aetheria anime start-point art", () => {
   it("is the default Aetheria art (owner moved it into the game)", () => {
     expect(pack.previewOnly).toBe(false);
     expect(packs.find((p) => p.id === "aether-expansion")?.previewOnly).toBe(false);
-    expect(previewPacks("?ki-aether-art=1")).toContain("hero-sage");
+    expect(actorVisual("aether", "hero").id).toBe("hero-sage-painted");
   });
 
   it("replaces every Aetheria object and terrain texture when enabled", () => {
-    const source = makeCatalog(packs, ["hero-sage"]);
+    const source = makeCatalog(packs);
     const ids = worldAssets("aether", false, source).map((a) => a.id);
     for (const object of WORLDS.aether.objects)
       expect(source.renderBindings["object." + object.asset]?.asset).toMatch(/^aether-(art|x)-/);

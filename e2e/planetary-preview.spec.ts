@@ -12,35 +12,35 @@ async function activeId(page: Page) {
   return page.evaluate((key) => localStorage.getItem(key + ":active-character"), base);
 }
 
-test("Planetarni preview preserves the same save and stays out of default visuals and other races", async ({
+test("Planetarni default painted visual preserves the same save across legacy flags and other races", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await start(page, false);
   const canvas = page.locator(".ki-canvas");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
   await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-planetary-page/);
   const id = await activeId(page);
   await page.getByRole("button", { name: /Rozmowa · Aira/ }).click();
   await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
   await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
   await page.goto(entry + "?ki-hero-art=1");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
   expect(await activeId(page)).toBe(id);
   await expect(page.getByRole("button", { name: "Podejdź do rynku", exact: true })).toBeVisible();
   await page.goto(entry);
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
   expect(await activeId(page)).toBe(id);
   await page.goto(entry + "?ki-hero-art=1");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
   await openHudTool(page, "Ustawienia");
   await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
   await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(canvas).toHaveAttribute("data-world", "aether");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
-  await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-planetary-page/);
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
+  await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-planetary-painted-page/);
   expect(errors).toEqual([]);
 });
 
@@ -53,7 +53,7 @@ for (const width of [1280, 390])
     page.on("pageerror", (error) => errors.push(error.message));
     await start(page);
     const canvas = page.locator(".ki-canvas");
-    await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
+    await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
     const idleFrames = new Set<string>();
     for (let i = 0; i < 8; i++) {
       idleFrames.add((await canvas.getAttribute("data-animation-frame"))!);
@@ -77,14 +77,17 @@ for (const width of [1280, 390])
       for (const key of keys) await page.keyboard.down(key);
       await expect(canvas).toHaveAttribute(
         "data-animation-frame",
-        new RegExp(`^hero-planetary/walk/${direction}/`),
+        new RegExp(`^hero-planetary-painted/walk/${direction}/`),
       );
       await page.waitForTimeout(160);
       for (const key of keys) await page.keyboard.up(key);
     }
     await page.getByRole("button", { name: "Tarcza ducha", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-animation-state", "skill");
-    await expect(canvas).toHaveAttribute("data-animation-frame", /^hero-planetary\/skill\//);
+    await expect(canvas).toHaveAttribute(
+      "data-animation-frame",
+      /^hero-planetary-painted\/skill\//,
+    );
     await page.screenshot({ path: info.outputPath(`planetary-skill-${width}.png`) });
     await expect(canvas).toHaveAttribute("data-animation-state", "idle");
     await page.screenshot({ path: info.outputPath(`planetary-idle-${width}.png`) });
@@ -92,7 +95,7 @@ for (const width of [1280, 390])
   });
 
 test("a broken Planetarni atlas retries without losing the character", async ({ page }) => {
-  await page.route("**/hero-planetary/**/hero-planetary-page-1.json", (route) =>
+  await page.route("**/hero-planetary-painted/**/hero-planetary-painted-page-1.json", (route) =>
     route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
   );
   await page.goto(entry + "?ki-hero-art=1");
@@ -102,9 +105,12 @@ test("a broken Planetarni atlas retries without losing the character", async ({ 
   await expect(error).toBeVisible();
   await expect(error).toContainText("Brak klatki");
   const id = await activeId(page);
-  await page.unroute("**/hero-planetary/**/hero-planetary-page-1.json");
+  await page.unroute("**/hero-planetary-painted/**/hero-planetary-painted-page-1.json");
   await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
-  await expect(page.locator(".ki-canvas")).toHaveAttribute("data-actor-visual", "hero-planetary");
+  await expect(page.locator(".ki-canvas")).toHaveAttribute(
+    "data-actor-visual",
+    "hero-planetary-painted",
+  );
   expect(await activeId(page)).toBe(id);
 });
 
@@ -118,7 +124,7 @@ test.describe("Planetarni touch preview", () => {
     page.on("pageerror", (error) => errors.push(error.message));
     await start(page);
     const canvas = page.locator(".ki-canvas");
-    await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
+    await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
     const position = () =>
       canvas.evaluate((el) => ({
         x: Number((el as HTMLElement).dataset["playerX"]),
@@ -147,7 +153,7 @@ test.describe("Planetarni touch preview", () => {
       });
       await expect(canvas).toHaveAttribute(
         "data-animation-frame",
-        new RegExp(`^hero-planetary/walk/${direction}/`),
+        new RegExp(`^hero-planetary-painted/walk/${direction}/`),
       );
       await page.waitForTimeout(180);
       await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
@@ -155,7 +161,10 @@ test.describe("Planetarni touch preview", () => {
       expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeGreaterThan(12);
     }
     await page.getByRole("button", { name: "Tarcza ducha", exact: true }).tap();
-    await expect(canvas).toHaveAttribute("data-animation-frame", /^hero-planetary\/skill\//);
+    await expect(canvas).toHaveAttribute(
+      "data-animation-frame",
+      /^hero-planetary-painted\/skill\//,
+    );
     await page.screenshot({ path: info.outputPath("planetary-touch-390.png") });
     expect(errors).toEqual([]);
   });

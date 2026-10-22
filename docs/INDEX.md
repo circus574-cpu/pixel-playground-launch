@@ -3,6 +3,8 @@
 Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
 
 ## Dokumentacja audytowa i bieżąca
+- [Integracja czterech malowanych ras z dostawy Claude’a — źródła, runtime i QA](FOUR-PAINTED-RACES-INTEGRATION-2026-10-22.md)
+- [Malowane widoki i deformacja siatki — pipeline oraz znane wady dostawy](PAINTED-MESH-PIPELINE.md)
 - [ORYGINALNY PDF 12 stron — kompletne binarne archiwum z obrazami, odtwarzalne bezstratnie](design/original-pdf-parts/README.md)
 - [Transkrypcja tekstowa PDF — pomocnicza](design/SOURCE-PDF-ARCHIVE.md)
 - [Osobna kolejka GPU: Androidy → Legendy → miasta czterech ras](GPU-PRODUCTION-SEQUENCE.md)

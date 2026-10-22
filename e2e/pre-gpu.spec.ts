@@ -84,7 +84,12 @@ for (const race of RACE_IDS)
         await expect
           .poll(() => page.locator(".ki-canvas").getAttribute("data-metrics"))
           .not.toBeNull();
-        const expectedVisual = race === "sage" ? "hero-sage" : "human-v2";
+        const expectedVisual = {
+          planetary: "hero-planetary-painted",
+          sage: "hero-sage-painted",
+          android: "hero-android",
+          legend: "hero-legend",
+        }[race];
         await expect(page.locator(".ki-canvas")).toHaveAttribute(
           "data-actor-visual",
           expectedVisual,
@@ -130,6 +135,13 @@ for (const race of RACE_IDS)
         for (const input of inputs) {
           const before = await position(page);
           for (const key of input.keys) await page.keyboard.down(key);
+          const direction =
+            (input.y ? (input.y > 0 ? "down" : "up") + (input.x ? "-" : "") : "") +
+            (input.x ? (input.x > 0 ? "right" : "left") : "");
+          await expect(page.locator(".ki-canvas")).toHaveAttribute(
+            "data-animation-frame",
+            new RegExp(`^${expectedVisual}/walk/${direction}/`),
+          );
           await page.waitForTimeout(220);
           for (const key of input.keys) await page.keyboard.up(key);
           await expect.poll(async () => distance(await position(page), before)).toBeGreaterThan(12);
@@ -151,6 +163,13 @@ for (const race of RACE_IDS)
             type: "touchMove",
             touchPoints: [{ x: x + input.x * 38, y: y + input.y * 38, id: 1 }],
           });
+          const direction =
+            (input.y ? (input.y > 0 ? "down" : "up") + (input.x ? "-" : "") : "") +
+            (input.x ? (input.x > 0 ? "right" : "left") : "");
+          await expect(page.locator(".ki-canvas")).toHaveAttribute(
+            "data-animation-frame",
+            new RegExp(`^${expectedVisual}/walk/${direction}/`),
+          );
           await page.waitForTimeout(220);
           await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
           await expect.poll(async () => distance(await position(page), before)).toBeGreaterThan(12);

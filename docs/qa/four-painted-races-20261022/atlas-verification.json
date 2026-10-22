@@ -1,0 +1,946 @@
+[
+  {
+    "actor": "hero-android",
+    "frames": 416,
+    "directionalClips": 56,
+    "minimumAtlasFrameMarginPx": 3,
+    "sourceAtlasSha256": {
+      "hero-android-page-0.webp": "21b09a85eeee146a9a0fb09a3dd5cdae550a75bae2ef157061ca171f4e346550",
+      "hero-android-page-1.webp": "ca6d3e9cb0cb6864b7e9445819b39b5be97443d9939a798e65f64fe8056f4c77"
+    },
+    "clips": {
+      "idle/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "hit/down": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "death/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      }
+    }
+  },
+  {
+    "actor": "hero-legend",
+    "frames": 416,
+    "directionalClips": 56,
+    "minimumAtlasFrameMarginPx": 3,
+    "sourceAtlasSha256": {
+      "hero-legend-page-0.webp": "197f0e8a011f4b56a5f3b94514d90bd75f1079839ba705d1cd1810e10da684bb",
+      "hero-legend-page-1.webp": "9045957b74ce79a2588fb5c1faceb2e6e47cad5541bf316264fca440d6bcc0b0"
+    },
+    "clips": {
+      "idle/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "hit/down": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "death/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      }
+    }
+  },
+  {
+    "actor": "hero-planetary-painted",
+    "frames": 416,
+    "directionalClips": 56,
+    "minimumAtlasFrameMarginPx": 3,
+    "sourceAtlasSha256": {
+      "hero-planetary-painted-page-0.webp": "a4acdb41d8cf9fe43a5657a64ace1072223fda13778cb924481a70560f9d72e6",
+      "hero-planetary-painted-page-1.webp": "a9817a7b609603376725760ec4bc04673e1152860ca4188c7acc0bf4e856f538"
+    },
+    "clips": {
+      "idle/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "hit/down": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "death/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      }
+    }
+  },
+  {
+    "actor": "hero-sage-painted",
+    "frames": 416,
+    "directionalClips": 56,
+    "minimumAtlasFrameMarginPx": 4,
+    "sourceAtlasSha256": {
+      "hero-sage-painted-page-0.webp": "69c35e5c5b4af12f023aab784dd80554dd1e284dee6311f5ef4caa6340e4f869",
+      "hero-sage-painted-page-1.webp": "6597357a435f303563487466715d7a42eaccb6a65aeb9083707d8d681e469c35"
+    },
+    "clips": {
+      "idle/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "idle/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "walk/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "attack/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "skill/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "hit/down": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-left": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/up-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "hit/down-right": {
+        "frames": 4,
+        "uniquePixelFrames": 4
+      },
+      "death/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "death/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-left": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/up-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      },
+      "respawn/down-right": {
+        "frames": 8,
+        "uniquePixelFrames": 8
+      }
+    }
+  }
+]

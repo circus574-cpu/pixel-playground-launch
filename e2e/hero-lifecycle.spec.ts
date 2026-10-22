@@ -17,13 +17,15 @@ test.afterEach(async ({ page }, info) => {
 });
 
 for (const [race, worldId, actor] of [
-  ["Planetarni", "verdant", "hero-planetary"],
-  ["Mędrcy", "aether", "hero-sage"],
+  ["Planetarni", "verdant", "hero-planetary-painted"],
+  ["Mędrcy", "aether", "hero-sage-painted"],
+  ["Androidy", "nexus", "hero-android"],
+  ["Legendy", "pyra", "hero-legend"],
 ] as const) {
   test(`${actor}: all seven clips follow real combat, defeat and respawn`, async ({
     page,
   }, info) => {
-    await page.goto("/scripts/playtest.html?ki-hero-art=1");
+    await page.goto("/scripts/playtest.html");
     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const canvas = page.locator(".ki-canvas");

@@ -1,0 +1,16 @@
+{
+  "id": "hero-legend",
+  "version": "1.0.0",
+  "digest": "64672b3aa5f8071e61799ae99da35c18a79ee3c31a3cc526ac95827264e7f44c",
+  "assets": 2,
+  "bytesBefore": 3809196,
+  "bytesAfter": 3809196,
+  "worlds": {
+    "verdant": 99164960,
+    "aether": 63166752,
+    "nexus": 54149920,
+    "pyra": 55920416
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/hero-legend/1.0.0-64672b3aa5f8"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "hero-sage-painted",
+  "version": "1.0.0",
+  "digest": "103e4447b84c0c0bf4124c122dc8b05f16ce443b3c9f452f478946f87b63bb0f",
+  "assets": 2,
+  "bytesBefore": 5497008,
+  "bytesAfter": 5497008,
+  "worlds": {
+    "verdant": 99164960,
+    "aether": 63166752,
+    "nexus": 54149920,
+    "pyra": 55920416
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c"
+}
