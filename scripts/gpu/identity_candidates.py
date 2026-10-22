@@ -3,6 +3,7 @@
 Usage on an already running GPU pod (does not touch pod lifecycle):
   python3 identity_candidates.py android
   python3 identity_candidates.py legend
+  python3 identity_candidates.py planetary
 Writes PNG candidates, a contact sheet and metadata with SHA-256 to
 /workspace/ki-legends-gpu/renders/<race>-identity-v1/.
 """
@@ -14,6 +15,7 @@ SITE = "https://kilegends.pl/game/assets/origins-v1/%s-full.webp" % race
 PINNED = {
     "android": "04559d7507f7c3bfa92ebbbf4f1f2b43734546546fd262fa8bfeaaf1afa0eef0",
     "legend": "ba7c4d962595ae469adeaa00939549af2f77597caf175f29fff2122e75a87e80",
+    "planetary": "db5caf89604fe974cbf38bd750795f3e362f954c695d8df94ba149e7598ea851",
 }
 BASE = ("1boy, solo, adult male, full body, standing, both hands visible, complete feet visible, "
         "fully clothed, relaxed ready stance, high angle three quarter view, anime fantasy game protagonist, "
@@ -27,6 +29,10 @@ PROMPTS = {
     "legend": "wild spiky crimson red and black hair, intense amber eyes, fierce confident expression, "
               "muscular warrior, black and crimson armor with steel spikes on shoulders and gauntlets, "
               "open black vest, flowing red sashes, black trousers, spiked steel armored boots, ",
+    "planetary": "messy spiky chestnut brown hair with a short orange braid, white headband, amber eyes, tanned skin, "
+                 "calm determined expression, muscular forest warrior, orange scarf, sleeveless white and green wrap tunic, "
+                 "brown leather straps belts and pouches, bronze brown armored gauntlets and greaves with glowing cyan crystal gems, "
+                 "dark green trousers, brown pointed leather boots, orange white and green cloth with geometric patterns, ",
 }
 NEG = ("nsfw, nude, naked, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, cut off hair, "
        "out of frame, close up, portrait, text, logo, watermark, signature, multiple people, duplicate character, "
@@ -50,7 +56,9 @@ ckpt = found[0]
 out = Path("/workspace/ki-legends-gpu/renders/%s-identity-v1" % race)
 out.mkdir(parents=True, exist_ok=True)
 ref_path = out / ("reference-%s.webp" % race)
-urllib.request.urlretrieve(SITE, ref_path)
+if not ref_path.exists():  # the site rejects the default urllib client with 403
+    request = urllib.request.Request(SITE, headers={"User-Agent": "curl/8"})
+    ref_path.write_bytes(urllib.request.urlopen(request, timeout=60).read())
 ref_sha = hashlib.sha256(ref_path.read_bytes()).hexdigest()
 if ref_sha != PINNED[race]:
     sys.exit("BLAD: suma SHA-256 referencji nie zgadza sie: %s" % ref_sha)
