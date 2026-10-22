@@ -24,7 +24,9 @@ test("Planetary production hero and Superior globe work inside the same Android-
   await expect(globe).toBeVisible();
   await expect(globe.locator(".planet-map")).toBeVisible({ timeout: 30000 });
   await expect(page).toHaveURL(/\/scripts\/playtest\.html/);
-  await expect(page.getByRole("button", { name: "Zamknij globus i kontynuuj rozgrywkę" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Zamknij globus i kontynuuj rozgrywkę" }),
+  ).toBeVisible();
 
   await page.getByRole("button", { name: "Zamknij globus i kontynuuj rozgrywkę" }).click();
   await expect(globe).toHaveCount(0);
