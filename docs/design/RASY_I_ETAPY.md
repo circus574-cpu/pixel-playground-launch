@@ -1,6 +1,6 @@
 # Ki Legends — cztery rasy i etapy (tekstowy indeks dokumentu właściciela)
 
-**Źródło:** „KI LEGENDS — Anime fantasy MMORPG 2D | Wizja gry, cztery rasy i plan produkcji”, dokument koncepcyjny v1.0 z 20.10.2026, 12 stron. Ten indeks jest pomocą dla agentów; **nie zastępuje oryginalnego PDF ani zawartych w nim ilustracji**. Oryginalny PDF wraz z ilustracjami jest bezstratnie zapisany w [12 częściach binarnych](../design/original-pdf-parts/README.md) na gałęzi PR #16; skrypt odtwarza `docs/design/Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf`. Wymaga scalenia do `main`.
+**Źródło:** „KI LEGENDS — Anime fantasy MMORPG 2D | Wizja gry, cztery rasy i plan produkcji”, dokument koncepcyjny v1.0 z 20.10.2026, 12 stron. Ten indeks jest pomocą dla agentów; **nie zastępuje oryginalnego PDF ani zawartych w nim ilustracji**. Oryginalny PDF wraz z ilustracjami jest bezstratnie zapisany w [12 częściach binarnych](../design/original-pdf-parts/README.md) w `main` po scaleniu PR #16 dnia 22.10.2026; skrypt odtwarza `docs/design/Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf`. Przy nowym klonie wymagane uruchomienie rekonstrukcji i potwierdzenie SHA-256.
 
 ## Rasy i referencje (strony 3–7)
 - **Planetarni** — odkrywcy i wojownicy związani z żywą energią świata; zieleń, ochra, bursztyn, skóra, tkaniny, mobilność. Docelowo dynamika ruchu i walka wręcz. Krajobraz: żyzne doliny, skalne ścieżki, lasy i osady.
