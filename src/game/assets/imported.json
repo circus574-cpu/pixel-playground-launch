@@ -1764,5 +1764,353 @@
       }
     },
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "nexus-start",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "nexus-art-lab",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-lab.webp",
+        "width": 896,
+        "height": 859
+      },
+      {
+        "id": "nexus-art-reactor",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-reactor.webp",
+        "width": 757,
+        "height": 768
+      },
+      {
+        "id": "nexus-art-terminal",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-terminal.webp",
+        "width": 150,
+        "height": 384
+      },
+      {
+        "id": "nexus-art-crystal",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-crystal.webp",
+        "width": 397,
+        "height": 640
+      },
+      {
+        "id": "nexus-art-pylon",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-pylon.webp",
+        "width": 115,
+        "height": 384
+      },
+      {
+        "id": "nexus-art-tech-garden",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-tech-garden.webp",
+        "width": 512,
+        "height": 452
+      },
+      {
+        "id": "nexus-art-ground",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-ground.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "nexus-art-path",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-path.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "nexus-art-plaza",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-plaza.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "nexus-art-wall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-start/1.0.0-9ddabcf4caef/nexus-art-wall.webp",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.lab": {
+        "asset": "nexus-art-lab",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.8
+        ]
+      },
+      "object.reactor": {
+        "asset": "nexus-art-reactor",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.82
+        ]
+      },
+      "object.terminal": {
+        "asset": "nexus-art-terminal",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.89
+        ]
+      },
+      "object.crystal": {
+        "asset": "nexus-art-crystal",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.87
+        ]
+      },
+      "object.pylon": {
+        "asset": "nexus-art-pylon",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.92
+        ]
+      },
+      "object.tech-garden": {
+        "asset": "nexus-art-tech-garden",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.92
+        ]
+      },
+      "terrain.nexus-ground": {
+        "asset": "nexus-art-ground",
+        "fit": "stretch",
+        "tileSize": [
+          320,
+          320
+        ]
+      },
+      "terrain.nexus-path": {
+        "asset": "nexus-art-path",
+        "fit": "stretch",
+        "tileSize": [
+          208,
+          208
+        ]
+      },
+      "terrain.nexus-plaza": {
+        "asset": "nexus-art-plaza",
+        "fit": "stretch",
+        "tileSize": [
+          288,
+          288
+        ]
+      },
+      "terrain.nexus-wall": {
+        "asset": "nexus-art-wall",
+        "fit": "stretch",
+        "tileSize": [
+          256,
+          256
+        ]
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "pyra-start",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "pyra-art-fortress",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-fortress.webp",
+        "width": 1024,
+        "height": 707
+      },
+      {
+        "id": "pyra-art-war-shrine",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-war-shrine.webp",
+        "width": 760,
+        "height": 768
+      },
+      {
+        "id": "pyra-art-statue",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-statue.webp",
+        "width": 279,
+        "height": 512
+      },
+      {
+        "id": "pyra-art-basalt",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-basalt.webp",
+        "width": 477,
+        "height": 640
+      },
+      {
+        "id": "pyra-art-volcano",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-volcano.webp",
+        "width": 768,
+        "height": 742
+      },
+      {
+        "id": "pyra-art-clan-banner",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-clan-banner.webp",
+        "width": 144,
+        "height": 384
+      },
+      {
+        "id": "pyra-art-ground",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-ground.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "pyra-art-path",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-path.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "pyra-art-plaza",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-plaza.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "pyra-art-wall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-wall.webp",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.fortress": {
+        "asset": "pyra-art-fortress",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.8
+        ]
+      },
+      "object.war-shrine": {
+        "asset": "pyra-art-war-shrine",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.8
+        ]
+      },
+      "object.statue": {
+        "asset": "pyra-art-statue",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.87
+        ]
+      },
+      "object.basalt": {
+        "asset": "pyra-art-basalt",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.86
+        ]
+      },
+      "object.volcano": {
+        "asset": "pyra-art-volcano",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.92
+        ]
+      },
+      "object.clan-banner": {
+        "asset": "pyra-art-clan-banner",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.92
+        ]
+      },
+      "terrain.pyra-ground": {
+        "asset": "pyra-art-ground",
+        "fit": "stretch",
+        "tileSize": [
+          320,
+          320
+        ]
+      },
+      "terrain.pyra-path": {
+        "asset": "pyra-art-path",
+        "fit": "stretch",
+        "tileSize": [
+          208,
+          208
+        ]
+      },
+      "terrain.pyra-plaza": {
+        "asset": "pyra-art-plaza",
+        "fit": "stretch",
+        "tileSize": [
+          288,
+          288
+        ]
+      },
+      "terrain.pyra-wall": {
+        "asset": "pyra-art-wall",
+        "fit": "stretch",
+        "tileSize": [
+          256,
+          256
+        ]
+      }
+    },
+    "effects": {}
   }
 ]
