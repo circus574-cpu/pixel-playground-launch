@@ -3,6 +3,8 @@
 Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
 
 ## Źródła
+- [Rejestr licencji grafik i modeli — dowody, statusy i nierozstrzygnięcia](ASSET-LICENSE-REGISTER.md)
+- [Rejestr licencji zależności z lockfile i wymagane notices](DEPENDENCY-LICENSE-REGISTER.md)
 - [Instrukcje dla agentów](../AGENTS.md)
 - [Produkcja i zasady publikacji](PRODUCTION.md)
 - [Pipeline zasobów GPU](GPU_ASSET_PIPELINE.md)
@@ -13,7 +15,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Raport stabilizacji PvE](QA-STAGE2-2026-10-20.md)
 - [Globus 3D /mapa](MAPA-GLOBUS-3D.md)
 - [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
-- Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Nie jest jeszcze umieszczony w repozytorium.** Wymagane dodanie binarnego oryginału do `docs/design/` i weryfikacja SHA-256. Nie zastępować go tekstowym streszczeniem.
+- Oryginalny dokument właściciela: `docs/design/Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). Obecność binarnego PDF i hashe jego ilustracji zweryfikowano w audycie licencji 22.10.2026; [dowody](licenses/evidence/pdf-images.json). Archiwizacja dokumentu nie stanowi potwierdzenia praw do ilustracji. Nie zastępować go tekstowym streszczeniem.
 
 ## Hierarchia i stan
 1. Wyraźne decyzje właściciela oraz zatwierdzony kanon mają pierwszeństwo.

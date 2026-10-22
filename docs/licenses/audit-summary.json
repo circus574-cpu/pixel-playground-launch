@@ -1,0 +1,23 @@
+{
+  "base": "d9599277924e6c3f1ce99b43e2a1b20654b42c22",
+  "date": "2026-10-22",
+  "lockfileSha256": "724789bd04ff36f73bdbce5ed7ddfd3e7a9cf0182781b800dfb0075fca756432",
+  "assetEntries": 729,
+  "trackedAssetFiles": 704,
+  "lockPaths": 731,
+  "allArchivesSriVerified": true,
+  "archivesWithLegalText": 590,
+  "supplementedSourceTexts": 101,
+  "unresolvedLegalTextOrScope": 40,
+  "individualAssetStatuses": {
+    "BRAK_DOWODU_PRAW": 17,
+    "BRAK_LICENCJI_DOKLADNEGO_CHECKPOINTU": 1,
+    "LICENCJA_MODELU_ODNALEZIONA_PRAWA_OUTPUTU_ODREBNE": 1,
+    "POCHODZENIE_OPISANE_PRAWA_NIEPOTWIERDZONE": 58,
+    "ODTWARZALNE_PRAWA_DO_WKLADOW_DO_POTWIERDZENIA": 33,
+    "BLOKADA_REFERENCJI": 460,
+    "ZWERYFIKOWANA_LICENCJA_BAZY": 6,
+    "ZWERYFIKOWANY_TEKST_LICENCJI_W_PLIKU": 2,
+    "DZIEDZICZY_STATUS_ZASOBOW": 151
+  }
+}
