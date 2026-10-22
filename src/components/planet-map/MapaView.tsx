@@ -99,7 +99,12 @@ export function MapaView({
   return (
     <GlobeBoundary key={attempt} onError={onBoundaryError}>
       <Suspense fallback={<GlobeLoading />}>
-        <PlanetGlobe onShowFlat={() => setMode("flat")} onFail={fallBack} embedded={embedded} onClose={onClose} />
+        <PlanetGlobe
+          onShowFlat={() => setMode("flat")}
+          onFail={fallBack}
+          embedded={embedded}
+          onClose={onClose}
+        />
       </Suspense>
     </GlobeBoundary>
   );
