@@ -176,7 +176,7 @@ describe("combat constraints and AI", () => {
     e.mode = "chase";
     e.attackIn = 0;
     game.tick(50);
-    expect(game.player.hp).toBe(125 - 7); // 9 ATK − 5 DEF / 2 = 6,5 → 7
+    expect(game.player.hp).toBeCloseTo(125 - 6.5, 6); // 9 ATK − 5 DEF / 2
     game.player.hp = 1;
     e.attackIn = 0;
     game.tick(50);

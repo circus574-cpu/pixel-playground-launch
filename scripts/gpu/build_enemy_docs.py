@@ -45,7 +45,7 @@ bind = """
 
 ## 4. Wiązanie z grą
 Każda paczka wiąże się własnym kluczem `<świat>.enemy.<slug>` (np. `verdant.enemy.cierniowy-wilk` → `enemy-verdant-cierniowy-wilk`), więc 10 wrogów jednego świata nie nadpisuje się. Walidator `scripts/lib/gpu-import.ts` przyjmuje takie klucze (test w `src/test/gpu-pipeline.test.ts`), `actorVisual(świat, "enemy", slug)` je odczytuje, a `worldAssets()` ładuje atlasy wszystkich wrogów danego świata. Pełna mapa: `art/production/enemies/bindings.json`.
-**Czego jeszcze nie ma w grze:** dziś każdy świat ma jednego wroga (`enemyName`, "Dzik …"), a sesja (`src/game/session.ts`) nie zna typów potworów. Wpięcie 40 potworów (typ w spawnie, statystyki, AI, umiejętności, łupy, zapisy) to osobny system rozgrywki. Wymaga decyzji właściciela o zakresie i nie jest częścią dostawy zasobów. Do tego czasu `mountGame.ts` nadal woła `actorVisual(world.id, "enemy")` bez roli.
+**Stan w grze:** silnik potworów (AI, umiejętności, statusy, strefy, łup) jest zaimplementowany — zob. [GAMEPLAY-RACES-AND-MONSTERS.md](GAMEPLAY-RACES-AND-MONSTERS.md). **Spawnów w regionach jeszcze nie ma** (po ukończeniu kontynentów), a grafiki potworów z paczek nie są zainstalowane, więc do tego czasu `mountGame.ts` użyje dla nich wyglądu dzika (`actorVisual(świat, "enemy", slug)`).
 
 ## 5. Dane bestiariusza (wartości z dokumentu właściciela — nie wdrożone w kodzie gry)
 Statystyki, zasięgi, zachowania i łupy poniżej są **kopią wymagań właściciela**, a nie opisem stanu implementacji.

@@ -204,7 +204,8 @@ export class MonsterSystem {
     let defense = def.def;
     if (e.fx.mark && e.fx.mark.ms > 0) defense *= 1 - e.fx.mark.def;
     if (m.exposedMs > 0) defense *= 1 - m.exposed;
-    let dmg = Math.max(1, Math.round(raw * mult - defense / 2));
+    // The annex model is fractional: rounding every hit would break its control duels.
+    let dmg = Math.max(1, raw * mult - defense / 2);
     if (m.guard > 0) {
       const absorbed = Math.min(m.guard, dmg);
       m.guard -= absorbed;
@@ -221,7 +222,7 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       target: e.id,
-      text: "-" + dmg + (hit.crit ? "!" : ""),
+      text: "-" + Math.round(dmg) + (hit.crit ? "!" : ""),
       crit: !!hit.crit,
     });
     if (def.traits.webs && hit.tags.includes("fire")) this.burnWebs(e);

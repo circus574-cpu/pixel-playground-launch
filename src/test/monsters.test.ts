@@ -126,8 +126,8 @@ describe("player damage model and weaknesses", () => {
     const b = put(g, "verdant-mchowy-szlamak", 0, 120);
     const phys = g.monsters.damage(a, 20, { tags: ["physical"] });
     const fire = g.monsters.damage(b, 20, { tags: ["physical", "fire"] });
-    expect(phys).toBe(Math.round(20 - 4 / 2));
-    expect(fire).toBe(Math.round(20 * 1.3 - 4 / 2));
+    expect(phys).toBeCloseTo(20 - 4 / 2, 6);
+    expect(fire).toBeCloseTo(20 * 1.3 - 4 / 2, 6);
     expect(g.monsters.damage(put(g, "verdant-mchowy-szlamak"), 0.1, physical)).toBe(1);
   });
   it("magmowy krab takes less from the front and more from behind", () => {
@@ -137,8 +137,8 @@ describe("player damage model and weaknesses", () => {
     const front = g.monsters.damage(crab, 100, physical);
     crab.m.facing = { x: 1, y: 0 }; // turns its back
     const back = g.monsters.damage(crab, 100, physical);
-    expect(front).toBe(Math.round(100 * 0.4 - 28 / 2));
-    expect(back).toBe(Math.round(100 * 1.4 - 28 / 2));
+    expect(front).toBeCloseTo(100 * 0.4 - 28 / 2, 6);
+    expect(back).toBeCloseTo(100 * 1.4 - 28 / 2, 6);
   });
   it("złoty skarabeusz curls after three hits: physical −70%, KI unaffected", () => {
     const g = arena("sage");
@@ -147,8 +147,8 @@ describe("player damage model and weaknesses", () => {
     expect(s.m.curlMs).toBeGreaterThan(0);
     const phys = g.monsters.damage(s, 200, physical);
     const ki = g.monsters.damage(s, 200, { tags: ["ki"] });
-    expect(phys).toBe(Math.max(1, Math.round(200 * 0.3 - 31 / 2)));
-    expect(ki).toBe(Math.round(200 * 1.3 - 31 / 2));
+    expect(phys).toBeCloseTo(200 * 0.3 - 31 / 2, 6);
+    expect(ki).toBeCloseTo(200 * 1.3 - 31 / 2, 6);
   });
   it("kryształowy motyl reflects physical damage but not KI", () => {
     const g = arena("sage");
@@ -189,7 +189,7 @@ describe("player damage model and weaknesses", () => {
     g.monsters.damage(coal, 1e5, physical);
     expect(coal.mode).toBe("dead");
     expect(g.player.hp).toBeLessThan(hp);
-    expect(hp - g.player.hp).toBe(Math.max(1, Math.round(7 * 0.4 - g.kit.stats.defense / 2)));
+    expect(hp - g.player.hp).toBeCloseTo(Math.max(1, 7 * 0.4 - g.kit.stats.defense / 2), 6);
   });
 });
 

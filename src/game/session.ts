@@ -428,17 +428,15 @@ export class GameSession implements MonsterHost {
     let amount = raw;
     if (from.fx.weaken.ms > 0) amount *= 1 - from.fx.weaken.pct;
     let dmg: number;
-    if (fixed) dmg = Math.max(1, Math.round(amount));
+    if (fixed) dmg = Math.max(1, amount);
     else {
       amount *= 1 + this.fx.markPct(!!from.m.def.traits.machine);
-      dmg = Math.max(1, Math.round(amount - this.kit.stats.defense / 2));
+      dmg = Math.max(1, amount - this.kit.stats.defense / 2);
     }
-    const through = Math.round(
-      this.kit.absorb(
-        dmg,
-        kind === "melee" ? "melee" : kind === "projectile" ? "projectile" : "other",
-        from,
-      ),
+    const through = this.kit.absorb(
+      dmg,
+      kind === "melee" ? "melee" : kind === "projectile" ? "projectile" : "other",
+      from,
     );
     this.combatIn = 4500;
     if (through <= 0) {
@@ -452,7 +450,7 @@ export class GameSession implements MonsterHost {
     const p = this.player;
     if (p.dead) return;
     p.hp = Math.max(0, p.hp - amount);
-    this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "-" + amount });
+    this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "-" + Math.round(amount) });
     if (p.hp > 0) return;
     p.hp = 1;
     if (this.kit.saveFromDeath()) return;

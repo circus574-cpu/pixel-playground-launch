@@ -252,6 +252,35 @@ describe("owner annex 22.10.2026: stats and tree data", () => {
   });
 });
 
+describe("annex control duels (damage = max(1, ATK − DEF/2), no rounding)", () => {
+  const duels = [
+    {
+      level: 1,
+      foe: { hp: 54, atk: 9, def: 3 },
+      want: { planetary: [6, 20], sage: [5, 14], android: [6, 21], legend: [5, 20] },
+    },
+    {
+      level: 10,
+      foe: { hp: 350, atk: 41, def: 19 },
+      want: { planetary: [10, 17], sage: [8, 11], android: [10, 18], legend: [8, 18] },
+    },
+    {
+      level: 20,
+      foe: { hp: 3120, atk: 121, def: 60 },
+      want: { planetary: [54, 9], sage: [44, 7], android: [58, 9], legend: [44, 10] },
+    },
+  ] as const;
+  it("reproduces every number of the annex table for all four races", () => {
+    for (const d of duels)
+      for (const race of RACE_IDS) {
+        const s = harness(race, d.level, ["R"]).kit.stats;
+        const hits = Math.ceil(d.foe.hp / Math.max(1, s.attack - d.foe.def / 2));
+        const taken = Math.ceil(s.maxHp / Math.max(1, d.foe.atk - s.defense / 2));
+        expect([hits, taken], race + " L" + d.level).toEqual(d.want[race]);
+      }
+  });
+});
+
 describe("Planetarni", () => {
   it("third hit of a series deals ×1.3 and the basic attack respects its interval", () => {
     const f = foe("f", 40, 0);
