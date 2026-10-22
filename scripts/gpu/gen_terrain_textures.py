@@ -11,9 +11,13 @@ from diffusers import StableDiffusionXLPipeline
 
 tag = sys.argv[1] if len(sys.argv) > 1 else "v1"
 SEEDS = [int(s) for s in (sys.argv[2] if len(sys.argv) > 2 else "5741102,5741103,5741104").split(",")]
+CKPT = sys.argv[3] if len(sys.argv) > 3 else "animagine-xl-3.1.safetensors"
+STEPS = int(sys.argv[4]) if len(sys.argv) > 4 else 30
+GUIDE = float(sys.argv[5]) if len(sys.argv) > 5 else 5.5
+CIRC = sys.argv[6] if len(sys.argv) > 6 else "both"  # both | unet | none
 ROOT = Path("/workspace/ki-legends-gpu"); OUT = ROOT / "renders" / ("terrain-%s" % tag); OUT.mkdir(parents=True, exist_ok=True)
-STYLE = ("seamless tileable texture, flat top-down orthographic view, anime fantasy game environment art, clean painted surface, soft cel shading, "
-         "even lighting, no perspective, no objects, no characters, no text, full frame pattern, masterpiece, best quality")
+STYLE = ("seamless tileable game texture, flat top-down orthographic view, stylized hand painted fantasy game environment art, clean painted surface, "
+         "even lighting, no perspective, no objects, no characters, no text, full frame uniform pattern, high quality")
 NEG = ("perspective, 3d render, vignette, border, frame, shadow gradient, strong lighting gradient, single large object, person, character, creature, "
        "text, logo, watermark, blurry, low quality, worst quality, tiles with visible seams, cropped")
 TEX = {
@@ -30,8 +34,9 @@ TEX = {
  "pyra-plaza": "carved black basalt and crimson tile floor with a repeating steel inlay pattern, arena courtyard",
  "pyra-wall": "dark basalt fortress wall blocks with steel bands and crimson accents, volcanic stronghold wall, straight front view",
 }
-pipe = StableDiffusionXLPipeline.from_single_file(str(ROOT / "models/checkpoints/animagine-xl-3.1.safetensors"), torch_dtype=torch.float16).to("cuda")
-for m in list(pipe.unet.modules()) + list(pipe.vae.modules()):
+pipe = StableDiffusionXLPipeline.from_single_file(str(ROOT / "models/checkpoints" / CKPT), torch_dtype=torch.float16).to("cuda")
+mods = ([] if CIRC == "none" else list(pipe.unet.modules()) + (list(pipe.vae.modules()) if CIRC == "both" else []))
+for m in mods:
     if isinstance(m, torch.nn.Conv2d): m.padding_mode = "circular"  # seamless on all edges
 def seam_error(img):
     a = np.asarray(img.convert("RGB"), dtype=np.float32); h = np.abs(a[:, 0] - a[:, -1]).mean(); v = np.abs(a[0] - a[-1]).mean()
@@ -39,7 +44,7 @@ def seam_error(img):
 meta = {"tag": tag, "style": STYLE, "negative": NEG, "textures": []}; t0 = time.time()
 for name, desc in TEX.items():
     for seed in SEEDS:
-        img = pipe(prompt=desc + ", " + STYLE, negative_prompt=NEG, num_inference_steps=30, guidance_scale=5.5, width=1024, height=1024, generator=torch.Generator("cuda").manual_seed(seed)).images[0]
+        img = pipe(prompt=desc + ", " + STYLE, negative_prompt=NEG, num_inference_steps=STEPS, guidance_scale=GUIDE, width=1024, height=1024, generator=torch.Generator("cuda").manual_seed(seed)).images[0]
         fn = "%s-s%d.png" % (name, seed); img.save(OUT / fn); sha = hashlib.sha256((OUT / fn).read_bytes()).hexdigest(); se, inner = seam_error(img)
         meta["textures"].append({"file": fn, "name": name, "seed": seed, "sha256": sha, "seam_error": se, "neighbour_pixel_error": inner}); print(fn, sha[:12], "seam", se, "neighbour", inner, flush=True)
 # review sheets: 2x2 tiling of the first seed of each texture exposes seams
