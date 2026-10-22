@@ -279,14 +279,6 @@ export function GameHud({
         <div className="ki-map-footer">
           <span>{world.name.toUpperCase()}</span>
           <button
-            className="ki-globe-quick"
-            aria-label="Otwórz globus 3D w grze"
-            title="Planeta Superior — globus 3D"
-            onClick={() => toggle("globe")}
-          >
-            🌐
-          </button>
-          <button
             onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
             aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
           >
@@ -550,7 +542,7 @@ export function GameHud({
           Zostałeś pokonany · odrodzenie za chwilę
         </div>
       )}
-      {panel === "globe" && <GameWorldGlobe onClose={() => setPanel(null)} />}
+      {panel === "globe" && <GameWorldGlobe onClose={() => setPanel("map")} />}
       {panel && panel !== "globe" && (
         <div className="ki-modal-backdrop" onClick={() => setPanel(null)}>
           <section
