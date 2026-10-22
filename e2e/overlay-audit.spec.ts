@@ -71,7 +71,8 @@ for (const [width, height] of [
         if (other) expect(overlaps(box, other), selector).toBe(false);
         else expect(selector).toBe(".ki-view-controls"); // Folded into the voluntary mobile menu.
       }
-      // Real camera-space hero bounds, including camera clamping on portrait maps.
+      // Painted hero: 160×160 display, (0.5, 0.95) foot anchor. Include camera
+      // clamping on portrait maps when checking that guidance clears the body.
       const hero = await canvas.evaluate((el) => {
         const z = Number((el as HTMLElement).dataset["zoom"]),
           px = Number((el as HTMLElement).dataset["playerX"]),
@@ -79,10 +80,10 @@ for (const [width, height] of [
         const sx = Math.max(0, Math.min(2400 - el.clientWidth / z, px - el.clientWidth / z / 2)),
           sy = Math.max(0, Math.min(1792 - el.clientHeight / z, py - el.clientHeight / z / 2));
         return {
-          x: (px - sx) * z - 48 * z,
-          y: (py - sy) * z - 91.2 * z,
-          width: 96 * z,
-          height: 96 * z,
+          x: (px - sx) * z - 80 * z,
+          y: (py - sy) * z - 152 * z,
+          width: 160 * z,
+          height: 160 * z,
         };
       });
       expect(overlaps(box, hero)).toBe(false);

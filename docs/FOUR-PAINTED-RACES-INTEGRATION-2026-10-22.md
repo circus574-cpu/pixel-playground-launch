@@ -36,6 +36,8 @@ Manifesty dostawy i zaimportowane tekstury zachowują zweryfikowany kontrakt 96�
 Kotwica stóp (0.5, 0.95), kamera i collider 12 pozostają bez zmian; większy obrys
 jest też używany przy unikaniu nakładania nazw NPC na bohatera. Rozmiary NPC,
 przeciwników i technicznego manekina nie są powiększane.
+Test komunikatów nad grą sprawdza obrys 160×160 z tą samą kotwicą w pięciu
+rozmiarach ekranu, zamiast dawnego obrysu 96×96.
 
 Każdy bohater jest aktywny bez flag. Historyczne `ki-hero-art=1` i `ki-sage-art=1`
 nie przywracają dawnych aktorów ani nie tworzą osobnego zapisu. Flagi otoczenia
