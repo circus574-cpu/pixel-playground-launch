@@ -1,19 +1,26 @@
-# KI Legends — plan prac i bramy jakości
+# KI Legends — roadmap i bramy jakości
 
-Stan 2026-10-21. Historia szczegółowa: [STAGE2-GAMEPLAY.md](STAGE2-GAMEPLAY.md), [STAGE3-FOUR-CONTINENTS.md](STAGE3-FOUR-CONTINENTS.md), [STAGE3-GPU-ASSET-LIST.md](STAGE3-GPU-ASSET-LIST.md); ten plik nie zastępuje tych dokumentów.
+Stan: **2026-10-22**, punkt odniesienia `main` `66a615dec1d4259e1bf668956ec1cb09e9aa177e`. Roadmapa wyraźnie rozróżnia zrealizowany kod, kontrolę i plan.
 
-## Obecny etap: lokalne PvE, cztery pochodzenia
-Na main: grywalna baza czterech regionów, zapis lokalny, mechanika PvE; PR #9 Planetarni scalony, z domyślnym zachowaniem starej grafiki i opt-in na nową. Globus /mapa pozostaje oddzielnym podglądem w produkcji. Zweryfikowane granice opisują [STATUS.md](STATUS.md) i [ARCHITECTURE.md](ARCHITECTURE.md).
+## Zrealizowana podstawa (kod, nie certyfikat produkcji)
+- Lokalna pętla PvE, wybór czterech pochodzeń, regiony, zapis, zadania, walka, HUD.
+- Dwie paczki bohaterów po 416 klatek: Planetarni ([PR #9 MERGED](https://github.com/circus574-cpu/pixel-playground-launch/pull/9)) i Mędrcy (integracja [PR #15 MERGED](https://github.com/circus574-cpu/pixel-playground-launch/pull/15)).
+- Globus 3D i atlas 2D są połączone w kodzie gry/strony `/mapa` na `main`. Nadal wymaga to porównania z wersją publiczną.
+- Paczki otoczenia Aetheria/Verdantia/Nexus-9/Pyra zostały udostępnione domyślnie; nie traktować ich automatycznie jako wizualnie zaakceptowanych.
 
-## Brama P0: integracja przed publikacją
-1. Wyjaśnić i naprawić wszystkie błędy PR #15 bez osłabiania asercji ani zabezpieczeń `/test`.
-2. Uzyskać zakończone PASS dla pełnego CI i oddzielnego Software WebGL na **tym samym końcowym SHA**.
-3. Potwierdzić brak regresji zapisów, migracji, czterech regionów, HUD oraz prywatnego `/test`.
-4. Sprawdzić wizualnie klatki i ciągłość ruchu Mędrców oraz Planetarnych, urządzenie mobilne i sprzętowy WebGL.
-5. Potwierdzić pochodzenie/licencje referencji, zgodę właściciela na merge i osobną zgodę na publikację; zweryfikować produkcyjny commit.
+## P0 — bieżące bramki wydania
+1. [PR #21](https://github.com/circus574-cpu/pixel-playground-launch/pull/21): aktywować `hero-planetary` bez flagi URL; zachować oba riggi, izolację ras i zapisy. Obecnie gałąź **OPEN**, `main` nadal używa fallbacku `human-v2` dla Planetarnych.
+2. Usunąć 6 niepowodzeń [pełnego QA #39776233057](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39776233057) bez osłabiania wymagań; wynik 89 PASS/6 FAIL. Zachować [zielony Software WebGL #39776233522](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39776233522).
+3. Uzyskać **FULL CI PASS** i **Software WebGL PASS** na tym samym finalnym SHA; zabezpieczyć artefakty, screenshoty i ślady. Sprawdzić rzeczywisty Android, dotyk, FPS i wizualne animacje.
+4. Zbadać prawa do referencyjnych ilustracji i pochodnych, nierozwiązane zapisy rejestru licencji oraz zgodność publicznej wersji z zatwierdzonym SHA.
+5. Respektować udokumentowaną [zgodę właściciela](qa/PUBLISH-AUTHORIZATION-2026-10-22.md), ale traktować ją jako **warunek konieczny, niewystarczający**, dla technicznego wydania. Bez niezależnej kontroli nie publikować.
 
-## P1: komplet grafiki
-Doprowadzić NPC, przeciwników, świat i dwie pozostałe rasy do zaakceptowanego standardu assetów; nie oznaczać Placeholderów jako finalnego artu.
+## P1 — kanon i produkcja grafik
+- [PR #20](https://github.com/circus574-cpu/pixel-playground-launch/pull/20): ocenić załączniki właściciela, drzewka czterech ras i bestiariusz; **OPEN, nie jest zatwierdzonym stanem main**.
+- Kontynuować docelowe postaci Androidów, Legend i cztery miasta według [kolejki GPU](GPU-PRODUCTION-SEQUENCE.md). Jedna dostawa, test i akceptacja wizualna na etap. Nie nadpisywać istniejących danych ani zasobów.
+- Zamknąć lub udokumentować przestarzałe/nakładające się PR #11–#14, #18–#19 po porównaniu, nie scalać w ciemno.
 
-## P2: multiplayer
-Dopiero po zamknięciu P0 i decyzji architektonicznej: autorytatywny backend, identyfikacja graczy, serwerowe zapisy, synchronizacja, bezpieczeństwo i testy obciążenia. Obecnego PvE nie wolno przedstawiać jako MMO.
+## P2 — multiplayer
+Dopiero po P0 i decyzji architektonicznej: backend autorytatywny, konta, serwerowy zapis/synchronizacja, odporność na oszustwa, testy obciążenia. Obecnego PvE nie opisywać jako gotowego MMORPG.
+
+Aktualne ustalenia techniczne i nierozwiązane usterki: [STATUS](STATUS.md) i [TASKS](TASKS.md).
