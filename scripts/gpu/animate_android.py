@@ -9,7 +9,7 @@ from mathutils import Quaternion, Vector
 
 parser=argparse.ArgumentParser();parser.add_argument('--review',action='store_true');parser.add_argument('--validate-only',action='store_true');parser.add_argument('--render-validated',action='store_true');args=parser.parse_args()
 ROOT=Path('/workspace/ki-legends-gpu')
-SOURCE=Path('/opt/ki-legends-gpu/android-rig-v3/android-rig-down.blend')
+SOURCE=Path('/opt/ki-legends-gpu/android-rig-v4/android-rig-down.blend')
 bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
 rig=bpy.data.objects['hero-android'];scene=bpy.context.scene
 scene.render.use_freestyle=False  # contours are checked separately; avoid CPU bottleneck during motion QA
@@ -69,8 +69,12 @@ def pose(state,index,count):
         for side in ['L','R']:leg(side)
     elif state=='walk':
         # 205 world units/s at 16 fps: a jog. Stance stroke follows speed, not arbitrary foot sliding.
-        rig.location.z=-.32+.025*math.cos(t*math.tau*2)
         stroke=205*(8/16)*.30/(128/ortho*math.sin(math.pi/4))
+        th=rig.data.bones['thigh.L'].head_local;kn=rig.data.bones['shin.L'].head_local;an=rig.data.bones['foot.L'].head_local
+        reach=math.hypot((kn-th).y,(kn-th).z)+math.hypot((an-kn).y,(an-kn).z);height=th.z-an.z
+        # Lower the hips only as far as the stride needs, so the legs stay nearly straight (no squat).
+        drop=max(0.0,math.hypot(stroke*.5,height)-.96*reach)
+        rig.location.z=-drop+.025*math.cos(t*math.tau*2)
         for side,offset,sign in [('L',0,1),('R',.5,-1)]:
             phase=(t+offset)%1
             if phase<.30:dy=-stroke*.5+stroke*phase/.30;lift=0
@@ -102,7 +106,7 @@ def pose(state,index,count):
             segment=int(b.name.rsplit('.',1)[1]);rot(b.name,(0,0,1),(.04+segment*.025)*wind)
     bpy.context.view_layer.update()
 
-name='android-motion-review-v1' if args.review else 'android-motion-v1'
+name='android-motion-review-v2' if args.review else 'android-motion-v2'
 PERSISTENT=ROOT/'renders'/name;PERSISTENT.mkdir(parents=True,exist_ok=True)
 LOCAL=Path('/opt/ki-legends-gpu')/name;LOCAL.mkdir(exist_ok=True);OUT=LOCAL
 # Render on POSIX storage; one archived checkpoint per direction avoids 832 slow FUSE writes.
