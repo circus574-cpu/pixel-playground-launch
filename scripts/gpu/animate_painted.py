@@ -15,7 +15,7 @@ OUT = Path(os.environ.get("KI_OUT_ROOT", "/workspace/ki-legends-gpu/renders")) /
 DIRS = ["down", "down-left", "left", "up-left", "up", "up-right", "right", "down-right"]
 FACING = {"down": 0, "down-left": -.7, "left": -1, "up-left": -.7, "up": 0, "up-right": .7, "right": 1, "down-right": .7}
 CLIPS = {"idle": (8, 6, True), "walk": (8, 16, True), "attack": (8, 16, False), "skill": (8, 12, False), "hit": (4, 16, False), "death": (8, 10, False), "respawn": (8, 12, False)}
-ANCHOR = np.array([256.0, 486.4]); SAFE = 14  # px kept free around every frame (production minimum is 8)
+ANCHOR = np.array([256.0, 486.4]); SAFE = int(os.environ.get("KI_SAFE", "14"))  # px kept free around every frame (production minimum is 8; 128px resampling spreads edges)
 meta_m = json.loads((MAST / "metadata.json").read_text()); kp_all = json.loads((KPDIR / "keypoints.json").read_text())
 
 def rotm(theta, c):  # positive = clockwise on screen (y down), about point c
