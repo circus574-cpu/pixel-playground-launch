@@ -1,13 +1,13 @@
 # /mapa — globus 3D planety Superior (2026-10-21)
 
-Status: **zaimplementowane i przetestowane w podglądzie; nieopublikowane.** Publikacja wymaga osobnej zgody właściciela.
+**Aktualizacja 2026-10-22:** implementacja atlasu 2D/3D jest na `main` (`66a615d`) i połączona z HUD gry oraz `/mapa`. Nie ma niezależnego potwierdzenia, że ten sam commit został wdrożony na `kilegends.pl`; fizyczny Android/sprzętowy WebGL pozostają NIEZWERYFIKOWANE. Opisy niżej powstały historycznie przed integracją.
 
 ## Co jest na stronie
 - Domyślnie interaktywny globus WebGL (three.js + @react-three/fiber), ładowany leniwie tylko w przeglądarce. Serwer renderuje lekką powłokę z tłem kosmosu.
 - Kanon kontynentów bez zmian, zgodnie z `src/game/world/worlds.ts` i `docs/STAGE3-FOUR-CONTINENTS.md`: Verdantia/Planetarni, Aetheria/Mędrcy, Nexus-9/Androidy, Pyra/Legendy, plus sześć wysp questowych o nazwach roboczych I–VI. (Uwaga z `docs/design/RASY_I_ETAPY.md`: PDF właściciela sam nie potwierdza tych nazw krain; pochodzą one z kodu gry i planu etapu 3.)
 - Obrót myszą i jednym palcem, zoom kółkiem, szczypaniem i przyciskami, wybór regionu kliknięciem w powierzchnię, znacznik albo legendę, płynny przelot kamery do regionu, powrót do widoku całej planety, powolny obrót w bezczynności.
 - Przełącznik „Mapa 2D” / „Globus 3D”. Płaski atlas jest też automatycznym fallbackiem: brak WebGL 2, błąd uruchomienia albo utrata kontekstu GPU (z komunikatem dla użytkownika).
-- Ujawnienie: „Podgląd atlasu · niepołączony z grą · bez pozycji gracza”. Strona nie czyta zapisów, sesji ani pozycji gracza i nic nie zapisuje.
+- **Stan kodu 22.10:** atlas jest powiązany z grą. `MapChrome`/`MapaView` odczytują aktywny kontynent zapisanej postaci, pokazują oznaczenie „Tu jesteś” i zapewniają przejście z HUD. Odczyt ma pozostać bez efektów zapisu, a sesja gry powinna się zachować. Wymaga regresji i kontroli produkcji; nie jest to dowód synchronizacji multiplayer.
 
 ## Grafika
 - Powierzchnia to ten sam malowany atlas 2:1 co mapa 2D (`atlas-3840.webp`), nałożony równoprostokątnie na kulę. Dzięki temu obrysy z `atlasRegions.json` trafiają w namalowane wybrzeża także na globusie.
