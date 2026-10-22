@@ -1,7 +1,8 @@
 import { test, expect } from "./fixtures";
-for (const [world, race, landmark] of [
-  ["nexus", "Androidy", "lab"],
-  ["pyra", "Legendy", "fortress"],
+for (const [world, race, landmark, surface] of [
+  ["nexus", "Androidy", "lab", "ground"],
+  ["pyra", "Legendy", "fortress", "ground"],
+  ["verdant", "Planetarni", "inn", "terrain"],
 ]) {
   test(world + " art switch preserves the existing character", async ({ page }) => {
     const errors: string[] = [];
@@ -31,7 +32,7 @@ for (const [world, race, landmark] of [
       "data-texture-ids",
       new RegExp(world + "-art-" + landmark),
     );
-    await expect(canvas).toHaveAttribute("data-texture-ids", new RegExp(world + "-art-ground"));
+    await expect(canvas).toHaveAttribute("data-texture-ids", new RegExp(world + "-art-" + surface));
     expect(await readCharacter()).toEqual(before);
     expect(errors).toEqual([]);
   });
