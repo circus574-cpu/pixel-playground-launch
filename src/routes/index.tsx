@@ -17,6 +17,13 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Ki Legends — Cztery światy" },
       { name: "ki-build", content: STAGE21_BUILD },
+      { property: "og:title", content: "Ki Legends — Cztery światy" },
+      {
+        property: "og:description",
+        content: "Cztery pochodzenia, cztery krainy. Rozpocznij lokalną przygodę PvE w Ki Legends.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       {
         name: "description",
         content: "Cztery pochodzenia, cztery krainy. Rozpocznij lokalną przygodę PvE w Ki Legends.",
