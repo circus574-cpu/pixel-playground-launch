@@ -50,7 +50,7 @@ export function PlanetMap({
   /** Why the flat atlas is shown instead of the globe, if not by choice. */
   notice?: string | null | undefined;
   embedded?: boolean;
-  onClose?: () => void;
+  onClose?: (() => void) | undefined;
 } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
