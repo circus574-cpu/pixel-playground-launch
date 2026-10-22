@@ -9,16 +9,16 @@ async function startSage(page: import("@playwright/test").Page, query = "") {
   await expect(page.locator(".ki-hud")).toBeVisible();
 }
 
-test("Aetheria anime start point loads only behind its review switch", async ({ page }) => {
+test("Aetheria anime start point and v2 terrain are public defaults", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   const canvas = page.locator(".ki-canvas");
   await startSage(page);
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
-  await expect(canvas).not.toHaveAttribute("data-texture-ids", /aether-art-/);
+  await expect(canvas).toHaveAttribute("data-texture-ids", /aether-art-sanctum/);
+  await expect(canvas).toHaveAttribute("data-texture-ids", /aether-terrain-v2-ground/);
   await page.goto(entry + "?ki-aether-art=1");
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
   await expect(canvas).toHaveAttribute("data-texture-ids", /aether-art-sanctum/);
-  await expect(canvas).toHaveAttribute("data-texture-ids", /aether-art-aether-ground/);
   expect(errors).toEqual([]);
 });
