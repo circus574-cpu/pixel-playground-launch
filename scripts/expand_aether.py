@@ -24,9 +24,8 @@ world["width"], world["height"] = W, H
 world["minimap"] = "/game/assets/stage3/aether-minimap.webp"
 
 # Boundary terraces follow the new edge; the old inner terraces stay untouched.
-inner = [o for o in world["obstacles"]
-         if not (o["x"] == 0 or o["y"] == 0 or o["x"] >= 2250 and o["width"] == 150 or o.get("boundary"))]
-inner = [o for o in inner if not o.get("expansion")]
+TERRACES = [(200, 940, 670, 70), (1530, 940, 670, 70), (160, 1550, 650, 160), (1670, 1570, 550, 130)]
+inner = [dict(x=x, y=y, width=w, height=h) for x, y, w, h in TERRACES]
 world["obstacles"] = [
     dict(x=0, y=0, width=W, height=100),
     dict(x=0, y=100, width=150, height=H - 100),
@@ -34,7 +33,6 @@ world["obstacles"] = [
     dict(x=150, y=H - 100, width=W - 300, height=100),
     *inner,
     dict(x=2900, y=1300, width=450, height=80),
-    dict(x=1780, y=1770, width=360, height=70),
 ]
 
 ROADS = [
