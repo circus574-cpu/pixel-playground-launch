@@ -611,9 +611,7 @@ export function GameHud({
                     Zapisz i wybierz postać
                   </button>
                 )}
-                <p>
-                  Pochodzenie: {RACES[player.race].name} · lokalna gra PvE.
-                </p>
+                <p>Pochodzenie: {RACES[player.race].name} · lokalna gra PvE.</p>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
                   <input
