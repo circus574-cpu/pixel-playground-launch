@@ -584,7 +584,7 @@ export default function PlanetGlobe({
   onShowFlat: () => void;
   onFail: (reason: GlobeFailure) => void;
   embedded?: boolean;
-  onClose?: () => void;
+  onClose?: (() => void) | undefined;
 }) {
   const [quality] = useState(() =>
     globeQuality({
