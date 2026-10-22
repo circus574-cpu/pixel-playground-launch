@@ -25,3 +25,14 @@ Układ regionów, footprinty kolizji, spawn, ścieżki, postacie, HUD, zadania, 
 oraz format zapisu pozostają bez zmian. Animacje odłożone zgodnie z poleceniem.
 Nie przedstawiać statycznych grafik jako nowych animacji ani wydajności na
 fizycznym telefonie jako zmierzonej.
+
+## Weryfikacja
+
+140 testów jednostkowych i walidator zasobów przeszły. Lint: zero błędów,
+siedem istniejących ostrzeżeń. Podgląd skompilował się bez błędów.
+Dwa testy przeglądarkowe na rzeczywistej stronie `/` potwierdziły wczytanie
+nowych obrazów po przełączeniu i zachowanie identycznego aktywnego slotu postaci.
+Obie krainy sprawdzono zrzutami przy 1280×1800 i 390×844, bez błędów wykonania.
+Starszy test Aetherii przez `/scripts/playtest.html` nie ukończył się na serwerze
+aplikacji (osobny punkt wejścia playtest); nie zgłaszamy go jako zaliczonego.
+Nie wykonywano ręcznego typecheck/build poza automatycznym sprawdzeniem podglądu.
