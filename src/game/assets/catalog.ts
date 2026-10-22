@@ -133,13 +133,13 @@ export function makeCatalog(
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Sage is active in Aetheria; Planetary artwork keeps its existing opt-in switch. */
-const planetaryPreviewEnabled =
-  typeof window !== "undefined" &&
-  new URLSearchParams(window.location.search).get("ki-hero-art") === "1";
+/** Both approved gameplay rigs are enabled for their own regions by default.
+ * Androids and Legends keep the original human fallback until their art is ready.
+ * Do not mutate any character saves while switching the rendering binding.
+ */
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),
-  planetaryPreviewEnabled ? ["hero-sage", "hero-planetary"] : ["hero-sage"],
+  ["hero-sage", "hero-planetary"],
 );
 export const technicalPack = PackSchema.parse(technical);
 export function actorVisual(
