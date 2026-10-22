@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-22",
+  "status": "CONCEPT_NOT_IMPLEMENTED",
+  "originals": [
+    {
+      "filename": "Ki_Legends_Aneks_Rasy_i_Drzewka_Umiejetnosci.pdf",
+      "bytes": 103455,
+      "sha256": "0358053e7e467bffd41055f50f765d0f33cbf15c6b0176266c866d493dda5cff"
+    },
+    {
+      "filename": "Ki_Legends_Aneks_Bestiariusz_Poz_1-20.pdf",
+      "bytes": 50790,
+      "sha256": "8d5fdb75780d1adb834ac76c74bd6cfd0d9c1b1b4bbf9517617ff3404f708960"
+    }
+  ],
+  "nodesTotal": 116,
+  "enemyCount": 20,
+  "identifiedConflict": "Source realm names differ from active game realm names; do not rename worlds or saves"
+}

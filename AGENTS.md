@@ -31,8 +31,16 @@
 ## Shared project knowledge — required for every agent
 
 - Before planning or implementing Ki Legends changes, read [docs/INDEX.md](docs/INDEX.md) and the relevant linked source documents from the current commit. Do not rely solely on chat memory or PR descriptions.
-- The owner-provided 12-page design PDF is a source document; see [docs/design/RASY_I_ETAPY.md](docs/design/RASY_I_ETAPY.md) for an interim text index. The original binary PDF must still be uploaded and verified before claiming archival completeness.
+- The owner-provided 12-page design PDF is a source document; see [docs/design/RASY_I_ETAPY.md](docs/design/RASY_I_ETAPY.md). Its full binary and reconstruction archive are in `docs/design/`; verify hashes before reporting archival completeness.
 - Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
 - **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
 - Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
 - Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.
+- Region curved roads/courts (`terrain.roads`, `terrain.courts`) are presentation-only and baked into chunk textures by `src/game/world/renderRoads.ts`; collision always comes from obstacles and footprints so saves and navigation stay independent of art.
+
+## Owner annexes — character skills and bestiary (2026-10-22)
+
+- Read [character progression and complete four race skill trees](docs/design/CHARACTER-PROGRESSION-LEVELS-1-20.md) and [level 1–20 bestiary](docs/design/BESTIARY-LEVELS-1-20.md). The original PDFs are stored in `docs/design/source-annexes/` with [hash manifest](docs/design/source-annexes/MANIFEST.json).
+- Structured JSON data in `docs/design/data/` is **source-design input, not implemented or validated game runtime**. Do not silently replace existing race stats, skill systems, enemies, drops, damage calculations or player saves.
+- Annex concept realm names `Terranova/Eldoria/Nexaris/Valthera` conflict with currently implemented `Verdantia/Aetheria/Nexus-9/Pyra`. Keep the existing game names and `WorldId` values unless the owner separately approves a migration.
+- The annex supersedes the rigid eight-level skill award schedule **in conceptual design only**. Quests, rewards, respec rules, 20-point accounting, save migration, combat and final balance need dedicated review and tests before adoption.

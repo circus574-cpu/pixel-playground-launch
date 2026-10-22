@@ -14,6 +14,16 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Historia zmian](CHANGELOG.md)
 - [Roboczy raport QA PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md) — tylko gałąź PR, nie main.
 
+
+## Nowe aneksy projektowe właściciela (22.10.2026)
+- [Rozwój postaci: statystyki ras i wszystkie 116 węzłów (poziomy 1–20)](design/CHARACTER-PROGRESSION-LEVELS-1-20.md)
+- [Bestiariusz: 20 przeciwników (poziomy 1–20)](design/BESTIARY-LEVELS-1-20.md)
+- [Dane projektowe drzewek (JSON)](design/data/character-progression-1-20.json)
+- [Dane projektowe przeciwników (JSON)](design/data/enemies-1-20.json)
+- [Oryginalne dwa pliki PDF i sumy kontrolne](design/source-annexes/MANIFEST.json)
+
+**Status:** dokumentacja i ustrukturyzowane dane koncepcyjne; **bez zmiany mechaniki, istniejących przeciwników i zapisów**. Źródłowe nazwy Terranova/Eldoria/Nexaris/Valthera pozostają w aneksach, a obecne krainy gry Verdantia/Aetheria/Nexus-9/Pyra pozostają bez zmian. Dodatkowe decyzje balansu/implementacji wymagają odrębnej pracy i testów.
+
 ## Źródła
 - [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
 - [Rejestr licencji zależności i notices](DEPENDENCY-LICENSE-REGISTER.md)
@@ -30,7 +40,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Nexus-9 i Pyra — anime punkty startowe (podgląd do oceny)](NEXUS-PYRA-ANIME-START.md)
 - [Verdantia — alternatywna wioska startowa (podgląd do oceny)](VERDANT-ANIME-START.md)
 - [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
-- Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany na gałęzi tego PR bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum nie znajduje się jeszcze w `main`; wymaga scalenia PR #16. Nie zastępować tekstowym streszczeniem.
+- Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany na gałęzi tego PR bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum oryginalnego 12-stronicowego PDF-u istnieje już na `main`; nie zastępować streszczeniem. Nie zastępować tekstowym streszczeniem.
 
 ## Hierarchia i stan
 1. Wyraźne decyzje właściciela oraz zatwierdzony kanon mają pierwszeństwo.

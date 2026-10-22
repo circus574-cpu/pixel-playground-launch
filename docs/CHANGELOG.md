@@ -20,3 +20,10 @@ Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji wła
 
 ## 2026-10-22 — binarna archiwizacja kanonu graficznego (PR #16, Draft)
 - Oryginał `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` przechowany bezstratnie w 12 binarnych częściach i skrypcie `restore.py`, wraz z rzeczywistymi referencjami obrazów; commit `fb8940c` na gałęzi PR #16. SHA-256 oryginału: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Stan jeszcze nie scalony.
+
+## 2026-10-22 — aneksy koncepcyjne: rozwój ras i bestiariusz
+
+- Włączono do dokumentacji oryginalny 11-stronicowy aneks drzewek i 2-stronicowy bestiariusz. Zachowano pełne PDF-y oraz ich SHA-256.
+- Utworzono tabele 4×29 = 116 węzłów, źródłowe statystyki i rozkład poziomów oraz wykaz 20 wrogów (4 bossów), wraz z plikami JSON i CSV.
+- Zarejestrowano kolizję nazw krain: `Terranova/Eldoria/Nexaris/Valthera` w aneksie oraz `Verdantia/Aetheria/Nexus-9/Pyra` w obecnej grze. W obowiązującym runtime pozostają te drugie nazwy.
+- **Nie zmieniono kodu gry, balansowania, przeciwników, zapisów ani wersji produkcyjnej.** Publikacja i rzeczywista implementacja to oddzielne zadania.

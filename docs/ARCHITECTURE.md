@@ -18,3 +18,7 @@ Planetarni / Verdantia (`verdant`), Mędrcy / Aetheria (`aether`), Androidy / Ne
 CI: pełny TypeScript, Vitest, walidacja zasobów, lint, build, Playwright Canvas i WebGL. Testy w CI nie zastępują fizycznego Androida, sprzętowego WebGL, odbioru wizualnego, licencji ani zatwierdzenia przez właściciela.
 
 Odniesienia do otwartych PR opisują propozycje, nie aktualny stan `main`.
+
+## Nowe źródła danych projektowych — 22.10.2026
+
+W [aneksie rozwoju](design/CHARACTER-PROGRESSION-LEVELS-1-20.md) opisano 4 rasy, ich parametry, 3 gałęzie na rasę i po 29 węzłów (116 łącznie), a w [bestiariuszu](design/BESTIARY-LEVELS-1-20.md) 20 typów przeciwników na poziomy 1–20. Struktury danych znajdują się w [JSON drzewek](design/data/character-progression-1-20.json) i [JSON przeciwników](design/data/enemies-1-20.json). **Żaden z tych plików nie został podłączony do `src/game/session.ts`, `src/game/world/races.ts` ani do istniejących regionów**. Aktualną architekturę runtime należy czytać z kodu; wartości aneksu mają status projektu do testów balansu. Obowiązujące ID światów pozostają `verdant/aether/nexus/pyra`.

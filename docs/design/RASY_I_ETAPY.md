@@ -32,3 +32,11 @@ Dokument jest koncepcyjny, z datą 20.10.2026; jego historyczne statusy etapów 
 
 ## Zasada zarządzania GPU — późniejsza decyzja właściciela (21.10.2026)
 Właściciel wyłącznie decyduje o uruchomieniu, wyłączeniu, restarcie, usunięciu i konfiguracji instancji GPU. Codex nie podejmuje tych działań samodzielnie. Ta decyzja jest późniejsza niż oryginalny PDF; **nie zmienia treści historycznego oryginału**.
+
+## Aneksy właściciela z 22.10.2026 — rozwój i przeciwnicy
+
+Uzupełniają oryginalny kanon graficzny i fabularny dwie nowe koncepcje:
+- [Statystyki i drzewka wszystkich czterech ras, poziomy 1–20](CHARACTER-PROGRESSION-LEVELS-1-20.md) — 11 stron, 116 węzłów, wartości i wymagania.
+- [Bestiariusz poziomy 1–20](BESTIARY-LEVELS-1-20.md) — 2 strony, 20 przeciwników i reguły propozycji balansu.
+
+Pełne oryginalne PDF-y: [manifest SHA-256](source-annexes/MANIFEST.json). Nowe aneksy **nie zastępują kanonicznych ilustracji**, nie stanowią dowodu, że mechaniki są obecnie zaimplementowane i nie upoważniają do przemianowania dotychczasowych krain Verdantia/Aetheria/Nexus-9/Pyra.

@@ -25,3 +25,9 @@
 
 ## Archiwizacja projektu właściciela — aktualizacja 22.10.2026
 Oryginalny 12-stronicowy PDF z ilustracjami został zapisany bezstratnie **na gałęzi dokumentacyjnego PR #16** w `docs/design/original-pdf-parts/` jako 12 części + `restore.py` (commit `fb8940cfe69f66d273fbfb7af2fdcf97c62b4eab`). GitHub potwierdza pliki, sumy git blob oraz rozmiar 5 343 097 B. Oczekiwany SHA-256 odtworzonego PDF: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. `main` nie otrzymał jeszcze tej zmiany.
+
+## Nowe aneksy koncepcyjne właściciela — 22.10.2026
+
+Dwa pliki źródłowe PDF (11 i 2 strony) oraz dane strukturalne dokumentują: 4 rasy × 29 węzłów umiejętności = 116 węzłów, statystyki progresji poziomów 1–20 i 20 przeciwników z czterema bossami. Zmiana **tylko dokumentacji/projektowych danych**, bez nadpisania aktualnych `src/game`, zapisów i produkcji. Oryginały zarejestrowane SHA-256 w [manifeście](design/source-annexes/MANIFEST.json), opisy w [drzewkach](design/CHARACTER-PROGRESSION-LEVELS-1-20.md) i [bestiariuszu](design/BESTIARY-LEVELS-1-20.md).
+
+**Uwaga audytowa:** dotychczasowe akapity tego dokumentu dotyczą historycznego odczytu z 21.10.2026 i nie są aktualnym potwierdzeniem statusu PR #15 ani gałęzi `main`. Dla bieżącego stanu sprawdzać GitHub i CI. Nowe aneksy nie dowodzą implementacji umiejętności i przeciwników.
