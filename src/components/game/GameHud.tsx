@@ -285,7 +285,7 @@ export function GameHud({
             <button
               type="button"
               onClick={() => toggle("map")}
-              aria-label="Otwórz mapę regionu"
+              aria-label="Otwórz mapę świata"
               title="Mapa regionu"
             >
               ▣
