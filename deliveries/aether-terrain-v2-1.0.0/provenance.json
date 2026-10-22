@@ -1,0 +1,29 @@
+{
+ "pack": "aether-terrain-v2",
+ "textures": [
+  {
+   "texture": "aether-ground",
+   "seed": 5741102,
+   "source_png_sha256": "91b7f0d3f0ce56ecab066191246f4949621c1c31cec3f51b521c140d02ac7b93",
+   "webp_sha256": "ef8b75be6fea55f7e5fa3a6697f5e25400738d1e965a91b94079591dfd0a911e"
+  },
+  {
+   "texture": "aether-path",
+   "seed": 5741102,
+   "source_png_sha256": "8701ff1716f6690b21e1c7c541f14c94de95c28ccdba2b7d49114a772af2a6d9",
+   "webp_sha256": "49a539a800981fc24103b0bc952c975eb78e15e8a1e29657265ec90fcd8c0048"
+  },
+  {
+   "texture": "aether-plaza",
+   "seed": 5741103,
+   "source_png_sha256": "a4c83a579ef9c3d4611848db69d06259dc18315905978b3220321e591d92db83",
+   "webp_sha256": "bf691102ece60f7910be91b917fc46812a50fd9d352cfbe8d3602033e039c452"
+  },
+  {
+   "texture": "aether-wall",
+   "seed": 5741102,
+   "source_png_sha256": "deebb88454903035d838b42545d8c7e6bf772ba215170a01fa164ee04c804df1",
+   "webp_sha256": "9cc6407f0d1308f0ce71b5140c0a2defd07d290894a05efa5e90c54d4acb9f7d"
+  }
+ ]
+}

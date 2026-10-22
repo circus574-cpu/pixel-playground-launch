@@ -1,0 +1,391 @@
+{
+ "tag": "dsx-v2",
+ "style": "seamless tileable game texture, flat top-down orthographic view, stylized hand painted fantasy game environment art, clean painted surface, even lighting, no perspective, no objects, no characters, no text, full frame uniform pattern, high quality",
+ "negative": "perspective, 3d render, vignette, border, frame, shadow gradient, strong lighting gradient, single large object, person, character, creature, text, logo, watermark, blurry, low quality, worst quality, tiles with visible seams, cropped",
+ "textures": [
+  {
+   "file": "aether-ground-s5741102.png",
+   "name": "aether-ground",
+   "seed": 5741102,
+   "sha256": "91b7f0d3f0ce56ecab066191246f4949621c1c31cec3f51b521c140d02ac7b93",
+   "seam_error": 6.01,
+   "neighbour_pixel_error": 6.58
+  },
+  {
+   "file": "aether-ground-s5741103.png",
+   "name": "aether-ground",
+   "seed": 5741103,
+   "sha256": "1af72f6a81b4f2790ce15cdc780de2764d307e71e888b1f4736aa03c13cd6f75",
+   "seam_error": 3.81,
+   "neighbour_pixel_error": 4.94
+  },
+  {
+   "file": "aether-ground-s5741104.png",
+   "name": "aether-ground",
+   "seed": 5741104,
+   "sha256": "fdd015ee4a93d372be44d9a8ef327bfc99df0d3ca767fe05b1595fe091bc4cc7",
+   "seam_error": 4.83,
+   "neighbour_pixel_error": 5.56
+  },
+  {
+   "file": "aether-ground-s5741105.png",
+   "name": "aether-ground",
+   "seed": 5741105,
+   "sha256": "0e185a03f4ca0ab15024493b0bd3d50e8b997b06dcf064a9104f560959bd5673",
+   "seam_error": 5.26,
+   "neighbour_pixel_error": 5.93
+  },
+  {
+   "file": "aether-path-s5741102.png",
+   "name": "aether-path",
+   "seed": 5741102,
+   "sha256": "8701ff1716f6690b21e1c7c541f14c94de95c28ccdba2b7d49114a772af2a6d9",
+   "seam_error": 3.3,
+   "neighbour_pixel_error": 4.56
+  },
+  {
+   "file": "aether-path-s5741103.png",
+   "name": "aether-path",
+   "seed": 5741103,
+   "sha256": "987b111d7b9710b7289304844ce7284c2d52961520e033a1819c91f511b29303",
+   "seam_error": 6.33,
+   "neighbour_pixel_error": 4.41
+  },
+  {
+   "file": "aether-path-s5741104.png",
+   "name": "aether-path",
+   "seed": 5741104,
+   "sha256": "2ab392709b8a4a3d45b8dfc832788c1fe0c418b1b8b156928cd7f8ae90cc40e2",
+   "seam_error": 2.13,
+   "neighbour_pixel_error": 3.66
+  },
+  {
+   "file": "aether-path-s5741105.png",
+   "name": "aether-path",
+   "seed": 5741105,
+   "sha256": "be2c4aed11b38d8e550294eb0bf69b0aadc5533a2d61a53ac9f4487ef1bfbb09",
+   "seam_error": 3.54,
+   "neighbour_pixel_error": 4.37
+  },
+  {
+   "file": "aether-plaza-s5741102.png",
+   "name": "aether-plaza",
+   "seed": 5741102,
+   "sha256": "9393ce37efb7f93a148dd712a5c22e93448c296601f82556de3c9359d832efa5",
+   "seam_error": 10.14,
+   "neighbour_pixel_error": 8.0
+  },
+  {
+   "file": "aether-plaza-s5741103.png",
+   "name": "aether-plaza",
+   "seed": 5741103,
+   "sha256": "a4c83a579ef9c3d4611848db69d06259dc18315905978b3220321e591d92db83",
+   "seam_error": 10.15,
+   "neighbour_pixel_error": 7.64
+  },
+  {
+   "file": "aether-plaza-s5741104.png",
+   "name": "aether-plaza",
+   "seed": 5741104,
+   "sha256": "2602bdaaffcd3e9460cfab8430e69ff457565355c20320f2378cb3c3fa02cbbc",
+   "seam_error": 6.95,
+   "neighbour_pixel_error": 8.0
+  },
+  {
+   "file": "aether-plaza-s5741105.png",
+   "name": "aether-plaza",
+   "seed": 5741105,
+   "sha256": "6a8a7cc27688287401de1d18997ee464a999b74abc34f9060922ae20d71aee3b",
+   "seam_error": 7.01,
+   "neighbour_pixel_error": 7.97
+  },
+  {
+   "file": "aether-wall-s5741102.png",
+   "name": "aether-wall",
+   "seed": 5741102,
+   "sha256": "deebb88454903035d838b42545d8c7e6bf772ba215170a01fa164ee04c804df1",
+   "seam_error": 7.65,
+   "neighbour_pixel_error": 8.02
+  },
+  {
+   "file": "aether-wall-s5741103.png",
+   "name": "aether-wall",
+   "seed": 5741103,
+   "sha256": "d67971e3c4c631540fa1da8f330d0cca7f49a407719f4224663d6ef8476c8494",
+   "seam_error": 9.64,
+   "neighbour_pixel_error": 8.51
+  },
+  {
+   "file": "aether-wall-s5741104.png",
+   "name": "aether-wall",
+   "seed": 5741104,
+   "sha256": "79699ea293ba2aa9881f65d1e00b2e271e9e1a95bda726d933e822a1fa016d9f",
+   "seam_error": 6.72,
+   "neighbour_pixel_error": 7.74
+  },
+  {
+   "file": "aether-wall-s5741105.png",
+   "name": "aether-wall",
+   "seed": 5741105,
+   "sha256": "db6f30618b04eff90444f4d91af3ecb78e853d44d8c4b08483445e3136c3b683",
+   "seam_error": 8.01,
+   "neighbour_pixel_error": 7.3
+  },
+  {
+   "file": "nexus-ground-s5741102.png",
+   "name": "nexus-ground",
+   "seed": 5741102,
+   "sha256": "e9e6953534ff0084b35b1279c03921db1b6c6440928c4f454052507dbb4c4633",
+   "seam_error": 3.04,
+   "neighbour_pixel_error": 4.42
+  },
+  {
+   "file": "nexus-ground-s5741103.png",
+   "name": "nexus-ground",
+   "seed": 5741103,
+   "sha256": "19fbf4cd667704d7455d9770680e5bcf322453c1f1be369e5622ad3db5909d1d",
+   "seam_error": 4.1,
+   "neighbour_pixel_error": 3.73
+  },
+  {
+   "file": "nexus-ground-s5741104.png",
+   "name": "nexus-ground",
+   "seed": 5741104,
+   "sha256": "2be9e10d70e13289a57c6d2fce71439c5b4496a4f0e8386110549e1fb5ee1e38",
+   "seam_error": 4.24,
+   "neighbour_pixel_error": 5.18
+  },
+  {
+   "file": "nexus-ground-s5741105.png",
+   "name": "nexus-ground",
+   "seed": 5741105,
+   "sha256": "f2ab27491371ec6bd779549aae6014f744c312501b0d57f6833413a7866c9251",
+   "seam_error": 4.13,
+   "neighbour_pixel_error": 4.54
+  },
+  {
+   "file": "nexus-path-s5741102.png",
+   "name": "nexus-path",
+   "seed": 5741102,
+   "sha256": "404b4b86818efcb260b4b87d7805962a89177744d2c4bc378a98590fa70bf45a",
+   "seam_error": 4.64,
+   "neighbour_pixel_error": 6.65
+  },
+  {
+   "file": "nexus-path-s5741103.png",
+   "name": "nexus-path",
+   "seed": 5741103,
+   "sha256": "52dce41a1074dd1e970bcaf0408944bc3b2f191a17caff27702aa0c051cdc592",
+   "seam_error": 6.16,
+   "neighbour_pixel_error": 5.94
+  },
+  {
+   "file": "nexus-path-s5741104.png",
+   "name": "nexus-path",
+   "seed": 5741104,
+   "sha256": "1a3dfa223ae22cca0397e1239da1deec0e6a12baa2b281dee02e84a5765e8e22",
+   "seam_error": 4.99,
+   "neighbour_pixel_error": 6.58
+  },
+  {
+   "file": "nexus-path-s5741105.png",
+   "name": "nexus-path",
+   "seed": 5741105,
+   "sha256": "2b176f64fffb6f3f2d61b6cb8cbb062141eab18a968eb94cda105a6fea4b1f06",
+   "seam_error": 6.42,
+   "neighbour_pixel_error": 6.81
+  },
+  {
+   "file": "nexus-plaza-s5741102.png",
+   "name": "nexus-plaza",
+   "seed": 5741102,
+   "sha256": "339e06dd2dc8d2c043211d8f13e5daa1248124ba049c130c4ba56011afea13b2",
+   "seam_error": 4.07,
+   "neighbour_pixel_error": 4.61
+  },
+  {
+   "file": "nexus-plaza-s5741103.png",
+   "name": "nexus-plaza",
+   "seed": 5741103,
+   "sha256": "c12a71e7a97328ea73d47ad4d4d6ca0227138e6244f4e68adbdc543cf71c32cd",
+   "seam_error": 5.21,
+   "neighbour_pixel_error": 5.1
+  },
+  {
+   "file": "nexus-plaza-s5741104.png",
+   "name": "nexus-plaza",
+   "seed": 5741104,
+   "sha256": "edea5688fb9a519cbd4c067f505b1962eb0de06983d35afde217fef475a496db",
+   "seam_error": 3.67,
+   "neighbour_pixel_error": 4.26
+  },
+  {
+   "file": "nexus-plaza-s5741105.png",
+   "name": "nexus-plaza",
+   "seed": 5741105,
+   "sha256": "6b3ead50b247140ad507029ade115503d54fc47d6be83ca461c7de7b32d99099",
+   "seam_error": 4.93,
+   "neighbour_pixel_error": 4.73
+  },
+  {
+   "file": "nexus-wall-s5741102.png",
+   "name": "nexus-wall",
+   "seed": 5741102,
+   "sha256": "784f661dc5d0b2e98b80f6385b4296f3666f0ea79bdbcb67eef5403bd493e4de",
+   "seam_error": 4.44,
+   "neighbour_pixel_error": 6.62
+  },
+  {
+   "file": "nexus-wall-s5741103.png",
+   "name": "nexus-wall",
+   "seed": 5741103,
+   "sha256": "540fb4a165bf700a5af7ccd7265e9e014e30df70cdaa6d53695283dddb4dbb00",
+   "seam_error": 5.55,
+   "neighbour_pixel_error": 5.66
+  },
+  {
+   "file": "nexus-wall-s5741104.png",
+   "name": "nexus-wall",
+   "seed": 5741104,
+   "sha256": "d20f079202024cbddd4632b32cb0d4bcf9e917c9a6d6a77a9e127798761443ab",
+   "seam_error": 2.99,
+   "neighbour_pixel_error": 4.82
+  },
+  {
+   "file": "nexus-wall-s5741105.png",
+   "name": "nexus-wall",
+   "seed": 5741105,
+   "sha256": "0835fec9f7965282a78e90002cf2709bb554a69b1e226f3d26a890709789384e",
+   "seam_error": 8.26,
+   "neighbour_pixel_error": 8.32
+  },
+  {
+   "file": "pyra-ground-s5741102.png",
+   "name": "pyra-ground",
+   "seed": 5741102,
+   "sha256": "3c2799b741d8c82d3d7762a9833b0b1c9e36381b967fbf879d1eb96227d864f5",
+   "seam_error": 3.83,
+   "neighbour_pixel_error": 4.13
+  },
+  {
+   "file": "pyra-ground-s5741103.png",
+   "name": "pyra-ground",
+   "seed": 5741103,
+   "sha256": "a499907eda85542c8ae90fdedfff9ac7a28ac49d1ccd54410ddb7a20876f0ae0",
+   "seam_error": 3.69,
+   "neighbour_pixel_error": 4.36
+  },
+  {
+   "file": "pyra-ground-s5741104.png",
+   "name": "pyra-ground",
+   "seed": 5741104,
+   "sha256": "c9eeca1a6eeaf8daa811014437826644065e6a2e66968b25bc90f49f9ee7ed1d",
+   "seam_error": 3.33,
+   "neighbour_pixel_error": 4.22
+  },
+  {
+   "file": "pyra-ground-s5741105.png",
+   "name": "pyra-ground",
+   "seed": 5741105,
+   "sha256": "36b29f457a6c4fd3ab06aed8d8119580935abb51d0d0bb11b50f6b58544836c4",
+   "seam_error": 5.25,
+   "neighbour_pixel_error": 4.57
+  },
+  {
+   "file": "pyra-path-s5741102.png",
+   "name": "pyra-path",
+   "seed": 5741102,
+   "sha256": "ba6f71fb37f575d620c87285ff9c6fc32a1100528473730250823154539e70a4",
+   "seam_error": 3.67,
+   "neighbour_pixel_error": 4.61
+  },
+  {
+   "file": "pyra-path-s5741103.png",
+   "name": "pyra-path",
+   "seed": 5741103,
+   "sha256": "8c9c561ee531c77e16ad04004d41008e6474078380061b6d29224423642b5043",
+   "seam_error": 5.67,
+   "neighbour_pixel_error": 5.49
+  },
+  {
+   "file": "pyra-path-s5741104.png",
+   "name": "pyra-path",
+   "seed": 5741104,
+   "sha256": "7b2691102895a0e57681a9bdb6c9b8e67fa469a7f253dee9b3fd10ae90ce16dd",
+   "seam_error": 3.64,
+   "neighbour_pixel_error": 5.04
+  },
+  {
+   "file": "pyra-path-s5741105.png",
+   "name": "pyra-path",
+   "seed": 5741105,
+   "sha256": "cdc2ae593d7f6f5cbdb87221ac3e0a11b3878f997242edd5ede86b38e36333db",
+   "seam_error": 5.59,
+   "neighbour_pixel_error": 4.84
+  },
+  {
+   "file": "pyra-plaza-s5741102.png",
+   "name": "pyra-plaza",
+   "seed": 5741102,
+   "sha256": "9624b5aacd2b745f30cb76c00835c24e9412bcc22cb8583a1a0805a20fcff16b",
+   "seam_error": 5.21,
+   "neighbour_pixel_error": 5.4
+  },
+  {
+   "file": "pyra-plaza-s5741103.png",
+   "name": "pyra-plaza",
+   "seed": 5741103,
+   "sha256": "0b21ac59a9c4fd14c312cb76ace9da94d5bbbe6e66dffec7c7268ca5d664eeee",
+   "seam_error": 6.91,
+   "neighbour_pixel_error": 6.28
+  },
+  {
+   "file": "pyra-plaza-s5741104.png",
+   "name": "pyra-plaza",
+   "seed": 5741104,
+   "sha256": "a64a1760e8902e16c6a505013757281440cb87c46ae9beccf5a52bbe845dd145",
+   "seam_error": 4.04,
+   "neighbour_pixel_error": 5.19
+  },
+  {
+   "file": "pyra-plaza-s5741105.png",
+   "name": "pyra-plaza",
+   "seed": 5741105,
+   "sha256": "a74787c30c0943608b945ecae018ff7e81ab838c5f163811f36a57b5e2aaa871",
+   "seam_error": 5.04,
+   "neighbour_pixel_error": 5.03
+  },
+  {
+   "file": "pyra-wall-s5741102.png",
+   "name": "pyra-wall",
+   "seed": 5741102,
+   "sha256": "715125a265c05070454ac0dad53535bc57cbf2376daaa73e4e1e3cea66d3a94b",
+   "seam_error": 3.75,
+   "neighbour_pixel_error": 4.81
+  },
+  {
+   "file": "pyra-wall-s5741103.png",
+   "name": "pyra-wall",
+   "seed": 5741103,
+   "sha256": "a59272c949b8dd9010006e3db8e607b505eb261c40097857019ab2e97754526b",
+   "seam_error": 5.95,
+   "neighbour_pixel_error": 5.73
+  },
+  {
+   "file": "pyra-wall-s5741104.png",
+   "name": "pyra-wall",
+   "seed": 5741104,
+   "sha256": "791c6ace38eb322aea178baca2300c899a6df909a794247f87cd3de581ccf678",
+   "seam_error": 6.63,
+   "neighbour_pixel_error": 5.24
+  },
+  {
+   "file": "pyra-wall-s5741105.png",
+   "name": "pyra-wall",
+   "seed": 5741105,
+   "sha256": "bf592e4451477912e7fec5a26a4851a1af752d596e3d392d70951456ec5c0c94",
+   "seam_error": 4.78,
+   "neighbour_pixel_error": 5.05
+  }
+ ]
+}

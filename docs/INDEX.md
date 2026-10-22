@@ -20,6 +20,8 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Instrukcje dla agentów](../AGENTS.md)
 - [Produkcja i zasady publikacji](PRODUCTION.md)
 - [Pipeline zasobów GPU](GPU_ASSET_PIPELINE.md)
+- [Instrukcja dla Codexa: cztery rasy i tekstury kontynentów (22.10.2026)](CODEX-PAINTED-HEROES-AND-TERRAIN-2026-10-22.md)
+- [Malowane widoki + deformacja siatki — pipeline bohaterów](PAINTED-MESH-PIPELINE.md)
 - [Plan czterech kontynentów](STAGE3-FOUR-CONTINENTS.md)
 - [Lista zasobów GPU](STAGE3-GPU-ASSET-LIST.md)
 - [Etap PvE](STAGE2-GAMEPLAY.md)

@@ -1,0 +1,22 @@
+{
+ "method": "DreamShaper XL Turbo v2.1 (SDXL) text-to-image, circular padding in UNet and VAE for seamless tiling; 8 steps, guidance 2.5, 1024 px, downscaled to 512 lossless WebP",
+ "script": "scripts/gpu/gen_terrain_textures.py (args: dsx-v2 5741102,5741103,5741104,5741105 DreamShaperXL_Turbo_v2_1.safetensors 8 2.5 both)",
+ "packs_builder": "scripts/gpu/build_terrain_packs.py",
+ "selection": {
+  "aether-ground": 5741102,
+  "aether-path": 5741102,
+  "aether-plaza": 5741103,
+  "aether-wall": 5741102,
+  "nexus-ground": 5741102,
+  "nexus-path": 5741102,
+  "nexus-plaza": 5741104,
+  "nexus-wall": 5741102,
+  "pyra-ground": 5741102,
+  "pyra-path": 5741102,
+  "pyra-plaza": 5741105,
+  "pyra-wall": 5741102
+ },
+ "verdantia": "not generated: the accepted forest atlas (terrain.verdant) stays as is",
+ "rights": "UNRESOLVED: licence of the DreamShaper XL Turbo checkpoint and of derived images is not confirmed (see docs/ASSET-LICENSE-REGISTER.md)",
+ "owner_status": "NOT reviewed by the owner (2026-10-22)"
+}

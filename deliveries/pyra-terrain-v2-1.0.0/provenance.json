@@ -1,0 +1,29 @@
+{
+ "pack": "pyra-terrain-v2",
+ "textures": [
+  {
+   "texture": "pyra-ground",
+   "seed": 5741102,
+   "source_png_sha256": "3c2799b741d8c82d3d7762a9833b0b1c9e36381b967fbf879d1eb96227d864f5",
+   "webp_sha256": "857a255818f246e3c524b2167b84df06d13370abab08c2ff7247b3e3d059e3de"
+  },
+  {
+   "texture": "pyra-path",
+   "seed": 5741102,
+   "source_png_sha256": "ba6f71fb37f575d620c87285ff9c6fc32a1100528473730250823154539e70a4",
+   "webp_sha256": "0dc1665e2e1c2537a1bb55de29cb8412703a9bd406afe22a86edb979af3e10ad"
+  },
+  {
+   "texture": "pyra-plaza",
+   "seed": 5741105,
+   "source_png_sha256": "a74787c30c0943608b945ecae018ff7e81ab838c5f163811f36a57b5e2aaa871",
+   "webp_sha256": "3b75fd741d6f2541c7f442c76ea652008c0d4241be283b26f9131eb3ca1cd1e4"
+  },
+  {
+   "texture": "pyra-wall",
+   "seed": 5741102,
+   "source_png_sha256": "715125a265c05070454ac0dad53535bc57cbf2376daaa73e4e1e3cea66d3a94b",
+   "webp_sha256": "37a7399383a266df5f28a08a79023532d576ad628c3eee347970eb62f03ea2d8"
+  }
+ ]
+}
