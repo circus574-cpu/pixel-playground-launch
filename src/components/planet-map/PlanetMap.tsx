@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Globe2, Layers, Minus, Orbit, Plus, X } from "lucide-react";
+import { ArrowLeft, Globe2, Layers, Minus, Plus, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -548,7 +548,7 @@ export function PlanetMap({
             aria-label="Globus 3D"
             title="Globus 3D"
           >
-            <Orbit size={15} aria-hidden />
+            <Globe2 size={18} aria-hidden />
             <span>Globus 3D</span>
           </Button>
         )}
