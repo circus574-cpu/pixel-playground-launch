@@ -34,6 +34,7 @@ type Props = {
   onRaceChange?: () => void;
   onWorldLabels?: (visible: boolean) => void;
   onOpenGlobe?: () => void;
+  globeOpen?: boolean;
   systemNotice?: MessageEvent;
 };
 type Panel = "inventory" | "journal" | "settings" | "map" | null;
@@ -66,6 +67,7 @@ export function GameHud({
   onRaceChange,
   onWorldLabels,
   onOpenGlobe,
+  globeOpen = false,
   systemNotice,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
@@ -154,9 +156,9 @@ export function GameHud({
   }
   const player = state.player;
   useEffect(() => {
-    onCommand({ type: "pause", value: panel !== null });
+    onCommand({ type: "pause", value: panel !== null || globeOpen });
     return () => onCommand({ type: "pause", value: false });
-  }, [panel, onCommand]);
+  }, [panel, globeOpen, onCommand]);
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
