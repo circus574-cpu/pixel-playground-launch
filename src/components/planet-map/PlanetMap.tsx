@@ -334,7 +334,7 @@ export function PlanetMap({
           viewBox={viewBox(view, size.w, size.h)}
           preserveAspectRatio="none"
           role="group"
-          aria-label="Interaktywna mapa planety Superior, wersja DEMO"
+          aria-label={embedded ? "Mapa planety Superior w grze 2D" : "Interaktywna mapa planety Superior, wersja DEMO"}
           aria-describedby="pm-help"
           tabIndex={0}
           onPointerDown={onPointerDown}
@@ -536,7 +536,7 @@ export function PlanetMap({
         <div className="pm-title">
           <p className="pm-eyebrow">Ki Legends · Atlas</p>
           <h1>
-            Planeta Superior <span className="pm-demo">DEMO</span>
+            Planeta Superior {!embedded && <span className="pm-demo">DEMO</span>}
           </h1>
         </div>
         {onShowGlobe && (
@@ -561,7 +561,8 @@ export function PlanetMap({
       )}
 
       <p className="pm-demo-chip" role="note">
-        <strong>DEMO</strong> · niepołączona z grą · bez pozycji gracza
+        <strong>{embedded ? "Mapa świata" : "DEMO"}</strong> ·{" "}
+        {embedded ? "postęp postaci pozostaje bez zmian" : "niepołączona z grą · bez pozycji gracza"}
       </p>
 
       <div className="pm-controls" role="toolbar" aria-label="Sterowanie mapą">
