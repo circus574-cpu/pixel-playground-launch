@@ -1,3 +1,4 @@
+import type { Point } from "../navigation";
 import type { WorldId } from "../world/races";
 
 /** How the player's abilities are classified; monster weaknesses and resistances refer to these. */
@@ -9,7 +10,7 @@ export type FxSpec =
   | { k: "root"; ms: number }
   | { k: "stun"; ms: number }
   | { k: "fear"; ms: number }
-  /** Blocks Cięcie, Impuls and Tarcza; basic attack and potion stay available. */
+  /** Blocks every active ability; basic attack and potion stay available. */
   | { k: "silence"; ms: number }
   /** Damage over time: `atkPct` of the monster's ATK per second per stack. */
   | { k: "dot"; id: "poison" | "burn" | "bleed"; atkPct: number; ms: number; stacks?: number }
@@ -19,7 +20,7 @@ export type FxSpec =
   | { k: "jam"; ms: number }
   | { k: "weaken"; pct: number; ms: number }
   | { k: "armorDown"; pct: number; ms: number; stacks?: number }
-  /** The player takes `pct` more damage from monsters (`machine` only from Nexus-9 machines). */
+  /** The player takes `pct` more damage from monsters (`machine`: only from Nexus-9 machines). */
   | { k: "mark"; pct: number; ms: number; from?: "any" | "machine" }
   | { k: "breakShield" }
   | { k: "pull"; dist: number };
@@ -34,56 +35,53 @@ export type ZoneSpec = {
   fx?: FxSpec[];
 };
 
-export type SkillMode =
-  /** Needs to be within `range`; hits one target. */
-  | "melee"
-  /** Hits from `range` after an optional telegraph. */
-  | "ranged"
-  /** Area damage around the player's position (or the monster, when `self`) after the telegraph. */
-  | "burst"
-  /** Jump towards the player and hit on arrival. */
-  | "leap"
-  /** Telegraph, then run in a straight line; a miss exposes the monster. */
-  | "charge"
-  /** Buffs, summons, heals and calls for help; no direct damage. */
-  | "self";
+export type SkillMode = "melee" | "ranged" | "burst" | "leap" | "charge" | "self";
 
 export type SkillSpec = {
   id: string;
   name: string;
   mode: SkillMode;
   cd: number;
+  /** Distance to the player at which the monster may start it. */
   range: number;
   /** Damage as a multiple of the monster's ATK. */
   dmg?: number;
   radius?: number;
   /** Warning shown to the player before the effect lands. */
   telegraph?: number;
+  /** Several equal hits in a row (damage applies to each). */
+  volley?: number;
   fx?: FxSpec[];
   zone?: ZoneSpec;
-  /** Burst centred on the monster itself rather than on the player. */
+  /** The burst is centred on the monster instead of the player's position. */
   centred?: boolean;
   summon?: { kind: string; count: number };
-  /** Wake up to this many idle allies within `range`. */
+  /** Wakes up to this many idle monsters within 600 j. */
   call?: number;
-  /** Heal allies within `range`: fraction of their max HP per second. */
+  /** Allies within `range` regenerate this fraction of max HP per second. */
   heal?: { pct: number; ms: number };
   /** Absorb shield equal to this fraction of max HP. */
   guard?: { pct: number; ms: number };
-  /** Reduce all incoming damage while active. */
+  /** Reduces all damage taken while active. */
   reduce?: { pct: number; ms: number };
-  /** Allies in range deal more damage. */
+  /** Allies within `range` deal more damage. */
   buff?: { pct: number; ms: number };
   /** Used at most once per fight. */
   once?: boolean;
   /** Only when HP is below this fraction. */
   below?: number;
-  /** Charge only: stun applied to the monster itself after a miss. */
+  /** Only the first attack out of hiding; deals extra damage. */
+  opener?: number;
+  /** Charge: stun applied to the monster after a miss. */
   missStun?: number;
-  /** Charge only: DEF reduction (fraction) while exposed after a miss. */
+  /** Charge: DEF reduction (fraction) while exposed after a miss. */
   exposed?: number;
-  /** Does not fire if the monster is not facing the player (turrets). */
+  /** Fires only when the monster faces the player (turrets). */
   aimed?: boolean;
+  /** Self buff: the next attack deals this fraction more (Namierzenie). */
+  nextAttack?: number;
+  /** Needs the player not to be hit by anything else first: marks only. */
+  markOnly?: boolean;
 };
 
 export type Traits = {
@@ -94,7 +92,7 @@ export type Traits = {
   leash: number;
   /** Wander radius around home when idle. */
   wander?: number;
-  /** Stays this far from the player and backs away when approached. */
+  /** Preferred distance: backs away when the player is closer. */
   keep?: number;
   /** Never moves. */
   still?: boolean;
@@ -102,18 +100,18 @@ export type Traits = {
   ghost?: boolean;
   /** Follows a fixed route (offsets from home) while idle. */
   route?: [number, number][];
-  /** Hidden until the player comes within `reveal`; after the first strike hides for `hide` ms. */
-  ambush?: { reveal: number; hide: number; opener: number };
-  /** Hides underground, surfaces on the player and returns underground for `under` ms (untouchable). */
-  burrow?: { under: number; surfaceBonus?: number };
+  /** Hidden until the player comes within `reveal`; after striking hides for `hide` ms. */
+  ambush?: { reveal: number; hide: number };
+  /** Hides underground, surfaces next to the player and goes back for `under` ms (untouchable). */
+  burrow?: { under: number; up: number; bonus?: number; root?: number };
   /** Group size used by `spawnGroup`. */
   pack?: [number, number];
-  /** Circle to the flank before striking. */
+  /** Circles to the flank before striking. */
   flank?: boolean;
   /** After `attacks` hits, retreats for `away` ms. */
   dive?: { attacks: number; away: number };
-  /** Retreats (and regenerates, when `hide`) below this HP fraction. */
-  retreat?: { below: number; ms: number; hide?: boolean; regen?: boolean };
+  /** Retreats below this HP fraction; `hide` makes it untouchable while it regenerates. */
+  retreat?: { below: number; ms: number; hide?: boolean; regen?: number };
   /** Splits on the first damage; parts rejoin after `merge` ms when both live. */
   split?: { hpPct: number; merge: number };
   /** Comes back once with this fraction of max HP. */
@@ -130,36 +128,44 @@ export type Traits = {
   backBonus?: number;
   /** Reflects this fraction of physical damage (KI ignores it). */
   reflect?: number;
-  /** Stronger as HP falls: up to +`dmg` damage at 30%; below `below` HP attacks `speed` faster. */
+  /** Stronger as HP falls: up to +`dmg` damage at 30% HP; below `below` attacks `speed` faster. */
   rage?: { dmg: number; below: number; speed: number };
   /** Active at night; by day the agro radius is multiplied by `day`. */
   night?: { day: number };
   /** Only attacks if the player is below this fraction of max HP; otherwise circles. */
   opportunist?: number;
-  /** Does not attack while any ally within `range` is hurt. */
+  /** Does not attack while any hurt ally is within this range. */
   medic?: number;
   /** Lays webs within `radius` of home. */
-  webs?: { max: number; radius: number; zone: ZoneSpec; slow: number };
+  webs?: { max: number; radius: number; zone: ZoneSpec };
   /** Leaves a damaging trail while moving. */
   trail?: ZoneSpec;
-  /** Turret cadence: turns `turn` degrees per second, fires `burst` shots, overheats after `shots`. */
-  turret?: { turn: number; burst: number; shots: number; off: number };
-  /** Below this HP fraction raises a plasma shield. */
-  shieldBelow?: number;
-  /** Interrupt: damage of this fraction of max HP during a charge stuns it. */
+  /** Turret: turns `turn` degrees per second, overheats after `shots`, switched off for `off` ms. */
+  turret?: { turn: number; shots: number; off: number };
+  /** Interrupt: damage of this fraction of max HP during a cast stuns it. */
   interrupt?: { pct: number; stun: number };
-  /** Retreats after this many hits taken (support units). */
+  /** Retreats after this many hits taken. */
   fleeAfterHits?: { hits: number; ms: number };
   /** Marks a unit as a Nexus-9 machine (for `mark.from = machine`). */
   machine?: boolean;
-  /** Uses the next shot with bonus damage after a Namierzenie. */
-  scan?: boolean;
   /** Tail breaks after N hits and disables the sting. */
   brittleTail?: number;
   /** Slow outside own webs. */
   webSlow?: number;
-  /** Exposed (damage bonus) for this long after attacking with a dive. */
-  diveExposed?: number;
+  /** Extra damage taken while recovering after a dive/charge/turret overheating. */
+  exposedBonus?: number;
+  /** Flies: ignores obstacles on the ground. */
+  fly?: boolean;
+  /** Stays in place (guard): leash is the radius it defends. */
+  guard?: boolean;
+  /** Does not heal when it returns home (default heals). */
+  noRegen?: boolean;
+  /** Attacks only when the player is within this angle of its facing (turrets), degrees. */
+  arc?: number;
+  /** Consecutive basic hits add this fraction to the next hit (max 4 stacks). */
+  ramp?: number;
+  /** Below this HP fraction its speed is multiplied by `mult`. */
+  slowBelow?: { hp: number; mult: number };
 };
 
 export type LootEntry = { name: string; chance: number };
@@ -179,14 +185,20 @@ export type MonsterDef = {
   agro: number;
   /** Basic attack cooldown, ms. */
   attackCd: number;
-  /** "ranged" basic attacks hit from `range` instead of needing contact. */
-  basic: "melee" | "ranged";
+  /** "ranged" basic attacks hit from `range` instead of needing contact; "none" disables them. */
+  basic: "melee" | "ranged" | "none";
+  /** Effects the basic attack puts on the player. */
+  basicFx?: FxSpec[];
+  /** Multiplier of damage from ranged player attacks. */
+  weakRanged?: number;
   weak: Partial<Record<DamageTag, number>>;
   traits: Traits;
   skills: SkillSpec[];
   loot: LootEntry[];
   gold: [number, number];
-  /** Not one of the 40 bestiary monsters (summons, split parts). */
+  /** Respawn delay after death, ms. */
+  respawn: number;
+  /** Not one of the 40 bestiary monsters (summons, split parts, the legacy boar). */
   minion?: boolean;
 };
 
@@ -196,33 +208,47 @@ export type ZoneState = {
   x: number;
   y: number;
   radius: number;
-  ttl: number;
+  ms: number;
   dps: number;
   atk: number;
   owner: string;
+  machine: boolean;
   fx: FxSpec[];
-  /** True for webs and traps: removed when burned. */
-  burnable: boolean;
+  /** Time until the zone applies its effects again. */
+  fxMs: number;
+};
+
+export type Phase = "idle" | "engage" | "retreat" | "hidden" | "under" | "recover" | "return";
+
+/** Status effects the player's abilities put on a monster. */
+export type FoeFx = {
+  stunMs: number;
+  slow: { pct: number; ms: number };
+  weaken: { pct: number; ms: number };
+  dots: { dps: number; ms: number }[];
+  seal: { ms: number; bonus: number } | null;
+  mark: { ms: number; crit: number; def: number } | null;
 };
 
 export type MonsterState = {
   def: MonsterDef;
-  /** idle | engage | retreat | hidden | under | recover | stunned */
-  phase: "idle" | "engage" | "retreat" | "hidden" | "under" | "recover" | "stunned";
+  phase: Phase;
   phaseMs: number;
+  /** Not drawn and not targetable. */
   hidden: boolean;
-  /** Untouchable (underground, between revive and rising). */
+  /** Takes no damage (underground, regenerating, reviving). */
   invulnerable: boolean;
-  facing: { x: number; y: number };
+  facing: Point;
   cooldowns: Record<string, number>;
   used: Set<string>;
   hitsTaken: number;
   attacksMade: number;
-  lastHitMs: number;
+  sinceHit: number;
   provoked: boolean;
+  engaged: boolean;
   revived: boolean;
   split: boolean;
-  parent?: string;
+  parent: string | undefined;
   /** Absorb shield points. */
   guard: number;
   guardMs: number;
@@ -230,27 +256,46 @@ export type MonsterState = {
   reduceMs: number;
   buff: number;
   buffMs: number;
+  regen: number;
+  regenMs: number;
   curlMs: number;
+  curlHits: number;
   exposed: number;
   exposedMs: number;
   stunMs: number;
   shots: number;
   heatMs: number;
-  /** Pending telegraphed skill. */
-  cast?: {
-    skill: SkillSpec;
-    ms: number;
-    total: number;
-    at: { x: number; y: number };
-    from: { x: number; y: number };
-  };
-  /** Active charge. */
-  charge?: { to: { x: number; y: number }; ms: number; skill: SkillSpec };
-  scanned: boolean;
+  /** Damage taken since the cast began (interrupts). */
+  castDamage: number;
+  cast: { skill: SkillSpec; ms: number; at: Point; opener: boolean } | undefined;
+  charge: { to: Point; skill: SkillSpec; hit: boolean } | undefined;
+  volley: { skill: SkillSpec; left: number; next: number; opener: boolean } | undefined;
   scanStacks: number;
+  scanReady: boolean;
+  tailHits: number;
   tailBroken: boolean;
   trailMs: number;
   webs: string[];
   orbit: number;
   routeIndex: number;
+  aim: number;
+  nextWander: number;
+  attackCount: number;
+  nextAttack: number;
+  spawnedAt: number;
+};
+
+export type Enemy = Point & {
+  id: string;
+  /** Monster definition id. */
+  kind: string;
+  home: Point;
+  hp: number;
+  maxHp: number;
+  mode: "patrol" | "chase" | "return" | "dead";
+  timer: number;
+  attackIn: number;
+  patrol: Point;
+  m: MonsterState;
+  fx: FoeFx;
 };

@@ -60,7 +60,7 @@ it("does not advertise distant conversations or conversations during combat", ()
       {...props}
       state={{
         ...state,
-        target: { name: "Dzik", hp: 30, maxHp: 30, inRange: false },
+        target: { name: "Dzik", level: 1, hp: 30, maxHp: 30, inRange: false },
       }}
     />,
   );

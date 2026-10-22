@@ -1,4 +1,5 @@
 import type { RaceId } from "../world/races";
+import { speedGrowth } from "./balance";
 import { RACE_BASE, KIT_NODES } from "./nodes.generated";
 import type {
   AbilityInfo,
@@ -185,7 +186,7 @@ export abstract class Kit {
       maxKi: roundHalfUp(v("ki") * (1 + (m.kiPct ?? 0))),
       attack: Math.max(1, roundHalfUp((v("attack") + gear.attack) * (1 + atkPct))),
       defense: Math.max(0, roundHalfUp((v("defense") + gear.defense) * (1 + defPct))),
-      speed: b.base.speed * (1 + (m.speedPct ?? 0) + this.buffSum("speedPct")),
+      speed: b.base.speed * speedGrowth(level) * (1 + (m.speedPct ?? 0) + this.buffSum("speedPct")),
       kiRegen: v("kiRegen") * (1 + (m.kiRegenPct ?? 0)),
       crit: v("criticalChancePercent") + (m.critAdd ?? 0) * 100,
       attackInterval: Math.max(

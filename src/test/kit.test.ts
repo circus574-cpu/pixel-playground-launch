@@ -145,7 +145,7 @@ describe("owner annex 22.10.2026: stats and tree data", () => {
       });
     }
   });
-  it("level 10 and 20 regeneration, crit and speed match the annex", () => {
+  it("level 10 and 20 regeneration and crit match the annex; speed follows the owner's +5%/level to level 20", () => {
     const expected: Record<
       RaceId,
       { regen10: number; crit10: number; crit20: number; speed: number; interval: number }
@@ -162,7 +162,10 @@ describe("owner annex 22.10.2026: stats and tree data", () => {
       expect(a.kiRegen).toBeCloseTo(e.regen10, 2);
       expect(a.crit).toBeCloseTo(e.crit10, 2);
       expect(b.crit).toBeCloseTo(e.crit20, 2);
-      expect(a.speed).toBe(e.speed);
+      expect(a.speed).toBeCloseTo(e.speed * 1.45, 6);
+      expect(b.speed).toBeCloseTo(e.speed * 1.95, 6);
+      expect(harness(race, 60, ["R"]).kit.stats.speed).toBeCloseTo(e.speed * 1.95, 6);
+      expect(harness(race, 1, ["R"]).kit.stats.speed).toBe(e.speed);
       expect(a.attackInterval).toBe(e.interval);
     }
   });

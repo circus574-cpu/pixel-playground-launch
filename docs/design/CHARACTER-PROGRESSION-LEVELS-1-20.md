@@ -27,7 +27,7 @@ Wartość statystyki na poziomie L = wartość bazowa + przyrost × (L − 1). S
 | Odstęp ataków (ms) (poz. 1)           |        650 |    800 |      700 |     750 |
 | Odstęp ataków (ms) (przyrost/poz.)    |          — |      — |        — |       — |
 
-Ruch i odstęp ataków nie rosną z poziomem; zmianę mogą wprowadzić umiejętności. Dane poziomów 10 i 20 oraz kontrolne pojedynki znajdują się w oryginalnym PDF (str. 2).
+**Zmiana decyzją właściciela z 22.10.2026:** szybkość ruchu rośnie o **5% wartości bazowej na poziom, do poziomu 20** (poziom L: baza × (1 + 0,05 × (min(L, 20) − 1)); od 20. poziomu stała; np. Planetarni 185 → 268 j./s na poz. 10 → 361 j./s na poz. 20). Odstęp ataków nadal nie rośnie z poziomem; zmianę mogą wprowadzić umiejętności. Tabela przyrostów powyżej odzwierciedla oryginalny aneks (szybkość: „—”), a nie tę zmianę. Dane poziomów 10 i 20 oraz kontrolne pojedynki znajdują się w oryginalnym PDF (str. 2).
 
 ## Zasady drzewek (str. 3)
 

@@ -27,6 +27,8 @@ export type WorldDefinition = {
   market: Point & { radius: number; label: string; instruction: string; action: string };
   npcs: WorldNpc[];
   enemies: Point[];
+  /** Monster spawns from the bestiary; empty until the continents are complete. */
+  monsters?: { kind: string; x: number; y: number }[];
   enemyName: string;
   huntName: string;
   landmarks: Landmark[];
