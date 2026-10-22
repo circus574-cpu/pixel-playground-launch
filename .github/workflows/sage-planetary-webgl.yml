@@ -1,0 +1,50 @@
+name: Sage and Planetary WebGL regressions
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sage-planetary-webgl.yml"
+      - "playwright.config.ts"
+      - "src/game/mountGame.ts"
+      - "src/game/world/**"
+      - "src/game/assets/**"
+      - "src/test/**"
+      - "e2e/**"
+      - "public/game/assets/gpu/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  webgl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      CI: "true"
+      KI_QA_WEBGL: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Record exact tested SHA
+        run: git rev-parse HEAD > qa-tested-sha.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Both GPU heroes in software WebGL
+        run: npx playwright test --project=software-webgl
+      - name: Software WebGL results, traces and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sage-planetary-webgl-${{ github.sha }}
+          path: |
+            qa-tested-sha.txt
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore

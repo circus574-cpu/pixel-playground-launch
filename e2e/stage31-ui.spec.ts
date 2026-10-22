@@ -3,7 +3,7 @@ import { test, expect } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
-const evidence = "docs/qa/stage3-1";
+const evidence = () => test.info().outputDir;
 const races = [
   ["Planetarni", "planetary", "Verdantia"],
   ["Mędrcy", "sage", "Aetheria"],
@@ -14,7 +14,7 @@ const races = [
 test("original complete illustrations, details, accessible enlargement and no save before start", async ({
   page,
 }) => {
-  await mkdir(evidence, { recursive: true });
+  await mkdir(evidence(), { recursive: true });
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -26,7 +26,7 @@ test("original complete illustrations, details, accessible enlargement and no sa
     await expect(img).toHaveJSProperty("naturalWidth", 480);
   }
   await page.locator(".ki-origins").evaluate((el) => el.scrollTo(0, 0));
-  await page.screenshot({ path: evidence + "/selection-desktop.png" });
+  await page.screenshot({ path: evidence() + "/selection-desktop.png" });
   for (const [name, id, world] of races) {
     await page.getByRole("button", { name: "Wybierz: " + name, exact: true }).click();
     const detail = page.getByRole("region", { name: "Pochodzenie: " + name });
@@ -44,7 +44,7 @@ test("original complete illustrations, details, accessible enlargement and no sa
     expect(box!.y + box!.height).toBeLessThanOrEqual(1000);
     expect(box!.height).toBeGreaterThan(500);
     expect(await img.evaluate((el) => getComputedStyle(el).objectFit)).toBe("contain");
-    await page.screenshot({ path: evidence + "/illustration-" + id + ".png" });
+    await page.screenshot({ path: evidence() + "/illustration-" + id + ".png" });
     await page.keyboard.press("Escape");
     await expect(dialog).toHaveCount(0);
     await expect(
@@ -56,14 +56,14 @@ test("original complete illustrations, details, accessible enlargement and no sa
       () => Object.keys(localStorage).filter((k) => k.includes(":character:")).length,
     ),
   ).toBe(0);
-  await page.screenshot({ path: evidence + "/origin-detail.png" });
+  await page.screenshot({ path: evidence() + "/origin-detail.png" });
   expect(errors).toEqual([]);
 });
 
 test("real Phaser progress is held by an actual resource request, then opens the correct world", async ({
   page,
 }) => {
-  await mkdir(evidence, { recursive: true });
+  await mkdir(evidence(), { recursive: true });
   let release!: () => void;
   const gate = new Promise<void>((resolve) => (release = resolve));
   let requested = false;
@@ -88,11 +88,11 @@ test("real Phaser progress is held by an actual resource request, then opens the
   expect(Number(await page.getByRole("progressbar").getAttribute("aria-valuenow"))).toBeLessThan(
     100,
   );
-  await page.screenshot({ path: evidence + "/loading-desktop.png" });
+  await page.screenshot({ path: evidence() + "/loading-desktop.png" });
   await page.setViewportSize({ width: 360, height: 800 });
-  await page.screenshot({ path: evidence + "/loading-mobile.png" });
+  await page.screenshot({ path: evidence() + "/loading-mobile.png" });
   await page.setViewportSize({ width: 852, height: 393 });
-  await page.screenshot({ path: evidence + "/loading-landscape.png" });
+  await page.screenshot({ path: evidence() + "/loading-landscape.png" });
   release();
   await expect(page.locator(".ki-hud")).toBeVisible();
   await expect(loader).toHaveCount(0);
@@ -105,7 +105,7 @@ test("real Phaser progress is held by an actual resource request, then opens the
 });
 
 test("failed real resource shows retry and reuses the same saved character", async ({ page }) => {
-  await mkdir(evidence, { recursive: true });
+  await mkdir(evidence(), { recursive: true });
   let requests = 0;
   let failing = true;
   const errors: string[] = [];
@@ -125,7 +125,7 @@ test("failed real resource shows retry and reuses the same saved character", asy
   const before = await page.evaluate(() =>
     localStorage.getItem("ki-legends:adventure:v1:active-character"),
   );
-  await page.screenshot({ path: evidence + "/loading-error.png" });
+  await page.screenshot({ path: evidence() + "/loading-error.png" });
   for (const [width, height] of [
     [360, 800],
     [390, 844],
@@ -140,7 +140,7 @@ test("failed real resource shows retry and reuses the same saved character", asy
     if (await footer.isVisible())
       expect(box!.y + box!.height + 8).toBeLessThanOrEqual((await footer.boundingBox())!.y);
     await expect(page.getByRole("button", { name: "Ponów próbę", exact: true })).toBeInViewport();
-    await page.screenshot({ path: evidence + "/loading-error-" + width + ".png" });
+    await page.screenshot({ path: evidence() + "/loading-error-" + width + ".png" });
   }
   await page.setViewportSize({ width: 1280, height: 900 });
   const failedRequests = requests;

@@ -3,7 +3,7 @@ import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
-const evidence = "docs/qa/overlay-audit";
+const evidence = () => test.info().outputDir;
 async function start(page: Page, race = "Legendy") {
   await page.goto(path);
   await page.getByRole("button", { name: "Wybierz: " + race, exact: true }).click();
@@ -37,7 +37,7 @@ for (const [width, height] of [
   test(
     "clear world, dismiss/expire guidance, dialogs and persistent options " + width,
     async ({ page, context }) => {
-      await mkdir(evidence, { recursive: true });
+      await mkdir(evidence(), { recursive: true });
       await page.setViewportSize({ width, height });
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));
@@ -55,7 +55,7 @@ for (const [width, height] of [
       await expect
         .poll(async () => Number(await canvas.getAttribute("data-npc-labels")))
         .toBeLessThanOrEqual(1);
-      await page.screenshot({ path: evidence + "/clean-" + width + ".png" });
+      await page.screenshot({ path: evidence() + "/clean-" + width + ".png" });
       await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
       const message = page.getByRole("status", { name: "Komunikat gry", exact: true });
       await expect(message).toBeVisible();
@@ -93,7 +93,7 @@ for (const [width, height] of [
           y: textBox.y + 5,
         }),
       ).toBe("CANVAS");
-      await page.screenshot({ path: evidence + "/message-" + width + ".png" });
+      await page.screenshot({ path: evidence() + "/message-" + width + ".png" });
       await expect(message).toHaveCount(0, { timeout: 6500 });
       await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
       await expect(message).toBeVisible();
@@ -105,7 +105,7 @@ for (const [width, height] of [
       await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
       await expect(page.locator(".ki-npc-dialogue .ki-game-feedback")).toBeVisible();
       await expect(page.locator(".ki-notification-rail")).toHaveCount(0);
-      await page.screenshot({ path: evidence + "/dialogue-" + width + ".png" });
+      await page.screenshot({ path: evidence() + "/dialogue-" + width + ".png" });
       await expect(page.locator(".ki-npc-dialogue .ki-game-feedback")).toHaveCount(0, {
         timeout: 6500,
       });
@@ -116,7 +116,7 @@ for (const [width, height] of [
       await page.getByRole("checkbox", { name: "Nazwy postaci w pobliżu", exact: true }).uncheck();
       await page.getByRole("checkbox", { name: "Duża minimapa", exact: true }).check();
       await page.getByText("Sterowanie i pomoc", { exact: true }).click();
-      await page.screenshot({ path: evidence + "/settings-" + width + ".png" });
+      await page.screenshot({ path: evidence() + "/settings-" + width + ".png" });
       await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
       await expect(canvas).toHaveAttribute("data-world-labels", "false");
       await expect.poll(async () => Number(await canvas.getAttribute("data-npc-labels"))).toBe(0);
@@ -204,7 +204,7 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
     page.getByRole("dialog", { name: "Ustawienia", exact: true }).getByRole("alert"),
   ).toContainText("Nie udało się zapisać");
   await expect(page.locator(".ki-notification-rail")).toHaveCount(0);
-  await page.screenshot({ path: evidence + "/save-warning.png" });
+  await page.screenshot({ path: evidence() + "/save-warning.png" });
 });
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
@@ -215,7 +215,7 @@ test("death message ends on real respawn and subsequent movement works", async (
   );
   await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
-  await page.screenshot({ path: evidence + "/death.png" });
+  await page.screenshot({ path: evidence() + "/death.png" });
   await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
   await expect
     .poll(async () => Number(await canvas.getAttribute("data-player-x")))
@@ -270,7 +270,7 @@ test("combat messages leave the actual target panel clear at every HUD breakpoin
         overlaps((await target.boundingBox())!, (await message.boundingBox())!),
         String(width),
       ).toBe(false);
-      await page.screenshot({ path: evidence + "/combat-" + width + ".png" });
+      await page.screenshot({ path: evidence() + "/combat-" + width + ".png" });
     } finally {
       await page.close();
     }

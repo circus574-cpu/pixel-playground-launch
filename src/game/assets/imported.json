@@ -20,8 +20,14 @@
       {
         "id": "technical-mannequin",
         "profile": "hero",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -29,14 +35,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/idle/down/00", "technical/idle/down/01"],
-              "down-left": ["technical/idle/down-left/00", "technical/idle/down-left/01"],
-              "left": ["technical/idle/left/00", "technical/idle/left/01"],
-              "up-left": ["technical/idle/up-left/00", "technical/idle/up-left/01"],
-              "up": ["technical/idle/up/00", "technical/idle/up/01"],
-              "up-right": ["technical/idle/up-right/00", "technical/idle/up-right/01"],
-              "right": ["technical/idle/right/00", "technical/idle/right/01"],
-              "down-right": ["technical/idle/down-right/00", "technical/idle/down-right/01"]
+              "down": [
+                "technical/idle/down/00",
+                "technical/idle/down/01"
+              ],
+              "down-left": [
+                "technical/idle/down-left/00",
+                "technical/idle/down-left/01"
+              ],
+              "left": [
+                "technical/idle/left/00",
+                "technical/idle/left/01"
+              ],
+              "up-left": [
+                "technical/idle/up-left/00",
+                "technical/idle/up-left/01"
+              ],
+              "up": [
+                "technical/idle/up/00",
+                "technical/idle/up/01"
+              ],
+              "up-right": [
+                "technical/idle/up-right/00",
+                "technical/idle/up-right/01"
+              ],
+              "right": [
+                "technical/idle/right/00",
+                "technical/idle/right/01"
+              ],
+              "down-right": [
+                "technical/idle/down-right/00",
+                "technical/idle/down-right/01"
+              ]
             }
           },
           "walk": {
@@ -44,14 +74,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/walk/down/00", "technical/walk/down/01"],
-              "down-left": ["technical/walk/down-left/00", "technical/walk/down-left/01"],
-              "left": ["technical/walk/left/00", "technical/walk/left/01"],
-              "up-left": ["technical/walk/up-left/00", "technical/walk/up-left/01"],
-              "up": ["technical/walk/up/00", "technical/walk/up/01"],
-              "up-right": ["technical/walk/up-right/00", "technical/walk/up-right/01"],
-              "right": ["technical/walk/right/00", "technical/walk/right/01"],
-              "down-right": ["technical/walk/down-right/00", "technical/walk/down-right/01"]
+              "down": [
+                "technical/walk/down/00",
+                "technical/walk/down/01"
+              ],
+              "down-left": [
+                "technical/walk/down-left/00",
+                "technical/walk/down-left/01"
+              ],
+              "left": [
+                "technical/walk/left/00",
+                "technical/walk/left/01"
+              ],
+              "up-left": [
+                "technical/walk/up-left/00",
+                "technical/walk/up-left/01"
+              ],
+              "up": [
+                "technical/walk/up/00",
+                "technical/walk/up/01"
+              ],
+              "up-right": [
+                "technical/walk/up-right/00",
+                "technical/walk/up-right/01"
+              ],
+              "right": [
+                "technical/walk/right/00",
+                "technical/walk/right/01"
+              ],
+              "down-right": [
+                "technical/walk/down-right/00",
+                "technical/walk/down-right/01"
+              ]
             }
           },
           "run": {
@@ -59,14 +113,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/run/down/00", "technical/run/down/01"],
-              "down-left": ["technical/run/down-left/00", "technical/run/down-left/01"],
-              "left": ["technical/run/left/00", "technical/run/left/01"],
-              "up-left": ["technical/run/up-left/00", "technical/run/up-left/01"],
-              "up": ["technical/run/up/00", "technical/run/up/01"],
-              "up-right": ["technical/run/up-right/00", "technical/run/up-right/01"],
-              "right": ["technical/run/right/00", "technical/run/right/01"],
-              "down-right": ["technical/run/down-right/00", "technical/run/down-right/01"]
+              "down": [
+                "technical/run/down/00",
+                "technical/run/down/01"
+              ],
+              "down-left": [
+                "technical/run/down-left/00",
+                "technical/run/down-left/01"
+              ],
+              "left": [
+                "technical/run/left/00",
+                "technical/run/left/01"
+              ],
+              "up-left": [
+                "technical/run/up-left/00",
+                "technical/run/up-left/01"
+              ],
+              "up": [
+                "technical/run/up/00",
+                "technical/run/up/01"
+              ],
+              "up-right": [
+                "technical/run/up-right/00",
+                "technical/run/up-right/01"
+              ],
+              "right": [
+                "technical/run/right/00",
+                "technical/run/right/01"
+              ],
+              "down-right": [
+                "technical/run/down-right/00",
+                "technical/run/down-right/01"
+              ]
             }
           },
           "attack": {
@@ -74,14 +152,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/attack/down/00", "technical/attack/down/01"],
-              "down-left": ["technical/attack/down-left/00", "technical/attack/down-left/01"],
-              "left": ["technical/attack/left/00", "technical/attack/left/01"],
-              "up-left": ["technical/attack/up-left/00", "technical/attack/up-left/01"],
-              "up": ["technical/attack/up/00", "technical/attack/up/01"],
-              "up-right": ["technical/attack/up-right/00", "technical/attack/up-right/01"],
-              "right": ["technical/attack/right/00", "technical/attack/right/01"],
-              "down-right": ["technical/attack/down-right/00", "technical/attack/down-right/01"]
+              "down": [
+                "technical/attack/down/00",
+                "technical/attack/down/01"
+              ],
+              "down-left": [
+                "technical/attack/down-left/00",
+                "technical/attack/down-left/01"
+              ],
+              "left": [
+                "technical/attack/left/00",
+                "technical/attack/left/01"
+              ],
+              "up-left": [
+                "technical/attack/up-left/00",
+                "technical/attack/up-left/01"
+              ],
+              "up": [
+                "technical/attack/up/00",
+                "technical/attack/up/01"
+              ],
+              "up-right": [
+                "technical/attack/up-right/00",
+                "technical/attack/up-right/01"
+              ],
+              "right": [
+                "technical/attack/right/00",
+                "technical/attack/right/01"
+              ],
+              "down-right": [
+                "technical/attack/down-right/00",
+                "technical/attack/down-right/01"
+              ]
             }
           },
           "skill": {
@@ -89,14 +191,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/skill/down/00", "technical/skill/down/01"],
-              "down-left": ["technical/skill/down-left/00", "technical/skill/down-left/01"],
-              "left": ["technical/skill/left/00", "technical/skill/left/01"],
-              "up-left": ["technical/skill/up-left/00", "technical/skill/up-left/01"],
-              "up": ["technical/skill/up/00", "technical/skill/up/01"],
-              "up-right": ["technical/skill/up-right/00", "technical/skill/up-right/01"],
-              "right": ["technical/skill/right/00", "technical/skill/right/01"],
-              "down-right": ["technical/skill/down-right/00", "technical/skill/down-right/01"]
+              "down": [
+                "technical/skill/down/00",
+                "technical/skill/down/01"
+              ],
+              "down-left": [
+                "technical/skill/down-left/00",
+                "technical/skill/down-left/01"
+              ],
+              "left": [
+                "technical/skill/left/00",
+                "technical/skill/left/01"
+              ],
+              "up-left": [
+                "technical/skill/up-left/00",
+                "technical/skill/up-left/01"
+              ],
+              "up": [
+                "technical/skill/up/00",
+                "technical/skill/up/01"
+              ],
+              "up-right": [
+                "technical/skill/up-right/00",
+                "technical/skill/up-right/01"
+              ],
+              "right": [
+                "technical/skill/right/00",
+                "technical/skill/right/01"
+              ],
+              "down-right": [
+                "technical/skill/down-right/00",
+                "technical/skill/down-right/01"
+              ]
             }
           },
           "hit": {
@@ -104,14 +230,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/hit/down/00", "technical/hit/down/01"],
-              "down-left": ["technical/hit/down-left/00", "technical/hit/down-left/01"],
-              "left": ["technical/hit/left/00", "technical/hit/left/01"],
-              "up-left": ["technical/hit/up-left/00", "technical/hit/up-left/01"],
-              "up": ["technical/hit/up/00", "technical/hit/up/01"],
-              "up-right": ["technical/hit/up-right/00", "technical/hit/up-right/01"],
-              "right": ["technical/hit/right/00", "technical/hit/right/01"],
-              "down-right": ["technical/hit/down-right/00", "technical/hit/down-right/01"]
+              "down": [
+                "technical/hit/down/00",
+                "technical/hit/down/01"
+              ],
+              "down-left": [
+                "technical/hit/down-left/00",
+                "technical/hit/down-left/01"
+              ],
+              "left": [
+                "technical/hit/left/00",
+                "technical/hit/left/01"
+              ],
+              "up-left": [
+                "technical/hit/up-left/00",
+                "technical/hit/up-left/01"
+              ],
+              "up": [
+                "technical/hit/up/00",
+                "technical/hit/up/01"
+              ],
+              "up-right": [
+                "technical/hit/up-right/00",
+                "technical/hit/up-right/01"
+              ],
+              "right": [
+                "technical/hit/right/00",
+                "technical/hit/right/01"
+              ],
+              "down-right": [
+                "technical/hit/down-right/00",
+                "technical/hit/down-right/01"
+              ]
             }
           },
           "death": {
@@ -119,14 +269,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/death/down/00", "technical/death/down/01"],
-              "down-left": ["technical/death/down-left/00", "technical/death/down-left/01"],
-              "left": ["technical/death/left/00", "technical/death/left/01"],
-              "up-left": ["technical/death/up-left/00", "technical/death/up-left/01"],
-              "up": ["technical/death/up/00", "technical/death/up/01"],
-              "up-right": ["technical/death/up-right/00", "technical/death/up-right/01"],
-              "right": ["technical/death/right/00", "technical/death/right/01"],
-              "down-right": ["technical/death/down-right/00", "technical/death/down-right/01"]
+              "down": [
+                "technical/death/down/00",
+                "technical/death/down/01"
+              ],
+              "down-left": [
+                "technical/death/down-left/00",
+                "technical/death/down-left/01"
+              ],
+              "left": [
+                "technical/death/left/00",
+                "technical/death/left/01"
+              ],
+              "up-left": [
+                "technical/death/up-left/00",
+                "technical/death/up-left/01"
+              ],
+              "up": [
+                "technical/death/up/00",
+                "technical/death/up/01"
+              ],
+              "up-right": [
+                "technical/death/up-right/00",
+                "technical/death/up-right/01"
+              ],
+              "right": [
+                "technical/death/right/00",
+                "technical/death/right/01"
+              ],
+              "down-right": [
+                "technical/death/down-right/00",
+                "technical/death/down-right/01"
+              ]
             }
           },
           "respawn": {
@@ -134,14 +308,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/respawn/down/00", "technical/respawn/down/01"],
-              "down-left": ["technical/respawn/down-left/00", "technical/respawn/down-left/01"],
-              "left": ["technical/respawn/left/00", "technical/respawn/left/01"],
-              "up-left": ["technical/respawn/up-left/00", "technical/respawn/up-left/01"],
-              "up": ["technical/respawn/up/00", "technical/respawn/up/01"],
-              "up-right": ["technical/respawn/up-right/00", "technical/respawn/up-right/01"],
-              "right": ["technical/respawn/right/00", "technical/respawn/right/01"],
-              "down-right": ["technical/respawn/down-right/00", "technical/respawn/down-right/01"]
+              "down": [
+                "technical/respawn/down/00",
+                "technical/respawn/down/01"
+              ],
+              "down-left": [
+                "technical/respawn/down-left/00",
+                "technical/respawn/down-left/01"
+              ],
+              "left": [
+                "technical/respawn/left/00",
+                "technical/respawn/left/01"
+              ],
+              "up-left": [
+                "technical/respawn/up-left/00",
+                "technical/respawn/up-left/01"
+              ],
+              "up": [
+                "technical/respawn/up/00",
+                "technical/respawn/up/01"
+              ],
+              "up-right": [
+                "technical/respawn/up-right/00",
+                "technical/respawn/up-right/01"
+              ],
+              "right": [
+                "technical/respawn/right/00",
+                "technical/respawn/right/01"
+              ],
+              "down-right": [
+                "technical/respawn/down-right/00",
+                "technical/respawn/down-right/01"
+              ]
             }
           }
         }
@@ -182,8 +380,14 @@
         "id": "hero-planetary",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [128, 128],
-        "origin": [0.5, 0.75],
+        "size": [
+          128,
+          128
+        ],
+        "origin": [
+          0.5,
+          0.75
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -768,6 +972,633 @@
     ],
     "actorBindings": {
       "verdant.hero": "hero-planetary"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "hero-sage",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "hero-sage-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-0.json",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "id": "hero-sage-page-1",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage/1.0.0-bafe591d3ac3/hero-sage-page-1.json",
+        "width": 2048,
+        "height": 1280
+      }
+    ],
+    "actors": [
+      {
+        "id": "hero-sage",
+        "profile": "hero",
+        "presentation": "grounded",
+        "size": [
+          128,
+          128
+        ],
+        "origin": [
+          0.5,
+          0.75
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "hero-sage-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "hero-sage/idle/down/00",
+                "hero-sage/idle/down/01",
+                "hero-sage/idle/down/02",
+                "hero-sage/idle/down/03",
+                "hero-sage/idle/down/04",
+                "hero-sage/idle/down/05",
+                "hero-sage/idle/down/06",
+                "hero-sage/idle/down/07"
+              ],
+              "down-left": [
+                "hero-sage/idle/down-left/00",
+                "hero-sage/idle/down-left/01",
+                "hero-sage/idle/down-left/02",
+                "hero-sage/idle/down-left/03",
+                "hero-sage/idle/down-left/04",
+                "hero-sage/idle/down-left/05",
+                "hero-sage/idle/down-left/06",
+                "hero-sage/idle/down-left/07"
+              ],
+              "left": [
+                "hero-sage/idle/left/00",
+                "hero-sage/idle/left/01",
+                "hero-sage/idle/left/02",
+                "hero-sage/idle/left/03",
+                "hero-sage/idle/left/04",
+                "hero-sage/idle/left/05",
+                "hero-sage/idle/left/06",
+                "hero-sage/idle/left/07"
+              ],
+              "up-left": [
+                "hero-sage/idle/up-left/00",
+                "hero-sage/idle/up-left/01",
+                "hero-sage/idle/up-left/02",
+                "hero-sage/idle/up-left/03",
+                "hero-sage/idle/up-left/04",
+                "hero-sage/idle/up-left/05",
+                "hero-sage/idle/up-left/06",
+                "hero-sage/idle/up-left/07"
+              ],
+              "up": [
+                "hero-sage/idle/up/00",
+                "hero-sage/idle/up/01",
+                "hero-sage/idle/up/02",
+                "hero-sage/idle/up/03",
+                "hero-sage/idle/up/04",
+                "hero-sage/idle/up/05",
+                "hero-sage/idle/up/06",
+                "hero-sage/idle/up/07"
+              ],
+              "up-right": [
+                "hero-sage/idle/up-right/00",
+                "hero-sage/idle/up-right/01",
+                "hero-sage/idle/up-right/02",
+                "hero-sage/idle/up-right/03",
+                "hero-sage/idle/up-right/04",
+                "hero-sage/idle/up-right/05",
+                "hero-sage/idle/up-right/06",
+                "hero-sage/idle/up-right/07"
+              ],
+              "right": [
+                "hero-sage/idle/right/00",
+                "hero-sage/idle/right/01",
+                "hero-sage/idle/right/02",
+                "hero-sage/idle/right/03",
+                "hero-sage/idle/right/04",
+                "hero-sage/idle/right/05",
+                "hero-sage/idle/right/06",
+                "hero-sage/idle/right/07"
+              ],
+              "down-right": [
+                "hero-sage/idle/down-right/00",
+                "hero-sage/idle/down-right/01",
+                "hero-sage/idle/down-right/02",
+                "hero-sage/idle/down-right/03",
+                "hero-sage/idle/down-right/04",
+                "hero-sage/idle/down-right/05",
+                "hero-sage/idle/down-right/06",
+                "hero-sage/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "hero-sage-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "hero-sage/walk/down/00",
+                "hero-sage/walk/down/01",
+                "hero-sage/walk/down/02",
+                "hero-sage/walk/down/03",
+                "hero-sage/walk/down/04",
+                "hero-sage/walk/down/05",
+                "hero-sage/walk/down/06",
+                "hero-sage/walk/down/07"
+              ],
+              "down-left": [
+                "hero-sage/walk/down-left/00",
+                "hero-sage/walk/down-left/01",
+                "hero-sage/walk/down-left/02",
+                "hero-sage/walk/down-left/03",
+                "hero-sage/walk/down-left/04",
+                "hero-sage/walk/down-left/05",
+                "hero-sage/walk/down-left/06",
+                "hero-sage/walk/down-left/07"
+              ],
+              "left": [
+                "hero-sage/walk/left/00",
+                "hero-sage/walk/left/01",
+                "hero-sage/walk/left/02",
+                "hero-sage/walk/left/03",
+                "hero-sage/walk/left/04",
+                "hero-sage/walk/left/05",
+                "hero-sage/walk/left/06",
+                "hero-sage/walk/left/07"
+              ],
+              "up-left": [
+                "hero-sage/walk/up-left/00",
+                "hero-sage/walk/up-left/01",
+                "hero-sage/walk/up-left/02",
+                "hero-sage/walk/up-left/03",
+                "hero-sage/walk/up-left/04",
+                "hero-sage/walk/up-left/05",
+                "hero-sage/walk/up-left/06",
+                "hero-sage/walk/up-left/07"
+              ],
+              "up": [
+                "hero-sage/walk/up/00",
+                "hero-sage/walk/up/01",
+                "hero-sage/walk/up/02",
+                "hero-sage/walk/up/03",
+                "hero-sage/walk/up/04",
+                "hero-sage/walk/up/05",
+                "hero-sage/walk/up/06",
+                "hero-sage/walk/up/07"
+              ],
+              "up-right": [
+                "hero-sage/walk/up-right/00",
+                "hero-sage/walk/up-right/01",
+                "hero-sage/walk/up-right/02",
+                "hero-sage/walk/up-right/03",
+                "hero-sage/walk/up-right/04",
+                "hero-sage/walk/up-right/05",
+                "hero-sage/walk/up-right/06",
+                "hero-sage/walk/up-right/07"
+              ],
+              "right": [
+                "hero-sage/walk/right/00",
+                "hero-sage/walk/right/01",
+                "hero-sage/walk/right/02",
+                "hero-sage/walk/right/03",
+                "hero-sage/walk/right/04",
+                "hero-sage/walk/right/05",
+                "hero-sage/walk/right/06",
+                "hero-sage/walk/right/07"
+              ],
+              "down-right": [
+                "hero-sage/walk/down-right/00",
+                "hero-sage/walk/down-right/01",
+                "hero-sage/walk/down-right/02",
+                "hero-sage/walk/down-right/03",
+                "hero-sage/walk/down-right/04",
+                "hero-sage/walk/down-right/05",
+                "hero-sage/walk/down-right/06",
+                "hero-sage/walk/down-right/07"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "hero-sage-page-0",
+            "fps": 16,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage/attack/down/00",
+                "hero-sage/attack/down/01",
+                "hero-sage/attack/down/02",
+                "hero-sage/attack/down/03",
+                "hero-sage/attack/down/04",
+                "hero-sage/attack/down/05",
+                "hero-sage/attack/down/06",
+                "hero-sage/attack/down/07"
+              ],
+              "down-left": [
+                "hero-sage/attack/down-left/00",
+                "hero-sage/attack/down-left/01",
+                "hero-sage/attack/down-left/02",
+                "hero-sage/attack/down-left/03",
+                "hero-sage/attack/down-left/04",
+                "hero-sage/attack/down-left/05",
+                "hero-sage/attack/down-left/06",
+                "hero-sage/attack/down-left/07"
+              ],
+              "left": [
+                "hero-sage/attack/left/00",
+                "hero-sage/attack/left/01",
+                "hero-sage/attack/left/02",
+                "hero-sage/attack/left/03",
+                "hero-sage/attack/left/04",
+                "hero-sage/attack/left/05",
+                "hero-sage/attack/left/06",
+                "hero-sage/attack/left/07"
+              ],
+              "up-left": [
+                "hero-sage/attack/up-left/00",
+                "hero-sage/attack/up-left/01",
+                "hero-sage/attack/up-left/02",
+                "hero-sage/attack/up-left/03",
+                "hero-sage/attack/up-left/04",
+                "hero-sage/attack/up-left/05",
+                "hero-sage/attack/up-left/06",
+                "hero-sage/attack/up-left/07"
+              ],
+              "up": [
+                "hero-sage/attack/up/00",
+                "hero-sage/attack/up/01",
+                "hero-sage/attack/up/02",
+                "hero-sage/attack/up/03",
+                "hero-sage/attack/up/04",
+                "hero-sage/attack/up/05",
+                "hero-sage/attack/up/06",
+                "hero-sage/attack/up/07"
+              ],
+              "up-right": [
+                "hero-sage/attack/up-right/00",
+                "hero-sage/attack/up-right/01",
+                "hero-sage/attack/up-right/02",
+                "hero-sage/attack/up-right/03",
+                "hero-sage/attack/up-right/04",
+                "hero-sage/attack/up-right/05",
+                "hero-sage/attack/up-right/06",
+                "hero-sage/attack/up-right/07"
+              ],
+              "right": [
+                "hero-sage/attack/right/00",
+                "hero-sage/attack/right/01",
+                "hero-sage/attack/right/02",
+                "hero-sage/attack/right/03",
+                "hero-sage/attack/right/04",
+                "hero-sage/attack/right/05",
+                "hero-sage/attack/right/06",
+                "hero-sage/attack/right/07"
+              ],
+              "down-right": [
+                "hero-sage/attack/down-right/00",
+                "hero-sage/attack/down-right/01",
+                "hero-sage/attack/down-right/02",
+                "hero-sage/attack/down-right/03",
+                "hero-sage/attack/down-right/04",
+                "hero-sage/attack/down-right/05",
+                "hero-sage/attack/down-right/06",
+                "hero-sage/attack/down-right/07"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "hero-sage-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage/skill/down/00",
+                "hero-sage/skill/down/01",
+                "hero-sage/skill/down/02",
+                "hero-sage/skill/down/03",
+                "hero-sage/skill/down/04",
+                "hero-sage/skill/down/05",
+                "hero-sage/skill/down/06",
+                "hero-sage/skill/down/07"
+              ],
+              "down-left": [
+                "hero-sage/skill/down-left/00",
+                "hero-sage/skill/down-left/01",
+                "hero-sage/skill/down-left/02",
+                "hero-sage/skill/down-left/03",
+                "hero-sage/skill/down-left/04",
+                "hero-sage/skill/down-left/05",
+                "hero-sage/skill/down-left/06",
+                "hero-sage/skill/down-left/07"
+              ],
+              "left": [
+                "hero-sage/skill/left/00",
+                "hero-sage/skill/left/01",
+                "hero-sage/skill/left/02",
+                "hero-sage/skill/left/03",
+                "hero-sage/skill/left/04",
+                "hero-sage/skill/left/05",
+                "hero-sage/skill/left/06",
+                "hero-sage/skill/left/07"
+              ],
+              "up-left": [
+                "hero-sage/skill/up-left/00",
+                "hero-sage/skill/up-left/01",
+                "hero-sage/skill/up-left/02",
+                "hero-sage/skill/up-left/03",
+                "hero-sage/skill/up-left/04",
+                "hero-sage/skill/up-left/05",
+                "hero-sage/skill/up-left/06",
+                "hero-sage/skill/up-left/07"
+              ],
+              "up": [
+                "hero-sage/skill/up/00",
+                "hero-sage/skill/up/01",
+                "hero-sage/skill/up/02",
+                "hero-sage/skill/up/03",
+                "hero-sage/skill/up/04",
+                "hero-sage/skill/up/05",
+                "hero-sage/skill/up/06",
+                "hero-sage/skill/up/07"
+              ],
+              "up-right": [
+                "hero-sage/skill/up-right/00",
+                "hero-sage/skill/up-right/01",
+                "hero-sage/skill/up-right/02",
+                "hero-sage/skill/up-right/03",
+                "hero-sage/skill/up-right/04",
+                "hero-sage/skill/up-right/05",
+                "hero-sage/skill/up-right/06",
+                "hero-sage/skill/up-right/07"
+              ],
+              "right": [
+                "hero-sage/skill/right/00",
+                "hero-sage/skill/right/01",
+                "hero-sage/skill/right/02",
+                "hero-sage/skill/right/03",
+                "hero-sage/skill/right/04",
+                "hero-sage/skill/right/05",
+                "hero-sage/skill/right/06",
+                "hero-sage/skill/right/07"
+              ],
+              "down-right": [
+                "hero-sage/skill/down-right/00",
+                "hero-sage/skill/down-right/01",
+                "hero-sage/skill/down-right/02",
+                "hero-sage/skill/down-right/03",
+                "hero-sage/skill/down-right/04",
+                "hero-sage/skill/down-right/05",
+                "hero-sage/skill/down-right/06",
+                "hero-sage/skill/down-right/07"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "hero-sage-page-1",
+            "fps": 16,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage/hit/down/00",
+                "hero-sage/hit/down/01",
+                "hero-sage/hit/down/02",
+                "hero-sage/hit/down/03"
+              ],
+              "down-left": [
+                "hero-sage/hit/down-left/00",
+                "hero-sage/hit/down-left/01",
+                "hero-sage/hit/down-left/02",
+                "hero-sage/hit/down-left/03"
+              ],
+              "left": [
+                "hero-sage/hit/left/00",
+                "hero-sage/hit/left/01",
+                "hero-sage/hit/left/02",
+                "hero-sage/hit/left/03"
+              ],
+              "up-left": [
+                "hero-sage/hit/up-left/00",
+                "hero-sage/hit/up-left/01",
+                "hero-sage/hit/up-left/02",
+                "hero-sage/hit/up-left/03"
+              ],
+              "up": [
+                "hero-sage/hit/up/00",
+                "hero-sage/hit/up/01",
+                "hero-sage/hit/up/02",
+                "hero-sage/hit/up/03"
+              ],
+              "up-right": [
+                "hero-sage/hit/up-right/00",
+                "hero-sage/hit/up-right/01",
+                "hero-sage/hit/up-right/02",
+                "hero-sage/hit/up-right/03"
+              ],
+              "right": [
+                "hero-sage/hit/right/00",
+                "hero-sage/hit/right/01",
+                "hero-sage/hit/right/02",
+                "hero-sage/hit/right/03"
+              ],
+              "down-right": [
+                "hero-sage/hit/down-right/00",
+                "hero-sage/hit/down-right/01",
+                "hero-sage/hit/down-right/02",
+                "hero-sage/hit/down-right/03"
+              ]
+            }
+          },
+          "death": {
+            "asset": "hero-sage-page-1",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage/death/down/00",
+                "hero-sage/death/down/01",
+                "hero-sage/death/down/02",
+                "hero-sage/death/down/03",
+                "hero-sage/death/down/04",
+                "hero-sage/death/down/05",
+                "hero-sage/death/down/06",
+                "hero-sage/death/down/07"
+              ],
+              "down-left": [
+                "hero-sage/death/down-left/00",
+                "hero-sage/death/down-left/01",
+                "hero-sage/death/down-left/02",
+                "hero-sage/death/down-left/03",
+                "hero-sage/death/down-left/04",
+                "hero-sage/death/down-left/05",
+                "hero-sage/death/down-left/06",
+                "hero-sage/death/down-left/07"
+              ],
+              "left": [
+                "hero-sage/death/left/00",
+                "hero-sage/death/left/01",
+                "hero-sage/death/left/02",
+                "hero-sage/death/left/03",
+                "hero-sage/death/left/04",
+                "hero-sage/death/left/05",
+                "hero-sage/death/left/06",
+                "hero-sage/death/left/07"
+              ],
+              "up-left": [
+                "hero-sage/death/up-left/00",
+                "hero-sage/death/up-left/01",
+                "hero-sage/death/up-left/02",
+                "hero-sage/death/up-left/03",
+                "hero-sage/death/up-left/04",
+                "hero-sage/death/up-left/05",
+                "hero-sage/death/up-left/06",
+                "hero-sage/death/up-left/07"
+              ],
+              "up": [
+                "hero-sage/death/up/00",
+                "hero-sage/death/up/01",
+                "hero-sage/death/up/02",
+                "hero-sage/death/up/03",
+                "hero-sage/death/up/04",
+                "hero-sage/death/up/05",
+                "hero-sage/death/up/06",
+                "hero-sage/death/up/07"
+              ],
+              "up-right": [
+                "hero-sage/death/up-right/00",
+                "hero-sage/death/up-right/01",
+                "hero-sage/death/up-right/02",
+                "hero-sage/death/up-right/03",
+                "hero-sage/death/up-right/04",
+                "hero-sage/death/up-right/05",
+                "hero-sage/death/up-right/06",
+                "hero-sage/death/up-right/07"
+              ],
+              "right": [
+                "hero-sage/death/right/00",
+                "hero-sage/death/right/01",
+                "hero-sage/death/right/02",
+                "hero-sage/death/right/03",
+                "hero-sage/death/right/04",
+                "hero-sage/death/right/05",
+                "hero-sage/death/right/06",
+                "hero-sage/death/right/07"
+              ],
+              "down-right": [
+                "hero-sage/death/down-right/00",
+                "hero-sage/death/down-right/01",
+                "hero-sage/death/down-right/02",
+                "hero-sage/death/down-right/03",
+                "hero-sage/death/down-right/04",
+                "hero-sage/death/down-right/05",
+                "hero-sage/death/down-right/06",
+                "hero-sage/death/down-right/07"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "hero-sage-page-1",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage/respawn/down/00",
+                "hero-sage/respawn/down/01",
+                "hero-sage/respawn/down/02",
+                "hero-sage/respawn/down/03",
+                "hero-sage/respawn/down/04",
+                "hero-sage/respawn/down/05",
+                "hero-sage/respawn/down/06",
+                "hero-sage/respawn/down/07"
+              ],
+              "down-left": [
+                "hero-sage/respawn/down-left/00",
+                "hero-sage/respawn/down-left/01",
+                "hero-sage/respawn/down-left/02",
+                "hero-sage/respawn/down-left/03",
+                "hero-sage/respawn/down-left/04",
+                "hero-sage/respawn/down-left/05",
+                "hero-sage/respawn/down-left/06",
+                "hero-sage/respawn/down-left/07"
+              ],
+              "left": [
+                "hero-sage/respawn/left/00",
+                "hero-sage/respawn/left/01",
+                "hero-sage/respawn/left/02",
+                "hero-sage/respawn/left/03",
+                "hero-sage/respawn/left/04",
+                "hero-sage/respawn/left/05",
+                "hero-sage/respawn/left/06",
+                "hero-sage/respawn/left/07"
+              ],
+              "up-left": [
+                "hero-sage/respawn/up-left/00",
+                "hero-sage/respawn/up-left/01",
+                "hero-sage/respawn/up-left/02",
+                "hero-sage/respawn/up-left/03",
+                "hero-sage/respawn/up-left/04",
+                "hero-sage/respawn/up-left/05",
+                "hero-sage/respawn/up-left/06",
+                "hero-sage/respawn/up-left/07"
+              ],
+              "up": [
+                "hero-sage/respawn/up/00",
+                "hero-sage/respawn/up/01",
+                "hero-sage/respawn/up/02",
+                "hero-sage/respawn/up/03",
+                "hero-sage/respawn/up/04",
+                "hero-sage/respawn/up/05",
+                "hero-sage/respawn/up/06",
+                "hero-sage/respawn/up/07"
+              ],
+              "up-right": [
+                "hero-sage/respawn/up-right/00",
+                "hero-sage/respawn/up-right/01",
+                "hero-sage/respawn/up-right/02",
+                "hero-sage/respawn/up-right/03",
+                "hero-sage/respawn/up-right/04",
+                "hero-sage/respawn/up-right/05",
+                "hero-sage/respawn/up-right/06",
+                "hero-sage/respawn/up-right/07"
+              ],
+              "right": [
+                "hero-sage/respawn/right/00",
+                "hero-sage/respawn/right/01",
+                "hero-sage/respawn/right/02",
+                "hero-sage/respawn/right/03",
+                "hero-sage/respawn/right/04",
+                "hero-sage/respawn/right/05",
+                "hero-sage/respawn/right/06",
+                "hero-sage/respawn/right/07"
+              ],
+              "down-right": [
+                "hero-sage/respawn/down-right/00",
+                "hero-sage/respawn/down-right/01",
+                "hero-sage/respawn/down-right/02",
+                "hero-sage/respawn/down-right/03",
+                "hero-sage/respawn/down-right/04",
+                "hero-sage/respawn/down-right/05",
+                "hero-sage/respawn/down-right/06",
+                "hero-sage/respawn/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "aether.hero": "hero-sage"
     },
     "renderBindings": {},
     "effects": {}

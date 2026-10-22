@@ -41,7 +41,7 @@ for (const [race, width, height] of cases)
         expect(
           await page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.tagName, point),
         ).toBe("CANVAS");
-      const evidence = "docs/qa/mobile-hud-layout";
+      const evidence = info.outputPath("mobile-hud-layout");
       await mkdir(evidence, { recursive: true });
       await page.screenshot({ path: `${evidence}/${race}-${width}x${height}.png` });
       if (compact) {

@@ -27,6 +27,9 @@ export const Route = createFileRoute("/")({
 });
 export function Index() {
   const [store, setStore] = useState<CharacterStore | null>(null);
+  const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(
+    false,
+  );
   const [slots, setSlots] = useState<CharacterSlot[]>([]);
   const [active, setActive] = useState<CharacterSlot | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -48,6 +51,12 @@ export function Index() {
       );
     }
     setLoaded(true);
+    // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
+    const params = new URLSearchParams(window.location.search);
+    if (["verdant", "aether", "nexus", "pyra"].includes(params.get("continent") ?? "")) {
+      setMapNotice(params.get("continent") as "verdant" | "aether" | "nexus" | "pyra");
+      setActive(null);
+    }
   }, []);
   const open = (slot: CharacterSlot) => {
     store?.select(slot);
@@ -79,13 +88,31 @@ export function Index() {
       />
     );
   return (
-    <CharacterSelection
-      slots={slots}
-      warning={warning}
-      onCreate={create}
-      onContinue={open}
-      startWithOrigins={startWithOrigins}
-    />
+    <>
+      {mapNotice && (
+        <div role="status" style={{ padding: "12px", textAlign: "center" }}>
+          {
+            (
+              {
+                verdant: "Verdantia — Planetarni",
+                aether: "Aetheria — Mędrcy",
+                nexus: "Nexus-9 — Androidy",
+                pyra: "Pyra — Legendy",
+              } as const
+            )[mapNotice]
+          }
+          : wybierz istniejącą postać odpowiedniego pochodzenia lub utwórz nową.
+        </div>
+      )}
+      <CharacterSelection
+        slots={slots}
+        requestedContinent={mapNotice || undefined}
+        warning={warning}
+        onCreate={create}
+        onContinue={open}
+        startWithOrigins={startWithOrigins || Boolean(mapNotice)}
+      />
+    </>
   );
 }
 function GameScreen({

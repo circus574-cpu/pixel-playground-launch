@@ -5,7 +5,7 @@ import path from "node:path";
 import os from "node:os";
 import sharp from "sharp";
 import { validatePackage, importPackage } from "../../scripts/lib/gpu-import";
-import { makeCatalog, worldAssets } from "../game/assets/catalog";
+import { actorVisual, catalog, makeCatalog, worldAssets } from "../game/assets/catalog";
 import { PackSchema, DIRECTIONS } from "../game/assets/schema";
 import { GPU_CONTRACT } from "../game/assets/contract";
 const roots: string[] = [];
@@ -285,4 +285,40 @@ it("keeps unapproved hero packs opt-in while validating and importing their actu
   expect(worldAssets("aether", false, makeCatalog(packs, true)).map((a) => a.id)).not.toContain(
     "technical-rig",
   );
+});
+
+describe("Sage and Planetary integration on current main", () => {
+  it("activates all 416 Sage frames on Aetheria without a URL flag", () => {
+    const sage = actorVisual("aether", "hero", undefined, false, catalog);
+    expect(sage.id).toBe("hero-sage");
+    const frames = Object.values(sage.clips).flatMap((clip) =>
+      Object.values(clip.directions).flat(),
+    );
+    expect(frames).toHaveLength(416);
+    const assets = worldAssets("aether", false, catalog).map((a) => a.id);
+    expect(assets).toEqual(expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]));
+  });
+
+  it("does not change Androidy, Legendy or default Planetarni", () => {
+    for (const world of ["verdant", "nexus", "pyra"] as const) {
+      const visual = actorVisual(world, "hero", undefined, false, catalog);
+      expect(visual.id).toBe("human-v2");
+      const assets = worldAssets(world, false, catalog).map((a) => a.id);
+      expect(assets).not.toContain("hero-sage-page-0");
+    }
+  });
+
+  it("retains opt-in Planetary art independently of default Sage", async () => {
+    const manifestPath = path.join(process.cwd(), "src/game/assets/imported.json");
+    const data: unknown[] = JSON.parse(await readFile(manifestPath, "utf8"));
+    const packs = data.map((pack) => PackSchema.parse(pack));
+    const both = makeCatalog(packs, ["hero-sage", "hero-planetary"]);
+    const planetary = actorVisual("verdant", "hero", undefined, false, both);
+    const sage = actorVisual("aether", "hero", undefined, false, both);
+    expect(planetary.id).toBe("hero-planetary");
+    expect(sage.id).toBe("hero-sage");
+    const assets = worldAssets("verdant", false, both).map((a) => a.id);
+    expect(assets).toContain("hero-planetary-page-0");
+    expect(assets).not.toContain("hero-sage-page-0");
+  });
 });

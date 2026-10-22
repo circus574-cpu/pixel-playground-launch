@@ -39,7 +39,7 @@ test("Planetarni preview preserves the same save and stays out of default visual
   await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(canvas).toHaveAttribute("data-world", "aether");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
   await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-planetary-page/);
   expect(errors).toEqual([]);
 });

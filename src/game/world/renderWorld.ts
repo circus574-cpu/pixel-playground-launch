@@ -36,6 +36,110 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     )
       .setOrigin(0)
       .setDepth(renderDepth("paths") + 1);
+  // World-space surface detail, rendered in Phaser rather than on the atlas/globe.
+  // Deterministic, camera-independent placement; no save, collision or navigation changes.
+  if (world.id === "aether" || world.id === "nexus") {
+    const detail = scene.add.graphics().setDepth(renderDepth("ground") + 1);
+    for (let y = 170; y < world.height - 110; y += 112) {
+      for (let x = 180; x < world.width - 160; x += 128) {
+        const seed = (x * 17 + y * 31) % 101;
+        const px = x + (seed % 39) - 19;
+        const py = y + ((seed * 7) % 43) - 21;
+        const onPath = [...terrain.paths, ...terrain.plazas].some(
+          (r) =>
+            px > r.x - 30 && px < r.x + r.width + 30 && py > r.y - 30 && py < r.y + r.height + 30,
+        );
+        const blocked = world.obstacles.some(
+          (r) => px > r.x && px < r.x + r.width && py > r.y && py < r.y + r.height,
+        );
+        if (onPath || blocked) continue;
+        // Aetheria: living KI gardens. Nexus-9: synthetic circuitry and energy nodes.
+        if (world.id === "nexus") {
+          detail.lineStyle(2, 0x4a9bb4, 0.35);
+          detail.lineBetween(px - 18, py, px + 18, py);
+          detail.lineBetween(px + 18, py, px + 18, py - 14);
+          detail.fillStyle(0x82e9ff, 0.6);
+          detail.fillCircle(px + 18, py - 14, 3);
+          continue;
+        }
+        detail.lineStyle(2, seed % 3 ? 0x73aa94 : 0x9bc7ae, 0.45);
+        detail.lineBetween(px - 7, py + 3, px - 2, py - 5);
+        detail.lineBetween(px, py + 4, px + 2, py - 8);
+        detail.lineBetween(px + 7, py + 3, px + 4, py - 3);
+        if (seed % 4 === 0) {
+          detail.fillStyle(0xa5fff0, 0.75);
+          detail.fillCircle(px + 13, py - 9, 2.5);
+          detail.fillStyle(0x5cd7c5, 0.2);
+          detail.fillCircle(px + 13, py - 9, 8);
+        }
+      }
+    }
+    if (world.id === "nexus") {
+      // The central reactor's power conduits follow existing walkable plazas.
+      // Purely visual: they never change the pathfinder's obstacle map.
+      const circuits = scene.add.graphics().setDepth(renderDepth("paths") + 2);
+      for (const [i, area] of terrain.paths.entries()) {
+        const horizontal = area.width >= area.height;
+        const cx = area.x + area.width / 2;
+        const cy = area.y + area.height / 2;
+        circuits.lineStyle(3, 0x51cde9, 0.33);
+        if (horizontal) {
+          circuits.lineBetween(area.x + 24, cy, area.x + area.width - 24, cy);
+        } else {
+          circuits.lineBetween(cx, area.y + 24, cx, area.y + area.height - 24);
+        }
+        circuits.fillStyle(0xa2f5ff, 0.58);
+        circuits.fillCircle(cx, cy, i % 2 ? 7 : 5);
+        circuits.lineStyle(1, 0xb3efff, 0.45);
+        circuits.strokeCircle(cx, cy, 13);
+      }
+      // Peripheral sensor arrays and illuminated platform seams. Keep all
+      // graphics in world coordinates so zoom and camera scrolling stay aligned.
+      for (const [i, platform] of terrain.plazas.entries()) {
+        const inset = 22;
+        circuits.lineStyle(2, 0x6ccfe8, 0.42);
+        circuits.strokeRect(
+          platform.x + inset,
+          platform.y + inset,
+          platform.width - inset * 2,
+          platform.height - inset * 2,
+        );
+        for (let x = platform.x + 55; x < platform.x + platform.width - 30; x += 72) {
+          circuits.fillStyle(i % 2 ? 0x85dfff : 0x4eb4cf, 0.68);
+          circuits.fillRect(x, platform.y + inset - 3, 14, 6);
+          circuits.fillRect(x, platform.y + platform.height - inset - 3, 14, 6);
+        }
+      }
+      // Peripheral warning markers identify the physical boundary of the facility.
+      for (const [i, obstacle] of world.obstacles.entries()) {
+        if (i < 3) continue; // outer walls are already drawn by the hazard renderer
+        const count = Math.max(1, Math.floor(obstacle.width / 96));
+        for (let j = 0; j < count; j++) {
+          const mx = obstacle.x + ((j + 0.5) * obstacle.width) / count;
+          const my = obstacle.y + 12;
+          circuits.fillStyle(0xffbc72, 0.58);
+          circuits.fillTriangle(mx - 7, my + 6, mx + 7, my + 6, mx, my - 7);
+          circuits.fillStyle(0x182b3a, 0.8);
+          circuits.fillCircle(mx, my + 2, 2);
+        }
+      }
+      // Reactor containment ring, visible around the core on the east side.
+      circuits.lineStyle(5, 0x67dfff, 0.3);
+      circuits.strokeEllipse(world.market.x, world.market.y, 310, 180);
+      circuits.lineStyle(2, 0xb0f5ff, 0.48);
+      circuits.strokeEllipse(world.market.x, world.market.y, 255, 140);
+    }
+    // Inlays are world-space and do not affect collision or save coordinates.
+    const courtyard = terrain.plazas[1];
+    if (courtyard) {
+      const cx = courtyard.x + courtyard.width / 2;
+      const cy = courtyard.y + courtyard.height / 2;
+      detail.lineStyle(3, world.id === "nexus" ? 0x66dcff : 0xcde9d0, 0.28);
+      detail.strokeCircle(cx, cy, 125);
+      detail.lineStyle(2, world.id === "nexus" ? 0x9beaff : 0x79e8d5, 0.32);
+      detail.strokeCircle(cx, cy, 96);
+    }
+  }
   const hazards = scene.add.graphics().setDepth(renderDepth("below") - 1);
   for (const o of world.obstacles) {
     hazards.fillStyle(world.id === "pyra" ? 0x2a2029 : world.id === "nexus" ? 0x091722 : 0x15343b);

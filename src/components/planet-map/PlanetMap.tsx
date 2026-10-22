@@ -711,6 +711,15 @@ export function PlanetMap({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
+            {["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
+              <Link
+                to="/"
+                search={{ continent: selectedRegion.id } as never}
+                className="pm-enter-world"
+              >
+                Wejdź do gry — {selectedRegion.name}
+              </Link>
+            )}
             <p className="pm-status">{selectedRegion.status}</p>
             {fog && !isRevealed(selectedRegion.id) && (
               <p className="pm-fog-note">W podglądzie mgły ten obszar jest nieodkryty.</p>
