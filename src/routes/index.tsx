@@ -244,16 +244,16 @@ function GameScreen({
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Globus 3D planety Superior w grze"
-          data-testid="ki-ingame-globe"
+          aria-label="Mapa planety Superior w grze"
+          data-testid="ki-ingame-map"
           style={{ position: "fixed", inset: 0, zIndex: 3000, isolation: "isolate" }}
         >
-          <Suspense fallback={<div role="status">Ładowanie globusa 3D…</div>}>
+          <Suspense fallback={<div role="status">Ładowanie mapy planety Superior…</div>}>
             <InGameMap embedded onClose={() => setGlobeOpen(false)} />
           </Suspense>
           <button
             type="button"
-            aria-label="Zamknij globus i kontynuuj rozgrywkę"
+            aria-label="Zamknij mapę i kontynuuj rozgrywkę"
             onClick={() => setGlobeOpen(false)}
             style={{
               position: "fixed",
