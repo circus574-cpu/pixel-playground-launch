@@ -30,6 +30,13 @@ Razem **1664 klatki / 224 klipy kierunkowe / 8 atlasów**.
 Profil dostawy `legacy`: rozmiar świata 96×96, kotwica (0.5, 0.95), bez tintowania.
 To profil zgodny z linią stóp masterów, nie dawny profil riga `grounded` 128/(.5,.75).
 
+Po zgłoszeniu właściciela „Postacie są za małe!” prezentacja czterech bohaterów
+w `actorVisual()` ma **160×160 jednostek świata zamiast 96×96** (+66,7% liniowo).
+Manifesty dostawy i zaimportowane tekstury zachowują zweryfikowany kontrakt 96×96.
+Kotwica stóp (0.5, 0.95), kamera i collider 12 pozostają bez zmian; większy obrys
+jest też używany przy unikaniu nakładania nazw NPC na bohatera. Rozmiary NPC,
+przeciwników i technicznego manekina nie są powiększane.
+
 Każdy bohater jest aktywny bez flag. Historyczne `ki-hero-art=1` i `ki-sage-art=1`
 nie przywracają dawnych aktorów ani nie tworzą osobnego zapisu. Flagi otoczenia
 pozostają niezależne. NPC nadal korzystają z `human-v2`, przeciwnicy z `boar-v1`.
@@ -65,8 +72,9 @@ Budżet bazowych tekstur + cache terenu: Verdantia **99 164 960 B**, Aetheria
 Nie zmieniono `GameSession`, nawigacji, collidera 12, rozkładu świata,
 parametrów kamery, mapy/globusa, slotów, migracji ani kluczy zapisów.
 Nie zmieniono prywatnego `/test`, sesji, walidacji uploadu ani Storage.
-Zmiana aplikacji obejmuje import paczek i usunięcie wymuszanego w katalogu
-historycznego preview Mędrca/Planetarnego. Oryginalne ilustracje wyboru ras
+Zmiana aplikacji obejmuje import paczek, powiększenie prezentacji bohaterów
+i usunięcie wymuszanego w katalogu historycznego preview Mędrca/Planetarnego.
+Oryginalne ilustracje wyboru ras
 pozostają materiałami prezentacyjnymi; ta dostawa podmienia animowane postacie gry.
 Nie dodano umiejętności, ekwipunku ani mechaniki kostura na podstawie samych obrazów.
 

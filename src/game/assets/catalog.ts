@@ -154,6 +154,16 @@ export const catalog = makeCatalog(
   previewPacks(typeof window !== "undefined" ? window.location.search : ""),
 );
 export const technicalPack = PackSchema.parse(technical);
+// Delivery manifests keep their validated 96px contract. These painted heroes
+// need a larger presentation because their silhouettes occupy only part of a frame.
+// Apply it here so rendering and label avoidance share the same bounds; physics
+// continues to use the independent foot collider.
+const enlargedHeroes = new Set([
+  "hero-planetary-painted",
+  "hero-sage-painted",
+  "hero-android",
+  "hero-legend",
+]);
 export function actorVisual(
   world: WorldId,
   kind: "hero" | "npc" | "enemy",
@@ -169,6 +179,7 @@ export function actorVisual(
     bindings[kind === "hero" ? "hero." + RACES[WORLDS[world].race].visual : kind];
   const actor = id && source.actors.get(id);
   if (!actor) throw new Error("Brak definicji wyglądu: " + world + "/" + kind);
+  if (kind === "hero" && enlargedHeroes.has(actor.id)) return { ...actor, size: [160, 160] };
   return actor;
 }
 export function textureBinding(
