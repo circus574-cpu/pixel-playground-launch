@@ -1,5 +1,8 @@
 import { test, expect } from "./fixtures";
-for (const [world, race, landmark] of [["nexus", "Androidy", "lab"], ["pyra", "Legendy", "fortress"]]) {
+for (const [world, race, landmark] of [
+  ["nexus", "Androidy", "lab"],
+  ["pyra", "Legendy", "fortress"],
+]) {
   test(world + " art switch preserves the existing character", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
@@ -12,7 +15,10 @@ for (const [world, race, landmark] of [["nexus", "Androidy", "lab"], ["pyra", "L
     const before = await page.evaluate(() => JSON.stringify(localStorage));
     await page.goto("/scripts/playtest.html?ki-" + world + "-art=1");
     await expect(page.locator(".ki-hud")).toBeVisible();
-    await expect(canvas).toHaveAttribute("data-texture-ids", new RegExp(world + "-art-" + landmark));
+    await expect(canvas).toHaveAttribute(
+      "data-texture-ids",
+      new RegExp(world + "-art-" + landmark),
+    );
     await expect(canvas).toHaveAttribute("data-texture-ids", new RegExp(world + "-art-ground"));
     const beforeState = JSON.parse(before) as Record<string, string>;
     const afterState = await page.evaluate(() => ({ ...localStorage }));

@@ -1,6 +1,7 @@
 # Nexus-9 i Pyra — anime punkty startowe do oceny
 
 Nowe niezależne obrazy podłoża i obiektów są dostępne wyłącznie w podglądzie:
+
 - `/?ki-nexus-art=1` → Androidy.
 - `/?ki-pyra-art=1` → Legendy.
 - Można łączyć parametry z `ki-aether-art=1`. Verdantia zachowuje zaakceptowaną grafikę.
@@ -10,6 +11,7 @@ Bez parametrów pozostają stare zasoby. Nie publikowano i nie zmieniano GPU.
 
 Każda paczka ma cztery powtarzalne tekstury (podłoże, ścieżka, plac i ściana)
 oraz sześć niezależnych obiektów PNG z przezroczystością:
+
 - Nexus-9: laboratorium, reaktor, terminal, kryształ, pylon i ogród technologiczny.
 - Pyra: forteca, świątynia klanowa, posąg, bazalt, wulkan i sztandar.
 

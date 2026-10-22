@@ -18,7 +18,9 @@ for (const world of ["nexus", "pyra"] as const) {
       const source = makeCatalog(packs, [world + "-start"]);
       const ids = worldAssets(world, false, source).map((a) => a.id);
       for (const object of WORLDS[world].objects) {
-        expect(source.renderBindings["object." + object.asset]?.asset).toMatch(new RegExp("^" + world + "-art-"));
+        expect(source.renderBindings["object." + object.asset]?.asset).toMatch(
+          new RegExp("^" + world + "-art-"),
+        );
       }
       for (const key of ["ground", "path", "plaza", "wall"])
         expect(ids).toContain(world + "-art-" + key);
@@ -28,7 +30,8 @@ for (const world of ["nexus", "pyra"] as const) {
       const enabled = makeCatalog(packs, [world + "-start"]);
       expect(enabled.actorBindings).toEqual(base.actorBindings);
       for (const other of ["verdant", "aether", "nexus", "pyra"] as const)
-        if (other !== world) expect(worldRenderRefs(other, enabled)).toEqual(worldRenderRefs(other, base));
+        if (other !== world)
+          expect(worldRenderRefs(other, enabled)).toEqual(worldRenderRefs(other, base));
     });
   });
 }
