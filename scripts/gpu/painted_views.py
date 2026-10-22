@@ -12,13 +12,14 @@ from diffusers import StableDiffusionXLControlNetPipeline, ControlNetModel
 race = sys.argv[1]
 tag = sys.argv[2] if len(sys.argv) > 2 else "v1"
 SEEDS = [int(s) for s in (sys.argv[3] if len(sys.argv) > 3 else "5741102,5741103").split(",")]
+IP_SCALE = float(sys.argv[4]) if len(sys.argv) > 4 else 0.7
 ROOT = Path("/workspace/ki-legends-gpu"); M = ROOT / "models"
 OUT = ROOT / "renders" / ("%s-painted-%s" % (race, tag)); OUT.mkdir(parents=True, exist_ok=True)
 IDENT = {"android": ROOT / "renders/android-identity-v1/selected/android-s5741102-d62.png"}[race]
 KP = json.loads((ROOT / "renders" / ("%s-painted-v1" % race) / "keypoints.json").read_text())
 BASE = ("1boy, solo, adult male, full body, standing, both hands visible, complete feet visible, fully clothed, "
         "relaxed ready stance, high angle three quarter view, anime fantasy game protagonist, clean precise linework, "
-        "beautifully painted materials, readable silhouette, isolated on pure white background, no surrounding scenery, "
+        "beautifully painted materials, readable silhouette, (isolated on pure white background:1.5), (plain white background:1.4), no surrounding scenery, "
         "wide white margin on all sides, masterpiece, best quality, very aesthetic")
 LOOK = {"android": "short spiky silver white hair, steel blue eyes, stern calm expression, android warrior, "
         "layered silver and black synthetic armor plates, glowing electric blue energy core on chest, glowing blue joint cores on shoulders and knees, "
@@ -29,6 +30,7 @@ VIEW = {"down": "front view, facing the viewer", "down-left": "three quarter fro
         "down-right": "three quarter front view, facing right"}
 NEG = ("nsfw, nude, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, out of frame, close up, portrait, text, logo, "
        "watermark, multiple people, duplicate character, extra limbs, missing hands, malformed hands, landscape, ground texture, weapon, shield, "
+       "(blue energy aura:1.5), (glowing effects:1.4), energy swirl, lightning, crystal shards, motion blur, speed lines, blue background, grey background, "
        "aura, halo, floating rings, flames, floating energy, glow outside body, sparks, particles, background scenery, gradient background, shadow on ground")
 LIMBS = [[1,2],[1,5],[2,3],[3,4],[5,6],[6,7],[1,8],[8,9],[9,10],[1,11],[11,12],[12,13],[1,0],[0,14],[14,16],[0,15],[15,17]]
 COL = [[255,0,0],[255,85,0],[255,170,0],[255,255,0],[170,255,0],[85,255,0],[0,255,0],[0,255,85],[0,255,170],[0,255,255],[0,170,255],[0,85,255],[0,0,255],[85,0,255],[170,0,255],[255,0,255],[255,0,170]]
@@ -46,9 +48,9 @@ def skeleton(points, size=1024):
 cn = ControlNetModel.from_pretrained(str(M / "controlnet/xinsir-openpose-sdxl"), torch_dtype=torch.float16)
 pipe = StableDiffusionXLControlNetPipeline.from_single_file(str(M / "checkpoints/animagine-xl-3.1.safetensors"), controlnet=cn, torch_dtype=torch.float16).to("cuda")
 pipe.load_ip_adapter(str(M / "ip-adapter"), subfolder="sdxl_models", weight_name="ip-adapter_sdxl.safetensors", image_encoder_folder="sdxl_models/image_encoder")
-pipe.set_ip_adapter_scale(0.7)
+pipe.set_ip_adapter_scale(IP_SCALE)
 ref = Image.open(IDENT).convert("RGB")
-meta = {"race": race, "identity": str(IDENT), "identity_sha256": hashlib.sha256(IDENT.read_bytes()).hexdigest(), "views": []}
+meta = {"ip_adapter_scale": IP_SCALE, "race": race, "identity": str(IDENT), "identity_sha256": hashlib.sha256(IDENT.read_bytes()).hexdigest(), "views": []}
 tiles = []
 for direction in ["down", "down-left", "left", "up-left", "up", "up-right", "right", "down-right"]:
     sk = skeleton(KP[direction]); sk.save(OUT / ("skeleton-%s.png" % direction))
