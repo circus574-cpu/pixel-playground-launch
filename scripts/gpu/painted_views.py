@@ -15,22 +15,27 @@ SEEDS = [int(s) for s in (sys.argv[3] if len(sys.argv) > 3 else "5741102,5741103
 IP_SCALE = float(sys.argv[4]) if len(sys.argv) > 4 else 0.7
 ROOT = Path("/workspace/ki-legends-gpu"); M = ROOT / "models"
 OUT = ROOT / "renders" / ("%s-painted-%s" % (race, tag)); OUT.mkdir(parents=True, exist_ok=True)
-IDENT = {"android": ROOT / "renders/android-identity-v1/selected/android-s5741102-d62.png"}[race]
+IDENT = {"android": ROOT / "renders/android-identity-v1/selected/android-s5741102-d62.png",
+         "planetary": ROOT / "renders/planetary-identity-v1/selected/planetary-s5741102-d62.png"}[race]
 KP = json.loads((ROOT / "renders" / ("%s-painted-v1" % race) / "keypoints.json").read_text())
 BASE = ("1boy, solo, adult male, full body, standing, both hands visible, complete feet visible, fully clothed, "
         "relaxed ready stance, high angle three quarter view, anime fantasy game protagonist, clean precise linework, "
-        "beautifully painted materials, readable silhouette, (isolated on pure white background:1.5), (plain white background:1.4), no surrounding scenery, "
+        "beautifully painted materials, readable silhouette, isolated on pure white background, plain white background, simple background, no surrounding scenery, "
         "wide white margin on all sides, masterpiece, best quality, very aesthetic")
 LOOK = {"android": "short spiky silver white hair, steel blue eyes, stern calm expression, android warrior, "
-        "layered silver and black synthetic armor plates, glowing electric blue energy core on chest, glowing blue joint cores on shoulders and knees, "
-        "black bodysuit, long split white and blue coat tails with blue geometric patterns, armored gauntlets, silver armored boots with blue accents, "}[race]
+        "layered silver and black synthetic armor plates, blue gem on chest, blue accents on shoulders and knees, "
+        "black bodysuit, long split white and blue coat tails with blue geometric patterns, armored gauntlets, silver armored boots with blue accents, ",
+        "planetary": "messy spiky chestnut brown hair with a short orange braid, white headband, amber eyes, tanned skin, calm determined expression, "
+        "muscular forest warrior, orange scarf, sleeveless white and green wrap tunic, brown leather straps belts and pouches, "
+        "bronze brown armored gauntlets and greaves with cyan crystal gems, dark green trousers, brown pointed leather boots, "
+        "orange white and green cloth with geometric patterns, "}[race]
 VIEW = {"down": "front view, facing the viewer", "down-left": "three quarter front view, facing left", "left": "side view, profile, facing left",
         "up-left": "three quarter back view, facing away to the left", "up": "back view, seen from behind, facing away from the viewer",
         "up-right": "three quarter back view, facing away to the right", "right": "side view, profile, facing right",
         "down-right": "three quarter front view, facing right"}
 NEG = ("nsfw, nude, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, out of frame, close up, portrait, text, logo, "
        "watermark, multiple people, duplicate character, extra limbs, missing hands, malformed hands, landscape, ground texture, weapon, shield, "
-       "(blue energy aura:1.5), (glowing effects:1.4), energy swirl, lightning, crystal shards, motion blur, speed lines, blue background, grey background, "
+       "blue energy, energy effects, glow, glowing aura, swirls, lightning, crystal shards, motion blur, speed lines, blue background, grey background, forest background, "
        "aura, halo, floating rings, flames, floating energy, glow outside body, sparks, particles, background scenery, gradient background, shadow on ground")
 LIMBS = [[1,2],[1,5],[2,3],[3,4],[5,6],[6,7],[1,8],[8,9],[9,10],[1,11],[11,12],[12,13],[1,0],[0,14],[14,16],[0,15],[15,17]]
 COL = [[255,0,0],[255,85,0],[255,170,0],[255,255,0],[170,255,0],[85,255,0],[0,255,0],[0,255,85],[0,255,170],[0,255,255],[0,170,255],[0,85,255],[0,0,255],[85,0,255],[170,0,255],[255,0,255],[255,0,170]]
