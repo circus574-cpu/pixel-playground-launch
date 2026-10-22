@@ -125,6 +125,8 @@ heroes = {d: Hero(d) for d in DIRS if not REVIEW or d in ("down", "right")}
 plan = []
 for d, h in heroes.items():
     for state, i, n, fps, loop, P in frames_for(h): plan.append((d, state, i, n, fps, loop, P))
+worst = max(((np.abs(P[heroes[d].solid] - heroes[d].V[heroes[d].solid]).max(), d, s, i) for d, s, i, n, fps, loop, P in plan))
+print("WORST_DISPLACEMENT", round(float(worst[0]), 1), worst[1:], flush=True)
 allv = np.concatenate([P[heroes[d].solid] for d, *_, P in plan]); dx = allv[:, 0] - ANCHOR[0]; dy = allv[:, 1] - ANCHOR[1]
 fit = [1.0]
 for lo, hi, arr, anc in ((8 - ANCHOR[0], 504 - ANCHOR[0], dx, 0), (8 - ANCHOR[1], 504 - ANCHOR[1], dy, 0)):
