@@ -820,7 +820,10 @@ export default function PlanetGlobe({
       <p className="pm-demo-chip pg-chip" role="note">
         <strong>{embedded ? "Atlas świata" : "Podgląd atlasu"}</strong>{" "}
         <span>
-          · {embedded ? "postęp gracza pozostaje bez zmian" : "niepołączony z grą · bez pozycji gracza"}
+          ·{" "}
+          {embedded
+            ? "postęp gracza pozostaje bez zmian"
+            : "niepołączony z grą · bez pozycji gracza"}
         </span>
       </p>
 
