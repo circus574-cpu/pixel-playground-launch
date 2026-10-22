@@ -1,6 +1,6 @@
 """Build the importer-ready nature packs from selected textures and matted sprites.
   python3 build_nature_packs.py <textures-dir (tex-<name>-s<seed>.png)> <sprites-dir (<name>-s<seed>.png RGBA)> <selection.json> <out-dir>
-selection.json: {"textures": {name: seed}, "sprites": {name: seed}}
+selection.json: {"textures": {name: seed}, "sprites": {name: seed}, "patches": [names that are opaque top-down patches, not cut-outs]}
 Outputs <out-dir>/nature-textures-v1-1.0.0 (terrain.nature-<name>, 512px, tileSize 256) and nature-objects-v1-1.0.0 (object.nature.<name>, longest side <= 768).
 Both packs are previewOnly. They add NEW binding keys; wiring them into maps is the integrator's task.
 """
@@ -25,6 +25,6 @@ for name, seed in sel["sprites"].items():
     src = sdir / ("%s-s%d.png" % (name, seed)); fn = "nature-objects-v1-%s.webp" % name; im = Image.open(src).convert("RGBA"); k = min(1.0, 768 / max(im.size))
     if k < 1: im = im.resize((round(im.size[0] * k), round(im.size[1] * k)), Image.LANCZOS)
     im.save(d2 / fn, "WEBP", lossless=True, quality=100, method=4)
-    a.append({"id": "nature-obj-" + name, "version": "1.0.0", "kind": "image", "url": fn, "width": im.size[0], "height": im.size[1]}); b["object.nature." + name] = {"asset": "nature-obj-" + name, "fit": "contain", "origin": [0.5, 0.92]}
-    p.append({"name": name, "seed": seed, "source_sha256": sha(src), "webp_sha256": sha(d2 / fn)})
+    a.append({"id": "nature-obj-" + name, "version": "1.0.0", "kind": "image", "url": fn, "width": im.size[0], "height": im.size[1]}); b[("object.nature.patch-" if name in sel.get("patches", []) else "object.nature.") + name] = ({"asset": "nature-obj-" + name, "fit": "contain"} if name in sel.get("patches", []) else {"asset": "nature-obj-" + name, "fit": "contain", "origin": [0.5, 0.92]})
+    p.append({"name": name, "seed": seed, "opaque_patch": name in sel.get("patches", []), "source_sha256": sha(src), "webp_sha256": sha(d2 / fn)})
 pack("nature-objects-v1", a, b, p)
