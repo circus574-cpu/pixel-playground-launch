@@ -8,7 +8,7 @@ Aktualizacja: 2026-10-21. Po każdej zmianie sprawdzić aktualne commity oraz CI
 | AUD-015-02 | WYSOKI | Dokończyć pełną regresję PR #15. Historyczny run 39665659452: 90/91, `private-sketch.spec.ts:23` -> `net::ERR_ABORTED`. | 91/91 lub aktualny kompletny zestaw PASS na końcowym SHA, bez usuwania osłon prywatnego `/test`. |
 | AUD-015-03 | WYSOKI | Zweryfikować dane graczy i brak regresji: sloty, migracje, cztery światy, 2D/3D, spawn, nawigacja. | Pełna regresja oraz ręczny odbiór krytycznych ścieżek. |
 | AUD-015-04 | ŚREDNI | Odbiór mobilny, sprzętowy WebGL, pamięć/FPS i wizualna jakość 416-klatkowych animacji. | Udokumentowane testy realnego urządzenia i ocena właściciela. |
-| DOC-01 | ŚREDNI | Zachować oryginalny projektowy PDF 12 stron w `docs/design/` oraz zweryfikować SHA-256. | Plik binarny i jego faktyczna suma w commicie, brak zastąpienia indeksem tekstowym. |
+| DOC-01 | ŚREDNI | **Wykonane na gałęzi PR #16:** 12 oryginalnych binarnych fragmentów i skrypt rekonstrukcji PDF, commit `fb8940c`; wymagane scalenie do `main`. | Po zatwierdzeniu PR #16 odtworzyć oryginał i potwierdzić SHA-256 `be58d9df4...`; do tego czasu nie oznaczać jako stan `main`. |
 | DOC-02 | ŚREDNI | Przejrzeć PR #13, ustalić bezsprzeczny kanon architektury i multimedia. | Audyt plików, brak kolizji decyzji, zatwierdzony PR. |
 | REL-01 | WYSOKI | Skontrolować prawa do referencji/assetów i zgodność wdrożonej wersji. | Przegląd licencji i zgodność wersji produkcyjnej z zatwierdzonym commitem. |
 | REL-02 | WYSOKI | Uzyskać osobne decyzje właściciela o scaleniu i publikacji. | Dowód jawnych zezwoleń. |
