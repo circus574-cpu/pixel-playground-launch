@@ -609,7 +609,8 @@ export function GameHud({
                 )}
                 <p>
                   Pochodzenie: {RACES[player.race].name}. Planetarni i Mędrcy używają animowanych
-                  postaci swojej rasy; pozostałe grafiki są jeszcze w przygotowaniu. Lokalna gra PvE.
+                  postaci swojej rasy; pozostałe grafiki są jeszcze w przygotowaniu. Lokalna gra
+                  PvE.
                 </p>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
