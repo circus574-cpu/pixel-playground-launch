@@ -27,15 +27,15 @@ export function GameWorldGlobe({ onClose }: { onClose: () => void }) {
         type="button"
         className="ki-world-globe-close"
         onClick={onClose}
-        aria-label="Wróć do rozgrywki"
-        title="Wróć do rozgrywki"
+        aria-label="Wróć do mapy 2D"
+        title="Wróć do mapy 2D"
         autoFocus
       >
         <span aria-hidden="true">←</span>
         <span className="ki-world-globe-close-text"> Gra</span>
       </button>
       <span className="ki-world-globe-caption">
-        Mapa świata · powrót zachowuje postać i jej zapis
+        Mapa świata · powrót do mapy 2D nie zmienia zapisu postaci
       </span>
     </section>
   );
