@@ -22,3 +22,6 @@
 **BLOKADA** dla zmian PR #15 do pełnego zaliczenia wymaganych testów i odbiorów, zgodności produkcji z zatwierdzonym SHA oraz jednoznacznej zgody właściciela. Ten dokument nie jest pozwoleniem na merge/deploy.
 
 Źródła szczegółowe: [TASKS.md](TASKS.md), [QA raport PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md).
+
+## Archiwizacja projektu właściciela — aktualizacja 22.10.2026
+Oryginalny 12-stronicowy PDF z ilustracjami został zapisany bezstratnie **na gałęzi dokumentacyjnego PR #16** w `docs/design/original-pdf-parts/` jako 12 części + `restore.py` (commit `fb8940cfe69f66d273fbfb7af2fdcf97c62b4eab`). GitHub potwierdza pliki, sumy git blob oraz rozmiar 5 343 097 B. Oczekiwany SHA-256 odtworzonego PDF: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. `main` nie otrzymał jeszcze tej zmiany.
