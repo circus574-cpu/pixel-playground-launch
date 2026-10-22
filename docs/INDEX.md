@@ -15,6 +15,8 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Roboczy raport QA PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md) — tylko gałąź PR, nie main.
 
 ## Źródła
+- [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
+- [Rejestr licencji zależności i notices](DEPENDENCY-LICENSE-REGISTER.md)
 - [Instrukcje dla agentów](../AGENTS.md)
 - [Produkcja i zasady publikacji](PRODUCTION.md)
 - [Pipeline zasobów GPU](GPU_ASSET_PIPELINE.md)

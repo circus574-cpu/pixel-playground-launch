@@ -1,0 +1,140 @@
+[
+  {
+    "id": "makehuman-default_weights.mhw",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/rigs/default_weights.mhw",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/rigs/default_weights.mhw",
+    "bytes": 897521,
+    "sha256": "0f3641d651ae3d00ad6b4ccee43142edb109d3bd909d27d9e4139ef1beed8625",
+    "expectedSha256": "0f3641d651ae3d00ad6b4ccee43142edb109d3bd909d27d9e4139ef1beed8625",
+    "hashMatches": true
+  },
+  {
+    "id": "makehuman-caucasian-male-young.target",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-young.target",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-young.target",
+    "bytes": 396479,
+    "sha256": "70e228ba7164737dae664454394536fc5935fa48d333c1a97d77e2dc6eacc5f5",
+    "expectedSha256": "70e228ba7164737dae664454394536fc5935fa48d333c1a97d77e2dc6eacc5f5",
+    "hashMatches": true
+  },
+  {
+    "id": "makehuman-base.obj",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/3dobjs/base.obj",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/3dobjs/base.obj",
+    "bytes": 1749303,
+    "sha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c",
+    "expectedSha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c",
+    "hashMatches": true
+  },
+  {
+    "id": "makehuman-universal-male-young-maxmuscle-averageweight.target",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-averageweight.target",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-averageweight.target",
+    "bytes": 147110,
+    "sha256": "c171ff9cc95e96273beb3e3b1969a01988c2d4982ebc6fe04bf81cf72ee3b295",
+    "expectedSha256": "c171ff9cc95e96273beb3e3b1969a01988c2d4982ebc6fe04bf81cf72ee3b295",
+    "hashMatches": true
+  },
+  {
+    "id": "makehuman-license",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/LICENSE.ASSETS.md",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/LICENSE.ASSETS.md",
+    "bytes": 6962,
+    "sha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c",
+    "expectedSha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c",
+    "hashMatches": true,
+    "file": "docs/licenses/evidence/makehuman-license.txt"
+  },
+  {
+    "id": "makehuman-default.mhskel",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/rigs/default.mhskel",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/rigs/default.mhskel",
+    "bytes": 117790,
+    "sha256": "99f179bce0aa850b45d4191a1d0d234c5851f881c057439470ded3bddf729a24",
+    "expectedSha256": "99f179bce0aa850b45d4191a1d0d234c5851f881c057439470ded3bddf729a24",
+    "hashMatches": true
+  },
+  {
+    "id": "makehuman-asian-male-young.target",
+    "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-young.target",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-young.target",
+    "bytes": 421040,
+    "sha256": "ed2e8c191cb6b87b4a2d97c80486acb2604fa549316c7aa2a738a5d5a14334dc",
+    "expectedSha256": "ed2e8c191cb6b87b4a2d97c80486acb2604fa549316c7aa2a738a5d5a14334dc",
+    "hashMatches": true
+  },
+  {
+    "id": "animagine-base-license",
+    "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/raw/main/LICENSE.md",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/raw/main/LICENSE.md",
+    "bytes": 14109,
+    "sha256": "19b6998b569b53ac1fc2158a8a3202c8699a9a4605b47075715d9c96be7fb6d0",
+    "file": "docs/licenses/evidence/animagine-base-license.txt"
+  },
+  {
+    "id": "animagine-readme",
+    "url": "https://huggingface.co/cagliostrolab/animagine-xl-3.1/raw/483f0c322568ed13697ed01dd0be07204746d12b/README.md",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://huggingface.co/cagliostrolab/animagine-xl-3.1/raw/483f0c322568ed13697ed01dd0be07204746d12b/README.md",
+    "bytes": 19929,
+    "sha256": "67dce7c2f0fb0503be0e79faf1008ebed30f853d654c53e637610e908fbee088",
+    "file": "docs/licenses/evidence/animagine-readme.txt"
+  },
+  {
+    "id": "terms-gnu-lgpl3",
+    "url": "https://www.gnu.org/licenses/lgpl-3.0.txt",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://www.gnu.org/licenses/lgpl-3.0.txt",
+    "bytes": 7652,
+    "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+    "file": "docs/licenses/evidence/terms-gnu-lgpl3.txt"
+  },
+  {
+    "id": "terms-gnu-gpl3",
+    "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://www.gnu.org/licenses/gpl-3.0.txt",
+    "bytes": 35149,
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "file": "docs/licenses/evidence/terms-gnu-gpl3.txt"
+  },
+  {
+    "id": "terms-lovable",
+    "url": "https://lovable.dev/terms",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://lovable.dev/terms",
+    "bytes": 200388,
+    "sha256": "2f56a3db864381d89222294ee08effe2d51b3e54f2207acaf0afa67f6631e5e4",
+    "file": "docs/licenses/evidence/terms-lovable.html"
+  },
+  {
+    "id": "terms-openai",
+    "url": "https://openai.com/policies/row-terms-of-use/",
+    "retrievedOn": "2026-10-22",
+    "httpStatus": 200,
+    "finalUrl": "https://openai.com/policies/row-terms-of-use/",
+    "bytes": 428247,
+    "sha256": "f83123e051ba0a42926a0aa22446b81cfa4044fd4b8cb5556f098bf7578aad74",
+    "file": "docs/licenses/evidence/terms-openai.html"
+  }
+]
