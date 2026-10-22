@@ -14,7 +14,7 @@ OUT = Path("/workspace/ki-legends-gpu/renders") / ("%s-painted-motion-%s%s" % (r
 DIRS = ["down", "down-left", "left", "up-left", "up", "up-right", "right", "down-right"]
 FACING = {"down": 0, "down-left": -.7, "left": -1, "up-left": -.7, "up": 0, "up-right": .7, "right": 1, "down-right": .7}
 CLIPS = {"idle": (8, 6, True), "walk": (8, 16, True), "attack": (8, 16, False), "skill": (8, 12, False), "hit": (4, 16, False), "death": (8, 10, False), "respawn": (8, 12, False)}
-ANCHOR = np.array([256.0, 486.4])
+ANCHOR = np.array([256.0, 486.4]); SAFE = 14  # px kept free around every frame (production minimum is 8)
 meta_m = json.loads((MAST / "metadata.json").read_text()); kp_all = json.loads((KPDIR / "keypoints.json").read_text())
 
 def rotm(theta, c):  # positive = clockwise on screen (y down), about point c
@@ -122,7 +122,7 @@ def frames_for(h):
             P = h.pose(root, ang, sway, w)
             if state in ("death", "respawn"):  # lie on the ground line and stay centred while falling
                 p = i / max(1, n - 1); q = smooth(p) if state == "death" else 1 - smooth(p); Q = P[h.solid]
-                P = P + np.array([(256 - (Q[:, 0].min() + Q[:, 0].max()) / 2) * q, min(0.0, ANCHOR[1] - Q[:, 1].max())], np.float32)
+                P = P + np.array([(256 - (Q[:, 0].min() + Q[:, 0].max()) / 2) * min(1.0, q * 4), min(0.0, ANCHOR[1] - Q[:, 1].max())], np.float32)
             yield state, i, n, fps, loop, P
 
 heroes = {d: Hero(d) for d in DIRS if not REVIEW or d in ("down", "right")}
@@ -133,7 +133,7 @@ worst = max(((np.abs(P[heroes[d].solid] - heroes[d].V[heroes[d].solid]).max(), d
 print("WORST_DISPLACEMENT", round(float(worst[0]), 1), worst[1:], flush=True)
 allv = np.concatenate([P[heroes[d].solid] for d, *_, P in plan]); dx = allv[:, 0] - ANCHOR[0]; dy = allv[:, 1] - ANCHOR[1]
 fit = [1.0]
-for lo, hi, arr, anc in ((8 - ANCHOR[0], 504 - ANCHOR[0], dx, 0), (8 - ANCHOR[1], 504 - ANCHOR[1], dy, 0)):
+for lo, hi, arr, anc in ((SAFE - ANCHOR[0], 512 - SAFE - ANCHOR[0], dx, 0), (SAFE - ANCHOR[1], 512 - SAFE - ANCHOR[1], dy, 0)):
     pos = arr[arr > 1e-6]; neg = arr[arr < -1e-6]
     if len(pos): fit.append(hi / pos.max())
     if len(neg): fit.append(lo / neg.min())
