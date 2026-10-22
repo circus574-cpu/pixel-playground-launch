@@ -3,7 +3,7 @@
   "id": "verdant-start",
   "version": "1.0.0",
   "technical": false,
-  "previewOnly": true,
+  "previewOnly": false,
   "assets": [
     {
       "id": "verdant-art-cottage",

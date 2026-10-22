@@ -3,7 +3,7 @@
   "id": "aether-sanctuary",
   "version": "1.0.0",
   "technical": false,
-  "previewOnly": true,
+  "previewOnly": false,
   "assets": [
     {
       "id": "aether-art-sanctum",

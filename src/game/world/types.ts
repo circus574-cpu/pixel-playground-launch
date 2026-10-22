@@ -32,5 +32,16 @@ export type WorldDefinition = {
   landmarks: Landmark[];
   objects: readonly RegionObject[];
   obstacles: readonly Obstacle[];
-  terrain?: { ground: string; path: string; plaza: string; paths: Obstacle[]; plazas: Obstacle[] };
+  terrain?: {
+    ground: string;
+    path: string;
+    plaza: string;
+    paths: Obstacle[];
+    plazas: Obstacle[];
+    /** Curved roads (centre polyline + width) and organic courts; presentation only. */
+    roads?: Road[];
+    courts?: Court[];
+  };
 };
+export type Road = { width: number; points: [number, number][] };
+export type Court = { points: [number, number][] };
