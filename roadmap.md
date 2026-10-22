@@ -11,8 +11,8 @@
 - [x] Prepare and integrate anime start art for Nexus-9 and Pyra; preserve accepted Verdantia and defer animations.
 - [x] Verify new region art and save/collision regression; document review links without publication.
 - [x] Alternative Verdantia start village behind ?ki-verdant-art=1 (accepted forest stays default).
-- [ ] Enlarge all four lands ~2x (Verdantia, Aetheria, Nexus-9, Pyra), keeping old coordinates valid for saves.
-- [ ] Replace rectangular roads/plazas in Aetheria, Nexus-9 and Pyra with curved organic roads and irregular plazas.
-- [ ] Double buildings, decorations and enemies in the new areas; add new object kinds per land (new art pack).
-- [ ] Make the accepted anime art packs default in the game (owner chose "od razu w grze"); no publication.
-- [ ] Regenerate minimaps, update tests/docs, verify connectivity, screenshots desktop + phone.
+- [x] Enlarge Aetheria to 3600x2560 (old coordinates valid). Nexus-9, Pyra, Verdantia enlargement deferred by owner (credits).
+- [x] Curved roads and organic courts in Aetheria (others deferred).
+- [x] New Aetheria districts, object kinds and 8 enemies (aether-expansion pack).
+- [x] Make the accepted anime art packs default in the game (all four lands).
+- [x] Aetheria minimap, tests, screenshots; publish on owner request.

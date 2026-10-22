@@ -59,3 +59,16 @@ Importer GPU sprawdził przezroczystość obiektów, rozmiary i budżet tekstur
 
 Akceptacja stylu, ewentualne poprawki (np. nasycenie trawy), a następnie osobna decyzja
 o włączeniu paczki domyślnie (`previewOnly: false`) i o publikacji.
+
+## Aktualizacja 22.10.2026 — grafika domyślna i powiększona Aetheria
+
+Na polecenie właściciela paczki `aether-sanctuary`, `nexus-start`, `pyra-start` i
+`verdant-start` są domyślne (`previewOnly: false`). Aetheria urosła do 3600×2560:
+dziewięć krętych dróg i pięć organicznych dziedzińców (`terrain.roads` / `terrain.courts`,
+rysowane przez `src/game/world/renderRoads.ts`, tylko prezentacja), nowa paczka
+`aether-expansion` (pagody, stawy koi, bramy duchów, kamienne latarnie, sakury),
+osiem przeciwników i trzy nowe punkty: Ogród Pagód, Staw Koi, Dzikie wzgórza.
+Spawn, NPC, stare budynki i pierwsze cztery dziki zachowują współrzędne, więc zapisy
+pozostają ważne. Geometria: `python3 scripts/expand_aether.py` (walidacja kolizji
+z drogami i punktami, minimapa `aether-minimap.webp`). Test: `src/test/aether-expansion.test.ts`.
+Nexus-9, Pyra i Verdantia mają nowe grafiki bez zmian układu (powiększenie później).
