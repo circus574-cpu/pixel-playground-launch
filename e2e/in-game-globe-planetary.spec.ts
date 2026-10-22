@@ -29,9 +29,7 @@ test("Planetarni use production art and the in-game map opens in 2D before its 3
     await map.getByRole("button", { name: "Mapa 2D" }).click();
     await expect(map.locator(".pm-svg")).toBeVisible();
   } else {
-    await expect(
-      map.getByText(/urządzenie nie obsługuje WebGL 2/),
-    ).toBeVisible();
+    await expect(map.getByText(/urządzenie nie obsługuje WebGL 2/)).toBeVisible();
   }
 
   await map.getByRole("button", { name: "Zamknij mapę i kontynuuj rozgrywkę" }).click();
