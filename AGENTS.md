@@ -44,3 +44,4 @@
 - Structured JSON data in `docs/design/data/` is **source-design input, not implemented or validated game runtime**. Do not silently replace existing race stats, skill systems, enemies, drops, damage calculations or player saves.
 - Annex concept realm names `Terranova/Eldoria/Nexaris/Valthera` conflict with currently implemented `Verdantia/Aetheria/Nexus-9/Pyra`. Keep the existing game names and `WorldId` values unless the owner separately approves a migration.
 - The annex supersedes the rigid eight-level skill award schedule **in conceptual design only**. Quests, rewards, respec rules, 20-point accounting, save migration, combat and final balance need dedicated review and tests before adoption.
+- The planet atlas (2D/3D) is shared by /mapa and the in-game overlay via MapaView props (`current`, `onClose`); it only reads the active character continent through MapChrome and never imports game session code, keeping /mapa light.
