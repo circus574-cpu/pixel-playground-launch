@@ -2234,5 +2234,99 @@
       }
     },
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "aether-expansion",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "aether-x-pagoda",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-expansion/1.0.0-c9ced81e845d/aether-x-pagoda.webp",
+        "width": 638,
+        "height": 768
+      },
+      {
+        "id": "aether-x-koi-pond",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-expansion/1.0.0-c9ced81e845d/aether-x-koi-pond.webp",
+        "width": 768,
+        "height": 501
+      },
+      {
+        "id": "aether-x-spirit-gate",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-expansion/1.0.0-c9ced81e845d/aether-x-spirit-gate.webp",
+        "width": 546,
+        "height": 640
+      },
+      {
+        "id": "aether-x-stone-lantern",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-expansion/1.0.0-c9ced81e845d/aether-x-stone-lantern.webp",
+        "width": 177,
+        "height": 384
+      },
+      {
+        "id": "aether-x-cherry-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-expansion/1.0.0-c9ced81e845d/aether-x-cherry-tree.webp",
+        "width": 640,
+        "height": 628
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.pagoda": {
+        "asset": "aether-x-pagoda",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.9
+        ]
+      },
+      "object.koi-pond": {
+        "asset": "aether-x-koi-pond",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.62
+        ]
+      },
+      "object.spirit-gate": {
+        "asset": "aether-x-spirit-gate",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.95
+        ]
+      },
+      "object.stone-lantern": {
+        "asset": "aether-x-stone-lantern",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.cherry-tree": {
+        "asset": "aether-x-cherry-tree",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.93
+        ]
+      }
+    },
+    "effects": {}
   }
 ]
