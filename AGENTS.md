@@ -37,3 +37,4 @@
 - Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
 - Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.
 - Region curved roads/courts (`terrain.roads`, `terrain.courts`) are presentation-only and baked into chunk textures by `src/game/world/renderRoads.ts`; collision always comes from obstacles and footprints so saves and navigation stay independent of art.
+- The planet atlas (2D/3D) is shared by /mapa and the in-game overlay via MapaView props (`current`, `onClose`); it only reads the active character continent through MapChrome and never imports game session code, keeping /mapa light.
