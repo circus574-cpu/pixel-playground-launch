@@ -9,13 +9,10 @@ const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
 const VILLAGE = ["cottage", "inn", "forge", "market", "fountain", "lamp", "fence", "bridge"];
 
 describe("verdant anime start village", () => {
-  it("is opt-in and the accepted forest stays the default", () => {
-    expect(packs.find((p) => p.id === "verdant-start")?.previewOnly).toBe(true);
-    expect(previewPacks("")).not.toContain("verdant-start");
-    expect(previewPacks("?ki-verdant-art=1")).toContain("verdant-start");
+  it("is the default village art in the game", () => {
+    expect(packs.find((p) => p.id === "verdant-start")?.previewOnly).toBe(false);
     const base = makeCatalog(packs, previewPacks(""));
-    expect(base.renderBindings["terrain.verdant"]).toBeUndefined();
-    expect(worldAssets("verdant", false, base).map((a) => a.id)).toContain("forest-terrain");
+    expect(base.renderBindings["terrain.verdant"]?.asset).toBe("verdant-art-terrain");
   });
   it("replaces village pictures and terrain, keeps accepted trees", () => {
     const source = makeCatalog(packs, ["verdant-start"]);
