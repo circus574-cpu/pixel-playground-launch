@@ -299,16 +299,21 @@ describe("Sage and Planetary integration on current main", () => {
     expect(assets).toEqual(expect.arrayContaining(["hero-sage-page-0", "hero-sage-page-1"]));
   });
 
-  it("does not change Androidy, Legendy or default Planetarni", () => {
-    for (const world of ["verdant", "nexus", "pyra"] as const) {
+  it("activates Planetarni by default without changing Androidy or Legendy", () => {
+    expect(actorVisual("verdant", "hero", undefined, false, catalog).id).toBe("hero-planetary");
+    expect(worldAssets("verdant", false, catalog).map((a) => a.id)).toContain(
+      "hero-planetary-page-0",
+    );
+    for (const world of ["nexus", "pyra"] as const) {
       const visual = actorVisual(world, "hero", undefined, false, catalog);
       expect(visual.id).toBe("human-v2");
       const assets = worldAssets(world, false, catalog).map((a) => a.id);
       expect(assets).not.toContain("hero-sage-page-0");
+      expect(assets).not.toContain("hero-planetary-page-0");
     }
   });
 
-  it("retains opt-in Planetary art independently of default Sage", async () => {
+  it("retains independent Planetary art alongside default Sage", async () => {
     const manifestPath = path.join(process.cwd(), "src/game/assets/imported.json");
     const data: unknown[] = JSON.parse(await readFile(manifestPath, "utf8"));
     const packs = data.map((pack) => PackSchema.parse(pack));
