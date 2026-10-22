@@ -60,6 +60,17 @@ THEMES = {
                  [("patch-basalt-columns", 260, False), ("patch-lava-rocks", 240, False), ("patch-cliff-outcrop", 300, False)]),
     },
 }
+THEMES["verdant"] = {
+    "north": ("nature-cliff-rock", "Grzbiety Północy", "Skaliste grzbiety i ośnieżone szczyty nad lasem.",
+              [("mountain-peak", 430, True), ("patch-cliff-outcrop", 300, False), ("pine-tree", 230, True)]),
+    "south": ("nature-sand-beach", "Rzeczna Delta", "Piaszczyste ujście rzek, trzcina i skały morskie.",
+              [("reed-clump", 150, False), ("patch-sea-stacks", 300, False), ("patch-small-island", 280, False)]),
+    "east": ("nature-meadow-grass", "Wybrzeże Wschodnie", "Kwieciste łąki opadające ku morzu.",
+             [("flower-bush", 150, False), ("broadleaf-tree", 260, True), ("grassy-hill", 330, False)]),
+    "west": ("nature-forest-floor", "Puszcza Zachodnia", "Stare, gęste lasy sięgające końca kontynentu.",
+             [("pine-tree", 230, True), ("broadleaf-tree", 260, True), ("patch-boulder-group", 230, False)]),
+}
+SEEDS = {"aether": 5741, "nexus": 5742, "pyra": 5743, "verdant": 5744}
 DIRS = ["north", "south", "east", "west"]
 
 
@@ -94,7 +105,13 @@ def build(world_id):
     if d.get("layout") == LAYOUT:
         print(world_id, "already expanded")
         return None
-    rng = random.Random({"aether": 5741, "nexus": 5742, "pyra": 5743}[world_id])
+    res = expand(world_id, d, drop_walls=True)
+    path.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n")
+    return res
+
+
+def expand(world_id, d, drop_walls):
+    rng = random.Random(SEEDS[world_id])
     lw, lh = d["width"], d["height"]
     dx, dy = M_X, M_Y
     W, H = lw + 2 * M_X, lh + 2 * M_Y
@@ -122,7 +139,7 @@ def build(world_id):
     inner = []
     for o in legacy:
         touches = o["x"] <= 0 or o["y"] <= 0 or o["x"] + o["width"] >= lw or o["y"] + o["height"] >= lh
-        if touches and (o["width"] >= lw * 0.5 or o["height"] >= lh * 0.5):
+        if drop_walls and touches and (o["width"] >= lw * 0.5 or o["height"] >= lh * 0.5):
             continue
         inner.append(dict(o, x=o["x"] + dx, y=o["y"] + dy))
     d["obstacles"] = [
@@ -278,7 +295,6 @@ def build(world_id):
     if bad:
         raise SystemExit(f"{world_id}: unreachable {bad}")
 
-    path.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n")
     print(world_id, W, H, "objects", len(d["objects"]), "enemies", len(d["enemies"]), "kinds", sorted(set(nature)))
     return dict(width=W, height=H, anchor=dict(x=ax, y=ay), zones=zones, nature=sorted(set(nature)))
 

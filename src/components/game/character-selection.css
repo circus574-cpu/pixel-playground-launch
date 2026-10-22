@@ -408,6 +408,29 @@
   font-size: 12px;
   min-height: 44px;
 }
+.ki-slot .ki-slot-delete {
+  margin-left: 8px;
+  border-color: #c27a6e80;
+  background: #3b2528;
+  color: #f0c9c2;
+}
+.ki-slot .ki-slot-delete-confirm {
+  background: #7a2f2f;
+  border-color: #e39a8d;
+  color: #fff;
+}
+.ki-slot-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.ki-slot-confirm p {
+  flex-basis: 100%;
+  margin: 0;
+  color: #f0c9c2;
+}
 .ki-slot button:disabled {
   opacity: 0.45;
   cursor: default;

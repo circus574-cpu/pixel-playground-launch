@@ -74,6 +74,11 @@ export function Index() {
     if (slot) open(slot);
     else setWarning(store?.warning || "Nie można utworzyć zapisu na tym urządzeniu.");
   };
+  const remove = (slot: CharacterSlot) => {
+    if (!store?.remove(slot)) setWarning(store?.warning || "Nie udało się usunąć postaci.");
+    else setWarning("");
+    setSlots(store?.list() ?? []);
+  };
   if (!loaded)
     return (
       <main className="ki-bootstrap">
@@ -117,6 +122,7 @@ export function Index() {
         warning={warning}
         onCreate={create}
         onContinue={open}
+        onDelete={remove}
         startWithOrigins={startWithOrigins || Boolean(mapNotice)}
       />
     </>

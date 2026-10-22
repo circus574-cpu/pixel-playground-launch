@@ -13,12 +13,14 @@ type Props = {
   warning: string;
   onCreate: (race: RaceId) => void;
   onContinue: (slot: CharacterSlot) => void;
+  onDelete?: (slot: CharacterSlot) => void;
 };
 export function CharacterSelection({
   slots,
   warning,
   onCreate,
   onContinue,
+  onDelete,
   startWithOrigins = false,
   requestedContinent,
 }: Props) {
@@ -33,6 +35,7 @@ export function CharacterSelection({
   );
   const [showSlots, setShowSlots] = useState(!startWithOrigins && slots.length > 0);
   const [showArt, setShowArt] = useState(false);
+  const [confirming, setConfirming] = useState<string | null>(null);
   const carousel = useRef<HTMLElement>(null),
     detail = useRef<HTMLElement>(null),
     artButton = useRef<HTMLButtonElement>(null);
@@ -126,6 +129,34 @@ export function CharacterSelection({
                   <button disabled={!slot.player} onClick={() => onContinue(slot)}>
                     Kontynuuj podróż
                   </button>
+                  {onDelete && slot.player && confirming !== slot.id && (
+                    <button
+                      className="ki-slot-delete"
+                      aria-label={"Usuń postać: " + slotTitle(slot)}
+                      onClick={() => setConfirming(slot.id)}
+                    >
+                      Usuń
+                    </button>
+                  )}
+                  {onDelete && slot.player && confirming === slot.id && (
+                    <div className="ki-slot-confirm" role="group" aria-label="Potwierdź usunięcie">
+                      <p>
+                        Usunąć tę postać na stałe? Zapis zostanie skasowany z tego urządzenia.
+                        {slot.id === "legacy" &&
+                          " Oryginał z etapu 2 pozostaje w pamięci przeglądarki."}
+                      </p>
+                      <button
+                        className="ki-slot-delete ki-slot-delete-confirm"
+                        onClick={() => {
+                          setConfirming(null);
+                          onDelete(slot);
+                        }}
+                      >
+                        Tak, usuń
+                      </button>
+                      <button onClick={() => setConfirming(null)}>Anuluj</button>
+                    </div>
+                  )}
                 </div>
               </article>
             ))}
