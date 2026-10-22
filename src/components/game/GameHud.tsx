@@ -546,7 +546,12 @@ export function GameHud({
         </div>
       )}
       {panel === "planet" && (
-        <div className="ki-planet-overlay" role="dialog" aria-modal="true" aria-label="Mapa planety">
+        <div
+          className="ki-planet-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mapa planety"
+        >
           <Suspense
             fallback={
               <div className="ki-planet-loading" role="status">

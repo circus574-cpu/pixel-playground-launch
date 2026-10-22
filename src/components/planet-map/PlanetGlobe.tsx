@@ -914,8 +914,8 @@ export default function PlanetGlobe({
           ))}
         </ul>
         <p className="pm-small">
-          Globus tylko odczytuje, w której krainie jest Twoja aktywna postać. Niczego nie
-          zapisuje w grze ani w przeglądarce.
+          Globus tylko odczytuje, w której krainie jest Twoja aktywna postać. Niczego nie zapisuje w
+          grze ani w przeglądarce.
         </p>
         <p id="pg-help" className="sr-only">
           Przeciągnij, aby obrócić planetę. Kółko myszy lub szczypanie zmienia powiększenie. Kliknij
