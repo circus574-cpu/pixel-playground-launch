@@ -133,13 +133,25 @@ export function makeCatalog(
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Sage is active in Aetheria; Planetary artwork keeps its existing opt-in switch. */
-const planetaryPreviewEnabled =
-  typeof window !== "undefined" &&
-  new URLSearchParams(window.location.search).get("ki-hero-art") === "1";
+/** Packs enabled by each opt-in review switch (`?<param>=1`). */
+export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
+  "ki-hero-art": ["hero-planetary"],
+  /** Anime start point of Aetheria, awaiting the owner's review. */
+  "ki-aether-art": ["aether-sanctuary"],
+};
+/** Sage is active in Aetheria; other preview artwork keeps its opt-in switch. */
+export function previewPacks(search: string): string[] {
+  const params = new URLSearchParams(search);
+  return [
+    "hero-sage",
+    ...Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) =>
+      params.get(param) === "1" ? packs : [],
+    ),
+  ];
+}
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),
-  planetaryPreviewEnabled ? ["hero-sage", "hero-planetary"] : ["hero-sage"],
+  previewPacks(typeof window !== "undefined" ? window.location.search : ""),
 );
 export const technicalPack = PackSchema.parse(technical);
 export function actorVisual(
@@ -167,6 +179,7 @@ export function textureBinding(
   layer?: "below" | "objects" | "overhead" | "atmosphere";
   fit?: "contain" | "stretch";
   tileSize?: [number, number];
+  origin?: [number, number];
 } {
   return source.renderBindings[id] ?? fallback;
 }
@@ -224,7 +237,7 @@ export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[
         source,
       ),
     );
-  for (const key of ["atmosphere." + worldId, "effect.shield"]) {
+  for (const key of ["atmosphere." + worldId, "effect.shield", "terrain." + worldId + "-wall"]) {
     const ref = source.renderBindings[key];
     if (ref) refs.push(ref);
   }

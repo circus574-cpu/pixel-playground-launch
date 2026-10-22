@@ -78,6 +78,8 @@ export const BindingSchema = RefSchema.extend({
   layer: z.enum(SCENERY_LAYERS).optional(),
   fit: z.enum(["contain", "stretch"]).default("contain"),
   tileSize: size.optional(),
+  /** Presentation-only image origin; collision footprints stay in region JSON. */
+  origin: z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]).optional(),
 }).strict();
 export const EffectSchema = z
   .object({

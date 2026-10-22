@@ -307,6 +307,23 @@
               },
               "tileSize": {
                 "$ref": "#/definitions/KiLegendsGpuPack/properties/actors/items/properties/size"
+              },
+              "origin": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                ]
               }
             },
             "required": [
