@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import imported from "../game/assets/imported.json" with { type: "json" };
 import { PackSchema } from "../game/assets/schema";
 import { makeCatalog, previewPacks, worldAssets, worldRenderRefs } from "../game/assets/catalog";
-import { WORLDS } from "../game/world/worlds";
+import { WORLDS, worldObstacles } from "../game/world/worlds";
 
 const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
 const pack = packs.find((p) => p.id === "aether-sanctuary")!;
@@ -38,7 +38,7 @@ describe("Aetheria anime start-point art", () => {
 
   it("does not change collision footprints, spawn or layout", () => {
     expect(WORLDS.aether.spawn).toEqual({ x: 1150, y: 1130 });
-    const sanctum = WORLDS.aether.obstacles.find((o) => o.width === 370 && o.height === 150);
+    const sanctum = worldObstacles(WORLDS.aether).find((o) => o.width === 370 && o.height === 150);
     expect(sanctum).toEqual({ x: 1015, y: 355, width: 370, height: 150 });
   });
 });

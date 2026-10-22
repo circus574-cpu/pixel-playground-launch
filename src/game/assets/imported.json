@@ -20,14 +20,8 @@
       {
         "id": "technical-mannequin",
         "profile": "hero",
-        "size": [
-          96,
-          96
-        ],
-        "origin": [
-          0.5,
-          0.95
-        ],
+        "size": [96, 96],
+        "origin": [0.5, 0.95],
         "tintable": false,
         "clips": {
           "idle": {
@@ -35,38 +29,14 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": [
-                "technical/idle/down/00",
-                "technical/idle/down/01"
-              ],
-              "down-left": [
-                "technical/idle/down-left/00",
-                "technical/idle/down-left/01"
-              ],
-              "left": [
-                "technical/idle/left/00",
-                "technical/idle/left/01"
-              ],
-              "up-left": [
-                "technical/idle/up-left/00",
-                "technical/idle/up-left/01"
-              ],
-              "up": [
-                "technical/idle/up/00",
-                "technical/idle/up/01"
-              ],
-              "up-right": [
-                "technical/idle/up-right/00",
-                "technical/idle/up-right/01"
-              ],
-              "right": [
-                "technical/idle/right/00",
-                "technical/idle/right/01"
-              ],
-              "down-right": [
-                "technical/idle/down-right/00",
-                "technical/idle/down-right/01"
-              ]
+              "down": ["technical/idle/down/00", "technical/idle/down/01"],
+              "down-left": ["technical/idle/down-left/00", "technical/idle/down-left/01"],
+              "left": ["technical/idle/left/00", "technical/idle/left/01"],
+              "up-left": ["technical/idle/up-left/00", "technical/idle/up-left/01"],
+              "up": ["technical/idle/up/00", "technical/idle/up/01"],
+              "up-right": ["technical/idle/up-right/00", "technical/idle/up-right/01"],
+              "right": ["technical/idle/right/00", "technical/idle/right/01"],
+              "down-right": ["technical/idle/down-right/00", "technical/idle/down-right/01"]
             }
           },
           "walk": {
@@ -74,38 +44,14 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": [
-                "technical/walk/down/00",
-                "technical/walk/down/01"
-              ],
-              "down-left": [
-                "technical/walk/down-left/00",
-                "technical/walk/down-left/01"
-              ],
-              "left": [
-                "technical/walk/left/00",
-                "technical/walk/left/01"
-              ],
-              "up-left": [
-                "technical/walk/up-left/00",
-                "technical/walk/up-left/01"
-              ],
-              "up": [
-                "technical/walk/up/00",
-                "technical/walk/up/01"
-              ],
-              "up-right": [
-                "technical/walk/up-right/00",
-                "technical/walk/up-right/01"
-              ],
-              "right": [
-                "technical/walk/right/00",
-                "technical/walk/right/01"
-              ],
-              "down-right": [
-                "technical/walk/down-right/00",
-                "technical/walk/down-right/01"
-              ]
+              "down": ["technical/walk/down/00", "technical/walk/down/01"],
+              "down-left": ["technical/walk/down-left/00", "technical/walk/down-left/01"],
+              "left": ["technical/walk/left/00", "technical/walk/left/01"],
+              "up-left": ["technical/walk/up-left/00", "technical/walk/up-left/01"],
+              "up": ["technical/walk/up/00", "technical/walk/up/01"],
+              "up-right": ["technical/walk/up-right/00", "technical/walk/up-right/01"],
+              "right": ["technical/walk/right/00", "technical/walk/right/01"],
+              "down-right": ["technical/walk/down-right/00", "technical/walk/down-right/01"]
             }
           },
           "run": {
@@ -113,38 +59,14 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": [
-                "technical/run/down/00",
-                "technical/run/down/01"
-              ],
-              "down-left": [
-                "technical/run/down-left/00",
-                "technical/run/down-left/01"
-              ],
-              "left": [
-                "technical/run/left/00",
-                "technical/run/left/01"
-              ],
-              "up-left": [
-                "technical/run/up-left/00",
-                "technical/run/up-left/01"
-              ],
-              "up": [
-                "technical/run/up/00",
-                "technical/run/up/01"
-              ],
-              "up-right": [
-                "technical/run/up-right/00",
-                "technical/run/up-right/01"
-              ],
-              "right": [
-                "technical/run/right/00",
-                "technical/run/right/01"
-              ],
-              "down-right": [
-                "technical/run/down-right/00",
-                "technical/run/down-right/01"
-              ]
+              "down": ["technical/run/down/00", "technical/run/down/01"],
+              "down-left": ["technical/run/down-left/00", "technical/run/down-left/01"],
+              "left": ["technical/run/left/00", "technical/run/left/01"],
+              "up-left": ["technical/run/up-left/00", "technical/run/up-left/01"],
+              "up": ["technical/run/up/00", "technical/run/up/01"],
+              "up-right": ["technical/run/up-right/00", "technical/run/up-right/01"],
+              "right": ["technical/run/right/00", "technical/run/right/01"],
+              "down-right": ["technical/run/down-right/00", "technical/run/down-right/01"]
             }
           },
           "attack": {
@@ -152,38 +74,14 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": [
-                "technical/attack/down/00",
-                "technical/attack/down/01"
-              ],
-              "down-left": [
-                "technical/attack/down-left/00",
-                "technical/attack/down-left/01"
-              ],
-              "left": [
-                "technical/attack/left/00",
-                "technical/attack/left/01"
-              ],
-              "up-left": [
-                "technical/attack/up-left/00",
-                "technical/attack/up-left/01"
-              ],
-              "up": [
-                "technical/attack/up/00",
-                "technical/attack/up/01"
-              ],
-              "up-right": [
-                "technical/attack/up-right/00",
-                "technical/attack/up-right/01"
-              ],
-              "right": [
-                "technical/attack/right/00",
-                "technical/attack/right/01"
-              ],
-              "down-right": [
-                "technical/attack/down-right/00",
-                "technical/attack/down-right/01"
-              ]
+              "down": ["technical/attack/down/00", "technical/attack/down/01"],
+              "down-left": ["technical/attack/down-left/00", "technical/attack/down-left/01"],
+              "left": ["technical/attack/left/00", "technical/attack/left/01"],
+              "up-left": ["technical/attack/up-left/00", "technical/attack/up-left/01"],
+              "up": ["technical/attack/up/00", "technical/attack/up/01"],
+              "up-right": ["technical/attack/up-right/00", "technical/attack/up-right/01"],
+              "right": ["technical/attack/right/00", "technical/attack/right/01"],
+              "down-right": ["technical/attack/down-right/00", "technical/attack/down-right/01"]
             }
           },
           "skill": {
@@ -191,38 +89,14 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": [
-                "technical/skill/down/00",
-                "technical/skill/down/01"
-              ],
-              "down-left": [
-                "technical/skill/down-left/00",
-                "technical/skill/down-left/01"
-              ],
-              "left": [
-                "technical/skill/left/00",
-                "technical/skill/left/01"
-              ],
-              "up-left": [
-                "technical/skill/up-left/00",
-                "technical/skill/up-left/01"
-              ],
-              "up": [
-                "technical/skill/up/00",
-                "technical/skill/up/01"
-              ],
-              "up-right": [
-                "technical/skill/up-right/00",
-                "technical/skill/up-right/01"
-              ],
-              "right": [
-                "technical/skill/right/00",
-                "technical/skill/right/01"
-              ],
-              "down-right": [
-                "technical/skill/down-right/00",
-                "technical/skill/down-right/01"
-              ]
+              "down": ["technical/skill/down/00", "technical/skill/down/01"],
+              "down-left": ["technical/skill/down-left/00", "technical/skill/down-left/01"],
+              "left": ["technical/skill/left/00", "technical/skill/left/01"],
+              "up-left": ["technical/skill/up-left/00", "technical/skill/up-left/01"],
+              "up": ["technical/skill/up/00", "technical/skill/up/01"],
+              "up-right": ["technical/skill/up-right/00", "technical/skill/up-right/01"],
+              "right": ["technical/skill/right/00", "technical/skill/right/01"],
+              "down-right": ["technical/skill/down-right/00", "technical/skill/down-right/01"]
             }
           },
           "hit": {
@@ -230,38 +104,14 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": [
-                "technical/hit/down/00",
-                "technical/hit/down/01"
-              ],
-              "down-left": [
-                "technical/hit/down-left/00",
-                "technical/hit/down-left/01"
-              ],
-              "left": [
-                "technical/hit/left/00",
-                "technical/hit/left/01"
-              ],
-              "up-left": [
-                "technical/hit/up-left/00",
-                "technical/hit/up-left/01"
-              ],
-              "up": [
-                "technical/hit/up/00",
-                "technical/hit/up/01"
-              ],
-              "up-right": [
-                "technical/hit/up-right/00",
-                "technical/hit/up-right/01"
-              ],
-              "right": [
-                "technical/hit/right/00",
-                "technical/hit/right/01"
-              ],
-              "down-right": [
-                "technical/hit/down-right/00",
-                "technical/hit/down-right/01"
-              ]
+              "down": ["technical/hit/down/00", "technical/hit/down/01"],
+              "down-left": ["technical/hit/down-left/00", "technical/hit/down-left/01"],
+              "left": ["technical/hit/left/00", "technical/hit/left/01"],
+              "up-left": ["technical/hit/up-left/00", "technical/hit/up-left/01"],
+              "up": ["technical/hit/up/00", "technical/hit/up/01"],
+              "up-right": ["technical/hit/up-right/00", "technical/hit/up-right/01"],
+              "right": ["technical/hit/right/00", "technical/hit/right/01"],
+              "down-right": ["technical/hit/down-right/00", "technical/hit/down-right/01"]
             }
           },
           "death": {
@@ -269,38 +119,14 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": [
-                "technical/death/down/00",
-                "technical/death/down/01"
-              ],
-              "down-left": [
-                "technical/death/down-left/00",
-                "technical/death/down-left/01"
-              ],
-              "left": [
-                "technical/death/left/00",
-                "technical/death/left/01"
-              ],
-              "up-left": [
-                "technical/death/up-left/00",
-                "technical/death/up-left/01"
-              ],
-              "up": [
-                "technical/death/up/00",
-                "technical/death/up/01"
-              ],
-              "up-right": [
-                "technical/death/up-right/00",
-                "technical/death/up-right/01"
-              ],
-              "right": [
-                "technical/death/right/00",
-                "technical/death/right/01"
-              ],
-              "down-right": [
-                "technical/death/down-right/00",
-                "technical/death/down-right/01"
-              ]
+              "down": ["technical/death/down/00", "technical/death/down/01"],
+              "down-left": ["technical/death/down-left/00", "technical/death/down-left/01"],
+              "left": ["technical/death/left/00", "technical/death/left/01"],
+              "up-left": ["technical/death/up-left/00", "technical/death/up-left/01"],
+              "up": ["technical/death/up/00", "technical/death/up/01"],
+              "up-right": ["technical/death/up-right/00", "technical/death/up-right/01"],
+              "right": ["technical/death/right/00", "technical/death/right/01"],
+              "down-right": ["technical/death/down-right/00", "technical/death/down-right/01"]
             }
           },
           "respawn": {
@@ -308,38 +134,14 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": [
-                "technical/respawn/down/00",
-                "technical/respawn/down/01"
-              ],
-              "down-left": [
-                "technical/respawn/down-left/00",
-                "technical/respawn/down-left/01"
-              ],
-              "left": [
-                "technical/respawn/left/00",
-                "technical/respawn/left/01"
-              ],
-              "up-left": [
-                "technical/respawn/up-left/00",
-                "technical/respawn/up-left/01"
-              ],
-              "up": [
-                "technical/respawn/up/00",
-                "technical/respawn/up/01"
-              ],
-              "up-right": [
-                "technical/respawn/up-right/00",
-                "technical/respawn/up-right/01"
-              ],
-              "right": [
-                "technical/respawn/right/00",
-                "technical/respawn/right/01"
-              ],
-              "down-right": [
-                "technical/respawn/down-right/00",
-                "technical/respawn/down-right/01"
-              ]
+              "down": ["technical/respawn/down/00", "technical/respawn/down/01"],
+              "down-left": ["technical/respawn/down-left/00", "technical/respawn/down-left/01"],
+              "left": ["technical/respawn/left/00", "technical/respawn/left/01"],
+              "up-left": ["technical/respawn/up-left/00", "technical/respawn/up-left/01"],
+              "up": ["technical/respawn/up/00", "technical/respawn/up/01"],
+              "up-right": ["technical/respawn/up-right/00", "technical/respawn/up-right/01"],
+              "right": ["technical/respawn/right/00", "technical/respawn/right/01"],
+              "down-right": ["technical/respawn/down-right/00", "technical/respawn/down-right/01"]
             }
           }
         }
@@ -380,14 +182,8 @@
         "id": "hero-planetary",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [
-          128,
-          128
-        ],
-        "origin": [
-          0.5,
-          0.75
-        ],
+        "size": [128, 128],
+        "origin": [0.5, 0.75],
         "tintable": false,
         "clips": {
           "idle": {
@@ -1007,14 +803,8 @@
         "id": "hero-sage",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [
-          128,
-          128
-        ],
-        "origin": [
-          0.5,
-          0.75
-        ],
+        "size": [128, 128],
+        "origin": [0.5, 0.75],
         "tintable": false,
         "clips": {
           "idle": {
@@ -1697,26 +1487,17 @@
       "object.sanctum": {
         "asset": "aether-art-sanctum",
         "fit": "contain",
-        "origin": [
-          0.5,
-          0.81
-        ]
+        "origin": [0.5, 0.81]
       },
       "object.archive": {
         "asset": "aether-art-archive",
         "fit": "contain",
-        "origin": [
-          0.5,
-          0.79
-        ]
+        "origin": [0.5, 0.79]
       },
       "object.ki-source": {
         "asset": "aether-art-ki-source",
         "fit": "contain",
-        "origin": [
-          0.5,
-          0.84
-        ]
+        "origin": [0.5, 0.84]
       },
       "object.ki-tree": {
         "asset": "aether-art-ki-tree",
@@ -1733,34 +1514,22 @@
       "terrain.aether-ground": {
         "asset": "aether-art-aether-ground",
         "fit": "stretch",
-        "tileSize": [
-          320,
-          320
-        ]
+        "tileSize": [320, 320]
       },
       "terrain.aether-path": {
         "asset": "aether-art-aether-path",
         "fit": "stretch",
-        "tileSize": [
-          208,
-          208
-        ]
+        "tileSize": [208, 208]
       },
       "terrain.aether-plaza": {
         "asset": "aether-art-aether-plaza",
         "fit": "stretch",
-        "tileSize": [
-          288,
-          288
-        ]
+        "tileSize": [288, 288]
       },
       "terrain.aether-wall": {
         "asset": "aether-art-aether-wall",
         "fit": "stretch",
-        "tileSize": [
-          256,
-          256
-        ]
+        "tileSize": [256, 256]
       }
     },
     "effects": {}
