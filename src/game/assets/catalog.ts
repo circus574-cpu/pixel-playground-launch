@@ -140,6 +140,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],
   "ki-pyra-art": ["pyra-start"],
+  /** Alternative Verdantia village; the accepted anime forest stays the default. */
+  "ki-verdant-art": ["verdant-start"],
 };
 /** Sage is active in Aetheria; other preview artwork keeps its opt-in switch. */
 export function previewPacks(search: string): string[] {
