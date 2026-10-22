@@ -32,6 +32,10 @@ R = 41 870,9 j., obwód 263 083 j.; 1 j. atlasu = 131,54 j. Miasta: Aetheria 61�
 4. **Cztery miasta na kontynent** i większe miasta; na dziś jest jedno miasto + 4 strefy. Mapy kolejnych miast generować jak strefy; pozycje miast liczyć w obrysie kontynentu na nowym atlasie (odstęp ≥ 12–14 tys. j.).
 5. Obraz menu/loading po dostarczeniu pliku bez napisu.
 
+## 4a. Otwarta usterka CI (znaleziona po zapisaniu dokumentu)
+
+`webgl` (Software WebGL) w PR #24 na `7e30566` — **1 z 14 testów pada**: `e2e/world-rendering.spec.ts:7` „nexus mobile detail rendering stays within budget and releases each scene”: `samples[1].textures` (60) ≠ `samples[0].textures` (66). Przyczyna to moja zmiana: drogi i podłogi stref są pieczone leniwie (`renderRoads.ts`), a podłoże strumieniowane (`renderWorld.ts`); liczba tekstur zależy od historii kamery (kawałki wypiekane przy kamerze startowej zostają, bo zwalniane są dopiero po przekroczeniu limitu 16). Poprawka (nie wykonana): zwalniać kawałki dróg/podłoża, gdy wyjdą poza widok powiększony o ~640 j. (histereza), zamiast limitu LRU; wtedy liczba tekstur i obiektów zależy tylko od bieżącej pozycji kamery. Przy okazji sprawdzić `Browser QA (full)` na tym samym SHA (wynik nieznany w chwili zapisu).
+
 ## 5. Weryfikacja i znane problemy
 
 - Lokalnie na HEAD: typecheck, Vitest 190/190, lint 0 błędów, `assets:check`, build. E2E lokalnie: `world-rendering` 2/2, poprawione `region-start-art`/`aether-art-preview` 4/4. Pełny lokalny Playwright nie został ukończony; testy dotyku Androida (`pre-gpu`) padają lokalnie na `data-focused` (ostrość okna w piaskownicy, w CI przechodziły).
