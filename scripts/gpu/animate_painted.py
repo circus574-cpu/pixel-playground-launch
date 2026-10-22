@@ -49,6 +49,7 @@ class Hero:
             for c in range(W - 1):
                 i = r * W + c; q = [i, i + 1, i + W, i + W + 1]
                 if any(keep[j] for j in q): tris += [(q[0], q[1], q[2]), (q[1], q[3], q[2])]
+        solid = cv2.dilate(alpha, np.ones((9, 9), np.uint8)); self.solid = solid[np.clip(V[:, 1].astype(int), 0, 511), np.clip(V[:, 0].astype(int), 0, 511)] > 0  # vertices on the character, used for the margin fit
         self.V = V; self.tris = np.array(tris, dtype=np.int32); names = list(self.bones)
         D = np.stack([seg_dist(V, np.array(self.bones[n][0]), np.array(self.bones[n][1])) for n in names], 1)
         sig = np.array([22 if n in ("torso",) else 14 if n.startswith(("head",)) else 10 for n in names])
@@ -124,7 +125,7 @@ heroes = {d: Hero(d) for d in DIRS if not REVIEW or d in ("down", "right")}
 plan = []
 for d, h in heroes.items():
     for state, i, n, fps, loop, P in frames_for(h): plan.append((d, state, i, n, fps, loop, P))
-allv = np.concatenate([P for *_, P in plan]); dx = allv[:, 0] - ANCHOR[0]; dy = allv[:, 1] - ANCHOR[1]
+allv = np.concatenate([P[heroes[d].solid] for d, *_, P in plan]); dx = allv[:, 0] - ANCHOR[0]; dy = allv[:, 1] - ANCHOR[1]
 fit = [1.0]
 for lo, hi, arr, anc in ((8 - ANCHOR[0], 504 - ANCHOR[0], dx, 0), (8 - ANCHOR[1], 504 - ANCHOR[1], dy, 0)):
     pos = arr[arr > 1e-6]; neg = arr[arr < -1e-6]
