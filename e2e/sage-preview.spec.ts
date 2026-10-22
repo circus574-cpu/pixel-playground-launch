@@ -68,7 +68,10 @@ test("Mędrcy default visual preserves the save and stays isolated from other ra
     await page.getByRole("button", { name: "Wybierz: " + race, exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-world", world!);
-    await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
+    await expect(canvas).toHaveAttribute(
+      "data-actor-visual",
+      race === "Planetarni" ? "hero-planetary" : "human-v2",
+    );
     await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-sage-page/);
     expect(await progression(page, id)).toEqual(saved);
   }
