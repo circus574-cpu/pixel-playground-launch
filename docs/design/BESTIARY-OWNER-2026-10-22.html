@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KI Legends — Bestiariusz (statystyki i zachowania)</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1b2233; --muted:#5d6577; --line:#ddd8cc; --boss:#b8860b; --chip:#ebe7dc; --accent:#2b5fd9;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151d; --card:#1b2030; --ink:#eceff6; --muted:#9aa3b8; --line:#2b3248; --boss:#e0b13a; --chip:#262d42; --accent:#7aa2ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151d; --card:#1b2030; --ink:#eceff6; --muted:#9aa3b8; --line:#2b3248; --boss:#e0b13a; --chip:#262d42; --accent:#7aa2ff;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
+main{max-width:1000px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.5rem;margin:8px 0 4px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.78rem;color:var(--muted);margin-bottom:14px}
+.legend b{color:var(--ink)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.filters button{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:.85rem;cursor:pointer}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+section{margin-bottom:26px}
+section h2{font-size:1.15rem;margin:0}
+section .meta{color:var(--muted);font-size:.85rem;margin:2px 0 10px}
+h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 8px}
+.grid{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;gap:10px}
+.card.boss{border:2px solid var(--boss)}
+.card .ic{flex:0 0 64px}
+.card .ic svg{width:64px;height:64px;display:block}
+.card.boss .ic{flex-basis:76px}
+.card.boss .ic svg{width:76px;height:76px}
+.card .bd{min-width:0;flex:1}
+.top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.n{font-weight:650;font-size:.95rem}
+.lv{font-size:.7rem;font-weight:700;background:var(--ink);color:var(--bg);border-radius:4px;padding:1px 6px}
+.badge{font-size:.66rem;font-weight:700;letter-spacing:.08em;color:var(--bg);background:var(--boss);border-radius:4px;padding:1px 6px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.chips span{font-size:.7rem;background:var(--chip);border-radius:6px;padding:2px 6px;white-space:nowrap}
+.chips span b{font-weight:700}
+.row{font-size:.78rem;margin:3px 0;color:var(--ink)}
+.row i{font-style:normal;font-weight:700;color:var(--accent)}
+.row ul{margin:2px 0 0;padding-left:16px}
+.note{font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:8px}
+</style>
+</head>
+<body>
+<main>
+  <h1>KI Legends — Bestiariusz</h1>
+  <p class="sub">40 potworów i 8 bossów · 4 kontynenty · statystyki, zachowania, umiejętności, słabości i łupy</p>
+  <div class="legend">
+    <b>Skala (propozycja do balansu):</b> HP = (40 + 20·L + L²) × mnożnik · ATK = (5 + 2,5·L) × mnożnik · DEF = (2 + 1,5·L) × mnożnik · XP = (10 + 7·L) × (mnożnik HP + mnożnik ATK) / 2. L = poziom potwora.
+    <b>SZB</b> = szybkość względem gracza (×1,0). <b>ZAS</b> = zasięg ataku w jednostkach świata (zwarcie ≈ 90–120). <b>AGRO</b> = promień wykrycia gracza w jednostkach. <b>CD</b> = czas odnowienia umiejętności.
+  </div>
+  <div class="filters" id="filters"></div>
+  <div id="root"></div>
+  <p class="note">Wszystkie wartości są wyliczone ze wzorów powyżej i stanowią punkt wyjścia do testów. Nie zastępują zatwierdzonej matematyki walki z gry; przed wdrożeniem trzeba je zweryfikować z kanonem i istniejącym kodem. Ikony to schematy poglądowe, nie docelowa grafika.</p>
+</main>
+<script>
+(function(){
+  var W='#ffffff';
+  function aura(b){return '<circle cx="32" cy="32" r="30" fill="'+b+'" opacity=".16"/><circle cx="32" cy="32" r="29" fill="none" stroke="'+b+'" stroke-width="1.5" stroke-dasharray="3 3" opacity=".7"/>';}
+  var draw={
+    blob:function(a,b,d){return '<path d="M12 48c0-17 8-30 20-30s20 13 20 30c0 4-6 6-20 6s-20-2-20-6z" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><ellipse cx="23" cy="30" rx="5" ry="3" fill="'+W+'" opacity=".4"/><circle cx="40" cy="26" r="2.5" fill="'+b+'"/><circle cx="18" cy="44" r="2" fill="'+b+'"/><circle cx="25" cy="39" r="3.5" fill="'+W+'"/><circle cx="39" cy="39" r="3.5" fill="'+W+'"/><circle cx="26" cy="40" r="1.8" fill="'+d+'"/><circle cx="40" cy="40" r="1.8" fill="'+d+'"/><path d="M27 47q5 4 10 0" fill="none" stroke="'+d+'" stroke-width="2" stroke-linecap="round"/>';},
+    beast:function(a,b,d){return '<path d="M12 36q-9-6-5-17" fill="none" stroke="'+b+'" stroke-width="4" stroke-linecap="round"/><rect x="15" y="42" width="6" height="14" rx="2" fill="'+d+'"/><rect x="25" y="44" width="6" height="12" rx="2" fill="'+d+'"/><rect x="36" y="44" width="6" height="12" rx="2" fill="'+d+'"/><rect x="45" y="42" width="6" height="14" rx="2" fill="'+d+'"/><ellipse cx="31" cy="38" rx="20" ry="11" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><polygon points="20,28 24,20 28,28" fill="'+b+'"/><polygon points="30,27 35,18 38,28" fill="'+b+'"/><circle cx="50" cy="28" r="9" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><polygon points="45,22 46,12 52,20" fill="'+d+'"/><polygon points="52,20 58,12 58,25" fill="'+d+'"/><ellipse cx="57" cy="31" rx="4" ry="3" fill="'+b+'"/><circle cx="52" cy="26" r="2" fill="'+W+'"/><circle cx="52.5" cy="26" r="1" fill="'+d+'"/>';},
+    bird:function(a,b,d){return '<polygon points="20,40 6,50 8,38" fill="'+d+'"/><path d="M26 34Q8 30 4 12q18 0 30 14z" fill="'+b+'" stroke="'+d+'" stroke-width="1.5"/><ellipse cx="32" cy="38" rx="15" ry="12" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="45" cy="25" r="8" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><polygon points="51,23 61,27 51,30" fill="'+b+'" stroke="'+d+'" stroke-width="1"/><circle cx="46" cy="23" r="2.2" fill="'+W+'"/><circle cx="46.5" cy="23" r="1.1" fill="'+d+'"/><path d="M30 50v8M37 50v8" stroke="'+d+'" stroke-width="2.5" stroke-linecap="round"/><path d="M28 36q6 8 14 2" fill="none" stroke="'+b+'" stroke-width="2"/>';},
+    insect:function(a,b,d){return '<g stroke="'+d+'" stroke-width="2" stroke-linecap="round" fill="none"><path d="M30 40l-8 14M36 41l-2 15M40 38l8 14M30 34l-14-4M44 34l12-4"/><path d="M48 28q4-10 10-12M50 30q8-6 12-4"/></g><ellipse cx="38" cy="26" rx="14" ry="7" transform="rotate(-25 38 26)" fill="'+b+'" opacity=".55" stroke="'+d+'"/><ellipse cx="22" cy="40" rx="12" ry="9" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><path d="M14 36q8 4 16 0M13 42q9 4 18 0" fill="none" stroke="'+d+'" stroke-width="1.5"/><circle cx="36" cy="37" r="7" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="46" cy="33" r="6" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="48" cy="32" r="2" fill="'+b+'"/>';},
+    spider:function(a,b,d){var l='';var ys=[22,30,38,46];for(var i=0;i<4;i++){var y=ys[i];l+='<path d="M28 '+(32+i*2)+'L12 '+(y-8)+'L6 '+(y+8)+'M36 '+(32+i*2)+'L52 '+(y-8)+'L58 '+(y+8)+'" />';}return '<g stroke="'+d+'" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">'+l+'</g><circle cx="32" cy="40" r="11" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><path d="M26 38l6 8 6-8" fill="none" stroke="'+b+'" stroke-width="2.5"/><circle cx="32" cy="25" r="7" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="29" cy="23" r="2" fill="'+b+'"/><circle cx="35" cy="23" r="2" fill="'+b+'"/><circle cx="32" cy="27" r="1.4" fill="'+b+'"/>';},
+    golem:function(a,b,d){return '<rect x="19" y="46" width="11" height="12" rx="2" fill="'+d+'"/><rect x="34" y="46" width="11" height="12" rx="2" fill="'+d+'"/><rect x="7" y="25" width="10" height="22" rx="3" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><rect x="47" y="25" width="10" height="22" rx="3" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><rect x="17" y="23" width="30" height="24" rx="4" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><rect x="24" y="8" width="16" height="14" rx="3" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><rect x="27" y="13" width="4" height="3" fill="'+b+'"/><rect x="34" y="13" width="4" height="3" fill="'+b+'"/><circle cx="32" cy="35" r="5.5" fill="'+b+'"/><circle cx="32" cy="35" r="2.5" fill="'+W+'" opacity=".8"/><path d="M20 28l5 6M44 42l-5-4" stroke="'+d+'" stroke-width="1.5" fill="none"/>';},
+    orb:function(a,b,d){return '<circle cx="32" cy="32" r="24" fill="'+b+'" opacity=".22"/><circle cx="32" cy="32" r="16" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="32" cy="32" r="8" fill="'+b+'"/><circle cx="32" cy="32" r="3.5" fill="'+W+'" opacity=".9"/><ellipse cx="32" cy="32" rx="26" ry="8" fill="none" stroke="'+b+'" stroke-width="1.8" transform="rotate(-28 32 32)"/><circle cx="12" cy="42" r="2" fill="'+b+'"/><circle cx="53" cy="20" r="2" fill="'+b+'"/><circle cx="48" cy="52" r="1.5" fill="'+b+'"/>';},
+    eye:function(a,b,d){return '<path d="M4 32Q32 6 60 32Q32 58 4 32z" fill="'+W+'" stroke="'+d+'" stroke-width="2.5"/><circle cx="32" cy="32" r="12" fill="'+b+'" stroke="'+d+'" stroke-width="2"/><ellipse cx="32" cy="32" rx="4" ry="9" fill="'+d+'"/><circle cx="28" cy="27" r="2.5" fill="'+W+'"/><path d="M32 6V0M16 12l-4-5M48 12l4-5" stroke="'+a+'" stroke-width="2.5" stroke-linecap="round"/>';},
+    serpent:function(a,b,d){return '<path d="M10 50C22 60 30 40 42 46C56 52 56 30 40 26" fill="none" stroke="'+d+'" stroke-width="12" stroke-linecap="round"/><path d="M10 50C22 60 30 40 42 46C56 52 56 30 40 26" fill="none" stroke="'+a+'" stroke-width="9" stroke-linecap="round"/><path d="M10 50C22 60 30 40 42 46C56 52 56 30 40 26" fill="none" stroke="'+b+'" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/><ellipse cx="38" cy="20" rx="10" ry="8" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="35" cy="18" r="2.4" fill="'+b+'"/><circle cx="42" cy="18" r="2.4" fill="'+b+'"/><path d="M33 27l-3 6 4-3 2 4 2-4 4 3-3-6" fill="none" stroke="'+b+'" stroke-width="1.6" stroke-linejoin="round"/>';},
+    plant:function(a,b,d){var p='';for(var i=0;i<8;i++){var an=i*Math.PI/4;p+='<circle cx="'+(32+Math.cos(an)*13).toFixed(1)+'" cy="'+(24+Math.sin(an)*13).toFixed(1)+'" r="6" fill="'+b+'" stroke="'+d+'" stroke-width="1.5"/>';}return '<path d="M32 38v22" stroke="'+d+'" stroke-width="5" stroke-linecap="round"/><path d="M32 52Q18 50 14 42Q26 40 32 50M32 54Q46 52 50 44Q38 42 32 52" fill="'+a+'" stroke="'+d+'" stroke-width="1.5"/>'+p+'<circle cx="32" cy="24" r="11" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><circle cx="28" cy="21" r="2.2" fill="'+W+'"/><circle cx="36" cy="21" r="2.2" fill="'+W+'"/><path d="M26 27q6 6 12 0" fill="'+d+'" stroke="'+d+'" stroke-width="1.5"/><path d="M28 28l1.5 2 1.5-2 1.5 2 1.5-2 1.5 2 1-2" stroke="'+W+'" stroke-width="1" fill="none"/>';},
+    humanoid:function(a,b,d){return '<path d="M20 28L10 58h44L44 28z" fill="'+b+'" opacity=".85" stroke="'+d+'" stroke-width="1.5"/><path d="M24 28h16l4 30H20z" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><path d="M24 30L12 46M40 30l12 12" stroke="'+d+'" stroke-width="5" stroke-linecap="round"/><path d="M54 12v46" stroke="'+d+'" stroke-width="3" stroke-linecap="round"/><circle cx="54" cy="10" r="5" fill="'+b+'" stroke="'+d+'" stroke-width="1.5"/><path d="M22 18a10 10 0 0 1 20 0v8H22z" fill="'+d+'"/><circle cx="32" cy="19" r="6" fill="'+a+'"/><circle cx="29.5" cy="19" r="1.5" fill="'+b+'"/><circle cx="34.5" cy="19" r="1.5" fill="'+b+'"/><path d="M28 36h8M27 42h10" stroke="'+b+'" stroke-width="2"/>';},
+    drone:function(a,b,d){return '<path d="M10 16h18M36 16h18M19 16v8M45 16v8" stroke="'+d+'" stroke-width="3" stroke-linecap="round"/><ellipse cx="19" cy="14" rx="10" ry="2.5" fill="'+b+'" opacity=".7"/><ellipse cx="45" cy="14" rx="10" ry="2.5" fill="'+b+'" opacity=".7"/><path d="M20 38L12 54M44 38l8 16" stroke="'+d+'" stroke-width="3" stroke-linecap="round" fill="none"/><ellipse cx="32" cy="34" rx="19" ry="11" fill="'+a+'" stroke="'+d+'" stroke-width="2"/><rect x="16" y="30" width="32" height="3" fill="'+d+'" opacity=".5"/><circle cx="32" cy="36" r="6.5" fill="'+d+'"/><circle cx="32" cy="36" r="4" fill="'+b+'"/><circle cx="30.5" cy="34.5" r="1.3" fill="'+W+'"/><path d="M25 50l7 6 7-6" fill="'+b+'" opacity=".35"/>';}
+  };
+  var C={
+    V:['#4c9a4a','#e0a030','#233b22'],
+    A:['#e9e5d2','#2fbf8f','#7a5e18'],
+    N:['#aeb8c8','#3da0ff','#1f2a44'],
+    P:['#9a2323','#ff8a1f','#2a0d0d']
+  };
+  function pal(k,v){var c=C[k];if(v===1)return[c[1],c[0],c[2]];if(v===2)return[c[2],c[1],c[0]==='#e9e5d2'?'#7a5e18':c[2]];if(v===3)return[c[0],c[2],c[1]];return c;}
+  function icon(k,t,v,boss){var c=pal(k,v||0);return '<svg viewBox="0 0 64 64" role="img" aria-label="'+t+'">'+(boss?aura(c[1]):'')+draw[t](c[0],c[1],c[2])+'</svg>';}
+
+  /* [nazwa, ikona, wariant, poziom, mnHP, mnATK, mnDEF, szybkość, zasięg, agro, zachowanie, umiejętności (;), słabość, łup] */
+  var DATA=[
+   {k:'V',name:'Verdantia',race:'Planetarni',desc:'Natura, roślinność, organiczna energia · słabość tematyczna: ogień',
+    mobs:[
+     ['Mchowy Szlamak','blob',0,1,1.2,0.7,1.0,0.5,90,250,'Błąka się w promieniu 300 j. od gniazda. Nie atakuje pierwszy; po zaczepieniu goni powoli, a po 6 s bez trafienia wraca i regeneruje HP.','Oblepienie (zwarcie, CD 5 s): −20% szybkości gracza przez 3 s','Ogień +30% obrażeń','Mchowa galaretka, Zielone ziele'],
+     ['Cierniowy Wilk','beast',0,2,0.8,1.2,0.7,1.2,90,400,'Poluje w grupach po 2–3. Okrąża cel i atakuje z flanki; przy HP poniżej 25% wycofuje się na 4 s.','Skok na cel (CD 6 s): 120% ATK; Wycie (1× na walkę): wzywa 1 sojusznika z okolicy','Obrażenia obszarowe (grupa)','Cierń wilka, Skóra wilcza'],
+     ['Liściak Skrytobójca','insect',0,4,0.7,1.5,0.5,1.1,90,200,'Nieruchomy i niewidoczny w krzakach. Wyskakuje, gdy gracz wejdzie w 200 j.; po pierwszym ciosie ucieka i chowa się na 8 s.','Cios z ukrycia (×2 obrażeń, tylko pierwszy atak); Krwawienie (3 s)','Ujawnia się po trafieniu obszarowym','Zielone ostrze, Sok liściaka'],
+     ['Korzeniowy Pełzacz','serpent',3,6,1.3,1.0,1.2,0.4,160,300,'Ukryty pod ziemią. Wynurza się pod graczem, unieruchamia go i wraca pod ziemię na 4 s (nietykalny).','Oplątanie (CD 10 s): unieruchomienie 2 s; Wybuch korzeni (obszar 120 j.)','Ogień; w chwili wynurzenia +25% obrażeń','Żywy korzeń, Nasiona'],
+     ['Grzybowy Zarodnik','plant',1,8,1.4,0.9,0.8,0,350,350,'Stacjonarny. Rzuca chmury zarodników w stronę gracza, nigdy się nie przemieszcza. Po śmierci wybucha chmurą.','Chmura zarodników (CD 7 s): obszar 150 j., trucizna 5 s; Wybuch po śmierci','Ogień +40%; szybkie zabicie z daleka','Zarodniki, Czerwony grzyb'],
+     ['Bursztynowa Osa','insect',1,10,0.7,1.3,0.6,1.4,300,450,'Lata nad celem, nurkuje i dystansuje się. Po 3 atakach odlatuje na 3 s. Poniżej 40% HP przyzywa 2 małe osy.','Żądło (CD 3 s): lekka trucizna; Rój (1× na walkę): 2 małe osy','Obrażenia obszarowe','Bursztyn, Żądło osy'],
+     ['Skalny Jeleń','beast',2,12,1.4,1.1,1.4,1.0,100,300,'Pasie się i jest nieagresywny do czasu ataku. Po zaczepieniu szarżuje w linii prostej.','Szarża (CD 8 s): 150% ATK + ogłuszenie 1 s; Tupnięcie (obszar)','Po chybionej szarży odsłonięty 2 s (−30% DEF)','Poroże, Skalna skóra'],
+     ['Leśny Pająk','spider',0,14,1.0,1.2,0.9,0.9,280,400,'Zastawia do 3 sieci w promieniu 300 j., wabi gracza i atakuje z dystansu. Poza siecią porusza się wolniej.','Sieć: spowolnienie 40% przez 4 s; Plwocina (CD 6 s): trucizna','Ogień niszczy sieci i zadaje +30%','Jedwab pająka, Jad'],
+     ['Puchacz Pyłowy','bird',1,16,0.9,1.4,0.7,1.3,120,500,'Aktywny nocą; w dzień ma 50% promienia agro. Krąży i nurkuje na cele z HP poniżej 60%.','Nurkowanie (CD 5 s): 130% ATK; Pył w oczy: −25% celności na 4 s','Po nurkowaniu wolniejszy przez 1 s','Pióro puchacza, Pył'],
+     ['Strażnik Ruin','golem',2,18,2.0,1.2,2.0,0.6,100,300,'Patroluje stałą trasę w ruinach. Po wykryciu blokuje ścieżkę; nie opuszcza obszaru (leash 500 j.).','Cios młotem (CD 6 s, telegraf 1 s): 180% ATK; Kamienna skóra (CD 20 s): −40% obrażeń przez 4 s','Obrażenia KI +25%','Kamień runiczny, Fragment ruin']
+    ],
+    bosses:[
+     ['Ygdrasha, Matka Puszczy','plant',3,15,8,1.4,1.5,0,450,600,'Stacjonarna. Faza 1 (100–60% HP): bicze korzeni i trucizna. Faza 2 (60–30%): co 15 s przyzywa 2 Mchowe Szlamaki. Faza 3 (poniżej 30%): +30% obrażeń, kwiat się otwiera i przyjmuje +25% obrażeń. Regeneruje 1% HP/s w fazach 1–2.','Bicz korzeni (CD 8 s, telegraf 1,2 s); Zarodnikowa burza (CD 20 s); Przyzwanie szlamaków','Ogień i KI; odsłonięta w fazie 3','Serce puszczy, Zielona esencja; rzadki: Kwiat Ygdrashy'],
+     ['Thorgar, Alfa Kłów','beast',3,20,9,1.6,1.4,1.2,100,500,'Faza 1: pojedynek, szarże i cięcia. Faza 2 (poniżej 65% HP): wzywa 3 Cierniowe Wilki. Faza 3 (poniżej 30%): berserk, +25% szybkości; Wycie rozprasza gracza.','Szarża Alfy (CD 10 s); Rozdarcie: krwawienie 5 s; Wycie (CD 25 s)','Ogłuszony na 1,5 s po chybionej szarży','Kieł Alfy, Skóra Thorgara; rzadki: Pazury Alfy']
+    ]},
+   {k:'A',name:'Aetheria',race:'Mędrcy',desc:'Wiedza, energia KI, duchowa technologia · słabość tematyczna: obrażenia fizyczne wobec duchów, KI wobec konstruktów',
+    mobs:[
+     ['Świetlik Pieczęci','orb',0,1,0.7,0.8,0.6,0.7,250,300,'Dryfuje wokół wyznaczonej pieczęci. Strzela iskrą z dystansu i utrzymuje odległość, nie opuszcza strefy pieczęci.','Iskra (CD 2,5 s): obrażenia KI','Obrażenia fizyczne +20%','Pył światła'],
+     ['Pergaminowy Strażnik','humanoid',0,2,1.0,1.0,0.8,0.8,300,300,'Stoi w bibliotece. Po wykryciu rzuca runami z dystansu i przesuwa się za osłony.','Runa (CD 4 s); Zapieczętowanie (CD 15 s): blokada umiejętności gracza na 2 s','Ogień +30%','Karta pergaminu'],
+     ['Kryształowy Motyl','insect',1,4,0.6,0.8,1.2,1.2,90,250,'Łopocze po okolicy i nie atakuje pierwszy. Po trafieniu odbija część obrażeń w napastnika.','Odbicie (pasywne): 15% obrażeń wraca; Pyłek: oślepienie 2 s','Obrażenia obszarowe i KI omijają odbicie','Skrzydło kryształowe'],
+     ['Szmaragdowy Wąż','serpent',0,6,1.0,1.2,0.9,1.0,100,350,'Czai się w trawie. Atakuje dwukrotnie i wycofuje się; nie ściga dalej niż 400 j.','Ukąszenie: trucizna 5 s (do 3 stacków); Syk: −20% szybkości gracza','Obrażenia KI +20%','Szmaragdowa łuska'],
+     ['Duch Bibliotekarza','blob',2,8,0.8,1.0,0.3,0.9,250,300,'Przenika przez regały (ignoruje kolizje) i dryfuje do gracza. Po pierwszej śmierci powraca raz z 30% HP.','Uciszenie (CD 12 s): blokada umiejętności 3 s; Szept: −15% obrażeń gracza przez 4 s','Obrażenia KI +50%, fizyczne −40%','Eter bibliotekarza'],
+     ['Złoty Skarabeusz','insect',3,10,1.5,1.0,1.8,0.7,90,300,'Maszeruje powoli w zwarciu. Po 3 otrzymanych trafieniach zwija się na 3 s (−70% obrażeń).','Rozbicie bariery: usuwa osłonę gracza; Taran (CD 9 s)','Obrażenia KI +30%; po zwinięciu odkryty','Złoty pancerz, Skarabeusz'],
+     ['Lew Świątyni','beast',0,12,1.6,1.3,1.5,1.0,100,350,'Posąg aktywowany wejściem w strefę. Walczy do końca; nie goni dalej niż 450 j. i wraca na postument.','Ryk (CD 14 s): strach 1,5 s; Pazur: 150% ATK','Runa na karku: trafienie w plecy +25%','Kamień świątynny'],
+     ['Oko Wiedzy','eye',0,14,0.9,1.0,0.8,0.5,400,450,'Lewituje i prawie nie atakuje. Oznacza gracza i wzmacnia sojuszników; po 2 trafieniach ucieka.','Znak (CD 10 s): +20% obrażeń od sojuszników; Promień skupienia (CD 6 s); Wzmocnienie: +15% obrażeń sojusznika','Priorytetowy cel do zabicia','Soczewka wiedzy'],
+     ['Marionetka Rytuału','humanoid',1,16,1.2,1.3,1.0,0.9,100,350,'Agresywna, nigdy się nie wycofuje. Po zniszczeniu nici (poniżej 30% HP) traci część szybkości.','Combo 3 ciosów; Nić energii (CD 12 s): przyciąga cel','Obrażenia fizyczne +15%','Nić eteru, Maska rytuału'],
+     ['Mgielny Żuraw','bird',0,18,1.0,1.3,0.9,1.1,350,500,'Krąży nad sanktuarium, rzuca mgłę i zniża się do ataku. Ucieka poniżej 20% HP.','Mgła: widoczność −50% przez 5 s; Szpon z powietrza (CD 5 s)','Ataki dystansowe','Pióro mgły']
+    ],
+    bosses:[
+     ['Arcykapłan Pustki','humanoid',2,15,8,1.4,1.2,0.8,400,600,'Faza 1: pieczęcie na ziemi (strefy obrażeń 5 s). Faza 2 (poniżej 60% HP): bariera −70% obrażeń; trzeba zniszczyć 3 Świetliki. Faza 3 (poniżej 25%): Zamknięcie areny i kurczące się strefy.','Pieczęć Pustki (CD 8 s); Bariera (CD 30 s); Zamknięcie areny','Przerwanie rzucania ogłusza go na 2 s','Szaty arcykapłana, Eter Pustki; rzadki: Pieczęć Arcykapłana'],
+     ['Aurelith, Smok Sanktuarium','serpent',1,20,10,1.6,1.6,0.9,450,600,'Faza 1: fale światła i uderzenie ogonem. Faza 2 (poniżej 66% HP): lot i fale obszarowe. Faza 3 (poniżej 33%): Oddech eteru, kanał 4 s (osłona za filarami).','Fala światła (CD 8 s); Uderzenie ogonem (CD 6 s); Oddech eteru (CD 25 s)','Po oddechu odsłonięty 3 s','Łuska Aurelitha, Serce sanktuarium']
+    ]},
+   {k:'N',name:'Nexus-9',race:'Androidy',desc:'Technologia, sztuczne struktury, mechanika · słabość tematyczna: obrażenia elektryczne / EMP',
+    mobs:[
+     ['Dron Zwiadowca','drone',0,1,0.6,0.8,0.7,1.1,250,450,'Patroluje stałą trasę. Po wykryciu gracza piszczy i wzywa 1 sojusznika, następnie strzela krótkimi seriami.','Wiązka (CD 3 s); Alarm (1× na walkę)','Obrażenia elektryczne +30%','Złom, Moduł optyczny'],
+     ['Pełzacz Serwisowy','insect',0,2,0.9,0.7,1.0,0.7,90,250,'Trzyma się innych maszyn i naprawia je. Sam atakuje tylko wtedy, gdy nie ma kogo naprawiać.','Naprawa (CD 6 s): 5% HP/s sojusznikom w 200 j.; Kleszcze','Priorytetowy cel; elektryczne +30%','Zestaw naprawczy'],
+     ['Skaner Gąsienicowy','drone',1,4,1.3,1.0,1.3,0.5,400,450,'Wolny. Utrzymuje dystans 300 j. i cofa się, gdy gracz podejdzie.','Wiązka skanująca (CD 5 s): rosnące obrażenia przy kolejnych trafieniach; Namierzenie: +20% obrażeń następnego ataku','Martwy kąt z tyłu +25%','Gąsienica, Soczewka'],
+     ['Pająk Spawalniczy','spider',0,6,1.0,1.3,0.9,1.0,150,350,'Wspina się po konstrukcjach i spada na cel. Zostawia strefy gorącego metalu.','Łuk spawalniczy (CD 5 s); Strefa żaru: obrażenia przez 4 s','Obrażenia elektryczne +20%','Elektroda, Złom'],
+     ['Wieżyczka Autonomiczna','golem',0,8,1.5,1.4,1.5,0,450,500,'Nieruchoma. Obraca się 90°/s, więc można ją obejść z flanki. Strzela seriami; po 12 strzałach przegrzewa się.','Seria 3 pocisków (CD 4 s); Przegrzanie: wyłączona na 3 s','Flankowanie i przegrzanie','Cewka, Lufa'],
+     ['Rój Nanitów','blob',1,10,0.8,1.0,0.6,1.2,90,350,'Po otrzymaniu obrażeń rozdziela się na 2 części po 40% HP (maks. 1×). Jeśli obie żyją po 6 s, łączą się z powrotem.','Nanoprzeżarcie: −10% DEF gracza (do 3 stacków)','Obrażenia obszarowe, EMP','Nanopył'],
+     ['Pies Łowca','beast',0,12,1.0,1.4,0.9,1.4,90,600,'Wybiera cel z najniższym HP w grupie i goni go do końca; ignoruje innych.','Skok (CD 6 s); Szarpnięcie: 120% ATK','Ogłuszenia i spowolnienia','Siłownik, Czujnik'],
+     ['Strażnik Rdzenia','humanoid',0,14,1.7,1.3,1.8,0.8,120,350,'Chroni wyznaczony obiekt; nie goni dalej niż 500 j. Poniżej 50% HP aktywuje tarczę plazmową.','Tarcza plazmowa (CD 25 s): absorbuje 25% max HP; Cios impulsowy (CD 6 s)','Obrażenia elektryczne zdejmują tarczę 2× szybciej','Rdzeń energii, Płyta pancerna'],
+     ['Latarnia Plazmowa','orb',0,16,1.0,1.6,0.8,0.3,450,500,'Wolno dryfuje. Ładuje wyładowanie przez 2,5 s (widoczne ostrzeżenie), które trzeba przerwać lub uniknąć.','Wyładowanie plazmy (CD 9 s): 250% ATK, obszar; Iskra','Przerwanie ładowania ogłusza ją na 2 s','Rdzeń plazmy'],
+     ['Kruk Danych','bird',2,18,0.8,1.2,0.8,1.3,300,500,'Lata wysoko. Zakłóca interfejs i oznacza gracza maszynom; ucieka poniżej 30% HP.','Zakłócenie (CD 14 s): ukrywa minimapę na 4 s; Znak łowcy: +15% obrażeń maszyn','Obrażenia elektryczne +30%','Pamięć danych']
+    ],
+    bosses:[
+     ['Arbiter Zero','golem',1,15,8,1.5,1.7,0.7,400,600,'Faza 1: pociski i tarcza. Faza 2 (poniżej 60% HP): przeciążenie, kula energii i 2 drony. Faza 3 (poniżej 25%): przegrzanie — brak tarczy i +40% otrzymywanych obrażeń przez 10 s co 30 s.','Salwa (CD 7 s); Tarcza (CD 20 s); Przeciążenie (CD 18 s)','Obrażenia elektryczne w oknie przegrzania','Kod Arbitra, Płyta egzekutora'],
+     ['Hydra-Rdzeń','serpent',0,20,10,1.6,1.5,0,400,600,'Trzy segmenty-głowy atakują różnie (plazma, wiązka, uderzenie). Faza 1: 3 głowy. Faza 2 (poniżej 66% HP): 2 głowy i przyzwanie nanitów. Faza 3 (poniżej 33%): rdzeń odsłonięty, szybsze ataki.','Plazma (CD 6 s); Wiązka (CD 8 s); Uderzenie (CD 5 s); Przyzwanie nanitów (CD 20 s)','Odsłonięty rdzeń +50% obrażeń','Rdzeń hydry, Moduł Prime']
+    ]},
+   {k:'P',name:'Pyra',race:'Legendy',desc:'Żywioły, ogień, surowy i niebezpieczny świat · słabość tematyczna: woda / zimno',
+    mobs:[
+     ['Węgielek','blob',0,1,1.0,0.9,0.8,0.6,90,250,'Powoli toczy się do celu. Po śmierci eksploduje (40% ATK w 120 j.).','Kontakt ognia: palenie 3 s; Wybuch po śmierci','Woda/zimno +30%','Węgiel'],
+     ['Ognista Salamandra','serpent',0,2,0.8,1.2,0.6,1.2,100,400,'Szybko biega i zostawia płonący ślad na 3 s. Unika walki z grupami.','Ugryzienie: palenie 3 s; Ślad ognia','Woda/zimno +30%','Łuska salamandry'],
+     ['Popielny Wilk','beast',2,4,0.9,1.2,0.8,1.2,90,450,'Stado po 3. Wyłania się z popiołu i atakuje z flanki; poniżej 30% HP chowa się w popiele i regeneruje przez 5 s.','Skok (CD 6 s); Obłok popiołu: widoczność −30% przez 4 s','Obrażenia obszarowe','Popielne futro'],
+     ['Skalny Berserker','humanoid',0,6,1.3,1.4,1.0,1.0,100,350,'Atakuje bez wycofania. Im mniej HP, tym więcej obrażeń (do +40% poniżej 30% HP).','Młot (CD 5 s); Wściekłość (poniżej 50% HP): +20% szybkości ataku','Ogłuszenia; zabić szybko','Skalny kastet'],
+     ['Magmowy Krab','spider',0,8,1.5,1.0,2.0,0.6,100,300,'Ustawia się bokiem. Od frontu przyjmuje −60% obrażeń, z tyłu i boków jest podatny.','Kleszcze (CD 5 s); Zalew magmą: strefa 4 s','Atak z tyłu +40%; woda','Magmowy pancerz'],
+     ['Żarowy Nietoperz','bird',2,10,0.7,1.2,0.6,1.4,100,500,'Roje po 3. Krążą nad kraterami i atakują nurkując, po czym unikają kontrataku.','Nurkowanie (CD 4 s); Iskry: palenie 2 s','Obrażenia obszarowe','Skrzydło żaru'],
+     ['Golem Ruin','golem',0,12,2.0,1.5,2.0,0.5,120,300,'Powolny, ciosy telegrafowane 1,5 s. Poniżej 50% HP odrzuca odłamki w obszarze.','Miażdżenie (CD 7 s): 220% ATK; Odłamki (obszar)','Obrażenia KI +20%','Obsydian'],
+     ['Płomień-Duch','orb',0,14,0.8,1.5,0.5,0.8,400,450,'Unosi się nad areną, trzyma dystans i rzuca kule. Po śmierci zostawia strefę ognia na 5 s.','Kula ognia (CD 3,5 s); Pierścień ognia (CD 12 s)','Woda/zimno +40%','Esencja płomienia'],
+     ['Byk Areny','beast',0,16,1.8,1.5,1.4,1.0,100,400,'Tupie przez 1 s, potem szarżuje w linii prostej. Po chybieniu uderza w ścianę i ogłusza się na 2,5 s.','Szarża (CD 9 s): 200% ATK + ogłuszenie; Tupnięcie','Unik szarży = okno na atak','Róg areny'],
+     ['Skorpion Obsydianowy','insect',2,18,1.2,1.5,1.5,1.0,150,400,'Zakopuje się w piasku i wynurza tuż obok gracza. Trucizna kumuluje się.','Żądło: trucizna (do 5 stacków); Pułapka piaskowa','Woda/zimno +20%; ogon pęka po 3 trafieniach','Szkło obsydianowe']
+    ],
+    bosses:[
+     ['Kharzul, Mistrz Areny','humanoid',3,15,8,1.6,1.4,1.1,100,600,'Faza 1: kombinacje 3 ciosów. Faza 2 (poniżej 60% HP): Płomienny szał, +25% szybkości. Faza 3 (poniżej 25%): arena płonie (strefy obrażeń), wyłączone leczenie.','Ogniste cięcie (CD 6 s); Przełamanie (CD 12 s); Płomienny szał (CD 30 s)','Po Przełamaniu odsłonięty 2 s','Pancerz Kharzula, Płomień areny'],
+     ['Pyrrhax, Smok Wulkanu','serpent',3,20,10,1.7,1.6,0.6,450,600,'Faza 1: ogon i fale żaru. Faza 2 (poniżej 66% HP): lot i deszcz lawy. Faza 3 (poniżej 33%): erupcja — bezpieczne strefy wskazane na ziemi.','Fala żaru (CD 7 s); Deszcz lawy (CD 15 s); Erupcja (CD 30 s)','Przy lądowaniu odsłania brzuch (+30% obrażeń przez 3 s)','Serce wulkanu, Łuska Pyrrhaxa']
+    ]}
+  ];
+
+  function stats(m){
+    var L=m[3];
+    var hp=Math.round((40+20*L+L*L)*m[4]);
+    var atk=Math.round((5+2.5*L)*m[5]);
+    var def=Math.round((2+1.5*L)*m[6]);
+    var xp=Math.round((10+7*L)*(m[4]+m[5])/2);
+    return {hp:hp,atk:atk,def:def,xp:xp};
+  }
+  function card(k,m,boss){
+    var s=stats(m);
+    var sk=m[11].split('; ').map(function(x){return '<li>'+x+'</li>';}).join('');
+    return '<div class="card'+(boss?' boss':'')+'"><div class="ic">'+icon(k,m[1],m[2],boss)+'</div><div class="bd">'
+      +'<div class="top">'+(boss?'<span class="badge">BOSS</span>':'')+'<span class="n">'+m[0]+'</span><span class="lv">Lv '+m[3]+'</span></div>'
+      +'<div class="chips"><span>HP <b>'+s.hp+'</b></span><span>ATK <b>'+s.atk+'</b></span><span>DEF <b>'+s.def+'</b></span><span>SZB <b>×'+m[7].toFixed(1).replace('.',',')+'</b></span><span>ZAS <b>'+m[8]+'</b></span><span>AGRO <b>'+m[9]+'</b></span><span>XP <b>'+s.xp+'</b></span></div>'
+      +'<div class="row"><i>Zachowanie:</i> '+m[10]+'</div>'
+      +'<div class="row"><i>Umiejętności:</i><ul>'+sk+'</ul></div>'
+      +'<div class="row"><i>Słabość:</i> '+m[12]+'</div>'
+      +'<div class="row"><i>Łup:</i> '+m[13]+'</div>'
+      +'</div></div>';
+  }
+  var current='all';
+  function render(){
+    var h='';
+    DATA.forEach(function(c){
+      if(current!=='all'&&current!==c.k)return;
+      h+='<section><h2>'+c.name+' — '+c.race+'</h2><p class="meta">'+c.desc+'</p><h3>Potwory ('+c.mobs.length+')</h3><div class="grid">'+c.mobs.map(function(m){return card(c.k,m,false);}).join('')+'</div><h3>Bossy ('+c.bosses.length+')</h3><div class="grid">'+c.bosses.map(function(m){return card(c.k,m,true);}).join('')+'</div></section>';
+    });
+    document.getElementById('root').innerHTML=h;
+    var f='<button data-k="all" class="'+(current==='all'?'on':'')+'">Wszystkie</button>';
+    DATA.forEach(function(c){f+='<button data-k="'+c.k+'" class="'+(current===c.k?'on':'')+'">'+c.name+'</button>';});
+    var fe=document.getElementById('filters');fe.innerHTML=f;
+    Array.prototype.forEach.call(fe.querySelectorAll('button'),function(b){b.onclick=function(){current=b.getAttribute('data-k');render();};});
+  }
+  render();
+})();
+</script>
+</body>
+</html>

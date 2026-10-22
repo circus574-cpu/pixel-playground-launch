@@ -1,0 +1,1453 @@
+{
+ "source": "docs/design/BESTIARY-OWNER-2026-10-22.html",
+ "note": "Owner-provided bestiary; values are a proposal to be verified against game maths. Icons in the source are schematic only.",
+ "entries": [
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Mchowy Szlamak",
+   "icon": "blob",
+   "variant": 0,
+   "level": 1,
+   "mult": {
+    "hp": 1.2,
+    "atk": 0.7,
+    "def": 1
+   },
+   "speed": 0.5,
+   "range": 90,
+   "agro": 250,
+   "stats": {
+    "hp": 73,
+    "atk": 5,
+    "def": 4,
+    "xp": 16
+   },
+   "behavior": "Błąka się w promieniu 300 j. od gniazda. Nie atakuje pierwszy; po zaczepieniu goni powoli, a po 6 s bez trafienia wraca i regeneruje HP.",
+   "skills": [
+    "Oblepienie (zwarcie, CD 5 s): −20% szybkości gracza przez 3 s"
+   ],
+   "weakness": "Ogień +30% obrażeń",
+   "loot": "Mchowa galaretka, Zielone ziele"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Cierniowy Wilk",
+   "icon": "beast",
+   "variant": 0,
+   "level": 2,
+   "mult": {
+    "hp": 0.8,
+    "atk": 1.2,
+    "def": 0.7
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 400,
+   "stats": {
+    "hp": 67,
+    "atk": 12,
+    "def": 4,
+    "xp": 24
+   },
+   "behavior": "Poluje w grupach po 2–3. Okrąża cel i atakuje z flanki; przy HP poniżej 25% wycofuje się na 4 s.",
+   "skills": [
+    "Skok na cel (CD 6 s): 120% ATK",
+    "Wycie (1× na walkę): wzywa 1 sojusznika z okolicy"
+   ],
+   "weakness": "Obrażenia obszarowe (grupa)",
+   "loot": "Cierń wilka, Skóra wilcza"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Liściak Skrytobójca",
+   "icon": "insect",
+   "variant": 0,
+   "level": 4,
+   "mult": {
+    "hp": 0.7,
+    "atk": 1.5,
+    "def": 0.5
+   },
+   "speed": 1.1,
+   "range": 90,
+   "agro": 200,
+   "stats": {
+    "hp": 95,
+    "atk": 23,
+    "def": 4,
+    "xp": 42
+   },
+   "behavior": "Nieruchomy i niewidoczny w krzakach. Wyskakuje, gdy gracz wejdzie w 200 j.; po pierwszym ciosie ucieka i chowa się na 8 s.",
+   "skills": [
+    "Cios z ukrycia (×2 obrażeń, tylko pierwszy atak)",
+    "Krwawienie (3 s)"
+   ],
+   "weakness": "Ujawnia się po trafieniu obszarowym",
+   "loot": "Zielone ostrze, Sok liściaka"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Korzeniowy Pełzacz",
+   "icon": "serpent",
+   "variant": 3,
+   "level": 6,
+   "mult": {
+    "hp": 1.3,
+    "atk": 1,
+    "def": 1.2
+   },
+   "speed": 0.4,
+   "range": 160,
+   "agro": 300,
+   "stats": {
+    "hp": 255,
+    "atk": 20,
+    "def": 13,
+    "xp": 60
+   },
+   "behavior": "Ukryty pod ziemią. Wynurza się pod graczem, unieruchamia go i wraca pod ziemię na 4 s (nietykalny).",
+   "skills": [
+    "Oplątanie (CD 10 s): unieruchomienie 2 s",
+    "Wybuch korzeni (obszar 120 j.)"
+   ],
+   "weakness": "Ogień; w chwili wynurzenia +25% obrażeń",
+   "loot": "Żywy korzeń, Nasiona"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Grzybowy Zarodnik",
+   "icon": "plant",
+   "variant": 1,
+   "level": 8,
+   "mult": {
+    "hp": 1.4,
+    "atk": 0.9,
+    "def": 0.8
+   },
+   "speed": 0,
+   "range": 350,
+   "agro": 350,
+   "stats": {
+    "hp": 370,
+    "atk": 23,
+    "def": 11,
+    "xp": 76
+   },
+   "behavior": "Stacjonarny. Rzuca chmury zarodników w stronę gracza, nigdy się nie przemieszcza. Po śmierci wybucha chmurą.",
+   "skills": [
+    "Chmura zarodników (CD 7 s): obszar 150 j., trucizna 5 s",
+    "Wybuch po śmierci"
+   ],
+   "weakness": "Ogień +40%; szybkie zabicie z daleka",
+   "loot": "Zarodniki, Czerwony grzyb"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Bursztynowa Osa",
+   "icon": "insect",
+   "variant": 1,
+   "level": 10,
+   "mult": {
+    "hp": 0.7,
+    "atk": 1.3,
+    "def": 0.6
+   },
+   "speed": 1.4,
+   "range": 300,
+   "agro": 450,
+   "stats": {
+    "hp": 238,
+    "atk": 39,
+    "def": 10,
+    "xp": 80
+   },
+   "behavior": "Lata nad celem, nurkuje i dystansuje się. Po 3 atakach odlatuje na 3 s. Poniżej 40% HP przyzywa 2 małe osy.",
+   "skills": [
+    "Żądło (CD 3 s): lekka trucizna",
+    "Rój (1× na walkę): 2 małe osy"
+   ],
+   "weakness": "Obrażenia obszarowe",
+   "loot": "Bursztyn, Żądło osy"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Skalny Jeleń",
+   "icon": "beast",
+   "variant": 2,
+   "level": 12,
+   "mult": {
+    "hp": 1.4,
+    "atk": 1.1,
+    "def": 1.4
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 300,
+   "stats": {
+    "hp": 594,
+    "atk": 39,
+    "def": 28,
+    "xp": 118
+   },
+   "behavior": "Pasie się i jest nieagresywny do czasu ataku. Po zaczepieniu szarżuje w linii prostej.",
+   "skills": [
+    "Szarża (CD 8 s): 150% ATK + ogłuszenie 1 s",
+    "Tupnięcie (obszar)"
+   ],
+   "weakness": "Po chybionej szarży odsłonięty 2 s (−30% DEF)",
+   "loot": "Poroże, Skalna skóra"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Leśny Pająk",
+   "icon": "spider",
+   "variant": 0,
+   "level": 14,
+   "mult": {
+    "hp": 1,
+    "atk": 1.2,
+    "def": 0.9
+   },
+   "speed": 0.9,
+   "range": 280,
+   "agro": 400,
+   "stats": {
+    "hp": 516,
+    "atk": 48,
+    "def": 21,
+    "xp": 119
+   },
+   "behavior": "Zastawia do 3 sieci w promieniu 300 j., wabi gracza i atakuje z dystansu. Poza siecią porusza się wolniej.",
+   "skills": [
+    "Sieć: spowolnienie 40% przez 4 s",
+    "Plwocina (CD 6 s): trucizna"
+   ],
+   "weakness": "Ogień niszczy sieci i zadaje +30%",
+   "loot": "Jedwab pająka, Jad"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Puchacz Pyłowy",
+   "icon": "bird",
+   "variant": 1,
+   "level": 16,
+   "mult": {
+    "hp": 0.9,
+    "atk": 1.4,
+    "def": 0.7
+   },
+   "speed": 1.3,
+   "range": 120,
+   "agro": 500,
+   "stats": {
+    "hp": 554,
+    "atk": 63,
+    "def": 18,
+    "xp": 140
+   },
+   "behavior": "Aktywny nocą; w dzień ma 50% promienia agro. Krąży i nurkuje na cele z HP poniżej 60%.",
+   "skills": [
+    "Nurkowanie (CD 5 s): 130% ATK",
+    "Pył w oczy: −25% celności na 4 s"
+   ],
+   "weakness": "Po nurkowaniu wolniejszy przez 1 s",
+   "loot": "Pióro puchacza, Pył"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "mob",
+   "name": "Strażnik Ruin",
+   "icon": "golem",
+   "variant": 2,
+   "level": 18,
+   "mult": {
+    "hp": 2,
+    "atk": 1.2,
+    "def": 2
+   },
+   "speed": 0.6,
+   "range": 100,
+   "agro": 300,
+   "stats": {
+    "hp": 1448,
+    "atk": 60,
+    "def": 58,
+    "xp": 218
+   },
+   "behavior": "Patroluje stałą trasę w ruinach. Po wykryciu blokuje ścieżkę; nie opuszcza obszaru (leash 500 j.).",
+   "skills": [
+    "Cios młotem (CD 6 s, telegraf 1 s): 180% ATK",
+    "Kamienna skóra (CD 20 s): −40% obrażeń przez 4 s"
+   ],
+   "weakness": "Obrażenia KI +25%",
+   "loot": "Kamień runiczny, Fragment ruin"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "boss",
+   "name": "Ygdrasha, Matka Puszczy",
+   "icon": "plant",
+   "variant": 3,
+   "level": 15,
+   "mult": {
+    "hp": 8,
+    "atk": 1.4,
+    "def": 1.5
+   },
+   "speed": 0,
+   "range": 450,
+   "agro": 600,
+   "stats": {
+    "hp": 4520,
+    "atk": 59,
+    "def": 37,
+    "xp": 541
+   },
+   "behavior": "Stacjonarna. Faza 1 (100–60% HP): bicze korzeni i trucizna. Faza 2 (60–30%): co 15 s przyzywa 2 Mchowe Szlamaki. Faza 3 (poniżej 30%): +30% obrażeń, kwiat się otwiera i przyjmuje +25% obrażeń. Regeneruje 1% HP/s w fazach 1–2.",
+   "skills": [
+    "Bicz korzeni (CD 8 s, telegraf 1,2 s)",
+    "Zarodnikowa burza (CD 20 s)",
+    "Przyzwanie szlamaków"
+   ],
+   "weakness": "Ogień i KI; odsłonięta w fazie 3",
+   "loot": "Serce puszczy, Zielona esencja; rzadki: Kwiat Ygdrashy"
+  },
+  {
+   "world": "verdant",
+   "race": "Planetarni",
+   "kind": "boss",
+   "name": "Thorgar, Alfa Kłów",
+   "icon": "beast",
+   "variant": 3,
+   "level": 20,
+   "mult": {
+    "hp": 9,
+    "atk": 1.6,
+    "def": 1.4
+   },
+   "speed": 1.2,
+   "range": 100,
+   "agro": 500,
+   "stats": {
+    "hp": 7560,
+    "atk": 88,
+    "def": 45,
+    "xp": 795
+   },
+   "behavior": "Faza 1: pojedynek, szarże i cięcia. Faza 2 (poniżej 65% HP): wzywa 3 Cierniowe Wilki. Faza 3 (poniżej 30%): berserk, +25% szybkości; Wycie rozprasza gracza.",
+   "skills": [
+    "Szarża Alfy (CD 10 s)",
+    "Rozdarcie: krwawienie 5 s",
+    "Wycie (CD 25 s)"
+   ],
+   "weakness": "Ogłuszony na 1,5 s po chybionej szarży",
+   "loot": "Kieł Alfy, Skóra Thorgara; rzadki: Pazury Alfy"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Świetlik Pieczęci",
+   "icon": "orb",
+   "variant": 0,
+   "level": 1,
+   "mult": {
+    "hp": 0.7,
+    "atk": 0.8,
+    "def": 0.6
+   },
+   "speed": 0.7,
+   "range": 250,
+   "agro": 300,
+   "stats": {
+    "hp": 43,
+    "atk": 6,
+    "def": 2,
+    "xp": 13
+   },
+   "behavior": "Dryfuje wokół wyznaczonej pieczęci. Strzela iskrą z dystansu i utrzymuje odległość, nie opuszcza strefy pieczęci.",
+   "skills": [
+    "Iskra (CD 2,5 s): obrażenia KI"
+   ],
+   "weakness": "Obrażenia fizyczne +20%",
+   "loot": "Pył światła"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Pergaminowy Strażnik",
+   "icon": "humanoid",
+   "variant": 0,
+   "level": 2,
+   "mult": {
+    "hp": 1,
+    "atk": 1,
+    "def": 0.8
+   },
+   "speed": 0.8,
+   "range": 300,
+   "agro": 300,
+   "stats": {
+    "hp": 84,
+    "atk": 10,
+    "def": 4,
+    "xp": 24
+   },
+   "behavior": "Stoi w bibliotece. Po wykryciu rzuca runami z dystansu i przesuwa się za osłony.",
+   "skills": [
+    "Runa (CD 4 s)",
+    "Zapieczętowanie (CD 15 s): blokada umiejętności gracza na 2 s"
+   ],
+   "weakness": "Ogień +30%",
+   "loot": "Karta pergaminu"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Kryształowy Motyl",
+   "icon": "insect",
+   "variant": 1,
+   "level": 4,
+   "mult": {
+    "hp": 0.6,
+    "atk": 0.8,
+    "def": 1.2
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 250,
+   "stats": {
+    "hp": 82,
+    "atk": 12,
+    "def": 10,
+    "xp": 27
+   },
+   "behavior": "Łopocze po okolicy i nie atakuje pierwszy. Po trafieniu odbija część obrażeń w napastnika.",
+   "skills": [
+    "Odbicie (pasywne): 15% obrażeń wraca",
+    "Pyłek: oślepienie 2 s"
+   ],
+   "weakness": "Obrażenia obszarowe i KI omijają odbicie",
+   "loot": "Skrzydło kryształowe"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Szmaragdowy Wąż",
+   "icon": "serpent",
+   "variant": 0,
+   "level": 6,
+   "mult": {
+    "hp": 1,
+    "atk": 1.2,
+    "def": 0.9
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 350,
+   "stats": {
+    "hp": 196,
+    "atk": 24,
+    "def": 10,
+    "xp": 57
+   },
+   "behavior": "Czai się w trawie. Atakuje dwukrotnie i wycofuje się; nie ściga dalej niż 400 j.",
+   "skills": [
+    "Ukąszenie: trucizna 5 s (do 3 stacków)",
+    "Syk: −20% szybkości gracza"
+   ],
+   "weakness": "Obrażenia KI +20%",
+   "loot": "Szmaragdowa łuska"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Duch Bibliotekarza",
+   "icon": "blob",
+   "variant": 2,
+   "level": 8,
+   "mult": {
+    "hp": 0.8,
+    "atk": 1,
+    "def": 0.3
+   },
+   "speed": 0.9,
+   "range": 250,
+   "agro": 300,
+   "stats": {
+    "hp": 211,
+    "atk": 25,
+    "def": 4,
+    "xp": 59
+   },
+   "behavior": "Przenika przez regały (ignoruje kolizje) i dryfuje do gracza. Po pierwszej śmierci powraca raz z 30% HP.",
+   "skills": [
+    "Uciszenie (CD 12 s): blokada umiejętności 3 s",
+    "Szept: −15% obrażeń gracza przez 4 s"
+   ],
+   "weakness": "Obrażenia KI +50%, fizyczne −40%",
+   "loot": "Eter bibliotekarza"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Złoty Skarabeusz",
+   "icon": "insect",
+   "variant": 3,
+   "level": 10,
+   "mult": {
+    "hp": 1.5,
+    "atk": 1,
+    "def": 1.8
+   },
+   "speed": 0.7,
+   "range": 90,
+   "agro": 300,
+   "stats": {
+    "hp": 510,
+    "atk": 30,
+    "def": 31,
+    "xp": 100
+   },
+   "behavior": "Maszeruje powoli w zwarciu. Po 3 otrzymanych trafieniach zwija się na 3 s (−70% obrażeń).",
+   "skills": [
+    "Rozbicie bariery: usuwa osłonę gracza",
+    "Taran (CD 9 s)"
+   ],
+   "weakness": "Obrażenia KI +30%; po zwinięciu odkryty",
+   "loot": "Złoty pancerz, Skarabeusz"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Lew Świątyni",
+   "icon": "beast",
+   "variant": 0,
+   "level": 12,
+   "mult": {
+    "hp": 1.6,
+    "atk": 1.3,
+    "def": 1.5
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 350,
+   "stats": {
+    "hp": 678,
+    "atk": 46,
+    "def": 30,
+    "xp": 136
+   },
+   "behavior": "Posąg aktywowany wejściem w strefę. Walczy do końca; nie goni dalej niż 450 j. i wraca na postument.",
+   "skills": [
+    "Ryk (CD 14 s): strach 1,5 s",
+    "Pazur: 150% ATK"
+   ],
+   "weakness": "Runa na karku: trafienie w plecy +25%",
+   "loot": "Kamień świątynny"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Oko Wiedzy",
+   "icon": "eye",
+   "variant": 0,
+   "level": 14,
+   "mult": {
+    "hp": 0.9,
+    "atk": 1,
+    "def": 0.8
+   },
+   "speed": 0.5,
+   "range": 400,
+   "agro": 450,
+   "stats": {
+    "hp": 464,
+    "atk": 40,
+    "def": 18,
+    "xp": 103
+   },
+   "behavior": "Lewituje i prawie nie atakuje. Oznacza gracza i wzmacnia sojuszników; po 2 trafieniach ucieka.",
+   "skills": [
+    "Znak (CD 10 s): +20% obrażeń od sojuszników",
+    "Promień skupienia (CD 6 s)",
+    "Wzmocnienie: +15% obrażeń sojusznika"
+   ],
+   "weakness": "Priorytetowy cel do zabicia",
+   "loot": "Soczewka wiedzy"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Marionetka Rytuału",
+   "icon": "humanoid",
+   "variant": 1,
+   "level": 16,
+   "mult": {
+    "hp": 1.2,
+    "atk": 1.3,
+    "def": 1
+   },
+   "speed": 0.9,
+   "range": 100,
+   "agro": 350,
+   "stats": {
+    "hp": 739,
+    "atk": 59,
+    "def": 26,
+    "xp": 153
+   },
+   "behavior": "Agresywna, nigdy się nie wycofuje. Po zniszczeniu nici (poniżej 30% HP) traci część szybkości.",
+   "skills": [
+    "Combo 3 ciosów",
+    "Nić energii (CD 12 s): przyciąga cel"
+   ],
+   "weakness": "Obrażenia fizyczne +15%",
+   "loot": "Nić eteru, Maska rytuału"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "mob",
+   "name": "Mgielny Żuraw",
+   "icon": "bird",
+   "variant": 0,
+   "level": 18,
+   "mult": {
+    "hp": 1,
+    "atk": 1.3,
+    "def": 0.9
+   },
+   "speed": 1.1,
+   "range": 350,
+   "agro": 500,
+   "stats": {
+    "hp": 724,
+    "atk": 65,
+    "def": 26,
+    "xp": 156
+   },
+   "behavior": "Krąży nad sanktuarium, rzuca mgłę i zniża się do ataku. Ucieka poniżej 20% HP.",
+   "skills": [
+    "Mgła: widoczność −50% przez 5 s",
+    "Szpon z powietrza (CD 5 s)"
+   ],
+   "weakness": "Ataki dystansowe",
+   "loot": "Pióro mgły"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "boss",
+   "name": "Arcykapłan Pustki",
+   "icon": "humanoid",
+   "variant": 2,
+   "level": 15,
+   "mult": {
+    "hp": 8,
+    "atk": 1.4,
+    "def": 1.2
+   },
+   "speed": 0.8,
+   "range": 400,
+   "agro": 600,
+   "stats": {
+    "hp": 4520,
+    "atk": 59,
+    "def": 29,
+    "xp": 541
+   },
+   "behavior": "Faza 1: pieczęcie na ziemi (strefy obrażeń 5 s). Faza 2 (poniżej 60% HP): bariera −70% obrażeń; trzeba zniszczyć 3 Świetliki. Faza 3 (poniżej 25%): Zamknięcie areny i kurczące się strefy.",
+   "skills": [
+    "Pieczęć Pustki (CD 8 s)",
+    "Bariera (CD 30 s)",
+    "Zamknięcie areny"
+   ],
+   "weakness": "Przerwanie rzucania ogłusza go na 2 s",
+   "loot": "Szaty arcykapłana, Eter Pustki; rzadki: Pieczęć Arcykapłana"
+  },
+  {
+   "world": "aether",
+   "race": "Mędrcy",
+   "kind": "boss",
+   "name": "Aurelith, Smok Sanktuarium",
+   "icon": "serpent",
+   "variant": 1,
+   "level": 20,
+   "mult": {
+    "hp": 10,
+    "atk": 1.6,
+    "def": 1.6
+   },
+   "speed": 0.9,
+   "range": 450,
+   "agro": 600,
+   "stats": {
+    "hp": 8400,
+    "atk": 88,
+    "def": 51,
+    "xp": 870
+   },
+   "behavior": "Faza 1: fale światła i uderzenie ogonem. Faza 2 (poniżej 66% HP): lot i fale obszarowe. Faza 3 (poniżej 33%): Oddech eteru, kanał 4 s (osłona za filarami).",
+   "skills": [
+    "Fala światła (CD 8 s)",
+    "Uderzenie ogonem (CD 6 s)",
+    "Oddech eteru (CD 25 s)"
+   ],
+   "weakness": "Po oddechu odsłonięty 3 s",
+   "loot": "Łuska Aurelitha, Serce sanktuarium"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Dron Zwiadowca",
+   "icon": "drone",
+   "variant": 0,
+   "level": 1,
+   "mult": {
+    "hp": 0.6,
+    "atk": 0.8,
+    "def": 0.7
+   },
+   "speed": 1.1,
+   "range": 250,
+   "agro": 450,
+   "stats": {
+    "hp": 37,
+    "atk": 6,
+    "def": 2,
+    "xp": 12
+   },
+   "behavior": "Patroluje stałą trasę. Po wykryciu gracza piszczy i wzywa 1 sojusznika, następnie strzela krótkimi seriami.",
+   "skills": [
+    "Wiązka (CD 3 s)",
+    "Alarm (1× na walkę)"
+   ],
+   "weakness": "Obrażenia elektryczne +30%",
+   "loot": "Złom, Moduł optyczny"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Pełzacz Serwisowy",
+   "icon": "insect",
+   "variant": 0,
+   "level": 2,
+   "mult": {
+    "hp": 0.9,
+    "atk": 0.7,
+    "def": 1
+   },
+   "speed": 0.7,
+   "range": 90,
+   "agro": 250,
+   "stats": {
+    "hp": 76,
+    "atk": 7,
+    "def": 5,
+    "xp": 19
+   },
+   "behavior": "Trzyma się innych maszyn i naprawia je. Sam atakuje tylko wtedy, gdy nie ma kogo naprawiać.",
+   "skills": [
+    "Naprawa (CD 6 s): 5% HP/s sojusznikom w 200 j.",
+    "Kleszcze"
+   ],
+   "weakness": "Priorytetowy cel; elektryczne +30%",
+   "loot": "Zestaw naprawczy"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Skaner Gąsienicowy",
+   "icon": "drone",
+   "variant": 1,
+   "level": 4,
+   "mult": {
+    "hp": 1.3,
+    "atk": 1,
+    "def": 1.3
+   },
+   "speed": 0.5,
+   "range": 400,
+   "agro": 450,
+   "stats": {
+    "hp": 177,
+    "atk": 15,
+    "def": 10,
+    "xp": 44
+   },
+   "behavior": "Wolny. Utrzymuje dystans 300 j. i cofa się, gdy gracz podejdzie.",
+   "skills": [
+    "Wiązka skanująca (CD 5 s): rosnące obrażenia przy kolejnych trafieniach",
+    "Namierzenie: +20% obrażeń następnego ataku"
+   ],
+   "weakness": "Martwy kąt z tyłu +25%",
+   "loot": "Gąsienica, Soczewka"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Pająk Spawalniczy",
+   "icon": "spider",
+   "variant": 0,
+   "level": 6,
+   "mult": {
+    "hp": 1,
+    "atk": 1.3,
+    "def": 0.9
+   },
+   "speed": 1,
+   "range": 150,
+   "agro": 350,
+   "stats": {
+    "hp": 196,
+    "atk": 26,
+    "def": 10,
+    "xp": 60
+   },
+   "behavior": "Wspina się po konstrukcjach i spada na cel. Zostawia strefy gorącego metalu.",
+   "skills": [
+    "Łuk spawalniczy (CD 5 s)",
+    "Strefa żaru: obrażenia przez 4 s"
+   ],
+   "weakness": "Obrażenia elektryczne +20%",
+   "loot": "Elektroda, Złom"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Wieżyczka Autonomiczna",
+   "icon": "golem",
+   "variant": 0,
+   "level": 8,
+   "mult": {
+    "hp": 1.5,
+    "atk": 1.4,
+    "def": 1.5
+   },
+   "speed": 0,
+   "range": 450,
+   "agro": 500,
+   "stats": {
+    "hp": 396,
+    "atk": 35,
+    "def": 21,
+    "xp": 96
+   },
+   "behavior": "Nieruchoma. Obraca się 90°/s, więc można ją obejść z flanki. Strzela seriami; po 12 strzałach przegrzewa się.",
+   "skills": [
+    "Seria 3 pocisków (CD 4 s)",
+    "Przegrzanie: wyłączona na 3 s"
+   ],
+   "weakness": "Flankowanie i przegrzanie",
+   "loot": "Cewka, Lufa"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Rój Nanitów",
+   "icon": "blob",
+   "variant": 1,
+   "level": 10,
+   "mult": {
+    "hp": 0.8,
+    "atk": 1,
+    "def": 0.6
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 350,
+   "stats": {
+    "hp": 272,
+    "atk": 30,
+    "def": 10,
+    "xp": 72
+   },
+   "behavior": "Po otrzymaniu obrażeń rozdziela się na 2 części po 40% HP (maks. 1×). Jeśli obie żyją po 6 s, łączą się z powrotem.",
+   "skills": [
+    "Nanoprzeżarcie: −10% DEF gracza (do 3 stacków)"
+   ],
+   "weakness": "Obrażenia obszarowe, EMP",
+   "loot": "Nanopył"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Pies Łowca",
+   "icon": "beast",
+   "variant": 0,
+   "level": 12,
+   "mult": {
+    "hp": 1,
+    "atk": 1.4,
+    "def": 0.9
+   },
+   "speed": 1.4,
+   "range": 90,
+   "agro": 600,
+   "stats": {
+    "hp": 424,
+    "atk": 49,
+    "def": 18,
+    "xp": 113
+   },
+   "behavior": "Wybiera cel z najniższym HP w grupie i goni go do końca; ignoruje innych.",
+   "skills": [
+    "Skok (CD 6 s)",
+    "Szarpnięcie: 120% ATK"
+   ],
+   "weakness": "Ogłuszenia i spowolnienia",
+   "loot": "Siłownik, Czujnik"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Strażnik Rdzenia",
+   "icon": "humanoid",
+   "variant": 0,
+   "level": 14,
+   "mult": {
+    "hp": 1.7,
+    "atk": 1.3,
+    "def": 1.8
+   },
+   "speed": 0.8,
+   "range": 120,
+   "agro": 350,
+   "stats": {
+    "hp": 877,
+    "atk": 52,
+    "def": 41,
+    "xp": 162
+   },
+   "behavior": "Chroni wyznaczony obiekt; nie goni dalej niż 500 j. Poniżej 50% HP aktywuje tarczę plazmową.",
+   "skills": [
+    "Tarcza plazmowa (CD 25 s): absorbuje 25% max HP",
+    "Cios impulsowy (CD 6 s)"
+   ],
+   "weakness": "Obrażenia elektryczne zdejmują tarczę 2× szybciej",
+   "loot": "Rdzeń energii, Płyta pancerna"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Latarnia Plazmowa",
+   "icon": "orb",
+   "variant": 0,
+   "level": 16,
+   "mult": {
+    "hp": 1,
+    "atk": 1.6,
+    "def": 0.8
+   },
+   "speed": 0.3,
+   "range": 450,
+   "agro": 500,
+   "stats": {
+    "hp": 616,
+    "atk": 72,
+    "def": 21,
+    "xp": 159
+   },
+   "behavior": "Wolno dryfuje. Ładuje wyładowanie przez 2,5 s (widoczne ostrzeżenie), które trzeba przerwać lub uniknąć.",
+   "skills": [
+    "Wyładowanie plazmy (CD 9 s): 250% ATK, obszar",
+    "Iskra"
+   ],
+   "weakness": "Przerwanie ładowania ogłusza ją na 2 s",
+   "loot": "Rdzeń plazmy"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "mob",
+   "name": "Kruk Danych",
+   "icon": "bird",
+   "variant": 2,
+   "level": 18,
+   "mult": {
+    "hp": 0.8,
+    "atk": 1.2,
+    "def": 0.8
+   },
+   "speed": 1.3,
+   "range": 300,
+   "agro": 500,
+   "stats": {
+    "hp": 579,
+    "atk": 60,
+    "def": 23,
+    "xp": 136
+   },
+   "behavior": "Lata wysoko. Zakłóca interfejs i oznacza gracza maszynom; ucieka poniżej 30% HP.",
+   "skills": [
+    "Zakłócenie (CD 14 s): ukrywa minimapę na 4 s",
+    "Znak łowcy: +15% obrażeń maszyn"
+   ],
+   "weakness": "Obrażenia elektryczne +30%",
+   "loot": "Pamięć danych"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "boss",
+   "name": "Arbiter Zero",
+   "icon": "golem",
+   "variant": 1,
+   "level": 15,
+   "mult": {
+    "hp": 8,
+    "atk": 1.5,
+    "def": 1.7
+   },
+   "speed": 0.7,
+   "range": 400,
+   "agro": 600,
+   "stats": {
+    "hp": 4520,
+    "atk": 64,
+    "def": 42,
+    "xp": 546
+   },
+   "behavior": "Faza 1: pociski i tarcza. Faza 2 (poniżej 60% HP): przeciążenie, kula energii i 2 drony. Faza 3 (poniżej 25%): przegrzanie — brak tarczy i +40% otrzymywanych obrażeń przez 10 s co 30 s.",
+   "skills": [
+    "Salwa (CD 7 s)",
+    "Tarcza (CD 20 s)",
+    "Przeciążenie (CD 18 s)"
+   ],
+   "weakness": "Obrażenia elektryczne w oknie przegrzania",
+   "loot": "Kod Arbitra, Płyta egzekutora"
+  },
+  {
+   "world": "nexus",
+   "race": "Androidy",
+   "kind": "boss",
+   "name": "Hydra-Rdzeń",
+   "icon": "serpent",
+   "variant": 0,
+   "level": 20,
+   "mult": {
+    "hp": 10,
+    "atk": 1.6,
+    "def": 1.5
+   },
+   "speed": 0,
+   "range": 400,
+   "agro": 600,
+   "stats": {
+    "hp": 8400,
+    "atk": 88,
+    "def": 48,
+    "xp": 870
+   },
+   "behavior": "Trzy segmenty-głowy atakują różnie (plazma, wiązka, uderzenie). Faza 1: 3 głowy. Faza 2 (poniżej 66% HP): 2 głowy i przyzwanie nanitów. Faza 3 (poniżej 33%): rdzeń odsłonięty, szybsze ataki.",
+   "skills": [
+    "Plazma (CD 6 s)",
+    "Wiązka (CD 8 s)",
+    "Uderzenie (CD 5 s)",
+    "Przyzwanie nanitów (CD 20 s)"
+   ],
+   "weakness": "Odsłonięty rdzeń +50% obrażeń",
+   "loot": "Rdzeń hydry, Moduł Prime"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Węgielek",
+   "icon": "blob",
+   "variant": 0,
+   "level": 1,
+   "mult": {
+    "hp": 1,
+    "atk": 0.9,
+    "def": 0.8
+   },
+   "speed": 0.6,
+   "range": 90,
+   "agro": 250,
+   "stats": {
+    "hp": 61,
+    "atk": 7,
+    "def": 3,
+    "xp": 16
+   },
+   "behavior": "Powoli toczy się do celu. Po śmierci eksploduje (40% ATK w 120 j.).",
+   "skills": [
+    "Kontakt ognia: palenie 3 s",
+    "Wybuch po śmierci"
+   ],
+   "weakness": "Woda/zimno +30%",
+   "loot": "Węgiel"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Ognista Salamandra",
+   "icon": "serpent",
+   "variant": 0,
+   "level": 2,
+   "mult": {
+    "hp": 0.8,
+    "atk": 1.2,
+    "def": 0.6
+   },
+   "speed": 1.2,
+   "range": 100,
+   "agro": 400,
+   "stats": {
+    "hp": 67,
+    "atk": 12,
+    "def": 3,
+    "xp": 24
+   },
+   "behavior": "Szybko biega i zostawia płonący ślad na 3 s. Unika walki z grupami.",
+   "skills": [
+    "Ugryzienie: palenie 3 s",
+    "Ślad ognia"
+   ],
+   "weakness": "Woda/zimno +30%",
+   "loot": "Łuska salamandry"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Popielny Wilk",
+   "icon": "beast",
+   "variant": 2,
+   "level": 4,
+   "mult": {
+    "hp": 0.9,
+    "atk": 1.2,
+    "def": 0.8
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 450,
+   "stats": {
+    "hp": 122,
+    "atk": 18,
+    "def": 6,
+    "xp": 40
+   },
+   "behavior": "Stado po 3. Wyłania się z popiołu i atakuje z flanki; poniżej 30% HP chowa się w popiele i regeneruje przez 5 s.",
+   "skills": [
+    "Skok (CD 6 s)",
+    "Obłok popiołu: widoczność −30% przez 4 s"
+   ],
+   "weakness": "Obrażenia obszarowe",
+   "loot": "Popielne futro"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Skalny Berserker",
+   "icon": "humanoid",
+   "variant": 0,
+   "level": 6,
+   "mult": {
+    "hp": 1.3,
+    "atk": 1.4,
+    "def": 1
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 350,
+   "stats": {
+    "hp": 255,
+    "atk": 28,
+    "def": 11,
+    "xp": 70
+   },
+   "behavior": "Atakuje bez wycofania. Im mniej HP, tym więcej obrażeń (do +40% poniżej 30% HP).",
+   "skills": [
+    "Młot (CD 5 s)",
+    "Wściekłość (poniżej 50% HP): +20% szybkości ataku"
+   ],
+   "weakness": "Ogłuszenia; zabić szybko",
+   "loot": "Skalny kastet"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Magmowy Krab",
+   "icon": "spider",
+   "variant": 0,
+   "level": 8,
+   "mult": {
+    "hp": 1.5,
+    "atk": 1,
+    "def": 2
+   },
+   "speed": 0.6,
+   "range": 100,
+   "agro": 300,
+   "stats": {
+    "hp": 396,
+    "atk": 25,
+    "def": 28,
+    "xp": 83
+   },
+   "behavior": "Ustawia się bokiem. Od frontu przyjmuje −60% obrażeń, z tyłu i boków jest podatny.",
+   "skills": [
+    "Kleszcze (CD 5 s)",
+    "Zalew magmą: strefa 4 s"
+   ],
+   "weakness": "Atak z tyłu +40%; woda",
+   "loot": "Magmowy pancerz"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Żarowy Nietoperz",
+   "icon": "bird",
+   "variant": 2,
+   "level": 10,
+   "mult": {
+    "hp": 0.7,
+    "atk": 1.2,
+    "def": 0.6
+   },
+   "speed": 1.4,
+   "range": 100,
+   "agro": 500,
+   "stats": {
+    "hp": 238,
+    "atk": 36,
+    "def": 10,
+    "xp": 76
+   },
+   "behavior": "Roje po 3. Krążą nad kraterami i atakują nurkując, po czym unikają kontrataku.",
+   "skills": [
+    "Nurkowanie (CD 4 s)",
+    "Iskry: palenie 2 s"
+   ],
+   "weakness": "Obrażenia obszarowe",
+   "loot": "Skrzydło żaru"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Golem Ruin",
+   "icon": "golem",
+   "variant": 0,
+   "level": 12,
+   "mult": {
+    "hp": 2,
+    "atk": 1.5,
+    "def": 2
+   },
+   "speed": 0.5,
+   "range": 120,
+   "agro": 300,
+   "stats": {
+    "hp": 848,
+    "atk": 53,
+    "def": 40,
+    "xp": 165
+   },
+   "behavior": "Powolny, ciosy telegrafowane 1,5 s. Poniżej 50% HP odrzuca odłamki w obszarze.",
+   "skills": [
+    "Miażdżenie (CD 7 s): 220% ATK",
+    "Odłamki (obszar)"
+   ],
+   "weakness": "Obrażenia KI +20%",
+   "loot": "Obsydian"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Płomień-Duch",
+   "icon": "orb",
+   "variant": 0,
+   "level": 14,
+   "mult": {
+    "hp": 0.8,
+    "atk": 1.5,
+    "def": 0.5
+   },
+   "speed": 0.8,
+   "range": 400,
+   "agro": 450,
+   "stats": {
+    "hp": 413,
+    "atk": 60,
+    "def": 12,
+    "xp": 124
+   },
+   "behavior": "Unosi się nad areną, trzyma dystans i rzuca kule. Po śmierci zostawia strefę ognia na 5 s.",
+   "skills": [
+    "Kula ognia (CD 3,5 s)",
+    "Pierścień ognia (CD 12 s)"
+   ],
+   "weakness": "Woda/zimno +40%",
+   "loot": "Esencja płomienia"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Byk Areny",
+   "icon": "beast",
+   "variant": 0,
+   "level": 16,
+   "mult": {
+    "hp": 1.8,
+    "atk": 1.5,
+    "def": 1.4
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 400,
+   "stats": {
+    "hp": 1109,
+    "atk": 68,
+    "def": 36,
+    "xp": 201
+   },
+   "behavior": "Tupie przez 1 s, potem szarżuje w linii prostej. Po chybieniu uderza w ścianę i ogłusza się na 2,5 s.",
+   "skills": [
+    "Szarża (CD 9 s): 200% ATK + ogłuszenie",
+    "Tupnięcie"
+   ],
+   "weakness": "Unik szarży = okno na atak",
+   "loot": "Róg areny"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "mob",
+   "name": "Skorpion Obsydianowy",
+   "icon": "insect",
+   "variant": 2,
+   "level": 18,
+   "mult": {
+    "hp": 1.2,
+    "atk": 1.5,
+    "def": 1.5
+   },
+   "speed": 1,
+   "range": 150,
+   "agro": 400,
+   "stats": {
+    "hp": 869,
+    "atk": 75,
+    "def": 44,
+    "xp": 184
+   },
+   "behavior": "Zakopuje się w piasku i wynurza tuż obok gracza. Trucizna kumuluje się.",
+   "skills": [
+    "Żądło: trucizna (do 5 stacków)",
+    "Pułapka piaskowa"
+   ],
+   "weakness": "Woda/zimno +20%; ogon pęka po 3 trafieniach",
+   "loot": "Szkło obsydianowe"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "boss",
+   "name": "Kharzul, Mistrz Areny",
+   "icon": "humanoid",
+   "variant": 3,
+   "level": 15,
+   "mult": {
+    "hp": 8,
+    "atk": 1.6,
+    "def": 1.4
+   },
+   "speed": 1.1,
+   "range": 100,
+   "agro": 600,
+   "stats": {
+    "hp": 4520,
+    "atk": 68,
+    "def": 34,
+    "xp": 552
+   },
+   "behavior": "Faza 1: kombinacje 3 ciosów. Faza 2 (poniżej 60% HP): Płomienny szał, +25% szybkości. Faza 3 (poniżej 25%): arena płonie (strefy obrażeń), wyłączone leczenie.",
+   "skills": [
+    "Ogniste cięcie (CD 6 s)",
+    "Przełamanie (CD 12 s)",
+    "Płomienny szał (CD 30 s)"
+   ],
+   "weakness": "Po Przełamaniu odsłonięty 2 s",
+   "loot": "Pancerz Kharzula, Płomień areny"
+  },
+  {
+   "world": "pyra",
+   "race": "Legendy",
+   "kind": "boss",
+   "name": "Pyrrhax, Smok Wulkanu",
+   "icon": "serpent",
+   "variant": 3,
+   "level": 20,
+   "mult": {
+    "hp": 10,
+    "atk": 1.7,
+    "def": 1.6
+   },
+   "speed": 0.6,
+   "range": 450,
+   "agro": 600,
+   "stats": {
+    "hp": 8400,
+    "atk": 94,
+    "def": 51,
+    "xp": 878
+   },
+   "behavior": "Faza 1: ogon i fale żaru. Faza 2 (poniżej 66% HP): lot i deszcz lawy. Faza 3 (poniżej 33%): erupcja — bezpieczne strefy wskazane na ziemi.",
+   "skills": [
+    "Fala żaru (CD 7 s)",
+    "Deszcz lawy (CD 15 s)",
+    "Erupcja (CD 30 s)"
+   ],
+   "weakness": "Przy lądowaniu odsłania brzuch (+30% obrażeń przez 3 s)",
+   "loot": "Serce wulkanu, Łuska Pyrrhaxa"
+  }
+ ]
+}

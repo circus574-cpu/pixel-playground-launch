@@ -1,0 +1,1083 @@
+{
+ "note": "40 bestiary monsters with our own designs; bosses are not part of this batch",
+ "monsters": [
+  {
+   "id": "verdant-mchowy-szlamak",
+   "world": "verdant",
+   "name": "Mchowy Szlamak",
+   "level": 1,
+   "stats": {
+    "hp": 73,
+    "atk": 5,
+    "def": 4,
+    "xp": 16
+   },
+   "speed": 0.5,
+   "range": 90,
+   "agro": 250,
+   "behavior": "Błąka się w promieniu 300 j. od gniazda. Nie atakuje pierwszy; po zaczepieniu goni powoli, a po 6 s bez trafienia wraca i regeneruje HP.",
+   "skills": [
+    "Oblepienie (zwarcie, CD 5 s): −20% szybkości gracza przez 3 s"
+   ],
+   "weakness": "Ogień +30% obrażeń",
+   "loot": "Mchowa galaretka, Zielone ziele",
+   "archetype": "blob",
+   "size": "S",
+   "scale": 0.62,
+   "design": "a round moss covered slime with translucent green jelly body, tufts of moss and tiny mushrooms on top, two big glossy dull eyes",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-cierniowy-wilk",
+   "world": "verdant",
+   "name": "Cierniowy Wilk",
+   "level": 2,
+   "stats": {
+    "hp": 67,
+    "atk": 12,
+    "def": 4,
+    "xp": 24
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 400,
+   "behavior": "Poluje w grupach po 2–3. Okrąża cel i atakuje z flanki; przy HP poniżej 25% wycofuje się na 4 s.",
+   "skills": [
+    "Skok na cel (CD 6 s): 120% ATK",
+    "Wycie (1× na walkę): wzywa 1 sojusznika z okolicy"
+   ],
+   "weakness": "Obrażenia obszarowe (grupa)",
+   "loot": "Cierń wilka, Skóra wilcza",
+   "archetype": "quad",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a lean dark green wolf with long sharp thorns along its spine and tail, vines wrapped around its legs, glowing amber eyes, snarling",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-lisciak-skrytobojca",
+   "world": "verdant",
+   "name": "Liściak Skrytobójca",
+   "level": 4,
+   "stats": {
+    "hp": 95,
+    "atk": 23,
+    "def": 4,
+    "xp": 42
+   },
+   "speed": 1.1,
+   "range": 90,
+   "agro": 200,
+   "behavior": "Nieruchomy i niewidoczny w krzakach. Wyskakuje, gdy gracz wejdzie w 200 j.; po pierwszym ciosie ucieka i chowa się na 8 s.",
+   "skills": [
+    "Cios z ukrycia (×2 obrażeń, tylko pierwszy atak)",
+    "Krwawienie (3 s)"
+   ],
+   "weakness": "Ujawnia się po trafieniu obszarowym",
+   "loot": "Zielone ostrze, Sok liściaka",
+   "archetype": "crawl",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a mantis like leaf assassin insect with two leaf shaped blade arms, leaf shaped wings, camouflage green body, sharp glowing eyes",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-korzeniowy-pelzacz",
+   "world": "verdant",
+   "name": "Korzeniowy Pełzacz",
+   "level": 6,
+   "stats": {
+    "hp": 255,
+    "atk": 20,
+    "def": 13,
+    "xp": 60
+   },
+   "speed": 0.4,
+   "range": 160,
+   "agro": 300,
+   "behavior": "Ukryty pod ziemią. Wynurza się pod graczem, unieruchamia go i wraca pod ziemię na 4 s (nietykalny).",
+   "skills": [
+    "Oplątanie (CD 10 s): unieruchomienie 2 s",
+    "Wybuch korzeni (obszar 120 j.)"
+   ],
+   "weakness": "Ogień; w chwili wynurzenia +25% obrażeń",
+   "loot": "Żywy korzeń, Nasiona",
+   "archetype": "slither",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a long writhing serpent made of twisted brown tree roots, a bulb shaped head with small yellow flowers and a lamprey mouth",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-grzybowy-zarodnik",
+   "world": "verdant",
+   "name": "Grzybowy Zarodnik",
+   "level": 8,
+   "stats": {
+    "hp": 370,
+    "atk": 23,
+    "def": 11,
+    "xp": 76
+   },
+   "speed": 0,
+   "range": 350,
+   "agro": 350,
+   "behavior": "Stacjonarny. Rzuca chmury zarodników w stronę gracza, nigdy się nie przemieszcza. Po śmierci wybucha chmurą.",
+   "skills": [
+    "Chmura zarodników (CD 7 s): obszar 150 j., trucizna 5 s",
+    "Wybuch po śmierci"
+   ],
+   "weakness": "Ogień +40%; szybkie zabicie z daleka",
+   "loot": "Zarodniki, Czerwony grzyb",
+   "archetype": "plant",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a giant red capped mushroom creature with white spots, a small angry face on its stalk, clouds of spores puffing from the cap, short root legs",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-bursztynowa-osa",
+   "world": "verdant",
+   "name": "Bursztynowa Osa",
+   "level": 10,
+   "stats": {
+    "hp": 238,
+    "atk": 39,
+    "def": 10,
+    "xp": 80
+   },
+   "speed": 1.4,
+   "range": 300,
+   "agro": 450,
+   "behavior": "Lata nad celem, nurkuje i dystansuje się. Po 3 atakach odlatuje na 3 s. Poniżej 40% HP przyzywa 2 małe osy.",
+   "skills": [
+    "Żądło (CD 3 s): lekka trucizna",
+    "Rój (1× na walkę): 2 małe osy"
+   ],
+   "weakness": "Obrażenia obszarowe",
+   "loot": "Bursztyn, Żądło osy",
+   "archetype": "fly",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a big amber colored wasp with translucent veined wings and a glowing amber stinger, black and gold stripes, flying",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-skalny-jelen",
+   "world": "verdant",
+   "name": "Skalny Jeleń",
+   "level": 12,
+   "stats": {
+    "hp": 594,
+    "atk": 39,
+    "def": 28,
+    "xp": 118
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 300,
+   "behavior": "Pasie się i jest nieagresywny do czasu ataku. Po zaczepieniu szarżuje w linii prostej.",
+   "skills": [
+    "Szarża (CD 8 s): 150% ATK + ogłuszenie 1 s",
+    "Tupnięcie (obszar)"
+   ],
+   "weakness": "Po chybionej szarży odsłonięty 2 s (−30% DEF)",
+   "loot": "Poroże, Skalna skóra",
+   "archetype": "quad",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a powerful stag with stone plated hide, grey rock antlers, moss on its back and glowing green eyes",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-lesny-pajak",
+   "world": "verdant",
+   "name": "Leśny Pająk",
+   "level": 14,
+   "stats": {
+    "hp": 516,
+    "atk": 48,
+    "def": 21,
+    "xp": 119
+   },
+   "speed": 0.9,
+   "range": 280,
+   "agro": 400,
+   "behavior": "Zastawia do 3 sieci w promieniu 300 j., wabi gracza i atakuje z dystansu. Poza siecią porusza się wolniej.",
+   "skills": [
+    "Sieć: spowolnienie 40% przez 4 s",
+    "Plwocina (CD 6 s): trucizna"
+   ],
+   "weakness": "Ogień niszczy sieci i zadaje +30%",
+   "loot": "Jedwab pająka, Jad",
+   "archetype": "crawl",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a forest spider with dark green carapace marked with leaf patterns, long spindly legs and silk strands",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-puchacz-pylowy",
+   "world": "verdant",
+   "name": "Puchacz Pyłowy",
+   "level": 16,
+   "stats": {
+    "hp": 554,
+    "atk": 63,
+    "def": 18,
+    "xp": 140
+   },
+   "speed": 1.3,
+   "range": 120,
+   "agro": 500,
+   "behavior": "Aktywny nocą; w dzień ma 50% promienia agro. Krąży i nurkuje na cele z HP poniżej 60%.",
+   "skills": [
+    "Nurkowanie (CD 5 s): 130% ATK",
+    "Pył w oczy: −25% celności na 4 s"
+   ],
+   "weakness": "Po nurkowaniu wolniejszy przez 1 s",
+   "loot": "Pióro puchacza, Pył",
+   "archetype": "fly",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a large horned owl with dusty grey brown feathers, glowing yellow eyes, wings spread and trailing a cloud of dust",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "verdant-straznik-ruin",
+   "world": "verdant",
+   "name": "Strażnik Ruin",
+   "level": 18,
+   "stats": {
+    "hp": 1448,
+    "atk": 60,
+    "def": 58,
+    "xp": 218
+   },
+   "speed": 0.6,
+   "range": 100,
+   "agro": 300,
+   "behavior": "Patroluje stałą trasę w ruinach. Po wykryciu blokuje ścieżkę; nie opuszcza obszaru (leash 500 j.).",
+   "skills": [
+    "Cios młotem (CD 6 s, telegraf 1 s): 180% ATK",
+    "Kamienna skóra (CD 20 s): −40% obrażeń przez 4 s"
+   ],
+   "weakness": "Obrażenia KI +25%",
+   "loot": "Kamień runiczny, Fragment ruin",
+   "archetype": "stomp",
+   "size": "L",
+   "scale": 0.98,
+   "design": "an ancient overgrown stone golem with moss and vines on its shoulders, glowing green runes and a heavy stone hammer fist",
+   "palette": "lush forest greens, warm amber and brown, natural"
+  },
+  {
+   "id": "aether-swietlik-pieczeci",
+   "world": "aether",
+   "name": "Świetlik Pieczęci",
+   "level": 1,
+   "stats": {
+    "hp": 43,
+    "atk": 6,
+    "def": 2,
+    "xp": 13
+   },
+   "speed": 0.7,
+   "range": 250,
+   "agro": 300,
+   "behavior": "Dryfuje wokół wyznaczonej pieczęci. Strzela iskrą z dystansu i utrzymuje odległość, nie opuszcza strefy pieczęci.",
+   "skills": [
+    "Iskra (CD 2,5 s): obrażenia KI"
+   ],
+   "weakness": "Obrażenia fizyczne +20%",
+   "loot": "Pył światła",
+   "archetype": "hover",
+   "size": "S",
+   "scale": 0.62,
+   "design": "a floating glowing orb spirit of gold and emerald light with a small ring of runes orbiting it",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-pergaminowy-straznik",
+   "world": "aether",
+   "name": "Pergaminowy Strażnik",
+   "level": 2,
+   "stats": {
+    "hp": 84,
+    "atk": 10,
+    "def": 4,
+    "xp": 24
+   },
+   "speed": 0.8,
+   "range": 300,
+   "agro": 300,
+   "behavior": "Stoi w bibliotece. Po wykryciu rzuca runami z dystansu i przesuwa się za osłony.",
+   "skills": [
+    "Runa (CD 4 s)",
+    "Zapieczętowanie (CD 15 s): blokada umiejętności gracza na 2 s"
+   ],
+   "weakness": "Ogień +30%",
+   "loot": "Karta pergaminu",
+   "archetype": "stomp",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a tall robed guardian made of folded parchment scrolls with glowing gold runes written on it and a blank mask for a face",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-krysztalowy-motyl",
+   "world": "aether",
+   "name": "Kryształowy Motyl",
+   "level": 4,
+   "stats": {
+    "hp": 82,
+    "atk": 12,
+    "def": 10,
+    "xp": 27
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 250,
+   "behavior": "Łopocze po okolicy i nie atakuje pierwszy. Po trafieniu odbija część obrażeń w napastnika.",
+   "skills": [
+    "Odbicie (pasywne): 15% obrażeń wraca",
+    "Pyłek: oślepienie 2 s"
+   ],
+   "weakness": "Obrażenia obszarowe i KI omijają odbicie",
+   "loot": "Skrzydło kryształowe",
+   "archetype": "fly",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a large butterfly with prism crystal wings that refract emerald and pale gold light, delicate crystal antennae",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-szmaragdowy-waz",
+   "world": "aether",
+   "name": "Szmaragdowy Wąż",
+   "level": 6,
+   "stats": {
+    "hp": 196,
+    "atk": 24,
+    "def": 10,
+    "xp": 57
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 350,
+   "behavior": "Czai się w trawie. Atakuje dwukrotnie i wycofuje się; nie ściga dalej niż 400 j.",
+   "skills": [
+    "Ukąszenie: trucizna 5 s (do 3 stacków)",
+    "Syk: −20% szybkości gracza"
+   ],
+   "weakness": "Obrażenia KI +20%",
+   "loot": "Szmaragdowa łuska",
+   "archetype": "slither",
+   "size": "M",
+   "scale": 0.8,
+   "design": "an emerald green serpent with gold markings, a jewel on its forehead and a raised hooded neck",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-duch-bibliotekarza",
+   "world": "aether",
+   "name": "Duch Bibliotekarza",
+   "level": 8,
+   "stats": {
+    "hp": 211,
+    "atk": 25,
+    "def": 4,
+    "xp": 59
+   },
+   "speed": 0.9,
+   "range": 250,
+   "agro": 300,
+   "behavior": "Przenika przez regały (ignoruje kolizje) i dryfuje do gracza. Po pierwszej śmierci powraca raz z 30% HP.",
+   "skills": [
+    "Uciszenie (CD 12 s): blokada umiejętności 3 s",
+    "Szept: −15% obrażeń gracza przez 4 s"
+   ],
+   "weakness": "Obrażenia KI +50%, fizyczne −40%",
+   "loot": "Eter bibliotekarza",
+   "archetype": "hover",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a translucent ghost of an old librarian with round spectacles, a floating robe trailing into wisps, pale blue white glow, holding a book",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-zloty-skarabeusz",
+   "world": "aether",
+   "name": "Złoty Skarabeusz",
+   "level": 10,
+   "stats": {
+    "hp": 510,
+    "atk": 30,
+    "def": 31,
+    "xp": 100
+   },
+   "speed": 0.7,
+   "range": 90,
+   "agro": 300,
+   "behavior": "Maszeruje powoli w zwarciu. Po 3 otrzymanych trafieniach zwija się na 3 s (−70% obrażeń).",
+   "skills": [
+    "Rozbicie bariery: usuwa osłonę gracza",
+    "Taran (CD 9 s)"
+   ],
+   "weakness": "Obrażenia KI +30%; po zwinięciu odkryty",
+   "loot": "Złoty pancerz, Skarabeusz",
+   "archetype": "crawl",
+   "size": "S",
+   "scale": 0.62,
+   "design": "a golden scarab beetle with an ornate engraved shell set with emerald gems and strong front legs",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-lew-swiatyni",
+   "world": "aether",
+   "name": "Lew Świątyni",
+   "level": 12,
+   "stats": {
+    "hp": 678,
+    "atk": 46,
+    "def": 30,
+    "xp": 136
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 350,
+   "behavior": "Posąg aktywowany wejściem w strefę. Walczy do końca; nie goni dalej niż 450 j. i wraca na postument.",
+   "skills": [
+    "Ryk (CD 14 s): strach 1,5 s",
+    "Pazur: 150% ATK"
+   ],
+   "weakness": "Runa na karku: trafienie w plecy +25%",
+   "loot": "Kamień świątynny",
+   "archetype": "quad",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a living cream marble temple lion statue with gold ornament, emerald eyes and a carved mane",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-oko-wiedzy",
+   "world": "aether",
+   "name": "Oko Wiedzy",
+   "level": 14,
+   "stats": {
+    "hp": 464,
+    "atk": 40,
+    "def": 18,
+    "xp": 103
+   },
+   "speed": 0.5,
+   "range": 400,
+   "agro": 450,
+   "behavior": "Lewituje i prawie nie atakuje. Oznacza gracza i wzmacnia sojuszników; po 2 trafieniach ucieka.",
+   "skills": [
+    "Znak (CD 10 s): +20% obrażeń od sojuszników",
+    "Promień skupienia (CD 6 s)",
+    "Wzmocnienie: +15% obrażeń sojusznika"
+   ],
+   "weakness": "Priorytetowy cel do zabicia",
+   "loot": "Soczewka wiedzy",
+   "archetype": "hover",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a floating giant eye in an ornate golden frame with a ring of glowing runes and an emerald iris",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-marionetka-rytualu",
+   "world": "aether",
+   "name": "Marionetka Rytuału",
+   "level": 16,
+   "stats": {
+    "hp": 739,
+    "atk": 59,
+    "def": 26,
+    "xp": 153
+   },
+   "speed": 0.9,
+   "range": 100,
+   "agro": 350,
+   "behavior": "Agresywna, nigdy się nie wycofuje. Po zniszczeniu nici (poniżej 30% HP) traci część szybkości.",
+   "skills": [
+    "Combo 3 ciosów",
+    "Nić energii (CD 12 s): przyciąga cel"
+   ],
+   "weakness": "Obrażenia fizyczne +15%",
+   "loot": "Nić eteru, Maska rytuału",
+   "archetype": "stomp",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a ritual puppet with wooden jointed limbs held by glowing strings, a white mask with gold lines and an ornate ceremonial robe",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "aether-mgielny-zuraw",
+   "world": "aether",
+   "name": "Mgielny Żuraw",
+   "level": 18,
+   "stats": {
+    "hp": 724,
+    "atk": 65,
+    "def": 26,
+    "xp": 156
+   },
+   "speed": 1.1,
+   "range": 350,
+   "agro": 500,
+   "behavior": "Krąży nad sanktuarium, rzuca mgłę i zniża się do ataku. Ucieka poniżej 20% HP.",
+   "skills": [
+    "Mgła: widoczność −50% przez 5 s",
+    "Szpon z powietrza (CD 5 s)"
+   ],
+   "weakness": "Ataki dystansowe",
+   "loot": "Pióro mgły",
+   "archetype": "fly",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a tall crane made of mist and pale feathers with a long beak and long legs, fog trailing from its wings",
+   "palette": "cream white, emerald green and gold, serene magical"
+  },
+  {
+   "id": "nexus-dron-zwiadowca",
+   "world": "nexus",
+   "name": "Dron Zwiadowca",
+   "level": 1,
+   "stats": {
+    "hp": 37,
+    "atk": 6,
+    "def": 2,
+    "xp": 12
+   },
+   "speed": 1.1,
+   "range": 250,
+   "agro": 450,
+   "behavior": "Patroluje stałą trasę. Po wykryciu gracza piszczy i wzywa 1 sojusznika, następnie strzela krótkimi seriami.",
+   "skills": [
+    "Wiązka (CD 3 s)",
+    "Alarm (1× na walkę)"
+   ],
+   "weakness": "Obrażenia elektryczne +30%",
+   "loot": "Złom, Moduł optyczny",
+   "archetype": "hover",
+   "size": "S",
+   "scale": 0.62,
+   "design": "a small scout drone with a silver body, a single blue glowing lens and two spinning rotors",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-pelzacz-serwisowy",
+   "world": "nexus",
+   "name": "Pełzacz Serwisowy",
+   "level": 2,
+   "stats": {
+    "hp": 76,
+    "atk": 7,
+    "def": 5,
+    "xp": 19
+   },
+   "speed": 0.7,
+   "range": 90,
+   "agro": 250,
+   "behavior": "Trzyma się innych maszyn i naprawia je. Sam atakuje tylko wtedy, gdy nie ma kogo naprawiać.",
+   "skills": [
+    "Naprawa (CD 6 s): 5% HP/s sojusznikom w 200 j.",
+    "Kleszcze"
+   ],
+   "weakness": "Priorytetowy cel; elektryczne +30%",
+   "loot": "Zestaw naprawczy",
+   "archetype": "crawl",
+   "size": "S",
+   "scale": 0.62,
+   "design": "a six legged maintenance crawler robot with small repair arms, a welding tool and orange service lights on a silver body",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-skaner-gasienicowy",
+   "world": "nexus",
+   "name": "Skaner Gąsienicowy",
+   "level": 4,
+   "stats": {
+    "hp": 177,
+    "atk": 15,
+    "def": 10,
+    "xp": 44
+   },
+   "speed": 0.5,
+   "range": 400,
+   "agro": 450,
+   "behavior": "Wolny. Utrzymuje dystans 300 j. i cofa się, gdy gracz podejdzie.",
+   "skills": [
+    "Wiązka skanująca (CD 5 s): rosnące obrażenia przy kolejnych trafieniach",
+    "Namierzenie: +20% obrażeń następnego ataku"
+   ],
+   "weakness": "Martwy kąt z tyłu +25%",
+   "loot": "Gąsienica, Soczewka",
+   "archetype": "stomp",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a slow tracked scanner robot with a big lens turret on caterpillar treads and a sensor dish",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-pajak-spawalniczy",
+   "world": "nexus",
+   "name": "Pająk Spawalniczy",
+   "level": 6,
+   "stats": {
+    "hp": 196,
+    "atk": 26,
+    "def": 10,
+    "xp": 60
+   },
+   "speed": 1,
+   "range": 150,
+   "agro": 350,
+   "behavior": "Wspina się po konstrukcjach i spada na cel. Zostawia strefy gorącego metalu.",
+   "skills": [
+    "Łuk spawalniczy (CD 5 s)",
+    "Strefa żaru: obrażenia przez 4 s"
+   ],
+   "weakness": "Obrażenia elektryczne +20%",
+   "loot": "Elektroda, Złom",
+   "archetype": "crawl",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a robotic welding spider with a plasma torch on its abdomen, sparks, and graphite legs with blue joints",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-wiezyczka-autonomiczna",
+   "world": "nexus",
+   "name": "Wieżyczka Autonomiczna",
+   "level": 8,
+   "stats": {
+    "hp": 396,
+    "atk": 35,
+    "def": 21,
+    "xp": 96
+   },
+   "speed": 0,
+   "range": 450,
+   "agro": 500,
+   "behavior": "Nieruchoma. Obraca się 90°/s, więc można ją obejść z flanki. Strzela seriami; po 12 strzałach przegrzewa się.",
+   "skills": [
+    "Seria 3 pocisków (CD 4 s)",
+    "Przegrzanie: wyłączona na 3 s"
+   ],
+   "weakness": "Flankowanie i przegrzanie",
+   "loot": "Cewka, Lufa",
+   "archetype": "turret",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a stationary autonomous turret on a wide base with twin rotating gun barrels and a blue targeting light",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-roj-nanitow",
+   "world": "nexus",
+   "name": "Rój Nanitów",
+   "level": 10,
+   "stats": {
+    "hp": 272,
+    "atk": 30,
+    "def": 10,
+    "xp": 72
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 350,
+   "behavior": "Po otrzymaniu obrażeń rozdziela się na 2 części po 40% HP (maks. 1×). Jeśli obie żyją po 6 s, łączą się z powrotem.",
+   "skills": [
+    "Nanoprzeżarcie: −10% DEF gracza (do 3 stacków)"
+   ],
+   "weakness": "Obrażenia obszarowe, EMP",
+   "loot": "Nanopył",
+   "archetype": "blob",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a shifting blob of liquid silver nanites with glowing blue particles swirling inside it",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-pies-lowca",
+   "world": "nexus",
+   "name": "Pies Łowca",
+   "level": 12,
+   "stats": {
+    "hp": 424,
+    "atk": 49,
+    "def": 18,
+    "xp": 113
+   },
+   "speed": 1.4,
+   "range": 90,
+   "agro": 600,
+   "behavior": "Wybiera cel z najniższym HP w grupie i goni go do końca; ignoruje innych.",
+   "skills": [
+    "Skok (CD 6 s)",
+    "Szarpnięcie: 120% ATK"
+   ],
+   "weakness": "Ogłuszenia i spowolnienia",
+   "loot": "Siłownik, Czujnik",
+   "archetype": "quad",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a sleek robotic hunting hound with silver armor plates, a blue visor for eyes and hydraulic legs",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-straznik-rdzenia",
+   "world": "nexus",
+   "name": "Strażnik Rdzenia",
+   "level": 14,
+   "stats": {
+    "hp": 877,
+    "atk": 52,
+    "def": 41,
+    "xp": 162
+   },
+   "speed": 0.8,
+   "range": 120,
+   "agro": 350,
+   "behavior": "Chroni wyznaczony obiekt; nie goni dalej niż 500 j. Poniżej 50% HP aktywuje tarczę plazmową.",
+   "skills": [
+    "Tarcza plazmowa (CD 25 s): absorbuje 25% max HP",
+    "Cios impulsowy (CD 6 s)"
+   ],
+   "weakness": "Obrażenia elektryczne zdejmują tarczę 2× szybciej",
+   "loot": "Rdzeń energii, Płyta pancerna",
+   "archetype": "stomp",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a heavy armored android guard with a glowing energy core on its chest and a plasma shield on its arm",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-latarnia-plazmowa",
+   "world": "nexus",
+   "name": "Latarnia Plazmowa",
+   "level": 16,
+   "stats": {
+    "hp": 616,
+    "atk": 72,
+    "def": 21,
+    "xp": 159
+   },
+   "speed": 0.3,
+   "range": 450,
+   "agro": 500,
+   "behavior": "Wolno dryfuje. Ładuje wyładowanie przez 2,5 s (widoczne ostrzeżenie), które trzeba przerwać lub uniknąć.",
+   "skills": [
+    "Wyładowanie plazmy (CD 9 s): 250% ATK, obszar",
+    "Iskra"
+   ],
+   "weakness": "Przerwanie ładowania ogłusza ją na 2 s",
+   "loot": "Rdzeń plazmy",
+   "archetype": "hover",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a floating lantern drone with a glowing plasma core inside a cage of rings and crackling sparks",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "nexus-kruk-danych",
+   "world": "nexus",
+   "name": "Kruk Danych",
+   "level": 18,
+   "stats": {
+    "hp": 579,
+    "atk": 60,
+    "def": 23,
+    "xp": 136
+   },
+   "speed": 1.3,
+   "range": 300,
+   "agro": 500,
+   "behavior": "Lata wysoko. Zakłóca interfejs i oznacza gracza maszynom; ucieka poniżej 30% HP.",
+   "skills": [
+    "Zakłócenie (CD 14 s): ukrywa minimapę na 4 s",
+    "Znak łowcy: +15% obrażeń maszyn"
+   ],
+   "weakness": "Obrażenia elektryczne +30%",
+   "loot": "Pamięć danych",
+   "archetype": "fly",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a robotic raven with wing feathers made of glowing blue data lines and a silver beak",
+   "palette": "silver, graphite and electric blue light, high tech"
+  },
+  {
+   "id": "pyra-wegielek",
+   "world": "pyra",
+   "name": "Węgielek",
+   "level": 1,
+   "stats": {
+    "hp": 61,
+    "atk": 7,
+    "def": 3,
+    "xp": 16
+   },
+   "speed": 0.6,
+   "range": 90,
+   "agro": 250,
+   "behavior": "Powoli toczy się do celu. Po śmierci eksploduje (40% ATK w 120 j.).",
+   "skills": [
+    "Kontakt ognia: palenie 3 s",
+    "Wybuch po śmierci"
+   ],
+   "weakness": "Woda/zimno +30%",
+   "loot": "Węgiel",
+   "archetype": "blob",
+   "size": "S",
+   "scale": 0.62,
+   "design": "a small rolling lump of glowing coal with ember cracks, sparks and a cute angry face",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-ognista-salamandra",
+   "world": "pyra",
+   "name": "Ognista Salamandra",
+   "level": 2,
+   "stats": {
+    "hp": 67,
+    "atk": 12,
+    "def": 3,
+    "xp": 24
+   },
+   "speed": 1.2,
+   "range": 100,
+   "agro": 400,
+   "behavior": "Szybko biega i zostawia płonący ślad na 3 s. Unika walki z grupami.",
+   "skills": [
+    "Ugryzienie: palenie 3 s",
+    "Ślad ognia"
+   ],
+   "weakness": "Woda/zimno +30%",
+   "loot": "Łuska salamandry",
+   "archetype": "slither",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a fire salamander with red orange skin, flames licking along its back and a long tail",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-popielny-wilk",
+   "world": "pyra",
+   "name": "Popielny Wilk",
+   "level": 4,
+   "stats": {
+    "hp": 122,
+    "atk": 18,
+    "def": 6,
+    "xp": 40
+   },
+   "speed": 1.2,
+   "range": 90,
+   "agro": 450,
+   "behavior": "Stado po 3. Wyłania się z popiołu i atakuje z flanki; poniżej 30% HP chowa się w popiele i regeneruje przez 5 s.",
+   "skills": [
+    "Skok (CD 6 s)",
+    "Obłok popiołu: widoczność −30% przez 4 s"
+   ],
+   "weakness": "Obrażenia obszarowe",
+   "loot": "Popielne futro",
+   "archetype": "quad",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a grey ash wolf with cinder like fur crumbling into ash and glowing ember eyes",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-skalny-berserker",
+   "world": "pyra",
+   "name": "Skalny Berserker",
+   "level": 6,
+   "stats": {
+    "hp": 255,
+    "atk": 28,
+    "def": 11,
+    "xp": 70
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 350,
+   "behavior": "Atakuje bez wycofania. Im mniej HP, tym więcej obrażeń (do +40% poniżej 30% HP).",
+   "skills": [
+    "Młot (CD 5 s)",
+    "Wściekłość (poniżej 50% HP): +20% szybkości ataku"
+   ],
+   "weakness": "Ogłuszenia; zabić szybko",
+   "loot": "Skalny kastet",
+   "archetype": "stomp",
+   "size": "L",
+   "scale": 0.98,
+   "design": "a hulking rock berserker with basalt armor plates, crimson war paint and huge stone fists",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-magmowy-krab",
+   "world": "pyra",
+   "name": "Magmowy Krab",
+   "level": 8,
+   "stats": {
+    "hp": 396,
+    "atk": 25,
+    "def": 28,
+    "xp": 83
+   },
+   "speed": 0.6,
+   "range": 100,
+   "agro": 300,
+   "behavior": "Ustawia się bokiem. Od frontu przyjmuje −60% obrażeń, z tyłu i boków jest podatny.",
+   "skills": [
+    "Kleszcze (CD 5 s)",
+    "Zalew magmą: strefa 4 s"
+   ],
+   "weakness": "Atak z tyłu +40%; woda",
+   "loot": "Magmowy pancerz",
+   "archetype": "crawl",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a giant lava crab with an obsidian shell split by glowing magma cracks and two huge claws",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-zarowy-nietoperz",
+   "world": "pyra",
+   "name": "Żarowy Nietoperz",
+   "level": 10,
+   "stats": {
+    "hp": 238,
+    "atk": 36,
+    "def": 10,
+    "xp": 76
+   },
+   "speed": 1.4,
+   "range": 100,
+   "agro": 500,
+   "behavior": "Roje po 3. Krążą nad kraterami i atakują nurkując, po czym unikają kontrataku.",
+   "skills": [
+    "Nurkowanie (CD 4 s)",
+    "Iskry: palenie 2 s"
+   ],
+   "weakness": "Obrażenia obszarowe",
+   "loot": "Skrzydło żaru",
+   "archetype": "fly",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a fiery bat with ember glowing wing membranes, orange veins and sharp fangs",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-golem-ruin",
+   "world": "pyra",
+   "name": "Golem Ruin",
+   "level": 12,
+   "stats": {
+    "hp": 848,
+    "atk": 53,
+    "def": 40,
+    "xp": 165
+   },
+   "speed": 0.5,
+   "range": 120,
+   "agro": 300,
+   "behavior": "Powolny, ciosy telegrafowane 1,5 s. Poniżej 50% HP odrzuca odłamki w obszarze.",
+   "skills": [
+    "Miażdżenie (CD 7 s): 220% ATK",
+    "Odłamki (obszar)"
+   ],
+   "weakness": "Obrażenia KI +20%",
+   "loot": "Obsydian",
+   "archetype": "stomp",
+   "size": "L",
+   "scale": 0.98,
+   "design": "an obsidian rubble golem with glowing lava seams, jagged shoulders and a stone head",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-plomien-duch",
+   "world": "pyra",
+   "name": "Płomień-Duch",
+   "level": 14,
+   "stats": {
+    "hp": 413,
+    "atk": 60,
+    "def": 12,
+    "xp": 124
+   },
+   "speed": 0.8,
+   "range": 400,
+   "agro": 450,
+   "behavior": "Unosi się nad areną, trzyma dystans i rzuca kule. Po śmierci zostawia strefę ognia na 5 s.",
+   "skills": [
+    "Kula ognia (CD 3,5 s)",
+    "Pierścień ognia (CD 12 s)"
+   ],
+   "weakness": "Woda/zimno +40%",
+   "loot": "Esencja płomienia",
+   "archetype": "hover",
+   "size": "M",
+   "scale": 0.8,
+   "design": "a floating flame spirit with a skull like face, swirling fire and two burning eyes",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-byk-areny",
+   "world": "pyra",
+   "name": "Byk Areny",
+   "level": 16,
+   "stats": {
+    "hp": 1109,
+    "atk": 68,
+    "def": 36,
+    "xp": 201
+   },
+   "speed": 1,
+   "range": 100,
+   "agro": 400,
+   "behavior": "Tupie przez 1 s, potem szarżuje w linii prostej. Po chybieniu uderza w ścianę i ogłusza się na 2,5 s.",
+   "skills": [
+    "Szarża (CD 9 s): 200% ATK + ogłuszenie",
+    "Tupnięcie"
+   ],
+   "weakness": "Unik szarży = okno na atak",
+   "loot": "Róg areny",
+   "archetype": "quad",
+   "size": "L",
+   "scale": 0.98,
+   "design": "an arena bull with armored horns, a black and crimson plate harness, steam from its nostrils",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  },
+  {
+   "id": "pyra-skorpion-obsydianowy",
+   "world": "pyra",
+   "name": "Skorpion Obsydianowy",
+   "level": 18,
+   "stats": {
+    "hp": 869,
+    "atk": 75,
+    "def": 44,
+    "xp": 184
+   },
+   "speed": 1,
+   "range": 150,
+   "agro": 400,
+   "behavior": "Zakopuje się w piasku i wynurza tuż obok gracza. Trucizna kumuluje się.",
+   "skills": [
+    "Żądło: trucizna (do 5 stacków)",
+    "Pułapka piaskowa"
+   ],
+   "weakness": "Woda/zimno +20%; ogon pęka po 3 trafieniach",
+   "loot": "Szkło obsydianowe",
+   "archetype": "crawl",
+   "size": "M",
+   "scale": 0.8,
+   "design": "an obsidian scorpion with glass black shell, big pincers and a glowing red stinger on a curled tail",
+   "palette": "black basalt, crimson red and glowing orange ember, volcanic"
+  }
+ ]
+}
