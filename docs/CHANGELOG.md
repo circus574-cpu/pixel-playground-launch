@@ -1,0 +1,22 @@
+# KI Legends — changelog zweryfikowanych etapów
+
+To rejestr orientacyjny; dokładna historia i autorstwo pozostają w Git. Nie przenosi niezakończonych PR do pozycji opublikowanych.
+
+## 2026-10-21 — prace w toku, NIEOPUBLIKOWANE
+- `main` odczytany na `b3872c73c9df06e2a793190a6120f0948b021cb0`.
+- PR #9 Planetarni: **SCALONY**, 416 klatek w paczce, nowa grafika dostępna przez opt-in.
+- PR #11 Mędrcy: źródło historyczne, **Draft, nie scalać bezpośrednio**.
+- PR #12 i PR #14: propozycje integracji, **Draft**.
+- PR #15: gałąź integracyjna, nie scalona; SHA `b9f44577cb7bc1bab737c67000369b7a25919e26` podczas dokumentowania. Zgłoszone zmiany: bohaterowie, nawigacja globusa, testy/regresje. Zatwierdzenie zależy od końcowego CI i odbioru. Ostatni niezależnie sprawdzony kompletny run `ae3f8b98` wykazał 90/91 Playwright. Późniejsze runy nie były jeszcze zakończone w chwili odczytu.
+- Utworzono dokumenty statusu/architektury/roadmapy/rejestru zadań/decyzji jako **materiał do przeglądu**, bez zmiany gry i produkcji.
+
+## Starsze etapy
+- Etap 2 lokalnego PvE — [STAGE2-GAMEPLAY.md](STAGE2-GAMEPLAY.md).
+- Etap 3 czterech pochodzeń — [STAGE3-FOUR-CONTINENTS.md](STAGE3-FOUR-CONTINENTS.md).
+- Pipeline GPU — [GPU_ASSET_PIPELINE.md](GPU_ASSET_PIPELINE.md).
+- Historia globusa — [MAPA-GLOBUS-3D.md](MAPA-GLOBUS-3D.md).
+
+Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji właściciela i wyniku kontroli produkcji.
+
+## 2026-10-22 — binarna archiwizacja kanonu graficznego (PR #16, Draft)
+- Oryginał `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` przechowany bezstratnie w 12 binarnych częściach i skrypcie `restore.py`, wraz z rzeczywistymi referencjami obrazów; commit `fb8940c` na gałęzi PR #16. SHA-256 oryginału: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Stan jeszcze nie scalony.
