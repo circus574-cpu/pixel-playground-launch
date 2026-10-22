@@ -67,9 +67,9 @@ export function MapaView({
   useEffect(() => {
     const ok = probe();
     setCanGlobe(ok);
-    setMode(ok ? "globe" : "flat");
+    setMode(embedded || !ok ? "flat" : "globe");
     setNotice(ok ? null : FALLBACK_NOTICE["no-webgl"]);
-  }, [probe]);
+  }, [probe, embedded]);
 
   const fallBack = useCallback((reason: FallbackReason) => {
     setMode("flat");
@@ -77,7 +77,14 @@ export function MapaView({
   }, []);
   const onBoundaryError = useCallback(() => fallBack("error"), [fallBack]);
 
-  if (mode === "checking") return <GlobeLoading />;
+  if (mode === "checking")
+    return embedded ? (
+      <div role="status" className="planet-map">
+        <p className="pg-loading">Wczytywanie mapy 2D planety Superior…</p>
+      </div>
+    ) : (
+      <GlobeLoading />
+    );
   if (mode === "flat") {
     return (
       <PlanetMap
