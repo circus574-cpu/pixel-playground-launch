@@ -782,7 +782,12 @@ export default function PlanetGlobe({
 
       <header className="pm-topbar">
         {embedded && onClose ? (
-          <button type="button" className="pm-back" onClick={onClose} aria-label="Zamknij globus i wróć do gry">
+          <button
+            type="button"
+            className="pm-back"
+            onClick={onClose}
+            aria-label="Zamknij globus i wróć do gry"
+          >
             <ArrowLeft aria-hidden size={16} />
             <span>Gra</span>
           </button>
@@ -813,7 +818,10 @@ export default function PlanetGlobe({
       </header>
 
       <p className="pm-demo-chip pg-chip" role="note">
-        <strong>{embedded ? "Atlas świata" : "Podgląd atlasu"}</strong> · {embedded ? "postęp gracza pozostaje bez zmian" : "niepołączony z grą · bez pozycji gracza"}
+        <strong>{embedded ? "Atlas świata" : "Podgląd atlasu"}</strong>{" "}
+        <span>
+          · {embedded ? "postęp gracza pozostaje bez zmian" : "niepołączony z grą · bez pozycji gracza"}
+        </span>
       </p>
 
       <div className="pm-controls" role="toolbar" aria-label="Sterowanie globusem">
