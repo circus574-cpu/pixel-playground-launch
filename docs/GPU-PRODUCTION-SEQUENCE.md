@@ -3,9 +3,9 @@
 **Decyzja właściciela: 2026-10-21.** Ten dokument określa **kolejność zleceń**, nie stan wykonania. Działania wykonywane wyłącznie po uruchomieniu GPU przez właściciela. Żadnego automatycznego start/stop/restart/terminate, zakupu usług, merge ani publikacji.
 
 ## Oryginalny kanon ilustracji (bez obrazów z internetu)
-Źródło: **Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf**, 12 stron, 20.10.2026 — odnaleziony w plikach projektu ChatGPT; oryginalny binarny PDF nadal wymaga archiwizacji i SHA-256 w GitHub. Ilustracje wzorcowe: **str. 4 Planetarni; str. 5 Mędrcy; str. 6 Androidy; str. 7 Legendy; str. 8 dodatkowe referencje skali i świata**. Na stronach 4–7 lewy obraz pokazuje sylwetkę i kostium, prawy perspektywę w grze. Nie zastępować ich stockami, losowymi obrazami internetowymi ani nową tożsamością postaci. Miasta mają być nową produkcją opartą na kanonie ras i krajobrazów — PDF nie jest gotowym zestawem kompletnych lokacji.
+Źródło: **Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf**, 12 stron, 20.10.2026 — odnaleziony w plikach projektu ChatGPT i zarchiwizowany **na gałęzi PR #16** bezstratnie w 12 częściach binarnych w [oryginalnym archiwum](design/original-pdf-parts/README.md), z SHA-256 zgodnym z oryginałem; nie jest jeszcze scalony z `main`. Ilustracje wzorcowe: **str. 4 Planetarni; str. 5 Mędrcy; str. 6 Androidy; str. 7 Legendy; str. 8 dodatkowe referencje skali i świata**. Na stronach 4–7 lewy obraz pokazuje sylwetkę i kostium, prawy perspektywę w grze. Nie zastępować ich stockami, losowymi obrazami internetowymi ani nową tożsamością postaci. Miasta mają być nową produkcją opartą na kanonie ras i krajobrazów — PDF nie jest gotowym zestawem kompletnych lokacji.
 
-Przed realizacją pozyskać i zweryfikować binarny oryginał PDF w `docs/design/` oraz przygotować wizualny odbiór ujęć 4–8. Nie oznaczać go jako zarchiwizowanego w GitHub, dopóki nie ma potwierdzonego commita i sumy.
+Przed realizacją odtworzyć i sprawdzić binarny oryginał z archiwum PR #16 (`python3 docs/design/original-pdf-parts/restore.py`) oraz przygotować wizualny odbiór ujęć 4–8. To archiwum jest zapisane w GitHub na gałęzi PR #16, ale nie na `main`.
 
 ## Zasada nadrzędna
 Kolejność jest sztywna: **(1) Androidy → (2) Legendy → (3) Verdantia/Planetarni → (4) Aetheria/Mędrcy → (5) Nexus-9/Androidy → (6) Pyra/Legendy**. Każdy numer jest osobną dostawą, etap nie przechodzi dalej bez testów i **wizualnej akceptacji właściciela**. Wersje i dowody muszą znaleźć się w GitHub, również gdy wykonawca traci kontekst.
@@ -66,4 +66,4 @@ Etap i świat; commit/PR; dokładne nazwy i liczba assetów; hashe masterów/atl
 - Rozmiar: **5 343 097 bajtów**; 12 stron; data na dokumencie: 2026-10-20.
 - SHA-256 rzeczywistych bajtów: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
 - Dwie odnalezione kopie lokalne mają identyczny SHA-256.
-- **STATUS: ORYGINALNY PLIK PDF NIEZAPISANY W GITHUB.** Repozytoryjne narzędzie tekstowe nie obsługuje przesyłania binarnego PDF. Nie uznawać wpisu SHA za archiwizację.
+- **STATUS: WERSJA BINARNA ZARCHIWIZOWANA W 12 CZĘŚCIACH NA GAŁĘZI PR #16** (commit `fb8940cfe69f66d273fbfb7af2fdcf97c62b4eab`). Oryginał 5 343 097 bajtów jest rekonstruowany bajt w bajt; jeszcze nie scalono do `main`.
