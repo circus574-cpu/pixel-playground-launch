@@ -12,15 +12,15 @@ async function activeId(page: Page) {
   return page.evaluate((key) => localStorage.getItem(key + ":active-character"), base);
 }
 
-test("Planetarni preview preserves the same save and stays out of default visuals and other races", async ({
+test("Planetarni production sprite is default, preserves saves and stays isolated from other races", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await start(page, false);
   const canvas = page.locator(".ki-canvas");
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
-  await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-planetary-page/);
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
+  await expect(canvas).toHaveAttribute("data-texture-ids", /hero-planetary-page/);
   const id = await activeId(page);
   await page.getByRole("button", { name: /Rozmowa · Aira/ }).click();
   await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
@@ -30,7 +30,8 @@ test("Planetarni preview preserves the same save and stays out of default visual
   expect(await activeId(page)).toBe(id);
   await expect(page.getByRole("button", { name: "Podejdź do rynku", exact: true })).toBeVisible();
   await page.goto(entry);
-  await expect(canvas).toHaveAttribute("data-actor-visual", "human-v2");
+  await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
+  await expect(canvas).toHaveAttribute("data-texture-ids", /hero-planetary-page/);
   expect(await activeId(page)).toBe(id);
   await page.goto(entry + "?ki-hero-art=1");
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
