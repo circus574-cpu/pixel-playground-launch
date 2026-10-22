@@ -3,6 +3,7 @@
 Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
 
 ## Dokumentacja audytowa i bieżąca
+
 - [Integracja czterech malowanych ras z dostawy Claude’a — źródła, runtime i QA](FOUR-PAINTED-RACES-INTEGRATION-2026-10-22.md)
 - [Malowane widoki i deformacja siatki — pipeline oraz znane wady dostawy](PAINTED-MESH-PIPELINE.md)
 - [ORYGINALNY PDF 12 stron — kompletne binarne archiwum z obrazami, odtwarzalne bezstratnie](design/original-pdf-parts/README.md)
@@ -17,6 +18,8 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Roboczy raport QA PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md) — tylko gałąź PR, nie main.
 
 ## Źródła
+
+- [Przekazanie sesji 22.10.2026 — stan, decyzje, plan na rano](SESSION-2026-10-22-HANDOFF.md)
 - [Geometria planety: miasta w czworościanie, 80 000 j. między każdą parą (22.10.2026)](PLANET-GEOMETRY-2026-10-22.md)
 - [Wdrożenie tekstur kontynentów i przyrody (22.10.2026)](NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md)
 - [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
@@ -37,6 +40,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany na gałęzi tego PR bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum nie znajduje się jeszcze w `main`; wymaga scalenia PR #16. Nie zastępować tekstowym streszczeniem.
 
 ## Hierarchia i stan
+
 1. Wyraźne decyzje właściciela oraz zatwierdzony kanon mają pierwszeństwo.
 2. Odróżniaj **koncepcję**, **implementację**, **zweryfikowane testy** i **zatwierdzoną publikację**.
 3. Dokumenty w otwartych PR-ach są materiałem roboczym, nie automatycznie obowiązującym stanem `main`.
@@ -44,7 +48,9 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 5. Zapisuj istotne decyzje, commity, testy i nierozwiązane problemy w repozytorium.
 
 ## Decyzja właściciela: kontrola GPU (21.10.2026)
+
 Wyłącznie właściciel decyduje o **uruchomieniu, zatrzymaniu, restarcie, usunięciu lub zmianie konfiguracji instancji GPU**, także gdy prace się skończyły, instancja jest bezczynna lub wystąpił błąd. Codex może odczytywać stan, wykonywać zatwierdzone zadania na już działającej instancji, zabezpieczać dane i zgłaszać potrzebę decyzji. Nie wolno mu samodzielnie zmieniać stanu ani parametrów instancji.
 
 ## Publikacja
+
 Bez odrębnej zgody właściciela nie scalać PR, nie publikować gry i nie modyfikować produkcji. Niezależny audyt wymaga dowodów z kodu, commitów, CI i działającej gry.
