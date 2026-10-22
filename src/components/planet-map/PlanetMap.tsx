@@ -518,7 +518,12 @@ export function PlanetMap({
 
       <header className="pm-topbar">
         {embedded && onClose ? (
-          <button type="button" className="pm-back" onClick={onClose} aria-label="Zamknij mapę i wróć do gry">
+          <button
+            type="button"
+            className="pm-back"
+            onClick={onClose}
+            aria-label="Zamknij mapę i wróć do gry"
+          >
             <ArrowLeft aria-hidden size={16} />
             <span>Gra</span>
           </button>
