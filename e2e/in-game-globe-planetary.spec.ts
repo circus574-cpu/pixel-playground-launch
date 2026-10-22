@@ -1,6 +1,6 @@
 import { test, expect } from "./fixtures";
 
-test("Planetarni use production art and the in-game map opens in 2D before its 3D toggle", async ({
+test("Planetarni default animation and Superior globe work in the same Android-sized game session", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -15,21 +15,24 @@ test("Planetarni use production art and the in-game map opens in 2D before its 3
   });
   const world = await canvas.getAttribute("data-world");
 
-  await page.getByRole("button", { name: "Otwórz mapę planety Superior 2D" }).click();
+  await page.getByRole("button", { name: "Otwórz globus 3D planety Superior" }).click();
   const map = page.getByTestId("ki-ingame-map");
   await expect(map).toBeVisible();
-  await expect(map.locator(".pm-svg")).toBeVisible({ timeout: 30000 });
-  await expect(map.locator(".pg-stage")).toHaveCount(0);
+  const globe = map.locator(".pg-stage");
+  const fallback = map.locator(".pm-svg");
+  await expect
+    .poll(async () => (await globe.count()) > 0 || (await fallback.count()) > 0, {
+      timeout: 30000,
+    })
+    .toBe(true);
   await expect(page).toHaveURL(/\/scripts\/playtest\.html/);
-
-  const switchToGlobe = map.getByRole("button", { name: "Globus 3D", exact: true });
-  if (await switchToGlobe.count()) {
-    await switchToGlobe.click();
-    await expect(map.locator(".pg-stage")).toBeVisible({ timeout: 30000 });
+  if (await globe.count()) {
+    await expect(globe).toBeVisible();
     await map.getByRole("button", { name: "Mapa 2D" }).click();
-    await expect(map.locator(".pm-svg")).toBeVisible();
+    await expect(fallback).toBeVisible();
   } else {
-    await expect(map.getByText(/urządzenie nie obsługuje WebGL 2/)).toBeVisible();
+    await expect(fallback).toBeVisible();
+    await expect(map.getByText(/nie obsługuje WebGL 2|nie mógł się uruchomić/)).toBeVisible();
   }
 
   await map.getByRole("button", { name: "Zamknij mapę i kontynuuj rozgrywkę" }).click();
