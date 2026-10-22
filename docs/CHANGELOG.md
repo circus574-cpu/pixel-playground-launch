@@ -1,4 +1,16 @@
-# KI Legends — changelog zweryfikowanych etapów
+# KI Legends — changelog potwierdzonych zmian
+
+## 2026-10-22 — aktualny stan repo i dokumentacji
+- Punkt odniesienia: `main` `66a615dec1d4259e1bf668956ec1cb09e9aa177e` (commit integrujący atlas 2D/3D z HUD gry). Wersja wdrożona na domenie nadal **NIEZWERYFIKOWANA**.
+- [PR #15](https://github.com/circus574-cpu/pixel-playground-launch/pull/15) scalony 04:05 UTC; GitHub Actions na `d9599277924e6c3f1ce99b43e2a1b20654b42c22`: [pełny QA #39675441735](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39675441735) SUCCESS, [WebGL #39675441724](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39675441724) SUCCESS.
+- [PR #16](https://github.com/circus574-cpu/pixel-playground-launch/pull/16) scalony 04:06 UTC; m.in. dokumentacja i **12 części oryginalnego PDF + restore.py na main**.
+- [PR #17](https://github.com/circus574-cpu/pixel-playground-launch/pull/17) scalony 04:18 UTC; rejestry licencji, nie pełny certyfikat praw do grafik.
+- [PR #20](https://github.com/circus574-cpu/pixel-playground-launch/pull/20) OPEN: dodatkowe materiały właściciela (drzewka ras / bestiariusz), nie scalono.
+- [PR #21](https://github.com/circus574-cpu/pixel-playground-launch/pull/21) OPEN, `97af25798c797b2f98da5417e96a064bdcfec981`: docelowo domyślny Planetarny. [Software WebGL](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39776233522) SUCCESS; [pełny Browser QA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/39776233057) FAILURE (89/95 PASS, 6 FAIL). **Nie wdrażać jako przetestowanego wydania.**
+- Synchronizacja dokumentacji w osobnym PR: `STATUS`, `TASKS`, `ARCHITECTURE`, `ROADMAP`, `DECISIONS`, `CHANGELOG`, `INDEX` i instrukcje uzupełnione o stan na 22.10. Nie są to zmiany kodu gry ani produkcji.
+
+## Historyczne zapisy (stan wiedzy w chwili ich sporządzenia)
+Poniższe fragmenty z 21.10 i wczesnego 22.10 przedstawiają **dawny punkt odniesienia**, nie aktualny status `main`.
 
 To rejestr orientacyjny; dokładna historia i autorstwo pozostają w Git. Nie przenosi niezakończonych PR do pozycji opublikowanych.
 
