@@ -1,0 +1,50 @@
+{
+ "race": "sage",
+ "reference": "https://kilegends.pl/game/assets/origins-v1/sage-full.webp",
+ "reference_sha256": "46801a39930815b6621a8433e5396f25fee22460604cbda4158c617fc5d99147",
+ "checkpoint": "/workspace/ki-legends-gpu/models/checkpoints/animagine-xl-3.1.safetensors",
+ "candidates": [
+  {
+   "file": "sage-s5741101-d55.png",
+   "seed": 5741101,
+   "strength": 0.55,
+   "sha256": "b867bcdc38c99f34996be5e4ac8fc2bf776edcaa928852444cda5e47f97e609a",
+   "seconds": 5.4
+  },
+  {
+   "file": "sage-s5741101-d65.png",
+   "seed": 5741101,
+   "strength": 0.65,
+   "sha256": "7b40a9960d57ef812f22b8bf4e9d95c884c6bab7f17c48cd72f4fb0e37b7853f",
+   "seconds": 5.1
+  },
+  {
+   "file": "sage-s5741102-d55.png",
+   "seed": 5741102,
+   "strength": 0.55,
+   "sha256": "f8c049347ccf2ffa0e3364c8c2bfa46488d37edf528c02a9066cad393a10d38a",
+   "seconds": 4.7
+  },
+  {
+   "file": "sage-s5741102-d65.png",
+   "seed": 5741102,
+   "strength": 0.65,
+   "sha256": "228ba7764299aeda00d83867da17ce8fb7cdae3fa9f52aba9d2a32e85b6d3341",
+   "seconds": 5.3
+  },
+  {
+   "file": "sage-s5741103-d55.png",
+   "seed": 5741103,
+   "strength": 0.55,
+   "sha256": "b4854a5bde1ace8c205a2a1ebbf369432398807ea713b3ad5a419b383ceed6b5",
+   "seconds": 4.7
+  },
+  {
+   "file": "sage-s5741103-d65.png",
+   "seed": 5741103,
+   "strength": 0.65,
+   "sha256": "bdb78ab493fce97faabac816fc9fc070235684f56cf706689cb170e81a141c55",
+   "seconds": 5.1
+  }
+ ]
+}

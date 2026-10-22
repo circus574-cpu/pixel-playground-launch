@@ -12,6 +12,7 @@ Data przeglądu: 2026-10-21. Tutaj zapisywane są jedynie decyzje potwierdzone i
 | 2026-10-22 | ETAP 1 Androidy: kandydat tożsamości `android-s5741102-d62.png` zaakceptowany; kolejne kroki (rig, 8 widoków, animacja) po przywróceniu runtime. | [design/identity/android-v1/SELECTED.md](design/identity/android-v1/SELECTED.md) | Zaakceptowany kandydat tożsamości; produkcja nierozpoczęta |
 | 2026-10-22 | ETAP 2 Legendy: kandydat tożsamości `legend-s5741102-d62.png` zaakceptowany; rig/animacja po odbiorze Androidów i przywróceniu runtime. | [design/identity/legend-v1/SELECTED.md](design/identity/legend-v1/SELECTED.md) | Zaakceptowany kandydat tożsamości; produkcja nierozpoczęta |
 | 2026-10-22 | Planetarni: odrzucona poprzednia wersja; wybrany nowy kandydat tożsamości `planetary-s5741102-d62.png`. | [design/identity/planetary-v1/SELECTED.md](design/identity/planetary-v1/SELECTED.md) | Wybrany kandydat; produkcja nierozpoczęta |
+| 2026-10-22 | Mędrcy: odrzucona poprzednia wersja; wybrany kandydat tożsamości (wersja męska) `sage-s5741102-d55.png`. | [design/identity/sage-v2/SELECTED.md](design/identity/sage-v2/SELECTED.md) | Wybrany kandydat; produkcja nierozpoczęta |
 
 ## Sprawy bez zatwierdzenia
 Odbiór animacji Mędrców, referencji/licencji, urządzeń mobilnych oraz rozszerzenia do multiplayer pozostają otwarte. Brak wpisu o zgodzie na scalanie PR #15 lub jego wdrożenie.
