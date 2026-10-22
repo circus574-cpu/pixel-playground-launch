@@ -312,7 +312,7 @@ export function CharacterSelection({
               </div>
               <section className="ki-continent-preview" aria-label={"Podgląd: " + world.name}>
                 <img
-                  src={world.minimap}
+                  src={`/game/assets/stage3/${world.id}-atlas.webp`}
                   loading="lazy"
                   decoding="async"
                   alt={"Mapa regionu startowego: " + world.settlement}

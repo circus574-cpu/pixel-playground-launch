@@ -286,15 +286,16 @@
 }
 .ki-continent-preview {
   display: grid;
-  grid-template-columns: 135px 1fr;
+  grid-template-columns: 230px 1fr;
   gap: 20px;
   align-items: center;
   margin: 22px 0;
 }
 .ki-continent-preview > img {
   display: block;
-  width: 135px;
-  height: 145px;
+  width: 230px;
+  aspect-ratio: 960 / 620;
+  height: auto;
   object-fit: cover;
   border: 1px solid #afbcaa40;
   border-radius: 3px;
@@ -529,11 +530,11 @@
     padding: 22px;
   }
   .ki-continent-preview {
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 170px 1fr;
     gap: 14px;
   }
   .ki-continent-preview > img {
-    width: 100px;
+    width: 170px;
   }
 }
 @media (max-width: 700px) {
@@ -654,12 +655,12 @@
     gap: 20px;
   }
   .ki-continent-preview {
-    grid-template-columns: 90px 1fr;
-    gap: 13px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
   .ki-continent-preview > img {
-    width: 90px;
-    height: 160px;
+    width: 100%;
+    max-width: 420px;
   }
   .ki-origin-primary {
     width: 100%;

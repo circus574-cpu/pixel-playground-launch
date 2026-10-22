@@ -89,10 +89,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
       .getByRole("button", { name: "Podgląd kontynentu: " + race.name, exact: true })
       .click();
     await expect(page.locator(".ki-continent-preview")).toContainText(race.settlement);
-    await expect(page.locator(".ki-continent-preview img")).toHaveJSProperty(
-      "naturalWidth",
-      race.world === "verdant" ? 768 : 2400,
-    );
+    await expect(page.locator(".ki-continent-preview img")).toHaveJSProperty("naturalWidth", 960);
     await page.getByRole("button", { name: "Wybierz: " + race.name, exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const canvas = page.locator(`.ki-canvas[data-world="${race.world}"]`);
