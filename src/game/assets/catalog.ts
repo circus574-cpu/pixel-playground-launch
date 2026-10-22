@@ -133,9 +133,9 @@ export function makeCatalog(
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Packs enabled by each opt-in review switch (`?<param>=1`). */
+/** Review switches affect optional scenery; Planetary and Sage heroes are always active. */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
-  "ki-hero-art": ["hero-planetary"],
+  // The legacy ?ki-hero-art=1 remains safe but is no longer required for Planetarni.
   /** Anime start point of Aetheria, awaiting the owner's review. */
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],
@@ -143,11 +143,12 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
 };
-/** Sage is active in Aetheria; other preview artwork keeps its opt-in switch. */
+/** Both production heroes are always enabled; other preview artwork keeps its opt-in switch. */
 export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
   return [
     "hero-sage",
+    "hero-planetary",
     ...Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) =>
       params.get(param) === "1" ? packs : [],
     ),
