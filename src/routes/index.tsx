@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { GameLoadingScreen } from "../components/game/GameLoadingScreen";
 import { preparingWorld, type GameLoadingState } from "../game/loading";
 import { CharacterSelection } from "../components/game/CharacterSelection";
@@ -11,6 +11,10 @@ import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
 import { isPlaytest, STAGE21_BUILD } from "../game/playtest";
 import { initialView, type Command } from "../game/session";
+
+const InGameMap = lazy(() =>
+  import("../components/planet-map/MapaView").then(({ MapaView }) => ({ default: MapaView })),
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -127,6 +131,7 @@ function GameScreen({
   const [testMode, setTestMode] = useState(false);
   const [zoom, setZoom] = useState(0.62);
   const [fullscreen, setFullscreen] = useState(false);
+  const [globeOpen, setGlobeOpen] = useState(false);
   const [displayNotice, setDisplayNotice] = useState({ id: 0, text: "" });
   const displayMessage = (text: string) =>
     setDisplayNotice((previous) => ({ id: previous.id + 1, text }));
@@ -203,7 +208,12 @@ function GameScreen({
   }, [slot.key, slot.player, attempt]);
   return (
     <main ref={stage} className="ki-stage">
-      <div ref={container} className="ki-canvas" aria-label="Ki Legends — ekran gry" />
+      <div
+        ref={container}
+        className="ki-canvas"
+        aria-label="Ki Legends — ekran gry"
+        style={{ visibility: globeOpen ? "hidden" : undefined }}
+      />
       {state.ready && loading.phase === "ready" && (
         <GameHud
           state={state}
@@ -214,6 +224,11 @@ function GameScreen({
           onFullscreen={() => void toggleFullscreen()}
           onCommand={sendCommand}
           onWorldLabels={setWorldLabels}
+          globeOpen={globeOpen}
+          onOpenGlobe={() => {
+            container.current?.dispatchEvent(new Event("ki:flush"));
+            setGlobeOpen(true);
+          }}
           systemNotice={displayNotice}
           onRaceChange={() => {
             container.current?.dispatchEvent(new Event("ki:flush"));
@@ -224,6 +239,38 @@ function GameScreen({
             onExit();
           }}
         />
+      )}
+      {globeOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Globus 3D planety Superior w grze"
+          data-testid="ki-ingame-globe"
+          style={{ position: "fixed", inset: 0, zIndex: 3000, isolation: "isolate" }}
+        >
+          <Suspense fallback={<div role="status">Ładowanie globusa 3D…</div>}>
+            <InGameMap embedded onClose={() => setGlobeOpen(false)} />
+          </Suspense>
+          <button
+            type="button"
+            aria-label="Zamknij globus i kontynuuj rozgrywkę"
+            onClick={() => setGlobeOpen(false)}
+            style={{
+              position: "fixed",
+              right: "max(12px, env(safe-area-inset-right))",
+              bottom: "max(16px, env(safe-area-inset-bottom))",
+              zIndex: 30,
+              minHeight: 44,
+              padding: "8px 16px",
+              border: "1px solid #d7bd7b",
+              borderRadius: 12,
+              color: "#f0e8d8",
+              background: "#102733",
+            }}
+          >
+            × Wróć do gry
+          </button>
+        </div>
       )}
       {loading.phase !== "ready" && (
         <GameLoadingScreen
