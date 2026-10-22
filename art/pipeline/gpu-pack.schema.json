@@ -38,7 +38,12 @@
               },
               "kind": {
                 "type": "string",
-                "enum": ["image", "svg", "sheet", "atlas"]
+                "enum": [
+                  "image",
+                  "svg",
+                  "sheet",
+                  "atlas"
+                ]
               },
               "url": {
                 "type": "string",
@@ -75,7 +80,10 @@
                     "exclusiveMinimum": 0
                   }
                 },
-                "required": ["columns", "rows"],
+                "required": [
+                  "columns",
+                  "rows"
+                ],
                 "additionalProperties": false
               },
               "crops": {
@@ -111,12 +119,23 @@
                       "$ref": "#/definitions/KiLegendsGpuPack/properties/assets/items/properties/crops/items/properties/width"
                     }
                   },
-                  "required": ["name", "x", "y", "width", "height"],
+                  "required": [
+                    "name",
+                    "x",
+                    "y",
+                    "width",
+                    "height"
+                  ],
                   "additionalProperties": false
                 }
               }
             },
-            "required": ["id", "version", "kind", "url"],
+            "required": [
+              "id",
+              "version",
+              "kind",
+              "url"
+            ],
             "additionalProperties": false
           },
           "minItems": 1
@@ -131,12 +150,19 @@
               },
               "profile": {
                 "type": "string",
-                "enum": ["hero", "enemy", "npc"],
+                "enum": [
+                  "hero",
+                  "enemy",
+                  "npc"
+                ],
                 "default": "hero"
               },
               "presentation": {
                 "type": "string",
-                "enum": ["legacy", "grounded"]
+                "enum": [
+                  "legacy",
+                  "grounded"
+                ]
               },
               "size": {
                 "type": "array",
@@ -212,15 +238,34 @@
                       }
                     }
                   },
-                  "required": ["asset", "fps", "loop", "directions"],
+                  "required": [
+                    "asset",
+                    "fps",
+                    "loop",
+                    "directions"
+                  ],
                   "additionalProperties": false
                 },
                 "propertyNames": {
-                  "enum": ["idle", "walk", "run", "attack", "skill", "hit", "death", "respawn"]
+                  "enum": [
+                    "idle",
+                    "walk",
+                    "run",
+                    "attack",
+                    "skill",
+                    "hit",
+                    "death",
+                    "respawn"
+                  ]
                 }
               }
             },
-            "required": ["id", "size", "origin", "clips"],
+            "required": [
+              "id",
+              "size",
+              "origin",
+              "clips"
+            ],
             "additionalProperties": false
           },
           "default": []
@@ -245,11 +290,19 @@
               },
               "layer": {
                 "type": "string",
-                "enum": ["below", "objects", "overhead", "atmosphere"]
+                "enum": [
+                  "below",
+                  "objects",
+                  "overhead",
+                  "atmosphere"
+                ]
               },
               "fit": {
                 "type": "string",
-                "enum": ["contain", "stretch"],
+                "enum": [
+                  "contain",
+                  "stretch"
+                ],
                 "default": "contain"
               },
               "tileSize": {
@@ -273,7 +326,9 @@
                 ]
               }
             },
-            "required": ["asset"],
+            "required": [
+              "asset"
+            ],
             "additionalProperties": false
           },
           "default": {}
@@ -307,13 +362,24 @@
                 "maximum": 10000
               }
             },
-            "required": ["asset", "frames", "fps", "size", "durationMs"],
+            "required": [
+              "asset",
+              "frames",
+              "fps",
+              "size",
+              "durationMs"
+            ],
             "additionalProperties": false
           },
           "default": {}
         }
       },
-      "required": ["schemaVersion", "id", "version", "assets"],
+      "required": [
+        "schemaVersion",
+        "id",
+        "version",
+        "assets"
+      ],
       "additionalProperties": false
     }
   },
