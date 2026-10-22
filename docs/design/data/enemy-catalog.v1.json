@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "documentStatus": "MIXED_VERIFIED_RUNTIME_AND_PROPOSAL",
+  "gameplayIntegrated": false,
+  "sourceCommit": "f5207a1f0cc2b837c9a05d85ca8ebf68b060df86",
+  "provenance": "Active entries transcribed from src/game/world/worlds.ts, src/game/world/forest-map.json and src/game/world/regions/*.json. Spawn IDs are constructed by src/game/session.ts as boar-<index> in each world. Planned entries below are unapproved concepts.",
+  "activeRuntime": {
+    "common": {
+      "hp": 66,
+      "maxHp": 66,
+      "initialAttackDelayMs": 900,
+      "enemyIdPattern": "boar-<index>",
+      "respawnAfterDeath": "Session manages timers and waits for player to be more than 160 units from the spawn.",
+      "dropBalancing": "See src/game/session.ts, not this reference snapshot."
+    },
+    "enemies": [
+      {
+        "worldId": "verdant",
+        "worldName": "Verdantia",
+        "race": "planetary",
+        "displayName": "Dzik leśny",
+        "quest": "Zagrożenie w lesie",
+        "spawns": [
+          {
+            "id": "boar-0",
+            "x": 2050,
+            "y": 1030
+          },
+          {
+            "id": "boar-1",
+            "x": 2100,
+            "y": 1620
+          },
+          {
+            "id": "boar-2",
+            "x": 1850,
+            "y": 1800
+          },
+          {
+            "id": "boar-3",
+            "x": 750,
+            "y": 1000
+          }
+        ],
+        "status": "LIVE",
+        "source": "src/game/world/forest-map.json"
+      },
+      {
+        "worldId": "aether",
+        "worldName": "Aetheria",
+        "race": "sage",
+        "displayName": "Dzik z mglistych ogrodów",
+        "quest": "Równowaga ogrodów",
+        "spawns": [
+          {
+            "id": "boar-0",
+            "x": 1820,
+            "y": 1080
+          },
+          {
+            "id": "boar-1",
+            "x": 1870,
+            "y": 1510
+          },
+          {
+            "id": "boar-2",
+            "x": 900,
+            "y": 1450
+          },
+          {
+            "id": "boar-3",
+            "x": 470,
+            "y": 1100
+          }
+        ],
+        "status": "LIVE",
+        "source": "src/game/world/regions/aether.json"
+      },
+      {
+        "worldId": "nexus",
+        "worldName": "Nexus-9",
+        "race": "android",
+        "displayName": "Dzik z perymetru",
+        "quest": "Patrol perymetru",
+        "spawns": [
+          {
+            "id": "boar-0",
+            "x": 2020,
+            "y": 1000
+          },
+          {
+            "id": "boar-1",
+            "x": 2080,
+            "y": 1530
+          },
+          {
+            "id": "boar-2",
+            "x": 1140,
+            "y": 1410
+          },
+          {
+            "id": "boar-3",
+            "x": 800,
+            "y": 1450
+          }
+        ],
+        "status": "LIVE",
+        "source": "src/game/world/regions/nexus.json"
+      },
+      {
+        "worldId": "pyra",
+        "worldName": "Pyra",
+        "race": "legend",
+        "displayName": "Dzik z popielnych kanionów",
+        "quest": "Próba strażnika",
+        "spawns": [
+          {
+            "id": "boar-0",
+            "x": 1970,
+            "y": 800
+          },
+          {
+            "id": "boar-1",
+            "x": 2020,
+            "y": 1370
+          },
+          {
+            "id": "boar-2",
+            "x": 850,
+            "y": 1520
+          },
+          {
+            "id": "boar-3",
+            "x": 650,
+            "y": 680
+          }
+        ],
+        "status": "LIVE",
+        "source": "src/game/world/regions/pyra.json"
+      }
+    ]
+  },
+  "proposal": {
+    "approval": "NOT_APPROVED",
+    "healthDamageLoot": "TBD",
+    "rasterAssets": "NOT_PRODUCED",
+    "notes": "No enemy types below are implemented; names and behaviors are suggestions only.",
+    "enemies": [
+      {
+        "id": "verdant-briar-stalker",
+        "name": "Ciernisty tropiciel",
+        "worldId": "verdant",
+        "race": "planetary",
+        "role": "normal",
+        "zone": "leśne szlaki",
+        "behaviorIdea": "próba uniku i ataku z flanki",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "verdant-root-guardian",
+        "name": "Strażnik korzeni",
+        "worldId": "verdant",
+        "race": "planetary",
+        "role": "elite",
+        "zone": "głębokie gaje",
+        "behaviorIdea": "ciężki cios i czytelny obszar zagrożenia",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "verdant-ancient-warden",
+        "name": "Pradawny Strażnik Kniei",
+        "worldId": "verdant",
+        "race": "planetary",
+        "role": "boss",
+        "zone": "pradawne polany",
+        "behaviorIdea": "fazy walki i kontrola obszaru",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "aether-lost-wisp",
+        "name": "Zagubiona iskra KI",
+        "worldId": "aether",
+        "race": "sage",
+        "role": "normal",
+        "zone": "tarasowe ogrody",
+        "behaviorIdea": "wolny pocisk energii",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "aether-broken-seal",
+        "name": "Strażnik pękniętej pieczęci",
+        "worldId": "aether",
+        "race": "sage",
+        "role": "elite",
+        "zone": "sanktuaria",
+        "behaviorIdea": "tarcza i atak po naładowaniu",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "aether-corrupted-master",
+        "name": "Wypaczony Mistrz Pieczęci",
+        "worldId": "aether",
+        "race": "sage",
+        "role": "boss",
+        "zone": "świątynia",
+        "behaviorIdea": "zmiana stref bezpiecznych",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "nexus-rogue-drone",
+        "name": "Zbuntowany dron patrolowy",
+        "worldId": "nexus",
+        "race": "android",
+        "role": "normal",
+        "zone": "perymetr",
+        "behaviorIdea": "telegraphed ranged pulse",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "nexus-rogue-sentinel",
+        "name": "Wadliwy sentinel",
+        "worldId": "nexus",
+        "race": "android",
+        "role": "elite",
+        "zone": "kompleks fabryczny",
+        "behaviorIdea": "szarża i przerwanie osłony",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "nexus-core-warden",
+        "name": "Strażnik uszkodzonego rdzenia",
+        "worldId": "nexus",
+        "race": "android",
+        "role": "boss",
+        "zone": "węzeł energetyczny",
+        "behaviorIdea": "zmienny obszar wyładowań",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "pyra-ash-raider",
+        "name": "Popielny łupieżca",
+        "worldId": "pyra",
+        "race": "legend",
+        "role": "normal",
+        "zone": "kaniony",
+        "behaviorIdea": "bliski dystans i łatwy do odczytu zamach",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "pyra-obsidian-berserker",
+        "name": "Obsydianowy berserker",
+        "worldId": "pyra",
+        "race": "legend",
+        "role": "elite",
+        "zone": "ruiny areny",
+        "behaviorIdea": "seria dwóch uderzeń",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      },
+      {
+        "id": "pyra-arena-warden",
+        "name": "Strażnik Areny Dziedzictwa",
+        "worldId": "pyra",
+        "race": "legend",
+        "role": "boss",
+        "zone": "arena",
+        "behaviorIdea": "fazy walki i uderzenie obszarowe",
+        "levelBand": null,
+        "hp": null,
+        "damage": null,
+        "xp": null,
+        "loot": [],
+        "status": "PROPOSED"
+      }
+    ]
+  }
+}
