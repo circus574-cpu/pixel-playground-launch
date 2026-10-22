@@ -260,8 +260,8 @@ export function GameHud({
         </div>
         <button
           className="ki-map-image"
-          aria-label="Otwórz mapę świata"
-          onClick={() => toggle("map")}
+          aria-label={onOpenGlobe ? "Otwórz globus 3D planety Superior" : "Otwórz mapę świata"}
+          onClick={onOpenGlobe ?? (() => toggle("map"))}
         >
           <img src={world.minimap} alt={"Mapa: " + world.settlement} />
           {world.landmarks.map((l) => (
@@ -284,11 +284,11 @@ export function GameHud({
           {onOpenGlobe && (
             <button
               type="button"
-              onClick={onOpenGlobe}
-              aria-label="Otwórz globus 3D planety Superior"
-              title="Globus 3D"
+              onClick={() => toggle("map")}
+              aria-label="Otwórz mapę regionu"
+              title="Mapa regionu"
             >
-              🌍 Globus
+              ▣
             </button>
           )}
           <button
