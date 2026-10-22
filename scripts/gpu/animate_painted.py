@@ -119,7 +119,11 @@ def frames_for(h):
         for i in range(n):
             ang, tx, ty, rr, sway, w = pose_params(h, state, i, n)
             root = transl(tx, ty) @ rotm(rr, h.feet)
-            yield state, i, n, fps, loop, h.pose(root, ang, sway, w)
+            P = h.pose(root, ang, sway, w)
+            if state in ("death", "respawn"):  # lie on the ground line and stay centred while falling
+                p = i / max(1, n - 1); q = smooth(p) if state == "death" else 1 - smooth(p); Q = P[h.solid]
+                P = P + np.array([(256 - (Q[:, 0].min() + Q[:, 0].max()) / 2) * q, min(0.0, ANCHOR[1] - Q[:, 1].max())], np.float32)
+            yield state, i, n, fps, loop, P
 
 heroes = {d: Hero(d) for d in DIRS if not REVIEW or d in ("down", "right")}
 plan = []
