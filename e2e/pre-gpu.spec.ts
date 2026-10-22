@@ -84,7 +84,8 @@ for (const race of RACE_IDS)
         await expect
           .poll(() => page.locator(".ki-canvas").getAttribute("data-metrics"))
           .not.toBeNull();
-        const expectedVisual = race === "sage" ? "hero-sage" : race === "planetary" ? "hero-planetary" : "human-v2";
+        const existingVisual = race === "sage" ? "hero-sage" : "human-v2";
+        const expectedVisual = race === "planetary" ? "hero-planetary" : existingVisual;
         await expect(page.locator(".ki-canvas")).toHaveAttribute(
           "data-actor-visual",
           expectedVisual,
