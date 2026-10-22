@@ -260,7 +260,7 @@ export function GameHud({
         </div>
         <button
           className="ki-map-image"
-          aria-label={onOpenGlobe ? "Otwórz globus 3D planety Superior" : "Otwórz mapę świata"}
+          aria-label={onOpenGlobe ? "Otwórz mapę planety Superior 2D" : "Otwórz mapę świata"}
           onClick={onOpenGlobe ?? (() => toggle("map"))}
         >
           <img src={world.minimap} alt={"Mapa: " + world.settlement} />
@@ -681,7 +681,7 @@ export function GameHud({
                       onOpenGlobe();
                     }}
                   >
-                    🌍 Otwórz interaktywny globus 3D planety Superior
+                    🗺 Otwórz mapę planety Superior 2D
                   </button>
                 )}
                 <div className="ki-npc-links">
