@@ -137,7 +137,11 @@ for lo, hi, arr, anc in ((8 - ANCHOR[0], 504 - ANCHOR[0], dx, 0), (8 - ANCHOR[1]
     pos = arr[arr > 1e-6]; neg = arr[arr < -1e-6]
     if len(pos): fit.append(hi / pos.max())
     if len(neg): fit.append(lo / neg.min())
-shrink = min(fit); print("SHRINK", round(shrink, 4), "frames", len(plan), flush=True)
+shrink = min(fit); print("SHRINK", round(shrink, 4), "frames", len(plan), "fit parts", [round(float(v), 3) for v in fit], flush=True)
+if shrink < 0.9:
+    for d, s, i, n, fps, loop, P in plan:
+        Q = P[heroes[d].solid] - ANCHOR; lo, hi = Q.min(0), Q.max(0)
+        if lo[0] < -248 or hi[0] > 248 or lo[1] < -478.4 or hi[1] > 17.6: print("OVER", d, s, i, [round(float(v)) for v in lo], [round(float(v)) for v in hi], flush=True)
 meta = {"race": race, "masters": str(MAST), "shrink": shrink, "frames": []}; t0 = time.time(); bad = []
 for d, state, i, n, fps, loop, P in plan:
     Ps = (P - ANCHOR) * shrink + ANCHOR; img = heroes[d].render(Ps); name = "%s-%s-%02d" % (state, d, i)
