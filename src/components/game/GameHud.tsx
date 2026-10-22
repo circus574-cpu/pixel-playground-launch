@@ -33,6 +33,7 @@ type Props = {
   onCharacters?: () => void;
   onRaceChange?: () => void;
   onWorldLabels?: (visible: boolean) => void;
+  onOpenGlobe?: () => void;
   systemNotice?: MessageEvent;
 };
 type Panel = "inventory" | "journal" | "settings" | "map" | null;
@@ -64,6 +65,7 @@ export function GameHud({
   onCharacters,
   onRaceChange,
   onWorldLabels,
+  onOpenGlobe,
   systemNotice,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
@@ -277,6 +279,16 @@ export function GameHud({
         </button>
         <div className="ki-map-footer">
           <span>{world.name.toUpperCase()}</span>
+          {onOpenGlobe && (
+            <button
+              type="button"
+              onClick={onOpenGlobe}
+              aria-label="Otwórz globus 3D planety Superior"
+              title="Globus 3D"
+            >
+              🌍 Globus
+            </button>
+          )}
           <button
             onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
             aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
@@ -598,8 +610,7 @@ export function GameHud({
                   </button>
                 )}
                 <p>
-                  Pochodzenie: {RACES[player.race].name} · tymczasowy ludzki sprite. Lokalna gra
-                  PvE.
+                  Pochodzenie: {RACES[player.race].name} · lokalna gra PvE.
                 </p>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
@@ -661,6 +672,18 @@ export function GameHud({
             )}
             {panel === "map" && (
               <>
+                {onOpenGlobe && (
+                  <button
+                    type="button"
+                    className="ki-fullscreen-setting ki-open-globe"
+                    onClick={() => {
+                      setPanel(null);
+                      onOpenGlobe();
+                    }}
+                  >
+                    🌍 Otwórz interaktywny globus 3D planety Superior
+                  </button>
+                )}
                 <div className="ki-npc-links">
                   {npcs.map((n) => (
                     <button
