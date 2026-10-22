@@ -578,9 +578,13 @@ const aspect = () => window.innerWidth / Math.max(1, window.innerHeight);
 export default function PlanetGlobe({
   onShowFlat,
   onFail,
+  embedded = false,
+  onClose,
 }: {
   onShowFlat: () => void;
   onFail: (reason: GlobeFailure) => void;
+  embedded?: boolean;
+  onClose?: () => void;
 }) {
   const [quality] = useState(() =>
     globeQuality({
@@ -777,10 +781,17 @@ export default function PlanetGlobe({
       )}
 
       <header className="pm-topbar">
-        <Link to="/" className="pm-back" aria-label="Wróć do gry">
-          <ArrowLeft aria-hidden size={16} />
-          <span>Gra</span>
-        </Link>
+        {embedded && onClose ? (
+          <button type="button" className="pm-back" onClick={onClose} aria-label="Zamknij globus i wróć do gry">
+            <ArrowLeft aria-hidden size={16} />
+            <span>Gra</span>
+          </button>
+        ) : (
+          <Link to="/" className="pm-back" aria-label="Wróć do gry">
+            <ArrowLeft aria-hidden size={16} />
+            <span>Gra</span>
+          </Link>
+        )}
         <div className="pm-title">
           <p className="pm-eyebrow">Ki Legends · Atlas</p>
           <h1>Planeta Superior</h1>
@@ -802,7 +813,7 @@ export default function PlanetGlobe({
       </header>
 
       <p className="pm-demo-chip pg-chip" role="note">
-        <strong>Podgląd atlasu</strong> · niepołączony z grą · bez pozycji gracza
+        <strong>{embedded ? "Atlas świata" : "Podgląd atlasu"}</strong> · {embedded ? "postęp gracza pozostaje bez zmian" : "niepołączony z grą · bez pozycji gracza"}
       </p>
 
       <div className="pm-controls" role="toolbar" aria-label="Sterowanie globusem">
@@ -951,7 +962,7 @@ export default function PlanetGlobe({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
-            {["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
+            {!embedded && ["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
               <Link
                 to="/"
                 search={{ continent: selectedRegion.id } as never}
