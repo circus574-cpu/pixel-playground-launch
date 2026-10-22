@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "documentStatus": "DRAFT_FOR_OWNER_APPROVAL",
+  "gameplayIntegrated": false,
+  "sourceCommit": "f5207a1f0cc2b837c9a05d85ca8ebf68b060df86",
+  "provenance": "Verified existing formulas from src/game/session.ts; proposed talent nodes are authoring suggestions, not owner-approved rules or implemented gameplay.",
+  "activeRuntime": {
+    "level": {
+      "min": 1,
+      "max": 100,
+      "xpToNext": "100 + (level - 1) * 60"
+    },
+    "stats": {
+      "maxHp": "120 + (level - 1) * 20",
+      "maxKi": "50 + (level - 1) * 5",
+      "attack": "18 + (level - 1) * 3 + (weapon ? weapon.attack + upgrade * 4 : 0)",
+      "defense": "level - 1 + (armor ? armor.defense : 0)"
+    },
+    "abilities": [
+      {
+        "id": "attack",
+        "name": "Atak podstawowy",
+        "costKi": 0,
+        "cooldownMs": 650,
+        "range": 78
+      },
+      {
+        "id": "flame",
+        "name": "Cięcie płomienia",
+        "costKi": 12,
+        "cooldownMs": 3500,
+        "range": 110
+      },
+      {
+        "id": "pulse",
+        "name": "Impuls KI",
+        "costKi": 18,
+        "cooldownMs": 5000,
+        "range": 300
+      },
+      {
+        "id": "shield",
+        "name": "Tarcza ducha",
+        "costKi": 15,
+        "cooldownMs": 10000,
+        "range": 0
+      },
+      {
+        "id": "potion",
+        "name": "Mikstura życia",
+        "costKi": 0,
+        "cooldownMs": 6000,
+        "range": 0
+      }
+    ],
+    "hasTalentTree": false,
+    "hasTalentPoints": false
+  },
+  "proposal": {
+    "approval": "NOT_APPROVED",
+    "balance": "TBD",
+    "pointsPerLevel": null,
+    "resetCost": null,
+    "description": "Candidate structure for UI/content planning only, not a runtime talent implementation. Level thresholds are provisional.",
+    "universalNodes": [
+      {
+        "id": "core-vigor",
+        "name": "Witalność",
+        "branch": "core",
+        "minLevel": 5,
+        "requires": [],
+        "idea": "Rozwój przeżywalności; bez ostatecznej wartości HP."
+      },
+      {
+        "id": "core-focus",
+        "name": "Koncentracja KI",
+        "branch": "core",
+        "minLevel": 5,
+        "requires": [],
+        "idea": "Rozwój zasobu KI; mechanizm regeneracji do ustalenia."
+      },
+      {
+        "id": "core-technique",
+        "name": "Technika walki",
+        "branch": "core",
+        "minLevel": 5,
+        "requires": [],
+        "idea": "Rozwój ofensywy w sposób zgodny z obecnym atakiem."
+      },
+      {
+        "id": "core-guard",
+        "name": "Opanowanie obrony",
+        "branch": "core",
+        "minLevel": 5,
+        "requires": [],
+        "idea": "Rozwój obrony; bez zmiany istniejącej logiki tarczy."
+      }
+    ],
+    "raceBranches": [
+      {
+        "race": "planetary",
+        "branch": "planetary",
+        "nodes": [
+          {
+            "id": "p-forest-stride",
+            "name": "Krok Wędrowca",
+            "minLevel": 10,
+            "requires": [
+              "core-technique"
+            ],
+            "idea": "Mobilność i pozycjonowanie w lesie",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "p-earth-resonance",
+            "name": "Rezonans Ziemi",
+            "minLevel": 20,
+            "requires": [
+              "p-forest-stride",
+              "core-focus"
+            ],
+            "idea": "Kontrola żywej energii i ataków KI",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "p-warden",
+            "name": "Strażnik Równowagi",
+            "minLevel": 35,
+            "requires": [
+              "p-earth-resonance",
+              "core-guard"
+            ],
+            "idea": "Ochrona i adaptacja w długiej walce",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          }
+        ]
+      },
+      {
+        "race": "sage",
+        "branch": "sage",
+        "nodes": [
+          {
+            "id": "s-clear-mind",
+            "name": "Czysty Umysł",
+            "minLevel": 10,
+            "requires": [
+              "core-focus"
+            ],
+            "idea": "Koncentracja i zarządzanie KI",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "s-warding-seal",
+            "name": "Pieczęć Ochrony",
+            "minLevel": 20,
+            "requires": [
+              "s-clear-mind",
+              "core-guard"
+            ],
+            "idea": "Bariery i kontrola pola",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "s-sanctuary",
+            "name": "Krąg Sanktuarium",
+            "minLevel": 35,
+            "requires": [
+              "s-warding-seal",
+              "core-vigor"
+            ],
+            "idea": "Wsparcie i obrona drużyny w przyszłych etapach",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          }
+        ]
+      },
+      {
+        "race": "android",
+        "branch": "android",
+        "nodes": [
+          {
+            "id": "a-calibration",
+            "name": "Kalibracja Rdzenia",
+            "minLevel": 10,
+            "requires": [
+              "core-technique"
+            ],
+            "idea": "Precyzja i odczyty zagrożeń",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "a-impulse-matrix",
+            "name": "Matryca Impulsu",
+            "minLevel": 20,
+            "requires": [
+              "a-calibration",
+              "core-focus"
+            ],
+            "idea": "Impuls energetyczny i kontrola KI",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "a-shield-protocol",
+            "name": "Protokół Ochronny",
+            "minLevel": 35,
+            "requires": [
+              "a-impulse-matrix",
+              "core-guard"
+            ],
+            "idea": "Czasowa osłona i przeżywalność",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          }
+        ]
+      },
+      {
+        "race": "legend",
+        "branch": "legend",
+        "nodes": [
+          {
+            "id": "l-blade-rhythm",
+            "name": "Rytm Ostrza",
+            "minLevel": 10,
+            "requires": [
+              "core-technique"
+            ],
+            "idea": "Sekwencja uderzeń w zwarciu",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "l-ember-fury",
+            "name": "Płomienny Szał",
+            "minLevel": 20,
+            "requires": [
+              "l-blade-rhythm",
+              "core-focus"
+            ],
+            "idea": "Ofensywna ekspresja energii",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          },
+          {
+            "id": "l-iron-will",
+            "name": "Żelazna Wola",
+            "minLevel": 35,
+            "requires": [
+              "l-ember-fury",
+              "core-vigor"
+            ],
+            "idea": "Kontrataki i wytrzymałość w pojedynku",
+            "effectNumbers": null,
+            "status": "PROPOSED"
+          }
+        ]
+      }
+    ]
+  }
+}
