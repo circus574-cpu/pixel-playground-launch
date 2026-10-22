@@ -9,7 +9,7 @@ from mathutils import Quaternion, Vector
 
 parser=argparse.ArgumentParser();parser.add_argument('--review',action='store_true');parser.add_argument('--validate-only',action='store_true');parser.add_argument('--render-validated',action='store_true');args=parser.parse_args()
 ROOT=Path('/workspace/ki-legends-gpu')
-SOURCE=Path('/opt/ki-legends-gpu/android-rig-v2/android-rig-down.blend')
+SOURCE=Path('/opt/ki-legends-gpu/android-rig-v3/android-rig-down.blend')
 bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
 rig=bpy.data.objects['hero-android'];scene=bpy.context.scene
 scene.render.use_freestyle=False  # contours are checked separately; avoid CPU bottleneck during motion QA

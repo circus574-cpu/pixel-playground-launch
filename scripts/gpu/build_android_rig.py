@@ -5,7 +5,7 @@ identity candidate (docs/design/identity/android-v1). No sliced illustration fra
 import bpy,math,json,hashlib,time,random
 from pathlib import Path
 from mathutils import Vector,Quaternion
-ROOT=Path('/workspace/ki-legends-gpu');BASE=ROOT/'source/planetary-rig-base';OUT=ROOT/'renders/android-rig-review-v2';OUT.mkdir(parents=True,exist_ok=True);LOCAL=Path('/opt/ki-legends-gpu/android-rig-v2');LOCAL.mkdir(exist_ok=True)
+ROOT=Path('/workspace/ki-legends-gpu');BASE=ROOT/'source/planetary-rig-base';OUT=ROOT/'renders/android-rig-review-v3';OUT.mkdir(parents=True,exist_ok=True);LOCAL=Path('/opt/ki-legends-gpu/android-rig-v3');LOCAL.mkdir(exist_ok=True)
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 vertices=[];faces=[];group=''
 for line in (BASE/'base.obj').read_text().splitlines():
@@ -117,7 +117,7 @@ for side in ['L','R']:
  ellipsoid('Shoulder trim rim '+side,shoulder+Vector((sign*.055,0,.075)),(.31,.315,.06),trim,'upper_arm'+s)
  elbow,wrist=BONES['forearm'+s];d=wrist-elbow;tube('Forged gauntlet '+side,elbow+d*.18,wrist-d*.10,.21,.17,steel,'forearm'+s);tube('Gauntlet cuff '+side,elbow+d*.18,elbow+d*.25,.235,.225,trim,'forearm'+s)
  knee,ankle=BONES['shin'+s];d=ankle-knee;tube('Armored greave '+side,knee+d*.35,ankle,.23,.18,steel,'shin'+s);tube('Greave trim upper edge '+side,knee+d*.32,knee+d*.39,.245,.24,trim,'shin'+s)
- hand0,hand1=BONES['hand'+s];hand_center=hand0+(hand1-hand0)*1.25;ellipsoid('Closed armored fist '+side,hand_center,(.19,.20,.22),steel,'hand'+s);ellipsoid('Gauntlet thumb '+side,hand_center+Vector((-sign*.16,-.04,.04)),(.09,.12,.12),plate,'hand'+s)
+ hand0,hand1=BONES['hand'+s];hand_center=hand0+(hand1-hand0)*1.25;ellipsoid('Closed armored fist '+side,hand_center,(.23,.24,.26),steel,'hand'+s);ellipsoid('Gauntlet thumb '+side,hand_center+Vector((-sign*.16,-.04,.04)),(.09,.12,.12),plate,'hand'+s)
  for knuckle in range(4):cube('Bronze knuckle plate',hand_center+Vector((-.12+knuckle*.08,-.15,.09)),(.065,.07,.07),trim,'hand'+s)
  foot=BONES['foot'+s][0];bootverts=[]
  for yy,ww,hh in [(.22,.18,.32),(.05,.23,.40),(-.35,.23,.27),(-.60,.14,.17),(-.75,.025,.1)]:
@@ -131,7 +131,7 @@ for side in ['L','R']:
 for angle in range(0,360,20):
  a=math.radians(angle);center=(math.cos(a)*.55,math.sin(a)*.34,z_waist);o=cube('Layered plate waist belt',center,(.24,.10,.19),plate,'pelvis')
 cube('Belt buckle',(0,-.42,z_waist),(.26,.08,.22),trim,'pelvis')
-ellipsoid('Chest armor plate',(0,-.10,z_chest+.10),(.46,.30,.40),steel,'chest');ellipsoid('Energy core',(0,-.37,z_chest+.16),(.13,.05,.13),core,'chest');ellipsoid('Energy core socket',(0,-.35,z_chest+.16),(.17,.045,.17),plate,'chest')
+ellipsoid('Chest armor plate',(0,-.22,z_chest+.10),(.50,.22,.40),steel,'chest');ellipsoid('Energy core',(0,-.47,z_chest+.14),(.12,.04,.12),core,'chest');ellipsoid('Energy core socket',(0,-.45,z_chest+.14),(.16,.04,.16),plate,'chest')
 for side in ['L','R']:
  s='.'+side;sign=1 if side=='L' else -1;shoulder=BONES['upper_arm'+s][0];knee=BONES['shin'+s][0]
  ellipsoid('Shoulder joint core '+side,shoulder+Vector((sign*.30,-.04,.10)),(.07,.07,.07),core,'upper_arm'+s);tube('Shoulder spike '+side,shoulder+Vector((sign*.12,0,.20)),shoulder+Vector((sign*.24,0,.52)),.07,.006,steel,'upper_arm'+s,6)
@@ -139,25 +139,27 @@ for side in ['L','R']:
 for k in range(3):cube('Abdomen plate',(0,-.30,z_waist+.12+k*.17),(.52-.05*k,.10,.14),steel,'spine');cube('Abdomen plate trim',(0,-.355,z_waist+.12+k*.17),(.30-.04*k,.02,.03),trim,'spine')
 for side in ['L','R']:
  s='.'+side;sign=1 if side=='L' else -1;shoulder=BONES['upper_arm'+s][0];hip,knee=BONES['thigh'+s];dt=knee-hip;elbow,wrist=BONES['forearm'+s];df=wrist-elbow
- ellipsoid('Pectoral plate '+side,Vector((sign*.20,-.20,z_chest+.18)),(.24,.20,.22),steel,'chest');ellipsoid('Pauldron layer 2 '+side,shoulder+Vector((sign*.10,0,.02)),(.30,.31,.15),steel,'upper_arm'+s);ellipsoid('Pauldron layer 3 '+side,shoulder+Vector((sign*.15,0,-.07)),(.28,.29,.12),plate,'upper_arm'+s)
- tube('Thigh armor '+side,hip+dt*.22,hip+dt*.82,.31,.27,steel,'thigh'+s);tube('Thigh armor trim '+side,hip+dt*.80,hip+dt*.86,.285,.28,trim,'thigh'+s);ellipsoid('Hip plate '+side,Vector((sign*.55,0,z_waist-.10)),(.22,.30,.25),steel,'pelvis')
+ ellipsoid('Pectoral plate '+side,Vector((sign*.22,-.28,z_chest+.20)),(.26,.16,.20),steel,'chest');ellipsoid('Pectoral rim '+side,Vector((sign*.22,-.285,z_chest+.20)),(.275,.15,.045),trim,'chest');ellipsoid('Pauldron layer 2 '+side,shoulder+Vector((sign*.10,0,.02)),(.30,.31,.15),steel,'upper_arm'+s);ellipsoid('Pauldron layer 3 '+side,shoulder+Vector((sign*.15,0,-.07)),(.28,.29,.12),plate,'upper_arm'+s)
+ tube('Thigh armor '+side,hip+dt*.22,hip+dt*.82,.42,.35,steel,'thigh'+s);tube('Thigh armor trim '+side,hip+dt*.80,hip+dt*.86,.37,.36,trim,'thigh'+s);ellipsoid('Hip plate '+side,Vector((sign*.55,0,z_waist-.10)),(.22,.30,.25),steel,'pelvis')
  tube('Forearm light strip '+side,elbow+df*.30+Vector((0,-.22,0)),wrist-df*.20+Vector((0,-.20,0)),.018,.014,core,'forearm'+s,6)
 neck=source_point('neck01','tail');ellipsoid('Armored collar',neck+Vector((0,0,-.1)),(.34,.30,.19),steel,'neck');ellipsoid('Collar blue rim',neck+Vector((0,0,-.04)),(.355,.315,.05),trim,'neck')
 # Cloth chains are added before animation: independent, continuous wind motion.
 bpy.ops.object.select_all(action='DESELECT');rig.select_set(True);bpy.context.view_layer.objects.active=rig;bpy.ops.object.mode_set(mode='EDIT')
 CLOTH=[]
 for label,points,width,mat,parent in [
- ('coat-back-left',[(-.30,.30,z_waist+.05),(-.34,.34,z_waist-.50),(-.40,.40,z_waist-1.05),(-.46,.46,z_waist-1.60)],.52,coatblue,'pelvis'),
- ('coat-back-right',[(.30,.30,z_waist+.05),(.34,.34,z_waist-.50),(.40,.40,z_waist-1.05),(.46,.46,z_waist-1.60)],.52,white,'pelvis'),
- ('coat-front-blue',[(.34,-.34,z_waist+.02),(.40,-.36,z_waist-.45),(.46,-.37,z_waist-.95),(.52,-.38,z_waist-1.40)],.40,coatblue,'pelvis'),
- ('coat-front-white',[(-.34,-.34,z_waist+.02),(-.40,-.36,z_waist-.45),(-.46,-.37,z_waist-.95),(-.52,-.38,z_waist-1.40)],.40,white,'pelvis')]:
+ ('coat-back-left',[(-.30,.30,z_waist+.05),(-.34,.34,z_waist-.65),(-.40,.40,z_waist-1.35),(-.46,.46,z_waist-2.05)],.52,coatblue,'pelvis'),
+ ('coat-back-right',[(.30,.30,z_waist+.05),(.34,.34,z_waist-.65),(.40,.40,z_waist-1.35),(.46,.46,z_waist-2.05)],.52,white,'pelvis'),
+ ('coat-front-blue',[(.34,-.34,z_waist+.02),(.40,-.36,z_waist-.55),(.46,-.37,z_waist-1.15),(.52,-.38,z_waist-1.75)],.40,coatblue,'pelvis'),
+ ('coat-front-white',[(-.34,-.34,z_waist+.02),(-.40,-.36,z_waist-.55),(-.46,-.37,z_waist-1.15),(-.52,-.38,z_waist-1.75)],.40,white,'pelvis')]:
  chain=[]
  for i in range(3):
   key=label+'.'+str(i);bone(key,points[i],points[i+1],chain[-1] if chain else parent);chain.append(key)
  CLOTH.append((label,points,width,mat,chain))
 bpy.ops.object.mode_set(mode='OBJECT')
 for label,points,width,mat,chain in CLOTH:
- for i in range(3):ribbon(label+' panel '+str(i),[points[i],(Vector(points[i])+Vector(points[i+1]))/2,points[i+1]],width*(1-i*.12),mat,chain[i])
+ for i in range(3):
+  pw=width*(1-i*.28);mid=(Vector(points[i])+Vector(points[i+1]))/2;ribbon(label+' panel '+str(i),[points[i],mid,points[i+1]],pw,mat,chain[i])
+  off=Vector((.36*pw*(1 if points[0][0]>0 else -1),-.012,0));ribbon(label+' trim stripe '+str(i),[Vector(points[i])+off,mid+off,Vector(points[i+1])+off],.05,trim,chain[i])
 # Sculpted clumps keep the same spiky chestnut haircut in every direction.
 head0,head1=BONES['head'];hc=(head0+head1)/2;rx=.34;ry=.30;rz=(head1.z-head0.z)*.68
 capverts=[];capfaces=[];steps=12;around=24

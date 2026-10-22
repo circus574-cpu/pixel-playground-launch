@@ -4,6 +4,7 @@ Usage on an already running GPU pod (does not touch pod lifecycle):
   python3 identity_candidates.py android
   python3 identity_candidates.py legend
   python3 identity_candidates.py planetary
+  python3 identity_candidates.py sage
 Writes PNG candidates, a contact sheet and metadata with SHA-256 to
 /workspace/ki-legends-gpu/renders/<race>-identity-v1/.
 """
@@ -16,6 +17,7 @@ PINNED = {
     "android": "04559d7507f7c3bfa92ebbbf4f1f2b43734546546fd262fa8bfeaaf1afa0eef0",
     "legend": "ba7c4d962595ae469adeaa00939549af2f77597caf175f29fff2122e75a87e80",
     "planetary": "db5caf89604fe974cbf38bd750795f3e362f954c695d8df94ba149e7598ea851",
+    "sage": "46801a39930815b6621a8433e5396f25fee22460604cbda4158c617fc5d99147",
 }
 BASE = ("1boy, solo, adult male, full body, standing, both hands visible, complete feet visible, "
         "fully clothed, relaxed ready stance, high angle three quarter view, anime fantasy game protagonist, "
@@ -33,6 +35,10 @@ PROMPTS = {
                  "calm determined expression, muscular forest warrior, orange scarf, sleeveless white and green wrap tunic, "
                  "brown leather straps belts and pouches, bronze brown armored gauntlets and greaves with glowing cyan crystal gems, "
                  "dark green trousers, brown pointed leather boots, orange white and green cloth with geometric patterns, ",
+    "sage": "long pale blonde hair tied in a high ponytail with a gold ornament, pointed elf ears, golden amber eyes, "
+            "serene calm expression, tall slender sage, long layered cream white and emerald green robes with gold geometric embroidery, "
+            "wide sleeves, jeweled emerald belt with gold ornaments and teal tassels, black inner garment, golden shoulder ornaments, "
+            "ornate black and gold armored boots and greaves with emerald gems, holding an ornate golden staff with a glowing emerald orb, ",
 }
 NEG = ("nsfw, nude, naked, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, cut off hair, "
        "out of frame, close up, portrait, text, logo, watermark, signature, multiple people, duplicate character, "
@@ -53,6 +59,7 @@ found = subprocess.run(["find", "/workspace", "-iname", "animagine-xl-3.1.safete
 if not found:
     sys.exit("BLAD: nie znaleziono animagine-xl-3.1.safetensors w /workspace")
 ckpt = found[0]
+NEG = NEG.replace(", weapon, shield", "") if race == "sage" else NEG  # the sage staff is canon
 out = Path("/workspace/ki-legends-gpu/renders/%s-identity-v1" % race)
 out.mkdir(parents=True, exist_ok=True)
 ref_path = out / ("reference-%s.webp" % race)
