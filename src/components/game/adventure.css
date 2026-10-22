@@ -263,3 +263,43 @@
     bottom: calc(max(8px, env(safe-area-inset-bottom)) + 118px);
   }
 }
+
+/* Planet atlas opened from the world map (2D map + 3D globe). */
+.ki-planet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+}
+.ki-planet-loading {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #04101b;
+  color: #ece4d2;
+}
+.ki-planet-open {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgb(215 189 123 / 0.55);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgb(32 56 66 / 0.95), rgb(14 30 40 / 0.95));
+  color: #f0d79a;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.ki-planet-open small {
+  flex-basis: 100%;
+  color: #a9b8b6;
+  font-weight: 400;
+}
+.ki-planet-open:hover,
+.ki-planet-open:focus-visible {
+  border-color: #f0d79a;
+}

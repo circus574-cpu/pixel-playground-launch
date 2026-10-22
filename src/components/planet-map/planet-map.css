@@ -622,3 +622,41 @@
     animation: none;
   }
 }
+
+/* ---------- game link: "you are here" ---------- */
+.pm-demo-chip.is-here strong {
+  color: var(--pm-gold-hi);
+}
+.pm-here-ring {
+  fill: none;
+  stroke: var(--pm-gold-hi);
+  stroke-width: 3;
+  animation: pm-here-pulse 1.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.pm-settlement.is-current rect {
+  fill: var(--pm-gold-hi);
+}
+@keyframes pm-here-pulse {
+  0%,
+  100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.5);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pm-here-ring {
+    animation: none;
+  }
+}
+.pm-here-note {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--pm-gold);
+  background: rgb(215 189 123 / 0.08);
+}
