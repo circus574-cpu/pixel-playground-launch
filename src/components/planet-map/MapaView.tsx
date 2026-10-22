@@ -67,7 +67,7 @@ export function MapaView({
   useEffect(() => {
     const ok = probe();
     setCanGlobe(ok);
-    setMode(embedded || !ok ? "flat" : "globe");
+    setMode(ok ? "globe" : "flat");
     setNotice(ok ? null : FALLBACK_NOTICE["no-webgl"]);
   }, [probe, embedded]);
 
@@ -80,7 +80,7 @@ export function MapaView({
   if (mode === "checking")
     return embedded ? (
       <div role="status" className="planet-map">
-        <p className="pg-loading">Wczytywanie mapy 2D planety Superior…</p>
+        <p className="pg-loading">Wczytywanie globusa 3D planety Superior…</p>
       </div>
     ) : (
       <GlobeLoading />
