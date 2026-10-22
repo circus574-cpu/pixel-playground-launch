@@ -16,8 +16,10 @@ IP_SCALE = float(sys.argv[4]) if len(sys.argv) > 4 else 0.7
 ROOT = Path("/workspace/ki-legends-gpu"); M = ROOT / "models"
 OUT = ROOT / "renders" / ("%s-painted-%s" % (race, tag)); OUT.mkdir(parents=True, exist_ok=True)
 IDENT = {"android": ROOT / "renders/android-identity-v1/selected/android-s5741102-d62.png",
-         "planetary": ROOT / "renders/planetary-identity-v1/selected/planetary-s5741102-d62.png"}[race]
-KP = json.loads((ROOT / "renders" / ("%s-painted-v1" % race) / "keypoints.json").read_text())
+         "planetary": ROOT / "renders/planetary-identity-v1/selected/planetary-s5741102-d62.png",
+         "legend": ROOT / "renders/legend-identity-v1/selected/legend-s5741102-d62.png",
+         "sage": ROOT / "renders/sage-identity-v2/selected/sage-s5741102-d55.png"}[race]
+KP = json.loads((ROOT / "renders" / ("%s-painted-v1" % ("android" if race in ("legend", "sage") else race)) / "keypoints.json").read_text())  # one shared humanoid rig skeleton
 BASE = ("1boy, solo, adult male, full body, standing, both hands visible, complete feet visible, fully clothed, "
         "relaxed ready stance, high angle three quarter view, anime fantasy game protagonist, clean precise linework, "
         "beautifully painted materials, readable silhouette, isolated on pure white background, plain white background, simple background, no surrounding scenery, "
@@ -28,7 +30,12 @@ LOOK = {"android": "short spiky silver white hair, steel blue eyes, stern calm e
         "planetary": "messy spiky chestnut brown hair with a short orange braid, white headband, amber eyes, tanned skin, calm determined expression, "
         "muscular forest warrior, orange scarf, sleeveless white and green wrap tunic, brown leather straps belts and pouches, "
         "bronze brown armored gauntlets and greaves with cyan crystal gems, dark green trousers, brown pointed leather boots, "
-        "orange white and green cloth with geometric patterns, "}[race]
+        "orange white and green cloth with geometric patterns, ",
+        "legend": "wild spiky crimson red and black hair, intense amber eyes, fierce confident expression, muscular warrior, "
+        "black and crimson armor with steel spikes on shoulders and gauntlets, open black vest, flowing red sashes, black trousers, spiked steel armored boots, ",
+        "sage": "masculine adult man, strong jaw, angular masculine face, broad shoulders, flat chest, tall lean athletic build, long pale blonde hair tied in a high ponytail "
+        "with a gold ornament, pointed elf ears, golden amber eyes, serene calm stern expression, male elf sage, long layered cream white and emerald green robes with gold geometric embroidery, "
+        "wide sleeves, jeweled emerald belt with gold ornaments and teal tassels, black inner garment, golden shoulder ornaments, ornate black and gold armored boots and greaves with emerald gems, "}[race]
 VIEW = {"down": "front view, facing the viewer", "down-left": "three quarter front view, facing left", "left": "side view, profile, facing left",
         "up-left": "three quarter back view, facing away to the left", "up": "back view, seen from behind, facing away from the viewer",
         "up-right": "three quarter back view, facing away to the right", "right": "side view, profile, facing right",
@@ -51,6 +58,8 @@ def skeleton(points, size=1024):
     return img
 
 cn = ControlNetModel.from_pretrained(str(M / "controlnet/xinsir-openpose-sdxl"), torch_dtype=torch.float16)
+if race == "sage":  # staff and robes are canon; keep the figure unambiguously male
+    NEG = NEG.replace(" weapon, shield,", "") + ", girl, woman, female, feminine, androgynous, breasts, cleavage, character sheet, multiple views, group, crowd, chibi"
 pipe = StableDiffusionXLControlNetPipeline.from_single_file(str(M / "checkpoints/animagine-xl-3.1.safetensors"), controlnet=cn, torch_dtype=torch.float16).to("cuda")
 pipe.load_ip_adapter(str(M / "ip-adapter"), subfolder="sdxl_models", weight_name="ip-adapter_sdxl.safetensors", image_encoder_folder="sdxl_models/image_encoder")
 pipe.set_ip_adapter_scale(IP_SCALE)
