@@ -69,21 +69,23 @@ def pose(state,index,count):
         for side in ['L','R']:leg(side)
     elif state=='walk':
         # 205 world units/s at 16 fps: a jog. Stance stroke follows speed, not arbitrary foot sliding.
-        stroke=205*(8/16)*.30/(128/ortho*math.sin(math.pi/4))
+        # Foot-on-ground travel at 205 u/s needs a stride of 88% of leg reach (measured), which forces a squat.
+        # STRIDE_SCALE trades 35% of that for a small, 128px-invisible foot slide so the legs stay long.
+        stroke=205*(8/16)*.30/(128/ortho*math.sin(math.pi/4))*.65
         th=rig.data.bones['thigh.L'].head_local;kn=rig.data.bones['shin.L'].head_local;an=rig.data.bones['foot.L'].head_local
         reach=math.hypot((kn-th).y,(kn-th).z)+math.hypot((an-kn).y,(an-kn).z);height=th.z-an.z
         # Lower the hips only as far as the stride needs, so the legs stay nearly straight (no squat).
-        drop=max(0.0,math.hypot(stroke*.5,height)-.96*reach)
+        drop=max(0.0,math.hypot(stroke*.5,height)-.985*reach)
         rig.location.z=-drop+.025*math.cos(t*math.tau*2)
         for side,offset,sign in [('L',0,1),('R',.5,-1)]:
             phase=(t+offset)%1
             if phase<.30:dy=-stroke*.5+stroke*phase/.30;lift=0
             else:
-                swing=(phase-.30)/.70;dy=stroke*.5-stroke*swing;lift=.58*math.sin(math.pi*swing)
+                swing=(phase-.30)/.70;dy=stroke*.5-stroke*swing;lift=.78*math.sin(math.pi*swing)
             leg(side,dy,lift)
             rot('upper_arm.'+side,(1,0,0),-.45*math.sin((t+offset)*math.tau))
             rot('forearm.'+side,(1,0,0),.12+.10*math.cos((t+offset)*math.tau))
-        rot('chest',(0,0,1),.045*wave);rot('head',(0,0,1),-.025*wave)
+        rot('chest',(0,0,1),.045*wave);rot('head',(0,0,1),-.025*wave);rot('chest',(1,0,0),-.10);rot('head',(1,0,0),.07)
     elif state in ['attack','skill']:
         force=(1-p)**1.4
         if state=='attack':
@@ -106,7 +108,7 @@ def pose(state,index,count):
             segment=int(b.name.rsplit('.',1)[1]);rot(b.name,(0,0,1),(.04+segment*.025)*wind)
     bpy.context.view_layer.update()
 
-name='android-motion-review-v2' if args.review else 'android-motion-v2'
+name='android-motion-review-v3' if args.review else 'android-motion-v3'
 PERSISTENT=ROOT/'renders'/name;PERSISTENT.mkdir(parents=True,exist_ok=True)
 LOCAL=Path('/opt/ki-legends-gpu')/name;LOCAL.mkdir(exist_ok=True);OUT=LOCAL
 # Render on POSIX storage; one archived checkpoint per direction avoids 832 slow FUSE writes.
