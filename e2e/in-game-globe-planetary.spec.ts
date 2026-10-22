@@ -20,7 +20,7 @@ test("Planetarni use production art and the in-game map opens in 2D before its 3
   await expect(map).toBeVisible();
   await expect(map.locator(".pm-svg")).toBeVisible({ timeout: 30000 });
   await expect(map.locator(".pg-stage")).toHaveCount(0);
-  await expect(page).toHaveURL(/\/scripts\/playtest\\.html/);
+  await expect(page).toHaveURL(/\/scripts\/playtest\.html/);
 
   const switchToGlobe = map.getByRole("button", { name: "Globus 3D", exact: true });
   if (await switchToGlobe.count()) {
@@ -40,5 +40,5 @@ test("Planetarni use production art and the in-game map opens in 2D before its 3
   await expect(canvas).toHaveAttribute("data-world", world!);
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
   await expect(page.locator(".ki-hud")).toBeVisible();
-  await expect(page).toHaveURL(/\/scripts\/playtest\\.html/);
+  await expect(page).toHaveURL(/\/scripts\/playtest\.html/);
 });
