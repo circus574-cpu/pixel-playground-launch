@@ -4,24 +4,28 @@
 
 Źródło tej dostawy: gałąź `ccr-b63f9ce9-bu75ez`. Metoda i wady: [PAINTED-MESH-PIPELINE.md](PAINTED-MESH-PIPELINE.md). Decyzje właściciela: [DECISIONS.md](DECISIONS.md). Zadania dla Ciebie są w sekcjach 2–5.
 
+## 0. Aktualizacja 22.10.2026 — system rozgrywki jest już wdrożony w kodzie
+
+Rasy, drzewka, potwory i zapis v4 są w kodzie i przetestowane jednostkowo: [GAMEPLAY-RACES-AND-MONSTERS.md](GAMEPLAY-RACES-AND-MONSTERS.md). Stare umiejętności Etapu 2 (Cięcie płomienia, Impuls KI, Tarcza ducha) nie istnieją. Nie przywracaj ich i nie zmieniaj liczb balansu poza decyzją właściciela. Poniższe sekcje 1–6 opisują **grafikę**, która czeka na instalację; sekcja 7 dotyczy potworów.
+
 ## 1. Co leży w repo
 
 **Bohaterowie** — `deliveries/<id>-1.0.0/` (manifest + 2 atlasy WebP 2048² + JSON; **416 klatek = 8 kierunków × 52**, klient 128 px, kotwica stóp `(0.5, 0.95)`, rozmiar 96×96, profil `hero`, prezentacja `legacy`). Źródła: `art/production/heroes/<rasa>/painted-v1/` (mastery 512×512 RGBA, 8 malowanych widoków w lossless WebP, `provenance.json` z sumami SHA-256, `preview.gif`). Zwalidowane `npm run assets:import -- <manifest>` **bez** `--install`.
 
-| Rasa | Pakiet | Świat | `actorBindings` | SHA-256 manifestu | Status u właściciela | Sposób wdrożenia |
-|---|---|---|---|---|---|---|
-| Android | `hero-android` | nexus | `nexus.hero: hero-android` | `e729ce083a3afc67…` | identity zaakceptowany; przegląd ruchu zaakceptowany; wynik końcowy NIE oceniony | previewOnly + przełącznik `ki-hero-android` |
-| Planetarni | `hero-planetary-painted` | verdant | `verdant.hero: hero-planetary-painted` | `ae59e5153b5a90c3…` | ZAAKCEPTOWANI przez właściciela (22.10.2026) | zastępuje `hero-planetary` (przełącznik `ki-hero-art`) |
-| Legendy | `hero-legend` | pyra | `pyra.hero: hero-legend` | `844973d5d4a7b59c…` | identity zaakceptowany; animacja NIE oceniona | previewOnly + przełącznik `ki-hero-legend` |
-| Mędrcy (męska wersja) | `hero-sage-painted` | aether | `aether.hero: hero-sage-painted` | `1aed6563555daaec…` | ZAAKCEPTOWANI przez właściciela (22.10.2026) | zastępuje `hero-sage` (domyślny w Aetherii) |
+| Rasa                  | Pakiet                   | Świat   | `actorBindings`                        | SHA-256 manifestu   | Status u właściciela                                                             | Sposób wdrożenia                                       |
+| --------------------- | ------------------------ | ------- | -------------------------------------- | ------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Android               | `hero-android`           | nexus   | `nexus.hero: hero-android`             | `e729ce083a3afc67…` | identity zaakceptowany; przegląd ruchu zaakceptowany; wynik końcowy NIE oceniony | previewOnly + przełącznik `ki-hero-android`            |
+| Planetarni            | `hero-planetary-painted` | verdant | `verdant.hero: hero-planetary-painted` | `ae59e5153b5a90c3…` | ZAAKCEPTOWANI przez właściciela (22.10.2026)                                     | zastępuje `hero-planetary` (przełącznik `ki-hero-art`) |
+| Legendy               | `hero-legend`            | pyra    | `pyra.hero: hero-legend`               | `844973d5d4a7b59c…` | identity zaakceptowany; animacja NIE oceniona                                    | previewOnly + przełącznik `ki-hero-legend`             |
+| Mędrcy (męska wersja) | `hero-sage-painted`      | aether  | `aether.hero: hero-sage-painted`       | `1aed6563555daaec…` | ZAAKCEPTOWANI przez właściciela (22.10.2026)                                     | zastępuje `hero-sage` (domyślny w Aetherii)            |
 
 **Tekstury kontynentów** — `deliveries/<świat>-terrain-v2-1.0.0/` (manifest z `previewOnly: true`, cztery obrazy 512² WebP: podłoże, ścieżka, plac, mur). Źródła 1024² (lossless), arkusze i `provenance.json`: `art/production/terrain/v2/`. Format jak zainstalowane `*-start`: `kind: image`, `fit: stretch`, `tileSize` 320/208/288/256 jednostek. **Verdantia nie ma nowych tekstur** — zaakceptowany atlas lasu (`terrain.verdant`) zostaje bez zmian.
 
-| Pakiet | Klucze `renderBindings` | SHA-256 manifestu |
-|---|---|---|
+| Pakiet              | Klucze `renderBindings`                                                                       | SHA-256 manifestu   |
+| ------------------- | --------------------------------------------------------------------------------------------- | ------------------- |
 | `aether-terrain-v2` | `terrain.aether-ground`, `terrain.aether-path`, `terrain.aether-plaza`, `terrain.aether-wall` | `39d85932dd2ca4da…` |
-| `nexus-terrain-v2` | `terrain.nexus-ground`, `terrain.nexus-path`, `terrain.nexus-plaza`, `terrain.nexus-wall` | `11b856b964fd3901…` |
-| `pyra-terrain-v2` | `terrain.pyra-ground`, `terrain.pyra-path`, `terrain.pyra-plaza`, `terrain.pyra-wall` | `c8199743a89cdfe5…` |
+| `nexus-terrain-v2`  | `terrain.nexus-ground`, `terrain.nexus-path`, `terrain.nexus-plaza`, `terrain.nexus-wall`     | `11b856b964fd3901…` |
+| `pyra-terrain-v2`   | `terrain.pyra-ground`, `terrain.pyra-path`, `terrain.pyra-plaza`, `terrain.pyra-wall`         | `c8199743a89cdfe5…` |
 
 Tekstury **nie były oglądane przez właściciela** (status: NIEOCENIONE); generator: `scripts/gpu/gen_terrain_textures.py`, kołowe dopełnienie (bezszwowe), wybór ziaren w `art/production/terrain/v2/selection.json`.
 
@@ -55,10 +59,10 @@ Tekstury **nie były oglądane przez właściciela** (status: NIEOCENIONE); gene
 
 Dwie paczki w `deliveries/`, obie `previewOnly: true`, zwalidowane `assets:import` bez instalacji, **nieoglądane przez właściciela (NIEOCENIONE)**. Źródła i arkusze podglądu: `art/production/nature/v1/` (tekstury 1024² i obiekty w lossless WebP, `provenance.json`, `selection.json`); surowe obrazy 1024² są też na volume w `ki-legends-gpu/renders/nature-v1/`.
 
-| Pakiet | Zawartość | SHA-256 manifestu |
-|---|---|---|
-| `nature-textures-v1` | 16 bezszwowych tekstur 512² → klucze `terrain.nature-<nazwa>`, `tileSize` 256 | `70c53c17d7c71c3f…` |
-| `nature-objects-v1` | 19 obiektów → klucze `object.nature.<nazwa>` (wycinki, `origin` `[0.5,0.92]`) lub `object.nature.patch-<nazwa>` (łaty) | `79f46f85dc60d87d…` |
+| Pakiet               | Zawartość                                                                                                              | SHA-256 manifestu   |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `nature-textures-v1` | 16 bezszwowych tekstur 512² → klucze `terrain.nature-<nazwa>`, `tileSize` 256                                          | `70c53c17d7c71c3f…` |
+| `nature-objects-v1`  | 19 obiektów → klucze `object.nature.<nazwa>` (wycinki, `origin` `[0.5,0.92]`) lub `object.nature.patch-<nazwa>` (łaty) | `79f46f85dc60d87d…` |
 
 - **Tekstury:** `water-ocean-deep`, `water-ocean-shallow`, `water-river`, `water-lake-calm`, `water-crystal`, `energy-liquid`, `ice-glacier`, `snow`, `sand-beach`, `meadow-grass`, `forest-floor`, `cliff-rock`, `lava-flow`, `lava-crust`, `ash-ground`, `basalt-columns`.
 - **Wycinki (8):** `iceberg`, `mountain-peak`, `grassy-hill`, `pine-tree`, `broadleaf-tree`, `crystal-tree`, `flower-bush`, `reed-clump`.
@@ -66,12 +70,25 @@ Dwie paczki w `deliveries/`, obie `previewOnly: true`, zwalidowane `assets:impor
 
 **To są nowe klucze — żadna mapa ich jeszcze nie używa.** Wpięcie wymaga Twojej pracy w danych regionów (`terrain.*` w JSON regionu, obiekty w `scenery`) bez zmiany współrzędnych kluczowych punktów, kolizji i zapisów; footprinty zostają w JSON regionu. Propozycja doboru (do akceptacji właściciela):
 
-| Obszar | Tekstury | Obiekty / łaty |
-|---|---|---|
+| Obszar                                                                       | Tekstury                                                                       | Obiekty / łaty                                                                                          |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
 | Verdantia (tylko nowe, opcjonalne dodatki; zaakceptowany atlas lasu zostaje) | `meadow-grass`, `forest-floor`, `water-river`, `water-lake-calm`, `sand-beach` | `pine-tree`, `broadleaf-tree`, `flower-bush`, `reed-clump`, `grassy-hill`, `boulder-group`, `waterfall` |
-| Aetheria | `water-crystal`, `cliff-rock`, `snow` | `crystal-tree`, `mountain-peak`, `waterfall`, `cliff-outcrop` |
-| Nexus-9 | `energy-liquid`, `basalt-columns`, `ice-glacier` | `ice-spires`, `basalt-columns` |
-| Pyra | `lava-flow`, `lava-crust`, `ash-ground`, `basalt-columns`, `cliff-rock` | `volcano-active`, `volcano-dormant`, `lava-rocks`, `cliff-outcrop` |
-| Brzegi mapy / globus `/mapa` (oceany, bieguny) | `water-ocean-deep`, `water-ocean-shallow`, `ice-glacier`, `snow` | `glacier-block`, `iceberg`, `ice-spires`, `sea-stacks`, `small-island` |
+| Aetheria                                                                     | `water-crystal`, `cliff-rock`, `snow`                                          | `crystal-tree`, `mountain-peak`, `waterfall`, `cliff-outcrop`                                           |
+| Nexus-9                                                                      | `energy-liquid`, `basalt-columns`, `ice-glacier`                               | `ice-spires`, `basalt-columns`                                                                          |
+| Pyra                                                                         | `lava-flow`, `lava-crust`, `ash-ground`, `basalt-columns`, `cliff-rock`        | `volcano-active`, `volcano-dormant`, `lava-rocks`, `cliff-outcrop`                                      |
+| Brzegi mapy / globus `/mapa` (oceany, bieguny)                               | `water-ocean-deep`, `water-ocean-shallow`, `ice-glacier`, `snow`               | `glacier-block`, `iceberg`, `ice-spires`, `sea-stacks`, `small-island`                                  |
 
 **Wady (nie ukrywać):** `water-ocean-deep` wygląda jak stylizowana mapa raf, a `water-lake-calm` jak lilie wodne, nie jak spokojna woda; wycinki mają ostre krawędzie z maskowania `rembg`; nie ma map wysokości ani przejść brzegowych (wybrzeże, krawędź lodu, brzeg lawy) — brzegi trzeba zbudować w kodzie renderowania albo wygenerować osobno; lawa nie może być przechodnim podłożem bez osobnej mechaniki (AGENTS/GPU-PRODUCTION-SEQUENCE, Etap 6). Prawa do checkpointu DreamShaper XL Turbo i obrazów pochodnych: **NIEROZSTRZYGNIĘTE**.
+
+## 7. Potwory (40) — dodane 22.10.2026
+
+**Gotowe, niezainstalowane:** `deliveries/enemy-<id>-1.0.0/` (40 paczek; 416 klatek = 8 kierunków × 52, klient 128 px, profil `enemy` 84×84, kotwica `(0.5, 0.8)`), sumy w `deliveries/ENEMIES-SHA256.txt`, klucze wiązań w `art/production/enemies/bindings.json`, pochodzenie w `art/production/enemies/PROVENANCE.md`, opis każdego potwora i jego animacji w [ENEMIES-KI-LEGENDS.md](ENEMIES-KI-LEGENDS.md). Każda paczka wiąże się własnym kluczem `<świat>.enemy.<slug>`; walidator i ładowanie zasobów już to obsługują.
+
+**Do zrobienia przez Ciebie:**
+
+1. Po odbiorze wizualnym właściciela zainstaluj paczki: `npm run assets:import -- deliveries/enemy-<id>-1.0.0/manifest.json --install` (po jednej, z testem). Do tego czasu potwory w grze używają wyglądu dzika.
+2. Spawny: dodaj `monsters: [{ kind, x, y }]` do definicji regionu **dopiero po ukończeniu kontynentów** (zlecenie właściciela). `kind` to id z `src/game/monsters/catalog.ts`; grupy (wilki, nietoperze) tworzy `MonsterSystem.spawnGroup`.
+3. Nie zmieniaj liczb potworów ani drzewek w kodzie: źródłem są `base.generated.ts` (z `roster.json`) i `nodes.generated.ts` (z JSON aneksu); generatory w `scripts/gen-*.py`.
+4. Zostają do decyzji właściciela: bossowie (8), lista 20 przeciwników z aneksu poz. 1–20 (inna niż bestiariusz HTML), założenia balansu z GAMEPLAY-RACES-AND-MONSTERS.md §3.
+
+**Weryfikacja przed PR:** `npm run typecheck && npm test && npm run lint && npm run build && npx playwright test --project=gameplay`. Fizyczny telefon i sprzętowy WebGL: NIEZWERYFIKOWANE.

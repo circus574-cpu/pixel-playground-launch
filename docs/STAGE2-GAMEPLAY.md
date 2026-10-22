@@ -1,5 +1,18 @@
 # Ki Legends — etap 2, 19.10.2026
 
+> **Aktualizacja 22.10.2026 — część tego dokumentu jest historyczna.** Poniższy opis to stan etapu 2 (19–20.10.2026). Obowiązujący system rozgrywki opisuje [GAMEPLAY-RACES-AND-MONSTERS.md](GAMEPLAY-RACES-AND-MONSTERS.md). Zmiany względem tego dokumentu:
+>
+> | Etap 2 (poniżej)                                                                    | Obecnie                                                                                                                |
+> | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+> | Jedna rasa umiejętności: Atak podstawowy, Cięcie płomienia, Impuls KI, Tarcza ducha | Atak podstawowy i zdolności wynikają z **drzewka rasy** (4 × 29 węzłów, aneks 22.10); stare trzy umiejętności usunięto |
+> | HP 120, KI 50, atak 18 + 3/poz., obrona poz. − 1                                    | Statystyki **wg rasy** (np. Planetarni 125 HP, 12 ATK, 5 DEF), przyrost na poziom z aneksu                             |
+> | Obrażenia: mnożniki 1,0 / 1,8 / 1,6, stała obrona dzika                             | Model `max(1, Atak × mnożnik − Obrona / 2)` bez zaokrąglania trafienia                                                 |
+> | Mikstura: do 65 HP                                                                  | Mikstura leczy 40% maks. życia                                                                                         |
+> | Prędkość ruchu 205 j./s dla wszystkich                                              | Prędkość rasy (185/170/175/170) rosnąca o 5% bazowej na poziom do poz. 20                                              |
+> | Dzik: 66 HP, atak 9 − obrona gracza, ścisła smycz                                   | Dzik to definicja `boar` w silniku potworów (te same wartości; smycz uwzględnia zasięg gracza)                         |
+> | Zapis wersji 1/3                                                                    | Zapis wersji **4** (dodaje `skills`, `materials`, `respecs`); v1/v3 wczytują się bez przepisywania                     |
+> | Dziki jako jedyni przeciwnicy                                                       | Silnik 40 potworów z bestiariusza; spawnów w regionach jeszcze nie ma                                                  |
+
 ## Status
 
 Zaimplementowano lokalną pętlę PvE. Nie jest to sieciowe MMORPG.
@@ -86,16 +99,16 @@ Nie zmieniano bazy ani prywatnego magazynu szkicownika.
 
 ## Pliki
 
-| Zakres | Pliki |
-| --- | --- |
-| Zasady, zapis, A* | src/game/session.ts, src/game/navigation.ts |
-| Phaser, wejście, efekty | src/game/mountGame.ts |
-| HUD, dialogi, ekwipunek | src/components/game/GameHud.tsx, AdventurePanels.tsx, adventure.css |
-| Most React–Phaser | src/routes/index.tsx |
-| Testy | src/test/session.test.ts, adventure-ui.test.tsx, game-hud.test.tsx |
-| Lokalny podgląd | scripts/playtest-entry.tsx, playtest.html, playtest.vite.ts, package.json |
-| Dokumentacja | AGENTS.md, docs/PRODUCTION.md, src/game/README.md, ten raport |
-| Pominięcie wyników podglądu w repo | .gitignore |
+| Zakres                             | Pliki                                                                     |
+| ---------------------------------- | ------------------------------------------------------------------------- |
+| Zasady, zapis, A*                  | src/game/session.ts, src/game/navigation.ts                               |
+| Phaser, wejście, efekty            | src/game/mountGame.ts                                                     |
+| HUD, dialogi, ekwipunek            | src/components/game/GameHud.tsx, AdventurePanels.tsx, adventure.css       |
+| Most React–Phaser                  | src/routes/index.tsx                                                      |
+| Testy                              | src/test/session.test.ts, adventure-ui.test.tsx, game-hud.test.tsx        |
+| Lokalny podgląd                    | scripts/playtest-entry.tsx, playtest.html, playtest.vite.ts, package.json |
+| Dokumentacja                       | AGENTS.md, docs/PRODUCTION.md, src/game/README.md, ten raport             |
+| Pominięcie wyników podglądu w repo | .gitignore                                                                |
 
 Wszystkie zasoby obecnej mapy pozostają bez zmian.
 

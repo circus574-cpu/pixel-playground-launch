@@ -4,15 +4,15 @@ Kontrakt etapu przed GPU, 2026-10-20. Silnik: Phaser **4.2.1**, TypeScript, Reac
 
 ## Źródła prawdy
 
-| Plik | Zastosowanie |
-| --- | --- |
-| `src/game/assets/schema.ts` | Wspólny walidator manifestu; import i runtime |
-| `art/pipeline/gpu-pack.schema.json` | JSON Schema draft-07 dla systemu generującego paczki |
-| `src/game/assets/contract.ts` | Wymiary, kierunki, FPS i limity |
-| `art/pipeline/gpu-production-targets.json` | Wyeksportowane rzeczywiste rozmiary, kotwice, footprinty, współrzędne i klucze czterech map |
-| `art/pipeline/examples/hero-production.template.json` | Kompletny szablon produkcyjnego bohatera: 416 klatek, dwie strony atlasu |
-| `art/pipeline/examples/technical-delivery/manifest.json` | Gotowa, walidowalna neutralna paczka diagnostyczna |
-| `src/game/assets/imported.json` | Aktywne wersje zainstalowanych paczek; zmiana podlega code review |
+| Plik                                                     | Zastosowanie                                                                                |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `src/game/assets/schema.ts`                              | Wspólny walidator manifestu; import i runtime                                               |
+| `art/pipeline/gpu-pack.schema.json`                      | JSON Schema draft-07 dla systemu generującego paczki                                        |
+| `src/game/assets/contract.ts`                            | Wymiary, kierunki, FPS i limity                                                             |
+| `art/pipeline/gpu-production-targets.json`               | Wyeksportowane rzeczywiste rozmiary, kotwice, footprinty, współrzędne i klucze czterech map |
+| `art/pipeline/examples/hero-production.template.json`    | Kompletny szablon produkcyjnego bohatera: 416 klatek, dwie strony atlasu                    |
+| `art/pipeline/examples/technical-delivery/manifest.json` | Gotowa, walidowalna neutralna paczka diagnostyczna                                          |
+| `src/game/assets/imported.json`                          | Aktywne wersje zainstalowanych paczek; zmiana podlega code review                           |
 
 JSON Schema sprawdza strukturę. `assets:import` dodatkowo dekoduje obrazy, sprawdza klatki, trim, przezroczystość, powiązania i budżet świata. Sam poprawny JSON nie oznacza poprawnego assetu.
 
@@ -31,15 +31,15 @@ Kamera renderów: ortograficzna, elewacja **60°**, roll 0, widoczna południowa
 
 Kierunki według nazw świata: `down`, `down-left`, `left`, `up-left`, `up`, `up-right`, `right`, `down-right`. Dodatnie Y oznacza dół ekranu. Nazwa klatki: `{actor}/{state}/{direction}/{frame:02}`, indeks od `00`.
 
-| Stan | Klatek / kierunek | FPS | Pętla | Uzasadnienie |
-| --- | ---: | ---: | --- | --- |
-| idle | 8 | 6 | tak | spokojny cykl 1.33 s |
-| walk | 8 | 16 | tak | cykl 0.5 s, taki jak dotychczasowe 4 klatki przy 8 FPS; prędkość 205 jednostek/s niezmieniona |
-| attack | 8 | 16 | nie | 0.5 s mieści się w 650 ms odnowienia ataku |
-| skill | 8 | 12 | nie | 0.67 s, poniżej najkrótszego odnowienia umiejętności ofensywnej 3.5 s |
-| hit | 4 | 16 | nie | krótka reakcja 0.25 s; nie blokuje mechaniki |
-| death | 8 | 10 | nie | 0.8 s, potem ostatnia klatka aż do faktycznego odrodzenia |
-| respawn | 8 | 12 | nie | 0.67 s prezentacji po zdarzeniu odrodzenia |
+| Stan    | Klatek / kierunek | FPS | Pętla | Uzasadnienie                                                                                  |
+| ------- | ----------------: | --: | ----- | --------------------------------------------------------------------------------------------- |
+| idle    |                 8 |   6 | tak   | spokojny cykl 1.33 s                                                                          |
+| walk    |                 8 |  16 | tak   | cykl 0.5 s, taki jak dotychczasowe 4 klatki przy 8 FPS; prędkość 205 jednostek/s niezmieniona |
+| attack  |                 8 |  16 | nie   | 0.5 s mieści się w 650 ms odnowienia ataku                                                    |
+| skill   |                 8 |  12 | nie   | 0.67 s, poniżej najkrótszego odnowienia umiejętności ofensywnej 3.5 s                         |
+| hit     |                 4 |  16 | nie   | krótka reakcja 0.25 s; nie blokuje mechaniki                                                  |
+| death   |                 8 |  10 | nie   | 0.8 s, potem ostatnia klatka aż do faktycznego odrodzenia                                     |
+| respawn |                 8 |  12 | nie   | 0.67 s prezentacji po zdarzeniu odrodzenia                                                    |
 
 Bohater i przeciwnik: 52 klatki × 8 kierunków = **416**. Profil `npc` wymaga idle/walk: **128** klatek. `run` jest obsługiwany jako opcjonalny stan metadanych, ale gra nie ma sprintu, więc standardowy eksport go nie produkuje ani nie uruchamia.
 
@@ -107,8 +107,17 @@ Przykład wymiany obiektu i podłoża, bez zmian współrzędnych ani walki:
 ```json
 {
   "renderBindings": {
-    "object.sanctum": { "asset": "aether-buildings", "frame": "sanctum", "fit": "contain", "layer": "objects" },
-    "object.aether.sanctum-main": { "asset": "aether-buildings", "frame": "sanctum-variant", "fit": "contain" },
+    "object.sanctum": {
+      "asset": "aether-buildings",
+      "frame": "sanctum",
+      "fit": "contain",
+      "layer": "objects"
+    },
+    "object.aether.sanctum-main": {
+      "asset": "aether-buildings",
+      "frame": "sanctum-variant",
+      "fit": "contain"
+    },
     "terrain.aether-ground": { "asset": "aether-terrain", "frame": "grass", "tileSize": [64, 64] },
     "atmosphere.aether": { "asset": "aether-mist", "tileSize": [512, 512] },
     "effect.shield": { "asset": "ki-effects", "frame": "shield" }
@@ -118,9 +127,9 @@ Przykład wymiany obiektu i podłoża, bez zmian współrzędnych ani walki:
 
 Konkretne identyfikatory instancji pobierać z pliku targets, nie zgadywać z przykładu. `fit=contain` domyślnie chroni proporcje nowej grafiki w istniejącym polu obiektu; dotychczasowe obrazy zachowują zaakceptowany rozmiar. Kotwica i footprint nadal pochodzą z mapy. `tileSize` oznacza jednostki świata, więc zamiana kafla 64 na 128 px nie podwaja wzoru na ziemi.
 
-`actorBindings`: `verdant.hero`, `aether.hero`, `nexus.hero`, `pyra.hero`; NPC np. `aether.npc.guide`, przeciwnik `pyra.enemy`. Globalne fallbacki to `hero.human-v2`, `npc`, `enemy`. Docelowa grafika NPC nie dostaje automatycznie starego tintu, chyba że jawnie ustawi `tintable=true`.
+`actorBindings`: `verdant.hero`, `aether.hero`, `nexus.hero`, `pyra.hero`; NPC np. `aether.npc.guide`; przeciwnik świata `pyra.enemy` albo — dla konkretnego potwora z bestiariusza — `<świat>.enemy.<slug>` (np. `verdant.enemy.cierniowy-wilk`; walidator `gpu-import.ts` przyjmuje `[a-z0-9]+(-[a-z0-9]+)*`, `actorVisual(świat, "enemy", slug)` je odczytuje, a `worldAssets()` ładuje atlasy wszystkich potworów świata). Globalne fallbacki to `hero.human-v2`, `npc`, `enemy`. Paczki `deliveries/enemy-*` wiążą się kluczami z `art/production/enemies/bindings.json`. Docelowa grafika NPC nie dostaje automatycznie starego tintu, chyba że jawnie ustawi `tintable=true`.
 
-`effects`: globalne `flame`, `pulse`, `attack`, `hit`, `shield`, `heal`, `level`, `loot`, `death`, `respawn`, `enemy-attack` lub np. `pyra.flame` jako wariant świata. Definicja zawiera `asset`, listę `frames`, `fps`, `size` w jednostkach świata i `durationMs`; ładowane są efekty globalne i bieżącego kontynentu. Bez wpisu pozostaje działający efekt proceduralny.
+`effects`: globalne `attack` (atak podstawowy każdej rasy), identyfikatory węzłów drzewka zdolności (`A1`, `B4`, `C9`, `T`… — te same w każdej rasie, więc wariant świata, np. `pyra.A1`, jest właściwy), `hit`, `shield`, `heal`, `level`, `loot`, `death`, `respawn`, `enemy-attack`. Stare klucze `flame` i `pulse` (zdolności Etapu 2) nie są już wywoływane. Definicja zawiera `asset`, listę `frames`, `fps`, `size` w jednostkach świata i `durationMs`; ładowane są efekty globalne i bieżącego kontynentu. Bez wpisu pozostaje działający efekt proceduralny.
 
 ### Szczególny przypadek Verdantii
 

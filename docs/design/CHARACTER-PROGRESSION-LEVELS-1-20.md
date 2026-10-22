@@ -1,6 +1,6 @@
 # Ki Legends — aneks statystyk ras i drzewek umiejętności (poz. 1–20)
 
-**Status: KONCEPCJA 1.0 z 22.10.2026 — niezaimplementowana i niezatwierdzona jako balans produkcyjny.**
+**Status: KONCEPCJA 1.0 z 22.10.2026 — wdrożona w kodzie 22.10.2026 (zob. [GAMEPLAY-RACES-AND-MONSTERS.md](../GAMEPLAY-RACES-AND-MONSTERS.md)), niezatwierdzona jako balans produkcyjny.** Plik JSON z danymi zachowuje oryginalny znacznik `CONCEPT_NOT_IMPLEMENTED`; jest to kopia źródłowa, a stan wdrożenia opisuje ten akapit.
 
 **Źródło oryginalne:** [`Ki_Legends_Aneks_Rasy_i_Drzewka_Umiejetnosci.pdf`](./source-annexes/Ki_Legends_Aneks_Rasy_i_Drzewka_Umiejetnosci.pdf) · 11 stron · SHA-256 `0358053e7e467bffd41055f50f765d0f33cbf15c6b0176266c866d493dda5cff`.
 
@@ -88,7 +88,7 @@ Nie zmieniać nazw krain ani zapisów graczy na podstawie tego aneksu bez osobne
 | C9  | Pieśń Korzeni          | ultimate | C7                 |        C8 | 16                                                                                              | Leczy 40% maks. życia i daje tarczę 20% na 6 s; 35 Ki; odn. 45 s.             |
 | T   | Forma Rezonansu Świata | ki-mode  | A9, B9 lub C9      |        20 | 20 s: +20% Ataku, +15% Obrony, +10% szybkości ruchu; aura jako osobny efekt; 50 Ki; odn. 120 s. |
 
-**Uwaga:** tabela opisuje projekt; efekty, czasy odnowienia i koszt Ki nie są jeszcze przypięte do silnika gry.
+**Uwaga:** tabela opisuje projekt. Od 22.10.2026 każdy węzeł jest zaimplementowany w `src/game/kit/` (wartości jak w tabeli; założenia tam, gdzie tekst jest niejednoznaczny: GAMEPLAY-RACES-AND-MONSTERS.md §3).
 
 ## Mędrcy — drzewko (schemat i pełna tabela; str. 6–7)
 
@@ -128,7 +128,7 @@ Nie zmieniać nazw krain ani zapisów graczy na podstawie tego aneksu bez osobne
 | C9  | Pełnia Skupienia   | ultimate | C7                 |        C8 | 16                                                                                                   | 8 s: zdolności nie kosztują Ki i zadają +30% obrażeń; 20 Ki; odn. 60 s.             |
 | T   | Forma Oświecenia   | ki-mode  | A9, B9 lub C9      |        20 | 20 s: +25% Ataku, odnowienia zdolności −30%, +15% Obrony; aura jako osobny efekt; 50 Ki; odn. 120 s. |
 
-**Uwaga:** tabela opisuje projekt; efekty, czasy odnowienia i koszt Ki nie są jeszcze przypięte do silnika gry.
+**Uwaga:** tabela opisuje projekt. Od 22.10.2026 każdy węzeł jest zaimplementowany w `src/game/kit/` (wartości jak w tabeli; założenia tam, gdzie tekst jest niejednoznaczny: GAMEPLAY-RACES-AND-MONSTERS.md §3).
 
 ## Androidy — drzewko (schemat i pełna tabela; str. 8–9)
 
@@ -168,7 +168,7 @@ Nie zmieniać nazw krain ani zapisów graczy na podstawie tego aneksu bez osobne
 | C9  | Przeciążenie Systemu  | ultimate | C7                 |        C8 | 16                                                                                                                                                               | 6 s: zdolności nie kosztują Ki, +40% obrażeń; potem 2 s wyłączenia (brak akcji); 35 Ki; odn. 45 s. |
 | T   | Forma Pełnego Rdzenia | ki-mode  | A9, B9 lub C9      |        20 | 20 s: +25% Ataku, +15% Obrony, przegrzanie wyłączone; aura jako osobny efekt; 50 Ki; odn. 120 s.                                                                 |
 
-**Uwaga:** tabela opisuje projekt; efekty, czasy odnowienia i koszt Ki nie są jeszcze przypięte do silnika gry.
+**Uwaga:** tabela opisuje projekt. Od 22.10.2026 każdy węzeł jest zaimplementowany w `src/game/kit/` (wartości jak w tabeli; założenia tam, gdzie tekst jest niejednoznaczny: GAMEPLAY-RACES-AND-MONSTERS.md §3).
 
 ## Legendy — drzewko (schemat i pełna tabela; str. 10–11)
 
@@ -208,7 +208,7 @@ Nie zmieniać nazw krain ani zapisów graczy na podstawie tego aneksu bez osobne
 | C9  | Ognisty Kataklizm         | ultimate | C7                 |        C8 | 16                                                                                                                                     | Kolumna ognia w dużym obszarze ×4,5 i podpalenie na 5 s; 35 Ki; odn. 30 s.                      |
 | T   | Forma Płomiennego Legendy | ki-mode  | A9, B9 lub C9      |        20 | 20 s: +30% Ataku, Żar utrzymuje się na 100; aura jako osobny efekt; 50 Ki; odn. 120 s.                                                 |
 
-**Uwaga:** tabela opisuje projekt; efekty, czasy odnowienia i koszt Ki nie są jeszcze przypięte do silnika gry.
+**Uwaga:** tabela opisuje projekt. Od 22.10.2026 każdy węzeł jest zaimplementowany w `src/game/kit/` (wartości jak w tabeli; założenia tam, gdzie tekst jest niejednoznaczny: GAMEPLAY-RACES-AND-MONSTERS.md §3).
 
 ## Pliki danych do implementacji
 

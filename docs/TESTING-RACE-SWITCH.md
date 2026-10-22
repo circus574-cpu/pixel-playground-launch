@@ -14,7 +14,9 @@ export const TEST_RACE_SWITCH_ENABLED = false;
 
 Po buildzie i publikacji przycisk oraz jego opis znikną z ustawień. Zapisane postacie nadal będą dostępne przez zwykły wybór postaci. Flaga jest celowo włączona również na produkcji na czas testów użytkownika.
 
-## Weryfikacja
+## Weryfikacja (stan historyczny z 20.10.2026)
+
+> Liczby testów poniżej dotyczą stanu sprzed 22.10.2026; aktualny zestaw: `npm test` (jednostkowe) i `npx playwright test`.
 
 - 70/70 istniejących testów jednostkowych PASS.
 - Dwa scenariusze przeglądarkowe (1280 × 900 i 390 × 844): Planetarni → Mędrcy → Androidy → Legendy, poprawne kontynenty, odświeżenie każdej nowej postaci, cztery niezależne sloty, powrót do Planetarnych z nadal aktywnym zadaniem Airy. PASS.

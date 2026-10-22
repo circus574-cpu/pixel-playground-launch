@@ -464,6 +464,7 @@ export function GameHud({
           return (
             <button
               className="ki-skill"
+              data-ability={a.id}
               key={a.id}
               title={
                 a.name +
@@ -485,6 +486,7 @@ export function GameHud({
         })}
         <button
           className="ki-skill"
+          data-ability="potion"
           key="potion"
           title={"Mikstura życia · " + POTION_COOLDOWN / 1000 + " s odnowienia"}
           aria-label="Mikstura życia"

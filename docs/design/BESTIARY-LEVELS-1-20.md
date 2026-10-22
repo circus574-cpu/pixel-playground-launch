@@ -42,6 +42,8 @@
 
 ## Integracja z obecną grą
 
+> **Stan 22.10.2026:** ta lista 20 przeciwników **nie jest wdrożona**. Wdrożono 40 potworów z bestiariusza HTML (`BESTIARY-OWNER-2026-10-22.html`), który jest inną listą. Rozstrzygnięcie kanonu: zadanie GAME-02 w [TASKS.md](../TASKS.md).
+
 - Dane źródłowe do importu: [enemies-1-20.json](./data/enemies-1-20.json) — 20 rekordów.
 - Tabela nie zastępuje jeszcze istniejących `FOREST.enemies` ani przeciwników regionów (`src/game/world/regions/`); nie wolno migracji wykonywać bez testów walki, łupów, zadań i zapisu.
 - Wartości liczbowe z aneksu są koncepcyjne i mogą wymagać balansu razem z nowymi statystykami ras oraz modelem obrażeń.
