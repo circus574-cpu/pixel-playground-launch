@@ -5,7 +5,7 @@ identity candidate (docs/design/identity/android-v1). No sliced illustration fra
 import bpy,math,json,hashlib,time,random
 from pathlib import Path
 from mathutils import Vector,Quaternion
-ROOT=Path('/workspace/ki-legends-gpu');BASE=ROOT/'source/planetary-rig-base';OUT=ROOT/'renders/android-rig-review-v1';OUT.mkdir(parents=True,exist_ok=True);LOCAL=Path('/opt/ki-legends-gpu/android-rig-v1');LOCAL.mkdir(exist_ok=True)
+ROOT=Path('/workspace/ki-legends-gpu');BASE=ROOT/'source/planetary-rig-base';OUT=ROOT/'renders/android-rig-review-v2';OUT.mkdir(parents=True,exist_ok=True);LOCAL=Path('/opt/ki-legends-gpu/android-rig-v2');LOCAL.mkdir(exist_ok=True)
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 vertices=[];faces=[];group=''
 for line in (BASE/'base.obj').read_text().splitlines():
@@ -74,7 +74,7 @@ def material(name,color,metal=False):
  srgb=tuple(int(color[i:i+2],16)/255 for i in (0,2,4));c=tuple(v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4 for v in srgb);m=bpy.data.materials.new(name);m.use_nodes=True;m.diffuse_color=(*c,1);n=m.node_tree.nodes;n.clear();out=n.new('ShaderNodeOutputMaterial');toon=n.new('ShaderNodeBsdfToon');toon.inputs['Color'].default_value=(*c,1);toon.inputs['Size'].default_value=.7;toon.inputs['Smooth'].default_value=.12;m.node_tree.links.new(toon.outputs[0],out.inputs[0]);return m
 def glow_material(name,color,strength=4.0):
  srgb=tuple(int(color[i:i+2],16)/255 for i in (0,2,4));c=tuple(v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4 for v in srgb);m=bpy.data.materials.new(name);m.use_nodes=True;m.diffuse_color=(*c,1);n=m.node_tree.nodes;n.clear();out=n.new('ShaderNodeOutputMaterial');em=n.new('ShaderNodeEmission');em.inputs['Color'].default_value=(*c,1);em.inputs['Strength'].default_value=strength;m.node_tree.links.new(em.outputs[0],out.inputs[0]);return m
-skin=material('Pale skin','d8c4b4');suit=material('Black synthetic bodysuit','17191e');pants=material('Graphite undersuit','1d1f25');steel=material('Silver synthetic armor','b9c1cc');trim=material('Electric blue trim','3a74e8');plate=material('Black armor plates','24262c');white=material('Coat white','e6e9ef');coatblue=material('Coat blue','2a55c8');hairmat=material('Silver hair','dfe4ec');hairlight=material('Hair white highlight','f4f7fb');eye_white=material('Eye white','dfe6ee');iris=material('Steel blue iris','4f8fe0');ink=material('Ink and pupil','11151b');core=glow_material('Energy core','4fa8ff')
+skin=material('Pale skin','d8c4b4');suit=material('Black synthetic bodysuit','17191e');pants=material('Graphite undersuit','1d1f25');steel=material('Silver synthetic armor','b9c1cc');trim=material('Electric blue trim','3a74e8');plate=material('Black armor plates','24262c');white=material('Coat white','e6e9ef');coatblue=material('Coat blue','2a55c8');hairmat=material('Silver hair','c3ccda');hairlight=material('Hair white highlight','e9eef6');eye_white=material('Eye white','dfe6ee');iris=material('Steel blue iris','4f8fe0');ink=material('Ink and pupil','11151b');core=glow_material('Energy core','4fa8ff')
 # Clothing is an opaque, fitted mesh, not a recoloured uncovered base.
 positions=[v.copy() for v in vs]
 for i,v in enumerate(positions):
@@ -136,15 +136,21 @@ for side in ['L','R']:
  s='.'+side;sign=1 if side=='L' else -1;shoulder=BONES['upper_arm'+s][0];knee=BONES['shin'+s][0]
  ellipsoid('Shoulder joint core '+side,shoulder+Vector((sign*.30,-.04,.10)),(.07,.07,.07),core,'upper_arm'+s);tube('Shoulder spike '+side,shoulder+Vector((sign*.12,0,.20)),shoulder+Vector((sign*.24,0,.52)),.07,.006,steel,'upper_arm'+s,6)
  ellipsoid('Knee joint core '+side,knee+Vector((0,-.23,0)),(.08,.04,.08),core,'shin'+s)
+for k in range(3):cube('Abdomen plate',(0,-.30,z_waist+.12+k*.17),(.52-.05*k,.10,.14),steel,'spine');cube('Abdomen plate trim',(0,-.355,z_waist+.12+k*.17),(.30-.04*k,.02,.03),trim,'spine')
+for side in ['L','R']:
+ s='.'+side;sign=1 if side=='L' else -1;shoulder=BONES['upper_arm'+s][0];hip,knee=BONES['thigh'+s];dt=knee-hip;elbow,wrist=BONES['forearm'+s];df=wrist-elbow
+ ellipsoid('Pectoral plate '+side,Vector((sign*.20,-.20,z_chest+.18)),(.24,.20,.22),steel,'chest');ellipsoid('Pauldron layer 2 '+side,shoulder+Vector((sign*.10,0,.02)),(.30,.31,.15),steel,'upper_arm'+s);ellipsoid('Pauldron layer 3 '+side,shoulder+Vector((sign*.15,0,-.07)),(.28,.29,.12),plate,'upper_arm'+s)
+ tube('Thigh armor '+side,hip+dt*.22,hip+dt*.82,.31,.27,steel,'thigh'+s);tube('Thigh armor trim '+side,hip+dt*.80,hip+dt*.86,.285,.28,trim,'thigh'+s);ellipsoid('Hip plate '+side,Vector((sign*.55,0,z_waist-.10)),(.22,.30,.25),steel,'pelvis')
+ tube('Forearm light strip '+side,elbow+df*.30+Vector((0,-.22,0)),wrist-df*.20+Vector((0,-.20,0)),.018,.014,core,'forearm'+s,6)
 neck=source_point('neck01','tail');ellipsoid('Armored collar',neck+Vector((0,0,-.1)),(.34,.30,.19),steel,'neck');ellipsoid('Collar blue rim',neck+Vector((0,0,-.04)),(.355,.315,.05),trim,'neck')
 # Cloth chains are added before animation: independent, continuous wind motion.
 bpy.ops.object.select_all(action='DESELECT');rig.select_set(True);bpy.context.view_layer.objects.active=rig;bpy.ops.object.mode_set(mode='EDIT')
 CLOTH=[]
 for label,points,width,mat,parent in [
- ('coat-back-left',[(-.20,.18,neck.z),(-.65,.35,neck.z-.3),(-1.02,.45,neck.z-.8),(-1.30,.50,neck.z-1.1)],.28,coatblue,'neck'),
- ('coat-back-right',[(.20,.20,neck.z),(.65,.38,neck.z-.2),(1.02,.50,neck.z-.6),(1.25,.55,neck.z-.8)],.24,white,'neck'),
- ('coat-front-blue',[(.30,-.20,z_waist),(.62,-.14,z_waist-.5),(.85,-.05,z_waist-1.1),(1.02,.10,z_waist-1.6)],.45,coatblue,'pelvis'),
- ('coat-front-white',[(-.22,-.25,z_waist),(-.38,-.25,z_waist-.5),(-.60,-.12,z_waist-1.1),(-.64,.05,z_waist-1.4)],.34,white,'pelvis')]:
+ ('coat-back-left',[(-.30,.30,z_waist+.05),(-.34,.34,z_waist-.50),(-.40,.40,z_waist-1.05),(-.46,.46,z_waist-1.60)],.52,coatblue,'pelvis'),
+ ('coat-back-right',[(.30,.30,z_waist+.05),(.34,.34,z_waist-.50),(.40,.40,z_waist-1.05),(.46,.46,z_waist-1.60)],.52,white,'pelvis'),
+ ('coat-front-blue',[(.34,-.34,z_waist+.02),(.40,-.36,z_waist-.45),(.46,-.37,z_waist-.95),(.52,-.38,z_waist-1.40)],.40,coatblue,'pelvis'),
+ ('coat-front-white',[(-.34,-.34,z_waist+.02),(-.40,-.36,z_waist-.45),(-.46,-.37,z_waist-.95),(-.52,-.38,z_waist-1.40)],.40,white,'pelvis')]:
  chain=[]
  for i in range(3):
   key=label+'.'+str(i);bone(key,points[i],points[i+1],chain[-1] if chain else parent);chain.append(key)
@@ -170,10 +176,10 @@ def lock(name,p0,p1,p2,width,mat):
   for j in range(sides):a=j/sides*math.tau;verts.append(center+u*math.cos(a)*w+v*math.sin(a)*w*.45)
  faces=[(i*sides+j,i*sides+(j+1)%sides,(i+1)*sides+(j+1)%sides,(i+1)*sides+j) for i in range(rings-1) for j in range(sides)];mesh=bpy.data.meshes.new(name);mesh.from_pydata(verts,[],faces);o=bpy.data.objects.new(name,mesh);bpy.context.collection.objects.link(o);o.data.materials.append(mat);return bind(o,'head')
 random.seed(574)
-for i in range(13):
- a=i/13*math.tau;p0=hc+Vector((math.cos(a)*rx*.65,math.sin(a)*ry*.65,rz*.55));p1=hc+Vector((math.cos(a)*rx,math.sin(a)*ry,rz*.95));p2=hc+Vector((math.cos(a)*(rx+.12)+.10,math.sin(a)*(ry+.10)+.06,rz+random.uniform(-.14,.12)));lock('Layered crown spike',p0,p1,p2,.11,hairlight if i%4==0 else hairmat)
+for i in range(21):
+ a=i/21*math.tau;p0=hc+Vector((math.cos(a)*rx*.65,math.sin(a)*ry*.65,rz*.55));p1=hc+Vector((math.cos(a)*rx,math.sin(a)*ry,rz*.95));p2=hc+Vector((math.cos(a)*(rx+.12)+.10,math.sin(a)*(ry+.10)+.06,rz+random.uniform(-.10,.30)));lock('Layered crown spike',p0,p1,p2,.11,hairlight if i%4==0 else hairmat)
 for i in range(5):
- x=-.26+i*.12;p0=hc+Vector((x,-.10,rz*.8));p1=hc+Vector((x-.10,-.35,rz*.45));p2=hc+Vector((x-.12,-.34,.02+(i%3)*.04));lock('Side swept fringe',p0,p1,p2,.12,hairmat)
+ x=-.26+i*.12;p0=hc+Vector((x,-.10,rz*.8));p1=hc+Vector((x-.10,-.35,rz*.45));p2=hc+Vector((x-.12,-.34,.17+(i%3)*.04));lock('Side swept fringe',p0,p1,p2,.10,hairmat)
 # Physical eye geometry is attached to the same head; no painted billboard face.
 for side in ['L','R']:
  center=source_point('eye.'+side,'head');center.y-=.015
