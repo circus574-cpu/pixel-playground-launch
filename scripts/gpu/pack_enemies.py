@@ -18,7 +18,7 @@ for e in items:
     mp = out + "/manifest.json"; m = json.load(open(mp))
     slug = i[len(w) + 1:]
     bindings[i] = {"intendedKey": "%s.enemy.%s" % (w, slug), "actor": "enemy-" + i, "pack": "enemy-%s-1.0.0" % i}
-    m["actorBindings"] = {}  # importer dopuszcza tylko role default|guide|hunter|merchant|smith; klucze per potwór: bindings.json
+    m["actorBindings"] = {bindings[i]["intendedKey"]: "enemy-" + i}  # walidator dopuszcza <świat>.enemy.<slug> (commit z gpu-import.ts)
     json.dump(m, open(mp, "w"), indent=2, ensure_ascii=False)
     ok.append(i); print("PACK", i, m["actorBindings"])
 json.dump(bindings, open("/opt/packs/bindings-%s.json" % (sys.argv[2][:20].replace(",", "_") if len(sys.argv) > 2 else "all"), "w"), indent=2)

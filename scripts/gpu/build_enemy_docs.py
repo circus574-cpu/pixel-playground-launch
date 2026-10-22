@@ -43,8 +43,9 @@ Rozmiar potwora w świecie to pole `size` aktora w manifeście (domyślnie `[84,
 rows = "\n".join("| `%s` | %s: %s | %s |" % (k, v[0], v[1], v[2]) for k, v in MOTION.items())
 bind = """
 
-## 4. Wiązanie z grą — decyzja do podjęcia przez Codexa
-Packer nadaje paczkom `actorBindings` `<świat>.enemy`, co dla 10 wrogów jednego świata **nadpisywałoby się nawzajem**. Walidator `scripts/lib/gpu-import.ts` dopuszcza tylko role `default|guide|hunter|merchant|smith`. Dlatego **paczki mają puste `actorBindings`**, a docelowe klucze `<świat>.enemy.<slug>` są w `art/production/enemies/bindings.json`. `actorVisual()` w `src/game/assets/catalog.ts` już szuka `<świat>.enemy.<rola>`, ale `worldAssets()` ładuje tylko `<świat>.enemy`. Do zrobienia przez Codexa: (1) rozszerzyć regex walidatora o `enemy.<slug>`, (2) w `worldAssets()` ładować wszystkie wizerunki wrogów danego świata, (3) przypisać potworom wygląd po ich id w definicjach wrogów regionu. Zmiana kolizji, statystyk i zachowań **nie jest** częścią tej partii.
+## 4. Wiązanie z grą
+Każda paczka wiąże się własnym kluczem `<świat>.enemy.<slug>` (np. `verdant.enemy.cierniowy-wilk` → `enemy-verdant-cierniowy-wilk`), więc 10 wrogów jednego świata nie nadpisuje się. Walidator `scripts/lib/gpu-import.ts` przyjmuje takie klucze (test w `src/test/gpu-pipeline.test.ts`), `actorVisual(świat, "enemy", slug)` je odczytuje, a `worldAssets()` ładuje atlasy wszystkich wrogów danego świata. Pełna mapa: `art/production/enemies/bindings.json`.
+**Czego jeszcze nie ma w grze:** dziś każdy świat ma jednego wroga (`enemyName`, "Dzik …"), a sesja (`src/game/session.ts`) nie zna typów potworów. Wpięcie 40 potworów (typ w spawnie, statystyki, AI, umiejętności, łupy, zapisy) to osobny system rozgrywki. Wymaga decyzji właściciela o zakresie i nie jest częścią dostawy zasobów. Do tego czasu `mountGame.ts` nadal woła `actorVisual(world.id, "enemy")` bez roli.
 
 ## 5. Dane bestiariusza (wartości z dokumentu właściciela — nie wdrożone w kodzie gry)
 Statystyki, zasięgi, zachowania i łupy poniżej są **kopią wymagań właściciela**, a nie opisem stanu implementacji.

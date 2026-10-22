@@ -287,6 +287,29 @@ it("keeps unapproved hero packs opt-in while validating and importing their actu
   );
 });
 
+it("binds a separate look per monster with enemy.<slug> and loads it only in its own world", async () => {
+  const f = await delivery(),
+    root = await app(f.root);
+  f.pack.actorBindings = { "verdant.enemy.cierniowy-wilk": "technical-mannequin" };
+  await f.save();
+  await importPackage(f.manifest, { root, install: true });
+  const packs = JSON.parse(
+    await readFile(path.join(root, "src/game/assets/imported.json"), "utf8"),
+  ).map((p: unknown) => PackSchema.parse(p));
+  const source = makeCatalog(packs);
+  expect(actorVisual("verdant", "enemy", "cierniowy-wilk", false, source).id).toBe(
+    "technical-mannequin",
+  );
+  expect(actorVisual("verdant", "enemy", "inny-potwor", false, source).id).not.toBe(
+    "technical-mannequin",
+  );
+  expect(worldAssets("verdant", false, source).map((a) => a.id)).toContain("technical-rig");
+  expect(worldAssets("aether", false, source).map((a) => a.id)).not.toContain("technical-rig");
+  f.pack.actorBindings = { "verdant.enemy.Zly_Klucz": "technical-mannequin" };
+  await f.save();
+  await expect(validatePackage(f.manifest)).rejects.toThrow("Unknown actor binding");
+});
+
 describe("Sage and Planetary integration on current main", () => {
   it("activates all 416 Sage frames on Aetheria without a URL flag", () => {
     const sage = actorVisual("aether", "hero", undefined, false, catalog);
