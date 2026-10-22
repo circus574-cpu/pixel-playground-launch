@@ -10,6 +10,8 @@
  * game sessions or saves.
  */
 import outlines from "./atlasRegions.json";
+import layout from "./planetLayout.json";
+import { sourceToPlanet } from "../../game/world/planet";
 import { atlasPoint, OPEN_WORLDS } from "../../game/world/zoneMap";
 
 export const MAP_W = 2000;
@@ -45,6 +47,8 @@ const OPEN_STATUS =
 const ISLAND_STATUS = "Przyszła wyspa questowa — planowana, jeszcze niedostępna w grze.";
 
 const OUTLINES: Record<string, number[][]> = outlines;
+/** Settlement points and label spots on the planet atlas, computed by scripts/relayout_planet.py. */
+const LAYOUT = layout as Record<string, { settlementPoint?: Point; label: Point }>;
 
 function withOutline(region: Omit<MapRegion, "outline" | "center" | "radius">): MapRegion {
   const raw = OUTLINES[region.id];
@@ -68,8 +72,8 @@ export const CONTINENTS: MapRegion[] = [
     name: "Verdantia",
     people: "Planetarni",
     settlement: "Wioska Początkowa",
-    settlementPoint: { x: 755, y: 498 },
-    label: { x: 470, y: 470 },
+    settlementPoint: LAYOUT["verdant"]!.settlementPoint!,
+    label: LAYOUT["verdant"]!.label,
     summary:
       "Gęste lasy, kręte rzeki, wielkie jezioro i grzbiet ośnieżonych gór. Żywa energia ziemi i rzemiosło.",
     status: CONTINENT_STATUS,
@@ -80,8 +84,8 @@ export const CONTINENTS: MapRegion[] = [
     name: "Aetheria",
     people: "Mędrcy",
     settlement: "Sanktuarium Tysiąca Źródeł",
-    settlementPoint: { x: 1396, y: 273 },
-    label: { x: 1250, y: 395 },
+    settlementPoint: LAYOUT["aether"]!.settlementPoint!,
+    label: LAYOUT["aether"]!.label,
     summary:
       "Lodowe szczyty, lodowce i świecące turkusowo źródła skupionego KI wśród świątynnych tarasów.",
     status: OPEN_STATUS,
@@ -92,8 +96,8 @@ export const CONTINENTS: MapRegion[] = [
     name: "Nexus-9",
     people: "Androidy",
     settlement: "Węzeł Świadomości",
-    settlementPoint: { x: 1453, y: 711 },
-    label: { x: 1260, y: 820 },
+    settlementPoint: LAYOUT["nexus"]!.settlementPoint!,
+    label: LAYOUT["nexus"]!.label,
     summary:
       "Cybernetyczna metropolia wokół świecącego reaktora, autostrady-obwody, doki i skaliste płaskowyże.",
     status: OPEN_STATUS,
@@ -104,8 +108,8 @@ export const CONTINENTS: MapRegion[] = [
     name: "Pyra",
     people: "Legendy",
     settlement: "Twierdza Popiołu",
-    settlementPoint: { x: 750, y: 688 },
-    label: { x: 400, y: 850 },
+    settlementPoint: LAYOUT["pyra"]!.settlementPoint!,
+    label: LAYOUT["pyra"]!.label,
     summary:
       "Czynne wulkany, rzeki lawy spływające do morza, bazaltowe pustkowia i kaniony z czerwonej skały.",
     status: OPEN_STATUS,
@@ -113,23 +117,13 @@ export const CONTINENTS: MapRegion[] = [
 ];
 
 const NUMERALS = ["I", "II", "III", "IV", "V", "VI"];
-/** Label spots on each painted island (same order as the numerals). */
-const ISLAND_LABELS: Point[] = [
-  { x: 975, y: 158 },
-  { x: 1000, y: 540 },
-  { x: 1850, y: 258 },
-  { x: 1830, y: 730 },
-  { x: 160, y: 225 },
-  { x: 975, y: 905 },
-];
-
 export const QUEST_ISLANDS: MapRegion[] = NUMERALS.map((numeral, i) =>
   withOutline({
     id: `island-${i + 1}`,
     kind: "island",
     name: `Wyspa questowa ${numeral}`,
     numeral,
-    label: ISLAND_LABELS[i] ?? { x: MAP_W / 2, y: MAP_H / 2 },
+    label: LAYOUT[`island-${i + 1}`]!.label,
     summary: "Nazwa robocza. Treść, przeciwnicy i nagrody zostaną określone w przyszłych etapach.",
     status: ISLAND_STATUS,
   }),
@@ -171,7 +165,8 @@ export const ZONES: MapZone[] = CONTINENTS.flatMap((c) => {
   const world = OPEN_WORLDS[c.id];
   if (!world || !c.settlementPoint) return [];
   return world.zones.map((z) => {
-    const raw = atlasPoint(c.id, z) ?? c.settlementPoint!;
+    const source = atlasPoint(c.id, z);
+    const raw = source ? sourceToPlanet(c.id, source) : c.settlementPoint!;
     return {
       id: `${c.id}-${z.id}`,
       region: c.id,

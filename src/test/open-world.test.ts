@@ -7,6 +7,7 @@ import { Navigation } from "../game/navigation";
 import { migrateLayout, newPlayer, SaveStore, SAVE_KEY } from "../game/session";
 import { WORLDS, worldObstacles } from "../game/world/worlds";
 import { atlasPoint, minimapPercent, OPEN_WORLDS } from "../game/world/zoneMap";
+import { sourceToPlanet } from "../game/world/planet";
 
 const OPEN = ["aether", "nexus", "pyra"] as const;
 const LEGACY = { aether: [3600, 2560], nexus: [2400, 1792], pyra: [2400, 1792] } as const;
@@ -78,8 +79,10 @@ describe.each(OPEN)("%s open world", (id) => {
     const settlement = world.landmarks.find((l) => l.kind === "settlement")!;
     expect(open.anchor).toEqual({ x: settlement.x, y: settlement.y });
     const c = CONTINENTS.find((q) => q.id === id)!;
-    expect(open.atlas.settle).toEqual(c.settlementPoint);
-    expect(atlasPoint(id, open.anchor)).toEqual(c.settlementPoint);
+    const placed = sourceToPlanet(id, open.atlas.settle);
+    expect(placed.x).toBeCloseTo(c.settlementPoint!.x, 0);
+    expect(placed.y).toBeCloseTo(c.settlementPoint!.y, 0);
+    expect(atlasPoint(id, open.anchor)).toEqual(open.atlas.settle);
     expect(atlasPoint(id, { x: 0, y: 0 })).toEqual({
       x: open.atlas.bbox.x0,
       y: open.atlas.bbox.y0,

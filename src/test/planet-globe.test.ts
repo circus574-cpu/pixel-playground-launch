@@ -59,7 +59,7 @@ describe("/mapa globe projection", () => {
 
   it("picks every region at its marker and nothing in open ocean", () => {
     for (const r of REGIONS) expect(regionAt(markerPoint(r))?.id).toBe(r.id);
-    expect(regionAt({ x: 5, y: 5 })).toBeNull();
+    expect(regionAt({ x: 1000, y: 250 })).toBeNull();
   });
 
   it("marks the four continents and six quest islands", () => {

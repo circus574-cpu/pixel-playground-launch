@@ -12,7 +12,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 ZONES = ROOT / "src/game/world/zones.json"
-ATLAS = ROOT / "src/assets/planet-map/atlas-3840.webp"
+ATLAS = ROOT / "art/production/planet/atlas-source-3840.webp"
 MAP_W, MAP_H = 2000, 1000
 PAD = 0.06
 OUT_W = 960

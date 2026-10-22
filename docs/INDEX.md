@@ -17,6 +17,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Roboczy raport QA PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md) — tylko gałąź PR, nie main.
 
 ## Źródła
+- [Geometria planety: miasta w czworościanie, 80 000 j. między każdą parą (22.10.2026)](PLANET-GEOMETRY-2026-10-22.md)
 - [Wdrożenie tekstur kontynentów i przyrody (22.10.2026)](NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md)
 - [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
 - [Rejestr licencji zależności i notices](DEPENDENCY-LICENSE-REGISTER.md)

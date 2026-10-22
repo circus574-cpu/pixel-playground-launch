@@ -1,0 +1,125 @@
+{
+  "radius": 41870.935,
+  "cityDistance": 80000.0,
+  "scale": 0.5,
+  "mapUnitsWide": 2000,
+  "unitsPerMapUnit": 131.541422,
+  "features": {
+    "aether": {
+      "kind": "continent",
+      "lon": 61.0,
+      "lat": 35.26439,
+      "source": {
+        "x": 1396,
+        "y": 273
+      }
+    },
+    "verdant": {
+      "kind": "continent",
+      "lon": -119.0,
+      "lat": 35.26439,
+      "source": {
+        "x": 755,
+        "y": 498
+      }
+    },
+    "pyra": {
+      "kind": "continent",
+      "lon": -29.0,
+      "lat": -35.26439,
+      "source": {
+        "x": 750,
+        "y": 688
+      }
+    },
+    "nexus": {
+      "kind": "continent",
+      "lon": 151.0,
+      "lat": -35.26439,
+      "source": {
+        "x": 1453,
+        "y": 711
+      }
+    },
+    "island-1": {
+      "kind": "island",
+      "lon": 0.0,
+      "lat": 90.0,
+      "source": {
+        "x": 970.0,
+        "y": 114.5
+      }
+    },
+    "island-2": {
+      "kind": "island",
+      "lon": 16.0,
+      "lat": 0.0,
+      "source": {
+        "x": 1006.0,
+        "y": 516.0
+      }
+    },
+    "island-3": {
+      "kind": "island",
+      "lon": 106.0,
+      "lat": 0.0,
+      "source": {
+        "x": 1844.5,
+        "y": 225.0
+      }
+    },
+    "island-4": {
+      "kind": "island",
+      "lon": -164.0,
+      "lat": 0.0,
+      "source": {
+        "x": 1839.5,
+        "y": 682.0
+      }
+    },
+    "island-5": {
+      "kind": "island",
+      "lon": -74.0,
+      "lat": 0.0,
+      "source": {
+        "x": 172.0,
+        "y": 192.0
+      }
+    },
+    "island-6": {
+      "kind": "island",
+      "lon": 0.0,
+      "lat": -90.0,
+      "source": {
+        "x": 978.0,
+        "y": 876.0
+      }
+    }
+  },
+  "islandEdges": {
+    "island-1": [
+      "aether",
+      "verdant"
+    ],
+    "island-2": [
+      "aether",
+      "pyra"
+    ],
+    "island-3": [
+      "aether",
+      "nexus"
+    ],
+    "island-4": [
+      "verdant",
+      "nexus"
+    ],
+    "island-5": [
+      "verdant",
+      "pyra"
+    ],
+    "island-6": [
+      "pyra",
+      "nexus"
+    ]
+  }
+}
