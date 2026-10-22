@@ -12,6 +12,7 @@ import hashlib, json, subprocess, sys, time, urllib.request
 from pathlib import Path
 
 race = sys.argv[1] if len(sys.argv) > 1 else "android"
+tag = sys.argv[2] if len(sys.argv) > 2 else "v1"  # output folder suffix keeps earlier series intact
 SITE = "https://kilegends.pl/game/assets/origins-v1/%s-full.webp" % race
 PINNED = {
     "android": "04559d7507f7c3bfa92ebbbf4f1f2b43734546546fd262fa8bfeaaf1afa0eef0",
@@ -35,8 +36,9 @@ PROMPTS = {
                  "calm determined expression, muscular forest warrior, orange scarf, sleeveless white and green wrap tunic, "
                  "brown leather straps belts and pouches, bronze brown armored gauntlets and greaves with glowing cyan crystal gems, "
                  "dark green trousers, brown pointed leather boots, orange white and green cloth with geometric patterns, ",
-    "sage": "long pale blonde hair tied in a high ponytail with a gold ornament, pointed elf ears, golden amber eyes, "
-            "serene calm expression, tall slender sage, long layered cream white and emerald green robes with gold geometric embroidery, "
+    "sage": "masculine adult man, strong jaw, angular masculine face, broad shoulders, flat chest, tall lean athletic build, "
+            "long pale blonde hair tied in a high ponytail with a gold ornament, pointed elf ears, golden amber eyes, "
+            "serene calm stern expression, male elf sage, long layered cream white and emerald green robes with gold geometric embroidery, "
             "wide sleeves, jeweled emerald belt with gold ornaments and teal tassels, black inner garment, golden shoulder ornaments, "
             "ornate black and gold armored boots and greaves with emerald gems, holding an ornate golden staff with a glowing emerald orb, ",
 }
@@ -59,8 +61,11 @@ found = subprocess.run(["find", "/workspace", "-iname", "animagine-xl-3.1.safete
 if not found:
     sys.exit("BLAD: nie znaleziono animagine-xl-3.1.safetensors w /workspace")
 ckpt = found[0]
-NEG = NEG.replace(", weapon, shield", "") if race == "sage" else NEG  # the sage staff is canon
-out = Path("/workspace/ki-legends-gpu/renders/%s-identity-v1" % race)
+if race == "sage":  # the staff is canon; the owner asked for an unambiguously male sage
+    NEG = NEG.replace(", weapon, shield", "") + (", girl, woman, female, feminine, androgynous, breasts, cleavage, "
+                                                 "character sheet, multiple views, group, crowd, chibi, plants in foreground")
+STRENGTHS = {"sage": (0.55, 0.65)}
+out = Path("/workspace/ki-legends-gpu/renders/%s-identity-%s" % (race, tag))
 out.mkdir(parents=True, exist_ok=True)
 ref_path = out / ("reference-%s.webp" % race)
 if not ref_path.exists():  # the site rejects the default urllib client with 403
@@ -76,7 +81,7 @@ pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(ckpt, torch_dtype=torch
 meta = {"race": race, "reference": SITE, "reference_sha256": ref_sha, "checkpoint": ckpt, "candidates": []}
 tiles = []
 for seed in (5741101, 5741102, 5741103):
-    for strength in (0.62, 0.72):
+    for strength in STRENGTHS.get(race, (0.62, 0.72)):
         t = time.time()
         img = pipe(prompt=PROMPTS[race] + BASE, negative_prompt=NEG, image=ref, strength=strength,
                    num_inference_steps=30, guidance_scale=6.5,
