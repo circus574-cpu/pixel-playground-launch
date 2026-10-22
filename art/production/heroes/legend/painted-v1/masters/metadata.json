@@ -1,0 +1,216 @@
+{
+ "race": "legend",
+ "seed": "5741102",
+ "scale": 0.466796875,
+ "source": "/workspace/ki-legends-gpu/renders/legend-painted-v1",
+ "views": [
+  {
+   "file": "legend-master-down.png",
+   "direction": "down",
+   "bounds": [
+    52,
+    15,
+    471,
+    486
+   ],
+   "sha256": "158b6372606ae6f46944c8939c91ac0dbafe0fd08a35adf068d3dded9ed78662",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    0,
+    16,
+    897,
+    1024
+   ],
+   "place": [
+    52,
+    15
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-down-left.png",
+   "direction": "down-left",
+   "bounds": [
+    106,
+    15,
+    365,
+    486
+   ],
+   "sha256": "ad22cc45f7267a18601690583cb2f8b8bf560b095a09c743e1270cbb778d0ee7",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    188,
+    11,
+    742,
+    1021
+   ],
+   "place": [
+    106,
+    15
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-left.png",
+   "direction": "left",
+   "bounds": [
+    59,
+    36,
+    386,
+    486
+   ],
+   "sha256": "ae8a854c0c7e4855f98b252c512e58b58b728d6b1707d3b4eb538241c3c73d06",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    192,
+    27,
+    893,
+    992
+   ],
+   "place": [
+    59,
+    36
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-up-left.png",
+   "direction": "up-left",
+   "bounds": [
+    93,
+    20,
+    512,
+    486
+   ],
+   "sha256": "1aabb81392553e4d317436799750b8f2c3ef6091e24fe24c3a9a552372daf812",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    0,
+    26,
+    901,
+    1024
+   ],
+   "place": [
+    93,
+    20
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-up.png",
+   "direction": "up",
+   "bounds": [
+    92,
+    44,
+    466,
+    486
+   ],
+   "sha256": "897236279e937c86cbd046338dff24dd64b57fb160887f6678c02169e3046fe2",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    62,
+    23,
+    864,
+    970
+   ],
+   "place": [
+    92,
+    44
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-up-right.png",
+   "direction": "up-right",
+   "bounds": [
+    22,
+    8,
+    369,
+    486
+   ],
+   "sha256": "f48b5d9117961c5b46d34fb5aac99344221a4e1c6995b60c30c1ccc012a66aad",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    10,
+    0,
+    753,
+    1024
+   ],
+   "place": [
+    22,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-right.png",
+   "direction": "right",
+   "bounds": [
+    86,
+    8,
+    391,
+    486
+   ],
+   "sha256": "6ea79e22797b97ae47ceeffe7350207f43aaed3af662c70ee615dada5c6266ac",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    0,
+    1,
+    653,
+    1024
+   ],
+   "place": [
+    86,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "legend-master-down-right.png",
+   "direction": "down-right",
+   "bounds": [
+    44,
+    8,
+    376,
+    486
+   ],
+   "sha256": "3a01b52aa1945e787aca938c850a104a7188e9fc88f5fa22d1d0553bcb54efb9",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    0,
+    0,
+    711,
+    1024
+   ],
+   "place": [
+    44,
+    8
+   ],
+   "scale": 0.466796875
+  }
+ ]
+}

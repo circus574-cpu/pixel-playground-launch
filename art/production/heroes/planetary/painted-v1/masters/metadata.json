@@ -1,0 +1,216 @@
+{
+ "race": "planetary",
+ "seed": "5741103",
+ "scale": 0.466796875,
+ "source": "/workspace/ki-legends-gpu/renders/planetary-painted-v1",
+ "views": [
+  {
+   "file": "planetary-master-down.png",
+   "direction": "down",
+   "bounds": [
+    156,
+    59,
+    375,
+    486
+   ],
+   "sha256": "e0d2f123ff8a131eb5ebd877e1bc4b92acf3af7c26c3d529188d937ea73abca4",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    282,
+    16,
+    751,
+    931
+   ],
+   "place": [
+    156,
+    59
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-down-left.png",
+   "direction": "down-left",
+   "bounds": [
+    72,
+    26,
+    354,
+    486
+   ],
+   "sha256": "ad7c4cfe9ae27353ab75f3906edbd909693eb3a0f656605f91d8e8a03dd63baf",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    311,
+    22,
+    915,
+    1007
+   ],
+   "place": [
+    72,
+    26
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-left.png",
+   "direction": "left",
+   "bounds": [
+    168,
+    45,
+    390,
+    486
+   ],
+   "sha256": "4cfaa50456c702a72c0cc151b5b46c6068b024f68258c9865bcb68fd94199fce",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    313,
+    16,
+    788,
+    961
+   ],
+   "place": [
+    168,
+    45
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-up-left.png",
+   "direction": "up-left",
+   "bounds": [
+    144,
+    8,
+    409,
+    486
+   ],
+   "sha256": "80fa71d850119965494fc850adf535d5522cdabfd99beecae7e254d20619595d",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    256,
+    0,
+    823,
+    1024
+   ],
+   "place": [
+    144,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-up.png",
+   "direction": "up",
+   "bounds": [
+    96,
+    8,
+    371,
+    486
+   ],
+   "sha256": "772906503fa74602024e4de7155ffd393f61c3acf4e18700ddfc8781344e33e6",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    177,
+    0,
+    767,
+    1024
+   ],
+   "place": [
+    96,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-up-right.png",
+   "direction": "up-right",
+   "bounds": [
+    68,
+    8,
+    422,
+    486
+   ],
+   "sha256": "3074c02f4a13d531f2756f4625a3044b9c2a34117d9bb6479b38263619ea2e5f",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    65,
+    0,
+    824,
+    1024
+   ],
+   "place": [
+    68,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-right.png",
+   "direction": "right",
+   "bounds": [
+    94,
+    41,
+    347,
+    486
+   ],
+   "sha256": "babe4970f651c277d5215cb571d66062b3ad0acea7ca975805c789818cb08232",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    114,
+    71,
+    655,
+    1024
+   ],
+   "place": [
+    94,
+    41
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "planetary-master-down-right.png",
+   "direction": "down-right",
+   "bounds": [
+    119,
+    47,
+    395,
+    486
+   ],
+   "sha256": "d0cd8b5b64f3e08490f81dd40de73dc495a47caeb59dfe9c5dafa8fd2d144872",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    136,
+    46,
+    728,
+    986
+   ],
+   "place": [
+    119,
+    47
+   ],
+   "scale": 0.466796875
+  }
+ ]
+}

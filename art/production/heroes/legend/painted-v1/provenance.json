@@ -1,0 +1,139 @@
+{
+ "hero": "legend",
+ "pack_id": "hero-legend",
+ "world": "pyra",
+ "owner_status": "identity candidate accepted; animation NOT reviewed by owner",
+ "method": "painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw",
+ "identity_candidate": "docs/design/identity/legend-v1/legend-s5741102-d62.png",
+ "identity_sha256": "35421413ffe928e53aa50916fa2028cdb3d89cf5c0db3d0982c6db32d29d121b",
+ "painted_views_seed": 5741102,
+ "views_source": "renders/legend-painted-v1 on the GPU volume (webp copies here are lossless)",
+ "painted_views": [
+  {
+   "file": "legend-down-s5741102.webp",
+   "direction": "down",
+   "source_png_sha256": "7c77c4703738f71c6d36b172fae3540996c6d90bd5043f398b5eb3fbe8627cd4",
+   "sha256": "e301371ee20343b6215ae6f31bc6c04773272e88ae5d81a5ef4eda45d847c495"
+  },
+  {
+   "file": "legend-down-left-s5741102.webp",
+   "direction": "down-left",
+   "source_png_sha256": "b8fd126e42713e2aa26e3004362736d8ed2803baed15ad12485718bf057c173d",
+   "sha256": "849e7f7991e93d6057669af9ae9e61e1fa2809416d68342ff7026c7e85bbe752"
+  },
+  {
+   "file": "legend-left-s5741102.webp",
+   "direction": "left",
+   "source_png_sha256": "42bf637f8033c78fec71965aff92622e6c1ecff5a75760c62daec84100338734",
+   "sha256": "776217a5238be350bf5985d85ad72775aef89f004dffc26418ea9742862f473d"
+  },
+  {
+   "file": "legend-up-left-s5741102.webp",
+   "direction": "up-left",
+   "source_png_sha256": "0a66b619af394407b40f0473f23f76c9968b9fc2797d7161a778889e5137a431",
+   "sha256": "cc953d894f4dc18a1017a533ebaa17de5ef47c90fad79844b2200477ae8ffc65"
+  },
+  {
+   "file": "legend-up-s5741102.webp",
+   "direction": "up",
+   "source_png_sha256": "cc6d96353322e8b0c7ebdf34ed46436dc9eca873d5a26e901fc2c48423eaadce",
+   "sha256": "27d21dd3ee992f138ba22946ab58c05d7995f4537eafb37840b34c4c78309c9a"
+  },
+  {
+   "file": "legend-up-right-s5741102.webp",
+   "direction": "up-right",
+   "source_png_sha256": "f7e3c4fcc868d122c3d029040f7daa90981bd609680b6f6aab3d416c3687c913",
+   "sha256": "529b18cd306413b42431ad2c9726fa56bdc938f5cf67469b0af7526b95167f6a"
+  },
+  {
+   "file": "legend-right-s5741102.webp",
+   "direction": "right",
+   "source_png_sha256": "d844edb612ee031e6ebdf2e5556ba41f71f870755c4035f0a1b2fd89c44d286c",
+   "sha256": "c556f76a24009e25f1280430e0200bf33e302c88155bc170756114b9ca2342bc"
+  },
+  {
+   "file": "legend-down-right-s5741102.webp",
+   "direction": "down-right",
+   "source_png_sha256": "24270ee9b21abe422c0d9869679ba7c5a15dfed65498a1ec95577e265dbc3d67",
+   "sha256": "fda1c470d7089b6b79fd1d8552db246a56b2512bb50b41eebe7a38ebf2a0403c"
+  }
+ ],
+ "masters": [
+  {
+   "file": "legend-master-down-left.png",
+   "sha256": "ad22cc45f7267a18601690583cb2f8b8bf560b095a09c743e1270cbb778d0ee7"
+  },
+  {
+   "file": "legend-master-down-right.png",
+   "sha256": "3a01b52aa1945e787aca938c850a104a7188e9fc88f5fa22d1d0553bcb54efb9"
+  },
+  {
+   "file": "legend-master-down.png",
+   "sha256": "158b6372606ae6f46944c8939c91ac0dbafe0fd08a35adf068d3dded9ed78662"
+  },
+  {
+   "file": "legend-master-left.png",
+   "sha256": "ae8a854c0c7e4855f98b252c512e58b58b728d6b1707d3b4eb538241c3c73d06"
+  },
+  {
+   "file": "legend-master-right.png",
+   "sha256": "6ea79e22797b97ae47ceeffe7350207f43aaed3af662c70ee615dada5c6266ac"
+  },
+  {
+   "file": "legend-master-up-left.png",
+   "sha256": "1aabb81392553e4d317436799750b8f2c3ef6091e24fe24c3a9a552372daf812"
+  },
+  {
+   "file": "legend-master-up-right.png",
+   "sha256": "f48b5d9117961c5b46d34fb5aac99344221a4e1c6995b60c30c1ccc012a66aad"
+  },
+  {
+   "file": "legend-master-up.png",
+   "sha256": "897236279e937c86cbd046338dff24dd64b57fb160887f6678c02169e3046fe2"
+  }
+ ],
+ "pack_manifest_sha256": "844973d5d4a7b59c83b9e82e43bab741158ef6c76e95bed0445518689a688ee1",
+ "frames_tarball_on_volume": "ki-legends-gpu/deliveries-src/layout-legend-v6.tar (416 PNG 512x512)",
+ "tools": {
+  "checkpoint": "animagine-xl-3.1.safetensors",
+  "diffusers": "0.41.0",
+  "torch": "2.8.0+cu128",
+  "rembg_model": "isnet-anime",
+  "controlnet": "xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)",
+  "ip_adapter": "h94/IP-Adapter sdxl_models (Apache-2.0)",
+  "model_file_hashes": {
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/config.json": [
+    1235,
+    "b5b8f9a7619c9452f19407ef73a01ce3f061fcf932de43ddbaca336d12d02801"
+   ],
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/diffusion_pytorch_model.safetensors": [
+    2502139104,
+    "b8524e557a7df60d081f5d4a0eb109967d107df217943bf88c2d99b9ebcc06c5"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/ip-adapter_sdxl.safetensors": [
+    702585376,
+    "ba1002529e783604c5f326d49f0122025392d1d20ac8d573b3eeb3e6dea4ebb6"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/config.json": [
+    2013,
+    "1d53c2b4b74c5f85171d313adda3e3b8771ff5c698ee66a29710d0ac822298e4"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/model.safetensors": [
+    3689912664,
+    "657723e09f46a7c3957df651601029f66b1748afb12b419816330f16ed45d64d"
+   ]
+  }
+ },
+ "scripts_sha256": {
+  "painted_views.py": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df",
+  "matte_masters.py": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f",
+  "animate_painted.py": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d",
+  "android_pose_keypoints.py": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc",
+  "planetary_pose_keypoints.py": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+ },
+ "render": {
+  "KI_SAFE": 22,
+  "clips": "idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416"
+ },
+ "rights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)"
+}

@@ -1,0 +1,216 @@
+{
+ "race": "android",
+ "seed": "5741102",
+ "scale": 0.466796875,
+ "source": "/workspace/ki-legends-gpu/renders/android-painted-v3",
+ "views": [
+  {
+   "file": "android-master-down.png",
+   "direction": "down",
+   "bounds": [
+    18,
+    15,
+    496,
+    486
+   ],
+   "sha256": "d30a922bcd6d4f87fcf5dcb3934ab7a9496fc6909aa22873457bf3f00127e4e7",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    0,
+    16,
+    1024,
+    1024
+   ],
+   "place": [
+    18,
+    15
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-down-left.png",
+   "direction": "down-left",
+   "bounds": [
+    108,
+    18,
+    475,
+    486
+   ],
+   "sha256": "95370d4a8fd1e25b8c8325506ddd86e2b05327ceb80177b5a28fec443067a60f",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    60,
+    22,
+    847,
+    1024
+   ],
+   "place": [
+    108,
+    18
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-left.png",
+   "direction": "left",
+   "bounds": [
+    110,
+    9,
+    485,
+    486
+   ],
+   "sha256": "b174ff2b8bf772f5f19e8e899914248aec814a8f0401f195831743fa7ad9874e",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    196,
+    3,
+    1000,
+    1024
+   ],
+   "place": [
+    110,
+    9
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-up-left.png",
+   "direction": "up-left",
+   "bounds": [
+    79,
+    13,
+    434,
+    486
+   ],
+   "sha256": "7e6cd87ac138a6e8b88dd29088658a82b0d543aa9b1b4e4b084858014577f7fc",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    162,
+    10,
+    922,
+    1024
+   ],
+   "place": [
+    79,
+    13
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-up.png",
+   "direction": "up",
+   "bounds": [
+    71,
+    15,
+    442,
+    486
+   ],
+   "sha256": "d58eeb527b24797324762510c193e1c5b87da0fbb70049623830e713b62d5f43",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    159,
+    15,
+    954,
+    1024
+   ],
+   "place": [
+    71,
+    15
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-up-right.png",
+   "direction": "up-right",
+   "bounds": [
+    111,
+    8,
+    434,
+    486
+   ],
+   "sha256": "de2f9c149d1528704303f8b55d4f1bed5d0b366b181701576f3b380e59144aaa",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    59,
+    0,
+    751,
+    1024
+   ],
+   "place": [
+    111,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-right.png",
+   "direction": "right",
+   "bounds": [
+    137,
+    8,
+    417,
+    486
+   ],
+   "sha256": "422038d24901fddc33bf3f6d789e381974c07408d1ee610ef4b39ec16963bda9",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    57,
+    0,
+    657,
+    1024
+   ],
+   "place": [
+    137,
+    8
+   ],
+   "scale": 0.466796875
+  },
+  {
+   "file": "android-master-down-right.png",
+   "direction": "down-right",
+   "bounds": [
+    115,
+    15,
+    420,
+    486
+   ],
+   "sha256": "d0cb87fbead54992c8e20820f0ab621e4714b2f0dfbc3d73d09bd18d02b06e31",
+   "origin": [
+    0.5,
+    0.95
+   ],
+   "src_bbox": [
+    59,
+    15,
+    713,
+    1024
+   ],
+   "place": [
+    115,
+    15
+   ],
+   "scale": 0.466796875
+  }
+ ]
+}

@@ -1,0 +1,139 @@
+{
+ "hero": "planetary",
+ "pack_id": "hero-planetary-painted",
+ "world": "verdant",
+ "owner_status": "ACCEPTED by owner (2026-10-22)",
+ "method": "painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw",
+ "identity_candidate": "docs/design/identity/planetary-v1/planetary-s5741102-d62.png",
+ "identity_sha256": "086d7e1377b2c8639c9c01532298631e44e952d18b9bfdc64733e27214a3eeb8",
+ "painted_views_seed": 5741103,
+ "views_source": "renders/planetary-painted-v1 on the GPU volume (webp copies here are lossless)",
+ "painted_views": [
+  {
+   "file": "planetary-down-s5741103.webp",
+   "direction": "down",
+   "source_png_sha256": "d4bd0d2d8fa219e71f8e0372a9c4d1924f3b2e99883744c3513504cc9b2fde77",
+   "sha256": "5ae592836c121cc171557d413a1f0220546672b0b9fdcab5ce82c40ddf55770c"
+  },
+  {
+   "file": "planetary-down-left-s5741103.webp",
+   "direction": "down-left",
+   "source_png_sha256": "ab799f8c6429304090160c5e72db8848337b7c0cb8fa72e40fd477fae9973cf7",
+   "sha256": "d27e58312644bc4acfc7b11d21cd56ea060c3657e87527f0bf75fe726de9e54e"
+  },
+  {
+   "file": "planetary-left-s5741103.webp",
+   "direction": "left",
+   "source_png_sha256": "0ad6cec6cd57fbc29951145cf524967fa1df88d600659a0a8cdcc5ce41dbe903",
+   "sha256": "970e4bf33cf18b376f06fc98ad5eb270b6ee1fef6eebc577f3356e0f2f69a278"
+  },
+  {
+   "file": "planetary-up-left-s5741103.webp",
+   "direction": "up-left",
+   "source_png_sha256": "a19b2a6c2e37868654698141a10b38f15da64c09a2f1f6834cf53b59963c82e4",
+   "sha256": "ae4b386b050733ab38aabc86e055bb1ff9437fbfc1f30f5426ddc3a258eb9210"
+  },
+  {
+   "file": "planetary-up-s5741103.webp",
+   "direction": "up",
+   "source_png_sha256": "d30252c6a733488ed07f0ef527405cfa9d46716d780fa9366714c70ec6a1072f",
+   "sha256": "5945c53b117da17aaee07d605d807d10794048ebd00a6647d510b4e173d79520"
+  },
+  {
+   "file": "planetary-up-right-s5741103.webp",
+   "direction": "up-right",
+   "source_png_sha256": "8b630e5a9556a30eedca92d3a35f457726192e6a3e83d1695aa7b277e7cc9270",
+   "sha256": "8f22a62da877fda869bd7744e0e52c3cf7acb0da8b71bcaec2d5c5b04754c1ae"
+  },
+  {
+   "file": "planetary-right-s5741103.webp",
+   "direction": "right",
+   "source_png_sha256": "f87c1a2acafcd8890f4333d8ddaebd24a46c1805db5646b3dc156051d8922e6e",
+   "sha256": "4b825e8dfbc28ae916946a54ec26f7cfdfc8db3db1844c9cf951564da5fa5542"
+  },
+  {
+   "file": "planetary-down-right-s5741103.webp",
+   "direction": "down-right",
+   "source_png_sha256": "40f6eb9e2d97b8d93642800aff78ed3a1df3c610862947ae33431bc54ea5e268",
+   "sha256": "2a1d3b90fbe7e81b24865389e17d96a0b7b6d3984581ded194ba946d0c2b6a02"
+  }
+ ],
+ "masters": [
+  {
+   "file": "planetary-master-down-left.png",
+   "sha256": "ad7c4cfe9ae27353ab75f3906edbd909693eb3a0f656605f91d8e8a03dd63baf"
+  },
+  {
+   "file": "planetary-master-down-right.png",
+   "sha256": "d0cd8b5b64f3e08490f81dd40de73dc495a47caeb59dfe9c5dafa8fd2d144872"
+  },
+  {
+   "file": "planetary-master-down.png",
+   "sha256": "e0d2f123ff8a131eb5ebd877e1bc4b92acf3af7c26c3d529188d937ea73abca4"
+  },
+  {
+   "file": "planetary-master-left.png",
+   "sha256": "4cfaa50456c702a72c0cc151b5b46c6068b024f68258c9865bcb68fd94199fce"
+  },
+  {
+   "file": "planetary-master-right.png",
+   "sha256": "babe4970f651c277d5215cb571d66062b3ad0acea7ca975805c789818cb08232"
+  },
+  {
+   "file": "planetary-master-up-left.png",
+   "sha256": "80fa71d850119965494fc850adf535d5522cdabfd99beecae7e254d20619595d"
+  },
+  {
+   "file": "planetary-master-up-right.png",
+   "sha256": "3074c02f4a13d531f2756f4625a3044b9c2a34117d9bb6479b38263619ea2e5f"
+  },
+  {
+   "file": "planetary-master-up.png",
+   "sha256": "772906503fa74602024e4de7155ffd393f61c3acf4e18700ddfc8781344e33e6"
+  }
+ ],
+ "pack_manifest_sha256": "ae59e5153b5a90c35e5aa46b44bec61c5407928364e585bc5907c5655e43dea5",
+ "frames_tarball_on_volume": "ki-legends-gpu/deliveries-src/layout-planetary-v6.tar (416 PNG 512x512)",
+ "tools": {
+  "checkpoint": "animagine-xl-3.1.safetensors",
+  "diffusers": "0.41.0",
+  "torch": "2.8.0+cu128",
+  "rembg_model": "isnet-anime",
+  "controlnet": "xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)",
+  "ip_adapter": "h94/IP-Adapter sdxl_models (Apache-2.0)",
+  "model_file_hashes": {
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/config.json": [
+    1235,
+    "b5b8f9a7619c9452f19407ef73a01ce3f061fcf932de43ddbaca336d12d02801"
+   ],
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/diffusion_pytorch_model.safetensors": [
+    2502139104,
+    "b8524e557a7df60d081f5d4a0eb109967d107df217943bf88c2d99b9ebcc06c5"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/ip-adapter_sdxl.safetensors": [
+    702585376,
+    "ba1002529e783604c5f326d49f0122025392d1d20ac8d573b3eeb3e6dea4ebb6"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/config.json": [
+    2013,
+    "1d53c2b4b74c5f85171d313adda3e3b8771ff5c698ee66a29710d0ac822298e4"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/model.safetensors": [
+    3689912664,
+    "657723e09f46a7c3957df651601029f66b1748afb12b419816330f16ed45d64d"
+   ]
+  }
+ },
+ "scripts_sha256": {
+  "painted_views.py": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df",
+  "matte_masters.py": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f",
+  "animate_painted.py": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d",
+  "android_pose_keypoints.py": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc",
+  "planetary_pose_keypoints.py": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+ },
+ "render": {
+  "KI_SAFE": 22,
+  "clips": "idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416"
+ },
+ "rights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)"
+}

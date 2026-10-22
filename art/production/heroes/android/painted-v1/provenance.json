@@ -1,0 +1,139 @@
+{
+ "hero": "android",
+ "pack_id": "hero-android",
+ "world": "nexus",
+ "owner_status": "identity candidate accepted; motion review accepted by owner (2026-10-22); final packed result NOT yet reviewed",
+ "method": "painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw",
+ "identity_candidate": "docs/design/identity/android-v1/android-s5741102-d62.png",
+ "identity_sha256": "02a5fdc8cd3f465267c44a05cfb01b8f46ff24cd8cb98911c68047ff9b50ae67",
+ "painted_views_seed": 5741102,
+ "views_source": "renders/android-painted-v3 on the GPU volume (webp copies here are lossless)",
+ "painted_views": [
+  {
+   "file": "android-down-s5741102.webp",
+   "direction": "down",
+   "source_png_sha256": "208d580aeb307e80e9b40f8521cf58ddfb2d5c94eec33a2e8851a5fddc614493",
+   "sha256": "4b0fb5c4977960b68298bb8bcb20d77fb9d2f27f962e7fe4eafc815dcdfc833f"
+  },
+  {
+   "file": "android-down-left-s5741102.webp",
+   "direction": "down-left",
+   "source_png_sha256": "5284f359724786d4459de49fdd2d68effbab436354eb85cf437b27a6cdf8be97",
+   "sha256": "db07b6e77c8272c5501729b6258958477f16a7c96a47bf1b6ac5b3ae204ba2ce"
+  },
+  {
+   "file": "android-left-s5741102.webp",
+   "direction": "left",
+   "source_png_sha256": "79885d71f69f7dd13dcbaa6b2d2d57fb212e847e5291376fe78acd1f837cc37c",
+   "sha256": "a2172c50338e76f38468f6bae62ae44d908b7a92e90badd0bca945e3507c77d5"
+  },
+  {
+   "file": "android-up-left-s5741102.webp",
+   "direction": "up-left",
+   "source_png_sha256": "e118bec7e0ba00aa8223362adff0a2998c788a299ff7aff19e6917846110afe5",
+   "sha256": "3654a3880fadae74432725d03070c532dc898e0db42bfc2bc3b1d90c6f34350b"
+  },
+  {
+   "file": "android-up-s5741102.webp",
+   "direction": "up",
+   "source_png_sha256": "0e722b8a859223633f635328aae27617ff9062c3e06ea92391a556ea65496675",
+   "sha256": "8ba208cad128927c55206a82c503059bd35e6796e05d24278858be373284769f"
+  },
+  {
+   "file": "android-up-right-s5741102.webp",
+   "direction": "up-right",
+   "source_png_sha256": "f3504d1962c9f38c9e7e3c18f72c9cec556088033893e7d95fadec378fda0892",
+   "sha256": "9f46e02809c8d05d2fb56048e33069d6195e1dff1bce7b787c3ccdd7b4dd7032"
+  },
+  {
+   "file": "android-right-s5741102.webp",
+   "direction": "right",
+   "source_png_sha256": "413ac578ba57e62d7023532d88e622b8e79f5e43874f243925444662061dc04f",
+   "sha256": "1815b41a82826fa5863dd40af64d10c726ac4dbb8671a3e9402c7567b4361751"
+  },
+  {
+   "file": "android-down-right-s5741102.webp",
+   "direction": "down-right",
+   "source_png_sha256": "b432a4dbdf4e4bbfad31830b2baafa7de6914128bef868db9d0a34b304bb491f",
+   "sha256": "36eeb92350357722c31ae61b1130b7478c51daf88ad78659aa46627a1b772848"
+  }
+ ],
+ "masters": [
+  {
+   "file": "android-master-down-left.png",
+   "sha256": "95370d4a8fd1e25b8c8325506ddd86e2b05327ceb80177b5a28fec443067a60f"
+  },
+  {
+   "file": "android-master-down-right.png",
+   "sha256": "d0cb87fbead54992c8e20820f0ab621e4714b2f0dfbc3d73d09bd18d02b06e31"
+  },
+  {
+   "file": "android-master-down.png",
+   "sha256": "d30a922bcd6d4f87fcf5dcb3934ab7a9496fc6909aa22873457bf3f00127e4e7"
+  },
+  {
+   "file": "android-master-left.png",
+   "sha256": "b174ff2b8bf772f5f19e8e899914248aec814a8f0401f195831743fa7ad9874e"
+  },
+  {
+   "file": "android-master-right.png",
+   "sha256": "422038d24901fddc33bf3f6d789e381974c07408d1ee610ef4b39ec16963bda9"
+  },
+  {
+   "file": "android-master-up-left.png",
+   "sha256": "7e6cd87ac138a6e8b88dd29088658a82b0d543aa9b1b4e4b084858014577f7fc"
+  },
+  {
+   "file": "android-master-up-right.png",
+   "sha256": "de2f9c149d1528704303f8b55d4f1bed5d0b366b181701576f3b380e59144aaa"
+  },
+  {
+   "file": "android-master-up.png",
+   "sha256": "d58eeb527b24797324762510c193e1c5b87da0fbb70049623830e713b62d5f43"
+  }
+ ],
+ "pack_manifest_sha256": "e729ce083a3afc67296492f5154006efa2a996b3b45c52b3972a6101409556f4",
+ "frames_tarball_on_volume": "ki-legends-gpu/deliveries-src/layout-android-v6.tar (416 PNG 512x512)",
+ "tools": {
+  "checkpoint": "animagine-xl-3.1.safetensors",
+  "diffusers": "0.41.0",
+  "torch": "2.8.0+cu128",
+  "rembg_model": "isnet-anime",
+  "controlnet": "xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)",
+  "ip_adapter": "h94/IP-Adapter sdxl_models (Apache-2.0)",
+  "model_file_hashes": {
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/config.json": [
+    1235,
+    "b5b8f9a7619c9452f19407ef73a01ce3f061fcf932de43ddbaca336d12d02801"
+   ],
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/diffusion_pytorch_model.safetensors": [
+    2502139104,
+    "b8524e557a7df60d081f5d4a0eb109967d107df217943bf88c2d99b9ebcc06c5"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/ip-adapter_sdxl.safetensors": [
+    702585376,
+    "ba1002529e783604c5f326d49f0122025392d1d20ac8d573b3eeb3e6dea4ebb6"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/config.json": [
+    2013,
+    "1d53c2b4b74c5f85171d313adda3e3b8771ff5c698ee66a29710d0ac822298e4"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/model.safetensors": [
+    3689912664,
+    "657723e09f46a7c3957df651601029f66b1748afb12b419816330f16ed45d64d"
+   ]
+  }
+ },
+ "scripts_sha256": {
+  "painted_views.py": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df",
+  "matte_masters.py": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f",
+  "animate_painted.py": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d",
+  "android_pose_keypoints.py": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc",
+  "planetary_pose_keypoints.py": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+ },
+ "render": {
+  "KI_SAFE": 22,
+  "clips": "idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416"
+ },
+ "rights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)"
+}

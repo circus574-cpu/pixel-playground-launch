@@ -1,0 +1,139 @@
+{
+ "hero": "sage",
+ "pack_id": "hero-sage-painted",
+ "world": "aether",
+ "owner_status": "ACCEPTED by owner (2026-10-22)",
+ "method": "painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw",
+ "identity_candidate": "docs/design/identity/sage-v2/sage-s5741102-d55.png",
+ "identity_sha256": "f8c049347ccf2ffa0e3364c8c2bfa46488d37edf528c02a9066cad393a10d38a",
+ "painted_views_seed": 5741102,
+ "views_source": "renders/sage-painted-v1 on the GPU volume (webp copies here are lossless)",
+ "painted_views": [
+  {
+   "file": "sage-down-s5741102.webp",
+   "direction": "down",
+   "source_png_sha256": "a6970f5ed77266a5b916191a473fec65be10a947080b770b7eb097268d684dfd",
+   "sha256": "7b6293a871dffa6122fd70e84ca59209bf66fa91f767ebd15b1ddffb6305df38"
+  },
+  {
+   "file": "sage-down-left-s5741102.webp",
+   "direction": "down-left",
+   "source_png_sha256": "f1630c15793159f75a5da7d6274b8126862053bdb942e7788b0c400d4105498d",
+   "sha256": "306df2e528ef04990ce1c1f950ddc810b89b2d15f6848b2d5e3a9950d67fa681"
+  },
+  {
+   "file": "sage-left-s5741102.webp",
+   "direction": "left",
+   "source_png_sha256": "c81a0e41c2c05b1150a56e72d1adb8a00bb4d7e6352aedb4b94a03c69f89b666",
+   "sha256": "d9e1ec1c1c27c9da74016a0600a1feeec139dc43968a8bd6c42d704bd4f0ec87"
+  },
+  {
+   "file": "sage-up-left-s5741102.webp",
+   "direction": "up-left",
+   "source_png_sha256": "de52d9c5d85dba8b8f6a7466ed4a8b53edb1b3152a8d6431456dc0792208c150",
+   "sha256": "a3feafb806b580b1f88b13c4157f71175ec573a925f47c7d5ff49506358905ea"
+  },
+  {
+   "file": "sage-up-s5741102.webp",
+   "direction": "up",
+   "source_png_sha256": "c0a660971f9b8389e736ebecd9860bd95b8e758472718deb191cf001ebedb560",
+   "sha256": "40e3de32a888667028b2d952b6124b3cb741c4a9819702e944f617d60faf13ca"
+  },
+  {
+   "file": "sage-up-right-s5741102.webp",
+   "direction": "up-right",
+   "source_png_sha256": "cc0a2f6aa4fdca3d8e10e18a59f5c689c717656651c0011b046d37526b548aae",
+   "sha256": "6fe41214bd17c819386dfc0ce1ec9802f4369c8b7e10fe90be785bccd1b18147"
+  },
+  {
+   "file": "sage-right-s5741102.webp",
+   "direction": "right",
+   "source_png_sha256": "6918c5a59ee768be250fad6d4f5188f523a1a4386494954c55f94b69997329cc",
+   "sha256": "afa7d7c0977a3d87a7e8e838862c7efbb453bcbb9dff14db44a2c1ece2a1eb4e"
+  },
+  {
+   "file": "sage-down-right-s5741102.webp",
+   "direction": "down-right",
+   "source_png_sha256": "90859d6c1bf7cefc47192ce9b1d8d2ee9f2941d9ad0825f692f8a2c8ba0ef239",
+   "sha256": "5fa7f9e4db6985878a7421609af6284451713d577ed93d9e05dc4450c4850ba2"
+  }
+ ],
+ "masters": [
+  {
+   "file": "sage-master-down-left.png",
+   "sha256": "338df7e0d94482e7f6985eb351fbe37501a5977113b5c3381c227b0f1b0032f0"
+  },
+  {
+   "file": "sage-master-down-right.png",
+   "sha256": "a6bcf7887fee54ecdb3577ad2aff2b67e8d192586f328794edd8f58db513f42e"
+  },
+  {
+   "file": "sage-master-down.png",
+   "sha256": "1251ccb4c83f0410bf76398188b45c74ab451e1d40b01ef296d4dca0417f39df"
+  },
+  {
+   "file": "sage-master-left.png",
+   "sha256": "e425cf9dcefec7eb42dd0af2ea09b91b013b76fb6c14584cfe9bc830f979326e"
+  },
+  {
+   "file": "sage-master-right.png",
+   "sha256": "bd848373718559645cc49c3b5a02b06e7bd6f2f69878454a364328db866cf4c8"
+  },
+  {
+   "file": "sage-master-up-left.png",
+   "sha256": "039a658c307dcbe90bd4f79d75ae4d7413577d807df9d8c155012eef330c7256"
+  },
+  {
+   "file": "sage-master-up-right.png",
+   "sha256": "332d5fb604be429fd9f6c70e1407f7a4be3dc1fb6417311ba8cba85773dfffe9"
+  },
+  {
+   "file": "sage-master-up.png",
+   "sha256": "d1c588b96a24001c320137771be0947072e8e0e2296e09f92170807bad1c6a7e"
+  }
+ ],
+ "pack_manifest_sha256": "1aed6563555daaece5e7230afcf39f9d94d2eac6ff095537c8932ad0bc47566a",
+ "frames_tarball_on_volume": "ki-legends-gpu/deliveries-src/layout-sage-v6.tar (416 PNG 512x512)",
+ "tools": {
+  "checkpoint": "animagine-xl-3.1.safetensors",
+  "diffusers": "0.41.0",
+  "torch": "2.8.0+cu128",
+  "rembg_model": "isnet-anime",
+  "controlnet": "xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)",
+  "ip_adapter": "h94/IP-Adapter sdxl_models (Apache-2.0)",
+  "model_file_hashes": {
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/config.json": [
+    1235,
+    "b5b8f9a7619c9452f19407ef73a01ce3f061fcf932de43ddbaca336d12d02801"
+   ],
+   "/workspace/ki-legends-gpu/models/controlnet/xinsir-openpose-sdxl/diffusion_pytorch_model.safetensors": [
+    2502139104,
+    "b8524e557a7df60d081f5d4a0eb109967d107df217943bf88c2d99b9ebcc06c5"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/ip-adapter_sdxl.safetensors": [
+    702585376,
+    "ba1002529e783604c5f326d49f0122025392d1d20ac8d573b3eeb3e6dea4ebb6"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/config.json": [
+    2013,
+    "1d53c2b4b74c5f85171d313adda3e3b8771ff5c698ee66a29710d0ac822298e4"
+   ],
+   "/workspace/ki-legends-gpu/models/ip-adapter/sdxl_models/image_encoder/model.safetensors": [
+    3689912664,
+    "657723e09f46a7c3957df651601029f66b1748afb12b419816330f16ed45d64d"
+   ]
+  }
+ },
+ "scripts_sha256": {
+  "painted_views.py": "17b0552bc3a1f243e5feb3b9b162b9f029046e21dd7d629c16a48a9dc16b14df",
+  "matte_masters.py": "549b681c37d0c6f5f220705b6adaf4d81c4ebc6f95149fcc8b9283f7852ca19f",
+  "animate_painted.py": "d4f6b953b972d9a703b09ef0c6d84c46561e6b934e854574d3b89aed40bbd83d",
+  "android_pose_keypoints.py": "b9c3065d0fabaa39a9617dc5db3d442d32227b55bc28603e013126f94f6a7dcc",
+  "planetary_pose_keypoints.py": "ebe10014a6d22c200d9e60f74ffbcab55a30b358e0f528d1a3bfd3c6b846ff96"
+ },
+ "render": {
+  "KI_SAFE": 22,
+  "clips": "idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416"
+ },
+ "rights": "UNRESOLVED: rights to the reference illustrations, to the checkpoint and to the derived images are not confirmed (see docs/ASSET-LICENSE-REGISTER.md)"
+}
