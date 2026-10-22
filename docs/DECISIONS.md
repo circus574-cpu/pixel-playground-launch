@@ -9,7 +9,7 @@ Data przeglądu: 2026-10-21. Tutaj zapisywane są jedynie decyzje potwierdzone i
 | 2026-10-21 | Kontrola cyklu życia i konfiguracji instancji GPU wyłącznie przez właściciela. | [AGENTS.md](../AGENTS.md), [INDEX.md](INDEX.md) | Obowiązuje |
 | 2026-10-21 | Publikacja i scalanie wymagają odrębnej zgody właściciela. | [AGENTS.md](../AGENTS.md), [INDEX.md](INDEX.md) | Obowiązuje |
 | 2026-10-21 | Dokumentacja robocza/PR nie jest automatycznie stanem produkcyjnym. | [INDEX.md](INDEX.md) | Obowiązuje |
-| 2026-10-22 | ETAP 1 Androidy: wybrany kandydat `android-s5741102-d62.png` do dalszej pracy (nie końcowa akceptacja); zlecona kolejna seria kandydatów. | [design/identity/android-v1/SELECTED.md](design/identity/android-v1/SELECTED.md) | Kandydat, bez akceptacji końcowej |
+| 2026-10-22 | ETAP 1 Androidy: kandydat tożsamości `android-s5741102-d62.png` zaakceptowany; kolejne kroki (rig, 8 widoków, animacja) po przywróceniu runtime. | [design/identity/android-v1/SELECTED.md](design/identity/android-v1/SELECTED.md) | Zaakceptowany kandydat tożsamości; produkcja nierozpoczęta |
 
 ## Sprawy bez zatwierdzenia
 Odbiór animacji Mędrców, referencji/licencji, urządzeń mobilnych oraz rozszerzenia do multiplayer pozostają otwarte. Brak wpisu o zgodzie na scalanie PR #15 lub jego wdrożenie.

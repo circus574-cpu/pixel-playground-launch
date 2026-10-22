@@ -1,8 +1,10 @@
 # Androidy — kandydat tożsamości v1 (ETAP 1)
 
-**Data:** 2026-10-22. **Decyzja właściciela:** wybrał `android-s5741102-d62.png` (ziarno 5741102, siła 0.62) z contact sheetu 6 kandydatów, a następnie zlecił kolejną serię kandydatów.
+**Data:** 2026-10-22. **Decyzja właściciela:** wybrał `android-s5741102-d62.png` (ziarno 5741102, siła 0.62) z contact sheetu 6 kandydatów, a następnie zlecił przejście do dalszej produkcji po akceptacji.
 
-**Status: KANDYDAT DO DALSZEJ PRACY. To nie jest końcowa akceptacja tożsamości; rig, 8 widoków i animacja nie rozpoczęte.**
+**Status: ZAKCEPTOWANY przez właściciela jako kandydat tożsamości Androida (2026-10-22, w czacie sesji): „Wybieram najpierw odpowiedniego kandydata dla danej rasy. Po akceptacji zajmujesz się generowaniem”. Rig, 8 widoków i animacja nie rozpoczęte.**
+
+**Blokada kolejnego kroku:** na podzie 52s0jgxh6vxo0s brak `/opt/ki-legends-gpu` (Blender/Node), a `bootstrap-runtime-v2.sh` wymaga `/usr/bin/python3.11`, podczas gdy obraz poda ma Python 3.12.3. Przywrócenie runtime wymaga decyzji właściciela o obrazie; agent nie zmienia konfiguracji GPU.
 
 ## Dowody
 | Plik | SHA-256 |
