@@ -17,3 +17,6 @@ To rejestr orientacyjny; dokładna historia i autorstwo pozostają w Git. Nie pr
 - Historia globusa — [MAPA-GLOBUS-3D.md](MAPA-GLOBUS-3D.md).
 
 Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji właściciela i wyniku kontroli produkcji.
+
+## 2026-10-22 — binarna archiwizacja kanonu graficznego (PR #16, Draft)
+- Oryginał `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` przechowany bezstratnie w 12 binarnych częściach i skrypcie `restore.py`, wraz z rzeczywistymi referencjami obrazów; commit `fb8940c` na gałęzi PR #16. SHA-256 oryginału: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Stan jeszcze nie scalony.
