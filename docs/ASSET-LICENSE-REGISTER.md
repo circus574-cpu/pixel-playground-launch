@@ -1,3 +1,5 @@
+> **Status repo 2026-10-22:** rejestr został scalony do `main` w PR #17. Poniższa sekcja zachowuje historyczny zakres dowodów i bazę `d959927`; nie jest certyfikatem praw do wszystkich grafik. Bez niezależnych dokumentów licencyjnych grafiki referencyjne pozostają NIEZWERYFIKOWANE.
+
 # KI Legends — rejestr licencji grafik i modeli
 
 Stan audytu: **22.10.2026**, baza `d9599277924e6c3f1ce99b43e2a1b20654b42c22`
