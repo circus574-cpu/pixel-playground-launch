@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Globe2, Layers, Minus, Orbit, Plus, X } from "lucide-react";
+import { BackToGame, PlayerChip, RegionGameNote, type GameLink } from "./MapChrome";
+import { Globe2, Layers, Minus, Orbit, Plus, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -42,7 +42,9 @@ const PATHS = Object.fromEntries(REGIONS.map((r) => [r.id, regionPath(r)]));
 export function PlanetMap({
   onShowGlobe,
   notice,
-}: {
+  current,
+  onClose,
+}: GameLink & {
   /** Switch back to the 3D globe; omitted when WebGL 2 is unavailable. */
   onShowGlobe?: (() => void) | undefined;
   /** Why the flat atlas is shown instead of the globe, if not by choice. */
@@ -61,10 +63,10 @@ export function PlanetMap({
   const [view, setView] = useState<View>(() => initialView(FALLBACK.w, FALLBACK.h));
   const [ready, setReady] = useState(false);
   const [hiRes, setHiRes] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(current ?? null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [fog, setFog] = useState(false);
-  const [perspective, setPerspective] = useState<string>("verdant");
+  const [perspective, setPerspective] = useState<string>(current ?? "verdant");
   /** null = layout default (open on desktop, closed on phones). */
   const [legend, setLegend] = useState<boolean | null>(null);
 
@@ -252,6 +254,15 @@ export function PlanetMap({
     const { w, h } = sizeRef.current;
     animateTo(focusOn(region, w, h));
   };
+  // Opened with an active character: centre the atlas on that continent once.
+  const focusedCurrent = useRef(false);
+  useEffect(() => {
+    if (!ready || focusedCurrent.current) return;
+    focusedCurrent.current = true;
+    const here = CONTINENTS.find((c) => c.id === current);
+    if (here) focusRegion(here);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, current]);
   const toggleLegend = () => setLegend((l) => !(l ?? size.w > 1600));
 
   const onMapKey = (e: KeyboardEvent<SVGSVGElement>) => {
@@ -330,7 +341,7 @@ export function PlanetMap({
           viewBox={viewBox(view, size.w, size.h)}
           preserveAspectRatio="none"
           role="group"
-          aria-label="Interaktywna mapa planety Superior, wersja DEMO"
+          aria-label="Interaktywna mapa planety Superior"
           aria-describedby="pm-help"
           tabIndex={0}
           onPointerDown={onPointerDown}
@@ -452,8 +463,21 @@ export function PlanetMap({
           </g>
 
           {CONTINENTS.map((c) =>
-            c.settlementPoint && (showSettlements || selected === c.id) ? (
-              <g key={`set-${c.id}`} className="pm-settlement" aria-hidden>
+            c.settlementPoint && (showSettlements || selected === c.id || current === c.id) ? (
+              <g
+                key={`set-${c.id}`}
+                className={`pm-settlement${current === c.id ? " is-current" : ""}`}
+                aria-hidden
+              >
+                {current === c.id && (
+                  <circle
+                    className="pm-here-ring"
+                    cx={c.settlementPoint.x}
+                    cy={c.settlementPoint.y}
+                    r={px(16)}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                )}
                 <rect
                   x={c.settlementPoint.x - px(4.5)}
                   y={c.settlementPoint.y - px(4.5)}
@@ -463,13 +487,13 @@ export function PlanetMap({
                   vectorEffect="non-scaling-stroke"
                 />
                 <text
-                  className={zoom < 3 ? "pm-settlement-name-hidden" : undefined}
+                  className={zoom < 3 && current !== c.id ? "pm-settlement-name-hidden" : undefined}
                   x={c.settlementPoint.x}
                   y={c.settlementPoint.y + px(20)}
                   fontSize={px(12)}
                   strokeWidth={px(3)}
                 >
-                  {c.settlement}
+                  {current === c.id ? "Tu jesteś · " + c.settlement : c.settlement}
                 </text>
               </g>
             ) : null,
@@ -513,14 +537,11 @@ export function PlanetMap({
       </div>
 
       <header className="pm-topbar">
-        <Link to="/" className="pm-back" aria-label="Wróć do gry">
-          <ArrowLeft aria-hidden size={16} />
-          <span>Gra</span>
-        </Link>
+        <BackToGame onClose={onClose} />
         <div className="pm-title">
           <p className="pm-eyebrow">Ki Legends · Atlas</p>
           <h1>
-            Planeta Superior <span className="pm-demo">DEMO</span>
+            Planeta Superior <span className="pm-demo">Mapa 2D</span>
           </h1>
         </div>
         {onShowGlobe && (
@@ -544,9 +565,7 @@ export function PlanetMap({
         </p>
       )}
 
-      <p className="pm-demo-chip" role="note">
-        <strong>DEMO</strong> · niepołączona z grą · bez pozycji gracza
-      </p>
+      <PlayerChip current={current} />
 
       <div className="pm-controls" role="toolbar" aria-label="Sterowanie mapą">
         <Button
@@ -711,15 +730,7 @@ export function PlanetMap({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
-            {["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
-              <Link
-                to="/"
-                search={{ continent: selectedRegion.id } as never}
-                className="pm-enter-world"
-              >
-                Wejdź do gry — {selectedRegion.name}
-              </Link>
-            )}
+            <RegionGameNote region={selectedRegion} current={current} onClose={onClose} />
             <p className="pm-status">{selectedRegion.status}</p>
             {fog && !isRevealed(selectedRegion.id) && (
               <p className="pm-fog-note">W podglądzie mgły ten obszar jest nieodkryty.</p>
