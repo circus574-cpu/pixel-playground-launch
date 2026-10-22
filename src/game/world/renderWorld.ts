@@ -1,6 +1,6 @@
 import { sizeScenery, sizeTile } from "../assets/scenery";
 import type Phaser from "phaser";
-import { textureBinding } from "../assets/catalog";
+import { catalog, textureBinding } from "../assets/catalog";
 import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "./types";
@@ -15,6 +15,9 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   const ground = textureBinding("terrain." + terrain.ground, { asset: terrain.ground }),
     path = textureBinding("terrain." + terrain.path, { asset: terrain.path }),
     plaza = textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza });
+  // A painted terrain pack replaces the flat placeholder tiles and their procedural detail.
+  const paintedGround = !!catalog.renderBindings["terrain." + terrain.ground];
+  const wall = catalog.renderBindings["terrain." + world.id + "-wall"];
   const updateAtmosphere = atmosphere(scene, world.id);
   sizeTile(
     scene.add.tileSprite(0, 0, world.width, world.height, ground.asset, ground.frame),
@@ -38,7 +41,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       .setDepth(renderDepth("paths") + 1);
   // World-space surface detail, rendered in Phaser rather than on the atlas/globe.
   // Deterministic, camera-independent placement; no save, collision or navigation changes.
-  if (world.id === "aether" || world.id === "nexus") {
+  if ((world.id === "aether" || world.id === "nexus") && !paintedGround) {
     const detail = scene.add.graphics().setDepth(renderDepth("ground") + 1);
     for (let y = 170; y < world.height - 110; y += 112) {
       for (let x = 180; x < world.width - 160; x += 128) {
@@ -142,6 +145,16 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   }
   const hazards = scene.add.graphics().setDepth(renderDepth("below") - 1);
   for (const o of world.obstacles) {
+    if (wall) {
+      // Painted wall texture on the unchanged collision rectangle.
+      sizeTile(
+        scene.add.tileSprite(o.x, o.y, o.width, o.height, wall.asset, wall.frame),
+        wall.tileSize,
+      )
+        .setOrigin(0)
+        .setDepth(renderDepth("below") - 1);
+      continue;
+    }
     hazards.fillStyle(world.id === "pyra" ? 0x2a2029 : world.id === "nexus" ? 0x091722 : 0x15343b);
     hazards.fillRect(o.x, o.y, o.width, o.height);
     hazards.lineStyle(
@@ -170,7 +183,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       image: sizeScenery(
         scene.add
           .image(object.x, object.y, ref.asset, ref.frame)
-          .setOrigin(object.anchorX, object.anchorY),
+          .setOrigin(ref.origin?.[0] ?? object.anchorX, ref.origin?.[1] ?? object.anchorY),
         object.width,
         object.height,
         ref.fit,

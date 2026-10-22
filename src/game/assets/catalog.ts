@@ -179,6 +179,7 @@ export function textureBinding(
   layer?: "below" | "objects" | "overhead" | "atmosphere";
   fit?: "contain" | "stretch";
   tileSize?: [number, number];
+  origin?: [number, number];
 } {
   return source.renderBindings[id] ?? fallback;
 }

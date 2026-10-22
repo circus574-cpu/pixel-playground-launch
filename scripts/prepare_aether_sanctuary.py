@@ -18,14 +18,17 @@ import numpy as np
 from PIL import Image
 
 VERSION = "1.0.0"
-# Object source key -> longest side of the packaged texture (px).
+# Object source key -> (longest side of the packaged texture in px, image origin).
+# The origin only moves the picture so its painted base sits on the existing
+# collision footprint from aether.json (centred on the object's y); None keeps
+# the region's own anchor.
 OBJECTS = {
-    "sanctum": 1024,
-    "archive": 768,
-    "ki-source": 512,
-    "ki-tree": 640,
-    "cloud-peak": 768,
-    "garden": 384,
+    "sanctum": (1024, [0.5, 0.81]),
+    "archive": (768, [0.5, 0.79]),
+    "ki-source": (512, [0.5, 0.84]),
+    "ki-tree": (640, None),
+    "cloud-peak": (768, None),
+    "garden": (384, None),
 }
 # Terrain key -> (packaged px, world units per repeat).
 TERRAIN = {
@@ -76,7 +79,7 @@ def plaza_grid(img: Image.Image) -> Image.Image:
 def main(src: Path, out: Path) -> None:
     out.mkdir(parents=True, exist_ok=True)
     assets, bindings = [], {}
-    for key, side in OBJECTS.items():
+    for key, (side, origin) in OBJECTS.items():
         im = Image.open(src / f"{key}.png").convert("RGBA")
         alpha = np.asarray(im.getchannel("A"))
         # Drop faint generator haze so trimming hugs the painted silhouette.
@@ -88,6 +91,8 @@ def main(src: Path, out: Path) -> None:
         im.save(out / f"{asset_id}.png", optimize=True)
         assets.append({"id": asset_id, "version": VERSION, "kind": "image", "url": f"{asset_id}.png"})
         bindings[f"object.{key}"] = {"asset": asset_id, "fit": "contain"}
+        if origin:
+            bindings[f"object.{key}"]["origin"] = origin
     for key, (px, units) in TERRAIN.items():
         im = Image.open(src / f"{key}.png").convert("RGB")
         im = plaza_grid(im) if key == "aether-plaza" else seamless(im)
