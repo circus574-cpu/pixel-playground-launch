@@ -1,0 +1,194 @@
+{
+  "aether": {
+    "width": 6000,
+    "height": 4360,
+    "anchor": {
+      "x": 2400,
+      "y": 2020
+    },
+    "zones": [
+      {
+        "id": "north",
+        "name": "Lodowe Szczyty",
+        "summary": "Wiatr nad śnieżnymi graniami i szklistymi turniami.",
+        "x": 3000,
+        "y": 515,
+        "width": 5880,
+        "height": 910
+      },
+      {
+        "id": "south",
+        "name": "Dolina Strumieni",
+        "summary": "Łąki, trzcina i wodospady spływające z tarasów.",
+        "x": 3000,
+        "y": 3845,
+        "width": 5880,
+        "height": 910
+      },
+      {
+        "id": "east",
+        "name": "Lodowce Wschodu",
+        "summary": "Lodowe pola i kryształowe drzewa jarzące się KI.",
+        "x": 5335,
+        "y": 2180,
+        "width": 1210,
+        "height": 2740
+      },
+      {
+        "id": "west",
+        "name": "Skały Zachodu",
+        "summary": "Wietrzne urwiska i głazy dawnych pielgrzymów.",
+        "x": 665,
+        "y": 2180,
+        "width": 1210,
+        "height": 2740
+      }
+    ],
+    "atlas": {
+      "settle": {
+        "x": 1396,
+        "y": 273
+      },
+      "bbox": {
+        "x0": 1035,
+        "y0": 55,
+        "x1": 1717,
+        "y1": 494
+      },
+      "crop": {
+        "x0": 994,
+        "y0": 29,
+        "x1": 1758,
+        "y1": 520
+      }
+    }
+  },
+  "nexus": {
+    "width": 4800,
+    "height": 3592,
+    "anchor": {
+      "x": 1770,
+      "y": 2000
+    },
+    "zones": [
+      {
+        "id": "north",
+        "name": "Płaskowyż Północny",
+        "summary": "Skaliste wyżyny nad reaktorem, wiatr niesie szum przekaźników.",
+        "x": 2400,
+        "y": 515,
+        "width": 4680,
+        "height": 910
+      },
+      {
+        "id": "south",
+        "name": "Pustkowia Rdzeni",
+        "summary": "Spękana ziemia pełna wygasłych modułów.",
+        "x": 2400,
+        "y": 3077,
+        "width": 4680,
+        "height": 910
+      },
+      {
+        "id": "east",
+        "name": "Doki Wschodnie",
+        "summary": "Piaszczyste wybrzeże, dawne doki i skały morskie.",
+        "x": 4135,
+        "y": 1796,
+        "width": 1210,
+        "height": 1972
+      },
+      {
+        "id": "west",
+        "name": "Zbocza Zachodnie",
+        "summary": "Lodowe stoki i lśniące iglice nad miastem.",
+        "x": 665,
+        "y": 1796,
+        "width": 1210,
+        "height": 1972
+      }
+    ],
+    "atlas": {
+      "settle": {
+        "x": 1453,
+        "y": 711
+      },
+      "bbox": {
+        "x0": 1068,
+        "y0": 535,
+        "x1": 1669,
+        "y1": 934
+      },
+      "crop": {
+        "x0": 1032,
+        "y0": 511,
+        "x1": 1705,
+        "y1": 958
+      }
+    }
+  },
+  "pyra": {
+    "width": 4800,
+    "height": 3592,
+    "anchor": {
+      "x": 2380,
+      "y": 2220
+    },
+    "zones": [
+      {
+        "id": "north",
+        "name": "Pola Wulkaniczne",
+        "summary": "Skorupa lawy, dymiące kratery i czerwone żyły ognia.",
+        "x": 2400,
+        "y": 515,
+        "width": 4680,
+        "height": 910
+      },
+      {
+        "id": "south",
+        "name": "Rzeki Lawy",
+        "summary": "Bazaltowe kolumny nad rozpadlinami żarzącej lawy.",
+        "x": 2400,
+        "y": 3077,
+        "width": 4680,
+        "height": 910
+      },
+      {
+        "id": "east",
+        "name": "Czerwone Kaniony",
+        "summary": "Kaniony klanów i skalne bramy dawnych wojowników.",
+        "x": 4135,
+        "y": 1796,
+        "width": 1210,
+        "height": 1972
+      },
+      {
+        "id": "west",
+        "name": "Czarne Pustkowia",
+        "summary": "Popiół, szkło wulkaniczne i wypalone głazy.",
+        "x": 665,
+        "y": 1796,
+        "width": 1210,
+        "height": 1972
+      }
+    ],
+    "atlas": {
+      "settle": {
+        "x": 750,
+        "y": 688
+      },
+      "bbox": {
+        "x0": 193,
+        "y0": 629,
+        "x1": 874,
+        "y1": 972
+      },
+      "crop": {
+        "x0": 152,
+        "y0": 608,
+        "x1": 915,
+        "y1": 993
+      }
+    }
+  }
+}

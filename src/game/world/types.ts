@@ -12,6 +12,8 @@ export type WorldNpc = Point & {
 };
 export type Landmark = Point & { label: string; kind: "settlement" | "energy" | "danger" };
 export type RegionObject = ForestObject & { asset?: string };
+/** Organic floor of an open-world zone; `texture` is a `terrain.<texture>` binding. Presentation only. */
+export type ZoneFloor = { id: string; texture: string; points: [number, number][] };
 export type WorldDefinition = {
   id: WorldId;
   race: RaceId;
@@ -32,6 +34,11 @@ export type WorldDefinition = {
   landmarks: Landmark[];
   objects: readonly RegionObject[];
   obstacles: readonly Obstacle[];
+  /** Number of leading obstacles that form the outer boundary (default 3). */
+  border?: number;
+  /** Open-world layout revision; saves from an earlier layout are shifted by `legacyShift`. */
+  layout?: number;
+  legacyShift?: Point;
   terrain?: {
     ground: string;
     path: string;
@@ -39,6 +46,7 @@ export type WorldDefinition = {
     paths: Obstacle[];
     plazas: Obstacle[];
     /** Curved roads (centre polyline + width) and organic courts; presentation only. */
+    zones?: ZoneFloor[];
     roads?: Road[];
     courts?: Court[];
   };

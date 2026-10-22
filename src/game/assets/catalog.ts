@@ -265,5 +265,9 @@ export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[
   }
   const hazard = hazardBinding(worldId, source);
   if (hazard) refs.push(hazard);
+  for (const zone of world.terrain?.zones ?? []) {
+    const ref = source.renderBindings["terrain." + zone.texture];
+    if (ref) refs.push(ref);
+  }
   return refs;
 }

@@ -1,11 +1,13 @@
 import type Phaser from "phaser";
 import type { TextureRef } from "../assets/schema";
 import { renderDepth } from "../assets/layers";
-import type { Court, Road } from "./types";
+import type { Court, Road, ZoneFloor } from "./types";
 
 /** World units per baked chunk and its texture resolution (px per world unit). */
 export const ROAD_CHUNK_SIDE = 1024;
 export const ROAD_BAKE_SCALE = 0.75;
+/** Upper bound of baked chunk textures kept at once (about 2.4 MB each). */
+const MAX_BAKED_CHUNKS = 16;
 type Pt = readonly [number, number];
 
 /** Smooth Catmull-Rom curve through the authored points (presentation only). */
@@ -43,8 +45,9 @@ function bounds(pts: readonly Pt[], pad: number) {
 }
 
 /**
- * Bakes curved roads and organic courts into world-aligned chunk textures with feathered
- * edges. Chunks without any road are skipped. Collision and navigation never read this.
+ * Bakes curved roads, organic courts and zone floors into world-aligned chunk textures with
+ * feathered edges. Chunks are baked lazily when they come into view and the least recently seen
+ * are released, so memory stays bounded on open-world maps. Collision and navigation never read this.
  */
 export function bakeRoads(
   scene: Phaser.Scene,
@@ -54,6 +57,8 @@ export function bakeRoads(
   courts: readonly Court[],
   path: TextureRef & { tileSize?: readonly number[] },
   plaza: TextureRef & { tileSize?: readonly number[] },
+  zones: readonly ZoneFloor[] = [],
+  zoneRefs: Readonly<Record<string, TextureRef & { tileSize?: readonly number[] }>> = {},
 ) {
   const pattern = (ctx: CanvasRenderingContext2D, ref: typeof path) => {
     const frame = scene.textures.getFrame(ref.asset, ref.frame);
@@ -79,100 +84,174 @@ export function bakeRoads(
     return p;
   };
   const shapes = [
+    ...zones
+      .filter((z) => zoneRefs[z.texture])
+      .map((z) => ({ kind: "zone" as const, z, b: bounds(z.points, 80) })),
     ...roads.map((r) => ({ kind: "road" as const, r, b: bounds(r.points, r.width / 2 + 20) })),
     ...courts.map((c) => ({ kind: "court" as const, c, b: bounds(c.points, 20) })),
   ];
-  const chunks: { key: string; image: Phaser.GameObjects.Image; x: number; y: number }[] = [];
-  for (let y = 0; y < size.height; y += ROAD_CHUNK_SIDE)
-    for (let x = 0; x < size.width; x += ROAD_CHUNK_SIDE) {
-      const w = Math.min(ROAD_CHUNK_SIDE, size.width - x),
-        h = Math.min(ROAD_CHUNK_SIDE, size.height - y);
-      const hits = shapes.filter(
-        (s) => s.b.left < x + w && s.b.right > x && s.b.top < y + h && s.b.bottom > y,
-      );
-      if (!hits.length) continue;
-      const key = `road-cache:${worldId}:${x}:${y}`;
-      if (scene.textures.exists(key)) scene.textures.remove(key);
-      const texture = scene.textures.createCanvas(
-        key,
-        Math.ceil(w * ROAD_BAKE_SCALE),
-        Math.ceil(h * ROAD_BAKE_SCALE),
-      );
-      if (!texture) continue;
-      const ctx = texture.getContext();
-      ctx.setTransform(
-        ROAD_BAKE_SCALE,
-        0,
-        0,
-        ROAD_BAKE_SCALE,
-        -x * ROAD_BAKE_SCALE,
-        -y * ROAD_BAKE_SCALE,
-      );
-      ctx.lineCap = ctx.lineJoin = "round";
-      const pathFill = pattern(ctx, path),
-        plazaFill = pattern(ctx, plaza);
-      // Feathered edge: soft shadow rim, then progressively opaque road surface.
-      for (const s of hits)
-        if (s.kind === "road") {
-          trace(ctx, s.r.points, false);
-          ctx.strokeStyle = "rgba(24, 44, 36, 0.22)";
-          ctx.lineWidth = s.r.width + 22;
-          ctx.stroke();
-          for (const [grow, alpha] of [
-            [12, 0.35],
-            [6, 0.65],
-            [0, 1],
-          ] as const) {
-            ctx.globalAlpha = alpha;
-            ctx.strokeStyle = pathFill;
-            ctx.lineWidth = s.r.width + grow;
-            ctx.stroke();
-          }
-          ctx.globalAlpha = 1;
-        }
-      for (const s of hits)
-        if (s.kind === "court") {
-          trace(ctx, s.c.points, true);
-          ctx.strokeStyle = "rgba(24, 44, 36, 0.25)";
-          ctx.lineWidth = 20;
-          ctx.stroke();
-          ctx.fillStyle = plazaFill;
-          ctx.fill();
-          ctx.strokeStyle = "rgba(226, 214, 160, 0.55)";
-          ctx.lineWidth = 5;
+  type Chunk = {
+    key: string;
+    image: Phaser.GameObjects.Image;
+    x: number;
+    y: number;
+    seen: number;
+  };
+  const chunks = new Map<string, Chunk>();
+  const bake = (x: number, y: number, hits: typeof shapes): Chunk | undefined => {
+    const w = Math.min(ROAD_CHUNK_SIDE, size.width - x),
+      h = Math.min(ROAD_CHUNK_SIDE, size.height - y);
+    const key = `road-cache:${worldId}:${x}:${y}`;
+    if (scene.textures.exists(key)) scene.textures.remove(key);
+    const texture = scene.textures.createCanvas(
+      key,
+      Math.ceil(w * ROAD_BAKE_SCALE),
+      Math.ceil(h * ROAD_BAKE_SCALE),
+    );
+    if (!texture) return undefined;
+    const ctx = texture.getContext();
+    ctx.setTransform(
+      ROAD_BAKE_SCALE,
+      0,
+      0,
+      ROAD_BAKE_SCALE,
+      -x * ROAD_BAKE_SCALE,
+      -y * ROAD_BAKE_SCALE,
+    );
+    ctx.lineCap = ctx.lineJoin = "round";
+    const pathFill = pattern(ctx, path),
+      plazaFill = pattern(ctx, plaza);
+    // Zone floors first: soft outward rim, then the textured surface.
+    for (const s of hits)
+      if (s.kind === "zone") {
+        const fill = pattern(ctx, zoneRefs[s.z.texture]!);
+        trace(ctx, s.z.points, true);
+        for (const [grow, alpha] of [
+          [64, 0.18],
+          [38, 0.32],
+          [16, 0.6],
+        ] as const) {
+          ctx.globalAlpha = alpha;
+          ctx.strokeStyle = fill;
+          ctx.lineWidth = grow;
           ctx.stroke();
         }
-      texture.refresh();
-      const image = scene.add
-        .image(x, y, key)
-        .setOrigin(0)
-        .setScale(1 / ROAD_BAKE_SCALE)
-        .setDepth(renderDepth("paths"));
-      chunks.push({ key, image, x, y });
-    }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = fill;
+        ctx.fill();
+      }
+    // Feathered edge: soft shadow rim, then progressively opaque road surface.
+    for (const s of hits)
+      if (s.kind === "road") {
+        trace(ctx, s.r.points, false);
+        ctx.strokeStyle = "rgba(24, 44, 36, 0.22)";
+        ctx.lineWidth = s.r.width + 22;
+        ctx.stroke();
+        for (const [grow, alpha] of [
+          [12, 0.35],
+          [6, 0.65],
+          [0, 1],
+        ] as const) {
+          ctx.globalAlpha = alpha;
+          ctx.strokeStyle = pathFill;
+          ctx.lineWidth = s.r.width + grow;
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+    for (const s of hits)
+      if (s.kind === "court") {
+        trace(ctx, s.c.points, true);
+        ctx.strokeStyle = "rgba(24, 44, 36, 0.25)";
+        ctx.lineWidth = 20;
+        ctx.stroke();
+        ctx.fillStyle = plazaFill;
+        ctx.fill();
+        ctx.strokeStyle = "rgba(226, 214, 160, 0.55)";
+        ctx.lineWidth = 5;
+        ctx.stroke();
+      }
+    texture.refresh();
+    const image = scene.add
+      .image(x, y, key)
+      .setOrigin(0)
+      .setScale(1 / ROAD_BAKE_SCALE)
+      .setDepth(renderDepth("paths") - (hits.some((s) => s.kind === "zone") ? 1 : 0));
+    const chunk = { key, image, x, y, seen: 0 };
+    chunks.set(key, chunk);
+    return chunk;
+  };
+  const release = (c: Chunk) => {
+    c.image.destroy();
+    scene.textures.remove(c.key);
+    chunks.delete(c.key);
+  };
+  let frame = 0;
   let released = false;
   const dispose = () => {
     if (released) return;
     released = true;
-    for (const c of chunks) {
-      c.image.destroy();
-      scene.textures.remove(c.key);
-    }
-    chunks.length = 0;
+    for (const c of [...chunks.values()]) release(c);
   };
   scene.events.once("shutdown", dispose);
   scene.events.once("destroy", dispose);
+  const update = (budget: number) => {
+    if (released) return;
+    frame++;
+    const view = scene.cameras.main.worldView;
+    const wanted: { x: number; y: number; d: number }[] = [];
+    for (let y = 0; y < size.height; y += ROAD_CHUNK_SIDE)
+      for (let x = 0; x < size.width; x += ROAD_CHUNK_SIDE) {
+        const inView =
+          x < view.right + 128 &&
+          x + ROAD_CHUNK_SIDE > view.left - 128 &&
+          y < view.bottom + 128 &&
+          y + ROAD_CHUNK_SIDE > view.top - 128;
+        const key = `road-cache:${worldId}:${x}:${y}`;
+        const chunk = chunks.get(key);
+        if (chunk) {
+          chunk.image.setVisible(inView);
+          if (inView) chunk.seen = frame;
+        } else if (inView) {
+          const w = Math.min(ROAD_CHUNK_SIDE, size.width - x),
+            h = Math.min(ROAD_CHUNK_SIDE, size.height - y);
+          if (
+            shapes.some(
+              (s) => s.b.left < x + w && s.b.right > x && s.b.top < y + h && s.b.bottom > y,
+            )
+          )
+            wanted.push({
+              x,
+              y,
+              d: Math.hypot(x + w / 2 - view.centerX, y + h / 2 - view.centerY),
+            });
+        }
+      }
+    wanted.sort((a, b) => a.d - b.d);
+    for (const { x, y } of wanted.slice(0, budget)) {
+      const w = Math.min(ROAD_CHUNK_SIDE, size.width - x),
+        h = Math.min(ROAD_CHUNK_SIDE, size.height - y);
+      const chunk = bake(
+        x,
+        y,
+        shapes.filter(
+          (s) => s.b.left < x + w && s.b.right > x && s.b.top < y + h && s.b.bottom > y,
+        ),
+      );
+      if (chunk) chunk.seen = frame;
+    }
+    // Keep memory bounded: drop the least recently seen chunks beyond the cap.
+    if (chunks.size > MAX_BAKED_CHUNKS)
+      for (const c of [...chunks.values()]
+        .sort((a, b) => a.seen - b.seen)
+        .slice(0, chunks.size - MAX_BAKED_CHUNKS))
+        if (c.seen !== frame) release(c);
+  };
+  update(Infinity);
   return {
     dispose,
     updateVisibility() {
-      const view = scene.cameras.main.worldView;
-      for (const c of chunks)
-        c.image.setVisible(
-          c.x < view.right + 128 &&
-            c.x + ROAD_CHUNK_SIDE > view.left - 128 &&
-            c.y < view.bottom + 128 &&
-            c.y + ROAD_CHUNK_SIDE > view.top - 128,
-        );
+      update(4);
     },
   };
 }

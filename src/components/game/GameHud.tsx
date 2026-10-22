@@ -10,6 +10,7 @@ import {
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
+import { minimapPercent, OPEN_WORLDS } from "../../game/world/zoneMap";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
@@ -146,8 +147,7 @@ export function GameHud({
   const nearbyNpc = npcs.find(
     (n) => n.id === state.nearestNpc && Math.hypot(n.x - state.x, n.y - state.y) <= 180,
   );
-  const x = Math.max(0, Math.min(100, (state.x / world.width) * 100));
-  const y = Math.max(0, Math.min(100, (state.y / world.height) * 100));
+  const { left: x, top: y } = minimapPercent(world.id, state, world);
   function toggle(next: Panel) {
     setToolsOpen(false);
     setChatOpen(false);
@@ -270,8 +270,8 @@ export function GameHud({
               className={"ki-landmark ki-landmark-" + l.kind}
               title={l.label}
               style={{
-                left: `${(l.x / world.width) * 100}%`,
-                top: `${(l.y / world.height) * 100}%`,
+                left: `${minimapPercent(world.id, l, world).left}%`,
+                top: `${minimapPercent(world.id, l, world).top}%`,
               }}
             >
               ◆
@@ -702,6 +702,18 @@ export function GameHud({
                 </div>
                 <div className="ki-full-map">
                   <img src={world.minimap} alt={"Mapa: " + world.settlement} />
+                  {(OPEN_WORLDS[world.id]?.zones ?? []).map((z) => {
+                    const at = minimapPercent(world.id, z, world);
+                    return (
+                      <span
+                        key={z.id}
+                        className="ki-zone-label"
+                        style={{ left: `${at.left}%`, top: `${at.top}%` }}
+                      >
+                        {z.name}
+                      </span>
+                    );
+                  })}
                   <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
                 </div>
               </>

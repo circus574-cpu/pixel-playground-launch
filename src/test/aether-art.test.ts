@@ -60,8 +60,9 @@ describe("Aetheria anime start-point art", () => {
   });
 
   it("does not change collision footprints, spawn or layout", () => {
-    expect(WORLDS.aether.spawn).toEqual({ x: 1150, y: 1130 });
+    const { x: dx, y: dy } = WORLDS.aether.legacyShift!;
+    expect(WORLDS.aether.spawn).toEqual({ x: 1150 + dx, y: 1130 + dy });
     const sanctum = worldObstacles(WORLDS.aether).find((o) => o.width === 370 && o.height === 150);
-    expect(sanctum).toEqual({ x: 1015, y: 355, width: 370, height: 150 });
+    expect(sanctum).toEqual({ x: 1015 + dx, y: 355 + dy, width: 370, height: 150 });
   });
 });

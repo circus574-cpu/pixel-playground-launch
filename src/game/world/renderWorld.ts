@@ -9,6 +9,8 @@ import { coversPlayer } from "./visibility";
 import { bakeRoads } from "./renderRoads";
 import type { Point } from "../navigation";
 
+/** World units per streamed ground chunk. */
+const GROUND_CHUNK = 1024;
 /** One adapter per map format, one shared scene and lifecycle for all continents. */
 export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.terrain) return renderForest(scene);
@@ -20,13 +22,48 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   const paintedGround = !!catalog.renderBindings["terrain." + terrain.ground];
   const wall = catalog.renderBindings["terrain." + world.id + "-wall"];
   const hazard = hazardBinding(world.id);
+  const border = world.border ?? 3;
   const updateAtmosphere = atmosphere(scene, world.id);
-  sizeTile(
-    scene.add.tileSprite(0, 0, world.width, world.height, ground.asset, ground.frame),
-    ground.tileSize,
-  )
-    .setOrigin(0)
-    .setDepth(renderDepth("ground"));
+  // Ground is streamed in chunks: a world-sized TileSprite would allocate a full-size canvas
+  // texture on the Canvas renderer, which does not scale to the open-world maps.
+  const groundChunks = new Map<string, Phaser.GameObjects.TileSprite>();
+  const streamGround = () => {
+    const view = scene.cameras.main.worldView;
+    for (let y = 0; y < world.height; y += GROUND_CHUNK)
+      for (let x = 0; x < world.width; x += GROUND_CHUNK) {
+        const key = x + ":" + y;
+        const inView =
+          x < view.right + 64 &&
+          x + GROUND_CHUNK > view.left - 64 &&
+          y < view.bottom + 64 &&
+          y + GROUND_CHUNK > view.top - 64;
+        const chunk = groundChunks.get(key);
+        if (chunk) {
+          chunk.setVisible(inView);
+          if (!inView && groundChunks.size > 12) {
+            chunk.destroy();
+            groundChunks.delete(key);
+          }
+        } else if (inView) {
+          const tile = sizeTile(
+            scene.add.tileSprite(
+              x,
+              y,
+              Math.min(GROUND_CHUNK, world.width - x),
+              Math.min(GROUND_CHUNK, world.height - y),
+              ground.asset,
+              ground.frame,
+            ),
+            ground.tileSize,
+          )
+            .setOrigin(0)
+            .setDepth(renderDepth("ground"));
+          tile.setTilePosition(x / tile.tileScaleX, y / tile.tileScaleY);
+          groundChunks.set(key, tile);
+        }
+      }
+  };
+  streamGround();
   for (const area of terrain.paths)
     sizeTile(
       scene.add.tileSprite(area.x, area.y, area.width, area.height, path.asset, path.frame),
@@ -42,8 +79,25 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       .setOrigin(0)
       .setDepth(renderDepth("paths") + 1);
   const roads =
-    terrain.roads?.length || terrain.courts?.length
-      ? bakeRoads(scene, world.id, world, terrain.roads ?? [], terrain.courts ?? [], path, plaza)
+    terrain.roads?.length || terrain.courts?.length || terrain.zones?.length
+      ? bakeRoads(
+          scene,
+          world.id,
+          world,
+          terrain.roads ?? [],
+          terrain.courts ?? [],
+          path,
+          plaza,
+          terrain.zones ?? [],
+          Object.fromEntries(
+            (terrain.zones ?? [])
+              .filter((z) => catalog.renderBindings["terrain." + z.texture])
+              .map((z) => [
+                z.texture,
+                textureBinding("terrain." + z.texture, { asset: z.texture }),
+              ]),
+          ),
+        )
       : null;
   // World-space surface detail, rendered in Phaser rather than on the atlas/globe.
   // Deterministic, camera-independent placement; no save, collision or navigation changes.
@@ -152,7 +206,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   const hazards = scene.add.graphics().setDepth(renderDepth("below") - 1);
   for (const [index, o] of world.obstacles.entries()) {
     // Outer boundary stays wall; inner blockers (lava, energy, water) use the nature liquid.
-    const surface = index >= 3 && hazard ? hazard : wall;
+    const surface = index >= border && hazard ? hazard : wall;
     if (surface) {
       // Painted texture on the unchanged collision rectangle.
       sizeTile(
@@ -201,9 +255,14 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
     terrainMode: "region",
-    dispose: () => roads?.dispose(),
+    dispose: () => {
+      roads?.dispose();
+      for (const chunk of groundChunks.values()) chunk.destroy();
+      groundChunks.clear();
+    },
     updateVisibility(player: Point) {
       updateAtmosphere();
+      streamGround();
       roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
       for (const { object: o, image } of scenery) {

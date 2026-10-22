@@ -5,17 +5,17 @@
   "settlement": "Twierdza Popiołu",
   "description": "Czerwone kaniony, obsydianowe skały i szczeliny rozżarzone pradawną energią.",
   "architecture": "Monumentalna forteca, arena klanów i świątynie dawnych mistrzów.",
-  "width": 2400,
-  "height": 1792,
+  "width": 4800,
+  "height": 3592,
   "spawn": {
-    "x": 1180,
-    "y": 1330
+    "x": 2380,
+    "y": 2230
   },
   "background": "#35272f",
   "minimap": "/game/assets/stage3/pyra-minimap.webp",
   "market": {
-    "x": 1200,
-    "y": 750,
+    "x": 2400,
+    "y": 1650,
     "radius": 85,
     "label": "Arena Dziedzictwa",
     "instruction": "Odwiedź oznaczony punkt: Arena Dziedzictwa",
@@ -26,8 +26,8 @@
       "id": "guide",
       "name": "Kaena",
       "role": "Strażniczka przysięgi",
-      "x": 1270,
-      "y": 1330,
+      "x": 2470,
+      "y": 2230,
       "tint": 11071695,
       "dialogue": "Honor zaczyna się od dotrzymanej obietnicy. Stań na Arenie Dziedzictwa, potem wróć i opowiedz, co usłyszałeś w ciszy ruin."
     },
@@ -35,8 +35,8 @@
       "id": "hunter",
       "name": "Rokan",
       "role": "Mistrz polowania",
-      "x": 1460,
-      "y": 850,
+      "x": 2660,
+      "y": 1750,
       "tint": 16762788,
       "dialogue": "Dziki z kanionu podchodzą pod bramy. Pokonaj trzy, a otrzymasz ostrze godne pierwszej próby."
     },
@@ -44,8 +44,8 @@
       "id": "merchant",
       "name": "Yumi",
       "role": "Kupczyni klanów",
-      "x": 1000,
-      "y": 1290,
+      "x": 2200,
+      "y": 2190,
       "tint": 14070783,
       "dialogue": "Nawet wojownik potrzebuje zapasów. Kły wymienisz tu na monety, mikstury i pancerze."
     },
@@ -53,49 +53,153 @@
       "id": "smith",
       "name": "Goro",
       "role": "Kowal żaru",
-      "x": 1400,
-      "y": 1390,
+      "x": 2600,
+      "y": 2290,
       "tint": 10802687,
       "dialogue": "Ostrze nie walczy za ciebie. Załóż je i wróć; za 15 monet zahartuję je w ogniu szczelin."
     }
   ],
   "enemies": [
     {
-      "x": 1970,
-      "y": 800
+      "x": 3170,
+      "y": 1700
     },
     {
-      "x": 2020,
-      "y": 1370
+      "x": 3220,
+      "y": 2270
     },
     {
-      "x": 850,
-      "y": 1520
+      "x": 2050,
+      "y": 2420
     },
     {
-      "x": 650,
-      "y": 680
+      "x": 1850,
+      "y": 1580
+    },
+    {
+      "x": 2616,
+      "y": 348
+    },
+    {
+      "x": 3559,
+      "y": 374
+    },
+    {
+      "x": 2045,
+      "y": 381
+    },
+    {
+      "x": 1369,
+      "y": 641
+    },
+    {
+      "x": 2082,
+      "y": 614
+    },
+    {
+      "x": 2293,
+      "y": 2894
+    },
+    {
+      "x": 2698,
+      "y": 3056
+    },
+    {
+      "x": 2256,
+      "y": 3103
+    },
+    {
+      "x": 807,
+      "y": 3240
+    },
+    {
+      "x": 3322,
+      "y": 3148
+    },
+    {
+      "x": 4155,
+      "y": 2406
+    },
+    {
+      "x": 3832,
+      "y": 1765
+    },
+    {
+      "x": 4102,
+      "y": 1678
+    },
+    {
+      "x": 3911,
+      "y": 1476
+    },
+    {
+      "x": 4136,
+      "y": 1360
+    },
+    {
+      "x": 657,
+      "y": 1766
+    },
+    {
+      "x": 873,
+      "y": 1709
+    },
+    {
+      "x": 400,
+      "y": 2409
+    },
+    {
+      "x": 713,
+      "y": 1571
+    },
+    {
+      "x": 888,
+      "y": 2135
     }
   ],
   "enemyName": "Dzik z popielnych kanionów",
   "huntName": "Próba strażnika",
   "landmarks": [
     {
-      "x": 1180,
-      "y": 1320,
+      "x": 2380,
+      "y": 2220,
       "label": "Twierdza Popiołu",
       "kind": "settlement"
     },
     {
-      "x": 1200,
-      "y": 750,
+      "x": 2400,
+      "y": 1650,
       "label": "Arena Dziedzictwa",
       "kind": "energy"
     },
     {
-      "x": 1970,
-      "y": 1370,
+      "x": 3170,
+      "y": 2270,
       "label": "Szczeliny",
+      "kind": "danger"
+    },
+    {
+      "x": 2400,
+      "y": 515,
+      "label": "Pola Wulkaniczne",
+      "kind": "danger"
+    },
+    {
+      "x": 2400,
+      "y": 3077,
+      "label": "Rzeki Lawy",
+      "kind": "danger"
+    },
+    {
+      "x": 4135,
+      "y": 1796,
+      "label": "Czerwone Kaniony",
+      "kind": "danger"
+    },
+    {
+      "x": 665,
+      "y": 1796,
+      "label": "Czarne Pustkowia",
       "kind": "danger"
     }
   ],
@@ -104,8 +208,8 @@
       "id": "fortress-0",
       "kind": "fortress",
       "asset": "fortress",
-      "x": 1200,
-      "y": 450,
+      "x": 2400,
+      "y": 1350,
       "width": 570,
       "height": 390,
       "anchorX": 0.5,
@@ -120,8 +224,8 @@
       "id": "war-shrine-1",
       "kind": "war-shrine",
       "asset": "war-shrine",
-      "x": 620,
-      "y": 1150,
+      "x": 1820,
+      "y": 2050,
       "width": 340,
       "height": 340,
       "anchorX": 0.5,
@@ -136,8 +240,8 @@
       "id": "war-shrine-2",
       "kind": "war-shrine",
       "asset": "war-shrine",
-      "x": 1830,
-      "y": 1000,
+      "x": 3030,
+      "y": 1900,
       "width": 350,
       "height": 340,
       "anchorX": 0.5,
@@ -152,8 +256,8 @@
       "id": "statue-3",
       "kind": "statue",
       "asset": "statue",
-      "x": 860,
-      "y": 770,
+      "x": 2060,
+      "y": 1670,
       "width": 160,
       "height": 240,
       "anchorX": 0.5,
@@ -168,8 +272,8 @@
       "id": "statue-4",
       "kind": "statue",
       "asset": "statue",
-      "x": 1540,
-      "y": 770,
+      "x": 2740,
+      "y": 1670,
       "width": 160,
       "height": 240,
       "anchorX": 0.5,
@@ -184,8 +288,8 @@
       "id": "basalt-5",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 410,
-      "y": 580,
+      "x": 1610,
+      "y": 1480,
       "width": 310,
       "height": 330,
       "anchorX": 0.5,
@@ -200,8 +304,8 @@
       "id": "basalt-6",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 2040,
-      "y": 460,
+      "x": 3240,
+      "y": 1360,
       "width": 350,
       "height": 350,
       "anchorX": 0.5,
@@ -216,8 +320,8 @@
       "id": "basalt-7",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 700,
-      "y": 1630,
+      "x": 1900,
+      "y": 2530,
       "width": 280,
       "height": 290,
       "anchorX": 0.5,
@@ -232,8 +336,8 @@
       "id": "basalt-8",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 1930,
-      "y": 1570,
+      "x": 3130,
+      "y": 2470,
       "width": 290,
       "height": 300,
       "anchorX": 0.5,
@@ -248,8 +352,8 @@
       "id": "detail-volcano-9",
       "kind": "patch-volcano-active",
       "asset": "nature.patch-volcano-active",
-      "x": 450,
-      "y": 330,
+      "x": 1650,
+      "y": 1230,
       "width": 420,
       "height": 420,
       "anchorX": 0.5,
@@ -260,8 +364,8 @@
       "id": "detail-volcano-10",
       "kind": "patch-volcano-dormant",
       "asset": "nature.patch-volcano-dormant",
-      "x": 1970,
-      "y": 330,
+      "x": 3170,
+      "y": 1230,
       "width": 420,
       "height": 420,
       "anchorX": 0.5,
@@ -272,8 +376,8 @@
       "id": "detail-clan-banner-11",
       "kind": "clan-banner",
       "asset": "clan-banner",
-      "x": 930,
-      "y": 1180,
+      "x": 2130,
+      "y": 2080,
       "width": 110,
       "height": 180,
       "anchorX": 0.5,
@@ -284,8 +388,8 @@
       "id": "detail-clan-banner-12",
       "kind": "clan-banner",
       "asset": "clan-banner",
-      "x": 1510,
-      "y": 1160,
+      "x": 2710,
+      "y": 2060,
       "width": 110,
       "height": 180,
       "anchorX": 0.5,
@@ -296,8 +400,8 @@
       "id": "detail-clan-banner-13",
       "kind": "clan-banner",
       "asset": "clan-banner",
-      "x": 690,
-      "y": 1320,
+      "x": 1890,
+      "y": 2220,
       "width": 110,
       "height": 180,
       "anchorX": 0.5,
@@ -308,8 +412,8 @@
       "id": "detail-clan-banner-14",
       "kind": "clan-banner",
       "asset": "clan-banner",
-      "x": 1800,
-      "y": 1360,
+      "x": 3000,
+      "y": 2260,
       "width": 110,
       "height": 180,
       "anchorX": 0.5,
@@ -320,8 +424,8 @@
       "id": "detail-clan-banner-15",
       "kind": "clan-banner",
       "asset": "clan-banner",
-      "x": 930,
-      "y": 550,
+      "x": 2130,
+      "y": 1450,
       "width": 110,
       "height": 180,
       "anchorX": 0.5,
@@ -332,8 +436,8 @@
       "id": "detail-clan-banner-16",
       "kind": "clan-banner",
       "asset": "clan-banner",
-      "x": 1480,
-      "y": 550,
+      "x": 2680,
+      "y": 1450,
       "width": 110,
       "height": 180,
       "anchorX": 0.5,
@@ -344,8 +448,8 @@
       "id": "detail-basalt-17",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 280,
-      "y": 1170,
+      "x": 1480,
+      "y": 2070,
       "width": 140,
       "height": 140,
       "anchorX": 0.5,
@@ -356,8 +460,8 @@
       "id": "detail-basalt-18",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 2180,
-      "y": 980,
+      "x": 3380,
+      "y": 1880,
       "width": 140,
       "height": 140,
       "anchorX": 0.5,
@@ -368,8 +472,8 @@
       "id": "detail-basalt-19",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 1500,
-      "y": 1660,
+      "x": 2700,
+      "y": 2560,
       "width": 140,
       "height": 140,
       "anchorX": 0.5,
@@ -380,8 +484,8 @@
       "id": "detail-basalt-20",
       "kind": "basalt",
       "asset": "basalt",
-      "x": 880,
-      "y": 470,
+      "x": 2080,
+      "y": 1370,
       "width": 140,
       "height": 140,
       "anchorX": 0.5,
@@ -392,8 +496,8 @@
       "id": "nature-patch-lava-rocks-21",
       "kind": "patch-lava-rocks",
       "asset": "nature.patch-lava-rocks",
-      "x": 1739,
-      "y": 603,
+      "x": 2939,
+      "y": 1503,
       "width": 200,
       "height": 200,
       "anchorX": 0.5,
@@ -404,12 +508,474 @@
       "id": "nature-patch-boulder-group-22",
       "kind": "patch-boulder-group",
       "asset": "nature.patch-boulder-group",
-      "x": 1605,
-      "y": 349,
+      "x": 2805,
+      "y": 1249,
       "width": 200,
       "height": 200,
       "anchorX": 0.5,
       "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "zone-north-patch-volcano-active-0",
+      "kind": "patch-volcano-active",
+      "asset": "nature.patch-volcano-active",
+      "x": 917,
+      "y": 666,
+      "width": 440,
+      "height": 440,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": true,
+      "footprint": {
+        "width": 220,
+        "height": 79,
+        "offsetY": -18
+      }
+    },
+    {
+      "id": "zone-north-patch-volcano-dormant-1",
+      "kind": "patch-volcano-dormant",
+      "asset": "nature.patch-volcano-dormant",
+      "x": 3998,
+      "y": 686,
+      "width": 440,
+      "height": 440,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": true,
+      "footprint": {
+        "width": 220,
+        "height": 79,
+        "offsetY": -18
+      }
+    },
+    {
+      "id": "zone-north-patch-lava-rocks-2",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 2826,
+      "y": 454,
+      "width": 240,
+      "height": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-north-patch-volcano-active-3",
+      "kind": "patch-volcano-active",
+      "asset": "nature.patch-volcano-active",
+      "x": 3278,
+      "y": 623,
+      "width": 440,
+      "height": 440,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": true,
+      "footprint": {
+        "width": 220,
+        "height": 79,
+        "offsetY": -18
+      }
+    },
+    {
+      "id": "zone-north-patch-volcano-dormant-4",
+      "kind": "patch-volcano-dormant",
+      "asset": "nature.patch-volcano-dormant",
+      "x": 1698,
+      "y": 625,
+      "width": 440,
+      "height": 440,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": true,
+      "footprint": {
+        "width": 220,
+        "height": 79,
+        "offsetY": -18
+      }
+    },
+    {
+      "id": "zone-north-patch-lava-rocks-5",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 384,
+      "y": 636,
+      "width": 240,
+      "height": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-0",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 3583,
+      "y": 3197,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-1",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 3086,
+      "y": 3180,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-2",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 3849,
+      "y": 3150,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-3",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 4396,
+      "y": 3038,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-4",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 2101,
+      "y": 2901,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-5",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 2575,
+      "y": 2914,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-6",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 987,
+      "y": 3069,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-7",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 1610,
+      "y": 3168,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-8",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 1267,
+      "y": 3118,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-9",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 357,
+      "y": 3188,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-10",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 3094,
+      "y": 2886,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-11",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 693,
+      "y": 2920,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-cliff-outcrop-0",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 4003,
+      "y": 2113,
+      "width": 320,
+      "height": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-mountain-peak-1",
+      "kind": "mountain-peak",
+      "asset": "nature.mountain-peak",
+      "x": 3876,
+      "y": 1304,
+      "width": 430,
+      "height": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 215,
+        "height": 77,
+        "offsetY": -17
+      }
+    },
+    {
+      "id": "zone-east-patch-boulder-group-2",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 4444,
+      "y": 2505,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-cliff-outcrop-3",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 4419,
+      "y": 1749,
+      "width": 320,
+      "height": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-mountain-peak-4",
+      "kind": "mountain-peak",
+      "asset": "nature.mountain-peak",
+      "x": 4355,
+      "y": 1219,
+      "width": 430,
+      "height": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 215,
+        "height": 77,
+        "offsetY": -17
+      }
+    },
+    {
+      "id": "zone-east-patch-boulder-group-5",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 3907,
+      "y": 2384,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-cliff-outcrop-6",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 4378,
+      "y": 2157,
+      "width": 320,
+      "height": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-basalt-columns-0",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 438,
+      "y": 1752,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-lava-rocks-1",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 379,
+      "y": 1254,
+      "width": 240,
+      "height": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-cliff-outcrop-2",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 937,
+      "y": 2483,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-basalt-columns-3",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 673,
+      "y": 1083,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-lava-rocks-4",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 929,
+      "y": 1395,
+      "width": 240,
+      "height": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-cliff-outcrop-5",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 594,
+      "y": 2441,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-basalt-columns-6",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 690,
+      "y": 2100,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-lava-rocks-7",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 976,
+      "y": 2064,
+      "width": 240,
+      "height": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-cliff-outcrop-8",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 1009,
+      "y": 1086,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-basalt-columns-9",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 367,
+      "y": 2091,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-lava-rocks-10",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 666,
+      "y": 1372,
+      "width": 240,
+      "height": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
       "solid": false
     }
   ],
@@ -417,42 +983,48 @@
     {
       "x": 0,
       "y": 0,
-      "width": 2400,
+      "width": 4800,
       "height": 110
     },
     {
       "x": 0,
       "y": 110,
       "width": 140,
-      "height": 1572
+      "height": 3482
     },
     {
-      "x": 2260,
+      "x": 4660,
       "y": 110,
       "width": 140,
-      "height": 1572
+      "height": 3482
     },
     {
-      "x": 240,
-      "y": 830,
-      "width": 420,
-      "height": 80
-    },
-    {
-      "x": 1760,
-      "y": 1170,
-      "width": 440,
-      "height": 95
-    },
-    {
-      "x": 250,
-      "y": 1430,
-      "width": 320,
+      "x": 140,
+      "y": 3492,
+      "width": 4520,
       "height": 100
     },
     {
       "x": 1440,
-      "y": 1490,
+      "y": 1730,
+      "width": 420,
+      "height": 80
+    },
+    {
+      "x": 2960,
+      "y": 2070,
+      "width": 440,
+      "height": 95
+    },
+    {
+      "x": 1450,
+      "y": 2330,
+      "width": 320,
+      "height": 100
+    },
+    {
+      "x": 2640,
+      "y": 2390,
       "width": 310,
       "height": 80
     }
@@ -463,43 +1035,273 @@
     "plaza": "pyra-plaza",
     "paths": [
       {
-        "x": 1080,
-        "y": 450,
+        "x": 2280,
+        "y": 1350,
         "width": 240,
         "height": 1000
       },
       {
-        "x": 650,
-        "y": 1220,
+        "x": 1850,
+        "y": 2120,
         "width": 1190,
         "height": 160
       },
       {
-        "x": 510,
-        "y": 870,
+        "x": 1710,
+        "y": 1770,
         "width": 170,
         "height": 500
       },
       {
-        "x": 1690,
-        "y": 850,
+        "x": 2890,
+        "y": 1750,
         "width": 170,
         "height": 500
       }
     ],
     "plazas": [
       {
-        "x": 800,
-        "y": 610,
+        "x": 2000,
+        "y": 1510,
         "width": 800,
         "height": 420
       },
       {
-        "x": 960,
-        "y": 1180,
+        "x": 2160,
+        "y": 2080,
         "width": 520,
         "height": 320
       }
+    ],
+    "zones": [
+      {
+        "id": "north",
+        "texture": "nature-lava-crust",
+        "points": [
+          [60, 60],
+          [300, 60],
+          [540, 60],
+          [780, 60],
+          [1020, 60],
+          [1260, 60],
+          [1500, 60],
+          [1740, 60],
+          [1980, 60],
+          [2220, 60],
+          [2460, 60],
+          [2700, 60],
+          [2940, 60],
+          [3180, 60],
+          [3420, 60],
+          [3660, 60],
+          [3900, 60],
+          [4140, 60],
+          [4380, 60],
+          [4620, 60],
+          [4740, 60],
+          [4740, 300],
+          [4740, 540],
+          [4740, 780],
+          [4740, 1007],
+          [4500, 1001],
+          [4260, 936],
+          [4020, 1032],
+          [3780, 966],
+          [3540, 940],
+          [3300, 1000],
+          [3060, 944],
+          [2820, 964],
+          [2580, 936],
+          [2340, 921],
+          [2100, 978],
+          [1860, 918],
+          [1620, 953],
+          [1380, 936],
+          [1140, 959],
+          [900, 939],
+          [660, 987],
+          [420, 1019],
+          [180, 995],
+          [60, 970],
+          [60, 730],
+          [60, 490],
+          [60, 250]
+        ]
+      },
+      {
+        "id": "south",
+        "texture": "nature-basalt-columns",
+        "points": [
+          [60, 2681],
+          [300, 2629],
+          [540, 2602],
+          [780, 2643],
+          [1020, 2556],
+          [1260, 2644],
+          [1500, 2589],
+          [1740, 2656],
+          [1980, 2581],
+          [2220, 2556],
+          [2460, 2653],
+          [2700, 2571],
+          [2940, 2602],
+          [3180, 2625],
+          [3420, 2661],
+          [3660, 2578],
+          [3900, 2674],
+          [4140, 2553],
+          [4380, 2671],
+          [4620, 2565],
+          [4740, 2622],
+          [4740, 2862],
+          [4740, 3102],
+          [4740, 3342],
+          [4740, 3532],
+          [4500, 3532],
+          [4260, 3532],
+          [4020, 3532],
+          [3780, 3532],
+          [3540, 3532],
+          [3300, 3532],
+          [3060, 3532],
+          [2820, 3532],
+          [2580, 3532],
+          [2340, 3532],
+          [2100, 3532],
+          [1860, 3532],
+          [1620, 3532],
+          [1380, 3532],
+          [1140, 3532],
+          [900, 3532],
+          [660, 3532],
+          [420, 3532],
+          [180, 3532],
+          [60, 3532],
+          [60, 3292],
+          [60, 3052],
+          [60, 2812]
+        ]
+      },
+      {
+        "id": "east",
+        "texture": "nature-cliff-rock",
+        "points": [
+          [3530, 796],
+          [3770, 773],
+          [4010, 815],
+          [4250, 857],
+          [4490, 830],
+          [4730, 865],
+          [4740, 810],
+          [4740, 1050],
+          [4740, 1290],
+          [4740, 1530],
+          [4740, 1770],
+          [4740, 2010],
+          [4740, 2250],
+          [4740, 2490],
+          [4740, 2730],
+          [4740, 2832],
+          [4500, 2741],
+          [4260, 2787],
+          [4020, 2794],
+          [3780, 2804],
+          [3540, 2834],
+          [3510, 2782],
+          [3500, 2542],
+          [3529, 2302],
+          [3588, 2062],
+          [3525, 1822],
+          [3462, 1582],
+          [3507, 1342],
+          [3508, 1102],
+          [3588, 862]
+        ]
+      },
+      {
+        "id": "west",
+        "texture": "nature-ash-ground",
+        "points": [
+          [60, 773],
+          [300, 863],
+          [540, 741],
+          [780, 824],
+          [1020, 822],
+          [1260, 826],
+          [1336, 810],
+          [1298, 1050],
+          [1283, 1290],
+          [1246, 1530],
+          [1269, 1770],
+          [1206, 2010],
+          [1283, 2250],
+          [1286, 2490],
+          [1338, 2730],
+          [1270, 2798],
+          [1030, 2794],
+          [790, 2763],
+          [550, 2717],
+          [310, 2717],
+          [70, 2714],
+          [60, 2782],
+          [60, 2542],
+          [60, 2302],
+          [60, 2062],
+          [60, 1822],
+          [60, 1582],
+          [60, 1342],
+          [60, 1102],
+          [60, 862]
+        ]
+      }
+    ],
+    "roads": [
+      {
+        "width": 130,
+        "points": [
+          [2400, 920],
+          [2344, 827],
+          [2338, 753],
+          [2360, 606],
+          [2400, 515]
+        ]
+      },
+      {
+        "width": 130,
+        "points": [
+          [2400, 2672],
+          [2337, 2793],
+          [2326, 2914],
+          [2324, 2985],
+          [2400, 3077]
+        ]
+      },
+      {
+        "width": 130,
+        "points": [
+          [1220, 1796],
+          [1116, 1800],
+          [1013, 1858],
+          [805, 1827],
+          [665, 1796]
+        ]
+      },
+      {
+        "width": 130,
+        "points": [
+          [3580, 1796],
+          [3736, 1819],
+          [3947, 1777],
+          [4030, 1781],
+          [4135, 1796]
+        ]
+      }
     ]
+  },
+  "border": 4,
+  "layout": 2,
+  "legacyShift": {
+    "x": 1200,
+    "y": 900
   }
 }

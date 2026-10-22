@@ -1,4 +1,4 @@
-import { BackToGame, PlayerChip, RegionGameNote, type GameLink } from "./MapChrome";
+import { BackToGame, PlayerChip, RegionGameNote, ZoneList, type GameLink } from "./MapChrome";
 import { Globe2, Layers, Minus, Orbit, Plus, X } from "lucide-react";
 import {
   useCallback,
@@ -27,6 +27,7 @@ import {
   wholeView,
   zoomAt,
   zoomLevel,
+  ZONES,
   type MapRegion,
   type View,
 } from "./mapData";
@@ -499,6 +500,17 @@ export function PlanetMap({
             ) : null,
           )}
 
+          {ZONES.filter((z) => z.region === selected || z.region === current || zoom >= 2.5).map(
+            (z) => (
+              <g key={z.id} className="pm-zone" aria-hidden>
+                <circle cx={z.point.x} cy={z.point.y} r={px(4)} vectorEffect="non-scaling-stroke" />
+                <text x={z.point.x} y={z.point.y + px(15)} fontSize={px(10.5)} strokeWidth={px(3)}>
+                  {z.name}
+                </text>
+              </g>
+            ),
+          )}
+
           <g className="pm-labels" aria-hidden>
             {CONTINENTS.map((c) => (
               <text
@@ -730,6 +742,7 @@ export function PlanetMap({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
+            <ZoneList region={selectedRegion} />
             <RegionGameNote region={selectedRegion} current={current} onClose={onClose} />
             <p className="pm-status">{selectedRegion.status}</p>
             {fog && !isRevealed(selectedRegion.id) && (

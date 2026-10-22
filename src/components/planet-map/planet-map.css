@@ -107,8 +107,39 @@
 }
 
 .pm-labels,
-.pm-settlement {
+.pm-settlement,
+.pm-zone {
   pointer-events: none;
+}
+.pm-zone circle {
+  fill: var(--pm-gold-hi);
+  fill-opacity: 0.85;
+  stroke: #1b1206;
+  stroke-width: 1.5;
+}
+.pm-zone text {
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgb(3 10 18 / 0.78);
+  stroke-linejoin: round;
+  fill: var(--pm-text);
+  font-family: Arial, sans-serif;
+  letter-spacing: 0;
+}
+.pm-zones {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+.pm-zones li {
+  display: grid;
+  gap: 1px;
+  font-size: 0.82rem;
+}
+.pm-zones li span {
+  opacity: 0.8;
 }
 .pm-label,
 .pm-settlement text {

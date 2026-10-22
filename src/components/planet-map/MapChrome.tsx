@@ -5,7 +5,7 @@
  */
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { CONTINENTS, type MapRegion } from "./mapData";
+import { CONTINENTS, ZONE_DIR_NAMES, zonesOf, type MapRegion } from "./mapData";
 
 export type GameLink = {
   /** Continent of the active character (verdant/aether/nexus/pyra), if any. */
@@ -91,4 +91,22 @@ export function readActiveContinent(storage: Pick<Storage, "getItem"> | null) {
   } catch {
     return null;
   }
+}
+
+/** The four zones around a continent's city, as listed in the region panel. */
+export function ZoneList({ region }: { region: MapRegion }) {
+  const zones = zonesOf(region.id);
+  if (!zones.length) return null;
+  return (
+    <ul className="pm-zones" aria-label={`Strefy regionu ${region.name}`}>
+      {zones.map((z) => (
+        <li key={z.id}>
+          <strong>
+            {ZONE_DIR_NAMES[z.dir]} · {z.name}
+          </strong>
+          <span>{z.summary}</span>
+        </li>
+      ))}
+    </ul>
+  );
 }

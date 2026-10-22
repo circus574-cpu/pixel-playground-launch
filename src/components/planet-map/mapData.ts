@@ -10,6 +10,7 @@
  * game sessions or saves.
  */
 import outlines from "./atlasRegions.json";
+import { atlasPoint, OPEN_WORLDS } from "../../game/world/zoneMap";
 
 export const MAP_W = 2000;
 export const MAP_H = 1000;
@@ -39,6 +40,8 @@ export type MapRegion = {
 };
 
 const CONTINENT_STATUS = "Region startowy dostępny w obecnej wersji gry (lokalne PvE).";
+const OPEN_STATUS =
+  "Otwarty region: miasto i cztery strefy — północ, południe, wschód, zachód (lokalne PvE).";
 const ISLAND_STATUS = "Przyszła wyspa questowa — planowana, jeszcze niedostępna w grze.";
 
 const OUTLINES: Record<string, number[][]> = outlines;
@@ -81,7 +84,7 @@ export const CONTINENTS: MapRegion[] = [
     label: { x: 1250, y: 395 },
     summary:
       "Lodowe szczyty, lodowce i świecące turkusowo źródła skupionego KI wśród świątynnych tarasów.",
-    status: CONTINENT_STATUS,
+    status: OPEN_STATUS,
   }),
   withOutline({
     id: "nexus",
@@ -93,7 +96,7 @@ export const CONTINENTS: MapRegion[] = [
     label: { x: 1260, y: 820 },
     summary:
       "Cybernetyczna metropolia wokół świecącego reaktora, autostrady-obwody, doki i skaliste płaskowyże.",
-    status: CONTINENT_STATUS,
+    status: OPEN_STATUS,
   }),
   withOutline({
     id: "pyra",
@@ -105,7 +108,7 @@ export const CONTINENTS: MapRegion[] = [
     label: { x: 400, y: 850 },
     summary:
       "Czynne wulkany, rzeki lawy spływające do morza, bazaltowe pustkowia i kaniony z czerwonej skały.",
-    status: CONTINENT_STATUS,
+    status: OPEN_STATUS,
   }),
 ];
 
@@ -133,6 +136,53 @@ export const QUEST_ISLANDS: MapRegion[] = NUMERALS.map((numeral, i) =>
 );
 
 export const REGIONS: MapRegion[] = [...CONTINENTS, ...QUEST_ISLANDS];
+
+export type ZoneDir = "north" | "south" | "east" | "west";
+export type MapZone = {
+  id: string;
+  region: string;
+  dir: ZoneDir;
+  name: string;
+  summary: string;
+  /** Zone centre on the atlas, moved onto the continent's painted land. */
+  point: Point;
+};
+export const ZONE_DIR_NAMES: Record<ZoneDir, string> = {
+  north: "Północ",
+  south: "Południe",
+  east: "Wschód",
+  west: "Zachód",
+};
+
+/** Pulls a point toward the settlement until it lies inside the traced outline. */
+function onLand(region: MapRegion, from: Point, settle: Point): Point {
+  for (let k = 0; k <= 20; k++) {
+    const p = {
+      x: from.x + ((settle.x - from.x) * k) / 20,
+      y: from.y + ((settle.y - from.y) * k) / 20,
+    };
+    if (containsPoint(region, p)) return p;
+  }
+  return settle;
+}
+
+/** The four zones of every open-world continent, placed with the same mapping as the minimap. */
+export const ZONES: MapZone[] = CONTINENTS.flatMap((c) => {
+  const world = OPEN_WORLDS[c.id];
+  if (!world || !c.settlementPoint) return [];
+  return world.zones.map((z) => {
+    const raw = atlasPoint(c.id, z) ?? c.settlementPoint!;
+    return {
+      id: `${c.id}-${z.id}`,
+      region: c.id,
+      dir: z.id,
+      name: z.name,
+      summary: z.summary,
+      point: onLand(c, raw, c.settlementPoint!),
+    };
+  });
+});
+export const zonesOf = (regionId: string) => ZONES.filter((z) => z.region === regionId);
 
 /** Closed SVG path of a region outline. */
 export function regionPath(region: MapRegion) {

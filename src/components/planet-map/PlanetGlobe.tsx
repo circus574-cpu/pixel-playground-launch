@@ -7,7 +7,7 @@
  * saves or sessions and writes nothing to storage.
  */
 import { Canvas, useFrame, useLoader, useThree, type ThreeEvent } from "@react-three/fiber";
-import { BackToGame, PlayerChip, RegionGameNote, type GameLink } from "./MapChrome";
+import { BackToGame, PlayerChip, RegionGameNote, ZoneList, type GameLink } from "./MapChrome";
 import { Layers, Map as MapIcon, Minus, Plus, RotateCcw, X } from "lucide-react";
 import {
   Suspense,
@@ -31,7 +31,7 @@ import cloudsUrl from "@/assets/planet-map/globe-clouds-2048.webp";
 import lightsUrl from "@/assets/planet-map/globe-lights-2048.webp";
 import surfaceUrl from "@/assets/planet-map/globe-surface-2048.webp";
 import spaceUrl from "@/assets/planet-map/space.jpg";
-import { CONTINENTS, QUEST_ISLANDS, REGIONS, type MapRegion, type Point } from "./mapData";
+import { CONTINENTS, QUEST_ISLANDS, REGIONS, ZONES, type MapRegion, type Point } from "./mapData";
 import {
   cameraFor,
   clampDistance,
@@ -532,10 +532,13 @@ function RegionOutline({
 /* DOM markers projected from the sphere every rendered frame          */
 /* ------------------------------------------------------------------ */
 
-const MARKERS = REGIONS.map((r) => ({
-  id: r.id,
-  pos: mapToSphere(markerPoint(r), 1.02),
-}));
+const MARKERS = [
+  ...REGIONS.map((r) => ({
+    id: r.id,
+    pos: mapToSphere(markerPoint(r), 1.02),
+  })),
+  ...ZONES.map((z) => ({ id: z.id, pos: mapToSphere(z.point, 1.02) })),
+];
 
 function MarkerProjector({ els }: { els: MutableRefObject<Map<string, HTMLElement>> }) {
   const camera = useThree((s) => s.camera);
@@ -747,6 +750,18 @@ export default function PlanetGlobe({
         </Canvas>
 
         <div className="pg-markers">
+          {ZONES.filter((z) => z.region === selected).map((z) => (
+            <span
+              key={z.id}
+              ref={(el) => {
+                if (el) markerEls.current.set(z.id, el);
+                else markerEls.current.delete(z.id);
+              }}
+              className="pg-zone"
+            >
+              {z.name}
+            </span>
+          ))}
           {REGIONS.map((r) => (
             <button
               key={r.id}
@@ -957,6 +972,7 @@ export default function PlanetGlobe({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
+            <ZoneList region={selectedRegion} />
             <RegionGameNote region={selectedRegion} current={current} onClose={onClose} />
             <p className="pm-status">{selectedRegion.status}</p>
           </>

@@ -66,8 +66,10 @@ const PlayerSchema = z.object({
   hp: finite(10000),
   ki: finite(10000),
   gold: finite(1000000).int(),
-  x: finite(3072),
-  y: finite(2048),
+  x: finite(8192),
+  y: finite(6144),
+  /** Open-world layout revision the position belongs to; older saves are shifted on load. */
+  layout: z.number().int().min(1).max(99).optional(),
   items: z.object({
     potion: finite(99).int(),
     tusk: finite(99).int(),
@@ -143,6 +145,7 @@ export function newPlayer(race: RaceId = "planetary"): Player {
     continent,
     startContinent: continent,
     ...WORLDS[continent].spawn,
+    ...(WORLDS[continent].layout ? { layout: WORLDS[continent].layout } : {}),
     items: { potion: 3, tusk: 0, sword: 0, vest: 0 },
     weapon: null,
     armor: null,
@@ -154,6 +157,15 @@ export function newPlayer(race: RaceId = "planetary"): Player {
     shield: 0,
     dead: false,
   };
+}
+/** Moves a position saved on an older map layout into the enlarged open world. */
+export function migrateLayout(p: Pick<Player, "continent" | "x" | "y" | "layout">) {
+  const world = WORLDS[p.continent],
+    want = world.layout ?? 1;
+  if ((p.layout ?? 1) >= want) return;
+  p.x += world.legacyShift?.x ?? 0;
+  p.y += world.legacyShift?.y ?? 0;
+  p.layout = want;
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
 const LegacyPlayerSchema = PlayerSchema.extend({
@@ -189,8 +201,9 @@ export class SaveStore {
           "Nieprawidłowy lub nowszy zapis. Zachowano oryginał; zapis tej sesji wyłączony.";
         return undefined;
       }
-      const p = data.data.player,
-        s = stats(p);
+      const p = data.data.player;
+      migrateLayout(p);
+      const s = stats(p);
       if (
         p.startContinent !== RACES[p.race].world ||
         p.continent !== p.startContinent ||

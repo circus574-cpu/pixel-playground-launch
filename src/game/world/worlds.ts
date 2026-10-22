@@ -38,8 +38,8 @@ export const WORLDS: Record<WorldId, WorldDefinition> = {
     obstacles: forestObstacles(),
   },
   aether: aether as unknown as WorldDefinition,
-  nexus: nexus as WorldDefinition,
-  pyra: pyra as WorldDefinition,
+  nexus: nexus as unknown as WorldDefinition,
+  pyra: pyra as unknown as WorldDefinition,
 };
 export function worldObstacles(world: WorldDefinition) {
   if (world.id === "verdant") return [...world.obstacles];

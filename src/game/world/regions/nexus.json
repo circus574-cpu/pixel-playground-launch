@@ -5,17 +5,17 @@
   "settlement": "Węzeł Świadomości",
   "description": "Metaliczne równiny, pola kryształów i oświetlone korytarze dawnej sieci.",
   "architecture": "Laboratoria, reaktory i szklane terminale połączone siecią platform.",
-  "width": 2400,
-  "height": 1792,
+  "width": 4800,
+  "height": 3592,
   "spawn": {
-    "x": 600,
-    "y": 1120
+    "x": 1800,
+    "y": 2020
   },
   "background": "#122536",
   "minimap": "/game/assets/stage3/nexus-minimap.webp",
   "market": {
-    "x": 1650,
-    "y": 620,
+    "x": 2850,
+    "y": 1520,
     "radius": 85,
     "label": "Rdzeń Świadomości",
     "instruction": "Odwiedź oznaczony punkt: Rdzeń Świadomości",
@@ -26,8 +26,8 @@
       "id": "guide",
       "name": "LYRA-7",
       "role": "Przewodniczka sieci",
-      "x": 690,
-      "y": 1120,
+      "x": 1890,
+      "y": 2020,
       "tint": 11071695,
       "dialogue": "Pierwsze pytanie brzmi: kim chcesz się stać? Zsynchronizuj się z Rdzeniem Świadomości, a potem wróć do węzła."
     },
@@ -35,8 +35,8 @@
       "id": "hunter",
       "name": "AXON",
       "role": "Strażnik perymetru",
-      "x": 1910,
-      "y": 720,
+      "x": 3110,
+      "y": 1620,
       "tint": 16762788,
       "dialogue": "Organiczne dziki naruszają obwody na obrzeżach sieci. Pokonaj trzy i przynieś dane z patrolu."
     },
@@ -44,8 +44,8 @@
       "id": "merchant",
       "name": "MIRA-2",
       "role": "Operatorka wymiany",
-      "x": 420,
-      "y": 1080,
+      "x": 1620,
+      "y": 1980,
       "tint": 14070783,
       "dialogue": "Wymiana zasobów stabilizuje węzeł. Przyjmuję kły; oferuję mikstury i pancerze."
     },
@@ -53,49 +53,153 @@
       "id": "smith",
       "name": "HEF-4",
       "role": "Inżynier uzbrojenia",
-      "x": 820,
-      "y": 1180,
+      "x": 2020,
+      "y": 2080,
       "tint": 10802687,
       "dialogue": "Ulepszenie zwiększa skuteczność ostrza. Najpierw je załóż; kalibracja kosztuje 15 monet."
     }
   ],
   "enemies": [
     {
-      "x": 2020,
-      "y": 1000
+      "x": 3220,
+      "y": 1900
     },
     {
-      "x": 2080,
-      "y": 1530
+      "x": 3280,
+      "y": 2430
     },
     {
-      "x": 1140,
-      "y": 1410
+      "x": 2340,
+      "y": 2310
     },
     {
-      "x": 800,
-      "y": 1450
+      "x": 2000,
+      "y": 2350
+    },
+    {
+      "x": 3337,
+      "y": 330
+    },
+    {
+      "x": 3476,
+      "y": 659
+    },
+    {
+      "x": 1936,
+      "y": 639
+    },
+    {
+      "x": 4435,
+      "y": 604
+    },
+    {
+      "x": 3430,
+      "y": 497
+    },
+    {
+      "x": 4435,
+      "y": 3033
+    },
+    {
+      "x": 3359,
+      "y": 3094
+    },
+    {
+      "x": 2498,
+      "y": 3194
+    },
+    {
+      "x": 4272,
+      "y": 2958
+    },
+    {
+      "x": 2195,
+      "y": 2954
+    },
+    {
+      "x": 4201,
+      "y": 1702
+    },
+    {
+      "x": 3832,
+      "y": 1234
+    },
+    {
+      "x": 4349,
+      "y": 1886
+    },
+    {
+      "x": 3885,
+      "y": 1633
+    },
+    {
+      "x": 4082,
+      "y": 1891
+    },
+    {
+      "x": 551,
+      "y": 2133
+    },
+    {
+      "x": 383,
+      "y": 2311
+    },
+    {
+      "x": 411,
+      "y": 1678
+    },
+    {
+      "x": 691,
+      "y": 2408
+    },
+    {
+      "x": 977,
+      "y": 1656
     }
   ],
   "enemyName": "Dzik z perymetru",
   "huntName": "Patrol perymetru",
   "landmarks": [
     {
-      "x": 570,
-      "y": 1100,
+      "x": 1770,
+      "y": 2000,
       "label": "Węzeł Świadomości",
       "kind": "settlement"
     },
     {
-      "x": 1650,
-      "y": 620,
+      "x": 2850,
+      "y": 1520,
       "label": "Rdzeń",
       "kind": "energy"
     },
     {
-      "x": 2070,
-      "y": 1510,
+      "x": 3270,
+      "y": 2410,
       "label": "Perymetr",
+      "kind": "danger"
+    },
+    {
+      "x": 2400,
+      "y": 515,
+      "label": "Płaskowyż Północny",
+      "kind": "danger"
+    },
+    {
+      "x": 2400,
+      "y": 3077,
+      "label": "Pustkowia Rdzeni",
+      "kind": "danger"
+    },
+    {
+      "x": 4135,
+      "y": 1796,
+      "label": "Doki Wschodnie",
+      "kind": "danger"
+    },
+    {
+      "x": 665,
+      "y": 1796,
+      "label": "Zbocza Zachodnie",
       "kind": "danger"
     }
   ],
@@ -104,8 +208,8 @@
       "id": "lab-0",
       "kind": "lab",
       "asset": "lab",
-      "x": 550,
-      "y": 820,
+      "x": 1750,
+      "y": 1720,
       "width": 430,
       "height": 340,
       "anchorX": 0.5,
@@ -120,8 +224,8 @@
       "id": "lab-1",
       "kind": "lab",
       "asset": "lab",
-      "x": 1050,
-      "y": 450,
+      "x": 2250,
+      "y": 1350,
       "width": 390,
       "height": 310,
       "anchorX": 0.5,
@@ -136,8 +240,8 @@
       "id": "reactor-2",
       "kind": "reactor",
       "asset": "reactor",
-      "x": 1650,
-      "y": 430,
+      "x": 2850,
+      "y": 1330,
       "width": 340,
       "height": 350,
       "anchorX": 0.5,
@@ -152,8 +256,8 @@
       "id": "lab-3",
       "kind": "lab",
       "asset": "lab",
-      "x": 1850,
-      "y": 1290,
+      "x": 3050,
+      "y": 2190,
       "width": 380,
       "height": 320,
       "anchorX": 0.5,
@@ -168,8 +272,8 @@
       "id": "terminal-4",
       "kind": "terminal",
       "asset": "terminal",
-      "x": 410,
-      "y": 1420,
+      "x": 1610,
+      "y": 2320,
       "width": 140,
       "height": 180,
       "anchorX": 0.5,
@@ -184,8 +288,8 @@
       "id": "terminal-5",
       "kind": "terminal",
       "asset": "terminal",
-      "x": 1170,
-      "y": 1170,
+      "x": 2370,
+      "y": 2070,
       "width": 140,
       "height": 180,
       "anchorX": 0.5,
@@ -200,8 +304,8 @@
       "id": "crystal-6",
       "kind": "crystal",
       "asset": "crystal",
-      "x": 2070,
-      "y": 700,
+      "x": 3270,
+      "y": 1600,
       "width": 220,
       "height": 290,
       "anchorX": 0.5,
@@ -216,8 +320,8 @@
       "id": "crystal-7",
       "kind": "crystal",
       "asset": "crystal",
-      "x": 330,
-      "y": 450,
+      "x": 1530,
+      "y": 1350,
       "width": 200,
       "height": 250,
       "anchorX": 0.5,
@@ -232,8 +336,8 @@
       "id": "crystal-8",
       "kind": "crystal",
       "asset": "crystal",
-      "x": 1510,
-      "y": 1560,
+      "x": 2710,
+      "y": 2460,
       "width": 210,
       "height": 270,
       "anchorX": 0.5,
@@ -248,8 +352,8 @@
       "id": "detail-pylon-9",
       "kind": "pylon",
       "asset": "pylon",
-      "x": 340,
-      "y": 930,
+      "x": 1540,
+      "y": 1830,
       "width": 100,
       "height": 170,
       "anchorX": 0.5,
@@ -260,8 +364,8 @@
       "id": "detail-pylon-10",
       "kind": "pylon",
       "asset": "pylon",
-      "x": 840,
-      "y": 1020,
+      "x": 2040,
+      "y": 1920,
       "width": 100,
       "height": 170,
       "anchorX": 0.5,
@@ -272,8 +376,8 @@
       "id": "detail-pylon-11",
       "kind": "pylon",
       "asset": "pylon",
-      "x": 1400,
-      "y": 920,
+      "x": 2600,
+      "y": 1820,
       "width": 100,
       "height": 170,
       "anchorX": 0.5,
@@ -284,8 +388,8 @@
       "id": "detail-pylon-12",
       "kind": "pylon",
       "asset": "pylon",
-      "x": 1900,
-      "y": 880,
+      "x": 3100,
+      "y": 1780,
       "width": 100,
       "height": 170,
       "anchorX": 0.5,
@@ -296,8 +400,8 @@
       "id": "detail-pylon-13",
       "kind": "pylon",
       "asset": "pylon",
-      "x": 1500,
-      "y": 1280,
+      "x": 2700,
+      "y": 2180,
       "width": 100,
       "height": 170,
       "anchorX": 0.5,
@@ -308,8 +412,8 @@
       "id": "detail-pylon-14",
       "kind": "pylon",
       "asset": "pylon",
-      "x": 2000,
-      "y": 1330,
+      "x": 3200,
+      "y": 2230,
       "width": 100,
       "height": 170,
       "anchorX": 0.5,
@@ -320,8 +424,8 @@
       "id": "detail-tech-garden-15",
       "kind": "tech-garden",
       "asset": "tech-garden",
-      "x": 320,
-      "y": 1220,
+      "x": 1520,
+      "y": 2120,
       "width": 190,
       "height": 160,
       "anchorX": 0.5,
@@ -332,8 +436,8 @@
       "id": "detail-tech-garden-16",
       "kind": "tech-garden",
       "asset": "tech-garden",
-      "x": 920,
-      "y": 1170,
+      "x": 2120,
+      "y": 2070,
       "width": 190,
       "height": 160,
       "anchorX": 0.5,
@@ -344,8 +448,8 @@
       "id": "detail-tech-garden-17",
       "kind": "tech-garden",
       "asset": "tech-garden",
-      "x": 1920,
-      "y": 580,
+      "x": 3120,
+      "y": 1480,
       "width": 190,
       "height": 160,
       "anchorX": 0.5,
@@ -356,8 +460,8 @@
       "id": "detail-tech-garden-18",
       "kind": "tech-garden",
       "asset": "tech-garden",
-      "x": 1170,
-      "y": 600,
+      "x": 2370,
+      "y": 1500,
       "width": 190,
       "height": 160,
       "anchorX": 0.5,
@@ -368,8 +472,8 @@
       "id": "detail-tech-garden-19",
       "kind": "tech-garden",
       "asset": "tech-garden",
-      "x": 1890,
-      "y": 1450,
+      "x": 3090,
+      "y": 2350,
       "width": 190,
       "height": 160,
       "anchorX": 0.5,
@@ -380,8 +484,8 @@
       "id": "nature-patch-ice-spires-20",
       "kind": "patch-ice-spires",
       "asset": "nature.patch-ice-spires",
-      "x": 645,
-      "y": 429,
+      "x": 1845,
+      "y": 1329,
       "width": 260,
       "height": 260,
       "anchorX": 0.5,
@@ -392,8 +496,8 @@
       "id": "nature-patch-ice-spires-21",
       "kind": "patch-ice-spires",
       "asset": "nature.patch-ice-spires",
-      "x": 1972,
-      "y": 372,
+      "x": 3172,
+      "y": 1272,
       "width": 230,
       "height": 230,
       "anchorX": 0.5,
@@ -404,12 +508,464 @@
       "id": "nature-patch-boulder-group-22",
       "kind": "patch-boulder-group",
       "asset": "nature.patch-boulder-group",
-      "x": 1363,
-      "y": 351,
+      "x": 2563,
+      "y": 1251,
       "width": 200,
       "height": 200,
       "anchorX": 0.5,
       "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "zone-north-patch-cliff-outcrop-0",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 1830,
+      "y": 549,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-north-mountain-peak-1",
+      "kind": "mountain-peak",
+      "asset": "nature.mountain-peak",
+      "x": 942,
+      "y": 691,
+      "width": 430,
+      "height": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 215,
+        "height": 77,
+        "offsetY": -17
+      }
+    },
+    {
+      "id": "zone-north-patch-boulder-group-2",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 2819,
+      "y": 656,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-north-patch-cliff-outcrop-3",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 4114,
+      "y": 629,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-north-mountain-peak-4",
+      "kind": "mountain-peak",
+      "asset": "nature.mountain-peak",
+      "x": 1408,
+      "y": 667,
+      "width": 430,
+      "height": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 215,
+        "height": 77,
+        "offsetY": -17
+      }
+    },
+    {
+      "id": "zone-north-patch-boulder-group-5",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 3723,
+      "y": 545,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-north-patch-cliff-outcrop-6",
+      "kind": "patch-cliff-outcrop",
+      "asset": "nature.patch-cliff-outcrop",
+      "x": 3209,
+      "y": 693,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-north-mountain-peak-7",
+      "kind": "mountain-peak",
+      "asset": "nature.mountain-peak",
+      "x": 454,
+      "y": 645,
+      "width": 430,
+      "height": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 215,
+        "height": 77,
+        "offsetY": -17
+      }
+    },
+    {
+      "id": "zone-north-patch-boulder-group-8",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 2128,
+      "y": 574,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-0",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 1036,
+      "y": 3150,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-1",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 1926,
+      "y": 3015,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-2",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 521,
+      "y": 3210,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-3",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 3508,
+      "y": 2976,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-4",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 4431,
+      "y": 2939,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-5",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 2720,
+      "y": 3119,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-6",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 4139,
+      "y": 2890,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-7",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 3780,
+      "y": 2891,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-8",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 367,
+      "y": 2890,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-basalt-columns-9",
+      "kind": "patch-basalt-columns",
+      "asset": "nature.patch-basalt-columns",
+      "x": 2249,
+      "y": 3269,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-boulder-group-10",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 3085,
+      "y": 2990,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-south-patch-lava-rocks-11",
+      "kind": "patch-lava-rocks",
+      "asset": "nature.patch-lava-rocks",
+      "x": 1442,
+      "y": 2897,
+      "width": 220,
+      "height": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-sea-stacks-0",
+      "kind": "patch-sea-stacks",
+      "asset": "nature.patch-sea-stacks",
+      "x": 4040,
+      "y": 2463,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-small-island-1",
+      "kind": "patch-small-island",
+      "asset": "nature.patch-small-island",
+      "x": 4388,
+      "y": 1777,
+      "width": 280,
+      "height": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-reed-clump-2",
+      "kind": "reed-clump",
+      "asset": "nature.reed-clump",
+      "x": 4394,
+      "y": 2083,
+      "width": 150,
+      "height": 150,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-sea-stacks-3",
+      "kind": "patch-sea-stacks",
+      "asset": "nature.patch-sea-stacks",
+      "x": 4087,
+      "y": 1098,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-small-island-4",
+      "kind": "patch-small-island",
+      "asset": "nature.patch-small-island",
+      "x": 4245,
+      "y": 1444,
+      "width": 280,
+      "height": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-reed-clump-5",
+      "kind": "reed-clump",
+      "asset": "nature.reed-clump",
+      "x": 3952,
+      "y": 2011,
+      "width": 150,
+      "height": 150,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-sea-stacks-6",
+      "kind": "patch-sea-stacks",
+      "asset": "nature.patch-sea-stacks",
+      "x": 4389,
+      "y": 2509,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-small-island-7",
+      "kind": "patch-small-island",
+      "asset": "nature.patch-small-island",
+      "x": 3943,
+      "y": 1557,
+      "width": 280,
+      "height": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-east-reed-clump-8",
+      "kind": "reed-clump",
+      "asset": "nature.reed-clump",
+      "x": 3823,
+      "y": 1121,
+      "width": 150,
+      "height": 150,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "zone-east-patch-sea-stacks-9",
+      "kind": "patch-sea-stacks",
+      "asset": "nature.patch-sea-stacks",
+      "x": 4419,
+      "y": 1102,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-ice-spires-0",
+      "kind": "patch-ice-spires",
+      "asset": "nature.patch-ice-spires",
+      "x": 400,
+      "y": 2011,
+      "width": 270,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-glacier-block-1",
+      "kind": "patch-glacier-block",
+      "asset": "nature.patch-glacier-block",
+      "x": 854,
+      "y": 1519,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-mountain-peak-2",
+      "kind": "mountain-peak",
+      "asset": "nature.mountain-peak",
+      "x": 828,
+      "y": 2226,
+      "width": 400,
+      "height": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": true,
+      "footprint": {
+        "width": 200,
+        "height": 72,
+        "offsetY": -16
+      }
+    },
+    {
+      "id": "zone-west-patch-ice-spires-3",
+      "kind": "patch-ice-spires",
+      "asset": "nature.patch-ice-spires",
+      "x": 437,
+      "y": 1314,
+      "width": 270,
+      "height": 270,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "solid": false
+    },
+    {
+      "id": "zone-west-patch-glacier-block-4",
+      "kind": "patch-glacier-block",
+      "asset": "nature.patch-glacier-block",
+      "x": 814,
+      "y": 1147,
+      "width": 300,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
       "solid": false
     }
   ],
@@ -417,36 +973,42 @@
     {
       "x": 0,
       "y": 0,
-      "width": 2400,
+      "width": 4800,
       "height": 110
     },
     {
       "x": 0,
       "y": 110,
-      "width": 130,
-      "height": 1572
+      "width": 140,
+      "height": 3482
     },
     {
-      "x": 2270,
+      "x": 4660,
       "y": 110,
-      "width": 130,
-      "height": 1572
+      "width": 140,
+      "height": 3482
     },
     {
-      "x": 820,
-      "y": 670,
+      "x": 140,
+      "y": 3492,
+      "width": 4520,
+      "height": 100
+    },
+    {
+      "x": 2020,
+      "y": 1570,
       "width": 470,
       "height": 180
     },
     {
-      "x": 1300,
-      "y": 1240,
+      "x": 2500,
+      "y": 2140,
       "width": 160,
       "height": 240
     },
     {
-      "x": 180,
-      "y": 1600,
+      "x": 1380,
+      "y": 2500,
       "width": 900,
       "height": 100
     }
@@ -457,55 +1019,285 @@
     "plaza": "nexus-plaza",
     "paths": [
       {
-        "x": 470,
-        "y": 930,
+        "x": 1670,
+        "y": 1830,
         "width": 1350,
         "height": 180
       },
       {
-        "x": 1480,
-        "y": 510,
+        "x": 2680,
+        "y": 1410,
         "width": 220,
         "height": 600
       },
       {
-        "x": 610,
-        "y": 500,
+        "x": 1810,
+        "y": 1400,
         "width": 900,
         "height": 150
       },
       {
-        "x": 430,
-        "y": 1050,
+        "x": 1630,
+        "y": 1950,
         "width": 180,
         "height": 450
       },
       {
-        "x": 1670,
-        "y": 1030,
+        "x": 2870,
+        "y": 1930,
         "width": 210,
         "height": 420
       }
     ],
     "plazas": [
       {
-        "x": 340,
-        "y": 970,
+        "x": 1540,
+        "y": 1870,
         "width": 460,
         "height": 340
       },
       {
-        "x": 1420,
-        "y": 530,
+        "x": 2620,
+        "y": 1430,
         "width": 470,
         "height": 340
       },
       {
-        "x": 1620,
-        "y": 1320,
+        "x": 2820,
+        "y": 2220,
         "width": 480,
         "height": 210
       }
+    ],
+    "zones": [
+      {
+        "id": "north",
+        "texture": "nature-cliff-rock",
+        "points": [
+          [60, 60],
+          [300, 60],
+          [540, 60],
+          [780, 60],
+          [1020, 60],
+          [1260, 60],
+          [1500, 60],
+          [1740, 60],
+          [1980, 60],
+          [2220, 60],
+          [2460, 60],
+          [2700, 60],
+          [2940, 60],
+          [3180, 60],
+          [3420, 60],
+          [3660, 60],
+          [3900, 60],
+          [4140, 60],
+          [4380, 60],
+          [4620, 60],
+          [4740, 60],
+          [4740, 300],
+          [4740, 540],
+          [4740, 780],
+          [4740, 904],
+          [4500, 970],
+          [4260, 978],
+          [4020, 948],
+          [3780, 985],
+          [3540, 1038],
+          [3300, 925],
+          [3060, 927],
+          [2820, 1006],
+          [2580, 935],
+          [2340, 981],
+          [2100, 930],
+          [1860, 1035],
+          [1620, 985],
+          [1380, 965],
+          [1140, 1007],
+          [900, 998],
+          [660, 981],
+          [420, 1019],
+          [180, 999],
+          [60, 970],
+          [60, 730],
+          [60, 490],
+          [60, 250]
+        ]
+      },
+      {
+        "id": "south",
+        "texture": "nature-ash-ground",
+        "points": [
+          [60, 2623],
+          [300, 2561],
+          [540, 2649],
+          [780, 2564],
+          [1020, 2574],
+          [1260, 2628],
+          [1500, 2563],
+          [1740, 2620],
+          [1980, 2659],
+          [2220, 2690],
+          [2460, 2632],
+          [2700, 2569],
+          [2940, 2582],
+          [3180, 2604],
+          [3420, 2623],
+          [3660, 2615],
+          [3900, 2553],
+          [4140, 2581],
+          [4380, 2570],
+          [4620, 2620],
+          [4740, 2622],
+          [4740, 2862],
+          [4740, 3102],
+          [4740, 3342],
+          [4740, 3532],
+          [4500, 3532],
+          [4260, 3532],
+          [4020, 3532],
+          [3780, 3532],
+          [3540, 3532],
+          [3300, 3532],
+          [3060, 3532],
+          [2820, 3532],
+          [2580, 3532],
+          [2340, 3532],
+          [2100, 3532],
+          [1860, 3532],
+          [1620, 3532],
+          [1380, 3532],
+          [1140, 3532],
+          [900, 3532],
+          [660, 3532],
+          [420, 3532],
+          [180, 3532],
+          [60, 3532],
+          [60, 3292],
+          [60, 3052],
+          [60, 2812]
+        ]
+      },
+      {
+        "id": "east",
+        "texture": "nature-sand-beach",
+        "points": [
+          [3530, 769],
+          [3770, 853],
+          [4010, 794],
+          [4250, 765],
+          [4490, 801],
+          [4730, 783],
+          [4740, 810],
+          [4740, 1050],
+          [4740, 1290],
+          [4740, 1530],
+          [4740, 1770],
+          [4740, 2010],
+          [4740, 2250],
+          [4740, 2490],
+          [4740, 2730],
+          [4740, 2725],
+          [4500, 2748],
+          [4260, 2789],
+          [4020, 2727],
+          [3780, 2724],
+          [3540, 2775],
+          [3595, 2782],
+          [3545, 2542],
+          [3466, 2302],
+          [3528, 2062],
+          [3595, 1822],
+          [3540, 1582],
+          [3475, 1342],
+          [3578, 1102],
+          [3592, 862]
+        ]
+      },
+      {
+        "id": "west",
+        "texture": "nature-ice-glacier",
+        "points": [
+          [60, 799],
+          [300, 787],
+          [540, 788],
+          [780, 831],
+          [1020, 828],
+          [1260, 808],
+          [1305, 810],
+          [1309, 1050],
+          [1226, 1290],
+          [1313, 1530],
+          [1308, 1770],
+          [1248, 2010],
+          [1275, 2250],
+          [1310, 2490],
+          [1314, 2730],
+          [1270, 2811],
+          [1030, 2800],
+          [790, 2760],
+          [550, 2800],
+          [310, 2830],
+          [70, 2780],
+          [60, 2782],
+          [60, 2542],
+          [60, 2302],
+          [60, 2062],
+          [60, 1822],
+          [60, 1582],
+          [60, 1342],
+          [60, 1102],
+          [60, 862]
+        ]
+      }
+    ],
+    "roads": [
+      {
+        "width": 130,
+        "points": [
+          [2400, 920],
+          [2421, 792],
+          [2437, 653],
+          [2383, 587],
+          [2400, 515]
+        ]
+      },
+      {
+        "width": 130,
+        "points": [
+          [2400, 2672],
+          [2379, 2708],
+          [2363, 2808],
+          [2377, 2936],
+          [2400, 3077]
+        ]
+      },
+      {
+        "width": 130,
+        "points": [
+          [1220, 1796],
+          [1034, 1764],
+          [893, 1773],
+          [789, 1801],
+          [665, 1796]
+        ]
+      },
+      {
+        "width": 130,
+        "points": [
+          [3580, 1796],
+          [3647, 1810],
+          [3781, 1815],
+          [3946, 1818],
+          [4135, 1796]
+        ]
+      }
     ]
+  },
+  "border": 4,
+  "layout": 2,
+  "legacyShift": {
+    "x": 1200,
+    "y": 900
   }
 }

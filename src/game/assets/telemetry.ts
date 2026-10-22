@@ -34,11 +34,14 @@ export function installRenderTelemetry(scene: Phaser.Scene, parent: HTMLElement)
       }
     };
     visit(scene.children.list);
-    let textureBytes = 0;
+    let textureBytes = 0,
+      bakedBytes = 0;
     const keys = scene.textures.getTextureKeys();
     for (const key of keys)
-      for (const source of scene.textures.get(key).source)
+      for (const source of scene.textures.get(key).source) {
         textureBytes += source.width * source.height * 4;
+        if (key.startsWith("road-cache:")) bakedBytes += source.width * source.height * 4;
+      }
     const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
     parent.dataset["metrics"] = JSON.stringify({
       sampleAtMs: Math.round(now),
@@ -50,6 +53,7 @@ export function installRenderTelemetry(scene: Phaser.Scene, parent: HTMLElement)
       visibleObjects: visible,
       textures: keys.length,
       estimatedTextureBytes: textureBytes,
+      bakedTextureBytes: bakedBytes,
       jsHeapBytes: memory?.usedJSHeapSize ?? null,
       renderer: scene.game.renderer.type === 2 ? "WebGL" : "Canvas",
       drawCalls: null,
