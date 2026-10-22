@@ -1,0 +1,29 @@
+{
+ "pack": "nexus-terrain-v2",
+ "textures": [
+  {
+   "texture": "nexus-ground",
+   "seed": 5741102,
+   "source_png_sha256": "e9e6953534ff0084b35b1279c03921db1b6c6440928c4f454052507dbb4c4633",
+   "webp_sha256": "125250ef1bf0f0ad77c9717a322417fe03ef5c3ec735ed52ccd44087cf46e404"
+  },
+  {
+   "texture": "nexus-path",
+   "seed": 5741102,
+   "source_png_sha256": "404b4b86818efcb260b4b87d7805962a89177744d2c4bc378a98590fa70bf45a",
+   "webp_sha256": "2a6f43ceb848b1d2a5d8bfcb8207501f4f84d051ccd28ea1a9ffde40092cae44"
+  },
+  {
+   "texture": "nexus-plaza",
+   "seed": 5741104,
+   "source_png_sha256": "edea5688fb9a519cbd4c067f505b1962eb0de06983d35afde217fef475a496db",
+   "webp_sha256": "b340e13c4d5394159c36b50f532fba544913aef8191f7b1caec0e3e509d022d6"
+  },
+  {
+   "texture": "nexus-wall",
+   "seed": 5741102,
+   "source_png_sha256": "784f661dc5d0b2e98b80f6385b4296f3666f0ea79bdbcb67eef5403bd493e4de",
+   "webp_sha256": "536bfedd72e241a69f49d2b1b202cf4645ebc5a3f6dfa92571d1a85adca56500"
+  }
+ ]
+}

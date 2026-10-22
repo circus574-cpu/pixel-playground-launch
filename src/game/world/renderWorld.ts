@@ -1,6 +1,6 @@
 import { sizeScenery, sizeTile } from "../assets/scenery";
 import type Phaser from "phaser";
-import { catalog, textureBinding } from "../assets/catalog";
+import { catalog, hazardBinding, textureBinding } from "../assets/catalog";
 import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "./types";
@@ -19,6 +19,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   // A painted terrain pack replaces the flat placeholder tiles and their procedural detail.
   const paintedGround = !!catalog.renderBindings["terrain." + terrain.ground];
   const wall = catalog.renderBindings["terrain." + world.id + "-wall"];
+  const hazard = hazardBinding(world.id);
   const updateAtmosphere = atmosphere(scene, world.id);
   sizeTile(
     scene.add.tileSprite(0, 0, world.width, world.height, ground.asset, ground.frame),
@@ -149,12 +150,14 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     }
   }
   const hazards = scene.add.graphics().setDepth(renderDepth("below") - 1);
-  for (const o of world.obstacles) {
-    if (wall) {
-      // Painted wall texture on the unchanged collision rectangle.
+  for (const [index, o] of world.obstacles.entries()) {
+    // Outer boundary stays wall; inner blockers (lava, energy, water) use the nature liquid.
+    const surface = index >= 3 && hazard ? hazard : wall;
+    if (surface) {
+      // Painted texture on the unchanged collision rectangle.
       sizeTile(
-        scene.add.tileSprite(o.x, o.y, o.width, o.height, wall.asset, wall.frame),
-        wall.tileSize,
+        scene.add.tileSprite(o.x, o.y, o.width, o.height, surface.asset, surface.frame),
+        surface.tileSize,
       )
         .setOrigin(0)
         .setDepth(renderDepth("below") - 1);

@@ -1,0 +1,685 @@
+{
+ "tag": "v1",
+ "textures": [
+  {
+   "file": "tex-water-ocean-deep-s5741102.png",
+   "name": "water-ocean-deep",
+   "seed": 5741102,
+   "sha256": "d2dce3434ff1746c2ff9c7bef118c8de472ebbb8f76947b1d07ffc1bb1b8fe0f",
+   "seam_error": 3.89
+  },
+  {
+   "file": "tex-water-ocean-deep-s5741103.png",
+   "name": "water-ocean-deep",
+   "seed": 5741103,
+   "sha256": "bd6e5fafacfc6701baf8a66e708b6a7c6cc6aed70fe005b8e02c8b015d9768b7",
+   "seam_error": 5.73
+  },
+  {
+   "file": "tex-water-ocean-deep-s5741104.png",
+   "name": "water-ocean-deep",
+   "seed": 5741104,
+   "sha256": "7c724a119a4c74c56f8f9046dd6674c9f5f39888a3171f819ace6f0c8a9f22ca",
+   "seam_error": 4.38
+  },
+  {
+   "file": "tex-water-ocean-shallow-s5741102.png",
+   "name": "water-ocean-shallow",
+   "seed": 5741102,
+   "sha256": "560a37aff516260b9a231b8eab587a92277dfeef7814a07c38473546d5318322",
+   "seam_error": 4.97
+  },
+  {
+   "file": "tex-water-ocean-shallow-s5741103.png",
+   "name": "water-ocean-shallow",
+   "seed": 5741103,
+   "sha256": "dd1763dbfd8f15ddf6d10e2166339f927a89e413fbcc7d4e37bd487a4fa87453",
+   "seam_error": 4.46
+  },
+  {
+   "file": "tex-water-ocean-shallow-s5741104.png",
+   "name": "water-ocean-shallow",
+   "seed": 5741104,
+   "sha256": "d916a71a135b135c3bed8f65886208f6dcafa9b00d693cf70579fcbdfd6e176f",
+   "seam_error": 5.2
+  },
+  {
+   "file": "tex-water-river-s5741102.png",
+   "name": "water-river",
+   "seed": 5741102,
+   "sha256": "cee8f19e255408e8b7baba13dd339082ebc819ed7b8fddf780a768618dc6780f",
+   "seam_error": 3.7
+  },
+  {
+   "file": "tex-water-river-s5741103.png",
+   "name": "water-river",
+   "seed": 5741103,
+   "sha256": "9f540294a236755c0eae82e37c53946333f2233888733c572a7cfcec248ddbde",
+   "seam_error": 5.46
+  },
+  {
+   "file": "tex-water-river-s5741104.png",
+   "name": "water-river",
+   "seed": 5741104,
+   "sha256": "26bbac91ef881041a57977d4b01a671eb5cf3a47e7f0a64b645d90157ad7f7c3",
+   "seam_error": 5.99
+  },
+  {
+   "file": "tex-water-lake-calm-s5741102.png",
+   "name": "water-lake-calm",
+   "seed": 5741102,
+   "sha256": "6731bbf8a51b55d61778ddd95ad61af8b1658831030321b2d6fab3ce05fc722e",
+   "seam_error": 2.93
+  },
+  {
+   "file": "tex-water-lake-calm-s5741103.png",
+   "name": "water-lake-calm",
+   "seed": 5741103,
+   "sha256": "105a5be0347ffedcf4eeed8eb6f4b5bd1842e837e938fc0a633387e58db8022b",
+   "seam_error": 4.98
+  },
+  {
+   "file": "tex-water-lake-calm-s5741104.png",
+   "name": "water-lake-calm",
+   "seed": 5741104,
+   "sha256": "310b12e19095245de1117dc99d0fe4af5c8c874e14c4252dda0c04fe0e0b8082",
+   "seam_error": 3.12
+  },
+  {
+   "file": "tex-water-crystal-s5741102.png",
+   "name": "water-crystal",
+   "seed": 5741102,
+   "sha256": "b8589c6fdc0ca79fa19c7f0d90b6992d9050ff648d7e0acf91f6e719bac4bef0",
+   "seam_error": 6.98
+  },
+  {
+   "file": "tex-water-crystal-s5741103.png",
+   "name": "water-crystal",
+   "seed": 5741103,
+   "sha256": "8fdc907495286cd988c10d71b0567c84f7cee36699d9ee11189990b98cbea684",
+   "seam_error": 9.26
+  },
+  {
+   "file": "tex-water-crystal-s5741104.png",
+   "name": "water-crystal",
+   "seed": 5741104,
+   "sha256": "a9d48e218f80eab426245893c633feb9706b24c7437ceaa5efe43ca36b910536",
+   "seam_error": 6.16
+  },
+  {
+   "file": "tex-energy-liquid-s5741102.png",
+   "name": "energy-liquid",
+   "seed": 5741102,
+   "sha256": "8a5535a53ca762d432b75d1d1fa12c962a242632718172635ea15d16aca7fb4f",
+   "seam_error": 5.4
+  },
+  {
+   "file": "tex-energy-liquid-s5741103.png",
+   "name": "energy-liquid",
+   "seed": 5741103,
+   "sha256": "0c7c08570caff84fbd17938a7e6bb1affffda6c9ebb04ade3f6c5c267a132218",
+   "seam_error": 8.08
+  },
+  {
+   "file": "tex-energy-liquid-s5741104.png",
+   "name": "energy-liquid",
+   "seed": 5741104,
+   "sha256": "3e9dbf0dd197b65e35bb509263555f4ed62c71ffa042250ee7bd2bef5acc61b6",
+   "seam_error": 5.61
+  },
+  {
+   "file": "tex-ice-glacier-s5741102.png",
+   "name": "ice-glacier",
+   "seed": 5741102,
+   "sha256": "7d9c5d5303b0f5395e582f4c9c16919fce9d0b22f919f5a102aa5b29a68e7234",
+   "seam_error": 5.54
+  },
+  {
+   "file": "tex-ice-glacier-s5741103.png",
+   "name": "ice-glacier",
+   "seed": 5741103,
+   "sha256": "47dc4edf27608de13f449fcf4c199d3cd22e2c192e0b1994dd2ba7fc78a9e57f",
+   "seam_error": 6.15
+  },
+  {
+   "file": "tex-ice-glacier-s5741104.png",
+   "name": "ice-glacier",
+   "seed": 5741104,
+   "sha256": "7555b1a38284f7f3c22a6b20915c3eeafcf212444cf5b98acda3ebc474e7b33b",
+   "seam_error": 6.39
+  },
+  {
+   "file": "tex-snow-s5741102.png",
+   "name": "snow",
+   "seed": 5741102,
+   "sha256": "fccd1e45880fc30e8e11a97323876dd5edf85a10867ea5a14202827d0ff3514e",
+   "seam_error": 3.73
+  },
+  {
+   "file": "tex-snow-s5741103.png",
+   "name": "snow",
+   "seed": 5741103,
+   "sha256": "9fcbe69c796ce98a317e7878d380946c834b90fccd8fc3be0a57d1bb1011ff09",
+   "seam_error": 3.25
+  },
+  {
+   "file": "tex-snow-s5741104.png",
+   "name": "snow",
+   "seed": 5741104,
+   "sha256": "92deb5010ec1b2d5678acaab81e78fbfd6a0718cbf91f76ba233842032c683ef",
+   "seam_error": 3.46
+  },
+  {
+   "file": "tex-sand-beach-s5741102.png",
+   "name": "sand-beach",
+   "seed": 5741102,
+   "sha256": "4d76014abb3a92169c97cc5bf26f0fa8c8f3ca27d8212463bfae3b19e056338c",
+   "seam_error": 5.39
+  },
+  {
+   "file": "tex-sand-beach-s5741103.png",
+   "name": "sand-beach",
+   "seed": 5741103,
+   "sha256": "b087185ac022cae1da811a57e5bf348e858101820f6733a74897690e7e23ca53",
+   "seam_error": 5.29
+  },
+  {
+   "file": "tex-sand-beach-s5741104.png",
+   "name": "sand-beach",
+   "seed": 5741104,
+   "sha256": "55baeaaf97db41d76e2f42e1eda3d25d2266857136afa339333e8998a0d1afab",
+   "seam_error": 5.55
+  },
+  {
+   "file": "tex-meadow-grass-s5741102.png",
+   "name": "meadow-grass",
+   "seed": 5741102,
+   "sha256": "8e841cf6bbf7d969ca3293865130900135dd5b40cfd358f90e8b0206ca0c1544",
+   "seam_error": 7.57
+  },
+  {
+   "file": "tex-meadow-grass-s5741103.png",
+   "name": "meadow-grass",
+   "seed": 5741103,
+   "sha256": "4151a344f8c7237e7762b24ee2d2b37f7ea8f679895e231e464199a5ce7bac25",
+   "seam_error": 9.96
+  },
+  {
+   "file": "tex-meadow-grass-s5741104.png",
+   "name": "meadow-grass",
+   "seed": 5741104,
+   "sha256": "f5c45ba96eff659db0c08afbedf6c9a0665c3a0cf4f8c650a7719d44cf9ce7eb",
+   "seam_error": 8.3
+  },
+  {
+   "file": "tex-forest-floor-s5741102.png",
+   "name": "forest-floor",
+   "seed": 5741102,
+   "sha256": "462f9a8ea2f98d881e72b5f873d31157b1e13f11944a3dd460b1ca487528eb6f",
+   "seam_error": 5.48
+  },
+  {
+   "file": "tex-forest-floor-s5741103.png",
+   "name": "forest-floor",
+   "seed": 5741103,
+   "sha256": "eb6761d852dfce6f937a7c140aeb0324182b904e4cba4328733c8bf229f72996",
+   "seam_error": 5.75
+  },
+  {
+   "file": "tex-forest-floor-s5741104.png",
+   "name": "forest-floor",
+   "seed": 5741104,
+   "sha256": "b3a69b7d672d657ad2c434a6357c6d2e09dc1fa1084aff68ef2c680dca971a25",
+   "seam_error": 5.17
+  },
+  {
+   "file": "tex-cliff-rock-s5741102.png",
+   "name": "cliff-rock",
+   "seed": 5741102,
+   "sha256": "d2751144e9fe9bb0dabbe18088f8f61b6c31370beb994a25632f3dc5713fd2a5",
+   "seam_error": 5.62
+  },
+  {
+   "file": "tex-cliff-rock-s5741103.png",
+   "name": "cliff-rock",
+   "seed": 5741103,
+   "sha256": "0021cf16a08898201008e169c0be981800c2d02e662b34498ec4cb8092b48924",
+   "seam_error": 6.54
+  },
+  {
+   "file": "tex-cliff-rock-s5741104.png",
+   "name": "cliff-rock",
+   "seed": 5741104,
+   "sha256": "677c404ae8aa46544c595bcff6db222ebf7945c893cbe8096599b986705d4b3f",
+   "seam_error": 5.42
+  },
+  {
+   "file": "tex-lava-flow-s5741102.png",
+   "name": "lava-flow",
+   "seed": 5741102,
+   "sha256": "71a6ad2c30bb231b693c383ce78a647d9ff005eb5f9c4aef9520e6e18303aa75",
+   "seam_error": 5.07
+  },
+  {
+   "file": "tex-lava-flow-s5741103.png",
+   "name": "lava-flow",
+   "seed": 5741103,
+   "sha256": "20201fd704e451b79581f8f495bc3f65da83c70f70df1e4f8778bd8745f45e20",
+   "seam_error": 5.05
+  },
+  {
+   "file": "tex-lava-flow-s5741104.png",
+   "name": "lava-flow",
+   "seed": 5741104,
+   "sha256": "093fc0fa5d1f9fab63dc73f5c1b7d1943a0d0f0a5fdc7a840335407775a9d250",
+   "seam_error": 5.4
+  },
+  {
+   "file": "tex-lava-crust-s5741102.png",
+   "name": "lava-crust",
+   "seed": 5741102,
+   "sha256": "bf9149cd9bf5e65d18c4bac9e8cd683626f9c2790c46f84454536da202fc80fa",
+   "seam_error": 5.12
+  },
+  {
+   "file": "tex-lava-crust-s5741103.png",
+   "name": "lava-crust",
+   "seed": 5741103,
+   "sha256": "cae3d6a94ba3d008d56b146810fdd2d52a502e2c815cd3d5f5d33224973c3bf9",
+   "seam_error": 5.3
+  },
+  {
+   "file": "tex-lava-crust-s5741104.png",
+   "name": "lava-crust",
+   "seed": 5741104,
+   "sha256": "58f81a72ac5d56fd8db6c310adf440afd56393c3b0565f5cc5670621d2636363",
+   "seam_error": 5.28
+  },
+  {
+   "file": "tex-ash-ground-s5741102.png",
+   "name": "ash-ground",
+   "seed": 5741102,
+   "sha256": "eb44636328c81d4a74c441c3aba2612c85ed87d308d627a7a5221cca00f23e64",
+   "seam_error": 5.13
+  },
+  {
+   "file": "tex-ash-ground-s5741103.png",
+   "name": "ash-ground",
+   "seed": 5741103,
+   "sha256": "b7099fedd9c542877fe267efae989779b195e3fbd062287e02bfecd600434446",
+   "seam_error": 5.68
+  },
+  {
+   "file": "tex-ash-ground-s5741104.png",
+   "name": "ash-ground",
+   "seed": 5741104,
+   "sha256": "51c753e46d47ee70e6c95602d2d0e221e3124e9a2f4c639da98931b0a84da81d",
+   "seam_error": 5.57
+  },
+  {
+   "file": "tex-basalt-columns-s5741102.png",
+   "name": "basalt-columns",
+   "seed": 5741102,
+   "sha256": "67c71f2c88034d8a7146250fbd1243403bf61af121bf943e31bad199cb1d22cc",
+   "seam_error": 5.03
+  },
+  {
+   "file": "tex-basalt-columns-s5741103.png",
+   "name": "basalt-columns",
+   "seed": 5741103,
+   "sha256": "b2757b5fd900f93ea018eb0cdedadbf8065d541dad134f22c21384a148087d2e",
+   "seam_error": 7.12
+  },
+  {
+   "file": "tex-basalt-columns-s5741104.png",
+   "name": "basalt-columns",
+   "seed": 5741104,
+   "sha256": "10b0b7f7184e71675eb9720a38a46d246c79a9887db8c8ef443139899c76ff40",
+   "seam_error": 3.73
+  }
+ ],
+ "sprites": [
+  {
+   "file": "spr-volcano-active-s5741102.png",
+   "name": "volcano-active",
+   "seed": 5741102,
+   "sha256": "fb38e9455948b5766b2ff0a9883a2aeb72f227f45f4f6f17500b509896a36733"
+  },
+  {
+   "file": "spr-volcano-active-s5741103.png",
+   "name": "volcano-active",
+   "seed": 5741103,
+   "sha256": "be677a65702fb438cd516766680b1a21eebc47c9cbe97db4a5bb48e32ead87ab"
+  },
+  {
+   "file": "spr-volcano-active-s5741104.png",
+   "name": "volcano-active",
+   "seed": 5741104,
+   "sha256": "088a885b65212ffff07f8bc946bd2121d0c126151fd7bac61e8be49595d25cf8"
+  },
+  {
+   "file": "spr-volcano-dormant-s5741102.png",
+   "name": "volcano-dormant",
+   "seed": 5741102,
+   "sha256": "c9ee2416aeb59ba482d4684454976f4c24bb040442549cdef4144f242fbc417a"
+  },
+  {
+   "file": "spr-volcano-dormant-s5741103.png",
+   "name": "volcano-dormant",
+   "seed": 5741103,
+   "sha256": "c43c0f04651e957d789d6fca1ceb2191755f67f2c70daed5d0270721fec3e41c"
+  },
+  {
+   "file": "spr-volcano-dormant-s5741104.png",
+   "name": "volcano-dormant",
+   "seed": 5741104,
+   "sha256": "90db2a269eebfed3292e0ad0619e60b683454f23b4dd156543592227c0edbd7c"
+  },
+  {
+   "file": "spr-glacier-block-s5741102.png",
+   "name": "glacier-block",
+   "seed": 5741102,
+   "sha256": "dfa1a59ef3d24193d7b31401fb21f30b6dd6f7af355f78a41c0530d34c218bea"
+  },
+  {
+   "file": "spr-glacier-block-s5741103.png",
+   "name": "glacier-block",
+   "seed": 5741103,
+   "sha256": "86dbca443fcda8430c2bb295e6857120b3eb99a0df0b69654fcb94f91306d870"
+  },
+  {
+   "file": "spr-glacier-block-s5741104.png",
+   "name": "glacier-block",
+   "seed": 5741104,
+   "sha256": "186e4af57eeb1149abbf68be4487bd1cb3999b826840727b2aab464ffd9df459"
+  },
+  {
+   "file": "spr-iceberg-s5741102.png",
+   "name": "iceberg",
+   "seed": 5741102,
+   "sha256": "04bcb62de235bc0a7a1250dd755e592c68a2b24868f3414c253ad759fe4c7555"
+  },
+  {
+   "file": "spr-iceberg-s5741103.png",
+   "name": "iceberg",
+   "seed": 5741103,
+   "sha256": "dbd365d3a8b99f6c244d35566a02a7f0a426961aa74e83d31e6e424aa3ab7b07"
+  },
+  {
+   "file": "spr-iceberg-s5741104.png",
+   "name": "iceberg",
+   "seed": 5741104,
+   "sha256": "d34012e464c78aae62a79222bb4690e7c0127d3e5d5dc04a5c80bf7464987bb7"
+  },
+  {
+   "file": "spr-ice-spires-s5741102.png",
+   "name": "ice-spires",
+   "seed": 5741102,
+   "sha256": "f89a579bc16c352c96807074f7f9a08024e9d6b641a7f7c0566af4b06965b89a"
+  },
+  {
+   "file": "spr-ice-spires-s5741103.png",
+   "name": "ice-spires",
+   "seed": 5741103,
+   "sha256": "5aec223b9892e921bf61dd319523db0bd3a5858cd6b29d4aaca8455e40774893"
+  },
+  {
+   "file": "spr-ice-spires-s5741104.png",
+   "name": "ice-spires",
+   "seed": 5741104,
+   "sha256": "a56c966525735a145ec1f5c67561ad86b2bd7acc84232d223bd530c28dfe66c8"
+  },
+  {
+   "file": "spr-sea-stacks-s5741102.png",
+   "name": "sea-stacks",
+   "seed": 5741102,
+   "sha256": "4335fe2caff840cc431803de4cdb8ec0e876aff131c8685ca7d2ad7c4817094a"
+  },
+  {
+   "file": "spr-sea-stacks-s5741103.png",
+   "name": "sea-stacks",
+   "seed": 5741103,
+   "sha256": "80bb0686031a48140f9894a692e2d8eeb4cbd886cfd1738dcfce25fa0b338f3e"
+  },
+  {
+   "file": "spr-sea-stacks-s5741104.png",
+   "name": "sea-stacks",
+   "seed": 5741104,
+   "sha256": "56a49e5c891acadebdb1300c25055280486b7c1ee49478ec99bd53eb338a172c"
+  },
+  {
+   "file": "spr-waterfall-s5741102.png",
+   "name": "waterfall",
+   "seed": 5741102,
+   "sha256": "2a4d0061db609e7023fe576e9f832cd9e97e80d524d58a448d5da2dffbe9554e"
+  },
+  {
+   "file": "spr-waterfall-s5741103.png",
+   "name": "waterfall",
+   "seed": 5741103,
+   "sha256": "5e535fea88d2e326f343ef44ecb86938da5c4dc7cc0d471d3eeee8581062ca02"
+  },
+  {
+   "file": "spr-waterfall-s5741104.png",
+   "name": "waterfall",
+   "seed": 5741104,
+   "sha256": "277addf8b01a647b0555f18d236c135db9aac88a0d1fada1443604f03d4c7e14"
+  },
+  {
+   "file": "spr-lava-rocks-s5741102.png",
+   "name": "lava-rocks",
+   "seed": 5741102,
+   "sha256": "6b04ecea82102b8ef9c08e4c022aa8026ac90e9badff7d535bef5b4dbfb996c6"
+  },
+  {
+   "file": "spr-lava-rocks-s5741103.png",
+   "name": "lava-rocks",
+   "seed": 5741103,
+   "sha256": "07793f50013177c40f017ce7c6532866717036217c57feb213da5a7f37fab983"
+  },
+  {
+   "file": "spr-lava-rocks-s5741104.png",
+   "name": "lava-rocks",
+   "seed": 5741104,
+   "sha256": "4f2cfc79a9d728835c186e4fb9c73a63c6077ca4149db448bd8603da9ff90104"
+  },
+  {
+   "file": "spr-basalt-columns-s5741102.png",
+   "name": "basalt-columns",
+   "seed": 5741102,
+   "sha256": "1bef95f5bf51b06a83ab46cc0d23a6c205bec0319a57b80fbd2f9581d766f5cb"
+  },
+  {
+   "file": "spr-basalt-columns-s5741103.png",
+   "name": "basalt-columns",
+   "seed": 5741103,
+   "sha256": "a7c99e10eb8607ffb0d24f58f1c8ceff0c98428c08895c6defb3c29d92acf791"
+  },
+  {
+   "file": "spr-basalt-columns-s5741104.png",
+   "name": "basalt-columns",
+   "seed": 5741104,
+   "sha256": "5ed056dc0fcfd1661ab92d717fcacd0aeb09aee032892b8c8b9d691e36bafbdf"
+  },
+  {
+   "file": "spr-mountain-peak-s5741102.png",
+   "name": "mountain-peak",
+   "seed": 5741102,
+   "sha256": "a7005a2f04ba047bdcb53fdea6fa9bef23c7231a8f21533d936490256dcc32a0"
+  },
+  {
+   "file": "spr-mountain-peak-s5741103.png",
+   "name": "mountain-peak",
+   "seed": 5741103,
+   "sha256": "77f01bf3e48e732393abd0e03a7972e4724f649ad43777626658f1f2c75a4fda"
+  },
+  {
+   "file": "spr-mountain-peak-s5741104.png",
+   "name": "mountain-peak",
+   "seed": 5741104,
+   "sha256": "b9588cbc5fecafecb0d7edb5a9591b2e06eddffe63b42dd4153fbd7c2a4370d1"
+  },
+  {
+   "file": "spr-grassy-hill-s5741102.png",
+   "name": "grassy-hill",
+   "seed": 5741102,
+   "sha256": "5cb7dac847e95d789f09393d4095abd108f41f6eaf04a211b463aa5183eaae7e"
+  },
+  {
+   "file": "spr-grassy-hill-s5741103.png",
+   "name": "grassy-hill",
+   "seed": 5741103,
+   "sha256": "da2c0e78dcf2862a7a52e61e636b22ea79475ef7a103576950fb07db5a1ec3ed"
+  },
+  {
+   "file": "spr-grassy-hill-s5741104.png",
+   "name": "grassy-hill",
+   "seed": 5741104,
+   "sha256": "44afde69139734756b44da3a8cd74f273f554eb2f3929d20510e121ce0dd8aef"
+  },
+  {
+   "file": "spr-cliff-outcrop-s5741102.png",
+   "name": "cliff-outcrop",
+   "seed": 5741102,
+   "sha256": "e58f7708015e7cab5ae1937ab1d068efc6d1728c85d48e81678eca1f847d3a15"
+  },
+  {
+   "file": "spr-cliff-outcrop-s5741103.png",
+   "name": "cliff-outcrop",
+   "seed": 5741103,
+   "sha256": "dae8566233203add4bce2251e85ee4406f414424b59a61c0932d55d9295481a0"
+  },
+  {
+   "file": "spr-cliff-outcrop-s5741104.png",
+   "name": "cliff-outcrop",
+   "seed": 5741104,
+   "sha256": "57875a2a8a2cd9aca89e7897d5001b974c3bdfd5fab2e01e53179aa87681b68b"
+  },
+  {
+   "file": "spr-pine-tree-s5741102.png",
+   "name": "pine-tree",
+   "seed": 5741102,
+   "sha256": "8503ed6ff8c052e33ae040f7ab908824ccd7d68b786ceb961671b99846433daf"
+  },
+  {
+   "file": "spr-pine-tree-s5741103.png",
+   "name": "pine-tree",
+   "seed": 5741103,
+   "sha256": "8d1193b55f7f29ba5d86294aac5b7b1be9e327b1b3bd4d1427506c9ffa27e077"
+  },
+  {
+   "file": "spr-pine-tree-s5741104.png",
+   "name": "pine-tree",
+   "seed": 5741104,
+   "sha256": "8bcfe3829d6ce18e9645adb52a6152c4932ff3e9605d5a53b9c3e9ae360d4420"
+  },
+  {
+   "file": "spr-broadleaf-tree-s5741102.png",
+   "name": "broadleaf-tree",
+   "seed": 5741102,
+   "sha256": "1e52743f387fdfb5fcbb07d60a24dfa1e7b5ed33863547ae31287b24ef09272e"
+  },
+  {
+   "file": "spr-broadleaf-tree-s5741103.png",
+   "name": "broadleaf-tree",
+   "seed": 5741103,
+   "sha256": "6c5706b591590e31f58266c11473447741b0f346b8f027be06fbd3d6c149ab72"
+  },
+  {
+   "file": "spr-broadleaf-tree-s5741104.png",
+   "name": "broadleaf-tree",
+   "seed": 5741104,
+   "sha256": "87e43946f394b64818873a946fb2f69ea89bad22ca53d4f139b2829fb49564ee"
+  },
+  {
+   "file": "spr-crystal-tree-s5741102.png",
+   "name": "crystal-tree",
+   "seed": 5741102,
+   "sha256": "5fdeb2330cbc708211538754244873bcec2dcb535ca22a18a9556c14b2706df8"
+  },
+  {
+   "file": "spr-crystal-tree-s5741103.png",
+   "name": "crystal-tree",
+   "seed": 5741103,
+   "sha256": "0d6c78d3b8a8426a1ff318f1f5005b3b1d54d40b6a655d59b10d412c340f4344"
+  },
+  {
+   "file": "spr-crystal-tree-s5741104.png",
+   "name": "crystal-tree",
+   "seed": 5741104,
+   "sha256": "1adeb70b7736a978a4db3fef076db54c252f3e508aae5580ac4ff53fe223c70d"
+  },
+  {
+   "file": "spr-flower-bush-s5741102.png",
+   "name": "flower-bush",
+   "seed": 5741102,
+   "sha256": "567ef3920b3a64d9ef074a70b26a12a1a195120fc11c832bc69e3527924b39de"
+  },
+  {
+   "file": "spr-flower-bush-s5741103.png",
+   "name": "flower-bush",
+   "seed": 5741103,
+   "sha256": "390d6030ff6975282443c4d2b42e40c3ea459070d1b4cb9e84c8db49ee9a2341"
+  },
+  {
+   "file": "spr-flower-bush-s5741104.png",
+   "name": "flower-bush",
+   "seed": 5741104,
+   "sha256": "9cb5e8b47288eb9302c2b6396edaa5e16f6f2899dbd792681be1c05e8d49a288"
+  },
+  {
+   "file": "spr-boulder-group-s5741102.png",
+   "name": "boulder-group",
+   "seed": 5741102,
+   "sha256": "e25cfb7cea48131b7f4d64a34242627fbd927f496e481691845a71f77e31e385"
+  },
+  {
+   "file": "spr-boulder-group-s5741103.png",
+   "name": "boulder-group",
+   "seed": 5741103,
+   "sha256": "2ce3a79a634dc25d78fc01d03ff62580ffeba01f91a95ad13578e07ae41b0ee4"
+  },
+  {
+   "file": "spr-boulder-group-s5741104.png",
+   "name": "boulder-group",
+   "seed": 5741104,
+   "sha256": "f6bd4a164df3fb95a4587f5eff7dace1f28fae0b709021cea16101b236f2ec7b"
+  },
+  {
+   "file": "spr-reed-clump-s5741102.png",
+   "name": "reed-clump",
+   "seed": 5741102,
+   "sha256": "14300007629d3b2748fb1785dce356e2e34519a3f0362e68847ee7ccadf2bf0b"
+  },
+  {
+   "file": "spr-reed-clump-s5741103.png",
+   "name": "reed-clump",
+   "seed": 5741103,
+   "sha256": "ffeb50a9ccbcf468a214ce7010439d72aee14ae21df4db8e53816d2b10cf536c"
+  },
+  {
+   "file": "spr-reed-clump-s5741104.png",
+   "name": "reed-clump",
+   "seed": 5741104,
+   "sha256": "6eec5e39d259bee74c4b14222676e32fa4819728042ec255f9d7b1f18d2575bb"
+  },
+  {
+   "file": "spr-small-island-s5741102.png",
+   "name": "small-island",
+   "seed": 5741102,
+   "sha256": "ebcf72e62c4d44ae2ba6130f1d23b50f62444da07aac333ff05aaff523786b36"
+  },
+  {
+   "file": "spr-small-island-s5741103.png",
+   "name": "small-island",
+   "seed": 5741103,
+   "sha256": "31982f1b336bd07010e5410caa18684c09bf0a9703d8e465a6384380618a1658"
+  },
+  {
+   "file": "spr-small-island-s5741104.png",
+   "name": "small-island",
+   "seed": 5741104,
+   "sha256": "6d448661d61974cc901d242f0a07f229f073e8d7ace896534427ae009fb00e35"
+  }
+ ]
+}

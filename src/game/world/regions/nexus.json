@@ -375,6 +375,42 @@
       "anchorX": 0.5,
       "anchorY": 0.92,
       "solid": false
+    },
+    {
+      "id": "nature-patch-ice-spires-20",
+      "kind": "patch-ice-spires",
+      "asset": "nature.patch-ice-spires",
+      "x": 645,
+      "y": 429,
+      "width": 260,
+      "height": 260,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "nature-patch-ice-spires-21",
+      "kind": "patch-ice-spires",
+      "asset": "nature.patch-ice-spires",
+      "x": 1972,
+      "y": 372,
+      "width": 230,
+      "height": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
+    },
+    {
+      "id": "nature-patch-boulder-group-22",
+      "kind": "patch-boulder-group",
+      "asset": "nature.patch-boulder-group",
+      "x": 1363,
+      "y": 351,
+      "width": 200,
+      "height": 200,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "solid": false
     }
   ],
   "obstacles": [

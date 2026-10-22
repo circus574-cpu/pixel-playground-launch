@@ -4,19 +4,34 @@ import { PackSchema } from "../game/assets/schema";
 import { makeCatalog, previewPacks, worldAssets, worldRenderRefs } from "../game/assets/catalog";
 import { WORLDS } from "../game/world/worlds";
 
-const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
+const allPacks = (imported as unknown[]).map((p) => PackSchema.parse(p));
+/** Later public packs that intentionally override the start-point surfaces and add scenery. */
+const LATER = new Set([
+  "aether-terrain-v2",
+  "nexus-terrain-v2",
+  "pyra-terrain-v2",
+  "nature-textures-v1",
+  "nature-objects-v1",
+]);
+const packs = allPacks.filter((p) => !LATER.has(p.id));
 for (const world of ["nexus", "pyra"] as const) {
   describe(world + " anime start art", () => {
     it("is the default art in the game", () => {
       const pack = packs.find((p) => p.id === world + "-start");
       expect(pack?.previewOnly).toBe(false);
-      const ids = worldAssets(world, false, makeCatalog(packs, previewPacks(""))).map((a) => a.id);
-      expect(ids).toContain(world + "-art-ground");
+      const ids = worldAssets(world, false, makeCatalog(allPacks, previewPacks(""))).map(
+        (a) => a.id,
+      );
+      expect(
+        makeCatalog(packs, previewPacks("")).renderBindings["terrain." + world + "-ground"],
+      ).toBeTruthy();
+      expect(ids).toContain(world + "-terrain-v2-ground");
+      expect(ids).toContain("nature-obj-" + (world === "pyra" ? "volcano-active" : "ice-spires"));
     });
     it("loads independent images for every object and all four surfaces", () => {
       const source = makeCatalog(packs, [world + "-start"]);
       const ids = worldAssets(world, false, source).map((a) => a.id);
-      for (const object of WORLDS[world].objects) {
+      for (const object of WORLDS[world].objects.filter((o) => !o.asset?.startsWith("nature."))) {
         expect(source.renderBindings["object." + object.asset]?.asset).toMatch(
           new RegExp("^" + world + "-art-"),
         );

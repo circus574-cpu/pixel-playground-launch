@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "id": "aether-terrain-v2",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "aether-terrain-v2-ground",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "aether-terrain-v2-ground.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aether-terrain-v2-path",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "aether-terrain-v2-path.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aether-terrain-v2-plaza",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "aether-terrain-v2-plaza.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aether-terrain-v2-wall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "aether-terrain-v2-wall.webp",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.aether-ground": {
+      "asset": "aether-terrain-v2-ground",
+      "fit": "stretch",
+      "tileSize": [
+        320,
+        320
+      ]
+    },
+    "terrain.aether-path": {
+      "asset": "aether-terrain-v2-path",
+      "fit": "stretch",
+      "tileSize": [
+        208,
+        208
+      ]
+    },
+    "terrain.aether-plaza": {
+      "asset": "aether-terrain-v2-plaza",
+      "fit": "stretch",
+      "tileSize": [
+        288,
+        288
+      ]
+    },
+    "terrain.aether-wall": {
+      "asset": "aether-terrain-v2-wall",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    }
+  },
+  "effects": {}
+}

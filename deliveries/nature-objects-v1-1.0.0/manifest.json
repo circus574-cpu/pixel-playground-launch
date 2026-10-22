@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "id": "nature-objects-v1",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "nature-obj-volcano-active",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-volcano-active.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-volcano-dormant",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-volcano-dormant.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-glacier-block",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-glacier-block.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-iceberg",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-iceberg.webp",
+      "width": 419,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-ice-spires",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-ice-spires.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-sea-stacks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-sea-stacks.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-waterfall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-waterfall.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-lava-rocks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-lava-rocks.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-basalt-columns",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-basalt-columns.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-mountain-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-mountain-peak.webp",
+      "width": 511,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-grassy-hill",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-grassy-hill.webp",
+      "width": 512,
+      "height": 495
+    },
+    {
+      "id": "nature-obj-cliff-outcrop",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-cliff-outcrop.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-pine-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-pine-tree.webp",
+      "width": 345,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-broadleaf-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-broadleaf-tree.webp",
+      "width": 507,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-crystal-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-crystal-tree.webp",
+      "width": 408,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-flower-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-flower-bush.webp",
+      "width": 512,
+      "height": 452
+    },
+    {
+      "id": "nature-obj-boulder-group",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-boulder-group.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-reed-clump",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-reed-clump.webp",
+      "width": 463,
+      "height": 512
+    },
+    {
+      "id": "nature-obj-small-island",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-objects-v1-small-island.webp",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.nature.patch-volcano-active": {
+      "asset": "nature-obj-volcano-active",
+      "fit": "contain"
+    },
+    "object.nature.patch-volcano-dormant": {
+      "asset": "nature-obj-volcano-dormant",
+      "fit": "contain"
+    },
+    "object.nature.patch-glacier-block": {
+      "asset": "nature-obj-glacier-block",
+      "fit": "contain"
+    },
+    "object.nature.iceberg": {
+      "asset": "nature-obj-iceberg",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.patch-ice-spires": {
+      "asset": "nature-obj-ice-spires",
+      "fit": "contain"
+    },
+    "object.nature.patch-sea-stacks": {
+      "asset": "nature-obj-sea-stacks",
+      "fit": "contain"
+    },
+    "object.nature.patch-waterfall": {
+      "asset": "nature-obj-waterfall",
+      "fit": "contain"
+    },
+    "object.nature.patch-lava-rocks": {
+      "asset": "nature-obj-lava-rocks",
+      "fit": "contain"
+    },
+    "object.nature.patch-basalt-columns": {
+      "asset": "nature-obj-basalt-columns",
+      "fit": "contain"
+    },
+    "object.nature.mountain-peak": {
+      "asset": "nature-obj-mountain-peak",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.grassy-hill": {
+      "asset": "nature-obj-grassy-hill",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.patch-cliff-outcrop": {
+      "asset": "nature-obj-cliff-outcrop",
+      "fit": "contain"
+    },
+    "object.nature.pine-tree": {
+      "asset": "nature-obj-pine-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.broadleaf-tree": {
+      "asset": "nature-obj-broadleaf-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.crystal-tree": {
+      "asset": "nature-obj-crystal-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.flower-bush": {
+      "asset": "nature-obj-flower-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.patch-boulder-group": {
+      "asset": "nature-obj-boulder-group",
+      "fit": "contain"
+    },
+    "object.nature.reed-clump": {
+      "asset": "nature-obj-reed-clump",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nature.patch-small-island": {
+      "asset": "nature-obj-small-island",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

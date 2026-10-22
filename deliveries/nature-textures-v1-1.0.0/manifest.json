@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "id": "nature-textures-v1",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "nature-tex-water-ocean-deep",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-water-ocean-deep.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-water-ocean-shallow",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-water-ocean-shallow.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-water-river",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-water-river.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-water-lake-calm",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-water-lake-calm.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-water-crystal",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-water-crystal.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-energy-liquid",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-energy-liquid.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-ice-glacier",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-ice-glacier.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-snow",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-snow.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-sand-beach",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-sand-beach.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-meadow-grass",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-meadow-grass.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-forest-floor",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-forest-floor.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-cliff-rock",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-cliff-rock.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-lava-flow",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-lava-flow.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-lava-crust",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-lava-crust.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-ash-ground",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-ash-ground.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nature-tex-basalt-columns",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "nature-textures-v1-basalt-columns.webp",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.nature-water-ocean-deep": {
+      "asset": "nature-tex-water-ocean-deep",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-water-ocean-shallow": {
+      "asset": "nature-tex-water-ocean-shallow",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-water-river": {
+      "asset": "nature-tex-water-river",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-water-lake-calm": {
+      "asset": "nature-tex-water-lake-calm",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-water-crystal": {
+      "asset": "nature-tex-water-crystal",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-energy-liquid": {
+      "asset": "nature-tex-energy-liquid",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-ice-glacier": {
+      "asset": "nature-tex-ice-glacier",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-snow": {
+      "asset": "nature-tex-snow",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-sand-beach": {
+      "asset": "nature-tex-sand-beach",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-meadow-grass": {
+      "asset": "nature-tex-meadow-grass",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-forest-floor": {
+      "asset": "nature-tex-forest-floor",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-cliff-rock": {
+      "asset": "nature-tex-cliff-rock",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-lava-flow": {
+      "asset": "nature-tex-lava-flow",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-lava-crust": {
+      "asset": "nature-tex-lava-crust",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-ash-ground": {
+      "asset": "nature-tex-ash-ground",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.nature-basalt-columns": {
+      "asset": "nature-tex-basalt-columns",
+      "fit": "stretch",
+      "tileSize": [
+        256,
+        256
+      ]
+    }
+  },
+  "effects": {}
+}

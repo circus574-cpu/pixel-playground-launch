@@ -1,0 +1,138 @@
+{
+ "pack": "nature-objects-v1",
+ "items": [
+  {
+   "name": "volcano-active",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "088a885b65212ffff07f8bc946bd2121d0c126151fd7bac61e8be49595d25cf8",
+   "webp_sha256": "3afcd96b963972ce0d8a20dc8961cfeeb66024c812b4f8fb0a0bf091b35ce015"
+  },
+  {
+   "name": "volcano-dormant",
+   "seed": 5741103,
+   "opaque_patch": true,
+   "source_sha256": "c43c0f04651e957d789d6fca1ceb2191755f67f2c70daed5d0270721fec3e41c",
+   "webp_sha256": "2ec2d767129b768c54d5914b0d753b342806725ec092f4667268d773dd295c27"
+  },
+  {
+   "name": "glacier-block",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "186e4af57eeb1149abbf68be4487bd1cb3999b826840727b2aab464ffd9df459",
+   "webp_sha256": "ee19f85eb37cd5d3cdd5b267afb3371443cca9124f55fdbd6077bed327fb7104"
+  },
+  {
+   "name": "iceberg",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "be408db758feeb363caf83a8846ec78d8213ad3d31a42cf9f5535b3db109924e",
+   "webp_sha256": "31dc7f4a189e0d9ca4638293426b3e49dd0ceb0f29c5845873b78e4bf81c69d1"
+  },
+  {
+   "name": "ice-spires",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "a56c966525735a145ec1f5c67561ad86b2bd7acc84232d223bd530c28dfe66c8",
+   "webp_sha256": "b4761e2e379e46d3a750eb8bd9cf3c1b8e20c51a1fc3305073445a60faac91cd"
+  },
+  {
+   "name": "sea-stacks",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "56a49e5c891acadebdb1300c25055280486b7c1ee49478ec99bd53eb338a172c",
+   "webp_sha256": "03c9da9cb012c79453c0f06418aa79585ac18ceaa21c4637042ca0048ded9284"
+  },
+  {
+   "name": "waterfall",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "277addf8b01a647b0555f18d236c135db9aac88a0d1fada1443604f03d4c7e14",
+   "webp_sha256": "05da144089159b6cbae4ab68edd3e84d63a3c2f5a7cf3842b7a11c39297e7a71"
+  },
+  {
+   "name": "lava-rocks",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "4f2cfc79a9d728835c186e4fb9c73a63c6077ca4149db448bd8603da9ff90104",
+   "webp_sha256": "03cfba493bfe70575ec23732cfc526521d799b74b01e7718a125cf50c9562799"
+  },
+  {
+   "name": "basalt-columns",
+   "seed": 5741102,
+   "opaque_patch": true,
+   "source_sha256": "1bef95f5bf51b06a83ab46cc0d23a6c205bec0319a57b80fbd2f9581d766f5cb",
+   "webp_sha256": "262ae758ea0bd01a97f91e61bf6300633a331b04f1621c9efed25d4da399940a"
+  },
+  {
+   "name": "mountain-peak",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "ed416957f849f7d33d7a07f44034833088c6b1909b5df1c64d1a8a02c7ceef44",
+   "webp_sha256": "6250f9b9099d5a77f274b80ce6897926c8fe003197f057e9356de760cbe54ada"
+  },
+  {
+   "name": "grassy-hill",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "5bf98b94c3434e4af2276a78600299d1eb1e4a820b3b8516c7a54cd9f04598ba",
+   "webp_sha256": "03c997f4a13589504a499dab440991c12fee72f3c4002ec56921b768da34e8df"
+  },
+  {
+   "name": "cliff-outcrop",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "57875a2a8a2cd9aca89e7897d5001b974c3bdfd5fab2e01e53179aa87681b68b",
+   "webp_sha256": "5def881931f7affe280e29c9a5f6ee8ee4c84eef1d97bd3daa0692e2c8d46cf1"
+  },
+  {
+   "name": "pine-tree",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "aad8d77dc20160f971ef6b3bc5224603f562badc2ba063d9d7d42c4d066bb9ef",
+   "webp_sha256": "d35b2d784db1f4023683f7fa44818c1b0b2d9708d54b502acb91bdc926060989"
+  },
+  {
+   "name": "broadleaf-tree",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "8bada6a34d3b07cd0385f00e87bda1159fee6e6ce965c8bc1379ebcfb1a4b771",
+   "webp_sha256": "9a4968bec8555c8a2a8b7cd9a51fb005f5fa7b7ca341cf8a1467fd61aa870d08"
+  },
+  {
+   "name": "crystal-tree",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "212961844fc5d378e7798906ca84756ecd6d73e2ff11534f10b87ba86da572ce",
+   "webp_sha256": "617fb82f0b75f036d86d6f8fb8bd850acb20761b6e71b04e30438ed0ec40a146"
+  },
+  {
+   "name": "flower-bush",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "716d1f0aed9cfc335a33ec82e0c9f4d3df19b105c2e33871ad758d8fb0114990",
+   "webp_sha256": "a4e61a64214c45d575db213cd5dfe264be19b0328263678ccb7defe52009c994"
+  },
+  {
+   "name": "boulder-group",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "f6bd4a164df3fb95a4587f5eff7dace1f28fae0b709021cea16101b236f2ec7b",
+   "webp_sha256": "35619749d2d1b5fbadba10fcfbb40e0218e65a75a62cc395da7233e5b7120007"
+  },
+  {
+   "name": "reed-clump",
+   "seed": 5741104,
+   "opaque_patch": false,
+   "source_sha256": "19d11751446fc13eaea56c57497669bb161365574045dabdb5ce9eddb25fd43f",
+   "webp_sha256": "524131a998cebbd7775ba7be42ed600006fd4ebb043d8aaed98140087b3b978a"
+  },
+  {
+   "name": "small-island",
+   "seed": 5741104,
+   "opaque_patch": true,
+   "source_sha256": "6d448661d61974cc901d242f0a07f229f073e8d7ace896534427ae009fb00e35",
+   "webp_sha256": "edfa0a711be6b3f1d1b669fdf0d678e157db0fa7232089d79cdd92219f35b358"
+  }
+ ]
+}

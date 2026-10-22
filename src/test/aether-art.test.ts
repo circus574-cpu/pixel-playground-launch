@@ -11,6 +11,14 @@ import {
 import { WORLDS, worldObstacles } from "../game/world/worlds";
 
 const packs = (imported as unknown[]).map((p) => PackSchema.parse(p));
+/** Later public packs that intentionally override the start-point surfaces and add scenery. */
+const LATER = new Set([
+  "aether-terrain-v2",
+  "nexus-terrain-v2",
+  "pyra-terrain-v2",
+  "nature-textures-v1",
+  "nature-objects-v1",
+]);
 const pack = packs.find((p) => p.id === "aether-sanctuary")!;
 
 describe("Aetheria anime start-point art", () => {
@@ -21,14 +29,27 @@ describe("Aetheria anime start-point art", () => {
   });
 
   it("replaces every Aetheria object and terrain texture when enabled", () => {
-    const source = makeCatalog(packs);
+    const source = makeCatalog(packs.filter((p) => !LATER.has(p.id)));
     const ids = worldAssets("aether", false, source).map((a) => a.id);
-    for (const object of WORLDS.aether.objects)
+    for (const object of WORLDS.aether.objects.filter((o) => !o.asset?.startsWith("nature.")))
       expect(source.renderBindings["object." + object.asset]?.asset).toMatch(/^aether-(art|x)-/);
     for (const key of ["ground", "path", "plaza"] as const)
       expect(ids).toContain("aether-art-" + WORLDS.aether.terrain![key]);
     expect(ids).toContain("aether-art-aether-wall");
-    expect(ids.some((id) => WORLDS.aether.objects.some((o) => o.asset === id))).toBe(false);
+    expect(
+      ids.some((id) =>
+        WORLDS.aether.objects.some((o) => !o.asset?.startsWith("nature.") && o.asset === id),
+      ),
+    ).toBe(false);
+  });
+
+  it("uses the v2 terrain textures and nature scenery by default", () => {
+    const source = makeCatalog(packs, previewPacks(""));
+    const ids = worldAssets("aether", false, source).map((a) => a.id);
+    for (const key of ["ground", "path", "plaza", "wall"])
+      expect(ids).toContain("aether-terrain-v2-" + key);
+    expect(ids).toContain("nature-obj-crystal-tree");
+    expect(source.renderBindings["terrain.nature-water-crystal"]).toBeTruthy();
   });
 
   it("uses the painted textures by default", () => {

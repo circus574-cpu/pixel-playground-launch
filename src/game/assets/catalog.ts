@@ -227,6 +227,17 @@ export function loadingTextureUrl() {
   return catalog.assets.get("brand-loading")!.url;
 }
 
+/** Nature liquids that texture the inner blocking rectangles; collision stays in region JSON. */
+const HAZARD_TEXTURES: Partial<Record<WorldId, string>> = {
+  pyra: "terrain.nature-lava-flow",
+  nexus: "terrain.nature-energy-liquid",
+  aether: "terrain.nature-water-crystal",
+};
+export function hazardBinding(worldId: WorldId, source = catalog) {
+  const key = HAZARD_TEXTURES[worldId];
+  return key ? source.renderBindings[key] : undefined;
+}
+
 export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[] {
   const world = WORLDS[worldId],
     refs: TextureRef[] = [];
@@ -252,5 +263,7 @@ export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[
     const ref = source.renderBindings[key];
     if (ref) refs.push(ref);
   }
+  const hazard = hazardBinding(worldId, source);
+  if (hazard) refs.push(hazard);
   return refs;
 }
