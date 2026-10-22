@@ -42,11 +42,15 @@ const PATHS = Object.fromEntries(REGIONS.map((r) => [r.id, regionPath(r)]));
 export function PlanetMap({
   onShowGlobe,
   notice,
+  embedded = false,
+  onClose,
 }: {
   /** Switch back to the 3D globe; omitted when WebGL 2 is unavailable. */
   onShowGlobe?: (() => void) | undefined;
   /** Why the flat atlas is shown instead of the globe, if not by choice. */
   notice?: string | null | undefined;
+  embedded?: boolean;
+  onClose?: () => void;
 } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -513,10 +517,17 @@ export function PlanetMap({
       </div>
 
       <header className="pm-topbar">
-        <Link to="/" className="pm-back" aria-label="Wróć do gry">
-          <ArrowLeft aria-hidden size={16} />
-          <span>Gra</span>
-        </Link>
+        {embedded && onClose ? (
+          <button type="button" className="pm-back" onClick={onClose} aria-label="Zamknij mapę i wróć do gry">
+            <ArrowLeft aria-hidden size={16} />
+            <span>Gra</span>
+          </button>
+        ) : (
+          <Link to="/" className="pm-back" aria-label="Wróć do gry">
+            <ArrowLeft aria-hidden size={16} />
+            <span>Gra</span>
+          </Link>
+        )}
         <div className="pm-title">
           <p className="pm-eyebrow">Ki Legends · Atlas</p>
           <h1>
@@ -711,7 +722,7 @@ export function PlanetMap({
               </p>
             )}
             <p>{selectedRegion.summary}</p>
-            {["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
+            {!embedded && ["verdant", "aether", "nexus", "pyra"].includes(selectedRegion.id) && (
               <Link
                 to="/"
                 search={{ continent: selectedRegion.id } as never}
