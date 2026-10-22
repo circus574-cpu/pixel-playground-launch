@@ -67,12 +67,6 @@
   color: #f0ffff;
   font: 600 14px system-ui, sans-serif;
 }
-.ki-map-footer .ki-globe-quick {
-  width: 31px;
-  height: 25px;
-  font: 19px/20px system-ui, sans-serif;
-  touch-action: manipulation;
-}
 @media (max-width: 900px) {
   .ki-world-globe .pm-topbar { padding-left: 55px; }
   .ki-world-globe-close { width: 42px; padding: 0; text-align: center; }
