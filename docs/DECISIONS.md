@@ -16,6 +16,7 @@ Data przeglądu: 2026-10-21. Tutaj zapisywane są jedynie decyzje potwierdzone i
 | 2026-10-22 | Porzucono rigi 3D z prymitywów („tragiczne”); bohaterowie z malowanych widoków + deformacja siatki. | [PAINTED-MESH-PIPELINE.md](PAINTED-MESH-PIPELINE.md) | Obowiązuje |
 | 2026-10-22 | Usunięcie z volume: model Flux (17 GB), koder umt5 (6,7 GB), archiwum Flux (8,3 GB). | [PAINTED-MESH-PIPELINE.md](PAINTED-MESH-PIPELINE.md) | Wykonane |
 | 2026-10-22 | Wybór wariantów Legend i Mędrców (wiersz 1) oraz skinowania delegowany agentowi; przeglądy ruchu Androida i Planetarnych zaakceptowane do pełnego renderu. | [PAINTED-MESH-PIPELINE.md](PAINTED-MESH-PIPELINE.md) | Wybór agenta, bez akceptacji końcowej |
+| 2026-10-22 | Zlecono wygenerowanie zestawu przyrody (woda, oceany, lodowce, wulkany, lawa, teren); paczki `nature-textures-v1` i `nature-objects-v1` w `deliveries/`, bez instalacji. | [CODEX-PAINTED-HEROES-AND-TERRAIN-2026-10-22.md](CODEX-PAINTED-HEROES-AND-TERRAIN-2026-10-22.md) | Wykonane; nieocenione przez właściciela |
 
 ## Sprawy bez zatwierdzenia
 Odbiór animacji Mędrców, referencji/licencji, urządzeń mobilnych oraz rozszerzenia do multiplayer pozostają otwarte. Brak wpisu o zgodzie na scalanie PR #15 lub jego wdrożenie.

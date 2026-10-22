@@ -24,6 +24,10 @@ d2 = out / "nature-objects-v1-1.0.0"; d2.mkdir(parents=True, exist_ok=True); a, 
 for name, seed in sel["sprites"].items():
     src = sdir / ("%s-s%d.png" % (name, seed)); fn = "nature-objects-v1-%s.webp" % name; im = Image.open(src).convert("RGBA"); k = min(1.0, 768 / max(im.size))
     if k < 1: im = im.resize((round(im.size[0] * k), round(im.size[1] * k)), Image.LANCZOS)
+    if name in sel.get("patches", []):  # opaque top-down patch -> decal with a soft elliptical edge (the importer requires transparency for object.*)
+        import numpy as np
+        w, h = im.size; yy, xx = np.mgrid[0:h, 0:w]; r = np.sqrt(((xx - w / 2) / (w / 2)) ** 2 + ((yy - h / 2) / (h / 2)) ** 2)
+        al = np.clip((1.0 - r) / 0.18, 0, 1); al = al * al * (3 - 2 * al); im.putalpha(Image.fromarray((al * 255).astype("uint8")))
     im.save(d2 / fn, "WEBP", lossless=True, quality=100, method=4)
     a.append({"id": "nature-obj-" + name, "version": "1.0.0", "kind": "image", "url": fn, "width": im.size[0], "height": im.size[1]}); b[("object.nature.patch-" if name in sel.get("patches", []) else "object.nature.") + name] = ({"asset": "nature-obj-" + name, "fit": "contain"} if name in sel.get("patches", []) else {"asset": "nature-obj-" + name, "fit": "contain", "origin": [0.5, 0.92]})
     p.append({"name": name, "seed": seed, "opaque_patch": name in sel.get("patches", []), "source_sha256": sha(src), "webp_sha256": sha(d2 / fn)})

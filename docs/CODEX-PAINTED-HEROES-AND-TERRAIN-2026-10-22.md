@@ -50,3 +50,28 @@ Tekstury **nie były oglądane przez właściciela** (status: NIEOCENIONE); gene
 - **Prawa:** do ilustracji referencyjnych, checkpointów (Animagine XL 3.1, DreamShaper XL Turbo) i obrazów pochodnych są **NIEROZSTRZYGNIĘTE** (`ASSET-LICENSE-REGISTER.md`). Nie publikować.
 - **Regeneracja** (wymaga działającego poda; dostęp do Jupytera i jego hasło ma wyłącznie właściciel, nie ma ich w repo): `painted_views.py` → `matte_masters.py` → `animate_painted.py` (renderuj na dysk lokalny: `KI_OUT_ROOT=/opt/renders KI_SAFE=22`) → `assets:pack` (układ `stan/kierunek/NN.png`) → `assets:import`. Surowe klatki 512² (416 na rasę) są na volume: `ki-legends-gpu/deliveries-src/layout-<rasa>-v6.tar`. Pod kosztuje 0,59 USD/h; jego cyklem życia steruje tylko właściciel.
 - Volume: usunięto 30 GB (Flux, koder umt5, archiwum Flux). Pozostałe kandydaci do usunięcia czekają na decyzję właściciela (patrz lista w rozmowie: ollama 20,7 GB, CADPRO 2,4 GB, codex-runpod-setup 3,3 GB, DreamShaperXL 6,9 GB — używany do tekstur, więc nie usuwać, dopóki tekstury nie są zaakceptowane).
+
+## 6. Zestaw przyrody (woda, oceany, lodowce, wulkany, lawa, ukształtowanie terenu) — dodane 22.10.2026
+
+Dwie paczki w `deliveries/`, obie `previewOnly: true`, zwalidowane `assets:import` bez instalacji, **nieoglądane przez właściciela (NIEOCENIONE)**. Źródła i arkusze podglądu: `art/production/nature/v1/` (tekstury 1024² i obiekty w lossless WebP, `provenance.json`, `selection.json`); surowe obrazy 1024² są też na volume w `ki-legends-gpu/renders/nature-v1/`.
+
+| Pakiet | Zawartość | SHA-256 manifestu |
+|---|---|---|
+| `nature-textures-v1` | 16 bezszwowych tekstur 512² → klucze `terrain.nature-<nazwa>`, `tileSize` 256 | `70c53c17d7c71c3f…` |
+| `nature-objects-v1` | 19 obiektów → klucze `object.nature.<nazwa>` (wycinki, `origin` `[0.5,0.92]`) lub `object.nature.patch-<nazwa>` (łaty) | `79f46f85dc60d87d…` |
+
+- **Tekstury:** `water-ocean-deep`, `water-ocean-shallow`, `water-river`, `water-lake-calm`, `water-crystal`, `energy-liquid`, `ice-glacier`, `snow`, `sand-beach`, `meadow-grass`, `forest-floor`, `cliff-rock`, `lava-flow`, `lava-crust`, `ash-ground`, `basalt-columns`.
+- **Wycinki (8):** `iceberg`, `mountain-peak`, `grassy-hill`, `pine-tree`, `broadleaf-tree`, `crystal-tree`, `flower-bush`, `reed-clump`.
+- **Łaty (11):** `volcano-active`, `volcano-dormant`, `glacier-block`, `ice-spires`, `sea-stacks`, `waterfall`, `lava-rocks`, `basalt-columns`, `cliff-outcrop`, `boulder-group`, `small-island` — nieprzezroczyste kadry z góry zamienione na „nalepki” z miękkim eliptycznym brzegiem (importer wymaga przezroczystości dla `object.*`); używać jako duże dekory terenu, nie jako obiekty stojące.
+
+**To są nowe klucze — żadna mapa ich jeszcze nie używa.** Wpięcie wymaga Twojej pracy w danych regionów (`terrain.*` w JSON regionu, obiekty w `scenery`) bez zmiany współrzędnych kluczowych punktów, kolizji i zapisów; footprinty zostają w JSON regionu. Propozycja doboru (do akceptacji właściciela):
+
+| Obszar | Tekstury | Obiekty / łaty |
+|---|---|---|
+| Verdantia (tylko nowe, opcjonalne dodatki; zaakceptowany atlas lasu zostaje) | `meadow-grass`, `forest-floor`, `water-river`, `water-lake-calm`, `sand-beach` | `pine-tree`, `broadleaf-tree`, `flower-bush`, `reed-clump`, `grassy-hill`, `boulder-group`, `waterfall` |
+| Aetheria | `water-crystal`, `cliff-rock`, `snow` | `crystal-tree`, `mountain-peak`, `waterfall`, `cliff-outcrop` |
+| Nexus-9 | `energy-liquid`, `basalt-columns`, `ice-glacier` | `ice-spires`, `basalt-columns` |
+| Pyra | `lava-flow`, `lava-crust`, `ash-ground`, `basalt-columns`, `cliff-rock` | `volcano-active`, `volcano-dormant`, `lava-rocks`, `cliff-outcrop` |
+| Brzegi mapy / globus `/mapa` (oceany, bieguny) | `water-ocean-deep`, `water-ocean-shallow`, `ice-glacier`, `snow` | `glacier-block`, `iceberg`, `ice-spires`, `sea-stacks`, `small-island` |
+
+**Wady (nie ukrywać):** `water-ocean-deep` wygląda jak stylizowana mapa raf, a `water-lake-calm` jak lilie wodne, nie jak spokojna woda; wycinki mają ostre krawędzie z maskowania `rembg`; nie ma map wysokości ani przejść brzegowych (wybrzeże, krawędź lodu, brzeg lawy) — brzegi trzeba zbudować w kodzie renderowania albo wygenerować osobno; lawa nie może być przechodnim podłożem bez osobnej mechaniki (AGENTS/GPU-PRODUCTION-SEQUENCE, Etap 6). Prawa do checkpointu DreamShaper XL Turbo i obrazów pochodnych: **NIEROZSTRZYGNIĘTE**.

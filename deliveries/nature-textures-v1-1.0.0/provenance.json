@@ -1,0 +1,101 @@
+{
+ "pack": "nature-textures-v1",
+ "items": [
+  {
+   "name": "water-ocean-deep",
+   "seed": 5741102,
+   "source_sha256": "d2dce3434ff1746c2ff9c7bef118c8de472ebbb8f76947b1d07ffc1bb1b8fe0f",
+   "webp_sha256": "7f009a2a37a4862094e5ed3aafe918ef7e46a7dfba37d761de5daf51e8c8bc3a"
+  },
+  {
+   "name": "water-ocean-shallow",
+   "seed": 5741102,
+   "source_sha256": "560a37aff516260b9a231b8eab587a92277dfeef7814a07c38473546d5318322",
+   "webp_sha256": "73295a08f8a3b3484e2dd797f0d37ecfb881686e34f9f4dd7a69dcf4a40d3331"
+  },
+  {
+   "name": "water-river",
+   "seed": 5741102,
+   "source_sha256": "cee8f19e255408e8b7baba13dd339082ebc819ed7b8fddf780a768618dc6780f",
+   "webp_sha256": "4fd2bff83cf18c1c5e70daaf3a50aab71686b9a2f2af4d4615469953dc939468"
+  },
+  {
+   "name": "water-lake-calm",
+   "seed": 5741102,
+   "source_sha256": "6731bbf8a51b55d61778ddd95ad61af8b1658831030321b2d6fab3ce05fc722e",
+   "webp_sha256": "d6e75983e68933a309634a99b996b370f3cca3e459f1ea4e7ef5fbbce3de0a25"
+  },
+  {
+   "name": "water-crystal",
+   "seed": 5741102,
+   "source_sha256": "b8589c6fdc0ca79fa19c7f0d90b6992d9050ff648d7e0acf91f6e719bac4bef0",
+   "webp_sha256": "d59f711dc0704afe72df3a9f63d566d28ab62ae88588f0dfdc232cab3fe76929"
+  },
+  {
+   "name": "energy-liquid",
+   "seed": 5741102,
+   "source_sha256": "8a5535a53ca762d432b75d1d1fa12c962a242632718172635ea15d16aca7fb4f",
+   "webp_sha256": "32d9070353d66bcd6497ade759a5b84710a16d46c07b1aa3dc0a5b741de3f404"
+  },
+  {
+   "name": "ice-glacier",
+   "seed": 5741104,
+   "source_sha256": "7555b1a38284f7f3c22a6b20915c3eeafcf212444cf5b98acda3ebc474e7b33b",
+   "webp_sha256": "5bceb6bf32f7660b1bc94d2d38ce12331810a1f4647a51ecc02c289a35f79546"
+  },
+  {
+   "name": "snow",
+   "seed": 5741102,
+   "source_sha256": "fccd1e45880fc30e8e11a97323876dd5edf85a10867ea5a14202827d0ff3514e",
+   "webp_sha256": "731680b445d930a6982d97a0f7b639379bfe8c745857b067b45e81b1eefab042"
+  },
+  {
+   "name": "sand-beach",
+   "seed": 5741102,
+   "source_sha256": "4d76014abb3a92169c97cc5bf26f0fa8c8f3ca27d8212463bfae3b19e056338c",
+   "webp_sha256": "0eebfceb01a923b323393ff1bf78e134e036e13345a941a194ab608ed8dba1ea"
+  },
+  {
+   "name": "meadow-grass",
+   "seed": 5741102,
+   "source_sha256": "8e841cf6bbf7d969ca3293865130900135dd5b40cfd358f90e8b0206ca0c1544",
+   "webp_sha256": "4919da8ec430b88f2bc47defede313a6941a726ca2323788d544f083dda588a2"
+  },
+  {
+   "name": "forest-floor",
+   "seed": 5741102,
+   "source_sha256": "462f9a8ea2f98d881e72b5f873d31157b1e13f11944a3dd460b1ca487528eb6f",
+   "webp_sha256": "c886d080c0e3450b2c9451c4e79125e78444ec623daa6ebe11dff72f26f7cee1"
+  },
+  {
+   "name": "cliff-rock",
+   "seed": 5741102,
+   "source_sha256": "d2751144e9fe9bb0dabbe18088f8f61b6c31370beb994a25632f3dc5713fd2a5",
+   "webp_sha256": "5da1575e0661717f1c4788d96774e1af68c665b1eb19ae2e178bdfb3a00dac3d"
+  },
+  {
+   "name": "lava-flow",
+   "seed": 5741103,
+   "source_sha256": "20201fd704e451b79581f8f495bc3f65da83c70f70df1e4f8778bd8745f45e20",
+   "webp_sha256": "135c11afd1ed2cad1c4407a6c34b01b8878c5561001f00fb9876d9e5cea4ba06"
+  },
+  {
+   "name": "lava-crust",
+   "seed": 5741102,
+   "source_sha256": "bf9149cd9bf5e65d18c4bac9e8cd683626f9c2790c46f84454536da202fc80fa",
+   "webp_sha256": "6814b48ba408f488b0d44d7d2f8c1cdf040cfc84183b4f9308e739cdd94e498b"
+  },
+  {
+   "name": "ash-ground",
+   "seed": 5741102,
+   "source_sha256": "eb44636328c81d4a74c441c3aba2612c85ed87d308d627a7a5221cca00f23e64",
+   "webp_sha256": "bce013f35922ab2773e75cba1efdb7ee97556f756a5aabe8136f293930e80eee"
+  },
+  {
+   "name": "basalt-columns",
+   "seed": 5741102,
+   "source_sha256": "67c71f2c88034d8a7146250fbd1243403bf61af121bf943e31bad199cb1d22cc",
+   "webp_sha256": "816e1cc14e9bea31f632a4cc8a2f7e84d2c5b9440c72dd6839cb2bc555726a1b"
+  }
+ ]
+}
