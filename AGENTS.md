@@ -23,6 +23,7 @@
 - The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/STAGE2-GAMEPLAY.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
 - Use independent terrain/object resources, never a complete concept illustration as the production world.
 - Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
+- Region art upgrades ship as GPU-importer packs of render bindings (`terrain.*`, `object.*`, optional `terrain.<world>-wall`, presentation-only `origin`), opt-in via `PREVIEW_SWITCHES` until the owner accepts them; collision footprints stay in region JSON.
 - Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.
 - Preserve `/test`, storage guards, secrets, unrelated features and published git history.
 - /mapa shows a lazily loaded WebGL globe wrapping the painted equirectangular atlas, with the flat atlas plus transparent SVG hitboxes as the 2D view and no-WebGL fallback; both views pick regions from the same traced outlines, so regenerate outlines and `scripts/build_globe_textures.py` outputs whenever the atlas changes.
