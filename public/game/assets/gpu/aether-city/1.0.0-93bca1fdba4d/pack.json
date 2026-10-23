@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "id": "aether-city",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "aether-city-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-arena.webp",
+      "width": 524,
+      "height": 499
+    },
+    {
+      "id": "aether-city-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-banner.webp",
+      "width": 504,
+      "height": 524
+    },
+    {
+      "id": "aether-city-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-bridge.webp",
+      "width": 480,
+      "height": 524
+    },
+    {
+      "id": "aether-city-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-depot.webp",
+      "width": 524,
+      "height": 482
+    },
+    {
+      "id": "aether-city-fountain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-fountain.webp",
+      "width": 519,
+      "height": 524
+    },
+    {
+      "id": "aether-city-gate",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-gate.webp",
+      "width": 524,
+      "height": 472
+    },
+    {
+      "id": "aether-city-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-hall.webp",
+      "width": 524,
+      "height": 430
+    },
+    {
+      "id": "aether-city-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-house.webp",
+      "width": 505,
+      "height": 524
+    },
+    {
+      "id": "aether-city-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-inn.webp",
+      "width": 455,
+      "height": 524
+    },
+    {
+      "id": "aether-city-lamp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-lamp.webp",
+      "width": 305,
+      "height": 524
+    },
+    {
+      "id": "aether-city-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-market.webp",
+      "width": 506,
+      "height": 524
+    },
+    {
+      "id": "aether-city-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-smithy.webp",
+      "width": 517,
+      "height": 524
+    },
+    {
+      "id": "aether-city-steps",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-steps.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "aether-city-tower",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-tower.webp",
+      "width": 307,
+      "height": 524
+    },
+    {
+      "id": "aether-city-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-tree.webp",
+      "width": 438,
+      "height": 524
+    },
+    {
+      "id": "aether-city-wall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-wall.webp",
+      "width": 524,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.aether-city.arena": {
+      "asset": "aether-city-arena",
+      "fit": "contain"
+    },
+    "object.aether-city.banner": {
+      "asset": "aether-city-banner",
+      "fit": "contain"
+    },
+    "object.aether-city.bridge": {
+      "asset": "aether-city-bridge",
+      "fit": "contain"
+    },
+    "object.aether-city.depot": {
+      "asset": "aether-city-depot",
+      "fit": "contain"
+    },
+    "object.aether-city.fountain": {
+      "asset": "aether-city-fountain",
+      "fit": "contain"
+    },
+    "object.aether-city.gate": {
+      "asset": "aether-city-gate",
+      "fit": "contain"
+    },
+    "object.aether-city.hall": {
+      "asset": "aether-city-hall",
+      "fit": "contain"
+    },
+    "object.aether-city.house": {
+      "asset": "aether-city-house",
+      "fit": "contain"
+    },
+    "object.aether-city.inn": {
+      "asset": "aether-city-inn",
+      "fit": "contain"
+    },
+    "object.aether-city.lamp": {
+      "asset": "aether-city-lamp",
+      "fit": "contain"
+    },
+    "object.aether-city.market": {
+      "asset": "aether-city-market",
+      "fit": "contain"
+    },
+    "object.aether-city.smithy": {
+      "asset": "aether-city-smithy",
+      "fit": "contain"
+    },
+    "object.aether-city.steps": {
+      "asset": "aether-city-steps",
+      "fit": "contain"
+    },
+    "object.aether-city.tower": {
+      "asset": "aether-city-tower",
+      "fit": "contain"
+    },
+    "object.aether-city.tree": {
+      "asset": "aether-city-tree",
+      "fit": "contain"
+    },
+    "object.aether-city.wall": {
+      "asset": "aether-city-wall",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

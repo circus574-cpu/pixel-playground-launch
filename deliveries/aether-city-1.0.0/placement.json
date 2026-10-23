@@ -1,0 +1,163 @@
+{
+ "aether-city.arena": {
+  "width": 520,
+  "height": 495,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 109
+  }
+ },
+ "aether-city.banner": {
+  "width": 130,
+  "height": 135,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "aether-city.bridge": {
+  "width": 360,
+  "height": 393,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "aether-city.depot": {
+  "width": 520,
+  "height": 478,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 105
+  }
+ },
+ "aether-city.fountain": {
+  "width": 130,
+  "height": 131,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "aether-city.gate": {
+  "width": 520,
+  "height": 468,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 103
+  }
+ },
+ "aether-city.hall": {
+  "width": 520,
+  "height": 427,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 94
+  }
+ },
+ "aether-city.house": {
+  "width": 320,
+  "height": 332,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 83
+  }
+ },
+ "aether-city.inn": {
+  "width": 520,
+  "height": 599,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 132
+  }
+ },
+ "aether-city.lamp": {
+  "width": 130,
+  "height": 223,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "aether-city.market": {
+  "width": 520,
+  "height": 538,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 118
+  }
+ },
+ "aether-city.smithy": {
+  "width": 520,
+  "height": 527,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 116
+  }
+ },
+ "aether-city.steps": {
+  "width": 360,
+  "height": 360,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "aether-city.tower": {
+  "width": 240,
+  "height": 410,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 82
+  }
+ },
+ "aether-city.tree": {
+  "width": 240,
+  "height": 287,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "aether-city.wall": {
+  "width": 420,
+  "height": 420,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 399,
+   "height": 59
+  }
+ }
+}

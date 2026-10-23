@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-coast",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-coast-coral-rock-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-coral-rock-cluster.webp",
+      "width": 524,
+      "height": 519
+    },
+    {
+      "id": "biome-coast-driftwood-log",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-driftwood-log.webp",
+      "width": 524,
+      "height": 489
+    },
+    {
+      "id": "biome-coast-fishing-boat",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-fishing-boat.webp",
+      "width": 442,
+      "height": 524
+    },
+    {
+      "id": "biome-coast-lighthouse",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-lighthouse.webp",
+      "width": 305,
+      "height": 524
+    },
+    {
+      "id": "biome-coast-net-drying-rack",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-net-drying-rack.webp",
+      "width": 389,
+      "height": 524
+    },
+    {
+      "id": "biome-coast-palm-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-palm-tree.webp",
+      "width": 441,
+      "height": 524
+    },
+    {
+      "id": "biome-coast-reed-clump",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-reed-clump.webp",
+      "width": 463,
+      "height": 524
+    },
+    {
+      "id": "biome-coast-rocky-sea-stack",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-rocky-sea-stack.webp",
+      "width": 524,
+      "height": 516
+    },
+    {
+      "id": "biome-coast-seashell-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-seashell-cluster.webp",
+      "width": 524,
+      "height": 497
+    },
+    {
+      "id": "biome-coast-small-fishing-hut",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-small-fishing-hut.webp",
+      "width": 524,
+      "height": 466
+    },
+    {
+      "id": "biome-coast-whale-skeleton-arch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-whale-skeleton-arch.webp",
+      "width": 524,
+      "height": 467
+    },
+    {
+      "id": "biome-coast-wooden-pier-section",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-wooden-pier-section.webp",
+      "width": 524,
+      "height": 521
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-coast.coral-rock-cluster": {
+      "asset": "biome-coast-coral-rock-cluster",
+      "fit": "contain"
+    },
+    "object.biome-coast.driftwood-log": {
+      "asset": "biome-coast-driftwood-log",
+      "fit": "contain"
+    },
+    "object.biome-coast.fishing-boat": {
+      "asset": "biome-coast-fishing-boat",
+      "fit": "contain"
+    },
+    "object.biome-coast.lighthouse": {
+      "asset": "biome-coast-lighthouse",
+      "fit": "contain"
+    },
+    "object.biome-coast.net-drying-rack": {
+      "asset": "biome-coast-net-drying-rack",
+      "fit": "contain"
+    },
+    "object.biome-coast.palm-tree": {
+      "asset": "biome-coast-palm-tree",
+      "fit": "contain"
+    },
+    "object.biome-coast.reed-clump": {
+      "asset": "biome-coast-reed-clump",
+      "fit": "contain"
+    },
+    "object.biome-coast.rocky-sea-stack": {
+      "asset": "biome-coast-rocky-sea-stack",
+      "fit": "contain"
+    },
+    "object.biome-coast.seashell-cluster": {
+      "asset": "biome-coast-seashell-cluster",
+      "fit": "contain"
+    },
+    "object.biome-coast.small-fishing-hut": {
+      "asset": "biome-coast-small-fishing-hut",
+      "fit": "contain"
+    },
+    "object.biome-coast.whale-skeleton-arch": {
+      "asset": "biome-coast-whale-skeleton-arch",
+      "fit": "contain"
+    },
+    "object.biome-coast.wooden-pier-section": {
+      "asset": "biome-coast-wooden-pier-section",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

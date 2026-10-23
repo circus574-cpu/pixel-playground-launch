@@ -1,0 +1,67 @@
+{
+  "pack": "ruins-props",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "an-ancient-stone-gate-ruin",
+      "source": "obj-an-ancient-stone-gate-ruin-s7510101.png",
+      "sha256": "0d7aa3fc57b711b3a9300bc90e64331cb3f1ec1aadcd59dbe95d4cd94006023d"
+    },
+    {
+      "part": "barrel-group",
+      "source": "obj-barrel-group-s7510101.png",
+      "sha256": "8f5d87572a78e8989f3b886e263ca334f6581258d66736578752a6a72934e523"
+    },
+    {
+      "part": "broken-stone-pillar",
+      "source": "obj-broken-stone-pillar-s7510101.png",
+      "sha256": "9ab3eb0005d4671c20586516355d1acdd051a13e436d6de58913c3cc7b023990"
+    },
+    {
+      "part": "campfire-with-a-tent",
+      "source": "obj-campfire-with-a-tent-s7510101.png",
+      "sha256": "fd011b61fc4776c3e8161b24843f087b9ab52fdd0f0e0dc8f0c9aad83628676f"
+    },
+    {
+      "part": "ruined-wall-segment",
+      "source": "obj-ruined-wall-segment-s7510101.png",
+      "sha256": "6b803251ea104da42527bc5bbe8f73fd4bcd1689078649f9552392fd4fc21000"
+    },
+    {
+      "part": "signpost-with-arrows",
+      "source": "obj-signpost-with-arrows-s7510101.png",
+      "sha256": "8bafde0e3be20c8b165bbd26d18c12802b3ee8524a356109579f17c5ff9fcab3"
+    },
+    {
+      "part": "stone-altar-with-glowing-runes",
+      "source": "obj-stone-altar-with-glowing-runes-s7510101.png",
+      "sha256": "99b0636fbc8156a3fc6ddbee300a10223da9a3b2ee748acbec9600bbb24839db"
+    },
+    {
+      "part": "stone-well",
+      "source": "obj-stone-well-s7510101.png",
+      "sha256": "ed1857f19a703a9bb5e54c86f68551e1c1126c2f873eeca4bcfe67dc9daec621"
+    },
+    {
+      "part": "toppled-statue",
+      "source": "obj-toppled-statue-s7510101.png",
+      "sha256": "ff8434dc6cdd12ed6a4555a1d527a4126583ddc32dd8a1292e3ce6fea4171faf"
+    },
+    {
+      "part": "treasure-chest",
+      "source": "obj-treasure-chest-s7510101.png",
+      "sha256": "683fbdf3c772f2f12d3883cc167cc9553a1203c61b108f6aa01b432055c7735f"
+    },
+    {
+      "part": "weapon-rack",
+      "source": "obj-weapon-rack-s7510101.png",
+      "sha256": "ae696b1f1bb12bf710bd2e3198f120cba7b79b89936c90a17bfaa7496f3c2d51"
+    },
+    {
+      "part": "wooden-crate-stack",
+      "source": "obj-wooden-crate-stack-s7510101.png",
+      "sha256": "7e0a067698acf7f0939e8142a2d4566f26413d26e8c330f44b556dddbb783428"
+    }
+  ]
+}

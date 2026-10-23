@@ -1,0 +1,122 @@
+{
+ "biome-forest.birch-tree-with-white-bark": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-forest.campfire-with-logs": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-forest.cluster-of-mushrooms": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-forest.fallen-mossy-log": {
+  "width": 240,
+  "height": 236,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "biome-forest.flowering-bush": {
+  "width": 130,
+  "height": 128,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-forest.mossy-boulder": {
+  "width": 200,
+  "height": 184,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 40
+  }
+ },
+ "biome-forest.small-wooden-hunter-hut": {
+  "width": 320,
+  "height": 307,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 77
+  }
+ },
+ "biome-forest.tall-broadleaf-oak-tree": {
+  "width": 240,
+  "height": 258,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 31
+  }
+ },
+ "biome-forest.tall-fern-cluster": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-forest.tall-pine-tree": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-forest.tree-stump-with-an-axe": {
+  "width": 240,
+  "height": 227,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 27
+  }
+ },
+ "biome-forest.wooden-signpost": {
+  "width": 130,
+  "height": 147,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}

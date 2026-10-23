@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-snow",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-snow-an-ice-crystal-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-an-ice-crystal-cluster.webp",
+      "width": 519,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-an-igloo-style-stone-hut",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-an-igloo-style-stone-hut.webp",
+      "width": 524,
+      "height": 506
+    },
+    {
+      "id": "biome-snow-frozen-dead-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-frozen-dead-tree.webp",
+      "width": 444,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-frozen-waterfall-cliff",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-frozen-waterfall-cliff.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-glacier-ice-block",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-glacier-ice-block.webp",
+      "width": 524,
+      "height": 510
+    },
+    {
+      "id": "biome-snow-snow-covered-pine-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-snow-covered-pine-tree.webp",
+      "width": 407,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-snow-mound-with-a-lantern",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-snow-mound-with-a-lantern.webp",
+      "width": 495,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-snowy-boulder",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-snowy-boulder.webp",
+      "width": 524,
+      "height": 517
+    },
+    {
+      "id": "biome-snow-snowy-cabin",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-snowy-cabin.webp",
+      "width": 476,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-snowy-mountain-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-snowy-mountain-peak.webp",
+      "width": 524,
+      "height": 514
+    },
+    {
+      "id": "biome-snow-tall-ice-spire-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-tall-ice-spire-cluster.webp",
+      "width": 258,
+      "height": 524
+    },
+    {
+      "id": "biome-snow-wooden-sled",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-snow-wooden-sled.webp",
+      "width": 524,
+      "height": 486
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-snow.an-ice-crystal-cluster": {
+      "asset": "biome-snow-an-ice-crystal-cluster",
+      "fit": "contain"
+    },
+    "object.biome-snow.an-igloo-style-stone-hut": {
+      "asset": "biome-snow-an-igloo-style-stone-hut",
+      "fit": "contain"
+    },
+    "object.biome-snow.frozen-dead-tree": {
+      "asset": "biome-snow-frozen-dead-tree",
+      "fit": "contain"
+    },
+    "object.biome-snow.frozen-waterfall-cliff": {
+      "asset": "biome-snow-frozen-waterfall-cliff",
+      "fit": "contain"
+    },
+    "object.biome-snow.glacier-ice-block": {
+      "asset": "biome-snow-glacier-ice-block",
+      "fit": "contain"
+    },
+    "object.biome-snow.snow-covered-pine-tree": {
+      "asset": "biome-snow-snow-covered-pine-tree",
+      "fit": "contain"
+    },
+    "object.biome-snow.snow-mound-with-a-lantern": {
+      "asset": "biome-snow-snow-mound-with-a-lantern",
+      "fit": "contain"
+    },
+    "object.biome-snow.snowy-boulder": {
+      "asset": "biome-snow-snowy-boulder",
+      "fit": "contain"
+    },
+    "object.biome-snow.snowy-cabin": {
+      "asset": "biome-snow-snowy-cabin",
+      "fit": "contain"
+    },
+    "object.biome-snow.snowy-mountain-peak": {
+      "asset": "biome-snow-snowy-mountain-peak",
+      "fit": "contain"
+    },
+    "object.biome-snow.tall-ice-spire-cluster": {
+      "asset": "biome-snow-tall-ice-spire-cluster",
+      "fit": "contain"
+    },
+    "object.biome-snow.wooden-sled": {
+      "asset": "biome-snow-wooden-sled",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

@@ -1,0 +1,134 @@
+{
+ "biome-snow.an-ice-crystal-cluster": {
+  "width": 200,
+  "height": 202,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-snow.an-igloo-style-stone-hut": {
+  "width": 320,
+  "height": 309,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 77
+  }
+ },
+ "biome-snow.frozen-dead-tree": {
+  "width": 240,
+  "height": 283,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "biome-snow.frozen-waterfall-cliff": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 53
+  }
+ },
+ "biome-snow.glacier-ice-block": {
+  "width": 240,
+  "height": 234,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "biome-snow.snow-covered-pine-tree": {
+  "width": 240,
+  "height": 309,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 37
+  }
+ },
+ "biome-snow.snow-mound-with-a-lantern": {
+  "width": 240,
+  "height": 254,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 56
+  }
+ },
+ "biome-snow.snowy-boulder": {
+  "width": 200,
+  "height": 197,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 43
+  }
+ },
+ "biome-snow.snowy-cabin": {
+  "width": 320,
+  "height": 352,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 88
+  }
+ },
+ "biome-snow.snowy-mountain-peak": {
+  "width": 240,
+  "height": 235,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 52
+  }
+ },
+ "biome-snow.tall-ice-spire-cluster": {
+  "width": 240,
+  "height": 487,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 97
+  }
+ },
+ "biome-snow.wooden-sled": {
+  "width": 240,
+  "height": 223,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 49
+  }
+ }
+}

@@ -1,0 +1,128 @@
+{
+ "biome-volcanic.an-obsidian-shard-formation": {
+  "width": 240,
+  "height": 308,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 68
+  }
+ },
+ "biome-volcanic.basalt-column-cluster": {
+  "width": 240,
+  "height": 487,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 107
+  }
+ },
+ "biome-volcanic.bone-pile": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-volcanic.dark-rock-bridge": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-volcanic.dead-charred-tree": {
+  "width": 240,
+  "height": 285,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "biome-volcanic.lava-geyser-vent": {
+  "width": 200,
+  "height": 221,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 49
+  }
+ },
+ "biome-volcanic.lava-rock-cluster-with-glowing-cracks": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-volcanic.magma-pool-rim": {
+  "width": 240,
+  "height": 226,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 50
+  }
+ },
+ "biome-volcanic.ruined-dark-stone-pillar": {
+  "width": 240,
+  "height": 503,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 101
+  }
+ },
+ "biome-volcanic.smoking-volcano": {
+  "width": 240,
+  "height": 242,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 48
+  }
+ },
+ "biome-volcanic.stone-brazier-with-fire": {
+  "width": 130,
+  "height": 140,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-volcanic.sulfur-vent-with-yellow-crust": {
+  "width": 200,
+  "height": 185,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 41
+  }
+ }
+}

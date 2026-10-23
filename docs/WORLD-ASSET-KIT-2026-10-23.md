@@ -61,11 +61,11 @@ Orientacyjnie: kilkanaście części jednego zestawu to godzina pracy GPU plus p
 
 ## Stan na 23.10.2026
 
-| Zestaw                                                                | Stan                                                                |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Obiekty regionów (świątynie, wieże, drzewa, góry, wulkany, rekwizyty) | zainstalowane, w `objects`                                          |
-| Kuźnia Pyry (18 części, podłoga, ściana, Goro)                        | zainstalowane (paczka `pyra-smithy` 1.1.0)                          |
-| Części miasta Pyry (18 budynków i dekoracji)                          | wygenerowane, do wyboru i wycięcia                                  |
-| 494 tekstury krajobrazu + wersja przemalowana                         | wygenerowane / w trakcie przemalowania                              |
-| Góry, wulkany, skały, drzewa, 8 zwierząt neutralnych                  | wygenerowane próbki, do wyboru                                      |
-| Bohaterowie 4 ras w nowym stylu z animacjami                          | Legendy: trening modelu; Androidy: wybrany wygląd; reszta: koncepty |
+| Zestaw                                                                                                                            | Stan                                                                                                                      |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Obiekty regionów (świątynie, wieże, drzewa, góry, wulkany, rekwizyty)                                                             | zainstalowane, w `objects`                                                                                                |
+| Kuźnia Pyry (18 części, podłoga, ściana, Goro)                                                                                    | zainstalowane (paczka `pyra-smithy` 1.1.0)                                                                                |
+| Partia 1: miasta Pyry, Aetherii, Nexus-9, Verdantii; biomy las, śnieg, pustynia, wulkan, wybrzeże; ruiny i rekwizyty (138 części) | zainstalowane (paczki `pyra-city`, `aether-city`, `nexus-city`, `verdant-city`, `biome-*`, `ruins-props`), wersja robocza |
+| 494 tekstury krajobrazu + wersja przemalowana                                                                                     | wygenerowane / w trakcie przemalowania                                                                                    |
+| Góry, wulkany, skały, drzewa, 8 zwierząt neutralnych                                                                              | wygenerowane próbki, do wyboru                                                                                            |
+| Bohaterowie 4 ras w nowym stylu z animacjami                                                                                      | Legendy: trening modelu; Androidy: wybrany wygląd; reszta: koncepty                                                       |

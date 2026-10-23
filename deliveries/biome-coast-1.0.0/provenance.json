@@ -1,0 +1,67 @@
+{
+  "pack": "biome-coast",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "coral-rock-cluster",
+      "source": "obj-coral-rock-cluster-s7510101.png",
+      "sha256": "cd6efad5629fa1d729104932b5f771cd848afed128349d9f915c1737caa06b5d"
+    },
+    {
+      "part": "driftwood-log",
+      "source": "obj-driftwood-log-s7510101.png",
+      "sha256": "bda1c831b22cbdb82d564f3b6b6493be6a8be50566d1257c1a94823957f7073a"
+    },
+    {
+      "part": "fishing-boat",
+      "source": "obj-fishing-boat-s7510101.png",
+      "sha256": "0e9724ee9f1a93e5556df34f01ac1cd9a613bf73a7570f44c82a059ad89a73c2"
+    },
+    {
+      "part": "lighthouse",
+      "source": "obj-lighthouse-s7510101.png",
+      "sha256": "c4c2f2557157f2bbc89bce51b898cd23e070dcbbf6c12288d4dcde3f76d6c4c7"
+    },
+    {
+      "part": "net-drying-rack",
+      "source": "obj-net-drying-rack-s7510101.png",
+      "sha256": "f7a0fb6fd6e6bbf196496684d40252f76ca378cef4e2daa5ac88740cf22a6744"
+    },
+    {
+      "part": "palm-tree",
+      "source": "obj-palm-tree-s7510101.png",
+      "sha256": "7882f8d87f80c6306820ead7573c4bea91f70ad3c98a4e0efa91762640886335"
+    },
+    {
+      "part": "reed-clump",
+      "source": "obj-reed-clump-s7510101.png",
+      "sha256": "7d2fb0db4a8aead04d4e2f85b52f4e0582907f87e5601ac4cbcc12c0d575743a"
+    },
+    {
+      "part": "rocky-sea-stack",
+      "source": "obj-rocky-sea-stack-s7510101.png",
+      "sha256": "b1ae1ca6dc822f6e7f8acf635bc7eab26f8394261b1bc897c8c6f9e108691c00"
+    },
+    {
+      "part": "seashell-cluster",
+      "source": "obj-seashell-cluster-s7510101.png",
+      "sha256": "625730ed6ecb4e04280f14e121fe336fb3bf764546a2beef677210530190f820"
+    },
+    {
+      "part": "small-fishing-hut",
+      "source": "obj-small-fishing-hut-s7510101.png",
+      "sha256": "e46d82ceb5ccbf4aa327f5bba37d36bc29270e029ad0e2dd496330b0539b5790"
+    },
+    {
+      "part": "whale-skeleton-arch",
+      "source": "obj-whale-skeleton-arch-s7510101.png",
+      "sha256": "35e3eeadbe4c8bfc9d5fc3ab306ed9662a9c7c2a0d2d08e16177043e64f0dd39"
+    },
+    {
+      "part": "wooden-pier-section",
+      "source": "obj-wooden-pier-section-s7510101.png",
+      "sha256": "5a8ef9d44eed4610e3db22da8a15243362b871ae05419b09466454e8f5d0b54e"
+    }
+  ]
+}
