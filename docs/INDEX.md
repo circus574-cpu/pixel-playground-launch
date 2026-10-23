@@ -27,6 +27,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Wdrożenie tekstur kontynentów i przyrody (22.10.2026)](NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md)
 - [Analiza gry i zbiorcza lista zleceń na GPU (23.10.2026)](GPU-BACKLOG-2026-10-23.md)
 - [Aetheria — miasto Mędrców: układ, budynki, mieszkańcy (gałąź feat/aetheria-city, niescalone)](CITY-AETHERIA-2026-10-23.md)
+- [Nexus-9 — miasto Androidów: układ, budynki, mieszkańcy (gałąź feat/nexus-city, niescalone)](CITY-NEXUS-2026-10-23.md)
 - [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
 - [Rejestr licencji zależności i notices](DEPENDENCY-LICENSE-REGISTER.md)
 - [Instrukcje dla agentów](../AGENTS.md)
