@@ -183,7 +183,7 @@ data["landmarks"] = [l for l in data["landmarks"] if not l.get("city")]
 for b in BUILDINGS:
     data["landmarks"].append({"x": b["door"]["x"], "y": b["door"]["y"], "label": b["name"], "kind": "settlement", "city": True})
 
-data["city"] = {
+data["cityPlan"] = {
     "id": "aetheria-sanctuary",
     "name": data["settlement"],
     "safe": True,

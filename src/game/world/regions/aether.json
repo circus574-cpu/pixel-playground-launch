@@ -2757,7 +2757,7 @@
     "x": 1200,
     "y": 900
   },
-  "city": {
+  "cityPlan": {
     "id": "aetheria-sanctuary",
     "name": "Sanktuarium Tysiąca Źródeł",
     "safe": true,

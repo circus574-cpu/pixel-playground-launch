@@ -27,7 +27,7 @@ Drzwi leżą na drożnym gruncie przed wejściem; z miejsca startu i między sob
 
 ## 2. Dane i narzędzia
 
-- Dane: `src/game/world/regions/aether.json`, klucz `city` (zgodny z kontraktem: budynki z `id`, `name`, `district`, `description`, `objectId`, `door`; mieszkańcy z `building`). Pole jest ignorowane przez obecny kod gry, dopóki nie wejdzie `WorldDefinition.city` ze wspólnych mechanik.
+- Dane: `src/game/world/regions/aether.json`, klucz `cityPlan` (zgodny z kontraktem: budynki z `id`, `name`, `district`, `description`, `objectId`, `door`; mieszkańcy z `building`). Pole jest ignorowane przez obecny kod gry, dopóki nie wejdzie `WorldDefinition.city` ze wspólnych mechanik.
 - Skrypt odtwarzalny i idempotentny: `python3 scripts/build_aetheria_city.py` (zaczyna od zapisanego pliku regionu).
 - Testy: `src/test/aetheria-city.test.ts` (sześć usług, odstępy ≥ 700, drzwi na drożnym gruncie i osiągalne z miejsca startu, rozłączne budynki, mieszkańcy, brak wrogów w mieście) oraz poprawiony `aether-expansion.test.ts`.
 

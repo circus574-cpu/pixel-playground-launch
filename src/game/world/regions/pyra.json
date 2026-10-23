@@ -1494,7 +1494,7 @@
     "x": 1200,
     "y": 900
   },
-  "city": {
+  "cityPlan": {
     "id": "pyra-fortress",
     "name": "Twierdza Popiołu",
     "safe": true,

@@ -18,7 +18,7 @@ type City = {
   npcs: { id: string; building: string; name: string; dialogue: string }[];
 };
 const world = WORLDS.pyra;
-const city = (world as unknown as { city: City }).city;
+const city = (world as unknown as { cityPlan: City }).cityPlan;
 const nav = new Navigation(world.width, world.height, worldObstacles(world));
 const SERVICES = ["shop", "hall", "inn", "smithy", "depot", "arena"];
 

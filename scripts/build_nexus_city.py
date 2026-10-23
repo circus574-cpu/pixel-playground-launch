@@ -182,7 +182,7 @@ for l in data["landmarks"]:
 for b in BUILDINGS:
     data["landmarks"].append({"x": b["door"]["x"], "y": b["door"]["y"], "label": b["name"], "kind": "settlement", "city": True})
 
-data["city"] = {
+data["cityPlan"] = {
     "id": "nexus-node",
     "name": data["settlement"],
     "safe": True,

@@ -27,7 +27,7 @@ Drzwi leżą na drożnym gruncie, są osiągalne z miejsca startu i między sob�
 
 ## 2. Dane i narzędzia
 
-- Dane: `src/game/world/regions/nexus.json`, klucz `city` (format zgodny z kontraktem; pole ignorowane przez obecny kod gry do czasu `WorldDefinition.city` ze wspólnych mechanik).
+- Dane: `src/game/world/regions/nexus.json`, klucz `cityPlan` (format zgodny z kontraktem; klucz `cityPlan` jest celowo inny niż `city`: `WorldDefinition.city` Codexa oznacza dziś cały kontynent jako miasto bez walki (jak Verdantia), więc podłączenie wymaga decyzji właściciela).
 - Skrypt odtwarzalny i idempotentny: `python3 scripts/build_nexus_city.py`.
 - Test: `src/test/nexus-city.test.ts` (sześć usług, odstępy ≥ 700, drzwi i osiągalność, rozłączne budynki, mieszkańcy, brak wrogów w mieście).
 

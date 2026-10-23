@@ -1503,7 +1503,7 @@
     "x": 1200,
     "y": 900
   },
-  "city": {
+  "cityPlan": {
     "id": "nexus-node",
     "name": "Węzeł Świadomości",
     "safe": true,
