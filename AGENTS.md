@@ -19,8 +19,8 @@
 ## Ki Legends production
 
 - GPU pod lifecycle is owner-only. Never call Start, Stop, Restart or Terminate, including after renders, during CPU tests, for cleanup or to retry capacity. The owner performs these actions. This explicit instruction supersedes historical advice to stop GPU rental automatically.
-- Follow `docs/PRODUCTION.md` and the user's current stage constraints.
-- The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/STAGE2-GAMEPLAY.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
+- Follow `docs/ZASADY.md` and the user's current stage constraints.
+- The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/ROZWOJ-I-WALKA.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
 - Use independent terrain/object resources, never a complete concept illustration as the production world.
 - Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
 - Region art upgrades ship as GPU-importer packs of render bindings (`terrain.*`, `object.*`, optional `terrain.<world>-wall`, presentation-only `origin`), opt-in via `PREVIEW_SWITCHES` until the owner accepts them; collision footprints stay in region JSON.
@@ -31,11 +31,18 @@
 ## Shared project knowledge — required for every agent
 
 - Before planning or implementing Ki Legends changes, read [docs/INDEX.md](docs/INDEX.md) and the relevant linked source documents from the current commit. Do not rely solely on chat memory or PR descriptions.
-- The owner-provided 12-page design PDF is a source document; see [docs/design/RASY_I_ETAPY.md](docs/design/RASY_I_ETAPY.md) for an interim text index. The original binary PDF must still be uploaded and verified before claiming archival completeness.
+- The owner-provided 12-page design PDF is a source document; see [docs/INDEX.md](docs/INDEX.md) for an interim text index. The original binary PDF and its 12 lossless parts are present; verify the recorded SHA-256 before claiming archival completeness.
 - Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
 - **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
 - Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
 - Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.
-- Rasy i potwory: statystyki ras, 4 drzewka (29 węzłów) i model obrażeń pochodzą z aneksu właściciela 22.10.2026, a 40 potworów z jego bestiariusza HTML; źródła liczb to generowane pliki (`nodes.generated.ts`, `base.generated.ts`) — nie edytować ich ręcznie, zmieniać źródło i generator. Opis, założenia i luki: `docs/GAMEPLAY-RACES-AND-MONSTERS.md`. Szybkość ruchu rośnie o 5% bazowej na poziom do 20 (decyzja właściciela). Spawny potworów w regionach dopiero po ukończeniu kontynentów.
+- Rasy i potwory: statystyki ras, 4 drzewka (29 węzłów) i model obrażeń pochodzą z aneksu właściciela 22.10.2026, a 40 potworów z jego bestiariusza HTML; źródła liczb to generowane pliki (`nodes.generated.ts`, `base.generated.ts`) — nie edytować ich ręcznie, zmieniać źródło i generator. Opis, założenia i luki: `docs/ROZWOJ-I-WALKA.md`. Szybkość ruchu rośnie o 5% bazowej na poziom do 20 (decyzja właściciela). Spawny potworów w regionach dopiero po ukończeniu kontynentów.
 - Region curved roads/courts (`terrain.roads`, `terrain.courts`) are presentation-only and baked into chunk textures by `src/game/world/renderRoads.ts`; collision always comes from obstacles and footprints so saves and navigation stay independent of art.
 - The planet atlas (2D/3D) is shared by /mapa and the in-game overlay via MapaView props (`current`, `onClose`); it only reads the active character continent through MapChrome and never imports game session code, keeping /mapa light.
+
+## Documentation maintenance
+
+- Keep exactly the ten thematic Markdown documents listed in `docs/INDEX.md`; update the relevant topic instead of adding status, QA, handoff or per-delivery manuals.
+- Write chronological changes in `docs/zmiany/YYYY-MM-DD/ZMIANY.md` (one journal per date); keep that day's QA evidence under its `qa/` subfolder.
+- Preserve source PDFs, canonical JSON, legal texts and provenance. These are evidence/data, not extra active manuals. Older descriptions remain in Git.
+- Run `python3 scripts/docs/check_documentation.py` after documentation changes. Do not regenerate the removed documents from old scripts.

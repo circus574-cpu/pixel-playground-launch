@@ -5,7 +5,7 @@ Idempotent: it starts from the current region file, moves the existing building 
 separate districts, adds doors, connecting roads, street decor and the city data, and removes
 combat spawns from the safe city area.
 
-Scope (docs/CITY-INTEGRATION-CONTRACT-2026-10-23.md): data, layout and look only. The shared
+Scope (docs/SWIAT-I-MIASTA.md): data, layout and look only. The shared
 mechanics (entering buildings, trade, smithy, depot, training, save schema) belong to the other
 branch, so nothing under src/game outside the world data is touched here.
 """

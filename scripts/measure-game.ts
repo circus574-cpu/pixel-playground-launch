@@ -13,7 +13,10 @@ const browser = await chromium.launch({
     : ["--no-sandbox", "--disable-webgl"],
 });
 const results: unknown[] = [];
-await mkdir("docs/qa/pre-gpu", { recursive: true });
+const outputDir =
+  process.env["KI_QA_OUTPUT_DIR"] ??
+  `docs/zmiany/${new Date().toISOString().slice(0, 10)}/qa/benchmark`;
+await mkdir(outputDir, { recursive: true });
 type Sample = {
   sampleAtMs: number;
   fps: number;
@@ -126,7 +129,7 @@ try {
       const metrics = await cdp.send("Performance.getMetrics"),
         dom = await cdp.send("Memory.getDOMCounters");
       await page.screenshot({
-        path: `docs/qa/pre-gpu/benchmark-${webgl ? "webgl" : "canvas"}-${world}-${viewport.width}.png`,
+        path: `${outputDir}/benchmark-${webgl ? "webgl" : "canvas"}-${world}-${viewport.width}.png`,
       });
       await page.getByRole("button", { name: "Ustawienia", exact: true }).click();
       await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
@@ -167,9 +170,9 @@ try {
     }
 } finally {
   await browser.close();
-  await mkdir("docs/qa/pre-gpu", { recursive: true });
+  await mkdir(outputDir, { recursive: true });
   await writeFile(
-    `docs/qa/pre-gpu/performance-${webgl ? "webgl" : "canvas"}.json`,
+    `${outputDir}/performance-${webgl ? "webgl" : "canvas"}.json`,
     JSON.stringify(
       {
         checkedAt: new Date().toISOString(),

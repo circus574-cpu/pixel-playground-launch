@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/pixel-playground-launch/scripts/licenses/verify_registers.py", line 53, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/pixel-playground-launch/scripts/licenses/verify_registers.py", line 36, in main
+    else:assert sha(b)==r['sha256'] and len(b)==r['bytes'], r['path']
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: src/assets/planet-map/atlas-1920.webp

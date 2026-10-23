@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reproducible design book. Requires reportlab; no game files are modified."""
 from pathlib import Path
-import json, math, re, hashlib, unicodedata
+import json, math, re, hashlib, unicodedata, subprocess
 from xml.sax.saxutils import escape
 from reportlab.pdfgen import canvas
 from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether, Flowable
@@ -15,8 +15,10 @@ from reportlab.lib.pagesizes import A4
 ROOT=Path(__file__).resolve().parents[3]
 OUT=Path(__file__).resolve().parent
 SOURCE_SHA='5bb495c7bfce311077bf081cd27b636e577dcdcf'
-ANNEX=json.loads((ROOT/'docs/design/data/character-progression-1-20.json').read_text())
-MONSTERS=json.loads((ROOT/'art/production/enemies/roster.json').read_text())['monsters']
+def source_bytes(path):
+ return subprocess.check_output(['git','show',SOURCE_SHA+':'+path],cwd=ROOT)
+ANNEX=json.loads(source_bytes('docs/design/data/character-progression-1-20.json'))
+MONSTERS=json.loads(source_bytes('art/production/enemies/roster.json'))['monsters']
 quests=[]; items=[]; recipes=[]; blocks=[]
 def h(title, level=1): blocks.append(('h',level,title))
 def p(text): blocks.append(('p',text))
@@ -527,7 +529,7 @@ for b in blocks:
   md.append('| '+' | '.join(map(str,b[1]))+' |\n| '+' | '.join('---' for _ in b[1])+' |\n'+'\n'.join('| '+' | '.join(str(x).replace('\n',' / ').replace('|',' / ') for x in row)+' |' for row in b[2]))
  elif b[0]=='page':md.append('---')
  elif b[0]=='toc':md.append('Spis treści z numerami stron jest generowany automatycznie w PDF.')
-(OUT/'KI-LEGENDS-KSIEGA-PRZYGODY.md').write_text('\n\n'.join(md)+'\n')
+(ROOT/'docs/FABULA-I-EKWIPUNEK.md').write_text('\n\n'.join(md)+'\n')
 
 # PDF typesetting, embedded Unicode fonts, linked TOC and bookmarks.
 FONT=Path('/usr/share/fonts/truetype/dejavu')
@@ -610,8 +612,8 @@ class StableCanvas(canvas.Canvas):
   super().__init__(*args,**kwargs)
 doc.multiBuild(flow,canvasmaker=StableCanvas)
 source_files=['docs/design/data/character-progression-1-20.json','art/production/enemies/roster.json','src/game/session.ts','src/game/kit/balance.ts','src/game/kit/progression.ts','docs/DECISIONS.md','docs/PLANET-GEOMETRY-2026-10-22.md']
-manifest=dict(version='1.0',date='2026-10-23',status='PROPOSAL_NOT_IMPLEMENTED',sourceSha=SOURCE_SHA,counts=dict(quests=len(quests),originQuests=24,sharedMainQuests=24,sideQuests=24,personalQuests=12,professionQuests=6,repeatableQuests=8,items=len(items),materials=len(mats),recipes=len(recipes),existingMonsters=40,newBossDesigns=8,existingSkillNodes=116),balance=dict(originXP=origin_xp,sharedXP=main_xp,exampleSideXP=side_xp,xpBeforeM23=pre_final,xpRequiredLevel20=12160,exampleQuestCoins=origin_gold+main_gold+side_gold),sources=[dict(path=s,sha256=hashlib.sha256((ROOT/s).read_bytes()).hexdigest()) for s in source_files],outputs=[])
-for name in ['KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf','KI-LEGENDS-KSIEGA-PRZYGODY.md','campaign-data.json']:
+manifest=dict(version='1.0',date='2026-10-23',status='PROPOSAL_NOT_IMPLEMENTED',sourceSha=SOURCE_SHA,counts=dict(quests=len(quests),originQuests=24,sharedMainQuests=24,sideQuests=24,personalQuests=12,professionQuests=6,repeatableQuests=8,items=len(items),materials=len(mats),recipes=len(recipes),existingMonsters=40,newBossDesigns=8,existingSkillNodes=116),balance=dict(originXP=origin_xp,sharedXP=main_xp,exampleSideXP=side_xp,xpBeforeM23=pre_final,xpRequiredLevel20=12160,exampleQuestCoins=origin_gold+main_gold+side_gold),sources=[dict(path=s,sha256=hashlib.sha256(source_bytes(s)).hexdigest()) for s in source_files],outputs=[])
+for name in ['KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf','../../FABULA-I-EKWIPUNEK.md','campaign-data.json']:
  data=(OUT/name).read_bytes();manifest['outputs'].append(dict(path=name,bytes=len(data),sha256=hashlib.sha256(data).hexdigest()))
 (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps(dict(pdf=str(pdf),counts=manifest['counts'],balance=manifest['balance']),ensure_ascii=False,indent=2))

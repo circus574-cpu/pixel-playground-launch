@@ -5,7 +5,7 @@ Idempotent: starts from the current region file, places six service buildings on
 central plaza (each in its own district, >= 700 units from the others), adds doors, connecting
 roads, residents and the safe-area data, and removes combat spawns from the city.
 
-Scope (docs/CITY-INTEGRATION-CONTRACT-2026-10-23.md): data, layout and look only. Shared mechanics
+Scope (docs/SWIAT-I-MIASTA.md): data, layout and look only. Shared mechanics
 (entering buildings, trade, smithy, depot, training, save schema) belong to the other branch.
 """
 import json
@@ -18,7 +18,7 @@ data = json.loads(PATH.read_text(encoding="utf-8"))
 CITY = {"x": 1350, "y": 950, "width": 2050, "height": 1750}
 
 # Existing sprites are reused (fortress, war shrines); the extra buildings are clones of a war shrine
-# (placeholders until dedicated art exists, see docs/CITY-PYRA-2026-10-23.md).
+# (placeholders until dedicated art exists, see docs/SWIAT-I-MIASTA.md).
 BUILDINGS = [
     dict(id="hall", obj="fortress-0", pos=(2400, 1150), district="Bramy Twierdzy", name="Sala Przysięgi",
          description="Serce Twierdzy Popiołu. Tu składa się przysięgę, przyjmuje zadania i poznaje historię klanów."),

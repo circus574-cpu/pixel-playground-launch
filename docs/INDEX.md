@@ -1,70 +1,52 @@
-# Ki Legends — indeks dokumentacji dla agentów
+# KI Legends — dokumentacja projektu
 
-Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agentów. Czytaj dokumentację z tej samej gałęzi/commita, na którym pracujesz. `main` jest bazą obowiązującą dopiero po scaleniu zatwierdzonych zmian.
+Aktualizacja: 23.10.2026. Stan kodu porównany z `origin/main` na `d0bfc2c`.
+Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
-## Dokumentacja audytowa i bieżąca
+| Dokument                                        | Co w nim znaleźć                                                           |
+| ----------------------------------------------- | -------------------------------------------------------------------------- |
+| [Zasady](ZASADY.md)                             | Kanon, uprawnienia, produkcja, ochrona zapisów i prywatnego `/test`.       |
+| [Rasy i postacie](RASY-I-POSTACIE.md)           | Cztery tożsamości, wygląd, animacje, skala i znane wady.                   |
+| [Rozwój i walka](ROZWOJ-I-WALKA.md)             | Statystyki, drzewka, awanse, ekonomia, zapis i bestiariusz.                |
+| [Świat i miasta](SWIAT-I-MIASTA.md)             | Kontynenty, globus, geometria, cztery miasta, budynki, NPC i usługi.       |
+| [GPU i zasoby](GPU-I-ZASOBY.md)                 | Produkcja grafik, kontrakt paczek, import, kolejka i odtwarzanie narzędzi. |
+| [Architektura i testy](ARCHITEKTURA-I-TESTY.md) | Kod, moduły, polecenia, QA, wydajność i diagnoza usterek.                  |
+| [Fabuła i ekwipunek](FABULA-I-EKWIPUNEK.md)     | Pełny projekt przygody: 98 zadań, 177 przedmiotów, 94 receptury.           |
+| [Licencje](LICENCJE.md)                         | Grafiki, modele, zależności, notices, dowody i nierozstrzygnięte prawa.    |
+| [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
-- [Księga przygody i rozwoju — projekt kampanii, 98 zadań i statystyki wyposażenia (PDF)](design/adventure-20261023/README.md) — propozycja z 23.10.2026, bez zmian rozgrywki.
+## Historia — jeden dziennik na dzień
 
-- [Zielona Przystań — funkcjonalne miasto Planetarnych](VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md)
-- [Miasta — kontrakt wspólnego silnika i podział Codex / Claude](CITY-INTEGRATION-CONTRACT-2026-10-23.md)
+- [2026-10-23](zmiany/2026-10-23/ZMIANY.md)
+- [2026-10-22](zmiany/2026-10-22/ZMIANY.md)
+- [2026-10-21](zmiany/2026-10-21/ZMIANY.md)
+- [2026-10-20](zmiany/2026-10-20/ZMIANY.md)
+- [2026-10-19](zmiany/2026-10-19/ZMIANY.md)
 
-- [Integracja czterech malowanych ras z dostawy Claude’a — źródła, runtime i QA](FOUR-PAINTED-RACES-INTEGRATION-2026-10-22.md)
-- [Malowane widoki i deformacja siatki — pipeline oraz znane wady dostawy](PAINTED-MESH-PIPELINE.md)
-- [ORYGINALNY PDF 12 stron — kompletne binarne archiwum z obrazami, odtwarzalne bezstratnie](design/original-pdf-parts/README.md)
-- [Transkrypcja tekstowa PDF — pomocnicza](design/SOURCE-PDF-ARCHIVE.md)
-- [Osobna kolejka GPU: Androidy → Legendy → miasta czterech ras](GPU-PRODUCTION-SEQUENCE.md)
-- [Architektura i źródła implementacji](ARCHITECTURE.md)
-- [Roadmap i bramy etapów](ROADMAP.md)
-- [Rejestr decyzji](DECISIONS.md)
-- [Status zweryfikowany / main vs PR](STATUS.md)
-- [Otwarte zadania i usterki](TASKS.md)
-- [Historia zmian](CHANGELOG.md)
-- [Roboczy raport QA PR #15](https://github.com/circus574-cpu/pixel-playground-launch/blob/integration/ki-regressions-20261021/docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md) — tylko gałąź PR, nie main.
+Każdego dnia dopisujemy zmiany do `docs/zmiany/RRRR-MM-DD/ZMIANY.md`:
+co zmieniono, commit/PR, faktyczny wynik kontroli i co pozostało otwarte.
+Zrzuty, raporty JSON i logi tego dnia leżą w jego podfolderze `qa/`.
+Nie tworzymy kolejnych plików `STATUS`, `HANDOFF`, `QA-...` ani osobnych opisów każdej dostawy.
+Zasady aktualne poprawiamy w odpowiednim z dziesięciu dokumentów.
+Pełna wcześniejsza treść i autorstwo pozostają w historii Git na bazie `927146f4e5d8`;
+[mapa segregacji](zmiany/2026-10-23/segregacja.json) wskazuje nowe miejsce każdego usuniętego opisu.
 
-## Źródła
+## Materiały źródłowe — nie kolejne instrukcje
 
-- [Przekazanie sesji 22.10.2026 — stan, decyzje, plan na rano](SESSION-2026-10-22-HANDOFF.md)
-- [Geometria planety: miasta w czworościanie, 80 000 j. między każdą parą (22.10.2026)](PLANET-GEOMETRY-2026-10-22.md)
-- [Wdrożenie tekstur kontynentów i przyrody (22.10.2026)](NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md)
-- [Analiza gry i zbiorcza lista zleceń na GPU (23.10.2026)](GPU-BACKLOG-2026-10-23.md)
-- [Aetheria — miasto Mędrców: układ, budynki, mieszkańcy (gałąź feat/aetheria-city, niescalone)](CITY-AETHERIA-2026-10-23.md)
-- [Nexus-9 — miasto Androidów: układ, budynki, mieszkańcy (gałąź feat/nexus-city, niescalone)](CITY-NEXUS-2026-10-23.md)
-- [Pyra — miasto Legend: układ, budynki, mieszkańcy (gałąź feat/pyra-city, niescalone)](CITY-PYRA-2026-10-23.md)
-- [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
-- [Rejestr licencji zależności i notices](DEPENDENCY-LICENSE-REGISTER.md)
-- [Instrukcje dla agentów](../AGENTS.md)
-- [Produkcja i zasady publikacji](PRODUCTION.md)
-- [Pipeline zasobów GPU](GPU_ASSET_PIPELINE.md)
-- [Instrukcja dla Codexa: cztery rasy i tekstury kontynentów (22.10.2026)](CODEX-PAINTED-HEROES-AND-TERRAIN-2026-10-22.md)
-- [Malowane widoki + deformacja siatki — pipeline bohaterów](PAINTED-MESH-PIPELINE.md)
-- [40 potworów — kontrakt, animacje, dane bestiariusza (22.10.2026)](ENEMIES-KI-LEGENDS.md)
-- [Rasy, drzewka umiejętności i potwory w rozgrywce — wdrożenie (22.10.2026)](GAMEPLAY-RACES-AND-MONSTERS.md)
-- [Aneks właściciela: statystyki ras i drzewka umiejętności (poz. 1–20)](design/CHARACTER-PROGRESSION-LEVELS-1-20.md)
-- [Plan czterech kontynentów](STAGE3-FOUR-CONTINENTS.md)
-- [Lista zasobów GPU](STAGE3-GPU-ASSET-LIST.md)
-- [Etap PvE](STAGE2-GAMEPLAY.md)
-- [Testy ras](TESTING-RACE-SWITCH.md)
-- [Raport stabilizacji PvE](QA-STAGE2-2026-10-20.md)
-- [Globus 3D /mapa](MAPA-GLOBUS-3D.md)
-- [Aetheria — anime punkt startowy (podgląd do oceny)](AETHER-ANIME-START.md)
-- [Nexus-9 i Pyra — anime punkty startowe (podgląd do oceny)](NEXUS-PYRA-ANIME-START.md)
-- [Verdantia — alternatywna wioska startowa (podgląd do oceny)](VERDANT-ANIME-START.md)
-- [Centralny kanon ras i etapów — tekst z dokumentu właściciela](design/RASY_I_ETAPY.md)
-- Oryginalny dokument właściciela: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf` (12 stron, 20.10.2026). **Jest zarchiwizowany na gałęzi tego PR bezstratnie w 12 binarnych częściach** pod `docs/design/original-pdf-parts/`. Rekonstrukcja przez `python3 docs/design/original-pdf-parts/restore.py` odtwarza identyczny PDF o SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`. Archiwum nie znajduje się jeszcze w `main`; wymaga scalenia PR #16. Nie zastępować tekstowym streszczeniem.
+`design/` zawiera niezmienione oryginały PDF, dane JSON, obrazy tożsamości i narzędzia księgi.
+`licenses/` zawiera komplet indywidualnych rejestrów JSON/CSV oraz legal texts.
+Nie kopiujemy ich w całości do wielu plików opisowych i nie usuwamy dowodów pochodzenia.
 
-## Hierarchia i stan
+- [Księga przygody PDF — 89 stron](../KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf).
+- [Oryginalny PDF właściciela](design/Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf).
+  SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+  Kopia binarna w `design/original-pdf-parts/`; odtworzenie:
+  `python3 docs/design/original-pdf-parts/restore.py`.
+- Aneks statystyk i drzewek: zachowano źródłowy JSON poniżej; binarnego PDF aneksu
+  nie ma w tym checkoutcie. Nie mylić go z obecnym oryginalnym PDF 12-stronicowym.
+- [Dane aneksu](design/data/character-progression-1-20.json),
+  [bestiariusz właściciela](design/BESTIARY-OWNER-2026-10-22.html),
+  [pomocnicza transkrypcja oryginału](design/source-transcript.txt).
 
-1. Wyraźne decyzje właściciela oraz zatwierdzony kanon mają pierwszeństwo.
-2. Odróżniaj **koncepcję**, **implementację**, **zweryfikowane testy** i **zatwierdzoną publikację**.
-3. Dokumenty w otwartych PR-ach są materiałem roboczym, nie automatycznie obowiązującym stanem `main`.
-4. Nie zakładaj, że wszystkie rasy i funkcje opisane w koncepcji są już zaimplementowane.
-5. Zapisuj istotne decyzje, commity, testy i nierozwiązane problemy w repozytorium.
-
-## Decyzja właściciela: kontrola GPU (21.10.2026)
-
-Wyłącznie właściciel decyduje o **uruchomieniu, zatrzymaniu, restarcie, usunięciu lub zmianie konfiguracji instancji GPU**, także gdy prace się skończyły, instancja jest bezczynna lub wystąpił błąd. Codex może odczytywać stan, wykonywać zatwierdzone zadania na już działającej instancji, zabezpieczać dane i zgłaszać potrzebę decyzji. Nie wolno mu samodzielnie zmieniać stanu ani parametrów instancji.
-
-## Publikacja
-
-Bez odrębnej zgody właściciela nie scalać PR, nie publikować gry i nie modyfikować produkcji. Niezależny audyt wymaga dowodów z kodu, commitów, CI i działającej gry.
+Wyraźne decyzje właściciela mają pierwszeństwo. Koncepcja, kod, zaliczony test,
+scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym SHA.

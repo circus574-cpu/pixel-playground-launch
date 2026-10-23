@@ -5,7 +5,7 @@ Idempotent: starts from the current region file, places six service buildings on
 central plaza (each in its own district, >= 700 units from the others), adds doors, connecting
 roads, residents and the safe-area data, and removes combat spawns from the city.
 
-Scope (docs/CITY-INTEGRATION-CONTRACT-2026-10-23.md): data, layout and look only. Shared mechanics
+Scope (docs/SWIAT-I-MIASTA.md): data, layout and look only. Shared mechanics
 (entering buildings, trade, smithy, depot, training, save schema) belong to the other branch.
 """
 import json
@@ -18,7 +18,7 @@ data = json.loads(PATH.read_text(encoding="utf-8"))
 CITY = {"x": 1350, "y": 950, "width": 2050, "height": 1750}
 
 # Existing lab sprites are reused; the extra buildings are clones of the same sprite (placeholders
-# until dedicated art exists, see docs/CITY-NEXUS-2026-10-23.md).
+# until dedicated art exists, see docs/SWIAT-I-MIASTA.md).
 BUILDINGS = [
     dict(id="hall", obj="lab-1", pos=(2400, 1150), district="Rdzeń Sieci", name="Centrum Synchronizacji",
          description="Główny węzeł miasta. Tu nowi użytkownicy synchronizują się z siecią i odbierają zadania."),
