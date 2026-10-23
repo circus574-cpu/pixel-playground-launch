@@ -25,7 +25,15 @@ for (const [race, world] of [
       await expect(page.locator(".ki-hud")).toBeVisible();
       await expect(page.locator("canvas")).toHaveCount(1);
       await expect(canvas).toHaveAttribute("data-metrics", /.+/);
-      const metrics = JSON.parse((await canvas.getAttribute("data-metrics"))!);
+      // Baked road/zone chunks stream in as the camera settles: sample once the count is stable.
+      let metrics = JSON.parse((await canvas.getAttribute("data-metrics"))!);
+      for (let tries = 0; tries < 25; tries++) {
+        await page.waitForTimeout(1100);
+        const next = JSON.parse((await canvas.getAttribute("data-metrics"))!);
+        const settled = next.textures === metrics.textures && next.objects === metrics.objects;
+        metrics = next;
+        if (settled) break;
+      }
       expect(metrics.renderer).toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
       expect(metrics.estimatedTextureBytes).toBeLessThan(128 * 1024 * 1024);
       samples.push(metrics);

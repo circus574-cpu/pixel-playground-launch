@@ -40,7 +40,13 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
         const chunk = groundChunks.get(key);
         if (chunk) {
           chunk.setVisible(inView);
-          if (!inView && groundChunks.size > 12) {
+          // Same rule as the baked road chunks: depend on the camera now, not its history.
+          const far =
+            x > view.right + 640 ||
+            x + GROUND_CHUNK < view.left - 640 ||
+            y > view.bottom + 640 ||
+            y + GROUND_CHUNK < view.top - 640;
+          if (far) {
             chunk.destroy();
             groundChunks.delete(key);
           }

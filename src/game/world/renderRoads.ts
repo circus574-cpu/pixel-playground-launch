@@ -6,8 +6,8 @@ import type { Court, Road, ZoneFloor } from "./types";
 /** World units per baked chunk and its texture resolution (px per world unit). */
 export const ROAD_CHUNK_SIDE = 1024;
 export const ROAD_BAKE_SCALE = 0.75;
-/** Upper bound of baked chunk textures kept at once (about 2.4 MB each). */
-const MAX_BAKED_CHUNKS = 16;
+/** Baked chunks farther than this from the view (world units) are released. */
+const RELEASE_MARGIN = 640;
 type Pt = readonly [number, number];
 
 /** Smooth Catmull-Rom curve through the authored points (presentation only). */
@@ -240,12 +240,16 @@ export function bakeRoads(
       );
       if (chunk) chunk.seen = frame;
     }
-    // Keep memory bounded: drop the least recently seen chunks beyond the cap.
-    if (chunks.size > MAX_BAKED_CHUNKS)
-      for (const c of [...chunks.values()]
-        .sort((a, b) => a.seen - b.seen)
-        .slice(0, chunks.size - MAX_BAKED_CHUNKS))
-        if (c.seen !== frame) release(c);
+    // Release chunks that left the view by more than RELEASE_MARGIN, so the set of baked chunks
+    // depends only on where the camera is now, not on where it has been.
+    for (const c of [...chunks.values()])
+      if (
+        c.x > view.right + RELEASE_MARGIN ||
+        c.x + ROAD_CHUNK_SIDE < view.left - RELEASE_MARGIN ||
+        c.y > view.bottom + RELEASE_MARGIN ||
+        c.y + ROAD_CHUNK_SIDE < view.top - RELEASE_MARGIN
+      )
+        release(c);
   };
   update(Infinity);
   return {

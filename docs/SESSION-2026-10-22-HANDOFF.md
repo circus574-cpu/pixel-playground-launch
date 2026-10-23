@@ -1,5 +1,7 @@
 # Przekazanie sesji — 22.10.2026 (wieczór) → kontynuacja rano
 
+> **Stan na 23.10 rano (koniec pracy tej sesji):** HEAD gałęzi `ccr-b12863e6-qt65bs` = `cf13f9c` (naprawa sekcji 4a/4b wypchnięta). CI PR #24 na tym SHA było w toku (`webgl` od 05:06 UTC, Browser QA jeszcze nie widoczny). **Następny krok dla kolejnego agenta:** sprawdzić oba checki; po zielonych scalić PR #24 (zgoda właściciela w `docs/qa/PUBLISH-AUTHORIZATION-2026-10-22.md`), publikacji przez Lovable nie uruchamiać bez polecenia (kredyty). Potem punkty z sekcji 4.
+
 Stan na koniec sesji. Gałąź robocza: `ccr-b12863e6-qt65bs` (PR #24 do `main`), HEAD `7e30566`, katalog roboczy czysty. **Nic nie jest scalone do `main` ani opublikowane.** Zgodę właściciela na scalenie i publikację zapisano w `docs/qa/PUBLISH-AUTHORIZATION-2026-10-22.md`; publikacja przez Lovable zużywa kredyty (zakaz bez polecenia, AGENTS.md w PR #22).
 
 ## 1. Co jest w PR #24 (commity w kolejności)
@@ -32,7 +34,7 @@ R = 41 870,9 j., obwód 263 083 j.; 1 j. atlasu = 131,54 j. Miasta: Aetheria 61�
 4. **Cztery miasta na kontynent** i większe miasta; na dziś jest jedno miasto + 4 strefy. Mapy kolejnych miast generować jak strefy; pozycje miast liczyć w obrysie kontynentu na nowym atlasie (odstęp ≥ 12–14 tys. j.).
 5. Obraz menu/loading po dostarczeniu pliku bez napisu.
 
-## 4a. Otwarta usterka CI (znaleziona po zapisaniu dokumentu)
+## 4a. Usterka CI webgl — NAPRAWIONA 23.10 (zwalnianie kawałków poza widokiem + 640 j.)
 
 `webgl` (Software WebGL) w PR #24 na `7e30566` — **1 z 14 testów pada**: `e2e/world-rendering.spec.ts:7` „nexus mobile detail rendering stays within budget and releases each scene”: `samples[1].textures` (60) ≠ `samples[0].textures` (66). Przyczyna to moja zmiana: drogi i podłogi stref są pieczone leniwie (`renderRoads.ts`), a podłoże strumieniowane (`renderWorld.ts`); liczba tekstur zależy od historii kamery (kawałki wypiekane przy kamerze startowej zostają, bo zwalniane są dopiero po przekroczeniu limitu 16). Poprawka (nie wykonana): zwalniać kawałki dróg/podłoża, gdy wyjdą poza widok powiększony o ~640 j. (histereza), zamiast limitu LRU; wtedy liczba tekstur i obiektów zależy tylko od bieżącej pozycji kamery. Przy okazji sprawdzić `Browser QA (full)` na tym samym SHA (wynik nieznany w chwili zapisu).
 

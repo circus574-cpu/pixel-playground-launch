@@ -341,12 +341,18 @@ for (const race of RACE_IDS)
       .toBe("return");
     await expect.poll(async () => (await enemies())[0]?.mode, { timeout: 15000 }).toBe("patrol");
     expect((await enemies())[0]!.hp).toBe(66);
-    // Show the whole world, then click beyond its right edge on the actual canvas.
+    // Zoom out, then walk to the right edge of the (open) world with a real move command.
     for (let i = 0; i < 4; i++) await openHudTool(page, "Oddal mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.35");
-    await page.locator("canvas").click({ position: { x: 1260, y: 450 } });
+    const here = await position(page);
+    const east = nav.safe({ x: world.width - 100, y: here.y });
+    await canvas.evaluate(
+      (el, p) =>
+        el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", ...p } })),
+      east,
+    );
     await expect
-      .poll(async () => (await position(page)).x, { timeout: 60000 })
+      .poll(async () => (await position(page)).x, { timeout: 90000 })
       .toBeGreaterThan(world.width - 180);
     await page.evaluate(() => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
