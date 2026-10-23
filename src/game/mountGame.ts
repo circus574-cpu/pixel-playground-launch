@@ -475,6 +475,30 @@ export function mountKileGends(
         .image(0, 3, "actor-shadow")
         .setDisplaySize(boar ? 74 : 50, boar ? 24 : 18)
         .setAlpha(0.62);
+      // The hero is the centre of the game: a warm light pool under the feet separates it from the ground.
+      let halo: Phaser.GameObjects.Image | undefined;
+      if (kind === "hero") {
+        if (!this.textures.exists("hero-halo")) {
+          const tex = this.textures.createCanvas("hero-halo", 128, 64)!;
+          const ctx = tex.getContext();
+          ctx.translate(64, 32);
+          ctx.scale(1, 0.5);
+          const g = ctx.createRadialGradient(0, 0, 8, 0, 0, 64);
+          g.addColorStop(0, "rgba(255,236,170,0.9)");
+          g.addColorStop(0.55, "rgba(255,214,130,0.45)");
+          g.addColorStop(1, "rgba(255,200,110,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(0, 0, 64, 0, Math.PI * 2);
+          ctx.fill();
+          tex.refresh();
+        }
+        halo = this.add
+          .image(0, 2, "hero-halo")
+          .setDisplaySize(170, 70)
+          .setAlpha(0.7)
+          .setBlendMode(Phaser.BlendModes.ADD);
+      }
       registerActorAnimations(this, config);
       const clip = config.clips.idle!,
         first = Object.values(clip.directions)[0]![0]!;
@@ -511,7 +535,9 @@ export function mountKileGends(
         visual: config,
         animation: new ActorAnimation(sprite, config),
         facing: { x: 0, y: 1 },
-        body: this.add.container(p.x, p.y, [shadow, sprite]).setDepth(p.y),
+        body: this.add
+          .container(p.x, p.y, halo ? [halo, shadow, sprite] : [shadow, sprite])
+          .setDepth(p.y),
         sprite,
         bar,
         name,

@@ -7,6 +7,7 @@ import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
 import { coversPlayer } from "./visibility";
 import { macroVariation } from "./macroVariation";
+import { castsShadow, objectShadow } from "./shadows";
 import type { Point } from "../navigation";
 import { FOREST, FOREST_OBJECTS, FOREST_ORIGIN, forestObstacles } from "./forest";
 import type { WorldDefinition } from "./types";
@@ -127,16 +128,8 @@ export function renderForest(scene: Phaser.Scene, world?: WorldDefinition) {
   }[] = [];
   for (const obj of objects) {
     const ref = objectRefs.get(obj.id)!;
-    let shadow: Phaser.GameObjects.Image | undefined;
-    if (!cache && obj.kind !== "bridge") {
-      shadow = scene.add
-        .image(obj.x + 8, obj.y + 8, ref.asset, ref.frame)
-        .setDisplaySize(obj.width, obj.height * 0.3)
-        .setOrigin(0.5, 0.5)
-        .setTint(0x344b68)
-        .setAlpha(0.12)
-        .setDepth(renderDepth("below") - 1);
-    }
+    const shadow =
+      !cache && castsShadow(obj, ref.layer) ? (objectShadow(scene, obj) ?? undefined) : undefined;
     const image = sizeScenery(
       scene.add.image(obj.x, obj.y, ref.asset, ref.frame),
       obj.width,

@@ -8,6 +8,7 @@ import { renderForest } from "./renderForest";
 import { coversPlayer } from "./visibility";
 import { bakeRoads } from "./renderRoads";
 import { macroVariation } from "./macroVariation";
+import { castsShadow, objectShadow } from "./shadows";
 import type { Point } from "../navigation";
 
 /** Derived, softened copy of a ground texture; undefined when the canvas filter is unavailable. */
@@ -35,8 +36,14 @@ function softenGround(scene: Phaser.Scene, asset: string, frame?: string | numbe
   out.width = w * 3;
   out.height = h * 3;
   const octx = out.getContext("2d")!;
-  octx.filter = "contrast(0.58) saturate(0.7) brightness(1.1) blur(2.4px)";
+  octx.filter = "contrast(0.46) saturate(0.55) brightness(1.1) blur(3px)";
   octx.drawImage(big, 0, 0);
+  // Warm painted wash: the ground is a calm backdrop in one limited palette, never the loudest thing on screen.
+  octx.filter = "none";
+  octx.globalAlpha = 0.16;
+  octx.fillStyle = "#d9bf94";
+  octx.fillRect(0, 0, w * 3, h * 3);
+  octx.globalAlpha = 1;
   ctx.drawImage(out, w, h, w, h, 0, 0, w, h);
   tex.refresh();
   return key;
@@ -108,13 +115,20 @@ const GROUND_CHUNK = 1024;
 export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.terrain) return renderForest(scene, world);
   const terrain = world.terrain;
+  // Every ground-type surface goes through the same softening so the whole floor is one calm palette.
+  const calm = <T extends { asset: string; frame?: string | number | undefined }>(b: T): T => {
+    const key = softenGround(scene, b.asset, b.frame);
+    return key ? { ...b, asset: key, frame: undefined } : b;
+  };
   const ground = textureBinding("terrain." + terrain.ground, { asset: terrain.ground }),
-    path = textureBinding("terrain." + terrain.path, { asset: terrain.path }),
-    plaza = textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza });
+    path = calm(textureBinding("terrain." + terrain.path, { asset: terrain.path })),
+    plaza = calm(textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza }));
   // A painted terrain pack replaces the flat placeholder tiles and their procedural detail.
   const paintedGround = !!catalog.renderBindings["terrain." + terrain.ground];
-  const wall = catalog.renderBindings["terrain." + world.id + "-wall"];
-  const hazard = hazardBinding(world.id);
+  const wallRaw = catalog.renderBindings["terrain." + world.id + "-wall"];
+  const wall = wallRaw ? calm(wallRaw) : wallRaw;
+  const hazardRaw = hazardBinding(world.id);
+  const hazard = hazardRaw ? calm(hazardRaw) : hazardRaw;
   const border = world.border ?? 3;
   const updateAtmosphere = atmosphere(scene, world.id);
   // Ground is streamed in chunks: a world-sized TileSprite would allocate a full-size canvas
@@ -196,7 +210,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
               .filter((z) => catalog.renderBindings["terrain." + z.texture])
               .map((z) => [
                 z.texture,
-                textureBinding("terrain." + z.texture, { asset: z.texture }),
+                calm(textureBinding("terrain." + z.texture, { asset: z.texture })),
               ]),
           ),
         )
@@ -351,8 +365,10 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       "object." + world.id + "." + object.id,
       textureBinding("object." + object.asset, { asset: object.asset! }),
     );
+    const shadow = castsShadow(object, ref.layer) ? objectShadow(scene, object) : null;
     return {
       object,
+      shadow,
       image: sizeScenery(
         scene.add
           .image(object.x, object.y, ref.asset, ref.frame)
@@ -378,7 +394,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       macro.update();
       roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
-      for (const { object: o, image } of scenery) {
+      for (const { object: o, image, shadow } of scenery) {
         const left = o.x - o.width * o.anchorX,
           top = o.y - o.height * o.anchorY;
         const visible =
@@ -387,6 +403,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
           top < view.bottom + 128 &&
           top + o.height > view.top - 128;
         image.setVisible(visible);
+        shadow?.setVisible(visible);
         if (visible) image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
       }
     },
