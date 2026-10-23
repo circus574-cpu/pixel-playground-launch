@@ -26,6 +26,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Geometria planety: miasta w czworościanie, 80 000 j. między każdą parą (22.10.2026)](PLANET-GEOMETRY-2026-10-22.md)
 - [Wdrożenie tekstur kontynentów i przyrody (22.10.2026)](NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md)
 - [Analiza gry i zbiorcza lista zleceń na GPU (23.10.2026)](GPU-BACKLOG-2026-10-23.md)
+- [Zestaw grafik do układania świata — kontrakt dla Codexa (23.10.2026)](WORLD-ASSET-KIT-2026-10-23.md)
 - [GPU: krajobraz planety i neutralna fauna — specyfikacja zlecenia (23.10.2026)](GPU-LANDSCAPE-AND-FAUNA-2026-10-23.md)
 - [Kontynenty w skali planety, miasta 4000 × 2500 (gałąź feat/continent-worlds)](CITY-CONTINENT-SCALE-2026-10-23.md)
 - [Aetheria — miasto Mędrców: układ, budynki, mieszkańcy (gałąź feat/aetheria-city, niescalone)](CITY-AETHERIA-2026-10-23.md)
