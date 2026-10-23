@@ -427,48 +427,9 @@
   letter-spacing: 0.08em;
 }
 
-/* Minimap follows the player: the continent is far larger than the window, so the image is scaled
-   around the player's position and markers keep their size. */
-.ki-map-follow {
-  position: relative;
+/* Local minimap: a schematic map of the place the player is in (the city, or the ground around). */
+.ki-local-map {
   display: block;
-  will-change: transform;
-}
-.ki-map-follow .ki-landmark {
-  transform: translate(-50%, -50%) scale(calc(1 / var(--zoom, 1)));
-}
-.ki-map-follow .ki-map-marker.ki-map-you {
-  width: 13px;
-  height: 13px;
-  transform: translate(-50%, -50%) rotate(45deg) scale(calc(1 / var(--zoom, 1)));
-  background: #fff3b8;
-  border: 2px solid #1a1109;
-  box-shadow:
-    0 0 0 2px #ffffffaa,
-    0 0 10px 2px #ffd966;
-  z-index: 2;
-}
-.ki-map-follow .ki-map-marker.ki-map-you::after {
-  content: "";
-  position: absolute;
-  inset: -7px;
-  border: 2px solid #ffe28a;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: ki-map-you-pulse 1.6s ease-out infinite;
-}
-@keyframes ki-map-you-pulse {
-  from {
-    transform: scale(0.6);
-    opacity: 0.9;
-  }
-  to {
-    transform: scale(1.7);
-    opacity: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ki-map-follow .ki-map-marker.ki-map-you::after {
-    animation: none;
-  }
+  width: 100%;
+  aspect-ratio: 8 / 5;
 }
