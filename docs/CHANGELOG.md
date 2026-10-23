@@ -2,6 +2,11 @@
 
 To rejestr orientacyjny; dokładna historia i autorstwo pozostają w Git. Nie przenosi niezakończonych PR do pozycji opublikowanych.
 
+## 2026-10-23 — kontynenty w skali planety (gałąź feat/continent-worlds, NIESCALONA)
+
+- Cztery kontynenty mają rozmiar prawdziwych kontynentów z atlasu (49 000 × 31 400, 44 300 × 27 400, 39 700 × 26 600, 42 000 × 25 300 j.); lokalne miasta to strefy bezpieczne 4000 × 2500 j. z sześcioma usługami w osobnych dzielnicach, poza nimi pusty, dostępny teren. Verdantia przestała być etapem „cała mapa to miasto”.
+- Silnik: leniwa nawigacja z kopcem A*, strumieniowane podłoże, limit pozycji w zapisie 65 536, migracja układów (`layoutShifts`). Szczegóły i ograniczenia: [CITY-CONTINENT-SCALE-2026-10-23.md](CITY-CONTINENT-SCALE-2026-10-23.md). Niezweryfikowane na telefonie.
+
 ## 2026-10-21 — prace w toku, NIEOPUBLIKOWANE
 
 - `main` odczytany na `b3872c73c9df06e2a793190a6120f0948b021cb0`.

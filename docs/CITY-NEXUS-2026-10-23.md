@@ -2,6 +2,8 @@
 
 **Status: UKŁAD I DANE GOTOWE W REPO, PRZETESTOWANE JEDNOSTKOWO. Wnętrza, handel, kowal, depozyt i trening to wspólne mechaniki rozwijane na gałęzi Codexa (zob. kontrakt `docs/CITY-INTEGRATION-CONTRACT-2026-10-23.md` na gałęzi `feature/verdantia-functional-city-20261023`) — tu ich NIE ma. Niezweryfikowane na telefonie i nieocenione wizualnie przez właściciela. Nie scalone z `main`, nie opublikowane.**
 
+> **Aktualizacja 23.10.2026 (skala kontynentów):** miasto ma teraz strefę bezpieczną 4000 × 2500 j. na kontynencie o rozmiarze prawdziwego kontynentu; współrzędne drzwi w tabeli poniżej są aktualne, a opisy rozmiarów i odstępów poniżej dotyczą pierwszego układu. Szczegóły: [CITY-CONTINENT-SCALE-2026-10-23.md](CITY-CONTINENT-SCALE-2026-10-23.md).
+
 Zakres gałęzi `feat/nexus-city`: dane, układ, wygląd i dokumentacja miasta Androidów. Nie zmieniano `session.ts`, `mountGame.ts`, paneli HUD, schematu zapisu ani importera. Analogiczne miasto Mędrców: [CITY-AETHERIA-2026-10-23.md](CITY-AETHERIA-2026-10-23.md) (gałąź `feat/aetheria-city`).
 
 ## 1. Co powstało
@@ -10,12 +12,12 @@ Rdzeń Nexus-9 jest ciaśniejszy niż doliny pozostałych kontynentów (ok. 2350
 
 | Id usługi | Budynek                   | Dzielnica          | Drzwi (x, y) |
 | --------- | ------------------------- | ------------------ | ------------ |
-| `hall`    | Centrum Synchronizacji    | Rdzeń Sieci        | 2400, 1275   |
-| `shop`    | Węzeł Wymiany             | Targ Węzłów        | 3100, 1577   |
-| `arena`   | Komora Kalibracji Bojowej | Pole Kalibracji    | 3100, 2327   |
-| `smithy`  | Warsztat Uzbrojenia       | Kuźnia Obwodów     | 2400, 2570   |
-| `depot`   | Magazyn Rdzeni            | Archiwum Danych    | 1650, 2517   |
-| `inn`     | Moduł Regeneracji         | Strefa Regeneracji | 1700, 1577   |
+| `hall`    | Centrum Synchronizacji    | Rdzeń Sieci        | 26094, 10708 |
+| `shop`    | Węzeł Wymiany             | Targ Węzłów        | 27687, 11148 |
+| `arena`   | Komora Kalibracji Bojowej | Pole Kalibracji    | 27687, 12245 |
+| `smithy`  | Warsztat Uzbrojenia       | Kuźnia Obwodów     | 26094, 12603 |
+| `depot`   | Magazyn Rdzeni            | Archiwum Danych    | 24387, 12522 |
+| `inn`     | Moduł Regeneracji         | Strefa Regeneracji | 24501, 11148 |
 
 Drzwi leżą na drożnym gruncie, są osiągalne z miejsca startu i między sobą (nawigacja gry, test).
 

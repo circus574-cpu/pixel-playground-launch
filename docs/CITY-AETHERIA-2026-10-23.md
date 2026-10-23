@@ -2,6 +2,8 @@
 
 **Status: UKŁAD I DANE GOTOWE W REPO, PRZETESTOWANE JEDNOSTKOWO. Wnętrza, handel, kowal, depozyt i trening to wspólne mechaniki rozwijane na gałęzi Codexa (zob. [CITY-INTEGRATION-CONTRACT-2026-10-23.md](https://github.com/circus574-cpu/pixel-playground-launch/blob/feature/verdantia-functional-city-20261023/docs/CITY-INTEGRATION-CONTRACT-2026-10-23.md)) — tu ich NIE ma. Niezweryfikowane na telefonie i nieocenione wizualnie przez właściciela. Nie scalone z `main`, nie opublikowane.**
 
+> **Aktualizacja 23.10.2026 (skala kontynentów):** miasto ma teraz strefę bezpieczną 4000 × 2500 j. na kontynencie o rozmiarze prawdziwego kontynentu; współrzędne drzwi w tabeli poniżej są aktualne, a opisy rozmiarów i odstępów poniżej dotyczą pierwszego układu. Szczegóły: [CITY-CONTINENT-SCALE-2026-10-23.md](CITY-CONTINENT-SCALE-2026-10-23.md).
+
 Zakres tej gałęzi (`feat/aetheria-city`): dane, układ, wygląd i dokumentacja miasta Mędrców. Nie zmieniano `session.ts`, `mountGame.ts`, paneli HUD, schematu zapisu ani importera.
 
 ## 1. Co powstało
@@ -10,12 +12,12 @@ Miasto zajmuje dolinę wokół sanktuarium (obszar bezpieczny `1400–4700 × 11
 
 | Id usługi | Budynek                  | Dzielnica                       | Drzwi (x, y) | Odstęp do najbliższej usługi |
 | --------- | ------------------------ | ------------------------------- | ------------ | ---------------------------- |
-| `hall`    | Sala Rady Źródeł         | Wzgórze Źródła (północ)         | 2400, 1460   | > 800                        |
-| `shop`    | Pawilon Wymiany          | Targ Wymiany (północny wschód)  | 3250, 1880   | > 700                        |
-| `arena`   | Dziedziniec Skupienia    | Ogród Pagód (wschód)            | 3980, 1780   | > 700                        |
-| `depot`   | Skarbiec Zwojów          | Zachodnie Tarasy                | 1850, 2277   | > 700                        |
-| `smithy`  | Warsztat Pieczęci        | Dziedziniec Pieczęci (południe) | 3360, 3002   | > 1000                       |
-| `inn`     | Herbaciarnia Cichych Wód | Staw Koi (południowy zachód)    | 1850, 2990   | > 700                        |
+| `hall`    | Sala Rady Źródeł         | Wzgórze Źródła (północ)         | 23166, 12871 | > 800                        |
+| `shop`    | Pawilon Wymiany          | Targ Wymiany (północny wschód)  | 24483, 13388 | > 700                        |
+| `arena`   | Dziedziniec Skupienia    | Ogród Pagód (wschód)            | 25614, 13268 | > 700                        |
+| `depot`   | Skarbiec Zwojów          | Zachodnie Tarasy                | 22314, 13873 | > 700                        |
+| `smithy`  | Warsztat Pieczęci        | Dziedziniec Pieczęci (południe) | 24653, 14762 | > 1000                       |
+| `inn`     | Herbaciarnia Cichych Wód | Staw Koi (południowy zachód)    | 22314, 14751 | > 700                        |
 
 Drzwi leżą na drożnym gruncie przed wejściem; z miejsca startu i między sobą są osiągalne algorytmem nawigacji gry (test).
 
