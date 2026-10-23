@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "engine": "DungeonProgress + SettlementLife + Navigation",
+  "regions": 10,
+  "dungeonFloors": 456,
+  "persistentChestClaims": 1368,
+  "residents": 948,
+  "residentSamples": 455040,
+  "sampleStepMs": 1000
+}

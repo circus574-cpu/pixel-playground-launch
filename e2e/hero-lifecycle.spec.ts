@@ -67,14 +67,23 @@ for (const [race, worldId, actor] of [
         .toBeLessThanOrEqual(62);
       await basicAttack(page).click();
       await expect(page.getByLabel("Wnętrze budynku")).toContainText("Trafienia: 1");
-      const frames = await page.evaluate(() => [
-        ...(window as unknown as { __observedActorFrames: Set<string> }).__observedActorFrames,
-      ]);
+      // The HUD reports the hit before Phaser's next draw. Wait for the actual
+      // observed animation frame rather than reading history before that draw.
       for (const state of ["idle", "walk", "attack"])
-        expect(
-          frames.some((f) => f.startsWith(`${actor}/${state}/`)),
-          state,
-        ).toBe(true);
+        await expect
+          .poll(
+            () =>
+              page.evaluate(
+                ({ actor, state }) =>
+                  [
+                    ...(window as unknown as { __observedActorFrames: Set<string> })
+                      .__observedActorFrames,
+                  ].some((frame) => frame.startsWith(`${actor}/${state}/`)),
+                { actor, state },
+              ),
+            { message: state },
+          )
+          .toBe(true);
       await expect(canvas).toHaveAttribute("data-enemies", "[]");
       await expect(health).toHaveAttribute("aria-valuenow", max);
       await expect(page.locator(".ki-death-overlay")).toHaveCount(0);

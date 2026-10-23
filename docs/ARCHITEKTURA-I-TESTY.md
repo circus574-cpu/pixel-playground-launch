@@ -1,5 +1,29 @@
 # KI Legends — architektura i testy
 
+## Kopia prac CPU — 23.10.2026
+
+Gałąź `feature/cpu-game-content-20261023` zawiera dane i kod roboczy kolejnego etapu.
+[Archiwum wyników](../deliveries/cpu-game-content-20261023/cpu-game-content.tar.gz)
+obejmuje konwersję dziesięciu lądów do JSON/chunków przeglądarki, nawigację,
+wstępną symulację balansu, lochy, osobne spawny lochów i życie osad.
+[Źródła zakończonego przebiegu](../deliveries/cpu-game-content-20261023/source.tar.gz)
+zachowują wersje użyte do tych wyników; bieżące `scripts/worldgen/` zawierają także
+późniejsze, niedokończone rozszerzenia balansu i botów. Nie utożsamiać tych wersji.
+[Raporty i stan kopii](zmiany/2026-10-23/qa/cpu-game-content/) rozróżniają te etapy.
+
+Konwersja sprawdziła 10 000 par tras; rzeczywisty moduł nawigacji TypeScript
+sprawdził 144 trasy i 14 000 porównań kolizji. Dodano opcjonalny teren nawigacji
+oraz opcjonalne `world`/`navigation` sesji; domyślne mapy pozostają bez zmian.
+Moduły `src/game/world/generated/` zapewniają loader JSON z weryfikacją SHA-256
+i cache 12 chunków, nawigację, stan skrzyń/kluczy/bram oraz harmonogramy mieszkańców.
+Nie są jeszcze podłączone do sceny Phaser, podróży ani pełnej migracji zapisów.
+Paczki gzip z indeksami mają łącznie 5 172 640 bajtów; loader używa obecnie JSON,
+nie odczytu zakresów bajtów z tych paczek.
+
+Pełna próba Playwright zakończyła się 85 PASS / 20 FAIL. Log zachowano w QA;
+wśród błędów jest brak połączenia z lokalnym serwerem aplikacji na porcie 4176.
+Ten checkpoint jest kopią prac, nie zaliczonym odbiorem końcowym ani publikacją.
+
 Stan kodu: 23.10.2026, `d0bfc2c`. Polecenia uruchamiać z katalogu repozytorium.
 
 ## Moduły i odpowiedzialności

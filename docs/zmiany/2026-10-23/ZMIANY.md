@@ -139,3 +139,27 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
 - Pełny TypeScript: PASS; Vitest: 302/302 PASS (35 plików); assets: PASS; lint: 0 błędów,
   9 istniejących ostrzeżeń. Podgląd końcowego archiwum: PASS w symulowanym CSP Jupytera.
 - Bez zmian cyklu życia poda, produkcji, scalenia i publikacji.
+
+
+## Kopia etapu CPU na GitHub — polecenie właściciela
+
+- Gałąź `feature/cpu-game-content-20261023`, baza `79d5627`. Zapisano wszystkie
+  dotychczasowe zmiany źródeł, testów, dane dostawy i raporty, także nieukończone
+  rozszerzenia zakresów balansu i botów. Bez sekretów, cache Pythona i zależności.
+- Archiwum `deliveries/cpu-game-content-20261023/cpu-game-content.tar.gz`:
+  12 609 488 bajtów, SHA-256
+  `88c49a9d8f574ab5a530924594a08f1cfca6a04d1c9a493911c14a252a88a35b`.
+  Źródła poprzedniego zakończonego przebiegu pozostają obok jako `source.tar.gz`.
+- Dane: konwersja 10 lądów, 10 000 par tras, 144 trasy rzeczywistego nawigatora
+  i 14 000 porównań kolizji; wstępny balans 22 272 walk; 456 pięter,
+  6384 osobne spawny lochów; 948 mieszkańców i 12 karawan.
+- Moduły TS: loader zweryfikowanego JSON i 12 chunków cache, nawigacja terenu,
+  klucze/bramy/skrzynie i harmonogramy mieszkańców. Scena Phaser nie jest podłączona.
+- Zapisano wynik pełnej próby Playwright: 85 PASS / 20 FAIL, w tym odmowy połączenia
+  z serwerem aplikacyjnym na 4176. To nie jest pozytywny odbiór wydania.
+- Próby botów i proponowanych przeciwników zachowano jako niepełne, bez deklaracji
+  zamknięcia balansu 1–20/20–40. Stan szczegółowy: [checkpoint](qa/cpu-game-content/checkpoint-status.json).
+- Brak scalenia, publikacji i operacji cyklu życia poda. Wstrzymanie prac nad
+  grafiką do dostawy Claude'a pozostaje w mocy.
+- Kontrole kopii: pełny TypeScript PASS, Vitest 310/310 (36 plików) PASS;
+  dokumentacja PASS (10 tematów, 5 dzienników, niezmienione chronione dowody).

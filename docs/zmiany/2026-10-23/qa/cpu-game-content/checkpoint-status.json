@@ -1,0 +1,31 @@
+{
+  "kind": "work-in-progress backup; not release acceptance",
+  "branch": "feature/cpu-game-content-20261023",
+  "baseCommit": "79d5627ce23ed43430bb15bee366e753495d424a",
+  "runtimeSceneInstalled": false,
+  "canonicalBalanceChanged": false,
+  "fullBrowserRegression": {
+    "passed": 85,
+    "failed": 20,
+    "exitCode": 1,
+    "note": "See complete log. Application failures include ERR_CONNECTION_REFUSED on local QA port 4176; do not infer release acceptance."
+  },
+  "open": [
+    "Separate final balance reports 1-20 and 20-40",
+    "Complete bot journey runs; retained smoke is incomplete and contains failures",
+    "Mobile object and memory budgets",
+    "Phaser scene integration, travel and save migration",
+    "Final regression including application QA server and physical Android"
+  ],
+  "sourceArchiveNote": "source.tar.gz preserves the exact earlier completed CPU pipeline tools; tracked scripts contain later unfinished balance-range and bot work.",
+  "checkpointChecks": {
+    "typecheck": "PASS: application, e2e, tools",
+    "vitest": {
+      "passed": 310,
+      "files": 36
+    },
+    "documentation": "PASS: 10 manuals, 5 journals, preserved evidence",
+    "browserRegression": "85 PASS / 20 FAIL; see preserved log",
+    "lint": "PASS: zero errors, nine existing warnings"
+  }
+}

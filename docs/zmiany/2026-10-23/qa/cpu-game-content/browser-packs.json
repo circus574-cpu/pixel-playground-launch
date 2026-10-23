@@ -1,0 +1,75 @@
+{
+  "format": "superior-range-pack-1",
+  "features": [
+    {
+      "feature": "island-1",
+      "pack": "island-1.pack",
+      "index": "island-1.index.json",
+      "bytes": 110019,
+      "indexSha256": "37e9629e56f81368bed717322a691e4ab004efc465bdf22374e6956cd3b714ce"
+    },
+    {
+      "feature": "island-3",
+      "pack": "island-3.pack",
+      "index": "island-3.index.json",
+      "bytes": 119209,
+      "indexSha256": "8a75a44df16f0e4ed290d03305fc8158eb0b1ef5a5bd28f756709563f94ac70e"
+    },
+    {
+      "feature": "island-4",
+      "pack": "island-4.pack",
+      "index": "island-4.index.json",
+      "bytes": 156299,
+      "indexSha256": "126bc468332dc226ac6758eb0a2253ee8530bdb36763745ca2e88978c14df822"
+    },
+    {
+      "feature": "island-2",
+      "pack": "island-2.pack",
+      "index": "island-2.index.json",
+      "bytes": 150831,
+      "indexSha256": "18743b71068a8ce948e6df2cad9b8ab83046af0adcfc65882278a183087ea042"
+    },
+    {
+      "feature": "island-5",
+      "pack": "island-5.pack",
+      "index": "island-5.index.json",
+      "bytes": 115936,
+      "indexSha256": "187dc250f8c3f3ad2cc156fd752228a689e1b073e3af793f036844432be37047"
+    },
+    {
+      "feature": "island-6",
+      "pack": "island-6.pack",
+      "index": "island-6.index.json",
+      "bytes": 118733,
+      "indexSha256": "70eaf7100c28dd6899710d6bc81662ce2ac6bbc3ac867b9e896a75561a05422a"
+    },
+    {
+      "feature": "pyra",
+      "pack": "pyra.pack",
+      "index": "pyra.index.json",
+      "bytes": 906574,
+      "indexSha256": "20700bb9fbbe1c6d3a46add222c3f7700a096ae4bdc7a4e262575f4c9d7dd4c4"
+    },
+    {
+      "feature": "nexus",
+      "pack": "nexus.pack",
+      "index": "nexus.index.json",
+      "bytes": 981242,
+      "indexSha256": "98ab84bd200578e858c016adee441406bc2dd6598d19c8fc3a57bf2be6a3ceb9"
+    },
+    {
+      "feature": "verdant",
+      "pack": "verdant.pack",
+      "index": "verdant.index.json",
+      "bytes": 1363042,
+      "indexSha256": "4b8fcd702c5c13ece93b2cce445cbbbbb046e837b460fe4c4721ae45d737ea4a"
+    },
+    {
+      "feature": "aether",
+      "pack": "aether.pack",
+      "index": "aether.index.json",
+      "bytes": 1150755,
+      "indexSha256": "5242ae782cc211f6061626a14311e7f819875b35459b90f2d0634c89d35d117e"
+    }
+  ]
+}

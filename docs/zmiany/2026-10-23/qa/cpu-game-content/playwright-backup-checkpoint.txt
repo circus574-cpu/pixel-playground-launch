@@ -1,0 +1,1251 @@
+
+Running 105 tests using 1 worker
+
+(node:19518) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [gameplay] › e2e/aether-art-preview.spec.ts:12:1 › Aetheria anime start point and v2 terrain are public defaults (6.8s)
+  ✓    2 [gameplay] › e2e/city.spec.ts:38:3 › Verdantia city: real entrances, merchant, personal chest reload and training 1280px (35.7s)
+  ✓    3 [gameplay] › e2e/city.spec.ts:38:3 › Verdantia city: real entrances, merchant, personal chest reload and training 390px (33.1s)
+  ✓    4 [gameplay] › e2e/city.spec.ts:38:3 › Verdantia city: real entrances, merchant, personal chest reload and training 852px (33.0s)
+  ✓    5 [gameplay] › e2e/hero-lifecycle.spec.ts:26:3 › hero-planetary-painted: safe city movement and training (10.1s)
+  ✓    6 [gameplay] › e2e/hero-lifecycle.spec.ts:26:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (43.1s)
+  ✘    7 [gameplay] › e2e/hero-lifecycle.spec.ts:26:3 › hero-android: all seven clips follow real combat, defeat and respawn (1.4m)
+(node:20018) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    8 [gameplay] › e2e/hero-lifecycle.spec.ts:26:3 › hero-legend: all seven clips follow real combat, defeat and respawn (48.4s)
+  ✓    9 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 360x640 › single dock, clear play area and real touch tools (4.1s)
+  ✓   10 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 390x640 › single dock, clear play area and real touch tools (4.8s)
+  ✓   11 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Mędrcy 390x844 › single dock, clear play area and real touch tools (4.9s)
+  ✓   12 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 390x640 › single dock, clear play area and real touch tools (4.7s)
+  ✓   13 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Legendy 414x896 › single dock, clear play area and real touch tools (4.5s)
+  ✓   14 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 852x393 › single dock, clear play area and real touch tools (4.0s)
+  ✓   15 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 1280x900 › single dock, clear play area and real touch tools (4.9s)
+  ✓   16 [gameplay] › e2e/overlay-audit.spec.ts:38:3 › clear world, dismiss/expire guidance, dialogs and persistent options 1280 (26.3s)
+  ✓   17 [gameplay] › e2e/overlay-audit.spec.ts:38:3 › clear world, dismiss/expire guidance, dialogs and persistent options 360 (19.6s)
+  ✓   18 [gameplay] › e2e/overlay-audit.spec.ts:38:3 › clear world, dismiss/expire guidance, dialogs and persistent options 390 (22.1s)
+  ✓   19 [gameplay] › e2e/overlay-audit.spec.ts:38:3 › clear world, dismiss/expire guidance, dialogs and persistent options 414 (22.8s)
+  ✓   20 [gameplay] › e2e/overlay-audit.spec.ts:38:3 › clear world, dismiss/expire guidance, dialogs and persistent options 852 (31.6s)
+  ✓   21 [gameplay] › e2e/overlay-audit.spec.ts:184:1 › save failure stays actionable after normal guidance is disabled or dismissed (7.3s)
+  ✓   22 [gameplay] › e2e/overlay-audit.spec.ts:212:1 › death message ends on real respawn and subsequent movement works (46.1s)
+  ✘   23 [gameplay] › e2e/overlay-audit.spec.ts:246:1 › combat messages leave the actual target panel clear at every HUD breakpoint (1.1m)
+(node:20885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   24 [gameplay] › e2e/planetary-preview.spec.ts:17:1 › Planetarni default painted visual preserves the same save across legacy flags and other races (11.3s)
+  ✓   25 [gameplay] › e2e/planetary-preview.spec.ts:50:3 › Planetarni has real eight-direction movement and skill animation at 1280px (11.8s)
+  ✓   26 [gameplay] › e2e/planetary-preview.spec.ts:50:3 › Planetarni has real eight-direction movement and skill animation at 390px (8.4s)
+  ✓   27 [gameplay] › e2e/planetary-preview.spec.ts:100:1 › a broken Planetarni atlas retries without losing the character (5.3s)
+  ✓   28 [gameplay] › e2e/planetary-preview.spec.ts:122:3 › Planetarni touch preview › real touch joystick animates all eight directions and a tapped skill (8.8s)
+  ✓   29 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android planetary 390x844 › real Android input in eight directions: planetary 390x844 (15.8s)
+  ✘   30 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 (1.2m)
+(node:21283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   31 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android sage 390x844 › real Android input in eight directions: sage 390x844 (16.3s)
+  ✓   32 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android sage 852x393 › real Android input in eight directions: sage 852x393 (15.5s)
+  ✓   33 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android android 390x844 › real Android input in eight directions: android 390x844 (16.4s)
+  ✓   34 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android android 852x393 › real Android input in eight directions: android 852x393 (18.6s)
+  ✓   35 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android legend 390x844 › real Android input in eight directions: legend 390x844 (28.3s)
+  ✓   36 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android legend 852x393 › real Android input in eight directions: legend 852x393 (16.0s)
+  ✓   37 [gameplay] › e2e/pre-gpu.spec.ts:214:3 › real defeat, respawn and movement: sage (42.3s)
+  ✓   38 [gameplay] › e2e/pre-gpu.spec.ts:214:3 › real defeat, respawn and movement: android (36.4s)
+  ✓   39 [gameplay] › e2e/pre-gpu.spec.ts:214:3 › real defeat, respawn and movement: legend (46.0s)
+  ✓   40 [gameplay] › e2e/pre-gpu.spec.ts:257:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (13.5s)
+  ✓   41 [gameplay] › e2e/pre-gpu.spec.ts:303:3 › real pursuit, return, enemy collision and world boundary: sage (50.2s)
+  ✓   42 [gameplay] › e2e/pre-gpu.spec.ts:303:3 › real pursuit, return, enemy collision and world boundary: android (44.6s)
+  ✓   43 [gameplay] › e2e/pre-gpu.spec.ts:303:3 › real pursuit, return, enemy collision and world boundary: legend (37.8s)
+  ✓   44 [gameplay] › e2e/pre-gpu.spec.ts:372:1 › malformed scenery atlas fails with a named error and retries without losing the slot (4.5s)
+  ✓   45 [gameplay] › e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 1280 (21.6s)
+  ✓   46 [gameplay] › e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 390 (16.3s)
+  ✓   47 [gameplay] › e2e/region-start-art.spec.ts:8:3 › nexus art switch preserves the existing character (6.4s)
+  ✓   48 [gameplay] › e2e/region-start-art.spec.ts:8:3 › pyra art switch preserves the existing character (6.6s)
+  ✓   49 [gameplay] › e2e/region-start-art.spec.ts:8:3 › verdant art switch preserves the existing character (6.2s)
+  ✓   50 [gameplay] › e2e/sage-preview.spec.ts:43:1 › Mędrcy default visual preserves the save and stays isolated from other races (18.9s)
+  ✓   51 [gameplay] › e2e/sage-preview.spec.ts:87:3 › Mędrcy has real eight-direction movement and skill animation at 1280px (13.9s)
+  ✓   52 [gameplay] › e2e/sage-preview.spec.ts:87:3 › Mędrcy has real eight-direction movement and skill animation at 390px (9.2s)
+  ✓   53 [gameplay] › e2e/sage-preview.spec.ts:134:1 › a broken Mędrcy atlas retries without losing the character (6.7s)
+  ✓   54 [gameplay] › e2e/sage-preview.spec.ts:156:3 › Mędrcy touch preview › real touch joystick animates all eight directions and a tapped skill (10.4s)
+  ✘   55 [gameplay] › e2e/stage3-migration.spec.ts:5:1 › C: a real v1 fixture migrates in the browser without changing the original (5.1s)
+(node:22540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   56 [gameplay] › e2e/stage3-pve.spec.ts:21:1 › D: real city UI — introduction, first weapon, equipment quest, smith, trade and reload (37.2s)
+Verified Planetarni verdant
+Verified Mędrcy aether
+Verified Androidy nexus
+Verified Legendy pyra
+  ✓   57 [gameplay] › e2e/stage3.spec.ts:88:1 › A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching (1.2m)
+  ✓   58 [gameplay] › e2e/stage3.spec.ts:172:3 › E: touch selection, joystick, dialogue and layout 360x800 (15.2s)
+  ✓   59 [gameplay] › e2e/stage3.spec.ts:172:3 › E: touch selection, joystick, dialogue and layout 390x844 (16.0s)
+  ✓   60 [gameplay] › e2e/stage3.spec.ts:172:3 › E: touch selection, joystick, dialogue and layout 414x896 (16.8s)
+  ✓   61 [gameplay] › e2e/stage3.spec.ts:172:3 › E: touch selection, joystick, dialogue and layout 852x393 (13.8s)
+  ✓   62 [gameplay] › e2e/stage3.spec.ts:172:3 › E: touch selection, joystick, dialogue and layout 640x480 (16.0s)
+  ✓   63 [gameplay] › e2e/stage31-collision.spec.ts:9:3 › browser collider and camera: planetary (9.7s)
+  ✓   64 [gameplay] › e2e/stage31-collision.spec.ts:9:3 › browser collider and camera: sage (10.5s)
+  ✓   65 [gameplay] › e2e/stage31-collision.spec.ts:9:3 › browser collider and camera: android (10.2s)
+  ✓   66 [gameplay] › e2e/stage31-collision.spec.ts:9:3 › browser collider and camera: legend (10.9s)
+  ✓   67 [gameplay] › e2e/stage31-ui.spec.ts:14:1 › original complete illustrations, details, accessible enlargement and no save before start (5.5s)
+  ✓   68 [gameplay] › e2e/stage31-ui.spec.ts:63:1 › real Phaser progress is held by an actual resource request, then opens the correct world (4.8s)
+  ✓   69 [gameplay] › e2e/stage31-ui.spec.ts:107:1 › failed real resource shows retry and reuses the same saved character (8.4s)
+  ✓   70 [gameplay] › e2e/stage31-ui.spec.ts:167:1 › HP and KI remain separate at low, middle, maximum values and interface scales (14.3s)
+  ✓   71 [gameplay] › e2e/three-races-pve.spec.ts:97:3 › real PvE journey: sage — quests, 3 kills, loot, equipment, merchant and smith (1.9m)
+  ✓   72 [gameplay] › e2e/three-races-pve.spec.ts:97:3 › real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith (1.8m)
+  ✓   73 [gameplay] › e2e/three-races-pve.spec.ts:97:3 › real PvE journey: legend — quests, 3 kills, loot, equipment, merchant and smith (1.7m)
+  ✓   74 [gameplay] › e2e/world-rendering.spec.ts:7:3 › aether mobile detail rendering stays within budget and releases each scene (9.7s)
+  ✓   75 [gameplay] › e2e/world-rendering.spec.ts:7:3 › nexus mobile detail rendering stays within budget and releases each scene (9.0s)
+(node:23737) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   76 [software-webgl] › e2e/city-webgl.spec.ts:24:1 › Verdantia software WebGL: actual chest interiors release resources on each return (26.7s)
+  ✓   77 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Mędrcy at 1280px (32.9s)
+  ✓   78 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Mędrcy at 390px (14.1s)
+  ✓   79 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Planetarni at 1280px (23.0s)
+  ✓   80 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Planetarni at 390px (11.9s)
+  ✓   81 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Androidy at 1280px (29.2s)
+  ✓   82 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Androidy at 390px (15.3s)
+  ✓   83 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Legendy at 1280px (31.0s)
+  ✓   84 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Legendy at 390px (14.8s)
+  ✓   85 [software-webgl] › e2e/hero-lifecycle.spec.ts:26:3 › hero-planetary-painted: safe city movement and training (33.1s)
+  ✓   86 [software-webgl] › e2e/hero-lifecycle.spec.ts:26:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (1.7m)
+  ✘   87 [software-webgl] › e2e/hero-lifecycle.spec.ts:26:3 › hero-android: all seven clips follow real combat, defeat and respawn (2.2m)
+(node:24074) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   88 [software-webgl] › e2e/hero-lifecycle.spec.ts:26:3 › hero-legend: all seven clips follow real combat, defeat and respawn (1.7m)
+  ✓   89 [software-webgl] › e2e/world-rendering.spec.ts:7:3 › aether mobile detail rendering stays within budget and releases each scene (26.5s)
+  ✓   90 [software-webgl] › e2e/world-rendering.spec.ts:7:3 › nexus mobile detail rendering stays within budget and releases each scene (28.2s)
+(node:24199) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   91 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (3.1m)
+(node:24287) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   92 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (251ms)
+(node:24374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   93 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (257ms)
+(node:24459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   94 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (253ms)
+(node:24543) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   95 [application-canvas] › e2e/globe-handoff.spec.ts:105:1 › continent roster filters all four origins without changing any slot, including mobile carousel (233ms)
+(node:24627) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   96 [application-canvas] › e2e/globe-handoff.spec.ts:131:1 › home navigation clears continent intent without creating a character (243ms)
+(node:24711) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   97 [application-canvas] › e2e/private-sketch.spec.ts:3:1 › private /test remains locked and independent from game saves (346ms)
+(node:24795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   98 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (335ms)
+(node:24881) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   99 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (292ms)
+(node:24965) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  100 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (278ms)
+(node:25048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  101 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (285ms)
+(node:25139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  102 [application-webgl] › e2e/globe-handoff.spec.ts:105:1 › continent roster filters all four origins without changing any slot, including mobile carousel (257ms)
+(node:25222) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  103 [application-webgl] › e2e/globe-handoff.spec.ts:131:1 › home navigation clears continent intent without creating a character (287ms)
+(node:25309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  104 [application-webgl] › e2e/globe-rendering.spec.ts:3:1 › globe switching disposes contexts and keeps a bounded texture budget (345ms)
+(node:25394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  105 [application-webgl] › e2e/globe-rendering.spec.ts:42:1 › real WebGL context loss falls back to a working 2D map without saves (429ms)
+
+
+  1) [gameplay] › e2e/hero-lifecycle.spec.ts:26:3 › hero-android: all seven clips follow real combat, defeat and respawn 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.ki-canvas')
+    Expected: "skill"
+    Received: "idle"
+    Timeout:  60000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.ki-canvas') with timeout 60000ms
+      - waiting for locator('.ki-canvas')
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2697.564670612281" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/skill/up-left/00" data-metrics="{"sampl…>…</div>
+        2 × unexpected value "hit"
+          - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2698.386427818197" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/01" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" data-camera-x="2699.0457851505125" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/03" data-metrics="{"sample…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" data-camera-x="2699.3838542065037" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"samp…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.614473493458" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" data-camera-x="2699.6173763021407" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampl…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617493643629" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500095665" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" data-camera-x="2699.6175001893735" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/01" data-metrics="{"sample…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500191978" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/00" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/02" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/00" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/01" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/03" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/00" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/01" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="hit" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/hit/up-left/00" data-metrics="{"sampleA…>…</div>
+        - unexpected value "hit"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampl…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="death" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/death/up-left/01" data-metrics="{"sam…>…</div>
+        - unexpected value "death"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="death" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/death/up-left/05" data-metrics="{"sam…>…</div>
+        4 × unexpected value "death"
+          - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="death" data-actor-visual="hero-android" data-camera-x="2699.617500192061" data-camera-y="275.8064516129032" data-player-x="3339.617500192063" data-player-y="417.6592068652333" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/death/up-left/07" data-metrics="{"sam…>…</div>
+        - unexpected value "death"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="respawn" data-actor-visual="hero-android" data-camera-x="1492.051085789709" data-camera-y="1290.879781562392" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/respawn/up-left/02" data-metrics="{"sampleAtMs":34289,"fps":5…>…</div>
+        - unexpected value "respawn"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1170.5253622725722" data-camera-y="1561.1524414694559" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":35301,"fps":54.35…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.1549406001031" data-camera-y="1569.8697578294532" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":35301,"fps":54.35…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.0043219531408" data-camera-y="1569.9963669912358" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":36320,"fps":58.87…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-y="1569.99995293725" data-camera-x="1160.0000559874782" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":36320,"fps":58.87,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.0000008241743" data-camera-y="1569.9999993072038" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":37344,"fps":58.62…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.0000000229898" data-camera-y="1569.9999999806748" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":37344,"fps":58.62…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000729" data-camera-y="1569.9999999993872" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":38356,"fps":60.22,…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.0000000000139" data-camera-y="1569.9999999999882" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":38356,"fps":60.22…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":39391,"fps":53.15,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":39391,"fps":53.15,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":40401,"fps":56.43,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":40401,"fps":56.43,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":41415,"fps":59.18,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":41415,"fps":59.18,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":42419,"fps":56.76,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":42419,"fps":56.76,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":43446,"fps":54.54,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":44446,"fps":56.99,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":44446,"fps":56.99,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":45447,"fps":56.94,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":45447,"fps":56.94,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":46454,"fps":56.63,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":46454,"fps":56.63,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":47461,"fps":52.63,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":47461,"fps":52.63,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":48466,"fps":53.71,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":48466,"fps":53.71,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":49470,"fps":57.78,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":49470,"fps":57.78,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":50485,"fps":57.18,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":50485,"fps":57.18,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":51489,"fps":49.77,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":51489,"fps":49.77,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":52489,"fps":55,"fra…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":52489,"fps":55,"fra…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":53490,"fps":52.98,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":53490,"fps":52.98,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":54500,"fps":53.44,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":54500,"fps":53.44,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":55503,"fps":59.83,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":55503,"fps":59.83,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":56515,"fps":50.37,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":56515,"fps":50.37,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":57541,"fps":48.77,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":57541,"fps":48.77,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":58543,"fps":47.88,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":58543,"fps":47.88,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":59550,"fps":49.64,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":59550,"fps":49.64,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":60572,"fps":46.98,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":61581,"fps":52.53,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":61581,"fps":52.53,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":62587,"fps":48.7,"f…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":62587,"fps":48.7,"f…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":63589,"fps":48.92,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":63589,"fps":48.92,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":64595,"fps":50.72,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":64595,"fps":50.72,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":65601,"fps":46.71,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":65601,"fps":46.71,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":66602,"fps":49.94,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/06" data-metrics="{"sampleAtMs":66602,"fps":49.94,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":67619,"fps":49.16,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":67619,"fps":49.16,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":68647,"fps":50.59,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":68647,"fps":50.59,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":69658,"fps":48.46,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":69658,"fps":48.46,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":70661,"fps":45.86,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":70661,"fps":45.86,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":71672,"fps":43.53,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":71672,"fps":43.53,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":72678,"fps":53.69,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/04" data-metrics="{"sampleAtMs":72678,"fps":53.69,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":73680,"fps":54.88,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/02" data-metrics="{"sampleAtMs":74695,"fps":56.14,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/05" data-metrics="{"sampleAtMs":74695,"fps":56.14,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/00" data-metrics="{"sampleAtMs":75709,"fps":57.24,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/03" data-metrics="{"sampleAtMs":75709,"fps":57.24,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/07" data-metrics="{"sampleAtMs":76711,"fps":51.88,"…>…</div>
+        - unexpected value "idle"
+        - locator resolved to <div data-zoom="0.62" class="ki-canvas" data-world="nexus" data-npc-labels="0" data-load-ms="1009" data-player-x="1800" data-player-y="2020" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="region" data-animation-state="idle" data-actor-visual="hero-android" data-camera-x="1160.000000000001" data-camera-y="1569.999999999999" aria-label="Ki Legends — ekran gry" data-animation-frame="hero-android/idle/up-left/01" data-metrics="{"sampleAtMs":76711,"fps":51.88,"…>…</div>
+        - unexpected value "idle"
+
+
+       98 |     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
+       99 |     await page.getByRole("button", { name: "Mikstura życia", exact: true }).click();
+    > 100 |     await expect(canvas).toHaveAttribute("data-animation-state", "skill");
+          |                          ^
+      101 |     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
+      102 |     await command({ type: "ability", ability: "R" });
+      103 |     await expect
+        at /workspace/pixel-playground-launch/e2e/hero-lifecycle.spec.ts:100:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-gameplay/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [gameplay] › e2e/overlay-audit.spec.ts:246:1 › combat messages leave the actual target panel clear at every HUD breakpoint 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-target')
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-target') with timeout 60000ms
+      - waiting for locator('.ki-target')
+
+
+      272 |       const target = page.locator(".ki-target"),
+      273 |         message = page.getByRole("status", { name: "Komunikat gry", exact: true });
+    > 274 |       await expect(target).toBeVisible();
+          |                            ^
+      275 |       await expect(message).toBeVisible();
+      276 |       expect(
+      277 |         overlaps((await target.boundingBox())!, (await message.boundingBox())!),
+        at /workspace/pixel-playground-launch/e2e/overlay-audit.spec.ts:274:28
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/overlay-audit-combat-messa-bc1d5-ear-at-every-HUD-breakpoint-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/overlay-audit-combat-messa-bc1d5-ear-at-every-HUD-breakpoint-gameplay/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/overlay-audit-combat-messa-bc1d5-ear-at-every-HUD-breakpoint-gameplay/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/overlay-audit-combat-messa-bc1d5-ear-at-every-HUD-breakpoint-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/overlay-audit-combat-messa-bc1d5-ear-at-every-HUD-breakpoint-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.ki-canvas')
+    Expected pattern: /^hero-planetary-painted\/walk\/right\//
+    Received string:  "hero-planetary-painted/idle/up/05"
+    Timeout: 60000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.ki-canvas') with timeout 60000ms
+      - waiting for locator('.ki-canvas')
+        2 × locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="891.4905878888806" data-camera-y="1044.790362631451" data-player-x="1321.052304069267" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-painte…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/00"
+        2 × locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="893.5967175851472" data-player-x="1321.052304069267" data-camera-y="1040.6474863541366" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="894.4574413948013" data-player-x="1321.052304069267" data-camera-y="1038.9543939208186" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0455228116306" data-player-x="1321.052304069267" data-camera-y="1037.7976045002856" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0520891168203" data-player-x="1321.052304069267" data-camera-y="1037.7846882064557" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523009050185" data-camera-y="1037.784271607087" data-player-x="1321.052304069267" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-painte…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040163353" data-player-x="1321.052304069267" data-camera-y="1037.7842654869512" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040677905" data-player-x="1321.052304069267" data-camera-y="1037.7842653857358" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692257" data-player-x="1321.052304069267" data-camera-y="1037.7842653829123" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        3 × locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/05"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/00"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/03"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/06"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/01"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/04"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/07"
+          - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+          - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/06"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/03"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/07"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/01"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/04"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/00"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/02"
+        - locator resolved to <div data-zoom="0.48" class="ki-canvas" data-enemies="[]" data-load-ms="888" data-npc-labels="0" data-world="verdant" data-enemy-labels="0" data-interior="outside" data-world-labels="true" data-terrain-mode="cached" data-animation-state="idle" data-camera-x="895.0523040692665" data-player-x="1321.052304069267" data-camera-y="1037.7842653828322" data-player-y="1234.2842653828313" aria-label="Ki Legends — ekran gry" data-actor-visual="hero-planetary-painted" data-animation-frame="hero-planetary-paint…>…</div>
+        - unexpected value "hero-planetary-painted/idle/up/05"
+
+
+      168 |             (input.y ? (input.y > 0 ? "down" : "up") + (input.x ? "-" : "") : "") +
+      169 |             (input.x ? (input.x > 0 ? "right" : "left") : "");
+    > 170 |           await expect(page.locator(".ki-canvas")).toHaveAttribute(
+          |                                                    ^
+      171 |             "data-animation-frame",
+      172 |             new RegExp(`^${expectedVisual}/walk/${direction}/`),
+      173 |           );
+        at /workspace/pixel-playground-launch/e2e/pre-gpu.spec.ts:170:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/pre-gpu-Android-planetary--09aa5-irections-planetary-852x393-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/pre-gpu-Android-planetary--09aa5-irections-planetary-852x393-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pre-gpu-Android-planetary--09aa5-irections-planetary-852x393-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/pre-gpu-Android-planetary--09aa5-irections-planetary-852x393-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [gameplay] › e2e/stage3-migration.spec.ts:5:1 › C: a real v1 fixture migrates in the browser without changing the original 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 4
+    Received: 5
+
+      46 |   }));
+      47 |   expect(state.original).toBe(raw);
+    > 48 |   expect(state.migrant.version).toBe(4);
+         |                                 ^
+      49 |   expect(state.migrant.player.race).toBe("planetary");
+      50 |   expect(state.migrant.player.gold).toBe(177);
+      51 |   expect(state.migrant.player.quests.steps).toBe("done");
+        at /workspace/pixel-playground-launch/e2e/stage3-migration.spec.ts:48:33
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/stage3-migration-C-a-real--7562f-thout-changing-the-original-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/stage3-migration-C-a-real--7562f-thout-changing-the-original-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/stage3-migration-C-a-real--7562f-thout-changing-the-original-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/stage3-migration-C-a-real--7562f-thout-changing-the-original-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [software-webgl] › e2e/hero-lifecycle.spec.ts:26:3 › hero-android: all seven clips follow real combat, defeat and respawn 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      109 |         ),
+      110 |       )
+    > 111 |       .toBe(true);
+          |        ^
+      112 |     await command({ type: "cancel" });
+      113 |     // Software WebGL may render below 10 FPS; the game's 100 ms tick cap
+      114 |     // deliberately slows simulation then. Observe real damage progression
+        at /workspace/pixel-playground-launch/e2e/hero-lifecycle.spec.ts:111:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-software-webgl/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/hero-lifecycle-hero-androi-de7db-l-combat-defeat-and-respawn-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves 
+
+    Test timeout of 180000ms exceeded.
+
+    Error: locator.click: Test timeout of 180000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Wybierz: Planetarni', exact: true })
+
+
+      17 |   const newCharacter = page.getByRole("button", { name: "Utwórz nową postać", exact: true });
+      18 |   if (await newCharacter.isVisible()) await newCharacter.click();
+    > 19 |   await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+         |                                                                             ^
+      20 |   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+      21 |   await expect(page.locator(".ki-hud")).toBeVisible();
+      22 | }
+        at create (/workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:19:77)
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:30:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [application-canvas] › e2e/globe-handoff.spec.ts:105:1 › continent roster filters all four origins without changing any slot, including mobile carousel 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      107 | }) => {
+      108 |   await page.setViewportSize({ width: 390, height: 844 });
+    > 109 |   await page.goto("/");
+          |              ^
+      110 |   for (const [, race] of regions) {
+      111 |     await create(page, race);
+      112 |     await leaveGame(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:109:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [application-canvas] › e2e/globe-handoff.spec.ts:131:1 › home navigation clears continent intent without creating a character 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/?continent=aether
+    Call log:
+      - navigating to "http://127.0.0.1:4176/?continent=aether", waiting until "load"
+
+
+      130 |
+      131 | test("home navigation clears continent intent without creating a character", async ({ page }) => {
+    > 132 |   await page.goto("/?continent=aether");
+          |              ^
+      133 |   await expect(page.getByRole("status")).toContainText("Aetheria");
+      134 |   const before = await saves(page);
+      135 |   await page.getByRole("link", { name: "Ki Legends — początek", exact: true }).click();
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:132:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [application-canvas] › e2e/private-sketch.spec.ts:3:1 › private /test remains locked and independent from game saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+       6 |     if (request.url().includes("/storage/v1/")) storageRequests.push(request.url());
+       7 |   });
+    >  8 |   await page.goto("/");
+         |              ^
+       9 |   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
+      10 |   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+      11 |   await expect(page.locator(".ki-hud")).toBeVisible();
+        at /workspace/pixel-playground-launch/e2e/private-sketch.spec.ts:8:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/private-sketch-private-tes-d0ea1-independent-from-game-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/private-sketch-private-tes-d0ea1-independent-from-game-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/private-sketch-private-tes-d0ea1-independent-from-game-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/private-sketch-private-tes-d0ea1-independent-from-game-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      27 |   }, info) => {
+      28 |     const webgl = info.project.name === "application-webgl";
+    > 29 |     await page.goto("/");
+         |                ^
+      30 |     await create(page, "Planetarni");
+      31 |     await leaveGame(page);
+      32 |     const before = await saves(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:29:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [application-webgl] › e2e/globe-handoff.spec.ts:105:1 › continent roster filters all four origins without changing any slot, including mobile carousel 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/
+    Call log:
+      - navigating to "http://127.0.0.1:4176/", waiting until "load"
+
+
+      107 | }) => {
+      108 |   await page.setViewportSize({ width: 390, height: 844 });
+    > 109 |   await page.goto("/");
+          |              ^
+      110 |   for (const [, race] of regions) {
+      111 |     await create(page, race);
+      112 |     await leaveGame(page);
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:109:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-continent-ro-2d83f-t-including-mobile-carousel-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [application-webgl] › e2e/globe-handoff.spec.ts:131:1 › home navigation clears continent intent without creating a character 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/?continent=aether
+    Call log:
+      - navigating to "http://127.0.0.1:4176/?continent=aether", waiting until "load"
+
+
+      130 |
+      131 | test("home navigation clears continent intent without creating a character", async ({ page }) => {
+    > 132 |   await page.goto("/?continent=aether");
+          |              ^
+      133 |   await expect(page.getByRole("status")).toContainText("Aetheria");
+      134 |   const before = await saves(page);
+      135 |   await page.getByRole("link", { name: "Ki Legends — początek", exact: true }).click();
+        at /workspace/pixel-playground-launch/e2e/globe-handoff.spec.ts:132:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-handoff-home-navigat-c5c88-ithout-creating-a-character-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) [application-webgl] › e2e/globe-rendering.spec.ts:3:1 › globe switching disposes contexts and keeps a bounded texture budget 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/mapa
+    Call log:
+      - navigating to "http://127.0.0.1:4176/mapa", waiting until "load"
+
+
+      4 |   page,
+      5 | }, info) => {
+    > 6 |   await page.goto("/mapa");
+        |              ^
+      7 |   const counts: number[] = [];
+      8 |   for (let cycle = 0; cycle < 3; cycle++) {
+      9 |     await expect(page.locator(".planet-globe.is-ready")).toBeVisible();
+        at /workspace/pixel-playground-launch/e2e/globe-rendering.spec.ts:6:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-rendering-globe-swit-1b6f6-ps-a-bounded-texture-budget-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-rendering-globe-swit-1b6f6-ps-a-bounded-texture-budget-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-rendering-globe-swit-1b6f6-ps-a-bounded-texture-budget-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-rendering-globe-swit-1b6f6-ps-a-bounded-texture-budget-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) [application-webgl] › e2e/globe-rendering.spec.ts:42:1 › real WebGL context loss falls back to a working 2D map without saves 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4176/mapa
+    Call log:
+      - navigating to "http://127.0.0.1:4176/mapa", waiting until "load"
+
+
+      41 |
+      42 | test("real WebGL context loss falls back to a working 2D map without saves", async ({ page }) => {
+    > 43 |   await page.goto("/mapa");
+         |              ^
+      44 |   await expect(page.locator(".planet-globe.is-ready")).toBeVisible();
+      45 |   const before = await page.evaluate(() => Object.fromEntries(Object.entries(localStorage)));
+      46 |   await page.evaluate(() => {
+        at /workspace/pixel-playground-launch/e2e/globe-rendering.spec.ts:43:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/globe-rendering-real-WebGL-2417c-orking-2D-map-without-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/globe-rendering-real-WebGL-2417c-orking-2D-map-without-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/globe-rendering-real-WebGL-2417c-orking-2D-map-without-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/globe-rendering-real-WebGL-2417c-orking-2D-map-without-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: [gameplay] › e2e/three-races-pve.spec.ts (5.4m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  20 failed
+    [gameplay] › e2e/hero-lifecycle.spec.ts:26:3 › hero-android: all seven clips follow real combat, defeat and respawn 
+    [gameplay] › e2e/overlay-audit.spec.ts:246:1 › combat messages leave the actual target panel clear at every HUD breakpoint 
+    [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 
+    [gameplay] › e2e/stage3-migration.spec.ts:5:1 › C: a real v1 fixture migrates in the browser without changing the original 
+    [software-webgl] › e2e/hero-lifecycle.spec.ts:26:3 › hero-android: all seven clips follow real combat, defeat and respawn 
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves 
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves 
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves 
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves 
+    [application-canvas] › e2e/globe-handoff.spec.ts:105:1 › continent roster filters all four origins without changing any slot, including mobile carousel 
+    [application-canvas] › e2e/globe-handoff.spec.ts:131:1 › home navigation clears continent intent without creating a character 
+    [application-canvas] › e2e/private-sketch.spec.ts:3:1 › private /test remains locked and independent from game saves 
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves 
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves 
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves 
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves 
+    [application-webgl] › e2e/globe-handoff.spec.ts:105:1 › continent roster filters all four origins without changing any slot, including mobile carousel 
+    [application-webgl] › e2e/globe-handoff.spec.ts:131:1 › home navigation clears continent intent without creating a character 
+    [application-webgl] › e2e/globe-rendering.spec.ts:3:1 › globe switching disposes contexts and keeps a bounded texture budget 
+    [application-webgl] › e2e/globe-rendering.spec.ts:42:1 › real WebGL context loss falls back to a working 2D map without saves 
+  85 passed (44.4m)

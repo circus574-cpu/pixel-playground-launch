@@ -402,7 +402,12 @@ export class SaveStore {
   }
 }
 
-export type SessionOptions = { random?: () => number };
+export type SessionOptions = {
+  random?: () => number;
+  /** Explicit alternate map, used by deterministic CPU simulation and future world loaders. */
+  world?: WorldDefinition;
+  navigation?: Navigation;
+};
 const mulberry = (seed: number) => () => {
   seed = (seed + 0x6d2b79f5) | 0;
   let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
@@ -471,13 +476,13 @@ export class GameSession implements MonsterHost {
     options: SessionOptions = {},
   ) {
     this.rng = options.random ?? mulberry(Date.now() & 0x7fffffff);
-    this.player = saves?.load() ?? newPlayer(race);
-    this.world = WORLDS[this.player.continent];
-    this.outsideNav = new Navigation(
-      this.world.width,
-      this.world.height,
-      worldObstacles(this.world),
-    );
+    const restored = saves?.load();
+    this.player = restored ?? newPlayer(race);
+    this.world = options.world ?? WORLDS[this.player.continent];
+    if (options.world && !restored) Object.assign(this.player, this.world.spawn);
+    this.outsideNav =
+      options.navigation ??
+      new Navigation(this.world.width, this.world.height, worldObstacles(this.world));
     this.nav = this.outsideNav;
     if (this.player.dead || this.player.hp <= 0) this.player.interior = null;
     if (this.player.interior && this.world.city) {

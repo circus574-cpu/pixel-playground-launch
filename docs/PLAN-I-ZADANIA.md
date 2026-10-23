@@ -1,5 +1,20 @@
 # KI Legends — aktualny plan i zadania
 
+## Checkpoint CPU — zapis wszystkich dotychczasowych prac
+
+Na `feature/cpu-game-content-20261023` zapisano kod, kopie danych oraz
+[raporty](zmiany/2026-10-23/qa/cpu-game-content/). Zakończone obliczenia obejmują
+konwersję i nawigację dziesięciu lądów, 22 272 wstępne walki, 456 pięter lochów,
+6384 osobno wygenerowane spawny lochów oraz rutyny 948 mieszkańców i 12 karawan.
+To wygenerowane i sprawdzone dane oraz moduły pomocnicze, nie nowa grywalna scena.
+
+Otwarte: osobne pełne raporty balansu 1–20 i 20–40, ukończenie botów wypraw,
+budżety telefonu, podłączenie Phaser/streamingu/podróży/zapisów i grafiki od Claude'a.
+Narzędzia rozszerzonego balansu i botów zapisano jako prace w toku, wraz z wynikami
+prób wstępnych; nie ogłaszać ich ukończenia. Pełna regresja wymaga powtórzenia po
+naprawie dostępności serwera aplikacyjnego QA (zachowana próba: 85 PASS / 20 FAIL).
+Na polecenie właściciela prace nad grafiką są wstrzymane do dostawy Claude'a.
+
 Aktualizacja: 23.10.2026. Baza kodu `origin/main`: `d0bfc2c`.
 To lista otwartych prac; zakończone kroki i dawne blokady są w dziennikach.
 Nie wyciągać stanu produkcji ze starego PR ani statusu „niescalone” sprzed integracji.

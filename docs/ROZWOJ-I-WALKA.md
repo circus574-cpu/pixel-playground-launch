@@ -1,5 +1,21 @@
 # KI Legends — rozwój i walka
 
+## Symulacje CPU — checkpoint 23.10.2026
+
+Wstępny przebieg rzeczywistego `GameSession` i AI potworów objął 1392 scenariusze,
+po 16 prób: 22 272 walki. Wyniki: 20 346 zwycięstw, 1487 śmierci i 439 timeoutów.
+To porównanie czterech ras, trzech wariantów wyposażenia/zdolności i potworów
+w pobliżu ich poziomu, nie ukończone dwa raporty rozwoju 1–20 oraz 20–40.
+[Macierz i założenia](zmiany/2026-10-23/qa/cpu-game-content/balance.json),
+[dane CSV](zmiany/2026-10-23/qa/cpu-game-content/balance-matrix.csv).
+
+Osobne zakresy 1–20/20–40 są pracą w toku. Najwyższy poziom obecnego kanonicznego
+potwora to 18. Wariant skalowanych przeciwników 20–40 w narzędziu jest propozycją
+wyłącznie do symulacji; nie zmienia katalogu ani statystyk produkcyjnych.
+Próba tej propozycji w QA jest wyraźnie oznaczona jako niepełna.
+Model XP/h zakłada 30 s podróży i 5 s odpoczynku na walkę, sprzedaż materiałów
+oraz koszt gospody; nie jest pomiarem czasu gry człowieka ani pełnej ekonomii.
+
 Aktualizacja: 23.10.2026. Silnik ras i 40 potworów jest w kodzie; nie oznacza to
 ukończonego rozmieszczenia potworów ani odbioru balansu. Nowe 98 zadań i rozszerzony
 katalog ekwipunku są [projektem fabularnym](FABULA-I-EKWIPUNEK.md), nie obecną kampanią.
