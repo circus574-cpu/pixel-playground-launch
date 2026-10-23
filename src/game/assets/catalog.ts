@@ -48,9 +48,9 @@ const boar: ActorVisual = {
 const baseAssets: AssetDefinition[] = [
   {
     id: "brand-loading",
-    version: "origins-1",
+    version: "key-art-1",
     kind: "image",
-    url: "/game/assets/origins-v1/loading-world.webp",
+    url: "/game/assets/brand/loading-heroes.webp",
   },
   {
     id: human.key,

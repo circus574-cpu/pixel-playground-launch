@@ -4,14 +4,23 @@
   overflow: auto;
   overscroll-behavior-y: contain;
   background:
-    radial-gradient(ellipse at 50% 0%, #20383a80, transparent 55%),
-    linear-gradient(135deg, #101c24, #09131b 65%, #111a21);
+    linear-gradient(180deg, #0a131bb8, #09131bd9 38%, #09131bf2 70%),
+    url("/game/assets/brand/heroes-700.webp") center top / cover no-repeat fixed,
+    #09131b;
   color: #e9e8db;
   font:
     14px/1.65 Arial,
     sans-serif;
   padding: 0 max(28px, calc((100vw - 1370px) / 2));
   scrollbar-color: #827557 #101b23;
+}
+@media (min-width: 700px) {
+  .ki-origins {
+    background:
+      linear-gradient(180deg, #0a131b99, #09131bd9 45%, #09131bf2 80%),
+      url("/game/assets/brand/loading-heroes.webp") center top / cover no-repeat fixed,
+      #09131b;
+  }
 }
 .ki-origins * {
   box-sizing: border-box;

@@ -26,10 +26,10 @@ Nie działać na instancjach GPU w zakresie start/stop/restart/terminate bez dec
 
 ## Z sesji 22.10.2026 (szczegóły: SESSION-2026-10-22-HANDOFF.md)
 
-| ID       | Priorytet | Zadanie                                                                            |
-| -------- | --------- | ---------------------------------------------------------------------------------- |
-| WORLD-01 | WYSOKI    | Sprawdzić CI PR #24 na `7e30566`, scalić po zielonym, osobna decyzja o publikacji. |
-| WORLD-02 | WYSOKI    | Powiększyć kontynenty (mniej wody): znaleźć największą skalę z odstępem ≥ 3 000 j. |
-| WORLD-03 | WYSOKI    | Rozszerzyć Verdantię (przesunięcie lasu o 1200/900) i zmigrować zapisy.            |
-| WORLD-04 | ŚREDNI    | Cztery miasta na kontynent, większe miasta.                                        |
-| UI-01    | NISKI     | Obraz menu/loading po dostarczeniu pliku bez napisu „JUŻ WKRÓTCE”.                 |
+| ID       | Priorytet | Zadanie                                                                                                        |
+| -------- | --------- | -------------------------------------------------------------------------------------------------------------- |
+| WORLD-01 | WYSOKI    | Sprawdzić CI PR #24 na `7e30566`, scalić po zielonym, osobna decyzja o publikacji.                             |
+| WORLD-02 | WYSOKI    | Powiększyć kontynenty (mniej wody): znaleźć największą skalę z odstępem ≥ 3 000 j.                             |
+| WORLD-03 | WYSOKI    | Rozszerzyć Verdantię (przesunięcie lasu o 1200/900) i zmigrować zapisy.                                        |
+| WORLD-04 | ŚREDNI    | Cztery miasta na kontynent, większe miasta.                                                                    |
+| UI-01    | NISKI     | Wykonane 23.10: grafika główna jako tło ładowania i menu (prawa do obrazu do potwierdzenia przez właściciela). |
