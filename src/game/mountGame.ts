@@ -210,7 +210,19 @@ export function mountKileGends(
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
           const room = cityRoom(session.player.interior);
-          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          // A room fills the screen. Landscape fits the whole room; portrait zooms in and follows the hero.
+          const portrait = this.scale.height > this.scale.width * 1.15;
+          const cam = this.cameras.main;
+          if (portrait && this.hero) {
+            cam.setZoom(0.78).setBounds(0, 0, room.width, room.height);
+            cam.startFollow(this.hero.body, true, 0.12, 0.12);
+          } else {
+            cam.setZoom(
+              Math.min(this.scale.width / room.width, this.scale.height / room.height) * 1.02,
+            );
+            cam.stopFollow().removeBounds();
+            cam.centerOn(room.width / 2, room.height / 2);
+          }
         }
       };
       zoom();
@@ -768,6 +780,7 @@ export function mountKileGends(
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
+      parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
@@ -792,6 +805,7 @@ export function mountKileGends(
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
           this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          parent.dispatchEvent(new Event("ki:zoom"));
         } else {
           this.outsideObjects.forEach((o) => o.setVisible(true));
           this.cameras.main
@@ -799,6 +813,7 @@ export function mountKileGends(
             .setBackgroundColor(world.background);
           this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
           this.cameras.main.centerOn(session.player.x, session.player.y);
+          parent.dispatchEvent(new Event("ki:zoom"));
         }
       }
       if (!session.player.interior) this.updateVisibility?.(session.player);
@@ -833,7 +848,7 @@ export function mountKileGends(
       this.syncEnemies();
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
-        a.body.setVisible(!e.m.hidden);
+        a.body.setVisible(!e.m.hidden && !session.player.interior);
         const vx = e.x - a.body.x,
           vy = e.y - a.body.y;
         if (Math.hypot(vx, vy) > 0.01) {
@@ -850,7 +865,10 @@ export function mountKileGends(
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
         const engaged =
-          e.hp > 0 && !e.m.hidden && (e.mode === "chase" || session.targetId === e.id);
+          e.hp > 0 &&
+          !e.m.hidden &&
+          !session.player.interior &&
+          (e.mode === "chase" || session.targetId === e.id);
         a.track.setVisible(engaged);
         a.bar.setVisible(engaged);
         if (e.hp > 0 && !a.visual.clips.attack)

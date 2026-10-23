@@ -145,6 +145,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],
   "ki-pyra-art": ["pyra-start"],
+  /** Pyra smithy "Kuźnia Żaru" built from painted parts (vertical slice). */
+  "ki-smithy-art": ["pyra-smithy"],
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
 };
@@ -269,6 +271,13 @@ export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[
       const ref = source.renderBindings[key];
       if (ref) refs.push(ref);
     }
+  // Painted interior kits (e.g. the Pyra smithy) are loaded together with their world.
+  for (const [key, ref] of Object.entries(source.renderBindings))
+    if (
+      key.startsWith("object." + worldId + ".smithy.") ||
+      key.startsWith("terrain." + worldId + ".smithy-")
+    )
+      refs.push(ref);
   if (world.terrain)
     for (const id of [world.terrain.ground, world.terrain.path, world.terrain.plaza])
       refs.push(textureBinding("terrain." + id, { asset: id }, source));

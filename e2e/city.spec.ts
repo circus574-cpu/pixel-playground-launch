@@ -9,7 +9,7 @@ async function clickPoint(page: Page, x: number, y: number) {
     (el, p) => {
       const e = el as HTMLElement,
         b = e.getBoundingClientRect(),
-        z = Number(e.dataset["zoom"]);
+        z = Number(e.dataset["cameraZoom"] ?? e.dataset["zoom"]);
       return {
         x: b.x + (p.x - Number(e.dataset["cameraX"]) - b.width / 2) * z + b.width / 2,
         y: b.y + (p.y - Number(e.dataset["cameraY"]) - b.height / 2) * z + b.height / 2,
