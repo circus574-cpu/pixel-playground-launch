@@ -1,19 +1,40 @@
 {
-  "codeSha": "557170d",
+  "codeSha": "edc3d6495d7683f6c2d993865cc9d59c69653dd6",
   "branch": "feature/superior-runtime-20261023",
   "installedEnemyPackages": 40,
   "sourcePackagesPreserved": true,
   "visibleFramePixelsPreserved": 16640,
   "unitTests": {
-    "passed": 328,
+    "passed": 331,
     "failed": 0
   },
   "expeditionCanvas": {
     "passed": 3,
     "failed": 0
   },
-  "wholeGameRegression": "pending",
+  "wholeGameRegression": "pending rerun on containing documentation commit",
   "physicalPhone": "not tested",
   "artisticAcceptance": "not accepted",
-  "published": false
+  "published": false,
+  "combatOverlayBreakpoints": {
+    "passed": 6,
+    "failed": 0
+  },
+  "localHeroWebgl": {
+    "sage": "passed",
+    "android": "passed",
+    "legend": "passed",
+    "method": "built playtest; real combat and observed frame history"
+  },
+  "priorCi": {
+    "sha": "bb38bb7f018f7bc6e18372690a4ce62602e8f9dd",
+    "softwareWebglRun": 40039387196,
+    "passed": 16,
+    "failed": 2,
+    "expeditionTestsPassed": 3,
+    "failureKinds": [
+      "android skill-state polling",
+      "legend attack observation after incoming hits"
+    ]
+  }
 }

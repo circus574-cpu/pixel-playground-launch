@@ -282,3 +282,31 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
   Po poprawce kwadratowych wycinków Playwright Canvas wyprawy: **3/3 PASS**
   (10 lądów i zachowanie rasy/zapisów, depozyt, mały ekran z prawdziwą walką
   i zachowaniem czasu odrodzenia). Zrzuty w QA mają status widoku roboczego.
+
+
+## Doprecyzowanie stanów i końcowe kontrole lokalne
+
+- Kod `edc3d64`: przywołane małe osy używają istniejącej grafiki osy, a nie dzika.
+  Rodzina zachowuje własność atlasu po śmierci rodzica aż do usunięcia ostatniego
+  potomka. Nie zmieniano statystyk, łupu ani ruchu dla poprawienia wyglądu.
+- Zapis wyprawy ma jeden początkowy snapshot. Drugi odczyt podczas asynchronicznego
+  ładowania nie przyjmuje zmian innej karty jako nowej podstawy pisania; CAS nadal
+  chroni oryginał. Weryfikowany jest SHA lądu z indeksem i miasto zapisanego wnętrza.
+- Odświeżono listę installedSets w katalogu: 77 paczek, nadal 302 obiekty terenu
+  i 31 powierzchni; 40 potworów to oddzielni aktorzy.
+- Vitest **331/331**, pełny TypeScript PASS, lint 0 błędów / 9 istniejących ostrzeżeń,
+  build PASS. Zwykłe mapy nie pobierają wszystkich atlasów zainstalowanego bestiariusza.
+- Wyprawa na zbudowanej wersji: Canvas **3/3** (wszystkie lądy, depozyt, walka/reload).
+  Sześć rozmiarów nakładki celu ma oddzielne testy **6/6**; wcześniej jeden zbiorczy
+  test wykonywał wszystkie asercje i przekraczał łączny limit podczas zamykania stron.
+- W migracji sprawdzany jest bieżący zapis v5 i pusty depozyt. Test PvE Mędrca
+  sprawdza identyfikator faktycznie klikniętego przeciwnika, nie dowolny stary panel.
+  Oba wybrane przejścia lokalne przeszły.
+- CI Software WebGL na `bb38bb7`: **16/18**, w tym wszystkie trzy nowe testy wyprawy
+  PASS. Błędy dotyczyły obserwacji krótkiej animacji mikstury Androida oraz ataku
+  Legendy podczas trafień. Zachowano wymóg siedmiu rzeczywiście zaobserwowanych
+  klipów; pierwszy realny atak jest sprawdzany przed sekwencją mikstury, a klatki
+  skill są sprawdzane z obserwacji renderera. Nie podnoszono HP ani nie zmieniano walki.
+  Lokalne testy Software WebGL Mędrca, Androida i Legendy przeszły na zbudowanej grze.
+- Pełna regresja całej gry na końcowym SHA wymaga odrębnego wyniku CI. Nie wpisano
+  PASS dla fizycznego telefonu, pełnej kampanii ani końcowej oprawy graficznej.
