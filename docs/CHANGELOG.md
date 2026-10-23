@@ -33,6 +33,8 @@ Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji wła
 - Sześć budynków usługowych (sala, pawilon wymiany, dziedziniec treningowy, skarbiec, warsztat, herbaciarnia) w osobnych dzielnicach, ≥ 700 j. od siebie, z drzwiami osiągalnymi z rynku; mieszkańcy Mędrców; obszar bezpieczny bez dzików (28 → 20 punktów wrogów w Aetherii). Mechaniki wnętrz, handlu, kowala, depozytu i treningu: gałąź Codexa. Szczegóły: [CITY-AETHERIA-2026-10-23.md](CITY-AETHERIA-2026-10-23.md).
 ## 2026-10-23 — miasto Nexus-9 (gałąź `feat/nexus-city`, NIESCALONE, NIEOPUBLIKOWANE)
 - Sześć budynków usługowych na pierścieniu wokół centralnych placów, każdy w osobnej dzielnicy ≥ 700 j. od pozostałych, z drzwiami osiągalnymi z rynku; mieszkańcy Androidów; obszar bezpieczny bez dzików (24 → 20 punktów wrogów w Nexus-9). Mechaniki wnętrz, handlu, kowala, depozytu i treningu: gałąź Codexa. Szczegóły: [CITY-NEXUS-2026-10-23.md](CITY-NEXUS-2026-10-23.md).
+## 2026-10-23 — miasto Pyry (gałąź `feat/pyra-city`, NIESCALONE, NIEOPUBLIKOWANE)
+- Sześć budynków usługowych na pierścieniu wokół fortecy, każdy w osobnej dzielnicy ≥ 700 j. od pozostałych, z drzwiami osiągalnymi z rynku; mieszkańcy Legend; obszar bezpieczny bez dzików (24 → 20 punktów wrogów w Pyrze). Mechaniki wnętrz, handlu, kowala, depozytu i treningu: gałąź Codexa. Szczegóły: [CITY-PYRA-2026-10-23.md](CITY-PYRA-2026-10-23.md).
 
 ## 2026-10-23 — wydajność rysowania (OPUBLIKOWANE)
 
