@@ -49,15 +49,9 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
   shade.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0.55, 0.55, 0, 0);
   shade.fillRect(50, 150, W - 100, 80);
   objects.push(shade);
-  // Side walls: a dark timber trim at the foot and a soft shadow falling onto the floor (no hard seam).
+  // Side walls: a dark timber trim at the foot.
   for (const x of [50, W - 50])
     objects.push(scene.add.rectangle(x, H / 2, 10, H, 0x2e1a10).setDepth(WALL + 1));
-  const side = scene.add.graphics().setDepth(WALL + 1);
-  side.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0.5, 0, 0.5, 0);
-  side.fillRect(55, 150, 55, H - 190);
-  side.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0, 0.5, 0, 0.5);
-  side.fillRect(W - 110, 150, 55, H - 190);
-  objects.push(side);
 
   /** Prop standing on `foot`, fitted into the box; sorted by its foot like characters. */
   const prop = (key: string, x: number, footY: number, w: number, h: number, shadow = true) => {
@@ -164,7 +158,7 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
   }
   objects.push(
     scene.add
-      .image(480, 380, "room-vignette")
+      .image(W / 2, H / 2, "room-vignette")
       .setDisplaySize(760, 1380)
       .setDepth(TONE + 0.5),
   );
