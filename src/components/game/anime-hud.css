@@ -103,11 +103,11 @@
 .ki-map {
   top: max(10px, env(safe-area-inset-top));
   right: max(10px, env(safe-area-inset-right));
-  width: 124px;
+  width: 200px;
   padding: 4px;
 }
 .ki-map-large {
-  width: 124px;
+  width: 300px;
 }
 .ki-map-title {
   font-size: 9px;
@@ -133,13 +133,17 @@
 }
 .ki-quest,
 .ki-map-large ~ .ki-quest {
-  top: 122px;
+  top: 176px;
   right: max(10px, env(safe-area-inset-right));
-  width: 124px;
+  width: 200px;
   padding: 6px;
   border: 0;
   border-radius: 9px;
   background: #244b58cc;
+}
+.ki-map-large ~ .ki-quest {
+  top: 240px;
+  width: 300px;
 }
 .ki-quest strong {
   color: #fff1cd;
@@ -367,9 +371,11 @@
     width: 44px;
     height: 46px;
   }
-  .ki-map,
+  .ki-map {
+    width: 150px;
+  }
   .ki-map-large {
-    width: 94px;
+    width: 240px;
   }
   .ki-map-title {
     font-size: 8px;
@@ -411,9 +417,11 @@
   .ki-location {
     display: none;
   }
-  .ki-map,
+  .ki-map {
+    width: 150px;
+  }
   .ki-map-large {
-    width: 100px;
+    width: 240px;
   }
   .ki-player {
     width: 210px;

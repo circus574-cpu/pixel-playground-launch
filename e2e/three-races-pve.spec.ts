@@ -10,10 +10,19 @@ const races: {
   id: RaceId;
   guide: string;
   guideGo?: string;
+  /** Smallest KI drop that proves the skill was cast (Szybki Unik costs 8). */
+  minSpend?: number;
   hunter: string;
   skill: string;
 }[] = [
-  { id: "planetary", guide: "Aira", guideGo: "Airy", hunter: "Ren", skill: "Szybki Unik" },
+  {
+    id: "planetary",
+    guide: "Aira",
+    guideGo: "Airy",
+    hunter: "Ren",
+    skill: "Szybki Unik",
+    minSpend: 6,
+  },
   {
     id: "sage",
     guide: "Sora",
@@ -174,7 +183,7 @@ for (const race of races) {
     await page.getByRole("button", { name: race.skill, exact: true }).click();
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
-      .toBeLessThan(kiBefore - 10);
+      .toBeLessThan(kiBefore - (race.minSpend ?? 10));
     const kiSpent = Number(await ki.getAttribute("aria-valuenow"));
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
