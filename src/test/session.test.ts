@@ -67,7 +67,7 @@ describe("complete adventure on the actual forest collision map", () => {
         game.tick(50);
         if (game.player.hp < stats(game.player).maxHp) wasHurt = true;
         if (!usedSkill && distance(game.player, enemy) < 100 && enemy.hp < enemy.maxHp) {
-          game.command({ type: "ability", ability: "flame" });
+          game.command({ type: "ability", ability: "R" });
           usedSkill = true;
         }
       }
@@ -107,60 +107,83 @@ describe("complete adventure on the actual forest collision map", () => {
   });
 });
 describe("combat constraints and AI", () => {
-  it("energy pulse hits at range, spends KI and has an independent cooldown", () => {
-    const game = new GameSession(),
+  it("basic attack follows the annex damage model, reach and attack interval", () => {
+    const game = new GameSession(undefined, "planetary", { random: () => 0.99 }),
       e = game.enemies[0]!;
     Object.assign(game.player, game.nav.safe({ x: e.x - 180, y: e.y }));
     game.targetId = e.id;
-    game.command({ type: "ability", ability: "pulse" });
-    expect(e.hp).toBe(37);
-    expect(game.player.ki).toBe(32);
-    expect(game.player.cooldowns.pulse).toBe(5000);
-    expect(game.events.some((event) => event.type === "attack" && event.ability === "pulse")).toBe(
+    game.command({ type: "ability", ability: "R" });
+    expect(e.hp).toBe(66);
+    expect(game.autoAttack).toBe(true);
+    game.autoAttack = false;
+    Object.assign(game.player, game.nav.safe({ x: e.x - 45, y: e.y }));
+    game.command({ type: "ability", ability: "R" });
+    expect(e.hp).toBe(54); // Atak 12 × 1,0 − Obrona 0 / 2
+    expect(game.events.some((event) => event.type === "attack" && event.ability === "R")).toBe(
       true,
     );
+    game.command({ type: "ability", ability: "R" });
+    expect(e.hp).toBe(54); // odstęp 650 ms
+    for (let i = 0; i < 14; i++) game.tick(50);
+    game.command({ type: "ability", ability: "R" });
+    expect(e.hp).toBeLessThan(54);
   });
-  it("checks range, KI, cooldown and blocks attacks through obstacles", () => {
-    const game = new GameSession(),
-      enemy = game.enemies[0]!;
-    game.targetId = enemy.id;
-    game.command({ type: "ability", ability: "pulse" });
-    expect(enemy.hp).toBe(66);
-    Object.assign(game.player, game.nav.safe({ x: enemy.x - 45, y: enemy.y }));
+  it("checks KI and cooldown, and blocks ranged attacks through obstacles", () => {
+    const game = new GameSession(undefined, "sage", { random: () => 0.99 });
+    game.player.level = 7;
+    game.command({ type: "learn", node: "B1" });
+    expect(game.player.skills).toContain("B1");
     game.player.ki = 0;
-    game.command({ type: "ability", ability: "flame" });
+    game.command({ type: "ability", ability: "B1" });
+    expect(game.kit.shieldPoints).toBe(0);
+    game.player.ki = 80;
+    game.command({ type: "ability", ability: "B1" });
+    expect(game.kit.shieldPoints).toBeGreaterThan(0);
+    expect(game.player.ki).toBe(68);
+    const shield = game.kit.shieldPoints;
+    game.command({ type: "ability", ability: "B1" });
+    expect(game.player.ki).toBe(68);
+    expect(game.kit.shieldPoints).toBe(shield);
+    const enemy = game.enemies[0]!;
+    let placed = false;
+    for (const o of game.nav.obstacles) {
+      const y = o.y + o.height / 2;
+      const a = { x: o.x - 40, y },
+        b = { x: o.x + o.width + 40, y };
+      if (
+        o.width < 300 &&
+        game.nav.walkable(a) &&
+        game.nav.walkable(b) &&
+        !game.nav.visible(a, b)
+      ) {
+        Object.assign(game.player, a);
+        Object.assign(enemy, b);
+        placed = true;
+        break;
+      }
+    }
+    expect(placed).toBe(true);
+    game.targetId = enemy.id;
+    game.command({ type: "ability", ability: "R" });
     expect(enemy.hp).toBe(66);
-    game.player.ki = 50;
-    game.command({ type: "ability", ability: "flame" });
-    const hp = enemy.hp,
-      ki = game.player.ki;
-    expect(hp).toBeLessThan(66);
-    game.command({ type: "ability", ability: "flame" });
-    expect(enemy.hp).toBe(hp);
-    expect(game.player.ki).toBe(ki);
-    Object.assign(game.player, { x: 1380, y: 1000 });
-    Object.assign(enemy, { x: 1580, y: 1000 });
-    game.player.cooldowns.pulse = 0;
-    game.command({ type: "ability", ability: "pulse" });
-    expect(enemy.hp).toBe(hp);
   });
-  it("shield reduces incoming damage; death respawns without losing quests or items", () => {
-    const game = new GameSession(),
+  it("a boar bite follows the annex model; death respawns without losing quests or items", () => {
+    const game = new GameSession(undefined, "planetary", { random: () => 0.99 }),
       e = game.enemies[0]!;
     Object.assign(game.player, game.nav.safe({ x: e.x - 30, y: e.y }));
+    e.m.phase = "engage";
+    e.m.engaged = true;
     e.mode = "chase";
     e.attackIn = 0;
-    game.command({ type: "ability", ability: "shield" });
     game.tick(50);
-    expect(game.player.hp).toBe(116);
-    game.player.shield = 0;
+    expect(game.player.hp).toBeCloseTo(125 - 6.5, 6); // 9 ATK − 5 DEF / 2
     game.player.hp = 1;
     e.attackIn = 0;
     game.tick(50);
     expect(game.player.dead).toBe(true);
     const items = { ...game.player.items };
     run(game, () => !game.player.dead, 5);
-    expect(game.player.hp).toBe(120);
+    expect(game.player.hp).toBe(125);
     expect(game.player.items).toEqual(items);
     expect(distance(game.player, FOREST.spawn)).toBeLessThan(25);
   });
@@ -168,6 +191,8 @@ describe("combat constraints and AI", () => {
     const game = new GameSession(),
       e = game.enemies[0]!;
     e.hp = 1;
+    e.m.phase = "engage";
+    e.m.engaged = true;
     e.mode = "chase";
     Object.assign(e, game.nav.safe({ x: e.home.x - 100, y: e.home.y }));
     game.tick(50);
@@ -202,7 +227,7 @@ describe("items, merchant and reward integrity", () => {
     talk(game, "smith");
     game.command({ type: "dialogue", action: "upgrade" });
     expect(game.player.gold).toBe(5);
-    expect(stats(game.player).attack).toBe(30);
+    expect(stats(game.player).attack).toBe(24); // Planetarni 12 + ostrze 8 + ulepszenie 4
     game.command({ type: "dialogue", action: "upgrade" });
     expect(game.player.gold).toBe(5);
     close(game);
@@ -226,7 +251,7 @@ describe("items, merchant and reward integrity", () => {
     expect(game.player.items.potion).toBe(3);
     game.player.hp = 20;
     game.command({ type: "ability", ability: "potion" });
-    expect(game.player.hp).toBe(85);
+    expect(game.player.hp).toBe(70); // 20 + 40% z 125
     expect(game.player.items.potion).toBe(2);
     game.command({ type: "ability", ability: "potion" });
     expect(game.player.items.potion).toBe(2);

@@ -303,3 +303,126 @@
 .ki-planet-open:focus-visible {
   border-color: #f0d79a;
 }
+
+.ki-skilltree {
+  display: grid;
+  gap: 10px;
+}
+.ki-skill-branch {
+  display: grid;
+  gap: 8px;
+  border-top: 1px solid rgba(184, 242, 223, 0.25);
+  padding-top: 8px;
+}
+.ki-skill-branch h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.ki-skill-node {
+  border: 1px solid rgba(184, 242, 223, 0.3);
+  border-radius: 8px;
+  padding: 8px;
+  display: grid;
+  gap: 4px;
+  background: rgba(12, 32, 40, 0.55);
+}
+.ki-skill-node header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ki-skill-node p {
+  margin: 0;
+  font-size: 0.82rem;
+  opacity: 0.9;
+}
+.ki-skill-node.is-learned {
+  border-color: #ffd96b;
+  box-shadow: 0 0 0 1px rgba(255, 217, 107, 0.4) inset;
+}
+.ki-skill-node.is-blocked {
+  opacity: 0.45;
+}
+.ki-skill-state {
+  color: #ffd96b;
+  font-weight: 600;
+}
+.ki-resource {
+  position: relative;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.ki-resource i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff9a3d, #ffd04d);
+  transition: width 0.1s linear;
+}
+.ki-resource[data-state="overheat"] i {
+  background: #e5484d;
+}
+.ki-resource[data-kind="Ładunek Rdzenia"] i {
+  background: linear-gradient(90deg, #4ac8ff, #a8f0ff);
+}
+.ki-resource[data-kind="Ładunek Rdzenia"][data-state="overheat"] i {
+  background: #e5484d;
+}
+.ki-resource span {
+  position: absolute;
+  inset: 0;
+  font-size: 0.65rem;
+  text-align: center;
+  line-height: 12px;
+  text-shadow: 0 0 3px #000;
+}
+.ki-status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+.ki-status-chip {
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(229, 72, 77, 0.75);
+  color: #fff;
+}
+.ki-status-chip.is-buff {
+  background: rgba(60, 160, 120, 0.8);
+}
+.ki-fog {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 20%, rgba(210, 220, 230, 0.9) 85%);
+  z-index: 4;
+}
+.ki-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #ffd96b;
+  color: #1b2a22;
+  font-size: 0.7rem;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.ki-map-jam {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.78);
+  color: #ff9a9a;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}

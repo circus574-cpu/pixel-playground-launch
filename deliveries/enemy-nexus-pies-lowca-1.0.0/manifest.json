@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-nexus-pies-lowca",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "enemy-nexus-pies-lowca-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "enemy-nexus-pies-lowca-page-0.webp",
+      "atlasUrl": "enemy-nexus-pies-lowca-page-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "enemy-nexus-pies-lowca-page-1",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "enemy-nexus-pies-lowca-page-1.webp",
+      "atlasUrl": "enemy-nexus-pies-lowca-page-1.json",
+      "width": 2048,
+      "height": 1280
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-nexus-pies-lowca",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-nexus-pies-lowca-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/idle/down/00",
+              "enemy-nexus-pies-lowca/idle/down/01",
+              "enemy-nexus-pies-lowca/idle/down/02",
+              "enemy-nexus-pies-lowca/idle/down/03",
+              "enemy-nexus-pies-lowca/idle/down/04",
+              "enemy-nexus-pies-lowca/idle/down/05",
+              "enemy-nexus-pies-lowca/idle/down/06",
+              "enemy-nexus-pies-lowca/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/idle/down-left/00",
+              "enemy-nexus-pies-lowca/idle/down-left/01",
+              "enemy-nexus-pies-lowca/idle/down-left/02",
+              "enemy-nexus-pies-lowca/idle/down-left/03",
+              "enemy-nexus-pies-lowca/idle/down-left/04",
+              "enemy-nexus-pies-lowca/idle/down-left/05",
+              "enemy-nexus-pies-lowca/idle/down-left/06",
+              "enemy-nexus-pies-lowca/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/idle/left/00",
+              "enemy-nexus-pies-lowca/idle/left/01",
+              "enemy-nexus-pies-lowca/idle/left/02",
+              "enemy-nexus-pies-lowca/idle/left/03",
+              "enemy-nexus-pies-lowca/idle/left/04",
+              "enemy-nexus-pies-lowca/idle/left/05",
+              "enemy-nexus-pies-lowca/idle/left/06",
+              "enemy-nexus-pies-lowca/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/idle/up-left/00",
+              "enemy-nexus-pies-lowca/idle/up-left/01",
+              "enemy-nexus-pies-lowca/idle/up-left/02",
+              "enemy-nexus-pies-lowca/idle/up-left/03",
+              "enemy-nexus-pies-lowca/idle/up-left/04",
+              "enemy-nexus-pies-lowca/idle/up-left/05",
+              "enemy-nexus-pies-lowca/idle/up-left/06",
+              "enemy-nexus-pies-lowca/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/idle/up/00",
+              "enemy-nexus-pies-lowca/idle/up/01",
+              "enemy-nexus-pies-lowca/idle/up/02",
+              "enemy-nexus-pies-lowca/idle/up/03",
+              "enemy-nexus-pies-lowca/idle/up/04",
+              "enemy-nexus-pies-lowca/idle/up/05",
+              "enemy-nexus-pies-lowca/idle/up/06",
+              "enemy-nexus-pies-lowca/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/idle/up-right/00",
+              "enemy-nexus-pies-lowca/idle/up-right/01",
+              "enemy-nexus-pies-lowca/idle/up-right/02",
+              "enemy-nexus-pies-lowca/idle/up-right/03",
+              "enemy-nexus-pies-lowca/idle/up-right/04",
+              "enemy-nexus-pies-lowca/idle/up-right/05",
+              "enemy-nexus-pies-lowca/idle/up-right/06",
+              "enemy-nexus-pies-lowca/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/idle/right/00",
+              "enemy-nexus-pies-lowca/idle/right/01",
+              "enemy-nexus-pies-lowca/idle/right/02",
+              "enemy-nexus-pies-lowca/idle/right/03",
+              "enemy-nexus-pies-lowca/idle/right/04",
+              "enemy-nexus-pies-lowca/idle/right/05",
+              "enemy-nexus-pies-lowca/idle/right/06",
+              "enemy-nexus-pies-lowca/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/idle/down-right/00",
+              "enemy-nexus-pies-lowca/idle/down-right/01",
+              "enemy-nexus-pies-lowca/idle/down-right/02",
+              "enemy-nexus-pies-lowca/idle/down-right/03",
+              "enemy-nexus-pies-lowca/idle/down-right/04",
+              "enemy-nexus-pies-lowca/idle/down-right/05",
+              "enemy-nexus-pies-lowca/idle/down-right/06",
+              "enemy-nexus-pies-lowca/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-nexus-pies-lowca-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/walk/down/00",
+              "enemy-nexus-pies-lowca/walk/down/01",
+              "enemy-nexus-pies-lowca/walk/down/02",
+              "enemy-nexus-pies-lowca/walk/down/03",
+              "enemy-nexus-pies-lowca/walk/down/04",
+              "enemy-nexus-pies-lowca/walk/down/05",
+              "enemy-nexus-pies-lowca/walk/down/06",
+              "enemy-nexus-pies-lowca/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/walk/down-left/00",
+              "enemy-nexus-pies-lowca/walk/down-left/01",
+              "enemy-nexus-pies-lowca/walk/down-left/02",
+              "enemy-nexus-pies-lowca/walk/down-left/03",
+              "enemy-nexus-pies-lowca/walk/down-left/04",
+              "enemy-nexus-pies-lowca/walk/down-left/05",
+              "enemy-nexus-pies-lowca/walk/down-left/06",
+              "enemy-nexus-pies-lowca/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/walk/left/00",
+              "enemy-nexus-pies-lowca/walk/left/01",
+              "enemy-nexus-pies-lowca/walk/left/02",
+              "enemy-nexus-pies-lowca/walk/left/03",
+              "enemy-nexus-pies-lowca/walk/left/04",
+              "enemy-nexus-pies-lowca/walk/left/05",
+              "enemy-nexus-pies-lowca/walk/left/06",
+              "enemy-nexus-pies-lowca/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/walk/up-left/00",
+              "enemy-nexus-pies-lowca/walk/up-left/01",
+              "enemy-nexus-pies-lowca/walk/up-left/02",
+              "enemy-nexus-pies-lowca/walk/up-left/03",
+              "enemy-nexus-pies-lowca/walk/up-left/04",
+              "enemy-nexus-pies-lowca/walk/up-left/05",
+              "enemy-nexus-pies-lowca/walk/up-left/06",
+              "enemy-nexus-pies-lowca/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/walk/up/00",
+              "enemy-nexus-pies-lowca/walk/up/01",
+              "enemy-nexus-pies-lowca/walk/up/02",
+              "enemy-nexus-pies-lowca/walk/up/03",
+              "enemy-nexus-pies-lowca/walk/up/04",
+              "enemy-nexus-pies-lowca/walk/up/05",
+              "enemy-nexus-pies-lowca/walk/up/06",
+              "enemy-nexus-pies-lowca/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/walk/up-right/00",
+              "enemy-nexus-pies-lowca/walk/up-right/01",
+              "enemy-nexus-pies-lowca/walk/up-right/02",
+              "enemy-nexus-pies-lowca/walk/up-right/03",
+              "enemy-nexus-pies-lowca/walk/up-right/04",
+              "enemy-nexus-pies-lowca/walk/up-right/05",
+              "enemy-nexus-pies-lowca/walk/up-right/06",
+              "enemy-nexus-pies-lowca/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/walk/right/00",
+              "enemy-nexus-pies-lowca/walk/right/01",
+              "enemy-nexus-pies-lowca/walk/right/02",
+              "enemy-nexus-pies-lowca/walk/right/03",
+              "enemy-nexus-pies-lowca/walk/right/04",
+              "enemy-nexus-pies-lowca/walk/right/05",
+              "enemy-nexus-pies-lowca/walk/right/06",
+              "enemy-nexus-pies-lowca/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/walk/down-right/00",
+              "enemy-nexus-pies-lowca/walk/down-right/01",
+              "enemy-nexus-pies-lowca/walk/down-right/02",
+              "enemy-nexus-pies-lowca/walk/down-right/03",
+              "enemy-nexus-pies-lowca/walk/down-right/04",
+              "enemy-nexus-pies-lowca/walk/down-right/05",
+              "enemy-nexus-pies-lowca/walk/down-right/06",
+              "enemy-nexus-pies-lowca/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-nexus-pies-lowca-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/attack/down/00",
+              "enemy-nexus-pies-lowca/attack/down/01",
+              "enemy-nexus-pies-lowca/attack/down/02",
+              "enemy-nexus-pies-lowca/attack/down/03",
+              "enemy-nexus-pies-lowca/attack/down/04",
+              "enemy-nexus-pies-lowca/attack/down/05",
+              "enemy-nexus-pies-lowca/attack/down/06",
+              "enemy-nexus-pies-lowca/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/attack/down-left/00",
+              "enemy-nexus-pies-lowca/attack/down-left/01",
+              "enemy-nexus-pies-lowca/attack/down-left/02",
+              "enemy-nexus-pies-lowca/attack/down-left/03",
+              "enemy-nexus-pies-lowca/attack/down-left/04",
+              "enemy-nexus-pies-lowca/attack/down-left/05",
+              "enemy-nexus-pies-lowca/attack/down-left/06",
+              "enemy-nexus-pies-lowca/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/attack/left/00",
+              "enemy-nexus-pies-lowca/attack/left/01",
+              "enemy-nexus-pies-lowca/attack/left/02",
+              "enemy-nexus-pies-lowca/attack/left/03",
+              "enemy-nexus-pies-lowca/attack/left/04",
+              "enemy-nexus-pies-lowca/attack/left/05",
+              "enemy-nexus-pies-lowca/attack/left/06",
+              "enemy-nexus-pies-lowca/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/attack/up-left/00",
+              "enemy-nexus-pies-lowca/attack/up-left/01",
+              "enemy-nexus-pies-lowca/attack/up-left/02",
+              "enemy-nexus-pies-lowca/attack/up-left/03",
+              "enemy-nexus-pies-lowca/attack/up-left/04",
+              "enemy-nexus-pies-lowca/attack/up-left/05",
+              "enemy-nexus-pies-lowca/attack/up-left/06",
+              "enemy-nexus-pies-lowca/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/attack/up/00",
+              "enemy-nexus-pies-lowca/attack/up/01",
+              "enemy-nexus-pies-lowca/attack/up/02",
+              "enemy-nexus-pies-lowca/attack/up/03",
+              "enemy-nexus-pies-lowca/attack/up/04",
+              "enemy-nexus-pies-lowca/attack/up/05",
+              "enemy-nexus-pies-lowca/attack/up/06",
+              "enemy-nexus-pies-lowca/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/attack/up-right/00",
+              "enemy-nexus-pies-lowca/attack/up-right/01",
+              "enemy-nexus-pies-lowca/attack/up-right/02",
+              "enemy-nexus-pies-lowca/attack/up-right/03",
+              "enemy-nexus-pies-lowca/attack/up-right/04",
+              "enemy-nexus-pies-lowca/attack/up-right/05",
+              "enemy-nexus-pies-lowca/attack/up-right/06",
+              "enemy-nexus-pies-lowca/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/attack/right/00",
+              "enemy-nexus-pies-lowca/attack/right/01",
+              "enemy-nexus-pies-lowca/attack/right/02",
+              "enemy-nexus-pies-lowca/attack/right/03",
+              "enemy-nexus-pies-lowca/attack/right/04",
+              "enemy-nexus-pies-lowca/attack/right/05",
+              "enemy-nexus-pies-lowca/attack/right/06",
+              "enemy-nexus-pies-lowca/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/attack/down-right/00",
+              "enemy-nexus-pies-lowca/attack/down-right/01",
+              "enemy-nexus-pies-lowca/attack/down-right/02",
+              "enemy-nexus-pies-lowca/attack/down-right/03",
+              "enemy-nexus-pies-lowca/attack/down-right/04",
+              "enemy-nexus-pies-lowca/attack/down-right/05",
+              "enemy-nexus-pies-lowca/attack/down-right/06",
+              "enemy-nexus-pies-lowca/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-nexus-pies-lowca-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/skill/down/00",
+              "enemy-nexus-pies-lowca/skill/down/01",
+              "enemy-nexus-pies-lowca/skill/down/02",
+              "enemy-nexus-pies-lowca/skill/down/03",
+              "enemy-nexus-pies-lowca/skill/down/04",
+              "enemy-nexus-pies-lowca/skill/down/05",
+              "enemy-nexus-pies-lowca/skill/down/06",
+              "enemy-nexus-pies-lowca/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/skill/down-left/00",
+              "enemy-nexus-pies-lowca/skill/down-left/01",
+              "enemy-nexus-pies-lowca/skill/down-left/02",
+              "enemy-nexus-pies-lowca/skill/down-left/03",
+              "enemy-nexus-pies-lowca/skill/down-left/04",
+              "enemy-nexus-pies-lowca/skill/down-left/05",
+              "enemy-nexus-pies-lowca/skill/down-left/06",
+              "enemy-nexus-pies-lowca/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/skill/left/00",
+              "enemy-nexus-pies-lowca/skill/left/01",
+              "enemy-nexus-pies-lowca/skill/left/02",
+              "enemy-nexus-pies-lowca/skill/left/03",
+              "enemy-nexus-pies-lowca/skill/left/04",
+              "enemy-nexus-pies-lowca/skill/left/05",
+              "enemy-nexus-pies-lowca/skill/left/06",
+              "enemy-nexus-pies-lowca/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/skill/up-left/00",
+              "enemy-nexus-pies-lowca/skill/up-left/01",
+              "enemy-nexus-pies-lowca/skill/up-left/02",
+              "enemy-nexus-pies-lowca/skill/up-left/03",
+              "enemy-nexus-pies-lowca/skill/up-left/04",
+              "enemy-nexus-pies-lowca/skill/up-left/05",
+              "enemy-nexus-pies-lowca/skill/up-left/06",
+              "enemy-nexus-pies-lowca/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/skill/up/00",
+              "enemy-nexus-pies-lowca/skill/up/01",
+              "enemy-nexus-pies-lowca/skill/up/02",
+              "enemy-nexus-pies-lowca/skill/up/03",
+              "enemy-nexus-pies-lowca/skill/up/04",
+              "enemy-nexus-pies-lowca/skill/up/05",
+              "enemy-nexus-pies-lowca/skill/up/06",
+              "enemy-nexus-pies-lowca/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/skill/up-right/00",
+              "enemy-nexus-pies-lowca/skill/up-right/01",
+              "enemy-nexus-pies-lowca/skill/up-right/02",
+              "enemy-nexus-pies-lowca/skill/up-right/03",
+              "enemy-nexus-pies-lowca/skill/up-right/04",
+              "enemy-nexus-pies-lowca/skill/up-right/05",
+              "enemy-nexus-pies-lowca/skill/up-right/06",
+              "enemy-nexus-pies-lowca/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/skill/right/00",
+              "enemy-nexus-pies-lowca/skill/right/01",
+              "enemy-nexus-pies-lowca/skill/right/02",
+              "enemy-nexus-pies-lowca/skill/right/03",
+              "enemy-nexus-pies-lowca/skill/right/04",
+              "enemy-nexus-pies-lowca/skill/right/05",
+              "enemy-nexus-pies-lowca/skill/right/06",
+              "enemy-nexus-pies-lowca/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/skill/down-right/00",
+              "enemy-nexus-pies-lowca/skill/down-right/01",
+              "enemy-nexus-pies-lowca/skill/down-right/02",
+              "enemy-nexus-pies-lowca/skill/down-right/03",
+              "enemy-nexus-pies-lowca/skill/down-right/04",
+              "enemy-nexus-pies-lowca/skill/down-right/05",
+              "enemy-nexus-pies-lowca/skill/down-right/06",
+              "enemy-nexus-pies-lowca/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-nexus-pies-lowca-page-1",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/hit/down/00",
+              "enemy-nexus-pies-lowca/hit/down/01",
+              "enemy-nexus-pies-lowca/hit/down/02",
+              "enemy-nexus-pies-lowca/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/hit/down-left/00",
+              "enemy-nexus-pies-lowca/hit/down-left/01",
+              "enemy-nexus-pies-lowca/hit/down-left/02",
+              "enemy-nexus-pies-lowca/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/hit/left/00",
+              "enemy-nexus-pies-lowca/hit/left/01",
+              "enemy-nexus-pies-lowca/hit/left/02",
+              "enemy-nexus-pies-lowca/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/hit/up-left/00",
+              "enemy-nexus-pies-lowca/hit/up-left/01",
+              "enemy-nexus-pies-lowca/hit/up-left/02",
+              "enemy-nexus-pies-lowca/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/hit/up/00",
+              "enemy-nexus-pies-lowca/hit/up/01",
+              "enemy-nexus-pies-lowca/hit/up/02",
+              "enemy-nexus-pies-lowca/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/hit/up-right/00",
+              "enemy-nexus-pies-lowca/hit/up-right/01",
+              "enemy-nexus-pies-lowca/hit/up-right/02",
+              "enemy-nexus-pies-lowca/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/hit/right/00",
+              "enemy-nexus-pies-lowca/hit/right/01",
+              "enemy-nexus-pies-lowca/hit/right/02",
+              "enemy-nexus-pies-lowca/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/hit/down-right/00",
+              "enemy-nexus-pies-lowca/hit/down-right/01",
+              "enemy-nexus-pies-lowca/hit/down-right/02",
+              "enemy-nexus-pies-lowca/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-nexus-pies-lowca-page-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/death/down/00",
+              "enemy-nexus-pies-lowca/death/down/01",
+              "enemy-nexus-pies-lowca/death/down/02",
+              "enemy-nexus-pies-lowca/death/down/03",
+              "enemy-nexus-pies-lowca/death/down/04",
+              "enemy-nexus-pies-lowca/death/down/05",
+              "enemy-nexus-pies-lowca/death/down/06",
+              "enemy-nexus-pies-lowca/death/down/07"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/death/down-left/00",
+              "enemy-nexus-pies-lowca/death/down-left/01",
+              "enemy-nexus-pies-lowca/death/down-left/02",
+              "enemy-nexus-pies-lowca/death/down-left/03",
+              "enemy-nexus-pies-lowca/death/down-left/04",
+              "enemy-nexus-pies-lowca/death/down-left/05",
+              "enemy-nexus-pies-lowca/death/down-left/06",
+              "enemy-nexus-pies-lowca/death/down-left/07"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/death/left/00",
+              "enemy-nexus-pies-lowca/death/left/01",
+              "enemy-nexus-pies-lowca/death/left/02",
+              "enemy-nexus-pies-lowca/death/left/03",
+              "enemy-nexus-pies-lowca/death/left/04",
+              "enemy-nexus-pies-lowca/death/left/05",
+              "enemy-nexus-pies-lowca/death/left/06",
+              "enemy-nexus-pies-lowca/death/left/07"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/death/up-left/00",
+              "enemy-nexus-pies-lowca/death/up-left/01",
+              "enemy-nexus-pies-lowca/death/up-left/02",
+              "enemy-nexus-pies-lowca/death/up-left/03",
+              "enemy-nexus-pies-lowca/death/up-left/04",
+              "enemy-nexus-pies-lowca/death/up-left/05",
+              "enemy-nexus-pies-lowca/death/up-left/06",
+              "enemy-nexus-pies-lowca/death/up-left/07"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/death/up/00",
+              "enemy-nexus-pies-lowca/death/up/01",
+              "enemy-nexus-pies-lowca/death/up/02",
+              "enemy-nexus-pies-lowca/death/up/03",
+              "enemy-nexus-pies-lowca/death/up/04",
+              "enemy-nexus-pies-lowca/death/up/05",
+              "enemy-nexus-pies-lowca/death/up/06",
+              "enemy-nexus-pies-lowca/death/up/07"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/death/up-right/00",
+              "enemy-nexus-pies-lowca/death/up-right/01",
+              "enemy-nexus-pies-lowca/death/up-right/02",
+              "enemy-nexus-pies-lowca/death/up-right/03",
+              "enemy-nexus-pies-lowca/death/up-right/04",
+              "enemy-nexus-pies-lowca/death/up-right/05",
+              "enemy-nexus-pies-lowca/death/up-right/06",
+              "enemy-nexus-pies-lowca/death/up-right/07"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/death/right/00",
+              "enemy-nexus-pies-lowca/death/right/01",
+              "enemy-nexus-pies-lowca/death/right/02",
+              "enemy-nexus-pies-lowca/death/right/03",
+              "enemy-nexus-pies-lowca/death/right/04",
+              "enemy-nexus-pies-lowca/death/right/05",
+              "enemy-nexus-pies-lowca/death/right/06",
+              "enemy-nexus-pies-lowca/death/right/07"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/death/down-right/00",
+              "enemy-nexus-pies-lowca/death/down-right/01",
+              "enemy-nexus-pies-lowca/death/down-right/02",
+              "enemy-nexus-pies-lowca/death/down-right/03",
+              "enemy-nexus-pies-lowca/death/down-right/04",
+              "enemy-nexus-pies-lowca/death/down-right/05",
+              "enemy-nexus-pies-lowca/death/down-right/06",
+              "enemy-nexus-pies-lowca/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-nexus-pies-lowca-page-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-nexus-pies-lowca/respawn/down/00",
+              "enemy-nexus-pies-lowca/respawn/down/01",
+              "enemy-nexus-pies-lowca/respawn/down/02",
+              "enemy-nexus-pies-lowca/respawn/down/03",
+              "enemy-nexus-pies-lowca/respawn/down/04",
+              "enemy-nexus-pies-lowca/respawn/down/05",
+              "enemy-nexus-pies-lowca/respawn/down/06",
+              "enemy-nexus-pies-lowca/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-nexus-pies-lowca/respawn/down-left/00",
+              "enemy-nexus-pies-lowca/respawn/down-left/01",
+              "enemy-nexus-pies-lowca/respawn/down-left/02",
+              "enemy-nexus-pies-lowca/respawn/down-left/03",
+              "enemy-nexus-pies-lowca/respawn/down-left/04",
+              "enemy-nexus-pies-lowca/respawn/down-left/05",
+              "enemy-nexus-pies-lowca/respawn/down-left/06",
+              "enemy-nexus-pies-lowca/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-nexus-pies-lowca/respawn/left/00",
+              "enemy-nexus-pies-lowca/respawn/left/01",
+              "enemy-nexus-pies-lowca/respawn/left/02",
+              "enemy-nexus-pies-lowca/respawn/left/03",
+              "enemy-nexus-pies-lowca/respawn/left/04",
+              "enemy-nexus-pies-lowca/respawn/left/05",
+              "enemy-nexus-pies-lowca/respawn/left/06",
+              "enemy-nexus-pies-lowca/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-nexus-pies-lowca/respawn/up-left/00",
+              "enemy-nexus-pies-lowca/respawn/up-left/01",
+              "enemy-nexus-pies-lowca/respawn/up-left/02",
+              "enemy-nexus-pies-lowca/respawn/up-left/03",
+              "enemy-nexus-pies-lowca/respawn/up-left/04",
+              "enemy-nexus-pies-lowca/respawn/up-left/05",
+              "enemy-nexus-pies-lowca/respawn/up-left/06",
+              "enemy-nexus-pies-lowca/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-nexus-pies-lowca/respawn/up/00",
+              "enemy-nexus-pies-lowca/respawn/up/01",
+              "enemy-nexus-pies-lowca/respawn/up/02",
+              "enemy-nexus-pies-lowca/respawn/up/03",
+              "enemy-nexus-pies-lowca/respawn/up/04",
+              "enemy-nexus-pies-lowca/respawn/up/05",
+              "enemy-nexus-pies-lowca/respawn/up/06",
+              "enemy-nexus-pies-lowca/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-nexus-pies-lowca/respawn/up-right/00",
+              "enemy-nexus-pies-lowca/respawn/up-right/01",
+              "enemy-nexus-pies-lowca/respawn/up-right/02",
+              "enemy-nexus-pies-lowca/respawn/up-right/03",
+              "enemy-nexus-pies-lowca/respawn/up-right/04",
+              "enemy-nexus-pies-lowca/respawn/up-right/05",
+              "enemy-nexus-pies-lowca/respawn/up-right/06",
+              "enemy-nexus-pies-lowca/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-nexus-pies-lowca/respawn/right/00",
+              "enemy-nexus-pies-lowca/respawn/right/01",
+              "enemy-nexus-pies-lowca/respawn/right/02",
+              "enemy-nexus-pies-lowca/respawn/right/03",
+              "enemy-nexus-pies-lowca/respawn/right/04",
+              "enemy-nexus-pies-lowca/respawn/right/05",
+              "enemy-nexus-pies-lowca/respawn/right/06",
+              "enemy-nexus-pies-lowca/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-nexus-pies-lowca/respawn/down-right/00",
+              "enemy-nexus-pies-lowca/respawn/down-right/01",
+              "enemy-nexus-pies-lowca/respawn/down-right/02",
+              "enemy-nexus-pies-lowca/respawn/down-right/03",
+              "enemy-nexus-pies-lowca/respawn/down-right/04",
+              "enemy-nexus-pies-lowca/respawn/down-right/05",
+              "enemy-nexus-pies-lowca/respawn/down-right/06",
+              "enemy-nexus-pies-lowca/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "nexus.enemy.pies-lowca": "enemy-nexus-pies-lowca"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

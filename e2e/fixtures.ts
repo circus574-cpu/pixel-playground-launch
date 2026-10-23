@@ -70,3 +70,49 @@ export async function openHudTool(
   )
     await toggle.click();
 }
+
+export const SAVE_BASE = "ki-legends:adventure:v1";
+/** Basic attack of the active race (Cios Szlaku, Pocisk Ki, Strzał Impulsowy, Uderzenie Żaru). */
+export const basicAttack = (page: import("@playwright/test").Page) =>
+  page.locator('button[data-ability="R"]');
+/** Current maximum HP shown by the HUD (it depends on the race and level). */
+export async function maxHp(page: import("@playwright/test").Page) {
+  return String(
+    await page.getByRole("meter", { name: "Zdrowie", exact: true }).getAttribute("aria-valuemax"),
+  );
+}
+/**
+ * Rewrites fields of the active character's save and reloads, so the game reads an ordinary save.
+ * The specs use this for states that need many minutes of play (a learned skill needs a level);
+ * the old tab refuses to overwrite a save that changed behind its back, so the patch survives.
+ */
+export async function patchActiveCharacter(
+  page: import("@playwright/test").Page,
+  patch: Record<string, unknown>,
+) {
+  await page.evaluate(
+    ({ base, patch }) => {
+      const key = base + ":character:" + localStorage.getItem(base + ":active-character");
+      const raw = JSON.parse(localStorage.getItem(key)!);
+      Object.assign(raw.player, patch);
+      raw.version = 4;
+      localStorage.setItem(key, JSON.stringify(raw));
+    },
+    { base: SAVE_BASE, patch },
+  );
+  await page.reload();
+  await base_expectHud(page);
+}
+async function base_expectHud(page: import("@playwright/test").Page) {
+  const { expect } = await import("@playwright/test");
+  await expect(page.locator(".ki-hud")).toBeVisible();
+}
+/** Learns a skill-tree node through the real "Umiejętności" panel. */
+export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+  await openHudTool(page, "Umiejętności");
+  await page
+    .getByRole("article", { name, exact: true })
+    .getByRole("button", { name: /Poznaj/ })
+    .click();
+  await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+}

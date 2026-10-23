@@ -1,5 +1,7 @@
 # PR #15 — przerwana nawigacja z /test
 
+> **Raport historyczny (stan sprzed 22.10.2026).** Liczby HP/KI, nazwy umiejętności i zachowanie dzika z tego raportu opisują grę przed wdrożeniem ras i drzewek. Obowiązujący opis: [GAMEPLAY-RACES-AND-MONSTERS.md](GAMEPLAY-RACES-AND-MONSTERS.md).
+
 Baza: `ae3f8b98ba6724e7c10797b9ec8da555d391c5e0`, PR #15,
 `integration/ki-regressions-20261021`. Bez merge, publikacji i operacji GPU.
 

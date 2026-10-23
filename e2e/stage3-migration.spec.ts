@@ -45,7 +45,7 @@ test("C: a real v1 fixture migrates in the browser without changing the original
     migrant: JSON.parse(localStorage.getItem("ki-legends:adventure:v1:character:legacy") ?? "null"),
   }));
   expect(state.original).toBe(raw);
-  expect(state.migrant.version).toBe(3);
+  expect(state.migrant.version).toBe(4);
   expect(state.migrant.player.race).toBe("planetary");
   expect(state.migrant.player.gold).toBe(177);
   expect(state.migrant.player.quests.steps).toBe("done");

@@ -1,0 +1,202 @@
+{
+  "verdant-mchowy-szlamak": {
+    "intendedKey": "verdant.enemy.mchowy-szlamak",
+    "actor": "enemy-verdant-mchowy-szlamak",
+    "pack": "enemy-verdant-mchowy-szlamak-1.0.0"
+  },
+  "verdant-cierniowy-wilk": {
+    "intendedKey": "verdant.enemy.cierniowy-wilk",
+    "actor": "enemy-verdant-cierniowy-wilk",
+    "pack": "enemy-verdant-cierniowy-wilk-1.0.0"
+  },
+  "verdant-lisciak-skrytobojca": {
+    "intendedKey": "verdant.enemy.lisciak-skrytobojca",
+    "actor": "enemy-verdant-lisciak-skrytobojca",
+    "pack": "enemy-verdant-lisciak-skrytobojca-1.0.0"
+  },
+  "verdant-korzeniowy-pelzacz": {
+    "intendedKey": "verdant.enemy.korzeniowy-pelzacz",
+    "actor": "enemy-verdant-korzeniowy-pelzacz",
+    "pack": "enemy-verdant-korzeniowy-pelzacz-1.0.0"
+  },
+  "verdant-grzybowy-zarodnik": {
+    "intendedKey": "verdant.enemy.grzybowy-zarodnik",
+    "actor": "enemy-verdant-grzybowy-zarodnik",
+    "pack": "enemy-verdant-grzybowy-zarodnik-1.0.0"
+  },
+  "verdant-bursztynowa-osa": {
+    "intendedKey": "verdant.enemy.bursztynowa-osa",
+    "actor": "enemy-verdant-bursztynowa-osa",
+    "pack": "enemy-verdant-bursztynowa-osa-1.0.0"
+  },
+  "verdant-skalny-jelen": {
+    "intendedKey": "verdant.enemy.skalny-jelen",
+    "actor": "enemy-verdant-skalny-jelen",
+    "pack": "enemy-verdant-skalny-jelen-1.0.0"
+  },
+  "verdant-lesny-pajak": {
+    "intendedKey": "verdant.enemy.lesny-pajak",
+    "actor": "enemy-verdant-lesny-pajak",
+    "pack": "enemy-verdant-lesny-pajak-1.0.0"
+  },
+  "verdant-puchacz-pylowy": {
+    "intendedKey": "verdant.enemy.puchacz-pylowy",
+    "actor": "enemy-verdant-puchacz-pylowy",
+    "pack": "enemy-verdant-puchacz-pylowy-1.0.0"
+  },
+  "verdant-straznik-ruin": {
+    "intendedKey": "verdant.enemy.straznik-ruin",
+    "actor": "enemy-verdant-straznik-ruin",
+    "pack": "enemy-verdant-straznik-ruin-1.0.0"
+  },
+  "aether-swietlik-pieczeci": {
+    "intendedKey": "aether.enemy.swietlik-pieczeci",
+    "actor": "enemy-aether-swietlik-pieczeci",
+    "pack": "enemy-aether-swietlik-pieczeci-1.0.0"
+  },
+  "aether-pergaminowy-straznik": {
+    "intendedKey": "aether.enemy.pergaminowy-straznik",
+    "actor": "enemy-aether-pergaminowy-straznik",
+    "pack": "enemy-aether-pergaminowy-straznik-1.0.0"
+  },
+  "aether-krysztalowy-motyl": {
+    "intendedKey": "aether.enemy.krysztalowy-motyl",
+    "actor": "enemy-aether-krysztalowy-motyl",
+    "pack": "enemy-aether-krysztalowy-motyl-1.0.0"
+  },
+  "aether-szmaragdowy-waz": {
+    "intendedKey": "aether.enemy.szmaragdowy-waz",
+    "actor": "enemy-aether-szmaragdowy-waz",
+    "pack": "enemy-aether-szmaragdowy-waz-1.0.0"
+  },
+  "aether-duch-bibliotekarza": {
+    "intendedKey": "aether.enemy.duch-bibliotekarza",
+    "actor": "enemy-aether-duch-bibliotekarza",
+    "pack": "enemy-aether-duch-bibliotekarza-1.0.0"
+  },
+  "aether-zloty-skarabeusz": {
+    "intendedKey": "aether.enemy.zloty-skarabeusz",
+    "actor": "enemy-aether-zloty-skarabeusz",
+    "pack": "enemy-aether-zloty-skarabeusz-1.0.0"
+  },
+  "aether-lew-swiatyni": {
+    "intendedKey": "aether.enemy.lew-swiatyni",
+    "actor": "enemy-aether-lew-swiatyni",
+    "pack": "enemy-aether-lew-swiatyni-1.0.0"
+  },
+  "aether-oko-wiedzy": {
+    "intendedKey": "aether.enemy.oko-wiedzy",
+    "actor": "enemy-aether-oko-wiedzy",
+    "pack": "enemy-aether-oko-wiedzy-1.0.0"
+  },
+  "aether-marionetka-rytualu": {
+    "intendedKey": "aether.enemy.marionetka-rytualu",
+    "actor": "enemy-aether-marionetka-rytualu",
+    "pack": "enemy-aether-marionetka-rytualu-1.0.0"
+  },
+  "aether-mgielny-zuraw": {
+    "intendedKey": "aether.enemy.mgielny-zuraw",
+    "actor": "enemy-aether-mgielny-zuraw",
+    "pack": "enemy-aether-mgielny-zuraw-1.0.0"
+  },
+  "nexus-dron-zwiadowca": {
+    "intendedKey": "nexus.enemy.dron-zwiadowca",
+    "actor": "enemy-nexus-dron-zwiadowca",
+    "pack": "enemy-nexus-dron-zwiadowca-1.0.0"
+  },
+  "nexus-pelzacz-serwisowy": {
+    "intendedKey": "nexus.enemy.pelzacz-serwisowy",
+    "actor": "enemy-nexus-pelzacz-serwisowy",
+    "pack": "enemy-nexus-pelzacz-serwisowy-1.0.0"
+  },
+  "nexus-skaner-gasienicowy": {
+    "intendedKey": "nexus.enemy.skaner-gasienicowy",
+    "actor": "enemy-nexus-skaner-gasienicowy",
+    "pack": "enemy-nexus-skaner-gasienicowy-1.0.0"
+  },
+  "nexus-pajak-spawalniczy": {
+    "intendedKey": "nexus.enemy.pajak-spawalniczy",
+    "actor": "enemy-nexus-pajak-spawalniczy",
+    "pack": "enemy-nexus-pajak-spawalniczy-1.0.0"
+  },
+  "nexus-wiezyczka-autonomiczna": {
+    "intendedKey": "nexus.enemy.wiezyczka-autonomiczna",
+    "actor": "enemy-nexus-wiezyczka-autonomiczna",
+    "pack": "enemy-nexus-wiezyczka-autonomiczna-1.0.0"
+  },
+  "nexus-roj-nanitow": {
+    "intendedKey": "nexus.enemy.roj-nanitow",
+    "actor": "enemy-nexus-roj-nanitow",
+    "pack": "enemy-nexus-roj-nanitow-1.0.0"
+  },
+  "nexus-pies-lowca": {
+    "intendedKey": "nexus.enemy.pies-lowca",
+    "actor": "enemy-nexus-pies-lowca",
+    "pack": "enemy-nexus-pies-lowca-1.0.0"
+  },
+  "nexus-straznik-rdzenia": {
+    "intendedKey": "nexus.enemy.straznik-rdzenia",
+    "actor": "enemy-nexus-straznik-rdzenia",
+    "pack": "enemy-nexus-straznik-rdzenia-1.0.0"
+  },
+  "nexus-latarnia-plazmowa": {
+    "intendedKey": "nexus.enemy.latarnia-plazmowa",
+    "actor": "enemy-nexus-latarnia-plazmowa",
+    "pack": "enemy-nexus-latarnia-plazmowa-1.0.0"
+  },
+  "nexus-kruk-danych": {
+    "intendedKey": "nexus.enemy.kruk-danych",
+    "actor": "enemy-nexus-kruk-danych",
+    "pack": "enemy-nexus-kruk-danych-1.0.0"
+  },
+  "pyra-wegielek": {
+    "intendedKey": "pyra.enemy.wegielek",
+    "actor": "enemy-pyra-wegielek",
+    "pack": "enemy-pyra-wegielek-1.0.0"
+  },
+  "pyra-ognista-salamandra": {
+    "intendedKey": "pyra.enemy.ognista-salamandra",
+    "actor": "enemy-pyra-ognista-salamandra",
+    "pack": "enemy-pyra-ognista-salamandra-1.0.0"
+  },
+  "pyra-popielny-wilk": {
+    "intendedKey": "pyra.enemy.popielny-wilk",
+    "actor": "enemy-pyra-popielny-wilk",
+    "pack": "enemy-pyra-popielny-wilk-1.0.0"
+  },
+  "pyra-skalny-berserker": {
+    "intendedKey": "pyra.enemy.skalny-berserker",
+    "actor": "enemy-pyra-skalny-berserker",
+    "pack": "enemy-pyra-skalny-berserker-1.0.0"
+  },
+  "pyra-magmowy-krab": {
+    "intendedKey": "pyra.enemy.magmowy-krab",
+    "actor": "enemy-pyra-magmowy-krab",
+    "pack": "enemy-pyra-magmowy-krab-1.0.0"
+  },
+  "pyra-zarowy-nietoperz": {
+    "intendedKey": "pyra.enemy.zarowy-nietoperz",
+    "actor": "enemy-pyra-zarowy-nietoperz",
+    "pack": "enemy-pyra-zarowy-nietoperz-1.0.0"
+  },
+  "pyra-golem-ruin": {
+    "intendedKey": "pyra.enemy.golem-ruin",
+    "actor": "enemy-pyra-golem-ruin",
+    "pack": "enemy-pyra-golem-ruin-1.0.0"
+  },
+  "pyra-plomien-duch": {
+    "intendedKey": "pyra.enemy.plomien-duch",
+    "actor": "enemy-pyra-plomien-duch",
+    "pack": "enemy-pyra-plomien-duch-1.0.0"
+  },
+  "pyra-byk-areny": {
+    "intendedKey": "pyra.enemy.byk-areny",
+    "actor": "enemy-pyra-byk-areny",
+    "pack": "enemy-pyra-byk-areny-1.0.0"
+  },
+  "pyra-skorpion-obsydianowy": {
+    "intendedKey": "pyra.enemy.skorpion-obsydianowy",
+    "actor": "enemy-pyra-skorpion-obsydianowy",
+    "pack": "enemy-pyra-skorpion-obsydianowy-1.0.0"
+  }
+}

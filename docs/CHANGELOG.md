@@ -27,3 +27,11 @@ Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji wła
 ## 2026-10-22 (wieczór) — PR #24, NIEOPUBLIKOWANE
 
 - Cztery malowane rasy, tekstury kontynentów i przyroda zainstalowane jako publiczne; otwarte światy Aetherii, Nexus-9 i Pyry (cztery strefy), przycisk „Usuń” w wyborze postaci, podgląd kontynentu z atlasu, geometria planety (80 000 j. między miastami). Szczegóły i plan na jutro: [SESSION-2026-10-22-HANDOFF.md](SESSION-2026-10-22-HANDOFF.md). Brak scalenia i publikacji.
+
+## 2026-10-22 — rasy, drzewka i potwory w rozgrywce (gałąź `ccr-b63f9ce9-bu75ez`, NIEOPUBLIKOWANE)
+
+- Wdrożono aneks właściciela: statystyki ras, 4 drzewka po 29 węzłów, Ładunek Rdzenia i Żar, punkty umiejętności, Tryb KI; szybkość +5% na poziom do 20 (decyzja właściciela); model obrażeń `max(1, Atak × mnożnik − Obrona/2)` bez zaokrąglania (odtwarza tabelę pojedynków aneksu).
+- Dodano silnik 40 potworów z bestiariusza HTML (AI, telegrafy, strefy, statusy, łup/materiały); spawny w regionach puste.
+- Zapis wersji 4 (`skills`, `materials`, `respecs`); v1/v3 wczytują się bez przepisywania.
+- Dodano 40 paczek grafiki potworów (`deliveries/enemy-*`, niezainstalowane), 4 malowanych bohaterów, tekstury kontynentów i zestaw przyrody.
+- Usunięto stare umiejętności Etapu 2 (Cięcie płomienia, Impuls KI, Tarcza ducha); testy jednostkowe i Playwright dostosowano.

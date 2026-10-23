@@ -1,4 +1,4 @@
-import { openHudTool } from "./fixtures";
+import { basicAttack, learnSkill, openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, type RaceId } from "../src/game/world/races";
 import { WORLDS } from "../src/game/world/worlds";
@@ -6,10 +6,38 @@ import { WORLDS } from "../src/game/world/worlds";
 // End-to-end PvE for the three worlds not covered by stage3-pve.spec.ts.
 // All interactions go through the actual game UI or its production movement adapter.
 // No save manipulation, injected kills, fake loot, or bypassed combat.
-const races: { id: RaceId; guide: string; hunter: string; smith: string; merchant: string }[] = [
-  { id: "sage", guide: "Sora", hunter: "Ishin", smith: "Enso", merchant: "Mei" },
-  { id: "android", guide: "LYRA-7", hunter: "AXON", smith: "HEF-4", merchant: "MIRA-2" },
-  { id: "legend", guide: "Kaena", hunter: "Rokan", smith: "Goro", merchant: "Yumi" },
+const races: {
+  id: RaceId;
+  guide: string;
+  hunter: string;
+  smith: string;
+  merchant: string;
+  skill: string;
+}[] = [
+  {
+    id: "sage",
+    guide: "Sora",
+    hunter: "Ishin",
+    smith: "Enso",
+    merchant: "Mei",
+    skill: "Świetlista Bariera",
+  },
+  {
+    id: "android",
+    guide: "LYRA-7",
+    hunter: "AXON",
+    smith: "HEF-4",
+    merchant: "MIRA-2",
+    skill: "Tarcza Plazmowa",
+  },
+  {
+    id: "legend",
+    guide: "Kaena",
+    hunter: "Rokan",
+    smith: "Goro",
+    merchant: "Yumi",
+    skill: "Wybuch Ki",
+  },
 ];
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
@@ -124,10 +152,8 @@ for (const race of races) {
       expect(selected, `Unable to target rendered enemy ${index + 1} in ${world.id}`).toBe(true);
       for (let attempt = 0; attempt < 45; attempt++) {
         if ((await state(page)).kills > index) break;
-        for (const name of ["Atak podstawowy", "Impuls KI", "Cięcie płomienia"]) {
-          const button = page.getByRole("button", { name, exact: true });
-          if (await button.isEnabled()) await button.click();
-        }
+        const button = basicAttack(page);
+        if (await button.isEnabled()) await button.click();
         await page.waitForTimeout(450);
       }
       await expect.poll(async () => (await state(page)).kills, { timeout: 60000 }).toBe(index + 1);
@@ -139,12 +165,14 @@ for (const race of races) {
         path: info.outputPath(world.id + "-combat-" + (index + 1) + ".png"),
       });
     }
+    // The kills bring level 2: learn the first skill of the race through the real tree panel.
+    await learnSkill(page, race.skill);
     const ki = page.getByRole("meter", { name: "Energia KI", exact: true });
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
       .toBeGreaterThan(15);
     const kiBefore = Number(await ki.getAttribute("aria-valuenow"));
-    await page.getByRole("button", { name: "Tarcza ducha", exact: true }).click();
+    await page.getByRole("button", { name: race.skill, exact: true }).click();
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
       .toBeLessThan(kiBefore - 10);

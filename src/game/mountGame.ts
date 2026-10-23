@@ -167,11 +167,7 @@ export function mountKileGends(
         "hero",
         visual,
       );
-      for (const e of session.enemies)
-        this.enemies.set(
-          e.id,
-          this.actor(e, world.enemyName, "enemy", actorVisual(world.id, "enemy")),
-        );
+      this.syncEnemies();
       for (const n of session.npcs) {
         const actor = this.actor(n, n.name, "npc", actorVisual(world.id, "npc", n.id));
         if (actor.visual.tintable) actor.sprite.setTint(n.tint);
@@ -236,12 +232,10 @@ export function mountKileGends(
       this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
         const el = document.activeElement;
         if (el instanceof HTMLElement && el.closest("input,textarea,button,[role=dialog]")) return;
+        const slot = session.kit.abilities().find((a) => a.key !== "" && a.key === event.key);
         const map: Record<string, Command> = {
-          "1": { type: "ability", ability: "flame" },
-          "2": { type: "ability", ability: "pulse" },
-          "3": { type: "ability", ability: "shield" },
-          "4": { type: "ability", ability: "attack" },
-          " ": { type: "ability", ability: "attack" },
+          ...(slot ? { [event.key]: { type: "ability", ability: slot.id } as Command } : {}),
+          " ": { type: "ability", ability: "R" },
           q: { type: "ability", ability: "potion" },
           e: { type: "interact", npc: session.snapshot().nearestNpc },
           Escape: { type: "cancel" },
@@ -360,6 +354,38 @@ export function mountKileGends(
       this.stickBase?.setVisible(false);
       this.stickKnob?.setVisible(false);
     }
+    /** One actor per live enemy; spawned (summons, packs) and removed (despawned) enemies follow the session. */
+    private syncEnemies() {
+      for (const e of session.enemies) {
+        if (this.enemies.has(e.id)) continue;
+        const role = e.kind === "boar" ? undefined : e.kind.replace(world.id + "-", "");
+        this.enemies.set(
+          e.id,
+          this.actor(e, e.m.def.name, "enemy", actorVisual(world.id, "enemy", role)),
+        );
+      }
+      for (const [id, actor] of this.enemies)
+        if (!session.enemies.some((e) => e.id === id)) {
+          actor.body.destroy();
+          actor.name.destroy();
+          actor.bar.destroy();
+          actor.track.destroy();
+          this.actors = this.actors.filter((a) => a !== actor);
+          this.enemies.delete(id);
+        }
+    }
+    private ring(p: Point, radius: number, color: number, ms: number, fill = 0.12) {
+      const disc = this.add
+        .ellipse(p.x, p.y, radius * 2, radius * 1.1, color, fill)
+        .setStrokeStyle(3, color, 0.8)
+        .setDepth(renderDepth("combat", p.y - 1));
+      this.tweens.add({
+        targets: disc,
+        alpha: 0.2,
+        duration: Math.max(60, ms),
+        onComplete: () => disc.destroy(),
+      });
+    }
     private actor(p: Point, label: string, kind: Actor["kind"], config: ActorVisual): Actor {
       const boar = kind === "enemy";
       const shadow = this.add.ellipse(0, 3, boar ? 50 : 31, 11, 0x102c3a, 0.3);
@@ -448,6 +474,37 @@ export function mountKileGends(
       return true;
     }
     private effect(event: GameEvent) {
+      if (event.type === "telegraph") {
+        if (event.radius) this.ring(event, event.radius, 0xff5a4a, event.ms ?? 300, 0.18);
+        return;
+      }
+      if (event.type === "zone") {
+        const color =
+          {
+            fire: 0xff7a2a,
+            lava: 0xff4a1a,
+            poison: 0x8bd14a,
+            web: 0xe8e8e8,
+            metal: 0xffb347,
+            sand: 0xd8b86a,
+            ash: 0x9a9a9a,
+          }[event.kind ?? "fire"] ?? 0xff7a2a;
+        this.ring(event, event.radius ?? 60, color, event.ms ?? 1000, 0.22);
+        return;
+      }
+      if (event.type === "circle") {
+        this.ring(event, event.radius ?? 100, 0xfff0a0, event.ms ?? 3000, 0.16);
+        return;
+      }
+      if (event.type === "burst") {
+        this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
+        return;
+      }
+      if (event.type === "status" || event.type === "buff" || event.type === "channel") {
+        if (event.text)
+          this.float(event, event.text, event.target === "player" ? "#ffa1a1" : "#c9f0ff");
+        return;
+      }
       if (event.type === "attack" && event.source) {
         const source = this.enemies.get(event.source);
         if (source) {
@@ -501,7 +558,7 @@ export function mountKileGends(
       }
       if (event.type === "attack") {
         this.hero.animation.trigger(
-          event.ability === "attack" ? "attack" : "skill",
+          event.ability === "R" ? "attack" : "skill",
           this.animationTime,
           session.facing,
         );
@@ -509,7 +566,7 @@ export function mountKileGends(
           sprite = this.hero.sprite;
         this.tweens.killTweensOf(sprite);
         sprite.setPosition(0, 0).setAngle(0);
-        if (!this.hero.visual.clips[event.ability === "attack" ? "attack" : "skill"])
+        if (!this.hero.visual.clips[event.ability === "R" ? "attack" : "skill"])
           this.tweens.add({
             targets: sprite,
             x: dir.x * 13,
@@ -520,13 +577,13 @@ export function mountKileGends(
           });
         if (
           this.texturedEffect(
-            event.ability ?? "attack",
+            event.ability === "R" || !event.ability ? "attack" : event.ability,
             event,
-            event.ability === "pulse" ? event.to : undefined,
+            event.to && distance(event, event.to) > 110 ? event.to : undefined,
           )
         )
           return;
-        if (event.ability === "pulse" && event.to) {
+        if (event.to && distance(event, event.to) > 110) {
           const orb = this.add
             .circle(event.x, event.y - 35, 13, 0xb2ffff, 0.9)
             .setStrokeStyle(5, 0x5dd2f1, 0.5)
@@ -542,8 +599,8 @@ export function mountKileGends(
           const slash = this.add.graphics().setDepth(renderDepth("combat")),
             angle = Math.atan2(dir.y, dir.x);
           slash.lineStyle(
-            event.ability === "flame" ? 10 : 5,
-            event.ability === "flame" ? 0xffa45e : 0xf1ffe0,
+            event.ability && event.ability !== "R" ? 10 : 5,
+            event.ability && event.ability !== "R" ? 0xffa45e : 0xf1ffe0,
             0.9,
           );
           slash.beginPath();
@@ -630,8 +687,10 @@ export function mountKileGends(
         session.facing,
         session.paused || !!session.dialogue,
       );
+      this.syncEnemies();
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
+        a.body.setVisible(!e.m.hidden);
         const vx = e.x - a.body.x,
           vy = e.y - a.body.y;
         if (Math.hypot(vx, vy) > 0.01) {
@@ -647,7 +706,8 @@ export function mountKileGends(
         );
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
-        const engaged = e.hp > 0 && (e.mode === "chase" || session.targetId === e.id);
+        const engaged =
+          e.hp > 0 && !e.m.hidden && (e.mode === "chase" || session.targetId === e.id);
         a.track.setVisible(engaged);
         a.bar.setVisible(engaged);
         if (e.hp > 0 && !a.visual.clips.attack)
@@ -678,7 +738,7 @@ export function mountKileGends(
       if (!labelledEnemy) {
         let nearest = 200;
         for (const enemy of session.enemies)
-          if (enemy.hp > 0 && enemy.mode === "chase") {
+          if (enemy.hp > 0 && !enemy.m.hidden && enemy.mode === "chase") {
             const d = distance(session.player, enemy);
             if (d < nearest) {
               nearest = d;
@@ -715,7 +775,7 @@ export function mountKileGends(
           .setPosition(session.target.x, session.target.y + 7)
           .setDepth(session.target.y - 1);
       this.shield
-        .setVisible(session.player.shield > 0)
+        .setVisible(session.kit.shieldPoints > 0)
         .setPosition(session.player.x, session.player.y - 40)
         .setDepth(renderDepth("combat", session.player.y + 1));
       for (const l of session.loot)

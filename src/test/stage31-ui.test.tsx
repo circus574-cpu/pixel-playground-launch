@@ -132,7 +132,7 @@ it("announces the same fractional HP/KI values that the player can read", () => 
   const health = screen.getByRole("meter", { name: "Zdrowie" }),
     ki = screen.getByRole("meter", { name: "Energia KI" });
   expect(health).toHaveAttribute("aria-valuenow", "40");
-  expect(health).toHaveTextContent("40 / 120");
+  expect(health).toHaveTextContent("40 / 125");
   expect(ki).toHaveAttribute("aria-valuenow", "13");
   expect(ki).toHaveTextContent("13 / 50");
 });

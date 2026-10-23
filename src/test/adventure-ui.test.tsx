@@ -82,7 +82,7 @@ describe("HUD and actual rules integration", () => {
     session.player.items.sword = 1;
     const ui = mountSession(session);
     fireEvent.click(screen.getByRole("button", { name: "Mikstura życia" }));
-    expect(session.player.hp).toBe(85);
+    expect(session.player.hp).toBe(70);
     expect(session.player.items.potion).toBe(2);
     expect(screen.getByRole("button", { name: "Mikstura życia" })).toBeDisabled();
     fireEvent.click(screen.getByRole("button", { name: "Ekwipunek" }));

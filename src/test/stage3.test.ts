@@ -56,9 +56,7 @@ describe.each(RACE_IDS)("%s playable region", (race) => {
       g.command({ type: "target", id: e.id });
       for (let i = 0; i < 1800 && e.hp > 0; i++) {
         g.tick(50);
-        if (distance(g.player, e) < 100 && g.player.ki >= 12 && !g.player.cooldowns.flame)
-          g.command({ type: "ability", ability: "flame" });
-        if (g.player.hp < 50 && !g.player.cooldowns.potion)
+        if (g.player.hp < 50 && g.snapshot().potion.remaining === 0 && g.player.items.potion)
           g.command({ type: "ability", ability: "potion" });
       }
       expect(e.hp, g.notice).toBe(0);

@@ -1,4 +1,4 @@
-import { openHudTool } from "./fixtures";
+import { basicAttack, maxHp, openHudTool } from "./fixtures";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
@@ -56,7 +56,7 @@ for (const [width, height] of [
         .poll(async () => Number(await canvas.getAttribute("data-npc-labels")))
         .toBeLessThanOrEqual(1);
       await page.screenshot({ path: evidence() + "/clean-" + width + ".png" });
-      await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
+      await basicAttack(page).click();
       const message = page.getByRole("status", { name: "Komunikat gry", exact: true });
       await expect(message).toBeVisible();
       const box = (await message.boundingBox())!;
@@ -96,7 +96,7 @@ for (const [width, height] of [
       ).toBe("CANVAS");
       await page.screenshot({ path: evidence() + "/message-" + width + ".png" });
       await expect(message).toHaveCount(0, { timeout: 6500 });
-      await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
+      await basicAttack(page).click();
       await expect(message).toBeVisible();
       await page.getByRole("button", { name: "Zamknij komunikat", exact: true }).click();
       await page.waitForTimeout(300);
@@ -140,10 +140,10 @@ for (const [width, height] of [
         ),
       ).toBe(false);
       if (compact) await menuToggle.click();
-      await page.getByRole("button", { name: "Atak podstawowy", exact: true }).click();
+      await basicAttack(page).click();
       await expect(message).toHaveCount(0);
       await openHudTool(page, "Czat lokalny");
-      await expect(page.getByRole("log")).toContainText("Wybierz dzika");
+      await expect(page.getByRole("log")).toContainText("Wybierz cel");
       await page.getByRole("tab", { name: "Ogólny", exact: true }).click();
       await page
         .getByRole("textbox", { name: "Wiadomość lokalna", exact: true })
@@ -210,6 +210,7 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
   await start(page, "Planetarni");
+  const max = await maxHp(page);
   const canvas = page.locator(".ki-canvas");
   await canvas.evaluate((el) =>
     el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", x: 2050, y: 1030 } })),
@@ -223,7 +224,7 @@ test("death message ends on real respawn and subsequent movement works", async (
     .toBeCloseTo(1495, 0);
   await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
     "aria-valuenow",
-    "120",
+    max,
   );
   await page.evaluate(() => {
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();

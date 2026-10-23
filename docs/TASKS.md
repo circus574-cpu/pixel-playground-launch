@@ -1,6 +1,6 @@
 # KI Legends — aktywny rejestr zadań i usterek
 
-Aktualizacja: 2026-10-21. Po każdej zmianie sprawdzić aktualne commity oraz CI i poprawić [STATUS.md](STATUS.md); nie zamykać zgłoszeń deklaracją wykonawcy.
+Aktualizacja: 2026-10-22. Po każdej zmianie sprawdzić aktualne commity oraz CI i poprawić [STATUS.md](STATUS.md); nie zamykać zgłoszeń deklaracją wykonawcy.
 
 | ID         | Priorytet | Zadanie                                                                                                                                        | Warunek zamknięcia                                                                                                            |
 | ---------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -12,6 +12,13 @@ Aktualizacja: 2026-10-21. Po każdej zmianie sprawdzić aktualne commity oraz CI
 | DOC-02     | ŚREDNI    | Przejrzeć PR #13, ustalić bezsprzeczny kanon architektury i multimedia.                                                                        | Audyt plików, brak kolizji decyzji, zatwierdzony PR.                                                                          |
 | REL-01     | WYSOKI    | Skontrolować prawa do referencji/assetów i zgodność wdrożonej wersji.                                                                          | Przegląd licencji i zgodność wersji produkcyjnej z zatwierdzonym commitem.                                                    |
 | REL-02     | WYSOKI    | Uzyskać osobne decyzje właściciela o scaleniu i publikacji.                                                                                    | Dowód jawnych zezwoleń.                                                                                                       |
+| GAME-01    | WYSOKI    | Zatwierdzić założenia balansu spoza aneksu (krytyk ×1,5, mikstura 40%, reset drzewka 50 × poziom, regeneracja 0,3%/s, dzień 8 min).            | Decyzja właściciela wpisana w [DECISIONS.md](DECISIONS.md).                                                                   |
+| GAME-02    | WYSOKI    | Rozstrzygnąć dwie listy przeciwników: bestiariusz HTML (40, wdrożony) vs aneks poz. 1–20 (20, niewdrożony) oraz 8 bossów.                      | Jedna lista kanoniczna, plan bossów.                                                                                          |
+| GAME-03    | WYSOKI    | Dodać spawny potworów w regionach po ukończeniu kontynentów (`monsters` w definicji regionu).                                                  | Spawny, limity aktywnych, test wydajności na Androidzie.                                                                      |
+| GAME-04    | ŚREDNI    | Zainstalować paczki `deliveries/enemy-*` (po decyzji o ocenie wizualnej) i dołączyć grafiki zdolności/aur Trybu KI.                            | `assets:import --install`, test wizualny.                                                                                     |
+| GAME-05    | ŚREDNI    | Odbiór mobilny UI drzewka, pasków zasobów i statusów oraz balans walki na całym zakresie poziomów.                                             | Test na fizycznym urządzeniu, ocena właściciela.                                                                              |
+| GAME-06    | ŚREDNI    | Rozstrzygnąć nazwy krain (Terranova/Eldoria/Nexaris/Valthera w aneksie vs Verdantia/Aetheria/Nexus-9/Pyra w grze).                             | Decyzja właściciela; bez zmiany zapisów graczy.                                                                               |
+| OPS-01     | ŚREDNI    | Odchudzić network volume do niezbędnego minimum (4 archiwa w `environment-20261022`, 2,3 GB, są odtwarzalne).                                  | Po starcie poda przez właściciela, za jego zgodą per pozycja.                                                                 |
 
 Nie działać na instancjach GPU w zakresie start/stop/restart/terminate bez decyzji właściciela. Nie zmieniać produkcji.
 

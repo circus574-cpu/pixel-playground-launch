@@ -17,8 +17,8 @@ import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
 import "./game-hud.css";
 import "./anime-hud.css";
-import { ABILITIES, xpNeeded, type Ability, type Command } from "../../game/session";
-import { Inventory, QuestJournal, NpcDialogue } from "./AdventurePanels";
+import { POTION, xpNeeded, type Command } from "../../game/session";
+import { Inventory, QuestJournal, NpcDialogue, SkillTree } from "./AdventurePanels";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
@@ -36,7 +36,7 @@ type Props = {
   onWorldLabels?: (visible: boolean) => void;
   systemNotice?: MessageEvent;
 };
-type Panel = "inventory" | "journal" | "settings" | "map" | "planet" | null;
+type Panel = "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
 /** Planet atlas (2D map + 3D globe) loads only when opened from the world map. */
 const PlanetAtlas = lazy(() =>
   import("../planet-map/MapaView").then((m) => ({ default: m.MapaView })),
@@ -50,8 +50,28 @@ const iconNames = [
   "Ekwipunek",
   "Dziennik",
   "Ustawienia",
-  "Walka",
+  "Umiejętności",
 ];
+const POTION_COOLDOWN = POTION.cooldown;
+const STATUS_NAMES: Record<string, string> = {
+  slow: "Spowolnienie",
+  root: "Unieruchomienie",
+  stun: "Ogłuszenie",
+  fear: "Strach",
+  silence: "Uciszenie",
+  blind: "Oślepienie",
+  fog: "Mgła",
+  jam: "Zakłócenia",
+  mark: "Znak",
+  armor: "Obrona w dół",
+  weaken: "Osłabienie",
+  poison: "Trucizna",
+  burn: "Podpalenie",
+  bleed: "Krwawienie",
+};
+/** Icon of an ability on the 3×3 UI atlas, by node branch. */
+const abilityIcon = (id: string) =>
+  id === "R" ? 8 : id === "T" ? 0 : id.startsWith("A") ? 2 : id.startsWith("B") ? 3 : 1;
 function Icon({ index, className = "" }: { index: number; className?: string }) {
   const style: CSSProperties = {
     backgroundPosition: `${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%`,
@@ -227,15 +247,58 @@ export function GameHud({
           >
             <i style={{ width: (player.xp / xpNeeded(player.level)) * 100 + "%" }} />
           </div>
+          {state.resource && (
+            <div
+              className="ki-resource"
+              role="meter"
+              aria-label={state.resource.label}
+              aria-valuenow={state.resource.value}
+              aria-valuemin={0}
+              aria-valuemax={state.resource.max}
+              data-state={state.resource.state}
+              data-kind={state.resource.label}
+            >
+              <i style={{ width: (state.resource.value / state.resource.max) * 100 + "%" }} />
+              <span>
+                {state.resource.label} {state.resource.value}
+                {state.resource.state === "overheat" ? " · PRZEGRZANIE" : ""}
+              </span>
+            </div>
+          )}
+          {(state.statuses.length > 0 || state.buffs.length > 0 || state.shieldPoints > 0) && (
+            <div className="ki-status-strip" aria-label="Efekty">
+              {state.shieldPoints > 0 && (
+                <span className="ki-status-chip is-buff">Tarcza {state.shieldPoints}</span>
+              )}
+              {state.buffs
+                .filter((b) => !b.id.startsWith("fx-") && b.id !== "dodge")
+                .map((b) => (
+                  <span key={b.id} className="ki-status-chip is-buff">
+                    {b.id} · {(b.ms / 1000).toFixed(0)} s
+                  </span>
+                ))}
+              {state.statuses.map((s) => (
+                <span key={s.id + (s.stacks ?? "")} className="ki-status-chip">
+                  {STATUS_NAMES[s.id] ?? s.id}
+                  {s.stacks && s.stacks > 1 ? " ×" + s.stacks : ""} · {(s.ms / 1000).toFixed(0)} s
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
+      {state.fog > 0 && (
+        <div className="ki-fog" aria-hidden="true" style={{ opacity: Math.min(0.9, state.fog) }} />
+      )}
       <div className="ki-status-stack">
         {state.target && (
           <section className="ki-target ki-frame" aria-label="Wybrany przeciwnik">
             <span>
               {state.target.inRange ? "BESTIA · ATAK W ZASIĘGU" : "BESTIA · PODEJDŹ BLIŻEJ"}
             </span>
-            <strong>{state.target.name}</strong>
+            <strong>
+              {state.target.name} · poz. {state.target.level}
+            </strong>
             <div className="ki-meter ki-hp">
               <i style={{ width: `${(state.target.hp / state.target.maxHp) * 100}%` }} />
               <span>
@@ -264,6 +327,7 @@ export function GameHud({
           onClick={() => toggle("map")}
         >
           <img src={world.minimap} alt={"Mapa: " + world.settlement} />
+          {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
           {world.landmarks.map((l) => (
             <span
               key={l.label}
@@ -385,40 +449,68 @@ export function GameHud({
       </section>
       <nav className="ki-actionbar ki-frame" aria-label="Umiejętności">
         <div className="ki-action-crest">KI</div>
-        {(["flame", "pulse", "shield", "attack", "potion"] as Ability[]).map((id) => {
-          const spec = ABILITIES[id];
-          const remaining =
-            player.cooldowns[id] > 0 ? (player.cooldowns[id] / 1000).toFixed(1) : "";
-          const disabled =
+        {state.abilities.map((a) => {
+          const blocked =
             !state.ready ||
             player.dead ||
             Boolean(state.dialogue) ||
             panel !== null ||
-            player.cooldowns[id] > 0 ||
-            player.ki < spec.cost ||
-            (id === "potion" && (!player.items.potion || player.hp >= state.stats.maxHp));
+            state.locked ||
+            a.remaining > 0 ||
+            (a.id !== "R" && player.ki < a.ki) ||
+            (a.id !== "R" && state.statuses.some((s) => s.id === "silence")) ||
+            state.statuses.some((s) => s.id === "stun" || s.id === "fear");
+          const remaining = a.remaining > 0 && a.id !== "R" ? (a.remaining / 1000).toFixed(1) : "";
           return (
             <button
               className="ki-skill"
-              key={id}
+              data-ability={a.id}
+              key={a.id}
               title={
-                spec.name + " · " + spec.cost + " KI · " + spec.cooldown / 1000 + " s odnowienia"
+                a.name +
+                (a.id === "R" ? "" : " · " + a.ki + " KI · " + a.cd / 1000 + " s odnowienia")
               }
-              aria-label={spec.name}
-              disabled={disabled}
+              aria-label={a.name}
+              disabled={blocked}
               onClick={(event) => {
-                onCommand({ type: "ability", ability: id });
+                onCommand({ type: "ability", ability: a.id });
                 event.currentTarget.blur();
               }}
             >
-              <Icon index={spec.icon} />
-              <kbd>{spec.key}</kbd>
+              <Icon index={abilityIcon(a.id)} />
+              <kbd>{a.id === "R" ? "␣" : a.key}</kbd>
               {remaining && <span className="ki-cooldown">{remaining}</span>}
-              {id === "potion" && <span className="ki-item-count">{player.items.potion}</span>}
-              {id === "attack" && state.autoAttack && <span className="ki-auto">AUTO</span>}
+              {a.id === "R" && state.autoAttack && <span className="ki-auto">AUTO</span>}
             </button>
           );
         })}
+        <button
+          className="ki-skill"
+          data-ability="potion"
+          key="potion"
+          title={"Mikstura życia · " + POTION_COOLDOWN / 1000 + " s odnowienia"}
+          aria-label="Mikstura życia"
+          disabled={
+            !state.ready ||
+            player.dead ||
+            Boolean(state.dialogue) ||
+            panel !== null ||
+            state.potion.remaining > 0 ||
+            !player.items.potion ||
+            player.hp >= state.stats.maxHp
+          }
+          onClick={(event) => {
+            onCommand({ type: "ability", ability: "potion" });
+            event.currentTarget.blur();
+          }}
+        >
+          <Icon index={4} />
+          <kbd>Q</kbd>
+          {state.potion.remaining > 0 && (
+            <span className="ki-cooldown">{(state.potion.remaining / 1000).toFixed(1)}</span>
+          )}
+          <span className="ki-item-count">{player.items.potion}</span>
+        </button>
         <div className="ki-bar-decoration">◆</div>
       </nav>
       <button
@@ -473,6 +565,7 @@ export function GameHud({
             [
               { p: "inventory", n: 5 },
               { p: "journal", n: 6 },
+              { p: "skills", n: 8 },
               { p: "settings", n: 7 },
             ] as const
           ).map(({ p, n }) => (
@@ -482,8 +575,14 @@ export function GameHud({
               title={iconNames[n]}
               aria-label={iconNames[n]}
               onClick={() => toggle(p)}
+              style={{ position: "relative" }}
             >
               <Icon index={n} />
+              {p === "skills" && state.skillPoints > 0 && (
+                <span className="ki-badge" aria-label={state.skillPoints + " punktów umiejętności"}>
+                  {state.skillPoints}
+                </span>
+              )}
             </button>
           ))}
           <button
@@ -573,6 +672,7 @@ export function GameHud({
               {
                 inventory: "Ekwipunek",
                 journal: "Dziennik",
+                skills: "Umiejętności",
                 settings: "Ustawienia",
                 map: "Mapa regionu",
               }[panel as Exclude<Panel, "planet" | null>]
@@ -588,6 +688,7 @@ export function GameHud({
                   {
                     inventory: "Ekwipunek",
                     journal: "Dziennik podróży",
+                    skills: "Drzewko umiejętności · " + RACES[player.race].name,
                     settings: "Ustawienia",
                     map: world.settlement,
                   }[panel as Exclude<Panel, "planet" | null>]
@@ -602,6 +703,7 @@ export function GameHud({
             {panel === "journal" && (
               <QuestJournal state={state} send={onCommand} close={closeAndResume} />
             )}
+            {panel === "skills" && <SkillTree state={state} send={onCommand} />}
             {panel === "settings" && (
               <div className="ki-settings">
                 {TEST_RACE_SWITCH_ENABLED && onRaceChange && (
@@ -674,9 +776,10 @@ export function GameHud({
                     Na telefonie przeciągnij palcem po wolnym obszarze w lewym dolnym rogu.
                   </p>
                   <p>
-                    WASD / strzałki — ruch · E — rozmowa · 1–4 — umiejętności · Q — mikstura · F —
-                    łup · Escape — zamknij okno lub anuluj działanie. Cele i wskazówki znajdziesz w
-                    Dzienniku. Ostatnie zdarzenia są w czacie System.
+                    WASD / strzałki — ruch · E — rozmowa · 1–9, 0 — umiejętności z drzewka · spacja
+                    — atak podstawowy · Q — mikstura · F — łup · Escape — zamknij okno lub anuluj
+                    działanie. Cele i wskazówki znajdziesz w Dzienniku. Ostatnie zdarzenia są w
+                    czacie System.
                   </p>
                 </details>
               </div>

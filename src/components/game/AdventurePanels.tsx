@@ -3,11 +3,13 @@ import { WORLDS } from "../../game/world/worlds";
 import {
   ITEMS,
   ITEM_IDS,
+  MATERIALS,
   xpNeeded,
   type Command,
   type GameViewState,
   type ItemId,
 } from "../../game/session";
+import { BRANCH_NAMES, KIT_NODES, canLearn } from "../../game/kit";
 export type SendCommand = (command: Command) => void;
 export function ItemIcon({ item }: { item: ItemId }) {
   const n = ITEMS[item].icon;
@@ -69,7 +71,7 @@ export function Inventory({ state, send }: { state: GameViewState; send: SendCom
               <button
                 disabled={
                   equipped ||
-                  (id === "potion" && (p.hp >= state.stats.maxHp || p.cooldowns.potion > 0))
+                  (id === "potion" && (p.hp >= state.stats.maxHp || state.potion.remaining > 0))
                 }
                 onClick={() => send({ type: "equip", item: id })}
               >
@@ -85,6 +87,25 @@ export function Inventory({ state, send }: { state: GameViewState; send: SendCom
           );
         })}
       </div>
+      {Object.keys(p.materials).length > 0 && (
+        <div className="ki-item-list" aria-label="Materiały z łupów">
+          {Object.entries(p.materials).map(([id, n]) => (
+            <article key={id} className="ki-item-row">
+              <span
+                aria-hidden="true"
+                className="ki-icon ki-item-icon"
+                style={{ backgroundPosition: "100% 50%" }}
+              />
+              <div>
+                <strong>
+                  {MATERIALS[id]?.name ?? id} ×{n}
+                </strong>
+                <small>Materiał · sprzedaż za {MATERIALS[id]?.sell ?? 0} monet</small>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
       <p className="ki-panel-caption">
         Przedmioty układają się w stosy do 99. Wyposażenie pozostaje w plecaku. Zapis lokalny na tym
         urządzeniu.
@@ -184,7 +205,7 @@ export function NpcDialogue({
         world.market.instruction +
         ". Szukaj złotego znacznika ◆ Rynek albo użyj przycisku Podejdź do rynku. Potem wróć do mnie po nagrodę.",
       hunter:
-        "Dziki krążą przy wschodniej drodze i na zachód od rynku. Przyjmij zadanie, pokonaj trzy i wróć. Kliknięcie dzika uruchamia podejście i autoatak. Skróty 1–4 i Q odpowiadają przyciskom na dole.",
+        "Dziki krążą przy wschodniej drodze i na zachód od rynku. Przyjmij zadanie, pokonaj trzy i wróć. Kliknięcie dzika uruchamia podejście i autoatak. Skróty 1–9, 0 i Q odpowiadają przyciskom na dole; spacja to atak podstawowy.",
       merchant:
         "U mnie kupisz mikstury i pancerz. Płacę za kły dzików. Monety i przedmioty pozostaną na tym urządzeniu po odświeżeniu.",
       smith:
@@ -272,6 +293,24 @@ export function NpcDialogue({
                   </div>
                 </article>
               ))}
+              {Object.entries(p.materials).map(([id, n]) => (
+                <article key={id} className="ki-item-row">
+                  <span
+                    aria-hidden="true"
+                    className="ki-icon ki-item-icon"
+                    style={{ backgroundPosition: "100% 50%" }}
+                  />
+                  <div>
+                    <strong>{MATERIALS[id]?.name ?? id}</strong>
+                    <small>Masz: {n}</small>
+                  </div>
+                  <div className="ki-trade-actions">
+                    <button onClick={() => send({ type: "trade", item: id, buy: false })}>
+                      Sprzedaj · {MATERIALS[id]?.sell ?? 0}
+                    </button>
+                  </div>
+                </article>
+              ))}
             </>
           )}
           {npc.id === "smith" && (
@@ -288,6 +327,90 @@ export function NpcDialogue({
           <button onClick={() => send({ type: "dialogue", action: "close" })}>Do zobaczenia</button>
         </div>
       </section>
+    </div>
+  );
+}
+
+const TYPE_LABEL: Record<string, string> = {
+  starting: "Zdolność startowa",
+  active: "Aktywna",
+  passive: "Pasywna",
+  choice: "Wybór",
+  ultimate: "Ostateczna",
+  "ki-mode": "Tryb KI",
+};
+/** Skill tree of the player's race (owner annex 22.10.2026): 29 nodes, 3 branches, one point per level up to 20. */
+export function SkillTree({ state, send }: { state: GameViewState; send: SendCommand }) {
+  const p = state.player;
+  const nodes = KIT_NODES[p.race];
+  const names = BRANCH_NAMES[p.race];
+  const learned = new Set(p.skills);
+  const row = (id: string) => nodes.find((n) => n.id === id)!;
+  const branch = (b: "A" | "B" | "C") => nodes.filter((n) => n.id.startsWith(b));
+  const node = (id: string) => {
+    const n = row(id);
+    const have = learned.has(id);
+    const check = canLearn(p.race, p.level, p.skills, id);
+    const blocked = !have && n.excludes && learned.has(n.excludes);
+    return (
+      <article
+        key={id}
+        className={"ki-skill-node" + (have ? " is-learned" : "") + (blocked ? " is-blocked" : "")}
+        aria-label={n.name}
+      >
+        <header>
+          <strong>
+            {id} · {n.name}
+          </strong>
+          <small>
+            {TYPE_LABEL[n.type]} · poz. {n.minLevel}
+          </small>
+        </header>
+        <p>{n.text}</p>
+        {have ? (
+          <span className="ki-skill-state">Poznane</span>
+        ) : (
+          <button
+            disabled={!check.ok}
+            title={check.ok ? "Poznaj za 1 punkt" : check.reason}
+            onClick={() => send({ type: "learn", node: id })}
+          >
+            {check.ok ? "Poznaj · 1 pkt" : check.reason}
+          </button>
+        )}
+      </article>
+    );
+  };
+  return (
+    <div className="ki-adventure-panel ki-skilltree">
+      <p>
+        <strong>Punkty umiejętności: {state.skillPoints}</strong> · poziom {p.level} (1 punkt na
+        poziom do 20.) · wykorzystane {p.skills.length}
+      </p>
+      <div className="ki-skill-root">{node("R")}</div>
+      {(["A", "B", "C"] as const).map((b) => (
+        <section key={b} className="ki-skill-branch" aria-label={"Gałąź " + b + ": " + names[b]}>
+          <h3>
+            {b} · {names[b]}
+          </h3>
+          {branch(b).map((n) => node(n.id))}
+        </section>
+      ))}
+      <section className="ki-skill-branch" aria-label="Tryb KI">
+        <h3>Tryb KI</h3>
+        {node("T")}
+      </section>
+      <button
+        onClick={() => send({ type: "respec" })}
+        disabled={p.skills.length <= 1 || p.gold < state.respecCost}
+      >
+        Resetuj drzewko ·{" "}
+        {state.respecCost === 0 ? "pierwszy raz za darmo" : state.respecCost + " monet"}
+      </button>
+      <p className="ki-panel-caption">
+        Wymagany poprzednik, poziom i brak wykluczającego wyboru. Efekty i koszty Ki to wartości z
+        aneksu projektowego do testów i balansu.
+      </p>
     </div>
   );
 }

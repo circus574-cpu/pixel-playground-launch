@@ -208,6 +208,9 @@ export function worldAssets(
   }
   for (const clip of Object.values(actorVisual(worldId, "enemy", undefined, false, source).clips))
     used.add(clip.asset);
+  for (const [key, id] of Object.entries(source.actorBindings))
+    if (key.startsWith(worldId + ".enemy."))
+      for (const clip of Object.values(source.actors.get(id)?.clips ?? {})) used.add(clip.asset);
   for (const ref of worldRenderRefs(worldId, source)) add(ref);
   for (const [key, effect] of Object.entries(source.effects))
     if (!key.includes(".") || key.startsWith(worldId + ".")) used.add(effect.asset);
