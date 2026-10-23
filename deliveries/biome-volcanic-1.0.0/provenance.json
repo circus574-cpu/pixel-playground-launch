@@ -1,0 +1,67 @@
+{
+  "pack": "biome-volcanic",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "an-obsidian-shard-formation",
+      "source": "obj-an-obsidian-shard-formation-s7510101.png",
+      "sha256": "e83fd3ee8856aaa34627a39c32bce1b08db76988d419b7ba519096f834973eec"
+    },
+    {
+      "part": "basalt-column-cluster",
+      "source": "obj-basalt-column-cluster-s7510101.png",
+      "sha256": "6d73745d72155b2f834624ca2c1264677a2d8ff740898d5f4d09f3d40f41cab8"
+    },
+    {
+      "part": "bone-pile",
+      "source": "obj-bone-pile-s7510101.png",
+      "sha256": "893a444fbaa96f83d94ac607a935c8379f20479c6e892a0a7fbde305162ab595"
+    },
+    {
+      "part": "dark-rock-bridge",
+      "source": "obj-dark-rock-bridge-s7510101.png",
+      "sha256": "f2a2ec5effc713ed231b5bba5699fec4ea44585227468b81463780471009d027"
+    },
+    {
+      "part": "dead-charred-tree",
+      "source": "obj-dead-charred-tree-s7510101.png",
+      "sha256": "d1d67a93223235774ac062307adf075e40e7a817347350d9c874ccedb9c5019a"
+    },
+    {
+      "part": "lava-geyser-vent",
+      "source": "obj-lava-geyser-vent-s7510101.png",
+      "sha256": "874e7dde8fb1810386d84d2aaacb7485bea4efc2747e032459ad8afb00bc2395"
+    },
+    {
+      "part": "lava-rock-cluster-with-glowing-cracks",
+      "source": "obj-lava-rock-cluster-with-glowing-cracks-s7510101.png",
+      "sha256": "8d1b48214e13cfd7b8b202ebda095ae0afb48226ec6f36df9d4e8b56ca52b4ff"
+    },
+    {
+      "part": "magma-pool-rim",
+      "source": "obj-magma-pool-rim-s7510101.png",
+      "sha256": "eab243e24bcbbc300355b6461067b3075cff6b58d247eff0cd0d8173f4cf0fe0"
+    },
+    {
+      "part": "ruined-dark-stone-pillar",
+      "source": "obj-ruined-dark-stone-pillar-s7510101.png",
+      "sha256": "f4f93eeda7af54fd65600ba6b4c9fbae9a37fdc3eb8c967431725c8458cc9e56"
+    },
+    {
+      "part": "smoking-volcano",
+      "source": "obj-smoking-volcano-s7510101.png",
+      "sha256": "ef5b95ae9fb4ddeae014cdf04dde272cf53816374cfe5bb7b80d5668be28279e"
+    },
+    {
+      "part": "stone-brazier-with-fire",
+      "source": "obj-stone-brazier-with-fire-s7510101.png",
+      "sha256": "7314dd2e175a889626aa6201ea9374880e0a89dcbd8c820a86a26b2a7e76940e"
+    },
+    {
+      "part": "sulfur-vent-with-yellow-crust",
+      "source": "obj-sulfur-vent-with-yellow-crust-s7510101.png",
+      "sha256": "1ce9d2c74b86cad85b739bd48f99f19ccc18de0b8848e66d0b8bc60014413090"
+    }
+  ]
+}

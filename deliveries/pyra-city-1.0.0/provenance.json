@@ -1,0 +1,97 @@
+{
+  "pack": "pyra-city",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "arena-dojo",
+      "source": "obj-arena-dojo-s7480101.png",
+      "sha256": "c6a5a1154570c24d3f03e15a02b1d2aad3ec0a6734d14a85eac56f325ef815a8"
+    },
+    {
+      "part": "banner-pole",
+      "source": "obj-banner-pole-s7480101.png",
+      "sha256": "4c11fb42bdc6cc13c8887d99bd53cc810cc46b996740b7a0e4a3d27092da45f9"
+    },
+    {
+      "part": "bridge-stone",
+      "source": "obj-bridge-stone-s7480101.png",
+      "sha256": "9d2e4c42e04bea05c42b91baafa559fa060406894e3edc762d019095b8206c20"
+    },
+    {
+      "part": "depot-warehouse",
+      "source": "obj-depot-warehouse-s7480101.png",
+      "sha256": "a7f801647c394ee0e0ee74d038e10bde395b6ba7a9047c964174ab2ebf879bd9"
+    },
+    {
+      "part": "fountain-fire",
+      "source": "obj-fountain-fire-s7480101.png",
+      "sha256": "61d02fa1ca2eb445d38dcd78e5b9f832e9e4e7a61dd678e1ee2bddada1523837"
+    },
+    {
+      "part": "gate-fortress",
+      "source": "obj-gate-fortress-s7480101.png",
+      "sha256": "b5daa80313ba84c806dab5b057f0b80aa5817224a7f8a2e604f6000af123314d"
+    },
+    {
+      "part": "hall-council",
+      "source": "obj-hall-council-s7480101.png",
+      "sha256": "eaf3428d3a908ea4e96461ed991271f2e2919d93000a1a65d61002ebeb83aec0"
+    },
+    {
+      "part": "house-small",
+      "source": "obj-house-small-s7480101.png",
+      "sha256": "9968f60fcb33bb4ccf402d4a0d50e681a0a8fd305c6a48c6bfb36574fd8a9736"
+    },
+    {
+      "part": "inn-tavern",
+      "source": "obj-inn-tavern-s7480101.png",
+      "sha256": "aacdabba36cc69539789309323518f211cb1d52fab1bd9077f90007ca09ea14b"
+    },
+    {
+      "part": "lantern-stone",
+      "source": "obj-lantern-stone-s7480101.png",
+      "sha256": "df6944fd3c3b9a0f951d77d8ae8cb377a25fc9f8dc33bc7837668ef38f9c7c2e"
+    },
+    {
+      "part": "market-stall",
+      "source": "obj-market-stall-s7480101.png",
+      "sha256": "e0c33058864ed9407ae42cbeecd7a7f04a43383cb38f9bb8a7de5b8b0c3acc3b"
+    },
+    {
+      "part": "rocks-cluster",
+      "source": "obj-rocks-cluster-s7480101.png",
+      "sha256": "6aa828f0ed2ca1ac56a3350765f62c22203a1236945d370cee1ead3874463acc"
+    },
+    {
+      "part": "smithy-forge",
+      "source": "obj-smithy-forge-s7480101.png",
+      "sha256": "52b57ec92ba3b561b597f2739e62c7a0f400d92154839337e8ad037b4843a2a5"
+    },
+    {
+      "part": "steps-stone",
+      "source": "obj-steps-stone-s7480101.png",
+      "sha256": "a0e4de72a26db5efd6a488a66edd50b0244493acc67f5f1525bf369cdfec507b"
+    },
+    {
+      "part": "tower-watch",
+      "source": "obj-tower-watch-s7480101.png",
+      "sha256": "767ab57d897e4cf6ca7c2d93643985e6688f413fd6180b639467e49f2eefd581"
+    },
+    {
+      "part": "tree-maple-red",
+      "source": "obj-tree-maple-red-s7480101.png",
+      "sha256": "9731e7db4b0ae80991b93efdd25aa2aedcef2d56b18ec734d805464ddfce4eb8"
+    },
+    {
+      "part": "tree-pine-dark",
+      "source": "obj-tree-pine-dark-s7480101.png",
+      "sha256": "07afd12d8c06f0df3609e210ed1105d8ce46c654132c6e8f0b00662661910771"
+    },
+    {
+      "part": "wall-segment",
+      "source": "obj-wall-segment-s7480101.png",
+      "sha256": "d0dcf8cf1d4562f1b502a35e165bedfe31ebadb92760d19b21abacd770000e7f"
+    }
+  ]
+}

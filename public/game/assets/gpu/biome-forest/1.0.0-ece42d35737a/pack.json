@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-forest",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-forest-birch-tree-with-white-bark",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-birch-tree-with-white-bark.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-forest-campfire-with-logs",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-campfire-with-logs.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-forest-cluster-of-mushrooms",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-cluster-of-mushrooms.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-forest-fallen-mossy-log",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-fallen-mossy-log.webp",
+      "width": 524,
+      "height": 516
+    },
+    {
+      "id": "biome-forest-flowering-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-flowering-bush.webp",
+      "width": 524,
+      "height": 514
+    },
+    {
+      "id": "biome-forest-mossy-boulder",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-mossy-boulder.webp",
+      "width": 524,
+      "height": 481
+    },
+    {
+      "id": "biome-forest-small-wooden-hunter-hut",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-small-wooden-hunter-hut.webp",
+      "width": 524,
+      "height": 503
+    },
+    {
+      "id": "biome-forest-tall-broadleaf-oak-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tall-broadleaf-oak-tree.webp",
+      "width": 487,
+      "height": 524
+    },
+    {
+      "id": "biome-forest-tall-fern-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tall-fern-cluster.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-forest-tall-pine-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tall-pine-tree.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-forest-tree-stump-with-an-axe",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tree-stump-with-an-axe.webp",
+      "width": 524,
+      "height": 496
+    },
+    {
+      "id": "biome-forest-wooden-signpost",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-wooden-signpost.webp",
+      "width": 462,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-forest.birch-tree-with-white-bark": {
+      "asset": "biome-forest-birch-tree-with-white-bark",
+      "fit": "contain"
+    },
+    "object.biome-forest.campfire-with-logs": {
+      "asset": "biome-forest-campfire-with-logs",
+      "fit": "contain"
+    },
+    "object.biome-forest.cluster-of-mushrooms": {
+      "asset": "biome-forest-cluster-of-mushrooms",
+      "fit": "contain"
+    },
+    "object.biome-forest.fallen-mossy-log": {
+      "asset": "biome-forest-fallen-mossy-log",
+      "fit": "contain"
+    },
+    "object.biome-forest.flowering-bush": {
+      "asset": "biome-forest-flowering-bush",
+      "fit": "contain"
+    },
+    "object.biome-forest.mossy-boulder": {
+      "asset": "biome-forest-mossy-boulder",
+      "fit": "contain"
+    },
+    "object.biome-forest.small-wooden-hunter-hut": {
+      "asset": "biome-forest-small-wooden-hunter-hut",
+      "fit": "contain"
+    },
+    "object.biome-forest.tall-broadleaf-oak-tree": {
+      "asset": "biome-forest-tall-broadleaf-oak-tree",
+      "fit": "contain"
+    },
+    "object.biome-forest.tall-fern-cluster": {
+      "asset": "biome-forest-tall-fern-cluster",
+      "fit": "contain"
+    },
+    "object.biome-forest.tall-pine-tree": {
+      "asset": "biome-forest-tall-pine-tree",
+      "fit": "contain"
+    },
+    "object.biome-forest.tree-stump-with-an-axe": {
+      "asset": "biome-forest-tree-stump-with-an-axe",
+      "fit": "contain"
+    },
+    "object.biome-forest.wooden-signpost": {
+      "asset": "biome-forest-wooden-signpost",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

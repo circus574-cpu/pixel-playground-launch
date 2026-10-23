@@ -1,0 +1,122 @@
+{
+ "biome-coast.coral-rock-cluster": {
+  "width": 200,
+  "height": 198,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-coast.driftwood-log": {
+  "width": 240,
+  "height": 224,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 27
+  }
+ },
+ "biome-coast.fishing-boat": {
+  "width": 320,
+  "height": 379,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 95
+  }
+ },
+ "biome-coast.lighthouse": {
+  "width": 240,
+  "height": 412,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 82
+  }
+ },
+ "biome-coast.net-drying-rack": {
+  "width": 130,
+  "height": 175,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-coast.palm-tree": {
+  "width": 240,
+  "height": 285,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "biome-coast.reed-clump": {
+  "width": 130,
+  "height": 147,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-coast.rocky-sea-stack": {
+  "width": 200,
+  "height": 197,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 43
+  }
+ },
+ "biome-coast.seashell-cluster": {
+  "width": 130,
+  "height": 123,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-coast.small-fishing-hut": {
+  "width": 320,
+  "height": 285,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 71
+  }
+ },
+ "biome-coast.whale-skeleton-arch": {
+  "width": 200,
+  "height": 178,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 39
+  }
+ },
+ "biome-coast.wooden-pier-section": {
+  "width": 360,
+  "height": 358,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}
