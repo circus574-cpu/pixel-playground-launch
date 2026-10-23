@@ -21,11 +21,6 @@ for (const [race, width, height] of cases)
       await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
       await expect(page.locator(".ki-hud")).toBeVisible();
       const compact = width < 1000;
-      if (!compact) {
-        const quest = await page.locator(".ki-quest").boundingBox();
-        const camera = (await page.locator(".ki-view-controls").boundingBox())!;
-        if (quest) expect(camera.y).toBeGreaterThanOrEqual(quest.y + quest.height);
-      }
 
       // A new character shows only what it has learned: the root ability and the potion.
       await expect(page.locator(".ki-skill")).toHaveCount(2);
@@ -37,7 +32,7 @@ for (const [race, width, height] of cases)
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
       for (const point of [
         { x: width * 0.5, y: height * 0.45 },
-        { x: 35, y: height - 150 },
+        { x: 35, y: height - 220 },
       ])
         expect(
           await page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.tagName, point),
@@ -45,15 +40,28 @@ for (const [race, width, height] of cases)
       const evidence = info.outputPath("mobile-hud-layout");
       await mkdir(evidence, { recursive: true });
       await page.screenshot({ path: `${evidence}/${race}-${width}x${height}.png` });
+      // All four primary tools are always reachable, outside the optional camera popover.
+      await expect(page.locator(".ki-menu > button")).toHaveCount(4);
+      for (const button of await page.locator(".ki-menu > button").all()) {
+        const box = (await button.boundingBox())!;
+        expect(box.width).toBeGreaterThanOrEqual(44);
+        expect(box.height).toBeGreaterThanOrEqual(44);
+        expect(box.y + box.height).toBeLessThanOrEqual(height);
+      }
+      await expect(page.locator(".ki-portrait img")).toHaveJSProperty("naturalWidth", 480);
+      await expect(page.locator(".ki-portrait")).toHaveAttribute(
+        "data-race",
+        /planetary|sage|android|legend/,
+      );
       if (compact) {
         const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
         await expect(page.locator(".ki-view-controls")).toBeHidden();
-        await expect(page.locator(".ki-menu")).toBeHidden();
+        await expect(page.locator(".ki-menu")).toBeVisible();
         const dock = (await page.locator(".ki-actionbar").boundingBox())!;
         const menu = (await toggle.boundingBox())!;
-        expect(menu.y).toBe(dock.y);
+        expect(menu.y + menu.height).toBeLessThanOrEqual(height - (height < 500 ? 56 : 66));
         expect(menu.x + menu.width).toBeLessThan(dock.x);
-        expect(dock.y + dock.height).toBeLessThanOrEqual(height - 4);
+        expect(dock.y + dock.height).toBeLessThanOrEqual(height - (height < 500 ? 56 : 66));
         for (const skill of await page.locator(".ki-skill").all()) {
           const box = (await skill.boundingBox())!;
           expect(box.width).toBeGreaterThanOrEqual(44);
@@ -74,6 +82,13 @@ for (const [race, width, height] of cases)
         await page.keyboard.press("Escape");
         await expect(toggle).toHaveAttribute("aria-expanded", "false");
       }
+      await page.getByRole("button", { name: "Umiejętności", exact: true }).click();
+      await expect(page.getByRole("dialog", { name: "Umiejętności", exact: true })).toBeVisible();
+      await page.screenshot({ path: `${evidence}/skills-${width}x${height}-${race}.png` });
+      await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+      await page.getByRole("button", { name: "Ekwipunek", exact: true }).click();
+      await page.screenshot({ path: `${evidence}/inventory-${width}x${height}-${race}.png` });
+      await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
       expect(errors).toEqual([]);
       await page.screenshot({ path: info.outputPath("final-clear-world.png") });
     });
