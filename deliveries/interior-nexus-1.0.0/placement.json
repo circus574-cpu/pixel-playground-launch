@@ -1,0 +1,122 @@
+{
+ "interior-nexus.bed-with-blankets": {
+  "width": 240,
+  "height": 294,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 65
+  }
+ },
+ "interior-nexus.cooking-pot-over-a-fire": {
+  "width": 130,
+  "height": 165,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-nexus.counter-with-a-shelf": {
+  "width": 240,
+  "height": 323,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 71
+  }
+ },
+ "interior-nexus.group-of-barrels": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-nexus.hanging-lantern-cluster": {
+  "width": 240,
+  "height": 335,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 74
+  }
+ },
+ "interior-nexus.locked-chest": {
+  "width": 130,
+  "height": 150,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-nexus.long-wooden-table-with-benches": {
+  "width": 240,
+  "height": 314,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 69
+  }
+ },
+ "interior-nexus.potion-shelf": {
+  "width": 240,
+  "height": 386,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 85
+  }
+ },
+ "interior-nexus.stack-of-crates": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "interior-nexus.tall-bookshelf": {
+  "width": 240,
+  "height": 574,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 126
+  }
+ },
+ "interior-nexus.weapon-stand": {
+  "width": 240,
+  "height": 406,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 89
+  }
+ },
+ "interior-nexus.woven-rug-seen-from-above": {
+  "width": 360,
+  "height": 360,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}

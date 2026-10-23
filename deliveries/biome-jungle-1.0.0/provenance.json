@@ -1,0 +1,67 @@
+{
+  "pack": "biome-jungle",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "an-overgrown-stone-altar",
+      "source": "obj-an-overgrown-stone-altar-s7510101.png",
+      "sha256": "a0171dca5fab54ae43d853756c39b996ec232d2b0dda2e33f0987869b158c92c"
+    },
+    {
+      "part": "bamboo-cluster",
+      "source": "obj-bamboo-cluster-s7510101.png",
+      "sha256": "f779f990657724ad454ee39e8d8a8b56dd1374ddf87372499e138fc135600807"
+    },
+    {
+      "part": "flowering-vine-bush",
+      "source": "obj-flowering-vine-bush-s7510101.png",
+      "sha256": "34972c5b690999581a93fb726111558d38f9b854f3b0f6c874cc28efe331b0f3"
+    },
+    {
+      "part": "giant-jungle-tree",
+      "source": "obj-giant-jungle-tree-s7510101.png",
+      "sha256": "2f1c6d404549549090f57d61e17d54d53db98335c93568e959d899edb8c63ada"
+    },
+    {
+      "part": "giant-leaf-plant",
+      "source": "obj-giant-leaf-plant-s7510101.png",
+      "sha256": "49e2e253c4226816ced08049579cc79d353ec1c344ecdb289c056c7e5cb32f8b"
+    },
+    {
+      "part": "large-fern",
+      "source": "obj-large-fern-s7510101.png",
+      "sha256": "6f3ab00bf70e4944ff146523326272d5f2aed404365ab8227db4b95b4e6a8ffc"
+    },
+    {
+      "part": "mossy-idol-statue",
+      "source": "obj-mossy-idol-statue-s7510101.png",
+      "sha256": "0a81e6556524b37d6bda9bab11019398c93b3883ebb52e645ccad684ebde5ff2"
+    },
+    {
+      "part": "palm-cluster",
+      "source": "obj-palm-cluster-s7510101.png",
+      "sha256": "9aa94972a51009c25e60f67b09daaee926d97be0f0fee9e1addbb2c04f8207d0"
+    },
+    {
+      "part": "rope-bridge-section",
+      "source": "obj-rope-bridge-section-s7510101.png",
+      "sha256": "d276dadc98aac7aa65b36d3bf10b966d6f81e593f48ed5f607aa8507c98062ad"
+    },
+    {
+      "part": "ruined-jungle-pillar",
+      "source": "obj-ruined-jungle-pillar-s7510101.png",
+      "sha256": "0b29cad99693706ae926ca72351edd83a3e5a1141afba23e19a006a3af132754"
+    },
+    {
+      "part": "tree-with-hanging-vines",
+      "source": "obj-tree-with-hanging-vines-s7510101.png",
+      "sha256": "6ad7e2dc54efa94f3470c0b1edba89eba052c9d621a831a10ae7dcb8bde8363d"
+    },
+    {
+      "part": "treehouse",
+      "source": "obj-treehouse-s7510101.png",
+      "sha256": "993e07052fe94d10ee67f705dc5fd749261a5f9550ce57dd7b7a3bf1214a96f5"
+    }
+  ]
+}

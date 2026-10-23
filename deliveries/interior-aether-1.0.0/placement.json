@@ -1,0 +1,122 @@
+{
+ "interior-aether.bed-with-blankets": {
+  "width": 240,
+  "height": 229,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 50
+  }
+ },
+ "interior-aether.cooking-pot-over-a-fire": {
+  "width": 130,
+  "height": 79,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-aether.counter-with-a-shelf": {
+  "width": 240,
+  "height": 206,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 45
+  }
+ },
+ "interior-aether.group-of-barrels": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-aether.hanging-lantern-cluster": {
+  "width": 240,
+  "height": 401,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 88
+  }
+ },
+ "interior-aether.locked-chest": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-aether.long-wooden-table-with-benches": {
+  "width": 240,
+  "height": 168,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 37
+  }
+ },
+ "interior-aether.potion-shelf": {
+  "width": 240,
+  "height": 230,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "interior-aether.stack-of-crates": {
+  "width": 200,
+  "height": 220,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 48
+  }
+ },
+ "interior-aether.tall-bookshelf": {
+  "width": 240,
+  "height": 257,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 57
+  }
+ },
+ "interior-aether.weapon-stand": {
+  "width": 240,
+  "height": 250,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 55
+  }
+ },
+ "interior-aether.woven-rug-seen-from-above": {
+  "width": 360,
+  "height": 423,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}

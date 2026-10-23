@@ -1,0 +1,67 @@
+{
+  "pack": "biome-mountain",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "an-ore-vein-rock",
+      "source": "obj-an-ore-vein-rock-s7510101.png",
+      "sha256": "036430d7646a2ea8e5beb989e470a2d4a31e17b04038e633ac905af9a082384d"
+    },
+    {
+      "part": "boulder-pile",
+      "source": "obj-boulder-pile-s7510101.png",
+      "sha256": "25383afda5481f28da82da6518db0a520f10ded34b21f4db8d35179d09462537"
+    },
+    {
+      "part": "cliff-outcrop",
+      "source": "obj-cliff-outcrop-s7510101.png",
+      "sha256": "69c674795e0259a32b37a763e8cd7ae3d408b4427886d29ca52b59b4b04038af"
+    },
+    {
+      "part": "large-bird-nest-on-a-rock",
+      "source": "obj-large-bird-nest-on-a-rock-s7510101.png",
+      "sha256": "69f896b33f6098e697e9ed26927f08a6be235a6b5de78e94816cd62a07acd679"
+    },
+    {
+      "part": "mine-entrance",
+      "source": "obj-mine-entrance-s7510101.png",
+      "sha256": "8bced536c957a0acdfb50f264b8cb384df981a1ae2eb1fc12d98227406fb68f9"
+    },
+    {
+      "part": "mountain-pine-tree",
+      "source": "obj-mountain-pine-tree-s7510101.png",
+      "sha256": "288b00c2f5b5ca5870adf88738e1679bf915a96eeb3e71cd23628aa7b6af3cfd"
+    },
+    {
+      "part": "rock-with-a-small-waterfall",
+      "source": "obj-rock-with-a-small-waterfall-s7510101.png",
+      "sha256": "b7e657c5d83e1980d4c5d6e4af5e90a6c6f382ecd024febb51d9f46869179ebc"
+    },
+    {
+      "part": "rope-bridge-section",
+      "source": "obj-rope-bridge-section-s7510101.png",
+      "sha256": "d276dadc98aac7aa65b36d3bf10b966d6f81e593f48ed5f607aa8507c98062ad"
+    },
+    {
+      "part": "snowy-rock-ledge",
+      "source": "obj-snowy-rock-ledge-s7510101.png",
+      "sha256": "220295fe6928da58a99b86becfa8363c77972746f2d6c1be8274779cf298bcb0"
+    },
+    {
+      "part": "stone-cairn",
+      "source": "obj-stone-cairn-s7510101.png",
+      "sha256": "d40e3e92a429436196533ea4f7c1ccb434c8a9a7728c75ac7c204d5bccec78b6"
+    },
+    {
+      "part": "stone-staircase-on-a-slope",
+      "source": "obj-stone-staircase-on-a-slope-s7510101.png",
+      "sha256": "76b19daece422cb6e94c7516b867043e8f512416dd6c3485ee164093ea70b354"
+    },
+    {
+      "part": "tall-rocky-mountain-peak",
+      "source": "obj-tall-rocky-mountain-peak-s7510101.png",
+      "sha256": "70ea8f6c6b5a62eb31051579ddfab6a5e58e1a13851a33a649d72e2e1d20d921"
+    }
+  ]
+}

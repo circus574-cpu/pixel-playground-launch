@@ -1,0 +1,131 @@
+{
+ "biome-mountain.an-ore-vein-rock": {
+  "width": 200,
+  "height": 185,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 41
+  }
+ },
+ "biome-mountain.boulder-pile": {
+  "width": 200,
+  "height": 185,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 41
+  }
+ },
+ "biome-mountain.cliff-outcrop": {
+  "width": 240,
+  "height": 271,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 60
+  }
+ },
+ "biome-mountain.large-bird-nest-on-a-rock": {
+  "width": 200,
+  "height": 191,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 42
+  }
+ },
+ "biome-mountain.mine-entrance": {
+  "width": 240,
+  "height": 237,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 52
+  }
+ },
+ "biome-mountain.mountain-pine-tree": {
+  "width": 240,
+  "height": 290,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 35
+  }
+ },
+ "biome-mountain.rock-with-a-small-waterfall": {
+  "width": 200,
+  "height": 204,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 45
+  }
+ },
+ "biome-mountain.rope-bridge-section": {
+  "width": 360,
+  "height": 380,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-mountain.snowy-rock-ledge": {
+  "width": 200,
+  "height": 199,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-mountain.stone-cairn": {
+  "width": 240,
+  "height": 229,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 50
+  }
+ },
+ "biome-mountain.stone-staircase-on-a-slope": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 53
+  }
+ },
+ "biome-mountain.tall-rocky-mountain-peak": {
+  "width": 200,
+  "height": 199,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ }
+}

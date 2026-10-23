@@ -1,0 +1,67 @@
+{
+  "pack": "dungeon-kit",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "an-iron-prison-cage",
+      "source": "obj-an-iron-prison-cage-s7510101.png",
+      "sha256": "48f28729ffaea20424352e2e8936362ba5cd7ec67dfd294ea73a2466ed20e4a7"
+    },
+    {
+      "part": "bone-pile",
+      "source": "obj-bone-pile-s7510101.png",
+      "sha256": "893a444fbaa96f83d94ac607a935c8379f20479c6e892a0a7fbde305162ab595"
+    },
+    {
+      "part": "cave-wall-chunk",
+      "source": "obj-cave-wall-chunk-s7510101.png",
+      "sha256": "55ea9c9aac33a73c4870a32ec6a1a1e1c70b45d32231918bb5c1a8cd685ff6ec"
+    },
+    {
+      "part": "cracked-stone-pillar",
+      "source": "obj-cracked-stone-pillar-s7510101.png",
+      "sha256": "b7eec40bdfaa4058b93fe961ae06a0b1b39c5ed600e9efb0b98a095777e38888"
+    },
+    {
+      "part": "floor-spike-trap",
+      "source": "obj-floor-spike-trap-s7510101.png",
+      "sha256": "e53460e781b78ba7c4aaef5135bab6f8be09f491d29b339520c2f72bd70e9aa8"
+    },
+    {
+      "part": "glowing-crystal-cluster",
+      "source": "obj-glowing-crystal-cluster-s7510101.png",
+      "sha256": "595dba862108ac15ac28b1e0106b50066a8f61942973af50e02c938d2b3ad049"
+    },
+    {
+      "part": "rock-with-glowing-lava-cracks",
+      "source": "obj-rock-with-glowing-lava-cracks-s7510101.png",
+      "sha256": "ed215335bde20d75c06aeb2357092e6701a5e212435f21bcccf54c2612cb8776"
+    },
+    {
+      "part": "stalagmite-cluster",
+      "source": "obj-stalagmite-cluster-s7510101.png",
+      "sha256": "1b941c8fbb52c571b863c372bc0805735eafb296ab29bb7fcb4aa946a201c15b"
+    },
+    {
+      "part": "stone-doorway",
+      "source": "obj-stone-doorway-s7510101.png",
+      "sha256": "989d6d46c4871c789e4fe3765aa0775eb801e5cd4435d3348bec03136aed1e2a"
+    },
+    {
+      "part": "stone-sarcophagus",
+      "source": "obj-stone-sarcophagus-s7510101.png",
+      "sha256": "856c9d31db4dcf8d50255840145c390871b5f124cd03f113f430495f11389596"
+    },
+    {
+      "part": "torch-on-a-stand",
+      "source": "obj-torch-on-a-stand-s7510101.png",
+      "sha256": "be83a3931530b6d8253e267b855fd3206acf7ede38d16a376b47d4c87231588b"
+    },
+    {
+      "part": "treasure-chest",
+      "source": "obj-treasure-chest-s7510101.png",
+      "sha256": "683fbdf3c772f2f12d3883cc167cc9553a1203c61b108f6aa01b432055c7735f"
+    }
+  ]
+}

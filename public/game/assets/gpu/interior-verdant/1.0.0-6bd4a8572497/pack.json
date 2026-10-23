@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "interior-verdant",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "interior-verdant-bed-with-blankets",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-bed-with-blankets.webp",
+      "width": 524,
+      "height": 490
+    },
+    {
+      "id": "interior-verdant-cooking-pot-over-a-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-cooking-pot-over-a-fire.webp",
+      "width": 399,
+      "height": 397
+    },
+    {
+      "id": "interior-verdant-counter-with-a-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-counter-with-a-shelf.webp",
+      "width": 524,
+      "height": 508
+    },
+    {
+      "id": "interior-verdant-group-of-barrels",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-group-of-barrels.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "interior-verdant-hanging-lantern-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-hanging-lantern-cluster.webp",
+      "width": 524,
+      "height": 476
+    },
+    {
+      "id": "interior-verdant-locked-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-locked-chest.webp",
+      "width": 455,
+      "height": 524
+    },
+    {
+      "id": "interior-verdant-long-wooden-table-with-benches",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-long-wooden-table-with-benches.webp",
+      "width": 508,
+      "height": 412
+    },
+    {
+      "id": "interior-verdant-potion-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-potion-shelf.webp",
+      "width": 486,
+      "height": 524
+    },
+    {
+      "id": "interior-verdant-stack-of-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-stack-of-crates.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "interior-verdant-tall-bookshelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-tall-bookshelf.webp",
+      "width": 469,
+      "height": 524
+    },
+    {
+      "id": "interior-verdant-weapon-stand",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-weapon-stand.webp",
+      "width": 474,
+      "height": 524
+    },
+    {
+      "id": "interior-verdant-woven-rug-seen-from-above",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-verdant/1.0.0-6bd4a8572497/interior-verdant-woven-rug-seen-from-above.webp",
+      "width": 524,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.interior-verdant.bed-with-blankets": {
+      "asset": "interior-verdant-bed-with-blankets",
+      "fit": "contain"
+    },
+    "object.interior-verdant.cooking-pot-over-a-fire": {
+      "asset": "interior-verdant-cooking-pot-over-a-fire",
+      "fit": "contain"
+    },
+    "object.interior-verdant.counter-with-a-shelf": {
+      "asset": "interior-verdant-counter-with-a-shelf",
+      "fit": "contain"
+    },
+    "object.interior-verdant.group-of-barrels": {
+      "asset": "interior-verdant-group-of-barrels",
+      "fit": "contain"
+    },
+    "object.interior-verdant.hanging-lantern-cluster": {
+      "asset": "interior-verdant-hanging-lantern-cluster",
+      "fit": "contain"
+    },
+    "object.interior-verdant.locked-chest": {
+      "asset": "interior-verdant-locked-chest",
+      "fit": "contain"
+    },
+    "object.interior-verdant.long-wooden-table-with-benches": {
+      "asset": "interior-verdant-long-wooden-table-with-benches",
+      "fit": "contain"
+    },
+    "object.interior-verdant.potion-shelf": {
+      "asset": "interior-verdant-potion-shelf",
+      "fit": "contain"
+    },
+    "object.interior-verdant.stack-of-crates": {
+      "asset": "interior-verdant-stack-of-crates",
+      "fit": "contain"
+    },
+    "object.interior-verdant.tall-bookshelf": {
+      "asset": "interior-verdant-tall-bookshelf",
+      "fit": "contain"
+    },
+    "object.interior-verdant.weapon-stand": {
+      "asset": "interior-verdant-weapon-stand",
+      "fit": "contain"
+    },
+    "object.interior-verdant.woven-rug-seen-from-above": {
+      "asset": "interior-verdant-woven-rug-seen-from-above",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

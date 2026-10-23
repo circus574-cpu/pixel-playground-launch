@@ -1,0 +1,128 @@
+{
+ "biome-swamp.bog-boulder": {
+  "width": 200,
+  "height": 181,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 40
+  }
+ },
+ "biome-swamp.cluster-of-cattails": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 53
+  }
+ },
+ "biome-swamp.cluster-of-glowing-mushrooms": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-swamp.cluster-of-lily-pads-on-water": {
+  "width": 240,
+  "height": 393,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 86
+  }
+ },
+ "biome-swamp.dead-swamp-tree-with-hanging-moss": {
+  "width": 240,
+  "height": 278,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 33
+  }
+ },
+ "biome-swamp.mossy-fallen-log": {
+  "width": 240,
+  "height": 244,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-swamp.murky-pond-rim": {
+  "width": 240,
+  "height": 218,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 48
+  }
+ },
+ "biome-swamp.skull-on-a-pole": {
+  "width": 130,
+  "height": 187,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-swamp.small-swamp-hut-on-stilts": {
+  "width": 320,
+  "height": 361,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 90
+  }
+ },
+ "biome-swamp.tree-with-hanging-vines": {
+  "width": 240,
+  "height": 241,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-swamp.twisted-mangrove-tree": {
+  "width": 240,
+  "height": 245,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-swamp.wooden-walkway-section": {
+  "width": 240,
+  "height": 316,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 70
+  }
+ }
+}
