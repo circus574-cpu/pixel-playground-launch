@@ -48,18 +48,18 @@ export function runBench(
       h = game.scale.height;
     for (const step of STEPS) {
       if (cancelled) return;
+      // Hide right before each render: the game re-shows its own objects every update, so a timer is overwritten.
       const apply = () => {
         if (step.hide)
           for (const o of scene.children.list)
             if (step.hide(o)) (o as Phaser.GameObjects.Image).setVisible(false);
       };
-      apply();
-      const timer = window.setInterval(apply, 40);
+      game.events.on("prerender", apply);
       if (step.hud && hud) hud.style.display = "none";
       if (step.half) game.scale.resize(Math.round(w / 2), Math.round(h / 2));
       await new Promise((r) => setTimeout(r, 1200));
       const fps = await fpsFor(3000);
-      window.clearInterval(timer);
+      game.events.off("prerender", apply);
       if (step.hud && hud) hud.style.display = "";
       if (step.half) game.scale.resize(w, h);
       results.push(`${fps.toFixed(1).padStart(5)} fps  ${step.name}`);
