@@ -209,12 +209,22 @@ export function mountKileGends(
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
-          const room = cityRoom(session.player.interior);
-          // A room covers the whole screen edge to edge (no margins); the camera follows the hero inside it.
+          const room = cityRoom(session.player.interior, world.id);
           const cam = this.cameras.main;
-          cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
-          cam.setBounds(0, 0, room.width, room.height);
-          if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
+          if (room.height > room.width) {
+            // Portrait room: composed for a tall screen, shown whole. Wide screens fit its height; the
+            // walls beyond the room are drawn, never stretched.
+            const portraitScreen = this.scale.height >= this.scale.width;
+            if (portraitScreen) {
+              cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
+              cam.setBounds(0, 0, room.width, room.height);
+              if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
+            } else {
+              cam.setZoom(this.scale.height / room.height);
+              cam.stopFollow().removeBounds();
+              cam.centerOn(room.width / 2, room.height / 2);
+            }
+          } else cam.centerOn(room.width / 2, room.height / 2);
         }
       };
       zoom();
@@ -382,7 +392,7 @@ export function mountKileGends(
             Math.abs(pos.x - b.door.x) < 190 && pos.y > b.door.y - 155 && pos.y < b.door.y + 90,
         );
       if (session.player.interior) {
-        const room = cityRoom(session.player.interior);
+        const room = cityRoom(session.player.interior, world.id);
         if (
           session.player.interior === "depot" &&
           Math.abs(pos.x - room.chest.x) < 85 &&
@@ -791,7 +801,7 @@ export function mountKileGends(
         if (session.player.interior) {
           this.outsideObjects.forEach((o) => o.setVisible(false));
           this.interiorView = renderCityInterior(this, world, session.player.interior);
-          const room = cityRoom(session.player.interior);
+          const room = cityRoom(session.player.interior, world.id);
           this.cameras.main
             .stopFollow()
             .removeBounds()

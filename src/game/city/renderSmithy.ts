@@ -35,17 +35,19 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
     if (tint !== undefined) t.setTint(tint);
     objects.push(t);
   };
-  tile("smithy-floor", 80, 82, 800, 632, -90000, 0xe3cdb8, 130);
-  tile("smithy-wall", 0, 0, 960, 175, WALL, 0xb89c88);
-  tile("smithy-wall", 0, 100, 100, 660, WALL, 0x8a7060);
-  tile("smithy-wall", 860, 100, 100, 660, WALL, 0x8a7060);
-  tile("smithy-wall", 0, 697, 410, 63, WALL, 0xa08a78);
-  tile("smithy-wall", 550, 697, 410, 63, WALL, 0xa08a78);
-  objects.push(scene.add.rectangle(480, 728, 140, 63, 0x120b07).setDepth(WALL + 1));
+  // Portrait room 540 × 1100. Walls reach far beyond the room, so any screen shows wall, never an empty margin.
+  const W = room.width,
+    H = room.height;
+  tile("smithy-floor", 50, 150, W - 100, H - 190, -90000, 0xe3cdb8, 130);
+  tile("smithy-wall", -1500, -400, 3540, 550, WALL, 0xb89c88);
+  tile("smithy-wall", -1500, -400, 1550, 2000, WALL, 0x8a7060);
+  tile("smithy-wall", W - 50, -400, 1550, 2000, WALL, 0x8a7060);
+  tile("smithy-wall", -1500, H - 60, 3540, 560, WALL, 0xa08a78);
+  objects.push(scene.add.rectangle(W / 2, H - 30, 110, 60, 0x120b07).setDepth(WALL + 1));
   // Soft darkening where the wall meets the floor, so the room reads as a space with depth.
   const shade = scene.add.graphics().setDepth(WALL + 1);
   shade.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0.55, 0.55, 0, 0);
-  shade.fillRect(80, 100, 800, 70);
+  shade.fillRect(50, 150, W - 100, 80);
   objects.push(shade);
 
   /** Prop standing on `foot`, fitted into the box; sorted by its foot like characters. */
@@ -83,26 +85,26 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
       ).setDepth(WALL + 2),
     );
   };
-  prop("door-arch", 480, 142, 150, 235, false).setDepth(WALL + 3);
-  hung("sign-hanging", 480, 6, 90, 130);
-  hung("banner-flame", 345, 30, 80, 150);
-  hung("banner-flame", 615, 30, 80, 150);
-  prop("furnace-fire", 750, 215, 200, 260);
-  prop("weapon-rack", 170, 200, 110, 150);
-  prop("shelf-ingots", 275, 200, 100, 150);
-  prop("grindstone", 555, 210, 90, 120);
-  prop("anvil-stump", 650, 395, 130, 180);
-  prop("workbench-tools", 185, 430, 190, 190);
-  prop("chest-iron", 742, 515, 120, 100);
-  prop("barrels", 155, 620, 120, 130);
-  prop("crates-stack", 808, 605, 110, 130);
-  prop("stairs-wood", 145, 310, 120, 140);
-  prop("lantern-post", 390, 712, 50, 140, false);
-  prop("lantern-post", 570, 712, 50, 140, false);
+  prop("door-arch", 235, 175, 150, 235, false).setDepth(WALL + 3);
+  hung("sign-hanging", 235, 8, 110, 120);
+  hung("banner-flame", 110, 30, 70, 130);
+  hung("banner-flame", 330, 30, 70, 130);
+  prop("furnace-fire", 405, 265, 200, 270);
+  prop("shelf-ingots", 105, 230, 100, 165);
+  prop("weapon-rack", 205, 360, 100, 140);
+  prop("grindstone", 465, 385, 80, 110);
+  prop("anvil-stump", 360, 565, 120, 165);
+  prop("workbench-tools", 120, 680, 170, 170);
+  prop("stairs-wood", 90, 440, 100, 130);
+  prop("chest-iron", 430, 760, 110, 95);
+  prop("crates-stack", 450, 905, 100, 120);
+  prop("barrels", 100, 880, 110, 120);
+  prop("lantern-post", 190, 1040, 45, 130, false);
+  prop("lantern-post", 350, 1040, 45, 130, false);
 
   // Warm light: a gentle tone over the room, additive pools around the fire and lanterns.
   const tone = scene.add
-    .rectangle(480, 380, 960, 760, 0xc9b49e)
+    .rectangle(W / 2, H / 2, 4000, 3200, 0xc9b49e)
     .setBlendMode(Phaser.BlendModes.MULTIPLY)
     .setDepth(TONE);
   objects.push(tone);
@@ -140,7 +142,7 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
   objects.push(
     scene.add
       .image(480, 380, "room-vignette")
-      .setDisplaySize(1180, 960)
+      .setDisplaySize(760, 1380)
       .setDepth(TONE + 0.5),
   );
   const glow = (x: number, y: number, w: number, h: number, alpha: number, flicker: number) => {
@@ -162,12 +164,12 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
       }),
     );
   };
-  glow(750, 200, 520, 380, 0.7, 380);
-  glow(700, 330, 640, 420, 0.3, 900);
-  glow(650, 385, 170, 90, 0.35, 520);
-  glow(390, 585, 190, 150, 0.4, 700);
-  glow(570, 585, 190, 150, 0.4, 820);
-  const sparks = scene.add.particles(750, 190, "spark", {
+  glow(405, 215, 480, 360, 0.7, 380);
+  glow(330, 430, 560, 420, 0.3, 900);
+  glow(360, 545, 150, 80, 0.35, 520);
+  glow(190, 985, 170, 140, 0.4, 700);
+  glow(350, 985, 170, 140, 0.4, 820);
+  const sparks = scene.add.particles(405, 225, "spark", {
     speedX: { min: -35, max: 35 },
     speedY: { min: -130, max: -55 },
     lifespan: { min: 600, max: 1100 },

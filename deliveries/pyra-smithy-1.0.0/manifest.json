@@ -3,7 +3,7 @@
   "id": "pyra-smithy",
   "version": "1.0.0",
   "technical": false,
-  "previewOnly": true,
+  "previewOnly": false,
   "assets": [
     {
       "id": "pyra-smithy-anvil-stump",

@@ -3,7 +3,7 @@
   python3 scripts/prepare_pyra_smithy.py <matted dir>
 Writes deliveries/pyra-smithy-1.0.0/{*.webp,manifest.json,provenance.json}; install with
 `npm run assets:import -- deliveries/pyra-smithy-1.0.0/manifest.json --install`.
-The pack is previewOnly: opt in with ?ki-smithy-art=1 until the owner accepts it.
+Only the Pyra smithy uses it (portrait room), so it is a regular pack; the room is not published.
 """
 import hashlib, json, sys
 from pathlib import Path
@@ -52,7 +52,7 @@ for key, name in TEX.items():
     assets.append({"id": "pyra-smithy-" + key, "version": "1.0.0", "kind": "image", "url": f.name, "width": im.width, "height": im.height})
     binds["terrain.pyra.smithy-" + key] = {"asset": "pyra-smithy-" + key, "fit": "stretch", "tileSize": [256, 256]}
     prov.append({"part": key, "source_png_sha256": hashlib.sha256(src.read_bytes()).hexdigest(), "webp_sha256": hashlib.sha256(f.read_bytes()).hexdigest()})
-manifest = {"schemaVersion": 1, "id": "pyra-smithy", "version": "1.0.0", "technical": False, "previewOnly": True, "assets": assets,
+manifest = {"schemaVersion": 1, "id": "pyra-smithy", "version": "1.0.0", "technical": False, "previewOnly": False, "assets": assets,
             "actors": [], "actorBindings": {}, "renderBindings": binds, "effects": {}}
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 (OUT / "provenance.json").write_text(json.dumps({"pack": "pyra-smithy", "generator": "DreamShaper XL Turbo v2.1 (scripts/gpu/gen_forge_parts.py), rembg matting",

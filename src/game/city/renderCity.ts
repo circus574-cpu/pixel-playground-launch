@@ -41,10 +41,9 @@ export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
 
 /** Separate room presentation; the session owns all transitions and collision rules. */
 export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, id: BuildingId) {
-  const room = cityRoom(id),
+  const room = cityRoom(id, world.id),
     b = world.city!.buildings.find((b) => b.id === id)!;
-  if (id === "smithy" && world.id === "pyra" && catalog.renderBindings["terrain.pyra.smithy-floor"])
-    return renderSmithy(scene, world, room);
+  if (id === "smithy" && world.id === "pyra") return renderSmithy(scene, world, room);
   const objects: (
     | Phaser.GameObjects.TileSprite
     | Phaser.GameObjects.Image
@@ -88,12 +87,7 @@ export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, 
       .setDepth(y);
     objects.push(image);
   };
-  if (id === "smithy") {
-    // Footprints follow room.ts: shelves, desk and anvil stand where the collision is.
-    prop("shelf", 170, 200, 155);
-    prop("shelf", 275, 200, 155);
-    prop("desk", 555, 210, 110);
-  } else if (id !== "arena") {
+  if (id !== "arena") {
     prop("desk", 480, 220, 210);
     prop("shelf", 190, 200, 155);
     prop("shelf", 770, 200, 155);
@@ -123,7 +117,7 @@ export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, 
   }
   if (id === "smithy") {
     prop("anvil", 650, 390, 180);
-    prop("chest", 742, 515, 120);
+    prop("chest", 730, 500, 120);
   }
   if (id === "inn") {
     prop("bed", 660, 405, 220);
