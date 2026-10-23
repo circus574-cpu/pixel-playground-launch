@@ -948,5 +948,6 @@ Oryginalne PNG na GPU są tylko wskazane w provenance — nie zbadano ich ponown
 ## Grafika główna gry (key art) — 23.10.2026
 
 - Pliki: `public/game/assets/brand/key-art.webp` (pełny obraz z tytułem, niewykorzystany w UI), `loading-heroes.webp` (kadr bez tytułu: ekran ładowania i tło menu od 700 px), `heroes-700.webp` (wersja mobilna tła menu).
+- Dodatkowe tła (23.10, poziome, od właściciela): `menu-night.webp` (tło menu od 700 px), `roster-path.webp` (panel „Twoje postacie”), `loading-wide.webp` (ładowanie na szerokich ekranach). Prawa jak niżej: NIEPOTWIERDZONE. Czwarty obraz (akwarela) nie został wykorzystany i nie jest w repo.
 - Pochodzenie: obraz dostarczony przez właściciela jako „główna grafika gry”; przycięty i skompresowany do WebP, bez zmiany zawartości. Autor i sposób wygenerowania nieznane.
 - Prawa: NIEPOTWIERDZONE. Właściciel musi potwierdzić prawo do publicznego użycia (patrz blokada referencji powyżej).

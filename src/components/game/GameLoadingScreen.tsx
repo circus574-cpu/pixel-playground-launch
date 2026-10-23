@@ -1,4 +1,4 @@
-import { loadingTextureUrl } from "../../game/assets/catalog";
+import { loadingTextureUrl, loadingWideTextureUrl } from "../../game/assets/catalog";
 import type { CSSProperties } from "react";
 import { BrandMark } from "./BrandMark";
 import type { GameLoadingState } from "../../game/loading";
@@ -27,7 +27,10 @@ export function GameLoadingScreen({
       data-phase={state.phase}
       style={{ "--loading-color": origin?.color ?? "#d9c58c" } as CSSProperties}
     >
-      <img className="ki-loading-backdrop" src={loadingTextureUrl()} alt="" decoding="async" />
+      <picture>
+        <source media="(min-aspect-ratio: 5/4)" srcSet={loadingWideTextureUrl()} />
+        <img className="ki-loading-backdrop" src={loadingTextureUrl()} alt="" decoding="async" />
+      </picture>
       <div className="ki-loading-vignette" />
       <div className="ki-loading-content">
         <div className="ki-energy-orbit" aria-hidden="true" />

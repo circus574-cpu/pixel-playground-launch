@@ -17,8 +17,8 @@
 @media (min-width: 700px) {
   .ki-origins {
     background:
-      linear-gradient(180deg, #0a131b99, #09131bd9 45%, #09131bf2 80%),
-      url("/game/assets/brand/loading-heroes.webp") center top / cover no-repeat fixed,
+      linear-gradient(180deg, #0a131b8c, #09131bc7 50%, #09131bf0 85%),
+      url("/game/assets/brand/menu-night.webp") center top / cover no-repeat fixed,
       #09131b;
   }
 }
@@ -367,6 +367,12 @@
 .ki-roster {
   max-width: 1100px;
   margin: 48px auto;
+  padding: 36px clamp(18px, 4vw, 48px);
+  border: 1px solid #ffffff1c;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, #09131bdb, #09131bb8 45%, #09131be8),
+    url("/game/assets/brand/roster-path.webp") center / cover no-repeat;
 }
 .ki-roster h1 {
   font:

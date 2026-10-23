@@ -53,6 +53,12 @@ const baseAssets: AssetDefinition[] = [
     url: "/game/assets/brand/loading-heroes.webp",
   },
   {
+    id: "brand-loading-wide",
+    version: "key-art-1",
+    kind: "image",
+    url: "/game/assets/brand/loading-wide.webp",
+  },
+  {
     id: human.key,
     version: "legacy-2",
     kind: "image",
@@ -228,6 +234,10 @@ export function uiTextureUrl() {
 
 export function loadingTextureUrl() {
   return catalog.assets.get("brand-loading")!.url;
+}
+/** Landscape variant for wide screens; portrait screens use the heroes crop. */
+export function loadingWideTextureUrl() {
+  return catalog.assets.get("brand-loading-wide")!.url;
 }
 
 /** Nature liquids that texture the inner blocking rectangles; collision stays in region JSON. */

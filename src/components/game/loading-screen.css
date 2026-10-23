@@ -17,6 +17,9 @@
     13px/1.7 Arial,
     sans-serif;
 }
+.ki-loading-screen picture {
+  display: contents;
+}
 .ki-loading-backdrop {
   position: absolute;
   inset: 0;
