@@ -27,7 +27,8 @@ for (const [race, width, height] of cases)
         if (quest) expect(camera.y).toBeGreaterThanOrEqual(quest.y + quest.height);
       }
 
-      await expect(page.locator(".ki-skill")).toHaveCount(5);
+      // A new character shows only what it has learned: the root ability and the potion.
+      await expect(page.locator(".ki-skill")).toHaveCount(2);
       const hp = (await page.getByRole("meter", { name: "Zdrowie", exact: true }).boundingBox())!;
       const ki = (await page
         .getByRole("meter", { name: "Energia KI", exact: true })

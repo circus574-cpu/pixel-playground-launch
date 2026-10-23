@@ -296,6 +296,8 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
   await expect(page.locator(".ki-hud")).toBeVisible();
   await expect(canvas).toHaveAttribute("data-actor-visual", "technical-mannequin");
 });
+// Beyond leash (300) plus the longest ranged reach, so every race makes the boar give up.
+const LOSE_RADIUS = 1000;
 for (const race of RACE_IDS)
   test(`real pursuit, return, enemy collision and world boundary: ${race}`, async ({
     page,
@@ -317,8 +319,8 @@ for (const race of RACE_IDS)
     await move(page, approach.x, approach.y);
     await expect.poll(async () => (await enemies())[0]?.mode, { timeout: 20000 }).toBe("chase");
     const goals = Array.from({ length: 16 }, (_, i) => ({
-      x: home.x + Math.cos((i * Math.PI) / 8) * 550,
-      y: home.y + Math.sin((i * Math.PI) / 8) * 550,
+      x: home.x + Math.cos((i * Math.PI) / 8) * LOSE_RADIUS,
+      y: home.y + Math.sin((i * Math.PI) / 8) * LOSE_RADIUS,
     })).filter((p) => nav.walkable(p) && nav.path(home, p).length);
     goals.sort((a, b) => distance(a, world.spawn) - distance(b, world.spawn));
     const goal = goals[0]!;
