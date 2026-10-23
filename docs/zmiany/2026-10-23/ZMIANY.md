@@ -211,3 +211,23 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
   ani sekretów. Nie zmieniano stanu poda. Decyzja o wyłączeniu należy do właściciela.
 - Otrzymano informację o streamingu Claude'a `a0d5b2e`. Wybrano do integracji
   tylko zmianę renderowania pobliskich dekoracji i testy, bez innych zmian kontynentów.
+
+
+## Streaming dekoracji — przeniesienie poprawki Claude'a
+
+- Przeniesiono `sceneryStream.ts` i testy z `a0d5b2e`; dostosowano `renderWorld.ts`
+  do tej gałęzi, bez innych zmian renderu kontynentów, nowych cieni i obróbki terenu.
+- Indeks komórek 1024; obiekty graficzne powstają blisko widoku, dalekie są usuwane,
+  a dispose usuwa pozostałe. Logiczne obiekty/kolizje mapy pozostają bez zmian.
+- Cache zapytania zależy od czterech rzeczywistych granic komórek, także wysokości
+  widoku, zamiast tylko pozycji i szerokości kamery. Zasięg uwzględnia pełne wymiary
+  obiektu, więc obejmuje również kotwice nadpisane przez render binding.
+- Testy Claude'a: przy 30 000 wpisów sąsiedztwo zapytania stanowi poniżej 3%;
+  żaden widoczny obiekt nie ginie; test budowy indeksu 300 000 wpisów. To testy
+  selekcji danych, nie pomiar liczby sprite'ów ani FPS fizycznego telefonu.
+- TypeScript PASS; Vitest 313/313 (37 plików) PASS; lint 0 błędów / 9 istniejących
+  ostrzeżeń; build PASS. [Logi](qa/scenery-stream/). Pełne testy przeglądarkowe
+  końcowego commita mają oddzielny przebieg CI; nie wpisano ich wyniku z góry.
+- Nie podłączono jeszcze wygenerowanych lądów do sceny; nie ogłoszono odbioru
+  całej planety ani telefonu. Kopia CPU została niezależnie zakończona i wypchnięta
+  jako `10248b8`; właściciel otrzymał znak dotyczący wyłącznie poda CPU.

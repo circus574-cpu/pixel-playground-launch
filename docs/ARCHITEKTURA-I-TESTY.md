@@ -128,6 +128,17 @@ budynków, postaci ani colliderów. Chunking, zwalnianie tekstur i culling obiek
 poza widokiem chronią pamięć. Krzywe drogi/place są prezentacją; kolizje z danych.
 Nowe potwory wymagają limitu aktywnych w pobliżu, usypiania dalekich i budżetu efektów.
 
+Na gałęzi CPU przeniesiono streaming dekoracji Claude'a (`a0d5b2e`), dostosowany
+do obecnego renderera regionów. `sceneryStream.ts` indeksuje punkty oparcia w komórkach
+1024; `renderWorld.ts` tworzy tylko pobliskie obrazy, usuwa odległe i sprząta przy
+dispose. Cache obejmuje wszystkie granice widoku, także zmianę samej wysokości;
+margines obejmuje kotwice nadpisane przez binding. Reguły kolizji pozostają w mapie.
+Renderer lasu bez `world.terrain` zachowuje dotychczasową ścieżkę — nie używać jej
+do masowego włączenia wygenerowanych lądów. Testy indeksu 30 000/300 000 obiektów
+nie są pomiarem FPS ani liczby aktywnych sprite'ów na telefonie.
+[Kontrole przeniesienia](zmiany/2026-10-23/qa/scenery-stream/): 313 testów jednostkowych,
+pełny TypeScript, lint i build. Integracja nowych danych świata pozostaje otwarta.
+
 Benchmark po uruchomieniu lokalnego serwera:
 
 ```sh

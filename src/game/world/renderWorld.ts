@@ -7,6 +7,7 @@ import type { WorldDefinition } from "./types";
 import { renderForest } from "./renderForest";
 import { coversPlayer } from "./visibility";
 import { bakeRoads } from "./renderRoads";
+import { SCENERY_CELL, buildSceneryGrid, sceneryNear } from "./sceneryStream";
 import type { Point } from "../navigation";
 
 /** World units per streamed ground chunk. */
@@ -241,12 +242,23 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       hazards.strokePath();
     }
   }
-  const scenery = world.objects.map((object) => {
+  // Port of Claude's a0d5b2e: keep only nearby scenery alive, without importing
+  // unrelated terrain, shadow or continent changes from the other branch.
+  const sceneryGrid = buildSceneryGrid(world.objects);
+  // Render bindings may override the source anchor; full dimensions safely cover
+  // every validated origin in [0,1], including very tall objects outside the view.
+  const reach = world.objects.reduce((r, o) => Math.max(r, o.width, o.height), 0);
+  const live = new Map<
+    number,
+    { object: (typeof world.objects)[number]; image: Phaser.GameObjects.Image }
+  >();
+  const spawnScenery = (index: number) => {
+    const object = world.objects[index]!;
     const ref = textureBinding(
       "object." + world.id + "." + object.id,
       textureBinding("object." + object.asset, { asset: object.asset! }),
     );
-    return {
+    live.set(index, {
       object,
       image: sizeScenery(
         scene.add
@@ -256,13 +268,38 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
         object.height,
         ref.fit,
       ).setDepth(renderDepth(ref.layer ?? "objects", object.y)),
-    };
-  });
+    });
+  };
+  let lastCells = "";
+  const streamScenery = () => {
+    const view = scene.cameras.main.worldView;
+    const pad = reach + 128;
+    // Cache the actual expanded query cells. Caching only camera position or
+    // width can miss new visible rows after a height-only resize or small pan.
+    const cells = [
+      Math.floor((view.left - pad) / SCENERY_CELL),
+      Math.floor((view.right + pad) / SCENERY_CELL),
+      Math.floor((view.top - pad) / SCENERY_CELL),
+      Math.floor((view.bottom + pad) / SCENERY_CELL),
+    ].join(":");
+    if (cells === lastCells) return;
+    lastCells = cells;
+    for (const i of sceneryNear(sceneryGrid, view, pad)) if (!live.has(i)) spawnScenery(i);
+    const keep = new Set(sceneryNear(sceneryGrid, view, pad + 2048));
+    for (const [i, entry] of live)
+      if (!keep.has(i)) {
+        entry.image.destroy();
+        live.delete(i);
+      }
+  };
+  streamScenery();
   // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
     terrainMode: "region",
     dispose: () => {
       roads?.dispose();
+      for (const entry of live.values()) entry.image.destroy();
+      live.clear();
       for (const chunk of groundChunks.values()) chunk.destroy();
       groundChunks.clear();
     },
@@ -270,8 +307,9 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       updateAtmosphere();
       streamGround();
       roads?.updateVisibility();
+      streamScenery();
       const view = scene.cameras.main.worldView;
-      for (const { object: o, image } of scenery) {
+      for (const { object: o, image } of live.values()) {
         const left = o.x - o.width * o.anchorX,
           top = o.y - o.height * o.anchorY;
         const visible =
