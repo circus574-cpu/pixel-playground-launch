@@ -59,6 +59,28 @@ RESIDENTS = [
 ]
 
 
+# --- Continent layout (docs/CITY-CONTINENT-SCALE-2026-10-23.md) ---------------------------------
+# The scene was translated by scripts/expand_continents.py. The city is a safe area of 4000 x 2500
+# units: the building plan below (written for the original scene) is spread over that area with the
+# same relative arrangement, so the districts keep their order but stand much further apart.
+SHIFT = data["layoutShifts"]["3"]
+_xs, _ys = [b["pos"][0] for b in BUILDINGS], [b["pos"][1] for b in BUILDINGS]
+_CX, _CY = (min(_xs) + max(_xs)) / 2, (min(_ys) + max(_ys)) / 2
+# The six buildings fill about 3300 x 1900 of the 4000 x 2500 city, leaving a margin of open ground.
+_KX, _KY = 3300 / (max(_xs) - min(_xs)), 1900 / (max(_ys) - min(_ys))
+
+
+def T(p):
+    return (round(_CX + (p[0] - _CX) * _KX + SHIFT["x"]), round(_CY + (p[1] - _CY) * _KY + SHIFT["y"]))
+
+
+CITY = {"x": round(_CX + SHIFT["x"] - 2000), "y": round(_CY + SHIFT["y"] - 1250), "width": 4000, "height": 2500}
+for _b in BUILDINGS:
+    _b["pos"] = T(_b["pos"])
+for _n in NPCS:
+    _n["pos"] = T(_n["pos"])
+
+
 def fp_rect(o):
     f = o.get("footprint")
     if not f:
@@ -167,6 +189,17 @@ before = len(data["enemies"])
 inside = lambda p: CITY["x"] <= p["x"] <= CITY["x"] + CITY["width"] and CITY["y"] <= p["y"] <= CITY["y"] + CITY["height"]
 data["enemies"] = [e for e in data["enemies"] if not inside(e)]
 
+# Boars that stood inside the (larger) safe city are placed again on a ring just outside it.
+removed_boars = before - len(data["enemies"])
+import math as _m
+for _i in range(removed_boars):
+    _a = 2 * _m.pi * (_i + 0.5) / max(1, removed_boars) + 0.35
+    _ring = _i % 3
+    data["enemies"].append({
+        "x": round(CITY["x"] + CITY["width"] / 2 + (CITY["width"] / 2 + 450 + _ring * 160) * _m.sqrt(2) * _m.cos(_a)),
+        "y": round(CITY["y"] + CITY["height"] / 2 + (CITY["height"] / 2 + 450 + _ring * 120) * _m.sqrt(2) * _m.sin(_a)),
+    })
+
 npc_by_id = {n["id"]: n for n in data["npcs"]}
 for n in NPCS:
     npc_by_id[n["id"]].update(name=n["name"], role=n["role"], x=n["pos"][0], y=n["pos"][1], dialogue=n["dialogue"])
@@ -178,7 +211,7 @@ data["landmarks"] = [l for l in data["landmarks"] if not l.get("city")]
 # The "Perymetr" danger marker stood where the arena is now; it moves just outside the safe city.
 for l in data["landmarks"]:
     if l["label"] == "Perymetr":
-        l["x"], l["y"] = 3700, 2400
+        l["x"], l["y"] = CITY["x"] + CITY["width"] + 500, CITY["y"] + CITY["height"] // 2
 for b in BUILDINGS:
     data["landmarks"].append({"x": b["door"]["x"], "y": b["door"]["y"], "label": b["name"], "kind": "settlement", "city": True})
 

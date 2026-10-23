@@ -102,8 +102,8 @@ const PlayerSchema = z.object({
   hp: finite(100000),
   ki: finite(100000),
   gold: finite(1000000).int(),
-  x: finite(8192),
-  y: finite(6144),
+  x: finite(65536),
+  y: finite(65536),
   /** Open-world layout revision the position belongs to; older saves are shifted on load. */
   layout: z.number().int().min(1).max(99).optional(),
   items: z.object({
@@ -280,10 +280,12 @@ export function migrateLayout(
   const world = WORLDS[p.continent],
     want = world.layout ?? 1;
   if ((p.layout ?? 1) >= want) return;
-  if (!p.interior) {
-    p.x += world.legacyShift?.x ?? 0;
-    p.y += world.legacyShift?.y ?? 0;
-  }
+  if (!p.interior)
+    for (let step = (p.layout ?? 1) + 1; step <= want; step++) {
+      const shift = step === 2 ? world.legacyShift : world.layoutShifts?.[String(step)];
+      p.x += shift?.x ?? 0;
+      p.y += shift?.y ?? 0;
+    }
   p.layout = want;
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
@@ -334,10 +336,11 @@ export class SaveStore {
         (p.weapon && !p.items.sword) ||
         (p.armor && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
+        // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
+        // introduction done) stay valid.
         (p.quests.gear !== "locked" &&
-          (isCityStage(WORLDS[p.continent])
-            ? p.quests.steps !== "done"
-            : p.quests.boars !== "done")) ||
+          p.quests.boars !== "done" &&
+          !(p.quests.boars === "locked" && p.quests.steps === "done")) ||
         !p.skills.includes("R") ||
         !validLearned(p.race, p.level, p.skills) ||
         Object.keys(p.materials).some((id) => !isMaterial(id)) ||

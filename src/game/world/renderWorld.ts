@@ -29,28 +29,18 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   const groundChunks = new Map<string, Phaser.GameObjects.TileSprite>();
   const streamGround = () => {
     const view = scene.cameras.main.worldView;
-    for (let y = 0; y < world.height; y += GROUND_CHUNK)
-      for (let x = 0; x < world.width; x += GROUND_CHUNK) {
+    // Continents are tens of thousands of units wide: visit only the chunks around the camera.
+    const first = (v: number) => Math.max(0, Math.floor((v - 64) / GROUND_CHUNK) * GROUND_CHUNK);
+    for (let y = first(view.top); y < Math.min(world.height, view.bottom + 64); y += GROUND_CHUNK)
+      for (
+        let x = first(view.left);
+        x < Math.min(world.width, view.right + 64);
+        x += GROUND_CHUNK
+      ) {
         const key = x + ":" + y;
-        const inView =
-          x < view.right + 64 &&
-          x + GROUND_CHUNK > view.left - 64 &&
-          y < view.bottom + 64 &&
-          y + GROUND_CHUNK > view.top - 64;
         const chunk = groundChunks.get(key);
-        if (chunk) {
-          chunk.setVisible(inView);
-          // Same rule as the baked road chunks: depend on the camera now, not its history.
-          const far =
-            x > view.right + 640 ||
-            x + GROUND_CHUNK < view.left - 640 ||
-            y > view.bottom + 640 ||
-            y + GROUND_CHUNK < view.top - 640;
-          if (far) {
-            chunk.destroy();
-            groundChunks.delete(key);
-          }
-        } else if (inView) {
+        if (chunk) chunk.setVisible(true);
+        else {
           const tile = sizeTile(
             scene.add.tileSprite(
               x,
@@ -68,6 +58,25 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
           groundChunks.set(key, tile);
         }
       }
+    for (const [key, chunk] of groundChunks) {
+      const [x, y] = key.split(":").map(Number) as [number, number];
+      // Same rule as the baked road chunks: depend on the camera now, not its history.
+      const far =
+        x > view.right + 640 ||
+        x + GROUND_CHUNK < view.left - 640 ||
+        y > view.bottom + 640 ||
+        y + GROUND_CHUNK < view.top - 640;
+      if (far) {
+        chunk.destroy();
+        groundChunks.delete(key);
+      } else if (
+        x >= view.right + 64 ||
+        x + GROUND_CHUNK <= view.left - 64 ||
+        y >= view.bottom + 64 ||
+        y + GROUND_CHUNK <= view.top - 64
+      )
+        chunk.setVisible(false);
+    }
   };
   streamGround();
   for (const area of terrain.paths)
@@ -109,8 +118,14 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   // Deterministic, camera-independent placement; no save, collision or navigation changes.
   if ((world.id === "aether" || world.id === "nexus") && !paintedGround) {
     const detail = scene.add.graphics().setDepth(renderDepth("ground") + 1);
-    for (let y = 170; y < world.height - 110; y += 112) {
-      for (let x = 180; x < world.width - 160; x += 128) {
+    // Surface detail is limited to the neighbourhood of the city; the continent beyond stays plain.
+    const around = world.city?.bounds;
+    const left = Math.max(180, around ? around.x - 800 : 0),
+      right = Math.min(world.width - 160, around ? around.x + around.width + 800 : world.width),
+      top = Math.max(170, around ? around.y - 800 : 0),
+      bottom = Math.min(world.height - 110, around ? around.y + around.height + 800 : world.height);
+    for (let y = top - (top % 112) + (170 % 112); y < bottom; y += 112) {
+      for (let x = left - (left % 128) + (180 % 128); x < right; x += 128) {
         const seed = (x * 17 + y * 31) % 101;
         const px = x + (seed % 39) - 19;
         const py = y + ((seed * 7) % 43) - 21;

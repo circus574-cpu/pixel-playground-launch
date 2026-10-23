@@ -4,12 +4,21 @@ import { blockedAt, clearSight, type Obstacle } from "./movement";
 export type Point = { x: number; y: number };
 export const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
 
-/** Cached foot-clearance grid. A* never cuts a diagonal through obstacle corners. */
+/**
+ * Foot-clearance grid, filled lazily: continents are tens of thousands of units wide, so only the
+ * cells that A* or a query actually touches are evaluated. A* never cuts a diagonal through
+ * obstacle corners.
+ */
+/** A* gives up after this many cells (a detour of several thousand units). */
+const MAX_EXPANSIONS = 120000;
+/** Slightly greedy A*: near-shortest routes, far fewer cells explored across open continents. */
+const HEURISTIC_WEIGHT = 1.4;
 export class Navigation {
   readonly cell = 24;
   private cols: number;
   private rows: number;
-  private blocked: Uint8Array;
+  /** 0 = not evaluated yet, 1 = free, 2 = blocked. */
+  private grid: Uint8Array;
   constructor(
     readonly width: number,
     readonly height: number,
@@ -17,11 +26,15 @@ export class Navigation {
   ) {
     this.cols = Math.ceil(width / this.cell);
     this.rows = Math.ceil(height / this.cell);
-    this.blocked = new Uint8Array(this.cols * this.rows);
-    for (let i = 0; i < this.blocked.length; i++) {
-      const p = this.point(i);
-      this.blocked[i] = this.walkable(p) ? 0 : 1;
+    this.grid = new Uint8Array(this.cols * this.rows);
+  }
+  private isBlocked(i: number): boolean {
+    let v = this.grid[i]!;
+    if (!v) {
+      v = this.walkable(this.point(i)) ? 1 : 2;
+      this.grid[i] = v;
     }
+    return v === 2;
   }
   walkable(p: Point): boolean {
     return (
@@ -67,7 +80,7 @@ export class Navigation {
         const x = cx + dx,
           y = cy + dy,
           i = y * this.cols + x;
-        if (x < 0 || y < 0 || x >= this.cols || y >= this.rows || this.blocked[i]) continue;
+        if (x < 0 || y < 0 || x >= this.cols || y >= this.rows || this.isBlocked(i)) continue;
         const point = this.point(i),
           d = distance(p, point);
         if (d < nearest && this.segment(p, point)) {
@@ -96,21 +109,45 @@ export class Navigation {
     const start = this.accessibleCell(from),
       goal = this.accessibleCell(to);
     if (start < 0 || goal < 0) return [];
-    const open = new Set([start]),
-      closed = new Set<number>();
     const parent = new Map<number, number>(),
-      cost = new Map([[start, 0]]);
-    const score = (i: number) => (cost.get(i) ?? Infinity) + distance(this.point(i), to);
-    for (let attempts = 0; open.size && attempts < this.blocked.length; attempts++) {
-      let cur = -1,
-        best = Infinity;
-      for (const i of open) {
-        const s = score(i);
-        if (s < best) {
-          best = s;
-          cur = i;
+      cost = new Map([[start, 0]]),
+      closed = new Set<number>();
+    // Binary min-heap with lazy deletion: continents are huge, so a linear scan of the open set
+    // would stall the game on a long detour.
+    const heap: [number, number][] = [[0, start]];
+    const push = (item: [number, number]) => {
+      heap.push(item);
+      let i = heap.length - 1;
+      while (i > 0) {
+        const up = (i - 1) >> 1;
+        if (heap[up]![0] <= heap[i]![0]) break;
+        [heap[up], heap[i]] = [heap[i]!, heap[up]!];
+        i = up;
+      }
+    };
+    const pop = () => {
+      const top = heap[0]!,
+        last = heap.pop()!;
+      if (heap.length) {
+        heap[0] = last;
+        let i = 0;
+        for (;;) {
+          const l = 2 * i + 1,
+            r = l + 1;
+          let m = i;
+          if (l < heap.length && heap[l]![0] < heap[m]![0]) m = l;
+          if (r < heap.length && heap[r]![0] < heap[m]![0]) m = r;
+          if (m === i) break;
+          [heap[m], heap[i]] = [heap[i]!, heap[m]!];
+          i = m;
         }
       }
+      return top;
+    };
+    for (let attempts = 0; heap.length && attempts < MAX_EXPANSIONS;) {
+      const cur = pop()[1];
+      if (closed.has(cur)) continue;
+      attempts++;
       if (cur === goal) {
         const result: Point[] = [to];
         let at = cur;
@@ -121,7 +158,6 @@ export class Navigation {
         result.unshift(this.point(start));
         return result;
       }
-      open.delete(cur);
       closed.add(cur);
       const cx = cur % this.cols,
         cy = Math.floor(cur / this.cols);
@@ -136,17 +172,21 @@ export class Navigation {
             y < 0 ||
             x >= this.cols ||
             y >= this.rows ||
-            this.blocked[n] ||
+            this.isBlocked(n) ||
             closed.has(n)
           )
             continue;
-          if (dx && dy && (this.blocked[cy * this.cols + x] || this.blocked[y * this.cols + cx]))
+          if (
+            dx &&
+            dy &&
+            (this.isBlocked(cy * this.cols + x) || this.isBlocked(y * this.cols + cx))
+          )
             continue;
           const c = (cost.get(cur) ?? Infinity) + this.cell * Math.hypot(dx, dy);
           if (c < (cost.get(n) ?? Infinity)) {
             cost.set(n, c);
             parent.set(n, cur);
-            open.add(n);
+            push([c + HEURISTIC_WEIGHT * distance(this.point(n), to), n]);
           }
         }
     }

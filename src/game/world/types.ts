@@ -45,6 +45,8 @@ export type WorldDefinition = {
   /** Open-world layout revision; saves from an earlier layout are shifted by `legacyShift`. */
   layout?: number;
   legacyShift?: Point;
+  /** Offset applied to saves from the layout just before the given revision (3 and later). */
+  layoutShifts?: Record<string, Point>;
   terrain?: {
     ground: string;
     path: string;
