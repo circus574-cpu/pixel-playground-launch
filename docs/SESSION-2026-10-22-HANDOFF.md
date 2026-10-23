@@ -36,6 +36,15 @@ R = 41 870,9 j., obwód 263 083 j.; 1 j. atlasu = 131,54 j. Miasta: Aetheria 61�
 
 `webgl` (Software WebGL) w PR #24 na `7e30566` — **1 z 14 testów pada**: `e2e/world-rendering.spec.ts:7` „nexus mobile detail rendering stays within budget and releases each scene”: `samples[1].textures` (60) ≠ `samples[0].textures` (66). Przyczyna to moja zmiana: drogi i podłogi stref są pieczone leniwie (`renderRoads.ts`), a podłoże strumieniowane (`renderWorld.ts`); liczba tekstur zależy od historii kamery (kawałki wypiekane przy kamerze startowej zostają, bo zwalniane są dopiero po przekroczeniu limitu 16). Poprawka (nie wykonana): zwalniać kawałki dróg/podłoża, gdy wyjdą poza widok powiększony o ~640 j. (histereza), zamiast limitu LRU; wtedy liczba tekstur i obiektów zależy tylko od bieżącej pozycji kamery. Przy okazji sprawdzić `Browser QA (full)` na tym samym SHA (wynik nieznany w chwili zapisu).
 
+## 4b. Pełna lista czerwonych testów CI na `cba7cde` (odczyt 23.10 rano)
+
+Wszystkie wynikają z poszerzonych map; poprawki nie są jeszcze wykonane.
+
+1. `webgl` — `world-rendering.spec.ts:7`: Aetheria 76 vs 70 tekstur, Nexus-9 66 vs 60 (leniwe kawałki; poprawka w 4a).
+2. `Browser QA (full)` — `pre-gpu.spec.ts:298` „real pursuit, return, enemy collision and world boundary” dla sage, android i legend: asercje o granicy świata/pościgu liczone ze starych wymiarów (np. oczekiwane > 5820, > 4620, a jest 4243, 1800, 4550). Test trzeba przeliczyć z `WORLDS[...].width/height`/`legacyShift` zamiast stałych.
+3. `Browser QA (full)` — `stage3.spec.ts:80` (A/B/C): oczekuje stałej pozycji startowej (x 1150), a spawn jest przesunięty o `legacyShift` (x 2350). Użyć `WORLDS[...].spawn`.
+   Poza tym 190 testów w tym przebiegu przechodzi (28 + 190 + 99 w trzech projektach).
+
 ## 5. Weryfikacja i znane problemy
 
 - Lokalnie na HEAD: typecheck, Vitest 190/190, lint 0 błędów, `assets:check`, build. E2E lokalnie: `world-rendering` 2/2, poprawione `region-start-art`/`aether-art-preview` 4/4. Pełny lokalny Playwright nie został ukończony; testy dotyku Androida (`pre-gpu`) padają lokalnie na `data-focused` (ostrość okna w piaskownicy, w CI przechodziły).
