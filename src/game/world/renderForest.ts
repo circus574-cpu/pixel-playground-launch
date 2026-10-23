@@ -6,6 +6,7 @@ import { textureBinding } from "../assets/catalog";
 import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
 import { coversPlayer } from "./visibility";
+import { macroVariation } from "./macroVariation";
 import type { Point } from "../navigation";
 import { FOREST, FOREST_OBJECTS, FOREST_ORIGIN, forestObstacles } from "./forest";
 import type { WorldDefinition } from "./types";
@@ -118,6 +119,7 @@ export function renderForest(scene: Phaser.Scene, world?: WorldDefinition) {
     groundFill(scene, terrain.asset);
     streamFill();
   }
+  const macro = world ? macroVariation(scene, size) : null;
   const scenery: {
     object: (typeof FOREST_OBJECTS)[number];
     image: Phaser.GameObjects.Image;
@@ -150,6 +152,7 @@ export function renderForest(scene: Phaser.Scene, world?: WorldDefinition) {
     terrainMode: cache ? "cached" : "indexed",
     dispose: () => {
       cache?.dispose();
+      macro?.dispose();
       for (const chunk of fillChunks.values()) chunk.destroy();
       fillChunks.clear();
     },
@@ -158,6 +161,7 @@ export function renderForest(scene: Phaser.Scene, world?: WorldDefinition) {
       updateAtmosphere();
       cache?.updateVisibility();
       streamFill();
+      macro?.update();
       const view = scene.cameras.main.worldView;
       for (const { object, image, shadow } of scenery) {
         const left = object.x - object.width * object.anchorX;

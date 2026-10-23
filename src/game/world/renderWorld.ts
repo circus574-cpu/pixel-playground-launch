@@ -7,7 +7,100 @@ import type { WorldDefinition } from "./types";
 import { renderForest } from "./renderForest";
 import { coversPlayer } from "./visibility";
 import { bakeRoads } from "./renderRoads";
+import { macroVariation } from "./macroVariation";
 import type { Point } from "../navigation";
+
+/** Derived, softened copy of a ground texture; undefined when the canvas filter is unavailable. */
+function softenGround(scene: Phaser.Scene, asset: string, frame?: string | number) {
+  const key = asset + ":soft";
+  if (scene.textures.exists(key)) return key;
+  if (frame !== undefined && frame !== "__BASE") return undefined;
+  const src = scene.textures.get(asset).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
+  const w = src.width,
+    h = src.height;
+  const tex = scene.textures.createCanvas(key, w, h);
+  if (!tex) return undefined;
+  const ctx = tex.getContext();
+  if (!("filter" in ctx)) {
+    scene.textures.remove(key);
+    return undefined;
+  }
+  // Tile the image 3 × 3 before blurring so the blur wraps around the edges, then keep the middle tile.
+  const big = document.createElement("canvas");
+  big.width = w * 3;
+  big.height = h * 3;
+  const bctx = big.getContext("2d")!;
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) bctx.drawImage(src, i * w, j * h);
+  const out = document.createElement("canvas");
+  out.width = w * 3;
+  out.height = h * 3;
+  const octx = out.getContext("2d")!;
+  octx.filter = "contrast(0.58) saturate(0.7) brightness(1.1) blur(2.4px)";
+  octx.drawImage(big, 0, 0);
+  ctx.drawImage(out, w, h, w, h, 0, 0, w, h);
+  tex.refresh();
+  return key;
+}
+
+/**
+ * Rectangular path/plaza areas as a feathered canvas patch instead of a hard-edged TileSprite;
+ * falls back to the TileSprite when the texture is a frame or the canvas is unavailable.
+ */
+function featheredArea(
+  scene: Phaser.Scene,
+  area: { x: number; y: number; width: number; height: number },
+  binding: {
+    asset: string;
+    frame?: string | number | undefined;
+    tileSize?: [number, number] | undefined;
+  },
+  depth: number,
+) {
+  const hard = () =>
+    sizeTile(
+      scene.add.tileSprite(area.x, area.y, area.width, area.height, binding.asset, binding.frame),
+      binding.tileSize,
+    )
+      .setOrigin(0)
+      .setDepth(depth);
+  if (binding.frame !== undefined && binding.frame !== "__BASE") return hard();
+  const pad = Math.round(Math.min(48, area.width / 3, area.height / 3));
+  const w = area.width + pad * 2,
+    h = area.height + pad * 2;
+  const key = `feather:${binding.asset}:${area.x}:${area.y}:${area.width}:${area.height}`;
+  if (scene.textures.exists(key)) scene.textures.remove(key);
+  const tex = scene.textures.createCanvas(key, w, h);
+  if (!tex) return hard();
+  const ctx = tex.getContext();
+  const src = scene.textures.get(binding.asset).getSourceImage() as
+    HTMLImageElement | HTMLCanvasElement;
+  const [stepX, stepY] = binding.tileSize ?? [src.width, src.height];
+  const pattern = ctx.createPattern(src, "repeat");
+  if (!pattern || !("filter" in ctx)) {
+    scene.textures.remove(key);
+    return hard();
+  }
+  ctx.save();
+  ctx.scale(stepX / src.width, stepY / src.height);
+  ctx.fillStyle = pattern;
+  ctx.fillRect(0, 0, (w * src.width) / stepX, (h * src.height) / stepY);
+  ctx.restore();
+  const mask = document.createElement("canvas");
+  mask.width = w;
+  mask.height = h;
+  const m = mask.getContext("2d")!;
+  m.filter = `blur(${Math.max(4, pad / 2)}px)`;
+  m.fillStyle = "#fff";
+  m.fillRect(pad, pad, area.width, area.height);
+  ctx.globalCompositeOperation = "destination-in";
+  ctx.drawImage(mask, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+  tex.refresh();
+  return scene.add
+    .image(area.x - pad, area.y - pad, key)
+    .setOrigin(0)
+    .setDepth(depth);
+}
 
 /** World units per streamed ground chunk. */
 const GROUND_CHUNK = 1024;
@@ -26,6 +119,11 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   const updateAtmosphere = atmosphere(scene, world.id);
   // Ground is streamed in chunks: a world-sized TileSprite would allocate a full-size canvas
   // texture on the Canvas renderer, which does not scale to the open-world maps.
+  // A photographic, high-contrast ground fights with the painted characters: soften it once (contrast,
+  // saturation, a touch of blur) into a derived texture. Browsers without canvas filters keep the original.
+  const soft = softenGround(scene, ground.asset, ground.frame);
+  const groundAsset = soft ?? ground.asset;
+  const groundFrame = soft ? undefined : ground.frame;
   const groundChunks = new Map<string, Phaser.GameObjects.TileSprite>();
   const streamGround = () => {
     const view = scene.cameras.main.worldView;
@@ -47,8 +145,8 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
               y,
               Math.min(GROUND_CHUNK, world.width - x),
               Math.min(GROUND_CHUNK, world.height - y),
-              ground.asset,
-              ground.frame,
+              groundAsset,
+              groundFrame,
             ),
             ground.tileSize,
           )
@@ -79,20 +177,9 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     }
   };
   streamGround();
-  for (const area of terrain.paths)
-    sizeTile(
-      scene.add.tileSprite(area.x, area.y, area.width, area.height, path.asset, path.frame),
-      path.tileSize,
-    )
-      .setOrigin(0)
-      .setDepth(renderDepth("paths"));
-  for (const area of terrain.plazas)
-    sizeTile(
-      scene.add.tileSprite(area.x, area.y, area.width, area.height, plaza.asset, plaza.frame),
-      plaza.tileSize,
-    )
-      .setOrigin(0)
-      .setDepth(renderDepth("paths") + 1);
+  const macro = macroVariation(scene, world, world.id);
+  for (const area of terrain.paths) featheredArea(scene, area, path, renderDepth("paths"));
+  for (const area of terrain.plazas) featheredArea(scene, area, plaza, renderDepth("paths") + 1);
   const roads =
     terrain.roads?.length || terrain.courts?.length || terrain.zones?.length
       ? bakeRoads(
@@ -229,13 +316,16 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     // Outer boundary stays wall; inner blockers (lava, energy, water) use the nature liquid.
     const surface = index >= border && hazard ? hazard : wall;
     if (surface) {
-      // Painted texture on the unchanged collision rectangle.
-      sizeTile(
-        scene.add.tileSprite(o.x, o.y, o.width, o.height, surface.asset, surface.frame),
-        surface.tileSize,
-      )
-        .setOrigin(0)
-        .setDepth(renderDepth("below") - 1);
+      // Painted texture on the unchanged collision rectangle; hazards melt into the ground instead of
+      // ending in a hard-edged rectangle.
+      if (index >= border) featheredArea(scene, o, surface, renderDepth("below") - 1);
+      else
+        sizeTile(
+          scene.add.tileSprite(o.x, o.y, o.width, o.height, surface.asset, surface.frame),
+          surface.tileSize,
+        )
+          .setOrigin(0)
+          .setDepth(renderDepth("below") - 1);
       continue;
     }
     hazards.fillStyle(world.id === "pyra" ? 0x2a2029 : world.id === "nexus" ? 0x091722 : 0x15343b);
@@ -278,12 +368,14 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     terrainMode: "region",
     dispose: () => {
       roads?.dispose();
+      macro.dispose();
       for (const chunk of groundChunks.values()) chunk.destroy();
       groundChunks.clear();
     },
     updateVisibility(player: Point) {
       updateAtmosphere();
       streamGround();
+      macro.update();
       roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
       for (const { object: o, image } of scenery) {

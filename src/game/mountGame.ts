@@ -461,9 +461,10 @@ export function mountKileGends(
         ctx.translate(32, 12);
         ctx.scale(1, 12 / 32);
         const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 32);
-        g.addColorStop(0, "rgba(16,44,58,1)");
-        g.addColorStop(0.8, "rgba(16,44,58,0.9)");
-        g.addColorStop(1, "rgba(16,44,58,0)");
+        // Dark contact core with a soft rim: a character must stand on the ground, never float above it.
+        g.addColorStop(0, "rgba(8,12,22,1)");
+        g.addColorStop(0.55, "rgba(8,12,22,0.85)");
+        g.addColorStop(1, "rgba(8,12,22,0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(0, 0, 32, 0, Math.PI * 2);
@@ -472,8 +473,8 @@ export function mountKileGends(
       }
       const shadow = this.add
         .image(0, 3, "actor-shadow")
-        .setDisplaySize(boar ? 56 : 35, 13)
-        .setAlpha(0.3);
+        .setDisplaySize(boar ? 74 : 50, boar ? 24 : 18)
+        .setAlpha(0.62);
       registerActorAnimations(this, config);
       const clip = config.clips.idle!,
         first = Object.values(clip.directions)[0]![0]!;
