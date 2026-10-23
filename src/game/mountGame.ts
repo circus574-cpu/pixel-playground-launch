@@ -839,7 +839,11 @@ export function mountKileGends(
         Number(Boolean(k?.["W"]?.isDown || k?.["UP"]?.isDown)) +
         this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
-      this.hero.body.setPosition(session.player.x, session.player.y).setDepth(session.player.y);
+      // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
+      this.hero.body
+        .setPosition(session.player.x, session.player.y)
+        .setDepth(session.player.y)
+        .setScale(world.id === "pyra" && session.player.interior === "smithy" ? 1.45 : 1);
       this.hero.animation.update(
         this.animationTime,
         session.moving,

@@ -121,7 +121,7 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
 
   // Warm light: a gentle tone over the room, additive pools around the fire and lanterns.
   const tone = scene.add
-    .rectangle(W / 2, H / 2, 4000, 3200, 0xc9b49e)
+    .rectangle(W / 2, H / 2, 4000, 3200, 0xe8dccb)
     .setBlendMode(Phaser.BlendModes.MULTIPLY)
     .setDepth(TONE);
   objects.push(tone);
@@ -151,7 +151,7 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
     const ctx = tex.getContext();
     const g = ctx.createRadialGradient(128, 128, 60, 128, 128, 182);
     g.addColorStop(0, "rgba(12,6,3,0)");
-    g.addColorStop(1, "rgba(12,6,3,0.75)");
+    g.addColorStop(1, "rgba(12,6,3,0.5)");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, 256, 256);
     tex.refresh();
