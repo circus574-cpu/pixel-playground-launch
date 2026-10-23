@@ -187,7 +187,7 @@ test("HP and KI remain separate at low, middle, maximum values and interface sca
   for (const [hp, ki] of [
     [1, 0],
     [60, 25],
-    [120, 50],
+    [125, 50],
   ] as const) {
     await page.evaluate(
       ({ hp, ki }) => sessionStorage.setItem("qa-meter-values", JSON.stringify({ hp, ki })),
@@ -200,8 +200,10 @@ test("HP and KI remain separate at low, middle, maximum values and interface sca
       energy = page.getByRole("meter", { name: "Energia KI", exact: true });
     const visibleHp = Number(await health.getAttribute("aria-valuenow"));
     expect(visibleHp).toBeGreaterThanOrEqual(hp);
-    expect(visibleHp).toBeLessThanOrEqual(Math.min(120, hp + 3));
-    await expect(health.locator("span")).toContainText(String(visibleHp) + " / 120");
+    const max = Number(await health.getAttribute("aria-valuemax"));
+    expect(max).toBe(125); // Planetarni, level 1 (owner annex)
+    expect(visibleHp).toBeLessThanOrEqual(Math.min(max, hp + 3));
+    await expect(health.locator("span")).toContainText(String(visibleHp) + " / " + max);
     expect(Number(await energy.getAttribute("aria-valuenow"))).toBeGreaterThanOrEqual(ki!);
     for (const [width, height] of [
       [360, 800],

@@ -1,4 +1,4 @@
-import { openHudTool } from "./fixtures";
+import { openHudTool, patchActiveCharacter, maxHp } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
 import { WORLDS, worldObstacles } from "../src/game/world/worlds";
@@ -194,6 +194,7 @@ for (const race of RACE_IDS)
   test(`real defeat, respawn and movement: ${race}`, async ({ page }, info) => {
     const world = WORLDS[RACES[race].world];
     await start(page, race);
+    const max = await maxHp(page);
     const enemy = world.enemies[0]!;
     // A normal movement command approaches danger; no HP, kills, timers or saves are patched.
     await page
@@ -215,14 +216,14 @@ for (const race of RACE_IDS)
           ),
         { timeout: 30000 },
       )
-      .toBeLessThan(120);
+      .toBeLessThan(Number(max));
     await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
     await page.screenshot({ path: info.outputPath(race + "-death.png") });
     await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
     await expect.poll(async () => distance(await position(page), world.spawn)).toBeLessThan(8);
     await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
       "aria-valuenow",
-      "120",
+      max,
     );
     await page.evaluate(() => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
@@ -237,6 +238,7 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
   page,
 }, info) => {
   await start(page, "sage", "?ki-art=technical");
+  await patchActiveCharacter(page, { level: 2, skills: ["R", "B1"] });
   const canvas = page.locator(".ki-canvas");
   await expect(canvas).toHaveAttribute("data-actor-visual", "technical-mannequin");
   const seen = new Set<string>();
@@ -245,7 +247,7 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
     await page.waitForTimeout(75);
   }
   expect(seen.size).toBeGreaterThan(1);
-  await page.getByRole("button", { name: "Tarcza ducha", exact: true }).click();
+  await page.getByRole("button", { name: "Świetlista Bariera", exact: true }).click();
   await expect(canvas).toHaveAttribute("data-animation-state", "skill");
   await expect
     .poll(() => canvas.getAttribute("data-animation-frame"))

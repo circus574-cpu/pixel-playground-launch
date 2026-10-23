@@ -1,4 +1,4 @@
-import { openHudTool } from "./fixtures";
+import { basicAttack, learnSkill, openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
@@ -34,7 +34,7 @@ async function clickWorld(page: Page, x: number, y: number) {
   await page.locator("canvas").click({ position: point });
 }
 
-test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith and reload", async ({
+test("D: real forest UI — Ren, three boars, skill tree, XP, loot, merchant, smith and reload", async ({
   page,
 }, info) => {
   test.setTimeout(480000);
@@ -65,7 +65,6 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
   console.log("PVE: Ren quest accepted");
   // Click the actual body on the rendered canvas. Read-only coordinates determine camera space.
   // Small search offsets accommodate ordinary patrol motion; there is no state injection.
-  let usedSkill = false;
   const homes = [
     [2050, 1030],
     [2100, 1620],
@@ -75,22 +74,6 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
     const [hx, hy] = homes[index]!;
     await clickWorld(page, hx! - 130, hy! + 90);
     await page.waitForTimeout(1800);
-    // Verify an offensive skill before selecting the body starts autoattack.
-    // Otherwise trace/actionability overhead may let the boar die before the next button click.
-    if (index === 0) {
-      for (let attempt = 0; attempt < 12 && !usedSkill; attempt++) {
-        const pulse = page.getByRole("button", { name: "Impuls KI", exact: true });
-        if (await pulse.isEnabled()) await pulse.click();
-        usedSkill =
-          Number(
-            await page
-              .getByRole("meter", { name: "Energia KI", exact: true })
-              .getAttribute("aria-valuenow"),
-          ) < 50;
-        if (!usedSkill) await page.waitForTimeout(200);
-      }
-      expect(usedSkill, "offensive skill before autoattack must spend KI").toBe(true);
-    }
     let targeted = false;
     for (const [dx, dy] of [
       [0, -40],
@@ -113,18 +96,8 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
     // Range is intentionally checked by the game. Autoattack continues while skills are pressed.
     for (let attempt = 0; attempt < 40; attempt++) {
       if ((await saved(page)).kills > index) break;
-      const attack = page.getByRole("button", { name: "Atak podstawowy", exact: true });
+      const attack = basicAttack(page);
       if (await attack.isEnabled()) await attack.click();
-      const pulse = page.getByRole("button", { name: "Impuls KI", exact: true });
-      if (await pulse.isEnabled()) await pulse.click();
-      const flame = page.getByRole("button", { name: "Cięcie płomienia", exact: true });
-      if (await flame.isEnabled()) await flame.click();
-      usedSkill ||=
-        Number(
-          await page
-            .getByRole("meter", { name: "Energia KI", exact: true })
-            .getAttribute("aria-valuenow"),
-        ) < 50;
       await page.waitForTimeout(500);
     }
     await expect.poll(async () => (await saved(page)).kills, { timeout: 60000 }).toBe(index + 1);
@@ -132,10 +105,20 @@ test("D: real forest UI — Ren, three boars, skills, XP, loot, merchant, smith 
     await expect
       .poll(async () => (await saved(page)).items.tusk, { timeout: 30000 })
       .toBe(index + 1);
-    console.log("PVE: boar and loot", index + 1, "KI before", ki, "skill verified", usedSkill);
+    console.log("PVE: boar and loot", index + 1, "KI before", ki);
     await page.screenshot({ path: info.outputPath("combat-loot-" + index + ".png") });
   }
-  expect(usedSkill, "skills must spend KI in the rendered game").toBe(true);
+  // Three kills plus the first quest reach level 2: spend the new skill point through the real panel,
+  // then use the learned skill and verify that it spends KI.
+  expect((await saved(page)).level).toBeGreaterThanOrEqual(2);
+  await learnSkill(page, "Szybki Unik");
+  const kiMeter = page.getByRole("meter", { name: "Energia KI", exact: true });
+  const kiBefore = Number(await kiMeter.getAttribute("aria-valuenow"));
+  await page.getByRole("button", { name: "Szybki Unik", exact: true }).click();
+  await expect
+    .poll(async () => Number(await kiMeter.getAttribute("aria-valuenow")))
+    .toBeLessThan(kiBefore - 4);
+  expect((await saved(page)).skills).toContain("A1");
   await visit(page, "Idź do Ren · Strażnik lasu");
   await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
   await close(page);

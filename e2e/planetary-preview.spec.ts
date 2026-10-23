@@ -1,4 +1,4 @@
-import { test, expect, openHudTool, type Page } from "./fixtures";
+import { test, expect, openHudTool, patchActiveCharacter, type Page } from "./fixtures";
 
 const entry = "/scripts/playtest.html";
 const base = "ki-legends:adventure:v1";
@@ -8,6 +8,8 @@ async function start(page: Page, preview = true) {
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(page.locator(".ki-hud")).toBeVisible();
 }
+/** Level 7 with Tarcza Liści (C1 → C2 → C4): a real learned skill whose shield plays the skill clip. */
+const SHIELD_SAVE = { level: 7, skills: ["R", "C1", "C2", "C4"] };
 async function activeId(page: Page) {
   return page.evaluate((key) => localStorage.getItem(key + ":active-character"), base);
 }
@@ -52,6 +54,7 @@ for (const width of [1280, 390])
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await start(page);
+    await patchActiveCharacter(page, SHIELD_SAVE);
     const canvas = page.locator(".ki-canvas");
     await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
     const idleFrames = new Set<string>();
@@ -82,7 +85,7 @@ for (const width of [1280, 390])
       await page.waitForTimeout(160);
       for (const key of keys) await page.keyboard.up(key);
     }
-    await page.getByRole("button", { name: "Tarcza ducha", exact: true }).click();
+    await page.getByRole("button", { name: "Tarcza Liści", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-animation-state", "skill");
     await expect(canvas).toHaveAttribute("data-animation-frame", /^hero-planetary\/skill\//);
     await page.screenshot({ path: info.outputPath(`planetary-skill-${width}.png`) });
@@ -117,6 +120,7 @@ test.describe("Planetarni touch preview", () => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await start(page);
+    await patchActiveCharacter(page, SHIELD_SAVE);
     const canvas = page.locator(".ki-canvas");
     await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary");
     const position = () =>
@@ -154,7 +158,7 @@ test.describe("Planetarni touch preview", () => {
       const after = await position();
       expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeGreaterThan(12);
     }
-    await page.getByRole("button", { name: "Tarcza ducha", exact: true }).tap();
+    await page.getByRole("button", { name: "Tarcza Liści", exact: true }).tap();
     await expect(canvas).toHaveAttribute("data-animation-frame", /^hero-planetary\/skill\//);
     await page.screenshot({ path: info.outputPath("planetary-touch-390.png") });
     expect(errors).toEqual([]);

@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, basicAttack } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 import type { Command } from "../src/game/session";
 
@@ -44,19 +44,20 @@ for (const [race, worldId, actor] of [
         (el, detail) => el.dispatchEvent(new CustomEvent("ki:command", { detail })),
         detail,
       );
-    await page.getByRole("button", { name: "Tarcza ducha", exact: true }).click();
-    await expect(canvas).toHaveAttribute("data-animation-state", "skill");
+    const health = page.getByRole("meter", { name: "Zdrowie", exact: true });
+    const max = (await health.getAttribute("aria-valuemax"))!;
     const world = WORLDS[worldId],
       enemy = world.enemies[0]!;
     await command({ type: "move", x: enemy.x, y: enemy.y + 85 });
-    await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).not.toHaveAttribute(
-      "aria-valuenow",
-      "120",
-    );
-    // A real hit legitimately preempts lower-priority attack presentation.
-    // Wait until that reaction finishes before testing a player attack.
+    // A real hit makes the potion usable; its healing plays the skill clip. No HP is patched.
+    await expect(health).not.toHaveAttribute("aria-valuenow", max);
+    // A real hit legitimately preempts lower-priority presentation.
+    // Wait until that reaction finishes before triggering the skill and an attack.
     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
-    await command({ type: "ability", ability: "attack" });
+    await page.getByRole("button", { name: "Mikstura życia", exact: true }).click();
+    await expect(canvas).toHaveAttribute("data-animation-state", "skill");
+    await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
+    await command({ type: "ability", ability: "R" });
     await expect
       .poll(() =>
         page.evaluate(() =>

@@ -1,7 +1,9 @@
-import { test, expect, openHudTool, type Page } from "./fixtures";
+import { test, expect, openHudTool, type Page, patchActiveCharacter } from "./fixtures";
 
 const entry = "/scripts/playtest.html";
 const base = "ki-legends:adventure:v1";
+/** Level 2 with Świetlista Bariera (B1): a real learned skill whose shield plays the skill clip. */
+const SHIELD_SAVE = { level: 2, skills: ["R", "B1"] };
 async function start(page: Page, preview = true) {
   await page.goto(entry + (preview ? "?ki-sage-art=1" : ""));
   await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
@@ -84,6 +86,7 @@ for (const width of [1280, 390])
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await start(page);
+    await patchActiveCharacter(page, SHIELD_SAVE);
     const canvas = page.locator(".ki-canvas");
     await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
     const idleFrames = new Set<string>();
@@ -114,7 +117,7 @@ for (const width of [1280, 390])
       await page.waitForTimeout(160);
       for (const key of keys) await page.keyboard.up(key);
     }
-    await page.getByRole("button", { name: "Tarcza ducha", exact: true }).click();
+    await page.getByRole("button", { name: "Świetlista Bariera", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-animation-state", "skill");
     await expect(canvas).toHaveAttribute("data-animation-frame", /^hero-sage\/skill\//);
     await page.screenshot({ path: info.outputPath(`sage-skill-${width}.png`) });
@@ -149,6 +152,7 @@ test.describe("Mędrcy touch preview", () => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await start(page);
+    await patchActiveCharacter(page, SHIELD_SAVE);
     const canvas = page.locator(".ki-canvas");
     await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage");
     const position = () =>
@@ -186,7 +190,7 @@ test.describe("Mędrcy touch preview", () => {
       const after = await position();
       expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeGreaterThan(12);
     }
-    await page.getByRole("button", { name: "Tarcza ducha", exact: true }).tap();
+    await page.getByRole("button", { name: "Świetlista Bariera", exact: true }).tap();
     await expect(canvas).toHaveAttribute("data-animation-frame", /^hero-sage\/skill\//);
     await page.screenshot({ path: info.outputPath("sage-touch-390.png") });
     expect(errors).toEqual([]);
