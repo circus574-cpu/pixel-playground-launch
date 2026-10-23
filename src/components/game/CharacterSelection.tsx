@@ -2,6 +2,7 @@ import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react"
 import { RACES, RACE_IDS, type RaceId, type WorldId } from "../../game/world/races";
 import { WORLDS } from "../../game/world/worlds";
 import { slotTitle, type CharacterSlot } from "../../game/characters";
+import { DEFAULT_NICK, NICK_MAX, nickError, normalizeNick } from "../../game/nickname";
 import { BrandMark } from "./BrandMark";
 import { RaceArtwork } from "./RaceArtwork";
 import "./character-selection.css";
@@ -11,7 +12,7 @@ type Props = {
   startWithOrigins?: boolean;
   requestedContinent?: WorldId | undefined;
   warning: string;
-  onCreate: (race: RaceId) => void;
+  onCreate: (race: RaceId, nick?: string) => void;
   onContinue: (slot: CharacterSlot) => void;
   onDelete?: (slot: CharacterSlot) => void;
 };
@@ -24,6 +25,8 @@ export function CharacterSelection({
   startWithOrigins = false,
   requestedContinent,
 }: Props) {
+  const [nick, setNick] = useState("");
+  const nickProblem = nickError(nick);
   const [selected, setSelected] = useState<RaceId>(
     requestedContinent === "aether"
       ? "sage"
@@ -325,17 +328,37 @@ export function CharacterSelection({
                   <p className="ki-origin-architecture">{world.architecture}</p>
                 </div>
               </section>
+              <div className="ki-nick">
+                <label htmlFor="ki-nick-input">Nick postaci</label>
+                <input
+                  id="ki-nick-input"
+                  value={nick}
+                  maxLength={NICK_MAX + 4}
+                  placeholder={DEFAULT_NICK}
+                  autoComplete="off"
+                  spellCheck={false}
+                  aria-invalid={nickProblem !== ""}
+                  aria-describedby="ki-nick-hint"
+                  onChange={(event) => setNick(event.target.value)}
+                />
+                <small id="ki-nick-hint" role={nickProblem ? "alert" : undefined}>
+                  {nickProblem || `3–${NICK_MAX} znaków. Zostaw puste, aby użyć „${DEFAULT_NICK}”.`}
+                </small>
+              </div>
               <button
                 className="ki-origin-primary"
-                onClick={() =>
-                  onCreate(
+                disabled={nickProblem !== ""}
+                onClick={() => {
+                  const chosen =
                     requestedContinent === "aether"
                       ? "sage"
                       : requestedContinent === "verdant"
                         ? "planetary"
-                        : selected,
-                  )
-                }
+                        : selected;
+                  const name = normalizeNick(nick);
+                  if (name) onCreate(chosen, name);
+                  else onCreate(chosen);
+                }}
               >
                 Rozpocznij przygodę <span aria-hidden="true">→</span>
               </button>

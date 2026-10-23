@@ -1,5 +1,6 @@
 import { GameSession, SaveStore, type Player } from "./session";
 import { RACES, type RaceId } from "./world/races";
+import { normalizeNick, nickError } from "./nickname";
 
 export type CharacterSlot = {
   id: string;
@@ -44,12 +45,14 @@ export class CharacterStore {
       a.id === "legacy" ? -1 : b.id === "legacy" ? 1 : a.id.localeCompare(b.id),
     );
   }
-  create(race: RaceId): CharacterSlot | undefined {
+  create(race: RaceId, nick = ""): CharacterSlot | undefined {
     try {
+      if (nickError(nick)) throw new Error("invalid nickname");
       const id = crypto.randomUUID(),
         key = this.prefix + id;
       if (this.storage.getItem(key) !== null) throw new Error("slot collision");
       const game = new GameSession(new SaveStore(this.storage, key), race);
+      if (normalizeNick(nick)) game.player.name = normalizeNick(nick);
       game.flush();
       if (game.saves?.warning || !this.storage.getItem(key)) throw new Error("save failed");
       return { id, key, player: game.player, warning: "" };
@@ -94,5 +97,5 @@ export class CharacterStore {
 }
 export const slotTitle = (slot: CharacterSlot) =>
   slot.player
-    ? `${RACES[slot.player.race].name} · poziom ${slot.player.level}`
+    ? `${slot.player.name ? slot.player.name + " · " : ""}${RACES[slot.player.race].name} · poziom ${slot.player.level}`
     : "Zapis wymagający odzyskania";

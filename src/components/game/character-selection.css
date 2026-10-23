@@ -725,3 +725,43 @@
     scroll-behavior: auto;
   }
 }
+
+.ki-nick {
+  display: grid;
+  gap: 6px;
+  max-width: 360px;
+  margin: 0 0 14px;
+}
+.ki-nick label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #c9bd96;
+}
+.ki-nick input {
+  min-height: 44px;
+  padding: 0 14px;
+  color: #f2ecd6;
+  font: inherit;
+  font-size: 16px;
+  background: #0b171fd9;
+  border: 1px solid #8a7a52;
+  border-radius: 4px;
+}
+.ki-nick input:focus-visible {
+  outline: 2px solid var(--origin-color);
+  outline-offset: 2px;
+}
+.ki-nick input[aria-invalid="true"] {
+  border-color: #e0816b;
+}
+.ki-nick small {
+  color: #a9b3ad;
+}
+.ki-nick small[role="alert"] {
+  color: #f0a490;
+}
+.ki-origin-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

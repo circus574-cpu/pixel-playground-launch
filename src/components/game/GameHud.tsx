@@ -213,7 +213,7 @@ export function GameHud({
         </div>
         <div className="ki-player-info">
           <div className="ki-player-name">
-            Wędrowiec <span>{RACES[player.race].name.toUpperCase()}</span>
+            {state.player.name ?? "Wędrowiec"} <span>{RACES[player.race].name.toUpperCase()}</span>
           </div>
           <div
             className="ki-meter ki-hp"

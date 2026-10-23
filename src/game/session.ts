@@ -1,3 +1,4 @@
+import { isValidNick } from "./nickname";
 import { z } from "zod";
 import { WORLDS, worldObstacles } from "./world/worlds";
 import { RACES, RACE_IDS, WORLD_IDS, type RaceId } from "./world/races";
@@ -111,6 +112,8 @@ const PlayerSchema = z.object({
   materials: z.record(z.string().max(60), finite(99).int()).default({}),
   /** How many times the skill tree was reset. */
   respecs: z.number().int().min(0).max(100000).default(0),
+  /** Chosen at character creation; saves from before nicknames have none and show the default. */
+  name: z.string().refine(isValidNick, "nick").optional(),
 });
 export type Player = z.infer<typeof PlayerSchema>;
 export type NpcId = "guide" | "hunter" | "merchant" | "smith";

@@ -69,8 +69,8 @@ export function Index() {
     store?.select(slot);
     setActive(slot);
   };
-  const create = (race: RaceId) => {
-    const slot = store?.create(race);
+  const create = (race: RaceId, nick = "") => {
+    const slot = store?.create(race, nick);
     if (slot) open(slot);
     else setWarning(store?.warning || "Nie można utworzyć zapisu na tym urządzeniu.");
   };

@@ -28,6 +28,11 @@ Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji wła
 
 - Cztery malowane rasy, tekstury kontynentów i przyroda zainstalowane jako publiczne; otwarte światy Aetherii, Nexus-9 i Pyry (cztery strefy), przycisk „Usuń” w wyborze postaci, podgląd kontynentu z atlasu, geometria planety (80 000 j. między miastami). Szczegóły i plan na jutro: [SESSION-2026-10-22-HANDOFF.md](SESSION-2026-10-22-HANDOFF.md). Brak scalenia i publikacji.
 
+## 2026-10-23 — grafika główna i nick postaci (gałąź `feat/key-art-menu-loading`, NIEOPUBLIKOWANE)
+
+- Grafika główna jako tło ekranu ładowania (kadr z bohaterami, powolne zbliżenie) i menu; prawa do obrazu do potwierdzenia przez właściciela.
+- Nick postaci wpisywany przy tworzeniu (3–16 znaków: litery, cyfry, spacja, `_ - '`; puste = „Wędrowiec”). Zapis: opcjonalne pole `name` w zapisie v4, starsze zapisy działają bez zmian. Nick widać w HUD i na liście postaci.
+
 ## 2026-10-22 — rasy, drzewka i potwory w rozgrywce (gałąź `ccr-b63f9ce9-bu75ez`, NIEOPUBLIKOWANE)
 
 - Wdrożono aneks właściciela: statystyki ras, 4 drzewka po 29 węzłów, Ładunek Rdzenia i Żar, punkty umiejętności, Tryb KI; szybkość +5% na poziom do 20 (decyzja właściciela); model obrażeń `max(1, Atak × mnożnik − Obrona/2)` bez zaokrąglania (odtwarza tabelę pojedynków aneksu).
