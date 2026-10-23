@@ -37,11 +37,11 @@ function softenGround(scene: Phaser.Scene, asset: string, frame?: string | numbe
   out.width = w * 3;
   out.height = h * 3;
   const octx = out.getContext("2d")!;
-  octx.filter = "contrast(0.46) saturate(0.55) brightness(1.1) blur(3px)";
+  octx.filter = "contrast(0.72) saturate(0.85) brightness(1.02) blur(1.5px)";
   octx.drawImage(big, 0, 0);
   // Warm painted wash: the ground is a calm backdrop in one limited palette, never the loudest thing on screen.
   octx.filter = "none";
-  octx.globalAlpha = 0.16;
+  octx.globalAlpha = 0.08;
   octx.fillStyle = "#d9bf94";
   octx.fillRect(0, 0, w * 3, h * 3);
   octx.globalAlpha = 1;
