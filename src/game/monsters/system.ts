@@ -35,6 +35,8 @@ export interface MonsterHost {
   readonly enemies: Enemy[];
   readonly player: { x: number; y: number; hp: number; dead: boolean };
   readonly playerMaxHp: number;
+  /** The player stands in a city: monsters lose them and go home. */
+  readonly safe: boolean;
   /** Reach of the player's basic attack; ranged races can shoot from far beyond a monster's leash. */
   readonly playerRange: number;
   isNight(): boolean;
@@ -538,15 +540,15 @@ export class MonsterSystem {
     if (m.phase === "idle") {
       const radius = def.agro * (def.traits.night && !host.isNight() ? def.traits.night.day : 1);
       const calm = def.traits.provoked && !m.provoked;
-      if (!calm && !p.dead && d <= radius && host.nav.visible(e, p)) this.engage(e);
+      if (!calm && !p.dead && !host.safe && d <= radius && host.nav.visible(e, p)) this.engage(e);
       else return this.stepIdle(e, dt);
     }
     // engaged
     // A ranged player may stand far from the monster's home; the leash grows by that reach so the
     // monster can still come to the shooter instead of returning and becoming untouchable.
     const reachBonus = Math.max(0, host.playerRange - 100);
-    if (p.dead || distance(e, e.home) > def.traits.leash + reachBonus + 10) {
-      if (def.traits.still && !p.dead) {
+    if (p.dead || host.safe || distance(e, e.home) > def.traits.leash + reachBonus + 10) {
+      if (def.traits.still && !p.dead && !host.safe) {
         /* turrets and plants never leave their place */
       } else return this.beginReturn(e);
     }

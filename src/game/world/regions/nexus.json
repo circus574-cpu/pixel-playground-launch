@@ -41,22 +41,64 @@
       "dialogue": "Organiczne dziki naruszają obwody na obrzeżach sieci. Pokonaj trzy i przynieś dane z patrolu."
     },
     {
+      "id": "steward",
+      "name": "VEGA-3",
+      "role": "Zarządca synchronizacji",
+      "x": 2400,
+      "y": 1275,
+      "tint": 15390133,
+      "dialogue": "Połączenie ustanowione. Każda historia w sieci zaczyna się od zapytania, nie od odpowiedzi.",
+      "building": "hall"
+    },
+    {
       "id": "merchant",
       "name": "MIRA-2",
       "role": "Operatorka wymiany",
-      "x": 3170,
-      "y": 1607,
+      "x": 3100,
+      "y": 1577,
       "tint": 14070783,
-      "dialogue": "Wymiana zasobów stabilizuje węzeł. Przyjmuję kły; oferuję mikstury i pancerze."
+      "dialogue": "Wymiana zasobów stabilizuje węzeł. Przyjmuję kły; oferuję mikstury i pancerze.",
+      "building": "shop"
+    },
+    {
+      "id": "trainer",
+      "name": "KRON-9",
+      "role": "Instruktor kalibracji",
+      "x": 3100,
+      "y": 2327,
+      "tint": 16755370,
+      "dialogue": "Manekin nie oddaje ciosów i nie wypłaca nagród. Użyj każdej zdolności i odczytaj wyniki.",
+      "building": "arena"
+    },
+    {
+      "id": "keeper",
+      "name": "ARCH-5",
+      "role": "Strażnik magazynu",
+      "x": 1650,
+      "y": 2517,
+      "tint": 12116191,
+      "dialogue": "Twoje przedmioty są zaszyfrowane i przypisane tylko do tej postaci. Skrzynia czeka.",
+      "building": "depot"
     },
     {
       "id": "smith",
       "name": "HEF-4",
       "role": "Inżynier uzbrojenia",
-      "x": 2470,
-      "y": 2600,
+      "x": 2400,
+      "y": 2570,
       "tint": 10802687,
-      "dialogue": "Ulepszenie zwiększa skuteczność ostrza. Najpierw je załóż; kalibracja kosztuje 15 monet."
+      "dialogue": "Ulepszenie zwiększa skuteczność ostrza. Najpierw je załóż; kalibracja kosztuje 15 monet.",
+      "building": "smithy"
+    },
+    {
+      "id": "innkeeper",
+      "name": "SOLA-6",
+      "role": "Operatorka regeneracji",
+      "x": 1700,
+      "y": 1577,
+      "tint": 16766139,
+      "dialogue": "Wejdź do kapsuły. Cykl regeneracji potrwa tyle, ile potrzebujesz.",
+      "building": "inn"
     }
   ],
   "enemies": [
@@ -1503,17 +1545,14 @@
     "x": 1200,
     "y": 900
   },
-  "cityPlan": {
-    "id": "nexus-node",
+  "city": {
     "name": "Węzeł Świadomości",
-    "safe": true,
     "bounds": {
       "x": 1350,
       "y": 950,
       "width": 2050,
       "height": 1750
     },
-    "minServiceDistance": 700,
     "buildings": [
       {
         "id": "hall",
@@ -1582,55 +1621,6 @@
         }
       }
     ],
-    "npcs": [
-      {
-        "id": "steward",
-        "building": "hall",
-        "name": "VEGA-3",
-        "role": "Zarządca synchronizacji",
-        "tint": 15390133,
-        "dialogue": "Połączenie ustanowione. Każda historia w sieci zaczyna się od zapytania, nie od odpowiedzi."
-      },
-      {
-        "id": "merchant",
-        "building": "shop",
-        "name": "MIRA-2",
-        "role": "Operatorka wymiany",
-        "tint": 14070783,
-        "dialogue": "Wymiana zasobów stabilizuje węzeł. Przyjmuję kły; oferuję mikstury i pancerze."
-      },
-      {
-        "id": "trainer",
-        "building": "arena",
-        "name": "KRON-9",
-        "role": "Instruktor kalibracji",
-        "tint": 16755370,
-        "dialogue": "Manekin nie oddaje ciosów i nie wypłaca nagród. Użyj każdej zdolności i odczytaj wyniki."
-      },
-      {
-        "id": "keeper",
-        "building": "depot",
-        "name": "ARCH-5",
-        "role": "Strażnik magazynu",
-        "tint": 12116191,
-        "dialogue": "Twoje przedmioty są zaszyfrowane i przypisane tylko do tej postaci. Skrzynia czeka."
-      },
-      {
-        "id": "smith",
-        "building": "smithy",
-        "name": "HEF-4",
-        "role": "Inżynier uzbrojenia",
-        "tint": 10802687,
-        "dialogue": "Ulepszenie zwiększa skuteczność ostrza. Najpierw je załóż; kalibracja kosztuje 15 monet."
-      },
-      {
-        "id": "innkeeper",
-        "building": "inn",
-        "name": "SOLA-6",
-        "role": "Operatorka regeneracji",
-        "tint": 16766139,
-        "dialogue": "Wejdź do kapsuły. Cykl regeneracji potrwa tyle, ile potrzebujesz."
-      }
-    ]
+    "roads": []
   }
 }

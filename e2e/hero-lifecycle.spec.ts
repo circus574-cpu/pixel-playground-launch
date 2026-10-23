@@ -1,4 +1,5 @@
 import { test, expect, basicAttack } from "./fixtures";
+import { isCityStage } from "../src/game/city/types";
 import { WORLDS } from "../src/game/world/worlds";
 import type { Command } from "../src/game/session";
 
@@ -22,7 +23,7 @@ for (const [race, worldId, actor] of [
   ["Androidy", "nexus", "hero-android"],
   ["Legendy", "pyra", "hero-legend"],
 ] as const) {
-  test(`${actor}: ${WORLDS[worldId].city ? "safe city movement and training" : "all seven clips follow real combat, defeat and respawn"}`, async ({
+  test(`${actor}: ${isCityStage(WORLDS[worldId]) ? "safe city movement and training" : "all seven clips follow real combat, defeat and respawn"}`, async ({
     page,
   }, info) => {
     await page.goto("/scripts/playtest.html");
@@ -50,7 +51,7 @@ for (const [race, worldId, actor] of [
     const max = (await health.getAttribute("aria-valuemax"))!;
     const world = WORLDS[worldId],
       enemy = world.enemies[0]!;
-    if (world.city) {
+    if (isCityStage(world)) {
       await command({ type: "enter", building: "arena" });
       await expect(canvas).toHaveAttribute("data-interior", "arena");
       await command({ type: "training", action: "start" });

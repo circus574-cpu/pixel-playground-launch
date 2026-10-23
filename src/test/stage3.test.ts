@@ -5,6 +5,7 @@ import { WORLDS, worldObstacles } from "../game/world/worlds";
 import { CharacterStore } from "../game/characters";
 import { CHARACTER_VISUALS, regionAssets } from "../game/world/assets";
 import { distance } from "../game/navigation";
+import { isCityStage } from "../game/city/types";
 import { existsSync } from "node:fs";
 
 function run(g: GameSession, until: () => boolean, limit = 1800) {
@@ -49,7 +50,7 @@ describe.each(RACE_IDS)("%s playable region", (race) => {
     talk(g, "guide");
     g.command({ type: "dialogue", action: "claim" });
     close(g);
-    if (g.world.city) {
+    if (isCityStage(g.world)) {
       talk(g, "merchant");
       g.command({ type: "trade", item: "sword", buy: true });
       close(g);
@@ -58,6 +59,8 @@ describe.each(RACE_IDS)("%s playable region", (race) => {
       g.command({ type: "dialogue", action: "accept" });
       close(g);
       for (const e of g.enemies.slice(0, 3)) {
+        // The start lies inside the safe city: walk out to the boar before fighting.
+        Object.assign(g.player, g.nav.safe({ x: e.x - 70, y: e.y }));
         g.command({ type: "target", id: e.id });
         for (let i = 0; i < 1800 && e.hp > 0; i++) {
           g.tick(50);
@@ -86,12 +89,12 @@ describe.each(RACE_IDS)("%s playable region", (race) => {
     expect(stats(g.player).attack).toBe(attack + 4);
     close(g);
     talk(g, "merchant");
-    g.command({ type: "trade", item: g.world.city ? "potion" : "tusk", buy: false });
+    g.command({ type: "trade", item: isCityStage(g.world) ? "potion" : "tusk", buy: false });
     g.command({ type: "trade", item: "potion", buy: true });
     close(g);
     expect(g.player.quests).toEqual({
       steps: "done",
-      boars: g.world.city ? "locked" : "done",
+      boars: isCityStage(g.world) ? "locked" : "done",
       gear: "done",
     });
     g.flush();
