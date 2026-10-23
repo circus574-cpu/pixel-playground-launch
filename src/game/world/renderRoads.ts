@@ -8,6 +8,15 @@ export const ROAD_CHUNK_SIDE = 1024;
 export const ROAD_BAKE_SCALE = 0.75;
 /** Baked chunks farther than this from the view (world units) are released. */
 const RELEASE_MARGIN = 640;
+/** Diagnostic totals for the `?ki-debug=1` badge: how long lazy road baking blocks a frame. */
+type BakeStats = { count: number; totalMs: number; maxMs: number };
+const recordBake = (ms: number) => {
+  const w = window as unknown as { __kiBake?: BakeStats };
+  const stats = (w.__kiBake ??= { count: 0, totalMs: 0, maxMs: 0 });
+  stats.count++;
+  stats.totalMs += ms;
+  stats.maxMs = Math.max(stats.maxMs, ms);
+};
 type Pt = readonly [number, number];
 
 /** Smooth Catmull-Rom curve through the authored points (presentation only). */
@@ -231,6 +240,7 @@ export function bakeRoads(
     for (const { x, y } of wanted.slice(0, budget)) {
       const w = Math.min(ROAD_CHUNK_SIDE, size.width - x),
         h = Math.min(ROAD_CHUNK_SIDE, size.height - y);
+      const started = performance.now();
       const chunk = bake(
         x,
         y,
@@ -238,6 +248,7 @@ export function bakeRoads(
           (s) => s.b.left < x + w && s.b.right > x && s.b.top < y + h && s.b.bottom > y,
         ),
       );
+      recordBake(performance.now() - started);
       if (chunk) chunk.seen = frame;
     }
     // Release chunks that left the view by more than RELEASE_MARGIN, so the set of baked chunks

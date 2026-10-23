@@ -2,6 +2,7 @@ import { INTERACTION_BOUNDS } from "./geometry";
 import Phaser from "phaser";
 import { readUiPreferences } from "./uiPreferences";
 import type { GameLoadingState } from "./loading";
+import { runBench } from "./debugBench";
 import { actorVisual, catalog, worldAssets, worldRenderRefs } from "./assets/catalog";
 import { queueAssets, prepareTextures, registerActorAnimations } from "./assets/phaserAssets";
 import { ActorAnimation } from "./assets/actorAnimation";
@@ -804,7 +805,10 @@ export function mountKileGends(
     pixelArt: false,
     antialias: true,
     // Sprites are textured quads, so MSAA on the whole canvas only costs fill rate on mobile GPUs.
-    render: { antialiasGL: false, powerPreference: "high-performance" },
+    render: {
+      antialiasGL: false,
+      powerPreference: "high-performance",
+    },
     loader: { timeout: 20000, maxRetries: 1 },
     parent,
     width: parent.clientWidth || 960,
@@ -815,7 +819,10 @@ export function mountKileGends(
   });
   // `?ki-debug=1` shows renderer, FPS and scene size so slowdowns can be diagnosed from a phone.
   let debugTimer = 0;
-  if (new URLSearchParams(window.location.search).get("ki-debug") === "1") {
+  const debugMode = new URLSearchParams(window.location.search).get("ki-debug");
+  let stopBench: (() => void) | undefined;
+  let benchStart = 0;
+  if (debugMode === "1" || debugMode === "bench") {
     (window as unknown as { __kiGame?: Phaser.Game }).__kiGame = game;
     const badge = document.createElement("div");
     badge.setAttribute("data-testid", "ki-debug");
@@ -823,6 +830,20 @@ export function mountKileGends(
       "position:absolute;left:6px;bottom:96px;z-index:40;padding:4px 8px;border-radius:4px;" +
       "font:11px/1.4 monospace;color:#cfe;background:#000a;pointer-events:none;white-space:pre";
     parent.appendChild(badge);
+    if (debugMode === "bench") {
+      const panel = document.createElement("div");
+      panel.setAttribute("data-testid", "ki-bench");
+      panel.style.cssText =
+        "position:absolute;left:6px;top:140px;z-index:41;padding:6px 10px;border-radius:4px;" +
+        "font:12px/1.5 monospace;color:#ffe9a8;background:#000c;pointer-events:none;white-space:pre";
+      panel.textContent = "Test wydajności za 8 s - nie ruszaj się";
+      parent.appendChild(panel);
+      benchStart = window.setTimeout(() => {
+        stopBench = runBench(game, parent, (lines) => {
+          panel.textContent = lines.join("\n");
+        });
+      }, 8000);
+    }
     // CPU time per frame (update + render commands) tells CPU-bound from GPU-bound devices.
     let stepAt = 0;
     const jsTimes: number[] = [];
@@ -869,6 +890,8 @@ export function mountKileGends(
   return () => {
     disposed = true;
     window.clearInterval(debugTimer);
+    window.clearTimeout(benchStart);
+    stopBench?.();
     for (const release of releaseScene.splice(0)) release();
     session.flush();
     game.destroy(true);
