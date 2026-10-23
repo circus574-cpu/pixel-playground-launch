@@ -53,9 +53,13 @@ describe("GPU import validates actual pixels, frames and immutable publication",
     );
     expect(result.directory).toContain(result.digest.slice(0, 12));
     const afterImage = path.join(root, "public", installed.assets[0]!.url);
-    expect(await sharp(afterImage).raw().toBuffer()).toEqual(
-      await sharp(path.join(f.source, "actor.webp")).raw().toBuffer(),
-    );
+    const [actualPixels, expectedPixels] = await Promise.all([
+      sharp(afterImage).raw().toBuffer(),
+      sharp(path.join(f.source, "actor.webp")).raw().toBuffer(),
+    ]);
+    // Native byte equality avoids walking millions of Buffer properties in the
+    // assertion framework while retaining an exact, lossless comparison.
+    expect(actualPixels.equals(expectedPixels)).toBe(true);
     const catalog = makeCatalog([installed]);
     expect(worldAssets("aether", false, catalog).map((a) => a.id)).toContain("technical-rig");
     expect(worldAssets("verdant", false, catalog).map((a) => a.id)).not.toContain("technical-rig");

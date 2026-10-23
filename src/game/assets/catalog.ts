@@ -200,6 +200,14 @@ export function textureBinding(
 } {
   return source.renderBindings[id] ?? fallback;
 }
+/** Summoned small wasps share the existing wasp identity instead of becoming boars. */
+export function monsterVisual(kind: string, source = catalog): ActorVisual {
+  const visualKind = kind === "verdant-mala-osa" ? "verdant-bursztynowa-osa" : kind;
+  const prefix = visualKind.split("-")[0] as WorldId;
+  if (!(prefix in WORLDS)) return actorVisual("verdant", "enemy", undefined, false, source);
+  return actorVisual(prefix, "enemy", visualKind.slice(prefix.length + 1), false, source);
+}
+
 export function worldAssets(
   worldId: WorldId,
   preview = false,

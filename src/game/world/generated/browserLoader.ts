@@ -73,6 +73,7 @@ export async function loadBrowserFeature(
     pending = new Map<string, Promise<BrowserChunk>>();
   return {
     definition,
+    worldSha256: manifest.files["world.json"]!,
     navigation,
     enemyNavigation: (exclusions: readonly Obstacle[]) =>
       browserNavigation(

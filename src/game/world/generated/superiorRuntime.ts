@@ -1,11 +1,11 @@
 import type Phaser from "phaser";
 import { GameSession } from "../../session";
 import type { GameRuntime } from "../../mountGame";
-import { actorVisual, catalog, textureBinding } from "../../assets/catalog";
+import { actorVisual, catalog, textureBinding, monsterVisual } from "../../assets/catalog";
 import { queueAssets, prepareTextures, animationKey } from "../../assets/phaserAssets";
 import { monsterDef } from "../../monsters/catalog";
 import { streamSpawns, type AuthoredSpawn } from "./spawnStream";
-import { RACES, type RaceId, type WorldId } from "../races";
+import { RACES, type RaceId } from "../races";
 import { WORLDS } from "../worlds";
 import type { CityDefinition, BuildingId } from "../../city/types";
 import type { WorldDefinition, WorldNpc } from "../types";
@@ -107,6 +107,9 @@ export async function prepareSuperior(options: {
     throw Error("Błędna suma oprawy lądu");
   const art = JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt;
   if (
+    loader.worldSha256 !== info.worldSha256 ||
+    source.geometry.width !== info.width ||
+    source.geometry.height !== info.height ||
     source.feature !== info.id ||
     source.affinity !== info.affinity ||
     !Array.isArray(source.settlements) ||
@@ -161,6 +164,8 @@ export async function prepareSuperior(options: {
     }
     cities.set(town.id, { city, npcs, market });
   }
+  if (restored?.interior && !cities.has(save.town ?? ""))
+    throw Error("Nieznane miasto zapisu wyprawy; oryginał zachowano.");
   const initialTown = cities.has(save.town ?? "")
     ? save.town!
     : [...cities.keys()].sort((a, b) => {
@@ -234,7 +239,7 @@ export async function prepareSuperior(options: {
       if (npc.id === "hunter")
         npc.dialogue =
           "Poza osadą pokonaj trzech przeciwników pierwszych poziomów i wróć po nagrodę. Miasta pozostają bezpieczne.";
-  // GameSession reads the envelope once more; synchronize the selected town after that load.
+  // The session consumes the same initial snapshot; never rebase a writer on another tab mid-load.
   save.town = initialTown;
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
   const addAsset = (id: string) => {
@@ -412,10 +417,7 @@ export async function prepareSuperior(options: {
       }
   };
   let activeScene: Phaser.Scene | undefined;
-  const enemyVisual = (kind: string) => {
-    const prefix = kind.split("-")[0] as WorldId;
-    return actorVisual(prefix, "enemy", kind.slice(prefix.length + 1));
-  };
+  const enemyVisual = monsterVisual;
   const monsterAssets = new Map<string, Set<string>>();
   const neededByMonster = (kind: string) => {
     if (monsterAssets.has(kind)) return monsterAssets.get(kind)!;

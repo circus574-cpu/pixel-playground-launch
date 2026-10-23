@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { GameSession } from "../game/session";
 import { Navigation } from "../game/navigation";
 import { WORLDS } from "../game/world/worlds";
@@ -107,6 +107,26 @@ describe("Superior authored spawn lifecycle", () => {
     await settled();
     expect(g.enemies).toHaveLength(1);
     expect(g.enemies[0]!.hp).toBe(g.enemies[0]!.maxHp);
+    stream.dispose();
+  });
+  it("keeps a dead root's atlas until its last living summoned descendant is gone", async () => {
+    const { g, save, slots } = setup();
+    const release = vi.fn();
+    const stream = streamSpawns(g, save, slots, { acquire: async () => {}, release });
+    stream.update();
+    await settled();
+    const root = g.enemies[0]!;
+    const child = g.monsters.spawn("verdant-mala-osa", { x: root.x + 20, y: root.y });
+    child.m.parent = root.id;
+    root.mode = "dead";
+    root.hp = 0;
+    stream.capture();
+    g.enemies.splice(g.enemies.indexOf(root), 1);
+    stream.update();
+    expect(release).not.toHaveBeenCalled();
+    g.enemies.splice(g.enemies.indexOf(child), 1);
+    stream.update();
+    expect(release).toHaveBeenCalledTimes(1);
     stream.dispose();
   });
   it("does not activate an async request after disposing the outgoing scene", async () => {

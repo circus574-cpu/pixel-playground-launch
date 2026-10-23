@@ -74,6 +74,21 @@ describe("Superior expedition ownership and travel", () => {
       expect(values.get("expedition")).toBe(original);
     },
   );
+  it("keeps one initial snapshot when another tab writes during asynchronous world preparation", () => {
+    const { port, values } = storage();
+    const seed = new SuperiorSaveStore(port, "expedition", index, "verdant");
+    seed.load();
+    expect(seed.save({ ...newPlayer(), gold: 11 })).toBe(true);
+    const reader = new SuperiorSaveStore(port, "expedition", index, "verdant");
+    const snapshot = reader.load()!;
+    const writer = new SuperiorSaveStore(port, "expedition", index, "verdant");
+    writer.load();
+    expect(writer.save({ ...snapshot, gold: 22 })).toBe(true);
+    const original = values.get("expedition");
+    expect(reader.load()!.gold).toBe(11);
+    expect(reader.save(snapshot)).toBe(false);
+    expect(values.get("expedition")).toBe(original);
+  });
   it("rejects writes from a stale tab", () => {
     const { port, values } = storage();
     const a = new SuperiorSaveStore(port, "expedition", index, "verdant"),

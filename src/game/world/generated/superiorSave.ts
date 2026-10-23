@@ -61,6 +61,8 @@ export type SpawnRecord = z.infer<typeof spawnRecord>;
 /** Separate CAS-protected expedition save. Never reads or migrates the accepted character slot. */
 export class SuperiorSaveStore extends SaveStore {
   private previous: string | null = null;
+  private loaded = false;
+  private initial: Player | undefined;
   private allowed = true;
   private travelling = false;
   feature: FeatureId;
@@ -77,6 +79,8 @@ export class SuperiorSaveStore extends SaveStore {
     this.feature = initial;
   }
   override load(): Player | undefined {
+    if (this.loaded) return this.initial ? structuredClone(this.initial) : undefined;
+    this.loaded = true;
     try {
       if (!this.port) throw Error("Storage unavailable");
       const raw = this.port.getItem(this.expeditionKey);
@@ -115,6 +119,7 @@ export class SuperiorSaveStore extends SaveStore {
       const s = stats(p);
       p.hp = Math.min(p.hp, s.maxHp);
       p.ki = Math.min(p.ki, s.maxKi);
+      this.initial = structuredClone(p);
       return structuredClone(p);
     } catch {
       this.allowed = false;

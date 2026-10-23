@@ -1,5 +1,4 @@
 import type { GameSession } from "../../session";
-import type { Enemy } from "../../monsters/types";
 import type { SuperiorSaveStore } from "./superiorSave";
 import { distance } from "../../navigation";
 
@@ -52,11 +51,8 @@ export function streamSpawns(
       };
     }
   };
-  const retire = (e: Enemy) => {
-    const slot = held.get(e.id);
-    if (!slot) return;
-    const ids = new Set([e.id]);
-    // Descendants belong to their authored root, including nested summons.
+  const family = (id: string) => {
+    const ids = new Set([id]);
     let changed = true;
     while (changed) {
       changed = false;
@@ -66,6 +62,12 @@ export function streamSpawns(
           changed = true;
         }
     }
+    return ids;
+  };
+  const retire = (id: string) => {
+    const slot = held.get(id);
+    if (!slot) return;
+    const ids = family(id);
     session.enemies.splice(
       0,
       session.enemies.length,
@@ -73,7 +75,7 @@ export function streamSpawns(
     );
     session.monsters.forget(ids);
     if (session.targetId && ids.has(session.targetId)) session.command({ type: "cancel" });
-    held.delete(e.id);
+    held.delete(id);
     assets.release(slot);
   };
   const normalize = () => {
@@ -89,6 +91,17 @@ export function streamSpawns(
     capture();
     for (const [id, slot] of held)
       if (!session.enemies.some((e) => e.id === id)) {
+        const ids = family(id);
+        const children = session.enemies.filter((e) => ids.has(e.id));
+        if (children.length) {
+          if (
+            children.every(
+              (e) => e.hp === e.maxHp && !e.m.engaged && distance(e.home, session.player) > SLEEP,
+            )
+          )
+            retire(id);
+          continue;
+        }
         held.delete(id);
         assets.release(slot);
       }
@@ -103,7 +116,7 @@ export function streamSpawns(
         !session.enemies.some((x) => x.m.parent === e.id) &&
         distance(e.home, session.player) > SLEEP
       )
-        retire(e);
+        retire(e.id);
     const x = Math.floor(session.player.x / 2048),
       y = Math.floor(session.player.y / 2048);
     const nearby: AuthoredSpawn[] = [];
@@ -136,7 +149,7 @@ export function streamSpawns(
               distance(e.home, session.player) > distance(slot, session.player) + 256,
           )
           .sort((a, b) => distance(b.home, session.player) - distance(a.home, session.player))[0];
-        if (farther) retire(farther);
+        if (farther) retire(farther.id);
         if (!assets.canAcquire(slot)) continue;
       }
       starts++;

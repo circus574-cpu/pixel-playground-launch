@@ -90,19 +90,20 @@ for (const [race, worldId, actor] of [
       await page.screenshot({ path: info.outputPath(`${actor}-city-training.png`) });
       return;
     }
-    if (worldId === "aether") {
-      // Observe the ranged attack before deliberately entering melee. At very
-      // low software-WebGL FPS an incoming hit legitimately preempts the shot.
-      await command({ type: "move", x: enemy.x, y: enemy.y + 320 });
+    {
+      // Observe a fresh real attack before the potion sequence. Incoming hits
+      // legitimately preempt presentation when already surrounded in melee.
+      const standOff = worldId === "pyra" ? 140 : 320;
+      await command({ type: "move", x: enemy.x, y: enemy.y + standOff });
       await expect
         .poll(() =>
           canvas.evaluate(
             (el, p) =>
               Math.hypot(
                 Number((el as HTMLElement).dataset["playerX"]) - p.x,
-                Number((el as HTMLElement).dataset["playerY"]) - (p.y + 320),
+                Number((el as HTMLElement).dataset["playerY"]) - (p.y + p.standOff),
               ),
-            enemy,
+            { ...enemy, standOff },
           ),
         )
         .toBeLessThan(95);
@@ -126,7 +127,15 @@ for (const [race, worldId, actor] of [
     // Wait until that reaction finishes before triggering the skill and an attack.
     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
     await page.getByRole("button", { name: "Mikstura życia", exact: true }).click();
-    await expect(canvas).toHaveAttribute("data-animation-state", "skill");
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          [
+            ...(window as unknown as { __observedActorFrames: Set<string> }).__observedActorFrames,
+          ].some((frame) => frame.includes("/skill/")),
+        ),
+      )
+      .toBe(true);
     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
     await command({ type: "ability", ability: "R" });
     await expect

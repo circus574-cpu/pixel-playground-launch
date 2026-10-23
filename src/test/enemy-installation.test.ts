@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { MONSTERS } from "../game/monsters/catalog";
-import { actorVisual, worldAssets } from "../game/assets/catalog";
+import { actorVisual, worldAssets, monsterVisual } from "../game/assets/catalog";
 import { WORLDS } from "../game/world/worlds";
 
 describe("installed bestiary art", () => {
@@ -22,6 +22,9 @@ describe("installed bestiary art", () => {
         "walk",
       ]);
     }
+  });
+  it("uses the delivered wasp for its summoned offspring", () => {
+    expect(monsterVisual("verdant-mala-osa").id).toBe("enemy-verdant-bursztynowa-osa");
   });
   it("does not eagerly allocate the complete installed bestiary on an accepted static map", () => {
     for (const world of Object.values(WORLDS)) {

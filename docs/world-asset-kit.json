@@ -7538,6 +7538,206 @@
    "id": "fauna-neutral",
    "version": "1.0.0",
    "assets": 12
+  },
+  {
+   "id": "enemy-aether-duch-bibliotekarza",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-krysztalowy-motyl",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-lew-swiatyni",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-marionetka-rytualu",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-mgielny-zuraw",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-oko-wiedzy",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-pergaminowy-straznik",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-swietlik-pieczeci",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-szmaragdowy-waz",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-aether-zloty-skarabeusz",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-dron-zwiadowca",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-kruk-danych",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-latarnia-plazmowa",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-pajak-spawalniczy",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-pelzacz-serwisowy",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-pies-lowca",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-roj-nanitow",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-skaner-gasienicowy",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-straznik-rdzenia",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-nexus-wiezyczka-autonomiczna",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-byk-areny",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-golem-ruin",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-magmowy-krab",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-ognista-salamandra",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-plomien-duch",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-popielny-wilk",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-skalny-berserker",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-skorpion-obsydianowy",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-wegielek",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-pyra-zarowy-nietoperz",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-bursztynowa-osa",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-cierniowy-wilk",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-grzybowy-zarodnik",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-korzeniowy-pelzacz",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-lesny-pajak",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-lisciak-skrytobojca",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-mchowy-szlamak",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-puchacz-pylowy",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-skalny-jelen",
+   "version": "1.0.1",
+   "assets": 1
+  },
+  {
+   "id": "enemy-verdant-straznik-ruin",
+   "version": "1.0.1",
+   "assets": 1
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."

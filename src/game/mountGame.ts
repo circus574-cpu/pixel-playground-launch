@@ -67,6 +67,7 @@ export function mountKileGends(
 ): () => void {
   let disposed = false;
   const releaseScene: (() => void)[] = [];
+  delete parent.dataset["metrics"];
   const loading = (state: GameLoadingState) => {
     if (!disposed) options?.onLoading?.(state);
   };

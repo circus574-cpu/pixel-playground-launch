@@ -243,69 +243,59 @@ test("death message ends on real respawn and subsequent movement works", async (
     .toBeGreaterThan(before + 20);
 });
 
-test("combat messages leave the actual target panel clear at every HUD breakpoint", async ({
-  browser,
-  baseURL,
-}) => {
-  for (const [width, height] of [
-    [360, 800],
-    [390, 844],
-    [414, 896],
-    [640, 480],
-    [852, 393],
-    [1280, 900],
-  ]) {
-    const page = await browser.newPage({
-      ...(baseURL ? { baseURL } : {}),
-      viewport: { width: width!, height: height! },
-    });
-    try {
-      await start(page);
-      // Combat targeting is correctly forbidden in the safe capital. Walk out
-      // through the public movement adapter before checking the combat overlay.
-      const outside = WORLDS.pyra.enemies[0]!;
-      await page.locator(".ki-canvas").evaluate(
-        (el, p) =>
-          el.dispatchEvent(
-            new CustomEvent("ki:command", {
-              detail: { type: "move", x: p.x - 150, y: p.y + 90 },
-            }),
-          ),
-        outside,
-      );
-      await expect
-        .poll(() =>
-          page
-            .locator(".ki-canvas")
-            .evaluate(
-              (el, p) =>
-                Math.hypot(
-                  Number((el as HTMLElement).dataset["playerX"]) - (p.x - 150),
-                  Number((el as HTMLElement).dataset["playerY"]) - (p.y + 90),
-                ),
-              outside,
-            ),
-        )
-        .toBeLessThan(95);
-      // Use the same public command adapter as a canvas click, without changing session state.
-      await page.locator(".ki-canvas").evaluate((el) =>
+for (const [width, height] of [
+  [360, 800],
+  [390, 844],
+  [414, 896],
+  [640, 480],
+  [852, 393],
+  [1280, 900],
+] as const) {
+  test(`combat messages leave the actual target panel clear at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await start(page);
+    // Combat targeting is correctly forbidden in the safe capital. Walk out
+    // through the public movement adapter before checking the combat overlay.
+    const outside = WORLDS.pyra.enemies[0]!;
+    await page.locator(".ki-canvas").evaluate(
+      (el, p) =>
         el.dispatchEvent(
           new CustomEvent("ki:command", {
-            detail: { type: "target", id: "boar-0" },
+            detail: { type: "move", x: p.x - 150, y: p.y + 90 },
           }),
         ),
-      );
-      const target = page.locator(".ki-target"),
-        message = page.getByRole("status", { name: "Komunikat gry", exact: true });
-      await expect(target).toBeVisible();
-      await expect(message).toBeVisible();
-      expect(
-        overlaps((await target.boundingBox())!, (await message.boundingBox())!),
-        String(width),
-      ).toBe(false);
-      await page.screenshot({ path: evidence() + "/combat-" + width + ".png" });
-    } finally {
-      await page.close();
-    }
-  }
-});
+      outside,
+    );
+    await expect
+      .poll(() =>
+        page
+          .locator(".ki-canvas")
+          .evaluate(
+            (el, p) =>
+              Math.hypot(
+                Number((el as HTMLElement).dataset["playerX"]) - (p.x - 150),
+                Number((el as HTMLElement).dataset["playerY"]) - (p.y + 90),
+              ),
+            outside,
+          ),
+      )
+      .toBeLessThan(95);
+    // Use the same public command adapter as a canvas click, without changing session state.
+    await page.locator(".ki-canvas").evaluate((el) =>
+      el.dispatchEvent(
+        new CustomEvent("ki:command", {
+          detail: { type: "target", id: "boar-0" },
+        }),
+      ),
+    );
+    const target = page.locator(".ki-target"),
+      message = page.getByRole("status", { name: "Komunikat gry", exact: true });
+    await expect(target).toBeVisible();
+    await expect(message).toBeVisible();
+    expect(
+      overlaps((await target.boundingBox())!, (await message.boundingBox())!),
+      String(width),
+    ).toBe(false);
+    await page.screenshot({ path: evidence() + "/combat-" + width + ".png" });
+  });
+}
