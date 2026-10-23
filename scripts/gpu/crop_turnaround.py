@@ -17,7 +17,8 @@ n = 0
 for sd in seeds:
     sheet = Image.open(src / (sd + ".png")).convert("RGB")
     a = np.asarray(remove(sheet, session=sess).getchannel("A")) > 40
-    cols = a.any(axis=0)
+    # A column counts as occupied only with enough mask pixels, so thin capes and swords do not bridge two figures.
+    cols = a.sum(axis=0) > 0.06 * sheet.height
     segs, start = [], None
     for x, v in enumerate(cols):
         if v and start is None:
@@ -25,7 +26,7 @@ for sd in seeds:
         if (not v or x == len(cols) - 1) and start is not None:
             segs.append((start, x)); start = None
     for (x0, x1) in segs:
-        if x1 - x0 < 100:
+        if x1 - x0 < 90 or x1 - x0 > 0.45 * sheet.width:
             continue
         ys = np.where(a[:, x0:x1].any(axis=1))[0]
         if ys.size == 0 or (ys[-1] - ys[0]) < 0.55 * sheet.height:
