@@ -1,4 +1,4 @@
-import { basicAttack, maxHp, openHudTool } from "./fixtures";
+import { basicAttack, maxHp, openHudTool, patchActiveCharacter } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
@@ -124,7 +124,7 @@ for (const [width, height] of [
       await expect.poll(async () => Number(await canvas.getAttribute("data-npc-labels"))).toBe(0);
       await expect
         .poll(async () => (await page.locator(".ki-map").boundingBox())!.width)
-        .toBe(width <= 760 || height <= 500 ? 130 : 180);
+        .toBe(height <= 500 ? 100 : width <= 760 ? 112 : 200);
       expect(
         overlaps(
           (await page.locator(".ki-map").boundingBox())!,
@@ -261,6 +261,9 @@ test("combat messages leave the actual target panel clear at every HUD breakpoin
     });
     try {
       await start(page);
+      // The city is safe. Set up the ordinary QA save outside its bounds before targeting.
+      const enemy = WORLDS.pyra.enemies[0]!;
+      await patchActiveCharacter(page, { x: enemy.x - 220, y: enemy.y + 100 });
       // Use the same public command adapter as a canvas click, without changing session state.
       await page.locator(".ki-canvas").evaluate((el) =>
         el.dispatchEvent(

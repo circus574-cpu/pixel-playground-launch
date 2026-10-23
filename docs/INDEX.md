@@ -4,6 +4,8 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 
 ## Dokumentacja audytowa i bieżąca
 
+- [Manga UI/HUD — grafika, implementacja i testy (gałąź robocza)](design/MANGA-HUD-2026-10-23.md)
+
 - [Zielona Przystań — funkcjonalne miasto Planetarnych](VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md)
 - [Miasta — kontrakt wspólnego silnika i podział Codex / Claude](CITY-INTEGRATION-CONTRACT-2026-10-23.md)
 
