@@ -16,6 +16,7 @@ ATLAS = ROOT / "art/production/planet/atlas-source-3840.webp"
 MAP_W, MAP_H = 2000, 1000
 PAD = 0.06
 OUT_W = 960
+MINI_W = 1440  # in-game minimap is shown zoomed around the player
 
 # Painted-atlas outline bounds of every continent (map units), for the main-menu previews.
 BBOX = {
@@ -33,9 +34,9 @@ def crop_box(b):
                 x1=min(MAP_W, round(b["x1"] + pw)), y1=min(MAP_H, round(b["y1"] + ph)))
 
 
-def cut(crop):
+def cut(crop, width=OUT_W):
     img = atlas.crop(tuple(round(crop[c] * k) for c in ("x0", "y0", "x1", "y1")))
-    return img.resize((OUT_W, round(OUT_W * img.height / img.width)))
+    return img.resize((width, round(width * img.height / img.width)))
 
 
 for world, (x0, y0, x1, y1) in BBOX.items():
@@ -45,5 +46,5 @@ for world, (x0, y0, x1, y1) in BBOX.items():
     print(world, "atlas", img.size, crop)
     if world in zones:
         zones[world]["atlas"]["crop"] = crop
-        img.save(ROOT / f"public/game/assets/stage3/{world}-minimap.webp", quality=86)
+        cut(crop, MINI_W).save(ROOT / f"public/game/assets/stage3/{world}-minimap.webp", quality=82)
 ZONES.write_text(json.dumps(zones, ensure_ascii=False, indent=2) + "\n")

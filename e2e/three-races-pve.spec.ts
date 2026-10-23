@@ -9,10 +9,11 @@ import { WORLDS } from "../src/game/world/worlds";
 const races: {
   id: RaceId;
   guide: string;
+  guideGo?: string;
   hunter: string;
   skill: string;
 }[] = [
-  { id: "planetary", guide: "Aira", hunter: "Ren", skill: "Szybki Unik" },
+  { id: "planetary", guide: "Aira", guideGo: "Airy", hunter: "Ren", skill: "Szybki Unik" },
   {
     id: "sage",
     guide: "Sora",
@@ -121,7 +122,9 @@ for (const race of races) {
       .poll(async () => (await state(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
     await openHudTool(page, "Dziennik");
-    await page.getByRole("button", { name: "Idź do " + race.guide, exact: true }).click();
+    await page
+      .getByRole("button", { name: "Idź do " + (race.guideGo ?? race.guide), exact: true })
+      .click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     await close(page);
     await visit(

@@ -177,6 +177,8 @@ export function GameHud({
     (n) => n.id === state.nearestNpc && Math.hypot(n.x - state.x, n.y - state.y) <= 180,
   );
   const { left: x, top: y } = minimapPercent(world.id, state.building?.door ?? state, world);
+  // Visible window of about 9000 world units across; small maps stay whole.
+  const mapZoom = Math.max(1, Math.min(8, world.width / 9000));
   function toggle(next: Panel) {
     setToolsOpen(false);
     setChatOpen(false);
@@ -339,22 +341,37 @@ export function GameHud({
           aria-label="Otwórz mapę świata"
           onClick={() => toggle("map")}
         >
-          <img src={world.minimap} alt={"Mapa: " + world.settlement} />
+          {/* A continent is tens of thousands of units wide: the minimap follows the player, centred,
+              at a scale where the city fills a good part of it. */}
+          <span
+            className="ki-map-follow"
+            style={
+              {
+                "--zoom": mapZoom,
+                transformOrigin: `${x}% ${y}%`,
+                transform: `translate(${50 - x}%, ${50 - y}%) scale(${mapZoom})`,
+              } as CSSProperties
+            }
+          >
+            <img src={world.minimap} alt={"Mapa: " + world.settlement} />
+            {world.landmarks
+              .filter((l) => !world.city?.buildings.some((b) => b.name === l.label))
+              .map((l) => (
+                <span
+                  key={l.label}
+                  className={"ki-landmark ki-landmark-" + l.kind}
+                  title={l.label}
+                  style={{
+                    left: `${minimapPercent(world.id, l, world).left}%`,
+                    top: `${minimapPercent(world.id, l, world).top}%`,
+                  }}
+                >
+                  ◆
+                </span>
+              ))}
+            <span className="ki-map-marker ki-map-you" style={{ left: `${x}%`, top: `${y}%` }} />
+          </span>
           {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
-          {world.landmarks.map((l) => (
-            <span
-              key={l.label}
-              className={"ki-landmark ki-landmark-" + l.kind}
-              title={l.label}
-              style={{
-                left: `${minimapPercent(world.id, l, world).left}%`,
-                top: `${minimapPercent(world.id, l, world).top}%`,
-              }}
-            >
-              ◆
-            </span>
-          ))}
-          <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
         </button>
         <div className="ki-map-footer">
           <span>{world.name.toUpperCase()}</span>
