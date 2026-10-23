@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { textureBinding } from "../assets/catalog";
+import { catalog, textureBinding } from "../assets/catalog";
 import { sizeScenery } from "../assets/scenery";
 import { objectShadow } from "../world/shadows";
 import type { WorldDefinition } from "../world/types";
@@ -99,6 +99,20 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
   prop("chest-iron", 430, 760, 110, 95);
   prop("crates-stack", 450, 905, 100, 120);
   prop("barrels", 100, 880, 110, 120);
+  // Goro stands at the NPC point; his painted figure replaces the shared NPC sprite (hidden for him in mountGame).
+  if (catalog.renderBindings["object.pyra.smithy.goro"]) {
+    const goro = prop("goro", room.npc.x, room.npc.y + 20, 150, 215);
+    tweens.push(
+      scene.tweens.add({
+        targets: goro,
+        scaleY: goro.scaleY * 1.012,
+        duration: 1400,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+      }),
+    );
+  }
   prop("lantern-post", 190, 1040, 45, 130, false);
   prop("lantern-post", 350, 1040, 45, 130, false);
 

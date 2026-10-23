@@ -890,7 +890,15 @@ export function mountKileGends(
           a.body.y > view.top - pad &&
           a.body.y < view.bottom + pad + 120;
         if (a.kind === "npc")
-          a.body.setVisible(near && Boolean(a.npcId && activeNpcs.has(a.npcId)));
+          a.body.setVisible(
+            near &&
+              Boolean(a.npcId && activeNpcs.has(a.npcId)) &&
+              !(
+                world.id === "pyra" &&
+                a.npcId === "smith" &&
+                catalog.renderBindings["object.pyra.smithy.goro"]
+              ),
+          );
         else if (!near) a.body.setVisible(false);
       }
       for (const actor of this.actors)
