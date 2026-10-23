@@ -1,0 +1,128 @@
+{
+ "dungeon-kit.an-iron-prison-cage": {
+  "width": 240,
+  "height": 281,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 62
+  }
+ },
+ "dungeon-kit.bone-pile": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "dungeon-kit.cave-wall-chunk": {
+  "width": 420,
+  "height": 420,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 399,
+   "height": 59
+  }
+ },
+ "dungeon-kit.cracked-stone-pillar": {
+  "width": 240,
+  "height": 426,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 85
+  }
+ },
+ "dungeon-kit.floor-spike-trap": {
+  "width": 240,
+  "height": 261,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 57
+  }
+ },
+ "dungeon-kit.glowing-crystal-cluster": {
+  "width": 200,
+  "height": 213,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 47
+  }
+ },
+ "dungeon-kit.rock-with-glowing-lava-cracks": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "dungeon-kit.stalagmite-cluster": {
+  "width": 240,
+  "height": 290,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 64
+  }
+ },
+ "dungeon-kit.stone-doorway": {
+  "width": 240,
+  "height": 327,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 72
+  }
+ },
+ "dungeon-kit.stone-sarcophagus": {
+  "width": 240,
+  "height": 220,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 48
+  }
+ },
+ "dungeon-kit.torch-on-a-stand": {
+  "width": 240,
+  "height": 811,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 178
+  }
+ },
+ "dungeon-kit.treasure-chest": {
+  "width": 130,
+  "height": 126,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}

@@ -1,0 +1,125 @@
+{
+ "biome-jungle.an-overgrown-stone-altar": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-jungle.bamboo-cluster": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 53
+  }
+ },
+ "biome-jungle.flowering-vine-bush": {
+  "width": 130,
+  "height": 152,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-jungle.giant-jungle-tree": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-jungle.giant-leaf-plant": {
+  "width": 240,
+  "height": 276,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 61
+  }
+ },
+ "biome-jungle.large-fern": {
+  "width": 130,
+  "height": 139,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-jungle.mossy-idol-statue": {
+  "width": 200,
+  "height": 253,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 56
+  }
+ },
+ "biome-jungle.palm-cluster": {
+  "width": 240,
+  "height": 262,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 31
+  }
+ },
+ "biome-jungle.rope-bridge-section": {
+  "width": 360,
+  "height": 380,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-jungle.ruined-jungle-pillar": {
+  "width": 240,
+  "height": 398,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 80
+  }
+ },
+ "biome-jungle.tree-with-hanging-vines": {
+  "width": 240,
+  "height": 241,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-jungle.treehouse": {
+  "width": 320,
+  "height": 369,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 92
+  }
+ }
+}

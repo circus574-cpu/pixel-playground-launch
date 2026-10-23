@@ -1,0 +1,67 @@
+{
+  "pack": "biome-swamp",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "bog-boulder",
+      "source": "obj-bog-boulder-s7510101.png",
+      "sha256": "eee85192812b4f42954f3a0066b1b36c8344621b8f16befc01ee24d062d3d336"
+    },
+    {
+      "part": "cluster-of-cattails",
+      "source": "obj-cluster-of-cattails-s7510101.png",
+      "sha256": "216ce1bdb60cbfae623c824e8eb5b985dd1c6236628769c0972333786686531a"
+    },
+    {
+      "part": "cluster-of-glowing-mushrooms",
+      "source": "obj-cluster-of-glowing-mushrooms-s7510101.png",
+      "sha256": "00f1d04565851ce884fdd1dbfd8a1ae6d54d768864a0851bf1d66ff1eae27916"
+    },
+    {
+      "part": "cluster-of-lily-pads-on-water",
+      "source": "obj-cluster-of-lily-pads-on-water-s7510101.png",
+      "sha256": "f056d4c7046db83cd709558be2e02fe213ca33705660ab1a94127815e5766706"
+    },
+    {
+      "part": "dead-swamp-tree-with-hanging-moss",
+      "source": "obj-dead-swamp-tree-with-hanging-moss-s7510101.png",
+      "sha256": "70ba9581c4c9dac141a078ec6184c4287533c4926a6df4fe68d480c03421ac6b"
+    },
+    {
+      "part": "mossy-fallen-log",
+      "source": "obj-mossy-fallen-log-s7510101.png",
+      "sha256": "07e7748dd8d320f9a1a1c4e32a0956cc4d8a37a400ac6429d10ab58f8f734259"
+    },
+    {
+      "part": "murky-pond-rim",
+      "source": "obj-murky-pond-rim-s7510101.png",
+      "sha256": "c5eca52d54e318c23ab9d2cd8a68c834c9f70db71b8890af30b32cb5fe3ba384"
+    },
+    {
+      "part": "skull-on-a-pole",
+      "source": "obj-skull-on-a-pole-s7510101.png",
+      "sha256": "ff87ee081129e134b78bce15ab8b9552e6c1fc3731c454f05a81bccbb1b848a5"
+    },
+    {
+      "part": "small-swamp-hut-on-stilts",
+      "source": "obj-small-swamp-hut-on-stilts-s7510101.png",
+      "sha256": "f03575b85718266f2a6fb315a5bd54916e258501752c6f2f715099cb164531ab"
+    },
+    {
+      "part": "tree-with-hanging-vines",
+      "source": "obj-tree-with-hanging-vines-s7510101.png",
+      "sha256": "6ad7e2dc54efa94f3470c0b1edba89eba052c9d621a831a10ae7dcb8bde8363d"
+    },
+    {
+      "part": "twisted-mangrove-tree",
+      "source": "obj-twisted-mangrove-tree-s7510101.png",
+      "sha256": "0c8478caae6706feaaf167ae0214cf917acaa77455a74235508ce1e0415df1df"
+    },
+    {
+      "part": "wooden-walkway-section",
+      "source": "obj-wooden-walkway-section-s7510101.png",
+      "sha256": "15b4f1c71843aede0aba0c7b8b93be7f54652451f075ba77c216d49baafba9f8"
+    }
+  ]
+}

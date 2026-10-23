@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "dungeon-kit",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "dungeon-kit-an-iron-prison-cage",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-an-iron-prison-cage.webp",
+      "width": 448,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-bone-pile",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-bone-pile.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-cave-wall-chunk",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-cave-wall-chunk.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-cracked-stone-pillar",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-cracked-stone-pillar.webp",
+      "width": 295,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-floor-spike-trap",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-floor-spike-trap.webp",
+      "width": 481,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-glowing-crystal-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-glowing-crystal-cluster.webp",
+      "width": 491,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-rock-with-glowing-lava-cracks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-rock-with-glowing-lava-cracks.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-stalagmite-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-stalagmite-cluster.webp",
+      "width": 434,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-stone-doorway",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-stone-doorway.webp",
+      "width": 385,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-stone-sarcophagus",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-stone-sarcophagus.webp",
+      "width": 524,
+      "height": 480
+    },
+    {
+      "id": "dungeon-kit-torch-on-a-stand",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-torch-on-a-stand.webp",
+      "width": 155,
+      "height": 524
+    },
+    {
+      "id": "dungeon-kit-treasure-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dungeon-kit-treasure-chest.webp",
+      "width": 524,
+      "height": 506
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.dungeon-kit.an-iron-prison-cage": {
+      "asset": "dungeon-kit-an-iron-prison-cage",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.bone-pile": {
+      "asset": "dungeon-kit-bone-pile",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.cave-wall-chunk": {
+      "asset": "dungeon-kit-cave-wall-chunk",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.cracked-stone-pillar": {
+      "asset": "dungeon-kit-cracked-stone-pillar",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.floor-spike-trap": {
+      "asset": "dungeon-kit-floor-spike-trap",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.glowing-crystal-cluster": {
+      "asset": "dungeon-kit-glowing-crystal-cluster",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.rock-with-glowing-lava-cracks": {
+      "asset": "dungeon-kit-rock-with-glowing-lava-cracks",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.stalagmite-cluster": {
+      "asset": "dungeon-kit-stalagmite-cluster",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.stone-doorway": {
+      "asset": "dungeon-kit-stone-doorway",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.stone-sarcophagus": {
+      "asset": "dungeon-kit-stone-sarcophagus",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.torch-on-a-stand": {
+      "asset": "dungeon-kit-torch-on-a-stand",
+      "fit": "contain"
+    },
+    "object.dungeon-kit.treasure-chest": {
+      "asset": "dungeon-kit-treasure-chest",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

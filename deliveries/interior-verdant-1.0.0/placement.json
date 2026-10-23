@@ -1,0 +1,122 @@
+{
+ "interior-verdant.bed-with-blankets": {
+  "width": 240,
+  "height": 224,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 49
+  }
+ },
+ "interior-verdant.cooking-pot-over-a-fire": {
+  "width": 130,
+  "height": 129,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-verdant.counter-with-a-shelf": {
+  "width": 240,
+  "height": 233,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "interior-verdant.group-of-barrels": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-verdant.hanging-lantern-cluster": {
+  "width": 240,
+  "height": 218,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 48
+  }
+ },
+ "interior-verdant.locked-chest": {
+  "width": 130,
+  "height": 150,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-verdant.long-wooden-table-with-benches": {
+  "width": 240,
+  "height": 195,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 43
+  }
+ },
+ "interior-verdant.potion-shelf": {
+  "width": 240,
+  "height": 259,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 57
+  }
+ },
+ "interior-verdant.stack-of-crates": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "interior-verdant.tall-bookshelf": {
+  "width": 240,
+  "height": 268,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 59
+  }
+ },
+ "interior-verdant.weapon-stand": {
+  "width": 240,
+  "height": 265,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 58
+  }
+ },
+ "interior-verdant.woven-rug-seen-from-above": {
+  "width": 360,
+  "height": 360,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}

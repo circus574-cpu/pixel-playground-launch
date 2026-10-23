@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-mountain",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-mountain-an-ore-vein-rock",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-an-ore-vein-rock.webp",
+      "width": 524,
+      "height": 484
+    },
+    {
+      "id": "biome-mountain-boulder-pile",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-boulder-pile.webp",
+      "width": 524,
+      "height": 484
+    },
+    {
+      "id": "biome-mountain-cliff-outcrop",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-cliff-outcrop.webp",
+      "width": 464,
+      "height": 524
+    },
+    {
+      "id": "biome-mountain-large-bird-nest-on-a-rock",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-large-bird-nest-on-a-rock.webp",
+      "width": 524,
+      "height": 500
+    },
+    {
+      "id": "biome-mountain-mine-entrance",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-mine-entrance.webp",
+      "width": 524,
+      "height": 518
+    },
+    {
+      "id": "biome-mountain-mountain-pine-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-mountain-pine-tree.webp",
+      "width": 434,
+      "height": 524
+    },
+    {
+      "id": "biome-mountain-rock-with-a-small-waterfall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-rock-with-a-small-waterfall.webp",
+      "width": 513,
+      "height": 524
+    },
+    {
+      "id": "biome-mountain-rope-bridge-section",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-rope-bridge-section.webp",
+      "width": 496,
+      "height": 524
+    },
+    {
+      "id": "biome-mountain-snowy-rock-ledge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-snowy-rock-ledge.webp",
+      "width": 524,
+      "height": 521
+    },
+    {
+      "id": "biome-mountain-stone-cairn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-stone-cairn.webp",
+      "width": 524,
+      "height": 501
+    },
+    {
+      "id": "biome-mountain-stone-staircase-on-a-slope",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-stone-staircase-on-a-slope.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-mountain-tall-rocky-mountain-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-mountain/1.0.0-ac10f05cffe7/biome-mountain-tall-rocky-mountain-peak.webp",
+      "width": 524,
+      "height": 522
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-mountain.an-ore-vein-rock": {
+      "asset": "biome-mountain-an-ore-vein-rock",
+      "fit": "contain"
+    },
+    "object.biome-mountain.boulder-pile": {
+      "asset": "biome-mountain-boulder-pile",
+      "fit": "contain"
+    },
+    "object.biome-mountain.cliff-outcrop": {
+      "asset": "biome-mountain-cliff-outcrop",
+      "fit": "contain"
+    },
+    "object.biome-mountain.large-bird-nest-on-a-rock": {
+      "asset": "biome-mountain-large-bird-nest-on-a-rock",
+      "fit": "contain"
+    },
+    "object.biome-mountain.mine-entrance": {
+      "asset": "biome-mountain-mine-entrance",
+      "fit": "contain"
+    },
+    "object.biome-mountain.mountain-pine-tree": {
+      "asset": "biome-mountain-mountain-pine-tree",
+      "fit": "contain"
+    },
+    "object.biome-mountain.rock-with-a-small-waterfall": {
+      "asset": "biome-mountain-rock-with-a-small-waterfall",
+      "fit": "contain"
+    },
+    "object.biome-mountain.rope-bridge-section": {
+      "asset": "biome-mountain-rope-bridge-section",
+      "fit": "contain"
+    },
+    "object.biome-mountain.snowy-rock-ledge": {
+      "asset": "biome-mountain-snowy-rock-ledge",
+      "fit": "contain"
+    },
+    "object.biome-mountain.stone-cairn": {
+      "asset": "biome-mountain-stone-cairn",
+      "fit": "contain"
+    },
+    "object.biome-mountain.stone-staircase-on-a-slope": {
+      "asset": "biome-mountain-stone-staircase-on-a-slope",
+      "fit": "contain"
+    },
+    "object.biome-mountain.tall-rocky-mountain-peak": {
+      "asset": "biome-mountain-tall-rocky-mountain-peak",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

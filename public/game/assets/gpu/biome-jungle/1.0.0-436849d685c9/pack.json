@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-jungle",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-jungle-an-overgrown-stone-altar",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-an-overgrown-stone-altar.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-bamboo-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-bamboo-cluster.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-flowering-vine-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-flowering-vine-bush.webp",
+      "width": 448,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-giant-jungle-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-giant-jungle-tree.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-giant-leaf-plant",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-giant-leaf-plant.webp",
+      "width": 456,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-large-fern",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-large-fern.webp",
+      "width": 490,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-mossy-idol-statue",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-mossy-idol-statue.webp",
+      "width": 414,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-palm-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-palm-cluster.webp",
+      "width": 480,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-rope-bridge-section",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-rope-bridge-section.webp",
+      "width": 496,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-ruined-jungle-pillar",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-ruined-jungle-pillar.webp",
+      "width": 316,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-tree-with-hanging-vines",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-tree-with-hanging-vines.webp",
+      "width": 521,
+      "height": 524
+    },
+    {
+      "id": "biome-jungle-treehouse",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-jungle/1.0.0-436849d685c9/biome-jungle-treehouse.webp",
+      "width": 454,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-jungle.an-overgrown-stone-altar": {
+      "asset": "biome-jungle-an-overgrown-stone-altar",
+      "fit": "contain"
+    },
+    "object.biome-jungle.bamboo-cluster": {
+      "asset": "biome-jungle-bamboo-cluster",
+      "fit": "contain"
+    },
+    "object.biome-jungle.flowering-vine-bush": {
+      "asset": "biome-jungle-flowering-vine-bush",
+      "fit": "contain"
+    },
+    "object.biome-jungle.giant-jungle-tree": {
+      "asset": "biome-jungle-giant-jungle-tree",
+      "fit": "contain"
+    },
+    "object.biome-jungle.giant-leaf-plant": {
+      "asset": "biome-jungle-giant-leaf-plant",
+      "fit": "contain"
+    },
+    "object.biome-jungle.large-fern": {
+      "asset": "biome-jungle-large-fern",
+      "fit": "contain"
+    },
+    "object.biome-jungle.mossy-idol-statue": {
+      "asset": "biome-jungle-mossy-idol-statue",
+      "fit": "contain"
+    },
+    "object.biome-jungle.palm-cluster": {
+      "asset": "biome-jungle-palm-cluster",
+      "fit": "contain"
+    },
+    "object.biome-jungle.rope-bridge-section": {
+      "asset": "biome-jungle-rope-bridge-section",
+      "fit": "contain"
+    },
+    "object.biome-jungle.ruined-jungle-pillar": {
+      "asset": "biome-jungle-ruined-jungle-pillar",
+      "fit": "contain"
+    },
+    "object.biome-jungle.tree-with-hanging-vines": {
+      "asset": "biome-jungle-tree-with-hanging-vines",
+      "fit": "contain"
+    },
+    "object.biome-jungle.treehouse": {
+      "asset": "biome-jungle-treehouse",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "interior-nexus",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "interior-nexus-bed-with-blankets",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-bed-with-blankets.webp",
+      "width": 428,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-cooking-pot-over-a-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-cooking-pot-over-a-fire.webp",
+      "width": 413,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-counter-with-a-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-counter-with-a-shelf.webp",
+      "width": 389,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-group-of-barrels",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-group-of-barrels.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-hanging-lantern-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-hanging-lantern-cluster.webp",
+      "width": 375,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-locked-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-locked-chest.webp",
+      "width": 454,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-long-wooden-table-with-benches",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-long-wooden-table-with-benches.webp",
+      "width": 401,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-potion-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-potion-shelf.webp",
+      "width": 326,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-stack-of-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-stack-of-crates.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-tall-bookshelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-tall-bookshelf.webp",
+      "width": 219,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-weapon-stand",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-weapon-stand.webp",
+      "width": 310,
+      "height": 524
+    },
+    {
+      "id": "interior-nexus-woven-rug-seen-from-above",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/interior-nexus/1.0.0-15bb29721a4a/interior-nexus-woven-rug-seen-from-above.webp",
+      "width": 524,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.interior-nexus.bed-with-blankets": {
+      "asset": "interior-nexus-bed-with-blankets",
+      "fit": "contain"
+    },
+    "object.interior-nexus.cooking-pot-over-a-fire": {
+      "asset": "interior-nexus-cooking-pot-over-a-fire",
+      "fit": "contain"
+    },
+    "object.interior-nexus.counter-with-a-shelf": {
+      "asset": "interior-nexus-counter-with-a-shelf",
+      "fit": "contain"
+    },
+    "object.interior-nexus.group-of-barrels": {
+      "asset": "interior-nexus-group-of-barrels",
+      "fit": "contain"
+    },
+    "object.interior-nexus.hanging-lantern-cluster": {
+      "asset": "interior-nexus-hanging-lantern-cluster",
+      "fit": "contain"
+    },
+    "object.interior-nexus.locked-chest": {
+      "asset": "interior-nexus-locked-chest",
+      "fit": "contain"
+    },
+    "object.interior-nexus.long-wooden-table-with-benches": {
+      "asset": "interior-nexus-long-wooden-table-with-benches",
+      "fit": "contain"
+    },
+    "object.interior-nexus.potion-shelf": {
+      "asset": "interior-nexus-potion-shelf",
+      "fit": "contain"
+    },
+    "object.interior-nexus.stack-of-crates": {
+      "asset": "interior-nexus-stack-of-crates",
+      "fit": "contain"
+    },
+    "object.interior-nexus.tall-bookshelf": {
+      "asset": "interior-nexus-tall-bookshelf",
+      "fit": "contain"
+    },
+    "object.interior-nexus.weapon-stand": {
+      "asset": "interior-nexus-weapon-stand",
+      "fit": "contain"
+    },
+    "object.interior-nexus.woven-rug-seen-from-above": {
+      "asset": "interior-nexus-woven-rug-seen-from-above",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

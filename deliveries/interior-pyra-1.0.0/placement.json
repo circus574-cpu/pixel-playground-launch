@@ -1,0 +1,122 @@
+{
+ "interior-pyra.bed-with-blankets": {
+  "width": 240,
+  "height": 220,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 48
+  }
+ },
+ "interior-pyra.cooking-pot-over-a-fire": {
+  "width": 130,
+  "height": 172,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-pyra.counter-with-a-shelf": {
+  "width": 240,
+  "height": 283,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 62
+  }
+ },
+ "interior-pyra.group-of-barrels": {
+  "width": 130,
+  "height": 128,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-pyra.hanging-lantern-cluster": {
+  "width": 240,
+  "height": 620,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 136
+  }
+ },
+ "interior-pyra.locked-chest": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "interior-pyra.long-wooden-table-with-benches": {
+  "width": 240,
+  "height": 202,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 44
+  }
+ },
+ "interior-pyra.potion-shelf": {
+  "width": 240,
+  "height": 395,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 87
+  }
+ },
+ "interior-pyra.stack-of-crates": {
+  "width": 200,
+  "height": 259,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 57
+  }
+ },
+ "interior-pyra.tall-bookshelf": {
+  "width": 240,
+  "height": 537,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 118
+  }
+ },
+ "interior-pyra.weapon-stand": {
+  "width": 240,
+  "height": 588,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 129
+  }
+ },
+ "interior-pyra.woven-rug-seen-from-above": {
+  "width": 360,
+  "height": 419,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}
