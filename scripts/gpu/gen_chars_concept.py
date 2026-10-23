@@ -24,7 +24,8 @@ BASE = ("solo, full body, standing, anime fantasy game character, high angle thr
         "wide white margin on all sides, masterpiece, best quality, very aesthetic")
 NEG = ("nsfw, nude, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, out of frame, close up, portrait, text, logo, "
        "watermark, multiple people, duplicate, extra limbs, malformed hands, landscape, colored background, gradient background, shadow on ground, "
-       "character sheet, multiple views, energy aura, glow, fire, sparks")
+       "character sheet, multiple views, energy aura, glow, fire, sparks, scenery, forest, trees, ornate frame, decorative border, monster, dragon, "
+       "second character, background figure, wings, mandala, pattern background")
 CHARS = {
     "hero-legend": ("1boy, young adult man, spiky black hair with a red streak, intense red eyes, long red scarf, black and crimson light armor "
                     "with gold trim, shoulder pauldrons, armored gauntlets, black trousers, crimson laced boots, sword on his back, confident calm stance"),
@@ -34,7 +35,7 @@ CHARS = {
     "hero-android": ("1boy, young adult man, short spiky silver white hair, steel blue eyes, layered silver and black synthetic armor plates, blue gem on chest, "
                      "black bodysuit, long split white and blue coat tails, armored gauntlets, silver armored boots, android warrior, confident calm stance"),
     "hero-sage": ("1boy, masculine adult man, strong jaw, long pale blonde hair tied in a high ponytail with a gold ornament, pointed elf ears, golden amber eyes, "
-                  "long layered cream white and emerald green robes with gold embroidery, wide sleeves, jeweled emerald belt, ornate black and gold boots, elf sage, calm stance"),
+                  "long layered cream white and emerald green robes with small gold trim, wide sleeves, jeweled emerald belt, ornate black and gold boots, calm stance"),
     "goro-smith": ("1boy, middle aged muscular blacksmith, black hair in a topknot, short black beard, scar on cheek, friendly stern face, "
                    "arms crossed, white shirt with rolled sleeves, brown leather apron, leather straps and pouches, brown trousers, heavy boots, strong build"),
 }

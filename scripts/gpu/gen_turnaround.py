@@ -17,7 +17,9 @@ ROOT = Path("/workspace/ki-legends-gpu"); M = ROOT / "models"
 OUT = ROOT / "renders" / (name + "-turnaround"); OUT.mkdir(parents=True, exist_ok=True)
 LOCAL = Path("/tmp/%s-turnaround" % name); LOCAL.mkdir(parents=True, exist_ok=True)
 LOOK = {"hero-legend": "1boy, young adult man, spiky black hair with a red streak, red eyes, long red scarf, black and crimson light armor with gold trim, "
-                       "shoulder pauldrons, armored gauntlets, black trousers, crimson laced boots, sword on his back"}[name]
+                       "shoulder pauldrons, armored gauntlets, black trousers, crimson laced boots, sword on his back",
+        "hero-android": "1boy, young adult man, short spiky silver white hair, steel blue eyes, layered silver and black armor plates, blue gem on chest, "
+                        "black bodysuit, long split white and blue coat tails, armored gauntlets, silver armored boots"}[name]
 P = (LOOK + ", character turnaround sheet, model sheet, reference sheet, same character shown four times: front view, three quarter view, side view, "
      "back view, standing in a row, full body, high angle, anime game character design, clean linework, thick dark outlines, cel shaded, "
      "plain white background, simple background, masterpiece, best quality")
