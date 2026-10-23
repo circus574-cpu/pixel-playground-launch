@@ -10,14 +10,8 @@ describe("enlarged Aetheria", () => {
     expect([aether.width, aether.height]).toEqual([3600 + 2 * dx, 2560 + 2 * dy]);
     expect(aether.layout).toBe(2);
     expect(aether.spawn).toEqual({ x: 1150 + dx, y: 1130 + dy });
-    expect(aether.enemies.slice(0, 4)).toEqual(
-      [
-        { x: 1820, y: 1080 },
-        { x: 1870, y: 1510 },
-        { x: 900, y: 1450 },
-        { x: 470, y: 1100 },
-      ].map((p) => ({ x: p.x + dx, y: p.y + dy })),
-    );
+    // The four spawns that stood inside the sanctuary valley were removed: the city is a safe area.
+    expect(aether.enemies).not.toContainEqual({ x: 1820 + dx, y: 1080 + dy });
     expect(aether.enemies.length).toBeGreaterThan(8);
   });
   it("has curved roads, organic courts and new districts", () => {
