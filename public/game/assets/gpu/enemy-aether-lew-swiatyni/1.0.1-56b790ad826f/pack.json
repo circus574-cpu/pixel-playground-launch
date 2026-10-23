@@ -1,0 +1,618 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-aether-lew-swiatyni",
+  "version": "1.0.1",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "enemy-aether-lew-swiatyni-packed-page-0",
+      "version": "1.0.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-aether-lew-swiatyni/1.0.1-56b790ad826f/enemy-aether-lew-swiatyni-packed-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-aether-lew-swiatyni/1.0.1-56b790ad826f/enemy-aether-lew-swiatyni-packed-page-0.json",
+      "width": 2048,
+      "height": 1039
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-aether-lew-swiatyni",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/idle/down/00",
+              "enemy-aether-lew-swiatyni/idle/down/01",
+              "enemy-aether-lew-swiatyni/idle/down/02",
+              "enemy-aether-lew-swiatyni/idle/down/03",
+              "enemy-aether-lew-swiatyni/idle/down/04",
+              "enemy-aether-lew-swiatyni/idle/down/05",
+              "enemy-aether-lew-swiatyni/idle/down/06",
+              "enemy-aether-lew-swiatyni/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/idle/down-left/00",
+              "enemy-aether-lew-swiatyni/idle/down-left/01",
+              "enemy-aether-lew-swiatyni/idle/down-left/02",
+              "enemy-aether-lew-swiatyni/idle/down-left/03",
+              "enemy-aether-lew-swiatyni/idle/down-left/04",
+              "enemy-aether-lew-swiatyni/idle/down-left/05",
+              "enemy-aether-lew-swiatyni/idle/down-left/06",
+              "enemy-aether-lew-swiatyni/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/idle/left/00",
+              "enemy-aether-lew-swiatyni/idle/left/01",
+              "enemy-aether-lew-swiatyni/idle/left/02",
+              "enemy-aether-lew-swiatyni/idle/left/03",
+              "enemy-aether-lew-swiatyni/idle/left/04",
+              "enemy-aether-lew-swiatyni/idle/left/05",
+              "enemy-aether-lew-swiatyni/idle/left/06",
+              "enemy-aether-lew-swiatyni/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/idle/up-left/00",
+              "enemy-aether-lew-swiatyni/idle/up-left/01",
+              "enemy-aether-lew-swiatyni/idle/up-left/02",
+              "enemy-aether-lew-swiatyni/idle/up-left/03",
+              "enemy-aether-lew-swiatyni/idle/up-left/04",
+              "enemy-aether-lew-swiatyni/idle/up-left/05",
+              "enemy-aether-lew-swiatyni/idle/up-left/06",
+              "enemy-aether-lew-swiatyni/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/idle/up/00",
+              "enemy-aether-lew-swiatyni/idle/up/01",
+              "enemy-aether-lew-swiatyni/idle/up/02",
+              "enemy-aether-lew-swiatyni/idle/up/03",
+              "enemy-aether-lew-swiatyni/idle/up/04",
+              "enemy-aether-lew-swiatyni/idle/up/05",
+              "enemy-aether-lew-swiatyni/idle/up/06",
+              "enemy-aether-lew-swiatyni/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/idle/up-right/00",
+              "enemy-aether-lew-swiatyni/idle/up-right/01",
+              "enemy-aether-lew-swiatyni/idle/up-right/02",
+              "enemy-aether-lew-swiatyni/idle/up-right/03",
+              "enemy-aether-lew-swiatyni/idle/up-right/04",
+              "enemy-aether-lew-swiatyni/idle/up-right/05",
+              "enemy-aether-lew-swiatyni/idle/up-right/06",
+              "enemy-aether-lew-swiatyni/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/idle/right/00",
+              "enemy-aether-lew-swiatyni/idle/right/01",
+              "enemy-aether-lew-swiatyni/idle/right/02",
+              "enemy-aether-lew-swiatyni/idle/right/03",
+              "enemy-aether-lew-swiatyni/idle/right/04",
+              "enemy-aether-lew-swiatyni/idle/right/05",
+              "enemy-aether-lew-swiatyni/idle/right/06",
+              "enemy-aether-lew-swiatyni/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/idle/down-right/00",
+              "enemy-aether-lew-swiatyni/idle/down-right/01",
+              "enemy-aether-lew-swiatyni/idle/down-right/02",
+              "enemy-aether-lew-swiatyni/idle/down-right/03",
+              "enemy-aether-lew-swiatyni/idle/down-right/04",
+              "enemy-aether-lew-swiatyni/idle/down-right/05",
+              "enemy-aether-lew-swiatyni/idle/down-right/06",
+              "enemy-aether-lew-swiatyni/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/walk/down/00",
+              "enemy-aether-lew-swiatyni/walk/down/01",
+              "enemy-aether-lew-swiatyni/walk/down/02",
+              "enemy-aether-lew-swiatyni/walk/down/03",
+              "enemy-aether-lew-swiatyni/walk/down/04",
+              "enemy-aether-lew-swiatyni/walk/down/05",
+              "enemy-aether-lew-swiatyni/walk/down/06",
+              "enemy-aether-lew-swiatyni/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/walk/down-left/00",
+              "enemy-aether-lew-swiatyni/walk/down-left/01",
+              "enemy-aether-lew-swiatyni/walk/down-left/02",
+              "enemy-aether-lew-swiatyni/walk/down-left/03",
+              "enemy-aether-lew-swiatyni/walk/down-left/04",
+              "enemy-aether-lew-swiatyni/walk/down-left/05",
+              "enemy-aether-lew-swiatyni/walk/down-left/06",
+              "enemy-aether-lew-swiatyni/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/walk/left/00",
+              "enemy-aether-lew-swiatyni/walk/left/01",
+              "enemy-aether-lew-swiatyni/walk/left/02",
+              "enemy-aether-lew-swiatyni/walk/left/03",
+              "enemy-aether-lew-swiatyni/walk/left/04",
+              "enemy-aether-lew-swiatyni/walk/left/05",
+              "enemy-aether-lew-swiatyni/walk/left/06",
+              "enemy-aether-lew-swiatyni/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/walk/up-left/00",
+              "enemy-aether-lew-swiatyni/walk/up-left/01",
+              "enemy-aether-lew-swiatyni/walk/up-left/02",
+              "enemy-aether-lew-swiatyni/walk/up-left/03",
+              "enemy-aether-lew-swiatyni/walk/up-left/04",
+              "enemy-aether-lew-swiatyni/walk/up-left/05",
+              "enemy-aether-lew-swiatyni/walk/up-left/06",
+              "enemy-aether-lew-swiatyni/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/walk/up/00",
+              "enemy-aether-lew-swiatyni/walk/up/01",
+              "enemy-aether-lew-swiatyni/walk/up/02",
+              "enemy-aether-lew-swiatyni/walk/up/03",
+              "enemy-aether-lew-swiatyni/walk/up/04",
+              "enemy-aether-lew-swiatyni/walk/up/05",
+              "enemy-aether-lew-swiatyni/walk/up/06",
+              "enemy-aether-lew-swiatyni/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/walk/up-right/00",
+              "enemy-aether-lew-swiatyni/walk/up-right/01",
+              "enemy-aether-lew-swiatyni/walk/up-right/02",
+              "enemy-aether-lew-swiatyni/walk/up-right/03",
+              "enemy-aether-lew-swiatyni/walk/up-right/04",
+              "enemy-aether-lew-swiatyni/walk/up-right/05",
+              "enemy-aether-lew-swiatyni/walk/up-right/06",
+              "enemy-aether-lew-swiatyni/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/walk/right/00",
+              "enemy-aether-lew-swiatyni/walk/right/01",
+              "enemy-aether-lew-swiatyni/walk/right/02",
+              "enemy-aether-lew-swiatyni/walk/right/03",
+              "enemy-aether-lew-swiatyni/walk/right/04",
+              "enemy-aether-lew-swiatyni/walk/right/05",
+              "enemy-aether-lew-swiatyni/walk/right/06",
+              "enemy-aether-lew-swiatyni/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/walk/down-right/00",
+              "enemy-aether-lew-swiatyni/walk/down-right/01",
+              "enemy-aether-lew-swiatyni/walk/down-right/02",
+              "enemy-aether-lew-swiatyni/walk/down-right/03",
+              "enemy-aether-lew-swiatyni/walk/down-right/04",
+              "enemy-aether-lew-swiatyni/walk/down-right/05",
+              "enemy-aether-lew-swiatyni/walk/down-right/06",
+              "enemy-aether-lew-swiatyni/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/attack/down/00",
+              "enemy-aether-lew-swiatyni/attack/down/01",
+              "enemy-aether-lew-swiatyni/attack/down/02",
+              "enemy-aether-lew-swiatyni/attack/down/03",
+              "enemy-aether-lew-swiatyni/attack/down/04",
+              "enemy-aether-lew-swiatyni/attack/down/05",
+              "enemy-aether-lew-swiatyni/attack/down/06",
+              "enemy-aether-lew-swiatyni/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/attack/down-left/00",
+              "enemy-aether-lew-swiatyni/attack/down-left/01",
+              "enemy-aether-lew-swiatyni/attack/down-left/02",
+              "enemy-aether-lew-swiatyni/attack/down-left/03",
+              "enemy-aether-lew-swiatyni/attack/down-left/04",
+              "enemy-aether-lew-swiatyni/attack/down-left/05",
+              "enemy-aether-lew-swiatyni/attack/down-left/06",
+              "enemy-aether-lew-swiatyni/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/attack/left/00",
+              "enemy-aether-lew-swiatyni/attack/left/01",
+              "enemy-aether-lew-swiatyni/attack/left/02",
+              "enemy-aether-lew-swiatyni/attack/left/03",
+              "enemy-aether-lew-swiatyni/attack/left/04",
+              "enemy-aether-lew-swiatyni/attack/left/05",
+              "enemy-aether-lew-swiatyni/attack/left/06",
+              "enemy-aether-lew-swiatyni/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/attack/up-left/00",
+              "enemy-aether-lew-swiatyni/attack/up-left/01",
+              "enemy-aether-lew-swiatyni/attack/up-left/02",
+              "enemy-aether-lew-swiatyni/attack/up-left/03",
+              "enemy-aether-lew-swiatyni/attack/up-left/04",
+              "enemy-aether-lew-swiatyni/attack/up-left/05",
+              "enemy-aether-lew-swiatyni/attack/up-left/06",
+              "enemy-aether-lew-swiatyni/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/attack/up/00",
+              "enemy-aether-lew-swiatyni/attack/up/01",
+              "enemy-aether-lew-swiatyni/attack/up/02",
+              "enemy-aether-lew-swiatyni/attack/up/03",
+              "enemy-aether-lew-swiatyni/attack/up/04",
+              "enemy-aether-lew-swiatyni/attack/up/05",
+              "enemy-aether-lew-swiatyni/attack/up/06",
+              "enemy-aether-lew-swiatyni/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/attack/up-right/00",
+              "enemy-aether-lew-swiatyni/attack/up-right/01",
+              "enemy-aether-lew-swiatyni/attack/up-right/02",
+              "enemy-aether-lew-swiatyni/attack/up-right/03",
+              "enemy-aether-lew-swiatyni/attack/up-right/04",
+              "enemy-aether-lew-swiatyni/attack/up-right/05",
+              "enemy-aether-lew-swiatyni/attack/up-right/06",
+              "enemy-aether-lew-swiatyni/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/attack/right/00",
+              "enemy-aether-lew-swiatyni/attack/right/01",
+              "enemy-aether-lew-swiatyni/attack/right/02",
+              "enemy-aether-lew-swiatyni/attack/right/03",
+              "enemy-aether-lew-swiatyni/attack/right/04",
+              "enemy-aether-lew-swiatyni/attack/right/05",
+              "enemy-aether-lew-swiatyni/attack/right/06",
+              "enemy-aether-lew-swiatyni/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/attack/down-right/00",
+              "enemy-aether-lew-swiatyni/attack/down-right/01",
+              "enemy-aether-lew-swiatyni/attack/down-right/02",
+              "enemy-aether-lew-swiatyni/attack/down-right/03",
+              "enemy-aether-lew-swiatyni/attack/down-right/04",
+              "enemy-aether-lew-swiatyni/attack/down-right/05",
+              "enemy-aether-lew-swiatyni/attack/down-right/06",
+              "enemy-aether-lew-swiatyni/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/skill/down/00",
+              "enemy-aether-lew-swiatyni/skill/down/01",
+              "enemy-aether-lew-swiatyni/skill/down/02",
+              "enemy-aether-lew-swiatyni/skill/down/03",
+              "enemy-aether-lew-swiatyni/skill/down/04",
+              "enemy-aether-lew-swiatyni/skill/down/05",
+              "enemy-aether-lew-swiatyni/skill/down/06",
+              "enemy-aether-lew-swiatyni/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/skill/down-left/00",
+              "enemy-aether-lew-swiatyni/skill/down-left/01",
+              "enemy-aether-lew-swiatyni/skill/down-left/02",
+              "enemy-aether-lew-swiatyni/skill/down-left/03",
+              "enemy-aether-lew-swiatyni/skill/down-left/04",
+              "enemy-aether-lew-swiatyni/skill/down-left/05",
+              "enemy-aether-lew-swiatyni/skill/down-left/06",
+              "enemy-aether-lew-swiatyni/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/skill/left/00",
+              "enemy-aether-lew-swiatyni/skill/left/01",
+              "enemy-aether-lew-swiatyni/skill/left/02",
+              "enemy-aether-lew-swiatyni/skill/left/03",
+              "enemy-aether-lew-swiatyni/skill/left/04",
+              "enemy-aether-lew-swiatyni/skill/left/05",
+              "enemy-aether-lew-swiatyni/skill/left/06",
+              "enemy-aether-lew-swiatyni/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/skill/up-left/00",
+              "enemy-aether-lew-swiatyni/skill/up-left/01",
+              "enemy-aether-lew-swiatyni/skill/up-left/02",
+              "enemy-aether-lew-swiatyni/skill/up-left/03",
+              "enemy-aether-lew-swiatyni/skill/up-left/04",
+              "enemy-aether-lew-swiatyni/skill/up-left/05",
+              "enemy-aether-lew-swiatyni/skill/up-left/06",
+              "enemy-aether-lew-swiatyni/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/skill/up/00",
+              "enemy-aether-lew-swiatyni/skill/up/01",
+              "enemy-aether-lew-swiatyni/skill/up/02",
+              "enemy-aether-lew-swiatyni/skill/up/03",
+              "enemy-aether-lew-swiatyni/skill/up/04",
+              "enemy-aether-lew-swiatyni/skill/up/05",
+              "enemy-aether-lew-swiatyni/skill/up/06",
+              "enemy-aether-lew-swiatyni/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/skill/up-right/00",
+              "enemy-aether-lew-swiatyni/skill/up-right/01",
+              "enemy-aether-lew-swiatyni/skill/up-right/02",
+              "enemy-aether-lew-swiatyni/skill/up-right/03",
+              "enemy-aether-lew-swiatyni/skill/up-right/04",
+              "enemy-aether-lew-swiatyni/skill/up-right/05",
+              "enemy-aether-lew-swiatyni/skill/up-right/06",
+              "enemy-aether-lew-swiatyni/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/skill/right/00",
+              "enemy-aether-lew-swiatyni/skill/right/01",
+              "enemy-aether-lew-swiatyni/skill/right/02",
+              "enemy-aether-lew-swiatyni/skill/right/03",
+              "enemy-aether-lew-swiatyni/skill/right/04",
+              "enemy-aether-lew-swiatyni/skill/right/05",
+              "enemy-aether-lew-swiatyni/skill/right/06",
+              "enemy-aether-lew-swiatyni/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/skill/down-right/00",
+              "enemy-aether-lew-swiatyni/skill/down-right/01",
+              "enemy-aether-lew-swiatyni/skill/down-right/02",
+              "enemy-aether-lew-swiatyni/skill/down-right/03",
+              "enemy-aether-lew-swiatyni/skill/down-right/04",
+              "enemy-aether-lew-swiatyni/skill/down-right/05",
+              "enemy-aether-lew-swiatyni/skill/down-right/06",
+              "enemy-aether-lew-swiatyni/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/hit/down/00",
+              "enemy-aether-lew-swiatyni/hit/down/01",
+              "enemy-aether-lew-swiatyni/hit/down/02",
+              "enemy-aether-lew-swiatyni/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/hit/down-left/00",
+              "enemy-aether-lew-swiatyni/hit/down-left/01",
+              "enemy-aether-lew-swiatyni/hit/down-left/02",
+              "enemy-aether-lew-swiatyni/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/hit/left/00",
+              "enemy-aether-lew-swiatyni/hit/left/01",
+              "enemy-aether-lew-swiatyni/hit/left/02",
+              "enemy-aether-lew-swiatyni/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/hit/up-left/00",
+              "enemy-aether-lew-swiatyni/hit/up-left/01",
+              "enemy-aether-lew-swiatyni/hit/up-left/02",
+              "enemy-aether-lew-swiatyni/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/hit/up/00",
+              "enemy-aether-lew-swiatyni/hit/up/01",
+              "enemy-aether-lew-swiatyni/hit/up/02",
+              "enemy-aether-lew-swiatyni/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/hit/up-right/00",
+              "enemy-aether-lew-swiatyni/hit/up-right/01",
+              "enemy-aether-lew-swiatyni/hit/up-right/02",
+              "enemy-aether-lew-swiatyni/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/hit/right/00",
+              "enemy-aether-lew-swiatyni/hit/right/01",
+              "enemy-aether-lew-swiatyni/hit/right/02",
+              "enemy-aether-lew-swiatyni/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/hit/down-right/00",
+              "enemy-aether-lew-swiatyni/hit/down-right/01",
+              "enemy-aether-lew-swiatyni/hit/down-right/02",
+              "enemy-aether-lew-swiatyni/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/death/down/00",
+              "enemy-aether-lew-swiatyni/death/down/01",
+              "enemy-aether-lew-swiatyni/death/down/02",
+              "enemy-aether-lew-swiatyni/death/down/03",
+              "enemy-aether-lew-swiatyni/death/down/04",
+              "enemy-aether-lew-swiatyni/death/down/05",
+              "enemy-aether-lew-swiatyni/death/down/06",
+              "enemy-aether-lew-swiatyni/death/down/07"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/death/down-left/00",
+              "enemy-aether-lew-swiatyni/death/down-left/01",
+              "enemy-aether-lew-swiatyni/death/down-left/02",
+              "enemy-aether-lew-swiatyni/death/down-left/03",
+              "enemy-aether-lew-swiatyni/death/down-left/04",
+              "enemy-aether-lew-swiatyni/death/down-left/05",
+              "enemy-aether-lew-swiatyni/death/down-left/06",
+              "enemy-aether-lew-swiatyni/death/down-left/07"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/death/left/00",
+              "enemy-aether-lew-swiatyni/death/left/01",
+              "enemy-aether-lew-swiatyni/death/left/02",
+              "enemy-aether-lew-swiatyni/death/left/03",
+              "enemy-aether-lew-swiatyni/death/left/04",
+              "enemy-aether-lew-swiatyni/death/left/05",
+              "enemy-aether-lew-swiatyni/death/left/06",
+              "enemy-aether-lew-swiatyni/death/left/07"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/death/up-left/00",
+              "enemy-aether-lew-swiatyni/death/up-left/01",
+              "enemy-aether-lew-swiatyni/death/up-left/02",
+              "enemy-aether-lew-swiatyni/death/up-left/03",
+              "enemy-aether-lew-swiatyni/death/up-left/04",
+              "enemy-aether-lew-swiatyni/death/up-left/05",
+              "enemy-aether-lew-swiatyni/death/up-left/06",
+              "enemy-aether-lew-swiatyni/death/up-left/07"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/death/up/00",
+              "enemy-aether-lew-swiatyni/death/up/01",
+              "enemy-aether-lew-swiatyni/death/up/02",
+              "enemy-aether-lew-swiatyni/death/up/03",
+              "enemy-aether-lew-swiatyni/death/up/04",
+              "enemy-aether-lew-swiatyni/death/up/05",
+              "enemy-aether-lew-swiatyni/death/up/06",
+              "enemy-aether-lew-swiatyni/death/up/07"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/death/up-right/00",
+              "enemy-aether-lew-swiatyni/death/up-right/01",
+              "enemy-aether-lew-swiatyni/death/up-right/02",
+              "enemy-aether-lew-swiatyni/death/up-right/03",
+              "enemy-aether-lew-swiatyni/death/up-right/04",
+              "enemy-aether-lew-swiatyni/death/up-right/05",
+              "enemy-aether-lew-swiatyni/death/up-right/06",
+              "enemy-aether-lew-swiatyni/death/up-right/07"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/death/right/00",
+              "enemy-aether-lew-swiatyni/death/right/01",
+              "enemy-aether-lew-swiatyni/death/right/02",
+              "enemy-aether-lew-swiatyni/death/right/03",
+              "enemy-aether-lew-swiatyni/death/right/04",
+              "enemy-aether-lew-swiatyni/death/right/05",
+              "enemy-aether-lew-swiatyni/death/right/06",
+              "enemy-aether-lew-swiatyni/death/right/07"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/death/down-right/00",
+              "enemy-aether-lew-swiatyni/death/down-right/01",
+              "enemy-aether-lew-swiatyni/death/down-right/02",
+              "enemy-aether-lew-swiatyni/death/down-right/03",
+              "enemy-aether-lew-swiatyni/death/down-right/04",
+              "enemy-aether-lew-swiatyni/death/down-right/05",
+              "enemy-aether-lew-swiatyni/death/down-right/06",
+              "enemy-aether-lew-swiatyni/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-aether-lew-swiatyni-packed-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-aether-lew-swiatyni/respawn/down/00",
+              "enemy-aether-lew-swiatyni/respawn/down/01",
+              "enemy-aether-lew-swiatyni/respawn/down/02",
+              "enemy-aether-lew-swiatyni/respawn/down/03",
+              "enemy-aether-lew-swiatyni/respawn/down/04",
+              "enemy-aether-lew-swiatyni/respawn/down/05",
+              "enemy-aether-lew-swiatyni/respawn/down/06",
+              "enemy-aether-lew-swiatyni/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-aether-lew-swiatyni/respawn/down-left/00",
+              "enemy-aether-lew-swiatyni/respawn/down-left/01",
+              "enemy-aether-lew-swiatyni/respawn/down-left/02",
+              "enemy-aether-lew-swiatyni/respawn/down-left/03",
+              "enemy-aether-lew-swiatyni/respawn/down-left/04",
+              "enemy-aether-lew-swiatyni/respawn/down-left/05",
+              "enemy-aether-lew-swiatyni/respawn/down-left/06",
+              "enemy-aether-lew-swiatyni/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-aether-lew-swiatyni/respawn/left/00",
+              "enemy-aether-lew-swiatyni/respawn/left/01",
+              "enemy-aether-lew-swiatyni/respawn/left/02",
+              "enemy-aether-lew-swiatyni/respawn/left/03",
+              "enemy-aether-lew-swiatyni/respawn/left/04",
+              "enemy-aether-lew-swiatyni/respawn/left/05",
+              "enemy-aether-lew-swiatyni/respawn/left/06",
+              "enemy-aether-lew-swiatyni/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-aether-lew-swiatyni/respawn/up-left/00",
+              "enemy-aether-lew-swiatyni/respawn/up-left/01",
+              "enemy-aether-lew-swiatyni/respawn/up-left/02",
+              "enemy-aether-lew-swiatyni/respawn/up-left/03",
+              "enemy-aether-lew-swiatyni/respawn/up-left/04",
+              "enemy-aether-lew-swiatyni/respawn/up-left/05",
+              "enemy-aether-lew-swiatyni/respawn/up-left/06",
+              "enemy-aether-lew-swiatyni/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-aether-lew-swiatyni/respawn/up/00",
+              "enemy-aether-lew-swiatyni/respawn/up/01",
+              "enemy-aether-lew-swiatyni/respawn/up/02",
+              "enemy-aether-lew-swiatyni/respawn/up/03",
+              "enemy-aether-lew-swiatyni/respawn/up/04",
+              "enemy-aether-lew-swiatyni/respawn/up/05",
+              "enemy-aether-lew-swiatyni/respawn/up/06",
+              "enemy-aether-lew-swiatyni/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-aether-lew-swiatyni/respawn/up-right/00",
+              "enemy-aether-lew-swiatyni/respawn/up-right/01",
+              "enemy-aether-lew-swiatyni/respawn/up-right/02",
+              "enemy-aether-lew-swiatyni/respawn/up-right/03",
+              "enemy-aether-lew-swiatyni/respawn/up-right/04",
+              "enemy-aether-lew-swiatyni/respawn/up-right/05",
+              "enemy-aether-lew-swiatyni/respawn/up-right/06",
+              "enemy-aether-lew-swiatyni/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-aether-lew-swiatyni/respawn/right/00",
+              "enemy-aether-lew-swiatyni/respawn/right/01",
+              "enemy-aether-lew-swiatyni/respawn/right/02",
+              "enemy-aether-lew-swiatyni/respawn/right/03",
+              "enemy-aether-lew-swiatyni/respawn/right/04",
+              "enemy-aether-lew-swiatyni/respawn/right/05",
+              "enemy-aether-lew-swiatyni/respawn/right/06",
+              "enemy-aether-lew-swiatyni/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-aether-lew-swiatyni/respawn/down-right/00",
+              "enemy-aether-lew-swiatyni/respawn/down-right/01",
+              "enemy-aether-lew-swiatyni/respawn/down-right/02",
+              "enemy-aether-lew-swiatyni/respawn/down-right/03",
+              "enemy-aether-lew-swiatyni/respawn/down-right/04",
+              "enemy-aether-lew-swiatyni/respawn/down-right/05",
+              "enemy-aether-lew-swiatyni/respawn/down-right/06",
+              "enemy-aether-lew-swiatyni/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "aether.enemy.lew-swiatyni": "enemy-aether-lew-swiatyni"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

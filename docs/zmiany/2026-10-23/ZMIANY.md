@@ -231,3 +231,49 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
 - Nie podłączono jeszcze wygenerowanych lądów do sceny; nie ogłoszono odbioru
   całej planety ani telefonu. Kopia CPU została niezależnie zakończona i wypchnięta
   jako `10248b8`; właściciel otrzymał znak dotyczący wyłącznie poda CPU.
+
+
+## Partia 2, opcjonalna scena Superior i instalacja bestiariusza
+
+- Osobna gałąź `feature/superior-runtime-20261023`, baza `95e2d2a`; partia 2
+  `8b0a814` połączona przez `53a5688`. Katalog: 302 obiekty i 31 powierzchni.
+- Dodano publiczny eksport dziesięciu lądów (2996 plików), zweryfikowane JSON,
+  teren/chunki i dekoracje blisko kamery, minimapy z obrysów oraz osobny zapis
+  `:superior-v1`. Bez migracji i nadpisywania dotychczasowych postaci.
+- Podróże zachowują rasę i ekwipunek. Aktywne miasto przełącza drzwi, NPC i rynek;
+  depozyt i istniejące usługi używają rzeczywistych przejść, a wnętrza czterech ras
+  mają dekoracje partii 2. Geometria i statystyki pozostały kanoniczne.
+- Podłączono spawny z osobnej generacji: aktywacja 1400, usypianie 1900, do dwóch
+  nowych slotów na klatkę, do 16 korzeni i 24 istot łącznie. Osobna nawigacja
+  wyklucza miasta. Zdrowie i śmierć zapisują się z graczem; przejście między chunkami
+  nie resetuje odrodzenia. Budżet pamięci może odłożyć dalsze atlasy.
+- Poprawiono skalę wzoru podłoża i ponowne pobieranie chunku po szybkim powrocie.
+  Rozdzielono pierwszy ekran ładowania od późniejszego doładowywania tekstur;
+  poprzednio doładowanie mogło pozostawić nakładkę 100% bez zamknięcia.
+- Audyt pierwszego aktywnego katalogu pokazał 40 zastępczych dzików. Właściciel
+  wskazał istniejące `deliveries/enemy-*`; skorygowano błędny wniosek o braku grafik.
+  Bez nowych renderów zainstalowano komplet 40 paczek w wersji pochodnej 1.0.1.
+  Oryginały 1.0.0 zachowane. Zmniejszono wyłącznie puste obszary atlasów:
+  1040 → 418,25 MiB całej biblioteki, pobieranej stopniowo, nie naraz.
+  Sprawdzono identyczność widocznych pikseli wszystkich 16 640 klatek.
+- Wadliwa sosna z sąsiednimi drzewami i ramką pozostaje w źródłach; tymczasowy
+  zamiennik to obejrzany dąb. Brakujące animacje mieszkańców i fauny pozostają otwarte.
+- Testy obejmują osobny zapis, konflikt kart, podróże i stare sloty, spawny,
+  odrodzenie, limit przywołań i bezpieczne osady. Kontrola przypisań: 271 531 pozycji
+  i kolizji oraz 583 drzwi bez zmian. Aktualne logi: [QA](qa/superior-runtime/).
+- Starszy CI `95e2d2a`: pełna regresja miała trzy błędy (nakładka celu próbowana
+  wewnątrz bezpiecznego miasta, oczekiwanie zapisu v4 zamiast v5, trzeci kill Mędrca);
+  Software WebGL miał brak zaobserwowanej klatki ataku Mędrca. Nie zaliczono ich
+  na podstawie samych testów jednostkowych ani odbioru nowych danych.
+- Otwarte: pełna integracja lochów/nagród/zbiorów/życia osad, pełne końcowe CI,
+  fizyczny telefon i odbiór artystyczny. Nie scalono do main ani nie opublikowano gry.
+
+- Po zastrzeżeniu właściciela do „kwadratów” rozszerzono oględziny: brzoza,
+  paprocie i grzyby również były prostokątnymi wycinkami. Zastąpiono ich przypisania
+  poprawnymi pojedynczymi obiektami, zachowując źródła, pozycje i footprinty.
+  Podłoże ma spokojniejszy wzór; drogi są rysowane z oryginalnych polilinii
+  z zaokrąglonymi narożnikami, zamiast kwadratów maski 32 jednostek. Bez zmiany AI/nawigacji.
+- Sprawdzenia kodu przed końcowym CI: pełny TypeScript PASS, Vitest 328/328 PASS,
+  assets PASS, kontrola niezmienionej geometrii PASS. Powtórzono mały ekran:
+  rzeczywista walka, śmierć potwora i zachowanie odrodzenia po reloadzie PASS.
+  Pełne końcowe Canvas/WebGL oraz ocena nowego widoku pozostają do wykonania.

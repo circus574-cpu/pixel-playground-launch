@@ -136,14 +136,15 @@ for (const race of races) {
       await move(page, enemy.x - 130, enemy.y + 90);
       let selected = false;
       for (const dy of [-30, -20, -40, -10, -25, -35]) {
-        if (await page.locator(".ki-target").count()) {
+        if ((await page.locator(".ki-canvas").getAttribute("data-target-id")) === "boar-" + index) {
           selected = true;
           break;
         }
         await clickRenderedEnemy(page, "boar-" + index, dy);
         await page.waitForTimeout(300);
       }
-      selected ||= (await page.locator(".ki-target").count()) > 0;
+      selected ||=
+        (await page.locator(".ki-canvas").getAttribute("data-target-id")) === "boar-" + index;
       expect(selected, `Unable to target rendered enemy ${index + 1} in ${world.id}`).toBe(true);
       for (let attempt = 0; attempt < 45; attempt++) {
         if ((await state(page)).kills > index) break;

@@ -1,5 +1,46 @@
 # KI Legends — GPU i zasoby
 
+
+## Partia 2 i braki do docelowej oprawy — 23.10.2026
+
+Dostawę `8b0a814` z `assets/world-kit-for-codex-20261023` połączono na osobnej
+`feature/superior-runtime-20261023` (merge `53a5688`). Dziewięć kolejnych paczek:
+bagna, góry, dżungla, loch, wnętrza czterech ras oraz fauna neutralna.
+Aktualny katalog zawiera **302 obiekty i 31 powierzchni**; opis partii 1 poniżej
+jest zapisem zakresu pierwszego odbioru. Zachowano otrzymany JSON w
+[QA partii 2](zmiany/2026-10-23/qa/world-kit-batch2/).
+Nie importowano niezwiązanej rozbudowy `feat/continent-worlds`.
+
+[Audyt instalacji](zmiany/2026-10-23/qa/superior-runtime/art-gaps.json): źródłowe
+40 paczek `deliveries/enemy-*-1.0.0` były już w repozytorium. Pierwsza kontrola
+obejmowała tylko aktywny katalog i wykazała zastępczego dzika; nie stanowiła dowodu
+braku źródłowych grafik. Po wskazaniu paczek przez właściciela zainstalowano komplet.
+Nie jest potrzebna ponowna generacja tych 40 potworów.
+
+`scripts/worldgen/pack-enemy-atlases.mjs` pakuje puste marginesy do atlasów z `trim`,
+zachowując sourceSize 128², nazwy wszystkich 416 klatek, pozycję w pełnej klatce,
+FPS, klipy, rozmiar 84×84 i kotwicę `(0.5,0.8)`. Wersja pochodna 1.0.1 przechodzi
+zwykły importer; oryginalne paczki 1.0.0 pozostają bez zmian. Bufory RGBA są
+kopiowane bez przeskalowania i mieszania koloru. Hashe zrekonstruowanych widocznych
+pikseli wszystkich 16 640 klatek są identyczne przed i po pakowaniu.
+Łączna pamięć rozkodowanych atlasów biblioteki spadła z 1040 do 418,25 MiB;
+**biblioteka nie jest ładowana w całości do sceny**. Zwykłe mapy pobierają tylko
+zadeklarowane rodzaje; wyprawa pobiera atlasy aktywnych slotów i ich przywołań.
+Dowody: [pakowanie](zmiany/2026-10-23/qa/superior-runtime/enemy-packing.json),
+[instalacja](zmiany/2026-10-23/qa/superior-runtime/enemy-install.json).
+
+Otwarte grafiki: aktorzy NPC czterech ras oraz ruch neutralnej fauny. Dwanaście części
+fauny to obrazy statyczne. Nie zamknięto odbioru artystycznego potworów ani praw.
+Lista: `art/production/enemies/roster.json`; obowiązuje kontrakt z
+[rozwoju i walki](ROZWOJ-I-WALKA.md#kontrakt-grafiki-potworów).
+
+Oględziny sosny, brzozy, paproci i grupy grzybów z `biome-forest` wykazały
+prostokątne wycinki z uciętymi brzegami/sąsiednimi roślinami. Źródła zachowano;
+binder używa obejrzanego dębu dla dwóch drzew i kwitnącego krzewu dla dwóch grup.
+Grafika `verdant-city-tree` przedstawia dom na drzewie i nie jest zamiennikiem sosny.
+Nie zamknięto odbioru artystycznego pozostałych części ani praw do wykorzystania.
+
+
 ## Partia 1 od Claude'a — zasoby do świata CPU
 
 Przyjęto commit `fd2597e` z gałęzi `assets/world-kit-for-codex-20261023` do

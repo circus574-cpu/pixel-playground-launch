@@ -214,9 +214,15 @@ export function worldAssets(
   }
   for (const clip of Object.values(actorVisual(worldId, "enemy", undefined, false, source).clips))
     used.add(clip.asset);
-  for (const [key, id] of Object.entries(source.actorBindings))
-    if (key.startsWith(worldId + ".enemy."))
-      for (const clip of Object.values(source.actors.get(id)?.clips ?? {})) used.add(clip.asset);
+  // Installed bestiary packs are available to streaming worlds; only authored
+  // monsters on the accepted static map belong to its eager asset set.
+  for (const spawn of world.monsters ?? []) {
+    const prefix = spawn.kind.split("-")[0] as WorldId;
+    for (const clip of Object.values(
+      actorVisual(prefix, "enemy", spawn.kind.slice(prefix.length + 1), false, source).clips,
+    ))
+      used.add(clip.asset);
+  }
   for (const ref of worldRenderRefs(worldId, source)) add(ref);
   for (const [key, effect] of Object.entries(source.effects))
     if (!key.includes(".") || key.startsWith(worldId + ".")) used.add(effect.asset);

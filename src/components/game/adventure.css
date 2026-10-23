@@ -426,3 +426,54 @@
   font-size: 0.7rem;
   letter-spacing: 0.08em;
 }
+.ki-superior-travel {
+  position: absolute;
+  top: 86px;
+  right: 12px;
+  z-index: 15;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-width: min(330px, calc(100vw - 24px));
+  padding: 8px;
+  border: 1px solid #b2b68b;
+  border-radius: 10px;
+  background: #142a24ed;
+  color: #f4edce;
+  font-size: 12px;
+}
+.ki-superior-travel label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ki-superior-travel button,
+.ki-superior-travel select {
+  min-height: 36px;
+  border: 1px solid #7a8a72;
+  border-radius: 5px;
+  padding: 5px 8px;
+  background: #25443b;
+  color: #fff2cb;
+}
+.ki-superior-travel button:disabled {
+  opacity: 0.5;
+}
+.ki-superior-travel small {
+  width: 100%;
+}
+
+.ki-superior-travel {
+  display: block;
+}
+.ki-superior-travel summary {
+  cursor: pointer;
+  min-height: 28px;
+}
+.ki-superior-travel-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}

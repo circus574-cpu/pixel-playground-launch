@@ -74,6 +74,15 @@ export async function loadBrowserFeature(
   return {
     definition,
     navigation,
+    enemyNavigation: (exclusions: readonly Obstacle[]) =>
+      browserNavigation(
+        definition.geometry.width,
+        definition.geometry.height,
+        navData as GridData,
+        terrain as GridData,
+        rectangles as Obstacle[],
+        exclusions,
+      ),
     async loadChunk(x: number, y: number): Promise<BrowserChunk> {
       if (
         !Number.isInteger(x) ||

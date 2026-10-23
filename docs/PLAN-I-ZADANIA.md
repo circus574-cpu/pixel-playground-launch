@@ -6,15 +6,18 @@ Na `feature/cpu-game-content-20261023` zapisano kod, kopie danych oraz
 [raporty](zmiany/2026-10-23/qa/cpu-game-content/). Zakończone obliczenia obejmują
 konwersję i nawigację dziesięciu lądów, 22 272 wstępne walki, 456 pięter lochów,
 6384 osobno wygenerowane spawny lochów oraz rutyny 948 mieszkańców i 12 karawan.
-To wygenerowane i sprawdzone dane oraz moduły pomocnicze, nie nowa grywalna scena.
+Dane źródłowe i moduły pomocnicze zachowano w tej gałęzi. Opcjonalny runtime
+na `feature/superior-runtime-20261023` opisuje [świat](SWIAT-I-MIASTA.md).
 
 Otwarte: osobne pełne raporty balansu 1–20 i 20–40, ukończenie botów wypraw,
-budżety telefonu, podłączenie Phaser/streamingu/podróży/zapisów i grafiki od Claude'a.
+budżety telefonu i zakończenie integracji mechanik. Pierwszy runtime Phaser ma
+streaming, podróże, osobny zapis i spawny; pełne lochy/życie osad pozostają otwarte.
 Narzędzia rozszerzonego balansu i botów zapisano jako prace w toku, wraz z wynikami
 prób wstępnych; nie ogłaszać ich ukończenia. Pełna regresja wymaga powtórzenia po
 naprawie dostępności serwera aplikacyjnego QA (zachowana próba: 85 PASS / 20 FAIL).
 Otrzymano partię 1 Claude'a (`fd2597e`): 138 nowych części, katalog 194 obiektów
-i 31 powierzchni. Dostawa jest połączona z gałęzią CPU; przygotowano osobny
+i 31 powierzchni. Otrzymano też partię 2 `8b0a814`: katalog ma obecnie 302 obiekty
+i 31 powierzchni. Dostawa jest połączona z osobną gałęzią runtime; przygotowano osobny
 generator przypisań prezentacji bez zmiany geometrii. Wstrzymanie do tej dostawy
 zakończono; dalszy odbiór grafik, drzwi i podłączenie sceny pozostają otwarte.
 

@@ -90,6 +90,35 @@ for (const [race, worldId, actor] of [
       await page.screenshot({ path: info.outputPath(`${actor}-city-training.png`) });
       return;
     }
+    if (worldId === "aether") {
+      // Observe the ranged attack before deliberately entering melee. At very
+      // low software-WebGL FPS an incoming hit legitimately preempts the shot.
+      await command({ type: "move", x: enemy.x, y: enemy.y + 320 });
+      await expect
+        .poll(() =>
+          canvas.evaluate(
+            (el, p) =>
+              Math.hypot(
+                Number((el as HTMLElement).dataset["playerX"]) - p.x,
+                Number((el as HTMLElement).dataset["playerY"]) - (p.y + 320),
+              ),
+            enemy,
+          ),
+        )
+        .toBeLessThan(95);
+      await command({ type: "target", id: "boar-0" });
+      await expect
+        .poll(() =>
+          page.evaluate(() =>
+            [
+              ...(window as unknown as { __observedActorFrames: Set<string> })
+                .__observedActorFrames,
+            ].some((frame) => frame.includes("/attack/")),
+          ),
+        )
+        .toBe(true);
+      await command({ type: "cancel" });
+    }
     await command({ type: "move", x: enemy.x, y: enemy.y + 85 });
     // A real hit makes the potion usable; its healing plays the skill clip. No HP is patched.
     await expect(health).not.toHaveAttribute("aria-valuenow", max);

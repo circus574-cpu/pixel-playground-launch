@@ -6,7 +6,7 @@ import { runBench } from "./debugBench";
 import { actorVisual, catalog, worldAssets, worldRenderRefs } from "./assets/catalog";
 import { queueAssets, prepareTextures, registerActorAnimations } from "./assets/phaserAssets";
 import { ActorAnimation } from "./assets/actorAnimation";
-import type { ActorVisual } from "./assets/schema";
+import type { ActorVisual, AssetDefinition } from "./assets/schema";
 import { renderDepth } from "./assets/layers";
 import { installRenderTelemetry } from "./assets/telemetry";
 import { RACES, type RaceId } from "./world/races";
@@ -40,10 +40,30 @@ type Actor = {
 };
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
+export type GameRuntime = {
+  session: GameSession;
+  assets: AssetDefinition[];
+  render: (scene: Phaser.Scene) => {
+    terrainMode: string;
+    dispose: () => void;
+    updateVisibility: (player: Point) => void;
+    setVisible: (visible: boolean) => void;
+  };
+  interiorBindings?: Readonly<Record<string, import("./assets/schema").TextureRef>>;
+  enemyVisual?: (kind: string) => ActorVisual;
+  beforeTick?: (dt: number) => void;
+  afterTick?: (dt: number) => void;
+  dispose?: () => void;
+};
 export function mountKileGends(
   parent: HTMLElement,
   onState?: (state: GameViewState) => void,
-  options?: { saveKey: string; race: RaceId; onLoading?: (state: GameLoadingState) => void },
+  options?: {
+    saveKey: string;
+    race: RaceId;
+    onLoading?: (state: GameLoadingState) => void;
+    runtime?: GameRuntime;
+  },
 ): () => void {
   let disposed = false;
   const releaseScene: (() => void)[] = [];
@@ -56,10 +76,12 @@ export function mountKileGends(
   } catch {
     /* SaveStore reports unavailable storage. */
   }
-  const session = new GameSession(
-    new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
-    options?.race,
-  );
+  const session =
+    options?.runtime?.session ??
+    new GameSession(
+      new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
+      options?.race,
+    );
   const world = session.world;
   let worldLabels = readUiPreferences().worldLabels;
   parent.dataset["worldLabels"] = String(worldLabels);
@@ -67,12 +89,13 @@ export function mountKileGends(
   const preview =
     location.pathname === "/scripts/playtest.html" &&
     new URLSearchParams(location.search).get("ki-art") === "technical";
-  const visual = actorVisual(world.id, "hero", undefined, preview);
-  const assets = worldAssets(world.id, preview);
+  const visual = actorVisual(RACES[session.player.race].world, "hero", undefined, preview);
+  const assets = options?.runtime?.assets ?? worldAssets(world.id, preview);
   const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private updateVisibility?: (player: Point) => void;
+    private runtimeVisible: ((visible: boolean) => void) | undefined;
     private outsideObjects: (Phaser.GameObjects.GameObject &
       Phaser.GameObjects.Components.Visible)[] = [];
     private interiorView: { dispose: () => void } | undefined;
@@ -103,14 +126,16 @@ export function mountKileGends(
         message: "Ładowanie kontynentu: " + world.name + "…",
         progress: 0,
       });
-      this.load.on("progress", (progress: number) => {
+      const initialProgress = (progress: number) => {
         if (!this.loadFailed)
           loading({
             phase: "assets",
             message: "Ładowanie kontynentu: " + world.name + "…",
             progress,
           });
-      });
+      };
+      this.load.on("progress", initialProgress);
+      this.load.once("complete", () => this.load.off("progress", initialProgress));
       this.load.on("loaderror", (file: Phaser.Loader.File) => {
         this.loadFailed = true;
         loading({
@@ -152,7 +177,7 @@ export function mountKileGends(
     }
     private initializeWorld() {
       prepareTextures(this, assets);
-      for (const ref of worldRenderRefs(world.id))
+      for (const ref of options?.runtime ? [] : worldRenderRefs(world.id))
         if (ref.frame !== undefined && !this.textures.get(ref.asset).has(String(ref.frame)))
           throw new Error("Brak klatki świata: " + ref.asset + "/" + ref.frame);
       for (const [id, effect] of Object.entries(catalog.effects).filter(
@@ -167,8 +192,10 @@ export function mountKileGends(
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
       const beforeWorld = new Set(this.children.list);
-      const rendering = renderWorld(this, world);
-      renderCityStreets(this, world);
+      const runtimeRendering = options?.runtime?.render(this);
+      const rendering = runtimeRendering ?? renderWorld(this, world);
+      this.runtimeVisible = runtimeRendering?.setVisible;
+      if (!options?.runtime) renderCityStreets(this, world);
       this.outsideObjects = this.children.list.filter(
         (o): o is Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Visible =>
           !beforeWorld.has(o) && "setVisible" in o,
@@ -176,6 +203,7 @@ export function mountKileGends(
       this.updateVisibility = rendering.updateVisibility;
       parent.dataset["terrainMode"] = rendering.terrainMode;
       releaseScene.push(rendering.dispose);
+      if (options?.runtime?.dispose) releaseScene.push(options.runtime.dispose);
       releaseScene.push(() => this.interiorView?.dispose());
       this.hero = this.actor(
         session.player,
@@ -427,7 +455,12 @@ export function mountKileGends(
         const role = e.kind === "boar" ? undefined : e.kind.replace(world.id + "-", "");
         this.enemies.set(
           e.id,
-          this.actor(e, e.m.def.name, "enemy", actorVisual(world.id, "enemy", role)),
+          this.actor(
+            e,
+            e.m.def.name,
+            "enemy",
+            options?.runtime?.enemyVisual?.(e.kind) ?? actorVisual(world.id, "enemy", role),
+          ),
         );
       }
       for (const [id, actor] of this.enemies)
@@ -735,6 +768,10 @@ export function mountKileGends(
       parent.dataset["actorVisual"] = this.hero.visual.id;
       parent.dataset["animationState"] = this.hero.animation.state;
       parent.dataset["animationFrame"] = String(this.hero.sprite.frame.name);
+      parent.dataset["targetId"] = session.targetId ?? "";
+      parent.dataset["enemyVisuals"] = JSON.stringify(
+        [...this.enemies.entries()].map(([id, actor]) => ({ id, visual: actor.visual.id })),
+      );
       parent.dataset["enemies"] = JSON.stringify(
         session.enemies.map((e) => ({ id: e.id, x: e.x, y: e.y, hp: e.hp, mode: e.mode })),
       );
@@ -749,16 +786,24 @@ export function mountKileGends(
       if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
       const dt = Math.min(delta, 100);
       if (!session.paused && !session.dialogue) this.animationTime += dt;
+      options?.runtime?.beforeTick?.(dt);
       session.tick(dt);
+      options?.runtime?.afterTick?.(dt);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();
         this.interiorView = undefined;
         this.lastInterior = session.player.interior;
+        this.runtimeVisible?.(!session.player.interior);
         this.resetStick();
         this.input.keyboard?.resetKeys();
         if (session.player.interior) {
           this.outsideObjects.forEach((o) => o.setVisible(false));
-          this.interiorView = renderCityInterior(this, world, session.player.interior);
+          this.interiorView = renderCityInterior(
+            this,
+            world,
+            session.player.interior,
+            options?.runtime?.interiorBindings,
+          );
           const room = cityRoom(session.player.interior);
           this.cameras.main
             .stopFollow()
@@ -779,7 +824,10 @@ export function mountKileGends(
       for (const actor of this.actors)
         if (actor.npcId) {
           const npc = activeNpcs.get(actor.npcId);
-          if (npc) actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+          if (npc) {
+            actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+            actor.name.setText(npc.name);
+          }
         }
       const focused = document.activeElement;
       const typing =

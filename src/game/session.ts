@@ -93,7 +93,7 @@ const emptyDepot = () => ({
   materials: {} as Record<string, number>,
   upgrade: 0,
 });
-const PlayerSchema = z.object({
+export const PlayerSchema = z.object({
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
   startContinent: z.enum(WORLD_IDS),
@@ -407,6 +407,9 @@ export type SessionOptions = {
   /** Explicit alternate map, used by deterministic CPU simulation and future world loaders. */
   world?: WorldDefinition;
   navigation?: Navigation;
+  enemyNavigation?: Navigation;
+  maximumActiveEnemies?: number;
+  enemyPositionAllowed?: (p: Point) => boolean;
 };
 const mulberry = (seed: number) => () => {
   seed = (seed + 0x6d2b79f5) | 0;
@@ -421,6 +424,9 @@ export const NIGHT_FROM = 300000;
 export class GameSession implements MonsterHost {
   player: Player;
   nav: Navigation;
+  readonly enemyNavigation: Navigation | undefined;
+  readonly maximumActiveEnemies: number | undefined;
+  readonly enemyPositionAllowed: ((p: Point) => boolean) | undefined;
   private readonly outsideNav: Navigation;
   readonly world: WorldDefinition;
   get npcs(): typeof NPCS {
@@ -484,6 +490,9 @@ export class GameSession implements MonsterHost {
       options.navigation ??
       new Navigation(this.world.width, this.world.height, worldObstacles(this.world));
     this.nav = this.outsideNav;
+    this.enemyNavigation = options.enemyNavigation;
+    this.maximumActiveEnemies = options.maximumActiveEnemies;
+    this.enemyPositionAllowed = options.enemyPositionAllowed;
     if (this.player.dead || this.player.hp <= 0) this.player.interior = null;
     if (this.player.interior && this.world.city) {
       const room = cityRoom(this.player.interior);
@@ -631,12 +640,17 @@ export class GameSession implements MonsterHost {
         gold: drop.gold,
       });
     }
-    if (e.kind === "boar" && this.player.quests.boars === "active") {
+    if (
+      (this.world.huntKinds
+        ? !e.m.parent && this.world.huntKinds.includes(e.kind)
+        : e.kind === "boar") &&
+      this.player.quests.boars === "active"
+    ) {
       this.player.kills = Math.min(3, this.player.kills + 1);
       if (this.player.kills === 3) {
         this.player.quests.boars = "ready";
         this.say(
-          "3/3 dzików. Wróć do " +
+          (this.world.huntKinds ? "3/3 przeciwników. Wróć do " : "3/3 dzików. Wróć do ") +
             (this.world.id === "verdant" ? "Rena" : this.npcName("hunter")) +
             " po nagrodę.",
         );
@@ -963,7 +977,12 @@ export class GameSession implements MonsterHost {
             );
           p.quests.boars = "active";
           this.say(
-            this.world.huntName + ": pokonaj 3 dziki i wróć do " + this.npcName("hunter") + ".",
+            this.world.huntName +
+              (this.world.huntKinds
+                ? ": pokonaj 3 przeciwników poza osadą i wróć do "
+                : ": pokonaj 3 dziki i wróć do ") +
+              this.npcName("hunter") +
+              ".",
           );
         } else if (
           npc.id === "smith" &&
@@ -1394,7 +1413,9 @@ export class GameSession implements MonsterHost {
     if (id === "boars")
       return q === "locked"
         ? "Po Pierwszych krokach porozmawiaj z " + names.boars
-        : "Pokonaj dziki: " + this.player.kills + "/3";
+        : (this.world.huntKinds ? "Pokonaj przeciwników poza osadą: " : "Pokonaj dziki: ") +
+            this.player.kills +
+            "/3";
     return q === "locked"
       ? "Po polowaniu porozmawiaj z kowalem " + names.gear
       : "Załóż Ostrze strażnika w ekwipunku";

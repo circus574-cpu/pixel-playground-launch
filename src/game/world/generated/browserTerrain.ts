@@ -39,6 +39,7 @@ export function browserNavigation(
   navigation: GridData,
   terrain: GridData,
   colliders: readonly Obstacle[],
+  exclusions: readonly Obstacle[] = [],
 ): Navigation {
   if (
     navigation.cell !== 16 ||
@@ -52,8 +53,21 @@ export function browserNavigation(
   const blocked = decodeRuns(navigation.blocked, navigation.width * navigation.height),
     flags = decodeRuns(terrain.flags, terrain.width * terrain.height);
   if (blocked.some((v) => v > 1)) throw new Error("Invalid CPU navigation occupancy");
+  // Enemy-only exclusions do not alter the accepted terrain or player field.
+  for (const r of exclusions)
+    for (
+      let y = Math.max(0, Math.floor((r.y - FOOT_RADIUS) / 16));
+      y < Math.min(navigation.height, Math.ceil((r.y + r.height + FOOT_RADIUS) / 16));
+      y++
+    )
+      for (
+        let x = Math.max(0, Math.floor((r.x - FOOT_RADIUS) / 16));
+        x < Math.min(navigation.width, Math.ceil((r.x + r.width + FOOT_RADIUS) / 16));
+        x++
+      )
+        blocked[y * navigation.width + x] = 1;
   const index = new Map<string, Obstacle[]>();
-  for (const r of colliders) {
+  for (const r of [...colliders, ...exclusions]) {
     if (
       ![r.x, r.y, r.width, r.height].every(Number.isFinite) ||
       r.width <= 0 ||

@@ -27,6 +27,7 @@ import "./game-messages.css";
 import "./hud-layout.css";
 
 type Props = {
+  worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
   state: GameViewState;
   error: string | null;
   zoom: number;
@@ -93,6 +94,7 @@ export function GameHud({
   onRaceChange,
   onWorldLabels,
   systemNotice,
+  worldOverride,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
@@ -171,12 +173,16 @@ export function GameHud({
     document.addEventListener("pointerdown", dismiss);
     return () => document.removeEventListener("pointerdown", dismiss);
   }, [toolsOpen]);
-  const world = WORLDS[state.player.continent];
+  const world = worldOverride ?? WORLDS[state.player.continent];
   const npcs = world.npcs;
   const nearbyNpc = state.activeNpcs.find(
     (n) => n.id === state.nearestNpc && Math.hypot(n.x - state.x, n.y - state.y) <= 180,
   );
-  const { left: x, top: y } = minimapPercent(world.id, state.building?.door ?? state, world);
+  const { left: x, top: y } = minimapPercent(
+    worldOverride ? "" : world.id,
+    state.building?.door ?? state,
+    world,
+  );
   function toggle(next: Panel) {
     setToolsOpen(false);
     setChatOpen(false);
@@ -347,8 +353,8 @@ export function GameHud({
               className={"ki-landmark ki-landmark-" + l.kind}
               title={l.label}
               style={{
-                left: `${minimapPercent(world.id, l, world).left}%`,
-                top: `${minimapPercent(world.id, l, world).top}%`,
+                left: `${minimapPercent(worldOverride ? "" : world.id, l, world).left}%`,
+                top: `${minimapPercent(worldOverride ? "" : world.id, l, world).top}%`,
               }}
             >
               ◆
@@ -619,6 +625,7 @@ export function GameHud({
       )}
       {!panel && state.dialogue && (
         <NpcDialogue
+          worldOverride={worldOverride}
           state={state}
           send={onCommand}
           feedback={<div className="ki-inline-messages">{feedback}</div>}
@@ -758,7 +765,12 @@ export function GameHud({
             <div className="ki-inline-messages">{feedback}</div>
             {panel === "inventory" && <Inventory state={state} send={onCommand} />}
             {panel === "journal" && (
-              <QuestJournal state={state} send={onCommand} close={closeAndResume} />
+              <QuestJournal
+                worldOverride={worldOverride}
+                state={state}
+                send={onCommand}
+                close={closeAndResume}
+              />
             )}
             {panel === "skills" && <SkillTree state={state} send={onCommand} />}
             {panel === "settings" && (
@@ -865,8 +877,8 @@ export function GameHud({
                 </div>
                 <div className="ki-full-map">
                   <img src={world.minimap} alt={"Mapa: " + world.settlement} />
-                  {(OPEN_WORLDS[world.id]?.zones ?? []).map((z) => {
-                    const at = minimapPercent(world.id, z, world);
+                  {((worldOverride ? undefined : OPEN_WORLDS[world.id])?.zones ?? []).map((z) => {
+                    const at = minimapPercent(worldOverride ? "" : world.id, z, world);
                     return (
                       <span
                         key={z.id}

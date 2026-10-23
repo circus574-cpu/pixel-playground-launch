@@ -287,7 +287,7 @@ it("keeps unapproved hero packs opt-in while validating and importing their actu
   );
 });
 
-it("binds a separate look per monster with enemy.<slug> and loads it only in its own world", async () => {
+it("binds a separate look per monster without eagerly loading unused bestiary atlases", async () => {
   const f = await delivery(),
     root = await app(f.root);
   f.pack.actorBindings = { "verdant.enemy.cierniowy-wilk": "technical-mannequin" };
@@ -303,7 +303,8 @@ it("binds a separate look per monster with enemy.<slug> and loads it only in its
   expect(actorVisual("verdant", "enemy", "inny-potwor", false, source).id).not.toBe(
     "technical-mannequin",
   );
-  expect(worldAssets("verdant", false, source).map((a) => a.id)).toContain("technical-rig");
+  expect(source.assets.has("technical-rig")).toBe(true);
+  expect(worldAssets("verdant", false, source).map((a) => a.id)).not.toContain("technical-rig");
   expect(worldAssets("aether", false, source).map((a) => a.id)).not.toContain("technical-rig");
   f.pack.actorBindings = { "verdant.enemy.Zly_Klucz": "technical-mannequin" };
   await f.save();

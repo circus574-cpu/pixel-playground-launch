@@ -255,8 +255,11 @@ Animacja jest deformacją obrazu, nie pełnym ruchem ręcznie animowanych kończ
 Kontrola raportu: 416 klatek, brak violations i pustej alfy, zgodne hashe/marginesy.
 Skala S/M/L: 0.62/0.80/0.98; shrink w raporcie przy zbyt małym marginesie.
 Wiązanie `<świat>.enemy.<slug>`; pełna mapa `art/production/enemies/bindings.json`.
-Silnik danych/AI jest zaimplementowany. Grafiki dostaw nie są jeszcze zainstalowane,
-a nowe spawny wymagają ukończenia kontynentów. Bossowie nie należą do tej czterdziestki.
+Silnik danych/AI jest zaimplementowany. Wszystkie 40 istniejących dostaw
+zainstalowano na `feature/superior-runtime-20261023` po bezstratnym pakowaniu
+pustych marginesów do wersji 1.0.1. Wyprawa aktywuje osobno wygenerowane spawny
+i pobiera potrzebne atlasy; zwykłe mapy nie ładują pełnej biblioteki. Nie zmieniono
+statystyk ani oryginalnych paczek 1.0.0. Bossowie nie należą do tej czterdziestki.
 
 | Archetyp  | Ruch                                                         | Śmierć                                      |
 | --------- | ------------------------------------------------------------ | ------------------------------------------- |

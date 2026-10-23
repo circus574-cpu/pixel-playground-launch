@@ -48,6 +48,15 @@ def export_input(repo, target):
 
 
 PALETTES = {
+    'swamp': {
+        'tree': ['biome-swamp.twisted-mangrove-tree', 'biome-swamp.dead-swamp-tree-with-hanging-moss', 'biome-swamp.tree-with-hanging-vines'],
+        'bush': ['biome-swamp.cluster-of-cattails', 'biome-swamp.cluster-of-glowing-mushrooms'],
+        'rock': ['biome-swamp.bog-boulder'], 'crystal': ['crystal']},
+    'mountain': {
+        'tree': ['biome-mountain.mountain-pine-tree'],
+        'bush': ['biome-mountain.stone-cairn'],
+        'rock': ['biome-mountain.boulder-pile', 'biome-mountain.cliff-outcrop', 'biome-mountain.snowy-rock-ledge'],
+        'crystal': ['biome-mountain.an-ore-vein-rock']},
     'forest': {
         'tree': ['biome-forest.tall-broadleaf-oak-tree', 'biome-forest.birch-tree-with-white-bark', 'biome-forest.tall-pine-tree'],
         'bush': ['biome-forest.flowering-bush', 'biome-forest.tall-fern-cluster', 'biome-forest.cluster-of-mushrooms'],
@@ -70,9 +79,10 @@ PALETTES = {
         'tree': ['nexus-city.tree'], 'bush': ['tech-garden'],
         'rock': ['basalt'], 'crystal': ['crystal']},
 }
-BIOMES = {'verdant': ['forest'] * 4, 'aether': ['forest', 'forest', 'snow', 'snow'],
+BIOMES = {'verdant': ['forest', 'forest', 'mountain', 'swamp'], 'aether': ['forest', 'forest', 'mountain', 'snow'],
           'nexus': ['tech', 'tech', 'desert', 'desert'], 'pyra': ['volcanic'] * 4}
 GROUND = {'forest': 'terrain.nature-meadow-grass', 'snow': 'terrain.nature-snow',
+          'swamp': 'terrain.nature-forest-floor', 'mountain': 'terrain.nature-cliff-rock',
           'desert': 'terrain.nature-sand-beach', 'volcanic': 'terrain.nature-ash-ground',
           'tech': 'terrain.nexus-ground'}
 SERVICES = {'shop': 'market', 'hall': 'hall', 'inn': 'inn', 'smithy': 'smithy',
@@ -90,13 +100,22 @@ def build_feature(browser, output, feature, source):
         assert digest(path) == sha, name
     world = json.loads((region / 'world.json').read_text())
     entries = source['entries']
-    used, counts = set(), {'props': 0, 'buildings': 0, 'resources': 0, 'dungeonEntrances': 0}
+    used, counts = set(), {'props': 0, 'buildings': 0, 'resources': 0, 'dungeonEntrances': 0, 'acceptedScenery': 0}
     affinity = world['affinity']
 
     def instance(obj, asset, category, preserve_display=False):
+        # The delivered pine includes neighbouring trees and a rectangular frame.
+        # Keep its source, but use the inspected freestanding oak for this preview.
+        replacements = {
+            'biome-forest.tall-pine-tree': 'biome-forest.tall-broadleaf-oak-tree',
+            'biome-forest.birch-tree-with-white-bark': 'biome-forest.tall-broadleaf-oak-tree',
+            'biome-forest.tall-fern-cluster': 'biome-forest.flowering-bush',
+            'biome-forest.cluster-of-mushrooms': 'biome-forest.flowering-bush',
+        }
+        asset = replacements.get(asset, asset)
         key = 'object.' + asset
         entry = entries[key]  # Missing art fails the pass, never silently substitutes a collider.
-        p = entry['placement']
+        p = entry.get('placement') or {k: obj[k] for k in ['width', 'height', 'anchorX', 'anchorY']}
         used.add(key)
         counts[category] += 1
         display = {k: p[k] for k in ['width', 'height', 'anchorX', 'anchorY']}
@@ -107,7 +126,7 @@ def build_feature(browser, output, feature, source):
             scale = min(1, fp['width'] / suggested['width'], fp['height'] / suggested['height'])
             display['width'] = round(display['width'] * scale, 3)
             display['height'] = round(display['height'] * scale, 3)
-        return {'id': obj['id'], 'asset': asset, 'binding': key, 'x': obj['x'], 'y': obj['y'],
+        return {'id': obj['id'], 'kind': obj.get('kind', asset), 'asset': asset, 'binding': key, 'x': obj['x'], 'y': obj['y'],
                 **display, 'layer': entry.get('layer', 'objects'),
                 'solid': bool(obj.get('solid')), 'footprint': obj.get('footprint'),
                 'collisionPolicy': 'read-original-world-only'}
@@ -132,6 +151,7 @@ def build_feature(browser, output, feature, source):
                'y': fp['y'] + fp['height'], 'solid': True, 'footprint': fp}
         building_art.append({**instance(obj, service_asset(b['service']), 'buildings'), 'door': b['door']})
     accepted_art = []
+    accepted_scenery = []
     accepted = world.get('acceptedSource')
     if accepted:
         objects = {o['id']: o for o in accepted['objects']}
@@ -142,6 +162,21 @@ def build_feature(browser, output, feature, source):
                    'x': original['x'] + offset['x'], 'y': original['y'] + offset['y']}
             accepted_art.append({**instance(obj, service_asset(b['id']), 'buildings', True),
                                  'door': {'x': b['door']['x'] + offset['x'], 'y': b['door']['y'] + offset['y']}})
+        building_ids = {b['objectId'] for b in accepted['city']['buildings']}
+        aliases = {'oak': 'biome-forest.tall-broadleaf-oak-tree', 'fir': 'biome-forest.tall-pine-tree',
+                   'tree': affinity + '-city.' + ('tree-maple-red' if affinity == 'pyra' else 'tree'),
+                   'bush': 'biome-forest.flowering-bush', 'rock': 'biome-forest.mossy-boulder',
+                   'bridge': affinity + '-city.' + ('bridge-stone' if affinity == 'pyra' else 'bridge'),
+                   'fountain': affinity + '-city.' + ('fountain-fire' if affinity == 'pyra' else 'fountain'),
+                   'lamp': affinity + '-city.' + ('lantern-stone' if affinity == 'pyra' else 'lamp')}
+        for original in accepted['objects']:
+            if original['id'] in building_ids: continue
+            candidate = original.get('asset') or original['kind']
+            if 'object.' + candidate not in entries:
+                candidate = aliases.get(original['kind'], 'biome-forest.mossy-boulder')
+            obj = {**original, 'id': 'accepted-' + original['id'],
+                   'x': original['x'] + offset['x'], 'y': original['y'] + offset['y']}
+            accepted_scenery.append(instance(obj, candidate, 'acceptedScenery', True))
     resources = [instance(r, {'ki-crystal': 'crystal', 'wood': 'biome-forest.fallen-mossy-log', 'ore': 'biome-forest.mossy-boulder',
                               'herb': 'biome-forest.cluster-of-mushrooms'}[r['kind']], 'resources') for r in world['resources']]
     entrances = [instance({'id': d['id'], **d['overworldEntrance']}, 'ruins-props.an-ancient-stone-gate-ruin',
@@ -153,7 +188,7 @@ def build_feature(browser, output, feature, source):
     save(output / feature / 'feature.art.json', {'format': 'superior-art-overlay-1', 'feature': feature,
          'sourceWorldSha256': digest(region / 'world.json'), 'sourceManifestSha256': digest(region / 'manifest.json'),
          'groundByBiome': terrain, 'water': 'terrain.nature-water-ocean-deep', 'buildings': building_art,
-         'acceptedCityBuildings': accepted_art, 'resources': resources, 'dungeonEntrances': entrances,
+         'acceptedCityBuildings': accepted_art, 'acceptedCityScenery': accepted_scenery, 'resources': resources, 'dungeonEntrances': entrances,
          'chunks': chunk_files, 'geometryChanged': False, 'runtimeInstalled': False})
     # Read back all source checksums after assembly. Input directory is never an output destination.
     assert all(digest(region / n) == sha for n, sha in manifest['files'].items())

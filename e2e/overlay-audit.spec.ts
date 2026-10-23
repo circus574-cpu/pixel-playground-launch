@@ -261,6 +261,32 @@ test("combat messages leave the actual target panel clear at every HUD breakpoin
     });
     try {
       await start(page);
+      // Combat targeting is correctly forbidden in the safe capital. Walk out
+      // through the public movement adapter before checking the combat overlay.
+      const outside = WORLDS.pyra.enemies[0]!;
+      await page.locator(".ki-canvas").evaluate(
+        (el, p) =>
+          el.dispatchEvent(
+            new CustomEvent("ki:command", {
+              detail: { type: "move", x: p.x - 150, y: p.y + 90 },
+            }),
+          ),
+        outside,
+      );
+      await expect
+        .poll(() =>
+          page
+            .locator(".ki-canvas")
+            .evaluate(
+              (el, p) =>
+                Math.hypot(
+                  Number((el as HTMLElement).dataset["playerX"]) - (p.x - 150),
+                  Number((el as HTMLElement).dataset["playerY"]) - (p.y + 90),
+                ),
+              outside,
+            ),
+        )
+        .toBeLessThan(95);
       // Use the same public command adapter as a canvas click, without changing session state.
       await page.locator(".ki-canvas").evaluate((el) =>
         el.dispatchEvent(

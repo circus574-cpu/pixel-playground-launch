@@ -1,5 +1,46 @@
 # KI Legends — świat, kontynenty i miasta
 
+
+## Wyprawa Superior — integracja na osobnej gałęzi
+
+`feature/superior-runtime-20261023` zawiera opcjonalną scenę całej wygenerowanej
+planety: lokalny playtest `/scripts/playtest.html?ki-superior=1` po `npm run playtest`.
+Zwykły adres zachowuje dotychczasowy świat. To wersja do odbioru, bez publikacji.
+Dziesięć lądów ma własny teren, minimapę z obrysu, kolizje i przypisania grafik.
+Nowy renderer tworzy tekstury 512² dla chunków 2048 jednostek oraz sprite'y dekoracji
+przy widoku; typowy limit to 12 chunków. Wyjątek zachowuje wszystkie widoczne chunki
+przy szerszym widoku. Widoczne obiekty nie są zastępowane pełną ilustracją mapy.
+
+Miasta usługowe przełączają własne drzwi, NPC i rynek; sześć istniejących mechanik
+wnętrz pozostaje w `GameSession`. Cztery dekoracje wnętrz mają grafiki z partii 2,
+pozostałe używają wcześniejszych zasobów. Domy, wejścia do lochów, zasoby i skrytki
+są obecnie przedstawione w świecie; nie wszystkie mają jeszcze interakcje.
+Menu podróży działa przy punkcie przybycia głównej osady. Transfer między lądami
+jest narzędziem odbioru; nie jest symulacją żeglugi ani końcowym grafem rozkładów portów.
+
+Spawny są czytane z osobnego przebiegu. Aktywacja do 1400 jednostek, usypianie
+powyżej 1900, do dwóch nowych slotów na klatkę, do 16 korzeni i 24 przeciwników
+łącznie z przywołaniami/rozszczepieniem. Jeden wpis oznacza jednego przeciwnika;
+nie rozwija się automatycznie niesprawdzonych offsetów watahy. Budżet atlasów
+może odłożyć dalszy rodzaj przeciwnika; pierwszeństwo mają bliższe sloty, a zranieni
+przeciwnicy nie są usuwani dla zwolnienia pamięci. Potwory mają osobną
+nawigację wykluczającą osady; ograniczenie dotyczy również ruchu latających istot.
+Zranione/zaangażowane instancje zachowują stan w pamięci. Zdrowie i czas odrodzenia
+są zapisywane razem z graczem; odrodzenie używa czasu ściennego przeglądarki,
+więc upływa także po zamknięciu lokalnej gry. To lokalne PvE, nie ochrona serwerowa.
+
+Wyprawa zapisuje się pod kluczem postaci z sufiksem `:superior-v1`, z geometrią
+wersji, identyfikatorem wyspy i blokadą konfliktów kart. Nie czyta ani nie migruje
+starego slotu. Podróż zachowuje rasę, statystyki i ekwipunek; dotychczasowa scena
+nie może nadpisać współrzędnych docelowych podczas zamykania. Nieznany zapis jest
+zachowany, a pisanie wyłączone. Rozszerzone współrzędne nie luzują starego schematu.
+
+Otwarte: pełne wnętrza lochów z nagrodami, zbieranie zasobów, ukryte miejsca,
+życie mieszkańców/karawany, grafiki NPC oraz odbiór wyglądu zainstalowanych 40 potworów,
+limity i pomiary fizycznego telefonu. Poniższy opis generacji dotyczy danych źródłowych;
+znaczniki `runtimeInstalled: false` zachowano w ich niezmienionych oryginałach.
+
+
 Stan: 23.10.2026, `origin/main` na `d0bfc2c`. Wszystkie cztery miasta mają wspólne
 wejścia, wnętrza i usługi. Dawne opisy „dane gotowe, mechanik brak” są nieaktualne.
 

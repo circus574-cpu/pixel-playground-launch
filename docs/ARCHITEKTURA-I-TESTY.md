@@ -289,3 +289,34 @@ Test uwzględnia CSP Jupytera, widoczność podłoża, sekrety, zoom i spawny.
 Nie zmieniono produkcji, map runtime ani zapisów. Podłączenie danych do silnika
 jest następnym zakresem implementacyjnym; samo wygenerowanie nie zamyka WORLD-01,
 GAME-03 ani PERF-01 dla gry.
+
+
+## Opcjonalna scena Superior
+
+Uruchomienie: `npm run playtest`, następnie `/scripts/playtest.html?ki-superior=1`.
+Adapter `superiorRuntime.ts` podaje własny `GameSession`, nawigację i renderer;
+bez flagi dotychczasowa ścieżka pozostaje domyślna. `renderSuperior.ts` pobiera
+zweryfikowane chunki i trzyma wyłącznie pobliskie obrazy. `spawnStream.ts` steruje
+slotami AI. `superiorSave.ts` izoluje rozszerzone współrzędne i stany spawnów.
+HUD otrzymuje aktywny świat, więc minimapa i plan miasta nie używają starego prostokąta.
+
+Eksport po odtworzeniu zabezpieczonych danych CPU:
+
+```sh
+python3 scripts/worldgen/bind_world_art.py --export-input /tmp/art-input.json
+python3 scripts/worldgen/bind_world_art.py --input /tmp/art-input.json --world /path/browser --output /tmp/new-art --workers 8
+python3 scripts/worldgen/prepare_runtime.py --world /path/browser --art /tmp/new-art --output /tmp/new-runtime
+```
+
+Narzędzia wymagają nowego katalogu wyjścia. Publiczny zestaw jest w
+`public/game/worlds/superior-v1`; JSON dekoracji jest nieskompresowany na dysku,
+aby przezroczysta dekompresja serwera nie psuła weryfikacji SHA pobieranych bajtów.
+Serwer może kompresować transport HTTP. NPZ ani narzędzia Pythona nie trafiają do JS.
+`index.json` identyfikuje geometrię; zmiana oprawy nie wymusza migracji współrzędnych.
+
+Testy: `superior-save.test.ts`, `superior-spawns.test.ts`, `e2e/superior-world.spec.ts`.
+Przeglądarka sprawdza dziesięć transferów i powrót, zachowanie oryginalnego slotu,
+rasę, depozyt po przeładowaniu oraz walkę i zapis odrodzenia. Przeciwnicy poza miastem
+mogą być aktywni, gdy gracz jest w mieście; warunek bezpieczeństwa dotyczy ich pozycji,
+nie pustej tablicy wszystkich aktywnych przeciwników na całym lądzie.
+[Dowody i wyniki](zmiany/2026-10-23/qa/superior-runtime/).

@@ -1,0 +1,242 @@
+[
+  {
+    "id": "enemy-aether-duch-bibliotekarza",
+    "sourceRgbaSha256": "6df7dfa8b9f7c4d7e7da742c50585596992d9c95813ced0c8470c3e748dec810",
+    "installedRgbaSha256": "6df7dfa8b9f7c4d7e7da742c50585596992d9c95813ced0c8470c3e748dec810",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-krysztalowy-motyl",
+    "sourceRgbaSha256": "4d65551386a3fe97a237367db793e44e47cbb4ba1042d514b0db35f6408f6e1d",
+    "installedRgbaSha256": "4d65551386a3fe97a237367db793e44e47cbb4ba1042d514b0db35f6408f6e1d",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-lew-swiatyni",
+    "sourceRgbaSha256": "1653124dafeee83f9f27804b2be78eae3f99e956669c6c765ee721a34d0afc64",
+    "installedRgbaSha256": "1653124dafeee83f9f27804b2be78eae3f99e956669c6c765ee721a34d0afc64",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-marionetka-rytualu",
+    "sourceRgbaSha256": "96d4048900c582683e153c87d6240a322bcca67b844a39345f519b8efdc65abb",
+    "installedRgbaSha256": "96d4048900c582683e153c87d6240a322bcca67b844a39345f519b8efdc65abb",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-mgielny-zuraw",
+    "sourceRgbaSha256": "689976ef30fcf49e6b1f44bc69adc50d3e7609dd4b67a0f494a1fa8fc206cb2a",
+    "installedRgbaSha256": "689976ef30fcf49e6b1f44bc69adc50d3e7609dd4b67a0f494a1fa8fc206cb2a",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-oko-wiedzy",
+    "sourceRgbaSha256": "da019f5f52bbec9d98df7c016ff7dbb30774a89b1327fa0bab0d3faf1bb5f390",
+    "installedRgbaSha256": "da019f5f52bbec9d98df7c016ff7dbb30774a89b1327fa0bab0d3faf1bb5f390",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-pergaminowy-straznik",
+    "sourceRgbaSha256": "f4802cb253a5380eae7af42f1ac6a6421a5c6fdb78acc8640b0aae88252240b8",
+    "installedRgbaSha256": "f4802cb253a5380eae7af42f1ac6a6421a5c6fdb78acc8640b0aae88252240b8",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-swietlik-pieczeci",
+    "sourceRgbaSha256": "f690ad1396ce2126ec544e9ef72847732870f1c4513906052b3e1985f257e4d7",
+    "installedRgbaSha256": "f690ad1396ce2126ec544e9ef72847732870f1c4513906052b3e1985f257e4d7",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-szmaragdowy-waz",
+    "sourceRgbaSha256": "e1ca24a1dd21b210d8db71f0438269764604cd27686d55cc344487ca84bc9e3e",
+    "installedRgbaSha256": "e1ca24a1dd21b210d8db71f0438269764604cd27686d55cc344487ca84bc9e3e",
+    "passed": true
+  },
+  {
+    "id": "enemy-aether-zloty-skarabeusz",
+    "sourceRgbaSha256": "901719c14a2787eab38b427960186e60e541d5fc43b042e8474755f10ccbb104",
+    "installedRgbaSha256": "901719c14a2787eab38b427960186e60e541d5fc43b042e8474755f10ccbb104",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-dron-zwiadowca",
+    "sourceRgbaSha256": "dce2371b7c26d9efa2826426cb9587c6683f0cea524bc4d4996b76aafc09e96b",
+    "installedRgbaSha256": "dce2371b7c26d9efa2826426cb9587c6683f0cea524bc4d4996b76aafc09e96b",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-kruk-danych",
+    "sourceRgbaSha256": "4e3c12e7827b95c90b9ee077ac46dd9bca812a683b6c3194680b3ed25ba98635",
+    "installedRgbaSha256": "4e3c12e7827b95c90b9ee077ac46dd9bca812a683b6c3194680b3ed25ba98635",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-latarnia-plazmowa",
+    "sourceRgbaSha256": "dadb227f6d498c22f6daea274e01d3667cb7335dea87bd2eaed50794825ca9f7",
+    "installedRgbaSha256": "dadb227f6d498c22f6daea274e01d3667cb7335dea87bd2eaed50794825ca9f7",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-pajak-spawalniczy",
+    "sourceRgbaSha256": "0406459e8d39d79ea2491266edc1e4b7dae3ff85a215e16ae126848feeda0fc5",
+    "installedRgbaSha256": "0406459e8d39d79ea2491266edc1e4b7dae3ff85a215e16ae126848feeda0fc5",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-pelzacz-serwisowy",
+    "sourceRgbaSha256": "45421d2cb4d471c88797e39de01ffb7e134bea01f11e9c8103f02a11ee85562e",
+    "installedRgbaSha256": "45421d2cb4d471c88797e39de01ffb7e134bea01f11e9c8103f02a11ee85562e",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-pies-lowca",
+    "sourceRgbaSha256": "09be47002dd9f9f0be80df8b9c9094493319656d765dfcad9d3a30793270c979",
+    "installedRgbaSha256": "09be47002dd9f9f0be80df8b9c9094493319656d765dfcad9d3a30793270c979",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-roj-nanitow",
+    "sourceRgbaSha256": "842d44a57ccf04706286fafc6c4368696ca25574fbcab5aae2bccb9586a8c960",
+    "installedRgbaSha256": "842d44a57ccf04706286fafc6c4368696ca25574fbcab5aae2bccb9586a8c960",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-skaner-gasienicowy",
+    "sourceRgbaSha256": "3c00ab25f8492a3b12ae4618467bc401db74f640ca8ebb5bdd2ca8fbed93b32e",
+    "installedRgbaSha256": "3c00ab25f8492a3b12ae4618467bc401db74f640ca8ebb5bdd2ca8fbed93b32e",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-straznik-rdzenia",
+    "sourceRgbaSha256": "760d7f937a79027c5c1b84efd013629c3ffadbb695f3bd29761f55c3be603b29",
+    "installedRgbaSha256": "760d7f937a79027c5c1b84efd013629c3ffadbb695f3bd29761f55c3be603b29",
+    "passed": true
+  },
+  {
+    "id": "enemy-nexus-wiezyczka-autonomiczna",
+    "sourceRgbaSha256": "b0e364f4a1c196618eed53a3e8aa31947809a00ec743bcd81d6e2683ed223398",
+    "installedRgbaSha256": "b0e364f4a1c196618eed53a3e8aa31947809a00ec743bcd81d6e2683ed223398",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-byk-areny",
+    "sourceRgbaSha256": "fedcf176cfbe9af781f11888e9f01da5503a2b03d9f64060f81059cba1f9b2e5",
+    "installedRgbaSha256": "fedcf176cfbe9af781f11888e9f01da5503a2b03d9f64060f81059cba1f9b2e5",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-golem-ruin",
+    "sourceRgbaSha256": "2a5798527f46d0461d6405ce02ead03eb5ea9d4890f4df9151798fe0b72c29db",
+    "installedRgbaSha256": "2a5798527f46d0461d6405ce02ead03eb5ea9d4890f4df9151798fe0b72c29db",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-magmowy-krab",
+    "sourceRgbaSha256": "f9e18bb3f276595c018d88c015a5703db1b6cfc9376a9bfb31cc17c3c0434d3b",
+    "installedRgbaSha256": "f9e18bb3f276595c018d88c015a5703db1b6cfc9376a9bfb31cc17c3c0434d3b",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-ognista-salamandra",
+    "sourceRgbaSha256": "6b890617fcd957f9a9aa4b831363832086b4fa507ff7d58a5ca31c2ff36369c8",
+    "installedRgbaSha256": "6b890617fcd957f9a9aa4b831363832086b4fa507ff7d58a5ca31c2ff36369c8",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-plomien-duch",
+    "sourceRgbaSha256": "efd25aa103a9f6888891d883730d37d498e3efda95a848a143037a293ad735d6",
+    "installedRgbaSha256": "efd25aa103a9f6888891d883730d37d498e3efda95a848a143037a293ad735d6",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-popielny-wilk",
+    "sourceRgbaSha256": "b552da8e23d8567e79e260fb20213ae0a75244d8ccc5d79d955913ae52794554",
+    "installedRgbaSha256": "b552da8e23d8567e79e260fb20213ae0a75244d8ccc5d79d955913ae52794554",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-skalny-berserker",
+    "sourceRgbaSha256": "6b51f2b1c46fe9d1a7c576b023929046824da6749d1d7ff7cc4c5baa33a23559",
+    "installedRgbaSha256": "6b51f2b1c46fe9d1a7c576b023929046824da6749d1d7ff7cc4c5baa33a23559",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-skorpion-obsydianowy",
+    "sourceRgbaSha256": "fe7841b5a9d47b218bb089cc0d873086198b236fb4a2be2056365e6d8dff06eb",
+    "installedRgbaSha256": "fe7841b5a9d47b218bb089cc0d873086198b236fb4a2be2056365e6d8dff06eb",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-wegielek",
+    "sourceRgbaSha256": "a5bdb8d25d6aef56cdf3fd1e131efffdc836c5aa1d79e1d04079cdcc97975a05",
+    "installedRgbaSha256": "a5bdb8d25d6aef56cdf3fd1e131efffdc836c5aa1d79e1d04079cdcc97975a05",
+    "passed": true
+  },
+  {
+    "id": "enemy-pyra-zarowy-nietoperz",
+    "sourceRgbaSha256": "74bfe6ce6488358a0273cdef92470a86882330a0d1aa7a52bd34c64e693e6b29",
+    "installedRgbaSha256": "74bfe6ce6488358a0273cdef92470a86882330a0d1aa7a52bd34c64e693e6b29",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-bursztynowa-osa",
+    "sourceRgbaSha256": "c01684b0bef2e65a3beea3dd53b651eb17f87748d754c0fcd2977662aacbd804",
+    "installedRgbaSha256": "c01684b0bef2e65a3beea3dd53b651eb17f87748d754c0fcd2977662aacbd804",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-cierniowy-wilk",
+    "sourceRgbaSha256": "2955d663381bebe88b93f83e7effc236eeb3f6a44f9a4360454d544b74c0cfe6",
+    "installedRgbaSha256": "2955d663381bebe88b93f83e7effc236eeb3f6a44f9a4360454d544b74c0cfe6",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-grzybowy-zarodnik",
+    "sourceRgbaSha256": "82ced9ad7e5f1d27a952420cc62ca4ff984e9b81730de7e6156b645ae924ee12",
+    "installedRgbaSha256": "82ced9ad7e5f1d27a952420cc62ca4ff984e9b81730de7e6156b645ae924ee12",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-korzeniowy-pelzacz",
+    "sourceRgbaSha256": "fb9c96c7c33ce24ad056f40e506d972c25f5835787123baa05edb7c3bc567b19",
+    "installedRgbaSha256": "fb9c96c7c33ce24ad056f40e506d972c25f5835787123baa05edb7c3bc567b19",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-lesny-pajak",
+    "sourceRgbaSha256": "ce431da200a9f5ebee3fa2d0194ab3635fda8827a9dc8fe1ff0aa29879ada8ee",
+    "installedRgbaSha256": "ce431da200a9f5ebee3fa2d0194ab3635fda8827a9dc8fe1ff0aa29879ada8ee",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-lisciak-skrytobojca",
+    "sourceRgbaSha256": "0aad6b21b9e17c61fafca6e02ca8d471780fa33fc3d656ca05978763f7a0c81e",
+    "installedRgbaSha256": "0aad6b21b9e17c61fafca6e02ca8d471780fa33fc3d656ca05978763f7a0c81e",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-mchowy-szlamak",
+    "sourceRgbaSha256": "9cb35d050f377aa868a5c0cfa7a54f4a10ce528dcc1135e1f5cc636ccb3a9433",
+    "installedRgbaSha256": "9cb35d050f377aa868a5c0cfa7a54f4a10ce528dcc1135e1f5cc636ccb3a9433",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-puchacz-pylowy",
+    "sourceRgbaSha256": "b0fdf571c09c261d084738072793b47d00bdce397ad8835a5e2586fa51157be6",
+    "installedRgbaSha256": "b0fdf571c09c261d084738072793b47d00bdce397ad8835a5e2586fa51157be6",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-skalny-jelen",
+    "sourceRgbaSha256": "da55f86762248ed3bc9c7c9d5b03487fc7d3cf45f5042d1b196c321ce2404ba1",
+    "installedRgbaSha256": "da55f86762248ed3bc9c7c9d5b03487fc7d3cf45f5042d1b196c321ce2404ba1",
+    "passed": true
+  },
+  {
+    "id": "enemy-verdant-straznik-ruin",
+    "sourceRgbaSha256": "137e1d78b83b565976c0ab11900b446ce17c8c6274c58e04f59afbcded4bca42",
+    "installedRgbaSha256": "137e1d78b83b565976c0ab11900b446ce17c8c6274c58e04f59afbcded4bca42",
+    "passed": true
+  }
+]

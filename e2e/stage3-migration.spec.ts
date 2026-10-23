@@ -5,7 +5,7 @@ const path =
 test("C: a real v1 fixture migrates in the browser without changing the original", async ({
   page,
 }) => {
-  // A legacy fixture is necessary here: the current UI writes only v3. It is isolated to this context.
+  // A legacy fixture is necessary here: the current UI writes v5. It is isolated to this context.
   const raw = JSON.stringify({
     version: 1,
     revision: "stage2-fixture",
@@ -45,7 +45,8 @@ test("C: a real v1 fixture migrates in the browser without changing the original
     migrant: JSON.parse(localStorage.getItem("ki-legends:adventure:v1:character:legacy") ?? "null"),
   }));
   expect(state.original).toBe(raw);
-  expect(state.migrant.version).toBe(4);
+  expect(state.migrant.version).toBe(5);
+  expect(state.migrant.player.depot.items).toEqual({ potion: 0, tusk: 0, sword: 0, vest: 0 });
   expect(state.migrant.player.race).toBe("planetary");
   expect(state.migrant.player.gold).toBe(177);
   expect(state.migrant.player.quests.steps).toBe("done");

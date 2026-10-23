@@ -3,6 +3,7 @@ import { textureBinding } from "../assets/catalog";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "../world/types";
 import { cityRoom } from "./room";
+import type { TextureRef } from "../assets/schema";
 import type { BuildingId } from "./types";
 
 export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
@@ -39,7 +40,12 @@ export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
 }
 
 /** Separate room presentation; the session owns all transitions and collision rules. */
-export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, id: BuildingId) {
+export function renderCityInterior(
+  scene: Phaser.Scene,
+  world: WorldDefinition,
+  id: BuildingId,
+  bindings: Readonly<Record<string, TextureRef>> = {},
+) {
   const room = cityRoom(id),
     b = world.city!.buildings.find((b) => b.id === id)!;
   const objects: (
@@ -74,10 +80,12 @@ export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, 
   walls.fillRect(412, 696, 136, 13);
   objects.push(walls);
   const prop = (key: string, x: number, y: number, size = 150) => {
-    const ref = textureBinding(
-      "object." + world.id + ".interior." + key,
-      textureBinding("object.city." + key, { asset: "city-props", frame: 0 }),
-    );
+    const ref =
+      bindings[key] ??
+      textureBinding(
+        "object." + world.id + ".interior." + key,
+        textureBinding("object.city." + key, { asset: "city-props", frame: 0 }),
+      );
     const image = scene.add
       .image(x, y, ref.asset, ref.frame)
       .setDisplaySize(size, size)
