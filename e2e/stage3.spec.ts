@@ -1,6 +1,7 @@
 import { openHudTool } from "./fixtures";
+import { WORLDS } from "../src/game/world/worlds";
 import { test, expect, type Page } from "./fixtures";
-const races = [
+const baseRaces = [
   {
     name: "Planetarni",
     id: "planetary",
@@ -50,6 +51,12 @@ const races = [
     y: 1330,
   },
 ];
+// Spawn points follow the current map layout (open worlds are shifted by `legacyShift`).
+const races = baseRaces.map((r) => ({
+  ...r,
+  x: WORLDS[r.world as keyof typeof WORLDS].spawn.x,
+  y: WORLDS[r.world as keyof typeof WORLDS].spawn.y,
+}));
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function saved(page: Page) {
