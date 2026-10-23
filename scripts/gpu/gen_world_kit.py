@@ -58,9 +58,14 @@ meta = {"set": setname, "model": model, "objects": []}
 t0 = time.time()
 for name, desc in items.items():
     for seed in SEEDS:
+        fn = "obj-%s-s%d.png" % (name, seed)
+        if (OUT / fn).exists():  # resumable after a pod change
+            try:
+                Image.open(OUT / fn).load(); shutil.copyfile(OUT / fn, LOCAL / fn); continue
+            except OSError:
+                pass
         img = pipe(prompt=pre + "single " + desc + ", " + COMMON, negative_prompt=NEG, num_inference_steps=steps, guidance_scale=cfg, width=1024, height=1024,
                    generator=torch.Generator("cuda").manual_seed(seed)).images[0]
-        fn = "obj-%s-s%d.png" % (name, seed)
         tmp = LOCAL / fn; img.save(tmp)
         for _ in range(5):
             shutil.copyfile(tmp, OUT / fn)
