@@ -119,3 +119,54 @@ migawką projektu z 23.10, nie automatycznie aktualnym balansem kodu.
 Generator księgi v1 pobiera kanoniczne wejścia z zapisanego commita `5bb495c7bfce`,
 więc wymaga tej historii Git w lokalnym klonie. Nowe wydanie księgi powinno otrzymać
 własną wersję i jawnie wybraną bazę; nie nadpisywać v1 nowymi danymi ras.
+
+## Generator świata na CPU — propozycje offline
+
+Kod: `scripts/worldgen/`. Działa niezależnie od gry; pierwsza wersja rozwija
+kontekst Verdantii, nie generuje jeszcze czterech odrębnych kontynentów.
+Zachowuje migawkę zaakceptowanego miasta i dodaje trzy propozycje osad, po sześć
+budynków usługowych z wejściami i rolami NPC. Usługi są danymi propozycji;
+nie są nowymi działającymi interakcjami w grze. Generuje biomy, rzekę, drogi,
+zasoby, dekoracje, schematyczną minimapę oraz chunki NPZ. Bez spawnów walki.
+
+Eksport kontekstu, paczka i instalacja na już działającym Linux x86_64:
+
+```sh
+npx tsx scripts/worldgen/export-context.ts /tmp/worldgen-context.json
+python3 scripts/worldgen/pack.py --context /tmp/worldgen-context.json --output /tmp/worldgen-source.tar.gz
+# Po skopiowaniu bootstrap.py i paczki na serwer:
+python3 bootstrap.py --root /workspace/ki-legends-worldgen --bundle worldgen-source.tar.gz
+/workspace/ki-legends-worldgen/run-worldgen.sh --output /workspace/ki-legends-worldgen/outputs/my-batch --seed 5741200 --variants 8 --workers 4
+```
+
+Instalator tworzy własnego Pythona 3.12 i przypięte zależności NumPy/SciPy/Pillow,
+sprawdza sumę micromamby z metadanych dystrybutora i sumy źródeł paczki.
+Nie jest to pełny lock tranzytywnych zależności środowiska. Nie zmienia globalnego
+Pythona ani cyklu życia poda. Wrapper ogranicza wątki bibliotek do jednego;
+budżet generatora wynosi 8 vCPU, domyślny przebieg używa 4 workerów.
+`--width`, `--height`, `--cell` określają rozmiar i siatkę; limit to 4 mln komórek.
+`--resume` wymaga zgodności kodu, kontekstu, konfiguracji i sum wszystkich wyników.
+
+Instalacja 23.10: pod CPU 8 vCPU / 32 GB RAM, wolumin 500 GB, katalog
+`/workspace/ki-legends-worldgen`. Host pokazuje 256 wątków i rozmiar wspólnego
+systemu plików; nie są to zasoby przydzielone temu podowi. Pierwsza instalacja
+zajęła 107,49 s. Pomiary po instalacji:
+
+| Przebieg | Wynik | Czas ścienny |
+| --- | --- | --- |
+| 8 wariantów 16 384 × 12 288, 4 workery | 8/8 PASS | 2,263 s |
+| 1 wariant 45 056 × 28 672, 1 worker | PASS | 5,386 s |
+| Testy niezmienności, nawigacji, seedów, chunków i wznowienia | 7/7 PASS | 1,339 s na podzie |
+
+Czasy dotyczą schematów i eksportu danych, nie gotowego artystycznie świata.
+Walidator sprawdza 24 wejścia, rozdzielenie usług, drogi poza przeszkodami,
+zasoby poza osadami i zachowanie źródła. Siatka 32 jednostek nie zastępuje
+nawigacji Phaser, testów rozgrywki, migracji współrzędnych/zapisów ani odbioru grafiki.
+Przed integracją potrzebne są te kontrole i dopracowanie ręczne.
+
+Podgląd na podzie: `outputs/first-batch/index.html` (przez zalogowany Jupyter).
+Kopia poza podem: [paczki źródeł i dziewięciu wyników](../deliveries/worldgen-20261023/).
+[Raporty i zweryfikowane sumy](zmiany/2026-10-23/qa/worldgen/).
+Źródłowy kontekst pierwszych wyników pochodzi z `184a9ec`; manifesty wskazują
+sumy kontekstu i algorytmu. Nie nadpisywać wyników nowym eksportem bez nowego katalogu.
+Odtwarzanie testów: `KI_WORLDGEN_CONTEXT=/tmp/worldgen-context.json python3 scripts/worldgen/test_generator.py`.

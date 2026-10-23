@@ -9,7 +9,8 @@
     "scripts/export-gpu-schema.ts",
     "scripts/measure-game.ts",
     "scripts/pack-gpu-frames.ts",
-    "scripts/city/**/*.ts"
+    "scripts/city/**/*.ts",
+    "scripts/worldgen/export-context.ts"
   ],
   "compilerOptions": {
     "types": ["node"]

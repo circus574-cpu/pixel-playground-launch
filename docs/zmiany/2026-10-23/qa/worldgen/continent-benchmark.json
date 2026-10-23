@@ -1,0 +1,47 @@
+{
+  "generator": "cpu-worldgen-0.1.0",
+  "environment": {
+    "python": "3.12.15",
+    "numpy": "2.2.6",
+    "hostCpuThreads": 256,
+    "cpuBudget": 8
+  },
+  "wallSeconds": 5.386,
+  "workers": 1,
+  "variants": [
+    {
+      "seed": 5741210,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/continent-benchmark/verdant-5741210",
+      "seconds": 5.317,
+      "passed": true,
+      "layoutSha256": "e12c0e2d96fc930c56507835bd0839c7d0cb16da0d71a7ae421f6d07a5234cdc",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 1201968,
+        "reachableWalkablePercent": 99.93,
+        "biomePercent": {
+          "water": 4.58,
+          "meadow": 54.63,
+          "forest": 31.53,
+          "rock": 4.51,
+          "wetland": 4.76
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    }
+  ]
+}

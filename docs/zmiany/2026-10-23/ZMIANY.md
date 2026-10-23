@@ -91,3 +91,24 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
 - Nie uruchamiano regresji przeglądarkowej — nie zmieniono symulacji, interfejsu gry
   ani produkcji; narzędzia benchmarku mają nową ścieżkę wyjścia raportów.
 - [Logi kontroli](qa/documentation/).
+
+
+## Środowisko CPU i pierwszy generator świata
+
+- Osobna gałąź `feature/cpu-worldgen-20261023`. Narzędzia w `scripts/worldgen/`;
+  brak zmian runtime gry, map produkcyjnych, zapisów i prywatnego `/test`.
+- Po udostępnieniu Jupytera przez właściciela zainstalowano izolowane środowisko
+  w `/workspace/ki-legends-worldgen`: Python 3.12.15, NumPy 2.2.6,
+  SciPy 1.15.3, Pillow 11.3.0. CPU 8 vCPU, RAM 32 GB, wolumin 500 GB.
+- Instalacja 107,49 s; 8 wariantów w 2,263 s; większa mapa 45 056 × 28 672
+  w 5,386 s. To propozycje danych świata, nie ukończona integracja ani grafika.
+- Każdy wariant zachowuje źródłową Verdantię, dodaje 3 propozycje osad/18 budynków,
+  ma 24 dostępne wejścia, 180 zasobów i 2500 dekoracji. Brak spawnów walki.
+- Testy generatora: 7/7 lokalnie i 7/7 na podzie. Pełny TypeScript: PASS.
+  Build: PASS. Lint: PASS z 9 istniejącymi ostrzeżeniami React.
+  Przeglądarkowej regresji nie uruchamiano dla niezależnych narzędzi offline.
+- Kopię 9 wyników pobrano poza pod; zweryfikowano sumę archiwum i wszystkie
+  pliki z 9 manifestów. [Dowody](qa/worldgen/),
+  [kopia źródeł i wyników](../../../deliveries/worldgen-20261023/).
+- Nie wykonywano operacji cyklu życia poda, scalenia ani publikacji.
+  Otwarte: inne kontynenty, odbiór układu/grafiki, integracja, migracje i testy gry.
