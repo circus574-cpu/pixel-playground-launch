@@ -10,120 +10,120 @@
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-anvil-stump.webp",
-      "width": 363,
-      "height": 512
+      "width": 377,
+      "height": 526
     },
     {
       "id": "pyra-smithy-furnace-fire",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-furnace-fire.webp",
-      "width": 426,
-      "height": 512
+      "width": 440,
+      "height": 526
     },
     {
       "id": "pyra-smithy-chest-iron",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-chest-iron.webp",
-      "width": 512,
-      "height": 439
+      "width": 526,
+      "height": 453
     },
     {
       "id": "pyra-smithy-workbench-tools",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-workbench-tools.webp",
-      "width": 497,
-      "height": 512
+      "width": 511,
+      "height": 526
     },
     {
       "id": "pyra-smithy-weapon-rack",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-weapon-rack.webp",
-      "width": 307,
-      "height": 512
+      "width": 321,
+      "height": 526
     },
     {
       "id": "pyra-smithy-shelf-ingots",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-shelf-ingots.webp",
-      "width": 326,
-      "height": 512
+      "width": 340,
+      "height": 526
     },
     {
       "id": "pyra-smithy-barrels",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-barrels.webp",
-      "width": 468,
-      "height": 512
+      "width": 482,
+      "height": 526
     },
     {
       "id": "pyra-smithy-crates-stack",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-crates-stack.webp",
-      "width": 389,
-      "height": 512
+      "width": 403,
+      "height": 526
     },
     {
       "id": "pyra-smithy-lantern-post",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-lantern-post.webp",
-      "width": 221,
-      "height": 512
+      "width": 235,
+      "height": 526
     },
     {
       "id": "pyra-smithy-banner-flame",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-banner-flame.webp",
-      "width": 243,
-      "height": 512
+      "width": 257,
+      "height": 526
     },
     {
       "id": "pyra-smithy-grindstone",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-grindstone.webp",
-      "width": 307,
-      "height": 512
+      "width": 321,
+      "height": 526
     },
     {
       "id": "pyra-smithy-coal-bin",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-coal-bin.webp",
-      "width": 358,
-      "height": 512
+      "width": 372,
+      "height": 526
     },
     {
       "id": "pyra-smithy-stairs-wood",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-stairs-wood.webp",
-      "width": 319,
-      "height": 512
+      "width": 333,
+      "height": 526
     },
     {
       "id": "pyra-smithy-door-arch",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-door-arch.webp",
-      "width": 328,
-      "height": 512
+      "width": 342,
+      "height": 526
     },
     {
       "id": "pyra-smithy-sign-hanging",
       "version": "1.0.0",
       "kind": "image",
       "url": "pyra-smithy-sign-hanging.webp",
-      "width": 204,
-      "height": 512
+      "width": 218,
+      "height": 526
     },
     {
       "id": "pyra-smithy-floor",

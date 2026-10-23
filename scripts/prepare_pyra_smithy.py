@@ -7,7 +7,7 @@ The pack is previewOnly: opt in with ?ki-smithy-art=1 until the owner accepts it
 """
 import hashlib, json, sys
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 
 REPO = Path(__file__).resolve().parents[1]
 SRC = Path(sys.argv[1])
@@ -17,9 +17,28 @@ OBJ = ["anvil-stump", "furnace-fire", "chest-iron", "workbench-tools", "weapon-r
        "lantern-post", "banner-flame", "grindstone", "coal-bin", "stairs-wood", "door-arch", "sign-hanging"]
 TEX = {"floor": "tex-floor-flagstone", "wall": "tex-wall-dark-wood"}
 assets, binds, prov = [], {}, []
+
+
+def outline(im, px=5):
+    """Thick dark painted outline (the mockup look) plus a little more contrast and warmth in the part itself."""
+    rgb = ImageEnhance.Contrast(im.convert("RGB")).enhance(1.12)
+    rgb = ImageEnhance.Color(rgb).enhance(1.08)
+    a = im.getchannel("A")
+    pad = px + 2
+    canvas = Image.new("RGBA", (im.width + 2 * pad, im.height + 2 * pad), (0, 0, 0, 0))
+    big = Image.new("L", canvas.size, 0)
+    big.paste(a, (pad, pad))
+    grown = big.filter(ImageFilter.MaxFilter(2 * px + 1)).filter(ImageFilter.GaussianBlur(0.8))
+    dark = Image.new("RGBA", canvas.size, (24, 13, 8, 255))
+    canvas.paste(dark, (0, 0), grown)
+    body = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    body.paste(Image.merge("RGBA", (*rgb.split(), a)), (pad, pad))
+    canvas.alpha_composite(body)
+    return canvas
+
 for name in OBJ:
     src = SRC / (name + ".png")
-    im = Image.open(src).convert("RGBA")
+    im = outline(Image.open(src).convert("RGBA"))
     f = OUT / ("pyra-smithy-%s.webp" % name)
     im.save(f, quality=90, method=6)
     assets.append({"id": "pyra-smithy-" + name, "version": "1.0.0", "kind": "image", "url": f.name, "width": im.width, "height": im.height})

@@ -36,11 +36,12 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
     objects.push(t);
   };
   tile("smithy-floor", 80, 82, 800, 632, -90000, 0xe3cdb8, 130);
-  tile("smithy-wall", 60, 0, 840, 175, WALL, 0xb89c88);
-  tile("smithy-wall", 60, 100, 40, 630, WALL, 0x8a7060);
-  tile("smithy-wall", 860, 100, 40, 630, WALL, 0x8a7060);
-  tile("smithy-wall", 60, 697, 350, 63, WALL, 0xa08a78);
-  tile("smithy-wall", 550, 697, 350, 63, WALL, 0xa08a78);
+  tile("smithy-wall", 0, 0, 960, 175, WALL, 0xb89c88);
+  tile("smithy-wall", 0, 100, 100, 660, WALL, 0x8a7060);
+  tile("smithy-wall", 860, 100, 100, 660, WALL, 0x8a7060);
+  tile("smithy-wall", 0, 697, 410, 63, WALL, 0xa08a78);
+  tile("smithy-wall", 550, 697, 410, 63, WALL, 0xa08a78);
+  objects.push(scene.add.rectangle(480, 728, 140, 63, 0x120b07).setDepth(WALL + 1));
   // Soft darkening where the wall meets the floor, so the room reads as a space with depth.
   const shade = scene.add.graphics().setDepth(WALL + 1);
   shade.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0.55, 0.55, 0, 0);

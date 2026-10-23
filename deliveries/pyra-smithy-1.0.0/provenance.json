@@ -6,82 +6,82 @@
     {
       "part": "anvil-stump",
       "source_png_sha256": "ea99f8184add8f0be322f75da8390a180a6a102785458383cf24ac0468a0d369",
-      "webp_sha256": "03b9f6a2851f72c39d729190592cc435d2245de1de06cefae1cc2b4b284164bd"
+      "webp_sha256": "3ffed601579c99355096b590ea1dc169a1ab23b0de631230e4cbeb7a6005570d"
     },
     {
       "part": "furnace-fire",
       "source_png_sha256": "a1096ef381388b2d0c6e3e9a0ee88da44952756cec4dfd061a0942b166fa92b3",
-      "webp_sha256": "e2b2837f349ab9c8cfaef91365d8246f7f8fba68915802a37f69b901f823ddff"
+      "webp_sha256": "bb73807c3998563c401554f384b1c5b743705f1ff3e4a285052bfbef093b53ad"
     },
     {
       "part": "chest-iron",
       "source_png_sha256": "f3c258f65aea12fd73f5c7144cd13634b8516f8cdbe177a8a86b515e2663b933",
-      "webp_sha256": "874dc50a413ce832a1580a558f502287eb27174f75525af4870305a31e6294c7"
+      "webp_sha256": "1db2e14842d0ea0450af6fde854c9175d9f42e25321b7af1a8c91d243d8255c6"
     },
     {
       "part": "workbench-tools",
       "source_png_sha256": "c13b43b112b2eb1536c88ee776ff123ce324990cb53c43031c4fecea2b2f9a36",
-      "webp_sha256": "e685d498f7d9ddfdd0b15b210ef410d4d0e73491554d4a9aad51cf36aca9e2c3"
+      "webp_sha256": "de361633704fa0a6b3184b2d292cd0f83d755b19cf754583ab76a6d2c089b033"
     },
     {
       "part": "weapon-rack",
       "source_png_sha256": "dda24af0348e1bda429b26ae380905cab7ad143f4a85ee393bbd1f4ca2b68132",
-      "webp_sha256": "26b058a01f2b43b23d9d3985c7992b5119f78553147f3a648fb0435d80b70ab3"
+      "webp_sha256": "9f13b6b891fbcd67d241b2ca5dbd8e8f3f36f58fa1521d86ddcab460da4e6218"
     },
     {
       "part": "shelf-ingots",
       "source_png_sha256": "d63f274744b540e8b59184c6582685b35bd1708f9f282027c1ce604e2c977833",
-      "webp_sha256": "a1ca8bc4f4777873ef279f222aa30b91a970c1519a7ab0f600d023db95b2be42"
+      "webp_sha256": "3a7aae8450d201ed5ac3b23c51366182964583e8101644800cd284c060e75109"
     },
     {
       "part": "barrels",
       "source_png_sha256": "5af58841ce92ebb4a5b81bf1da5301ef2872f6ddb5795bf0d1549730183b6a4a",
-      "webp_sha256": "7fb78e2462dd6afe0aea1cfbb39ec22208a4070a887ddfce359ca0175a334697"
+      "webp_sha256": "9fc03d8145cde9172c443a026165505790a9c3b9155931e545ca0e1b7500d967"
     },
     {
       "part": "crates-stack",
       "source_png_sha256": "342c31b673e47b72559fe9bea9423a0d1945895bf5344e19ca7a09b9ac2f857c",
-      "webp_sha256": "0e75f3bc036ba707814f58139c5719828d51e6ff16669281af56945ff2c147f2"
+      "webp_sha256": "9071c09538753361c0e6dea4b469b2f79c51f5ef96021e2d4c6a54fc283dcbd2"
     },
     {
       "part": "lantern-post",
       "source_png_sha256": "0d0f72f13ead10a1cf3332f3573a5d848ebe25700ec77790aea62a23614d5e09",
-      "webp_sha256": "541136ed286b6c9b03f15e5d2c35a6d416f940607aa506d519fa17edd427c50a"
+      "webp_sha256": "4d6d8ad195a1d785a28ce823c7012e8641f4edcc0b5945a485c15940234453a7"
     },
     {
       "part": "banner-flame",
       "source_png_sha256": "bce26883ecb74d329c45a95a756eeab0321acaceb077b5c1b9326506fd0b74dd",
-      "webp_sha256": "9448e29076c7f57997a42cec3494e1c118041f2df91a85a0b288269f83396c4a"
+      "webp_sha256": "dd9fcf41df87eb5ed4036b76708f80352c90eb84fbf045ea72b9bca266c14000"
     },
     {
       "part": "grindstone",
       "source_png_sha256": "c63bd59d53d4fe2d206f8d91647e3e4802670a3ba2470c0531003870fbd9959e",
-      "webp_sha256": "3af2826b4ad032160fdea29f208304abeadbb6e7e05a3d01823241e2c01190d1"
+      "webp_sha256": "c94ed6bbeec5e44c786b005850dabd9ec630f4fe704da276257059dace3d5704"
     },
     {
       "part": "coal-bin",
       "source_png_sha256": "a7724f0790819a564115c3de0366f3aeab3aea48059c21e17c484f4ee6f5d632",
-      "webp_sha256": "9720eb6e82d10c6912a4a2d02fdf7d72d7791a8b19442c0df835f10d1362f47d"
+      "webp_sha256": "489e07b7f59032c9636c571a59f109b9ab933133c7b109d37264ef5a420b13f9"
     },
     {
       "part": "stairs-wood",
       "source_png_sha256": "10d4181f2c4009ca36b15bcf85740b92c499a6830fc5dc5508cdb7467819d5df",
-      "webp_sha256": "b5307d11585655b1788259de2a1a81d555abf42812fefcd0f92fcd75c8001a6a"
+      "webp_sha256": "5926a4c669c14749f693a8fe681bb5be609558aae561f979006ea1b23f7114ab"
     },
     {
       "part": "door-arch",
       "source_png_sha256": "e6a5cb394964945e18d7e7804cddd0ffb88712d36a7bec8687cee814ccc2aef7",
-      "webp_sha256": "abe31690c36e49d5ec7b2cda9102e66dfc202794271fb4b7278b7c4ac17dc786"
+      "webp_sha256": "be92921832780c42237fb1ef7327057434e0e9e1619c4bcb4c4d24b640abb2c7"
     },
     {
       "part": "sign-hanging",
       "source_png_sha256": "5024d3b12c114983fbe2dc15525221f7c764045dc6a0fe9d3792f9a4e8a68d0a",
-      "webp_sha256": "2243472a7e994daeebf040025b36a0620b1ab1b07859e37f37ae299f283d5ac3"
+      "webp_sha256": "5e4499f71ad56a3e4f35bc52c978e02b3e8b43842265e675df3a1251defab8d8"
     },
     {
       "part": "floor",
-      "source_png_sha256": "94f19313a80828806bfeb475900d4945468ff8381b206762d242b78b45cb746c",
-      "webp_sha256": "5904a6e6d8c7c0c72c056085f19465f71f3d20895d7476b0537e2c5ac7802fd7"
+      "source_png_sha256": "ac57073301d75bff27d1fb60d93c4918511848fc18256cdd82bd44c8f49f3af2",
+      "webp_sha256": "2a4f15d3bdf6d06a80d1dab7d7a28e5bb76178ec13f81d719d5c0b2f5f02aa3a"
     },
     {
       "part": "wall",

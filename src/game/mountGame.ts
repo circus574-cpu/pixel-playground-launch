@@ -210,19 +210,11 @@ export function mountKileGends(
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
           const room = cityRoom(session.player.interior);
-          // A room fills the screen. Landscape fits the whole room; portrait zooms in and follows the hero.
-          const portrait = this.scale.height > this.scale.width * 1.15;
+          // A room covers the whole screen edge to edge (no margins); the camera follows the hero inside it.
           const cam = this.cameras.main;
-          if (portrait && this.hero) {
-            cam.setZoom(0.78).setBounds(0, 0, room.width, room.height);
-            cam.startFollow(this.hero.body, true, 0.12, 0.12);
-          } else {
-            cam.setZoom(
-              Math.min(this.scale.width / room.width, this.scale.height / room.height) * 1.02,
-            );
-            cam.stopFollow().removeBounds();
-            cam.centerOn(room.width / 2, room.height / 2);
-          }
+          cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
+          cam.setBounds(0, 0, room.width, room.height);
+          if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
         }
       };
       zoom();
