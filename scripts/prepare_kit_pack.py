@@ -4,7 +4,7 @@
 Writes deliveries/<pack>-<version>/ (webp parts with a dark painted outline, manifest.json, provenance.json,
 placement.json) and registers bindings `object.<pack>.<name>`. Region JSON then uses `"asset": "<pack>.<name>"`.
 placement.json carries a recommended display size, anchor, solid flag and collision footprint for every part, so a
-world builder can place it without guessing (rules: docs/WORLD-ASSET-KIT-2026-10-23.md).
+world builder can place it without guessing (rules: docs/GPU-I-ZASOBY.md).
 Install: npm run assets:import -- deliveries/<pack>-<version>/manifest.json --install
 """
 import hashlib, json, re, sys
@@ -76,6 +76,6 @@ manifest = {"schemaVersion": 1, "id": pack, "version": version, "technical": Fal
             "actors": [], "actorBindings": {}, "renderBindings": binds, "effects": {}}
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 (OUT / "provenance.json").write_text(json.dumps({"pack": pack, "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
-                                                  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)", "parts": prov}, indent=2) + "\n")
+                                                  "licenseStatus": "unresolved (docs/LICENCJE.md)", "parts": prov}, indent=2) + "\n")
 (OUT / "placement.json").write_text(json.dumps(place, indent=1) + "\n")
 print("OK", len(assets), "parts in", OUT)

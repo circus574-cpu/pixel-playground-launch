@@ -64,15 +64,10 @@ for key, b in sorted(rb.items()):
         kit["objects"].append(entry)
     else:
         kit["terrains"].append(entry)
-kit["pending"] = [
-    {"set": "city-pyra-c1", "status": "generated on the pod (dream + anime), not matted or installed",
-     "items": ["hall-council", "market-stall", "inn-tavern", "smithy-forge", "depot-warehouse", "arena-dojo", "gate-fortress", "wall-segment",
-               "tower-watch", "fountain-fire", "house-small", "bridge-stone", "tree-maple-red", "tree-pine-dark", "rocks-cluster", "banner-pole",
-               "lantern-stone", "steps-stone"]},
-    {"set": "textures-v3-full", "status": "494 textures generated (247 x 2 seeds); refiner restyle in progress; not installed",
-     "groups": ["verdant", "aether", "nexus", "pyra", "rock", "water"]},
-    {"set": "landscape-v2-full4", "status": "mountains, volcanoes, rocks, trees and 8 neutral animals generated, not matted or installed"},
-    {"set": "forge-parts", "status": "installed as pack pyra-smithy 1.1.0 (portrait smithy room only)"},
-]
+# Installation state comes from this checkout. Do not import the other agent's
+# smithy or claim knowledge of live GPU jobs from an old hard-coded note.
+kit["installedSets"] = [{"id": p["id"], "version": p["version"], "assets": len(p["assets"])} for p in imported]
+kit["pending"] = []
+kit["pendingScope"] = "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."
 (REPO / "docs/world-asset-kit.json").write_text(json.dumps(kit, indent=1, ensure_ascii=False) + "\n")
 print(len(kit["objects"]), "objects", len(kit["terrains"]), "terrains")

@@ -163,3 +163,32 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
   grafiką do dostawy Claude'a pozostaje w mocy.
 - Kontrole kopii: pełny TypeScript PASS, Vitest 310/310 (36 plików) PASS;
   dokumentacja PASS (10 tematów, 5 dzienników, niezmienione chronione dowody).
+
+
+## Partia 1 Claude'a i pierwsze przypisanie grafik świata CPU
+
+- Pobrano `assets/world-kit-for-codex-20261023`, commit `fd2597e`, i połączono
+  z gałęzią CPU (`6b9f201`); wynik od razu wysłano na GitHub. Nie pobierano
+  `feat/continent-worlds`, zmian kontynentów ani kuźni z drugiej gałęzi Claude'a.
+- 10 nowych paczek / 138 części. Katalog: 194 obiekty i 31 powierzchni; wszystkie
+  nowe części mają placement, 17 starszych wpisów go nie ma. Oryginalny opis
+  dostawy i JSON zachowano w [dowodach](qa/world-kit-intake/). Aktualne reguły
+  włączono do GPU-I-ZASOBY, zachowując dokładnie 10 dokumentów tematycznych.
+- Eksporter ustala teraz zainstalowane paczki z bieżącego checkoutu; usunięto
+  fałszywą deklarację zainstalowanej kuźni i stare stałe o oczekujących paczkach.
+- Nowy generator `bind_world_art.py` utworzył na podzie CPU osobną warstwę
+  prezentacji: 10 lądów, 271 531 dekoracji, 583 budynki, 6511 zasobów i 152 wejścia
+  do lochów, w 1451 chunkach. Użyto 58 wiązań. Pozostałe zasoby pozostają dostępne.
+- Sprawdzono 1561 plików źródłowych przed i po składaniu, bez zmiany geometrii.
+  Niezależne złożenie lokalne i CPU dało identyczne bajty wszystkich 1463 plików
+  manifestu dostawy. `check_world_art.py` weryfikuje fizyczne położenie dekoracji,
+  ich solid/footprint i drzwi budynków względem źródła.
+- [Kopia wyniku CPU poza podem](../../../deliveries/world-art-20261023-batch1/world-art.tar.gz):
+  4 075 916 bajtów; SHA-256 `72588c0606d1b5074302eedc1acb05364c476a62f11ddbb453b7f9af5ff4f1c6`.
+- Kontrole: pełny TypeScript PASS; Vitest 310/310 (36 plików) PASS; assets PASS;
+  lint 0 błędów / 9 istniejących ostrzeżeń; build PASS. Logi w dowodach dostawy.
+  Nie powtarzano pełnej regresji przeglądarkowej: ten etap dodał dane i narzędzia
+  offline, bez podłączenia ich do sceny. Poprzedni wynik 85/105 pozostaje otwarty.
+- To przypisania prezentacji do danych, nie gotowa scena Phaser. Otwarte: streaming
+  grafiki, podłączenie runtime, ocena wizualnych drzwi, grafiki aktorów, telefon i prawa.
+  Bez scalenia do main, publikacji i zmian cyklu życia poda.

@@ -1,5 +1,39 @@
 # KI Legends — GPU i zasoby
 
+## Partia 1 od Claude'a — zasoby do świata CPU
+
+Przyjęto commit `fd2597e` z gałęzi `assets/world-kit-for-codex-20261023` do
+`feature/cpu-game-content-20261023`. Zawiera wyłącznie dostawę na bazie świata CPU;
+nie importowano `feat/continent-worlds`, kuźni `pyra-smithy` ani zmian kontynentów.
+Dziesięć nowych paczek to 138 części: cztery miasta (Pyra 18, pozostałe po 16),
+biomy las/śnieg/pustynia/wulkan/wybrzeże i ruiny (po 12).
+
+Maszynowy katalog [world-asset-kit.json](world-asset-kit.json) zawiera 194 wiązania
+obiektów i 31 powierzchni. Wszystkie 138 nowych części mają `placement`; 17 starszych
+wiązań, głównie wnętrz i lasu, nie ma zaleceń rozmieszczenia. Nie zgadywać ich kolizji.
+`python3 scripts/export_world_asset_kit.py` odtwarza katalog z bieżących importów,
+regionów i `deliveries/*/placement.json`. Lista `installedSets` pochodzi z checkoutu;
+brak wpisów `pending` nie oznacza zakończenia prac GPU poza tą gałęzią.
+Oryginalny [opis dostawy](zmiany/2026-10-23/qa/world-kit-intake/claude-delivery-description.txt)
+i [otrzymany JSON](zmiany/2026-10-23/qa/world-kit-intake/delivered-world-asset-kit.json)
+zachowano jako dowody. Ich starsze liczby i informacje o kuźni nie opisują tej gałęzi.
+
+W obiekcie regionu `asset` odpowiada `regionAsset`, bez prefiksu `object.`.
+`x/y` wskazują punkt oparcia, głębokość wynika z Y; rozmiar i `anchorX/anchorY`
+kontrolują wyłącznie prezentację. `solid` i footprint pozostają w danych świata.
+Zalecenie z katalogu nie zastępuje istniejącego footprintu ani położenia drzwi.
+Nie przesuwać wejść i nie powiększać kolizji dla dopasowania ilustracji.
+
+`scripts/worldgen/bind_world_art.py` eksportuje zweryfikowane wejście przez
+`--export-input <plik.json>`, następnie składa osobny zestaw prezentacji przez
+`--input <plik.json> --world <katalog-browser> --output <nowy-katalog> --workers 8`.
+Sprawdza manifesty przed i po pracy; zapisuje przypisania per chunk, budynki,
+zasoby, wejścia do lochów i powierzchnie biomów bez modyfikacji danych źródłowych.
+Nie jest to jeszcze renderer sceny Phaser. Drzwi widoczne na ilustracjach wymagają
+przeglądu względem zachowanych punktów wejścia. Ta partia nie dostarcza animacji
+nowych mieszkańców ani potworów. Deklaracje pochodzenia paczek nie zamykają praw
+komercyjnych; obowiązuje [rejestr licencji](LICENCJE.md).
+
 Aktualizacja: 23.10.2026. Cztery malowane rasy, tekstury trzech kontynentów i część
 przyrody są zainstalowane. Obowiązuje oddzielne podłoże, obiekty, aktorzy i efekty.
 **Cykl życia i konfigurację GPU obsługuje wyłącznie właściciel**, także po renderze.

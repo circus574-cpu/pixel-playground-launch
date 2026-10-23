@@ -13,7 +13,10 @@ budżety telefonu, podłączenie Phaser/streamingu/podróży/zapisów i grafiki 
 Narzędzia rozszerzonego balansu i botów zapisano jako prace w toku, wraz z wynikami
 prób wstępnych; nie ogłaszać ich ukończenia. Pełna regresja wymaga powtórzenia po
 naprawie dostępności serwera aplikacyjnego QA (zachowana próba: 85 PASS / 20 FAIL).
-Na polecenie właściciela prace nad grafiką są wstrzymane do dostawy Claude'a.
+Otrzymano partię 1 Claude'a (`fd2597e`): 138 nowych części, katalog 194 obiektów
+i 31 powierzchni. Dostawa jest połączona z gałęzią CPU; przygotowano osobny
+generator przypisań prezentacji bez zmiany geometrii. Wstrzymanie do tej dostawy
+zakończono; dalszy odbiór grafik, drzwi i podłączenie sceny pozostają otwarte.
 
 Aktualizacja: 23.10.2026. Baza kodu `origin/main`: `d0bfc2c`.
 To lista otwartych prac; zakończone kroki i dawne blokady są w dziennikach.

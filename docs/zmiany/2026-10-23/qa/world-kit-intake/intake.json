@@ -1,0 +1,42 @@
+{
+  "deliveryCommit": "fd2597e",
+  "branch": "feature/cpu-game-content-20261023",
+  "mergeCommit": "6b9f201",
+  "newPacks": 10,
+  "newParts": 138,
+  "objects": 194,
+  "terrains": 31,
+  "objectsWithoutPlacement": [
+    "object.city.anvil",
+    "object.city.bed",
+    "object.city.chest",
+    "object.city.desk",
+    "object.city.dummy",
+    "object.city.shelf",
+    "object.forest.bridge",
+    "object.forest.cottage",
+    "object.forest.fence",
+    "object.forest.forge",
+    "object.forest.fountain",
+    "object.forest.inn",
+    "object.forest.lamp",
+    "object.forest.market",
+    "object.nature.broadleaf-tree",
+    "object.nature.iceberg",
+    "object.volcano"
+  ],
+  "newPartsHavePlacement": true,
+  "continentWorldsImported": false,
+  "pyraSmithyImported": false,
+  "runtimeSceneInstalled": false,
+  "checks": {
+    "typecheck": "PASS",
+    "vitest": "310/310; 36 files",
+    "assets": "PASS",
+    "lint": "0 errors, 9 existing warnings",
+    "build": "PASS",
+    "browser": "Not rerun for this data-only assembly; prior full regression remains 85 PASS / 20 FAIL"
+  },
+  "deliveredDescriptionSha256": "3894c5a55af465a7c3fff7d3d1df78cb2e1cbc5264da828987d6387cbd017d0b",
+  "deliveredKitSha256": "10e451c6e88cebb4bf2f7273715adf83d652059eb6773b7e996f53046075bc52"
+}
