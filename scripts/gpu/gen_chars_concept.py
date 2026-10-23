@@ -12,6 +12,7 @@ from diffusers import StableDiffusionXLPipeline
 
 tag = sys.argv[1] if len(sys.argv) > 1 else "c1"
 SEEDS = [int(s) for s in (sys.argv[2] if len(sys.argv) > 2 else "7430101,7430102,7430103,7430104,7430105,7430106").split(",")]
+ONLY = sys.argv[3].split(",") if len(sys.argv) > 3 else None
 ROOT = Path("/workspace/ki-legends-gpu")
 OUT = ROOT / "renders" / ("chars-concept-%s" % tag)
 OUT.mkdir(parents=True, exist_ok=True)
@@ -27,6 +28,13 @@ NEG = ("nsfw, nude, child, girl, woman, worst quality, low quality, blurry, crop
 CHARS = {
     "hero-legend": ("1boy, young adult man, spiky black hair with a red streak, intense red eyes, long red scarf, black and crimson light armor "
                     "with gold trim, shoulder pauldrons, armored gauntlets, black trousers, crimson laced boots, sword on his back, confident calm stance"),
+    "hero-planetary": ("1boy, young adult man, messy spiky chestnut brown hair with a short orange braid, white headband, amber eyes, tanned skin, "
+                       "orange scarf, sleeveless white and green wrap tunic, brown leather straps and pouches, bronze armored gauntlets and greaves with cyan crystal gems, "
+                       "dark green trousers, brown pointed leather boots, forest warrior, confident calm stance"),
+    "hero-android": ("1boy, young adult man, short spiky silver white hair, steel blue eyes, layered silver and black synthetic armor plates, blue gem on chest, "
+                     "black bodysuit, long split white and blue coat tails, armored gauntlets, silver armored boots, android warrior, confident calm stance"),
+    "hero-sage": ("1boy, masculine adult man, strong jaw, long pale blonde hair tied in a high ponytail with a gold ornament, pointed elf ears, golden amber eyes, "
+                  "long layered cream white and emerald green robes with gold embroidery, wide sleeves, jeweled emerald belt, ornate black and gold boots, elf sage, calm stance"),
     "goro-smith": ("1boy, middle aged muscular blacksmith, black hair in a topknot, short black beard, scar on cheek, friendly stern face, "
                    "arms crossed, white shirt with rolled sleeves, brown leather apron, leather straps and pouches, brown trousers, heavy boots, strong build"),
 }
@@ -35,6 +43,8 @@ pipe = StableDiffusionXLPipeline.from_single_file(str(ROOT / "models/checkpoints
 meta = {"tag": tag, "items": []}
 t0 = time.time()
 for char, look in CHARS.items():
+    if ONLY and char not in ONLY:
+        continue
     for view, vtxt in VIEWS.items():
         for seed in SEEDS:
             img = pipe(prompt="1boy, " + look + ", " + vtxt + ", " + BASE, negative_prompt=NEG, num_inference_steps=28, guidance_scale=6.0,
