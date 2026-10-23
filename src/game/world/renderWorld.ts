@@ -9,6 +9,7 @@ import { coversPlayer } from "./visibility";
 import { bakeRoads } from "./renderRoads";
 import { macroVariation } from "./macroVariation";
 import { castsShadow, objectShadow } from "./shadows";
+import { buildSceneryGrid, sceneryNear, sceneryReach } from "./sceneryStream";
 import type { Point } from "../navigation";
 
 /** Derived, softened copy of a ground texture; undefined when the canvas filter is unavailable. */
@@ -360,31 +361,68 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       hazards.strokePath();
     }
   }
-  const scenery = world.objects.map((object) => {
+  // Region worlds carry tens of thousands of decorations: only objects near the camera exist as game objects.
+  const sceneryGrid = buildSceneryGrid(world.objects);
+  const reach = sceneryReach(world.objects);
+  const live = new Map<
+    number,
+    {
+      object: (typeof world.objects)[number];
+      image: Phaser.GameObjects.Image;
+      shadow: Phaser.GameObjects.Image | null;
+    }
+  >();
+  const spawn = (i: number) => {
+    const object = world.objects[i]!;
     const ref = textureBinding(
       "object." + world.id + "." + object.id,
       textureBinding("object." + object.asset, { asset: object.asset! }),
     );
     const shadow = castsShadow(object, ref.layer) ? objectShadow(scene, object) : null;
-    return {
-      object,
-      shadow,
-      image: sizeScenery(
-        scene.add
-          .image(object.x, object.y, ref.asset, ref.frame)
-          .setOrigin(ref.origin?.[0] ?? object.anchorX, ref.origin?.[1] ?? object.anchorY),
-        object.width,
-        object.height,
-        ref.fit,
-      ).setDepth(renderDepth(ref.layer ?? "objects", object.y)),
-    };
-  });
+    const image = sizeScenery(
+      scene.add
+        .image(object.x, object.y, ref.asset, ref.frame)
+        .setOrigin(ref.origin?.[0] ?? object.anchorX, ref.origin?.[1] ?? object.anchorY),
+      object.width,
+      object.height,
+      ref.fit,
+    ).setDepth(renderDepth(ref.layer ?? "objects", object.y));
+    live.set(i, { object, image, shadow });
+  };
+  let lastCells = "";
+  const streamScenery = () => {
+    const view = scene.cameras.main.worldView;
+    const near = sceneryNear(sceneryGrid, view, reach + 128);
+    const cells =
+      Math.floor(view.left / 512) +
+      ":" +
+      Math.floor(view.top / 512) +
+      ":" +
+      Math.floor(view.width / 64);
+    if (cells === lastCells) return;
+    lastCells = cells;
+    for (const i of near) if (!live.has(i)) spawn(i);
+    // Drop what is two cells further away, so walking back and forth does not thrash.
+    const keep = new Set(sceneryNear(sceneryGrid, view, reach + 128 + 2048));
+    for (const [i, entry] of live)
+      if (!keep.has(i)) {
+        entry.image.destroy();
+        entry.shadow?.destroy();
+        live.delete(i);
+      }
+  };
+  streamScenery();
   // Place names remain on the minimap and region map; permanent ground text obscured actors.
   return {
     terrainMode: "region",
     dispose: () => {
       roads?.dispose();
       macro.dispose();
+      for (const { image, shadow } of live.values()) {
+        image.destroy();
+        shadow?.destroy();
+      }
+      live.clear();
       for (const chunk of groundChunks.values()) chunk.destroy();
       groundChunks.clear();
     },
@@ -394,18 +432,9 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       macro.update();
       roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
-      for (const { object: o, image, shadow } of scenery) {
-        const left = o.x - o.width * o.anchorX,
-          top = o.y - o.height * o.anchorY;
-        const visible =
-          left < view.right + 128 &&
-          left + o.width > view.left - 128 &&
-          top < view.bottom + 128 &&
-          top + o.height > view.top - 128;
-        image.setVisible(visible);
-        shadow?.setVisible(visible);
-        if (visible) image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
-      }
+      streamScenery();
+      for (const { object: o, image } of live.values())
+        image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
     },
   };
 }
