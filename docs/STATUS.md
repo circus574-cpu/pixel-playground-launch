@@ -35,5 +35,5 @@ Oryginalny 12-stronicowy PDF z ilustracjami został zapisany bezstratnie **na ga
 
 - **Wdrożone w kodzie i przetestowane jednostkowo:** statystyki czterech ras, 4 drzewka po 29 węzłów (aneks właściciela 22.10), zasoby rasowe (Ładunek Rdzenia, Żar), punkty umiejętności i reset, Tryb KI, szybkość +5% na poziom do 20, model obrażeń z aneksu, silnik 40 potworów z bestiariusza (AI, telegrafy, strefy, statusy, łup, materiały), zapis wersji 4. Szczegóły: [GAMEPLAY-RACES-AND-MONSTERS.md](GAMEPLAY-RACES-AND-MONSTERS.md).
 - **Gotowe pliki, niezainstalowane:** 40 paczek grafiki potworów (`deliveries/enemy-*`, 416 klatek każda), 4 malowani bohaterowie, tekstury kontynentów, zestaw przyrody. Instalacja i spawny: zadania Codexa/właściciela.
-- **Nie wdrożono:** spawnów potworów w regionach (po ukończeniu kontynentów), bossów (8). Kanoniczny bestiariusz to 40 potworów z HTML (lista 20 z aneksu usunięta decyzją właściciela 23.10.2026).
+- **Nie wdrożono:** spawnów potworów w regionach (po ukończeniu kontynentów), bossów (8). Kanoniczny bestiariusz to 40 potworów z dokumentu właściciela.
 - **Niezweryfikowane:** fizyczny telefon, sprzętowy WebGL, ocena wizualna właściciela, balans całego zakresu poziomów, licencje referencji.

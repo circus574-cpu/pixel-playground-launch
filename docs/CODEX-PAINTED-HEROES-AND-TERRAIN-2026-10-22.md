@@ -89,6 +89,6 @@ Dwie paczki w `deliveries/`, obie `previewOnly: true`, zwalidowane `assets:impor
 1. Po odbiorze wizualnym właściciela zainstaluj paczki: `npm run assets:import -- deliveries/enemy-<id>-1.0.0/manifest.json --install` (po jednej, z testem). Do tego czasu potwory w grze używają wyglądu dzika.
 2. Spawny: dodaj `monsters: [{ kind, x, y }]` do definicji regionu **dopiero po ukończeniu kontynentów** (zlecenie właściciela). `kind` to id z `src/game/monsters/catalog.ts`; grupy (wilki, nietoperze) tworzy `MonsterSystem.spawnGroup`.
 3. Nie zmieniaj liczb potworów ani drzewek w kodzie: źródłem są `base.generated.ts` (z `roster.json`) i `nodes.generated.ts` (z JSON aneksu); generatory w `scripts/gen-*.py`.
-4. Zostają do decyzji właściciela: bossowie (8) (lista 20 przeciwników z aneksu została usunięta decyzją właściciela 23.10.2026; kanoniczny jest bestiariusz HTML), założenia balansu z GAMEPLAY-RACES-AND-MONSTERS.md §3.
+4. Zostają do decyzji właściciela: bossowie (8), założenia balansu z GAMEPLAY-RACES-AND-MONSTERS.md §3.
 
 **Weryfikacja przed PR:** `npm run typecheck && npm test && npm run lint && npm run build && npx playwright test --project=gameplay`. Fizyczny telefon i sprzętowy WebGL: NIEZWERYFIKOWANE.
