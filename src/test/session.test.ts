@@ -61,6 +61,8 @@ describe("complete adventure in a combat region; city services in city.test.ts",
     let wasHurt = false,
       usedSkill = false;
     for (const enemy of game.enemies.slice(0, 3)) {
+      // The start lies inside the safe city: walk out to the boar before fighting.
+      Object.assign(game.player, game.nav.safe({ x: enemy.x - 70, y: enemy.y }));
       game.command({ type: "target", id: enemy.id });
       for (let i = 0; i < 1200 && enemy.hp > 0; i++) {
         game.tick(50);

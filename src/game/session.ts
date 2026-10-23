@@ -3,7 +3,7 @@ import { z } from "zod";
 import { WORLDS, worldObstacles } from "./world/worlds";
 import { RACES, RACE_IDS, WORLD_IDS, type RaceId } from "./world/races";
 import type { WorldDefinition, NpcRole } from "./world/types";
-import { BUILDING_IDS, type BuildingId } from "./city/types";
+import { BUILDING_IDS, isCityStage, inSafeCity, type BuildingId } from "./city/types";
 import { cityRoom } from "./city/room";
 import { terrainAt } from "./world/terrain";
 import { Navigation, distance, type Point } from "./navigation";
@@ -335,7 +335,9 @@ export class SaveStore {
         (p.armor && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         (p.quests.gear !== "locked" &&
-          (WORLDS[p.continent].city ? p.quests.steps !== "done" : p.quests.boars !== "done")) ||
+          (isCityStage(WORLDS[p.continent])
+            ? p.quests.steps !== "done"
+            : p.quests.boars !== "done")) ||
         !p.skills.includes("R") ||
         !validLearned(p.race, p.level, p.skills) ||
         Object.keys(p.materials).some((id) => !isMaterial(id)) ||
@@ -425,6 +427,10 @@ export class GameSession implements MonsterHost {
       }));
   }
   enemies: Enemy[] = [];
+  /** No combat here: inside a building, on a city-stage map, or within the city bounds. */
+  get safe() {
+    return inSafeCity(this.world, this.player, this.player.interior);
+  }
   readonly monsters: MonsterSystem;
   readonly kit: Kit;
   readonly fx = new PlayerFx();
@@ -487,7 +493,7 @@ export class GameSession implements MonsterHost {
       this.player.ki = this.kit.stats.maxKi;
     }
     this.monsters = new MonsterSystem(this);
-    if (!this.world.city) {
+    if (!isCityStage(this.world)) {
       this.world.enemies.forEach((p, i) => this.monsters.spawn("boar", p, "boar-" + i));
       for (const sp of this.world.monsters ?? [])
         this.monsters.spawnGroup(sp.kind, { x: sp.x, y: sp.y });
@@ -523,7 +529,7 @@ export class GameSession implements MonsterHost {
     fixed = false,
   ): { dealt: number; evaded: boolean } {
     const p = this.player;
-    if (this.world.city) return { dealt: 0, evaded: true };
+    if (this.safe) return { dealt: 0, evaded: true };
     if (p.dead) return { dealt: 0, evaded: true };
     if (this.kit.hasBuff("invulnerable")) {
       this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Unik" });
@@ -552,7 +558,7 @@ export class GameSession implements MonsterHost {
   }
   private damagePlayer(amount: number) {
     const p = this.player;
-    if (this.world.city) return;
+    if (this.safe) return;
     if (p.dead) return;
     p.hp = Math.max(0, p.hp - amount);
     this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "-" + Math.round(amount) });
@@ -946,7 +952,7 @@ export class GameSession implements MonsterHost {
           p.quests.steps === "done" &&
           p.quests.boars === "locked"
         ) {
-          if (this.world.city)
+          if (isCityStage(this.world))
             return this.say(
               "Wyprawy poza miasto przygotujemy w następnym etapie. Skorzystaj z areny treningowej.",
             );
@@ -956,7 +962,7 @@ export class GameSession implements MonsterHost {
           );
         } else if (
           npc.id === "smith" &&
-          (this.world.city ? p.quests.steps === "done" : p.quests.boars === "done") &&
+          (isCityStage(this.world) ? p.quests.steps === "done" : p.quests.boars === "done") &&
           p.quests.gear === "locked"
         ) {
           p.quests.gear = p.weapon === "sword" ? "ready" : "active";
@@ -968,7 +974,7 @@ export class GameSession implements MonsterHost {
       if (c.action === "claim") {
         if (npc.id === "guide" && p.quests.steps === "ready") {
           p.quests.steps = "done";
-          if (this.world.city) p.gold += 40;
+          if (isCityStage(this.world)) p.gold += 40;
           this.award(40);
           this.say(
             this.world.id === "verdant"
@@ -1070,7 +1076,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "target") {
-      if (this.world.city) {
+      if (this.safe) {
         if (c.id === "training-dummy" && p.interior === "arena")
           this.command({ type: "training", action: "start" });
         return;
@@ -1341,7 +1347,7 @@ export class GameSession implements MonsterHost {
       );
       this.flush();
     }
-    if (!this.world.city) this.monsters.tick(dt);
+    if (!isCityStage(this.world) && !p.interior) this.monsters.tick(dt);
     this.saveIn += dt;
     if (this.saveIn >= 2000) {
       this.saveIn = 0;
@@ -1374,9 +1380,9 @@ export class GameSession implements MonsterHost {
       return q === "locked"
         ? "Porozmawiaj z " + names.steps + " przy miejscu startowym"
         : this.world.market.instruction;
-    if (id === "boars" && this.world.city)
+    if (id === "boars" && isCityStage(this.world))
       return "Wyprawy poza miasto: następny etap. Ćwicz w Domu Treningu; wcześniejszy postęp zachowano.";
-    if (id === "gear" && this.world.city)
+    if (id === "gear" && isCityStage(this.world))
       return q === "locked"
         ? "Po Pierwszych krokach odwiedź Taro w kuźni. Ostrze kupisz u Mio."
         : "Załóż Ostrze strażnika w ekwipunku";
@@ -1523,7 +1529,7 @@ function makePort(s: GameSession): KitPort {
     random: () => s.rng(),
     say: (t) => s.say(t),
     foesIn: (c, r) =>
-      (s.world.city ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
+      (s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
         (e) => distance(e, c) <= r,
       ),
     target: () => s.trainingTarget ?? s.target,

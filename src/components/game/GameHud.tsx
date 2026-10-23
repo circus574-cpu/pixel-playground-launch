@@ -1,4 +1,5 @@
 import { uiTextureUrl } from "../../game/assets/catalog";
+import { isCityStage } from "../../game/city/types";
 import { TEST_RACE_SWITCH_ENABLED } from "../../game/features";
 import { GameMessage } from "./GameMessage";
 import { useGameMessage, type MessageEvent } from "./useGameMessage";
@@ -211,7 +212,7 @@ export function GameHud({
     onCommand({ type: "pause", value: false });
   }
   const tracked = state.quests.find(
-    (q) => q.status !== "done" && (!world.city || q.id !== "boars"),
+    (q) => q.status !== "done" && (!isCityStage(world) || q.id !== "boars"),
   );
   return (
     <div

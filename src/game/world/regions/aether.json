@@ -41,22 +41,64 @@
       "dialogue": "Zdziczałe bestie niszczą korzenie świętego gaju. Uspokój trzy, a powierz ci ostrze strażnika."
     },
     {
+      "id": "steward",
+      "name": "Hoshi",
+      "role": "Zarządca Sali Rady",
+      "x": 2400,
+      "y": 1460,
+      "tint": 15390133,
+      "dialogue": "Sala Rady stoi otworem. Każda historia w Sanktuarium zaczyna się od pytania, nie od odpowiedzi.",
+      "building": "hall"
+    },
+    {
       "id": "merchant",
       "name": "Mei",
       "role": "Archiwistka wymiany",
-      "x": 3320,
-      "y": 1910,
+      "x": 3250,
+      "y": 1880,
       "tint": 14070783,
-      "dialogue": "Wiedza krąży tak jak towary. Wymień kły na mikstury i wyposażenie."
+      "dialogue": "Wiedza krąży tak jak towary. Wymień kły na mikstury i wyposażenie.",
+      "building": "shop"
+    },
+    {
+      "id": "trainer",
+      "name": "Raku",
+      "role": "Mistrz skupienia",
+      "x": 3980,
+      "y": 1780,
+      "tint": 16755370,
+      "dialogue": "Manekin nie oddaje ciosów, więc nie masz wymówki. Użyj każdej zdolności i obserwuj, jak działa.",
+      "building": "arena"
+    },
+    {
+      "id": "keeper",
+      "name": "Kaede",
+      "role": "Strażniczka zwojów",
+      "x": 1850,
+      "y": 2277,
+      "tint": 12116191,
+      "dialogue": "Twoje rzeczy leżą tu bezpieczniej niż w jakiejkolwiek sakwie. Skrzynia należy tylko do ciebie.",
+      "building": "depot"
     },
     {
       "id": "smith",
       "name": "Enso",
       "role": "Rzemieślnik pieczęci",
-      "x": 3430,
-      "y": 3032,
+      "x": 3360,
+      "y": 3002,
       "tint": 10802687,
-      "dialogue": "Dobre ostrze wymaga skupienia. Załóż je i wróć; wzmocnię jego pieczęć za 15 monet."
+      "dialogue": "Dobre ostrze wymaga skupienia. Załóż je i wróć; wzmocnię jego pieczęć za 15 monet.",
+      "building": "smithy"
+    },
+    {
+      "id": "innkeeper",
+      "name": "Yuna",
+      "role": "Mistrzyni herbaty",
+      "x": 1850,
+      "y": 2990,
+      "tint": 16766139,
+      "dialogue": "Usiądź. Herbata z wiosennego źródła leczy więcej, niż się wydaje.",
+      "building": "inn"
     }
   ],
   "enemies": [
@@ -2757,17 +2799,14 @@
     "x": 1200,
     "y": 900
   },
-  "cityPlan": {
-    "id": "aetheria-sanctuary",
+  "city": {
     "name": "Sanktuarium Tysiąca Źródeł",
-    "safe": true,
     "bounds": {
       "x": 1400,
       "y": 1150,
       "width": 3300,
       "height": 2150
     },
-    "minServiceDistance": 700,
     "buildings": [
       {
         "id": "hall",
@@ -2836,55 +2875,6 @@
         }
       }
     ],
-    "npcs": [
-      {
-        "id": "steward",
-        "building": "hall",
-        "name": "Hoshi",
-        "role": "Zarządca Sali Rady",
-        "tint": 15390133,
-        "dialogue": "Sala Rady stoi otworem. Każda historia w Sanktuarium zaczyna się od pytania, nie od odpowiedzi."
-      },
-      {
-        "id": "merchant",
-        "building": "shop",
-        "name": "Mei",
-        "role": "Archiwistka wymiany",
-        "tint": 14070783,
-        "dialogue": "Wiedza krąży tak jak towary. Wymień kły na mikstury i wyposażenie."
-      },
-      {
-        "id": "trainer",
-        "building": "arena",
-        "name": "Raku",
-        "role": "Mistrz skupienia",
-        "tint": 16755370,
-        "dialogue": "Manekin nie oddaje ciosów, więc nie masz wymówki. Użyj każdej zdolności i obserwuj, jak działa."
-      },
-      {
-        "id": "keeper",
-        "building": "depot",
-        "name": "Kaede",
-        "role": "Strażniczka zwojów",
-        "tint": 12116191,
-        "dialogue": "Twoje rzeczy leżą tu bezpieczniej niż w jakiejkolwiek sakwie. Skrzynia należy tylko do ciebie."
-      },
-      {
-        "id": "smith",
-        "building": "smithy",
-        "name": "Enso",
-        "role": "Rzemieślnik pieczęci",
-        "tint": 10802687,
-        "dialogue": "Dobre ostrze wymaga skupienia. Załóż je i wróć; wzmocnię jego pieczęć za 15 monet."
-      },
-      {
-        "id": "innkeeper",
-        "building": "inn",
-        "name": "Yuna",
-        "role": "Mistrzyni herbaty",
-        "tint": 16766139,
-        "dialogue": "Usiądź. Herbata z wiosennego źródła leczy więcej, niż się wydaje."
-      }
-    ]
+    "roads": []
   }
 }

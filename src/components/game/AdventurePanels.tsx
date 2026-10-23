@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { isCityStage } from "../../game/city/types";
 import { CityDirectory } from "./CityPanels";
 import { WORLDS } from "../../game/world/worlds";
 import {
@@ -136,7 +137,7 @@ export function QuestJournal({
           <small>
             Nagroda:{" "}
             {q.id === "steps"
-              ? world.city
+              ? isCityStage(world)
                 ? "40 XP · 40 monet"
                 : "40 XP"
               : q.id === "boars"
@@ -199,7 +200,9 @@ export function NpcDialogue({
   const q = p.quests[quest];
   const unlocked =
     npc.id === "guide" ||
-    (npc.id === "hunter" || world.city ? p.quests.steps === "done" : p.quests.boars === "done");
+    (npc.id === "hunter" || isCityStage(world)
+      ? p.quests.steps === "done"
+      : p.quests.boars === "done");
   const text =
     npc.dialogue ??
     {
@@ -242,7 +245,7 @@ export function NpcDialogue({
         <div className="ki-adventure-panel">
           <p>{text}</p>
           {["guide", "hunter", "smith"].includes(npc.id) &&
-            !(world.city && npc.id === "hunter" && q !== "ready") && (
+            !(isCityStage(world) && npc.id === "hunter" && q !== "ready") && (
               <>
                 <p>{state.quests.find((x) => x.id === quest)?.text}</p>
                 {q === "locked" && (

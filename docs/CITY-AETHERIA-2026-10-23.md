@@ -27,7 +27,7 @@ Drzwi leżą na drożnym gruncie przed wejściem; z miejsca startu i między sob
 
 ## 2. Dane i narzędzia
 
-- Dane: `src/game/world/regions/aether.json`, klucz `cityPlan` (zgodny z kontraktem: budynki z `id`, `name`, `district`, `description`, `objectId`, `door`; mieszkańcy z `building`). Pole jest ignorowane przez obecny kod gry, dopóki nie wejdzie `WorldDefinition.city` ze wspólnych mechanik.
+- Dane: `src/game/world/regions/aether.json`: klucz `city` (nazwa, `bounds` strefy bezpiecznej, budynki z `id`, `name`, `district`, `description`, `objectId`, `door`) oraz mieszkańcy w `npcs` z polem `building`. Miasto jest bezpieczną strefą w kontynencie z walką (decyzja właściciela 23.10.2026): w `bounds` i we wnętrzach nic nie atakuje, poza nimi działają dziki i zadania jak dotąd. Mieszkańcy usług stoją we wnętrzach budynków.
 - Skrypt odtwarzalny i idempotentny: `python3 scripts/build_aetheria_city.py` (zaczyna od zapisanego pliku regionu).
 - Testy: `src/test/aetheria-city.test.ts` (sześć usług, odstępy ≥ 700, drzwi na drożnym gruncie i osiągalne z miejsca startu, rozłączne budynki, mieszkańcy, brak wrogów w mieście) oraz poprawiony `aether-expansion.test.ts`.
 

@@ -165,10 +165,28 @@ describe("Verdantia functional city", () => {
     g.command({ type: "rest" });
     expect(g.player.gold).toBe(15);
   });
+  it("keeps monsters out of a city inside a combat continent", () => {
+    const g = new GameSession(undefined, "sage");
+    const b = g.world.city!.bounds!;
+    const edge = { x: b.x + b.width + 40, y: b.y + b.height / 2 };
+    const boar = g.monsters.spawn("boar", g.nav.safe(edge));
+    Object.assign(g.player, g.nav.safe({ x: b.x + b.width - 60, y: b.y + b.height / 2 }));
+    expect(g.safe).toBe(true);
+    for (let i = 0; i < 100; i++) g.tick(50);
+    expect(boar.m.engaged).toBe(false);
+    expect(g.player.hp).toBe(g.kit.stats.maxHp);
+    Object.assign(g.player, g.nav.safe({ x: edge.x + 60, y: edge.y }));
+    expect(g.safe).toBe(false);
+  });
   it("preserves combat outside the city stage on other continents", () => {
     const g = new GameSession(undefined, "sage");
-    expect(g.world.city).toBeUndefined();
+    expect(g.world.city?.bounds).toBeDefined();
     expect(g.enemies.length).toBeGreaterThan(0);
+    expect(g.safe).toBe(true);
+    g.hurtPlayer(100, g.enemies[0]!, "melee");
+    expect(g.player.hp).toBe(g.kit.stats.maxHp);
+    Object.assign(g.player, { x: 4300, y: 500 });
+    expect(g.safe).toBe(false);
     const hp = g.player.hp;
     g.hurtPlayer(100, g.enemies[0]!, "melee");
     expect(g.player.hp).toBeLessThan(hp);

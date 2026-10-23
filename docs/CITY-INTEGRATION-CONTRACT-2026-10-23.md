@@ -47,7 +47,7 @@ osobnych, niespójnych kluczy localStorage dla wnętrz i depozytu.
 
 Manekin jest obiektem treningowym bez AI, obrażeń dla gracza i nagród. Wykorzystuje
 prawdziwe zdolności, koszty i cooldowny postaci; nie jest dzikiem ani nowym wpisem
-bestiariusza. W tym etapie `city` oznacza bezpieczny obszar: brak bojowych spawnów.
+bestiariusza. `CityDefinition.bounds` (opcjonalne) wyznacza bezpieczną strefę w kontynencie z walką: w niej i we wnętrzach nikt nie atakuje i potwory wracają do domu. Brak `bounds` (Verdantia) oznacza etap, w którym cała mapa jest miastem bez spawnów. Decyzja właściciela 23.10.2026: miasta są bez walki (NPC, handel, trening, rozmowy), a poza miastem działa walka.
 Nie dodawać przeciwników do miasta w celu zaliczenia dotychczasowych testów walki.
 
 Grafika: używać niezależnych obiektów i walidowanego importera, dokumentować

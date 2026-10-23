@@ -22,6 +22,9 @@ function memory(): StoragePort {
 function arena(race: RaceId = "sage", random = () => 0.99) {
   const g = new GameSession(undefined, race, { random });
   g.enemies.splice(0);
+  // The spawn lies inside the safe city; fight on open ground outside it.
+  const open = g.world.enemies[0];
+  if (g.safe && open) Object.assign(g.player, g.nav.safe(open));
   return g;
 }
 function put(g: GameSession, kind: string, dx = 120, dy = 0): Enemy {
@@ -496,10 +499,10 @@ describe("loot, materials and progression", () => {
     expect(g.player.materials[id]).toBe(99);
     expect(g.loot.some((l) => l.id === "x")).toBe(true);
     g.player.materials[id] = 2;
-    const merchant = g.npcs.find((n) => n.id === "merchant")!;
-    Object.assign(g.player, g.nav.safe({ x: merchant.x, y: merchant.y }));
+    const door = g.world.city!.buildings.find((b) => b.id === "shop")!.door;
+    Object.assign(g.player, g.nav.safe({ x: door.x, y: door.y }));
     g.command({ type: "interact", npc: "merchant" });
-    ticks(g, 3000);
+    ticks(g, 6000);
     expect(g.dialogue).toBe("merchant");
     const gold = g.player.gold;
     g.command({ type: "trade", item: id, buy: false });

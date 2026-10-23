@@ -41,22 +41,64 @@
       "dialogue": "Dziki z kanionu podchodzą pod bramy. Pokonaj trzy, a otrzymasz ostrze godne pierwszej próby."
     },
     {
+      "id": "steward",
+      "name": "Tsubasa",
+      "role": "Zarządca Sali Przysięgi",
+      "x": 2400,
+      "y": 1285,
+      "tint": 15390133,
+      "dialogue": "Sala stoi otworem. Przysięga złożona w popiele trwa dłużej niż ta spisana atramentem.",
+      "building": "hall"
+    },
+    {
       "id": "merchant",
       "name": "Yumi",
       "role": "Kupczyni klanów",
-      "x": 3170,
-      "y": 1602,
+      "x": 3100,
+      "y": 1572,
       "tint": 14070783,
-      "dialogue": "Nawet wojownik potrzebuje zapasów. Kły wymienisz tu na monety, mikstury i pancerze."
+      "dialogue": "Nawet wojownik potrzebuje zapasów. Kły wymienisz tu na monety, mikstury i pancerze.",
+      "building": "shop"
+    },
+    {
+      "id": "trainer",
+      "name": "Kenzo",
+      "role": "Mistrz ćwiczeń",
+      "x": 3100,
+      "y": 2325,
+      "tint": 16755370,
+      "dialogue": "Manekin nie oddaje ciosów i nie płaci nagród. Użyj każdej zdolności i zapamiętaj, jak działa.",
+      "building": "arena"
+    },
+    {
+      "id": "keeper",
+      "name": "Mitsu",
+      "role": "Strażniczka skarbca",
+      "x": 1650,
+      "y": 2512,
+      "tint": 12116191,
+      "dialogue": "Skrzynia jest twoja i tylko twoja. Klan strzeże jej jak własnego ognia.",
+      "building": "depot"
     },
     {
       "id": "smith",
       "name": "Goro",
       "role": "Kowal żaru",
-      "x": 2470,
-      "y": 2612,
+      "x": 2400,
+      "y": 2582,
       "tint": 10802687,
-      "dialogue": "Ostrze nie walczy za ciebie. Załóż je i wróć; za 15 monet zahartuję je w ogniu szczelin."
+      "dialogue": "Ostrze nie walczy za ciebie. Załóż je i wróć; za 15 monet zahartuję je w ogniu szczelin.",
+      "building": "smithy"
+    },
+    {
+      "id": "innkeeper",
+      "name": "Akane",
+      "role": "Gospodyni ogniska",
+      "x": 1700,
+      "y": 1572,
+      "tint": 16766139,
+      "dialogue": "Usiądź przy ogniu. Zmęczony wojownik to martwy wojownik, a ja nie lubię pustych ław.",
+      "building": "inn"
     }
   ],
   "enemies": [
@@ -1494,17 +1536,14 @@
     "x": 1200,
     "y": 900
   },
-  "cityPlan": {
-    "id": "pyra-fortress",
+  "city": {
     "name": "Twierdza Popiołu",
-    "safe": true,
     "bounds": {
       "x": 1350,
       "y": 950,
       "width": 2050,
       "height": 1750
     },
-    "minServiceDistance": 700,
     "buildings": [
       {
         "id": "hall",
@@ -1573,55 +1612,6 @@
         }
       }
     ],
-    "npcs": [
-      {
-        "id": "steward",
-        "building": "hall",
-        "name": "Tsubasa",
-        "role": "Zarządca Sali Przysięgi",
-        "tint": 15390133,
-        "dialogue": "Sala stoi otworem. Przysięga złożona w popiele trwa dłużej niż ta spisana atramentem."
-      },
-      {
-        "id": "merchant",
-        "building": "shop",
-        "name": "Yumi",
-        "role": "Kupczyni klanów",
-        "tint": 14070783,
-        "dialogue": "Nawet wojownik potrzebuje zapasów. Kły wymienisz tu na monety, mikstury i pancerze."
-      },
-      {
-        "id": "trainer",
-        "building": "arena",
-        "name": "Kenzo",
-        "role": "Mistrz ćwiczeń",
-        "tint": 16755370,
-        "dialogue": "Manekin nie oddaje ciosów i nie płaci nagród. Użyj każdej zdolności i zapamiętaj, jak działa."
-      },
-      {
-        "id": "keeper",
-        "building": "depot",
-        "name": "Mitsu",
-        "role": "Strażniczka skarbca",
-        "tint": 12116191,
-        "dialogue": "Skrzynia jest twoja i tylko twoja. Klan strzeże jej jak własnego ognia."
-      },
-      {
-        "id": "smith",
-        "building": "smithy",
-        "name": "Goro",
-        "role": "Kowal żaru",
-        "tint": 10802687,
-        "dialogue": "Ostrze nie walczy za ciebie. Załóż je i wróć; za 15 monet zahartuję je w ogniu szczelin."
-      },
-      {
-        "id": "innkeeper",
-        "building": "inn",
-        "name": "Akane",
-        "role": "Gospodyni ogniska",
-        "tint": 16766139,
-        "dialogue": "Usiądź przy ogniu. Zmęczony wojownik to martwy wojownik, a ja nie lubię pustych ław."
-      }
-    ]
+    "roads": []
   }
 }

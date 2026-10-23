@@ -10,15 +10,12 @@ type Building = {
   door: { x: number; y: number };
 };
 type City = {
-  id: string;
-  safe: boolean;
   bounds: { x: number; y: number; width: number; height: number };
-  minServiceDistance: number;
   buildings: Building[];
-  npcs: { id: string; building: string; name: string; dialogue: string }[];
 };
 const world = WORLDS.aether;
-const city = (world as unknown as { cityPlan: City }).cityPlan;
+const city = world.city as unknown as City;
+const residents = world.npcs.filter((n) => n.building);
 const nav = new Navigation(world.width, world.height, worldObstacles(world));
 const SERVICES = ["shop", "hall", "inn", "smithy", "depot", "arena"];
 
@@ -60,17 +57,16 @@ describe("Aetheria city (Sages)", () => {
     const { x, y, width, height } = city.bounds;
     const inside = (p: { x: number; y: number }) =>
       p.x >= x && p.x <= x + width && p.y >= y && p.y <= y + height;
-    expect(city.safe).toBe(true);
     expect(world.enemies.filter(inside)).toEqual([]);
     expect((world.monsters ?? []).filter(inside)).toEqual([]);
   });
   it("gives each service building its own resident with a Sages' dialogue", () => {
     for (const id of SERVICES) {
-      const residents = city.npcs.filter((n) => n.building === id);
-      expect(residents.length, id).toBe(1);
-      expect(residents[0]!.dialogue.length).toBeGreaterThan(20);
+      const inside = residents.filter((n) => n.building === id);
+      expect(inside.length, id).toBe(1);
+      expect(inside[0]!.dialogue!.length).toBeGreaterThan(20);
     }
-    expect(new Set(city.npcs.map((n) => n.name)).size).toBe(city.npcs.length);
+    expect(new Set(residents.map((n) => n.name)).size).toBe(residents.length);
   });
   it("does not stack buildings: footprints never overlap each other", () => {
     const rects = city.buildings.map((b) => {

@@ -183,20 +183,24 @@ data["landmarks"] = [l for l in data["landmarks"] if not l.get("city")]
 for b in BUILDINGS:
     data["landmarks"].append({"x": b["door"]["x"], "y": b["door"]["y"], "label": b["name"], "kind": "settlement", "city": True})
 
-data["cityPlan"] = {
-    "id": "aetheria-sanctuary",
+# Contract shape (src/game/city/types.ts). `bounds` keeps combat outside: the city is a safe area
+# inside a normal combat continent. Residents become building NPCs (shown inside their building).
+door = {b["id"]: b["door"] for b in BUILDINGS}
+resident_ids = {r["id"] for r in RESIDENTS}
+by_id = {n["id"]: n for n in data["npcs"]}
+data["npcs"] = [n for n in data["npcs"] if n["id"] not in resident_ids] + [
+    {"id": r["id"], "name": r["name"], "role": r["role"], "x": door[r["building"]]["x"],
+     "y": door[r["building"]]["y"], "tint": r["tint"], "dialogue": r["dialogue"], "building": r["building"]}
+    for r in RESIDENTS
+]
+data.pop("cityPlan", None)
+data["city"] = {
     "name": data["settlement"],
-    "safe": True,
     "bounds": CITY,
-    "minServiceDistance": 700,
     "buildings": [
         {k: b[k] for k in ("id", "name", "district", "description", "objectId", "door")} for b in BUILDINGS
     ],
-    "npcs": [
-        {"id": r["id"], "building": r["building"], "name": r["name"], "role": r["role"], "tint": r["tint"],
-         "dialogue": r["dialogue"]}
-        for r in RESIDENTS
-    ],
+    "roads": [],
 }
 
 PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

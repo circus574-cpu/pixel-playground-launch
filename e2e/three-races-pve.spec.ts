@@ -10,35 +10,29 @@ const races: {
   id: RaceId;
   guide: string;
   hunter: string;
-  smith: string;
-  merchant: string;
   skill: string;
 }[] = [
   {
     id: "sage",
     guide: "Sora",
     hunter: "Ishin",
-    smith: "Enso",
-    merchant: "Mei",
     skill: "Świetlista Bariera",
   },
   {
     id: "android",
     guide: "LYRA-7",
     hunter: "AXON",
-    smith: "HEF-4",
-    merchant: "MIRA-2",
     skill: "Tarcza Plazmowa",
   },
   {
     id: "legend",
     guide: "Kaena",
     hunter: "Rokan",
-    smith: "Goro",
-    merchant: "Yumi",
     skill: "Wybuch Ki",
   },
 ];
+const npcName = (world: (typeof WORLDS)[keyof typeof WORLDS], id: string) =>
+  world.npcs.find((n) => n.id === id)!.name;
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function state(page: Page) {
@@ -51,7 +45,8 @@ async function state(page: Page) {
 async function visit(page: Page, name: string) {
   await page.getByRole("button", { name: "Otwórz mapę świata", exact: true }).click();
   await page.getByRole("button", { name, exact: true }).click();
-  await expect(page.getByRole("dialog", { name: /Rozmowa:/ })).toBeVisible();
+  // Shopkeepers stand inside their buildings: the walk through the door can take a while.
+  await expect(page.getByRole("dialog", { name: /Rozmowa:/ })).toBeVisible({ timeout: 120000 });
 }
 async function close(page: Page) {
   await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
@@ -188,7 +183,7 @@ for (const race of races) {
     await close(page);
     await visit(
       page,
-      "Idź do " + race.smith + " · " + world.npcs.find((n) => n.id === "smith")!.role,
+      "Idź do " + npcName(world, "smith") + " · " + world.npcs.find((n) => n.id === "smith")!.role,
     );
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
     await close(page);
@@ -197,14 +192,17 @@ for (const race of races) {
     await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
     await visit(
       page,
-      "Idź do " + race.smith + " · " + world.npcs.find((n) => n.id === "smith")!.role,
+      "Idź do " + npcName(world, "smith") + " · " + world.npcs.find((n) => n.id === "smith")!.role,
     );
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     await page.getByRole("button", { name: "Ulepsz ostrze · 15 monet", exact: true }).click();
     await close(page);
     await visit(
       page,
-      "Idź do " + race.merchant + " · " + world.npcs.find((n) => n.id === "merchant")!.role,
+      "Idź do " +
+        npcName(world, "merchant") +
+        " · " +
+        world.npcs.find((n) => n.id === "merchant")!.role,
     );
     const goldBefore = (await state(page)).gold;
     await page.getByRole("button", { name: "Kup · 8", exact: true }).click();
