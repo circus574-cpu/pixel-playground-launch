@@ -49,26 +49,32 @@ describe.each(RACE_IDS)("%s playable region", (race) => {
     talk(g, "guide");
     g.command({ type: "dialogue", action: "claim" });
     close(g);
-    talk(g, "hunter");
-    g.command({ type: "dialogue", action: "accept" });
-    close(g);
-    for (const e of g.enemies.slice(0, 3)) {
-      g.command({ type: "target", id: e.id });
-      for (let i = 0; i < 1800 && e.hp > 0; i++) {
-        g.tick(50);
-        if (g.player.hp < 50 && g.snapshot().potion.remaining === 0 && g.player.items.potion)
-          g.command({ type: "ability", ability: "potion" });
+    if (g.world.city) {
+      talk(g, "merchant");
+      g.command({ type: "trade", item: "sword", buy: true });
+      close(g);
+    } else {
+      talk(g, "hunter");
+      g.command({ type: "dialogue", action: "accept" });
+      close(g);
+      for (const e of g.enemies.slice(0, 3)) {
+        g.command({ type: "target", id: e.id });
+        for (let i = 0; i < 1800 && e.hp > 0; i++) {
+          g.tick(50);
+          if (g.player.hp < 50 && g.snapshot().potion.remaining === 0 && g.player.items.potion)
+            g.command({ type: "ability", ability: "potion" });
+        }
+        expect(e.hp, g.notice).toBe(0);
+        const loot = g.loot.at(-1)!;
+        g.command({ type: "loot", id: loot.id });
+        run(g, () => !g.loot.some((l) => l.id === loot.id));
       }
-      expect(e.hp, g.notice).toBe(0);
-      const loot = g.loot.at(-1)!;
-      g.command({ type: "loot", id: loot.id });
-      run(g, () => !g.loot.some((l) => l.id === loot.id));
+      expect(g.player.items.tusk).toBe(3);
+      expect(g.player.quests.boars).toBe("ready");
+      talk(g, "hunter");
+      g.command({ type: "dialogue", action: "claim" });
+      close(g);
     }
-    expect(g.player.items.tusk).toBe(3);
-    expect(g.player.quests.boars).toBe("ready");
-    talk(g, "hunter");
-    g.command({ type: "dialogue", action: "claim" });
-    close(g);
     talk(g, "smith");
     g.command({ type: "dialogue", action: "accept" });
     close(g);
@@ -80,10 +86,14 @@ describe.each(RACE_IDS)("%s playable region", (race) => {
     expect(stats(g.player).attack).toBe(attack + 4);
     close(g);
     talk(g, "merchant");
-    g.command({ type: "trade", item: "tusk", buy: false });
+    g.command({ type: "trade", item: g.world.city ? "potion" : "tusk", buy: false });
     g.command({ type: "trade", item: "potion", buy: true });
     close(g);
-    expect(g.player.quests).toEqual({ steps: "done", boars: "done", gear: "done" });
+    expect(g.player.quests).toEqual({
+      steps: "done",
+      boars: g.world.city ? "locked" : "done",
+      gear: "done",
+    });
     g.flush();
     expect(new GameSession(new SaveStore(localStorage, key)).player).toEqual(g.player);
   }, 20000);

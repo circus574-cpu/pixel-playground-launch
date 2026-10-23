@@ -8,11 +8,10 @@
     "scripts/export-gpu-targets.ts",
     "scripts/export-gpu-schema.ts",
     "scripts/measure-game.ts",
-    "scripts/pack-gpu-frames.ts"
+    "scripts/pack-gpu-frames.ts",
+    "scripts/city/**/*.ts"
   ],
   "compilerOptions": {
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   }
 }

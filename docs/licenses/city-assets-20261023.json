@@ -1,0 +1,247 @@
+{
+  "date": "2026-10-23",
+  "scope": "New city utility illustrations only. Existing forest, exterior building and character artwork retains unresolved rights recorded in ASSET-LICENSE-REGISTER.md.",
+  "renderer": "SVG authored as code; Sharp exports lossless WebP; no image-generation model or rented GPU used.",
+  "records": [
+    {
+      "path": "deliveries/city-interiors-1.0.0/PROVENANCE.md",
+      "bytes": 486,
+      "sha256": "4a0b7a91f9f339950b812add6bdfde1f60a203a97551fa0e1de966e339455656",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/floor.svg",
+      "bytes": 3317,
+      "sha256": "dce34224ec8e42f84f991654449223516d58fe0a06348c7f7abe1c6c5eea643d",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/floor.webp",
+      "bytes": 2408,
+      "sha256": "b959ca04949f54e1be779b97aa04026235b4fa1f266aa68ba6c71f1a852bed38",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/manifest.json",
+      "bytes": 1461,
+      "sha256": "b2e4929cbbc77fadd40d789d01ac1ce4d2c54b3791de45826ce3096cbf8af4a4",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/props.svg",
+      "bytes": 6552,
+      "sha256": "d1b82cc39428a15ec20124fac1099c48bec928e03e030150409fe4519cffbfd9",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/props.webp",
+      "bytes": 45244,
+      "sha256": "676e56451d13aba4db31e2f8e7ab75145b076989e4eeaee260c732869cb871cb",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/stone.svg",
+      "bytes": 4478,
+      "sha256": "a08df1d719072d5ea369d645f313dbafb83f9cbb49635f9f1c045d13844ff44b",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "deliveries/city-interiors-1.0.0/stone.webp",
+      "bytes": 1026,
+      "sha256": "42851490db77cebd0470846ae21f08fcda31249546323d40566681caefb91cde",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "public/game/assets/gpu/city-interiors/1.0.0-fac09539e9a5/city-props.webp",
+      "bytes": 45244,
+      "sha256": "676e56451d13aba4db31e2f8e7ab75145b076989e4eeaee260c732869cb871cb",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "public/game/assets/gpu/city-interiors/1.0.0-fac09539e9a5/city-floor.webp",
+      "bytes": 2408,
+      "sha256": "b959ca04949f54e1be779b97aa04026235b4fa1f266aa68ba6c71f1a852bed38",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "public/game/assets/gpu/city-interiors/1.0.0-fac09539e9a5/city-stone.webp",
+      "bytes": 1026,
+      "sha256": "42851490db77cebd0470846ae21f08fcda31249546323d40566681caefb91cde",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "public/game/assets/city-verdant-v1/minimap.svg",
+      "bytes": 14567,
+      "sha256": "094f8ae5a68822ad34ab884b9f11d79ac5c7dbe12a56ae971b34ca86a8041bcd",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-minimap.ts",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "scripts/city/build-interior-art.py",
+      "bytes": 6464,
+      "sha256": "89c7a9bce008c31a6bc2c183070b25b5f470559ed4d0072b632a6042694a0d1b",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "scripts/city/build-interior-art.ts",
+      "bytes": 341,
+      "sha256": "8fa51a2af2cc3ef56c851851e3c10e1a25a3e95bddac8943965c875993ced47f",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-interior-art.py; Sharp rasterization/export; validated GPU asset importer",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    },
+    {
+      "path": "scripts/city/build-minimap.ts",
+      "bytes": 2056,
+      "sha256": "155b3fcb1fde9a84e91ece69f56dbb0214b0c8022c163489a5c97bc1b100b927",
+      "author": "Codex / OpenAI; original programmatic vector drawing and cartography",
+      "generator": "scripts/city/build-minimap.ts",
+      "source": "Original source code in this branch; no reference image or external checkpoint used for these new illustrations.",
+      "license": "No separate asset license or independent legal clearance asserted.",
+      "commercialUseBasis": "Original programmatic contribution documented by source and reproducible export; owner must confirm applicable rights/terms. This record does not declare blanket commercial clearance.",
+      "evidence": [
+        "source code and committed history",
+        "SHA-256 of this file",
+        "docs/qa/verdantia-city-20261023/asset-import.txt"
+      ],
+      "status": "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED"
+    }
+  ]
+}

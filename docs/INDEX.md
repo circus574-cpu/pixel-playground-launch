@@ -4,6 +4,9 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 
 ## Dokumentacja audytowa i bieżąca
 
+- [Zielona Przystań — funkcjonalne miasto Planetarnych](VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md)
+- [Miasta — kontrakt wspólnego silnika i podział Codex / Claude](CITY-INTEGRATION-CONTRACT-2026-10-23.md)
+
 - [Integracja czterech malowanych ras z dostawy Claude’a — źródła, runtime i QA](FOUR-PAINTED-RACES-INTEGRATION-2026-10-22.md)
 - [Malowane widoki i deformacja siatki — pipeline oraz znane wady dostawy](PAINTED-MESH-PIPELINE.md)
 - [ORYGINALNY PDF 12 stron — kompletne binarne archiwum z obrazami, odtwarzalne bezstratnie](design/original-pdf-parts/README.md)

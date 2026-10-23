@@ -18,7 +18,8 @@ function memory(): StoragePort {
   const data = new Map<string, string>();
   return { getItem: (k) => data.get(k) ?? null, setItem: (k, v) => void data.set(k, v) };
 }
-function arena(race: RaceId = "planetary", random = () => 0.99) {
+// AI tests run in combat regions; Verdantia is now a protected city.
+function arena(race: RaceId = "sage", random = () => 0.99) {
   const g = new GameSession(undefined, race, { random });
   g.enemies.splice(0);
   return g;
@@ -83,9 +84,9 @@ describe("bestiary: 40 monsters from the owner document", () => {
     expect(MATERIAL_IDS.length).toBeGreaterThan(40);
     for (const id of MATERIAL_IDS) expect(MATERIALS[id]!.sell).toBeGreaterThan(0);
   });
-  it("every monster lives through 40 s of play in its own continent, then dies and pays out", () => {
+  it("every monster lives through 40 s of play in a combat region, then dies and pays out", () => {
     for (const m of MONSTERS) {
-      const g = arena(raceOf(m.world), seeded(7));
+      const g = arena(m.world === "verdant" ? "sage" : raceOf(m.world), seeded(7));
       const e = put(g, m.id, 90, 0);
       g.player.hp = g.kit.stats.maxHp;
       const xp = g.player.xp + g.player.level * 1000;
@@ -286,7 +287,7 @@ describe("monster behaviour", () => {
     expect(a.m.phase).toBe("retreat");
   });
   it("bursztynowa osa summons two small wasps below 40% HP, once", () => {
-    const g = arena();
+    const g = arena("android");
     g.player.hp = g.kit.stats.maxHp;
     const wasp = put(g, "verdant-bursztynowa-osa", 150, 0);
     wasp.m.phase = "engage";
@@ -563,7 +564,7 @@ describe("loot, materials and progression", () => {
   });
 });
 
-describe("saves: version 4 with skills and materials, older saves intact", () => {
+describe("saves: version 5 with skills, materials and depot, older saves intact", () => {
   it("round-trips skills, materials and respecs", () => {
     const store = memory();
     const g = new GameSession(new SaveStore(store), "sage");
@@ -572,7 +573,7 @@ describe("saves: version 4 with skills and materials, older saves intact", () =>
     g.player.materials["wegiel"] = 3;
     g.player.respecs = 2;
     g.flush();
-    expect(JSON.parse(store.getItem(SAVE_KEY)!).version).toBe(4);
+    expect(JSON.parse(store.getItem(SAVE_KEY)!).version).toBe(5);
     const again = new GameSession(new SaveStore(store));
     expect(again.player.skills).toEqual(["R", "A1"]);
     expect(again.kit.has("A1")).toBe(true);

@@ -2,7 +2,9 @@ import { isValidNick } from "./nickname";
 import { z } from "zod";
 import { WORLDS, worldObstacles } from "./world/worlds";
 import { RACES, RACE_IDS, WORLD_IDS, type RaceId } from "./world/races";
-import type { WorldDefinition } from "./world/types";
+import type { WorldDefinition, NpcRole } from "./world/types";
+import { BUILDING_IDS, type BuildingId } from "./city/types";
+import { cityRoom } from "./city/room";
 import { terrainAt } from "./world/terrain";
 import { Navigation, distance, type Point } from "./navigation";
 import {
@@ -80,6 +82,17 @@ export const BASE_HP_REGEN = 0.003;
 const status = z.enum(["locked", "active", "ready", "done"]);
 const finite = (max: number) => z.number().finite().min(0).max(max);
 const itemSchema = z.enum(["potion", "tusk", "sword", "vest"]);
+const storedItems = z.object({
+  potion: finite(99).int(),
+  tusk: finite(99).int(),
+  sword: finite(99).int(),
+  vest: finite(99).int(),
+});
+const emptyDepot = () => ({
+  items: { potion: 0, tusk: 0, sword: 0, vest: 0 },
+  materials: {} as Record<string, number>,
+  upgrade: 0,
+});
 const PlayerSchema = z.object({
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
@@ -114,9 +127,17 @@ const PlayerSchema = z.object({
   respecs: z.number().int().min(0).max(100000).default(0),
   /** Chosen at character creation; saves from before nicknames have none and show the default. */
   name: z.string().refine(isValidNick, "nick").optional(),
+  interior: z.enum(BUILDING_IDS).nullable().default(null),
+  depot: z
+    .object({
+      items: storedItems,
+      materials: z.record(z.string().max(60), finite(99).int()),
+      upgrade: z.number().int().min(0).max(1),
+    })
+    .default(emptyDepot),
 });
 export type Player = z.infer<typeof PlayerSchema>;
-export type NpcId = "guide" | "hunter" | "merchant" | "smith";
+export type NpcId = NpcRole;
 export const NPCS = WORLDS.verdant.npcs;
 export type Loot = Point & { id: string; item: string; quantity: number; gold: number };
 export type GameEventType =
@@ -160,7 +181,14 @@ export type Command =
   | { type: "learn"; node: string }
   | { type: "respec" }
   | { type: "pause"; value: boolean }
-  | { type: "cancel" };
+  | { type: "cancel" }
+  | { type: "enter"; building: BuildingId }
+  | { type: "exit" }
+  | { type: "chest" }
+  | { type: "storage-close" }
+  | { type: "depot"; item: string; quantity: number; withdraw: boolean }
+  | { type: "rest" }
+  | { type: "training"; action: "start" | "reset" | "stop" };
 export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 
 const noop = () => {};
@@ -241,15 +269,21 @@ export function newPlayer(race: RaceId = "planetary"): Player {
     skills: ["R"],
     materials: {},
     respecs: 0,
+    interior: null,
+    depot: emptyDepot(),
   };
 }
 /** Moves a position saved on an older map layout into the enlarged open world. */
-export function migrateLayout(p: Pick<Player, "continent" | "x" | "y" | "layout">) {
+export function migrateLayout(
+  p: Pick<Player, "continent" | "x" | "y" | "layout"> & { interior?: BuildingId | null },
+) {
   const world = WORLDS[p.continent],
     want = world.layout ?? 1;
   if ((p.layout ?? 1) >= want) return;
-  p.x += world.legacyShift?.x ?? 0;
-  p.y += world.legacyShift?.y ?? 0;
+  if (!p.interior) {
+    p.x += world.legacyShift?.x ?? 0;
+    p.y += world.legacyShift?.y ?? 0;
+  }
   p.layout = want;
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
@@ -262,6 +296,7 @@ const SaveSchema = z.discriminatedUnion("version", [
   z.object({ version: z.literal(1), revision: z.string(), player: LegacyPlayerSchema }),
   z.object({ version: z.literal(3), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(4), revision: z.string(), player: PlayerSchema }),
+  z.object({ version: z.literal(5), revision: z.string(), player: PlayerSchema }),
 ]);
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
@@ -299,10 +334,18 @@ export class SaveStore {
         (p.weapon && !p.items.sword) ||
         (p.armor && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
-        (p.quests.gear !== "locked" && p.quests.boars !== "done") ||
+        (p.quests.gear !== "locked" &&
+          (WORLDS[p.continent].city ? p.quests.steps !== "done" : p.quests.boars !== "done")) ||
         !p.skills.includes("R") ||
         !validLearned(p.race, p.level, p.skills) ||
-        Object.keys(p.materials).some((id) => !isMaterial(id))
+        Object.keys(p.materials).some((id) => !isMaterial(id)) ||
+        Object.keys(p.depot.materials).some((id) => !isMaterial(id)) ||
+        Object.keys(p.depot.materials).length > MATERIAL_CAPACITY ||
+        (p.depot.upgrade > 0 && !p.depot.items.sword) ||
+        (p.interior !== null &&
+          (!WORLDS[p.continent].city?.buildings.some((b) => b.id === p.interior) ||
+            p.x > cityRoom(p.interior).width ||
+            p.y > cityRoom(p.interior).height))
       ) {
         this.writable = false;
         this.warning = "Niespójny zapis. Oryginał zachowany; zapis tej sesji wyłączony.";
@@ -317,18 +360,20 @@ export class SaveStore {
       return undefined;
     }
   }
-  /** Keeps the last pre-v4 payload under a recovery key before the first v4 write replaces it. */
-  private backupBeforeV4() {
+  /** Preserve both historical v4 recovery and the last pre-depot save, byte-for-byte. */
+  private backupBeforeUpgrade() {
     if (!this.storage || this.expected === null) return;
-    const backupKey = "ki-legends:recovery:before-v4:" + this.key;
-    if (this.storage.getItem(backupKey) !== null) return;
     let version: unknown;
     try {
       version = JSON.parse(this.expected)?.version;
     } catch {
       version = undefined;
     }
-    if (version !== 4) this.storage.setItem(backupKey, this.expected);
+    for (const target of [4, 5]) {
+      const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
+      if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
+        this.storage.setItem(key, this.expected);
+    }
   }
   save(p: Player): boolean {
     if (!this.storage || !this.writable) return false;
@@ -339,9 +384,9 @@ export class SaveStore {
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
         return false;
       }
-      this.backupBeforeV4();
+      this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 4,
+        version: 5,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -368,9 +413,17 @@ export const NIGHT_FROM = 300000;
 
 export class GameSession implements MonsterHost {
   player: Player;
-  readonly nav: Navigation;
+  nav: Navigation;
+  private readonly outsideNav: Navigation;
   readonly world: WorldDefinition;
-  readonly npcs: typeof NPCS;
+  get npcs(): typeof NPCS {
+    return this.world.npcs
+      .filter((n) => (n.building ?? null) === this.player.interior)
+      .map((n) => ({
+        ...n,
+        ...(n.building ? cityRoom(n.building).npc : this.outsideNav.safe(n)),
+      }));
+  }
   enemies: Enemy[] = [];
   readonly monsters: MonsterSystem;
   readonly kit: Kit;
@@ -390,6 +443,15 @@ export class GameSession implements MonsterHost {
   route: Point[] = [];
   private pendingNpc: NpcId | null = null;
   private pendingLoot: string | null = null;
+  private pendingBuilding: BuildingId | null = null;
+  private pendingService: NpcId | null = null;
+  private pendingOutsideNpc: NpcId | null = null;
+  private pendingChest = false;
+  private pendingExit = false;
+  private afterExit: BuildingId | null = null;
+  depotOpen = false;
+  training = { active: false, hits: 0, damage: 0 };
+  private dummy: Foe = { id: "training-dummy", x: 600, y: 300, hp: 1000000000, maxHp: 1000000000 };
   private pathIn = 0;
   private saveIn = 0;
   combatIn = 0;
@@ -405,7 +467,17 @@ export class GameSession implements MonsterHost {
     this.rng = options.random ?? mulberry(Date.now() & 0x7fffffff);
     this.player = saves?.load() ?? newPlayer(race);
     this.world = WORLDS[this.player.continent];
-    this.nav = new Navigation(this.world.width, this.world.height, worldObstacles(this.world));
+    this.outsideNav = new Navigation(
+      this.world.width,
+      this.world.height,
+      worldObstacles(this.world),
+    );
+    this.nav = this.outsideNav;
+    if (this.player.dead || this.player.hp <= 0) this.player.interior = null;
+    if (this.player.interior && this.world.city) {
+      const room = cityRoom(this.player.interior);
+      this.nav = new Navigation(room.width, room.height, room.obstacles);
+    }
     this.kit = createKit(this.player.race, makePort(this), this.player.skills);
     const safe = this.nav.safe(this.player.dead ? this.world.spawn : this.player);
     Object.assign(this.player, safe);
@@ -414,11 +486,12 @@ export class GameSession implements MonsterHost {
       this.player.hp = this.kit.stats.maxHp;
       this.player.ki = this.kit.stats.maxKi;
     }
-    this.npcs = this.world.npcs.map((n) => ({ ...n, ...this.nav.safe(n) }));
     this.monsters = new MonsterSystem(this);
-    this.world.enemies.forEach((p, i) => this.monsters.spawn("boar", p, "boar-" + i));
-    for (const sp of this.world.monsters ?? [])
-      this.monsters.spawnGroup(sp.kind, { x: sp.x, y: sp.y });
+    if (!this.world.city) {
+      this.world.enemies.forEach((p, i) => this.monsters.spawn("boar", p, "boar-" + i));
+      for (const sp of this.world.monsters ?? [])
+        this.monsters.spawnGroup(sp.kind, { x: sp.x, y: sp.y });
+    }
     const nextQuest = (Object.keys(QUEST_NAMES) as QuestId[]).find(
       (id) => this.player.quests[id] !== "done",
     );
@@ -450,6 +523,7 @@ export class GameSession implements MonsterHost {
     fixed = false,
   ): { dealt: number; evaded: boolean } {
     const p = this.player;
+    if (this.world.city) return { dealt: 0, evaded: true };
     if (p.dead) return { dealt: 0, evaded: true };
     if (this.kit.hasBuff("invulnerable")) {
       this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Unik" });
@@ -478,6 +552,7 @@ export class GameSession implements MonsterHost {
   }
   private damagePlayer(amount: number) {
     const p = this.player;
+    if (this.world.city) return;
     if (p.dead) return;
     p.hp = Math.max(0, p.hp - amount);
     this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "-" + Math.round(amount) });
@@ -551,7 +626,7 @@ export class GameSession implements MonsterHost {
         this.player.quests.boars = "ready";
         this.say(
           "3/3 dzików. Wróć do " +
-            (this.world.id === "verdant" ? "Rena" : this.npcs[1]!.name) +
+            (this.world.id === "verdant" ? "Rena" : this.npcName("hunter")) +
             " po nagrodę.",
         );
       }
@@ -615,6 +690,119 @@ export class GameSession implements MonsterHost {
   private nearbyNpc() {
     return this.npcs.find((n) => n.id === this.dialogue && distance(n, this.player) <= 115);
   }
+  private clearDestinations() {
+    this.pendingNpc = null;
+    this.pendingLoot = null;
+    this.pendingBuilding = null;
+    this.pendingService = null;
+    this.pendingOutsideNpc = null;
+    this.pendingChest = false;
+    this.pendingExit = false;
+    this.afterExit = null;
+  }
+  private npcName(id: NpcId) {
+    return this.world.npcs.find((npc) => npc.id === id)?.name ?? id;
+  }
+  get building() {
+    return this.world.city?.buildings.find((b) => b.id === this.player.interior);
+  }
+  get trainingTarget(): Foe | undefined {
+    return this.training.active && this.player.interior === "arena" ? this.dummy : undefined;
+  }
+  hitTraining(raw: number, hit: Hit): number {
+    if (!this.trainingTarget || !Number.isFinite(raw) || raw <= 0) return 0;
+    const damage = Math.max(1, raw);
+    this.training.hits++;
+    this.training.damage += damage;
+    this.emit({
+      type: "hit",
+      ...this.dummy,
+      target: this.dummy.id,
+      text: "-" + Math.round(damage),
+      crit: !!hit.crit,
+    });
+    return damage;
+  }
+  private switchInterior(id: BuildingId | null) {
+    const previous = this.building;
+    const room = id ? cityRoom(id) : null;
+    this.player.interior = id;
+    this.nav = room ? new Navigation(room.width, room.height, room.obstacles) : this.outsideNav;
+    Object.assign(this.player, this.nav.safe(room?.entry ?? previous?.door ?? this.world.spawn));
+    this.dialogue = null;
+    this.depotOpen = false;
+    this.training.active = false;
+    this.route = [];
+    this.pendingNpc = null;
+    this.pendingLoot = null;
+    this.pendingChest = false;
+    this.targetId = null;
+    this.autoAttack = false;
+    this.flush();
+  }
+  private requestBuilding(id: BuildingId) {
+    const b = this.world.city?.buildings.find((b) => b.id === id);
+    if (!b) return;
+    this.dialogue = null;
+    this.depotOpen = false;
+    this.targetId = null;
+    this.autoAttack = false;
+    this.pendingNpc = null;
+    this.pendingChest = false;
+    if (this.player.interior === id) return;
+    if (this.player.interior) {
+      this.afterExit = id;
+      this.pendingExit = true;
+      this.go(cityRoom(this.player.interior).exit);
+    } else {
+      this.pendingBuilding = id;
+      this.go(b.door);
+      this.say("Idziesz do: " + b.name + " · " + b.district);
+    }
+  }
+  private transferDepot(item: string, quantity: number, withdraw: boolean) {
+    const p = this.player;
+    if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
+      return this.say("Otwórz swoją skrzynię w budynku depozytu.");
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) return;
+    const material = isMaterial(item);
+    if (!material && !ITEM_IDS.includes(item as ItemId)) return;
+    const bag = material ? p.materials : (p.items as Record<string, number>);
+    const chest = material ? p.depot.materials : (p.depot.items as Record<string, number>);
+    const source = withdraw ? chest : bag,
+      destination = withdraw ? bag : chest;
+    const reserved = !withdraw && (p.weapon === item || p.armor === item) ? 1 : 0;
+    if ((source[item] ?? 0) - reserved < quantity)
+      return this.say("Brak tylu wolnych przedmiotów. Zdejmij wyposażenie przed odłożeniem.");
+    if (
+      (destination[item] ?? 0) + quantity > 99 ||
+      (material &&
+        !destination[item] &&
+        Object.values(destination).filter((n) => n > 0).length >= MATERIAL_CAPACITY)
+    )
+      return this.say("Brak miejsca lub pełny stos (99). Nic nie przeniesiono.");
+    // The legacy bag represents one enhanced blade with a separate flag. Move
+    // that flag only with the last blade, preserving it across deposits/reloads.
+    const upgradeFrom = withdraw ? p.depot : p;
+    const upgradeTo = withdraw ? p : p.depot;
+    const movingUpgrade = item === "sword" && upgradeFrom.upgrade > 0 && source[item] === quantity;
+    if (movingUpgrade && upgradeTo.upgrade)
+      return this.say("W tym schowku jest już ulepszone ostrze. Najpierw je przenieś.");
+    source[item] = (source[item] ?? 0) - quantity;
+    destination[item] = (destination[item] ?? 0) + quantity;
+    if (movingUpgrade) {
+      upgradeFrom.upgrade = 0;
+      upgradeTo.upgrade = 1;
+    }
+    if (material && source[item] === 0) delete source[item];
+    this.say(
+      (withdraw ? "Odebrano ze skrzyni: " : "Odłożono do skrzyni: ") +
+        quantity +
+        " × " +
+        (material ? MATERIALS[item]!.name : ITEMS[item as ItemId].name),
+    );
+    this.flush();
+  }
   private go(to: Point, silent = false) {
     this.route = this.nav.path(this.player, to);
     if (!this.route.length && !silent) this.say("Brak przejścia. Wybierz inne miejsce.");
@@ -637,12 +825,19 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "cancel") {
+      this.clearDestinations();
       this.dialogue = null;
       this.pendingNpc = null;
       this.pendingLoot = null;
       this.route = [];
       this.targetId = null;
       this.autoAttack = false;
+      this.pendingBuilding = null;
+      this.pendingService = null;
+      this.pendingExit = false;
+      this.afterExit = null;
+      this.pendingChest = false;
+      this.depotOpen = false;
       return;
     }
     if (c.type === "dialogue" && c.action === "close") {
@@ -651,6 +846,64 @@ export class GameSession implements MonsterHost {
     }
     if (p.dead) {
       this.say("Odradzasz się w wiosce…");
+      return;
+    }
+    if (c.type === "storage-close") {
+      this.depotOpen = false;
+      return;
+    }
+    if (c.type === "depot") return this.transferDepot(c.item, c.quantity, c.withdraw);
+    if (c.type === "enter") {
+      this.clearDestinations();
+      this.pendingService = null;
+      return this.requestBuilding(c.building);
+    }
+    if (c.type === "exit") {
+      if (!p.interior) return;
+      this.clearDestinations();
+      this.dialogue = null;
+      this.depotOpen = false;
+      this.pendingService = null;
+      this.pendingChest = false;
+      this.afterExit = null;
+      this.pendingExit = true;
+      this.go(cityRoom(p.interior).exit);
+      return;
+    }
+    if (c.type === "chest") {
+      if (p.interior !== "depot") return this.say("Skrzynia znajduje się w Depozycie Korzeni.");
+      this.clearDestinations();
+      this.dialogue = null;
+      this.pendingNpc = null;
+      this.pendingExit = false;
+      this.pendingChest = true;
+      this.go(cityRoom("depot").chest);
+      return;
+    }
+    if (c.type === "rest") {
+      if (p.interior !== "inn" || this.nearbyNpc()?.id !== "innkeeper") return;
+      if (p.hp >= this.kit.stats.maxHp && p.ki >= this.kit.stats.maxKi)
+        return this.say("Masz pełne życie i KI. Nic nie zapłacisz.");
+      if (p.gold < 5) return this.say("Odpoczynek kosztuje 5 monet.");
+      p.gold -= 5;
+      p.hp = this.kit.stats.maxHp;
+      p.ki = this.kit.stats.maxKi;
+      this.say("Odpoczynek przywrócił życie i KI.");
+      this.flush();
+      return;
+    }
+    if (c.type === "training") {
+      if (p.interior !== "arena") return this.say("Trening jest dostępny w Domu Treningu.");
+      this.clearDestinations();
+      this.dialogue = null;
+      if (c.action === "stop") {
+        this.route = [];
+        this.training.active = false;
+        return;
+      }
+      this.training = { active: true, hits: 0, damage: 0 };
+      this.go({ x: this.dummy.x + 55, y: this.dummy.y + 25 });
+      this.say("Trening: używaj ataku i poznanych zdolności. Manekin ma 0 obrony; brak nagród.");
       return;
     }
     if (c.type === "learn") {
@@ -685,27 +938,42 @@ export class GameSession implements MonsterHost {
       if (c.action === "accept") {
         if (npc.id === "guide" && p.quests.steps === "locked") {
           p.quests.steps = "active";
-          this.say(this.world.market.instruction + ", potem wróć do " + this.npcs[0]!.name + ".");
+          this.say(
+            this.world.market.instruction + ", potem wróć do " + this.npcName("guide") + ".",
+          );
         } else if (
           npc.id === "hunter" &&
           p.quests.steps === "done" &&
           p.quests.boars === "locked"
         ) {
+          if (this.world.city)
+            return this.say(
+              "Wyprawy poza miasto przygotujemy w następnym etapie. Skorzystaj z areny treningowej.",
+            );
           p.quests.boars = "active";
-          this.say(this.world.huntName + ": pokonaj 3 dziki i wróć do " + this.npcs[1]!.name + ".");
-        } else if (npc.id === "smith" && p.quests.boars === "done" && p.quests.gear === "locked") {
+          this.say(
+            this.world.huntName + ": pokonaj 3 dziki i wróć do " + this.npcName("hunter") + ".",
+          );
+        } else if (
+          npc.id === "smith" &&
+          (this.world.city ? p.quests.steps === "done" : p.quests.boars === "done") &&
+          p.quests.gear === "locked"
+        ) {
           p.quests.gear = p.weapon === "sword" ? "ready" : "active";
-          this.say("Załóż Ostrze strażnika w ekwipunku, potem wróć do " + this.npcs[3]!.name + ".");
+          this.say(
+            "Załóż Ostrze strażnika w ekwipunku, potem wróć do " + this.npcName("smith") + ".",
+          );
         } else this.say("To zadanie jest już przyjęte albo wymaga poprzedniego zadania.");
       }
       if (c.action === "claim") {
         if (npc.id === "guide" && p.quests.steps === "ready") {
           p.quests.steps = "done";
+          if (this.world.city) p.gold += 40;
           this.award(40);
           this.say(
             this.world.id === "verdant"
-              ? "Pierwsze kroki ukończone. +40 XP. Ren przy wschodniej drodze potrzebuje pomocy."
-              : "Pierwsze kroki ukończone. +40 XP. Odwiedź: " + this.npcs[1]!.name,
+              ? "Pierwsze kroki ukończone. +40 XP, +40 monet. Odwiedź sklep i kuźnię; trening znajdziesz we wschodniej dzielnicy."
+              : "Pierwsze kroki ukończone. +40 XP. Odwiedź: " + this.npcName("hunter"),
           );
         } else if (npc.id === "hunter" && p.quests.boars === "ready") {
           if (!this.add("sword")) return;
@@ -758,6 +1026,7 @@ export class GameSession implements MonsterHost {
         if (p.items[id] <= reserved)
           return this.say("Brak przedmiotu do sprzedaży. Najpierw zdejmij wyposażenie.");
         p.items[id]--;
+        if (id === "sword" && p.items.sword === 0) p.upgrade = 0;
         p.gold += item.sell;
         this.say("Sprzedano: " + item.name);
       }
@@ -782,19 +1051,30 @@ export class GameSession implements MonsterHost {
       this.flush();
       return;
     }
-    if (this.dialogue || this.paused) return this.say("Zamknij okno, aby kontynuować.");
+    if (this.dialogue || this.depotOpen || this.paused)
+      return this.say("Zamknij okno, aby kontynuować.");
     if (c.type === "ability") return this.use(c.ability);
     if (this.fx.cannotAct && c.type !== "loot") return this.say("Nie możesz działać.");
     if (c.type === "move") {
+      this.clearDestinations();
       if (!Number.isFinite(c.x) || !Number.isFinite(c.y)) return;
       this.targetId = null;
       this.autoAttack = false;
       this.pendingNpc = null;
       this.pendingLoot = null;
+      this.pendingBuilding = null;
+      this.pendingService = null;
+      this.pendingExit = false;
+      this.pendingChest = false;
       this.go(c);
       return;
     }
     if (c.type === "target") {
+      if (this.world.city) {
+        if (c.id === "training-dummy" && p.interior === "arena")
+          this.command({ type: "training", action: "start" });
+        return;
+      }
       const enemy = this.enemies.find(
         (e) => e.id === c.id && e.hp > 0 && !e.m.hidden && !e.m.invulnerable,
       );
@@ -808,6 +1088,20 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "interact") {
+      this.clearDestinations();
+      const definition = this.world.npcs.find((n) => n.id === c.npc);
+      if (definition?.building && definition.building !== p.interior) {
+        this.pendingService = definition.id;
+        this.requestBuilding(definition.building);
+        return;
+      }
+      if (p.interior && !definition?.building) {
+        if (!definition) return;
+        this.pendingOutsideNpc = definition.id;
+        this.pendingExit = true;
+        this.go(cityRoom(p.interior).exit);
+        return;
+      }
       const npc = this.npcs.find((n) => n.id === c.npc);
       if (!npc) return;
       this.targetId = null;
@@ -884,11 +1178,18 @@ export class GameSession implements MonsterHost {
     if (id !== "R") this.flush();
   }
   manual(dx: number, dy: number, dt: number) {
-    if (this.paused || this.dialogue || this.player.dead || this.fx.cannotAct) return;
+    if (this.paused || this.dialogue || this.depotOpen || this.player.dead || this.fx.cannotAct)
+      return;
+    this.clearDestinations();
     this.route = [];
     this.pendingNpc = null;
     this.pendingLoot = null;
     this.autoAttack = false;
+    this.pendingBuilding = null;
+    this.pendingService = null;
+    this.pendingExit = false;
+    this.afterExit = null;
+    this.pendingChest = false;
     this.movePlayer({ x: this.player.x + dx * 100, y: this.player.y + dy * 100 }, dt);
   }
   private movePlayer(to: Point, dt: number) {
@@ -907,7 +1208,7 @@ export class GameSession implements MonsterHost {
     const dt = Math.max(0, Math.min(100, milliseconds));
     const wasMoving = this.moving;
     this.moving = false;
-    if (this.dialogue || this.paused) return;
+    if (this.dialogue || this.depotOpen || this.paused) return;
     this.nowMs += dt;
     const p = this.player,
       s = this.kit.stats;
@@ -978,6 +1279,42 @@ export class GameSession implements MonsterHost {
       this.movePlayer(this.route[0]!, dt);
       if (distance(p, this.route[0]!) < 5) this.route.shift();
     }
+    if (this.pendingExit && p.interior && distance(p, cityRoom(p.interior).exit) <= 80) {
+      const next = this.afterExit;
+      const outsideNpc = this.pendingOutsideNpc;
+      this.pendingOutsideNpc = null;
+      this.pendingExit = false;
+      this.afterExit = null;
+      this.switchInterior(null);
+      if (next) this.requestBuilding(next);
+      else if (outsideNpc) this.command({ type: "interact", npc: outsideNpc });
+      return;
+    }
+    if (this.pendingBuilding && !p.interior) {
+      const b = this.world.city!.buildings.find((b) => b.id === this.pendingBuilding)!;
+      if (distance(p, b.door) <= 75) {
+        const service = this.pendingService;
+        this.pendingBuilding = null;
+        this.pendingService = null;
+        this.switchInterior(b.id);
+        this.say("Wchodzisz do: " + b.name);
+        if (service) {
+          const npc = this.npcs.find((n) => n.id === service);
+          if (npc) {
+            this.pendingNpc = service;
+            this.go(npc);
+          }
+        }
+        return;
+      }
+    }
+    if (this.pendingChest && p.interior === "depot" && distance(p, cityRoom("depot").chest) <= 95) {
+      this.pendingChest = false;
+      this.depotOpen = true;
+      this.route = [];
+      this.say("Twoja skrzynia · Depozyt Korzeni");
+      return;
+    }
     if (this.pendingNpc) {
       const npc = this.npcs.find((n) => n.id === this.pendingNpc)!;
       if (distance(p, npc) <= 100) {
@@ -1000,11 +1337,11 @@ export class GameSession implements MonsterHost {
       this.say(
         this.world.id === "verdant"
           ? "Rynek odwiedzony. Wróć do Airy po nagrodę."
-          : this.world.market.label + " — odkryto. Wróć do: " + this.npcs[0]!.name,
+          : this.world.market.label + " — odkryto. Wróć do: " + this.npcName("guide"),
       );
       this.flush();
     }
-    this.monsters.tick(dt);
+    if (!this.world.city) this.monsters.tick(dt);
     this.saveIn += dt;
     if (this.saveIn >= 2000) {
       this.saveIn = 0;
@@ -1027,9 +1364,9 @@ export class GameSession implements MonsterHost {
     const names = forest
       ? { steps: "Airy", boars: "Rena", gear: "Taro" }
       : {
-          steps: this.npcs[0]!.name,
-          boars: this.npcs[1]!.name,
-          gear: this.npcs[3]!.name,
+          steps: this.npcName("guide"),
+          boars: this.npcName("hunter"),
+          gear: this.npcName("smith"),
         };
     if (q === "done") return "Ukończone · nagroda odebrana";
     if (q === "ready") return "Wróć do " + names[id] + " po nagrodę";
@@ -1037,6 +1374,12 @@ export class GameSession implements MonsterHost {
       return q === "locked"
         ? "Porozmawiaj z " + names.steps + " przy miejscu startowym"
         : this.world.market.instruction;
+    if (id === "boars" && this.world.city)
+      return "Wyprawy poza miasto: następny etap. Ćwicz w Domu Treningu; wcześniejszy postęp zachowano.";
+    if (id === "gear" && this.world.city)
+      return q === "locked"
+        ? "Po Pierwszych krokach odwiedź Taro w kuźni. Ostrze kupisz u Mio."
+        : "Załóż Ostrze strażnika w ekwipunku";
     if (id === "boars")
       return q === "locked"
         ? "Po Pierwszych krokach porozmawiaj z " + names.boars
@@ -1077,6 +1420,13 @@ export class GameSession implements MonsterHost {
       defeated: this.player.kills,
       ready: true,
       dialogue: this.dialogue,
+      building: this.building ?? null,
+      activeNpcs: this.npcs,
+      nearbyBuilding: !this.player.interior
+        ? (this.world.city?.buildings.find((b) => distance(b.door, this.player) <= 180) ?? null)
+        : null,
+      depotOpen: this.depotOpen,
+      training: { ...this.training, damage: Math.round(this.training.damage) },
       notice: this.notice,
       noticeId: this.noticeId,
       log: [...this.log],
@@ -1172,10 +1522,14 @@ function makePort(s: GameSession): KitPort {
     },
     random: () => s.rng(),
     say: (t) => s.say(t),
-    foesIn: (c, r) => s.monsters.targetable.filter((e) => distance(e, c) <= r),
-    target: () => s.target,
+    foesIn: (c, r) =>
+      (s.world.city ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
+        (e) => distance(e, c) <= r,
+      ),
+    target: () => s.trainingTarget ?? s.target,
     visible: (a, b) => s.nav.visible(a, b),
     hurtFoe: (foe, raw, hit: Hit) => {
+      if (foe.id === "training-dummy") return s.hitTraining(raw, hit);
       if (!hit.indirect && s.fx.rollMiss()) {
         s.emit({ type: "hit", x: foe.x, y: foe.y, target: foe.id, text: "Pudło" });
         return 0;
@@ -1184,16 +1538,23 @@ function makePort(s: GameSession): KitPort {
       if (!hit.indirect && dealt > 0) s.combatIn = 4500;
       return dealt;
     },
-    stunFoe: (f, ms) => s.monsters.stun(f as Enemy, ms),
-    slowFoe: (f, pct, ms) => s.monsters.slow(f as Enemy, pct, ms),
-    burnFoe: (f, dps, ms) => s.monsters.burn(f as Enemy, dps, ms),
-    sealFoe: (f, ms, bonus) => s.monsters.seal(f as Enemy, ms, bonus),
-    markFoe: (f, ms, crit, def) => s.monsters.mark(f as Enemy, ms, crit, def),
-    pushFoe: (f, from, d) => s.monsters.push(f as Enemy, from, d),
-    weakenFoe: (f, pct, ms) => s.monsters.weaken(f as Enemy, pct, ms),
-    breakFoeShield: (f) => s.monsters.breakShield(f as Enemy),
-    isSealed: (f) => !!(f as Enemy).fx.seal,
-    isMarked: (f) => !!(f as Enemy).fx.mark,
+    stunFoe: (f, ms) => (f.id === "training-dummy" ? undefined : s.monsters.stun(f as Enemy, ms)),
+    slowFoe: (f, pct, ms) =>
+      f.id === "training-dummy" ? undefined : s.monsters.slow(f as Enemy, pct, ms),
+    burnFoe: (f, dps, ms) =>
+      f.id === "training-dummy" ? undefined : s.monsters.burn(f as Enemy, dps, ms),
+    sealFoe: (f, ms, bonus) =>
+      f.id === "training-dummy" ? undefined : s.monsters.seal(f as Enemy, ms, bonus),
+    markFoe: (f, ms, crit, def) =>
+      f.id === "training-dummy" ? undefined : s.monsters.mark(f as Enemy, ms, crit, def),
+    pushFoe: (f, from, d) =>
+      f.id === "training-dummy" ? undefined : s.monsters.push(f as Enemy, from, d),
+    weakenFoe: (f, pct, ms) =>
+      f.id === "training-dummy" ? undefined : s.monsters.weaken(f as Enemy, pct, ms),
+    breakFoeShield: (f) =>
+      f.id === "training-dummy" ? undefined : s.monsters.breakShield(f as Enemy),
+    isSealed: (f) => f.id !== "training-dummy" && !!(f as Enemy).fx.seal,
+    isMarked: (f) => f.id !== "training-dummy" && !!(f as Enemy).fx.mark,
     foeHpFraction: (f) => f.hp / f.maxHp,
     dash: (to, d) => {
       const next = s.nav.step(s.player, to, d);
@@ -1250,6 +1611,11 @@ export function initialView(player?: Player): GameViewState {
     defeated: 0,
     ready: false,
     dialogue: null,
+    building: null,
+    activeNpcs: WORLDS[p.continent].npcs.filter((n) => !n.building),
+    nearbyBuilding: null,
+    depotOpen: false,
+    training: { active: false, hits: 0, damage: 0 },
     notice: "",
     noticeId: 0,
     log: [],

@@ -54,6 +54,7 @@ const baseRaces = [
 // Spawn points follow the current map layout (open worlds are shifted by `legacyShift`).
 const races = baseRaces.map((r) => ({
   ...r,
+  settlement: WORLDS[r.world as keyof typeof WORLDS].settlement,
   x: WORLDS[r.world as keyof typeof WORLDS].spawn.x,
   y: WORLDS[r.world as keyof typeof WORLDS].spawn.y,
 }));

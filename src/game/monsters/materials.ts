@@ -26,4 +26,4 @@ for (const monster of MONSTERS)
       };
   }
 export const MATERIAL_IDS = Object.keys(MATERIALS);
-export const isMaterial = (id: string): boolean => id in MATERIALS;
+export const isMaterial = (id: string): boolean => Object.hasOwn(MATERIALS, id);

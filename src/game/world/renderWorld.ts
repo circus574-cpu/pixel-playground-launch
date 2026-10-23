@@ -13,7 +13,7 @@ import type { Point } from "../navigation";
 const GROUND_CHUNK = 1024;
 /** One adapter per map format, one shared scene and lifecycle for all continents. */
 export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
-  if (!world.terrain) return renderForest(scene);
+  if (!world.terrain) return renderForest(scene, world);
   const terrain = world.terrain;
   const ground = textureBinding("terrain." + terrain.ground, { asset: terrain.ground }),
     path = textureBinding("terrain." + terrain.path, { asset: terrain.path }),

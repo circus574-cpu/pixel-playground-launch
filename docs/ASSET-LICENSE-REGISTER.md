@@ -951,3 +951,12 @@ Oryginalne PNG na GPU są tylko wskazane w provenance — nie zbadano ich ponown
 - Dodatkowe tła (23.10, poziome, od właściciela): `menu-night.webp` (tło menu od 700 px), `roster-path.webp` (panel „Twoje postacie”), `loading-wide.webp` (ładowanie na szerokich ekranach). Prawa jak niżej: NIEPOTWIERDZONE. Czwarty obraz (akwarela) nie został wykorzystany i nie jest w repo.
 - Pochodzenie: obraz dostarczony przez właściciela jako „główna grafika gry”; przycięty i skompresowany do WebP, bez zmiany zawartości. Autor i sposób wygenerowania nieznane.
 - Prawa: NIEPOTWIERDZONE. Właściciel musi potwierdzić prawo do publicznego użycia (patrz blokada referencji powyżej).
+
+## Aneks 23.10.2026 — wnętrza Zielonej Przystani
+
+Nowe programowo rysowane SVG, eksporty WebP, minimapa i generatory mają osobny
+[rejestr ścieżek, procesu i SHA-256](licenses/city-assets-20261023.json).
+[Raport implementacji](VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md) wskazuje dostawę
+i potwierdzenie walidowanego importu. Nie użyto nowych referencji zewnętrznych
+ani checkpointów. Deklaracja procesu nie zastępuje niezależnego dowodu praw
+i nie rozstrzyga wcześniej opisanych praw do istniejących zasobów.

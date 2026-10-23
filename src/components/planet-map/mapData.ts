@@ -71,7 +71,7 @@ export const CONTINENTS: MapRegion[] = [
     kind: "continent",
     name: "Verdantia",
     people: "Planetarni",
-    settlement: "Wioska Początkowa",
+    settlement: "Zielona Przystań",
     settlementPoint: LAYOUT["verdant"]!.settlementPoint!,
     label: LAYOUT["verdant"]!.label,
     summary:

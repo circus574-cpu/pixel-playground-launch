@@ -22,7 +22,7 @@ for (const [race, worldId, actor] of [
   ["Androidy", "nexus", "hero-android"],
   ["Legendy", "pyra", "hero-legend"],
 ] as const) {
-  test(`${actor}: all seven clips follow real combat, defeat and respawn`, async ({
+  test(`${actor}: ${WORLDS[worldId].city ? "safe city movement and training" : "all seven clips follow real combat, defeat and respawn"}`, async ({
     page,
   }, info) => {
     await page.goto("/scripts/playtest.html");
@@ -50,6 +50,36 @@ for (const [race, worldId, actor] of [
     const max = (await health.getAttribute("aria-valuemax"))!;
     const world = WORLDS[worldId],
       enemy = world.enemies[0]!;
+    if (world.city) {
+      await command({ type: "enter", building: "arena" });
+      await expect(canvas).toHaveAttribute("data-interior", "arena");
+      await command({ type: "training", action: "start" });
+      await expect
+        .poll(() =>
+          canvas.evaluate((el) =>
+            Math.hypot(
+              Number((el as HTMLElement).dataset["playerX"]) - 600,
+              Number((el as HTMLElement).dataset["playerY"]) - 300,
+            ),
+          ),
+        )
+        .toBeLessThanOrEqual(62);
+      await basicAttack(page).click();
+      await expect(page.getByLabel("Wnętrze budynku")).toContainText("Trafienia: 1");
+      const frames = await page.evaluate(() => [
+        ...(window as unknown as { __observedActorFrames: Set<string> }).__observedActorFrames,
+      ]);
+      for (const state of ["idle", "walk", "attack"])
+        expect(
+          frames.some((f) => f.startsWith(`${actor}/${state}/`)),
+          state,
+        ).toBe(true);
+      await expect(canvas).toHaveAttribute("data-enemies", "[]");
+      await expect(health).toHaveAttribute("aria-valuenow", max);
+      await expect(page.locator(".ki-death-overlay")).toHaveCount(0);
+      await page.screenshot({ path: info.outputPath(`${actor}-city-training.png`) });
+      return;
+    }
     await command({ type: "move", x: enemy.x, y: enemy.y + 85 });
     // A real hit makes the potion usable; its healing plays the skill clip. No HP is patched.
     await expect(health).not.toHaveAttribute("aria-valuenow", max);

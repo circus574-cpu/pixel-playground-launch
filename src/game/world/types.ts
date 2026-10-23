@@ -2,13 +2,16 @@ import type { Point } from "../navigation";
 import type { Obstacle } from "../movement";
 import type { WorldId, RaceId } from "./races";
 import type { ForestObject } from "./forest";
-export type NpcRole = "guide" | "hunter" | "merchant" | "smith";
+import type { BuildingId, CityDefinition } from "../city/types";
+export type NpcRole =
+  "guide" | "hunter" | "merchant" | "smith" | "keeper" | "trainer" | "innkeeper" | "steward";
 export type WorldNpc = Point & {
   id: NpcRole;
   name: string;
   role: string;
   tint: number;
   dialogue?: string;
+  building?: BuildingId;
 };
 export type Landmark = Point & { label: string; kind: "settlement" | "energy" | "danger" };
 export type RegionObject = ForestObject & { asset?: string };
@@ -36,6 +39,7 @@ export type WorldDefinition = {
   landmarks: Landmark[];
   objects: readonly RegionObject[];
   obstacles: readonly Obstacle[];
+  city?: CityDefinition;
   /** Number of leading obstacles that form the outer boundary (default 3). */
   border?: number;
   /** Open-world layout revision; saves from an earlier layout are shifted by `legacyShift`. */

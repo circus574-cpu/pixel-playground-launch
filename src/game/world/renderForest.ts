@@ -8,14 +8,16 @@ import { renderDepth } from "../assets/layers";
 import { coversPlayer } from "./visibility";
 import type { Point } from "../navigation";
 import { FOREST, FOREST_OBJECTS, forestObstacles } from "./forest";
+import type { WorldDefinition } from "./types";
 
 /** Four tile layers share one padded atlas; all world objects share a second atlas. */
-export function renderForest(scene: Phaser.Scene) {
+export function renderForest(scene: Phaser.Scene, world?: WorldDefinition) {
+  const objects = world?.objects ?? FOREST_OBJECTS;
   const updateAtmosphere = atmosphere(scene, "verdant");
   const terrain = textureBinding("terrain.verdant", { asset: "forest-terrain" });
   const groundLayers: Phaser.Tilemaps.TilemapLayer[] = [];
   const objectRefs = new Map(
-    FOREST_OBJECTS.map((obj) => [
+    objects.map((obj) => [
       obj.id,
       textureBinding(
         "object.verdant." + obj.id,
@@ -24,7 +26,7 @@ export function renderForest(scene: Phaser.Scene) {
     ]),
   );
   const cache = STATIC_TERRAIN_CACHE_ENABLED
-    ? cacheForestTerrain(scene, terrain.asset, objectRefs)
+    ? cacheForestTerrain(scene, terrain.asset, objectRefs, objects)
     : null;
   if (!cache)
     FOREST.layers.forEach((data, index) => {
@@ -41,7 +43,7 @@ export function renderForest(scene: Phaser.Scene) {
     image: Phaser.GameObjects.Image;
     shadow?: Phaser.GameObjects.Image;
   }[] = [];
-  for (const obj of FOREST_OBJECTS) {
+  for (const obj of objects) {
     const ref = objectRefs.get(obj.id)!;
     let shadow: Phaser.GameObjects.Image | undefined;
     if (!cache && obj.kind !== "bridge") {
@@ -64,7 +66,7 @@ export function renderForest(scene: Phaser.Scene) {
     scenery.push({ object: obj, image, ...(shadow ? { shadow } : {}) });
   }
   return {
-    obstacles: forestObstacles(),
+    obstacles: world?.obstacles ?? forestObstacles(),
     terrainMode: cache ? "cached" : "indexed",
     dispose: () => cache?.dispose(),
     groundLayers,
