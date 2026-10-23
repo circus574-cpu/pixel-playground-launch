@@ -811,8 +811,34 @@ export function mountKileGends(
     scale: { mode: Phaser.Scale.RESIZE, autoCenter: Phaser.Scale.CENTER_BOTH },
     scene: [ForestScene],
   });
+  // `?ki-debug=1` shows renderer, FPS and scene size so slowdowns can be diagnosed from a phone.
+  let debugTimer = 0;
+  if (new URLSearchParams(window.location.search).get("ki-debug") === "1") {
+    const badge = document.createElement("div");
+    badge.setAttribute("data-testid", "ki-debug");
+    badge.style.cssText =
+      "position:absolute;left:6px;bottom:96px;z-index:40;padding:4px 8px;border-radius:4px;" +
+      "font:11px/1.4 monospace;color:#cfe;background:#000a;pointer-events:none;white-space:pre";
+    parent.appendChild(badge);
+    debugTimer = window.setInterval(() => {
+      try {
+        const m = JSON.parse(parent.dataset["metrics"] ?? "{}");
+        if (!m.renderer) {
+          badge.textContent = "pomiar…";
+          return;
+        }
+        badge.textContent =
+          `${m.renderer} ${m.fps} fps (p95 ${Math.round(m.frameP95Ms)} ms)\n` +
+          `obiekty ${m.visibleObjects}/${m.objects} tekstury ${m.textures} ` +
+          `${Math.round(m.estimatedTextureBytes / 1048576)} MB`;
+      } catch {
+        badge.textContent = "brak danych";
+      }
+    }, 500);
+  }
   return () => {
     disposed = true;
+    window.clearInterval(debugTimer);
     for (const release of releaseScene.splice(0)) release();
     session.flush();
     game.destroy(true);
