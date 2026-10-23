@@ -21,6 +21,6 @@ $PY -m accelerate.commands.launch --mixed_precision=fp16 lora/train_dreambooth_l
   --pretrained_model_name_or_path=models/animagine-diffusers --instance_data_dir=lora/data-$NAME \
   --instance_prompt="ki_legend, 1boy, full body, anime game character" --output_dir=lora/$NAME --resolution=1024 \
   --train_batch_size=1 --gradient_accumulation_steps=2 --gradient_checkpointing --learning_rate=1e-4 --lr_scheduler=constant \
-  --max_train_steps=900 --rank=16 --seed=7460101 --mixed_precision=fp16 --checkpointing_steps=450 --center_crop=false 
+  --max_train_steps=900 --rank=16 --seed=7460101 --mixed_precision=fp16 --checkpointing_steps=450 
 echo "train_rc=$?"
 ls -la lora/$NAME
