@@ -1,7 +1,7 @@
 """World kit: city sets for the other three races and object sets for every biome (placeable, isolated on white).
 
   python3 gen_world_kit.py <tag> <dream|anime> <set> [seeds comma list]
-    sets: city-aether | city-nexus | city-verdant | biome-forest | biome-snow | biome-desert | biome-volcanic | biome-coast | ruins-props
+    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral
     -> /workspace/ki-legends-gpu/renders/kit-<set>-<tag>-<model>/obj-<name>-s<seed>.png (1024) + sheet.jpg + metadata.json
 Same look as the Pyra city parts: high angle three quarter view, thick dark outlines, cel shaded, warm light.
 Samples for owner review and for the matting/packing step, not installed in the game.
@@ -46,9 +46,32 @@ BIOME = {
     "ruins-props": ["a broken stone pillar", "an ancient stone gate ruin", "a toppled statue", "a ruined wall segment", "a stone altar with glowing runes", "a treasure chest",
                     "a wooden crate stack", "a barrel group", "a stone well", "a signpost with arrows", "a campfire with a tent", "a weapon rack"],
 }
-if setname in CITY:
+BIOME.update({
+    "biome-swamp": ["a twisted mangrove tree", "a dead swamp tree with hanging moss", "a cluster of lily pads on water", "a cluster of cattails", "a mossy fallen log",
+                    "a murky pond rim", "a small swamp hut on stilts", "a cluster of glowing mushrooms", "a bog boulder", "a tree with hanging vines",
+                    "a wooden walkway section", "a skull on a pole"],
+    "biome-mountain": ["a tall rocky mountain peak", "a cliff outcrop", "a boulder pile", "a mountain pine tree", "a rope bridge section", "a mine entrance",
+                       "an ore vein rock", "a stone cairn", "a rock with a small waterfall", "a stone staircase on a slope", "a snowy rock ledge", "a large bird nest on a rock"],
+    "biome-jungle": ["a giant jungle tree", "a palm cluster", "a large fern", "a tree with hanging vines", "a ruined jungle pillar", "a mossy idol statue",
+                     "a flowering vine bush", "a bamboo cluster", "a rope bridge section", "a treehouse", "a giant leaf plant", "an overgrown stone altar"],
+    "dungeon": ["a cave wall chunk", "a stalagmite cluster", "a glowing crystal cluster", "a stone doorway", "a torch on a stand", "a bone pile", "a treasure chest",
+                "a floor spike trap", "a cracked stone pillar", "a stone sarcophagus", "a rock with glowing lava cracks", "an iron prison cage"],
+})
+FURN = ["a long wooden table with benches", "a counter with a shelf", "a bed with blankets", "a tall bookshelf", "a group of barrels", "a stack of crates",
+        "a hanging lantern cluster", "a woven rug seen from above", "a cooking pot over a fire", "a weapon stand", "a locked chest", "a potion shelf"]
+FAUNA = ["a red deer", "a field hare", "a mountain goat", "a woolly sheep", "a heavy ox", "a white crane", "a desert gazelle", "a red fox", "a stone tortoise",
+         "a wild duck", "a sturdy pony", "a wild boar piglet"]
+if setname.startswith("interior-"):
+    race = setname.split("-", 1)[1]
+    style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
+    items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: "%s, %s" % (d, style) for d in FURN}
+elif setname == "fauna-neutral":
+    items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: d + ", calm and peaceful" for d in FAUNA}
+    COMMON = ("single animal, full body, side view facing right, hand painted anime fantasy game creature, very thick black outlines, cel shaded, "
+              "isolated on pure white background, plain white background, centered, wide white margin, no ground, no shadow, no text, masterpiece, best quality")
+elif setname in CITY:
     items = {k: "%s, %s" % (v, CITY[setname]) for k, v in BUILD.items()}
-else:
+elif setname in BIOME:
     items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: d for d in BIOME[setname]}
 ckpt = ROOT / "models/checkpoints" / ("DreamShaperXL_Turbo_v2_1.safetensors" if model == "dream" else "animagine-xl-3.1.safetensors")
 pipe = StableDiffusionXLPipeline.from_single_file(str(ckpt), torch_dtype=torch.float16).to("cuda")
