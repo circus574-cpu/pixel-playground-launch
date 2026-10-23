@@ -1,0 +1,67 @@
+{
+  "pack": "biome-desert",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "clay-hut",
+      "source": "obj-clay-hut-s7510101.png",
+      "sha256": "894ffab18def096184282de2a3237b0d01856e58d58426bcb271284c54372070"
+    },
+    {
+      "part": "dry-dead-tree",
+      "source": "obj-dry-dead-tree-s7510101.png",
+      "sha256": "91e12e60a2092541c48422deb0c905c0c4dc4d77369be362abd8bc02815ffdb2"
+    },
+    {
+      "part": "nomad-tent",
+      "source": "obj-nomad-tent-s7510101.png",
+      "sha256": "81a9b82e324b9a0b283656cf39d945c2b50b6a9ad547f86bb999f8f0fa1f04d8"
+    },
+    {
+      "part": "rusted-metal-wreck",
+      "source": "obj-rusted-metal-wreck-s7510101.png",
+      "sha256": "3c30c3aba49b65f8be47936629531bfc9b2083c7561e1e94a74e2e829d255bec"
+    },
+    {
+      "part": "salt-crystal-formation",
+      "source": "obj-salt-crystal-formation-s7510101.png",
+      "sha256": "d2686b27dfab993ceae477b30556d7d7071044544e946d57db50fefae9c4731c"
+    },
+    {
+      "part": "sand-dune-with-a-bone",
+      "source": "obj-sand-dune-with-a-bone-s7510101.png",
+      "sha256": "bba0495e206acffa5dc1485bbbd45b61feca2a2c60d643166a11a8fa91c33459"
+    },
+    {
+      "part": "sandstone-arch",
+      "source": "obj-sandstone-arch-s7510101.png",
+      "sha256": "09f1f97e927f6540ed78212d80e5e98ed5efb028d262dc772debad50d81d992f"
+    },
+    {
+      "part": "sandstone-spires",
+      "source": "obj-sandstone-spires-s7510101.png",
+      "sha256": "2be759eacbe868ef4bbb975176d41ae1b61250b370f3f2037b589ca57c1ae8f3"
+    },
+    {
+      "part": "small-oasis-with-palms",
+      "source": "obj-small-oasis-with-palms-s7510101.png",
+      "sha256": "69905683084f6267d62ed4a46599eb4ade19b1689fca799c5f24f0c268c1f909"
+    },
+    {
+      "part": "stone-obelisk",
+      "source": "obj-stone-obelisk-s7510101.png",
+      "sha256": "67f4f22cf5e8bd7cd13b707dda485fa6381e2f5856ee52dedc6ec0adb1811f93"
+    },
+    {
+      "part": "sun-bleached-skull-and-ribs",
+      "source": "obj-sun-bleached-skull-and-ribs-s7510101.png",
+      "sha256": "b79c4785afa8d182360d4fbff1b64c3a89fa8ab06e4a30d4f7fe8f93e823663c"
+    },
+    {
+      "part": "tall-saguaro-cactus",
+      "source": "obj-tall-saguaro-cactus-s7510101.png",
+      "sha256": "aaca52267824782c3ca2a191bff20986fb9ac58230d307640f9012cfc8abad96"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "ruins-props",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "ruins-props-an-ancient-stone-gate-ruin",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-an-ancient-stone-gate-ruin.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-barrel-group",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-barrel-group.webp",
+      "width": 524,
+      "height": 522
+    },
+    {
+      "id": "ruins-props-broken-stone-pillar",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-broken-stone-pillar.webp",
+      "width": 303,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-campfire-with-a-tent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-campfire-with-a-tent.webp",
+      "width": 524,
+      "height": 517
+    },
+    {
+      "id": "ruins-props-ruined-wall-segment",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-ruined-wall-segment.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-signpost-with-arrows",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-signpost-with-arrows.webp",
+      "width": 449,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-stone-altar-with-glowing-runes",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-stone-altar-with-glowing-runes.webp",
+      "width": 524,
+      "height": 500
+    },
+    {
+      "id": "ruins-props-stone-well",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-stone-well.webp",
+      "width": 517,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-toppled-statue",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-toppled-statue.webp",
+      "width": 426,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-treasure-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-treasure-chest.webp",
+      "width": 524,
+      "height": 506
+    },
+    {
+      "id": "ruins-props-weapon-rack",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-weapon-rack.webp",
+      "width": 303,
+      "height": 524
+    },
+    {
+      "id": "ruins-props-wooden-crate-stack",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-wooden-crate-stack.webp",
+      "width": 508,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.ruins-props.an-ancient-stone-gate-ruin": {
+      "asset": "ruins-props-an-ancient-stone-gate-ruin",
+      "fit": "contain"
+    },
+    "object.ruins-props.barrel-group": {
+      "asset": "ruins-props-barrel-group",
+      "fit": "contain"
+    },
+    "object.ruins-props.broken-stone-pillar": {
+      "asset": "ruins-props-broken-stone-pillar",
+      "fit": "contain"
+    },
+    "object.ruins-props.campfire-with-a-tent": {
+      "asset": "ruins-props-campfire-with-a-tent",
+      "fit": "contain"
+    },
+    "object.ruins-props.ruined-wall-segment": {
+      "asset": "ruins-props-ruined-wall-segment",
+      "fit": "contain"
+    },
+    "object.ruins-props.signpost-with-arrows": {
+      "asset": "ruins-props-signpost-with-arrows",
+      "fit": "contain"
+    },
+    "object.ruins-props.stone-altar-with-glowing-runes": {
+      "asset": "ruins-props-stone-altar-with-glowing-runes",
+      "fit": "contain"
+    },
+    "object.ruins-props.stone-well": {
+      "asset": "ruins-props-stone-well",
+      "fit": "contain"
+    },
+    "object.ruins-props.toppled-statue": {
+      "asset": "ruins-props-toppled-statue",
+      "fit": "contain"
+    },
+    "object.ruins-props.treasure-chest": {
+      "asset": "ruins-props-treasure-chest",
+      "fit": "contain"
+    },
+    "object.ruins-props.weapon-rack": {
+      "asset": "ruins-props-weapon-rack",
+      "fit": "contain"
+    },
+    "object.ruins-props.wooden-crate-stack": {
+      "asset": "ruins-props-wooden-crate-stack",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

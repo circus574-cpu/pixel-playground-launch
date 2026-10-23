@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "id": "nexus-city",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "nexus-city-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-arena.webp",
+      "width": 463,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-banner.webp",
+      "width": 209,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-bridge.webp",
+      "width": 454,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-depot.webp",
+      "width": 445,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-fountain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-fountain.webp",
+      "width": 423,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-gate",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-gate.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-hall.webp",
+      "width": 464,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-house.webp",
+      "width": 442,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-inn.webp",
+      "width": 441,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-lamp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-lamp.webp",
+      "width": 169,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-market.webp",
+      "width": 455,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-smithy.webp",
+      "width": 495,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-steps",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-steps.webp",
+      "width": 255,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-tower",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-tower.webp",
+      "width": 257,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-tree.webp",
+      "width": 415,
+      "height": 524
+    },
+    {
+      "id": "nexus-city-wall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-wall.webp",
+      "width": 524,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.nexus-city.arena": {
+      "asset": "nexus-city-arena",
+      "fit": "contain"
+    },
+    "object.nexus-city.banner": {
+      "asset": "nexus-city-banner",
+      "fit": "contain"
+    },
+    "object.nexus-city.bridge": {
+      "asset": "nexus-city-bridge",
+      "fit": "contain"
+    },
+    "object.nexus-city.depot": {
+      "asset": "nexus-city-depot",
+      "fit": "contain"
+    },
+    "object.nexus-city.fountain": {
+      "asset": "nexus-city-fountain",
+      "fit": "contain"
+    },
+    "object.nexus-city.gate": {
+      "asset": "nexus-city-gate",
+      "fit": "contain"
+    },
+    "object.nexus-city.hall": {
+      "asset": "nexus-city-hall",
+      "fit": "contain"
+    },
+    "object.nexus-city.house": {
+      "asset": "nexus-city-house",
+      "fit": "contain"
+    },
+    "object.nexus-city.inn": {
+      "asset": "nexus-city-inn",
+      "fit": "contain"
+    },
+    "object.nexus-city.lamp": {
+      "asset": "nexus-city-lamp",
+      "fit": "contain"
+    },
+    "object.nexus-city.market": {
+      "asset": "nexus-city-market",
+      "fit": "contain"
+    },
+    "object.nexus-city.smithy": {
+      "asset": "nexus-city-smithy",
+      "fit": "contain"
+    },
+    "object.nexus-city.steps": {
+      "asset": "nexus-city-steps",
+      "fit": "contain"
+    },
+    "object.nexus-city.tower": {
+      "asset": "nexus-city-tower",
+      "fit": "contain"
+    },
+    "object.nexus-city.tree": {
+      "asset": "nexus-city-tree",
+      "fit": "contain"
+    },
+    "object.nexus-city.wall": {
+      "asset": "nexus-city-wall",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

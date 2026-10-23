@@ -5702,5 +5702,1801 @@
       }
     },
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "pyra-city",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "pyra-city-arena-dojo",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-arena-dojo.webp",
+        "width": 524,
+        "height": 503
+      },
+      {
+        "id": "pyra-city-banner-pole",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-banner-pole.webp",
+        "width": 306,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-bridge-stone",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-bridge-stone.webp",
+        "width": 486,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-depot-warehouse",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-depot-warehouse.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-fountain-fire",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-fountain-fire.webp",
+        "width": 524,
+        "height": 495
+      },
+      {
+        "id": "pyra-city-gate-fortress",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-gate-fortress.webp",
+        "width": 460,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-hall-council",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-hall-council.webp",
+        "width": 500,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-house-small",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-house-small.webp",
+        "width": 524,
+        "height": 517
+      },
+      {
+        "id": "pyra-city-inn-tavern",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-inn-tavern.webp",
+        "width": 465,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-lantern-stone",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-lantern-stone.webp",
+        "width": 352,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-market-stall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-market-stall.webp",
+        "width": 499,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-rocks-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-rocks-cluster.webp",
+        "width": 494,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-smithy-forge",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-smithy-forge.webp",
+        "width": 497,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-steps-stone",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-steps-stone.webp",
+        "width": 519,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-tower-watch",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-tower-watch.webp",
+        "width": 308,
+        "height": 524
+      },
+      {
+        "id": "pyra-city-tree-maple-red",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-tree-maple-red.webp",
+        "width": 524,
+        "height": 505
+      },
+      {
+        "id": "pyra-city-tree-pine-dark",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-tree-pine-dark.webp",
+        "width": 524,
+        "height": 521
+      },
+      {
+        "id": "pyra-city-wall-segment",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-city/1.0.0-44892f228084/pyra-city-wall-segment.webp",
+        "width": 464,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.pyra-city.arena-dojo": {
+        "asset": "pyra-city-arena-dojo",
+        "fit": "contain"
+      },
+      "object.pyra-city.banner-pole": {
+        "asset": "pyra-city-banner-pole",
+        "fit": "contain"
+      },
+      "object.pyra-city.bridge-stone": {
+        "asset": "pyra-city-bridge-stone",
+        "fit": "contain"
+      },
+      "object.pyra-city.depot-warehouse": {
+        "asset": "pyra-city-depot-warehouse",
+        "fit": "contain"
+      },
+      "object.pyra-city.fountain-fire": {
+        "asset": "pyra-city-fountain-fire",
+        "fit": "contain"
+      },
+      "object.pyra-city.gate-fortress": {
+        "asset": "pyra-city-gate-fortress",
+        "fit": "contain"
+      },
+      "object.pyra-city.hall-council": {
+        "asset": "pyra-city-hall-council",
+        "fit": "contain"
+      },
+      "object.pyra-city.house-small": {
+        "asset": "pyra-city-house-small",
+        "fit": "contain"
+      },
+      "object.pyra-city.inn-tavern": {
+        "asset": "pyra-city-inn-tavern",
+        "fit": "contain"
+      },
+      "object.pyra-city.lantern-stone": {
+        "asset": "pyra-city-lantern-stone",
+        "fit": "contain"
+      },
+      "object.pyra-city.market-stall": {
+        "asset": "pyra-city-market-stall",
+        "fit": "contain"
+      },
+      "object.pyra-city.rocks-cluster": {
+        "asset": "pyra-city-rocks-cluster",
+        "fit": "contain"
+      },
+      "object.pyra-city.smithy-forge": {
+        "asset": "pyra-city-smithy-forge",
+        "fit": "contain"
+      },
+      "object.pyra-city.steps-stone": {
+        "asset": "pyra-city-steps-stone",
+        "fit": "contain"
+      },
+      "object.pyra-city.tower-watch": {
+        "asset": "pyra-city-tower-watch",
+        "fit": "contain"
+      },
+      "object.pyra-city.tree-maple-red": {
+        "asset": "pyra-city-tree-maple-red",
+        "fit": "contain"
+      },
+      "object.pyra-city.tree-pine-dark": {
+        "asset": "pyra-city-tree-pine-dark",
+        "fit": "contain"
+      },
+      "object.pyra-city.wall-segment": {
+        "asset": "pyra-city-wall-segment",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "aether-city",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "aether-city-arena",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-arena.webp",
+        "width": 524,
+        "height": 499
+      },
+      {
+        "id": "aether-city-banner",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-banner.webp",
+        "width": 504,
+        "height": 524
+      },
+      {
+        "id": "aether-city-bridge",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-bridge.webp",
+        "width": 480,
+        "height": 524
+      },
+      {
+        "id": "aether-city-depot",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-depot.webp",
+        "width": 524,
+        "height": 482
+      },
+      {
+        "id": "aether-city-fountain",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-fountain.webp",
+        "width": 519,
+        "height": 524
+      },
+      {
+        "id": "aether-city-gate",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-gate.webp",
+        "width": 524,
+        "height": 472
+      },
+      {
+        "id": "aether-city-hall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-hall.webp",
+        "width": 524,
+        "height": 430
+      },
+      {
+        "id": "aether-city-house",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-house.webp",
+        "width": 505,
+        "height": 524
+      },
+      {
+        "id": "aether-city-inn",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-inn.webp",
+        "width": 455,
+        "height": 524
+      },
+      {
+        "id": "aether-city-lamp",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-lamp.webp",
+        "width": 305,
+        "height": 524
+      },
+      {
+        "id": "aether-city-market",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-market.webp",
+        "width": 506,
+        "height": 524
+      },
+      {
+        "id": "aether-city-smithy",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-smithy.webp",
+        "width": 517,
+        "height": 524
+      },
+      {
+        "id": "aether-city-steps",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-steps.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "aether-city-tower",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-tower.webp",
+        "width": 307,
+        "height": 524
+      },
+      {
+        "id": "aether-city-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-tree.webp",
+        "width": 438,
+        "height": 524
+      },
+      {
+        "id": "aether-city-wall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-city/1.0.0-93bca1fdba4d/aether-city-wall.webp",
+        "width": 524,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.aether-city.arena": {
+        "asset": "aether-city-arena",
+        "fit": "contain"
+      },
+      "object.aether-city.banner": {
+        "asset": "aether-city-banner",
+        "fit": "contain"
+      },
+      "object.aether-city.bridge": {
+        "asset": "aether-city-bridge",
+        "fit": "contain"
+      },
+      "object.aether-city.depot": {
+        "asset": "aether-city-depot",
+        "fit": "contain"
+      },
+      "object.aether-city.fountain": {
+        "asset": "aether-city-fountain",
+        "fit": "contain"
+      },
+      "object.aether-city.gate": {
+        "asset": "aether-city-gate",
+        "fit": "contain"
+      },
+      "object.aether-city.hall": {
+        "asset": "aether-city-hall",
+        "fit": "contain"
+      },
+      "object.aether-city.house": {
+        "asset": "aether-city-house",
+        "fit": "contain"
+      },
+      "object.aether-city.inn": {
+        "asset": "aether-city-inn",
+        "fit": "contain"
+      },
+      "object.aether-city.lamp": {
+        "asset": "aether-city-lamp",
+        "fit": "contain"
+      },
+      "object.aether-city.market": {
+        "asset": "aether-city-market",
+        "fit": "contain"
+      },
+      "object.aether-city.smithy": {
+        "asset": "aether-city-smithy",
+        "fit": "contain"
+      },
+      "object.aether-city.steps": {
+        "asset": "aether-city-steps",
+        "fit": "contain"
+      },
+      "object.aether-city.tower": {
+        "asset": "aether-city-tower",
+        "fit": "contain"
+      },
+      "object.aether-city.tree": {
+        "asset": "aether-city-tree",
+        "fit": "contain"
+      },
+      "object.aether-city.wall": {
+        "asset": "aether-city-wall",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "nexus-city",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "nexus-city-arena",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-arena.webp",
+        "width": 463,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-banner",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-banner.webp",
+        "width": 209,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-bridge",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-bridge.webp",
+        "width": 454,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-depot",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-depot.webp",
+        "width": 445,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-fountain",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-fountain.webp",
+        "width": 423,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-gate",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-gate.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-hall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-hall.webp",
+        "width": 464,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-house",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-house.webp",
+        "width": 442,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-inn",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-inn.webp",
+        "width": 441,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-lamp",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-lamp.webp",
+        "width": 169,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-market",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-market.webp",
+        "width": 455,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-smithy",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-smithy.webp",
+        "width": 495,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-steps",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-steps.webp",
+        "width": 255,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-tower",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-tower.webp",
+        "width": 257,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-tree.webp",
+        "width": 415,
+        "height": 524
+      },
+      {
+        "id": "nexus-city-wall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-city/1.0.0-a3215799aacb/nexus-city-wall.webp",
+        "width": 524,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.nexus-city.arena": {
+        "asset": "nexus-city-arena",
+        "fit": "contain"
+      },
+      "object.nexus-city.banner": {
+        "asset": "nexus-city-banner",
+        "fit": "contain"
+      },
+      "object.nexus-city.bridge": {
+        "asset": "nexus-city-bridge",
+        "fit": "contain"
+      },
+      "object.nexus-city.depot": {
+        "asset": "nexus-city-depot",
+        "fit": "contain"
+      },
+      "object.nexus-city.fountain": {
+        "asset": "nexus-city-fountain",
+        "fit": "contain"
+      },
+      "object.nexus-city.gate": {
+        "asset": "nexus-city-gate",
+        "fit": "contain"
+      },
+      "object.nexus-city.hall": {
+        "asset": "nexus-city-hall",
+        "fit": "contain"
+      },
+      "object.nexus-city.house": {
+        "asset": "nexus-city-house",
+        "fit": "contain"
+      },
+      "object.nexus-city.inn": {
+        "asset": "nexus-city-inn",
+        "fit": "contain"
+      },
+      "object.nexus-city.lamp": {
+        "asset": "nexus-city-lamp",
+        "fit": "contain"
+      },
+      "object.nexus-city.market": {
+        "asset": "nexus-city-market",
+        "fit": "contain"
+      },
+      "object.nexus-city.smithy": {
+        "asset": "nexus-city-smithy",
+        "fit": "contain"
+      },
+      "object.nexus-city.steps": {
+        "asset": "nexus-city-steps",
+        "fit": "contain"
+      },
+      "object.nexus-city.tower": {
+        "asset": "nexus-city-tower",
+        "fit": "contain"
+      },
+      "object.nexus-city.tree": {
+        "asset": "nexus-city-tree",
+        "fit": "contain"
+      },
+      "object.nexus-city.wall": {
+        "asset": "nexus-city-wall",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "verdant-city",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "verdant-city-arena",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-arena.webp",
+        "width": 524,
+        "height": 520
+      },
+      {
+        "id": "verdant-city-banner",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-banner.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-bridge",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-bridge.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-depot",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-depot.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-fountain",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-fountain.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-gate",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-gate.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-hall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-hall.webp",
+        "width": 505,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-house",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-house.webp",
+        "width": 475,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-inn",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-inn.webp",
+        "width": 436,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-lamp",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-lamp.webp",
+        "width": 169,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-market",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-market.webp",
+        "width": 478,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-smithy",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-smithy.webp",
+        "width": 493,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-steps",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-steps.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-tower",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-tower.webp",
+        "width": 385,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-tree.webp",
+        "width": 431,
+        "height": 524
+      },
+      {
+        "id": "verdant-city-wall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-city/1.0.0-6f52a0f8f464/verdant-city-wall.webp",
+        "width": 524,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.verdant-city.arena": {
+        "asset": "verdant-city-arena",
+        "fit": "contain"
+      },
+      "object.verdant-city.banner": {
+        "asset": "verdant-city-banner",
+        "fit": "contain"
+      },
+      "object.verdant-city.bridge": {
+        "asset": "verdant-city-bridge",
+        "fit": "contain"
+      },
+      "object.verdant-city.depot": {
+        "asset": "verdant-city-depot",
+        "fit": "contain"
+      },
+      "object.verdant-city.fountain": {
+        "asset": "verdant-city-fountain",
+        "fit": "contain"
+      },
+      "object.verdant-city.gate": {
+        "asset": "verdant-city-gate",
+        "fit": "contain"
+      },
+      "object.verdant-city.hall": {
+        "asset": "verdant-city-hall",
+        "fit": "contain"
+      },
+      "object.verdant-city.house": {
+        "asset": "verdant-city-house",
+        "fit": "contain"
+      },
+      "object.verdant-city.inn": {
+        "asset": "verdant-city-inn",
+        "fit": "contain"
+      },
+      "object.verdant-city.lamp": {
+        "asset": "verdant-city-lamp",
+        "fit": "contain"
+      },
+      "object.verdant-city.market": {
+        "asset": "verdant-city-market",
+        "fit": "contain"
+      },
+      "object.verdant-city.smithy": {
+        "asset": "verdant-city-smithy",
+        "fit": "contain"
+      },
+      "object.verdant-city.steps": {
+        "asset": "verdant-city-steps",
+        "fit": "contain"
+      },
+      "object.verdant-city.tower": {
+        "asset": "verdant-city-tower",
+        "fit": "contain"
+      },
+      "object.verdant-city.tree": {
+        "asset": "verdant-city-tree",
+        "fit": "contain"
+      },
+      "object.verdant-city.wall": {
+        "asset": "verdant-city-wall",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "biome-forest",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "biome-forest-birch-tree-with-white-bark",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-birch-tree-with-white-bark.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-forest-campfire-with-logs",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-campfire-with-logs.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-forest-cluster-of-mushrooms",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-cluster-of-mushrooms.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-forest-fallen-mossy-log",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-fallen-mossy-log.webp",
+        "width": 524,
+        "height": 516
+      },
+      {
+        "id": "biome-forest-flowering-bush",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-flowering-bush.webp",
+        "width": 524,
+        "height": 514
+      },
+      {
+        "id": "biome-forest-mossy-boulder",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-mossy-boulder.webp",
+        "width": 524,
+        "height": 481
+      },
+      {
+        "id": "biome-forest-small-wooden-hunter-hut",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-small-wooden-hunter-hut.webp",
+        "width": 524,
+        "height": 503
+      },
+      {
+        "id": "biome-forest-tall-broadleaf-oak-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tall-broadleaf-oak-tree.webp",
+        "width": 487,
+        "height": 524
+      },
+      {
+        "id": "biome-forest-tall-fern-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tall-fern-cluster.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-forest-tall-pine-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tall-pine-tree.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-forest-tree-stump-with-an-axe",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-tree-stump-with-an-axe.webp",
+        "width": 524,
+        "height": 496
+      },
+      {
+        "id": "biome-forest-wooden-signpost",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-forest/1.0.0-ece42d35737a/biome-forest-wooden-signpost.webp",
+        "width": 462,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.biome-forest.birch-tree-with-white-bark": {
+        "asset": "biome-forest-birch-tree-with-white-bark",
+        "fit": "contain"
+      },
+      "object.biome-forest.campfire-with-logs": {
+        "asset": "biome-forest-campfire-with-logs",
+        "fit": "contain"
+      },
+      "object.biome-forest.cluster-of-mushrooms": {
+        "asset": "biome-forest-cluster-of-mushrooms",
+        "fit": "contain"
+      },
+      "object.biome-forest.fallen-mossy-log": {
+        "asset": "biome-forest-fallen-mossy-log",
+        "fit": "contain"
+      },
+      "object.biome-forest.flowering-bush": {
+        "asset": "biome-forest-flowering-bush",
+        "fit": "contain"
+      },
+      "object.biome-forest.mossy-boulder": {
+        "asset": "biome-forest-mossy-boulder",
+        "fit": "contain"
+      },
+      "object.biome-forest.small-wooden-hunter-hut": {
+        "asset": "biome-forest-small-wooden-hunter-hut",
+        "fit": "contain"
+      },
+      "object.biome-forest.tall-broadleaf-oak-tree": {
+        "asset": "biome-forest-tall-broadleaf-oak-tree",
+        "fit": "contain"
+      },
+      "object.biome-forest.tall-fern-cluster": {
+        "asset": "biome-forest-tall-fern-cluster",
+        "fit": "contain"
+      },
+      "object.biome-forest.tall-pine-tree": {
+        "asset": "biome-forest-tall-pine-tree",
+        "fit": "contain"
+      },
+      "object.biome-forest.tree-stump-with-an-axe": {
+        "asset": "biome-forest-tree-stump-with-an-axe",
+        "fit": "contain"
+      },
+      "object.biome-forest.wooden-signpost": {
+        "asset": "biome-forest-wooden-signpost",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "biome-snow",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "biome-snow-an-ice-crystal-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-an-ice-crystal-cluster.webp",
+        "width": 519,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-an-igloo-style-stone-hut",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-an-igloo-style-stone-hut.webp",
+        "width": 524,
+        "height": 506
+      },
+      {
+        "id": "biome-snow-frozen-dead-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-frozen-dead-tree.webp",
+        "width": 444,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-frozen-waterfall-cliff",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-frozen-waterfall-cliff.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-glacier-ice-block",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-glacier-ice-block.webp",
+        "width": 524,
+        "height": 510
+      },
+      {
+        "id": "biome-snow-snow-covered-pine-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-snow-covered-pine-tree.webp",
+        "width": 407,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-snow-mound-with-a-lantern",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-snow-mound-with-a-lantern.webp",
+        "width": 495,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-snowy-boulder",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-snowy-boulder.webp",
+        "width": 524,
+        "height": 517
+      },
+      {
+        "id": "biome-snow-snowy-cabin",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-snowy-cabin.webp",
+        "width": 476,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-snowy-mountain-peak",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-snowy-mountain-peak.webp",
+        "width": 524,
+        "height": 514
+      },
+      {
+        "id": "biome-snow-tall-ice-spire-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-tall-ice-spire-cluster.webp",
+        "width": 258,
+        "height": 524
+      },
+      {
+        "id": "biome-snow-wooden-sled",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-snow/1.0.0-34052185308a/biome-snow-wooden-sled.webp",
+        "width": 524,
+        "height": 486
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.biome-snow.an-ice-crystal-cluster": {
+        "asset": "biome-snow-an-ice-crystal-cluster",
+        "fit": "contain"
+      },
+      "object.biome-snow.an-igloo-style-stone-hut": {
+        "asset": "biome-snow-an-igloo-style-stone-hut",
+        "fit": "contain"
+      },
+      "object.biome-snow.frozen-dead-tree": {
+        "asset": "biome-snow-frozen-dead-tree",
+        "fit": "contain"
+      },
+      "object.biome-snow.frozen-waterfall-cliff": {
+        "asset": "biome-snow-frozen-waterfall-cliff",
+        "fit": "contain"
+      },
+      "object.biome-snow.glacier-ice-block": {
+        "asset": "biome-snow-glacier-ice-block",
+        "fit": "contain"
+      },
+      "object.biome-snow.snow-covered-pine-tree": {
+        "asset": "biome-snow-snow-covered-pine-tree",
+        "fit": "contain"
+      },
+      "object.biome-snow.snow-mound-with-a-lantern": {
+        "asset": "biome-snow-snow-mound-with-a-lantern",
+        "fit": "contain"
+      },
+      "object.biome-snow.snowy-boulder": {
+        "asset": "biome-snow-snowy-boulder",
+        "fit": "contain"
+      },
+      "object.biome-snow.snowy-cabin": {
+        "asset": "biome-snow-snowy-cabin",
+        "fit": "contain"
+      },
+      "object.biome-snow.snowy-mountain-peak": {
+        "asset": "biome-snow-snowy-mountain-peak",
+        "fit": "contain"
+      },
+      "object.biome-snow.tall-ice-spire-cluster": {
+        "asset": "biome-snow-tall-ice-spire-cluster",
+        "fit": "contain"
+      },
+      "object.biome-snow.wooden-sled": {
+        "asset": "biome-snow-wooden-sled",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "biome-desert",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "biome-desert-clay-hut",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-clay-hut.webp",
+        "width": 524,
+        "height": 498
+      },
+      {
+        "id": "biome-desert-dry-dead-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-dry-dead-tree.webp",
+        "width": 449,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-nomad-tent",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-nomad-tent.webp",
+        "width": 524,
+        "height": 516
+      },
+      {
+        "id": "biome-desert-rusted-metal-wreck",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-rusted-metal-wreck.webp",
+        "width": 524,
+        "height": 502
+      },
+      {
+        "id": "biome-desert-salt-crystal-formation",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-salt-crystal-formation.webp",
+        "width": 509,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-sand-dune-with-a-bone",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-sand-dune-with-a-bone.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-sandstone-arch",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-sandstone-arch.webp",
+        "width": 493,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-sandstone-spires",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-sandstone-spires.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-small-oasis-with-palms",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-small-oasis-with-palms.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-stone-obelisk",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-stone-obelisk.webp",
+        "width": 221,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-sun-bleached-skull-and-ribs",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-sun-bleached-skull-and-ribs.webp",
+        "width": 485,
+        "height": 524
+      },
+      {
+        "id": "biome-desert-tall-saguaro-cactus",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-desert/1.0.0-320c546b5d82/biome-desert-tall-saguaro-cactus.webp",
+        "width": 291,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.biome-desert.clay-hut": {
+        "asset": "biome-desert-clay-hut",
+        "fit": "contain"
+      },
+      "object.biome-desert.dry-dead-tree": {
+        "asset": "biome-desert-dry-dead-tree",
+        "fit": "contain"
+      },
+      "object.biome-desert.nomad-tent": {
+        "asset": "biome-desert-nomad-tent",
+        "fit": "contain"
+      },
+      "object.biome-desert.rusted-metal-wreck": {
+        "asset": "biome-desert-rusted-metal-wreck",
+        "fit": "contain"
+      },
+      "object.biome-desert.salt-crystal-formation": {
+        "asset": "biome-desert-salt-crystal-formation",
+        "fit": "contain"
+      },
+      "object.biome-desert.sand-dune-with-a-bone": {
+        "asset": "biome-desert-sand-dune-with-a-bone",
+        "fit": "contain"
+      },
+      "object.biome-desert.sandstone-arch": {
+        "asset": "biome-desert-sandstone-arch",
+        "fit": "contain"
+      },
+      "object.biome-desert.sandstone-spires": {
+        "asset": "biome-desert-sandstone-spires",
+        "fit": "contain"
+      },
+      "object.biome-desert.small-oasis-with-palms": {
+        "asset": "biome-desert-small-oasis-with-palms",
+        "fit": "contain"
+      },
+      "object.biome-desert.stone-obelisk": {
+        "asset": "biome-desert-stone-obelisk",
+        "fit": "contain"
+      },
+      "object.biome-desert.sun-bleached-skull-and-ribs": {
+        "asset": "biome-desert-sun-bleached-skull-and-ribs",
+        "fit": "contain"
+      },
+      "object.biome-desert.tall-saguaro-cactus": {
+        "asset": "biome-desert-tall-saguaro-cactus",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "biome-volcanic",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "biome-volcanic-an-obsidian-shard-formation",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-an-obsidian-shard-formation.webp",
+        "width": 408,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-basalt-column-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-basalt-column-cluster.webp",
+        "width": 258,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-bone-pile",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-bone-pile.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-dark-rock-bridge",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-dark-rock-bridge.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-dead-charred-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-dead-charred-tree.webp",
+        "width": 441,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-lava-geyser-vent",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-lava-geyser-vent.webp",
+        "width": 475,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-lava-rock-cluster-with-glowing-cracks",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-lava-rock-cluster-with-glowing-cracks.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-magma-pool-rim",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-magma-pool-rim.webp",
+        "width": 524,
+        "height": 494
+      },
+      {
+        "id": "biome-volcanic-ruined-dark-stone-pillar",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-ruined-dark-stone-pillar.webp",
+        "width": 250,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-smoking-volcano",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-smoking-volcano.webp",
+        "width": 519,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-stone-brazier-with-fire",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-stone-brazier-with-fire.webp",
+        "width": 486,
+        "height": 524
+      },
+      {
+        "id": "biome-volcanic-sulfur-vent-with-yellow-crust",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-sulfur-vent-with-yellow-crust.webp",
+        "width": 524,
+        "height": 486
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.biome-volcanic.an-obsidian-shard-formation": {
+        "asset": "biome-volcanic-an-obsidian-shard-formation",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.basalt-column-cluster": {
+        "asset": "biome-volcanic-basalt-column-cluster",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.bone-pile": {
+        "asset": "biome-volcanic-bone-pile",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.dark-rock-bridge": {
+        "asset": "biome-volcanic-dark-rock-bridge",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.dead-charred-tree": {
+        "asset": "biome-volcanic-dead-charred-tree",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.lava-geyser-vent": {
+        "asset": "biome-volcanic-lava-geyser-vent",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.lava-rock-cluster-with-glowing-cracks": {
+        "asset": "biome-volcanic-lava-rock-cluster-with-glowing-cracks",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.magma-pool-rim": {
+        "asset": "biome-volcanic-magma-pool-rim",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.ruined-dark-stone-pillar": {
+        "asset": "biome-volcanic-ruined-dark-stone-pillar",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.smoking-volcano": {
+        "asset": "biome-volcanic-smoking-volcano",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.stone-brazier-with-fire": {
+        "asset": "biome-volcanic-stone-brazier-with-fire",
+        "fit": "contain"
+      },
+      "object.biome-volcanic.sulfur-vent-with-yellow-crust": {
+        "asset": "biome-volcanic-sulfur-vent-with-yellow-crust",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "biome-coast",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "biome-coast-coral-rock-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-coral-rock-cluster.webp",
+        "width": 524,
+        "height": 519
+      },
+      {
+        "id": "biome-coast-driftwood-log",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-driftwood-log.webp",
+        "width": 524,
+        "height": 489
+      },
+      {
+        "id": "biome-coast-fishing-boat",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-fishing-boat.webp",
+        "width": 442,
+        "height": 524
+      },
+      {
+        "id": "biome-coast-lighthouse",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-lighthouse.webp",
+        "width": 305,
+        "height": 524
+      },
+      {
+        "id": "biome-coast-net-drying-rack",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-net-drying-rack.webp",
+        "width": 389,
+        "height": 524
+      },
+      {
+        "id": "biome-coast-palm-tree",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-palm-tree.webp",
+        "width": 441,
+        "height": 524
+      },
+      {
+        "id": "biome-coast-reed-clump",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-reed-clump.webp",
+        "width": 463,
+        "height": 524
+      },
+      {
+        "id": "biome-coast-rocky-sea-stack",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-rocky-sea-stack.webp",
+        "width": 524,
+        "height": 516
+      },
+      {
+        "id": "biome-coast-seashell-cluster",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-seashell-cluster.webp",
+        "width": 524,
+        "height": 497
+      },
+      {
+        "id": "biome-coast-small-fishing-hut",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-small-fishing-hut.webp",
+        "width": 524,
+        "height": 466
+      },
+      {
+        "id": "biome-coast-whale-skeleton-arch",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-whale-skeleton-arch.webp",
+        "width": 524,
+        "height": 467
+      },
+      {
+        "id": "biome-coast-wooden-pier-section",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/biome-coast/1.0.0-70f0e5f7229f/biome-coast-wooden-pier-section.webp",
+        "width": 524,
+        "height": 521
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.biome-coast.coral-rock-cluster": {
+        "asset": "biome-coast-coral-rock-cluster",
+        "fit": "contain"
+      },
+      "object.biome-coast.driftwood-log": {
+        "asset": "biome-coast-driftwood-log",
+        "fit": "contain"
+      },
+      "object.biome-coast.fishing-boat": {
+        "asset": "biome-coast-fishing-boat",
+        "fit": "contain"
+      },
+      "object.biome-coast.lighthouse": {
+        "asset": "biome-coast-lighthouse",
+        "fit": "contain"
+      },
+      "object.biome-coast.net-drying-rack": {
+        "asset": "biome-coast-net-drying-rack",
+        "fit": "contain"
+      },
+      "object.biome-coast.palm-tree": {
+        "asset": "biome-coast-palm-tree",
+        "fit": "contain"
+      },
+      "object.biome-coast.reed-clump": {
+        "asset": "biome-coast-reed-clump",
+        "fit": "contain"
+      },
+      "object.biome-coast.rocky-sea-stack": {
+        "asset": "biome-coast-rocky-sea-stack",
+        "fit": "contain"
+      },
+      "object.biome-coast.seashell-cluster": {
+        "asset": "biome-coast-seashell-cluster",
+        "fit": "contain"
+      },
+      "object.biome-coast.small-fishing-hut": {
+        "asset": "biome-coast-small-fishing-hut",
+        "fit": "contain"
+      },
+      "object.biome-coast.whale-skeleton-arch": {
+        "asset": "biome-coast-whale-skeleton-arch",
+        "fit": "contain"
+      },
+      "object.biome-coast.wooden-pier-section": {
+        "asset": "biome-coast-wooden-pier-section",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "ruins-props",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "ruins-props-an-ancient-stone-gate-ruin",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-an-ancient-stone-gate-ruin.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-barrel-group",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-barrel-group.webp",
+        "width": 524,
+        "height": 522
+      },
+      {
+        "id": "ruins-props-broken-stone-pillar",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-broken-stone-pillar.webp",
+        "width": 303,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-campfire-with-a-tent",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-campfire-with-a-tent.webp",
+        "width": 524,
+        "height": 517
+      },
+      {
+        "id": "ruins-props-ruined-wall-segment",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-ruined-wall-segment.webp",
+        "width": 524,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-signpost-with-arrows",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-signpost-with-arrows.webp",
+        "width": 449,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-stone-altar-with-glowing-runes",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-stone-altar-with-glowing-runes.webp",
+        "width": 524,
+        "height": 500
+      },
+      {
+        "id": "ruins-props-stone-well",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-stone-well.webp",
+        "width": 517,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-toppled-statue",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-toppled-statue.webp",
+        "width": 426,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-treasure-chest",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-treasure-chest.webp",
+        "width": 524,
+        "height": 506
+      },
+      {
+        "id": "ruins-props-weapon-rack",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-weapon-rack.webp",
+        "width": 303,
+        "height": 524
+      },
+      {
+        "id": "ruins-props-wooden-crate-stack",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ruins-props/1.0.0-21b0beb4996f/ruins-props-wooden-crate-stack.webp",
+        "width": 508,
+        "height": 524
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.ruins-props.an-ancient-stone-gate-ruin": {
+        "asset": "ruins-props-an-ancient-stone-gate-ruin",
+        "fit": "contain"
+      },
+      "object.ruins-props.barrel-group": {
+        "asset": "ruins-props-barrel-group",
+        "fit": "contain"
+      },
+      "object.ruins-props.broken-stone-pillar": {
+        "asset": "ruins-props-broken-stone-pillar",
+        "fit": "contain"
+      },
+      "object.ruins-props.campfire-with-a-tent": {
+        "asset": "ruins-props-campfire-with-a-tent",
+        "fit": "contain"
+      },
+      "object.ruins-props.ruined-wall-segment": {
+        "asset": "ruins-props-ruined-wall-segment",
+        "fit": "contain"
+      },
+      "object.ruins-props.signpost-with-arrows": {
+        "asset": "ruins-props-signpost-with-arrows",
+        "fit": "contain"
+      },
+      "object.ruins-props.stone-altar-with-glowing-runes": {
+        "asset": "ruins-props-stone-altar-with-glowing-runes",
+        "fit": "contain"
+      },
+      "object.ruins-props.stone-well": {
+        "asset": "ruins-props-stone-well",
+        "fit": "contain"
+      },
+      "object.ruins-props.toppled-statue": {
+        "asset": "ruins-props-toppled-statue",
+        "fit": "contain"
+      },
+      "object.ruins-props.treasure-chest": {
+        "asset": "ruins-props-treasure-chest",
+        "fit": "contain"
+      },
+      "object.ruins-props.weapon-rack": {
+        "asset": "ruins-props-weapon-rack",
+        "fit": "contain"
+      },
+      "object.ruins-props.wooden-crate-stack": {
+        "asset": "ruins-props-wooden-crate-stack",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
   }
 ]

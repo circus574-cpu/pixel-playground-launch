@@ -1,0 +1,4076 @@
+{
+  "generated": "2026-10-23",
+  "objects": [
+    {
+      "binding": "object.aether-city.arena",
+      "asset": "aether-city-arena",
+      "pixels": [524, 499],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.arena",
+      "placement": {
+        "width": 520,
+        "height": 495,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 109
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.banner",
+      "asset": "aether-city-banner",
+      "pixels": [504, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.banner",
+      "placement": {
+        "width": 130,
+        "height": 135,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.aether-city.bridge",
+      "asset": "aether-city-bridge",
+      "pixels": [480, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.bridge",
+      "placement": {
+        "width": 360,
+        "height": 393,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.aether-city.depot",
+      "asset": "aether-city-depot",
+      "pixels": [524, 482],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.depot",
+      "placement": {
+        "width": 520,
+        "height": 478,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 105
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.fountain",
+      "asset": "aether-city-fountain",
+      "pixels": [519, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.fountain",
+      "placement": {
+        "width": 130,
+        "height": 131,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.aether-city.gate",
+      "asset": "aether-city-gate",
+      "pixels": [524, 472],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.gate",
+      "placement": {
+        "width": 520,
+        "height": 468,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 103
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.hall",
+      "asset": "aether-city-hall",
+      "pixels": [524, 430],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.hall",
+      "placement": {
+        "width": 520,
+        "height": 427,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 94
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.house",
+      "asset": "aether-city-house",
+      "pixels": [505, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.house",
+      "placement": {
+        "width": 320,
+        "height": 332,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 83
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.inn",
+      "asset": "aether-city-inn",
+      "pixels": [455, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.inn",
+      "placement": {
+        "width": 520,
+        "height": 599,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 132
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.lamp",
+      "asset": "aether-city-lamp",
+      "pixels": [305, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.lamp",
+      "placement": {
+        "width": 130,
+        "height": 223,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.aether-city.market",
+      "asset": "aether-city-market",
+      "pixels": [506, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.market",
+      "placement": {
+        "width": 520,
+        "height": 538,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 118
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.smithy",
+      "asset": "aether-city-smithy",
+      "pixels": [517, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.smithy",
+      "placement": {
+        "width": 520,
+        "height": 527,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 116
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.steps",
+      "asset": "aether-city-steps",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.steps",
+      "placement": {
+        "width": 360,
+        "height": 360,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.aether-city.tower",
+      "asset": "aether-city-tower",
+      "pixels": [307, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.tower",
+      "placement": {
+        "width": 240,
+        "height": 410,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 82
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.tree",
+      "asset": "aether-city-tree",
+      "pixels": [438, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.tree",
+      "placement": {
+        "width": 240,
+        "height": 287,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 34
+        }
+      }
+    },
+    {
+      "binding": "object.aether-city.wall",
+      "asset": "aether-city-wall",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "aether-city.wall",
+      "placement": {
+        "width": 420,
+        "height": 420,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 399,
+          "height": 59
+        }
+      }
+    },
+    {
+      "binding": "object.archive",
+      "asset": "aether-art-archive",
+      "pixels": [768, 673],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "archive",
+      "placement": {
+        "uses": 3,
+        "width": 370,
+        "height": 330,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 280,
+          "height": 145
+        }
+      }
+    },
+    {
+      "binding": "object.basalt",
+      "asset": "pyra-art-basalt",
+      "pixels": [477, 640],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "basalt",
+      "placement": {
+        "uses": 4,
+        "width": 140.0,
+        "height": 140.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-coast.coral-rock-cluster",
+      "asset": "biome-coast-coral-rock-cluster",
+      "pixels": [524, 519],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.coral-rock-cluster",
+      "placement": {
+        "width": 200,
+        "height": 198,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 44
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.driftwood-log",
+      "asset": "biome-coast-driftwood-log",
+      "pixels": [524, 489],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.driftwood-log",
+      "placement": {
+        "width": 240,
+        "height": 224,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 27
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.fishing-boat",
+      "asset": "biome-coast-fishing-boat",
+      "pixels": [442, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.fishing-boat",
+      "placement": {
+        "width": 320,
+        "height": 379,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 95
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.lighthouse",
+      "asset": "biome-coast-lighthouse",
+      "pixels": [305, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.lighthouse",
+      "placement": {
+        "width": 240,
+        "height": 412,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 82
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.net-drying-rack",
+      "asset": "biome-coast-net-drying-rack",
+      "pixels": [389, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.net-drying-rack",
+      "placement": {
+        "width": 130,
+        "height": 175,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-coast.palm-tree",
+      "asset": "biome-coast-palm-tree",
+      "pixels": [441, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.palm-tree",
+      "placement": {
+        "width": 240,
+        "height": 285,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 34
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.reed-clump",
+      "asset": "biome-coast-reed-clump",
+      "pixels": [463, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.reed-clump",
+      "placement": {
+        "width": 130,
+        "height": 147,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-coast.rocky-sea-stack",
+      "asset": "biome-coast-rocky-sea-stack",
+      "pixels": [524, 516],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.rocky-sea-stack",
+      "placement": {
+        "width": 200,
+        "height": 197,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 43
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.seashell-cluster",
+      "asset": "biome-coast-seashell-cluster",
+      "pixels": [524, 497],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.seashell-cluster",
+      "placement": {
+        "width": 130,
+        "height": 123,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-coast.small-fishing-hut",
+      "asset": "biome-coast-small-fishing-hut",
+      "pixels": [524, 466],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.small-fishing-hut",
+      "placement": {
+        "width": 320,
+        "height": 285,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 71
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.whale-skeleton-arch",
+      "asset": "biome-coast-whale-skeleton-arch",
+      "pixels": [524, 467],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.whale-skeleton-arch",
+      "placement": {
+        "width": 200,
+        "height": 178,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 39
+        }
+      }
+    },
+    {
+      "binding": "object.biome-coast.wooden-pier-section",
+      "asset": "biome-coast-wooden-pier-section",
+      "pixels": [524, 521],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-coast.wooden-pier-section",
+      "placement": {
+        "width": 360,
+        "height": 358,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-desert.clay-hut",
+      "asset": "biome-desert-clay-hut",
+      "pixels": [524, 498],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.clay-hut",
+      "placement": {
+        "width": 320,
+        "height": 304,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 76
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.dry-dead-tree",
+      "asset": "biome-desert-dry-dead-tree",
+      "pixels": [449, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.dry-dead-tree",
+      "placement": {
+        "width": 240,
+        "height": 280,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 34
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.nomad-tent",
+      "asset": "biome-desert-nomad-tent",
+      "pixels": [524, 516],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.nomad-tent",
+      "placement": {
+        "width": 320,
+        "height": 315,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 79
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.rusted-metal-wreck",
+      "asset": "biome-desert-rusted-metal-wreck",
+      "pixels": [524, 502],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.rusted-metal-wreck",
+      "placement": {
+        "width": 240,
+        "height": 230,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 51
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.salt-crystal-formation",
+      "asset": "biome-desert-salt-crystal-formation",
+      "pixels": [509, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.salt-crystal-formation",
+      "placement": {
+        "width": 200,
+        "height": 206,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 45
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.sand-dune-with-a-bone",
+      "asset": "biome-desert-sand-dune-with-a-bone",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.sand-dune-with-a-bone",
+      "placement": {
+        "width": 200,
+        "height": 200,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 44
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.sandstone-arch",
+      "asset": "biome-desert-sandstone-arch",
+      "pixels": [493, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.sandstone-arch",
+      "placement": {
+        "width": 200,
+        "height": 213,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 47
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.sandstone-spires",
+      "asset": "biome-desert-sandstone-spires",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.sandstone-spires",
+      "placement": {
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 48
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.small-oasis-with-palms",
+      "asset": "biome-desert-small-oasis-with-palms",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.small-oasis-with-palms",
+      "placement": {
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 29
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.stone-obelisk",
+      "asset": "biome-desert-stone-obelisk",
+      "pixels": [221, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.stone-obelisk",
+      "placement": {
+        "width": 240,
+        "height": 569,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.biome-desert.sun-bleached-skull-and-ribs",
+      "asset": "biome-desert-sun-bleached-skull-and-ribs",
+      "pixels": [485, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.sun-bleached-skull-and-ribs",
+      "placement": {
+        "width": 130,
+        "height": 140,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-desert.tall-saguaro-cactus",
+      "asset": "biome-desert-tall-saguaro-cactus",
+      "pixels": [291, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-desert.tall-saguaro-cactus",
+      "placement": {
+        "width": 240,
+        "height": 432,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 52
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.birch-tree-with-white-bark",
+      "asset": "biome-forest-birch-tree-with-white-bark",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.birch-tree-with-white-bark",
+      "placement": {
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 29
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.campfire-with-logs",
+      "asset": "biome-forest-campfire-with-logs",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.campfire-with-logs",
+      "placement": {
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 29
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.cluster-of-mushrooms",
+      "asset": "biome-forest-cluster-of-mushrooms",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.cluster-of-mushrooms",
+      "placement": {
+        "width": 130,
+        "height": 130,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-forest.fallen-mossy-log",
+      "asset": "biome-forest-fallen-mossy-log",
+      "pixels": [524, 516],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.fallen-mossy-log",
+      "placement": {
+        "width": 240,
+        "height": 236,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 28
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.flowering-bush",
+      "asset": "biome-forest-flowering-bush",
+      "pixels": [524, 514],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.flowering-bush",
+      "placement": {
+        "width": 130,
+        "height": 128,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-forest.mossy-boulder",
+      "asset": "biome-forest-mossy-boulder",
+      "pixels": [524, 481],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.mossy-boulder",
+      "placement": {
+        "width": 200,
+        "height": 184,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 40
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.small-wooden-hunter-hut",
+      "asset": "biome-forest-small-wooden-hunter-hut",
+      "pixels": [524, 503],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.small-wooden-hunter-hut",
+      "placement": {
+        "width": 320,
+        "height": 307,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 77
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.tall-broadleaf-oak-tree",
+      "asset": "biome-forest-tall-broadleaf-oak-tree",
+      "pixels": [487, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.tall-broadleaf-oak-tree",
+      "placement": {
+        "width": 240,
+        "height": 258,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 31
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.tall-fern-cluster",
+      "asset": "biome-forest-tall-fern-cluster",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.tall-fern-cluster",
+      "placement": {
+        "width": 130,
+        "height": 130,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-forest.tall-pine-tree",
+      "asset": "biome-forest-tall-pine-tree",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.tall-pine-tree",
+      "placement": {
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 29
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.tree-stump-with-an-axe",
+      "asset": "biome-forest-tree-stump-with-an-axe",
+      "pixels": [524, 496],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.tree-stump-with-an-axe",
+      "placement": {
+        "width": 240,
+        "height": 227,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 27
+        }
+      }
+    },
+    {
+      "binding": "object.biome-forest.wooden-signpost",
+      "asset": "biome-forest-wooden-signpost",
+      "pixels": [462, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-forest.wooden-signpost",
+      "placement": {
+        "width": 130,
+        "height": 147,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-snow.an-ice-crystal-cluster",
+      "asset": "biome-snow-an-ice-crystal-cluster",
+      "pixels": [519, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.an-ice-crystal-cluster",
+      "placement": {
+        "width": 200,
+        "height": 202,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 44
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.an-igloo-style-stone-hut",
+      "asset": "biome-snow-an-igloo-style-stone-hut",
+      "pixels": [524, 506],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.an-igloo-style-stone-hut",
+      "placement": {
+        "width": 320,
+        "height": 309,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 77
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.frozen-dead-tree",
+      "asset": "biome-snow-frozen-dead-tree",
+      "pixels": [444, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.frozen-dead-tree",
+      "placement": {
+        "width": 240,
+        "height": 283,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 34
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.frozen-waterfall-cliff",
+      "asset": "biome-snow-frozen-waterfall-cliff",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.frozen-waterfall-cliff",
+      "placement": {
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 53
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.glacier-ice-block",
+      "asset": "biome-snow-glacier-ice-block",
+      "pixels": [524, 510],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.glacier-ice-block",
+      "placement": {
+        "width": 240,
+        "height": 234,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 51
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.snow-covered-pine-tree",
+      "asset": "biome-snow-snow-covered-pine-tree",
+      "pixels": [407, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.snow-covered-pine-tree",
+      "placement": {
+        "width": 240,
+        "height": 309,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 37
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.snow-mound-with-a-lantern",
+      "asset": "biome-snow-snow-mound-with-a-lantern",
+      "pixels": [495, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.snow-mound-with-a-lantern",
+      "placement": {
+        "width": 240,
+        "height": 254,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 56
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.snowy-boulder",
+      "asset": "biome-snow-snowy-boulder",
+      "pixels": [524, 517],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.snowy-boulder",
+      "placement": {
+        "width": 200,
+        "height": 197,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 43
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.snowy-cabin",
+      "asset": "biome-snow-snowy-cabin",
+      "pixels": [476, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.snowy-cabin",
+      "placement": {
+        "width": 320,
+        "height": 352,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 88
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.snowy-mountain-peak",
+      "asset": "biome-snow-snowy-mountain-peak",
+      "pixels": [524, 514],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.snowy-mountain-peak",
+      "placement": {
+        "width": 240,
+        "height": 235,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 52
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.tall-ice-spire-cluster",
+      "asset": "biome-snow-tall-ice-spire-cluster",
+      "pixels": [258, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.tall-ice-spire-cluster",
+      "placement": {
+        "width": 240,
+        "height": 487,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 97
+        }
+      }
+    },
+    {
+      "binding": "object.biome-snow.wooden-sled",
+      "asset": "biome-snow-wooden-sled",
+      "pixels": [524, 486],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-snow.wooden-sled",
+      "placement": {
+        "width": 240,
+        "height": 223,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 49
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.an-obsidian-shard-formation",
+      "asset": "biome-volcanic-an-obsidian-shard-formation",
+      "pixels": [408, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.an-obsidian-shard-formation",
+      "placement": {
+        "width": 240,
+        "height": 308,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 68
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.basalt-column-cluster",
+      "asset": "biome-volcanic-basalt-column-cluster",
+      "pixels": [258, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.basalt-column-cluster",
+      "placement": {
+        "width": 240,
+        "height": 487,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 107
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.bone-pile",
+      "asset": "biome-volcanic-bone-pile",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.bone-pile",
+      "placement": {
+        "width": 130,
+        "height": 130,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.dark-rock-bridge",
+      "asset": "biome-volcanic-dark-rock-bridge",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.dark-rock-bridge",
+      "placement": {
+        "width": 200,
+        "height": 200,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 44
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.dead-charred-tree",
+      "asset": "biome-volcanic-dead-charred-tree",
+      "pixels": [441, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.dead-charred-tree",
+      "placement": {
+        "width": 240,
+        "height": 285,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 34
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.lava-geyser-vent",
+      "asset": "biome-volcanic-lava-geyser-vent",
+      "pixels": [475, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.lava-geyser-vent",
+      "placement": {
+        "width": 200,
+        "height": 221,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 49
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.lava-rock-cluster-with-glowing-cracks",
+      "asset": "biome-volcanic-lava-rock-cluster-with-glowing-cracks",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.lava-rock-cluster-with-glowing-cracks",
+      "placement": {
+        "width": 200,
+        "height": 200,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 44
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.magma-pool-rim",
+      "asset": "biome-volcanic-magma-pool-rim",
+      "pixels": [524, 494],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.magma-pool-rim",
+      "placement": {
+        "width": 240,
+        "height": 226,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 50
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.ruined-dark-stone-pillar",
+      "asset": "biome-volcanic-ruined-dark-stone-pillar",
+      "pixels": [250, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.ruined-dark-stone-pillar",
+      "placement": {
+        "width": 240,
+        "height": 503,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 101
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.smoking-volcano",
+      "asset": "biome-volcanic-smoking-volcano",
+      "pixels": [519, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.smoking-volcano",
+      "placement": {
+        "width": 240,
+        "height": 242,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 48
+        }
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.stone-brazier-with-fire",
+      "asset": "biome-volcanic-stone-brazier-with-fire",
+      "pixels": [486, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.stone-brazier-with-fire",
+      "placement": {
+        "width": 130,
+        "height": 140,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.biome-volcanic.sulfur-vent-with-yellow-crust",
+      "asset": "biome-volcanic-sulfur-vent-with-yellow-crust",
+      "pixels": [524, 486],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "biome-volcanic.sulfur-vent-with-yellow-crust",
+      "placement": {
+        "width": 200,
+        "height": 185,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 41
+        }
+      }
+    },
+    {
+      "binding": "object.cherry-tree",
+      "asset": "aether-x-cherry-tree",
+      "pixels": [640, 628],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "cherry-tree",
+      "placement": {
+        "uses": 10,
+        "width": 300.0,
+        "height": 294.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 60.0,
+          "height": 46.0
+        }
+      }
+    },
+    {
+      "binding": "object.city.anvil",
+      "asset": "city-props",
+      "pixels": [1536, 256],
+      "frame": 1,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "city.anvil",
+      "placement": null
+    },
+    {
+      "binding": "object.city.bed",
+      "asset": "city-props",
+      "pixels": [1536, 256],
+      "frame": 4,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "city.bed",
+      "placement": null
+    },
+    {
+      "binding": "object.city.chest",
+      "asset": "city-props",
+      "pixels": [1536, 256],
+      "frame": 0,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "city.chest",
+      "placement": null
+    },
+    {
+      "binding": "object.city.desk",
+      "asset": "city-props",
+      "pixels": [1536, 256],
+      "frame": 5,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "city.desk",
+      "placement": null
+    },
+    {
+      "binding": "object.city.dummy",
+      "asset": "city-props",
+      "pixels": [1536, 256],
+      "frame": 2,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "city.dummy",
+      "placement": null
+    },
+    {
+      "binding": "object.city.shelf",
+      "asset": "city-props",
+      "pixels": [1536, 256],
+      "frame": 3,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "city.shelf",
+      "placement": null
+    },
+    {
+      "binding": "object.clan-banner",
+      "asset": "pyra-art-clan-banner",
+      "pixels": [144, 384],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "clan-banner",
+      "placement": {
+        "uses": 18,
+        "width": 110.0,
+        "height": 180.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.cloud-peak",
+      "asset": "aether-art-cloud-peak",
+      "pixels": [768, 506],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "cloud-peak",
+      "placement": {
+        "uses": 7,
+        "width": 420,
+        "height": 270,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.crystal",
+      "asset": "nexus-art-crystal",
+      "pixels": [397, 640],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "crystal",
+      "placement": {
+        "uses": 1,
+        "width": 210,
+        "height": 270,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 100,
+          "height": 75
+        }
+      }
+    },
+    {
+      "binding": "object.forest.bridge",
+      "asset": "verdant-art-bridge",
+      "pixels": [768, 167],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.bridge",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.cottage",
+      "asset": "verdant-art-cottage",
+      "pixels": [512, 476],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.cottage",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.fence",
+      "asset": "verdant-art-fence",
+      "pixels": [384, 110],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.fence",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.forge",
+      "asset": "verdant-art-forge",
+      "pixels": [512, 488],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.forge",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.fountain",
+      "asset": "verdant-art-fountain",
+      "pixels": [367, 384],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.fountain",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.inn",
+      "asset": "verdant-art-inn",
+      "pixels": [512, 420],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.inn",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.lamp",
+      "asset": "verdant-art-lamp",
+      "pixels": [60, 256],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.lamp",
+      "placement": null
+    },
+    {
+      "binding": "object.forest.market",
+      "asset": "verdant-art-market",
+      "pixels": [384, 372],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "forest.market",
+      "placement": null
+    },
+    {
+      "binding": "object.fortress",
+      "asset": "pyra-art-fortress",
+      "pixels": [1024, 707],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "fortress",
+      "placement": {
+        "uses": 1,
+        "width": 570,
+        "height": 390,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 470,
+          "height": 160
+        }
+      }
+    },
+    {
+      "binding": "object.garden",
+      "asset": "aether-art-garden",
+      "pixels": [384, 265],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "garden",
+      "placement": {
+        "uses": 26,
+        "width": 170.0,
+        "height": 120.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.ki-source",
+      "asset": "aether-art-ki-source",
+      "pixels": [512, 486],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ki-source",
+      "placement": {
+        "uses": 1,
+        "width": 170,
+        "height": 160,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 105,
+          "height": 55
+        }
+      }
+    },
+    {
+      "binding": "object.ki-tree",
+      "asset": "aether-art-ki-tree",
+      "pixels": [562, 640],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ki-tree",
+      "placement": {
+        "uses": 7,
+        "width": 290,
+        "height": 330,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 75,
+          "height": 60
+        }
+      }
+    },
+    {
+      "binding": "object.koi-pond",
+      "asset": "aether-x-koi-pond",
+      "pixels": [768, 501],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "koi-pond",
+      "placement": {
+        "uses": 2,
+        "width": 380.0,
+        "height": 248.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 300.0,
+          "height": 110.0
+        }
+      }
+    },
+    {
+      "binding": "object.lab",
+      "asset": "nexus-art-lab",
+      "pixels": [896, 859],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "lab",
+      "placement": {
+        "uses": 6,
+        "width": 430.0,
+        "height": 340.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 320.0,
+          "height": 145.0
+        }
+      }
+    },
+    {
+      "binding": "object.nature.broadleaf-tree",
+      "asset": "nature-obj-broadleaf-tree",
+      "pixels": [507, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.broadleaf-tree",
+      "placement": null
+    },
+    {
+      "binding": "object.nature.crystal-tree",
+      "asset": "nature-obj-crystal-tree",
+      "pixels": [408, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.crystal-tree",
+      "placement": {
+        "uses": 9,
+        "width": 210,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": {
+          "width": 120.0,
+          "height": 43.0
+        }
+      }
+    },
+    {
+      "binding": "object.nature.flower-bush",
+      "asset": "nature-obj-flower-bush",
+      "pixels": [512, 452],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.flower-bush",
+      "placement": {
+        "uses": 5,
+        "width": 150,
+        "height": 150,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.grassy-hill",
+      "asset": "nature-obj-grassy-hill",
+      "pixels": [512, 495],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.grassy-hill",
+      "placement": {
+        "uses": 3,
+        "width": 330,
+        "height": 330,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.iceberg",
+      "asset": "nature-obj-iceberg",
+      "pixels": [419, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.iceberg",
+      "placement": null
+    },
+    {
+      "binding": "object.nature.mountain-peak",
+      "asset": "nature-obj-mountain-peak",
+      "pixels": [511, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.mountain-peak",
+      "placement": {
+        "uses": 9,
+        "width": 430,
+        "height": 430,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 215,
+          "height": 77
+        }
+      }
+    },
+    {
+      "binding": "object.nature.patch-basalt-columns",
+      "asset": "nature-obj-basalt-columns",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-basalt-columns",
+      "placement": {
+        "uses": 12,
+        "width": 260.0,
+        "height": 260.0,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-boulder-group",
+      "asset": "nature-obj-boulder-group",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-boulder-group",
+      "placement": {
+        "uses": 19,
+        "width": 230,
+        "height": 230,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-cliff-outcrop",
+      "asset": "nature-obj-cliff-outcrop",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-cliff-outcrop",
+      "placement": {
+        "uses": 13,
+        "width": 300,
+        "height": 300,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-glacier-block",
+      "asset": "nature-obj-glacier-block",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-glacier-block",
+      "placement": {
+        "uses": 9,
+        "width": 300,
+        "height": 300,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-ice-spires",
+      "asset": "nature-obj-ice-spires",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-ice-spires",
+      "placement": {
+        "uses": 10,
+        "width": 260.0,
+        "height": 260.0,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-lava-rocks",
+      "asset": "nature-obj-lava-rocks",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-lava-rocks",
+      "placement": {
+        "uses": 15,
+        "width": 240,
+        "height": 240,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-sea-stacks",
+      "asset": "nature-obj-sea-stacks",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-sea-stacks",
+      "placement": {
+        "uses": 4,
+        "width": 300.0,
+        "height": 300.0,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-small-island",
+      "asset": "nature-obj-small-island",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-small-island",
+      "placement": {
+        "uses": 3,
+        "width": 280,
+        "height": 280,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.patch-volcano-active",
+      "asset": "nature-obj-volcano-active",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-volcano-active",
+      "placement": {
+        "uses": 3,
+        "width": 440,
+        "height": 440,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": true,
+        "footprint": {
+          "width": 220.0,
+          "height": 79.0
+        }
+      }
+    },
+    {
+      "binding": "object.nature.patch-volcano-dormant",
+      "asset": "nature-obj-volcano-dormant",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-volcano-dormant",
+      "placement": {
+        "uses": 3,
+        "width": 440,
+        "height": 440,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": true,
+        "footprint": {
+          "width": 220.0,
+          "height": 79.0
+        }
+      }
+    },
+    {
+      "binding": "object.nature.patch-waterfall",
+      "asset": "nature-obj-waterfall",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.patch-waterfall",
+      "placement": {
+        "uses": 4,
+        "width": 320.0,
+        "height": 320.0,
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nature.pine-tree",
+      "asset": "nature-obj-pine-tree",
+      "pixels": [345, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.pine-tree",
+      "placement": {
+        "uses": 4,
+        "width": 230.0,
+        "height": 230.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 115.0,
+          "height": 41.0
+        }
+      }
+    },
+    {
+      "binding": "object.nature.reed-clump",
+      "asset": "nature-obj-reed-clump",
+      "pixels": [463, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nature.reed-clump",
+      "placement": {
+        "uses": 7,
+        "width": 150,
+        "height": 150,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nexus-city.arena",
+      "asset": "nexus-city-arena",
+      "pixels": [463, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.arena",
+      "placement": {
+        "width": 520,
+        "height": 589,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 130
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.banner",
+      "asset": "nexus-city-banner",
+      "pixels": [209, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.banner",
+      "placement": {
+        "width": 130,
+        "height": 326,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nexus-city.bridge",
+      "asset": "nexus-city-bridge",
+      "pixels": [454, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.bridge",
+      "placement": {
+        "width": 360,
+        "height": 416,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nexus-city.depot",
+      "asset": "nexus-city-depot",
+      "pixels": [445, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.depot",
+      "placement": {
+        "width": 520,
+        "height": 612,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 135
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.fountain",
+      "asset": "nexus-city-fountain",
+      "pixels": [423, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.fountain",
+      "placement": {
+        "width": 130,
+        "height": 161,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nexus-city.gate",
+      "asset": "nexus-city-gate",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.gate",
+      "placement": {
+        "width": 520,
+        "height": 520,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.hall",
+      "asset": "nexus-city-hall",
+      "pixels": [464, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.hall",
+      "placement": {
+        "width": 520,
+        "height": 587,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 129
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.house",
+      "asset": "nexus-city-house",
+      "pixels": [442, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.house",
+      "placement": {
+        "width": 320,
+        "height": 379,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 95
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.inn",
+      "asset": "nexus-city-inn",
+      "pixels": [441, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.inn",
+      "placement": {
+        "width": 520,
+        "height": 618,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 136
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.lamp",
+      "asset": "nexus-city-lamp",
+      "pixels": [169, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.lamp",
+      "placement": {
+        "width": 130,
+        "height": 403,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nexus-city.market",
+      "asset": "nexus-city-market",
+      "pixels": [455, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.market",
+      "placement": {
+        "width": 520,
+        "height": 599,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 132
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.smithy",
+      "asset": "nexus-city-smithy",
+      "pixels": [495, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.smithy",
+      "placement": {
+        "width": 520,
+        "height": 550,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 121
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.steps",
+      "asset": "nexus-city-steps",
+      "pixels": [255, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.steps",
+      "placement": {
+        "width": 360,
+        "height": 740,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.nexus-city.tower",
+      "asset": "nexus-city-tower",
+      "pixels": [257, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.tower",
+      "placement": {
+        "width": 240,
+        "height": 489,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 98
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.tree",
+      "asset": "nexus-city-tree",
+      "pixels": [415, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.tree",
+      "placement": {
+        "width": 240,
+        "height": 303,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 36
+        }
+      }
+    },
+    {
+      "binding": "object.nexus-city.wall",
+      "asset": "nexus-city-wall",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "nexus-city.wall",
+      "placement": {
+        "width": 420,
+        "height": 420,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 399,
+          "height": 59
+        }
+      }
+    },
+    {
+      "binding": "object.pagoda",
+      "asset": "aether-x-pagoda",
+      "pixels": [638, 768],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pagoda",
+      "placement": {
+        "uses": 2,
+        "width": 380.0,
+        "height": 457.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 250.0,
+          "height": 110.0
+        }
+      }
+    },
+    {
+      "binding": "object.pylon",
+      "asset": "nexus-art-pylon",
+      "pixels": [115, 384],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pylon",
+      "placement": {
+        "uses": 18,
+        "width": 100.0,
+        "height": 170.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.arena-dojo",
+      "asset": "pyra-city-arena-dojo",
+      "pixels": [524, 503],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.arena-dojo",
+      "placement": {
+        "width": 520,
+        "height": 499,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 110
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.banner-pole",
+      "asset": "pyra-city-banner-pole",
+      "pixels": [306, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.banner-pole",
+      "placement": {
+        "width": 130,
+        "height": 223,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.bridge-stone",
+      "asset": "pyra-city-bridge-stone",
+      "pixels": [486, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.bridge-stone",
+      "placement": {
+        "width": 360,
+        "height": 388,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.depot-warehouse",
+      "asset": "pyra-city-depot-warehouse",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.depot-warehouse",
+      "placement": {
+        "width": 520,
+        "height": 520,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.fountain-fire",
+      "asset": "pyra-city-fountain-fire",
+      "pixels": [524, 495],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.fountain-fire",
+      "placement": {
+        "width": 130,
+        "height": 123,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.gate-fortress",
+      "asset": "pyra-city-gate-fortress",
+      "pixels": [460, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.gate-fortress",
+      "placement": {
+        "width": 520,
+        "height": 592,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 130
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.hall-council",
+      "asset": "pyra-city-hall-council",
+      "pixels": [500, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.hall-council",
+      "placement": {
+        "width": 520,
+        "height": 545,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 120
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.house-small",
+      "asset": "pyra-city-house-small",
+      "pixels": [524, 517],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.house-small",
+      "placement": {
+        "width": 320,
+        "height": 316,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 79
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.inn-tavern",
+      "asset": "pyra-city-inn-tavern",
+      "pixels": [465, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.inn-tavern",
+      "placement": {
+        "width": 520,
+        "height": 586,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 129
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.lantern-stone",
+      "asset": "pyra-city-lantern-stone",
+      "pixels": [352, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.lantern-stone",
+      "placement": {
+        "width": 240,
+        "height": 357,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 79
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.market-stall",
+      "asset": "pyra-city-market-stall",
+      "pixels": [499, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.market-stall",
+      "placement": {
+        "width": 520,
+        "height": 546,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 120
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.rocks-cluster",
+      "asset": "pyra-city-rocks-cluster",
+      "pixels": [494, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.rocks-cluster",
+      "placement": {
+        "width": 200,
+        "height": 212,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 47
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.smithy-forge",
+      "asset": "pyra-city-smithy-forge",
+      "pixels": [497, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.smithy-forge",
+      "placement": {
+        "width": 520,
+        "height": 548,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 121
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.steps-stone",
+      "asset": "pyra-city-steps-stone",
+      "pixels": [519, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.steps-stone",
+      "placement": {
+        "width": 360,
+        "height": 363,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.tower-watch",
+      "asset": "pyra-city-tower-watch",
+      "pixels": [308, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.tower-watch",
+      "placement": {
+        "width": 240,
+        "height": 408,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 82
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.tree-maple-red",
+      "asset": "pyra-city-tree-maple-red",
+      "pixels": [524, 505],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.tree-maple-red",
+      "placement": {
+        "width": 240,
+        "height": 231,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 28
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.tree-pine-dark",
+      "asset": "pyra-city-tree-pine-dark",
+      "pixels": [524, 521],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.tree-pine-dark",
+      "placement": {
+        "width": 240,
+        "height": 239,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 29
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.wall-segment",
+      "asset": "pyra-city-wall-segment",
+      "pixels": [464, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.wall-segment",
+      "placement": {
+        "width": 420,
+        "height": 474,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 399,
+          "height": 66
+        }
+      }
+    },
+    {
+      "binding": "object.reactor",
+      "asset": "nexus-art-reactor",
+      "pixels": [757, 768],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "reactor",
+      "placement": {
+        "uses": 1,
+        "width": 340,
+        "height": 350,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 245,
+          "height": 125
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.an-ancient-stone-gate-ruin",
+      "asset": "ruins-props-an-ancient-stone-gate-ruin",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.an-ancient-stone-gate-ruin",
+      "placement": {
+        "width": 520,
+        "height": 520,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.barrel-group",
+      "asset": "ruins-props-barrel-group",
+      "pixels": [524, 522],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.barrel-group",
+      "placement": {
+        "width": 130,
+        "height": 130,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.ruins-props.broken-stone-pillar",
+      "asset": "ruins-props-broken-stone-pillar",
+      "pixels": [303, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.broken-stone-pillar",
+      "placement": {
+        "width": 240,
+        "height": 415,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 83
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.campfire-with-a-tent",
+      "asset": "ruins-props-campfire-with-a-tent",
+      "pixels": [524, 517],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.campfire-with-a-tent",
+      "placement": {
+        "width": 320,
+        "height": 316,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 79
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.ruined-wall-segment",
+      "asset": "ruins-props-ruined-wall-segment",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.ruined-wall-segment",
+      "placement": {
+        "width": 420,
+        "height": 420,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 399,
+          "height": 59
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.signpost-with-arrows",
+      "asset": "ruins-props-signpost-with-arrows",
+      "pixels": [449, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.signpost-with-arrows",
+      "placement": {
+        "width": 130,
+        "height": 152,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.ruins-props.stone-altar-with-glowing-runes",
+      "asset": "ruins-props-stone-altar-with-glowing-runes",
+      "pixels": [524, 500],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.stone-altar-with-glowing-runes",
+      "placement": {
+        "width": 200,
+        "height": 191,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 42
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.stone-well",
+      "asset": "ruins-props-stone-well",
+      "pixels": [517, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.stone-well",
+      "placement": {
+        "width": 200,
+        "height": 203,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 45
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.toppled-statue",
+      "asset": "ruins-props-toppled-statue",
+      "pixels": [426, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.toppled-statue",
+      "placement": {
+        "width": 200,
+        "height": 246,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 54
+        }
+      }
+    },
+    {
+      "binding": "object.ruins-props.treasure-chest",
+      "asset": "ruins-props-treasure-chest",
+      "pixels": [524, 506],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.treasure-chest",
+      "placement": {
+        "width": 130,
+        "height": 126,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.ruins-props.weapon-rack",
+      "asset": "ruins-props-weapon-rack",
+      "pixels": [303, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.weapon-rack",
+      "placement": {
+        "width": 130,
+        "height": 225,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.ruins-props.wooden-crate-stack",
+      "asset": "ruins-props-wooden-crate-stack",
+      "pixels": [508, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "ruins-props.wooden-crate-stack",
+      "placement": {
+        "width": 200,
+        "height": 206,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 45
+        }
+      }
+    },
+    {
+      "binding": "object.sanctum",
+      "asset": "aether-art-sanctum",
+      "pixels": [1024, 862],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "sanctum",
+      "placement": {
+        "uses": 1,
+        "width": 470,
+        "height": 390,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 370,
+          "height": 150
+        }
+      }
+    },
+    {
+      "binding": "object.spirit-gate",
+      "asset": "aether-x-spirit-gate",
+      "pixels": [546, 640],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "spirit-gate",
+      "placement": {
+        "uses": 3,
+        "width": 260,
+        "height": 306,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.statue",
+      "asset": "pyra-art-statue",
+      "pixels": [279, 512],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "statue",
+      "placement": {
+        "uses": 2,
+        "width": 160.0,
+        "height": 240.0,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 80.0,
+          "height": 65.0
+        }
+      }
+    },
+    {
+      "binding": "object.stone-lantern",
+      "asset": "aether-x-stone-lantern",
+      "pixels": [177, 384],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "stone-lantern",
+      "placement": {
+        "uses": 21,
+        "width": 70,
+        "height": 152,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 30,
+          "height": 22
+        }
+      }
+    },
+    {
+      "binding": "object.tech-garden",
+      "asset": "nexus-art-tech-garden",
+      "pixels": [512, 452],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "tech-garden",
+      "placement": {
+        "uses": 5,
+        "width": 190,
+        "height": 160,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.terminal",
+      "asset": "nexus-art-terminal",
+      "pixels": [150, 384],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "terminal",
+      "placement": {
+        "uses": 1,
+        "width": 140,
+        "height": 180,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 75,
+          "height": 65
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.arena",
+      "asset": "verdant-city-arena",
+      "pixels": [524, 520],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.arena",
+      "placement": {
+        "width": 520,
+        "height": 516,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.banner",
+      "asset": "verdant-city-banner",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.banner",
+      "placement": {
+        "width": 130,
+        "height": 130,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.verdant-city.bridge",
+      "asset": "verdant-city-bridge",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.bridge",
+      "placement": {
+        "width": 360,
+        "height": 360,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.verdant-city.depot",
+      "asset": "verdant-city-depot",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.depot",
+      "placement": {
+        "width": 520,
+        "height": 520,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.fountain",
+      "asset": "verdant-city-fountain",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.fountain",
+      "placement": {
+        "width": 130,
+        "height": 130,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.verdant-city.gate",
+      "asset": "verdant-city-gate",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.gate",
+      "placement": {
+        "width": 520,
+        "height": 520,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.hall",
+      "asset": "verdant-city-hall",
+      "pixels": [505, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.hall",
+      "placement": {
+        "width": 520,
+        "height": 540,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 119
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.house",
+      "asset": "verdant-city-house",
+      "pixels": [475, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.house",
+      "placement": {
+        "width": 320,
+        "height": 353,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 88
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.inn",
+      "asset": "verdant-city-inn",
+      "pixels": [436, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.inn",
+      "placement": {
+        "width": 520,
+        "height": 625,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 138
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.lamp",
+      "asset": "verdant-city-lamp",
+      "pixels": [169, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.lamp",
+      "placement": {
+        "width": 130,
+        "height": 403,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.verdant-city.market",
+      "asset": "verdant-city-market",
+      "pixels": [478, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.market",
+      "placement": {
+        "width": 520,
+        "height": 570,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 125
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.smithy",
+      "asset": "verdant-city-smithy",
+      "pixels": [493, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.smithy",
+      "placement": {
+        "width": 520,
+        "height": 553,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 122
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.steps",
+      "asset": "verdant-city-steps",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.steps",
+      "placement": {
+        "width": 360,
+        "height": 360,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.verdant-city.tower",
+      "asset": "verdant-city-tower",
+      "pixels": [385, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.tower",
+      "placement": {
+        "width": 240,
+        "height": 327,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 65
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.tree",
+      "asset": "verdant-city-tree",
+      "pixels": [431, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.tree",
+      "placement": {
+        "width": 240,
+        "height": 292,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 35
+        }
+      }
+    },
+    {
+      "binding": "object.verdant-city.wall",
+      "asset": "verdant-city-wall",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "verdant-city.wall",
+      "placement": {
+        "width": 420,
+        "height": 420,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 399,
+          "height": 59
+        }
+      }
+    },
+    {
+      "binding": "object.volcano",
+      "asset": "pyra-art-volcano",
+      "pixels": [768, 742],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "volcano",
+      "placement": null
+    },
+    {
+      "binding": "object.war-shrine",
+      "asset": "pyra-art-war-shrine",
+      "pixels": [760, 768],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "war-shrine",
+      "placement": {
+        "uses": 5,
+        "width": 340,
+        "height": 340,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 260,
+          "height": 135
+        }
+      }
+    }
+  ],
+  "terrains": [
+    {
+      "binding": "terrain.aether-ground",
+      "asset": "aether-terrain-v2-ground",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [320, 320]
+    },
+    {
+      "binding": "terrain.aether-path",
+      "asset": "aether-terrain-v2-path",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [208, 208]
+    },
+    {
+      "binding": "terrain.aether-plaza",
+      "asset": "aether-terrain-v2-plaza",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [288, 288]
+    },
+    {
+      "binding": "terrain.aether-wall",
+      "asset": "aether-terrain-v2-wall",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.city-floor",
+      "asset": "city-floor",
+      "pixels": [256, 256],
+      "frame": null,
+      "fit": "contain",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.city-stone",
+      "asset": "city-stone",
+      "pixels": [256, 256],
+      "frame": null,
+      "fit": "contain",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-ash-ground",
+      "asset": "nature-tex-ash-ground",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-basalt-columns",
+      "asset": "nature-tex-basalt-columns",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-cliff-rock",
+      "asset": "nature-tex-cliff-rock",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-energy-liquid",
+      "asset": "nature-tex-energy-liquid",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-forest-floor",
+      "asset": "nature-tex-forest-floor",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-ice-glacier",
+      "asset": "nature-tex-ice-glacier",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-lava-crust",
+      "asset": "nature-tex-lava-crust",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-lava-flow",
+      "asset": "nature-tex-lava-flow",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-meadow-grass",
+      "asset": "nature-tex-meadow-grass",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-sand-beach",
+      "asset": "nature-tex-sand-beach",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-snow",
+      "asset": "nature-tex-snow",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-water-crystal",
+      "asset": "nature-tex-water-crystal",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-water-lake-calm",
+      "asset": "nature-tex-water-lake-calm",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-water-ocean-deep",
+      "asset": "nature-tex-water-ocean-deep",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-water-ocean-shallow",
+      "asset": "nature-tex-water-ocean-shallow",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nature-water-river",
+      "asset": "nature-tex-water-river",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.nexus-ground",
+      "asset": "nexus-terrain-v2-ground",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [320, 320]
+    },
+    {
+      "binding": "terrain.nexus-path",
+      "asset": "nexus-terrain-v2-path",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [208, 208]
+    },
+    {
+      "binding": "terrain.nexus-plaza",
+      "asset": "nexus-terrain-v2-plaza",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [288, 288]
+    },
+    {
+      "binding": "terrain.nexus-wall",
+      "asset": "nexus-terrain-v2-wall",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.pyra-ground",
+      "asset": "pyra-terrain-v2-ground",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [320, 320]
+    },
+    {
+      "binding": "terrain.pyra-path",
+      "asset": "pyra-terrain-v2-path",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [208, 208]
+    },
+    {
+      "binding": "terrain.pyra-plaza",
+      "asset": "pyra-terrain-v2-plaza",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [288, 288]
+    },
+    {
+      "binding": "terrain.pyra-wall",
+      "asset": "pyra-terrain-v2-wall",
+      "pixels": [512, 512],
+      "frame": null,
+      "fit": "stretch",
+      "layer": null,
+      "tileSize": [256, 256]
+    },
+    {
+      "binding": "terrain.verdant",
+      "asset": "verdant-art-terrain",
+      "pixels": [1904, 1904],
+      "frame": null,
+      "fit": "contain",
+      "layer": null,
+      "tileSize": null
+    }
+  ],
+  "pending": [
+    {
+      "set": "batch-1",
+      "status": "installed 2026-10-23 on top of feature/cpu-worldgen-20261023: pyra-city (18), aether-city, nexus-city, verdant-city (16 each), biome-forest/snow/desert/volcanic/coast and ruins-props (12 each). Variant picked automatically (first seed); weak parts are replaceable by pack version bump."
+    }
+  ]
+}

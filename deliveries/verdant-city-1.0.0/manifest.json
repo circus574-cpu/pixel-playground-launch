@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "id": "verdant-city",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "verdant-city-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-arena.webp",
+      "width": 524,
+      "height": 520
+    },
+    {
+      "id": "verdant-city-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-banner.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-bridge.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-depot.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-fountain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-fountain.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-gate",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-gate.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-hall.webp",
+      "width": 505,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-house.webp",
+      "width": 475,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-inn.webp",
+      "width": 436,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-lamp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-lamp.webp",
+      "width": 169,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-market.webp",
+      "width": 478,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-smithy.webp",
+      "width": 493,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-steps",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-steps.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-tower",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-tower.webp",
+      "width": 385,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-tree.webp",
+      "width": 431,
+      "height": 524
+    },
+    {
+      "id": "verdant-city-wall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "verdant-city-wall.webp",
+      "width": 524,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.verdant-city.arena": {
+      "asset": "verdant-city-arena",
+      "fit": "contain"
+    },
+    "object.verdant-city.banner": {
+      "asset": "verdant-city-banner",
+      "fit": "contain"
+    },
+    "object.verdant-city.bridge": {
+      "asset": "verdant-city-bridge",
+      "fit": "contain"
+    },
+    "object.verdant-city.depot": {
+      "asset": "verdant-city-depot",
+      "fit": "contain"
+    },
+    "object.verdant-city.fountain": {
+      "asset": "verdant-city-fountain",
+      "fit": "contain"
+    },
+    "object.verdant-city.gate": {
+      "asset": "verdant-city-gate",
+      "fit": "contain"
+    },
+    "object.verdant-city.hall": {
+      "asset": "verdant-city-hall",
+      "fit": "contain"
+    },
+    "object.verdant-city.house": {
+      "asset": "verdant-city-house",
+      "fit": "contain"
+    },
+    "object.verdant-city.inn": {
+      "asset": "verdant-city-inn",
+      "fit": "contain"
+    },
+    "object.verdant-city.lamp": {
+      "asset": "verdant-city-lamp",
+      "fit": "contain"
+    },
+    "object.verdant-city.market": {
+      "asset": "verdant-city-market",
+      "fit": "contain"
+    },
+    "object.verdant-city.smithy": {
+      "asset": "verdant-city-smithy",
+      "fit": "contain"
+    },
+    "object.verdant-city.steps": {
+      "asset": "verdant-city-steps",
+      "fit": "contain"
+    },
+    "object.verdant-city.tower": {
+      "asset": "verdant-city-tower",
+      "fit": "contain"
+    },
+    "object.verdant-city.tree": {
+      "asset": "verdant-city-tree",
+      "fit": "contain"
+    },
+    "object.verdant-city.wall": {
+      "asset": "verdant-city-wall",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}
