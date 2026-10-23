@@ -20,8 +20,14 @@
       {
         "id": "technical-mannequin",
         "profile": "hero",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -29,14 +35,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/idle/down/00", "technical/idle/down/01"],
-              "down-left": ["technical/idle/down-left/00", "technical/idle/down-left/01"],
-              "left": ["technical/idle/left/00", "technical/idle/left/01"],
-              "up-left": ["technical/idle/up-left/00", "technical/idle/up-left/01"],
-              "up": ["technical/idle/up/00", "technical/idle/up/01"],
-              "up-right": ["technical/idle/up-right/00", "technical/idle/up-right/01"],
-              "right": ["technical/idle/right/00", "technical/idle/right/01"],
-              "down-right": ["technical/idle/down-right/00", "technical/idle/down-right/01"]
+              "down": [
+                "technical/idle/down/00",
+                "technical/idle/down/01"
+              ],
+              "down-left": [
+                "technical/idle/down-left/00",
+                "technical/idle/down-left/01"
+              ],
+              "left": [
+                "technical/idle/left/00",
+                "technical/idle/left/01"
+              ],
+              "up-left": [
+                "technical/idle/up-left/00",
+                "technical/idle/up-left/01"
+              ],
+              "up": [
+                "technical/idle/up/00",
+                "technical/idle/up/01"
+              ],
+              "up-right": [
+                "technical/idle/up-right/00",
+                "technical/idle/up-right/01"
+              ],
+              "right": [
+                "technical/idle/right/00",
+                "technical/idle/right/01"
+              ],
+              "down-right": [
+                "technical/idle/down-right/00",
+                "technical/idle/down-right/01"
+              ]
             }
           },
           "walk": {
@@ -44,14 +74,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/walk/down/00", "technical/walk/down/01"],
-              "down-left": ["technical/walk/down-left/00", "technical/walk/down-left/01"],
-              "left": ["technical/walk/left/00", "technical/walk/left/01"],
-              "up-left": ["technical/walk/up-left/00", "technical/walk/up-left/01"],
-              "up": ["technical/walk/up/00", "technical/walk/up/01"],
-              "up-right": ["technical/walk/up-right/00", "technical/walk/up-right/01"],
-              "right": ["technical/walk/right/00", "technical/walk/right/01"],
-              "down-right": ["technical/walk/down-right/00", "technical/walk/down-right/01"]
+              "down": [
+                "technical/walk/down/00",
+                "technical/walk/down/01"
+              ],
+              "down-left": [
+                "technical/walk/down-left/00",
+                "technical/walk/down-left/01"
+              ],
+              "left": [
+                "technical/walk/left/00",
+                "technical/walk/left/01"
+              ],
+              "up-left": [
+                "technical/walk/up-left/00",
+                "technical/walk/up-left/01"
+              ],
+              "up": [
+                "technical/walk/up/00",
+                "technical/walk/up/01"
+              ],
+              "up-right": [
+                "technical/walk/up-right/00",
+                "technical/walk/up-right/01"
+              ],
+              "right": [
+                "technical/walk/right/00",
+                "technical/walk/right/01"
+              ],
+              "down-right": [
+                "technical/walk/down-right/00",
+                "technical/walk/down-right/01"
+              ]
             }
           },
           "run": {
@@ -59,14 +113,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/run/down/00", "technical/run/down/01"],
-              "down-left": ["technical/run/down-left/00", "technical/run/down-left/01"],
-              "left": ["technical/run/left/00", "technical/run/left/01"],
-              "up-left": ["technical/run/up-left/00", "technical/run/up-left/01"],
-              "up": ["technical/run/up/00", "technical/run/up/01"],
-              "up-right": ["technical/run/up-right/00", "technical/run/up-right/01"],
-              "right": ["technical/run/right/00", "technical/run/right/01"],
-              "down-right": ["technical/run/down-right/00", "technical/run/down-right/01"]
+              "down": [
+                "technical/run/down/00",
+                "technical/run/down/01"
+              ],
+              "down-left": [
+                "technical/run/down-left/00",
+                "technical/run/down-left/01"
+              ],
+              "left": [
+                "technical/run/left/00",
+                "technical/run/left/01"
+              ],
+              "up-left": [
+                "technical/run/up-left/00",
+                "technical/run/up-left/01"
+              ],
+              "up": [
+                "technical/run/up/00",
+                "technical/run/up/01"
+              ],
+              "up-right": [
+                "technical/run/up-right/00",
+                "technical/run/up-right/01"
+              ],
+              "right": [
+                "technical/run/right/00",
+                "technical/run/right/01"
+              ],
+              "down-right": [
+                "technical/run/down-right/00",
+                "technical/run/down-right/01"
+              ]
             }
           },
           "attack": {
@@ -74,14 +152,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/attack/down/00", "technical/attack/down/01"],
-              "down-left": ["technical/attack/down-left/00", "technical/attack/down-left/01"],
-              "left": ["technical/attack/left/00", "technical/attack/left/01"],
-              "up-left": ["technical/attack/up-left/00", "technical/attack/up-left/01"],
-              "up": ["technical/attack/up/00", "technical/attack/up/01"],
-              "up-right": ["technical/attack/up-right/00", "technical/attack/up-right/01"],
-              "right": ["technical/attack/right/00", "technical/attack/right/01"],
-              "down-right": ["technical/attack/down-right/00", "technical/attack/down-right/01"]
+              "down": [
+                "technical/attack/down/00",
+                "technical/attack/down/01"
+              ],
+              "down-left": [
+                "technical/attack/down-left/00",
+                "technical/attack/down-left/01"
+              ],
+              "left": [
+                "technical/attack/left/00",
+                "technical/attack/left/01"
+              ],
+              "up-left": [
+                "technical/attack/up-left/00",
+                "technical/attack/up-left/01"
+              ],
+              "up": [
+                "technical/attack/up/00",
+                "technical/attack/up/01"
+              ],
+              "up-right": [
+                "technical/attack/up-right/00",
+                "technical/attack/up-right/01"
+              ],
+              "right": [
+                "technical/attack/right/00",
+                "technical/attack/right/01"
+              ],
+              "down-right": [
+                "technical/attack/down-right/00",
+                "technical/attack/down-right/01"
+              ]
             }
           },
           "skill": {
@@ -89,14 +191,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/skill/down/00", "technical/skill/down/01"],
-              "down-left": ["technical/skill/down-left/00", "technical/skill/down-left/01"],
-              "left": ["technical/skill/left/00", "technical/skill/left/01"],
-              "up-left": ["technical/skill/up-left/00", "technical/skill/up-left/01"],
-              "up": ["technical/skill/up/00", "technical/skill/up/01"],
-              "up-right": ["technical/skill/up-right/00", "technical/skill/up-right/01"],
-              "right": ["technical/skill/right/00", "technical/skill/right/01"],
-              "down-right": ["technical/skill/down-right/00", "technical/skill/down-right/01"]
+              "down": [
+                "technical/skill/down/00",
+                "technical/skill/down/01"
+              ],
+              "down-left": [
+                "technical/skill/down-left/00",
+                "technical/skill/down-left/01"
+              ],
+              "left": [
+                "technical/skill/left/00",
+                "technical/skill/left/01"
+              ],
+              "up-left": [
+                "technical/skill/up-left/00",
+                "technical/skill/up-left/01"
+              ],
+              "up": [
+                "technical/skill/up/00",
+                "technical/skill/up/01"
+              ],
+              "up-right": [
+                "technical/skill/up-right/00",
+                "technical/skill/up-right/01"
+              ],
+              "right": [
+                "technical/skill/right/00",
+                "technical/skill/right/01"
+              ],
+              "down-right": [
+                "technical/skill/down-right/00",
+                "technical/skill/down-right/01"
+              ]
             }
           },
           "hit": {
@@ -104,14 +230,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/hit/down/00", "technical/hit/down/01"],
-              "down-left": ["technical/hit/down-left/00", "technical/hit/down-left/01"],
-              "left": ["technical/hit/left/00", "technical/hit/left/01"],
-              "up-left": ["technical/hit/up-left/00", "technical/hit/up-left/01"],
-              "up": ["technical/hit/up/00", "technical/hit/up/01"],
-              "up-right": ["technical/hit/up-right/00", "technical/hit/up-right/01"],
-              "right": ["technical/hit/right/00", "technical/hit/right/01"],
-              "down-right": ["technical/hit/down-right/00", "technical/hit/down-right/01"]
+              "down": [
+                "technical/hit/down/00",
+                "technical/hit/down/01"
+              ],
+              "down-left": [
+                "technical/hit/down-left/00",
+                "technical/hit/down-left/01"
+              ],
+              "left": [
+                "technical/hit/left/00",
+                "technical/hit/left/01"
+              ],
+              "up-left": [
+                "technical/hit/up-left/00",
+                "technical/hit/up-left/01"
+              ],
+              "up": [
+                "technical/hit/up/00",
+                "technical/hit/up/01"
+              ],
+              "up-right": [
+                "technical/hit/up-right/00",
+                "technical/hit/up-right/01"
+              ],
+              "right": [
+                "technical/hit/right/00",
+                "technical/hit/right/01"
+              ],
+              "down-right": [
+                "technical/hit/down-right/00",
+                "technical/hit/down-right/01"
+              ]
             }
           },
           "death": {
@@ -119,14 +269,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/death/down/00", "technical/death/down/01"],
-              "down-left": ["technical/death/down-left/00", "technical/death/down-left/01"],
-              "left": ["technical/death/left/00", "technical/death/left/01"],
-              "up-left": ["technical/death/up-left/00", "technical/death/up-left/01"],
-              "up": ["technical/death/up/00", "technical/death/up/01"],
-              "up-right": ["technical/death/up-right/00", "technical/death/up-right/01"],
-              "right": ["technical/death/right/00", "technical/death/right/01"],
-              "down-right": ["technical/death/down-right/00", "technical/death/down-right/01"]
+              "down": [
+                "technical/death/down/00",
+                "technical/death/down/01"
+              ],
+              "down-left": [
+                "technical/death/down-left/00",
+                "technical/death/down-left/01"
+              ],
+              "left": [
+                "technical/death/left/00",
+                "technical/death/left/01"
+              ],
+              "up-left": [
+                "technical/death/up-left/00",
+                "technical/death/up-left/01"
+              ],
+              "up": [
+                "technical/death/up/00",
+                "technical/death/up/01"
+              ],
+              "up-right": [
+                "technical/death/up-right/00",
+                "technical/death/up-right/01"
+              ],
+              "right": [
+                "technical/death/right/00",
+                "technical/death/right/01"
+              ],
+              "down-right": [
+                "technical/death/down-right/00",
+                "technical/death/down-right/01"
+              ]
             }
           },
           "respawn": {
@@ -134,14 +308,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/respawn/down/00", "technical/respawn/down/01"],
-              "down-left": ["technical/respawn/down-left/00", "technical/respawn/down-left/01"],
-              "left": ["technical/respawn/left/00", "technical/respawn/left/01"],
-              "up-left": ["technical/respawn/up-left/00", "technical/respawn/up-left/01"],
-              "up": ["technical/respawn/up/00", "technical/respawn/up/01"],
-              "up-right": ["technical/respawn/up-right/00", "technical/respawn/up-right/01"],
-              "right": ["technical/respawn/right/00", "technical/respawn/right/01"],
-              "down-right": ["technical/respawn/down-right/00", "technical/respawn/down-right/01"]
+              "down": [
+                "technical/respawn/down/00",
+                "technical/respawn/down/01"
+              ],
+              "down-left": [
+                "technical/respawn/down-left/00",
+                "technical/respawn/down-left/01"
+              ],
+              "left": [
+                "technical/respawn/left/00",
+                "technical/respawn/left/01"
+              ],
+              "up-left": [
+                "technical/respawn/up-left/00",
+                "technical/respawn/up-left/01"
+              ],
+              "up": [
+                "technical/respawn/up/00",
+                "technical/respawn/up/01"
+              ],
+              "up-right": [
+                "technical/respawn/up-right/00",
+                "technical/respawn/up-right/01"
+              ],
+              "right": [
+                "technical/respawn/right/00",
+                "technical/respawn/right/01"
+              ],
+              "down-right": [
+                "technical/respawn/down-right/00",
+                "technical/respawn/down-right/01"
+              ]
             }
           }
         }
@@ -182,8 +380,14 @@
         "id": "hero-planetary",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [128, 128],
-        "origin": [0.5, 0.75],
+        "size": [
+          128,
+          128
+        ],
+        "origin": [
+          0.5,
+          0.75
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -803,8 +1007,14 @@
         "id": "hero-sage",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [128, 128],
-        "origin": [0.5, 0.75],
+        "size": [
+          128,
+          128
+        ],
+        "origin": [
+          0.5,
+          0.75
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -1487,17 +1697,26 @@
       "object.sanctum": {
         "asset": "aether-art-sanctum",
         "fit": "contain",
-        "origin": [0.5, 0.81]
+        "origin": [
+          0.5,
+          0.81
+        ]
       },
       "object.archive": {
         "asset": "aether-art-archive",
         "fit": "contain",
-        "origin": [0.5, 0.79]
+        "origin": [
+          0.5,
+          0.79
+        ]
       },
       "object.ki-source": {
         "asset": "aether-art-ki-source",
         "fit": "contain",
-        "origin": [0.5, 0.84]
+        "origin": [
+          0.5,
+          0.84
+        ]
       },
       "object.ki-tree": {
         "asset": "aether-art-ki-tree",
@@ -1514,22 +1733,34 @@
       "terrain.aether-ground": {
         "asset": "aether-art-aether-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.aether-path": {
         "asset": "aether-art-aether-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.aether-plaza": {
         "asset": "aether-art-aether-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.aether-wall": {
         "asset": "aether-art-aether-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -1628,52 +1859,82 @@
       "object.lab": {
         "asset": "nexus-art-lab",
         "fit": "contain",
-        "origin": [0.5, 0.8]
+        "origin": [
+          0.5,
+          0.8
+        ]
       },
       "object.reactor": {
         "asset": "nexus-art-reactor",
         "fit": "contain",
-        "origin": [0.5, 0.82]
+        "origin": [
+          0.5,
+          0.82
+        ]
       },
       "object.terminal": {
         "asset": "nexus-art-terminal",
         "fit": "contain",
-        "origin": [0.5, 0.89]
+        "origin": [
+          0.5,
+          0.89
+        ]
       },
       "object.crystal": {
         "asset": "nexus-art-crystal",
         "fit": "contain",
-        "origin": [0.5, 0.87]
+        "origin": [
+          0.5,
+          0.87
+        ]
       },
       "object.pylon": {
         "asset": "nexus-art-pylon",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.tech-garden": {
         "asset": "nexus-art-tech-garden",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "terrain.nexus-ground": {
         "asset": "nexus-art-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.nexus-path": {
         "asset": "nexus-art-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.nexus-plaza": {
         "asset": "nexus-art-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.nexus-wall": {
         "asset": "nexus-art-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -1772,52 +2033,82 @@
       "object.fortress": {
         "asset": "pyra-art-fortress",
         "fit": "contain",
-        "origin": [0.5, 0.8]
+        "origin": [
+          0.5,
+          0.8
+        ]
       },
       "object.war-shrine": {
         "asset": "pyra-art-war-shrine",
         "fit": "contain",
-        "origin": [0.5, 0.8]
+        "origin": [
+          0.5,
+          0.8
+        ]
       },
       "object.statue": {
         "asset": "pyra-art-statue",
         "fit": "contain",
-        "origin": [0.5, 0.87]
+        "origin": [
+          0.5,
+          0.87
+        ]
       },
       "object.basalt": {
         "asset": "pyra-art-basalt",
         "fit": "contain",
-        "origin": [0.5, 0.86]
+        "origin": [
+          0.5,
+          0.86
+        ]
       },
       "object.volcano": {
         "asset": "pyra-art-volcano",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.clan-banner": {
         "asset": "pyra-art-clan-banner",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "terrain.pyra-ground": {
         "asset": "pyra-art-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.pyra-path": {
         "asset": "pyra-art-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.pyra-plaza": {
         "asset": "pyra-art-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.pyra-wall": {
         "asset": "pyra-art-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -1998,27 +2289,42 @@
       "object.pagoda": {
         "asset": "aether-x-pagoda",
         "fit": "contain",
-        "origin": [0.5, 0.9]
+        "origin": [
+          0.5,
+          0.9
+        ]
       },
       "object.koi-pond": {
         "asset": "aether-x-koi-pond",
         "fit": "contain",
-        "origin": [0.5, 0.62]
+        "origin": [
+          0.5,
+          0.62
+        ]
       },
       "object.spirit-gate": {
         "asset": "aether-x-spirit-gate",
         "fit": "contain",
-        "origin": [0.5, 0.95]
+        "origin": [
+          0.5,
+          0.95
+        ]
       },
       "object.stone-lantern": {
         "asset": "aether-x-stone-lantern",
         "fit": "contain",
-        "origin": [0.5, 0.94]
+        "origin": [
+          0.5,
+          0.94
+        ]
       },
       "object.cherry-tree": {
         "asset": "aether-x-cherry-tree",
         "fit": "contain",
-        "origin": [0.5, 0.93]
+        "origin": [
+          0.5,
+          0.93
+        ]
       }
     },
     "effects": {}
@@ -2054,8 +2360,14 @@
         "id": "hero-android",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -2675,8 +2987,14 @@
         "id": "hero-legend",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -3296,8 +3614,14 @@
         "id": "hero-planetary-painted",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -3917,8 +4241,14 @@
         "id": "hero-sage-painted",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -4553,22 +4883,34 @@
       "terrain.aether-ground": {
         "asset": "aether-terrain-v2-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.aether-path": {
         "asset": "aether-terrain-v2-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.aether-plaza": {
         "asset": "aether-terrain-v2-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.aether-wall": {
         "asset": "aether-terrain-v2-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -4619,22 +4961,34 @@
       "terrain.nexus-ground": {
         "asset": "nexus-terrain-v2-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.nexus-path": {
         "asset": "nexus-terrain-v2-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.nexus-plaza": {
         "asset": "nexus-terrain-v2-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.nexus-wall": {
         "asset": "nexus-terrain-v2-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -4685,22 +5039,34 @@
       "terrain.pyra-ground": {
         "asset": "pyra-terrain-v2-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.pyra-path": {
         "asset": "pyra-terrain-v2-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.pyra-plaza": {
         "asset": "pyra-terrain-v2-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.pyra-wall": {
         "asset": "pyra-terrain-v2-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -4847,82 +5213,130 @@
       "terrain.nature-water-ocean-deep": {
         "asset": "nature-tex-water-ocean-deep",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-ocean-shallow": {
         "asset": "nature-tex-water-ocean-shallow",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-river": {
         "asset": "nature-tex-water-river",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-lake-calm": {
         "asset": "nature-tex-water-lake-calm",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-crystal": {
         "asset": "nature-tex-water-crystal",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-energy-liquid": {
         "asset": "nature-tex-energy-liquid",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-ice-glacier": {
         "asset": "nature-tex-ice-glacier",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-snow": {
         "asset": "nature-tex-snow",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-sand-beach": {
         "asset": "nature-tex-sand-beach",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-meadow-grass": {
         "asset": "nature-tex-meadow-grass",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-forest-floor": {
         "asset": "nature-tex-forest-floor",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-cliff-rock": {
         "asset": "nature-tex-cliff-rock",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-lava-flow": {
         "asset": "nature-tex-lava-flow",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-lava-crust": {
         "asset": "nature-tex-lava-crust",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-ash-ground": {
         "asset": "nature-tex-ash-ground",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-basalt-columns": {
         "asset": "nature-tex-basalt-columns",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -5105,7 +5519,10 @@
       "object.nature.iceberg": {
         "asset": "nature-obj-iceberg",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-ice-spires": {
         "asset": "nature-obj-ice-spires",
@@ -5130,12 +5547,18 @@
       "object.nature.mountain-peak": {
         "asset": "nature-obj-mountain-peak",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.grassy-hill": {
         "asset": "nature-obj-grassy-hill",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-cliff-outcrop": {
         "asset": "nature-obj-cliff-outcrop",
@@ -5144,22 +5567,34 @@
       "object.nature.pine-tree": {
         "asset": "nature-obj-pine-tree",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.broadleaf-tree": {
         "asset": "nature-obj-broadleaf-tree",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.crystal-tree": {
         "asset": "nature-obj-crystal-tree",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.flower-bush": {
         "asset": "nature-obj-flower-bush",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-boulder-group": {
         "asset": "nature-obj-boulder-group",
@@ -5168,7 +5603,10 @@
       "object.nature.reed-clump": {
         "asset": "nature-obj-reed-clump",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-small-island": {
         "asset": "nature-obj-small-island",
@@ -5249,12 +5687,18 @@
       "terrain.city-floor": {
         "asset": "city-floor",
         "fit": "contain",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.city-stone": {
         "asset": "city-stone",
         "fit": "contain",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -5262,143 +5706,151 @@
   {
     "schemaVersion": 1,
     "id": "pyra-smithy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
-    "previewOnly": true,
+    "previewOnly": false,
     "assets": [
       {
         "id": "pyra-smithy-anvil-stump",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-anvil-stump.webp",
-        "width": 363,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-anvil-stump.webp",
+        "width": 377,
+        "height": 526
       },
       {
         "id": "pyra-smithy-furnace-fire",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-furnace-fire.webp",
-        "width": 426,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-furnace-fire.webp",
+        "width": 440,
+        "height": 526
       },
       {
         "id": "pyra-smithy-chest-iron",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-chest-iron.webp",
-        "width": 512,
-        "height": 439
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-chest-iron.webp",
+        "width": 526,
+        "height": 453
       },
       {
         "id": "pyra-smithy-workbench-tools",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-workbench-tools.webp",
-        "width": 497,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-workbench-tools.webp",
+        "width": 511,
+        "height": 526
       },
       {
         "id": "pyra-smithy-weapon-rack",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-weapon-rack.webp",
-        "width": 307,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-weapon-rack.webp",
+        "width": 321,
+        "height": 526
       },
       {
         "id": "pyra-smithy-shelf-ingots",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-shelf-ingots.webp",
-        "width": 326,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-shelf-ingots.webp",
+        "width": 340,
+        "height": 526
       },
       {
         "id": "pyra-smithy-barrels",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-barrels.webp",
-        "width": 468,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-barrels.webp",
+        "width": 482,
+        "height": 526
       },
       {
         "id": "pyra-smithy-crates-stack",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-crates-stack.webp",
-        "width": 389,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-crates-stack.webp",
+        "width": 403,
+        "height": 526
       },
       {
         "id": "pyra-smithy-lantern-post",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-lantern-post.webp",
-        "width": 221,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-lantern-post.webp",
+        "width": 235,
+        "height": 526
       },
       {
         "id": "pyra-smithy-banner-flame",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-banner-flame.webp",
-        "width": 243,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-banner-flame.webp",
+        "width": 257,
+        "height": 526
       },
       {
         "id": "pyra-smithy-grindstone",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-grindstone.webp",
-        "width": 307,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-grindstone.webp",
+        "width": 321,
+        "height": 526
       },
       {
         "id": "pyra-smithy-coal-bin",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-coal-bin.webp",
-        "width": 358,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-coal-bin.webp",
+        "width": 372,
+        "height": 526
       },
       {
         "id": "pyra-smithy-stairs-wood",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-stairs-wood.webp",
-        "width": 319,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-stairs-wood.webp",
+        "width": 333,
+        "height": 526
       },
       {
         "id": "pyra-smithy-door-arch",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-door-arch.webp",
-        "width": 328,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-door-arch.webp",
+        "width": 342,
+        "height": 526
       },
       {
         "id": "pyra-smithy-sign-hanging",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-sign-hanging.webp",
-        "width": 204,
-        "height": 512
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-sign-hanging.webp",
+        "width": 218,
+        "height": 526
+      },
+      {
+        "id": "pyra-smithy-goro",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-goro.webp",
+        "width": 489,
+        "height": 1038
       },
       {
         "id": "pyra-smithy-floor",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-floor.webp",
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-floor.webp",
         "width": 512,
         "height": 512
       },
       {
         "id": "pyra-smithy-wall",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/pyra-smithy/1.0.0-cf337e8f14aa/pyra-smithy-wall.webp",
+        "url": "/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-wall.webp",
         "width": 512,
         "height": 512
       }
@@ -5466,15 +5918,25 @@
         "asset": "pyra-smithy-sign-hanging",
         "fit": "contain"
       },
+      "object.pyra.smithy.goro": {
+        "asset": "pyra-smithy-goro",
+        "fit": "contain"
+      },
       "terrain.pyra.smithy-floor": {
         "asset": "pyra-smithy-floor",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.pyra.smithy-wall": {
         "asset": "pyra-smithy-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}

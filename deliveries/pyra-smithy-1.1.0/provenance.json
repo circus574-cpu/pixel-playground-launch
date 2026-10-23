@@ -79,6 +79,11 @@
       "webp_sha256": "5e4499f71ad56a3e4f35bc52c978e02b3e8b43842265e675df3a1251defab8d8"
     },
     {
+      "part": "goro",
+      "source_png_sha256": "577b65beb9b2019d8e9070b18c404a27bfe226b0f73a0853896631e207f4ebe3",
+      "webp_sha256": "b2dfee8b874a5262d57d45aae641853e516f6492570cf2380984b9353b6de400"
+    },
+    {
       "part": "floor",
       "source_png_sha256": "ac57073301d75bff27d1fb60d93c4918511848fc18256cdd82bd44c8f49f3af2",
       "webp_sha256": "2a4f15d3bdf6d06a80d1dab7d7a28e5bb76178ec13f81d719d5c0b2f5f02aa3a"

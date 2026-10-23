@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "id": "pyra-smithy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "pyra-smithy-anvil-stump",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-anvil-stump.webp",
       "width": 377,
@@ -15,7 +15,7 @@
     },
     {
       "id": "pyra-smithy-furnace-fire",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-furnace-fire.webp",
       "width": 440,
@@ -23,7 +23,7 @@
     },
     {
       "id": "pyra-smithy-chest-iron",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-chest-iron.webp",
       "width": 526,
@@ -31,7 +31,7 @@
     },
     {
       "id": "pyra-smithy-workbench-tools",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-workbench-tools.webp",
       "width": 511,
@@ -39,7 +39,7 @@
     },
     {
       "id": "pyra-smithy-weapon-rack",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-weapon-rack.webp",
       "width": 321,
@@ -47,7 +47,7 @@
     },
     {
       "id": "pyra-smithy-shelf-ingots",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-shelf-ingots.webp",
       "width": 340,
@@ -55,7 +55,7 @@
     },
     {
       "id": "pyra-smithy-barrels",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-barrels.webp",
       "width": 482,
@@ -63,7 +63,7 @@
     },
     {
       "id": "pyra-smithy-crates-stack",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-crates-stack.webp",
       "width": 403,
@@ -71,7 +71,7 @@
     },
     {
       "id": "pyra-smithy-lantern-post",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-lantern-post.webp",
       "width": 235,
@@ -79,7 +79,7 @@
     },
     {
       "id": "pyra-smithy-banner-flame",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-banner-flame.webp",
       "width": 257,
@@ -87,7 +87,7 @@
     },
     {
       "id": "pyra-smithy-grindstone",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-grindstone.webp",
       "width": 321,
@@ -95,7 +95,7 @@
     },
     {
       "id": "pyra-smithy-coal-bin",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-coal-bin.webp",
       "width": 372,
@@ -103,7 +103,7 @@
     },
     {
       "id": "pyra-smithy-stairs-wood",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-stairs-wood.webp",
       "width": 333,
@@ -111,7 +111,7 @@
     },
     {
       "id": "pyra-smithy-door-arch",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-door-arch.webp",
       "width": 342,
@@ -119,15 +119,23 @@
     },
     {
       "id": "pyra-smithy-sign-hanging",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-sign-hanging.webp",
       "width": 218,
       "height": 526
     },
     {
+      "id": "pyra-smithy-goro",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "pyra-smithy-goro.webp",
+      "width": 489,
+      "height": 1038
+    },
+    {
       "id": "pyra-smithy-floor",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-floor.webp",
       "width": 512,
@@ -135,7 +143,7 @@
     },
     {
       "id": "pyra-smithy-wall",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
       "url": "pyra-smithy-wall.webp",
       "width": 512,
@@ -203,6 +211,10 @@
     },
     "object.pyra.smithy.sign-hanging": {
       "asset": "pyra-smithy-sign-hanging",
+      "fit": "contain"
+    },
+    "object.pyra.smithy.goro": {
+      "asset": "pyra-smithy-goro",
       "fit": "contain"
     },
     "terrain.pyra.smithy-floor": {
