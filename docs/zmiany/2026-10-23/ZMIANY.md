@@ -112,3 +112,30 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
   [kopia źródeł i wyników](../../../deliveries/worldgen-20261023/).
 - Nie wykonywano operacji cyklu życia poda, scalenia ani publikacji.
   Otwarte: inne kontynenty, odbiór układu/grafiki, integracja, migracje i testy gry.
+
+
+## Cała Superior i osobny przebieg spawnów
+
+- Właściciel rozszerzył zlecenie na cztery kontynenty, sześć wysp, wszystkie krainy,
+  drogi/ścieżki, ukryte miejsca i labirynty; spawny mają osobny przebieg.
+  Zaktualizowano zasadę etapu w AGENTS i tematach zamiast pozostawienia sprzecznej blokady.
+- Generator zachowuje kanoniczne obrysy, skalę 0,5, pozycje stolic i wysp.
+  Błędne tekstowe 145°E dla Nexusa poprawiono na 151°E zgodne z dotychczasowym JSON;
+  żaden plik geometrii planety, atlasu ani miasta runtime nie został zmieniony.
+- Pod CPU: teren 10/10 PASS w 11,190 s; osobna generacja spawnów 10/10 PASS
+  w 18,739 s przy 8 workerach. 6062 spawny zewnętrzne, 2220 we wnętrzach, 40/40 rodzajów.
+- 22 główne osady, 583 wejścia, 472 lokacje, 194 ukryte miejsca, 1699 odcinków
+  dróg i ścieżek, 152 rozwiązywalne wnętrza, 6511 zasobów, 271 531 obiektów,
+  w tym 32 936 z footprintami. Bezpieczne osady i dojścia wykluczają spawny.
+- Dwa zestawy po 7 testów lokalnie i na podzie: PASS. Kontrole dotykają również
+  uszkodzeń manifestów, zmienionej geometrii, pochodzenia i rozdzielenia spawnów.
+- Powstał samodzielny podgląd map/labiryntów ze spawnami; działa z CSP Jupytera
+  bez zmiany zabezpieczeń serwera. Przeglądarkowy smoke obejmuje 10 lądów i kontrolki.
+- [Kopia źródeł i całości poza podem](../../../deliveries/superior-world-20261023/),
+  [raporty, minimapy i manifest kopii](qa/superior-world/).
+- Python tworzy dane JSON/PNG/NPZ; obecny Phaser/TypeScript nie ładuje ich automatycznie.
+  Pozostało podłączenie formatu terenu/chunków, podróży, wnętrz, usług i AI do gry,
+  migracje, docelowa grafika i pełny odbiór runtime. Nie ogłoszono grywalnego wdrożenia.
+- Pełny TypeScript: PASS; Vitest: 302/302 PASS (35 plików); assets: PASS; lint: 0 błędów,
+  9 istniejących ostrzeżeń. Podgląd końcowego archiwum: PASS w symulowanym CSP Jupytera.
+- Bez zmian cyklu życia poda, produkcji, scalenia i publikacji.

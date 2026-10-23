@@ -9,7 +9,7 @@ wejścia, wnętrza i usługi. Dawne opisy „dane gotowe, mechanik brak” są n
 
 - Cztery miasta tworzą **czworościan foremny na kuli**. Tylko taki układ daje równą odległość każdej pary. Odległość kątowa to acos(−1/3) = 109,47°, więc promień planety wynosi **R = 80 000 / 1,9106 = 41 870,9 j.**, obwód 263 083 j.
 - Przy równiku 1 jednostka atlasu (2000×1000) to 131,54 j. gry.
-- Miasta: Aetheria 61°E/35,26°N, Verdantia 119°W/35,26°N, Pyra 29°W/35,26°S, Nexus-9 145°E/35,26°S (czworościan obrócony o 16°, aby żaden kontynent nie przeciął szwu atlasu).
+- Miasta: Aetheria 61°E/35,26°N, Verdantia 119°W/35,26°N, Pyra 29°W/35,26°S, Nexus-9 151°E/35,26°S (czworościan obrócony o 16°, aby żaden kontynent nie przeciął szwu atlasu).
 - Sześć wysp questowych leży w środkach sześciu krawędzi czworościanu, po 40 000 j. od dwóch miast: I biegun północny, VI biegun południowy, II 16°E/0°, III 106°E/0°, IV 164°W/0°, V 74°W/0°.
 - Kontynenty i wyspy są zmniejszone do **0,5** oryginału i rzutowane azymutalnie równoodległościowo wokół swojego centrum (rozmiary i odległości od centrum są prawdziwe). Przy 0,5 kontynenty mają około 40–48 tys. × 23–30 tys. j. i mieszczą się między miastami.
 
@@ -40,7 +40,9 @@ Wybór innej usługi prowadzi przez wyjście i jej drzwi, nie teleportuje międz
 `city.bounds` jest bezpiecznym obszarem w świecie z walką; `inSafeCity()` chroni
 postać i blokuje ściganie/atak przez granicę. Brak `bounds` oznacza cały etap miejski
 (`isCityStage`), jak w Verdantii. Aetheria/Nexus/Pyra zachowują dziki poza miastem.
-Nowego rozmieszczenia 40 potworów nie dodajemy przed ukończeniem kontynentów.
+Właściciel 23.10 zlecił teraz generację całej planety i osobny przebieg spawnów
+na gotowej geometrii; zastępuje to wcześniejsze odłożenie rozmieszczania potworów.
+Generacja danych i podłączenie ich do runtime są odrębnymi stanami.
 
 Sklep: kupno/skup. Kowal: ulepszenie i zadanie sprzętu. Gospoda: HP/KI za 5 monet,
 bez resetu cooldownów i opłaty przy pełnych zasobach. Depozyt: osobista skrzynia,
@@ -134,7 +136,52 @@ wnętrzom osobny wygląd ras. Paleta `CityDefinition.palette` i wiązania per ś
 używa wspólnego fallbacku.
 
 Dalsze prace: domy mieszkańców, bazary, dodatkowi NPC, porty i kolejne miasta.
-Najpierw odbiór układu i wejść, potem grafika i spawny zewnętrzne.
+Generacja pełnej geometrii poprzedza osobny przebieg spawnów; odbiór układu, grafiki
+i integracja runtime pozostają wymagane przed wdrożeniem.
 Testy `city`, `aetheria-city`, `nexus-city`, `pyra-city` sprawdzają separację,
 osiągalność, brak walki w mieście i zachowaną walkę poza granicą. Wynik testu nie
 zastępuje oceny wyglądu i fizycznego telefonu.
+
+
+## Pełna generacja Superior na CPU — 23.10.2026
+
+Polecenie właściciela obejmuje wszystkie 10 lądów, drogi, ścieżki, ukryte miejsca,
+labirynty oraz **osobną generację spawnów**. `scripts/worldgen/planet_generate.py`
+korzysta z `planet.json`, oryginalnych obrysów atlasu i nazw z `zones.json`.
+Nie powiększa lądów arbitralnymi prostokątami i nie przenosi stolic ani wysp.
+Wymiar pliku zawiera dwie komórki marginesu morza z każdej strony; rozmiar lądu
+wynika z obrysu × `131.541422 × 0.5`, nie z rozmiaru otaczającego prostokąta.
+Korekta opisu Nexus-9 z 145°E na 151°E odzwierciedla istniejące `planet.json`;
+nie zmienia pozycji planety. Układ czworościanu i odległości pozostają obowiązujące.
+
+Każdy kontynent ma zachowaną stolicę i trzy wygenerowane miasta, cztery strefy,
+10 wiosek, 3 porty, 8 strażnic, 10 ruin, 8 jaskiń, 8 sanktuariów,
+16 ukrytych skrytek i 8 labiryntów. Każda wyspa ma przystań usługową,
+cztery sektory, 3 obozowiska, 2 porty, 3 ruiny, 2 jaskinie, 2 sanktuaria,
+6 skrytek i 3 labirynty. Nowe nazwy osad/stref bez źródła są propozycjami;
+zatwierdzone 12 nazw krain Aetherii, Nexusa i Pyry pozostaje bez zmian.
+
+Nowe miasta mają sześć rozdzielonych usług, drzwi, NPC i referencje szablonów wnętrz;
+wioski i porty mają osobne domy z footprintami i wejściami. Poza miastami są
+rozgałęzione drogi z alternatywnymi połączeniami, ścieżki odkrywania, strumienie,
+mosty, zasoby i dekoracje. Ruiny/jaskinie/labirynty mają oddzielne siatki wnętrz,
+wejście, wyjście i zweryfikowane rozwiązanie. Są to dane do implementacji usług,
+zbiorów, skrytek i wnętrz, nie nowy działający system nagród czy questów.
+
+Każdy teren ma maskę zgodną z prawdziwym obrysem, chunkowanie 2048 jednostek,
+raport osiągalności oraz manifest sum plików. Źródłowe mapy pozostają zapisane
+bez zmian w `acceptedSource`; stolica jest osadzona pod kanonicznym punktem atlasu.
+Do nowego terenu przenoszone są kolizje w bezpiecznej granicy miasta; sztuczne
+zewnętrzne ściany starych map testowych nie otaczają całego kontynentu.
+Nie jest to zainstalowana migracja zapisów ani nowy `WorldDefinition` runtime.
+Dwanaście połączeń port–wyspa daje graf podróży całej planety. Łuki na globusie
+są podglądem trasy transferu promowego, nie sprawdzoną nawigacją fizycznej łodzi.
+
+`spawn_generate.py` czyta i weryfikuje manifest terenu, nie zmienia jego plików.
+Rozmieszcza 40 istniejących rodzajów bestiariusza, w tym spawny wnętrz, z oryginalnymi
+statystykami i respawnami. Wyspy korzystają z bestiariuszy dwóch sąsiednich kultur.
+Dom potwora wyklucza drogę i bezpieczną osadę z marginesem większym niż maksimum
+pościgu, wędrówki i aggro + 256. Siatka aktywacji i limit 24 to **kontrakt do podłączenia**,
+nie zmierzona wydajność Androida ani już zaimplementowany streaming potworów.
+
+Instrukcja uruchomienia i odbioru: [architektura](ARCHITEKTURA-I-TESTY.md#pełna-planeta-i-osobna-generacja-spawnów).

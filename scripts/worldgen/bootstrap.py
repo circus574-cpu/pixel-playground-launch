@@ -60,6 +60,9 @@ def main():
     (root/'outputs').mkdir(exist_ok=True)
     launcher=root/'run-worldgen.sh'
     launcher.write_text('#!/bin/sh\nset -eu\nexport OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 KI_WORLDGEN_CPU_BUDGET=8\nexec '+str(python)+' '+str(app/'generate.py')+' --context '+str(app/'context.json')+' "$@"\n');launcher.chmod(0o755)
+    for name,script,argument in [('run-planet.sh','planet_generate.py',' --context '+str(app/'context.json')),('run-spawns.sh','spawn_generate.py','')]:
+        wrapper=root/name
+        wrapper.write_text('#!/bin/sh\nset -eu\nexport OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 KI_WORLDGEN_CPU_BUDGET=8\nexec '+str(python)+' '+str(app/script)+argument+' "$@"\n');wrapper.chmod(0o755)
     report={'status':'CPU_ENVIRONMENT_INSTALLED','installedAtUtc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'elapsedSeconds':round(time.time()-started,2),'root':str(root),'platform':platform.platform(),'hostCpuLogical':os.cpu_count(),'allocatedVcpuBudget':8,'volumeQuotaGb':500,'diskStatsAreBackingFilesystemNotVolumeQuota':True,'disk':dict(zip(['total','used','free'],shutil.disk_usage(root))),'bundleSha256':hashlib.sha256(bundle.read_bytes()).hexdigest(),'python':subprocess.check_output([str(python),'--version'],text=True).strip(),'gpuUsed':False}
     (root/'environment-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 

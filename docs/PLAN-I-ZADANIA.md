@@ -42,3 +42,14 @@ GAME-01/GAME-06. Historyczny błąd PR #15 90/91 nie jest bieżącą blokadą be
 ponownego wyniku na aktualnym SHA; jego przyczyna i naprawa są w dzienniku 21.10.
 Stan wdrożonej domeny wymaga osobnego odczytu narzędzia hostingu; nie badano go
 przy porządkowaniu dokumentacji. Scalenia i publikacja według [zasad](ZASADY.md).
+
+
+## Zlecenie CPU — pełna planeta, aktualizacja 23.10
+
+Właściciel zlecił całą planetę według istniejącej geometrii oraz osobną generację
+spawnów, także dróg, ścieżek, ukrytych lokacji i labiryntów. Zastępuje to poprzednie
+odłożenie spawnów do kolejnego etapu. Narzędzia i pełny zestaw danych są gotowe
+na osobnej gałęzi; [zakres i kontrole](ARCHITEKTURA-I-TESTY.md#pełna-planeta-i-osobna-generacja-spawnów).
+WORLD-01/GAME-03 pozostają otwarte dla runtime: konieczne są importer/streaming,
+format terenu dla TypeScript, wyspy/podróże, migracje, grafika i odbiór rozgrywki.
+Nie mylić gotowej generacji danych z działającym w grze światem.

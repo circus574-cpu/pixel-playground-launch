@@ -4,7 +4,7 @@ import argparse,hashlib,io,json,tarfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 p=argparse.ArgumentParser();p.add_argument('--context',required=True);p.add_argument('--output',required=True);a=p.parse_args()
-files={name:(ROOT/'scripts/worldgen'/name).read_bytes() for name in ['generate.py','requirements.txt','test_generator.py']}
+files={name:(ROOT/'scripts/worldgen'/name).read_bytes() for name in ['generate.py','requirements.txt','test_generator.py','planet_generate.py','planet_viewer.py','planet_travel.py','spawn_generate.py','test_planet.py']}
 files['context.json']=Path(a.context).read_bytes()
 manifest={'format':1,'files':{name:hashlib.sha256(data).hexdigest() for name,data in files.items()}}
 files['bundle-manifest.json']=json.dumps(manifest,sort_keys=True,indent=2).encode()

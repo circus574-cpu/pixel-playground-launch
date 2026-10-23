@@ -636,3 +636,13 @@ warunki przerwania. Salwa Precyzyjna i Protokół Egzekucji wymagają oznaczenia
 Zdolności i efekty pozostają proceduralne, dopóki nie zostaną zaimportowane paczki.
 Manekin używa realnych kosztów KI i cooldownów, liczy bezpośrednie trafienia przy
 0 obrony, bez XP/złota/łupu; nie jest pełnym symulatorem DOT i kontroli.
+
+
+## Osobna generacja spawnów całej planety
+
+Decyzja właściciela 23.10.2026: generować spawny jako osobny etap po danych
+geometrii, dróg, osad i wnętrz. Generator `scripts/worldgen/spawn_generate.py`
+wiąże wynik z sumą manifestu terenu i katalogu bestiariusza. Nie modyfikuje
+statystyk 40 potworów, źródłowych map ani zapisów gracza. Zasady bezpieczeństwa,
+streamingu i ograniczenia integracji: [świat](SWIAT-I-MIASTA.md#pełna-generacja-superior-na-cpu--23102026).
+Wygenerowany spawn nie jest aktywnym przeciwnikiem w aktualnie opublikowanej grze.

@@ -170,3 +170,64 @@ Kopia poza podem: [paczki źródeł i dziewięciu wyników](../deliveries/worldg
 Źródłowy kontekst pierwszych wyników pochodzi z `184a9ec`; manifesty wskazują
 sumy kontekstu i algorytmu. Nie nadpisywać wyników nowym eksportem bez nowego katalogu.
 Odtwarzanie testów: `KI_WORLDGEN_CONTEXT=/tmp/worldgen-context.json python3 scripts/worldgen/test_generator.py`.
+
+
+## Pełna planeta i osobna generacja spawnów
+
+Nowszy zakres właściciela obejmuje całą Superior. `planet_generate.py` tworzy
+cztery kontynenty i sześć wysp według kanonicznych obrysów i skali, bez uruchamiania
+spawnów. Potem osobny `spawn_generate.py` czyta zweryfikowane, niezmieniane dane.
+Eksport kontekstu v2 zawiera geometrię planety, źródłowe obrysy, 12 zatwierdzonych
+nazw stref, cztery istniejące miasta i katalog 40 przeciwników wraz z zachowaniem.
+
+```sh
+npx tsx scripts/worldgen/export-context.ts /tmp/planet-context.json
+python3 scripts/worldgen/pack.py --context /tmp/planet-context.json --output /tmp/planet-source.tar.gz
+# Po skopiowaniu bootstrap.py i paczki na istniejący serwer:
+python3 bootstrap.py --root /workspace/ki-legends-worldgen --bundle /tmp/planet-source.tar.gz
+/workspace/ki-legends-worldgen/run-planet.sh --output /workspace/ki-legends-worldgen/outputs/new-superior --workers 8
+# Osobna generacja, dopiero po zakończeniu powyższego polecenia:
+/workspace/ki-legends-worldgen/run-spawns.sh --world /workspace/ki-legends-worldgen/outputs/new-superior --workers 8
+```
+
+Nowy katalog wyjściowy jest wymagany: narzędzia odmawiają nadpisania istniejących
+wyników. `--seed` pozwala odtworzyć zawartość; identyczność bajtów wymaga tej samej
+wersji źródeł i środowiska. Pierwszy kompletny zestaw używa kontekstu z `6ef331d`.
+Pełny końcowy przebieg na podzie 8 vCPU / 32 GB: teren **11,190 s**, osobne spawny
+**18,739 s**. Czasy nie obejmują napisania narzędzi, odbioru ani wdrożenia do gry.
+Katalog: `/workspace/ki-legends-worldgen/outputs/superior-20261023-v3`.
+
+Wynik: 22 osady usługowe (16 miast na kontynentach i 6 przystani wysp), 583 wejścia,
+132 drzwi usług, 472 lokacje, 194 ukryte miejsca, 1699 odcinków dróg/ścieżek,
+152 wnętrza ruin/jaskiń/labiryntów, 6511 zasobów i 271 531 dekoracji/obiektów.
+32 936 obiektów ma footprint kolizji. Osiągalność celów jest sprawdzana po ich dodaniu;
+trasy, wejścia i bezpieczne osady mają wykluczenia na blokującą roślinność.
+Spawny: 6062 w terenie i 2220 we wnętrzach, wszystkie 40 rodzajów z katalogu.
+
+**Język i zgodność z silnikiem:** generator jest w Pythonie; eksporter w TypeScript.
+Gra używa Phaser/TypeScript. JSON, PNG i identyfikatory bestiariusza są czytelne
+przez przeglądarkę, ale pakiet nie jest jeszcze bezpośrednim `WorldDefinition`.
+NPZ to format obliczeń CPU, nie format ładowany przez obecny silnik. Wymagane są:
+konwersja terenu do formatu przeglądarkowego, loader chunków, nowe identyfikatory
+wysp/wnętrz i podróże, migracja współrzędnych oraz integracja usług, odkrywania,
+nagród i aktywacji AI. Parametry limitów w JSON nie zastępują implementacji limitów.
+Nie przedstawiać tego wyniku jako grywalnego wydania ani pełnej regresji gry.
+
+Podgląd `viewer.html` zawiera dane i minimapy wewnątrz pliku; działa również przy
+CSP `sandbox allow-scripts` Jupytera bez luzowania konfiguracji usługi. Wybór lądu,
+zoom 1–6, odkrywanie ukrytych miejsc, nakładka spawnów i podgląd rozwiązania labiryntu.
+`index.html` jest wersją sieciową; w Jupyter używać `viewer.html`.
+
+Kontrole: `KI_WORLDGEN_CONTEXT=/tmp/planet-context.json python3 scripts/worldgen/test_planet.py`
+i istniejące `test_generator.py`. Każdy zestaw ma 7 testów. Wszystkie regiony przechodzą
+walidację geometrii i osiągalności, wszystkie wnętrza mają połączenie wejście–wyjście.
+Spawn-pass weryfikuje sumy każdego pliku terenu, używa osobnych manifestów i nie
+zmienia terenu. Przeglądarkę podglądu sprawdza:
+`node scripts/worldgen/check-viewer.mjs http://127.0.0.1:8769/viewer.html`.
+Test uwzględnia CSP Jupytera, widoczność podłoża, sekrety, zoom i spawny.
+
+[Kopia źródeł i całego świata poza podem](../deliveries/superior-world-20261023/).
+[Raporty, manifest 3906 plików i kontrola kopii](zmiany/2026-10-23/qa/superior-world/).
+Nie zmieniono produkcji, map runtime ani zapisów. Podłączenie danych do silnika
+jest następnym zakresem implementacyjnym; samo wygenerowanie nie zamyka WORLD-01,
+GAME-03 ani PERF-01 dla gry.
