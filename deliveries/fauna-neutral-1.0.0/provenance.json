@@ -1,0 +1,67 @@
+{
+  "pack": "fauna-neutral",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "desert-gazelle",
+      "source": "obj-desert-gazelle-s7510101.png",
+      "sha256": "2b3039256d733b0ede71b66de0b3f980c5f9c6b12c5ff14b8ab3c63eface4c04"
+    },
+    {
+      "part": "field-hare",
+      "source": "obj-field-hare-s7510101.png",
+      "sha256": "3a0ac99943571b6524a6ba3aad61e6278940c327b104fcc6f05f2333ebbd19bb"
+    },
+    {
+      "part": "heavy-ox",
+      "source": "obj-heavy-ox-s7510101.png",
+      "sha256": "2a5cd110e7b2335888e630fe6883bfdf5b0510e01bd2e2ead1c313346b927706"
+    },
+    {
+      "part": "mountain-goat",
+      "source": "obj-mountain-goat-s7510101.png",
+      "sha256": "7b9556cefdc53740523e25d3294b5fd8c3d7741bdb2d826c56a0a1b7f9fcdb3e"
+    },
+    {
+      "part": "red-deer",
+      "source": "obj-red-deer-s7510101.png",
+      "sha256": "11d755cfd6f5005faa4b33387d35bb15df1ce43efa1f3bb43f6d2ddf3a8912d8"
+    },
+    {
+      "part": "red-fox",
+      "source": "obj-red-fox-s7510101.png",
+      "sha256": "b4acd860144e0dc99dd9e4e6e18918935fee327d66d99d3f36c5ba673d048475"
+    },
+    {
+      "part": "stone-tortoise",
+      "source": "obj-stone-tortoise-s7510101.png",
+      "sha256": "ae7a5a4db3df28dfc25acbce9a051620d514e06e0b677e4d6d907d685e3a58c0"
+    },
+    {
+      "part": "sturdy-pony",
+      "source": "obj-sturdy-pony-s7510101.png",
+      "sha256": "70068f3a3c86c79b6a3480f4d8969e82c8e30dd0f5b094c0bcc328617904d87c"
+    },
+    {
+      "part": "white-crane",
+      "source": "obj-white-crane-s7510101.png",
+      "sha256": "ed2b7df571f329196abca674c0a8cfc71af305a9d7ec15989f4d1dc8f0181314"
+    },
+    {
+      "part": "wild-boar-piglet",
+      "source": "obj-wild-boar-piglet-s7510101.png",
+      "sha256": "d37bac7e6e4e18a0eeda3d3f7f62f79437fb743ed698099ebebebc445ce1d52e"
+    },
+    {
+      "part": "wild-duck",
+      "source": "obj-wild-duck-s7510101.png",
+      "sha256": "37e1f7ab2f73ca46943eb09b54eeac3414c2a60f8680197cc2032fe3d1292f68"
+    },
+    {
+      "part": "woolly-sheep",
+      "source": "obj-woolly-sheep-s7510101.png",
+      "sha256": "e558140d3a141741f5b0002d00d8332ac6aad38739a9d266596888c0a915c167"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "interior-pyra",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "interior-pyra-bed-with-blankets",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-bed-with-blankets.webp",
+      "width": 524,
+      "height": 481
+    },
+    {
+      "id": "interior-pyra-cooking-pot-over-a-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-cooking-pot-over-a-fire.webp",
+      "width": 396,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-counter-with-a-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-counter-with-a-shelf.webp",
+      "width": 444,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-group-of-barrels",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-group-of-barrels.webp",
+      "width": 524,
+      "height": 514
+    },
+    {
+      "id": "interior-pyra-hanging-lantern-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-hanging-lantern-cluster.webp",
+      "width": 203,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-locked-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-locked-chest.webp",
+      "width": 523,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-long-wooden-table-with-benches",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-long-wooden-table-with-benches.webp",
+      "width": 524,
+      "height": 441
+    },
+    {
+      "id": "interior-pyra-potion-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-potion-shelf.webp",
+      "width": 318,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-stack-of-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-stack-of-crates.webp",
+      "width": 404,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-tall-bookshelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-tall-bookshelf.webp",
+      "width": 234,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-weapon-stand",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-weapon-stand.webp",
+      "width": 214,
+      "height": 524
+    },
+    {
+      "id": "interior-pyra-woven-rug-seen-from-above",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-pyra-woven-rug-seen-from-above.webp",
+      "width": 450,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.interior-pyra.bed-with-blankets": {
+      "asset": "interior-pyra-bed-with-blankets",
+      "fit": "contain"
+    },
+    "object.interior-pyra.cooking-pot-over-a-fire": {
+      "asset": "interior-pyra-cooking-pot-over-a-fire",
+      "fit": "contain"
+    },
+    "object.interior-pyra.counter-with-a-shelf": {
+      "asset": "interior-pyra-counter-with-a-shelf",
+      "fit": "contain"
+    },
+    "object.interior-pyra.group-of-barrels": {
+      "asset": "interior-pyra-group-of-barrels",
+      "fit": "contain"
+    },
+    "object.interior-pyra.hanging-lantern-cluster": {
+      "asset": "interior-pyra-hanging-lantern-cluster",
+      "fit": "contain"
+    },
+    "object.interior-pyra.locked-chest": {
+      "asset": "interior-pyra-locked-chest",
+      "fit": "contain"
+    },
+    "object.interior-pyra.long-wooden-table-with-benches": {
+      "asset": "interior-pyra-long-wooden-table-with-benches",
+      "fit": "contain"
+    },
+    "object.interior-pyra.potion-shelf": {
+      "asset": "interior-pyra-potion-shelf",
+      "fit": "contain"
+    },
+    "object.interior-pyra.stack-of-crates": {
+      "asset": "interior-pyra-stack-of-crates",
+      "fit": "contain"
+    },
+    "object.interior-pyra.tall-bookshelf": {
+      "asset": "interior-pyra-tall-bookshelf",
+      "fit": "contain"
+    },
+    "object.interior-pyra.weapon-stand": {
+      "asset": "interior-pyra-weapon-stand",
+      "fit": "contain"
+    },
+    "object.interior-pyra.woven-rug-seen-from-above": {
+      "asset": "interior-pyra-woven-rug-seen-from-above",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

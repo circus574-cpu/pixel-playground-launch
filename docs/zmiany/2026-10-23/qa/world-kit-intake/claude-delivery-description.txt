@@ -7,7 +7,7 @@ Maszynowy opis: [`world-asset-kit.json`](world-asset-kit.json), generowany przez
 
 ## Co jest w zestawie
 
-- `objects` — 72 wiązania obiektów (`object.*`) z gotowymi **zalecanymi wymiarami, punktem oparcia
+- `objects` — 302 wiązania obiektów (`object.*`) z gotowymi **zalecanymi wymiarami, punktem oparcia
   i obrysem kolizji** (mediany z dotychczasowych regionów). Pole `placement` = ściągawka do wpisu w JSON regionu.
 - `terrains` — 33 wiązania powierzchni (`terrain.*`): podłoże, ścieżki, place, ściany, strefy.
 - `pending` — zestawy wygenerowane na GPU, jeszcze nie zainstalowane (miasto Pyry, 494 tekstury, krajobraz

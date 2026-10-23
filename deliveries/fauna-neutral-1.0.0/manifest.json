@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "fauna-neutral",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "fauna-neutral-desert-gazelle",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-desert-gazelle.webp",
+      "width": 360,
+      "height": 524
+    },
+    {
+      "id": "fauna-neutral-field-hare",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-field-hare.webp",
+      "width": 381,
+      "height": 524
+    },
+    {
+      "id": "fauna-neutral-heavy-ox",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-heavy-ox.webp",
+      "width": 524,
+      "height": 480
+    },
+    {
+      "id": "fauna-neutral-mountain-goat",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-mountain-goat.webp",
+      "width": 461,
+      "height": 524
+    },
+    {
+      "id": "fauna-neutral-red-deer",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-red-deer.webp",
+      "width": 260,
+      "height": 524
+    },
+    {
+      "id": "fauna-neutral-red-fox",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-red-fox.webp",
+      "width": 524,
+      "height": 501
+    },
+    {
+      "id": "fauna-neutral-stone-tortoise",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-stone-tortoise.webp",
+      "width": 524,
+      "height": 432
+    },
+    {
+      "id": "fauna-neutral-sturdy-pony",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-sturdy-pony.webp",
+      "width": 475,
+      "height": 524
+    },
+    {
+      "id": "fauna-neutral-white-crane",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-white-crane.webp",
+      "width": 443,
+      "height": 524
+    },
+    {
+      "id": "fauna-neutral-wild-boar-piglet",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-wild-boar-piglet.webp",
+      "width": 524,
+      "height": 520
+    },
+    {
+      "id": "fauna-neutral-wild-duck",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-wild-duck.webp",
+      "width": 524,
+      "height": 516
+    },
+    {
+      "id": "fauna-neutral-woolly-sheep",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fauna-neutral-woolly-sheep.webp",
+      "width": 444,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.fauna-neutral.desert-gazelle": {
+      "asset": "fauna-neutral-desert-gazelle",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.field-hare": {
+      "asset": "fauna-neutral-field-hare",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.heavy-ox": {
+      "asset": "fauna-neutral-heavy-ox",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.mountain-goat": {
+      "asset": "fauna-neutral-mountain-goat",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.red-deer": {
+      "asset": "fauna-neutral-red-deer",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.red-fox": {
+      "asset": "fauna-neutral-red-fox",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.stone-tortoise": {
+      "asset": "fauna-neutral-stone-tortoise",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.sturdy-pony": {
+      "asset": "fauna-neutral-sturdy-pony",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.white-crane": {
+      "asset": "fauna-neutral-white-crane",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.wild-boar-piglet": {
+      "asset": "fauna-neutral-wild-boar-piglet",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.wild-duck": {
+      "asset": "fauna-neutral-wild-duck",
+      "fit": "contain"
+    },
+    "object.fauna-neutral.woolly-sheep": {
+      "asset": "fauna-neutral-woolly-sheep",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

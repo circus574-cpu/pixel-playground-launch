@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "interior-aether",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "interior-aether-bed-with-blankets",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-bed-with-blankets.webp",
+      "width": 524,
+      "height": 499
+    },
+    {
+      "id": "interior-aether-cooking-pot-over-a-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-cooking-pot-over-a-fire.webp",
+      "width": 524,
+      "height": 319
+    },
+    {
+      "id": "interior-aether-counter-with-a-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-counter-with-a-shelf.webp",
+      "width": 524,
+      "height": 449
+    },
+    {
+      "id": "interior-aether-group-of-barrels",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-group-of-barrels.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "interior-aether-hanging-lantern-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-hanging-lantern-cluster.webp",
+      "width": 314,
+      "height": 524
+    },
+    {
+      "id": "interior-aether-locked-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-locked-chest.webp",
+      "width": 522,
+      "height": 524
+    },
+    {
+      "id": "interior-aether-long-wooden-table-with-benches",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-long-wooden-table-with-benches.webp",
+      "width": 524,
+      "height": 367
+    },
+    {
+      "id": "interior-aether-potion-shelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-potion-shelf.webp",
+      "width": 524,
+      "height": 503
+    },
+    {
+      "id": "interior-aether-stack-of-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-stack-of-crates.webp",
+      "width": 476,
+      "height": 524
+    },
+    {
+      "id": "interior-aether-tall-bookshelf",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-tall-bookshelf.webp",
+      "width": 490,
+      "height": 524
+    },
+    {
+      "id": "interior-aether-weapon-stand",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-weapon-stand.webp",
+      "width": 503,
+      "height": 524
+    },
+    {
+      "id": "interior-aether-woven-rug-seen-from-above",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "interior-aether-woven-rug-seen-from-above.webp",
+      "width": 394,
+      "height": 463
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.interior-aether.bed-with-blankets": {
+      "asset": "interior-aether-bed-with-blankets",
+      "fit": "contain"
+    },
+    "object.interior-aether.cooking-pot-over-a-fire": {
+      "asset": "interior-aether-cooking-pot-over-a-fire",
+      "fit": "contain"
+    },
+    "object.interior-aether.counter-with-a-shelf": {
+      "asset": "interior-aether-counter-with-a-shelf",
+      "fit": "contain"
+    },
+    "object.interior-aether.group-of-barrels": {
+      "asset": "interior-aether-group-of-barrels",
+      "fit": "contain"
+    },
+    "object.interior-aether.hanging-lantern-cluster": {
+      "asset": "interior-aether-hanging-lantern-cluster",
+      "fit": "contain"
+    },
+    "object.interior-aether.locked-chest": {
+      "asset": "interior-aether-locked-chest",
+      "fit": "contain"
+    },
+    "object.interior-aether.long-wooden-table-with-benches": {
+      "asset": "interior-aether-long-wooden-table-with-benches",
+      "fit": "contain"
+    },
+    "object.interior-aether.potion-shelf": {
+      "asset": "interior-aether-potion-shelf",
+      "fit": "contain"
+    },
+    "object.interior-aether.stack-of-crates": {
+      "asset": "interior-aether-stack-of-crates",
+      "fit": "contain"
+    },
+    "object.interior-aether.tall-bookshelf": {
+      "asset": "interior-aether-tall-bookshelf",
+      "fit": "contain"
+    },
+    "object.interior-aether.weapon-stand": {
+      "asset": "interior-aether-weapon-stand",
+      "fit": "contain"
+    },
+    "object.interior-aether.woven-rug-seen-from-above": {
+      "asset": "interior-aether-woven-rug-seen-from-above",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}
