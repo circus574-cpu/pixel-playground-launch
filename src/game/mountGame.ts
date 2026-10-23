@@ -820,6 +820,30 @@ export function mountKileGends(
       "position:absolute;left:6px;bottom:96px;z-index:40;padding:4px 8px;border-radius:4px;" +
       "font:11px/1.4 monospace;color:#cfe;background:#000a;pointer-events:none;white-space:pre";
     parent.appendChild(badge);
+    // CPU time per frame (update + render commands) tells CPU-bound from GPU-bound devices.
+    let stepAt = 0;
+    const jsTimes: number[] = [];
+    game.events.on("step", () => {
+      stepAt = performance.now();
+    });
+    game.events.on("postrender", () => {
+      if (!stepAt) return;
+      jsTimes.push(performance.now() - stepAt);
+      if (jsTimes.length > 120) jsTimes.shift();
+    });
+    const gpuName = () => {
+      try {
+        const gl = (game.renderer as unknown as { gl?: WebGLRenderingContext }).gl;
+        const info = gl?.getExtension("WEBGL_debug_renderer_info");
+        return String(
+          info
+            ? gl?.getParameter(info.UNMASKED_RENDERER_WEBGL)
+            : (gl?.getParameter(gl.RENDERER) ?? "-"),
+        ).slice(0, 40);
+      } catch {
+        return "?";
+      }
+    };
     debugTimer = window.setInterval(() => {
       try {
         const m = JSON.parse(parent.dataset["metrics"] ?? "{}");
@@ -830,7 +854,10 @@ export function mountKileGends(
         badge.textContent =
           `${m.renderer} ${m.fps} fps (p95 ${Math.round(m.frameP95Ms)} ms)\n` +
           `obiekty ${m.visibleObjects}/${m.objects} tekstury ${m.textures} ` +
-          `${Math.round(m.estimatedTextureBytes / 1048576)} MB`;
+          `${Math.round(m.estimatedTextureBytes / 1048576)} MB\n` +
+          `JS ${(jsTimes.reduce((a, b) => a + b, 0) / Math.max(1, jsTimes.length)).toFixed(1)} ms/klatkę` +
+          ` · DPR ${window.devicePixelRatio} · ${game.scale.width}x${game.scale.height}\n` +
+          `GPU: ${gpuName()}`;
       } catch {
         badge.textContent = "brak danych";
       }
