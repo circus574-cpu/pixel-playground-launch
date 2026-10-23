@@ -803,6 +803,8 @@ export function mountKileGends(
     type: Phaser.AUTO,
     pixelArt: false,
     antialias: true,
+    // Sprites are textured quads, so MSAA on the whole canvas only costs fill rate on mobile GPUs.
+    render: { antialiasGL: false, powerPreference: "high-performance" },
     loader: { timeout: 20000, maxRetries: 1 },
     parent,
     width: parent.clientWidth || 960,
@@ -814,6 +816,7 @@ export function mountKileGends(
   // `?ki-debug=1` shows renderer, FPS and scene size so slowdowns can be diagnosed from a phone.
   let debugTimer = 0;
   if (new URLSearchParams(window.location.search).get("ki-debug") === "1") {
+    (window as unknown as { __kiGame?: Phaser.Game }).__kiGame = game;
     const badge = document.createElement("div");
     badge.setAttribute("data-testid", "ki-debug");
     badge.style.cssText =
