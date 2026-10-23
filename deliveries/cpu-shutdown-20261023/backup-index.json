@@ -1,0 +1,64 @@
+{
+  "format": "ki-cpu-project-backup-1",
+  "archiveSha256": "296faa6a1878d912d3a4ce23ca26ddc67b2b1438f9bd14bfe22a67eb27986b1e",
+  "archiveBytes": 165780899,
+  "files": 19199,
+  "uncompressedSourceBytes": 308632922,
+  "parts": [
+    {
+      "name": "cpu-project.tar.gz.part-001",
+      "bytes": 20971520,
+      "sha256": "c616c495e5a2c6d5cbd260accb9d6d80cfe6eff877a8cfeed269088662747a70"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-002",
+      "bytes": 20971520,
+      "sha256": "42d1783be7ce9e5a386f26b8f695c4360437d7bb78ace042854b26daa8b63883"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-003",
+      "bytes": 20971520,
+      "sha256": "c8dec70c8e44e9e45ead56afdf48e9d2e4232d8c959cc883d4bb297165851362"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-004",
+      "bytes": 20971520,
+      "sha256": "b20bbd53f1f55bfac5fbf6420297f7b00becd744391b49562e6e96b132bf0135"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-005",
+      "bytes": 20971520,
+      "sha256": "95dc5f314226c343458edf8e48d8e5e92e40e0e9e639f6ae0c98db5aa1fe2c52"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-006",
+      "bytes": 20971520,
+      "sha256": "d0f7324ebc30c0075b150df543c5cb69637206d635d8c0e37f8c9144b3f98eab"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-007",
+      "bytes": 20971520,
+      "sha256": "86fc7eb0578b9e88daa87f594da41f94832d087463e15343b44e2cd785de96fe"
+    },
+    {
+      "name": "cpu-project.tar.gz.part-008",
+      "bytes": 18980259,
+      "sha256": "5e65ac2ebb40bfcdda360bd2e5caa8c8c6753cca9967ede1b50cd56dff473870"
+    }
+  ],
+  "excluded": [
+    "env/",
+    "runtime binaries and package caches",
+    "__pycache__/"
+  ],
+  "included": [
+    "all project output variants, including incomplete runs",
+    "app and compiled tools",
+    "source-history and incoming source bundles",
+    "previous backups",
+    "project logs, scripts and environment reports",
+    "runtime download metadata",
+    "exact pip freeze and runtime versions"
+  ],
+  "lifecycleActionsPerformed": false
+}

@@ -1,5 +1,28 @@
 # KI Legends — architektura i testy
 
+## Odtworzenie po wyłączeniu poda CPU
+
+[Końcowa kopia](../deliveries/cpu-shutdown-20261023/) zawiera 8 części archiwum,
+indeks z SHA-256, manifest 19 199 plików, wersje środowiska i `restore.py`.
+Pobrano i próbnie odtworzono całość poza podem; każdy plik przeszedł kontrolę sumy.
+Zakres obejmuje wszystkie warianty wyników projektu, źródła, historię narzędzi,
+poprzednie archiwa i logi. Python/Node, instalatory i przypięte zależności pozwalają
+odtworzyć narzędzia; odtwarzalnych binariów, cache i konfiguracji logowania nie kopiowano.
+
+Po pobraniu całego katalogu dostawy z GitHuba, na Pythonie 3.12 lub nowszym:
+
+```sh
+python deliveries/cpu-shutdown-20261023/restore.py --output /nowy/katalog/odtworzenia
+```
+
+Katalog docelowy musi być nowy. Narzędzie sprawdza części i całe archiwum przed
+rozpakowaniem oraz wszystkie odtworzone pliki. Dane znajdą się w jego podfolderze
+`ki-legends-worldgen/`; `restore-environment.json` opisuje wersje środowiska,
+a `requirements-restored.txt` zawiera normalizowane wersje pakietów zamiast ścieżki
+budowania `file://` zapisanej przez conda w surowym pip freeze.
+To kopia danych i narzędzi, nie obraz systemu ani automatyczna instalacja runtime.
+Dalsza integracja grafiki nie wymaga tego poda. Ta procedura nie dotyczy A100 Claude'a.
+
 ## Kopia prac CPU — 23.10.2026
 
 Gałąź `feature/cpu-game-content-20261023` zawiera dane i kod roboczy kolejnego etapu.

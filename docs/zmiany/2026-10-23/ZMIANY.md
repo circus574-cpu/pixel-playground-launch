@@ -192,3 +192,22 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
 - To przypisania prezentacji do danych, nie gotowa scena Phaser. Otwarte: streaming
   grafiki, podłączenie runtime, ocena wizualnych drzwi, grafiki aktorów, telefon i prawa.
   Bez scalenia do main, publikacji i zmian cyklu życia poda.
+
+
+## Zabezpieczenie CPU przed wyłączeniem przez właściciela
+
+- Zakres: wyłącznie pod CPU `z0cd3m8oppqdyv`. Nie dotyczy A100 Claude'a ani partii 2.
+- [Pełna kopia projektu CPU](../../../deliveries/cpu-shutdown-20261023/):
+  wszystkie warianty wyników (także niepełne), źródła i narzędzia app, source-history,
+  incoming, poprzednie archiwa, logi, metadane środowiska i wersje zależności.
+- 19 199 plików / 308 632 922 bajty źródeł. Archiwum 165 780 899 bajtów,
+  podzielone na 8 części; SHA-256 całości:
+  `296faa6a1878d912d3a4ce23ca26ddc67b2b1438f9bd14bfe22a67eb27986b1e`.
+- Pobrano wszystkie części, sprawdzono ich SHA-256 i odtworzono cały projekt poza
+  podem narzędziem `restore.py`. [Kontrola](qa/cpu-shutdown/restore-verification.json):
+  19 199/19 199 plików z identycznymi bajtami.
+- Pominięto odtwarzalne binaria środowiska/runtime, cache i pycache; zachowano
+  instalatory, metadane źródeł i wersje. Nie kopiowano konfiguracji logowania, kluczy
+  ani sekretów. Nie zmieniano stanu poda. Decyzja o wyłączeniu należy do właściciela.
+- Otrzymano informację o streamingu Claude'a `a0d5b2e`. Wybrano do integracji
+  tylko zmianę renderowania pobliskich dekoracji i testy, bez innych zmian kontynentów.
