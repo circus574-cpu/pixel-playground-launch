@@ -22,6 +22,7 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [Przekazanie sesji 22.10.2026 — stan, decyzje, plan na rano](SESSION-2026-10-22-HANDOFF.md)
 - [Geometria planety: miasta w czworościanie, 80 000 j. między każdą parą (22.10.2026)](PLANET-GEOMETRY-2026-10-22.md)
 - [Wdrożenie tekstur kontynentów i przyrody (22.10.2026)](NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md)
+- [Analiza gry i zbiorcza lista zleceń na GPU (23.10.2026)](GPU-BACKLOG-2026-10-23.md)
 - [Rejestr licencji grafik i modeli — nierozstrzygnięte prawa](ASSET-LICENSE-REGISTER.md)
 - [Rejestr licencji zależności i notices](DEPENDENCY-LICENSE-REGISTER.md)
 - [Instrukcje dla agentów](../AGENTS.md)
