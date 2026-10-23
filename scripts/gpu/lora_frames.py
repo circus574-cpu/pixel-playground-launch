@@ -20,7 +20,7 @@ ONLY = [int(x) for x in sys.argv[5].split(",")] if len(sys.argv) > 5 else None
 ROOT = Path("/workspace/ki-legends-gpu"); M = ROOT / "models"
 OUT = ROOT / "renders" / ("%s-lora-%s" % (name, tag)); OUT.mkdir(parents=True, exist_ok=True)
 LOCAL = Path("/tmp/%s-lora-%s" % (name, tag)); LOCAL.mkdir(parents=True, exist_ok=True)
-TRIGGER = {"hero-legend": "ki_legend, 1boy, full body, anime game character"}[name]
+TRIGGER = {"hero-legend": "ki_legend, 1boy, full body, anime game character", "hero-android": "ki_android, 1boy, full body, anime game character"}[name]
 BASE = ("high angle three quarter view, clean precise linework, thick dark outlines, beautifully painted materials, cel shaded, isolated on pure white background, "
         "plain white background, simple background, wide white margin on all sides, masterpiece, best quality, very aesthetic")
 NEG = ("nsfw, nude, child, girl, woman, worst quality, low quality, blurry, cropped, cut off feet, out of frame, close up, portrait, text, logo, watermark, multiple people, "
@@ -51,7 +51,7 @@ def skeleton(points, size=1024):
 cn = ControlNetModel.from_pretrained(str(M / "controlnet/xinsir-openpose-sdxl"), torch_dtype=torch.float16)
 pipe = StableDiffusionXLControlNetPipeline.from_single_file(str(M / "checkpoints/animagine-xl-3.1.safetensors"), controlnet=cn, torch_dtype=torch.float16).to("cuda")
 pipe.load_lora_weights(str(ROOT / "lora" / name), weight_name="pytorch_lora_weights.safetensors")
-SEED = 7470101
+SEEDS = [int(x) for x in __import__("os").environ.get("SEEDS", "7470101").split(",")]
 meta = {"name": name, "frames": []}
 t0 = time.time()
 for direction in DIRS:
@@ -61,18 +61,23 @@ for direction in DIRS:
         for i, kp in enumerate(fr):
             if ONLY is not None and i not in ONLY:
                 continue
-            fn = "%s-%s-%02d.png" % (clip, direction, i)
-            img = pipe(prompt=TRIGGER + ", " + VIEW[direction] + ", " + STATE[clip] + ", " + BASE, negative_prompt=NEG, image=skeleton(kp), num_inference_steps=30,
-                       guidance_scale=6.0, controlnet_conditioning_scale=1.0, generator=torch.Generator("cuda").manual_seed(SEED), width=1024, height=1024).images[0]
-            tmp = LOCAL / fn; img.save(tmp)
-            for _ in range(5):
-                shutil.copyfile(tmp, OUT / fn)
-                try:
-                    Image.open(OUT / fn).load(); break
-                except OSError:
-                    time.sleep(1)
-            meta["frames"].append({"file": fn, "sha256": hashlib.sha256(tmp.read_bytes()).hexdigest()})
-            tiles.append(img); idx.append(i); print(fn, round(time.time() - t0), "s", flush=True)
+            for seed in SEEDS:
+                fn = "%s-%s-%02d-s%d.png" % (clip, direction, i, seed)
+                if (OUT / fn).exists():
+                    continue
+                img = pipe(prompt=TRIGGER + ", " + VIEW[direction] + ", " + STATE[clip] + ", " + BASE, negative_prompt=NEG, image=skeleton(kp), num_inference_steps=30,
+                           guidance_scale=6.0, controlnet_conditioning_scale=1.0, generator=torch.Generator("cuda").manual_seed(seed), width=1024, height=1024).images[0]
+                tmp = LOCAL / fn; img.save(tmp)
+                for _ in range(5):
+                    shutil.copyfile(tmp, OUT / fn)
+                    try:
+                        Image.open(OUT / fn).load(); break
+                    except OSError:
+                        time.sleep(1)
+                meta["frames"].append({"file": fn, "sha256": hashlib.sha256(tmp.read_bytes()).hexdigest()})
+                if seed == SEEDS[0]:
+                    tiles.append(img); idx.append(i)
+                print(fn, round(time.time() - t0), "s", flush=True)
         if tiles:
             c = 256
             sh = Image.new("RGB", (c * len(tiles), c * 2), "white")
