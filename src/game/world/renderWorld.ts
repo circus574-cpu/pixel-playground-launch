@@ -10,23 +10,131 @@ import { buildSceneryGrid, sceneryNear, sceneryReach } from "./sceneryStream";
 import { bakeRoads } from "./renderRoads";
 import type { Point } from "../navigation";
 
+/** Derived, softened copy of a ground texture; undefined when the canvas filter is unavailable. */
+function softenGround(scene: Phaser.Scene, asset: string, frame?: string | number) {
+  const key = asset + ":soft";
+  if (scene.textures.exists(key)) return key;
+  if (frame !== undefined && frame !== "__BASE") return undefined;
+  const src = scene.textures.get(asset).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
+  const w = src.width,
+    h = src.height;
+  const tex = scene.textures.createCanvas(key, w, h);
+  if (!tex) return undefined;
+  const ctx = tex.getContext();
+  if (!("filter" in ctx)) {
+    scene.textures.remove(key);
+    return undefined;
+  }
+  // Tile the image 3 × 3 before blurring so the blur wraps around the edges, then keep the middle tile.
+  const big = document.createElement("canvas");
+  big.width = w * 3;
+  big.height = h * 3;
+  const bctx = big.getContext("2d")!;
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) bctx.drawImage(src, i * w, j * h);
+  const out = document.createElement("canvas");
+  out.width = w * 3;
+  out.height = h * 3;
+  const octx = out.getContext("2d")!;
+  octx.filter = "contrast(0.46) saturate(0.55) brightness(1.1) blur(3px)";
+  octx.drawImage(big, 0, 0);
+  // Warm painted wash: the ground is a calm backdrop in one limited palette, never the loudest thing on screen.
+  octx.filter = "none";
+  octx.globalAlpha = 0.16;
+  octx.fillStyle = "#d9bf94";
+  octx.fillRect(0, 0, w * 3, h * 3);
+  octx.globalAlpha = 1;
+  ctx.drawImage(out, w, h, w, h, 0, 0, w, h);
+  tex.refresh();
+  return key;
+}
+
+/**
+ * Rectangular path/plaza areas as a feathered canvas patch instead of a hard-edged TileSprite;
+ * falls back to the TileSprite when the texture is a frame or the canvas is unavailable.
+ */
+function featheredArea(
+  scene: Phaser.Scene,
+  area: { x: number; y: number; width: number; height: number },
+  binding: {
+    asset: string;
+    frame?: string | number | undefined;
+    tileSize?: [number, number] | undefined;
+  },
+  depth: number,
+) {
+  const hard = () =>
+    sizeTile(
+      scene.add.tileSprite(area.x, area.y, area.width, area.height, binding.asset, binding.frame),
+      binding.tileSize,
+    )
+      .setOrigin(0)
+      .setDepth(depth);
+  if (binding.frame !== undefined && binding.frame !== "__BASE") return hard();
+  const pad = Math.round(Math.min(48, area.width / 3, area.height / 3));
+  const w = area.width + pad * 2,
+    h = area.height + pad * 2;
+  const key = `feather:${binding.asset}:${area.x}:${area.y}:${area.width}:${area.height}`;
+  if (scene.textures.exists(key)) scene.textures.remove(key);
+  const tex = scene.textures.createCanvas(key, w, h);
+  if (!tex) return hard();
+  const ctx = tex.getContext();
+  const src = scene.textures.get(binding.asset).getSourceImage() as
+    HTMLImageElement | HTMLCanvasElement;
+  const [stepX, stepY] = binding.tileSize ?? [src.width, src.height];
+  const pattern = ctx.createPattern(src, "repeat");
+  if (!pattern || !("filter" in ctx)) {
+    scene.textures.remove(key);
+    return hard();
+  }
+  ctx.save();
+  ctx.scale(stepX / src.width, stepY / src.height);
+  ctx.fillStyle = pattern;
+  ctx.fillRect(0, 0, (w * src.width) / stepX, (h * src.height) / stepY);
+  ctx.restore();
+  const mask = document.createElement("canvas");
+  mask.width = w;
+  mask.height = h;
+  const m = mask.getContext("2d")!;
+  m.filter = `blur(${Math.max(4, pad / 2)}px)`;
+  m.fillStyle = "#fff";
+  m.fillRect(pad, pad, area.width, area.height);
+  ctx.globalCompositeOperation = "destination-in";
+  ctx.drawImage(mask, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+  tex.refresh();
+  return scene.add
+    .image(area.x - pad, area.y - pad, key)
+    .setOrigin(0)
+    .setDepth(depth);
+}
+
 /** World units per streamed ground chunk. */
 const GROUND_CHUNK = 1024;
 /** One adapter per map format, one shared scene and lifecycle for all continents. */
 export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.terrain) return renderForest(scene, world);
   const terrain = world.terrain;
+  // Every ground-type surface goes through the same softening so the whole floor is one calm palette.
+  const calm = <T extends { asset: string; frame?: string | number | undefined }>(b: T): T => {
+    const key = softenGround(scene, b.asset, b.frame);
+    return key ? { ...b, asset: key, frame: undefined } : b;
+  };
   const ground = textureBinding("terrain." + terrain.ground, { asset: terrain.ground }),
-    path = textureBinding("terrain." + terrain.path, { asset: terrain.path }),
-    plaza = textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza });
+    path = calm(textureBinding("terrain." + terrain.path, { asset: terrain.path })),
+    plaza = calm(textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza }));
   // A painted terrain pack replaces the flat placeholder tiles and their procedural detail.
   const paintedGround = !!catalog.renderBindings["terrain." + terrain.ground];
-  const wall = catalog.renderBindings["terrain." + world.id + "-wall"];
-  const hazard = hazardBinding(world.id);
+  const wallRaw = catalog.renderBindings["terrain." + world.id + "-wall"];
+  const wall = wallRaw ? calm(wallRaw) : wallRaw;
+  const hazardRaw = hazardBinding(world.id);
+  const hazard = hazardRaw ? calm(hazardRaw) : hazardRaw;
   const border = world.border ?? 3;
   const updateAtmosphere = atmosphere(scene, world.id);
   // Ground is streamed in chunks: a world-sized TileSprite would allocate a full-size canvas
   // texture on the Canvas renderer, which does not scale to the open-world maps.
+  const soft = softenGround(scene, ground.asset, ground.frame);
+  const groundAsset = soft ?? ground.asset;
+  const groundFrame = soft ? undefined : ground.frame;
   const groundChunks = new Map<string, Phaser.GameObjects.TileSprite>();
   const streamGround = () => {
     const view = scene.cameras.main.worldView;
@@ -58,8 +166,8 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
               y,
               Math.min(GROUND_CHUNK, world.width - x),
               Math.min(GROUND_CHUNK, world.height - y),
-              ground.asset,
-              ground.frame,
+              groundAsset,
+              groundFrame,
             ),
             ground.tileSize,
           )
@@ -71,20 +179,8 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       }
   };
   streamGround();
-  for (const area of terrain.paths)
-    sizeTile(
-      scene.add.tileSprite(area.x, area.y, area.width, area.height, path.asset, path.frame),
-      path.tileSize,
-    )
-      .setOrigin(0)
-      .setDepth(renderDepth("paths"));
-  for (const area of terrain.plazas)
-    sizeTile(
-      scene.add.tileSprite(area.x, area.y, area.width, area.height, plaza.asset, plaza.frame),
-      plaza.tileSize,
-    )
-      .setOrigin(0)
-      .setDepth(renderDepth("paths") + 1);
+  for (const area of terrain.paths) featheredArea(scene, area, path, renderDepth("paths"));
+  for (const area of terrain.plazas) featheredArea(scene, area, plaza, renderDepth("paths") + 1);
   const roads =
     terrain.roads?.length || terrain.courts?.length || terrain.zones?.length
       ? bakeRoads(
@@ -101,7 +197,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
               .filter((z) => catalog.renderBindings["terrain." + z.texture])
               .map((z) => [
                 z.texture,
-                textureBinding("terrain." + z.texture, { asset: z.texture }),
+                calm(textureBinding("terrain." + z.texture, { asset: z.texture })),
               ]),
           ),
         )
@@ -269,7 +365,11 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   const streamScenery = () => {
     const view = scene.cameras.main.worldView;
     const cells =
-      Math.floor(view.left / 512) + ":" + Math.floor(view.top / 512) + ":" + Math.floor(view.width / 64);
+      Math.floor(view.left / 512) +
+      ":" +
+      Math.floor(view.top / 512) +
+      ":" +
+      Math.floor(view.width / 64);
     if (cells === lastCells) return;
     lastCells = cells;
     for (const i of sceneryNear(sceneryGrid, view, reach + 128)) if (!live.has(i)) spawn(i);
@@ -298,7 +398,8 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
       streamScenery();
-      for (const { object: o, image } of live.values()) image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
+      for (const { object: o, image } of live.values())
+        image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
     },
   };
 }
