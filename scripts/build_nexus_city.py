@@ -77,8 +77,9 @@ def T(p):
 CITY = {"x": round(_CX + SHIFT["x"] - 2000), "y": round(_CY + SHIFT["y"] - 1250), "width": 4000, "height": 2500}
 for _b in BUILDINGS:
     _b["pos"] = T(_b["pos"])
+# Street NPCs keep their place next to the start (only translated, not spread).
 for _n in NPCS:
-    _n["pos"] = T(_n["pos"])
+    _n["pos"] = (_n["pos"][0] + SHIFT["x"], _n["pos"][1] + SHIFT["y"])
 
 
 def fp_rect(o):
@@ -186,7 +187,10 @@ decor = [o for o in decor if not any(intersects((o["x"] - 40, o["y"] - 30, 80, 6
 data["objects"].extend(decor)
 
 before = len(data["enemies"])
-inside = lambda p: CITY["x"] <= p["x"] <= CITY["x"] + CITY["width"] and CITY["y"] <= p["y"] <= CITY["y"] + CITY["height"]
+# Boars keep at least 400 units from the city border, so a hunter never fights at the gate.
+GATE = 400
+inside = lambda p: (CITY["x"] - GATE <= p["x"] <= CITY["x"] + CITY["width"] + GATE
+                    and CITY["y"] - GATE <= p["y"] <= CITY["y"] + CITY["height"] + GATE)
 data["enemies"] = [e for e in data["enemies"] if not inside(e)]
 
 # Boars that stood inside the (larger) safe city are placed again on a ring just outside it.

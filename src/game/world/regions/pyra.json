@@ -26,8 +26,8 @@
       "id": "guide",
       "name": "Kaena",
       "role": "Strażniczka przysięgi",
-      "x": 34563,
-      "y": 4553,
+      "x": 34442,
+      "y": 4362,
       "tint": 11071695,
       "dialogue": "Honor zaczyna się od dotrzymanej obietnicy. Stań na Arenie Dziedzictwa, potem wróć i opowiedz, co usłyszałeś w ciszy ruin."
     },
@@ -35,8 +35,8 @@
       "id": "hunter",
       "name": "Rokan",
       "role": "Mistrz polowania",
-      "x": 34996,
-      "y": 3857,
+      "x": 34632,
+      "y": 3882,
       "tint": 16762788,
       "dialogue": "Dziki z kanionu podchodzą pod bramy. Pokonaj trzy, a otrzymasz ostrze godne pierwszej próby."
     },
@@ -103,34 +103,6 @@
   ],
   "enemies": [
     {
-      "x": 34588,
-      "y": 2480
-    },
-    {
-      "x": 35531,
-      "y": 2506
-    },
-    {
-      "x": 34017,
-      "y": 2513
-    },
-    {
-      "x": 34670,
-      "y": 5188
-    },
-    {
-      "x": 34228,
-      "y": 5235
-    },
-    {
-      "x": 32779,
-      "y": 5372
-    },
-    {
-      "x": 35294,
-      "y": 5280
-    },
-    {
       "x": 37223,
       "y": 5278
     },
@@ -181,6 +153,34 @@
     {
       "x": 37792,
       "y": 4197
+    },
+    {
+      "x": 36764,
+      "y": 5660
+    },
+    {
+      "x": 33885,
+      "y": 6491
+    },
+    {
+      "x": 31002,
+      "y": 5365
+    },
+    {
+      "x": 31092,
+      "y": 3113
+    },
+    {
+      "x": 33175,
+      "y": 1496
+    },
+    {
+      "x": 36475,
+      "y": 1634
+    },
+    {
+      "x": 37795,
+      "y": 3700
     }
   ],
   "enemyName": "Dzik z popielnych kanionów",

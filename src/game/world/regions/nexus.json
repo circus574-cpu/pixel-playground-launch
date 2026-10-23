@@ -26,8 +26,8 @@
       "id": "guide",
       "name": "LYRA-7",
       "role": "Przewodniczka sieci",
-      "x": 24933,
-      "y": 11855,
+      "x": 25552,
+      "y": 11753,
       "tint": 11071695,
       "dialogue": "Pierwsze pytanie brzmi: kim chcesz się stać? Zsynchronizuj się z Rdzeniem Świadomości, a potem wróć do węzła."
     },
@@ -35,8 +35,8 @@
       "id": "hunter",
       "name": "AXON",
       "role": "Strażnik perymetru",
-      "x": 27710,
-      "y": 11270,
+      "x": 26772,
+      "y": 11353,
       "tint": 16762788,
       "dialogue": "Organiczne dziki naruszają obwody na obrzeżach sieci. Pokonaj trzy i przynieś dane z patrolu."
     },
@@ -103,30 +103,6 @@
   ],
   "enemies": [
     {
-      "x": 26999,
-      "y": 10063
-    },
-    {
-      "x": 28097,
-      "y": 10337
-    },
-    {
-      "x": 27092,
-      "y": 10230
-    },
-    {
-      "x": 28097,
-      "y": 12766
-    },
-    {
-      "x": 27021,
-      "y": 12827
-    },
-    {
-      "x": 26160,
-      "y": 12927
-    },
-    {
       "x": 28946,
       "y": 12839
     },
@@ -181,6 +157,30 @@
     {
       "x": 29699,
       "y": 11855
+    },
+    {
+      "x": 28262,
+      "y": 13376
+    },
+    {
+      "x": 24771,
+      "y": 13951
+    },
+    {
+      "x": 22179,
+      "y": 12007
+    },
+    {
+      "x": 23812,
+      "y": 9690
+    },
+    {
+      "x": 27303,
+      "y": 9115
+    },
+    {
+      "x": 29895,
+      "y": 11059
     }
   ],
   "enemyName": "Dzik z perymetru",

@@ -60,6 +60,12 @@ describe.each(WORLD_IDS)("%s at continent scale", (id) => {
     expect(world.enemies.length).toBeGreaterThanOrEqual(12);
     for (const e of world.enemies) {
       expect(inSafeCity(world, e, null), JSON.stringify(e)).toBe(false);
+      // Never right at the gate: at least 400 units from the city border.
+      const gap = Math.hypot(
+        Math.max(bounds.x - e.x, 0, e.x - (bounds.x + bounds.width)),
+        Math.max(bounds.y - e.y, 0, e.y - (bounds.y + bounds.height)),
+      );
+      expect(gap, JSON.stringify(e)).toBeGreaterThanOrEqual(400);
       expect(nav.walkable(e), JSON.stringify(e)).toBe(true);
       expect(nav.path(world.spawn, e).length, JSON.stringify(e)).toBeGreaterThan(0);
     }
