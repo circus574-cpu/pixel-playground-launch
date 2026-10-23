@@ -40,8 +40,8 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
     H = room.height;
   tile("smithy-floor", 50, 150, W - 100, H - 190, -90000, 0xe3cdb8, 130);
   tile("smithy-wall", -1500, -400, 3540, 550, WALL, 0xb89c88);
-  tile("smithy-wall", -1500, -400, 1550, 2000, WALL, 0x8a7060);
-  tile("smithy-wall", W - 50, -400, 1550, 2000, WALL, 0x8a7060);
+  tile("smithy-wall", -1500, -400, 1550, 2000, WALL, 0xb09078);
+  tile("smithy-wall", W - 50, -400, 1550, 2000, WALL, 0xb09078);
   tile("smithy-wall", -1500, H - 60, 3540, 560, WALL, 0xa08a78);
   objects.push(scene.add.rectangle(W / 2, H - 30, 110, 60, 0x120b07).setDepth(WALL + 1));
   // Soft darkening where the wall meets the floor, so the room reads as a space with depth.
@@ -49,6 +49,15 @@ export function renderSmithy(scene: Phaser.Scene, world: WorldDefinition, room: 
   shade.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0.55, 0.55, 0, 0);
   shade.fillRect(50, 150, W - 100, 80);
   objects.push(shade);
+  // Side walls: a dark timber trim at the foot and a soft shadow falling onto the floor (no hard seam).
+  for (const x of [50, W - 50])
+    objects.push(scene.add.rectangle(x, H / 2, 10, H, 0x2e1a10).setDepth(WALL + 1));
+  const side = scene.add.graphics().setDepth(WALL + 1);
+  side.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0.5, 0, 0.5, 0);
+  side.fillRect(55, 150, 55, H - 190);
+  side.fillGradientStyle(0x120804, 0x120804, 0x120804, 0x120804, 0, 0.5, 0, 0.5);
+  side.fillRect(W - 110, 150, 55, H - 190);
+  objects.push(side);
 
   /** Prop standing on `foot`, fitted into the box; sorted by its foot like characters. */
   const prop = (key: string, x: number, footY: number, w: number, h: number, shadow = true) => {
