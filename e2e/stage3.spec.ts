@@ -1,5 +1,6 @@
 import { openHudTool } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
+import { WORLDS } from "../src/game/world/worlds";
 const races = [
   {
     name: "Planetarni",
@@ -10,8 +11,6 @@ const races = [
     settlement: "Wioska Początkowa",
     action: "Podejdź do rynku",
     back: "Idź do Airy",
-    x: 1495,
-    y: 1260,
   },
   {
     name: "Mędrcy",
@@ -22,8 +21,6 @@ const races = [
     settlement: "Sanktuarium Tysiąca Źródeł",
     action: "Podejdź: Źródło Pamięci",
     back: "Idź do Sora",
-    x: 1150,
-    y: 1130,
   },
   {
     name: "Androidy",
@@ -34,8 +31,6 @@ const races = [
     settlement: "Węzeł Świadomości",
     action: "Podejdź: Rdzeń Świadomości",
     back: "Idź do LYRA-7",
-    x: 600,
-    y: 1120,
   },
   {
     name: "Legendy",
@@ -46,10 +41,8 @@ const races = [
     settlement: "Twierdza Popiołu",
     action: "Podejdź: Arena Dziedzictwa",
     back: "Idź do Kaena",
-    x: 1180,
-    y: 1330,
   },
-];
+] as const;
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function saved(page: Page) {
@@ -96,7 +89,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     await expect(canvas).toBeVisible();
     await expect
       .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-      .toBeCloseTo(race.x, 0);
+      .toBeCloseTo(WORLDS[race.world].spawn.x, 0);
     await expect(page.locator(".ki-player-name")).toContainText(race.name.toUpperCase());
     await expect(page.locator(".ki-map-title")).toContainText(race.settlement);
     await expect(page.locator(".ki-location")).toContainText(race.continent);
@@ -124,7 +117,9 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
       x: Number(await canvas.getAttribute("data-player-x")),
       y: Number(await canvas.getAttribute("data-player-y")),
     };
-    expect(Math.hypot(moved.x - race.x, moved.y - race.y)).toBeGreaterThan(150);
+    expect(
+      Math.hypot(moved.x - WORLDS[race.world].spawn.x, moved.y - WORLDS[race.world].spawn.y),
+    ).toBeGreaterThan(150);
     const marker = await page.locator(".ki-map-marker").first().getAttribute("style");
     await page.reload();
     await expect(page.locator(`.ki-canvas[data-world="${race.world}"]`)).toBeVisible();
