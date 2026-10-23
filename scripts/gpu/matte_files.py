@@ -10,6 +10,8 @@ from rembg import remove, new_session
 out = Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
 sess = new_session()
 for f in sys.argv[2:]:
+    if (out / (Path(f).stem + ".png")).exists():  # resumable
+        continue
     cut = remove(Image.open(f).convert("RGB"), session=sess)
     box = cut.getchannel("A").point(lambda v: 255 if v > 24 else 0).getbbox()
     cut = cut.crop(box)

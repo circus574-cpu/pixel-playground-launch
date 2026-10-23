@@ -809,6 +809,372 @@
       }
     },
     {
+      "binding": "object.pyra-city.arena-dojo",
+      "asset": "pyra-city-arena-dojo",
+      "pixels": [524, 503],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.arena-dojo",
+      "placement": {
+        "width": 520,
+        "height": 499,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 110
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.banner-pole",
+      "asset": "pyra-city-banner-pole",
+      "pixels": [306, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.banner-pole",
+      "placement": {
+        "width": 130,
+        "height": 223,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.bridge-stone",
+      "asset": "pyra-city-bridge-stone",
+      "pixels": [486, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.bridge-stone",
+      "placement": {
+        "width": 360,
+        "height": 388,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.depot-warehouse",
+      "asset": "pyra-city-depot-warehouse",
+      "pixels": [524, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.depot-warehouse",
+      "placement": {
+        "width": 520,
+        "height": 520,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 114
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.fountain-fire",
+      "asset": "pyra-city-fountain-fire",
+      "pixels": [524, 495],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.fountain-fire",
+      "placement": {
+        "width": 130,
+        "height": 123,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.gate-fortress",
+      "asset": "pyra-city-gate-fortress",
+      "pixels": [460, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.gate-fortress",
+      "placement": {
+        "width": 520,
+        "height": 592,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 130
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.hall-council",
+      "asset": "pyra-city-hall-council",
+      "pixels": [500, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.hall-council",
+      "placement": {
+        "width": 520,
+        "height": 545,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 120
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.house-small",
+      "asset": "pyra-city-house-small",
+      "pixels": [524, 517],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.house-small",
+      "placement": {
+        "width": 320,
+        "height": 316,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 240,
+          "height": 79
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.inn-tavern",
+      "asset": "pyra-city-inn-tavern",
+      "pixels": [465, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.inn-tavern",
+      "placement": {
+        "width": 520,
+        "height": 586,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 129
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.lantern-stone",
+      "asset": "pyra-city-lantern-stone",
+      "pixels": [352, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.lantern-stone",
+      "placement": {
+        "width": 240,
+        "height": 357,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 144,
+          "height": 79
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.market-stall",
+      "asset": "pyra-city-market-stall",
+      "pixels": [499, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.market-stall",
+      "placement": {
+        "width": 520,
+        "height": 546,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 120
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.rocks-cluster",
+      "asset": "pyra-city-rocks-cluster",
+      "pixels": [494, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.rocks-cluster",
+      "placement": {
+        "width": 200,
+        "height": 212,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 47
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.smithy-forge",
+      "asset": "pyra-city-smithy-forge",
+      "pixels": [497, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.smithy-forge",
+      "placement": {
+        "width": 520,
+        "height": 548,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 406,
+          "height": 121
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.steps-stone",
+      "asset": "pyra-city-steps-stone",
+      "pixels": [519, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.steps-stone",
+      "placement": {
+        "width": 360,
+        "height": 363,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": false,
+        "footprint": null
+      }
+    },
+    {
+      "binding": "object.pyra-city.tower-watch",
+      "asset": "pyra-city-tower-watch",
+      "pixels": [308, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.tower-watch",
+      "placement": {
+        "width": 240,
+        "height": 408,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 120,
+          "height": 82
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.tree-maple-red",
+      "asset": "pyra-city-tree-maple-red",
+      "pixels": [524, 505],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.tree-maple-red",
+      "placement": {
+        "width": 240,
+        "height": 231,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 28
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.tree-pine-dark",
+      "asset": "pyra-city-tree-pine-dark",
+      "pixels": [524, 521],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.tree-pine-dark",
+      "placement": {
+        "width": 240,
+        "height": 239,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 53,
+          "height": 29
+        }
+      }
+    },
+    {
+      "binding": "object.pyra-city.wall-segment",
+      "asset": "pyra-city-wall-segment",
+      "pixels": [464, 524],
+      "frame": null,
+      "fit": "contain",
+      "layer": "objects",
+      "tileSize": null,
+      "regionAsset": "pyra-city.wall-segment",
+      "placement": {
+        "width": 420,
+        "height": 474,
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "solid": true,
+        "footprint": {
+          "width": 399,
+          "height": 66
+        }
+      }
+    },
+    {
       "binding": "object.pyra.smithy.anvil-stump",
       "asset": "pyra-smithy-anvil-stump",
       "pixels": [377, 526],

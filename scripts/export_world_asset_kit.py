@@ -49,6 +49,9 @@ def placement(asset_key):
             "footprint": {"width": med([f["width"] for f in fp]), "height": med([f["height"] for f in fp])} if fp else None}
 
 
+delivered = {}
+for f in sorted((REPO / "deliveries").glob("*/placement.json")):
+    delivered.update(json.loads(f.read_text()))
 kit = {"generated": "2026-10-23", "objects": [], "terrains": [], "pending": []}
 for key, b in sorted(rb.items()):
     a = assets.get(b["asset"], {})
@@ -57,7 +60,7 @@ for key, b in sorted(rb.items()):
     if key.startswith("object."):
         asset_key = key.split(".", 1)[1]
         entry["regionAsset"] = asset_key
-        entry["placement"] = placement(asset_key)
+        entry["placement"] = placement(asset_key) or delivered.get(asset_key)
         kit["objects"].append(entry)
     else:
         kit["terrains"].append(entry)
