@@ -12,6 +12,9 @@ import { installRenderTelemetry } from "./assets/telemetry";
 import { RACES, type RaceId } from "./world/races";
 import { playtestSaveKey } from "./playtest";
 import { renderWorld } from "./world/renderWorld";
+import { renderCityStreets, renderCityInterior } from "./city/renderCity";
+import { cityRoom } from "./city/room";
+import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import {
   GameSession,
@@ -24,6 +27,7 @@ import {
 import { distance, type Point } from "./navigation";
 export type { GameViewState } from "./session";
 type Actor = {
+  npcId?: NpcId;
   kind: "hero" | "npc" | "enemy";
   body: Phaser.GameObjects.Container;
   sprite: Phaser.GameObjects.Sprite;
@@ -69,6 +73,10 @@ export function mountKileGends(
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private updateVisibility?: (player: Point) => void;
+    private outsideObjects: (Phaser.GameObjects.GameObject &
+      Phaser.GameObjects.Components.Visible)[] = [];
+    private interiorView: { dispose: () => void } | undefined;
+    private lastInterior: BuildingId | null | undefined;
     private hero!: Actor;
     private enemies = new Map<string, Actor>();
     private selection!: Phaser.GameObjects.Ellipse;
@@ -158,10 +166,17 @@ export function mountKileGends(
       this.cameras.main
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
+      const beforeWorld = new Set(this.children.list);
       const rendering = renderWorld(this, world);
+      renderCityStreets(this, world);
+      this.outsideObjects = this.children.list.filter(
+        (o): o is Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Visible =>
+          !beforeWorld.has(o) && "setVisible" in o,
+      );
       this.updateVisibility = rendering.updateVisibility;
       parent.dataset["terrainMode"] = rendering.terrainMode;
       releaseScene.push(rendering.dispose);
+      releaseScene.push(() => this.interiorView?.dispose());
       this.hero = this.actor(
         session.player,
         "Ty · " + RACES[session.player.race].name,
@@ -169,8 +184,9 @@ export function mountKileGends(
         visual,
       );
       this.syncEnemies();
-      for (const n of session.npcs) {
+      for (const n of world.npcs) {
         const actor = this.actor(n, n.name, "npc", actorVisual(world.id, "npc", n.id));
+        actor.npcId = n.id;
         if (actor.visual.tintable) actor.sprite.setTint(n.tint);
       }
       this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
@@ -190,9 +206,16 @@ export function mountKileGends(
         beacon.setVisible(active);
       });
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
-      const zoom = () =>
+      const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
+        if (session.player.interior) {
+          const room = cityRoom(session.player.interior);
+          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+        }
+      };
       zoom();
+      this.scale.on(Phaser.Scale.Events.RESIZE, zoom);
+      releaseScene.push(() => this.scale.off(Phaser.Scale.Events.RESIZE, zoom));
       parent.addEventListener("ki:zoom", zoom);
       const labels = (event: Event) => {
         worldLabels = Boolean((event as CustomEvent<boolean>).detail);
@@ -238,7 +261,14 @@ export function mountKileGends(
           ...(slot ? { [event.key]: { type: "ability", ability: slot.id } as Command } : {}),
           " ": { type: "ability", ability: "R" },
           q: { type: "ability", ability: "potion" },
-          e: { type: "interact", npc: session.snapshot().nearestNpc },
+          e:
+            session.player.interior === "depot" &&
+            distance(session.player, cityRoom("depot").chest) < 145
+              ? { type: "chest" }
+              : session.snapshot().nearbyBuilding &&
+                  !session.npcs.some((n) => distance(n, session.player) < 140)
+                ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
+                : { type: "interact", npc: session.snapshot().nearestNpc },
           Escape: { type: "cancel" },
           f: { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" },
         };
@@ -331,7 +361,7 @@ export function mountKileGends(
       this.report();
     }
     private interactAt(pos: Point) {
-      if (session.dialogue || session.paused || session.player.dead) return;
+      if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
       const hit = (
         p: Point,
         { width, height, belowFoot }: { width: number; height: number; belowFoot: number },
@@ -341,7 +371,42 @@ export function mountKileGends(
         .filter((e) => e.hp > 0 && hit(e, INTERACTION_BOUNDS.enemy))
         .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
       const loot = session.loot.find((l) => hit(l, INTERACTION_BOUNDS.loot));
+      const door =
+        !session.player.interior &&
+        world.city?.buildings.find(
+          (b) =>
+            Math.abs(pos.x - b.door.x) < 190 && pos.y > b.door.y - 155 && pos.y < b.door.y + 90,
+        );
+      if (session.player.interior) {
+        const room = cityRoom(session.player.interior);
+        if (
+          session.player.interior === "depot" &&
+          Math.abs(pos.x - room.chest.x) < 85 &&
+          pos.y > room.chest.y - 150 &&
+          pos.y < room.chest.y + 25
+        ) {
+          session.command({ type: "chest" });
+          this.report();
+          return;
+        }
+        if (
+          session.player.interior === "arena" &&
+          Math.abs(pos.x - room.dummy.x) < 85 &&
+          pos.y > room.dummy.y - 160 &&
+          pos.y < room.dummy.y + 25
+        ) {
+          session.command({ type: "training", action: "start" });
+          this.report();
+          return;
+        }
+        if (distance(pos, room.exit) < 80) {
+          session.command({ type: "exit" });
+          this.report();
+          return;
+        }
+      }
       if (npc) session.command({ type: "interact", npc: npc.id });
+      else if (door) session.command({ type: "enter", building: door.id });
       else if (enemy) session.command({ type: "target", id: enemy.id });
       else if (loot) session.command({ type: "loot", id: loot.id });
       else session.command({ type: "move", x: pos.x, y: pos.y });
@@ -666,6 +731,7 @@ export function mountKileGends(
       parent.dataset["npcLabels"] = String(npcLabels);
       parent.dataset["enemyLabels"] = String(enemyLabels);
       parent.dataset["world"] = world.id;
+      parent.dataset["interior"] = session.player.interior ?? "outside";
       parent.dataset["actorVisual"] = this.hero.visual.id;
       parent.dataset["animationState"] = this.hero.animation.state;
       parent.dataset["animationFrame"] = String(this.hero.sprite.frame.name);
@@ -684,7 +750,37 @@ export function mountKileGends(
       const dt = Math.min(delta, 100);
       if (!session.paused && !session.dialogue) this.animationTime += dt;
       session.tick(dt);
-      this.updateVisibility?.(session.player);
+      if (this.lastInterior !== session.player.interior) {
+        this.interiorView?.dispose();
+        this.interiorView = undefined;
+        this.lastInterior = session.player.interior;
+        this.resetStick();
+        this.input.keyboard?.resetKeys();
+        if (session.player.interior) {
+          this.outsideObjects.forEach((o) => o.setVisible(false));
+          this.interiorView = renderCityInterior(this, world, session.player.interior);
+          const room = cityRoom(session.player.interior);
+          this.cameras.main
+            .stopFollow()
+            .removeBounds()
+            .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
+          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+        } else {
+          this.outsideObjects.forEach((o) => o.setVisible(true));
+          this.cameras.main
+            .setBounds(0, 0, world.width, world.height)
+            .setBackgroundColor(world.background);
+          this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
+          this.cameras.main.centerOn(session.player.x, session.player.y);
+        }
+      }
+      if (!session.player.interior) this.updateVisibility?.(session.player);
+      const activeNpcs = new Map(session.npcs.map((n) => [n.id, n]));
+      for (const actor of this.actors)
+        if (actor.npcId) {
+          const npc = activeNpcs.get(actor.npcId);
+          if (npc) actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+        }
       const focused = document.activeElement;
       const typing =
         focused instanceof HTMLElement &&
@@ -746,7 +842,8 @@ export function mountKileGends(
           a.body.x < view.right + pad &&
           a.body.y > view.top - pad &&
           a.body.y < view.bottom + pad + 120;
-        if (a.kind === "npc") a.body.setVisible(near);
+        if (a.kind === "npc")
+          a.body.setVisible(near && Boolean(a.npcId && activeNpcs.has(a.npcId)));
         else if (!near) a.body.setVisible(false);
       }
       for (const actor of this.actors)
@@ -761,7 +858,7 @@ export function mountKileGends(
       let nearestNpc: Actor | undefined,
         nearestDistance = 190;
       for (const actor of this.actors)
-        if (actor.kind === "npc") {
+        if (actor.kind === "npc" && actor.body.visible) {
           const d = distance(session.player, actor.body);
           if (d < nearestDistance) {
             nearestNpc = actor;
@@ -796,6 +893,7 @@ export function mountKileGends(
           top > session.player.y + visual.size[1] * (1 - visual.origin[1]);
         a.name.setVisible(
           !quiet &&
+            a.body.visible &&
             clear &&
             ((a.kind === "npc" && a === nearestNpc && !labelledEnemy) ||
               (a.kind === "enemy" && a === labelledEnemy)),

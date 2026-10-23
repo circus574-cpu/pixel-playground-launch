@@ -31,11 +31,17 @@ export default defineConfig({
   projects: [
     {
       name: "gameplay",
-      testIgnore: [...appTests, "**/globe-rendering.spec.ts", "**/gpu-webgl-smoke.spec.ts"],
+      testIgnore: [
+        ...appTests,
+        "**/globe-rendering.spec.ts",
+        "**/gpu-webgl-smoke.spec.ts",
+        "**/city-webgl.spec.ts",
+      ],
     },
     {
       name: "software-webgl",
       testMatch: [
+        "**/city-webgl.spec.ts",
         "**/gpu-webgl-smoke.spec.ts",
         "**/hero-lifecycle.spec.ts",
         "**/world-rendering.spec.ts",

@@ -1,0 +1,20 @@
+
+> assets:import
+> tsx scripts/import-game-assets.ts deliveries/city-interiors-1.0.0/manifest.json --install
+
+{
+  "id": "city-interiors",
+  "version": "1.0.0",
+  "digest": "fac09539e9a56c9076f777a7931f9287a4652583aeb37c5e487edbd5beaa14e2",
+  "assets": 3,
+  "bytesBefore": 48678,
+  "bytesAfter": 48678,
+  "worlds": {
+    "verdant": 100521760,
+    "aether": 79128864,
+    "nexus": 69776160,
+    "pyra": 66221856
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/city-interiors/1.0.0-fac09539e9a5"
+}

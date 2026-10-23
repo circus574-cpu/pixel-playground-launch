@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "city-interiors",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "city-props",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "props.webp",
+      "width": 1536,
+      "height": 256,
+      "grid": {
+        "columns": 6,
+        "rows": 1
+      }
+    },
+    {
+      "id": "city-floor",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "floor.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "city-stone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "stone.webp",
+      "width": 256,
+      "height": 256
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.city.chest": {
+      "asset": "city-props",
+      "frame": 0
+    },
+    "object.city.anvil": {
+      "asset": "city-props",
+      "frame": 1
+    },
+    "object.city.dummy": {
+      "asset": "city-props",
+      "frame": 2
+    },
+    "object.city.shelf": {
+      "asset": "city-props",
+      "frame": 3
+    },
+    "object.city.bed": {
+      "asset": "city-props",
+      "frame": 4
+    },
+    "object.city.desk": {
+      "asset": "city-props",
+      "frame": 5
+    },
+    "terrain.city-floor": {
+      "asset": "city-floor",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.city-stone": {
+      "asset": "city-stone",
+      "tileSize": [
+        256,
+        256
+      ]
+    }
+  },
+  "effects": {}
+}

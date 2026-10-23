@@ -1,4 +1,5 @@
 import { basicAttack, maxHp, openHudTool } from "./fixtures";
+import { WORLDS } from "../src/game/world/worlds";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
@@ -209,11 +210,15 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
 });
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
-  await start(page, "Planetarni");
+  await start(page, "Legendy");
   const max = await maxHp(page);
   const canvas = page.locator(".ki-canvas");
-  await canvas.evaluate((el) =>
-    el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", x: 2050, y: 1030 } })),
+  await canvas.evaluate(
+    (el, home) =>
+      el.dispatchEvent(
+        new CustomEvent("ki:command", { detail: { type: "move", x: home.x, y: home.y + 85 } }),
+      ),
+    WORLDS.pyra.enemies[0]!,
   );
   await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
@@ -221,7 +226,7 @@ test("death message ends on real respawn and subsequent movement works", async (
   await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
   await expect
     .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-    .toBeCloseTo(1495, 0);
+    .toBeCloseTo(WORLDS.pyra.spawn.x, 0);
   await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
     "aria-valuenow",
     max,

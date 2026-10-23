@@ -53,3 +53,15 @@ Nie dodawać przeciwników do miasta w celu zaliczenia dotychczasowych testów w
 Grafika: używać niezależnych obiektów i walidowanego importera, dokumentować
 pochodzenie. Mapa/globus planety, kamera i fullscreen HUD pozostają wspólne.
 Prawa do istniejących referencji i checkpointów nadal wymagają osobnej weryfikacji.
+
+## Osobna oprawa kolejnych miast
+
+`CityDefinition.palette` pozwala określić `wall`, `edge`, `accent`, `background`.
+Opcjonalne wiązania importera (bez edycji wspólnego renderera):
+`terrain.<worldId>.city-road`, `terrain.<worldId>.interior-floor`,
+`terrain.<worldId>.interior-stone`,
+`object.<worldId>.interior.<chest|anvil|dummy|shelf|bed|desk>`.
+Bez lokalnego wiązania używany jest wspólny zasób `city-interiors`.
+Osiągalność drzwi i brak kolizji weryfikować na własnych danych miasta.
+
+Implementacja i zakres testów: [raport Verdantii](VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md).

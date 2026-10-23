@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CityDirectory } from "./CityPanels";
 import { WORLDS } from "../../game/world/worlds";
 import {
   ITEMS,
@@ -135,7 +136,9 @@ export function QuestJournal({
           <small>
             Nagroda:{" "}
             {q.id === "steps"
-              ? "40 XP"
+              ? world.city
+                ? "40 XP · 40 monet"
+                : "40 XP"
               : q.id === "boars"
                 ? "80 XP · 30 monet · Ostrze strażnika"
                 : "40 XP"}
@@ -196,7 +199,7 @@ export function NpcDialogue({
   const q = p.quests[quest];
   const unlocked =
     npc.id === "guide" ||
-    (npc.id === "hunter" ? p.quests.steps === "done" : p.quests.boars === "done");
+    (npc.id === "hunter" || world.city ? p.quests.steps === "done" : p.quests.boars === "done");
   const text =
     npc.dialogue ??
     {
@@ -210,6 +213,10 @@ export function NpcDialogue({
         "U mnie kupisz mikstury i pancerz. Płacę za kły dzików. Monety i przedmioty pozostaną na tym urządzeniu po odświeżeniu.",
       smith:
         "Ren daje ostrze za obronę wioski. Przyjmij u mnie zadanie, załóż je w ekwipunku i wróć. Za 15 monet mogę też raz ulepszyć założone ostrze o 4 ataku.",
+      keeper: "Twoja skrzynia jest w depozycie.",
+      trainer: "Trenuj na manekinie.",
+      innkeeper: "Odpocznij w gospodzie.",
+      steward: "Poznaj dzielnice miasta.",
     }[npc.id];
   return (
     <div className="ki-modal-backdrop">
@@ -234,42 +241,43 @@ export function NpcDialogue({
         {feedback}
         <div className="ki-adventure-panel">
           <p>{text}</p>
-          {npc.id !== "merchant" && (
-            <>
-              <p>{state.quests.find((x) => x.id === quest)?.text}</p>
-              {q === "locked" && (
-                <button
-                  disabled={!unlocked}
-                  onClick={() => send({ type: "dialogue", action: "accept" })}
-                >
-                  {unlocked ? "Przyjmij zadanie" : "Najpierw ukończ poprzednie zadanie"}
-                </button>
-              )}
-              {npc.id === "guide" && q === "active" && (
-                <button
-                  onClick={() => {
-                    send({ type: "dialogue", action: "close" });
-                    send({ type: "move", ...world.market });
-                  }}
-                >
-                  {world.market.action}
-                </button>
-              )}
-              {q === "ready" && (
-                <button onClick={() => send({ type: "dialogue", action: "claim" })}>
-                  Odbierz nagrodę
-                </button>
-              )}
-              {q === "done" && <p>✓ Zadanie ukończone. Dziękuję za pomoc.</p>}
-            </>
-          )}
+          {["guide", "hunter", "smith"].includes(npc.id) &&
+            !(world.city && npc.id === "hunter" && q !== "ready") && (
+              <>
+                <p>{state.quests.find((x) => x.id === quest)?.text}</p>
+                {q === "locked" && (
+                  <button
+                    disabled={!unlocked}
+                    onClick={() => send({ type: "dialogue", action: "accept" })}
+                  >
+                    {unlocked ? "Przyjmij zadanie" : "Najpierw ukończ poprzednie zadanie"}
+                  </button>
+                )}
+                {npc.id === "guide" && q === "active" && (
+                  <button
+                    onClick={() => {
+                      send({ type: "dialogue", action: "close" });
+                      send({ type: "move", ...world.market });
+                    }}
+                  >
+                    {world.market.action}
+                  </button>
+                )}
+                {q === "ready" && (
+                  <button onClick={() => send({ type: "dialogue", action: "claim" })}>
+                    Odbierz nagrodę
+                  </button>
+                )}
+                {q === "done" && <p>✓ Zadanie ukończone. Dziękuję za pomoc.</p>}
+              </>
+            )}
           {npc.id === "merchant" && (
             <>
               <p>
                 <strong>{p.gold} monet</strong>
               </p>
               {ITEM_IDS.map((id) => (
-                <article key={id} className="ki-item-row">
+                <article key={id} className="ki-item-row" aria-label={ITEMS[id].name}>
                   <ItemIcon item={id} />
                   <div>
                     <strong>{ITEMS[id].name}</strong>
@@ -320,6 +328,29 @@ export function NpcDialogue({
             >
               Ulepsz ostrze · 15 monet {p.upgrade ? "(wykonano)" : ""}
             </button>
+          )}
+          {npc.id === "keeper" && (
+            <button onClick={() => send({ type: "chest" })}>Podejdź do swojej skrzyni</button>
+          )}
+          {npc.id === "trainer" && (
+            <button onClick={() => send({ type: "training", action: "start" })}>
+              Ćwicz na manekinie
+            </button>
+          )}
+          {npc.id === "innkeeper" && (
+            <button
+              disabled={p.gold < 5 || (p.hp >= state.stats.maxHp && p.ki >= state.stats.maxKi)}
+              onClick={() => send({ type: "rest" })}
+            >
+              Odpocznij · 5 monet
+            </button>
+          )}
+          {npc.id === "steward" && world.city && (
+            <CityDirectory
+              city={world.city}
+              send={send}
+              close={() => send({ type: "dialogue", action: "close" })}
+            />
           )}
           <p className="ki-panel-caption">
             Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry.

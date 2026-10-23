@@ -9,7 +9,6 @@ import {
   type StoragePort,
 } from "../game/session";
 import { distance, Navigation } from "../game/navigation";
-import { FOREST } from "../game/world/forest";
 
 function memory(): StoragePort {
   const data = new Map<string, string>();
@@ -41,14 +40,14 @@ function close(game: GameSession) {
   game.command({ type: "dialogue", action: "close" });
 }
 
-describe("complete adventure on the actual forest collision map", () => {
+describe("complete adventure in a combat region; city services in city.test.ts", () => {
   it("walks, speaks, completes three quests, fights, takes damage, loots, equips, levels and restores", () => {
     const storage = memory(),
-      game = new GameSession(new SaveStore(storage));
+      game = new GameSession(new SaveStore(storage), "legend");
     talk(game, "guide");
     game.command({ type: "dialogue", action: "accept" });
     close(game);
-    game.command({ type: "move", x: 1480, y: 800 });
+    game.command({ type: "move", ...game.world.market });
     run(game, () => game.player.quests.steps === "ready");
     talk(game, "guide");
     game.command({ type: "dialogue", action: "claim" });
@@ -96,7 +95,7 @@ describe("complete adventure on the actual forest collision map", () => {
     game.flush();
     const restored = new GameSession(new SaveStore(storage));
     expect(restored.player).toEqual(game.player);
-    expect(restored.notice).toContain("Wioska ocalona");
+    expect(restored.notice).toContain("Region ocalony");
   }, 20000);
   it("all NPCs, tutorial point and living boars can be reached from spawn", () => {
     const game = new GameSession();
@@ -108,9 +107,10 @@ describe("complete adventure on the actual forest collision map", () => {
 });
 describe("combat constraints and AI", () => {
   it("basic attack follows the annex damage model, reach and attack interval", () => {
-    const game = new GameSession(undefined, "planetary", { random: () => 0.99 }),
+    const game = new GameSession(undefined, "sage", { random: () => 0.99 }),
       e = game.enemies[0]!;
-    Object.assign(game.player, game.nav.safe({ x: e.x - 180, y: e.y }));
+    Object.assign(game.player, game.nav.safe({ x: e.x - game.kit.stats.range - 100, y: e.y }));
+    expect(distance(game.player, e)).toBeGreaterThan(game.kit.stats.range);
     game.targetId = e.id;
     game.command({ type: "ability", ability: "R" });
     expect(e.hp).toBe(66);
@@ -118,15 +118,15 @@ describe("combat constraints and AI", () => {
     game.autoAttack = false;
     Object.assign(game.player, game.nav.safe({ x: e.x - 45, y: e.y }));
     game.command({ type: "ability", ability: "R" });
-    expect(e.hp).toBe(54); // Atak 12 × 1,0 − Obrona 0 / 2
+    expect(e.hp).toBe(66 - stats(game.player).attack); // basic attack against zero-defense boar
     expect(game.events.some((event) => event.type === "attack" && event.ability === "R")).toBe(
       true,
     );
     game.command({ type: "ability", ability: "R" });
-    expect(e.hp).toBe(54); // odstęp 650 ms
-    for (let i = 0; i < 14; i++) game.tick(50);
+    expect(e.hp).toBe(66 - stats(game.player).attack); // cooldown is still active
+    for (let i = 0; i < Math.ceil(game.kit.stats.attackInterval / 50) + 1; i++) game.tick(50);
     game.command({ type: "ability", ability: "R" });
-    expect(e.hp).toBeLessThan(54);
+    expect(e.hp).toBeLessThan(66 - stats(game.player).attack);
   });
   it("checks KI and cooldown, and blocks ranged attacks through obstacles", () => {
     const game = new GameSession(undefined, "sage", { random: () => 0.99 });
@@ -168,7 +168,7 @@ describe("combat constraints and AI", () => {
     expect(enemy.hp).toBe(66);
   });
   it("a boar bite follows the annex model; death respawns without losing quests or items", () => {
-    const game = new GameSession(undefined, "planetary", { random: () => 0.99 }),
+    const game = new GameSession(undefined, "sage", { random: () => 0.99 }),
       e = game.enemies[0]!;
     Object.assign(game.player, game.nav.safe({ x: e.x - 30, y: e.y }));
     e.m.phase = "engage";
@@ -176,25 +176,29 @@ describe("combat constraints and AI", () => {
     e.mode = "chase";
     e.attackIn = 0;
     game.tick(50);
-    expect(game.player.hp).toBeCloseTo(125 - 6.5, 6); // 9 ATK − 5 DEF / 2
+    expect(game.player.hp).toBeCloseTo(
+      game.kit.stats.maxHp - Math.max(1, 9 - game.kit.stats.defense / 2),
+      6,
+    );
     game.player.hp = 1;
     e.attackIn = 0;
     game.tick(50);
     expect(game.player.dead).toBe(true);
     const items = { ...game.player.items };
     run(game, () => !game.player.dead, 5);
-    expect(game.player.hp).toBe(125);
+    expect(game.player.hp).toBe(game.kit.stats.maxHp);
     expect(game.player.items).toEqual(items);
-    expect(distance(game.player, FOREST.spawn)).toBeLessThan(25);
+    expect(distance(game.player, game.world.spawn)).toBeLessThan(25);
   });
   it("leashes, returns home, heals and eventually respawns dead enemies", () => {
-    const game = new GameSession(),
+    const game = new GameSession(undefined, "sage"),
       e = game.enemies[0]!;
     e.hp = 1;
     e.m.phase = "engage";
     e.m.engaged = true;
     e.mode = "chase";
-    Object.assign(e, game.nav.safe({ x: e.home.x - 100, y: e.home.y }));
+    Object.assign(e, game.nav.safe({ x: e.home.x + e.m.def.traits.leash + 150, y: e.home.y }));
+    expect(distance(e, e.home)).toBeGreaterThan(e.m.def.traits.leash);
     game.tick(50);
     expect(e.mode).toBe("return");
     run(game, () => e.mode === "patrol");
@@ -310,7 +314,7 @@ describe("versioned persistence", () => {
       expect(game.snapshot().saveWarning).not.toBe("");
     }
   });
-  it("keeps the original v1/v3 payload under a recovery key before the first v4 write", () => {
+  it("keeps the original v1/v3 payload under a recovery key before the first v5 write", () => {
     for (const version of [1, 3]) {
       const storage = memory();
       const raw = JSON.stringify({ version, revision: "old", player: newPlayer() });
@@ -319,14 +323,14 @@ describe("versioned persistence", () => {
       game.player.gold = 7;
       game.flush();
       const backupKey = "ki-legends:recovery:before-v4:" + SAVE_KEY;
-      expect(JSON.parse(storage.getItem(SAVE_KEY)!).version).toBe(4);
+      expect(JSON.parse(storage.getItem(SAVE_KEY)!).version).toBe(5);
       expect(storage.getItem(backupKey)).toBe(raw);
       game.player.gold = 8;
       game.flush();
       expect(storage.getItem(backupKey)).toBe(raw);
     }
   });
-  it("makes no recovery copy for a fresh or already-v4 save", () => {
+  it("makes no recovery copy for a fresh or already-v5 save", () => {
     const storage = memory();
     const game = new GameSession(new SaveStore(storage));
     game.flush();

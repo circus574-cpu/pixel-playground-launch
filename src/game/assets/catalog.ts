@@ -254,6 +254,21 @@ export function hazardBinding(worldId: WorldId, source = catalog) {
 export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[] {
   const world = WORLDS[worldId],
     refs: TextureRef[] = [];
+  if (world.city)
+    for (const key of [
+      ...["city-road", "interior-floor", "interior-stone"].map(
+        (name) => "terrain." + worldId + "." + name,
+      ),
+      ...["chest", "anvil", "dummy", "shelf", "bed", "desk"].map(
+        (name) => "object." + worldId + ".interior." + name,
+      ),
+      "terrain.city-floor",
+      "terrain.city-stone",
+      ...["chest", "anvil", "dummy", "shelf", "bed", "desk"].map((name) => "object.city." + name),
+    ]) {
+      const ref = source.renderBindings[key];
+      if (ref) refs.push(ref);
+    }
   if (world.terrain)
     for (const id of [world.terrain.ground, world.terrain.path, world.terrain.plaza])
       refs.push(textureBinding("terrain." + id, { asset: id }, source));

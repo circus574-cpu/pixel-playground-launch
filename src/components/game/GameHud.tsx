@@ -19,6 +19,8 @@ import "./game-hud.css";
 import "./anime-hud.css";
 import { POTION, xpNeeded, type Command } from "../../game/session";
 import { Inventory, QuestJournal, NpcDialogue, SkillTree } from "./AdventurePanels";
+import { CityDirectory, DepotPanel } from "./CityPanels";
+import "./city.css";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
@@ -105,7 +107,13 @@ export function GameHud({
   }, [state.noticeId, tab, chatOpen, messages]);
   const [preferences, setPreferences] = useState(readUiPreferences);
   const [hiddenSaveWarning, setHiddenSaveWarning] = useState("");
-  const scope = panel ? "panel:" + panel : state.dialogue ? "npc:" + state.dialogue : "world";
+  const scope = panel
+    ? "panel:" + panel
+    : state.depotOpen
+      ? "depot"
+      : state.dialogue
+        ? "npc:" + state.dialogue
+        : "world";
   const gameMessage = useGameMessage(
     { id: state.noticeId, text: state.notice },
     scope,
@@ -143,11 +151,11 @@ export function GameHud({
     onWorldLabels?.(preferences.worldLabels);
   }, [preferences.worldLabels, onWorldLabels]);
   useEffect(() => {
-    if (state.dialogue) {
+    if (state.dialogue || state.depotOpen) {
       setChatOpen(false);
       setToolsOpen(false);
     }
-  }, [state.dialogue]);
+  }, [state.dialogue, state.depotOpen]);
   useEffect(() => {
     if (!toolsOpen) return;
     const dismiss = (event: PointerEvent) => {
@@ -164,14 +172,15 @@ export function GameHud({
   }, [toolsOpen]);
   const world = WORLDS[state.player.continent];
   const npcs = world.npcs;
-  const nearbyNpc = npcs.find(
+  const nearbyNpc = state.activeNpcs.find(
     (n) => n.id === state.nearestNpc && Math.hypot(n.x - state.x, n.y - state.y) <= 180,
   );
-  const { left: x, top: y } = minimapPercent(world.id, state, world);
+  const { left: x, top: y } = minimapPercent(world.id, state.building?.door ?? state, world);
   function toggle(next: Panel) {
     setToolsOpen(false);
     setChatOpen(false);
     if (state.dialogue) onCommand({ type: "dialogue", action: "close" });
+    if (state.depotOpen) onCommand({ type: "storage-close" });
     setPanel((p) => (p === next ? null : next));
   }
   const player = state.player;
@@ -191,6 +200,7 @@ export function GameHud({
           document.activeElement.blur();
         setPanel(null);
         onCommand({ type: "dialogue", action: "close" });
+        onCommand({ type: "storage-close" });
       }
     };
     document.addEventListener("keydown", close);
@@ -200,7 +210,9 @@ export function GameHud({
     setPanel(null);
     onCommand({ type: "pause", value: false });
   }
-  const tracked = state.quests.find((q) => q.status !== "done");
+  const tracked = state.quests.find(
+    (q) => q.status !== "done" && (!world.city || q.id !== "boars"),
+  );
   return (
     <div
       className="ki-hud"
@@ -307,7 +319,7 @@ export function GameHud({
             </div>
           </section>
         )}
-        {!panel && !state.dialogue && (
+        {!panel && !state.dialogue && !state.depotOpen && (
           <div className="ki-notification-rail" aria-label="Powiadomienia gry">
             {feedback}
           </div>
@@ -365,7 +377,7 @@ export function GameHud({
       </button>
       <div className="ki-location">
         <BrandMark compact />
-        <strong>{world.settlement}</strong>
+        <strong>{state.building?.name ?? world.settlement}</strong>
         <i />
         {world.name}
       </div>
@@ -454,6 +466,7 @@ export function GameHud({
             !state.ready ||
             player.dead ||
             Boolean(state.dialogue) ||
+            state.depotOpen ||
             panel !== null ||
             state.locked ||
             a.remaining > 0 ||
@@ -494,6 +507,7 @@ export function GameHud({
             !state.ready ||
             player.dead ||
             Boolean(state.dialogue) ||
+            state.depotOpen ||
             panel !== null ||
             state.potion.remaining > 0 ||
             !player.items.potion ||
@@ -609,9 +623,51 @@ export function GameHud({
           feedback={<div className="ki-inline-messages">{feedback}</div>}
         />
       )}
-      {!panel && !state.dialogue && !chatOpen && !toolsOpen && !player.dead && (
+      {!panel && state.depotOpen && (
+        <DepotPanel
+          state={state}
+          send={onCommand}
+          feedback={<div className="ki-inline-messages">{feedback}</div>}
+        />
+      )}
+      {!panel && !state.dialogue && !state.depotOpen && state.building && (
+        <aside className="ki-city-state" aria-label="Wnętrze budynku">
+          <strong>{state.building.name}</strong>
+          <small>{state.building.district}</small>
+          {player.interior === "arena" && (
+            <>
+              <span>
+                Trafienia: {state.training.hits} · Obrażenia: {state.training.damage}
+              </span>
+              <small>Trening bez nagród · rzeczywiste KI i odnowienia</small>
+              <button
+                onClick={() =>
+                  onCommand({ type: "training", action: state.training.active ? "reset" : "start" })
+                }
+              >
+                {state.training.active ? "Wyzeruj trening" : "Rozpocznij trening"}
+              </button>
+            </>
+          )}
+          <button onClick={() => onCommand({ type: "exit" })}>Wyjdź do miasta</button>
+        </aside>
+      )}
+      {!panel && !state.dialogue && !state.depotOpen && !chatOpen && !toolsOpen && !player.dead && (
         <div className="ki-context-actions">
-          {player.quests.steps === "active" && !state.target && (
+          {world.city && !player.interior && (
+            <button onClick={() => toggle("map")}>Plan miasta</button>
+          )}
+          {state.nearbyBuilding && (
+            <button
+              onClick={() => onCommand({ type: "enter", building: state.nearbyBuilding!.id })}
+            >
+              Wejdź · {state.nearbyBuilding.name}
+            </button>
+          )}
+          {player.interior === "depot" && (
+            <button onClick={() => onCommand({ type: "chest" })}>Otwórz swoją skrzynię</button>
+          )}
+          {player.quests.steps === "active" && !state.target && !player.interior && (
             <button
               onClick={(event) => {
                 onCommand({ type: "move", ...world.market });
@@ -786,6 +842,9 @@ export function GameHud({
             )}
             {panel === "map" && (
               <>
+                {world.city && (
+                  <CityDirectory city={world.city} send={onCommand} close={closeAndResume} />
+                )}
                 <button className="ki-planet-open" onClick={() => setPanel("planet")}>
                   <span aria-hidden>◎</span> Mapa planety Superior · 2D / 3D
                   <small>Tu jesteś: {world.name}</small>

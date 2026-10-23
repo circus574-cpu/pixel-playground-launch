@@ -1,6 +1,6 @@
 import { tintPixels } from "./tintPixels";
 import type { TextureRef } from "../assets/schema";
-import { FOREST_OBJECTS } from "./forest";
+import { FOREST_OBJECTS, type ForestObject } from "./forest";
 import type Phaser from "phaser";
 import { FOREST } from "./forest";
 import { renderDepth } from "../assets/layers";
@@ -10,6 +10,7 @@ export function cacheForestTerrain(
   scene: Phaser.Scene,
   textureKey: string,
   objectRefs: ReadonlyMap<string, TextureRef>,
+  objects: readonly ForestObject[] = FOREST_OBJECTS,
 ) {
   const source = scene.textures.get(textureKey).getSourceImage() as HTMLImageElement;
   const chunks: {
@@ -52,7 +53,7 @@ export function cacheForestTerrain(
     height: number;
   }[] = [];
   const buildShadows = () => {
-    for (const o of FOREST_OBJECTS) {
+    for (const o of objects) {
       if (o.kind === "bridge") continue;
       const ref = objectRefs.get(o.id)!,
         frame = scene.textures.get(ref.asset).get(ref.frame),

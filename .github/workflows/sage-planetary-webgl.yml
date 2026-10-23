@@ -6,6 +6,9 @@ on:
       - ".github/workflows/sage-planetary-webgl.yml"
       - "playwright.config.ts"
       - "src/game/mountGame.ts"
+      - "src/game/session.ts"
+      - "src/game/city/**"
+      - "src/components/game/**"
       - "src/game/world/**"
       - "src/game/assets/**"
       - "src/test/**"
@@ -36,7 +39,7 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
-      - name: Four painted heroes in software WebGL
+      - name: Four painted heroes and city interiors in software WebGL
         run: npx playwright test --project=software-webgl
       - name: Software WebGL results, traces and screenshots
         if: always()
