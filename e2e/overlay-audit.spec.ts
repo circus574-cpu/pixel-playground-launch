@@ -142,7 +142,7 @@ for (const [width, height] of [
       await basicAttack(page).click();
       await expect(message).toHaveCount(0);
       await openHudTool(page, "Czat lokalny");
-      await expect(page.getByRole("log")).toContainText("Wybierz dzika");
+      await expect(page.getByRole("log")).toContainText("Wybierz cel");
       await page.getByRole("tab", { name: "Ogólny", exact: true }).click();
       await page
         .getByRole("textbox", { name: "Wiadomość lokalna", exact: true })
