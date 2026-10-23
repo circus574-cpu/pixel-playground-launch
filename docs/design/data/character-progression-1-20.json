@@ -7,7 +7,6 @@
     "skillPoints": "Poziomy 1–20: 20 punktów, jeden na poziom, węzeł kosztuje 1 punkt (tekst źródłowy); zasady związane z korzeniem wymagają testu implementacji",
     "notes": [
       "Każda rasa 29 węzłów: korzeń, 3×9, Tryb KI. Wybory A7/A8, B7/B8, C7/C8 są rozłączne.",
-      "W dokumencie początkowe krainy to Terranova/Eldoria/Nexaris/Valthera, niezgodne z obecnymi nazwami światów. Zachować oba źródła, nie zmieniać świata automatycznie.",
       "Model obrażeń w aneksie jest PROPOZYCJĄ testową, nie obecną implementacją."
     ]
   },
@@ -15,7 +14,6 @@
     "planetary": {
       "raceName": "Planetarni",
       "gameRaceId": "planetary",
-      "sourceStartingRealm": "Terranova",
       "currentGameRealm": "Verdantia",
       "currentGameWorldId": "verdant",
       "base": {
@@ -53,18 +51,9 @@
         }
       },
       "exclusiveChoices": [
-        [
-          "A7",
-          "A8"
-        ],
-        [
-          "B7",
-          "B8"
-        ],
-        [
-          "C7",
-          "C8"
-        ]
+        ["A7", "A8"],
+        ["B7", "B8"],
+        ["C7", "C8"]
       ],
       "nodes": [
         {
@@ -81,9 +70,7 @@
           "name": "Szybki Unik",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Zryw w wybranym kierunku (160 j.), 0,4 s nietykalności; 8 Ki; odn. 6 s."
         },
@@ -92,9 +79,7 @@
           "name": "Lekki Krok",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "+6% szybkości ruchu."
         },
@@ -103,9 +88,7 @@
           "name": "Pęd Szlaku",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "Po uniku następny atak zadaje +25% obrażeń (5 s)."
         },
@@ -114,10 +97,7 @@
           "name": "Wir Energii",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "A2",
-            "A3"
-          ],
+          "requiresAny": ["A2", "A3"],
           "requiresSource": "A2|A3",
           "effect": "Wirujący atak wokół postaci ×1,8, promień 140 j.; 18 Ki; odn. 10 s."
         },
@@ -126,9 +106,7 @@
           "name": "Wiatr w Plecy",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "Po pokonaniu wroga +15% szybkości ruchu przez 4 s."
         },
@@ -137,9 +115,7 @@
           "name": "Oko Zwiadowcy",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "+5% szansy krytyku."
         },
@@ -148,9 +124,7 @@
           "name": "Cios z Cienia",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A5"
-          ],
+          "requiresAny": ["A5"],
           "requiresSource": "A5",
           "effect": "Pierwszy atak po uniku zawsze jest krytyczny. Wyklucza A8."
         },
@@ -159,9 +133,7 @@
           "name": "Nieuchwytny",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A6"
-          ],
+          "requiresAny": ["A6"],
           "requiresSource": "A6",
           "effect": "Odnowienie Uniku −30%, po uniku +20% obrony przez 1 s. Wyklucza A7."
         },
@@ -170,10 +142,7 @@
           "name": "Burza Wędrowca",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "A7",
-            "A8"
-          ],
+          "requiresAny": ["A7", "A8"],
           "requiresSource": "A7|A8",
           "effect": "Seria 5 szybkich uderzeń w pobliskich wrogów, łącznie ×4,0; 35 Ki; odn. 30 s."
         },
@@ -182,9 +151,7 @@
           "name": "Impuls Ziemi",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Uderzenie w ziemię ×1,4, promień 120 j., spowolnienie 30% na 2 s; 10 Ki; odn. 6 s."
         },
@@ -193,9 +160,7 @@
           "name": "Adaptacja",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "Bonus zależny od terenu: las +30% regeneracji Ki, skały +10% obrony, woda +8% szybkości."
         },
@@ -204,9 +169,7 @@
           "name": "Kamienna Skóra",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "+8% obrony."
         },
@@ -215,10 +178,7 @@
           "name": "Kruszący Stąp",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "B2",
-            "B3"
-          ],
+          "requiresAny": ["B2", "B3"],
           "requiresSource": "B2|B3",
           "effect": "Skok i uderzenie ×2,0, ogłuszenie 1 s; 18 Ki; odn. 10 s."
         },
@@ -227,9 +187,7 @@
           "name": "Rezonans",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Impuls Ziemi uderza drugi raz po 0,5 s za 60% obrażeń."
         },
@@ -238,9 +196,7 @@
           "name": "Żyła Ziemi",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Impuls Ziemi zwraca 5 Ki za każdego trafionego wroga (maks. 15)."
         },
@@ -249,9 +205,7 @@
           "name": "Głaz Strażnik",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B5"
-          ],
+          "requiresAny": ["B5"],
           "requiresSource": "B5",
           "effect": "Kruszący Stąp tworzy osłonę pochłaniającą 15% maks. życia przez 5 s. Wyklucza B8."
         },
@@ -260,9 +214,7 @@
           "name": "Trzęsienie",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B6"
-          ],
+          "requiresAny": ["B6"],
           "requiresSource": "B6",
           "effect": "Impuls Ziemi: promień +40% i ogłuszenie 0,5 s. Wyklucza B7."
         },
@@ -271,10 +223,7 @@
           "name": "Gniew Doliny",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "B7",
-            "B8"
-          ],
+          "requiresAny": ["B7", "B8"],
           "requiresSource": "B7|B8",
           "effect": "Ogromne uderzenie obszarowe ×4,0, ogłuszenie 1,5 s; 35 Ki; odn. 30 s."
         },
@@ -283,9 +232,7 @@
           "name": "Korzenny Oddech",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Leczy 12% maks. życia w ciągu 4 s; 12 Ki; odn. 12 s."
         },
@@ -294,9 +241,7 @@
           "name": "Zielona Krew",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "+10% maks. życia."
         },
@@ -305,9 +250,7 @@
           "name": "Leśna Cierpliwość",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "Poza walką regeneracja życia 1% maks. na sekundę."
         },
@@ -316,10 +259,7 @@
           "name": "Tarcza Liści",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "C2",
-            "C3"
-          ],
+          "requiresAny": ["C2", "C3"],
           "requiresSource": "C2|C3",
           "effect": "Tarcza pochłaniająca 18% maks. życia przez 5 s; 18 Ki; odn. 12 s."
         },
@@ -328,9 +268,7 @@
           "name": "Korzenie Odporności",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Czas trwania efektów kontroli na postaci −25%."
         },
@@ -339,9 +277,7 @@
           "name": "Ziarno Życia",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Leczenie z Korzennego Oddechu +30%."
         },
@@ -350,9 +286,7 @@
           "name": "Strażnik Gaju",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C5"
-          ],
+          "requiresAny": ["C5"],
           "requiresSource": "C5",
           "effect": "Tarcza Liści odbija 20% obrażeń wręcz. Wyklucza C8."
         },
@@ -361,9 +295,7 @@
           "name": "Dar Lasu",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C6"
-          ],
+          "requiresAny": ["C6"],
           "requiresSource": "C6",
           "effect": "Korzenny Oddech zwraca 15 Ki. Wyklucza C7."
         },
@@ -372,10 +304,7 @@
           "name": "Pieśń Korzeni",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "C7",
-            "C8"
-          ],
+          "requiresAny": ["C7", "C8"],
           "requiresSource": "C7|C8",
           "effect": "Leczy 40% maks. życia i daje tarczę 20% na 6 s; 35 Ki; odn. 45 s."
         },
@@ -384,11 +313,7 @@
           "name": "Forma Rezonansu Świata",
           "type": "ki-mode",
           "minLevel": 20,
-          "requiresAny": [
-            "A9",
-            "B9",
-            "C9"
-          ],
+          "requiresAny": ["A9", "B9", "C9"],
           "requiresSource": "A9, B9 lub C9",
           "effect": "20 s: +20% Ataku, +15% Obrony, +10% szybkości ruchu; aura jako osobny efekt; 50 Ki; odn. 120 s."
         }
@@ -397,7 +322,6 @@
     "sage": {
       "raceName": "Mędrcy",
       "gameRaceId": "sage",
-      "sourceStartingRealm": "Eldoria",
       "currentGameRealm": "Aetheria",
       "currentGameWorldId": "aether",
       "base": {
@@ -435,18 +359,9 @@
         }
       },
       "exclusiveChoices": [
-        [
-          "A7",
-          "A8"
-        ],
-        [
-          "B7",
-          "B8"
-        ],
-        [
-          "C7",
-          "C8"
-        ]
+        ["A7", "A8"],
+        ["B7", "B8"],
+        ["C7", "C8"]
       ],
       "nodes": [
         {
@@ -463,9 +378,7 @@
           "name": "Pieczęć Energii",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Znak na celu; po 3 s wybucha za ×2,0; 12 Ki; odn. 8 s."
         },
@@ -474,9 +387,7 @@
           "name": "Znak Wiedzy",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "Wrogowie z pieczęcią przyjmują +10% obrażeń."
         },
@@ -485,9 +396,7 @@
           "name": "Szybka Pieczęć",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "Odnowienie Pieczęci Energii −20%."
         },
@@ -496,10 +405,7 @@
           "name": "Strumień Ki",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "A2",
-            "A3"
-          ],
+          "requiresAny": ["A2", "A3"],
           "requiresSource": "A2|A3",
           "effect": "Kanałowany promień 3 s, łącznie ×2,4 (co 0,5 s); 20 Ki; odn. 12 s."
         },
@@ -508,9 +414,7 @@
           "name": "Echo Pieczęci",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "Wybuch Pieczęci rani też pobliskich wrogów za 50% obrażeń."
         },
@@ -519,9 +423,7 @@
           "name": "Precyzja Mędrca",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "+8% szansy krytyku."
         },
@@ -530,9 +432,7 @@
           "name": "Złoty Krąg",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A5"
-          ],
+          "requiresAny": ["A5"],
           "requiresSource": "A5",
           "effect": "Wybuch Pieczęci tworzy krąg obrażeń o promieniu 120 j. Wyklucza A8."
         },
@@ -541,9 +441,7 @@
           "name": "Pieczęć Skupienia",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A6"
-          ],
+          "requiresAny": ["A6"],
           "requiresSource": "A6",
           "effect": "Wybuch Pieczęci zwraca 15 Ki. Wyklucza A7."
         },
@@ -552,10 +450,7 @@
           "name": "Sąd Światła",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "A7",
-            "A8"
-          ],
+          "requiresAny": ["A7", "A8"],
           "requiresSource": "A7|A8",
           "effect": "Po 1,5 s słup światła w dużym obszarze ×4,2; 35 Ki; odn. 30 s."
         },
@@ -564,9 +459,7 @@
           "name": "Świetlista Bariera",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Tarcza pochłaniająca 15% maks. życia przez 4 s; 12 Ki; odn. 10 s."
         },
@@ -575,9 +468,7 @@
           "name": "Kontrola Kręgu",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "Zdolności zostawiają krąg światła (5 s): +10% obrony postaci w jego obrębie."
         },
@@ -586,9 +477,7 @@
           "name": "Gęste Światło",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "Bariera trwa o 2 s dłużej."
         },
@@ -597,10 +486,7 @@
           "name": "Krąg Spowolnienia",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "B2",
-            "B3"
-          ],
+          "requiresAny": ["B2", "B3"],
           "requiresSource": "B2|B3",
           "effect": "Krąg na 5 s: wrogowie w nim −40% szybkości; 18 Ki; odn. 12 s."
         },
@@ -609,9 +495,7 @@
           "name": "Odbicie",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Bariera odbija 15% obrażeń z pocisków."
         },
@@ -620,9 +504,7 @@
           "name": "Strażnik Kręgu",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Wrogowie w kręgach zadają −10% obrażeń."
         },
@@ -631,9 +513,7 @@
           "name": "Kopuła",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B5"
-          ],
+          "requiresAny": ["B5"],
           "requiresSource": "B5",
           "effect": "Pojemność Bariery +30%. Wyklucza B8."
         },
@@ -642,9 +522,7 @@
           "name": "Lustro",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B6"
-          ],
+          "requiresAny": ["B6"],
           "requiresSource": "B6",
           "effect": "Bariera odbija pierwszy atak wroga w całości. Wyklucza B7."
         },
@@ -653,10 +531,7 @@
           "name": "Świątynia Światła",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "B7",
-            "B8"
-          ],
+          "requiresAny": ["B7", "B8"],
           "requiresSource": "B7|B8",
           "effect": "Wielki krąg na 8 s: +30% obrony postaci, wrogowie −30% szybkości; 35 Ki; odn. 40 s."
         },
@@ -665,9 +540,7 @@
           "name": "Skupienie KI",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Kanałowanie 3 s: odnawia 30% maks. Ki (przerywane ruchem lub trafieniem); odn. 15 s."
         },
@@ -676,9 +549,7 @@
           "name": "Głęboki Oddech",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "+15% maks. Ki."
         },
@@ -687,9 +558,7 @@
           "name": "Mądrość Strażników",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "Koszty Ki zdolności −8%."
         },
@@ -698,10 +567,7 @@
           "name": "Medytacja Bojowa",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "C2",
-            "C3"
-          ],
+          "requiresAny": ["C2", "C3"],
           "requiresSource": "C2|C3",
           "effect": "Kanałowanie 3 s: leczy 20% maks. życia; 10 Ki; odn. 15 s."
         },
@@ -710,9 +576,7 @@
           "name": "Czysty Umysł",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Czas trwania efektów kontroli na postaci −25%."
         },
@@ -721,9 +585,7 @@
           "name": "Strumień Wiedzy",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Po Skupieniu KI następna zdolność zadaje +25% obrażeń (6 s)."
         },
@@ -732,9 +594,7 @@
           "name": "Dar Mędrca",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C5"
-          ],
+          "requiresAny": ["C5"],
           "requiresSource": "C5",
           "effect": "Medytacja Bojowa leczy o 50% więcej. Wyklucza C8."
         },
@@ -743,9 +603,7 @@
           "name": "Skupienie Mistrza",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C6"
-          ],
+          "requiresAny": ["C6"],
           "requiresSource": "C6",
           "effect": "Skupienie KI nie jest przerywane ruchem. Wyklucza C7."
         },
@@ -754,10 +612,7 @@
           "name": "Pełnia Skupienia",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "C7",
-            "C8"
-          ],
+          "requiresAny": ["C7", "C8"],
           "requiresSource": "C7|C8",
           "effect": "8 s: zdolności nie kosztują Ki i zadają +30% obrażeń; 20 Ki; odn. 60 s."
         },
@@ -766,11 +621,7 @@
           "name": "Forma Oświecenia",
           "type": "ki-mode",
           "minLevel": 20,
-          "requiresAny": [
-            "A9",
-            "B9",
-            "C9"
-          ],
+          "requiresAny": ["A9", "B9", "C9"],
           "requiresSource": "A9, B9 lub C9",
           "effect": "20 s: +25% Ataku, odnowienia zdolności −30%, +15% Obrony; aura jako osobny efekt; 50 Ki; odn. 120 s."
         }
@@ -779,7 +630,6 @@
     "android": {
       "raceName": "Androidy",
       "gameRaceId": "android",
-      "sourceStartingRealm": "Nexaris",
       "currentGameRealm": "Nexus-9",
       "currentGameWorldId": "nexus",
       "base": {
@@ -817,18 +667,9 @@
         }
       },
       "exclusiveChoices": [
-        [
-          "A7",
-          "A8"
-        ],
-        [
-          "B7",
-          "B8"
-        ],
-        [
-          "C7",
-          "C8"
-        ]
+        ["A7", "A8"],
+        ["B7", "B8"],
+        ["C7", "C8"]
       ],
       "nodes": [
         {
@@ -845,9 +686,7 @@
           "name": "Namierzanie",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Oznacza cel na 6 s: +15% szansy krytyku przeciw niemu; 8 Ki; odn. 8 s."
         },
@@ -856,9 +695,7 @@
           "name": "Kalibracja",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "+6% szansy krytyku."
         },
@@ -867,9 +704,7 @@
           "name": "Stabilizatory",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "Zasięg strzałów +15%."
         },
@@ -878,10 +713,7 @@
           "name": "Salwa Precyzyjna",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "A2",
-            "A3"
-          ],
+          "requiresAny": ["A2", "A3"],
           "requiresSource": "A2|A3",
           "effect": "Trzy strzały w oznaczony cel, łącznie ×2,2; 18 Ki; odn. 10 s."
         },
@@ -890,9 +722,7 @@
           "name": "Analiza Słabości",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "Oznaczeni wrogowie mają −10% obrony."
         },
@@ -901,9 +731,7 @@
           "name": "Szybkie Przeładowanie",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "Odstęp strzałów −8%."
         },
@@ -912,9 +740,7 @@
           "name": "Snajper",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A5"
-          ],
+          "requiresAny": ["A5"],
           "requiresSource": "A5",
           "effect": "+40% obrażeń przeciw oznaczonym, odstęp strzałów +10%. Wyklucza A8."
         },
@@ -923,9 +749,7 @@
           "name": "Rój",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A6"
-          ],
+          "requiresAny": ["A6"],
           "requiresSource": "A6",
           "effect": "Strzał rozdziela się na 2 dodatkowe pobliskie cele (po 40% obrażeń). Wyklucza A7."
         },
@@ -934,10 +758,7 @@
           "name": "Protokół Egzekucji",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "A7",
-            "A8"
-          ],
+          "requiresAny": ["A7", "A8"],
           "requiresSource": "A7|A8",
           "effect": "Strzał ×4,0 w oznaczony cel, ×6,0 gdy cel ma poniżej 30% życia; 35 Ki; odn. 30 s."
         },
@@ -946,9 +767,7 @@
           "name": "Tarcza Plazmowa",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Tarcza pochłaniająca 18% maks. życia przez 5 s; 12 Ki; odn. 10 s."
         },
@@ -957,9 +776,7 @@
           "name": "Płyty Pancerne",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "+8% obrony."
         },
@@ -968,9 +785,7 @@
           "name": "Generator Tarczy",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "Pojemność Tarczy +25%."
         },
@@ -979,10 +794,7 @@
           "name": "Impuls Odpychający",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "B2",
-            "B3"
-          ],
+          "requiresAny": ["B2", "B3"],
           "requiresSource": "B2|B3",
           "effect": "Fala ×1,2 odpycha pobliskich wrogów i ogłusza na 0,5 s; 18 Ki; odn. 12 s."
         },
@@ -991,9 +803,7 @@
           "name": "Protokół Adaptacji",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Tarcza Plazmowa odbija 25% obrażeń z pocisków."
         },
@@ -1002,9 +812,7 @@
           "name": "Samonaprawa",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Regeneracja życia 0,5% maks. na sekundę."
         },
@@ -1013,9 +821,7 @@
           "name": "Tarcza Kolcowa",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B5"
-          ],
+          "requiresAny": ["B5"],
           "requiresSource": "B5",
           "effect": "Tarcza odbija 30% obrażeń wręcz. Wyklucza B8."
         },
@@ -1024,9 +830,7 @@
           "name": "Tarcza Modułowa",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B6"
-          ],
+          "requiresAny": ["B6"],
           "requiresSource": "B6",
           "effect": "Odnowienie Tarczy −35%. Wyklucza B7."
         },
@@ -1035,10 +839,7 @@
           "name": "Fortyfikacja",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "B7",
-            "B8"
-          ],
+          "requiresAny": ["B7", "B8"],
           "requiresSource": "B7|B8",
           "effect": "6 s: +60% obrony i odporność na efekty kontroli; 35 Ki; odn. 40 s."
         },
@@ -1047,9 +848,7 @@
           "name": "Wyładowanie Rdzenia",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Zużywa cały Ładunek: obrażenia ×(1,0 + Ładunek/50), do ×3,0 przy 100, w linii przed postacią; 15 Ki; odn. 8 s."
         },
@@ -1058,9 +857,7 @@
           "name": "Zarządzanie Rdzeniem",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "Przegrzanie trwa 1 s zamiast 2 s; Ładunek opada o 50% szybciej."
         },
@@ -1069,9 +866,7 @@
           "name": "Radiatory",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "Każdy strzał dodaje o 15% mniej Ładunku."
         },
@@ -1080,10 +875,7 @@
           "name": "Rozładowanie Awaryjne",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "C2",
-            "C3"
-          ],
+          "requiresAny": ["C2", "C3"],
           "requiresSource": "C2|C3",
           "effect": "Zeruje Ładunek i leczy 10% maks. życia; 0 Ki; odn. 20 s."
         },
@@ -1092,9 +884,7 @@
           "name": "Rezerwowy Akumulator",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "+12% maks. Ki."
         },
@@ -1103,9 +893,7 @@
           "name": "Optymalizacja",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Koszt Ki Wyładowania Rdzenia −20%."
         },
@@ -1114,9 +902,7 @@
           "name": "Przeciążony Rdzeń",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C5"
-          ],
+          "requiresAny": ["C5"],
           "requiresSource": "C5",
           "effect": "Maks. Ładunek 150 (Wyładowanie do ×4,0); przegrzanie przy 150. Wyklucza C8."
         },
@@ -1125,9 +911,7 @@
           "name": "Stabilny Rdzeń",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C6"
-          ],
+          "requiresAny": ["C6"],
           "requiresSource": "C6",
           "effect": "Przegrzanie nigdy nie następuje; maks. Ładunek 70. Wyklucza C7."
         },
@@ -1136,10 +920,7 @@
           "name": "Przeciążenie Systemu",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "C7",
-            "C8"
-          ],
+          "requiresAny": ["C7", "C8"],
           "requiresSource": "C7|C8",
           "effect": "6 s: zdolności nie kosztują Ki, +40% obrażeń; potem 2 s wyłączenia (brak akcji); 35 Ki; odn. 45 s."
         },
@@ -1148,11 +929,7 @@
           "name": "Forma Pełnego Rdzenia",
           "type": "ki-mode",
           "minLevel": 20,
-          "requiresAny": [
-            "A9",
-            "B9",
-            "C9"
-          ],
+          "requiresAny": ["A9", "B9", "C9"],
           "requiresSource": "A9, B9 lub C9",
           "effect": "20 s: +25% Ataku, +15% Obrony, przegrzanie wyłączone; aura jako osobny efekt; 50 Ki; odn. 120 s."
         }
@@ -1161,7 +938,6 @@
     "legend": {
       "raceName": "Legendy",
       "gameRaceId": "legend",
-      "sourceStartingRealm": "Valthera",
       "currentGameRealm": "Pyra",
       "currentGameWorldId": "pyra",
       "base": {
@@ -1199,18 +975,9 @@
         }
       },
       "exclusiveChoices": [
-        [
-          "A7",
-          "A8"
-        ],
-        [
-          "B7",
-          "B8"
-        ],
-        [
-          "C7",
-          "C8"
-        ]
+        ["A7", "A8"],
+        ["B7", "B8"],
+        ["C7", "C8"]
       ],
       "nodes": [
         {
@@ -1227,9 +994,7 @@
           "name": "Ogniste Cięcie",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Kombinacja 3 cięć, łącznie ×1,8; 10 Ki; odn. 6 s."
         },
@@ -1238,9 +1003,7 @@
           "name": "Rozgrzane Ostrza",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "Cięcia podpalają na 3 s (łącznie 30% Ataku)."
         },
@@ -1249,9 +1012,7 @@
           "name": "Łańcuch Ciosów",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "A1"
-          ],
+          "requiresAny": ["A1"],
           "requiresSource": "A1",
           "effect": "Po 3 trafieniach z rzędu odstęp ataków −10% na 4 s."
         },
@@ -1260,10 +1021,7 @@
           "name": "Szarża Płomienia",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "A2",
-            "A3"
-          ],
+          "requiresAny": ["A2", "A3"],
           "requiresSource": "A2|A3",
           "effect": "Doskok (200 j.) i cięcie ×2,2; 18 Ki; odn. 10 s."
         },
@@ -1272,9 +1030,7 @@
           "name": "Rozżarzone Pięści",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "+8% Ataku."
         },
@@ -1283,9 +1039,7 @@
           "name": "Okrucieństwo",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "A4"
-          ],
+          "requiresAny": ["A4"],
           "requiresSource": "A4",
           "effect": "+6% szansy krytyku."
         },
@@ -1294,9 +1048,7 @@
           "name": "Taniec Płomieni",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A5"
-          ],
+          "requiresAny": ["A5"],
           "requiresSource": "A5",
           "effect": "Ogniste Cięcie ma 5 cięć (łącznie ×2,6). Wyklucza A8."
         },
@@ -1305,9 +1057,7 @@
           "name": "Pojedynkowicz",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "A6"
-          ],
+          "requiresAny": ["A6"],
           "requiresSource": "A6",
           "effect": "+25% obrażeń, gdy w zasięgu 200 j. jest tylko jeden wróg. Wyklucza A7."
         },
@@ -1316,10 +1066,7 @@
           "name": "Tysiąc Cięć",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "A7",
-            "A8"
-          ],
+          "requiresAny": ["A7", "A8"],
           "requiresSource": "A7|A8",
           "effect": "Seria 8 cięć, łącznie ×4,2; 35 Ki; odn. 30 s."
         },
@@ -1328,9 +1075,7 @@
           "name": "Przełamanie",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Cios kruszący ×1,5, ogłuszenie 1,2 s i zniszczenie osłon wroga; 12 Ki; odn. 8 s."
         },
@@ -1339,9 +1084,7 @@
           "name": "Hartowana Skóra",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "+8% obrony."
         },
@@ -1350,9 +1093,7 @@
           "name": "Honor Wojownika",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "B1"
-          ],
+          "requiresAny": ["B1"],
           "requiresSource": "B1",
           "effect": "+10% maks. życia."
         },
@@ -1361,10 +1102,7 @@
           "name": "Płomienny Szał",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "B2",
-            "B3"
-          ],
+          "requiresAny": ["B2", "B3"],
           "requiresSource": "B2|B3",
           "effect": "8 s: +30% Ataku, −20% obrony; 18 Ki; odn. 25 s."
         },
@@ -1373,9 +1111,7 @@
           "name": "Żelazna Wola",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "W Szale odporność na ogłuszenie."
         },
@@ -1384,9 +1120,7 @@
           "name": "Krew Legendy",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "B4"
-          ],
+          "requiresAny": ["B4"],
           "requiresSource": "B4",
           "effect": "Po pokonaniu wroga leczy 3% maks. życia."
         },
@@ -1395,9 +1129,7 @@
           "name": "Wściekłość",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B5"
-          ],
+          "requiresAny": ["B5"],
           "requiresSource": "B5",
           "effect": "Szał trwa o 4 s dłużej i daje dodatkowe +10% Ataku. Wyklucza B8."
         },
@@ -1406,9 +1138,7 @@
           "name": "Kontrolowany Żar",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "B6"
-          ],
+          "requiresAny": ["B6"],
           "requiresSource": "B6",
           "effect": "Szał nie obniża obrony. Wyklucza B7."
         },
@@ -1417,10 +1147,7 @@
           "name": "Ostatni Płomień",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "B7",
-            "B8"
-          ],
+          "requiresAny": ["B7", "B8"],
           "requiresSource": "B7|B8",
           "effect": "5 s: pierwszy śmiertelny cios zostawia 1 punkt życia i leczy 30% maks. życia; 35 Ki; odn. 90 s."
         },
@@ -1429,9 +1156,7 @@
           "name": "Wybuch Ki",
           "type": "active",
           "minLevel": 2,
-          "requiresAny": [
-            "R"
-          ],
+          "requiresAny": ["R"],
           "requiresSource": "korzeń",
           "effect": "Eksplozja wokół postaci ×1,8, promień 150 j.; 15 Ki; odn. 8 s."
         },
@@ -1440,9 +1165,7 @@
           "name": "Żar",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "Żar rośnie o 50% szybciej i opada 2× wolniej."
         },
@@ -1451,9 +1174,7 @@
           "name": "Ognisty Oddech",
           "type": "passive",
           "minLevel": 4,
-          "requiresAny": [
-            "C1"
-          ],
+          "requiresAny": ["C1"],
           "requiresSource": "C1",
           "effect": "Wybuch Ki podpala na 4 s (łącznie 40% Ataku)."
         },
@@ -1462,10 +1183,7 @@
           "name": "Eksplozja Żaru",
           "type": "active",
           "minLevel": 7,
-          "requiresAny": [
-            "C2",
-            "C3"
-          ],
+          "requiresAny": ["C2", "C3"],
           "requiresSource": "C2|C3",
           "effect": "Zużywa cały Żar: obszarowo ×(1,0 + Żar/50), do ×3,0 przy 100; 20 Ki; odn. 12 s."
         },
@@ -1474,9 +1192,7 @@
           "name": "Szybkie Rozżarzenie",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Walka zaczyna się z 20 Żaru."
         },
@@ -1485,9 +1201,7 @@
           "name": "Nieugaszony",
           "type": "passive",
           "minLevel": 10,
-          "requiresAny": [
-            "C4"
-          ],
+          "requiresAny": ["C4"],
           "requiresSource": "C4",
           "effect": "Przy 100 Żaru regeneracja Ki +50%."
         },
@@ -1496,9 +1210,7 @@
           "name": "Wulkan",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C5"
-          ],
+          "requiresAny": ["C5"],
           "requiresSource": "C5",
           "effect": "Eksplozja Żaru: promień +50%. Wyklucza C8."
         },
@@ -1507,9 +1219,7 @@
           "name": "Detonator",
           "type": "choice",
           "minLevel": 13,
-          "requiresAny": [
-            "C6"
-          ],
+          "requiresAny": ["C6"],
           "requiresSource": "C6",
           "effect": "Eksplozja Żaru: +25% obrażeń, promień −20%. Wyklucza C7."
         },
@@ -1518,10 +1228,7 @@
           "name": "Ognisty Kataklizm",
           "type": "ultimate",
           "minLevel": 16,
-          "requiresAny": [
-            "C7",
-            "C8"
-          ],
+          "requiresAny": ["C7", "C8"],
           "requiresSource": "C7|C8",
           "effect": "Kolumna ognia w dużym obszarze ×4,5 i podpalenie na 5 s; 35 Ki; odn. 30 s."
         },
@@ -1530,11 +1237,7 @@
           "name": "Forma Płomiennego Legendy",
           "type": "ki-mode",
           "minLevel": 20,
-          "requiresAny": [
-            "A9",
-            "B9",
-            "C9"
-          ],
+          "requiresAny": ["A9", "B9", "C9"],
           "requiresSource": "A9, B9 lub C9",
           "effect": "20 s: +30% Ataku, Żar utrzymuje się na 100; aura jako osobny efekt; 50 Ki; odn. 120 s."
         }

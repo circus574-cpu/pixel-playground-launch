@@ -39,16 +39,9 @@ Wartość statystyki na poziomie L = wartość bazowa + przyrost × (L − 1). S
 - Proponowany darmowy pierwszy reset do poz. 10; późniejsze koszty do ustalenia.
 - Aneks zastępuje dawny sztywny harmonogram zdobywania zdolności (poz. 1, 3, 6, 9, 12, 15, 18, 20); treść nagród fabularnych wymaga późniejszej migracji.
 
-## Sprzeczność nazw krain wymagająca rozstrzygnięcia
+## Nazwy krain
 
-| Rasa       | Nazwa startowej krainy w aneksie | Bieżąca nazwa w grze | Id świata |
-| ---------- | -------------------------------- | -------------------- | --------- |
-| Planetarni | Terranova                        | Verdantia            | `verdant` |
-| Mędrcy     | Eldoria                          | Aetheria             | `aether`  |
-| Androidy   | Nexaris                          | Nexus-9              | `nexus`   |
-| Legendy    | Valthera                         | Pyra                 | `pyra`    |
-
-Nie zmieniać nazw krain ani zapisów graczy na podstawie tego aneksu bez osobnej decyzji właściciela.
+Obowiązują wyłącznie nazwy z gry (decyzja właściciela 23.10.2026): Planetarni — Verdantia (`verdant`), Mędrcy — Aetheria (`aether`), Androidy — Nexus-9 (`nexus`), Legendy — Pyra (`pyra`). Inne nazwy krain, które mogły występować w pierwotnym tekście aneksu, są nieobowiązujące i usunięte.
 
 ## Planetarni — drzewko (schemat i pełna tabela; str. 4–5)
 

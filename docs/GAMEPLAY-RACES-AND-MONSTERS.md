@@ -47,7 +47,7 @@
 - **Bossów (8):** nie ma ich w bestiariuszu HTML; do zaprojektowania. Jedyną kanoniczną listą przeciwników jest bestiariusz HTML (40); lista 20 przeciwników z aneksu została usunięta decyzją właściciela (23.10.2026).
 - **Grafik potworów w grze:** paczki są w `deliveries/`, niezainstalowane; do czasu instalacji potwory używają grafiki dzika.
 - **Aur Trybu KI, grafiki zdolności:** efekty są proceduralne (okręgi, pociski, napisy).
-- **Zmiany nazw krain** (Terranova/Eldoria/Nexaris/Valthera w aneksie vs Verdantia/Aetheria/Nexus-9/Pyra w grze) — nie wykonano.
+- **Nazwy krain:** obowiązują nazwy z gry (Verdantia, Aetheria, Nexus-9, Pyra) — decyzja właściciela 23.10.2026; nazwy z aneksu usunięto.
 - Wartości, których gracz nie ma jak zadać: słabości na wodę/zimno u potworów pozostają w danych bez efektu, dopóki nie pojawią się takie zdolności.
 
 ## 5. Zapis
