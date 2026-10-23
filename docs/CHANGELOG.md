@@ -28,6 +28,10 @@ Każde kolejne wydanie wymaga daty, SHA, PR, wyników CI, dokumentu decyzji wła
 
 - Cztery malowane rasy, tekstury kontynentów i przyroda zainstalowane jako publiczne; otwarte światy Aetherii, Nexus-9 i Pyry (cztery strefy), przycisk „Usuń” w wyborze postaci, podgląd kontynentu z atlasu, geometria planety (80 000 j. między miastami). Szczegóły i plan na jutro: [SESSION-2026-10-22-HANDOFF.md](SESSION-2026-10-22-HANDOFF.md). Brak scalenia i publikacji.
 
+## 2026-10-23 — miasto Nexus-9 (gałąź `feat/nexus-city`, NIESCALONE, NIEOPUBLIKOWANE)
+
+- Sześć budynków usługowych na pierścieniu wokół centralnych placów, każdy w osobnej dzielnicy ≥ 700 j. od pozostałych, z drzwiami osiągalnymi z rynku; mieszkańcy Androidów; obszar bezpieczny bez dzików (24 → 20 punktów wrogów w Nexus-9). Mechaniki wnętrz, handlu, kowala, depozytu i treningu: gałąź Codexa. Szczegóły: [CITY-NEXUS-2026-10-23.md](CITY-NEXUS-2026-10-23.md).
+
 ## 2026-10-23 — wydajność rysowania (OPUBLIKOWANE)
 
 - Przyczyna przycinania na telefonie (realme 14T, Mali-G57): 33 postacie jako kontenery nie były przycinane przez kamerę i każda rozbijała rysowanie na osobną porcję (70 wywołań rysowania na klatkę). Naprawa: postacie spoza widoku nie są rysowane, cień postaci to obraz zamiast kształtu. Wynik: 2–5 wywołań rysowania na klatkę. Pomiar na urządzeniu w Aetherii: z 11–17 do **59,5 FPS** (p95 19 ms).
