@@ -1,4 +1,4 @@
-import { test, expect, basicAttack, type Page } from "./fixtures";
+import { test, expect, basicAttack, expectCityClear, type Page } from "./fixtures";
 import { cityRoom } from "../src/game/city/room";
 import type { BuildingId } from "../src/game/city/types";
 import { VERDANT_CITY } from "../src/game/city/verdantia";
@@ -46,7 +46,7 @@ for (const [width, height] of [
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const canvas = page.locator(".ki-canvas");
     await expect(canvas).toHaveAttribute("data-interior", "outside");
-    await expect(canvas).toHaveAttribute("data-enemies", "[]");
+    await expectCityClear(canvas);
     await page.screenshot({ path: info.outputPath(`city-outside-${width}.png`) });
     await building(page, "shop");
     await clickPoint(page, 300, 300);
@@ -92,10 +92,10 @@ for (const [width, height] of [
     await expect(page.getByRole("complementary", { name: "Wnętrze budynku" })).toContainText(
       "Trafienia: 1",
     );
-    await expect(canvas).toHaveAttribute("data-enemies", "[]");
+    await expectCityClear(canvas);
     await page.screenshot({ path: info.outputPath(`city-training-${width}.png`) });
     await exit(page);
-    await expect(canvas).toHaveAttribute("data-enemies", "[]");
+    await expectCityClear(canvas);
     expect(errors).toEqual([]);
   });
 }

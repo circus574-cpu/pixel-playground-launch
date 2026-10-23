@@ -12,6 +12,7 @@ const races: {
   hunter: string;
   skill: string;
 }[] = [
+  { id: "planetary", guide: "Aira", hunter: "Ren", skill: "Szybki Unik" },
   {
     id: "sage",
     guide: "Sora",
