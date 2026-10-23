@@ -1,4 +1,5 @@
 import { openHudTool, patchActiveCharacter, maxHp } from "./fixtures";
+import { isCityStage } from "../src/game/city/types";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
 import { WORLDS, worldObstacles } from "../src/game/world/worlds";
@@ -209,7 +210,7 @@ for (const race of RACE_IDS)
       });
     });
   }
-for (const race of RACE_IDS.filter((race) => !WORLDS[RACES[race].world].city))
+for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].world])))
   test(`real defeat, respawn and movement: ${race}`, async ({ page }, info) => {
     const world = WORLDS[RACES[race].world];
     await start(page, race);
@@ -298,7 +299,7 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
 });
 // Beyond leash (300) plus the longest ranged reach, so every race makes the boar give up.
 const LOSE_RADIUS = 1000;
-for (const race of RACE_IDS.filter((race) => !WORLDS[RACES[race].world].city))
+for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].world])))
   test(`real pursuit, return, enemy collision and world boundary: ${race}`, async ({
     page,
   }, info) => {
