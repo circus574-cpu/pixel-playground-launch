@@ -1,0 +1,23 @@
+{
+  "pages": 89,
+  "characters": 174719,
+  "words": 27984,
+  "bookmarks": 244,
+  "linkAnnotations": 40,
+  "unicodeSampleAllPresent": true,
+  "all98QuestHeadingsPresent": true,
+  "manifestHashesMatch": true,
+  "textBoundsIssues": [],
+  "dataChecksDuringBuild": [
+    "Unique item and quest IDs; all recipe inputs/outputs exist",
+    "No recipe dependency cycles; quest prerequisite references exist",
+    "Positive quantities; no simple buy/sell or crafting/resale arbitrage",
+    "Example XP route walked in unlock/level order; level 20 reachable before M23"
+  ],
+  "visualReview": "Cover, TOC, quest cards, equipment, recipes and bestiary sampled at page resolution",
+  "limitations": [
+    "No gameplay implementation or playtest of the proposed campaign",
+    "Visual review sampled pages, not every page",
+    "Economy and combat are initial design values, not measured gameplay balance"
+  ]
+}

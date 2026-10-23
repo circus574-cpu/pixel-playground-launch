@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "date": "2026-10-23",
+  "status": "PROPOSAL_NOT_IMPLEMENTED",
+  "sourceSha": "5bb495c7bfce311077bf081cd27b636e577dcdcf",
+  "counts": {
+    "quests": 98,
+    "originQuests": 24,
+    "sharedMainQuests": 24,
+    "sideQuests": 24,
+    "personalQuests": 12,
+    "professionQuests": 6,
+    "repeatableQuests": 8,
+    "items": 177,
+    "materials": 57,
+    "recipes": 94,
+    "existingMonsters": 40,
+    "newBossDesigns": 8,
+    "existingSkillNodes": 116
+  },
+  "balance": {
+    "originXP": 480,
+    "sharedXP": 9400,
+    "exampleSideXP": 3760,
+    "xpBeforeM23": 12400,
+    "xpRequiredLevel20": 12160,
+    "exampleQuestCoins": 4605
+  },
+  "sources": [
+    {
+      "path": "docs/design/data/character-progression-1-20.json",
+      "sha256": "27665d288e4ecbf943c5cd1daa6eb8a256bc8317978b1886df512b6be0c17c9a"
+    },
+    {
+      "path": "art/production/enemies/roster.json",
+      "sha256": "9536c1bd1c878c12c4102717b68444644d1e0c6c88a62c7a8a936d8f3bc47bd2"
+    },
+    {
+      "path": "src/game/session.ts",
+      "sha256": "470e868b288e0db7343ccbf1aa24e6971fb88a84423557bfd42feb186d371746"
+    },
+    {
+      "path": "src/game/kit/balance.ts",
+      "sha256": "2709d92e2f0aaa337c8aa7366b8a61db9aed09cff901ec71747770fbd3533eef"
+    },
+    {
+      "path": "src/game/kit/progression.ts",
+      "sha256": "35dfd5c207574abca8142287a7449100cdd8de2630e966f9b52c11157fd4b001"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "sha256": "005fa829436a002715fd08c49f2d68a3dfc0fc52337c96892a1fd6beb2a7c78a"
+    },
+    {
+      "path": "docs/PLANET-GEOMETRY-2026-10-22.md",
+      "sha256": "c217a45abd3a9e6da3861c4f0537e07d4cdfb6294729a5fcb398b435ac6142cd"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf",
+      "bytes": 322798,
+      "sha256": "372b426f2bc7cbcfffce8e4a367765fda4df9703e943d94defec63b7b0981b40"
+    },
+    {
+      "path": "KI-LEGENDS-KSIEGA-PRZYGODY.md",
+      "bytes": 182074,
+      "sha256": "1c882ef0615250b1e26850023c90c61ebb32100a1c552b17d4f08519ba163089"
+    },
+    {
+      "path": "campaign-data.json",
+      "bytes": 180863,
+      "sha256": "64cb49ba3a56f04a128f0890a64af49386a73dcd616e041f862498f16ecc8757"
+    }
+  ]
+}

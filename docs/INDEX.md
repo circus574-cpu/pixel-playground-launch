@@ -4,6 +4,8 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 
 ## Dokumentacja audytowa i bieżąca
 
+- [Księga przygody i rozwoju — projekt kampanii, 98 zadań i statystyki wyposażenia (PDF)](design/adventure-20261023/README.md) — propozycja z 23.10.2026, bez zmian rozgrywki.
+
 - [Zielona Przystań — funkcjonalne miasto Planetarnych](VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md)
 - [Miasta — kontrakt wspólnego silnika i podział Codex / Claude](CITY-INTEGRATION-CONTRACT-2026-10-23.md)
 
