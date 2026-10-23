@@ -277,3 +277,8 @@ Baza segregacji: `927146f4e5d84ed1b71cd1a732d4f9efd430615c`. Starsze liczby test
   assets PASS, kontrola niezmienionej geometrii PASS. Powtórzono mały ekran:
   rzeczywista walka, śmierć potwora i zachowanie odrodzenia po reloadzie PASS.
   Pełne końcowe Canvas/WebGL oraz ocena nowego widoku pozostają do wykonania.
+
+- Checkpoint kodu i kompletu danych wypchnięto jako `557170d` na osobną gałąź.
+  Po poprawce kwadratowych wycinków Playwright Canvas wyprawy: **3/3 PASS**
+  (10 lądów i zachowanie rasy/zapisów, depozyt, mały ekran z prawdziwą walką
+  i zachowaniem czasu odrodzenia). Zrzuty w QA mają status widoku roboczego.

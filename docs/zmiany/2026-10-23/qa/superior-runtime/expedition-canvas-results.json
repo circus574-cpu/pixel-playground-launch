@@ -1,0 +1,298 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/pixel-playground-launch/node_modules/.bin/playwright",
+      "test",
+      "e2e/superior-world.spec.ts",
+      "--project=gameplay"
+    ],
+    "configFile": "/workspace/pixel-playground-launch/playwright.config.ts",
+    "rootDir": "/workspace/pixel-playground-launch/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/city-webgl.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/pixel-playground-launch/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "gameplay",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "snapshotDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4177",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-webgl"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "gameplay"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "superior-world.spec.ts",
+      "file": "superior-world.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Superior: ten lands, race and inventory survive travel and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 32685,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T23:19:44.253Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "superior-streaming",
+                      "contentType": "application/json",
+                      "body": "W3siZmVhdHVyZSI6ImFldGhlciIsImNodW5rcyI6MTIsIm1ldHJpY3MiOiJ7XCJzYW1wbGVBdE1zXCI6OTM5MixcImZwc1wiOjE5LjksXCJmcmFtZVA1ME1zXCI6MTYuNjk5OTk5OTk1NTI5NjUsXCJmcmFtZVA5NU1zXCI6Mjc2LjcwMDAwMDAwMjk4MDIzLFwib2JqZWN0c1wiOjIwNSxcImFjdGl2ZU9iamVjdHNcIjoyMDUsXCJ2aXNpYmxlT2JqZWN0c1wiOjE2NyxcInRleHR1cmVzXCI6ODEsXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjo5NzQ1MzEyMCxcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6MTUyMDc5ODgwLFwicmVuZGVyZXJcIjpcIkNhbnZhc1wiLFwiZHJhd0NhbGxzXCI6bnVsbH0ifSx7ImZlYXR1cmUiOiJpc2xhbmQtMSIsImNodW5rcyI6MTIsIm1ldHJpY3MiOiJ7XCJzYW1wbGVBdE1zXCI6MTIwMjIsXCJmcHNcIjozNC40LFwiZnJhbWVQNTBNc1wiOjE2LjY5OTk5OTk5NTUyOTY1LFwiZnJhbWVQOTVNc1wiOjExMi4xMDAwMDAwMDE0OTAxMixcIm9iamVjdHNcIjo4OSxcImFjdGl2ZU9iamVjdHNcIjo4OSxcInZpc2libGVPYmplY3RzXCI6NTEsXCJ0ZXh0dXJlc1wiOjYyLFwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzXCI6Nzc4NTg0NjQsXCJiYWtlZFRleHR1cmVCeXRlc1wiOjAsXCJqc0hlYXBCeXRlc1wiOjE3NzgzMzc2MixcInJlbmRlcmVyXCI6XCJDYW52YXNcIixcImRyYXdDYWxsc1wiOm51bGx9In0seyJmZWF0dXJlIjoiaXNsYW5kLTIiLCJjaHVua3MiOjEyLCJtZXRyaWNzIjoie1wic2FtcGxlQXRNc1wiOjEyMDIyLFwiZnBzXCI6MzQuNCxcImZyYW1lUDUwTXNcIjoxNi42OTk5OTk5OTU1Mjk2NSxcImZyYW1lUDk1TXNcIjoxMTIuMTAwMDAwMDAxNDkwMTIsXCJvYmplY3RzXCI6ODksXCJhY3RpdmVPYmplY3RzXCI6ODksXCJ2aXNpYmxlT2JqZWN0c1wiOjUxLFwidGV4dHVyZXNcIjo2MixcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjc3ODU4NDY0LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjoxNzc4MzM3NjIsXCJyZW5kZXJlclwiOlwiQ2FudmFzXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9LHsiZmVhdHVyZSI6ImlzbGFuZC0zIiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoxNDI1NCxcImZwc1wiOjE5LjgzLFwiZnJhbWVQNTBNc1wiOjE3LjUsXCJmcmFtZVA5NU1zXCI6Mjg1LjUsXCJvYmplY3RzXCI6ODksXCJhY3RpdmVPYmplY3RzXCI6ODksXCJ2aXNpYmxlT2JqZWN0c1wiOjUxLFwidGV4dHVyZXNcIjo2MixcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjc3ODU4NDY0LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjoxNTc3MTgwMTksXCJyZW5kZXJlclwiOlwiQ2FudmFzXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9LHsiZmVhdHVyZSI6ImlzbGFuZC00IiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoxNDI1NCxcImZwc1wiOjE5LjgzLFwiZnJhbWVQNTBNc1wiOjE3LjUsXCJmcmFtZVA5NU1zXCI6Mjg1LjUsXCJvYmplY3RzXCI6ODksXCJhY3RpdmVPYmplY3RzXCI6ODksXCJ2aXNpYmxlT2JqZWN0c1wiOjUxLFwidGV4dHVyZXNcIjo2MixcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjc3ODU4NDY0LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjoxNTc3MTgwMTksXCJyZW5kZXJlclwiOlwiQ2FudmFzXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9LHsiZmVhdHVyZSI6ImlzbGFuZC01IiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoxNzU1NCxcImZwc1wiOjIwLjc2LFwiZnJhbWVQNTBNc1wiOjIwLjE5OTk5OTk5NTUyOTY1LFwiZnJhbWVQOTVNc1wiOjE1Mi41LFwib2JqZWN0c1wiOjg5LFwiYWN0aXZlT2JqZWN0c1wiOjg5LFwidmlzaWJsZU9iamVjdHNcIjo1MSxcInRleHR1cmVzXCI6NjAsXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjo3NjE3NDc4NCxcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6MTcwMTIwMDMyLFwicmVuZGVyZXJcIjpcIkNhbnZhc1wiLFwiZHJhd0NhbGxzXCI6bnVsbH0ifSx7ImZlYXR1cmUiOiJpc2xhbmQtNiIsImNodW5rcyI6MTIsIm1ldHJpY3MiOiJ7XCJzYW1wbGVBdE1zXCI6MTkyNTQsXCJmcHNcIjoyMi44MixcImZyYW1lUDUwTXNcIjoxNi43OTk5OTk5OTcwMTk3NjgsXCJmcmFtZVA5NU1zXCI6MjYwLjg5OTk5OTk5ODUwOTksXCJvYmplY3RzXCI6ODksXCJhY3RpdmVPYmplY3RzXCI6ODksXCJ2aXNpYmxlT2JqZWN0c1wiOjUxLFwidGV4dHVyZXNcIjo2MCxcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjc2MTc0Nzg0LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjoxODQ4MjM5MzUsXCJyZW5kZXJlclwiOlwiQ2FudmFzXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9LHsiZmVhdHVyZSI6Im5leHVzIiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoyMjc3NCxcImZwc1wiOjExLjk4LFwiZnJhbWVQNTBNc1wiOjUzLFwiZnJhbWVQOTVNc1wiOjI5OS44MDAwMDAwMDQ0NzAzNSxcIm9iamVjdHNcIjozMzMsXCJhY3RpdmVPYmplY3RzXCI6MzMzLFwidmlzaWJsZU9iamVjdHNcIjoyOTEsXCJ0ZXh0dXJlc1wiOjc1LFwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzXCI6OTY1ODI1NDgsXCJiYWtlZFRleHR1cmVCeXRlc1wiOjAsXCJqc0hlYXBCeXRlc1wiOjI1MTYyMTI0MixcInJlbmRlcmVyXCI6XCJDYW52YXNcIixcImRyYXdDYWxsc1wiOm51bGx9In0seyJmZWF0dXJlIjoicHlyYSIsImNodW5rcyI6MTIsIm1ldHJpY3MiOiJ7XCJzYW1wbGVBdE1zXCI6MjUzNTIsXCJmcHNcIjoxOC45LFwiZnJhbWVQNTBNc1wiOjE4LFwiZnJhbWVQOTVNc1wiOjM4OC4zOTk5OTk5OTg1MDk5LFwib2JqZWN0c1wiOjM2NSxcImFjdGl2ZU9iamVjdHNcIjozNjUsXCJ2aXNpYmxlT2JqZWN0c1wiOjMyNyxcInRleHR1cmVzXCI6NjksXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjo4MzIwMDQ5NixcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6MjE5NjQ2MDI1LFwicmVuZGVyZXJcIjpcIkNhbnZhc1wiLFwiZHJhd0NhbGxzXCI6bnVsbH0ifSx7ImZlYXR1cmUiOiJ2ZXJkYW50IiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoyNTM1MixcImZwc1wiOjE4LjksXCJmcmFtZVA1ME1zXCI6MTgsXCJmcmFtZVA5NU1zXCI6Mzg4LjM5OTk5OTk5ODUwOTksXCJvYmplY3RzXCI6MzY1LFwiYWN0aXZlT2JqZWN0c1wiOjM2NSxcInZpc2libGVPYmplY3RzXCI6MzI3LFwidGV4dHVyZXNcIjo2OSxcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjgzMjAwNDk2LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjoyMTk2NDYwMjUsXCJyZW5kZXJlclwiOlwiQ2FudmFzXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9XQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-218edad67560b10ad0c0",
+          "file": "superior-world.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "Superior: real depot entrance and personal chest survive reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18212,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T23:20:17.381Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-cd4046a724a96c1ff30d",
+          "file": "superior-world.spec.ts",
+          "line": 69,
+          "column": 1
+        },
+        {
+          "title": "Superior: mobile expedition menu and real overworld combat",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27576,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T23:20:35.610Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-c68c3115131e12f604cd",
+          "file": "superior-world.spec.ts",
+          "line": 104,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-23T23:19:43.466Z",
+    "duration": 79901.209,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

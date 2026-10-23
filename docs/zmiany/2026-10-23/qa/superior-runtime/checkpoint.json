@@ -1,0 +1,19 @@
+{
+  "codeSha": "557170d",
+  "branch": "feature/superior-runtime-20261023",
+  "installedEnemyPackages": 40,
+  "sourcePackagesPreserved": true,
+  "visibleFramePixelsPreserved": 16640,
+  "unitTests": {
+    "passed": 328,
+    "failed": 0
+  },
+  "expeditionCanvas": {
+    "passed": 3,
+    "failed": 0
+  },
+  "wholeGameRegression": "pending",
+  "physicalPhone": "not tested",
+  "artisticAcceptance": "not accepted",
+  "published": false
+}

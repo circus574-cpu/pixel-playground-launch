@@ -35,6 +35,11 @@ starego slotu. Podróż zachowuje rasę, statystyki i ekwipunek; dotychczasowa s
 nie może nadpisać współrzędnych docelowych podczas zamykania. Nieznany zapis jest
 zachowany, a pisanie wyłączone. Rozszerzone współrzędne nie luzują starego schematu.
 
+Widok roboczy po usunięciu prostokątnych wycinków:
+[telefon — walka](zmiany/2026-10-23/qa/superior-runtime/world-review-mobile.png),
+[stolica](zmiany/2026-10-23/qa/superior-runtime/world-review-capital.png).
+Nie oznacza to końcowego odbioru wyglądu.
+
 Otwarte: pełne wnętrza lochów z nagrodami, zbieranie zasobów, ukryte miejsca,
 życie mieszkańców/karawany, grafiki NPC oraz odbiór wyglądu zainstalowanych 40 potworów,
 limity i pomiary fizycznego telefonu. Poniższy opis generacji dotyczy danych źródłowych;
