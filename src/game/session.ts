@@ -314,6 +314,19 @@ export class SaveStore {
       return undefined;
     }
   }
+  /** Keeps the last pre-v4 payload under a recovery key before the first v4 write replaces it. */
+  private backupBeforeV4() {
+    if (!this.storage || this.expected === null) return;
+    const backupKey = "ki-legends:recovery:before-v4:" + this.key;
+    if (this.storage.getItem(backupKey) !== null) return;
+    let version: unknown;
+    try {
+      version = JSON.parse(this.expected)?.version;
+    } catch {
+      version = undefined;
+    }
+    if (version !== 4) this.storage.setItem(backupKey, this.expected);
+  }
   save(p: Player): boolean {
     if (!this.storage || !this.writable) return false;
     try {
@@ -323,6 +336,7 @@ export class SaveStore {
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
         return false;
       }
+      this.backupBeforeV4();
       const next = JSON.stringify({
         version: 4,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),

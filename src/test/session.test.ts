@@ -310,6 +310,30 @@ describe("versioned persistence", () => {
       expect(game.snapshot().saveWarning).not.toBe("");
     }
   });
+  it("keeps the original v1/v3 payload under a recovery key before the first v4 write", () => {
+    for (const version of [1, 3]) {
+      const storage = memory();
+      const raw = JSON.stringify({ version, revision: "old", player: newPlayer() });
+      storage.setItem(SAVE_KEY, raw);
+      const game = new GameSession(new SaveStore(storage));
+      game.player.gold = 7;
+      game.flush();
+      const backupKey = "ki-legends:recovery:before-v4:" + SAVE_KEY;
+      expect(JSON.parse(storage.getItem(SAVE_KEY)!).version).toBe(4);
+      expect(storage.getItem(backupKey)).toBe(raw);
+      game.player.gold = 8;
+      game.flush();
+      expect(storage.getItem(backupKey)).toBe(raw);
+    }
+  });
+  it("makes no recovery copy for a fresh or already-v4 save", () => {
+    const storage = memory();
+    const game = new GameSession(new SaveStore(storage));
+    game.flush();
+    game.player.gold = 3;
+    game.flush();
+    expect(storage.getItem("ki-legends:recovery:before-v4:" + SAVE_KEY)).toBeNull();
+  });
   it("does not let a stale second tab overwrite the first tab", () => {
     const storage = memory(),
       a = new GameSession(new SaveStore(storage)),
