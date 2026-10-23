@@ -44,7 +44,7 @@
 ## 4. Czego ten etap NIE zawiera
 
 - **Spawnów potworów w regionach:** właściciel zlecił je po ukończeniu kontynentów. Mechanizm istnieje (`monsters` w definicji regionu albo `session.monsters.spawn(...)`), lista jest pusta. W grze nadal występują tylko dziki.
-- **Bossów (8)** oraz **20 przeciwników z aneksu poz. 1–20** (Ki-Pijawka, Stary Kieł…): aneks i bestiariusz HTML to **dwie różne listy**; wdrożono 40 z HTML zgodnie ze zleceniem. Wymaga decyzji właściciela.
+- **Bossów (8):** nie ma ich w bestiariuszu HTML; do zaprojektowania. Jedyną kanoniczną listą przeciwników jest bestiariusz HTML (40); lista 20 przeciwników z aneksu została usunięta decyzją właściciela (23.10.2026).
 - **Grafik potworów w grze:** paczki są w `deliveries/`, niezainstalowane; do czasu instalacji potwory używają grafiki dzika.
 - **Aur Trybu KI, grafiki zdolności:** efekty są proceduralne (okręgi, pociski, napisy).
 - **Zmiany nazw krain** (Terranova/Eldoria/Nexaris/Valthera w aneksie vs Verdantia/Aetheria/Nexus-9/Pyra w grze) — nie wykonano.

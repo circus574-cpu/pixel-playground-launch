@@ -13,7 +13,7 @@
 
 ## Aneks z 22.10.2026
 
-Statystyki ras, drzewka umiejętności (4 × 29 węzłów) i bestiariusz poz. 1–20: [CHARACTER-PROGRESSION-LEVELS-1-20.md](CHARACTER-PROGRESSION-LEVELS-1-20.md), [BESTIARY-LEVELS-1-20.md](BESTIARY-LEVELS-1-20.md). Wdrożenie w kodzie: [GAMEPLAY-RACES-AND-MONSTERS.md](../GAMEPLAY-RACES-AND-MONSTERS.md). Aneks zastępuje stały harmonogram zdolności ras (poz. 1, 3, 6, 9, 12, 15, 18, 20).
+Statystyki ras i drzewka umiejętności (4 × 29 węzłów): [CHARACTER-PROGRESSION-LEVELS-1-20.md](CHARACTER-PROGRESSION-LEVELS-1-20.md). Wdrożenie w kodzie: [GAMEPLAY-RACES-AND-MONSTERS.md](../GAMEPLAY-RACES-AND-MONSTERS.md). Aneks zastępuje stały harmonogram zdolności ras (poz. 1, 3, 6, 9, 12, 15, 18, 20).
 
 ## Reguły wizualne (strony 3, 8, 11–12)
 

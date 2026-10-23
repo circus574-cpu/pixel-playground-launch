@@ -32,7 +32,6 @@ Ten plik jest punktem startowym dla Codexa, architekta, audytora i nowych agent�
 - [40 potworów — kontrakt, animacje, dane bestiariusza (22.10.2026)](ENEMIES-KI-LEGENDS.md)
 - [Rasy, drzewka umiejętności i potwory w rozgrywce — wdrożenie (22.10.2026)](GAMEPLAY-RACES-AND-MONSTERS.md)
 - [Aneks właściciela: statystyki ras i drzewka umiejętności (poz. 1–20)](design/CHARACTER-PROGRESSION-LEVELS-1-20.md)
-- [Aneks właściciela: bestiariusz poz. 1–20 (inna lista niż HTML z 40 potworami)](design/BESTIARY-LEVELS-1-20.md)
 - [Plan czterech kontynentów](STAGE3-FOUR-CONTINENTS.md)
 - [Lista zasobów GPU](STAGE3-GPU-ASSET-LIST.md)
 - [Etap PvE](STAGE2-GAMEPLAY.md)
