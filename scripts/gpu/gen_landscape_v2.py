@@ -8,7 +8,7 @@ DreamShaper XL Turbo (SDXL, pinned by SHA-256 on the volume). Textures use circu
 sprites and animal masters do not and are rendered on pure white for matting. These are samples for the
 owner's visual review, not production assets and not installed in the game.
 """
-import hashlib, json, sys, time
+import hashlib, json, shutil, sys, time
 from pathlib import Path
 import numpy as np, torch
 from PIL import Image
@@ -20,6 +20,26 @@ ONLY = sys.argv[3] if len(sys.argv) > 3 else ""
 ROOT = Path("/workspace/ki-legends-gpu")
 OUT = ROOT / "renders" / ("landscape-v2-%s" % tag)
 OUT.mkdir(parents=True, exist_ok=True)
+
+LOCAL = Path("/tmp/landscape-v2-%s" % tag)
+LOCAL.mkdir(parents=True, exist_ok=True)
+
+
+def save_verified(img, name):
+    """Encode on the local disk, copy to the network volume and read it back: a PNG on the volume must decode."""
+    tmp = LOCAL / name
+    img.save(tmp)
+    dst = OUT / name
+    for _ in range(5):
+        shutil.copyfile(tmp, dst)
+        try:
+            with Image.open(dst) as check:
+                check.load()
+            return
+        except OSError:
+            time.sleep(1)
+    raise SystemExit("cannot write a readable file: %s" % dst)
+
 
 TSTYLE = ("seamless tileable game texture, flat top-down orthographic view, stylized hand painted anime fantasy game environment art, "
           "clean painted surface, even lighting, no perspective, no objects, no characters, no text, full frame uniform pattern, high quality")
@@ -115,7 +135,7 @@ def run(kind, key, table, style, neg, tiled):
             img = pipe(prompt=desc + ", " + style, negative_prompt=neg, num_inference_steps=8, guidance_scale=2.5,
                        width=1024, height=1024, generator=torch.Generator("cuda").manual_seed(seed)).images[0]
             fn = "%s-%s-s%d.png" % (kind, name, seed)
-            img.save(OUT / fn)
+            save_verified(img, fn)
             row = {"file": fn, "name": name, "seed": seed, "prompt": desc,
                    "sha256": hashlib.sha256((OUT / fn).read_bytes()).hexdigest()}
             if tiled:
