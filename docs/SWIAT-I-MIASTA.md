@@ -235,3 +235,10 @@ pościgu, wędrówki i aggro + 256. Siatka aktywacji i limit 24 to **kontrakt do
 nie zmierzona wydajność Androida ani już zaimplementowany streaming potworów.
 
 Instrukcja uruchomienia i odbioru: [architektura](ARCHITEKTURA-I-TESTY.md#pełna-planeta-i-osobna-generacja-spawnów).
+
+
+## Prywatny atlas właściciela
+
+Generator `scripts/atlas/build_owner_atlas.py` tworzy samodzielny HTML offline z pełnymi danymi dziesięciu lądów, wszystkimi 8282 spawnami w odpowiednich układach współrzędnych, 152 podziemiami i rozwiązaniami oraz katalogiem 98 projektowych questów. Pozycje zleceniodawców są wiązane wyłącznie przez jednoznaczne imię NPC; pozostałych współrzędnych nie wymyślamy. HTML ma legendę, filtry gatunków, wyszukiwarkę, plany wnętrz i eksport CSV. `check_owner_atlas.mjs` weryfikuje kompletność, wyszukiwanie wnętrz i brak połączeń zewnętrznych. `print_owner_atlas.mjs` tworzy PDF A3 (164 strony).
+
+Wyjście wskazuje się przez `--output` do prywatnego katalogu poza repozytorium. Nie umieszczać eksportów w `public/`, nie dodawać trasy gry ani publikować mapy ze spoilerami. Narzędzia wymagają Python/Pillow oraz projektowego Playwright z Chromium. Sam wyeksportowany HTML nie wymaga instalacji, serwera ani Internetu.

@@ -72,3 +72,9 @@ Software WebGL: **7/7** na tym samym kodzie `647be05`, w tym podróże przez glo
 ## Naprawa brakującego logu w repozytorium
 
 Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wcześniej pominięty przez `*.log`. Kontrola dokumentacji sprawdza teraz także, czy pliki wskazane w odnośnikach są śledzone przez Git. To naprawa dowodów historycznego przebiegu, bez ponownego deklarowania wyników gry.
+
+## Atlas właściciela — eksport prywatny
+
+Przygotowano atlas HTML offline, PDF A3 z 164 stronami i pełny CSV obiektów. Eksport obejmuje 6062 spawny powierzchni, 2220 spawnów wnętrz, 40 gatunków, 152 plany podziemi, 194 ukryte lokacje, 583 wejścia, 22 osady usługowe, 6511 zasobów i 271531 wygenerowanych dekoracji. Questy (98) mają jawnie projektowy status i brak wymyślonych współrzędnych.
+
+Sprawdzono wszystkie lądy i wnętrza, zgodność spawnów z podłogami, wyszukiwanie spawnów podziemi, eksport CSV i działanie bez żądań sieciowych; brak błędów JavaScript. Sprawdzono 164 strony PDF pod kątem przycięcia map. Obejrzano mapę planety, lądu, podziemia i wariant telefonu. Eksporty oraz ich manifest i raporty pozostają wyłącznie w prywatnym katalogu poza repozytorium. Do Gita trafiają narzędzia odtwarzania, bez gotowej mapy ze spoilerami. Bez zmian w grze, bez scalenia i publikacji.

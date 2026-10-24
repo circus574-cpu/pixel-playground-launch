@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="pl">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Superior — atlas właściciela</title
+  ><style>
+    :root {
+      color-scheme: dark;
+      --paper: #eee4c9;
+      --muted: #b5baa9;
+      --gold: #d8b66c;
+      --edge: #c5aa6933;
+      --panel: #132c30;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #0b2026;
+      color: var(--paper);
+      font:
+        14px/1.5 system-ui,
+        sans-serif;
+    }
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+    button,
+    select,
+    input {
+      background: #203b3e;
+      color: var(--paper);
+      border: 1px solid var(--edge);
+      border-radius: 7px;
+      padding: 8px 11px;
+    }
+    button {
+      cursor: pointer;
+    }
+    button:hover {
+      border-color: var(--gold);
+      background: #345052;
+    }
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--gold);
+    }
+    header {
+      height: 90px;
+      padding: 15px 26px;
+      border-bottom: 1px solid var(--edge);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(100deg, #173b40, #0c242b);
+    }
+    h1,
+    h2,
+    h3 {
+      font-family: Georgia, serif;
+      font-weight: 400;
+      margin: 0;
+    }
+    h1 {
+      font-size: 29px;
+      letter-spacing: 2px;
+    }
+    h2 {
+      font-size: 23px;
+      color: var(--gold);
+    }
+    small,
+    .muted {
+      color: var(--muted);
+    }
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 285px minmax(0, 1fr) 320px;
+      height: calc(100dvh - 90px);
+    }
+    aside {
+      padding: 18px;
+      overflow: auto;
+      background: var(--panel);
+      border-right: 1px solid var(--edge);
+    }
+    aside.right {
+      border-left: 1px solid var(--edge);
+      border-right: 0;
+    }
+    .map {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: radial-gradient(ellipse, #234b51, #0b232c);
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
+    .toolbar {
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .toolbar select {
+      max-width: 250px;
+      background: #132c30ed;
+    }
+    .badge {
+      padding: 5px 9px;
+      border: 1px solid var(--edge);
+      border-radius: 4px;
+      background: #10292fe8;
+      font-size: 11px;
+      color: var(--gold);
+    }
+    .bottom {
+      position: absolute;
+      bottom: 16px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .rose {
+      position: absolute;
+      right: 22px;
+      top: 100px;
+      color: var(--gold);
+      font-family: Georgia;
+      text-align: center;
+      pointer-events: none;
+    }
+    .rose b {
+      display: block;
+      font-size: 28px;
+    }
+    .layer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid #ffffff08;
+      cursor: pointer;
+    }
+    .symbol {
+      width: 22px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: bold;
+    }
+    .layer small {
+      margin-left: auto;
+      font-variant-numeric: tabular-nums;
+    }
+    .group {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--edge);
+    }
+    input[type="search"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+    input[type="checkbox"] {
+      accent-color: var(--gold);
+    }
+    .info {
+      padding: 12px;
+      background: #0d242a;
+      border: 1px solid var(--edge);
+      border-radius: 6px;
+      margin: 12px 0;
+    }
+    .info p {
+      margin: 6px 0;
+    }
+    .results {
+      max-height: 230px;
+      overflow: auto;
+    }
+    .results button {
+      display: block;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+    .counts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .counts strong {
+      display: block;
+      font-family: Georgia;
+      font-size: 25px;
+      color: var(--gold);
+    }
+    .counts div {
+      border-left: 2px solid var(--edge);
+      padding-left: 10px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border: 1px solid var(--edge);
+      font-size: 10px;
+      border-radius: 20px;
+      margin: 3px;
+    }
+    .detailjson {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font: 11px/1.5 monospace;
+      max-height: 300px;
+      overflow: auto;
+    }
+    .wide {
+      width: 100%;
+      margin-top: 7px;
+    }
+    .quest {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--edge);
+    }
+    .quest button {
+      text-align: left;
+      width: 100%;
+    }
+    a {
+      color: var(--gold);
+    }
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #102b31;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      z-index: 99;
+    }
+    #loading h1 {
+      margin-bottom: 12px;
+    }
+    dialog {
+      max-width: 900px;
+      width: 95%;
+      background: #122c31;
+      color: var(--paper);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 25px;
+    }
+    dialog::backdrop {
+      background: #000a;
+    }
+    dialog button.close {
+      float: right;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+    #help p {
+      max-width: 700px;
+    }
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: #10262ef5;
+      border: 1px solid var(--gold);
+      padding: 6px 10px;
+      border-radius: 5px;
+      display: none;
+      max-width: 260px;
+      font-size: 12px;
+    }
+    .mobiletoggle {
+      display: none;
+    }
+    @media (max-width: 1050px) {
+      .layout {
+        grid-template-columns: 240px 1fr;
+      }
+      .right {
+        display: none;
+      }
+      .right.open {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 90px;
+        bottom: 0;
+        width: 320px;
+        z-index: 4;
+        box-shadow: -10px 0 50px #0008;
+      }
+      .mobiletoggle {
+        display: inline-block;
+      }
+    }
+    @media (max-width: 650px) {
+      header {
+        padding: 12px;
+        height: 80px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      header .muted {
+        display: none;
+      }
+      .layout {
+        height: calc(100dvh - 80px);
+        grid-template-columns: 1fr;
+      }
+      .left {
+        display: none;
+      }
+      .left.open {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 80px;
+        bottom: 0;
+        width: 275px;
+        z-index: 5;
+      }
+      .toolbar {
+        left: 8px;
+        right: 8px;
+        top: 10px;
+      }
+      .toolbar select {
+        max-width: 160px;
+      }
+      .rose {
+        top: 125px;
+      }
+      aside.right.open {
+        top: 80px;
+      }
+      button,
+      select {
+        padding: 8px;
+      }
+      .bottom {
+        font-size: 10px;
+        left: 8px;
+        right: 8px;
+      }
+    }
+  </style>
+  <div id="loading">
+    <h1>SUPERIOR</h1>
+    <div>Otwieranie prywatnego atlasu właściciela…</div>
+    <p class="muted">Wszystkie dane znajdują się w tym pliku.</p>
+  </div>
+  <header>
+    <div>
+      <div class="eyebrow">KI Legends · egzemplarz właściciela · pełne odkrycie</div>
+      <h1>ATLAS SUPERIOR</h1>
+    </div>
+    <div>
+      <span class="muted">Geometria kanoniczna · bez mgły wojny &nbsp;</span
+      ><button id="helpBtn">Jak czytać atlas</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="left">
+      <div class="eyebrow">Warstwy kartograficzne</div>
+      <h2>Legenda</h2>
+      <div id="legend"></div>
+      <div class="group">
+        <label
+          >Gatunek potwora<select id="species" class="wide">
+            <option value="">Wszystkie 40 gatunków</option>
+          </select></label
+        ><label
+          >Minimalny poziom
+          <input id="minLevel" type="number" min="1" max="40" value="1" style="width: 65px"
+        /></label>
+        <div>
+          <label><input type="checkbox" id="labels" checked /> Nazwy osad i krain</label>
+        </div>
+      </div>
+      <div class="group">
+        <div class="eyebrow">Szukaj dokładnego obiektu</div>
+        <input id="search" type="search" placeholder="Nazwa, ID, gatunek, usługa…" />
+        <div id="resultCount" class="muted"></div>
+        <div class="results" id="results"></div>
+      </div>
+      <div class="group">
+        <button id="allLayers" class="wide">Włącz wszystkie warstwy</button
+        ><button id="questsBtn" class="wide">Księga 98 questów</button
+        ><button id="csvBtn" class="wide">Pobierz wszystkie punkty CSV</button
+        ><button id="pngBtn" class="wide">Zapisz bieżącą mapę PNG</button>
+      </div>
+      <p class="muted" style="font-size: 11px">
+        Atlas działa offline. Nie wysyła danych i nie wczytuje niczego z Internetu. Udostępniaj ten
+        plik wyłącznie zaufanym osobom.
+      </p>
+    </aside>
+    <main class="map">
+      <canvas id="map" aria-label="Interaktywna mapa Superior ze wszystkimi obiektami"></canvas>
+      <div class="toolbar">
+        <button class="mobiletoggle" id="layersBtn">☷ Legenda</button
+        ><select id="view">
+          <option value="planet">Cała planeta · Superior</option></select
+        ><button id="fit">Cały obszar</button><button id="back" hidden>← Powierzchnia</button
+        ><button id="solution" hidden>Rozwiązanie labiryntu</button
+        ><button class="mobiletoggle" id="infoBtn">Informacje</button>
+      </div>
+      <div class="rose">N<b>✧</b>S</div>
+      <div class="bottom">
+        <span class="badge" id="coords">Przesuń mapę · kółko / szczypanie: zbliżenie</span
+        ><span class="badge" id="scale"></span>
+      </div>
+      <div id="tooltip"></div>
+    </main>
+    <aside class="right">
+      <div class="eyebrow">Indeks i inspekcja</div>
+      <h2 id="areaName">Cała planeta</h2>
+      <div id="stats" class="counts"></div>
+      <div class="info">
+        <strong>Dokładność danych</strong>
+        <p class="muted">
+          Punkty pochodzą z danych generatora. Kolor i symbol oznaczają rodzaj obiektu, a szczegóły
+          podają identyfikator i dokładne współrzędne.
+        </p>
+        <p class="muted">
+          Spawny podziemi są widoczne po otwarciu wnętrza. Sekrety nie są ukrywane.
+        </p>
+      </div>
+      <section id="detail">
+        <p class="muted">
+          Kliknij dowolny punkt. Z widoku planety dwuklik lądu otwiera szczegółową mapę.
+        </p>
+      </section>
+      <div class="group">
+        <div class="eyebrow">Kompletność i wersja</div>
+        <div id="audit" class="muted" style="font-size: 11px"></div>
+      </div>
+    </aside>
+  </div>
+  <dialog id="help">
+    <button class="close">Zamknij</button>
+    <h2>Atlas właściciela</h2>
+    <p>
+      Przeciągaj mapę, przybliżaj kółkiem lub dwoma palcami. Wybierz ląd z listy, aby pracować na
+      dokładnych współrzędnych silnika. Kliknij znacznik, aby zobaczyć pełny rekord, statystyki i
+      powiązania.
+    </p>
+    <p>
+      Na planecie punkty są rzutowane zgodnie z geometrią azymutalną gry. Na lądzie współrzędne X/Y
+      są bezpośrednio współrzędnymi gry. We wnętrzach obowiązuje osobny układ lokalny — nie mylimy
+      spawnów podziemi ze spawnami powierzchni.
+    </p>
+    <p>
+      ■ Osada; ◆ podziemie; ✦ sekret; ● potwór; △ NPC; □ drzwi; ✚ zasób; · dekoracja; ?
+      zleceniodawca. W legendzie można wyłączyć każdą warstwę. Przy dużym oddaleniu gęste punkty
+      wizualnie nakładają się; wszystkie pozostają w danych, wyszukiwarce i eksporcie CSV.
+    </p>
+    <p>
+      <b>Questy:</b> 98 wpisów pochodzi z projektowej księgi przygody. Dopasowanie do punktu jest
+      pokazywane tylko przy jednoznacznym zgodnym imieniu zleceniodawcy. To nie potwierdza wdrożenia
+      questu. Reszta pozostaje jawnie bez współrzędnych.
+    </p>
+    <p>
+      <b>Podziemia:</b> plansze, wejścia, wyjścia, nagrody i trasy rozwiązania pochodzą z
+      generatora. Trasa rozwiązania nie jest dowodem istnienia dodatkowych sekretnych drzwi. Żadnych
+      przejść nie dopisano. W pełni podłączone są spawny powierzchni i usługi miast; pełna rozgrywka
+      lochów, surowców i kampanii pozostaje w przygotowaniu.
+    </p>
+    <p>
+      Mapę przygotowano do prywatnego użytku właściciela. Nie jest ekranem gry ani publicznym
+      endpointem. Plik nie ma blokady hasłem: przechowuj go jak dokument z pełnymi spoilerami.
+    </p>
+  </dialog>
+  <dialog id="quests">
+    <button class="close">Zamknij</button>
+    <div class="eyebrow">Księga projektowa · wszystkie wpisy</div>
+    <h2>Questy i cele przygody</h2>
+    <p class="muted">
+      Dokumentacja projektu, nie lista wdrożonych zadań. Pozycje zleceniodawców tylko przy
+      jednoznacznym dopasowaniu danych.
+    </p>
+    <input
+      type="search"
+      id="questSearch"
+      placeholder="Szukaj ID, tytułu, zleceniodawcy lub celu…"
+    />
+    <div id="questList"></div>
+  </dialog>
+  <script id="payload" type="application/octet-stream">
+    __PAYLOAD__
+  </script>
+  <script>
+    "use strict";
+    (async () => {
+      const $ = (id) => document.getElementById(id);
+      const raw = Uint8Array.from(atob($("payload").textContent), (c) => c.charCodeAt(0));
+      const D = JSON.parse(
+        await new Response(
+          new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip")),
+        ).text(),
+      );
+      $("payload").remove();
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+      const fmt = (n) => Number(n).toLocaleString("pl-PL");
+      const types = {
+        road: ["━", "Drogi i ścieżki", "#d4c291"],
+        spawn: ["●", "Spawny powierzchni", "#f38775"],
+        interiorSpawn: ["●", "Spawny podziemi", "#d8a4fb"],
+        dungeon: ["◆", "Wejścia do podziemi", "#cbadf4"],
+        secret: ["✦", "Ukryte lokacje", "#ffdb78"],
+        settlement: ["■", "Miasta i przystanie", "#e8d29e"],
+        location: ["◇", "Lokacje, porty i obozy", "#90cbd1"],
+        npc: ["△", "NPC i rozmówcy", "#8bd9be"],
+        door: ["□", "Drzwi i wejścia", "#e3aa78"],
+        building: ["▣", "Budynki i usługi", "#b9a080"],
+        resource: ["✚", "Zasoby odnawialne", "#a8c981"],
+        quest: ["?", "Zleceniodawcy questów (projekt)", "#f6d886"],
+        scenery: ["·", "Wszystkie dekoracje", "#728c81"],
+        zone: ["○", "Krainy i przedziały poziomów", "#b6c2a7"],
+      };
+      let enabled = new Set(["road", "spawn", "dungeon", "secret", "settlement"]);
+      const kindNames = {
+        shop: "Sklep",
+        hall: "Dom zgromadzeń",
+        inn: "Gospoda",
+        smithy: "Kuźnia",
+        depot: "Depozyt",
+        arena: "Arena treningowa",
+        ruins: "Ruiny",
+        cave: "Jaskinia",
+        maze: "Labirynt",
+        shrine: "Sanktuarium",
+        watchtower: "Strażnica",
+        port: "Port",
+        village: "Wioska",
+        camp: "Obóz",
+        wood: "Drewno",
+        herb: "Zioła",
+        ore: "Ruda",
+        cache: "Skrytka",
+        "hidden-cache": "Ukryta skrytka",
+        secret: "Sekret",
+      };
+      const monsters = Object.fromEntries(D.monsters.map((m) => [m.id, m]));
+      const points = [];
+      const features = D.features;
+      function add(f, type, row, x = row.x, y = row.y) {
+        if (!Number.isFinite(x) || !Number.isFinite(y)) throw Error("Invalid coordinate " + row.id);
+        const p = {
+          feature: f,
+          type,
+          x,
+          y,
+          row,
+          name:
+            row.name ||
+            monsters[row.kind]?.name ||
+            kindNames[row.service] ||
+            kindNames[row.kind] ||
+            row.kind ||
+            row.id,
+          id: row.id,
+        };
+        points.push(p);
+        return p;
+      }
+      for (const [f, v] of Object.entries(features)) {
+        const w = v.world;
+        for (const row of v.spawns.overworld) add(f, "spawn", row);
+        for (const row of w.settlements) add(f, "settlement", row);
+        for (const row of w.locations)
+          if (row.kind !== "settlement") add(f, row.hidden ? "secret" : "location", row);
+        for (const row of w.dungeons)
+          add(f, "dungeon", row, row.overworldEntrance.x, row.overworldEntrance.y);
+        for (const row of w.npcs) add(f, "npc", row);
+        for (const row of w.doors) add(f, "door", row);
+        for (const row of w.buildings)
+          add(
+            f,
+            "building",
+            row,
+            row.footprint.x + row.footprint.width / 2,
+            row.footprint.y + row.footprint.height / 2,
+          );
+        for (const row of w.roads) {
+          const mid = row.points[Math.floor(row.points.length / 2)];
+          add(f, "road", row, mid[0], mid[1]);
+        }
+        for (const row of w.resources) add(f, "resource", row);
+        for (const row of v.art.acceptedCityBuildings || []) add(f, "building", row);
+        for (const row of v.art.acceptedCityScenery || []) add(f, "scenery", row);
+        for (const row of v.scenery) add(f, "scenery", row);
+        for (const row of w.zones) add(f, "zone", row);
+      }
+      const questMatches = {};
+      for (const q of D.campaign.quests) {
+        const found = points.filter((p) => p.type === "npc" && p.row.name === q.giver);
+        questMatches[q.id] = found.length === 1 ? found[0] : null;
+        if (found.length === 1)
+          add(found[0].feature, "quest", {
+            ...q,
+            name: q.title,
+            x: found[0].x,
+            y: found[0].y,
+            status: "Projekt; dopasowanie imienia zleceniodawcy, nie potwierdzenie wdrożenia",
+          });
+      }
+      const searchable = points.concat(
+        Object.entries(features).flatMap(([f, v]) =>
+          v.spawns.interiors.map((r) => ({
+            feature: f,
+            type: "interiorSpawn",
+            x: r.x,
+            y: r.y,
+            row: r,
+            id: r.id,
+            name: monsters[r.kind]?.name || r.kind,
+            interior: r.dungeon,
+          })),
+        ),
+      );
+      const planet = D.planet,
+        rad = Math.PI / 180;
+      function project(f, x, y) {
+        const g = features[f].world.geometry,
+          p = g.planetFeature;
+        let sx = g.sourceOrigin.x + x / g.sourceUnitsToGame,
+          sy = g.sourceOrigin.y + y / g.sourceUnitsToGame;
+        let a = ((sx - p.source.x) * planet.unitsPerMapUnit * planet.scale) / planet.radius,
+          b = (-(sy - p.source.y) * planet.unitsPerMapUnit * planet.scale) / planet.radius,
+          r = Math.hypot(a, b);
+        let lat = p.lat * rad,
+          lon = p.lon * rad;
+        if (r > 1e-10) {
+          lon += Math.atan2(
+            a * Math.sin(r),
+            r * Math.cos(lat) * Math.cos(r) - b * Math.sin(lat) * Math.sin(r),
+          );
+          lat = Math.asin(Math.cos(r) * Math.sin(lat) + (b * Math.sin(r) * Math.cos(lat)) / r);
+        }
+        return [((lon / rad + 180) / 360) * 2000, ((90 - lat / rad) / 180) * 1000];
+      }
+      for (const p of points) {
+        const xy = project(p.feature, p.x, p.y);
+        p.gx = xy[0];
+        p.gy = xy[1];
+      }
+      const canvas = $("map"),
+        ctx = canvas.getContext("2d");
+      let view = "planet",
+        dungeon = null,
+        cam = { x: 1000, y: 500, s: 1 },
+        width = 1,
+        height = 1,
+        screenPoints = [],
+        showSolution = false,
+        selected = null,
+        activePointers = new Map(),
+        drag = null,
+        moved = false,
+        hover = null;
+      const bg = new Image();
+      bg.src = D.atlas;
+      bg.onload = draw;
+      const bgs = {};
+      for (const [f, v] of Object.entries(features)) {
+        const i = new Image();
+        i.src = v.background;
+        i.onload = draw;
+        bgs[f] = i;
+      }
+      function size() {
+        const rect = canvas.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        canvas.width = Math.round(width * devicePixelRatio);
+        canvas.height = Math.round(height * devicePixelRatio);
+        ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+        fit();
+      }
+      function bounds() {
+        return dungeon
+          ? { width: dungeon.width, height: dungeon.height }
+          : view === "planet"
+            ? { width: 2000, height: 1000 }
+            : features[view].world.geometry;
+      }
+      function fit() {
+        const b = bounds();
+        cam = {
+          x: b.width / 2,
+          y: b.height / 2,
+          s: Math.min((width - 60) / b.width, (height - 140) / b.height),
+        };
+        draw();
+      }
+      function xy(x, y) {
+        return [(x - cam.x) * cam.s + width / 2, (y - cam.y) * cam.s + height / 2];
+      }
+      function world(x, y) {
+        return [(x - width / 2) / cam.s + cam.x, (y - height / 2) / cam.s + cam.y];
+      }
+      function path(ps, color, line = 1) {
+        if (!ps.length) return;
+        ctx.beginPath();
+        ps.forEach((p, i) => {
+          const a = xy(...p);
+          i ? ctx.lineTo(...a) : ctx.moveTo(...a);
+        });
+        ctx.strokeStyle = color;
+        ctx.lineWidth = line;
+        ctx.stroke();
+      }
+      function allowed(p) {
+        const kind = $("species").value;
+        return (
+          enabled.has(p.type) &&
+          (!(p.type === "spawn" || p.type === "interiorSpawn") ||
+            ((!kind || p.row.kind === kind) &&
+              (p.row.level || 1) >= Number($("minLevel").value || 1)))
+        );
+      }
+      function currentPoints() {
+        if (dungeon) {
+          return features[view].spawns.interiors
+            .filter((r) => r.dungeon === dungeon.id)
+            .map((r) => ({
+              feature: view,
+              type: "interiorSpawn",
+              x: r.x,
+              y: r.y,
+              row: r,
+              name: monsters[r.kind]?.name || r.kind,
+              id: r.id,
+            }))
+            .concat([
+              {
+                feature: view,
+                type: "door",
+                x: dungeon.entrance.x,
+                y: dungeon.entrance.y,
+                row: { ...dungeon.entrance, id: "entrée", name: "Wejście" },
+                name: "Wejście",
+              },
+              {
+                feature: view,
+                type: "door",
+                x: dungeon.exit.x,
+                y: dungeon.exit.y,
+                row: { ...dungeon.exit, id: "exit", name: "Wyjście na powierzchnię" },
+                name: "Wyjście",
+              },
+              {
+                feature: view,
+                type: "secret",
+                x: dungeon.reward.x,
+                y: dungeon.reward.y,
+                row: { ...dungeon.reward, id: "reward", policy: dungeon.rewardPolicy },
+                name: "Nagroda — projekt",
+              },
+            ]);
+        }
+        return view === "planet" ? points : points.filter((p) => p.feature === view);
+      }
+      function glyph(p, x, y) {
+        ctx.save();
+        if (view === "planet" && !dungeon) {
+          ctx.translate(x, y);
+          ctx.scale(
+            Math.min(1.4, Math.max(0.23, cam.s * 0.55)),
+            Math.min(1.4, Math.max(0.23, cam.s * 0.55)),
+          );
+          x = 0;
+          y = 0;
+        }
+        const color = types[p.type][2],
+          r = p.type === "scenery" ? 1 : p.type === "spawn" || p.type === "interiorSpawn" ? 2.4 : 5;
+        ctx.fillStyle = color;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.2;
+        if (p.type === "spawn" || p.type === "interiorSpawn" || p.type === "scenery") {
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (p.type === "door" || p.type === "settlement" || p.type === "building") {
+          ctx.fillRect(x - r, y - r, r * 2, r * 2);
+          ctx.strokeStyle = "#142e32";
+          ctx.strokeRect(x - r, y - r, r * 2, r * 2);
+        } else {
+          ctx.font = "bold " + (p.type === "quest" ? 14 : 16) + "px system-ui";
+          ctx.textAlign = "center";
+          ctx.fillText(types[p.type][0], x, y + 5);
+        }
+        ctx.restore();
+      }
+      function draw() {
+        if (!D || !width) return;
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "#102d36";
+        ctx.fillRect(0, 0, width, height);
+        const b = bounds(),
+          top = xy(0, 0);
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(...top, b.width * cam.s, b.height * cam.s);
+        ctx.clip();
+        if (dungeon) {
+          ctx.fillStyle = "#122025";
+          ctx.fillRect(...top, b.width * cam.s, b.height * cam.s);
+          const c = dungeon.cellSize;
+          ctx.fillStyle = "#718379";
+          dungeon.floor.forEach((row, y) =>
+            [...row].forEach((v, x) => {
+              if (v === "1") {
+                const pos = xy(x * c, y * c);
+                ctx.fillRect(...pos, c * cam.s + 0.3, c * cam.s + 0.3);
+              }
+            }),
+          );
+          if (showSolution) path(dungeon.solution, "#ffda7a", 3);
+        } else if (view === "planet") {
+          if (bg.complete) ctx.drawImage(bg, ...top, 2000 * cam.s, 1000 * cam.s);
+          ctx.fillStyle = "#0c233025";
+          ctx.fillRect(...top, 2000 * cam.s, 1000 * cam.s);
+          for (const [f, v] of Object.entries(features)) {
+            const poly = v.world.geometry.outline.map((p) => project(f, ...p));
+            for (const shift of [-2000, 0, 2000])
+              path(
+                poly.map(([x, y]) => [x + shift, y]),
+                "#f0d68d99",
+                1,
+              );
+          }
+        } else {
+          if (bgs[view].complete)
+            ctx.drawImage(bgs[view], ...top, b.width * cam.s, b.height * cam.s);
+          ctx.imageSmoothingEnabled = false;
+          if (enabled.has("road"))
+            for (const road of features[view].world.roads)
+              path(
+                road.points,
+                road.kind === "road" ? "#dccca2a0" : "#b6b78d60",
+                Math.max(1, road.width * cam.s),
+              );
+          for (const s of features[view].world.settlements) {
+            const p = xy(s.bounds.x, s.bounds.y);
+            ctx.fillStyle = "#ead6a216";
+            ctx.strokeStyle = "#ead6a299";
+            ctx.fillRect(...p, s.bounds.width * cam.s, s.bounds.height * cam.s);
+            ctx.strokeRect(...p, s.bounds.width * cam.s, s.bounds.height * cam.s);
+          }
+        }
+        if (view === "planet" && enabled.has("road"))
+          for (const [f, v] of Object.entries(features))
+            for (const r of v.world.roads) {
+              const ps = r.points.map((p) => project(f, ...p));
+              for (const sh of [-2000, 0, 2000])
+                path(
+                  ps.map(([x, y]) => [x + sh, y]),
+                  "#e3c99866",
+                  1,
+                );
+            }
+        const active = currentPoints();
+        screenPoints = [];
+        for (const p of active) {
+          if (!allowed(p)) continue;
+          const coords = view === "planet" && !dungeon ? [p.gx, p.gy] : [p.x, p.y];
+          for (const shift of view === "planet" ? [-2000, 0, 2000] : [0]) {
+            const [x, y] = xy(coords[0] + shift, coords[1]);
+            if (x < -15 || x > width + 15 || y < -15 || y > height + 15) continue;
+            glyph(p, x, y);
+            screenPoints.push({ p, x, y });
+          }
+        }
+        if ($("labels").checked)
+          for (const p of active.filter((p) => p.type === "settlement" || p.type === "zone")) {
+            if (!allowed(p)) continue;
+            if (
+              view === "planet" &&
+              (p.type === "zone" || (p.row.kind !== "capital" && p.type === "settlement"))
+            )
+              continue;
+            const [x, y] = xy(...(view === "planet" ? [p.gx, p.gy] : [p.x, p.y]));
+            ctx.font = p.type === "settlement" ? "bold 12px system-ui" : "italic 11px Georgia";
+            ctx.textAlign = "center";
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "#102a32";
+            ctx.strokeText(p.row.name || p.id, x, y - 11);
+            ctx.fillStyle = p.type === "settlement" ? "#f9e9bb" : "#d3dbbc";
+            ctx.fillText(p.row.name || p.id, x, y - 11);
+          }
+        if (selected) {
+          const sp = screenPoints.find((s) => s.p === selected || s.p.id === selected.id);
+          if (sp) {
+            ctx.strokeStyle = "#fff4bb";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(sp.x, sp.y, 11, 0, 2 * Math.PI);
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+        const unit = view === "planet" ? "j. atlasu" : "j. gry",
+          length = Math.pow(10, Math.floor(Math.log10(100 / cam.s)));
+        const px = length * cam.s;
+        ctx.strokeStyle = "#f2e4bb";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(22, height - 52);
+        ctx.lineTo(22 + px, height - 52);
+        ctx.stroke();
+        ctx.fillStyle = "#eee4c9";
+        ctx.font = "11px system-ui";
+        ctx.textAlign = "left";
+        ctx.fillText(fmt(length) + " " + unit, 22, height - 60);
+        $("scale").textContent = fmt(screenPoints.length) + " widocznych oznaczeń";
+      }
+      function update() {
+        const v = features[view];
+        $("areaName").textContent = dungeon ? dungeon.id : v ? v.world.name : "Cała planeta";
+        const c = v
+          ? {
+              overworld: v.spawns.overworld.length,
+              interiors: v.spawns.interiors.length,
+              dungeons: v.world.dungeons.length,
+              hidden: v.world.locations.filter((p) => p.hidden).length,
+            }
+          : D.counts;
+        $("stats").innerHTML =
+          `<div><strong>${fmt(c.overworld)}</strong><small>spawny w terenie</small></div><div><strong>${fmt(c.interiors)}</strong><small>spawny we wnętrzach</small></div><div><strong>${fmt(c.dungeons)}</strong><small>podziemia</small></div><div><strong>${fmt(c.hidden)}</strong><small>ukryte lokacje</small></div>`;
+        $("back").hidden = !dungeon;
+        $("solution").hidden = !dungeon;
+        renderLegend();
+        fit();
+      }
+      function setView(id) {
+        view = id;
+        dungeon = null;
+        selected = null;
+        $("view").value = id;
+        update();
+      }
+      function renderLegend() {
+        const active = currentPoints(),
+          counts = {};
+        for (const p of active) counts[p.type] = (counts[p.type] || 0) + 1;
+        $("legend").innerHTML = Object.entries(types)
+          .map(
+            ([k, [sym, name, color]]) =>
+              `<label class="layer"><input type="checkbox" data-layer="${k}" ${enabled.has(k) ? "checked" : ""}><span class="symbol" style="color:${color}">${sym}</span><span>${name}</span><small>${fmt(counts[k] || 0)}</small></label>`,
+          )
+          .join("");
+        document.querySelectorAll("[data-layer]").forEach(
+          (el) =>
+            (el.onchange = () => {
+              el.checked ? enabled.add(el.dataset.layer) : enabled.delete(el.dataset.layer);
+              draw();
+            }),
+        );
+      }
+      function showDetail(p) {
+        selected = p;
+        const m = monsters[p.row.kind];
+        $("detail").innerHTML =
+          `<h2>${esc(p.name)}</h2><span class="pill">${esc(types[p.type][1])}</span><p><code>${esc(p.id)}</code></p><p>X ${Number(p.x).toFixed(2)} · Y ${Number(p.y).toFixed(2)}</p><p class="muted">${esc(features[p.feature].world.name)}${dungeon ? " · układ lokalny podziemia" : ""}</p>${m ? `<div class="info"><strong>${esc(m.name)} · poziom ${m.level}</strong><p>HP ${m.stats.hp} · atak ${m.stats.atk} · obrona ${m.stats.def} · XP ${m.stats.xp}</p><p>${esc(m.behavior)}</p><p>Łup: ${esc(m.loot)}</p><p>Respawn: ${p.row.respawnMs / 1000} s</p></div>` : ""}${p.type === "dungeon" ? '<button id="openDungeon" class="wide">Otwórz dokładny plan podziemia</button><p class="muted">Dane przygotowane; pełne interakcje lochu pozostają w przygotowaniu.</p>' : ""}<details><summary>Pełne dane źródłowe</summary><pre class="detailjson">${esc(JSON.stringify(p.row, null, 2))}</pre></details>`;
+        if ($("openDungeon")) $("openDungeon").onclick = () => openDungeon(p.feature, p.row.id);
+        $("detail").scrollIntoView({ block: "nearest" });
+        if (width < 600) $("infoBtn").textContent = "Informacje ●";
+        draw();
+      }
+      function openDungeon(f, id) {
+        view = f;
+        dungeon = features[f].world.dungeons.find((d) => d.id === id);
+        enabled.add("interiorSpawn");
+        enabled.add("door");
+        enabled.add("secret");
+        selected = null;
+        showSolution = true;
+        $("view").value = f;
+        update();
+        $("solution").textContent = "Ukryj rozwiązanie";
+        $("detail").innerHTML =
+          `<h2>Plan podziemia</h2><p>${esc(dungeon.id)}</p><p>Wszystkie korytarze, spawny, wejście, wyjście i nagroda. Złota linia to trasa rozwiązania generatora.</p><p class="muted">Nagroda: ${esc(dungeon.rewardPolicy)}. To dane projektowe, nie dowód wdrożenia nagród.</p>`;
+      }
+      function focus(p) {
+        if (p.interior) {
+          openDungeon(p.feature, p.interior);
+          cam.x = p.x;
+          cam.y = p.y;
+          showDetail(p);
+          return;
+        }
+        if (view !== p.feature || dungeon) setView(p.feature);
+        cam.x = p.x;
+        cam.y = p.y;
+        cam.s = Math.max(cam.s, Math.min(width / 1800, height / 1400));
+        enabled.add(p.type);
+        renderLegend();
+        showDetail(p);
+        draw();
+      }
+      function find(x, y) {
+        let best = null,
+          dist = 12;
+        for (const s of screenPoints) {
+          const d = Math.hypot(s.x - x, s.y - y);
+          if (d < dist) {
+            best = s.p;
+            dist = d;
+          }
+        }
+        return best;
+      }
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          const r = canvas.getBoundingClientRect(),
+            x = e.clientX - r.left,
+            y = e.clientY - r.top;
+          zoom(Math.exp(-e.deltaY * 0.001), x, y);
+        },
+        { passive: false },
+      );
+      function zoom(k, x, y) {
+        const a = world(x, y);
+        cam.s = Math.max(0.003, Math.min(10, cam.s * k));
+        const b = world(x, y);
+        cam.x += a[0] - b[0];
+        cam.y += a[1] - b[1];
+        draw();
+      }
+      canvas.onpointerdown = (e) => {
+        canvas.setPointerCapture(e.pointerId);
+        activePointers.set(e.pointerId, { x: e.offsetX, y: e.offsetY });
+        drag = { x: e.offsetX, y: e.offsetY };
+        moved = false;
+      };
+      canvas.onpointermove = (e) => {
+        if (activePointers.has(e.pointerId)) {
+          const old = activePointers.get(e.pointerId);
+          if (activePointers.size === 2) {
+            const other = [...activePointers.entries()].find(([id]) => id !== e.pointerId)[1];
+            const a = Math.hypot(old.x - other.x, old.y - other.y),
+              b = Math.hypot(e.offsetX - other.x, e.offsetY - other.y);
+            if (a > 0) zoom(b / a, (e.offsetX + other.x) / 2, (e.offsetY + other.y) / 2);
+          } else {
+            cam.x -= (e.offsetX - old.x) / cam.s;
+            cam.y -= (e.offsetY - old.y) / cam.s;
+            draw();
+          }
+          if (drag && Math.hypot(e.offsetX - drag.x, e.offsetY - drag.y) > 4) moved = true;
+          activePointers.set(e.pointerId, { x: e.offsetX, y: e.offsetY });
+        } else {
+          hover = find(e.offsetX, e.offsetY);
+          $("tooltip").style.display = hover ? "block" : "none";
+          if (hover) {
+            $("tooltip").textContent = hover.name;
+            $("tooltip").style.left = Math.min(width - 270, e.offsetX + 12) + "px";
+            $("tooltip").style.top = e.offsetY + 14 + "px";
+          }
+          const [x, y] = world(e.offsetX, e.offsetY);
+          $("coords").textContent =
+            view === "planet"
+              ? `λ ${((x / 2000) * 360 - 180).toFixed(2)}° · φ ${(90 - (y / 1000) * 180).toFixed(2)}°`
+              : `X ${x.toFixed(1)} · Y ${y.toFixed(1)}`;
+        }
+      };
+      canvas.onpointerup = (e) => {
+        activePointers.delete(e.pointerId);
+        if (!moved) {
+          const p = find(e.offsetX, e.offsetY);
+          if (p) showDetail(p);
+        }
+        drag = null;
+      };
+      canvas.onpointercancel = (e) => {
+        activePointers.delete(e.pointerId);
+        drag = null;
+      };
+      canvas.ondblclick = (e) => {
+        if (view === "planet") {
+          const p = find(e.offsetX, e.offsetY);
+          if (p) setView(p.feature);
+          else {
+            const [x, y] = world(e.offsetX, e.offsetY);
+            let best = null,
+              d = Infinity;
+            for (const [f, v] of Object.entries(features)) {
+              const a = project(f, v.world.geometry.anchor.x, v.world.geometry.anchor.y),
+                dist = Math.hypot(x - a[0], y - a[1]);
+              if (dist < d) {
+                d = dist;
+                best = f;
+              }
+            }
+            setView(best);
+          }
+        } else zoom(2, e.offsetX, e.offsetY);
+      };
+      for (const f of D.index.features) {
+        const o = document.createElement("option");
+        o.value = f.id;
+        o.textContent = f.name;
+        $("view").append(o);
+      }
+      $("allLayers").onclick = () => {
+        enabled = new Set(Object.keys(types));
+        renderLegend();
+        draw();
+      };
+      $("view").onchange = (e) => setView(e.target.value);
+      $("fit").onclick = fit;
+      $("back").onclick = () => setView(view);
+      $("solution").onclick = () => {
+        showSolution = !showSolution;
+        $("solution").textContent = showSolution ? "Ukryj rozwiązanie" : "Pokaż rozwiązanie";
+        draw();
+      };
+      $("species").innerHTML += D.monsters
+        .map((m) => `<option value="${esc(m.id)}">${esc(m.name)} · poz. ${m.level}</option>`)
+        .join("");
+      $("species").onchange = draw;
+      $("minLevel").oninput = draw;
+      $("labels").onchange = draw;
+      function search() {
+        const q = $("search").value.toLocaleLowerCase("pl").trim();
+        $("results").innerHTML = "";
+        if (!q) {
+          $("resultCount").textContent = "";
+          return;
+        }
+        const all = searchable.filter((p) =>
+          [p.name, p.id, p.row.kind, p.row.service, p.feature]
+            .join(" ")
+            .toLocaleLowerCase("pl")
+            .includes(q),
+        );
+        $("resultCount").textContent = fmt(all.length) + " wyników · wyświetlono pierwsze 100";
+        for (const p of all.slice(0, 100)) {
+          const b = document.createElement("button");
+          b.textContent = `${types[p.type][0]} ${p.name} · ${p.feature} · ${p.id}`;
+          b.onclick = () => focus(p);
+          $("results").append(b);
+        }
+      }
+      let searchTimer;
+      $("search").oninput = () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(search, 200);
+      };
+      function quests() {
+        const q = $("questSearch").value.toLocaleLowerCase("pl");
+        $("questList").innerHTML = "";
+        for (const item of D.campaign.quests.filter((t) =>
+          JSON.stringify(t).toLocaleLowerCase("pl").includes(q),
+        )) {
+          const div = document.createElement("div");
+          div.className = "quest";
+          const match = questMatches[item.id];
+          div.innerHTML = `<h3>${esc(item.id)} · ${esc(item.title)}</h3><p>Poziom ${item.level} · ${esc(item.giver)} · ${item.xp} XP · ${item.gold} monet</p><span class="pill">Projekt kampanii</span><p>${match ? "Jednoznacznie dopasowany zleceniodawca: " + esc(features[match.feature].world.name) : "Brak potwierdzonych współrzędnych — nie umieszczono fikcyjnego punktu."}</p><details><summary>Cele, fabuła i pełny zapis</summary><pre>${esc(JSON.stringify(item, null, 2))}</pre></details>`;
+          if (match) {
+            const b = document.createElement("button");
+            b.textContent = "Pokaż zleceniodawcę na mapie";
+            b.onclick = () => {
+              $("quests").close();
+              focus(match);
+            };
+            div.append(b);
+          }
+          $("questList").append(div);
+        }
+      }
+      $("questsBtn").onclick = () => {
+        quests();
+        $("quests").showModal();
+      };
+      $("questSearch").oninput = quests;
+      $("helpBtn").onclick = () => $("help").showModal();
+      document
+        .querySelectorAll("dialog .close")
+        .forEach((b) => (b.onclick = () => b.closest("dialog").close()));
+      $("layersBtn").onclick = () => document.querySelector(".left").classList.toggle("open");
+      $("infoBtn").onclick = () => document.querySelector(".right").classList.toggle("open");
+      function download(blob, name) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      }
+      $("csvBtn").onclick = () => {
+        let lines = ["ląd;warstwa;id;nazwa;x;y;wnętrze;pełne_dane_json"];
+        const cell = (s) => '"' + String(s ?? "").replaceAll('"', '""') + '"';
+        for (const p of points)
+          lines.push(
+            [p.feature, p.type, p.id, p.name, p.x, p.y, "", JSON.stringify(p.row)]
+              .map(cell)
+              .join(";"),
+          );
+        for (const [f, v] of Object.entries(features))
+          for (const r of v.spawns.interiors)
+            lines.push(
+              [
+                f,
+                "interiorSpawn",
+                r.id,
+                monsters[r.kind]?.name,
+                r.x,
+                r.y,
+                r.dungeon,
+                JSON.stringify(r),
+              ]
+                .map(cell)
+                .join(";"),
+            );
+        download(
+          new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv;charset=utf-8" }),
+          "Superior-wszystkie-punkty.csv",
+        );
+      };
+      $("pngBtn").onclick = () =>
+        canvas.toBlob((b) => download(b, "Superior-" + (dungeon?.id || view) + ".png"));
+      $("audit").textContent =
+        `Spawny: ${fmt(D.counts.overworld + D.counts.interiors)} · ${D.monsters.length} gatunków. Podziemia: ${D.counts.dungeons}. Drogi: ${fmt(D.counts.roads)}. Zasoby: ${fmt(D.counts.resources)}. Dekoracje: ${fmt(D.counts.scenery)}. Questy projektowe: ${D.counts.quests}. Kod ${D.sha.slice(0, 12)}. Dane generatora 23.10.2026; eksport właściciela.`;
+      window.OWNER_ATLAS = {
+        roster: D.monsters,
+        counts: D.counts,
+        monsterCount: D.monsters.length,
+        questCount: D.campaign.quests.length,
+        points,
+        features,
+        setView,
+        openDungeon,
+        project,
+        getState: () => ({ view, dungeon: dungeon?.id, visible: screenPoints.length }),
+        draw,
+      };
+      new ResizeObserver(size).observe(canvas.parentElement);
+      update();
+      $("loading").remove();
+    })().catch((e) => {
+      document.getElementById("loading").innerHTML =
+        "<h2>Nie udało się otworzyć atlasu</h2><p>" +
+        String(e.message).replace(/[<>]/g, "") +
+        "</p><p>Użyj aktualnej przeglądarki Chrome, Edge lub Firefox obsługującej DecompressionStream.</p>";
+      console.error(e);
+    });
+  </script>
+</html>
