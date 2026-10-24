@@ -1,6 +1,6 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: 23.10.2026. Stan kodu porównany z `origin/main` na `d0bfc2c`.
+Aktualizacja dokumentacji: 24.10.2026. Przegląd historii commitów do `96458e38` (punkt obserwacji; dalsze commity wymagają ponownego odczytu). Opisy testów zachowują swoje oryginalne SHA i zakres; brak deklaracji pełnego PASS aktualnej produkcji.
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
 | Dokument                                        | Co w nim znaleźć                                                           |
@@ -52,3 +52,8 @@ Nie kopiujemy ich w całości do wielu plików opisowych i nie usuwamy dowodów 
 
 Wyraźne decyzje właściciela mają pierwszeństwo. Koncepcja, kod, zaliczony test,
 scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym SHA.
+
+
+## Uzupełnienie 24.10 — status źródeł
+
+Historyczne PR #6, #8 i #10 pozostają materiałem archiwalnym/roboczym, a nie bieżącym indeksem. Aktualne wytyczne znajdują się w dziewięciu tematycznych dokumentach z tabeli powyżej oraz w niniejszym INDEX. Szczególnie istotna zmiana: jedyny runtime świata Superior. Aktualizacje po przeglądzie commitów opisano w rozdziałach 24.10 dokumentów o świecie, postaciach, GPU, architekturze i planie oraz w dzienniku z tej daty.
