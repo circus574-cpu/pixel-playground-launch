@@ -1,0 +1,682 @@
+[
+  {
+    "id": "skill-planetary-R",
+    "group": "skill",
+    "prompt": "Cios Szlaku: Atak wręcz ×1,0 co 650 ms. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A1",
+    "group": "skill",
+    "prompt": "Szybki Unik: Zryw w wybranym kierunku (160 j.), 0,4 s nietykalności. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A2",
+    "group": "passive",
+    "prompt": "Lekki Krok: +6% szybkości ruchu.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A3",
+    "group": "passive",
+    "prompt": "Pęd Szlaku: Po uniku następny atak zadaje +25% obrażeń (5 s).. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A4",
+    "group": "skill",
+    "prompt": "Wir Energii: Wirujący atak wokół postaci ×1,8, promień 140 j.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A5",
+    "group": "passive",
+    "prompt": "Wiatr w Plecy: Po pokonaniu wroga +15% szybkości ruchu przez 4 s.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A6",
+    "group": "passive",
+    "prompt": "Oko Zwiadowcy: +5% szansy krytyku.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A7",
+    "group": "skill",
+    "prompt": "Cios z Cienia: Pierwszy atak po uniku zawsze jest krytyczny. Wyklucza A8.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A8",
+    "group": "skill",
+    "prompt": "Nieuchwytny: Odnowienie Uniku −30%, po uniku +20% obrony przez 1 s. Wyklucza A7.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-A9",
+    "group": "skill",
+    "prompt": "Burza Wędrowca: Seria 5 szybkich uderzeń w pobliskich wrogów, łącznie ×4,0. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B1",
+    "group": "skill",
+    "prompt": "Impuls Ziemi: Uderzenie w ziemię ×1,4, promień 120 j., spowolnienie 30% na 2 s. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B2",
+    "group": "passive",
+    "prompt": "Adaptacja: Bonus zależny od terenu: las +30% regeneracji Ki, skały +10% obrony, woda +8% szybkości.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B3",
+    "group": "passive",
+    "prompt": "Kamienna Skóra: +8% obrony.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B4",
+    "group": "skill",
+    "prompt": "Kruszący Stąp: Skok i uderzenie ×2,0, ogłuszenie 1 s. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B5",
+    "group": "passive",
+    "prompt": "Rezonans: Impuls Ziemi uderza drugi raz po 0,5 s za 60% obrażeń.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B6",
+    "group": "passive",
+    "prompt": "Żyła Ziemi: Impuls Ziemi zwraca 5 Ki za każdego trafionego wroga (maks. 15).. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B7",
+    "group": "skill",
+    "prompt": "Głaz Strażnik: Kruszący Stąp tworzy osłonę pochłaniającą 15% maks. życia przez 5 s. Wyklucza B8.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B8",
+    "group": "skill",
+    "prompt": "Trzęsienie: Impuls Ziemi: promień +40% i ogłuszenie 0,5 s. Wyklucza B7.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-B9",
+    "group": "skill",
+    "prompt": "Gniew Doliny: Ogromne uderzenie obszarowe ×4,0, ogłuszenie 1,5 s. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C1",
+    "group": "skill",
+    "prompt": "Korzenny Oddech: Leczy 12% maks. życia w ciągu 4 s. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C2",
+    "group": "passive",
+    "prompt": "Zielona Krew: +10% maks. życia.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C3",
+    "group": "passive",
+    "prompt": "Leśna Cierpliwość: Poza walką regeneracja życia 1% maks. na sekundę.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C4",
+    "group": "skill",
+    "prompt": "Tarcza Liści: Tarcza pochłaniająca 18% maks. życia przez 5 s. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C5",
+    "group": "passive",
+    "prompt": "Korzenie Odporności: Czas trwania efektów kontroli na postaci −25%.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C6",
+    "group": "passive",
+    "prompt": "Ziarno Życia: Leczenie z Korzennego Oddechu +30%.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C7",
+    "group": "skill",
+    "prompt": "Strażnik Gaju: Tarcza Liści odbija 20% obrażeń wręcz. Wyklucza C8.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C8",
+    "group": "skill",
+    "prompt": "Dar Lasu: Korzenny Oddech zwraca 15 Ki. Wyklucza C7.. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-C9",
+    "group": "skill",
+    "prompt": "Pieśń Korzeni: Leczy 40% maks. życia i daje tarczę 20% na 6 s. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-planetary-T",
+    "group": "skill",
+    "prompt": "Forma Rezonansu Świata: 20 s: +20% Ataku, +15% Obrony, +10% szybkości ruchu. earth and wind wanderer, green emerald and amber energy, leaves, stone, gusts"
+  },
+  {
+    "id": "skill-sage-R",
+    "group": "skill",
+    "prompt": "Pocisk Ki: Pocisk dystansowy ×1,0 co 800 ms, zasięg 420 j. Bez kosztu Ki.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A1",
+    "group": "skill",
+    "prompt": "Pieczęć Energii: Znak na celu. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A2",
+    "group": "passive",
+    "prompt": "Znak Wiedzy: Wrogowie z pieczęcią przyjmują +10% obrażeń.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A3",
+    "group": "passive",
+    "prompt": "Szybka Pieczęć: Odnowienie Pieczęci Energii −20%.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A4",
+    "group": "skill",
+    "prompt": "Strumień Ki: Kanałowany promień 3 s, łącznie ×2,4 (co 0,5 s). light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A5",
+    "group": "passive",
+    "prompt": "Echo Pieczęci: Wybuch Pieczęci rani też pobliskich wrogów za 50% obrażeń.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A6",
+    "group": "passive",
+    "prompt": "Precyzja Mędrca: +8% szansy krytyku.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A7",
+    "group": "skill",
+    "prompt": "Złoty Krąg: Wybuch Pieczęci tworzy krąg obrażeń o promieniu 120 j. Wyklucza A8.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A8",
+    "group": "skill",
+    "prompt": "Pieczęć Skupienia: Wybuch Pieczęci zwraca 15 Ki. Wyklucza A7.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-A9",
+    "group": "skill",
+    "prompt": "Sąd Światła: Po 1,5 s słup światła w dużym obszarze ×4,2. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B1",
+    "group": "skill",
+    "prompt": "Świetlista Bariera: Tarcza pochłaniająca 15% maks. życia przez 4 s. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B2",
+    "group": "passive",
+    "prompt": "Kontrola Kręgu: Zdolności zostawiają krąg światła (5 s): +10% obrony postaci w jego obrębie.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B3",
+    "group": "passive",
+    "prompt": "Gęste Światło: Bariera trwa o 2 s dłużej.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B4",
+    "group": "skill",
+    "prompt": "Krąg Spowolnienia: Krąg na 5 s: wrogowie w nim −40% szybkości. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B5",
+    "group": "passive",
+    "prompt": "Odbicie: Bariera odbija 15% obrażeń z pocisków.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B6",
+    "group": "passive",
+    "prompt": "Strażnik Kręgu: Wrogowie w kręgach zadają −10% obrażeń.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B7",
+    "group": "skill",
+    "prompt": "Kopuła: Pojemność Bariery +30%. Wyklucza B8.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B8",
+    "group": "skill",
+    "prompt": "Lustro: Bariera odbija pierwszy atak wroga w całości. Wyklucza B7.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-B9",
+    "group": "skill",
+    "prompt": "Świątynia Światła: Wielki krąg na 8 s: +30% obrony postaci, wrogowie −30% szybkości. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C1",
+    "group": "skill",
+    "prompt": "Skupienie KI: Kanałowanie 3 s: odnawia 30% maks. Ki (przerywane ruchem lub trafieniem). light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C2",
+    "group": "passive",
+    "prompt": "Głęboki Oddech: +15% maks. Ki.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C3",
+    "group": "passive",
+    "prompt": "Mądrość Strażników: Koszty Ki zdolności −8%.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C4",
+    "group": "skill",
+    "prompt": "Medytacja Bojowa: Kanałowanie 3 s: leczy 20% maks. życia. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C5",
+    "group": "passive",
+    "prompt": "Czysty Umysł: Czas trwania efektów kontroli na postaci −25%.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C6",
+    "group": "passive",
+    "prompt": "Strumień Wiedzy: Po Skupieniu KI następna zdolność zadaje +25% obrażeń (6 s).. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C7",
+    "group": "skill",
+    "prompt": "Dar Mędrca: Medytacja Bojowa leczy o 50% więcej. Wyklucza C8.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C8",
+    "group": "skill",
+    "prompt": "Skupienie Mistrza: Skupienie KI nie jest przerywane ruchem. Wyklucza C7.. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-C9",
+    "group": "skill",
+    "prompt": "Pełnia Skupienia: 8 s: zdolności nie kosztują Ki i zadają +30% obrażeń. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-sage-T",
+    "group": "skill",
+    "prompt": "Forma Oświecenia: 20 s: +25% Ataku, odnowienia zdolności −30%, +15% Obrony. light and seal magic, golden sigils, white and jade glow, temple calligraphy circles"
+  },
+  {
+    "id": "skill-android-R",
+    "group": "skill",
+    "prompt": "Strzał Impulsowy: Strzał ×1,0 co 700 ms, zasięg 360 j.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A1",
+    "group": "skill",
+    "prompt": "Namierzanie: Oznacza cel na 6 s: +15% szansy krytyku przeciw niemu. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A2",
+    "group": "passive",
+    "prompt": "Kalibracja: +6% szansy krytyku.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A3",
+    "group": "passive",
+    "prompt": "Stabilizatory: Zasięg strzałów +15%.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A4",
+    "group": "skill",
+    "prompt": "Salwa Precyzyjna: Trzy strzały w oznaczony cel, łącznie ×2,2. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A5",
+    "group": "passive",
+    "prompt": "Analiza Słabości: Oznaczeni wrogowie mają −10% obrony.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A6",
+    "group": "passive",
+    "prompt": "Szybkie Przeładowanie: Odstęp strzałów −8%.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A7",
+    "group": "skill",
+    "prompt": "Snajper: +40% obrażeń przeciw oznaczonym, odstęp strzałów +10%. Wyklucza A8.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A8",
+    "group": "skill",
+    "prompt": "Rój: Strzał rozdziela się na 2 dodatkowe pobliskie cele (po 40% obrażeń). Wyklucza A7.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-A9",
+    "group": "skill",
+    "prompt": "Protokół Egzekucji: Strzał ×4,0 w oznaczony cel, ×6,0 gdy cel ma poniżej 30% życia. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B1",
+    "group": "skill",
+    "prompt": "Tarcza Plazmowa: Tarcza pochłaniająca 18% maks. życia przez 5 s. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B2",
+    "group": "passive",
+    "prompt": "Płyty Pancerne: +8% obrony.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B3",
+    "group": "passive",
+    "prompt": "Generator Tarczy: Pojemność Tarczy +25%.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B4",
+    "group": "skill",
+    "prompt": "Impuls Odpychający: Fala ×1,2 odpycha pobliskich wrogów i ogłusza na 0,5 s. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B5",
+    "group": "passive",
+    "prompt": "Protokół Adaptacji: Tarcza Plazmowa odbija 25% obrażeń z pocisków.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B6",
+    "group": "passive",
+    "prompt": "Samonaprawa: Regeneracja życia 0,5% maks. na sekundę.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B7",
+    "group": "skill",
+    "prompt": "Tarcza Kolcowa: Tarcza odbija 30% obrażeń wręcz. Wyklucza B8.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B8",
+    "group": "skill",
+    "prompt": "Tarcza Modułowa: Odnowienie Tarczy −35%. Wyklucza B7.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-B9",
+    "group": "skill",
+    "prompt": "Fortyfikacja: 6 s: +60% obrony i odporność na efekty kontroli. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C1",
+    "group": "skill",
+    "prompt": "Wyładowanie Rdzenia: Zużywa cały Ładunek: obrażenia ×(1,0 + Ładunek/50), do ×3,0 przy 100, w linii przed postacią. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C2",
+    "group": "passive",
+    "prompt": "Zarządzanie Rdzeniem: Przegrzanie trwa 1 s zamiast 2 s. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C3",
+    "group": "passive",
+    "prompt": "Radiatory: Każdy strzał dodaje o 15% mniej Ładunku.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C4",
+    "group": "skill",
+    "prompt": "Rozładowanie Awaryjne: Zeruje Ładunek i leczy 10% maks. życia. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C5",
+    "group": "passive",
+    "prompt": "Rezerwowy Akumulator: +12% maks. Ki.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C6",
+    "group": "passive",
+    "prompt": "Optymalizacja: Koszt Ki Wyładowania Rdzenia −20%.. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C7",
+    "group": "skill",
+    "prompt": "Przeciążony Rdzeń: Maks. Ładunek 150 (Wyładowanie do ×4,0). sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C8",
+    "group": "skill",
+    "prompt": "Stabilny Rdzeń: Przegrzanie nigdy nie następuje. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-C9",
+    "group": "skill",
+    "prompt": "Przeciążenie Systemu: 6 s: zdolności nie kosztują Ki, +40% obrażeń. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-android-T",
+    "group": "skill",
+    "prompt": "Forma Pełnego Rdzenia: 20 s: +25% Ataku, +15% Obrony, przegrzanie wyłączone. sci-fi plasma tech, cyan neon, circuits, shields, targeting reticles"
+  },
+  {
+    "id": "skill-legend-R",
+    "group": "skill",
+    "prompt": "Uderzenie Żaru: Cios wręcz ×1,0 co 750 ms. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A1",
+    "group": "skill",
+    "prompt": "Ogniste Cięcie: Kombinacja 3 cięć, łącznie ×1,8. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A2",
+    "group": "passive",
+    "prompt": "Rozgrzane Ostrza: Cięcia podpalają na 3 s (łącznie 30% Ataku).. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A3",
+    "group": "passive",
+    "prompt": "Łańcuch Ciosów: Po 3 trafieniach z rzędu odstęp ataków −10% na 4 s.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A4",
+    "group": "skill",
+    "prompt": "Szarża Płomienia: Doskok (200 j.) i cięcie ×2,2. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A5",
+    "group": "passive",
+    "prompt": "Rozżarzone Pięści: +8% Ataku.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A6",
+    "group": "passive",
+    "prompt": "Okrucieństwo: +6% szansy krytyku.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A7",
+    "group": "skill",
+    "prompt": "Taniec Płomieni: Ogniste Cięcie ma 5 cięć (łącznie ×2,6). Wyklucza A8.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A8",
+    "group": "skill",
+    "prompt": "Pojedynkowicz: +25% obrażeń, gdy w zasięgu 200 j. jest tylko jeden wróg. Wyklucza A7.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-A9",
+    "group": "skill",
+    "prompt": "Tysiąc Cięć: Seria 8 cięć, łącznie ×4,2. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B1",
+    "group": "skill",
+    "prompt": "Przełamanie: Cios kruszący ×1,5, ogłuszenie 1,2 s i zniszczenie osłon wroga. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B2",
+    "group": "passive",
+    "prompt": "Hartowana Skóra: +8% obrony.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B3",
+    "group": "passive",
+    "prompt": "Honor Wojownika: +10% maks. życia.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B4",
+    "group": "skill",
+    "prompt": "Płomienny Szał: 8 s: +30% Ataku, −20% obrony. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B5",
+    "group": "passive",
+    "prompt": "Żelazna Wola: W Szale odporność na ogłuszenie.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B6",
+    "group": "passive",
+    "prompt": "Krew Legendy: Po pokonaniu wroga leczy 3% maks. życia.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B7",
+    "group": "skill",
+    "prompt": "Wściekłość: Szał trwa o 4 s dłużej i daje dodatkowe +10% Ataku. Wyklucza B8.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B8",
+    "group": "skill",
+    "prompt": "Kontrolowany Żar: Szał nie obniża obrony. Wyklucza B7.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-B9",
+    "group": "skill",
+    "prompt": "Ostatni Płomień: 5 s: pierwszy śmiertelny cios zostawia 1 punkt życia i leczy 30% maks. życia. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C1",
+    "group": "skill",
+    "prompt": "Wybuch Ki: Eksplozja wokół postaci ×1,8, promień 150 j.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C2",
+    "group": "passive",
+    "prompt": "Żar: Żar rośnie o 50% szybciej i opada 2× wolniej.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C3",
+    "group": "passive",
+    "prompt": "Ognisty Oddech: Wybuch Ki podpala na 4 s (łącznie 40% Ataku).. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C4",
+    "group": "skill",
+    "prompt": "Eksplozja Żaru: Zużywa cały Żar: obszarowo ×(1,0 + Żar/50), do ×3,0 przy 100. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C5",
+    "group": "passive",
+    "prompt": "Szybkie Rozżarzenie: Walka zaczyna się z 20 Żaru.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C6",
+    "group": "passive",
+    "prompt": "Nieugaszony: Przy 100 Żaru regeneracja Ki +50%.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C7",
+    "group": "skill",
+    "prompt": "Wulkan: Eksplozja Żaru: promień +50%. Wyklucza C8.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C8",
+    "group": "skill",
+    "prompt": "Detonator: Eksplozja Żaru: +25% obrażeń, promień −20%. Wyklucza C7.. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-C9",
+    "group": "skill",
+    "prompt": "Ognisty Kataklizm: Kolumna ognia w dużym obszarze ×4,5 i podpalenie na 5 s. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "skill-legend-T",
+    "group": "skill",
+    "prompt": "Forma Płomiennego Legendy: 20 s: +30% Ataku, Żar utrzymuje się na 100. fire warrior, crimson and orange flames, embers, blades"
+  },
+  {
+    "id": "item-potion",
+    "group": "item",
+    "prompt": "red healing potion in a round glass flask with cork"
+  },
+  {
+    "id": "item-sword",
+    "group": "item",
+    "prompt": "guardian steel sword with gold hilt"
+  },
+  {
+    "id": "item-vest",
+    "group": "item",
+    "prompt": "leather traveller vest armor"
+  },
+  {
+    "id": "item-helmet",
+    "group": "item",
+    "prompt": "steel helmet"
+  },
+  {
+    "id": "item-gloves",
+    "group": "item",
+    "prompt": "leather gloves"
+  },
+  {
+    "id": "item-boots",
+    "group": "item",
+    "prompt": "leather boots"
+  },
+  {
+    "id": "item-amulet",
+    "group": "item",
+    "prompt": "gold amulet with gem"
+  },
+  {
+    "id": "item-ring",
+    "group": "item",
+    "prompt": "silver ring with gem"
+  },
+  {
+    "id": "item-material",
+    "group": "item",
+    "prompt": "pile of monster materials, fangs and crystals"
+  },
+  {
+    "id": "nav-inventory",
+    "group": "nav",
+    "prompt": "leather backpack"
+  },
+  {
+    "id": "nav-quests",
+    "group": "nav",
+    "prompt": "rolled parchment scroll with red seal"
+  },
+  {
+    "id": "nav-skills",
+    "group": "nav",
+    "prompt": "stylised flame emblem"
+  },
+  {
+    "id": "nav-settings",
+    "group": "nav",
+    "prompt": "golden cog gear"
+  },
+  {
+    "id": "nav-map",
+    "group": "nav",
+    "prompt": "folded treasure map with compass"
+  },
+  {
+    "id": "frame-portrait",
+    "group": "frame",
+    "prompt": "ornate dark iron and gold circular portrait frame"
+  },
+  {
+    "id": "frame-panel",
+    "group": "frame",
+    "prompt": "ornate dark wooden panel with gold filigree corners"
+  },
+  {
+    "id": "frame-slot",
+    "group": "frame",
+    "prompt": "square inventory slot frame, dark leather with gold rim"
+  },
+  {
+    "id": "frame-minimap",
+    "group": "frame",
+    "prompt": "ornate dark frame for a minimap with gold corners"
+  },
+  {
+    "id": "frame-button",
+    "group": "frame",
+    "prompt": "round ornate gold ring button frame"
+  },
+  {
+    "id": "bg-inventory",
+    "group": "frame",
+    "prompt": "dark leather and wood inventory screen background, subtle pattern"
+  }
+]
