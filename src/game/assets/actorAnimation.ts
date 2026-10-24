@@ -17,6 +17,7 @@ const PRIORITY: Record<AnimationState, number> = {
 export class ActorAnimation {
   state: AnimationState = "idle";
   private until = 0;
+  private pending: { state: "attack" | "skill"; facing: Point; expires: number } | undefined;
   private lastKey = "";
   private direction: Point = { x: 0, y: 1 };
   private directions = new Map<AnimationState, Direction[]>();
@@ -28,7 +29,24 @@ export class ActorAnimation {
       this.directions.set(state as AnimationState, Object.keys(clip.directions) as Direction[]);
   }
   trigger(state: AnimationState, now: number, facing?: Point) {
-    if (state !== "respawn" && now < this.until && PRIORITY[state] < PRIORITY[this.state]) return;
+    if (state === "death" || state === "respawn") this.pending = undefined;
+    if (
+      state === "attack" &&
+      this.state === "hit" &&
+      this.pending?.state === "skill" &&
+      now <= this.pending.expires
+    )
+      return;
+    if (state !== "respawn" && now < this.until && PRIORITY[state] < PRIORITY[this.state]) {
+      if (
+        this.state === "hit" &&
+        (state === "attack" || state === "skill") &&
+        (!this.pending || PRIORITY[state] >= PRIORITY[this.pending.state])
+      )
+        this.pending = { state, facing: { ...(facing ?? this.direction) }, expires: now + 500 };
+      return;
+    }
+    if (state === "attack" || state === "skill") this.pending = undefined;
     this.state = state;
     if (facing) this.direction = facing;
     const clip = this.visual.clips[state];
@@ -48,8 +66,13 @@ export class ActorAnimation {
     if (dead && this.state !== "death") this.trigger("death", now);
     if (!dead && this.state === "death") this.trigger("respawn", now);
     if (!dead && now >= this.until) {
-      this.state = moving ? "walk" : "idle";
-      this.direction = facing;
+      const pending = this.pending;
+      this.pending = undefined;
+      if (pending && now <= pending.expires) this.trigger(pending.state, now, pending.facing);
+      else {
+        this.state = moving ? "walk" : "idle";
+        this.direction = facing;
+      }
     }
     const selected = this.visual.clips[this.state] ? this.state : "idle";
     const clip = this.visual.clips[selected]!;

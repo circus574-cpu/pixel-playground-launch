@@ -158,6 +158,16 @@ export function mountKileGends(
       loading({ phase: "building", message: "Przywoływanie bohatera…", progress: null });
       try {
         this.initializeWorld();
+        // Capture every rendered hero frame independently of the 100 ms HUD
+        // snapshot. Brief reactions must not disappear from frame observations.
+        const captureFrame = () => {
+          const state = this.hero.animation.state,
+            frame = String(this.hero.sprite.frame.name);
+          if (parent.dataset["animationState"] !== state) parent.dataset["animationState"] = state;
+          if (parent.dataset["animationFrame"] !== frame) parent.dataset["animationFrame"] = frame;
+        };
+        this.game.events.on(Phaser.Core.Events.POST_RENDER, captureFrame);
+        releaseScene.push(() => this.game.events.off(Phaser.Core.Events.POST_RENDER, captureFrame));
         this.game.events.once(Phaser.Core.Events.POST_RENDER, () => {
           if (!this.loadFailed)
             loading({ phase: "ready", message: "Świat gotowy", progress: null });
@@ -844,6 +854,10 @@ export function mountKileGends(
         Number(Boolean(k?.["W"]?.isDown || k?.["UP"]?.isDown)) +
         this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
+      // Apply this tick's events before selecting frames. Reporting a newly
+      // triggered state with the previous sprite frame delayed actions one tick.
+      this.syncEnemies();
+      for (const event of session.events.splice(0)) this.effect(event);
       this.hero.body.setPosition(session.player.x, session.player.y).setDepth(session.player.y);
       this.hero.animation.update(
         this.animationTime,
@@ -852,7 +866,6 @@ export function mountKileGends(
         session.facing,
         session.paused || !!session.dialogue,
       );
-      this.syncEnemies();
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
         a.body.setVisible(!e.m.hidden);
@@ -973,7 +986,6 @@ export function mountKileGends(
           body.destroy();
           this.loot.delete(id);
         }
-      for (const event of session.events.splice(0)) this.effect(event);
       if (time - this.lastReport > 100) {
         this.lastReport = time;
         this.report();

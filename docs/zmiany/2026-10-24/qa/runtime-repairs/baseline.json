@@ -1,0 +1,937 @@
+{
+  "sha": "66c29fcf070e268b8a6c69c1c494e42ba075998d",
+  "run": 40041421567,
+  "softwareRun": 40041424495,
+  "reportedAllocation": 17,
+  "allocationVerified": false,
+  "tests": [
+    {
+      "project": "gameplay",
+      "file": "e2e/aether-art-preview.spec.ts",
+      "line": 12,
+      "title": "Aetheria anime start point and v2 terrain are public defaults",
+      "duration": "4.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/city.spec.ts",
+      "line": 38,
+      "title": "Verdantia city: real entrances, merchant, personal chest reload and training 1280px",
+      "duration": "32.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/city.spec.ts",
+      "line": 38,
+      "title": "Verdantia city: real entrances, merchant, personal chest reload and training 390px",
+      "duration": "30.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/city.spec.ts",
+      "line": 38,
+      "title": "Verdantia city: real entrances, merchant, personal chest reload and training 852px",
+      "duration": "31.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-planetary-painted: safe city movement and training",
+      "duration": "8.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-sage-painted: all seven clips follow real combat, defeat and respawn",
+      "duration": "40.7s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-android: all seven clips follow real combat, defeat and respawn",
+      "duration": "1.5m",
+      "status": "failed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-legend: all seven clips follow real combat, defeat and respawn",
+      "duration": "1.5m",
+      "status": "failed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Planetarni 360x640 › single dock, clear play area and real touch tools",
+      "duration": "3.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Planetarni 390x640 › single dock, clear play area and real touch tools",
+      "duration": "2.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Mędrcy 390x844 › single dock, clear play area and real touch tools",
+      "duration": "3.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Androidy 390x640 › single dock, clear play area and real touch tools",
+      "duration": "3.3s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Legendy 414x896 › single dock, clear play area and real touch tools",
+      "duration": "3.3s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Androidy 852x393 › single dock, clear play area and real touch tools",
+      "duration": "2.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/hud-layout.spec.ts",
+      "line": 16,
+      "title": "tidy HUD Planetarni 1280x900 › single dock, clear play area and real touch tools",
+      "duration": "3.3s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 38,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 1280",
+      "duration": "21.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 38,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 360",
+      "duration": "17.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 38,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 390",
+      "duration": "17.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 38,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 414",
+      "duration": "16.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 38,
+      "title": "clear world, dismiss/expire guidance, dialogs and persistent options 852",
+      "duration": "16.0s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 184,
+      "title": "save failure stays actionable after normal guidance is disabled or dismissed",
+      "duration": "5.6s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 212,
+      "title": "death message ends on real respawn and subsequent movement works",
+      "duration": "44.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 254,
+      "title": "combat messages leave the actual target panel clear at 360px",
+      "duration": "14.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 254,
+      "title": "combat messages leave the actual target panel clear at 390px",
+      "duration": "14.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 254,
+      "title": "combat messages leave the actual target panel clear at 414px",
+      "duration": "13.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 254,
+      "title": "combat messages leave the actual target panel clear at 640px",
+      "duration": "13.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 254,
+      "title": "combat messages leave the actual target panel clear at 852px",
+      "duration": "13.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/overlay-audit.spec.ts",
+      "line": 254,
+      "title": "combat messages leave the actual target panel clear at 1280px",
+      "duration": "14.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/planetary-preview.spec.ts",
+      "line": 17,
+      "title": "Planetarni default painted visual preserves the same save across legacy flags and other races",
+      "duration": "7.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/planetary-preview.spec.ts",
+      "line": 50,
+      "title": "Planetarni has real eight-direction movement and skill animation at 1280px",
+      "duration": "7.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/planetary-preview.spec.ts",
+      "line": 50,
+      "title": "Planetarni has real eight-direction movement and skill animation at 390px",
+      "duration": "6.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/planetary-preview.spec.ts",
+      "line": 100,
+      "title": "a broken Planetarni atlas retries without losing the character",
+      "duration": "3.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/planetary-preview.spec.ts",
+      "line": 122,
+      "title": "Planetarni touch preview › real touch joystick animates all eight directions and a tapped skill",
+      "duration": "5.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android planetary 390x844 › real Android input in eight directions: planetary 390x844",
+      "duration": "1.2m",
+      "status": "failed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android planetary 852x393 › real Android input in eight directions: planetary 852x393",
+      "duration": "13.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android sage 390x844 › real Android input in eight directions: sage 390x844",
+      "duration": "14.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android sage 852x393 › real Android input in eight directions: sage 852x393",
+      "duration": "13.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android android 390x844 › real Android input in eight directions: android 390x844",
+      "duration": "14.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android android 852x393 › real Android input in eight directions: android 852x393",
+      "duration": "13.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android legend 390x844 › real Android input in eight directions: legend 390x844",
+      "duration": "14.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 77,
+      "title": "Android legend 852x393 › real Android input in eight directions: legend 852x393",
+      "duration": "12.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 214,
+      "title": "real defeat, respawn and movement: sage",
+      "duration": "39.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 214,
+      "title": "real defeat, respawn and movement: android",
+      "duration": "34.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 214,
+      "title": "real defeat, respawn and movement: legend",
+      "duration": "44.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 257,
+      "title": "imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely",
+      "duration": "6.7s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 303,
+      "title": "real pursuit, return, enemy collision and world boundary: sage",
+      "duration": "45.6s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 303,
+      "title": "real pursuit, return, enemy collision and world boundary: android",
+      "duration": "39.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 303,
+      "title": "real pursuit, return, enemy collision and world boundary: legend",
+      "duration": "32.7s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/pre-gpu.spec.ts",
+      "line": 372,
+      "title": "malformed scenery atlas fails with a named error and retries without losing the slot",
+      "duration": "2.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/race-switch.spec.ts",
+      "line": 9,
+      "title": "temporary race switch preserves each save 1280",
+      "duration": "13.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/race-switch.spec.ts",
+      "line": 9,
+      "title": "temporary race switch preserves each save 390",
+      "duration": "9.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/region-start-art.spec.ts",
+      "line": 8,
+      "title": "nexus art switch preserves the existing character",
+      "duration": "3.7s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/region-start-art.spec.ts",
+      "line": 8,
+      "title": "pyra art switch preserves the existing character",
+      "duration": "3.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/region-start-art.spec.ts",
+      "line": 8,
+      "title": "verdant art switch preserves the existing character",
+      "duration": "2.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/sage-preview.spec.ts",
+      "line": 43,
+      "title": "Mędrcy default visual preserves the save and stays isolated from other races",
+      "duration": "11.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/sage-preview.spec.ts",
+      "line": 87,
+      "title": "Mędrcy has real eight-direction movement and skill animation at 1280px",
+      "duration": "8.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/sage-preview.spec.ts",
+      "line": 87,
+      "title": "Mędrcy has real eight-direction movement and skill animation at 390px",
+      "duration": "7.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/sage-preview.spec.ts",
+      "line": 134,
+      "title": "a broken Mędrcy atlas retries without losing the character",
+      "duration": "3.3s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/sage-preview.spec.ts",
+      "line": 156,
+      "title": "Mędrcy touch preview › real touch joystick animates all eight directions and a tapped skill",
+      "duration": "6.7s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3-migration.spec.ts",
+      "line": 5,
+      "title": "C: a real v1 fixture migrates in the browser without changing the original",
+      "duration": "3.7s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3-pve.spec.ts",
+      "line": 21,
+      "title": "D: real city UI — introduction, first weapon, equipment quest, smith, trade and reload",
+      "duration": "35.0s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3.spec.ts",
+      "line": 88,
+      "title": "A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching",
+      "duration": "50.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3.spec.ts",
+      "line": 172,
+      "title": "E: touch selection, joystick, dialogue and layout 360x800",
+      "duration": "11.5s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3.spec.ts",
+      "line": 172,
+      "title": "E: touch selection, joystick, dialogue and layout 390x844",
+      "duration": "12.0s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3.spec.ts",
+      "line": 172,
+      "title": "E: touch selection, joystick, dialogue and layout 414x896",
+      "duration": "12.3s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3.spec.ts",
+      "line": 172,
+      "title": "E: touch selection, joystick, dialogue and layout 852x393",
+      "duration": "8.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage3.spec.ts",
+      "line": 172,
+      "title": "E: touch selection, joystick, dialogue and layout 640x480",
+      "duration": "11.6s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-collision.spec.ts",
+      "line": 9,
+      "title": "browser collider and camera: planetary",
+      "duration": "5.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-collision.spec.ts",
+      "line": 9,
+      "title": "browser collider and camera: sage",
+      "duration": "6.6s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-collision.spec.ts",
+      "line": 9,
+      "title": "browser collider and camera: android",
+      "duration": "6.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-collision.spec.ts",
+      "line": 9,
+      "title": "browser collider and camera: legend",
+      "duration": "5.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-ui.spec.ts",
+      "line": 14,
+      "title": "original complete illustrations, details, accessible enlargement and no save before start",
+      "duration": "3.2s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-ui.spec.ts",
+      "line": 63,
+      "title": "real Phaser progress is held by an actual resource request, then opens the correct world",
+      "duration": "3.1s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-ui.spec.ts",
+      "line": 107,
+      "title": "failed real resource shows retry and reuses the same saved character",
+      "duration": "4.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/stage31-ui.spec.ts",
+      "line": 167,
+      "title": "HP and KI remain separate at low, middle, maximum values and interface scales",
+      "duration": "8.0s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/superior-world.spec.ts",
+      "line": 8,
+      "title": "Superior: ten lands, race and inventory survive travel and reload",
+      "duration": "15.9s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/superior-world.spec.ts",
+      "line": 69,
+      "title": "Superior: real depot entrance and personal chest survive reload",
+      "duration": "10.4s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/superior-world.spec.ts",
+      "line": 104,
+      "title": "Superior: mobile expedition menu and real overworld combat",
+      "duration": "17.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/three-races-pve.spec.ts",
+      "line": 97,
+      "title": "real PvE journey: sage — quests, 3 kills, loot, equipment, merchant and smith",
+      "duration": "1.6m",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/three-races-pve.spec.ts",
+      "line": 97,
+      "title": "real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith",
+      "duration": "1.7m",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/three-races-pve.spec.ts",
+      "line": 97,
+      "title": "real PvE journey: legend — quests, 3 kills, loot, equipment, merchant and smith",
+      "duration": "1.5m",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/world-rendering.spec.ts",
+      "line": 7,
+      "title": "aether mobile detail rendering stays within budget and releases each scene",
+      "duration": "6.8s",
+      "status": "passed"
+    },
+    {
+      "project": "gameplay",
+      "file": "e2e/world-rendering.spec.ts",
+      "line": 7,
+      "title": "nexus mobile detail rendering stays within budget and releases each scene",
+      "duration": "8.4s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/city-webgl.spec.ts",
+      "line": 24,
+      "title": "Verdantia software WebGL: actual chest interiors release resources on each return",
+      "duration": "16.3s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Mędrcy at 1280px",
+      "duration": "16.0s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Mędrcy at 390px",
+      "duration": "6.0s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Planetarni at 1280px",
+      "duration": "9.7s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Planetarni at 390px",
+      "duration": "5.2s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Androidy at 1280px",
+      "duration": "13.2s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Androidy at 390px",
+      "duration": "5.5s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Legendy at 1280px",
+      "duration": "13.0s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/gpu-webgl-smoke.spec.ts",
+      "line": 35,
+      "title": "software WebGL loads and moves Legendy at 390px",
+      "duration": "5.9s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-planetary-painted: safe city movement and training",
+      "duration": "17.5s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-sage-painted: all seven clips follow real combat, defeat and respawn",
+      "duration": "59.8s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-android: all seven clips follow real combat, defeat and respawn",
+      "duration": "1.7m",
+      "status": "failed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/hero-lifecycle.spec.ts",
+      "line": 26,
+      "title": "hero-legend: all seven clips follow real combat, defeat and respawn",
+      "duration": "59.8s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/superior-world.spec.ts",
+      "line": 8,
+      "title": "Superior: ten lands, race and inventory survive travel and reload",
+      "duration": "37.6s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/superior-world.spec.ts",
+      "line": 69,
+      "title": "Superior: real depot entrance and personal chest survive reload",
+      "duration": "30.6s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/superior-world.spec.ts",
+      "line": 104,
+      "title": "Superior: mobile expedition menu and real overworld combat",
+      "duration": "20.0s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/world-rendering.spec.ts",
+      "line": 7,
+      "title": "aether mobile detail rendering stays within budget and releases each scene",
+      "duration": "13.8s",
+      "status": "passed"
+    },
+    {
+      "project": "software-webgl",
+      "file": "e2e/world-rendering.spec.ts",
+      "line": 7,
+      "title": "nexus mobile detail rendering stays within budget and releases each scene",
+      "duration": "13.3s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Verdantia: selection, spawn, refresh, back and other saves",
+      "duration": "11.7s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Aetheria: selection, spawn, refresh, back and other saves",
+      "duration": "9.1s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Nexus-9: selection, spawn, refresh, back and other saves",
+      "duration": "8.0s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Pyra: selection, spawn, refresh, back and other saves",
+      "duration": "8.8s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 105,
+      "title": "continent roster filters all four origins without changing any slot, including mobile carousel",
+      "duration": "8.4s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 131,
+      "title": "home navigation clears continent intent without creating a character",
+      "duration": "2.3s",
+      "status": "passed"
+    },
+    {
+      "project": "application-canvas",
+      "file": "e2e/private-sketch.spec.ts",
+      "line": 3,
+      "title": "private /test remains locked and independent from game saves",
+      "duration": "8.6s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Verdantia: selection, spawn, refresh, back and other saves",
+      "duration": "32.7s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Aetheria: selection, spawn, refresh, back and other saves",
+      "duration": "35.5s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Nexus-9: selection, spawn, refresh, back and other saves",
+      "duration": "32.5s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 25,
+      "title": "real map handoff to Pyra: selection, spawn, refresh, back and other saves",
+      "duration": "32.6s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 105,
+      "title": "continent roster filters all four origins without changing any slot, including mobile carousel",
+      "duration": "18.0s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-handoff.spec.ts",
+      "line": 131,
+      "title": "home navigation clears continent intent without creating a character",
+      "duration": "4.0s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-rendering.spec.ts",
+      "line": 3,
+      "title": "globe switching disposes contexts and keeps a bounded texture budget",
+      "duration": "9.7s",
+      "status": "passed"
+    },
+    {
+      "project": "application-webgl",
+      "file": "e2e/globe-rendering.spec.ts",
+      "line": 42,
+      "title": "real WebGL context loss falls back to a working 2D map without saves",
+      "duration": "5.0s",
+      "status": "passed"
+    }
+  ]
+}
