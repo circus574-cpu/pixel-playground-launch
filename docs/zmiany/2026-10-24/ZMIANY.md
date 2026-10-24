@@ -30,3 +30,22 @@
 - To kontrola czterech przypadków nieudanych na bazie. Pozostałe przypisania
   z listy 17 oraz pełna regresja na końcowym SHA nie są oznaczone jako zamknięte.
   Bez scalenia i publikacji.
+
+
+## Wynik szerszej kontroli — kod `22c23d2`
+
+- Wypchnięto poprawkę na własną gałąź. Lokalne kontrole wybranych przypadków:
+  **17/17 PASS**: osiem kombinacji ruchu Android, Planetarni 1280 px, trzy przypadki
+  śmierci `pre-gpu`, komunikat śmierci `overlay-audit`, rig diagnostyczny,
+  pełne PvE Androida oraz budżety/sceny Aetherii i Nexusa.
+- W opisie przydziału były cztery przypadki śmierci w `pre-gpu`; ta baza generuje
+  trzy, ponieważ Verdantia pozostaje bezpiecznym etapem miejskim. Nie zastępujemy
+  brakującego identyfikatora dowolnym testem, by ogłosić zamknięcie pierwotnej listy.
+  Zestaw 17 powyżej zawiera dodatkową kontrolę riga; dokładny zakres jest w logu.
+- Software WebGL CI **18/18 PASS** na `22c23d2`, przebieg `40058733599`.
+  Pełne CI `40058731822` nadal trwało w chwili zapisu. Nie wpisano mu PASS z góry.
+- [Log zestawu](qa/runtime-repairs/scope-canvas.log),
+  [jawne pokrycie i SHA](qa/runtime-repairs/scope-summary.json).
+  Ten wpis dodaje tylko dowody; nie zmienia kodu przetestowanego `22c23d2`.
+- Nie zmieniano gałęzi HUD ani integracji. Scalenie wykonuje druga strona zgodnie
+  z podziałem. Nie scalono do main, nie opublikowano gry.
