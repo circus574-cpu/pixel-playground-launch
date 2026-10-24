@@ -35,3 +35,7 @@ dist-ssr
 # Browser regression evidence
 /test-results*/
 /playwright-report/
+
+# CPU generator bytecode
+__pycache__/
+*.pyc

@@ -94,3 +94,15 @@ Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wc
   (`hero-sage-painted` 1.0.1). Leśny Pająk, Liściak Skrytobójca i Mchowy Szlamak miały
   kwadratowe tło w klatkach; brzeg każdej klatki jest teraz miękko wygaszony (pakiety 1.0.2).
   Budynki wycięte prostą linią u dołu i z boku (np. Dom Treningu) wygaszają tylko podstawę.
+
+## Codex — prototyp geometrii Superior v2
+
+- Nowa gałąź `feature/superior-geometry-v2` z aktualnego main `96458e3`.
+- Wygenerowano osobny prototyp 45/55, mapy dziesięciu lądów, atlas przed/po,
+  obracany podgląd sferyczny, rejestr 152 historycznych podziemi i projekt 18 nowych.
+- Walidacja: 44,9982828678% obrysu lądów, 10/10 spójnych lądów, zero styków
+  różnych lądów, 827 zachowanych położeń miast/NPC/drzwi, spójny graf przejść.
+  Próba migracji jest czystą funkcją — nie zapisuje danych gracza.
+- Na bazie: TypeScript i Vitest 365/365. To nie odbiór wdrożonego świata v2.
+- Właściciel następnie zlecił pominięcie osobnej bramki audytu i rozpoczęcie
+  krajobrazu z istniejącymi grafikami. Dalsza integracja trwa; v1 jest zachowany.

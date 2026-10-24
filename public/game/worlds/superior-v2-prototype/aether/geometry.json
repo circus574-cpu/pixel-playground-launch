@@ -1,0 +1,1 @@
+{"feature":"aether","projection":"azimuthal-equidistant","width":70144,"height":53376,"cellSize":128,"anchor":{"x":36480.0,"y":25728.0},"oldToNewTranslation":{"x":12672.773328999989,"y":11325.985002},"coastlineAuthority":"../sphere-chunks.json","status":"prototype; not compatible with runtime-1 navigation contract"}

@@ -282,3 +282,25 @@ Wymiary kontynentów to prostokąty opisane na obrysach z `atlasRegions.json` pr
 3. Nazwy i treść stref N/S/E/W Verdantii oraz wyspy questowe.
 4. Dłuższe trasy: kamera, minimapa i mapa świata nie mają jeszcze przybliżenia na całą krainę; podróż po 40-tysięcznym kontynencie pieszo trwa kilka minut.
 5. Pomiar FPS i pamięci na telefonie.
+
+## Superior v2 — decyzja właściciela 24.10.2026
+
+Nowy cel zastępuje ograniczenie skali 0,5: 45% lądu / 55% oceanów na sferze
+(tolerancja ±0,5 pp), cztery istniejące kontynenty i sześć wysp. Rejestr projektu
+obejmuje 18 podziemi, w tym cztery labirynty i cztery dwustronne połączenia
+kontynentów. Nie oznacza to zatwierdzenia fizycznych tuneli pod oceanami.
+
+Prototyp `public/game/worlds/superior-v2-prototype/` zachowuje nienaruszony v1.
+Pomiar obrysu: 44,9982828678% lądu, 55,0017171322% oceanu; niezależna całka po
+wybrzeżu daje ten sam wynik. Zachowane wody śródlądowe v1 to około 0,03166%
+planety, więc suchy ląd również mieści się w tolerancji. Wszystkie dziesięć
+lądów jest spójne; sprawdzono 827 położeń miast/NPC/drzwi. Szczegóły i mapy:
+`audit.html`, `audit.json`, `validation.json`, `historical-dungeons.json`,
+`dungeon-proposal.json`, `migration-report.json` w katalogu prototypu.
+Generator: `scripts/worldgen/v2/build.py`; walidator: `validate.py` obok niego.
+
+Najnowsze polecenie właściciela pomija osobną bramkę niezależnego audytu i
+zezwala od razu tworzyć krajobraz oraz integrować nowy świat przy użyciu
+istniejących grafik. Testy i ochrona zapisów pozostają wymagane. Nie wolno
+scalać, publikować, usuwać v1 ani zmieniać infrastruktury GPU. Grafiki muszą
+mieć osobne wiązania, aby późniejsze podmiany Claude'a nie zmieniały geometrii.
