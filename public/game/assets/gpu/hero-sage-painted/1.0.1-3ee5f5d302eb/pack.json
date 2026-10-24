@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
   "id": "hero-sage-painted",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-sage-painted-page-0",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-sage-painted-page-1",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-1.json",
+      "url": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-1.json",
       "width": 2048,
       "height": 1280
     }

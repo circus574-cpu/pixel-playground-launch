@@ -290,6 +290,11 @@ for (const race of RACE_IDS)
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     });
     const before = await position(page);
+    // The respawn clip holds the hero in place; walk once it has finished.
+    await expect(page.locator(".ki-canvas")).toHaveAttribute(
+      "data-animation-state",
+      /^(idle|walk)$/,
+    );
     const free = openDirection(RACES[race].world, before);
     expect(free).toBeDefined();
     await page.keyboard.down(free);

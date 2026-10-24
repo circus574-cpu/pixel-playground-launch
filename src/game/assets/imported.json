@@ -3889,25 +3889,25 @@
   {
     "schemaVersion": 1,
     "id": "hero-sage-painted",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-sage-painted-page-0",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-0.json",
+        "url": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-0.json",
         "width": 2048,
         "height": 2048
       },
       {
         "id": "hero-sage-painted-page-1",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.0-103e4447b84c/hero-sage-painted-page-1.json",
+        "url": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted/1.0.1-3ee5f5d302eb/hero-sage-painted-page-1.json",
         "width": 2048,
         "height": 1280
       }
@@ -29288,16 +29288,16 @@
   {
     "schemaVersion": 1,
     "id": "enemy-verdant-lesny-pajak",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "enemy-verdant-lesny-pajak-packed-page-0",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-verdant-lesny-pajak/1.0.1-eeb4f2a32588/enemy-verdant-lesny-pajak-packed-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-verdant-lesny-pajak/1.0.1-eeb4f2a32588/enemy-verdant-lesny-pajak-packed-page-0.json",
+        "url": "/game/assets/gpu/enemy-verdant-lesny-pajak/1.0.2-b61e1d364a23/enemy-verdant-lesny-pajak-packed-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-verdant-lesny-pajak/1.0.2-b61e1d364a23/enemy-verdant-lesny-pajak-packed-page-0.json",
         "width": 2044,
         "height": 1127
       }
@@ -29900,16 +29900,16 @@
   {
     "schemaVersion": 1,
     "id": "enemy-verdant-lisciak-skrytobojca",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "enemy-verdant-lisciak-skrytobojca-packed-page-0",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-verdant-lisciak-skrytobojca/1.0.1-0bd60f1883f7/enemy-verdant-lisciak-skrytobojca-packed-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-verdant-lisciak-skrytobojca/1.0.1-0bd60f1883f7/enemy-verdant-lisciak-skrytobojca-packed-page-0.json",
+        "url": "/game/assets/gpu/enemy-verdant-lisciak-skrytobojca/1.0.2-805f442b69ab/enemy-verdant-lisciak-skrytobojca-packed-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-verdant-lisciak-skrytobojca/1.0.2-805f442b69ab/enemy-verdant-lisciak-skrytobojca-packed-page-0.json",
         "width": 2047,
         "height": 1064
       }
@@ -30512,16 +30512,16 @@
   {
     "schemaVersion": 1,
     "id": "enemy-verdant-mchowy-szlamak",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "enemy-verdant-mchowy-szlamak-packed-page-0",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-verdant-mchowy-szlamak/1.0.1-f05f4af8fbd8/enemy-verdant-mchowy-szlamak-packed-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-verdant-mchowy-szlamak/1.0.1-f05f4af8fbd8/enemy-verdant-mchowy-szlamak-packed-page-0.json",
+        "url": "/game/assets/gpu/enemy-verdant-mchowy-szlamak/1.0.2-f354dab4a0b9/enemy-verdant-mchowy-szlamak-packed-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-verdant-mchowy-szlamak/1.0.2-f354dab4a0b9/enemy-verdant-mchowy-szlamak-packed-page-0.json",
         "width": 2044,
         "height": 1190
       }

@@ -89,3 +89,8 @@ Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wc
   budynki tylko wąski brzeg, mury, schody i sztandary bez zmian.
 - Nagłówkowy Chromium w kontenerze nie przenosi fokusu przy zmianie karty; test pauzy wysyła
   wtedy to samo zdarzenie `blur` okna, które przeglądarka wysyła przy zmianie karty.
+- Grafiki z wtopionym tłem: klatki Mędrca zwróconego w prawo miały ciemne prostokątne tło
+  (wszystkie klipy); zastąpiono je lustrzanym odbiciem czystych klatek w lewo
+  (`hero-sage-painted` 1.0.1). Leśny Pająk, Liściak Skrytobójca i Mchowy Szlamak miały
+  kwadratowe tło w klatkach; brzeg każdej klatki jest teraz miękko wygaszony (pakiety 1.0.2).
+  Budynki wycięte prostą linią u dołu i z boku (np. Dom Treningu) wygaszają tylko podstawę.

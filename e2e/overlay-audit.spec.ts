@@ -251,6 +251,8 @@ test("death message ends on real respawn and subsequent movement works", async (
     y: Number(await canvas.getAttribute("data-player-y")),
   });
   const before = await position();
+  // The respawn clip holds the hero in place; walk once it has finished.
+  await expect(page.locator(".ki-canvas")).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
   const free = openDirection("pyra", before);
   expect(free).toBeDefined();
   await page.keyboard.down(free);
