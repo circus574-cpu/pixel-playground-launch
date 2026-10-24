@@ -74,3 +74,13 @@ na osobnej gałęzi; [zakres i kontrole](ARCHITEKTURA-I-TESTY.md#pełna-planeta-
 WORLD-01/GAME-03 pozostają otwarte dla runtime: konieczne są importer/streaming,
 format terenu dla TypeScript, wyspy/podróże, migracje, grafika i odbiór rozgrywki.
 Nie mylić gotowej generacji danych z działającym w grze światem.
+
+## Priorytety po przeglądzie commitów — 24.10.2026
+
+1. **P0 — zamknąć pełną regresję na aktualnym SHA:** po zmianach Superior i animacji uruchomić komplet testów Canvas/Software WebGL, TypeScript, lint, build i walidację assetów; podać linki do przebiegów i wyniki bez przenoszenia starych PASS.
+2. **P0 — odbiór przejścia na jeden Superior:** każda rasa, podróż atlasem 2D/3D, bezpieczne miasta, spawny, depozyt, reset i trwałość nowych slotów; osobno sprawdzić dane starych zapisów i brak niezamierzonej ich utraty.
+3. **P0 — sprawdzić assety w grze:** Mędrzec, Planetarni i trzy poprawione potwory; klatki, kierunki, alpha, tło, kolizje, rozmiar i wygląd na Androidzie.
+4. **P1 — produkcyjna identyfikacja wersji:** ustalić obecny SHA na `main` i dokładny commit na domenie `kilegends.pl`; sam zapis w repo nie dowodzi publikacji.
+5. **P1 — niezależny audyt:** fizyczny Android/sprzętowe WebGL, dłuższa eksploracja całego globu, responsywny HUD, działanie NPC oraz licencje assetów.
+
+Historia: [24.10](zmiany/2026-10-24/ZMIANY.md). Stare PDF-y z rekonstrukcji PR #6/#8 są archiwalnym stanem 21.10, nie źródłem bieżącego statusu. **Bez automatycznego merge, publikacji i zmian instancji GPU.**
