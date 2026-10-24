@@ -107,6 +107,13 @@ export async function prepareSuperior(options: {
   if ((await bytesHash(artBytes)) !== artManifest[save.feature + "/feature.art.json"])
     throw Error("Błędna suma oprawy lądu");
   const art = JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt;
+  // Painted paving per people: mossy stone for Verdantia, the land's own path elsewhere.
+  art.path =
+    info.affinity === "verdant"
+      ? "terrain.aether-ground"
+      : catalog.renderBindings[`terrain.${info.affinity}-path`]
+        ? `terrain.${info.affinity}-path`
+        : "terrain.city-stone";
   // KI crystal nodes were bound to the Nexus machine crystal on every land. Outside Nexus they
   // show a natural crystal cluster; the node itself (position, kind) is unchanged.
   if (info.id !== "nexus")
@@ -376,7 +383,7 @@ export async function prepareSuperior(options: {
     if (!asset) throw Error("Brak zasobu świata: " + key);
     initialAssets.set(asset.id, asset);
   };
-  for (const key of [...art.groundByBiome, art.water]) addBinding(key);
+  for (const key of [...art.groundByBiome, art.water, art.path]) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,

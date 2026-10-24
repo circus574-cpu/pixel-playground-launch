@@ -16,6 +16,9 @@ export type ArtObject = RegionObject & {
 export type FeatureArt = {
   groundByBiome: string[];
   water: string;
+  /** Painted paving for streets and roads, chosen by the runtime for the land's people. */
+  path?: string;
+  trail?: string;
   buildings: ArtObject[];
   acceptedCityBuildings: ArtObject[];
   acceptedCityScenery?: ArtObject[];
@@ -34,6 +37,9 @@ export type RenderSource = {
   currentDoors: () => { id: string; name: string; door: Point }[];
 };
 const CHUNK = 2048;
+/** Ground canvas pixels per chunk side: 2 world units per pixel keeps painted detail crisp on phones. */
+const PX = 1024,
+  SCALE = CHUNK / PX;
 type Tile = {
   data: BrowserChunk;
   items: ArtObject[];
@@ -66,13 +72,67 @@ const cellCanvas = (width: number, height: number) => {
   }
   return cells;
 };
+let tonesCanvas: HTMLCanvasElement | undefined;
+const toneCanvas = (width: number, height: number) => {
+  tonesCanvas ??= document.createElement("canvas");
+  tonesCanvas.width = width;
+  tonesCanvas.height = height;
+  return tonesCanvas;
+};
 const layerCanvas = () => {
   if (!layer) {
     layer = document.createElement("canvas");
-    layer.width = layer.height = 512;
+    layer.width = layer.height = PX;
   }
   return layer;
 };
+/** Smooth value noise in world units, identical across chunk borders. */
+function drift(x: number, y: number, cell: number, seed: number) {
+  const hash = (i: number, j: number) => {
+    const h = Math.sin(i * 127.1 + j * 311.7 + seed * 74.7) * 43758.5453;
+    return h - Math.floor(h);
+  };
+  const gx = x / cell,
+    gy = y / cell,
+    i = Math.floor(gx),
+    j = Math.floor(gy),
+    fx = gx - i,
+    fy = gy - j;
+  const u = fx * fx * (3 - 2 * fx),
+    v = fy * fy * (3 - 2 * fy);
+  const a = hash(i, j),
+    b = hash(i + 1, j),
+    c = hash(i, j + 1),
+    d = hash(i + 1, j + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+/** Warm light pools and cool shade drifting over the ground, like a painted background. */
+function paintDrift(ctx: CanvasRenderingContext2D, x0: number, y0: number) {
+  const n = 32,
+    cells = cellCanvas(n + 1, n + 1),
+    c = cells.getContext("2d")!,
+    img = c.createImageData(n + 1, n + 1);
+  for (let j = 0; j <= n; j++)
+    for (let i = 0; i <= n; i++) {
+      const wx = x0 + (i * CHUNK) / n,
+        wy = y0 + (j * CHUNK) / n;
+      const light = drift(wx, wy, 1400, 1) * 0.65 + drift(wx, wy, 520, 2) * 0.35;
+      const k = (j * (n + 1) + i) * 4;
+      // Bright, warm sunlit areas and deeper, cooler shaded ones.
+      img.data[k] = light > 0.5 ? 255 : 20;
+      img.data[k + 1] = light > 0.5 ? 236 : 40;
+      img.data[k + 2] = light > 0.5 ? 170 : 70;
+      img.data[k + 3] = Math.round(Math.abs(light - 0.5) * 2 * 70);
+    }
+  c.putImageData(img, 0, 0);
+  ctx.save();
+  ctx.globalCompositeOperation = "soft-light";
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  // Sample cell centres so neighbouring chunks meet on identical values.
+  ctx.drawImage(cells, 0.5, 0.5, n, n, -PX / (2 * n), -PX / (2 * n), PX + PX / n, PX + PX / n);
+  ctx.restore();
+}
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const live = new Map<string, Tile>();
@@ -111,23 +171,28 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
     const biome = decodeRuns(data.terrain.biome, flags.length);
     const key = "superior-ground:" + id;
-    // 512² RGBA per chunk = 1 MiB, independent of its 2048² world footprint.
-    const tex = scene.textures.createCanvas(key, 512, 512);
+    // PX² RGBA per chunk (4 MiB), independent of its 2048² world footprint.
+    const tex = scene.textures.createCanvas(key, PX, PX);
     if (!tex) throw Error("Nie można przygotować terenu");
     const ctx = tex.getContext();
-    const pattern = (binding: string) => {
+    const pattern = (binding: string, scale = 1) => {
       const image = scene.textures.get(textureId(binding)).getSourceImage() as HTMLImageElement;
       const tile = ctx.createPattern(image, "repeat")!;
       const size = catalog.renderBindings[binding]?.tileSize ?? [256, 256];
-      // The canvas is four times smaller than its world footprint. Preserve the
-      // authored world-unit tile size instead of enlarging grass to 2048 units.
+      // Preserve the authored world-unit tile size on the scaled canvas.
       tile.setTransform(
-        new DOMMatrix().scale(size[0] / 4 / image.width, size[1] / 4 / image.height),
+        new DOMMatrix().scale(
+          (scale * size[0]) / SCALE / image.width,
+          (scale * size[1]) / SCALE / image.height,
+        ),
       );
       return tile;
     };
-    const ground = source.art.groundByBiome.map(pattern),
-      water = pattern(source.art.water);
+    const ground = source.art.groundByBiome.map((b) => pattern(b)),
+      water = pattern(source.art.water),
+      // Paving stones at about half the authored tile size read as streets, not boulders.
+      path = pattern(source.art.path ?? "terrain.city-stone", 0.5),
+      trail = pattern(source.art.trail ?? source.art.path ?? "terrain.city-stone", 0.5);
     const tone = (binding: string) =>
       binding.includes("snow")
         ? "#cfdbd6"
@@ -162,9 +227,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       colors.data[i * 4 + 3] = 255;
     }
     sctx.putImageData(colors, 0, 0);
+    // Keep the base colours: the scratch cell canvas is reused for texture masks below.
+    const tones = toneCanvas(cols, rows);
+    tones.getContext("2d")!.drawImage(small, 0, 0);
+    const colourCells = () => tones;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(small, 0, 0, cols, rows, 0, 0, 512, 512);
+    ctx.drawImage(small, 0, 0, cols, rows, 0, 0, PX, PX);
     // Low-contrast texture reads as a continuous ground surface rather than a board of
     // repeated pictures; each texture fades in through the same smoothed cell mask.
     const layer = layerCanvas(),
@@ -175,23 +244,44 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       sctx.clearRect(0, 0, cols, rows);
       sctx.putImageData(mask, 0, 0);
       lctx.globalCompositeOperation = "source-over";
-      lctx.clearRect(0, 0, 512, 512);
+      lctx.clearRect(0, 0, PX, PX);
       lctx.fillStyle = fill;
-      lctx.fillRect(0, 0, 512, 512);
+      lctx.fillRect(0, 0, PX, PX);
+      // A second, rotated and shifted copy breaks the visible repeat of the painted tile.
+      lctx.save();
+      lctx.globalAlpha = 0.45;
+      lctx.translate(PX / 2, PX / 2);
+      lctx.rotate(0.65);
+      lctx.translate(-PX / 2 + 37, -PX / 2 + 91);
+      lctx.fillRect(-PX, -PX, PX * 3, PX * 3);
+      lctx.restore();
       lctx.globalCompositeOperation = "destination-in";
       lctx.imageSmoothingEnabled = true;
       lctx.imageSmoothingQuality = "high";
-      lctx.drawImage(small, 0, 0, cols, rows, 0, 0, 512, 512);
+      lctx.drawImage(small, 0, 0, cols, rows, 0, 0, PX, PX);
       ctx.globalAlpha = alpha;
       ctx.drawImage(layer, 0, 0);
       ctx.globalAlpha = 1;
     };
     for (const b of biomes)
-      texture(ground[b] ?? ground[0]!, 0.15, (i) => !!(flags[i]! & 16) && biome[i] === b);
-    texture(water, 0.5, (i) => !(flags[i]! & 16));
-    const strokeRoad = (points: [number, number][], width: number, color: string) => {
+      texture(ground[b] ?? ground[0]!, 0.8, (i) => !!(flags[i]! & 16) && biome[i] === b);
+    texture(water, 0.85, (i) => !(flags[i]! & 16));
+    // Calm the painted detail toward each biome's base colour so flowers and leaves read as
+    // texture, not confetti.
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    ctx.globalCompositeOperation = "color";
+    ctx.drawImage(colourCells(), 0, 0, cols, rows, 0, 0, PX, PX);
+    ctx.restore();
+    // Broad light and colour drifts, continuous across chunks, as in a painted background.
+    paintDrift(ctx, data.x, data.y);
+    const strokeRoad = (
+      points: [number, number][],
+      width: number,
+      color: string | CanvasPattern,
+    ) => {
       if (points.length < 2) return;
-      const scaled = points.map(([x, y]) => ({ x: (x - data.x) / 4, y: (y - data.y) / 4 }));
+      const scaled = points.map(([x, y]) => ({ x: (x - data.x) / SCALE, y: (y - data.y) / SCALE }));
       ctx.beginPath();
       ctx.moveTo(scaled[0]!.x, scaled[0]!.y);
       for (let i = 1; i < scaled.length - 1; i++) {
@@ -200,7 +290,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           next = scaled[i + 1]!;
         const before = Math.hypot(p.x - prev.x, p.y - prev.y),
           after = Math.hypot(next.x - p.x, next.y - p.y);
-        const radius = Math.min((width / 4) * 0.55, before / 3, after / 3);
+        const radius = Math.min((width / SCALE) * 0.55, before / 3, after / 3);
         if (before < 0.01 || after < 0.01) continue;
         ctx.lineTo(
           p.x + ((prev.x - p.x) * radius) / before,
@@ -215,7 +305,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       }
       ctx.lineTo(scaled.at(-1)!.x, scaled.at(-1)!.y);
       ctx.strokeStyle = color;
-      ctx.lineWidth = width / 4;
+      ctx.lineWidth = width / SCALE;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.stroke();
@@ -230,20 +320,34 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         Math.min(...ys) - road.width > data.y + CHUNK
       )
         continue;
-      strokeRoad(road.points, road.width + 16, "#88916a");
-      strokeRoad(road.points, road.width, road.kind === "trail" ? "#b2a27c" : "#bdae8b");
+      // A soft shadowed verge, then the painted path texture: no flat beige band.
+      ctx.save();
+      ctx.shadowColor = "rgba(40, 32, 18, 0.55)";
+      ctx.shadowBlur = 10;
+      strokeRoad(road.points, road.width + 12, "rgba(92, 78, 52, 0.55)");
+      ctx.restore();
+      strokeRoad(road.points, road.width, road.kind === "trail" ? trail : path);
     }
     for (const road of source.cityRoads) {
-      ctx.fillStyle = "#b5ad8b";
+      // Paved streets: painted stone with a soft shadowed kerb instead of flat rectangles.
+      ctx.save();
+      ctx.shadowColor = "rgba(40, 32, 18, 0.5)";
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = path;
       ctx.beginPath();
       ctx.roundRect(
-        (road.x - data.x) / 4,
-        (road.y - data.y) / 4,
-        road.width / 4,
-        road.height / 4,
-        Math.min(road.width, road.height) / 12,
+        (road.x - data.x) / SCALE,
+        (road.y - data.y) / SCALE,
+        road.width / SCALE,
+        road.height / SCALE,
+        Math.min(road.width, road.height) / (SCALE * 3),
       );
       ctx.fill();
+      ctx.shadowColor = "transparent";
+      ctx.globalCompositeOperation = "multiply";
+      ctx.fillStyle = "rgba(178, 160, 128, 0.55)";
+      ctx.fill();
+      ctx.restore();
     }
     tex.refresh();
     return {
@@ -263,7 +367,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
       if (disposed || !wanted.has(id)) return;
       const items = [...art, ...(staticGrid.get(id) ?? [])];
-      const ids = new Set([...source.art.groundByBiome, source.art.water].map(textureId));
+      const ids = new Set(
+        [
+          ...source.art.groundByBiome,
+          source.art.water,
+          source.art.path ?? "terrain.city-stone",
+          source.art.trail ?? source.art.path ?? "terrain.city-stone",
+        ].map(textureId),
+      );
       for (const item of items) ids.add(textureId(item.binding));
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {
