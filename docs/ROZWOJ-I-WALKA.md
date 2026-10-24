@@ -665,3 +665,8 @@ wiąże wynik z sumą manifestu terenu i katalogu bestiariusza. Nie modyfikuje
 statystyk 40 potworów, źródłowych map ani zapisów gracza. Zasady bezpieczeństwa,
 streamingu i ograniczenia integracji: [świat](SWIAT-I-MIASTA.md#pełna-generacja-superior-na-cpu--23102026).
 Wygenerowany spawn nie jest aktywnym przeciwnikiem w aktualnie opublikowanej grze.
+
+
+## Spójność z jedynym światem Superior — przegląd 24.10.2026
+
+Po przejściu gry na Superior jako jedyny runtime zasady walki, statystyki ras, drzewa i bestiariusz nadal powinny pochodzić z istniejących generatorów i źródłowych danych. Nie przenosić spawnów i walki ze starych map do Superior poprzez ręczną zmianę definicji potworów. Nowa generacja lokalnego slotu i reset są decyzją właściciela (historia w [dzienniku](zmiany/2026-10-24/ZMIANY.md)). Zmiany `superiorRuntime.ts` z 24.10 oraz testy `hero-lifecycle.spec.ts` wymagają ponownej kontroli naliczania obrażeń, AI, śmierci, odrodzenia i depozytu na aktualnym SHA. Potwierdzone zmiany wizualnych klatek nie dowodzą zmian równowagi walki ani wdrożenia wszystkich przeciwników.
