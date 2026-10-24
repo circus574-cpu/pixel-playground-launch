@@ -291,13 +291,13 @@ jest następnym zakresem implementacyjnym; samo wygenerowanie nie zamyka WORLD-0
 GAME-03 ani PERF-01 dla gry.
 
 
-## Opcjonalna scena Superior
+## Domyślny świat Superior
 
-Uruchomienie: `npm run playtest`, następnie `/scripts/playtest.html?ki-superior=1`.
+Uruchomienie: `npm run playtest`, następnie `/scripts/playtest.html`.
 Adapter `superiorRuntime.ts` podaje własny `GameSession`, nawigację i renderer;
-bez flagi dotychczasowa ścieżka pozostaje domyślna. `renderSuperior.ts` pobiera
+jest jedyną ścieżką uruchomienia gry w `Index`. `renderSuperior.ts` pobiera
 zweryfikowane chunki i trzyma wyłącznie pobliskie obrazy. `spawnStream.ts` steruje
-slotami AI. `superiorSave.ts` izoluje rozszerzone współrzędne i stany spawnów.
+slotami AI. `superiorSave.ts` zapisuje rozszerzone współrzędne i stany spawnów w tym samym slocie, który czyta `superiorCharacters.ts`.
 HUD otrzymuje aktywny świat, więc minimapa i plan miasta nie używają starego prostokąta.
 
 Eksport po odtworzeniu zabezpieczonych danych CPU:
@@ -315,7 +315,7 @@ Serwer może kompresować transport HTTP. NPZ ani narzędzia Pythona nie trafiaj
 `index.json` identyfikuje geometrię; zmiana oprawy nie wymusza migracji współrzędnych.
 
 Testy: `superior-save.test.ts`, `superior-spawns.test.ts`, `e2e/superior-world.spec.ts`.
-Przeglądarka sprawdza dziesięć transferów i powrót, zachowanie oryginalnego slotu,
+Przeglądarka sprawdza dziesięć transferów i powrót, jeden slot postaci,
 rasę, depozyt po przeładowaniu oraz walkę i zapis odrodzenia. Przeciwnicy poza miastem
 mogą być aktywni, gdy gracz jest w mieście; warunek bezpieczeństwa dotyczy ich pozycji,
 nie pustej tablicy wszystkich aktywnych przeciwników na całym lądzie.

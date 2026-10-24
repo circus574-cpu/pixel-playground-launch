@@ -45,6 +45,7 @@ export function PlanetMap({
   notice,
   current,
   onClose,
+  onTravel,
 }: GameLink & {
   /** Switch back to the 3D globe; omitted when WebGL 2 is unavailable. */
   onShowGlobe?: (() => void) | undefined;
@@ -659,7 +660,7 @@ export function PlanetMap({
           ))}
         </ul>
 
-        <h3 className="pm-h3">Wyspy questowe · planowane</h3>
+        <h3 className="pm-h3">Wyspy Superior</h3>
         <ul className="pm-legend pm-legend-islands">
           {QUEST_ISLANDS.map((i) => (
             <li key={i.id}>
@@ -720,7 +721,7 @@ export function PlanetMap({
               <span className="pm-thumb pm-thumb-lg" style={thumbStyle(selectedRegion, 64)} />
               <div>
                 <p className="pm-kind">
-                  {selectedRegion.kind === "continent" ? "Kontynent" : "Wyspa questowa · planowana"}
+                  {selectedRegion.kind === "continent" ? "Kontynent" : "Wyspa Superior"}
                 </p>
                 <h2>{selectedRegion.name}</h2>
               </div>
@@ -743,7 +744,12 @@ export function PlanetMap({
             )}
             <p>{selectedRegion.summary}</p>
             <ZoneList region={selectedRegion} />
-            <RegionGameNote region={selectedRegion} current={current} onClose={onClose} />
+            <RegionGameNote
+              region={selectedRegion}
+              current={current}
+              onClose={onClose}
+              onTravel={onTravel}
+            />
             <p className="pm-status">{selectedRegion.status}</p>
             {fog && !isRevealed(selectedRegion.id) && (
               <p className="pm-fog-note">W podglądzie mgły ten obszar jest nieodkryty.</p>

@@ -5,9 +5,10 @@
  */
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { CONTINENTS, ZONE_DIR_NAMES, zonesOf, type MapRegion } from "./mapData";
+import { CONTINENTS, QUEST_ISLANDS, ZONE_DIR_NAMES, zonesOf, type MapRegion } from "./mapData";
 
 export type GameLink = {
+  onTravel?: ((id: string) => void) | undefined;
   /** Continent of the active character (verdant/aether/nexus/pyra), if any. */
   current?: string | null | undefined;
   /** Opened from inside the game: close the overlay instead of navigating. */
@@ -17,7 +18,7 @@ export type GameLink = {
 export const GAME_CONTINENTS = ["verdant", "aether", "nexus", "pyra"] as const;
 
 export function currentContinent(current: GameLink["current"]) {
-  return CONTINENTS.find((c) => c.id === current) ?? null;
+  return [...CONTINENTS, ...QUEST_ISLANDS].find((c) => c.id === current) ?? null;
 }
 
 export function BackToGame({ onClose }: Pick<GameLink, "onClose">) {
@@ -42,7 +43,8 @@ export function PlayerChip({ current, globe }: Pick<GameLink, "current"> & { glo
     <p className={`pm-demo-chip${globe ? " pg-chip" : ""}${here ? " is-here" : ""}`} role="note">
       {here ? (
         <>
-          <strong>Tu jesteś</strong> · {here.name} · {here.settlement}
+          <strong>Tu jesteś</strong> · {here.name}
+          {here.settlement ? ` · ${here.settlement}` : ""}
         </>
       ) : (
         <>
@@ -53,7 +55,25 @@ export function PlayerChip({ current, globe }: Pick<GameLink, "current"> & { glo
   );
 }
 
-export function RegionGameNote({ region, current, onClose }: GameLink & { region: MapRegion }) {
+export function RegionGameNote({
+  region,
+  current,
+  onClose,
+  onTravel,
+}: GameLink & { region: MapRegion }) {
+  if (onTravel)
+    return region.id === current ? (
+      <p className="pm-here-note">
+        <strong>Tu jesteś.</strong> {region.name}
+      </p>
+    ) : (
+      <>
+        <p className="pm-here-note">Podróż rozpoczyna się przy przystani w głównej osadzie.</p>
+        <button className="pm-enter-world" onClick={() => onTravel(region.id)}>
+          Podróżuj — {region.name}
+        </button>
+      </>
+    );
   if (!(GAME_CONTINENTS as readonly string[]).includes(region.id)) return null;
   if (region.id === current)
     return (
@@ -81,13 +101,13 @@ export const GAME_SAVE_KEY = "ki-legends:adventure:v1";
 /** Read-only: continent of the active character slot, without loading game code. */
 export function readActiveContinent(storage: Pick<Storage, "getItem"> | null) {
   try {
-    const id = storage?.getItem(GAME_SAVE_KEY + ":active-character");
+    const id = storage?.getItem(GAME_SAVE_KEY + ":superior-world-v1:active-character");
     if (!id) return null;
-    const raw = storage?.getItem(GAME_SAVE_KEY + ":character:" + id);
+    const raw = storage?.getItem(GAME_SAVE_KEY + ":superior-world-v1:character:" + id);
     if (!raw) return null;
-    const continent = (JSON.parse(raw) as { player?: { continent?: unknown } }).player?.continent;
+    const continent = (JSON.parse(raw) as { feature?: unknown }).feature;
     const value = typeof continent === "string" ? continent : "verdant";
-    return (GAME_CONTINENTS as readonly string[]).includes(value) ? value : null;
+    return [...CONTINENTS, ...QUEST_ISLANDS].some((r) => r.id === value) ? value : null;
   } catch {
     return null;
   }

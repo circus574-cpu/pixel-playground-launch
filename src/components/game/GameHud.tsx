@@ -27,6 +27,8 @@ import "./game-messages.css";
 import "./hud-layout.css";
 
 type Props = {
+  planetLocation?: string | undefined;
+  onPlanetTravel?: ((id: string) => void) | undefined;
   worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
   state: GameViewState;
   error: string | null;
@@ -95,6 +97,8 @@ export function GameHud({
   onWorldLabels,
   systemNotice,
   worldOverride,
+  planetLocation,
+  onPlanetTravel,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
@@ -722,7 +726,11 @@ export function GameHud({
               </div>
             }
           >
-            <PlanetAtlas current={state.player.continent} onClose={() => setPanel("map")} />
+            <PlanetAtlas
+              current={planetLocation ?? state.player.continent}
+              onTravel={onPlanetTravel}
+              onClose={() => setPanel("map")}
+            />
           </Suspense>
         </div>
       )}

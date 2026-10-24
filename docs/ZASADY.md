@@ -51,7 +51,9 @@ Nowe paczki podlegają walidowanemu importerowi i ocenie w działającej grze.
 
 ## Zapisy i prywatne zasoby
 
-Zachować sloty postaci, migracje, kopie odzyskiwania, ochronę nieznanych/nowszych
+24.10.2026 właściciel zlecił Superior jako jedyny świat i reset starych zapisów.
+Nowe sloty zaczynają od początku; stare bajty pozostają archiwalne, bez importu.
+Zachować ochronę nieznanych/nowszych
 zapisów i konfliktów kart. Nie obiecywać synchronizacji kont ani serwerowego banku.
 Prywatne `/test` to osobna funkcja: wspólne hasło i zaszyfrowana sesja serwerowa,
 prywatny bucket bez anonimowych/authenticated policies, walidacja sesji przed każdą

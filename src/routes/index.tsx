@@ -3,7 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameLoadingScreen } from "../components/game/GameLoadingScreen";
 import { preparingWorld, type GameLoadingState } from "../game/loading";
 import { CharacterSelection } from "../components/game/CharacterSelection";
-import { CharacterStore, type CharacterSlot } from "../game/characters";
+import { type CharacterSlot } from "../game/characters";
+import { SuperiorCharacterStore as CharacterStore } from "../game/world/generated/superiorCharacters";
 import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
@@ -17,9 +18,9 @@ import type { FeatureId } from "../game/world/generated/superiorSave";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Ki Legends — Cztery światy" },
+      { title: "Ki Legends — Superior" },
       { name: "ki-build", content: STAGE21_BUILD },
-      { property: "og:title", content: "Ki Legends — Cztery światy" },
+      { property: "og:title", content: "Ki Legends — Superior" },
       {
         property: "og:description",
         content: "Cztery pochodzenia, cztery krainy. Rozpocznij lokalną przygodę PvE w Ki Legends.",
@@ -150,8 +151,7 @@ function GameScreen({
   }, []);
   const [loading, setLoading] = useState<GameLoadingState>(preparingWorld);
   const [attempt, setAttempt] = useState(0);
-  const [expedition, setExpedition] = useState<SuperiorRuntime | null>(null);
-  const [destination, setDestination] = useState<FeatureId>("island-1");
+  const [worldRuntime, setWorldRuntime] = useState<SuperiorRuntime | null>(null);
   const [state, setState] = useState<GameViewState>(() => initialView(slot.player!));
   const sendCommand = useCallback((command: Command) => {
     container.current?.dispatchEvent(new CustomEvent("ki:command", { detail: command }));
@@ -188,22 +188,20 @@ function GameScreen({
     let cancelled = false;
     const abort = new AbortController();
     let prepared: SuperiorRuntime | undefined;
-    setExpedition(null);
+    setWorldRuntime(null);
     let cleanup: (() => void) | undefined;
     import("../game/mountGame")
       .then(async ({ mountKileGends }) => {
-        if (new URLSearchParams(window.location.search).get("ki-superior") === "1") {
-          const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
-          prepared = await prepareSuperior({
-            race: slot.player!.race,
-            saveKey: slot.key,
-            signal: abort.signal,
-            onLoading: (next) => {
-              if (!cancelled) setLoading(next);
-            },
-          });
-          if (!cancelled) setExpedition(prepared);
-        }
+        const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
+        prepared = await prepareSuperior({
+          race: slot.player!.race,
+          saveKey: slot.key,
+          signal: abort.signal,
+          onLoading: (next) => {
+            if (!cancelled) setLoading(next);
+          },
+        });
+        if (!cancelled) setWorldRuntime(prepared);
         if (!cancelled && container.current)
           cleanup = mountKileGends(
             container.current,
@@ -213,7 +211,7 @@ function GameScreen({
             {
               saveKey: slot.key,
               race: slot.player!.race,
-              ...(prepared ? { runtime: prepared } : {}),
+              runtime: prepared,
               onLoading: (next) => {
                 if (!cancelled) setLoading(next);
               },
@@ -242,66 +240,18 @@ function GameScreen({
   return (
     <main ref={stage} className="ki-stage">
       <div ref={container} className="ki-canvas" aria-label="Ki Legends — ekran gry" />
-      {expedition &&
-        loading.phase === "ready" &&
-        !state.player.interior &&
-        !state.dialogue &&
-        !state.depotOpen && (
-          <aside aria-label="Podróże po Superior" className="ki-superior-travel">
-            <details>
-              <summary>
-                <strong>{expedition.featureName}</strong> · Podróże
-              </summary>
-              <div className="ki-superior-travel-controls">
-                <small>Wyprawa Superior · osobny postęp</small>
-                <button
-                  type="button"
-                  disabled={!!state.player.interior || state.player.dead}
-                  onClick={() => {
-                    const target = expedition.index.features.find(
-                      (f) => f.id === expedition.feature,
-                    )!;
-                    sendCommand({ type: "move", x: target.arrival.x, y: target.arrival.y });
-                  }}
-                >
-                  Idź do przystani
-                </button>
-                <label>
-                  Cel podróży{" "}
-                  <select
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value as FeatureId)}
-                  >
-                    {expedition.index.features.map((f) => (
-                      <option value={f.id} key={f.id}>
-                        {f.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <button
-                  type="button"
-                  disabled={!expedition.canTravel() || destination === expedition.feature}
-                  onClick={() => {
-                    if (expedition.travel(destination)) setAttempt((n) => n + 1);
-                    else
-                      displayMessage(
-                        expedition.save.warning || "Podejdź do przystani, aby rozpocząć podróż.",
-                      );
-                  }}
-                >
-                  Wyrusz
-                </button>
-                {!expedition.canTravel() && (
-                  <small>Podróż rozpoczyna się przy przystani w głównej osadzie.</small>
-                )}
-              </div>
-            </details>
-          </aside>
-        )}
       {state.ready && loading.phase === "ready" && (
         <GameHud
-          worldOverride={expedition?.session.world}
+          worldOverride={worldRuntime?.session.world}
+          planetLocation={worldRuntime?.feature}
+          onPlanetTravel={(id) => {
+            if (worldRuntime?.travel(id as FeatureId)) setAttempt((n) => n + 1);
+            else
+              displayMessage(
+                worldRuntime?.save.warning ||
+                  "Podejdź do przystani w głównej osadzie, aby podróżować.",
+              );
+          }}
           state={state}
           error={null}
           zoom={zoom}

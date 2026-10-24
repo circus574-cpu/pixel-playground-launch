@@ -55,6 +55,7 @@ export function MapaView({
   probe = supportsWebGL2,
   current,
   onClose,
+  onTravel,
 }: GameLink & { probe?: () => boolean }) {
   const [mode, setMode] = useState<Mode>("checking");
   const [canGlobe, setCanGlobe] = useState(false);
@@ -80,6 +81,7 @@ export function MapaView({
       <PlanetMap
         current={current}
         onClose={onClose}
+        onTravel={onTravel}
         notice={notice}
         onShowGlobe={
           canGlobe
@@ -99,6 +101,7 @@ export function MapaView({
         <PlanetGlobe
           current={current}
           onClose={onClose}
+          onTravel={onTravel}
           onShowFlat={() => setMode("flat")}
           onFail={fallBack}
         />

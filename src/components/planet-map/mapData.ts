@@ -44,7 +44,8 @@ export type MapRegion = {
 const CONTINENT_STATUS = "Region startowy dostępny w obecnej wersji gry (lokalne PvE).";
 const OPEN_STATUS =
   "Otwarty region: miasto i cztery strefy — północ, południe, wschód, zachód (lokalne PvE).";
-const ISLAND_STATUS = "Przyszła wyspa questowa — planowana, jeszcze niedostępna w grze.";
+const ISLAND_STATUS =
+  "Wyspa Superior: teren, osada i przeciwnicy. Zadania fabularne są w przygotowaniu.";
 
 const OUTLINES: Record<string, number[][]> = outlines;
 /** Settlement points and label spots on the planet atlas, computed by scripts/relayout_planet.py. */
@@ -124,7 +125,8 @@ export const QUEST_ISLANDS: MapRegion[] = NUMERALS.map((numeral, i) =>
     name: `Wyspa questowa ${numeral}`,
     numeral,
     label: LAYOUT[`island-${i + 1}`]!.label,
-    summary: "Nazwa robocza. Treść, przeciwnicy i nagrody zostaną określone w przyszłych etapach.",
+    summary:
+      "Nazwa robocza. Odkrywaj teren poza bezpieczną osadą; zadania fabularne są w przygotowaniu.",
     status: ISLAND_STATUS,
   }),
 );

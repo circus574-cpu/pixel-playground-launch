@@ -49,3 +49,12 @@
   Ten wpis dodaje tylko dowody; nie zmienia kodu przetestowanego `22c23d2`.
 - Nie zmieniano gałęzi HUD ani integracji. Scalenie wykonuje druga strona zgodnie
   z podziałem. Nie scalono do main, nie opublikowano gry.
+
+
+## Superior jako jedyny świat — reset zatwierdzony przez właściciela
+
+- Zwykłe wejście do gry ładuje kontynent z generatora dla każdej rasy; usunięto warunek `ki-superior=1`.
+- Jeden slot postaci dla ekwipunku, depozytu, pozycji, wyspy i spawnów. Nowa generacja zapisu realizuje reset, bez importowania wcześniejszych postaci/wypraw.
+- Zniknął osobny panel podróży; wybór lądu jest częścią istniejącego atlasu 2D/3D. Miasta, drzwi, NPC i usługi zachowane.
+- Zmiany HUD ograniczone do przekazania bieżącego lądu i callbacku atlasu. Nie zmieniano joysticka ani układu HP/KI.
+- Stare źródłowe układy map pozostają szablonami miast i materiałem źródłowym; nie są wybierane jako mapy gry.

@@ -1,11 +1,12 @@
 # KI Legends — świat, kontynenty i miasta
 
 
-## Wyprawa Superior — integracja na osobnej gałęzi
+## Superior — jedyny świat gry
 
-`feature/superior-runtime-20261023` zawiera opcjonalną scenę całej wygenerowanej
-planety: lokalny playtest `/scripts/playtest.html?ki-superior=1` po `npm run playtest`.
-Zwykły adres zachowuje dotychczasowy świat. To wersja do odbioru, bez publikacji.
+Decyzja właściciela 24.10.2026: Superior zastępuje cztery stare mapy gry.
+Na `feature/superior-runtime-20261023` zwykłe wejście uruchamia wygenerowany
+kontynent pochodzenia postaci. Flaga `ki-superior` nie jest potrzebna.
+Zmiana pozostaje na gałęzi, bez scalenia do main i publikacji.
 Dziesięć lądów ma własny teren, minimapę z obrysu, kolizje i przypisania grafik.
 Nowy renderer tworzy tekstury 512² dla chunków 2048 jednostek oraz sprite'y dekoracji
 przy widoku; typowy limit to 12 chunków. Wyjątek zachowuje wszystkie widoczne chunki
@@ -15,8 +16,9 @@ Miasta usługowe przełączają własne drzwi, NPC i rynek; sześć istniejącyc
 wnętrz pozostaje w `GameSession`. Cztery dekoracje wnętrz mają grafiki z partii 2,
 pozostałe używają wcześniejszych zasobów. Domy, wejścia do lochów, zasoby i skrytki
 są obecnie przedstawione w świecie; nie wszystkie mają jeszcze interakcje.
-Menu podróży działa przy punkcie przybycia głównej osady. Transfer między lądami
-jest narzędziem odbioru; nie jest symulacją żeglugi ani końcowym grafem rozkładów portów.
+Podróże wybiera się na istniejącej mapie planety (2D lub 3D), przy punkcie
+przybycia głównej osady. Osobna nakładka podróży została usunięta. Transfer nie
+jest jeszcze symulacją żeglugi ani końcowym grafem rozkładów portów.
 
 Spawny są czytane z osobnego przebiegu. Aktywacja do 1400 jednostek, usypianie
 powyżej 1900, do dwóch nowych slotów na klatkę, do 16 korzeni i 24 przeciwników
@@ -29,11 +31,13 @@ Zranione/zaangażowane instancje zachowują stan w pamięci. Zdrowie i czas odro
 są zapisywane razem z graczem; odrodzenie używa czasu ściennego przeglądarki,
 więc upływa także po zamknięciu lokalnej gry. To lokalne PvE, nie ochrona serwerowa.
 
-Wyprawa zapisuje się pod kluczem postaci z sufiksem `:superior-v1`, z geometrią
-wersji, identyfikatorem wyspy i blokadą konfliktów kart. Nie czyta ani nie migruje
-starego slotu. Podróż zachowuje rasę, statystyki i ekwipunek; dotychczasowa scena
-nie może nadpisać współrzędnych docelowych podczas zamykania. Nieznany zapis jest
-zachowany, a pisanie wyłączone. Rozszerzone współrzędne nie luzują starego schematu.
+Jeden zapis postaci zawiera ląd, pozycję, ekwipunek, depozyt oraz stany spawnów.
+Właściciel wybrał reset: nowa przestrzeń `:superior-world-v1:character:<id>`
+nie importuje starych postaci ani osobnych wypraw `:superior-v1`. Stare bajty
+pozostają archiwalne w pamięci przeglądarki, ale nie pojawiają się na liście gry.
+Nowe postacie zaczynają od poziomu 1. Lista postaci czyta ten sam zapis co silnik.
+Podróż zachowuje rasę i postęp. Walidacja geometrii i blokada konfliktu kart
+pozostają aktywne; nowsze/uszkodzone dane nie są nadpisywane.
 
 Widok roboczy po usunięciu prostokątnych wycinków:
 [telefon — walka](zmiany/2026-10-23/qa/superior-runtime/world-review-mobile.png),
