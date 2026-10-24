@@ -502,3 +502,9 @@ Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (br
 2. Gęstość świata: pełne pokrycie całego kontynentu od razu czy najpierw pas wokół miasta o promieniu ok. 15 000 j.
 3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
 4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).
+
+## Stan dostaw w repozytorium — odczyt commitów 24.10.2026
+
+W historii odnotowano paczki `hero-sage-painted` 1.0.1 oraz `enemy-verdant-lesny-pajak`, `enemy-verdant-lisciak-skrytobojca` i `enemy-verdant-mchowy-szlamak` 1.0.2. Commit `96458e38` obejmuje liczne pliki graficzne i manifesty `deliveries/` dla miasta Aetherii i biomów. Konkretny status wdrożenia ustalać przez aktywny `src/game/assets/imported.json`, renderer i test w grze, a **nie liczbę dostarczonych WebP**.
+
+Poprawki `blendPlates.ts` ograniczają prostokątne obwódki teł. Zmiany te nie stanowią potwierdzenia pełnej przezroczystości wszystkich klatek, zgodności licencji ani akceptacji stylu. Nie uruchamiać, zatrzymywać, resetować ani rekonfigurować poda GPU bez wyraźnej decyzji właściciela; nie naruszać woluminów, Qwen/Ollama, ComfyUI, Blendera i checkpointów.
