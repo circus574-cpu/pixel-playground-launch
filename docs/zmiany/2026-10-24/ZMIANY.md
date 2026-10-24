@@ -94,3 +94,7 @@ Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wc
   (`hero-sage-painted` 1.0.1). Leśny Pająk, Liściak Skrytobójca i Mchowy Szlamak miały
   kwadratowe tło w klatkach; brzeg każdej klatki jest teraz miękko wygaszony (pakiety 1.0.2).
   Budynki wycięte prostą linią u dołu i z boku (np. Dom Treningu) wygaszają tylko podstawę.
+
+## Audyt dokumentacji: aktualizacja tematyczna (gałąź docs/current-state-20261024-audit)
+
+Przejrzano historię commitów m.in. `647be05c`, `4b94fbcd`, `3e373e2b`, `adab3500`, `19a28569`, `96458e38`; zaktualizowano istniejący indeks i dokumenty tematyczne o wpływ na Superior, zasoby i testy. Nie wykonano zmian kodu gry, nowych testów gameplayu ani publikacji. Historyczne wyniki pozostają przypisane wyłącznie do swoich SHA; końcowa regresja, odbiór w rzeczywistym Androidzie oraz identyfikacja wdrożenia pozostają otwarte. Zmiany dokumentacyjne przygotowano do niezależnej kontroli w osobnym PR.
