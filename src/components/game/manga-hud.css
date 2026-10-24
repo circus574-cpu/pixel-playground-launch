@@ -124,6 +124,7 @@
     700 11px/15px system-ui,
     sans-serif;
   text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
 }
 .ki-hud .ki-hp i {
   background: linear-gradient(90deg, #9e122e, #e43a48 75%, #ff7f6f);
@@ -878,7 +879,7 @@
     max-height: 128px;
   }
   .ki-hud .ki-context-actions {
-    bottom: calc(var(--dock-height) + 95px);
+    bottom: calc(var(--dock-height) + 104px);
     max-width: 340px;
   }
   .ki-hud .ki-city-state {
@@ -1074,5 +1075,32 @@
   .ki-hud .ki-city-state button {
     width: auto;
     margin: 3px 6px 3px 0;
+  }
+}
+
+/* Portrait phone: keep the context buttons out of the floating joystick zone (left 32 % of the screen, lower 45 %)
+   and clear of the technique pager on the right, stacking them when both are present. */
+@media (max-width: 600px) and (min-height: 501px) {
+  .ki-hud .ki-context-actions,
+  .ki-hud:has(.ki-secondary-skills:not(:empty)) .ki-context-actions {
+    left: calc(32% + 6px);
+    right: auto;
+    transform: none;
+    width: auto;
+    max-width: calc(68% - 10px);
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .ki-hud:has(.ki-secondary-skills:not(:empty)) .ki-context-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: max-content;
+    max-width: calc(68% - 138px);
+  }
+  .ki-hud:has(.ki-secondary-skills:not(:empty)) .ki-context-actions button {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.2;
   }
 }
