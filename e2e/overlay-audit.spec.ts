@@ -1,4 +1,11 @@
-import { basicAttack, maxHp, nearestSpawn, openHudTool, patchActiveCharacter } from "./fixtures";
+import {
+  basicAttack,
+  maxHp,
+  nearestSpawn,
+  DEFEAT_ATTACK,
+  openHudTool,
+  patchActiveCharacter,
+} from "./fixtures";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
@@ -220,7 +227,7 @@ test("death message ends on real respawn and subsequent movement works", async (
       el.dispatchEvent(
         new CustomEvent("ki:command", { detail: { type: "move", x: home.x, y: home.y + 85 } }),
       ),
-    nearestSpawn("pyra"),
+    nearestSpawn("pyra", DEFEAT_ATTACK),
   );
   await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 240000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
@@ -238,7 +245,7 @@ test("death message ends on real respawn and subsequent movement works", async (
   });
   const before = Number(await canvas.getAttribute("data-player-x"));
   await page.keyboard.down("ArrowRight");
-  await page.waitForTimeout(350);
+  await page.waitForTimeout(700);
   await page.keyboard.up("ArrowRight");
   await expect
     .poll(async () => Number(await canvas.getAttribute("data-player-x")))

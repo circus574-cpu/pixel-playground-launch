@@ -2,6 +2,8 @@ import { test as base } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { browserNavigation, type GridData } from "../src/game/world/generated/browserTerrain";
 import type { Obstacle } from "../src/game/movement";
+import { MONSTER_BASE } from "../src/game/monsters/base.generated";
+import { monsterDef } from "../src/game/monsters/catalog";
 import { expect } from "@playwright/test";
 export { expect };
 export type { Page, CDPSession } from "@playwright/test";
@@ -92,18 +94,20 @@ export function superiorLand(land: string) {
   const dir = `public/game/worlds/superior-v1/${land}/`,
     read = (f: string) => JSON.parse(readFileSync(dir + f, "utf8")) as unknown;
   const { geometry } = read("world.json") as { geometry: { width: number; height: number } };
+  const colliders = read("collision.json") as Obstacle[];
   const nav = browserNavigation(
     geometry.width,
     geometry.height,
     read("navigation.json") as GridData,
     read("terrain.json") as GridData,
-    read("collision.json") as Obstacle[],
+    colliders,
   );
   const { overworld } = read("spawns.json") as {
     overworld: { id: string; x: number; y: number }[];
   };
   const { npcs } = read("world.json") as { npcs: { id: string; x: number; y: number }[] };
   return {
+    colliders,
     npcs,
     width: geometry.width,
     height: geometry.height,
@@ -112,14 +116,47 @@ export function superiorLand(land: string) {
     enemies: overworld,
   };
 }
-/** The authored overworld spawn slot nearest to a land's arrival; its live enemy carries the same id. */
-export function nearestSpawn(land: string) {
+/** Attack of the weakest creature that can defeat a first-level hero within a test (not the capital slimes). */
+export const DEFEAT_ATTACK = 12;
+type SpawnSlot = { id: string; kind: string; x: number; y: number };
+/** A creature that stays visible and in reach (no hiding, burrowing, fleeing or standing still). */
+const VOLATILE = ["ambush", "burrow", "dive", "fleeAfterHits", "ghost", "still"];
+function steady(kind: string, also: string[] = []) {
+  const t = monsterDef(kind).traits as Record<string, unknown>;
+  return ![...VOLATILE, ...also].some((k) => t[k]);
+}
+/** Authored overworld spawn slots of a land, nearest to its arrival first; live enemies share the ids. */
+function spawnsByDistance(land: string) {
   const a = superiorArrival(land);
   const { overworld } = JSON.parse(
     readFileSync(`public/game/worlds/superior-v1/${land}/spawns.json`, "utf8"),
-  ) as { overworld: { id: string; kind: string; x: number; y: number }[] };
-  const far = (s: { x: number; y: number }) => Math.hypot(s.x - a.x, s.y - a.y);
-  return overworld.reduce((best, s) => (far(s) < far(best) ? s : best));
+  ) as { overworld: SpawnSlot[] };
+  const far = (s: SpawnSlot) => Math.hypot(s.x - a.x, s.y - a.y);
+  return [...overworld].sort((p, q) => far(p) - far(q));
+}
+/**
+ * The spawn slot nearest to a land's arrival. `minAttack` skips the harmless first-level creatures
+ * beside the capital when a test needs a real defeat.
+ */
+export function nearestSpawn(land: string, minAttack = 0) {
+  const base = new Map(MONSTER_BASE.map((m) => [m.id, m]));
+  return spawnsByDistance(land).find((s) => {
+    const atk = base.get(s.kind)?.atk ?? 0;
+    // Strong enough to defeat a first-level hero, but not in one or two hits before the potion.
+    // It must also attack a passive hero unprovoked.
+    return !minAttack || (atk >= minAttack && atk <= minAttack * 3 && steady(s.kind, ["provoked"]));
+  })!;
+}
+/** The nearest creature that notices and chases a hero on its own (not a provoked-only slime). */
+export function nearestHunter(land: string) {
+  return spawnsByDistance(land).find((s) => steady(s.kind, ["provoked"]))!;
+}
+/** The nearest distinct first-level creatures a new hero can defeat for the hunt quest. */
+export function huntTargets(land: string, count: number) {
+  const base = new Map(MONSTER_BASE.map((m) => [m.id, m]));
+  return spawnsByDistance(land)
+    .filter((s) => (base.get(s.kind)?.level ?? 99) <= 1 && steady(s.kind, ["pack"]))
+    .slice(0, count);
 }
 /** Basic attack of the active race (Cios Szlaku, Pocisk Ki, Strzał Impulsowy, Uderzenie Żaru). */
 export const basicAttack = (page: import("@playwright/test").Page) =>

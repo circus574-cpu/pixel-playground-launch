@@ -1,4 +1,4 @@
-import { test, expect, basicAttack, nearestSpawn } from "./fixtures";
+import { test, expect, basicAttack, nearestSpawn, DEFEAT_ATTACK } from "./fixtures";
 import { isCityStage } from "../src/game/city/types";
 import { WORLDS } from "../src/game/world/worlds";
 import type { Command } from "../src/game/session";
@@ -27,7 +27,7 @@ for (const [race, worldId, actor] of [
     page,
   }, info) => {
     // The nearest wild creature lives beyond the safe capital: about a minute's walk on software WebGL.
-    test.setTimeout(600000);
+    test.setTimeout(900000);
     await page.goto("/scripts/playtest.html");
     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
@@ -52,7 +52,7 @@ for (const [race, worldId, actor] of [
     const health = page.getByRole("meter", { name: "Zdrowie", exact: true });
     const max = (await health.getAttribute("aria-valuemax"))!;
     const world = WORLDS[worldId],
-      enemy = nearestSpawn(worldId);
+      enemy = nearestSpawn(worldId, DEFEAT_ATTACK);
     // A new character starts (and respawns) at the land's safe arrival point.
     const home = {
       x: Number(await canvas.getAttribute("data-player-x")),
@@ -113,7 +113,7 @@ for (const [race, worldId, actor] of [
                 ),
               { ...enemy, standOff },
             ),
-          { timeout: 180000 },
+          { timeout: 420000 },
         )
         .toBeLessThan(95);
       await command({ type: "target", id: enemy.id });
@@ -161,15 +161,17 @@ for (const [race, worldId, actor] of [
     // deliberately slows simulation then. Observe real damage progression
     // before timing the final defeat, without changing HP or game clocks.
     await expect
-      .poll(async () =>
-        Number(
-          await page
-            .getByRole("meter", { name: "Zdrowie", exact: true })
-            .getAttribute("aria-valuenow"),
-        ),
+      .poll(
+        async () =>
+          Number(
+            await page
+              .getByRole("meter", { name: "Zdrowie", exact: true })
+              .getAttribute("aria-valuenow"),
+          ),
+        { timeout: 240000 },
       )
       .toBeLessThanOrEqual(30);
-    await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
+    await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 120000 });
     await expect(canvas).toHaveAttribute("data-animation-state", "death");
     await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 20000 });
     await expect

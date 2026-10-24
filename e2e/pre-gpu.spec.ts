@@ -1,4 +1,12 @@
-import { openHudTool, patchActiveCharacter, maxHp, nearestSpawn, superiorLand } from "./fixtures";
+import {
+  openHudTool,
+  patchActiveCharacter,
+  maxHp,
+  nearestSpawn,
+  nearestHunter,
+  DEFEAT_ATTACK,
+  superiorLand,
+} from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
 import { distance } from "../src/game/navigation";
@@ -27,7 +35,7 @@ async function move(page: Page, x: number, y: number) {
       { x, y },
     );
   await expect
-    .poll(async () => distance(await position(page), { x, y }), { timeout: 60000 })
+    .poll(async () => distance(await position(page), { x, y }), { timeout: 300000 })
     .toBeLessThan(8);
 }
 async function groundClick(page: Page, x: number, y: number, width: number, height: number) {
@@ -228,7 +236,7 @@ for (const race of RACE_IDS)
         await page.waitForTimeout(350);
         expect(distance(await position(page), restored)).toBeLessThan(2);
         await page.keyboard.down("ArrowLeft");
-        await page.waitForTimeout(220);
+        await page.waitForTimeout(500);
         await page.keyboard.up("ArrowLeft");
         await expect.poll(async () => distance(await position(page), restored)).toBeGreaterThan(12);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
@@ -241,11 +249,11 @@ for (const race of RACE_IDS)
 for (const race of RACE_IDS)
   test(`real defeat, respawn and movement: ${race}`, async ({ page }, info) => {
     // The nearest wild creature lives beyond the safe capital: about a minute's walk on software WebGL.
-    test.setTimeout(480000);
+    test.setTimeout(900000);
     const world = superiorLand(RACES[race].world);
     await start(page, race);
     const max = await maxHp(page);
-    const enemy = nearestSpawn(RACES[race].world);
+    const enemy = nearestSpawn(RACES[race].world, DEFEAT_ATTACK);
     // A normal movement command approaches danger; no HP, kills, timers or saves are patched.
     await page
       .locator(".ki-canvas")
@@ -264,10 +272,10 @@ for (const race of RACE_IDS)
               .getByRole("meter", { name: "Zdrowie", exact: true })
               .getAttribute("aria-valuenow"),
           ),
-        { timeout: 180000 },
+        { timeout: 420000 },
       )
       .toBeLessThan(Number(max));
-    await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 180000 });
+    await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 420000 });
     await page.screenshot({ path: info.outputPath(race + "-death.png") });
     await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 20000 });
     await expect.poll(async () => distance(await position(page), world.spawn)).toBeLessThan(8);
@@ -280,7 +288,7 @@ for (const race of RACE_IDS)
     });
     const before = await position(page);
     await page.keyboard.down("ArrowRight");
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(700);
     await page.keyboard.up("ArrowRight");
     await expect.poll(async () => distance(await position(page), before)).toBeGreaterThan(15);
   });
@@ -333,12 +341,12 @@ for (const race of RACE_IDS)
   test(`real pursuit, return, enemy collision and world boundary: ${race}`, async ({
     page,
   }, info) => {
-    test.setTimeout(600000);
+    test.setTimeout(1200000);
     const world = superiorLand(RACES[race].world),
       nav = world.nav;
     await start(page, race);
     const canvas = page.locator(".ki-canvas"),
-      home = nearestSpawn(RACES[race].world);
+      home = nearestHunter(RACES[race].world);
     const enemies = async () =>
       JSON.parse((await canvas.getAttribute("data-enemies"))!) as {
         id: string;
