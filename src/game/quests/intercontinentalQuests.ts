@@ -1,0 +1,574 @@
+import { QuestDefinition } from "./types";
+
+export const INTERCONTINENTAL_QUESTS: QuestDefinition[] = [
+  {
+    id: "IC-01",
+    title: "Pakt Żywicy i Popiołu",
+    continent: "verdant",
+    category: "intercontinental",
+    giverNpcId: "npc-taro",
+    giverName: "Taro",
+    cityId: "verdant-zielona-przystan",
+    recommendedLevel: 6,
+    repeatable: false,
+    playableInCurrentRuntime: true,
+    unlockCondition: { minLevel: 4, prerequisiteQuestIds: ["O-V02", "O-P02"] },
+    summary:
+      "Wspólna inicjatywa kowala Taro z Verdantii oraz mistrza Goro z Pyry łącząca Żywe Drewno z ogniem wulkanicznym.",
+    stages: [
+      {
+        id: "IC-01-s1",
+        title: "Kuźnia Korzeni",
+        narrativeText: "Porozmawiaj z Taro w Verdantii i odwiedź Korzenną Kuźnię (forge-2).",
+        objectives: [
+          {
+            id: "IC-01-obj1",
+            type: "talk",
+            description: "Odbierz żywicę hartującą od Taro",
+            targetId: "npc-taro",
+            targetCount: 1,
+            continent: "verdant",
+          },
+          {
+            id: "IC-01-obj2",
+            type: "discover",
+            description: "Odwiedź Korzenną Kuźnię (forge-2)",
+            targetId: "famous-verdant-4",
+            targetCount: 1,
+            continent: "verdant",
+          },
+        ],
+      },
+      {
+        id: "IC-01-s2",
+        title: "Ogień Twierdzy Popiołu",
+        narrativeText:
+          "Przekaż próbki Mistrzowi Goro w Pyrze i przetestuj stal na Skalnych Berserkerach.",
+        objectives: [
+          {
+            id: "IC-01-obj3",
+            type: "talk",
+            description: "Porozmawiaj z Mistrzem Goro w Pyrze",
+            targetId: "npc-goro",
+            targetCount: 1,
+            continent: "pyra",
+          },
+          {
+            id: "IC-01-obj4",
+            type: "combat",
+            description: "Przetestuj broń na Skalnych Berserkerach (pyra-skalny-berserker)",
+            targetId: "pyra-skalny-berserker",
+            targetCount: 3,
+            continent: "pyra",
+          },
+        ],
+      },
+    ],
+    reward: {
+      xp: 320,
+      coins: 190,
+      itemId: "sword",
+      plannedFutureItemId: "U-W05",
+      factionReputation: { factionId: "F-L", amount: 45 },
+    },
+  },
+  {
+    id: "IC-02",
+    title: "Harmonia Kory i Dzwonu",
+    continent: "verdant",
+    category: "intercontinental",
+    giverNpcId: "npc-aira",
+    giverName: "Aira",
+    cityId: "verdant-zielona-przystan",
+    recommendedLevel: 7,
+    repeatable: false,
+    playableInCurrentRuntime: true,
+    unlockCondition: { minLevel: 4, prerequisiteQuestIds: ["O-V01", "O-A01"] },
+    summary:
+      "Synchronizacja Źródła Pierwszego Oddechu w Verdantii (fountain-5) z Sanktuarium Pustej Paginy w Aetherii (sanctum-0).",
+    stages: [
+      {
+        id: "IC-02-s1",
+        title: "Pieśń Korzeni",
+        narrativeText: "Porozmawiaj z Airą i zbadaj Źródło Pierwszego Oddechu (fountain-5).",
+        objectives: [
+          {
+            id: "IC-02-obj1",
+            type: "talk",
+            description: "Porozmawiaj z przewodniczką Airą",
+            targetId: "npc-aira",
+            targetCount: 1,
+            continent: "verdant",
+          },
+          {
+            id: "IC-02-obj2",
+            type: "discover",
+            description: "Zbadaj Źródło Pierwszego Oddechu (fountain-5)",
+            targetId: "famous-verdant-1",
+            targetCount: 1,
+            continent: "verdant",
+          },
+        ],
+      },
+      {
+        id: "IC-02-s2",
+        title: "Odpowiedź z Chmur",
+        narrativeText: "Udaj się do Opiekunki Sory w Aetherii i zbadaj sanctum-0.",
+        objectives: [
+          {
+            id: "IC-02-obj3",
+            type: "discover",
+            description: "Zbadaj Sanktuarium Pustej Paginy (sanctum-0)",
+            targetId: "famous-aether-1",
+            targetCount: 1,
+            continent: "aether",
+          },
+          {
+            id: "IC-02-obj4",
+            type: "talk",
+            description: "Zsynchronizuj kamerton z Opiekunką Sorą",
+            targetId: "npc-sora",
+            targetCount: 1,
+            continent: "aether",
+          },
+        ],
+      },
+    ],
+    reward: {
+      xp: 350,
+      coins: 210,
+      itemId: "vest",
+      plannedFutureItemId: "U-A05",
+      factionReputation: { factionId: "F-L", amount: 50 },
+    },
+  },
+  {
+    id: "IC-03",
+    title: "Traktat Archiwum i Rdzenia",
+    continent: "aether",
+    category: "intercontinental",
+    giverNpcId: "npc-enso",
+    giverName: "Enso",
+    cityId: "aether-sanktuarium-tysiaca-zrodel",
+    recommendedLevel: 8,
+    repeatable: false,
+    playableInCurrentRuntime: true,
+    unlockCondition: { minLevel: 5, prerequisiteQuestIds: ["O-A02", "O-N01"] },
+    summary:
+      "Połączenie kronik Zachodniego Archiwum (archive-1) z bazą danych LYRA-7 w Nexusie-9 (lab-0).",
+    stages: [
+      {
+        id: "IC-03-s1",
+        title: "Zwoje z Chmur",
+        narrativeText: "Pobierz transkrypcję od Enso w Aetherii.",
+        objectives: [
+          {
+            id: "IC-03-obj1",
+            type: "talk",
+            description: "Odbierz transkrypcję od Mistrza Enso",
+            targetId: "npc-enso",
+            targetCount: 1,
+            continent: "aether",
+          },
+        ],
+      },
+      {
+        id: "IC-03-s2",
+        title: "Dekodowanie w Węźle Świadomości",
+        narrativeText: "Przekaż dane LYRA-7 w Nexusie-9 i wyeliminuj 3 Pełzacze Serwisowe.",
+        objectives: [
+          {
+            id: "IC-03-obj2",
+            type: "talk",
+            description: "Zdekoduj zapisy u Przewodniczki LYRA-7",
+            targetId: "npc-lyra7",
+            targetCount: 1,
+            continent: "nexus",
+          },
+          {
+            id: "IC-03-obj3",
+            type: "combat",
+            description: "Pokonaj Pełzacze Serwisowe (nexus-pelzacz-serwisowy)",
+            targetId: "nexus-pelzacz-serwisowy",
+            targetCount: 3,
+            continent: "nexus",
+          },
+        ],
+      },
+    ],
+    reward: {
+      xp: 380,
+      coins: 220,
+      itemId: "potion",
+      plannedFutureItemId: "M-15",
+      factionReputation: { factionId: "F-L", amount: 55 },
+    },
+  },
+  {
+    id: "IC-04",
+    title: "Stal i Reaktor",
+    continent: "nexus",
+    category: "intercontinental",
+    giverNpcId: "npc-hef4",
+    giverName: "HEF-4",
+    cityId: "nexus-wezel-swiadomosci",
+    recommendedLevel: 8,
+    repeatable: false,
+    playableInCurrentRuntime: true,
+    unlockCondition: { minLevel: 5, prerequisiteQuestIds: ["O-N02", "O-P01"] },
+    summary:
+      "Wzmocnienie Reaktora w Nexusie-9 płytami bazaltowymi z Cytadeli Żelaznego Klifu w Pyrze (fortress-0).",
+    stages: [
+      {
+        id: "IC-04-s1",
+        title: "Zamówienie HEF-4",
+        narrativeText:
+          "Porozmawiaj z HEF-4 i udaj się do Cytadeli Żelaznego Klifu (fortress-0) w Pyrze.",
+        objectives: [
+          {
+            id: "IC-04-obj1",
+            type: "talk",
+            description: "Odbierz specyfikację od HEF-4",
+            targetId: "npc-hef4",
+            targetCount: 1,
+            continent: "nexus",
+          },
+          {
+            id: "IC-04-obj2",
+            type: "discover",
+            description: "Odwiedź Cytadelę Żelaznego Klifu (fortress-0)",
+            targetId: "famous-pyra-1",
+            targetCount: 1,
+            continent: "pyra",
+          },
+        ],
+      },
+      {
+        id: "IC-04-s2",
+        title: "Hartowanie w Boju",
+        narrativeText: "Pokonaj 3 Magmowe Kraby i porozmawiaj ze strażniczką Kaeną.",
+        objectives: [
+          {
+            id: "IC-04-obj3",
+            type: "combat",
+            description: "Pokonaj Magmowe Kraby (pyra-magmowy-krab)",
+            targetId: "pyra-magmowy-krab",
+            targetCount: 3,
+            continent: "pyra",
+          },
+          {
+            id: "IC-04-obj4",
+            type: "talk",
+            description: "Uzyskaj pieczęć eksportową od Kaeny",
+            targetId: "npc-kaena",
+            targetCount: 1,
+            continent: "pyra",
+          },
+        ],
+      },
+    ],
+    reward: {
+      xp: 410,
+      coins: 240,
+      itemId: "vest",
+      plannedFutureItemId: "U-A06",
+      factionReputation: { factionId: "F-L", amount: 60 },
+    },
+  },
+  {
+    id: "IC-05",
+    title: "Obserwatorzy Czterech Horyzontów",
+    continent: "aether",
+    category: "intercontinental",
+    giverNpcId: "npc-aether-observer",
+    giverName: "Talen (Obserwator Niebios)",
+    cityId: "aether-archiwum-nad-chmurami",
+    recommendedLevel: 9,
+    repeatable: false,
+    playableInCurrentRuntime: true,
+    unlockCondition: {
+      minLevel: 6,
+      prerequisiteQuestIds: ["O-V05", "O-P05", "O-A05", "O-N05"],
+    },
+    summary:
+      "Połączenie odczytów astronomicznych Talena z Aetherii, VEX-3 z Nexusa-9, Hany z Pyry i Rena z Verdantii.",
+    stages: [
+      {
+        id: "IC-05-s1",
+        title: "Pomiary Natury i Ognia",
+        narrativeText: "Zbierz odczyty od Rena w Verdantii oraz Hany w Pyrze.",
+        objectives: [
+          {
+            id: "IC-05-obj1",
+            type: "talk",
+            description: "Pobierz odczyty od łowcy Rena w Verdantii",
+            targetId: "npc-ren",
+            targetCount: 1,
+            continent: "verdant",
+          },
+          {
+            id: "IC-05-obj2",
+            type: "talk",
+            description: "Pobierz odczyty sejsmiczne od Hany w Pyrze",
+            targetId: "npc-pyra-smith-east",
+            targetCount: 1,
+            continent: "pyra",
+          },
+        ],
+      },
+      {
+        id: "IC-05-s2",
+        title: "Pomiary Chmur i Sygnału",
+        narrativeText:
+          "Skonsultuj dane z VEX-3 w Nexusie-9 i dostarcz komplet Talenowi w Aetherii.",
+        objectives: [
+          {
+            id: "IC-05-obj3",
+            type: "talk",
+            description: "Pobierz telemetrię radiową od VEX-3",
+            targetId: "npc-nexus-portmaster",
+            targetCount: 1,
+            continent: "nexus",
+          },
+          {
+            id: "IC-05-obj4",
+            type: "talk",
+            description: "Przekaż wszystkie cztery odczyty Talenowi",
+            targetId: "npc-aether-observer",
+            targetCount: 1,
+            continent: "aether",
+          },
+        ],
+      },
+    ],
+    reward: {
+      xp: 480,
+      coins: 290,
+      itemId: "sword",
+      plannedFutureItemId: "U-W06",
+      factionReputation: { factionId: "F-L", amount: 75 },
+    },
+  },
+  {
+    id: "IC-06",
+    title: "Konklawe Czterech Stolic",
+    continent: "verdant",
+    category: "intercontinental",
+    giverNpcId: "npc-aira",
+    giverName: "Aira",
+    cityId: "verdant-zielona-przystan",
+    recommendedLevel: 11,
+    repeatable: false,
+    playableInCurrentRuntime: true,
+    unlockCondition: {
+      minLevel: 8,
+      prerequisiteQuestIds: ["O-V06", "O-P06", "O-A06", "O-N06"],
+    },
+    summary:
+      "Wielka misja dyplomatyczna jednocząca przywódców Zielonej Przystani, Twierdzy Popiołu, Sanktuarium Tysiąca Źródeł i Węzła Świadomości.",
+    stages: [
+      {
+        id: "IC-06-s1",
+        title: "Głos Natury i Ognia",
+        narrativeText: "Uzyskaj pieczęć przymierza od Airy w Verdantii i Kaeny w Pyrze.",
+        objectives: [
+          {
+            id: "IC-06-obj1",
+            type: "talk",
+            description: "Uzyskaj pieczęć Verdantii od Airy",
+            targetId: "npc-aira",
+            targetCount: 1,
+            continent: "verdant",
+          },
+          {
+            id: "IC-06-obj2",
+            type: "talk",
+            description: "Uzyskaj pieczęć Pyry od Kaeny",
+            targetId: "npc-kaena",
+            targetCount: 1,
+            continent: "pyra",
+          },
+        ],
+      },
+      {
+        id: "IC-06-s2",
+        title: "Głos Wiatru i Stali",
+        narrativeText: "Uzyskaj pieczęć od Sory w Aetherii oraz LYRA-7 w Nexusie-9.",
+        objectives: [
+          {
+            id: "IC-06-obj3",
+            type: "talk",
+            description: "Uzyskaj pieczęć Aetherii od Sory",
+            targetId: "npc-sora",
+            targetCount: 1,
+            continent: "aether",
+          },
+          {
+            id: "IC-06-obj4",
+            type: "talk",
+            description: "Uzyskaj pieczęć Nexusa-9 od LYRA-7",
+            targetId: "npc-lyra7",
+            targetCount: 1,
+            continent: "nexus",
+          },
+        ],
+      },
+    ],
+    reward: {
+      xp: 650,
+      coins: 400,
+      itemId: "sword",
+      plannedFutureItemId: "U-W07",
+      factionReputation: { factionId: "F-L", amount: 100 },
+    },
+  },
+
+  // ============================================================================
+  // MISJE MIĘDZYKONTYNENTALNE WYMAGAJĄCE ROZBUDOWY SILNIKA (PODZIEMIA / WYSPY I1..I6)
+  // Jawnie oznaczone jako playableInCurrentRuntime: false zgodnie z wymogiem pkt 4
+  // ============================================================================
+  {
+    id: "IC-07",
+    title: "Ekspedycja na Wyspę Mgły (I1)",
+    continent: "verdant",
+    category: "intercontinental",
+    giverNpcId: "npc-ren",
+    giverName: "Ren",
+    cityId: "verdant-zielona-przystan",
+    recommendedLevel: 12,
+    repeatable: false,
+    playableInCurrentRuntime: false,
+    runtimeLimitationNote:
+      "Wymaga wdrożenia żeglugi morskiej i geometrii 6 Wysp Pośrednich (I1–I6) w runtime Phaser.",
+    unlockCondition: { minLevel: 10, prerequisiteQuestIds: ["M13"] },
+    summary:
+      "[DANE PRZYSZŁEGO ETAPU] Przeprawa morska na Wyspę Mgły (I1) pomiędzy Verdantią a Aetherią.",
+    stages: [
+      {
+        id: "IC-07-s1",
+        title: "Przygotowanie Żeglugi na I1",
+        narrativeText:
+          "Wymaga wdrożenia żeglugi morskiej i mapy Wyspy Mgły (I1) w silniku runtime.",
+        objectives: [
+          {
+            id: "IC-07-obj1",
+            type: "talk",
+            description: "Omów mapę morską ze zwiadowcą Renem",
+            targetId: "npc-ren",
+            targetCount: 1,
+            continent: "verdant",
+          },
+        ],
+      },
+    ],
+    reward: { xp: 500, coins: 300, itemId: "sword", plannedFutureItemId: "U-W08" },
+  },
+  {
+    id: "IC-08",
+    title: "Podziemny Maglev: Nexus — Pyra",
+    continent: "nexus",
+    category: "intercontinental",
+    giverNpcId: "npc-nexus-welder",
+    giverName: "KOR-9 (Mistrz Spawu)",
+    cityId: "nexus-kuznia-obwodow",
+    recommendedLevel: 13,
+    repeatable: false,
+    playableInCurrentRuntime: false,
+    runtimeLimitationNote:
+      "Wymaga wdrożenia instancji podziemi międzykontynentalnych i przejść tunelowych w runtime.",
+    unlockCondition: { minLevel: 11, prerequisiteQuestIds: ["H-N03", "M15"] },
+    summary:
+      "[DANE PRZYSZŁEGO ETAPU] Przejście podziemnym tunelem maglev pod dnem oceanu między Nexusem-9 a Pyrą.",
+    stages: [
+      {
+        id: "IC-08-s1",
+        title: "Śluza Głębinowa",
+        narrativeText: "Wymaga wdrożenia map podziemi międzykontynentalnych w silniku.",
+        objectives: [
+          {
+            id: "IC-08-obj1",
+            type: "talk",
+            description: "Sprawdź stan śluzy u KOR-9",
+            targetId: "npc-nexus-welder",
+            targetCount: 1,
+            continent: "nexus",
+          },
+        ],
+      },
+    ],
+    reward: { xp: 550, coins: 330, itemId: "vest", plannedFutureItemId: "U-A08" },
+  },
+  {
+    id: "IC-09",
+    title: "Rafa Żelaznych Wraków (I4)",
+    continent: "pyra",
+    category: "intercontinental",
+    giverNpcId: "npc-pyra-captain",
+    giverName: "Daro (Kwatermistrz Żaru)",
+    cityId: "pyra-port-czerwonych-zagli",
+    recommendedLevel: 14,
+    repeatable: false,
+    playableInCurrentRuntime: false,
+    runtimeLimitationNote:
+      "Wymaga wdrożenia transportu morskiego i mapy wyspy I4 w silniku świata.",
+    unlockCondition: { minLevel: 12, prerequisiteQuestIds: ["M15", "M20"] },
+    summary: "[DANE PRZYSZŁEGO ETAPU] Wyprawa z Przystani Żaru na Rafę Wraków (I4).",
+    stages: [
+      {
+        id: "IC-09-s1",
+        title: "Flota Ekspedycyjna",
+        narrativeText: "Wymaga wdrożenia mapy wyspy I4 oraz transportu morskiego z Przystani Żaru.",
+        objectives: [
+          {
+            id: "IC-09-obj1",
+            type: "talk",
+            description: "Porozmawiaj z Kwatermistrzem Daro",
+            targetId: "npc-pyra-captain",
+            targetCount: 1,
+            continent: "pyra",
+          },
+        ],
+      },
+    ],
+    reward: { xp: 600, coins: 360, itemId: "sword" },
+  },
+  {
+    id: "IC-10",
+    title: "Serce Wielkiego Wiru (I6)",
+    continent: "aether",
+    category: "intercontinental",
+    giverNpcId: "npc-sora",
+    giverName: "Sora",
+    cityId: "aether-sanktuarium-tysiaca-zrodel",
+    recommendedLevel: 15,
+    repeatable: false,
+    playableInCurrentRuntime: false,
+    runtimeLimitationNote:
+      "Wymaga wdrożenia centralnej instancji Wielkiego Wiru (I6) oraz mechaniki rajdowej bossa B-08.",
+    unlockCondition: {
+      minLevel: 14,
+      prerequisiteQuestIds: ["IC-06", "M13", "M15", "M19", "M20"],
+    },
+    summary:
+      "[DANE PRZYSZŁEGO ETAPU] Kulminacyjna wyprawa wszystkich czterech ras do centralnej anomalii Wielkiego Wiru.",
+    stages: [
+      {
+        id: "IC-10-s1",
+        title: "Wrota Wielkiego Wiru",
+        narrativeText:
+          "Wymaga odblokowania centralnej strefy oceanicznej Wielkiego Wiru i bossa B-08.",
+        objectives: [
+          {
+            id: "IC-10-obj1",
+            type: "talk",
+            description: "Odbierz odprawę od Opiekunki Sory",
+            targetId: "npc-sora",
+            targetCount: 1,
+            continent: "aether",
+          },
+        ],
+      },
+    ],
+    reward: { xp: 1000, coins: 600, itemId: "sword" },
+  },
+];
