@@ -2955,3 +2955,8 @@ Sezon II — Morze między głosami: Liga odkrywa osady, które nie należały d
 Sezon III — Dziedzice decyzji: skutki wybranego modelu sieci stają się widoczne podczas lokalnych sporów. Wariant rozproszony mierzy się z brakiem koordynacji, Pakt z przewlekłością narad, Cichy Strażnik z pokusą ponownego przyznania uprawnień doradcy. Każda wersja ma własne trudności, lecz żadna nie okazuje się z definicji fałszywym zakończeniem.
 
 Wspólny kierunek: świat pamięta decyzje bohatera poprzez ludzi, budynki, listy i trasy. Następny rozdział nie resetuje miast do katastrofy tylko po to, aby stworzyć nową listę przeciwników.
+
+
+## Integracja z runtime Superior — odczyt commitów 24.10.2026
+
+Ten dokument jest kanonem projektowym i źródłem zawartości, nie dowodem, że każdy przedmiot, receptura i zadanie są dostępne w opublikowanej grze. Po wdrożeniu jednego świata Superior ekwipunek, depozyt, pozycja i wyspa są przypisane do jednego nowego lokalnego slotu; wcześniejsze sloty są historyczne i nie są automatycznie importowane. Dla kampanii, questów, gospodarki i podróży należy sprawdzić zgodność docelowych współrzędnych oraz dostępu do NPC z danymi Superior. Na 24.10 nie przedstawiono tutaj pełnego E2E każdej spośród opisanych receptur i misji na końcowym SHA. Dowody i otwarte testy: [dziennik](zmiany/2026-10-24/ZMIANY.md) i [plan](PLAN-I-ZADANIA.md).
