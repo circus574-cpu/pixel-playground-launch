@@ -8,12 +8,13 @@ import type Phaser from "phaser";
  * hard outline (they join neighbours or hang as cloth).
  */
 const JOINED = /wall|steps|staircase|gate|door|rug|banner/;
-/** Buildings fill their plate with walls: only the outermost rim may fade, never the facade. */
-const BUILDING = /city-(house|hall|market|inn|smithy|depot|arena|tower|shop|lab|forge|temple)/;
+/** Buildings: the base and sides of a cut terrace fade a little; the roof line never does. */
+const BUILDING =
+  /city-(house|hall|market|inn|smithy|depot|arena|tower|shop|lab|forge|temple)|warehouse/;
 const plated = new Map<string, boolean>();
 const PROBE = 64;
 
-/** Fraction of an inner ring of the opaque bounding box that is itself opaque (1 = a full rectangle). */
+/** Whether the opaque area is a cut plate: its inner rim is mostly opaque, or its base and a side are. */
 function plateRing(source: CanvasImageSource) {
   const probe = document.createElement("canvas");
   probe.width = probe.height = PROBE;
@@ -33,20 +34,24 @@ function plateRing(source: CanvasImageSource) {
         x1 = Math.max(x1, x);
         y1 = Math.max(y1, y);
       }
-  if (x1 - x0 < 8 || y1 - y0 < 8) return { ring: 0, x0, y0, x1, y1 };
+  if (x1 - x0 < 8 || y1 - y0 < 8) return { plate: false, x0, y0, x1, y1 };
   const ix = Math.max(1, Math.round((x1 - x0) * 0.04)),
     iy = Math.max(1, Math.round((y1 - y0) * 0.04));
-  let opaque = 0,
-    total = 0;
-  for (let x = x0 + ix; x <= x1 - ix; x++) {
-    opaque += Number(at(x, y0 + iy)) + Number(at(x, y1 - iy));
-    total += 2;
-  }
-  for (let y = y0 + iy; y <= y1 - iy; y++) {
-    opaque += Number(at(x0 + ix, y)) + Number(at(x1 - ix, y));
-    total += 2;
-  }
-  return { ring: opaque / total, x0, y0, x1, y1 };
+  const share = (points: [number, number][]) =>
+    points.filter(([x, y]) => at(x, y)).length / points.length;
+  const across: number[] = [],
+    down: number[] = [];
+  for (let x = x0 + ix; x <= x1 - ix; x++) across.push(x);
+  for (let y = y0 + iy; y <= y1 - iy; y++) down.push(y);
+  const top = share(across.map((x) => [x, y0 + iy])),
+    bottom = share(across.map((x) => [x, y1 - iy])),
+    left = share(down.map((y) => [x0 + ix, y])),
+    right = share(down.map((y) => [x1 - ix, y]));
+  const ring =
+    (across.length * (top + bottom) + down.length * (left + right)) /
+    (2 * (across.length + down.length));
+  // A base cut straight along the bottom and a side reads as pasted even under an organic roof.
+  return { plate: ring > 0.6 || (bottom > 0.7 && Math.max(left, right) > 0.5), x0, y0, x1, y1 };
 }
 
 /** Texture key to draw for `asset`: the original, or its soft-rimmed copy when it has a plate. */
@@ -56,9 +61,9 @@ export function blendedTexture(scene: Phaser.Scene, asset: string, frame?: strin
   if (scene.textures.exists(key)) return key;
   if (plated.get(asset) === false || !scene.textures.exists(asset)) return asset;
   const source = scene.textures.get(asset).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
-  const { ring, x0, y0, x1, y1 } = plateRing(source);
-  plated.set(asset, ring > 0.6);
-  if (ring <= 0.6) return asset;
+  const { plate, x0, y0, x1, y1 } = plateRing(source);
+  plated.set(asset, plate);
+  if (!plate) return asset;
   const w = source.width,
     h = source.height,
     sx = w / PROBE,
@@ -68,7 +73,8 @@ export function blendedTexture(scene: Phaser.Scene, asset: string, frame?: strin
     top = y0 * sy,
     right = (x1 + 1) * sx,
     bottom = (y1 + 1) * sy;
-  const fade = Math.min(right - left, bottom - top) * (BUILDING.test(asset) ? 0.06 : 0.2);
+  const building = BUILDING.test(asset);
+  const fade = Math.min(right - left, bottom - top) * (building ? 0.1 : 0.2);
   const canvas = scene.textures.createCanvas(key, w, h);
   if (!canvas) return asset;
   const ctx = canvas.getContext();
@@ -81,11 +87,14 @@ export function blendedTexture(scene: Phaser.Scene, asset: string, frame?: strin
   m.filter = `blur(${Math.round(fade / 2)}px)`;
   m.fillStyle = "#000";
   m.beginPath();
+  // A building keeps its roof line: the mask starts above the image, so only the base and the
+  // sides of its terrace melt into the ground.
+  const maskTop = building ? -2 * fade : top + fade / 2;
   m.roundRect(
     left + fade / 2,
-    top + fade / 2,
+    maskTop,
     right - left - fade,
-    bottom - top - fade,
+    bottom - fade / 2 - maskTop,
     fade * 1.5,
   );
   m.fill();

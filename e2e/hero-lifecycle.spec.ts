@@ -106,12 +106,14 @@ for (const [race, worldId, actor] of [
       await page.screenshot({ path: info.outputPath(`${actor}-city-training.png`) });
       return;
     }
+    // Where the hero stands to fight: on the wild side of the creature, reachable on foot.
+    let side = { x: 0, y: 0 };
     {
       // Observe a fresh real attack before the potion sequence. Incoming hits
       // legitimately preempt presentation when already surrounded in melee.
       const reach = worldId === "pyra" ? 140 : 320;
       // Stand on the wild side of the creature: inside the safe town attacks are refused.
-      const side = [
+      side = [
         { x: 0, y: reach },
         { x: 0, y: -reach },
         { x: reach, y: 0 },
@@ -184,8 +186,8 @@ for (const [race, worldId, actor] of [
       )
       .toBe(true);
     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
-    // Back to the creature for a real attack, then the real defeat.
-    await command({ type: "move", x: enemy.x, y: enemy.y + 85 });
+    // Back to the same reachable spot beside the creature for a real attack, then the defeat.
+    await command({ type: "move", x: enemy.x + side.x, y: enemy.y + side.y });
     await command({ type: "target", id: enemy.id });
     await command({ type: "ability", ability: "R" });
     await expect
