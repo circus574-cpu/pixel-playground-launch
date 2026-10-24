@@ -1,5 +1,4 @@
-import { basicAttack, maxHp, openHudTool, patchActiveCharacter } from "./fixtures";
-import { WORLDS } from "../src/game/world/worlds";
+import { basicAttack, maxHp, nearestSpawn, openHudTool, patchActiveCharacter } from "./fixtures";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
@@ -210,23 +209,26 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
 });
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
+  // The nearest wild creature lives beyond the safe capital: about a minute's walk on software WebGL.
+  test.setTimeout(480000);
   await start(page, "Legendy");
   const max = await maxHp(page);
   const canvas = page.locator(".ki-canvas");
+  const arrivalX = Number(await canvas.getAttribute("data-player-x"));
   await canvas.evaluate(
     (el, home) =>
       el.dispatchEvent(
         new CustomEvent("ki:command", { detail: { type: "move", x: home.x, y: home.y + 85 } }),
       ),
-    WORLDS.pyra.enemies[0]!,
+    nearestSpawn("pyra"),
   );
-  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
+  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 240000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
   await page.screenshot({ path: evidence() + "/death.png" });
-  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
+  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 20000 });
   await expect
     .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-    .toBeCloseTo(WORLDS.pyra.spawn.x, 0);
+    .toBeCloseTo(arrivalX, 0);
   await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
     "aria-valuenow",
     max,
@@ -252,11 +254,12 @@ for (const [width, height] of [
   [1280, 900],
 ] as const) {
   test(`combat messages leave the actual target panel clear at ${width}px`, async ({ page }) => {
+    test.setTimeout(300000);
     await page.setViewportSize({ width, height });
     await start(page);
     // Combat targeting is correctly forbidden in the safe capital. Walk out
     // through the public movement adapter before checking the combat overlay.
-    const outside = WORLDS.pyra.enemies[0]!;
+    const outside = nearestSpawn("pyra");
     await page.locator(".ki-canvas").evaluate(
       (el, p) =>
         el.dispatchEvent(
@@ -267,26 +270,30 @@ for (const [width, height] of [
       outside,
     );
     await expect
-      .poll(() =>
-        page
-          .locator(".ki-canvas")
-          .evaluate(
-            (el, p) =>
-              Math.hypot(
-                Number((el as HTMLElement).dataset["playerX"]) - (p.x - 150),
-                Number((el as HTMLElement).dataset["playerY"]) - (p.y + 90),
-              ),
-            outside,
-          ),
+      .poll(
+        () =>
+          page
+            .locator(".ki-canvas")
+            .evaluate(
+              (el, p) =>
+                Math.hypot(
+                  Number((el as HTMLElement).dataset["playerX"]) - (p.x - 150),
+                  Number((el as HTMLElement).dataset["playerY"]) - (p.y + 90),
+                ),
+              outside,
+            ),
+        { timeout: 180000 },
       )
       .toBeLessThan(95);
     // Use the same public command adapter as a canvas click, without changing session state.
-    await page.locator(".ki-canvas").evaluate((el) =>
-      el.dispatchEvent(
-        new CustomEvent("ki:command", {
-          detail: { type: "target", id: "boar-0" },
-        }),
-      ),
+    await page.locator(".ki-canvas").evaluate(
+      (el, id) =>
+        el.dispatchEvent(
+          new CustomEvent("ki:command", {
+            detail: { type: "target", id },
+          }),
+        ),
+      outside.id,
     );
     const target = page.locator(".ki-target"),
       message = page.getByRole("status", { name: "Komunikat gry", exact: true });

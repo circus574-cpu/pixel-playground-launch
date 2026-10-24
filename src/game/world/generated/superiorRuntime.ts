@@ -1,7 +1,13 @@
 import type Phaser from "phaser";
 import { GameSession } from "../../session";
 import type { GameRuntime } from "../../mountGame";
-import { actorVisual, catalog, textureBinding, monsterVisual } from "../../assets/catalog";
+import {
+  actorVisual,
+  catalog,
+  textureBinding,
+  monsterVisual,
+  technicalPack,
+} from "../../assets/catalog";
 import { queueAssets, prepareTextures, animationKey } from "../../assets/phaserAssets";
 import { monsterDef } from "../../monsters/catalog";
 import { streamSpawns, type AuthoredSpawn } from "./spawnStream";
@@ -237,14 +243,20 @@ export async function prepareSuperior(options: {
   // The session consumes the same initial snapshot; never rebase a writer on another tab mid-load.
   save.town = initialTown;
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
+  // Diagnostic art is available only on the isolated local playtest document (as in mountGame).
+  const preview =
+    location.pathname === "/scripts/playtest.html" &&
+    new URLSearchParams(location.search).get("ki-art") === "technical";
   const addAsset = (id: string) => {
-    const asset = catalog.assets.get(id);
+    const asset =
+      catalog.assets.get(id) ??
+      (preview ? technicalPack.assets.find((a) => a.id === id) : undefined);
     if (!asset) throw Error("Brak zasobu: " + id);
     initialAssets.set(id, asset);
   };
   addAsset("ui-icons");
   for (const visual of [
-    actorVisual(RACES[session.player.race].world, "hero"),
+    actorVisual(RACES[session.player.race].world, "hero", undefined, preview),
     ...base.npcs.map((n) => actorVisual(info.affinity, "npc", n.id)),
   ])
     for (const clip of Object.values(visual.clips)) addAsset(clip.asset);

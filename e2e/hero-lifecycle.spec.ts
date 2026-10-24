@@ -1,4 +1,4 @@
-import { test, expect, basicAttack } from "./fixtures";
+import { test, expect, basicAttack, nearestSpawn } from "./fixtures";
 import { isCityStage } from "../src/game/city/types";
 import { WORLDS } from "../src/game/world/worlds";
 import type { Command } from "../src/game/session";
@@ -26,6 +26,8 @@ for (const [race, worldId, actor] of [
   test(`${actor}: ${isCityStage(WORLDS[worldId]) ? "safe city movement and training" : "all seven clips follow real combat, defeat and respawn"}`, async ({
     page,
   }, info) => {
+    // The nearest wild creature lives beyond the safe capital: about a minute's walk on software WebGL.
+    test.setTimeout(600000);
     await page.goto("/scripts/playtest.html");
     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
@@ -50,7 +52,12 @@ for (const [race, worldId, actor] of [
     const health = page.getByRole("meter", { name: "Zdrowie", exact: true });
     const max = (await health.getAttribute("aria-valuemax"))!;
     const world = WORLDS[worldId],
-      enemy = world.enemies[0]!;
+      enemy = nearestSpawn(worldId);
+    // A new character starts (and respawns) at the land's safe arrival point.
+    const home = {
+      x: Number(await canvas.getAttribute("data-player-x")),
+      y: Number(await canvas.getAttribute("data-player-y")),
+    };
     if (isCityStage(world)) {
       await command({ type: "enter", building: "arena" });
       await expect(canvas).toHaveAttribute("data-interior", "arena");
@@ -96,18 +103,20 @@ for (const [race, worldId, actor] of [
       const standOff = worldId === "pyra" ? 140 : 320;
       await command({ type: "move", x: enemy.x, y: enemy.y + standOff });
       await expect
-        .poll(() =>
-          canvas.evaluate(
-            (el, p) =>
-              Math.hypot(
-                Number((el as HTMLElement).dataset["playerX"]) - p.x,
-                Number((el as HTMLElement).dataset["playerY"]) - (p.y + p.standOff),
-              ),
-            { ...enemy, standOff },
-          ),
+        .poll(
+          () =>
+            canvas.evaluate(
+              (el, p) =>
+                Math.hypot(
+                  Number((el as HTMLElement).dataset["playerX"]) - p.x,
+                  Number((el as HTMLElement).dataset["playerY"]) - (p.y + p.standOff),
+                ),
+              { ...enemy, standOff },
+            ),
+          { timeout: 180000 },
         )
         .toBeLessThan(95);
-      await command({ type: "target", id: "boar-0" });
+      await command({ type: "target", id: enemy.id });
       await expect
         .poll(() =>
           page.evaluate(() =>
@@ -162,13 +171,13 @@ for (const [race, worldId, actor] of [
       .toBeLessThanOrEqual(30);
     await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
     await expect(canvas).toHaveAttribute("data-animation-state", "death");
-    await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
+    await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 20000 });
     await expect
       .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-      .toBeCloseTo(world.spawn.x, 0);
+      .toBeCloseTo(home.x, 0);
     await expect
       .poll(async () => Number(await canvas.getAttribute("data-player-y")))
-      .toBeCloseTo(world.spawn.y, 0);
+      .toBeCloseTo(home.y, 0);
     const frames = await page.evaluate(() => [
       ...(window as unknown as { __observedActorFrames: Set<string> }).__observedActorFrames,
     ]);

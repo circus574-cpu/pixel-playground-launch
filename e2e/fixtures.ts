@@ -1,5 +1,7 @@
 import { test as base } from "@playwright/test";
 import { readFileSync } from "node:fs";
+import { browserNavigation, type GridData } from "../src/game/world/generated/browserTerrain";
+import type { Obstacle } from "../src/game/movement";
 import { expect } from "@playwright/test";
 export { expect };
 export type { Page, CDPSession } from "@playwright/test";
@@ -82,6 +84,43 @@ const superior = JSON.parse(readFileSync("public/game/worlds/superior-v1/index.j
 /** Where a new character of this land appears on the Superior planet. */
 export const superiorArrival = (land: string) =>
   superior.features.find((f) => f.id === land)!.arrival;
+/**
+ * The generated land as the browser sees it: real size, the player navigation
+ * field built from the same CPU grids, the safe arrival and authored spawn slots.
+ */
+export function superiorLand(land: string) {
+  const dir = `public/game/worlds/superior-v1/${land}/`,
+    read = (f: string) => JSON.parse(readFileSync(dir + f, "utf8")) as unknown;
+  const { geometry } = read("world.json") as { geometry: { width: number; height: number } };
+  const nav = browserNavigation(
+    geometry.width,
+    geometry.height,
+    read("navigation.json") as GridData,
+    read("terrain.json") as GridData,
+    read("collision.json") as Obstacle[],
+  );
+  const { overworld } = read("spawns.json") as {
+    overworld: { id: string; x: number; y: number }[];
+  };
+  const { npcs } = read("world.json") as { npcs: { id: string; x: number; y: number }[] };
+  return {
+    npcs,
+    width: geometry.width,
+    height: geometry.height,
+    nav,
+    spawn: nav.safe(superiorArrival(land)),
+    enemies: overworld,
+  };
+}
+/** The authored overworld spawn slot nearest to a land's arrival; its live enemy carries the same id. */
+export function nearestSpawn(land: string) {
+  const a = superiorArrival(land);
+  const { overworld } = JSON.parse(
+    readFileSync(`public/game/worlds/superior-v1/${land}/spawns.json`, "utf8"),
+  ) as { overworld: { id: string; kind: string; x: number; y: number }[] };
+  const far = (s: { x: number; y: number }) => Math.hypot(s.x - a.x, s.y - a.y);
+  return overworld.reduce((best, s) => (far(s) < far(best) ? s : best));
+}
 /** Basic attack of the active race (Cios Szlaku, Pocisk Ki, Strzał Impulsowy, Uderzenie Żaru). */
 export const basicAttack = (page: import("@playwright/test").Page) =>
   page.locator('button[data-ability="R"]');
