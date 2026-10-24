@@ -107,6 +107,11 @@ export async function prepareSuperior(options: {
   if ((await bytesHash(artBytes)) !== artManifest[save.feature + "/feature.art.json"])
     throw Error("Błędna suma oprawy lądu");
   const art = JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt;
+  // KI crystal nodes were bound to the Nexus machine crystal on every land. Outside Nexus they
+  // show a natural crystal cluster; the node itself (position, kind) is unchanged.
+  if (info.id !== "nexus")
+    for (const r of art.resources)
+      if (r.binding === "object.crystal") r.binding = "object.dungeon-kit.glowing-crystal-cluster";
   if (
     loader.worldSha256 !== info.worldSha256 ||
     source.geometry.width !== info.width ||
@@ -345,6 +350,11 @@ export async function prepareSuperior(options: {
       const value = JSON.parse(text) as { format: string; objects: ArtObject[] };
       if (value.format !== "superior-art-overlay-1" || !Array.isArray(value.objects))
         throw Error("Błędne dekoracje");
+      // The generator scattered Nexus machine crystals through Verdantia's forests as decoration;
+      // show a mossy forest boulder there instead. Positions and collision stay as authored.
+      if (info.id === "verdant")
+        for (const o of value.objects)
+          if (o.binding === "object.crystal") o.binding = "object.biome-forest.mossy-boulder";
       artCache.set(id, value.objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
       return value.objects;

@@ -188,6 +188,21 @@ for (const [race, worldId, actor] of [
     await expect(canvas).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
     // Back to the same reachable spot beside the creature for a real attack, then the defeat.
     await command({ type: "move", x: enemy.x + side.x, y: enemy.y + side.y });
+    // Targeting is refused (and stops the walk) while still inside the safe town.
+    await expect
+      .poll(
+        () =>
+          canvas.evaluate(
+            (el, p) =>
+              Math.hypot(
+                Number((el as HTMLElement).dataset["playerX"]) - p.x,
+                Number((el as HTMLElement).dataset["playerY"]) - p.y,
+              ),
+            { x: enemy.x + side.x, y: enemy.y + side.y },
+          ),
+        { timeout: 180000 },
+      )
+      .toBeLessThan(140);
     await command({ type: "target", id: enemy.id });
     await command({ type: "ability", ability: "R" });
     await expect
