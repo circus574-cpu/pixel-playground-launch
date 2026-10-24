@@ -74,3 +74,76 @@ na osobnej gałęzi; [zakres i kontrole](ARCHITEKTURA-I-TESTY.md#pełna-planeta-
 WORLD-01/GAME-03 pozostają otwarte dla runtime: konieczne są importer/streaming,
 format terenu dla TypeScript, wyspy/podróże, migracje, grafika i odbiór rozgrywki.
 Nie mylić gotowej generacji danych z działającym w grze światem.
+
+## Przekazanie Superior v2 — zatrzymanie na polecenie właściciela 24.10.2026
+
+Prace zatrzymane; nie kontynuować bez nowego zlecenia. Gałąź `feature/superior-geometry-v2`,
+baza `main` `96458e3`, zapisany prototyp geometrii `f9e765d`. Nie scalać ani publikować.
+Gra nadal używa Superior v1. Nowa geometria i krajobraz NIE są wdrożone w Phaser.
+
+### Co zostało zabezpieczone
+
+- Prototyp i wyniki pomiarów: `public/game/worlds/superior-v2-prototype/`;
+  obrys lądów 44,9982828678%, cztery kontynenty i sześć wysp.
+- Generator krajobrazu: `scripts/worldgen/v2/landscape.py` — kod roboczy, bez odbioru.
+- [Archiwum krajobrazu](../deliveries/superior-v2-checkpoint-20261024/landscape-work-in-progress.tar.gz)
+  zawiera komplet lokalnych eksportów dziesięciu lądów i kontekst generatora.
+  [Manifest checkpointu](../deliveries/superior-v2-checkpoint-20261024/checkpoint.json)
+  zawiera SHA-256, rozmiar, raporty regionów i jawne braki.
+- 6702 powierzchniowe sloty spawnów, 319531 obiektów; zachowano 6062 stare sloty,
+  dodano 640 slotów i 48000 dekoracji. To dane eksportu, nie dowód grywalności.
+- Inwentaryzacja 152 historycznych podziemi i projekt 18 nowych (w tym 4 labirynty)
+  są w prototypie. Nowe wejścia w krajobrazie nie mają jeszcze grywalnych wnętrz.
+
+### Odtworzenie bez zależności od poprzedniej maszyny
+
+Pobrać tę gałąź, przeczytać AGENTS.md, INDEX.md oraz SWIAT-I-MIASTA.md.
+Zweryfikować SHA-256 archiwum względem checkpoint.json, następnie rozpakować
+`tar -xzf deliveries/superior-v2-checkpoint-20261024/landscape-work-in-progress.tar.gz -C /wybrany/katalog`.
+Powstaną `superior-v2-runtime/` i `superior-v2-context.json`. Nie rozpakowywać na v1.
+Generator wymaga Python, NumPy, SciPy i Pillow oraz plików prototypu z tej gałęzi.
+Przykład regeneracji do NOWEGO pustego katalogu:
+`python3 scripts/worldgen/v2/landscape.py --output /tmp/superior-v2-regenerated --context /wybrany/katalog/superior-v2-context.json`.
+Nie nadpisywać archiwum ani istniejących regionów. Zabezpieczony eksport powstał
+w dwóch wywołaniach (--features), dlatego nie ma zbiorczego index.json;
+generator zapisuje go tylko przy wygenerowaniu wszystkich dziesięciu lądów naraz.
+
+### Kolejność kontynuacji i znane blokady
+
+1. Sprawdzić generator i eksport. Przygotować zbiorczy indeks runtime i manifest art;
+   nie aktywować niekompletnych danych. Zweryfikować drogi, biomy, nowe spawny,
+   punkty interakcji i osiągalność na docelowej siatce 16 jednostek.
+2. Naprawić limit decodeRuns: obecne 16 mln komórek jest mniejsze niż nawigacja
+   Verdantii (4844 × 3660). Zmierzyć pamięć telefonu, nie usuwać limitu bez zastępstwa.
+3. Poprawić minimapy: paleta podglądu jest jeszcze wspólna dla ras, a SVG odwołuje
+   się do zewnętrznego minimap.webp (może nie działać przy ładowaniu jako obraz).
+   Sprawdzić istniejące wiązania roślin z prostokątnym tłem przed użyciem nowych dekoracji.
+4. Synchronizować atlas i globus z geometrią: obsłużyć wiele pierścieni i szew
+   długości geograficznej w atlasRegions, hitboxach i build_globe_textures.py.
+   Sam podgląd audit.html nie jest dowodem działania gry.
+5. Przygotować wersjonowany katalog runtime v2, wspólny indeks dla superiorRuntime
+   i superiorCharacters. Zachować streaming; nie ładować wszystkich dekoracji.
+6. Wdrożyć kontrolowaną migrację SuperiorSaveStore: kopia oryginalnych bajtów,
+   ochrona konfliktu kart, translacje z raportów krajobrazu (wielokrotności 32),
+   finalna kontrola kolizji/wody i punktów odrodzenia. Nie używać ułamkowych
+   translacji wcześniejszego prototypu. Zachować namespace i postacie, ekwipunek,
+   poziomy, zadania i identyfikatory spawnów. Nowsza decyzja właściciela o zachowaniu
+   zapisów zastępuje historyczną zgodę na reset. Przejrzeć limity współrzędnych 65536.
+7. Podziemia: wdrożyć maksymalnie 20 dużych lokacji, maksymalnie 5 labiryntów.
+   Projekt ma 18. Instancje logiczne są rekomendacją; fizyczna ciągłość pod oceanem
+   nie została zatwierdzona jako kanon. Stare dane pozostają archiwalne.
+8. Pełne typecheck, Vitest, lint, build, dokumentacja, testy migracji, nawigacji,
+   powierzchni sferycznej, Canvas i Software WebGL desktop/mobile, pomiary pamięci
+   i zrzuty z uruchomionej gry. Nie osłabiać testów.
+
+### Wyniki i ograniczenia dowodów
+
+Przed krajobrazem: TypeScript PASS, Vitest 365/365, lint bez błędów (9 ostrzeżeń),
+walidator geometrii PASS. Nie są to wyniki końcowej integracji v2. Generacja krajobrazu
+ukończyła dziesięć regionów z wbudowanymi asercjami osiągalności, ale nie wykonano
+odbioru przeglądarkowego ani pełnej regresji tego eksportu. Brak PR i Actions dla
+tego checkpointu. Nie zmieniono produkcji, GPU, /test ani danych graczy.
+
+Osobna wcześniejsza praca ARPG: gałąź `feature/action-combat-stage-a`, ostatni
+commit `1b85569`; pozostał czerwony test manualnego ataku touch Software WebGL.
+Nie włączać jej przypadkowo do geometrii.

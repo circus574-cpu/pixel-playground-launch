@@ -106,3 +106,11 @@ Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wc
 - Na bazie: TypeScript i Vitest 365/365. To nie odbiór wdrożonego świata v2.
 - Właściciel następnie zlecił pominięcie osobnej bramki audytu i rozpoczęcie
   krajobrazu z istniejącymi grafikami. Dalsza integracja trwa; v1 jest zachowany.
+
+## Zatrzymanie i zapis prac Superior v2
+
+Na polecenie właściciela zatrzymano implementację. Zabezpieczono generator krajobrazu
+i archiwum dziesięciu eksportów z kontekstem oraz SHA-256. Archiwum porównano bajtowo
+z lokalnymi plikami źródłowymi. Instrukcja odtworzenia, znane blokady i kolejność
+kontynuacji znajdują się w [planie zadań](../../PLAN-I-ZADANIA.md#przekazanie-superior-v2--zatrzymanie-na-polecenie-właściciela-24102026).
+Nie aktywowano v2, nie scalono ani nie opublikowano gry.
