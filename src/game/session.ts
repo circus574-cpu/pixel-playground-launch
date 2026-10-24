@@ -1,3 +1,6 @@
+import { CombatClock } from "./combat/clock";
+import { BasicCombat, BASIC_PROTOTYPE, inBasicHitbox, type CombatInput } from "./combat/basic";
+import { DamageLedger } from "./combat/damage";
 import { isValidNick } from "./nickname";
 import { z } from "zod";
 import { WORLDS, worldObstacles } from "./world/worlds";
@@ -169,6 +172,7 @@ export type GameEvent = Point & {
   crit?: boolean;
 };
 export type Command =
+  | { type: "combat"; input: CombatInput }
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
   | { type: "ability"; ability: Ability }
@@ -406,6 +410,7 @@ export class SaveStore {
 }
 
 export type SessionOptions = {
+  combatMode?: "legacy" | "manual-prototype";
   random?: () => number;
   /** Explicit alternate map, used by deterministic CPU simulation and future world loaders. */
   world?: WorldDefinition;
@@ -425,6 +430,20 @@ export const DAY_MS = 480000;
 export const NIGHT_FROM = 300000;
 
 export class GameSession implements MonsterHost {
+  readonly combatMode: "legacy" | "manual-prototype";
+  readonly combatClock = new CombatClock();
+  readonly basicCombat = new BasicCombat();
+  readonly damageLedger = new DamageLedger();
+  basicTarget: Foe | undefined;
+  resolvingBasic = false;
+  private moveInput: Point = { x: 0, y: 0 };
+  private stepping = false;
+  private previousBasicId = "";
+  resetCombatInput() {
+    this.basicCombat.cancel();
+    this.moveInput = { x: 0, y: 0 };
+    this.combatClock.reset();
+  }
   player: Player;
   nav: Navigation;
   readonly enemyNavigation: Navigation | undefined;
@@ -487,6 +506,10 @@ export class GameSession implements MonsterHost {
     this.rng = options.random ?? mulberry(Date.now() & 0x7fffffff);
     const restored = saves?.load();
     this.player = restored ?? newPlayer(race);
+    this.combatMode =
+      options.combatMode === "manual-prototype" && this.player.race === "planetary"
+        ? "manual-prototype"
+        : "legacy";
     this.world = options.world ?? WORLDS[this.player.continent];
     if (options.world && !restored) Object.assign(this.player, this.world.spawn);
     this.outsideNav =
@@ -844,6 +867,15 @@ export class GameSession implements MonsterHost {
   }
   command(c: Command) {
     const p = this.player;
+    if (c.type === "combat") {
+      if (this.combatMode === "manual-prototype") {
+        if (this.paused || this.dialogue || this.depotOpen || p.dead) this.resetCombatInput();
+        else this.basicCombat.enqueue(c.input);
+      }
+      return;
+    }
+    if (["pause", "cancel", "interact", "enter", "exit", "chest"].includes(c.type))
+      this.resetCombatInput();
     if (c.type === "pause") {
       this.paused = c.value;
       if (c.value) {
@@ -1115,9 +1147,14 @@ export class GameSession implements MonsterHost {
       this.pendingNpc = null;
       this.pendingLoot = null;
       this.targetId = c.id;
-      this.autoAttack = true;
+      this.autoAttack = this.combatMode === "legacy";
       this.pathIn = 0;
-      this.say("Cel: " + enemy.m.def.name + ". Autoatak aktywny.");
+      if (!this.autoAttack) this.route = [];
+      this.say(
+        "Cel: " +
+          enemy.m.def.name +
+          (this.autoAttack ? ". Autoatak aktywny." : ". Atakuj ręcznie."),
+      );
       return;
     }
     if (c.type === "interact") {
@@ -1182,6 +1219,11 @@ export class GameSession implements MonsterHost {
   /** Basic attack, tree abilities and the potion. */
   private use(id: Ability) {
     const p = this.player;
+    if (this.combatMode === "manual-prototype" && id === "R") {
+      this.basicCombat.enqueue({ kind: "press" });
+      return;
+    }
+    if (this.combatMode === "manual-prototype" && id !== "potion") this.basicCombat.cancel();
     if (this.fx.cannotAct) return this.say("Nie możesz działać.");
     if (id === "potion") {
       if (this.potionIn > 0)
@@ -1211,6 +1253,11 @@ export class GameSession implements MonsterHost {
     if (id !== "R") this.flush();
   }
   manual(dx: number, dy: number, dt: number) {
+    if (!Number.isFinite(dx) || !Number.isFinite(dy)) return;
+    if (this.combatMode === "manual-prototype" && !this.stepping) {
+      this.moveInput = { x: dx, y: dy };
+      return;
+    }
     if (this.paused || this.dialogue || this.depotOpen || this.player.dead || this.fx.cannotAct)
       return;
     this.clearDestinations();
@@ -1238,6 +1285,80 @@ export class GameSession implements MonsterHost {
     }
   }
   tick(milliseconds: number) {
+    if (this.combatMode === "legacy") {
+      this.stepLegacy(milliseconds);
+      return;
+    }
+    if (this.dialogue || this.depotOpen || this.paused) {
+      this.resetCombatInput();
+      return;
+    }
+    this.combatClock.advance(milliseconds, (dt) => {
+      this.stepping = true;
+      try {
+        if (this.dialogue || this.depotOpen || this.paused) {
+          this.resetCombatInput();
+          return;
+        }
+        if (Math.hypot(this.moveInput.x, this.moveInput.y) > 0.12)
+          this.manual(this.moveInput.x, this.moveInput.y, dt);
+        if (this.player.dead) this.basicCombat.cancel();
+        this.stepLegacy(dt);
+        if (this.player.dead || this.fx.cannotAct || (this.safe && !this.trainingTarget)) {
+          this.basicCombat.cancel();
+          return;
+        }
+        this.basicCombat.step(dt, {
+          canStart: () =>
+            !this.kit.abilities()[0]!.reason &&
+            this.kit.abilities()[0]!.remaining <= BASIC_PROTOTYPE.windupMs,
+          interval: () => this.kit.stats.attackInterval,
+          facing: () => this.facing,
+          started: (id, facing) => {
+            this.damageLedger.retire(this.previousBasicId, "player");
+            this.previousBasicId = id;
+            this.emit({
+              type: "attack",
+              ...this.player,
+              ability: "R",
+              to: { x: this.player.x + facing.x * 78, y: this.player.y + facing.y * 78 },
+            });
+          },
+          hit: (id, facing) => {
+            const candidates = this.monsters.targetable.filter(
+              (e) =>
+                e.mode !== "return" &&
+                inBasicHitbox(this.player, e, facing, this.kit.stats.range) &&
+                this.nav.visible(this.player, e),
+            );
+            candidates.sort(
+              (a, b) =>
+                distance(this.player, a) - distance(this.player, b) ||
+                (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+            );
+            const target =
+              this.trainingTarget &&
+              inBasicHitbox(this.player, this.trainingTarget, facing, this.kit.stats.range) &&
+              this.nav.visible(this.player, this.trainingTarget)
+                ? this.trainingTarget
+                : (candidates.find((e) => e.id === this.targetId) ?? candidates[0]);
+            if (!target) return false;
+            this.basicTarget = target;
+            this.resolvingBasic = true;
+            try {
+              return this.kit.use("R").ok;
+            } finally {
+              this.basicTarget = undefined;
+              this.resolvingBasic = false;
+            }
+          },
+        });
+      } finally {
+        this.stepping = false;
+      }
+    });
+  }
+  private stepLegacy(milliseconds: number) {
     const dt = Math.max(0, Math.min(100, milliseconds));
     const wasMoving = this.moving;
     this.moving = false;
@@ -1432,6 +1553,9 @@ export class GameSession implements MonsterHost {
     const target = this.target;
     const abilities: AbilityInfo[] = this.kit.abilities();
     return {
+      combatMode: this.combatMode,
+      combatPhase: this.basicCombat.phase,
+      combatDroppedMs: this.combatClock.droppedMs,
       x: this.player.x,
       y: this.player.y,
       player: structuredClone(this.player),
@@ -1565,7 +1689,7 @@ function makePort(s: GameSession): KitPort {
       (s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
         (e) => distance(e, c) <= r,
       ),
-    target: () => s.trainingTarget ?? s.target,
+    target: () => s.basicTarget ?? s.trainingTarget ?? s.target,
     visible: (a, b) => s.nav.visible(a, b),
     hurtFoe: (foe, raw, hit: Hit) => {
       if (foe.id === "training-dummy") return s.hitTraining(raw, hit);
@@ -1573,7 +1697,10 @@ function makePort(s: GameSession): KitPort {
         s.emit({ type: "hit", x: foe.x, y: foe.y, target: foe.id, text: "Pudło" });
         return 0;
       }
-      const dealt = s.monsters.damage(foe as Enemy, raw, hit);
+      const apply = () => s.monsters.damage(foe as Enemy, raw, hit);
+      const dealt = s.resolvingBasic
+        ? s.damageLedger.resolve(s.basicCombat.actionId, "player", foe.id, apply)
+        : apply();
       if (!hit.indirect && dealt > 0) s.combatIn = 4500;
       return dealt;
     },
@@ -1604,6 +1731,7 @@ function makePort(s: GameSession): KitPort {
       return next;
     },
     emit: (e) => {
+      if (s.resolvingBasic && e.type === "attack") return;
       if (e.type === "attack" && e.to) {
         const d = distance(s.player, e.to);
         if (d > 0) s.facing = { x: (e.to.x - s.player.x) / d, y: (e.to.y - s.player.y) / d };
@@ -1634,6 +1762,9 @@ export function initialView(player?: Player): GameViewState {
   const s = stats(p);
   return {
     ...p,
+    combatMode: "legacy",
+    combatPhase: "ready",
+    combatDroppedMs: 0,
     player: p,
     stats: {
       maxHp: s.maxHp,
