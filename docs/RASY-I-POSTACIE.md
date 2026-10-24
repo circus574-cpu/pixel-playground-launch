@@ -84,3 +84,9 @@ Trafienie zachowuje pierwszeństwo. Zablokowana nim animacja ataku/zdolności mo
 poczekać do 500 ms na koniec reakcji. Kolejka mieści jedną akcję, preferuje skill
 przed podstawowym atakiem i odrzuca stare wpisy. Śmierć/odrodzenie ją czyszczą.
 To wyłącznie prezentacja: nie opóźnia ani nie powtarza obrażeń, leczenia lub kosztu KI.
+
+## Integracja assetów i działania bohaterów — kontrola 24.10.2026
+
+W commitach `3e373e2bccb0a069383ff51205fb6c6c5adf9bf4` i `adab35004f71fc3ad8bd9aadb00560a73dd7d1e2` zaktualizowano paczki `hero-sage-painted` (1.0.1), w tym klatki skierowane w prawo z odbicia czystych klatek w lewo, oraz pomocniczy blending teł. Dodatkowo wprowadzono paczki napraw trzech potworów Verdantii (1.0.2) ze zmiękczonymi krawędziami klatek. To **dowód obecności plików i zmian w kodzie**, nie samoistny dowód akceptacji grafiki i animacji przez właściciela.
+
+Commit `19a28569d96a45da570a1b7701533cb430e012bd` modyfikuje `e2e/hero-lifecycle.spec.ts` i `superiorRuntime.ts`; weryfikację zachowania na finalnym SHA należy ponowić. Historyczne `179/416` Planetarnych z dokumentacji 21.10 nie jest aktualnym, potwierdzonym stanem i nie wolno go kopiować do bieżących raportów bez sprawdzenia obecnego manifestu oraz animacji w runtime.
