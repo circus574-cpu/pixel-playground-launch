@@ -58,3 +58,13 @@
 - Zniknął osobny panel podróży; wybór lądu jest częścią istniejącego atlasu 2D/3D. Miasta, drzwi, NPC i usługi zachowane.
 - Zmiany HUD ograniczone do przekazania bieżącego lądu i callbacku atlasu. Nie zmieniano joysticka ani układu HP/KI.
 - Stare źródłowe układy map pozostają szablonami miast i materiałem źródłowym; nie są wybierane jako mapy gry.
+
+Kod: `647be05c769d06f76163c5d55a435259c17cbef9`. Kontrole: pełny TypeScript,
+338/338 testów jednostkowych, walidacja zasobów, lint (0 błędów, 9 istniejących
+ostrzeżeń) i build. Canvas: 7/7 testów Superior, w tym 10 lądów przez atlas 2D,
+depozyt po odświeżeniu, walka mobilna i start/wznowienie każdej rasy bez flagi.
+Raporty: `qa/superior-only/`. Testów korzystających z wycofanych map i starego
+formatu zapisów nie zaliczono ponownie; pełna historyczna regresja nie ma tutaj
+statusu PASS. Nie scalono do main ani nie opublikowano gry.
+
+Software WebGL: **7/7** na tym samym kodzie `647be05`, w tym podróże przez globus 3D, depozyt, walka i cztery rasy. Czas lokalny: 6,4 min. Headless Software WebGL nie zastępuje pomiaru fizycznego telefonu.
