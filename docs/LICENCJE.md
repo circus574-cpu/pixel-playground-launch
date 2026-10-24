@@ -389,3 +389,8 @@ Pełne rekordy w JSON/CSV wskazanym na początku tego dokumentu.
 | node_modules/stackback                             | 0.0.2   | MIT               | no immutable gitHead/GitHub source in version metadata                                                                                                     |
 
 <!-- LICENSE-SUMMARY:END -->
+
+
+## Nowe dostawy zasobów — kontrola 24.10.2026
+
+Commity z 24.10 obejmują nowe lub poprawione paczki WebP/JSON (`hero-sage-painted`, trzech przeciwników Verdantii) i większą liczbę manifestów `deliveries/`, m.in. miasto Aetherii oraz biomy. Sam fakt obecności manifestu i pliku w Git **nie jest dowodem komercyjnego prawa do assetu**. Przed użyciem produkcyjnym dla każdej dostawy należy prześledzić `provenance.json`, źródło modelu, licencję bazową oraz warunki referencji i elementów zależnych. Nie nadawać automatycznie statusu zatwierdzenia wszystkim plikom z dużego commita `96458e38`; dokładna lista i status integracji muszą wynikać z aktywnego manifestu importu oraz rejestru licencji. Brak udokumentowanego tutaj niezależnego zamknięcia pełnej kontroli praw.
