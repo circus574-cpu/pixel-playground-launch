@@ -35,6 +35,8 @@ export type RenderSource = {
   release: (scene: Phaser.Scene, owner: string) => void;
   error: (error: unknown) => void;
   currentDoors: () => { id: string; name: string; door: Point }[];
+  /** True for ground inside a settlement, where the stamped street grid is not drawn. */
+  paveOver?: (x: number, y: number) => boolean;
 };
 const CHUNK = 2048;
 /** Ground canvas pixels per chunk side: 2 world units per pixel keeps painted detail crisp on phones. */
@@ -217,6 +219,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     const biomes = new Set<number>();
     for (let i = 0; i < flags.length; i++) {
       const land = !!(flags[i]! & 16);
+      // Inside a settlement the generator stamped its ruled street grid into the biome map;
+      // streets are painted as lanes instead, so those cells read as the land's grass.
+      if (land && source.paveOver?.(data.x + (i % cols) * 32, data.y + Math.floor(i / cols) * 32))
+        biome[i] = 0;
       if (land) biomes.add(biome[i]!);
       const hex = land
         ? tone(source.art.groundByBiome[biome[i]!] ?? source.art.groundByBiome[0]!)
@@ -310,24 +316,24 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       ctx.lineJoin = "round";
       ctx.stroke();
     };
-    for (const road of source.roads) {
+    const nearby = source.roads.filter((road) => {
       const xs = road.points.map((p) => p[0]),
         ys = road.points.map((p) => p[1]);
-      if (
+      return !(
         Math.max(...xs) + road.width < data.x ||
         Math.min(...xs) - road.width > data.x + CHUNK ||
         Math.max(...ys) + road.width < data.y ||
         Math.min(...ys) - road.width > data.y + CHUNK
-      )
-        continue;
-      // A soft shadowed verge, then the painted path texture: no flat beige band.
-      ctx.save();
-      ctx.shadowColor = "rgba(40, 32, 18, 0.55)";
-      ctx.shadowBlur = 10;
-      strokeRoad(road.points, road.width + 12, "rgba(92, 78, 52, 0.55)");
-      ctx.restore();
+      );
+    });
+    // Every soft verge first, then every paved surface, so lanes and plazas join seamlessly.
+    ctx.save();
+    ctx.shadowColor = "rgba(40, 32, 18, 0.55)";
+    ctx.shadowBlur = 10;
+    for (const road of nearby) strokeRoad(road.points, road.width + 12, "rgba(92, 78, 52, 0.55)");
+    ctx.restore();
+    for (const road of nearby)
       strokeRoad(road.points, road.width, road.kind === "trail" ? trail : path);
-    }
     for (const road of source.cityRoads) {
       // Paved streets: painted stone with a soft shadowed kerb instead of flat rectangles.
       ctx.save();

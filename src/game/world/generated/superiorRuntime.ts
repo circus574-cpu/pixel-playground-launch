@@ -131,6 +131,75 @@ export async function prepareSuperior(options: {
     throw Error("Nieprawidłowy ląd");
   const offset = source.sourceOffset ?? { x: 0, y: 0 };
   const shift = (p: Point): Point => ({ x: p.x + offset.x, y: p.y + offset.y });
+  /**
+   * Generator routes are right-angled polylines; drawn as-is every road looks ruled. Corner
+   * cutting (Chaikin) turns them into natural curves. The capital's own ruled city paths give
+   * way to the winding lanes below.
+   */
+  const naturalRoads = () => {
+    const capital = source.settlements.find((t) => t.id.endsWith("-capital"));
+    const inCapital = (p: [number, number]) =>
+      !!capital &&
+      p[0] >= capital.bounds.x &&
+      p[0] <= capital.bounds.x + capital.bounds.width &&
+      p[1] >= capital.bounds.y &&
+      p[1] <= capital.bounds.y + capital.bounds.height;
+    return source.roads
+      .filter((r) => !(r.kind === "city-path" && r.points.some(inCapital)))
+      .map((r) => {
+        let points = r.points;
+        for (let pass = 0; pass < 4 && points.length > 2; pass++) {
+          const next: [number, number][] = [points[0]!];
+          for (let i = 0; i < points.length - 1; i++) {
+            const [ax, ay] = points[i]!,
+              [bx, by] = points[i + 1]!;
+            next.push([ax * 0.75 + bx * 0.25, ay * 0.75 + by * 0.25]);
+            next.push([ax * 0.25 + bx * 0.75, ay * 0.25 + by * 0.75]);
+          }
+          next.push(points.at(-1)!);
+          points = next;
+        }
+        return { ...r, points };
+      });
+  };
+  /** Organic capital streets: an irregular plaza around the centrepiece and a lane to every door. */
+  const capitalStreets = () => {
+    const doors = (source.acceptedSource?.city?.buildings ?? []).map((b) => shift(b.door));
+    if (!doors.length) return [];
+    const fountain = art.acceptedCityScenery?.find((o) => o.id.includes("fountain"));
+    const centre = fountain
+      ? { x: fountain.x, y: fountain.y }
+      : {
+          x: doors.reduce((t, d) => t + d.x, 0) / doors.length,
+          y: doors.reduce((t, d) => t + d.y, 0) / doors.length,
+        };
+    const wobble = (i: number) => Math.sin(i * 12.9898 + centre.x * 0.001) * 0.5 + 0.5;
+    const streets: { points: [number, number][]; width: number; kind: string }[] = [];
+    // Plaza: a closed, uneven ring stroked wide enough to pave its whole interior.
+    const plaza: [number, number][] = [];
+    for (let i = 0; i <= 24; i++) {
+      const a = (i / 24) * Math.PI * 2,
+        r = 150 + wobble(i % 24) * 70;
+      plaza.push([centre.x + Math.cos(a) * r, centre.y + Math.sin(a) * r * 0.8]);
+    }
+    streets.push({ points: plaza, width: 340, kind: "street" });
+    doors.forEach((door, i) => {
+      const dx = door.x - centre.x,
+        dy = door.y - centre.y,
+        length = Math.hypot(dx, dy) || 1;
+      // Bend each lane to one side so none runs along a ruler.
+      const bend = (wobble(i + 7) - 0.5) * 0.6 * length;
+      const nx = -dy / length,
+        ny = dx / length;
+      const points: [number, number][] = [];
+      for (let t = 0; t <= 1.0001; t += 0.125) {
+        const curve = Math.sin(t * Math.PI) * bend;
+        points.push([centre.x + dx * t + nx * curve, centre.y + dy * t + ny * curve]);
+      }
+      streets.push({ points, width: 110 + wobble(i + 3) * 40, kind: "street" });
+    });
+    return streets;
+  };
   const base = structuredClone(WORLDS[info.affinity]);
   const cities = new Map<
     string,
@@ -543,13 +612,19 @@ export async function prepareSuperior(options: {
       return renderSuperior(scene, {
         loader,
         art,
-        roads: source.roads,
-        cityRoads: (source.acceptedSource?.city?.roads ?? []).map((r) => ({ ...r, ...shift(r) })),
+        // The capital's ruled street grid is replaced by a paved plaza and winding lanes to each
+        // door. Presentation only: movement and collision never read roads.
+        roads: [...naturalRoads(), ...capitalStreets()],
+        cityRoads: [],
         readArt,
         acquire,
         release,
         error,
         currentDoors: () => [...(world.city?.buildings ?? [])],
+        paveOver: (x, y) =>
+          source.settlements.some(
+            ({ bounds: b }) => x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height,
+          ),
       });
     },
     afterTick() {
