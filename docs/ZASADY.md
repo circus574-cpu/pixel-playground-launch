@@ -68,3 +68,7 @@ Pełny TypeScript aplikacji/e2e/tools, właściwe testy, walidacja zasobów, lin
 Zmiana grafiki/gameplay wymaga także regresji Canvas/Software WebGL na końcowym SHA.
 Fizyczny telefon, sprzętowe WebGL, odbiór artystyczny oraz prawa do zasobów są
 osobnymi kontrolami. Nie zastępować ich wynikiem headless Chromium.
+
+## Ochrona aktualnego stanu — 24.10.2026
+
+Po zatwierdzonej zmianie jedynym domyślnym światem gry jest Superior. Nie reaktywować dawnych map startowych ani migracji starych postaci bez nowej decyzji właściciela; przechowywać historyczne bajty zapisów i chronić nowsze formaty. Po zmianach świata lub assetów wymagany jest audyt kolizji, przejść, zapisu i gry na urządzeniach mobilnych. Utrzymać rozdział: commit ≠ test ≠ merge ≠ wdrożenie ≠ odbiór. Nie uruchamiać GPU, nie scalać PR ani nie publikować bez osobnej zgody. Dokumentację dopisywać do istniejących tematów i dziennego dziennika.
