@@ -149,3 +149,49 @@ describe("Stage A session integration", () => {
     expect(JSON.stringify([...data.values()])).not.toContain("actionId");
   });
 });
+
+it("manual arena preserves training services and gives no kill rewards", () => {
+  const { game } = fixture();
+  game.world.city = WORLDS.verdant.city!;
+  game.player.interior = "arena";
+  Object.assign(game.player, { x: 655, y: 325 });
+  game.facing = { x: -55 / Math.hypot(55, 25), y: -25 / Math.hypot(55, 25) };
+  game.command({ type: "training", action: "start" });
+  const gold = game.player.gold,
+    xp = game.player.xp;
+  hold(game);
+  run(game, 2500);
+  expect(game.training.hits).toBeGreaterThan(1);
+  expect(game.training.damage).toBeGreaterThan(0);
+  expect(game.player.gold).toBe(gold);
+  expect(game.player.xp).toBe(xp);
+});
+
+it("manual death/reward resolves once with a logical hit identity", () => {
+  const { game, foe } = fixture();
+  foe.hp = 1;
+  game.player.quests.boars = "active";
+  const kills = game.player.kills;
+  hold(game);
+  run(game, 1000);
+  expect(game.player.kills).toBe(kills + 1);
+  expect(game.events.filter((e) => e.type === "death" && e.target === foe.id)).toHaveLength(1);
+  const hits = game.events.filter((e) => e.type === "hit" && e.target === foe.id);
+  expect(hits).toHaveLength(1);
+  expect(hits[0]!.hitId).toBe("player:basic:1:target");
+  expect(hits[0]!.source).toBe("player");
+});
+
+it("existing skills queue on the simulation boundary and pause discards them", () => {
+  const { game } = fixture();
+  game.kit.learn("A1");
+  game.command({ type: "ability", ability: "A1" });
+  expect(game.player.ki).toBe(game.kit.stats.maxKi);
+  game.command({ type: "pause", value: true });
+  game.command({ type: "pause", value: false });
+  game.tick(1000 / 60);
+  expect(game.player.ki).toBe(game.kit.stats.maxKi);
+  game.command({ type: "ability", ability: "A1" });
+  game.tick(1000 / 60);
+  expect(game.player.ki).toBeLessThan(game.kit.stats.maxKi);
+});

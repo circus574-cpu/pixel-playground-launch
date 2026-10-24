@@ -82,6 +82,13 @@ export function mountKileGends(
     new GameSession(
       new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
       options?.race,
+      {
+        combatMode:
+          location.pathname === "/scripts/playtest.html" &&
+          new URLSearchParams(location.search).get("ki-combat") === "manual"
+            ? "manual-prototype"
+            : "legacy",
+      },
     );
   const world = session.world;
   let worldLabels = readUiPreferences().worldLabels;
@@ -94,6 +101,7 @@ export function mountKileGends(
   const assets = options?.runtime?.assets ?? worldAssets(world.id, preview);
   const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
+    private lastCombatFrame: number | undefined;
     private actors: Actor[] = [];
     private updateVisibility?: (player: Point) => void;
     private runtimeVisible: ((visible: boolean) => void) | undefined;
@@ -277,11 +285,13 @@ export function mountKileGends(
       parent.addEventListener("ki:labels", labels);
       const command = (event: Event) => {
         session.command((event as CustomEvent<Command>).detail);
-        this.resetStick();
+        if ((event as CustomEvent<Command>).detail.type !== "combat") this.resetStick();
         this.report();
       };
       parent.addEventListener("ki:command", command);
       const save = () => {
+        this.lastCombatFrame = undefined;
+        session.resetCombatInput();
         session.flush();
         this.resetStick();
         this.input.keyboard?.resetKeys();
@@ -312,7 +322,10 @@ export function mountKileGends(
         const slot = session.kit.abilities().find((a) => a.key !== "" && a.key === event.key);
         const map: Record<string, Command> = {
           ...(slot ? { [event.key]: { type: "ability", ability: slot.id } as Command } : {}),
-          " ": { type: "ability", ability: "R" },
+          " ":
+            session.combatMode === "manual-prototype"
+              ? { type: "combat", input: { kind: "hold", value: true } }
+              : { type: "ability", ability: "R" },
           q: { type: "ability", ability: "potion" },
           e:
             session.player.interior === "depot" &&
@@ -332,6 +345,16 @@ export function mountKileGends(
           this.report();
         }
       });
+      this.input.keyboard?.on("keyup", (event: KeyboardEvent) => {
+        if (event.key === " ")
+          session.command({ type: "combat", input: { kind: "hold", value: false } });
+      });
+      const blurCombat = () => {
+        this.lastCombatFrame = undefined;
+        session.resetCombatInput();
+      };
+      window.addEventListener("blur", blurCombat);
+      releaseScene.push(() => window.removeEventListener("blur", blurCombat));
       this.input.addPointer(2);
       this.stickBase = this.add
         .circle(0, 0, 48, 0x183c48, 0.5)
@@ -379,6 +402,7 @@ export function mountKileGends(
         this.report();
       };
       const focus = () => {
+        this.lastCombatFrame = undefined;
         this.suspended = false;
         this.resetStick();
         this.input.keyboard?.resetKeys();
@@ -831,16 +855,49 @@ export function mountKileGends(
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
       parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
+      parent.dataset["combatMode"] = session.combatMode;
+      parent.dataset["combatPhase"] = session.basicCombat.phase;
+      parent.dataset["combatDroppedMs"] = String(session.combatClock.droppedMs);
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
     }
     override update(time: number, delta: number) {
       if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
-      const dt = Math.min(delta, 100);
-      if (!session.paused && !session.dialogue) this.animationTime += dt;
+      // Phaser's FPS limiter carries a remainder in delta. Use frame timestamps so
+      // that remainder is not counted twice, and smoothing cannot hide overload.
+      const dt =
+        session.combatMode === "manual-prototype"
+          ? this.lastCombatFrame === undefined
+            ? 0
+            : Math.max(0, time - this.lastCombatFrame)
+          : Math.min(delta, 100);
+      this.lastCombatFrame = time;
+      if (!session.paused && !session.dialogue && session.combatMode === "legacy")
+        this.animationTime += dt;
+      const movementInput = () => {
+        const focused = document.activeElement;
+        const typing =
+          focused instanceof HTMLElement &&
+          Boolean(focused.closest("input,textarea,button,[role=dialog]"));
+        const k = typing ? undefined : this.keys;
+        const dx =
+          Number(Boolean(k?.["D"]?.isDown || k?.["RIGHT"]?.isDown)) -
+          Number(Boolean(k?.["A"]?.isDown || k?.["LEFT"]?.isDown)) +
+          this.joystick.x / 48;
+        const dy =
+          Number(Boolean(k?.["S"]?.isDown || k?.["DOWN"]?.isDown)) -
+          Number(Boolean(k?.["W"]?.isDown || k?.["UP"]?.isDown)) +
+          this.joystick.y / 48;
+        return { dx, dy };
+      };
+      if (session.combatMode === "manual-prototype") {
+        const { dx, dy } = movementInput();
+        session.manual(dx, dy, dt);
+      }
       options?.runtime?.beforeTick?.(dt);
       session.tick(dt);
+      if (session.combatMode === "manual-prototype") this.animationTime = session.nowMs;
       options?.runtime?.afterTick?.(dt);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();
@@ -884,20 +941,10 @@ export function mountKileGends(
             actor.name.setText(npc.name);
           }
         }
-      const focused = document.activeElement;
-      const typing =
-        focused instanceof HTMLElement &&
-        Boolean(focused.closest("input,textarea,button,[role=dialog]"));
-      const k = typing ? undefined : this.keys;
-      const dx =
-        Number(Boolean(k?.["D"]?.isDown || k?.["RIGHT"]?.isDown)) -
-        Number(Boolean(k?.["A"]?.isDown || k?.["LEFT"]?.isDown)) +
-        this.joystick.x / 48;
-      const dy =
-        Number(Boolean(k?.["S"]?.isDown || k?.["DOWN"]?.isDown)) -
-        Number(Boolean(k?.["W"]?.isDown || k?.["UP"]?.isDown)) +
-        this.joystick.y / 48;
-      if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
+      if (session.combatMode === "legacy") {
+        const { dx, dy } = movementInput();
+        if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
+      }
       // Apply this tick's events before selecting frames. Reporting a newly
       // triggered state with the previous sprite frame delayed actions one tick.
       this.syncEnemies();
@@ -1051,7 +1098,19 @@ export function mountKileGends(
       }
     }
   }
+  const requestedFps =
+    location.pathname === "/scripts/playtest.html"
+      ? Number(new URLSearchParams(location.search).get("ki-render-fps"))
+      : 0;
   const game = new Phaser.Game({
+    ...(session.combatMode === "manual-prototype"
+      ? {
+          fps: {
+            smoothStep: false,
+            limit: [10, 15, 30, 60, 120].includes(requestedFps) ? requestedFps : 0,
+          },
+        }
+      : {}),
     type: Phaser.AUTO,
     pixelArt: false,
     antialias: true,

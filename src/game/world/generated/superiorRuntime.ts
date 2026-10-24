@@ -215,6 +215,12 @@ export async function prepareSuperior(options: {
         p.y <= s.bounds.y + s.bounds.height + 12,
     );
   const session = new GameSession(save, options.race, {
+    combatMode:
+      typeof location !== "undefined" &&
+      location.pathname === "/scripts/playtest.html" &&
+      new URLSearchParams(location.search).get("ki-combat") === "manual"
+        ? "manual-prototype"
+        : "legacy",
     world,
     navigation: loader.navigation,
     enemyNavigation: loader.enemyNavigation(world.safeAreas ?? []),

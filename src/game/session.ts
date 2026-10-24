@@ -160,6 +160,8 @@ export type GameEventType =
   | "zone"
   | "status";
 export type GameEvent = Point & {
+  /** Logical damage identity; presentation never creates these identifiers. */
+  hitId?: string;
   type: GameEventType;
   text?: string;
   target?: string;
@@ -439,8 +441,11 @@ export class GameSession implements MonsterHost {
   private moveInput: Point = { x: 0, y: 0 };
   private stepping = false;
   private previousBasicId = "";
+  private damageSequence = 0;
+  private pendingAbilities: Ability[] = [];
   resetCombatInput() {
     this.basicCombat.cancel();
+    this.pendingAbilities = [];
     this.moveInput = { x: 0, y: 0 };
     this.combatClock.reset();
   }
@@ -593,15 +598,22 @@ export class GameSession implements MonsterHost {
       this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Tarcza" });
       return { dealt: 0, evaded: false };
     }
-    this.damagePlayer(through);
+    this.damagePlayer(through, from.id);
     return { dealt: through, evaded: false };
   }
-  private damagePlayer(amount: number) {
+  private damagePlayer(amount: number, source = "status:dot") {
     const p = this.player;
     if (this.safe) return;
     if (p.dead) return;
     p.hp = Math.max(0, p.hp - amount);
-    this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "-" + Math.round(amount) });
+    this.emit({
+      type: "hit",
+      x: p.x,
+      y: p.y,
+      target: "player",
+      source,
+      text: "-" + Math.round(amount),
+    });
     if (p.hp > 0) return;
     p.hp = 1;
     if (this.kit.saveFromDeath()) return;
@@ -699,7 +711,16 @@ export class GameSession implements MonsterHost {
     this.saves?.save(this.player);
   }
   emit(event: GameEvent | MonsterEvent) {
-    this.events.push(event as GameEvent);
+    if (event.type === "hit" && this.combatMode === "manual-prototype") {
+      const basicHit = this.resolvingBasic && event.target === this.basicTarget?.id;
+      this.events.push({
+        ...event,
+        hitId: basicHit
+          ? `${this.basicCombat.actionId}:${event.target ?? "unknown"}`
+          : `damage:${++this.damageSequence}:${event.target ?? "unknown"}`,
+        source: event.source ?? (event.target !== "player" ? "player" : "simulation"),
+      });
+    } else this.events.push(event as GameEvent);
   }
   private award(xp: number) {
     this.player.xp += xp;
@@ -1223,6 +1244,10 @@ export class GameSession implements MonsterHost {
       this.basicCombat.enqueue({ kind: "press" });
       return;
     }
+    if (this.combatMode === "manual-prototype" && !this.stepping) {
+      if (this.pendingAbilities.length < 8) this.pendingAbilities.push(id);
+      return;
+    }
     if (this.combatMode === "manual-prototype" && id !== "potion") this.basicCombat.cancel();
     if (this.fx.cannotAct) return this.say("Nie możesz działać.");
     if (id === "potion") {
@@ -1302,7 +1327,10 @@ export class GameSession implements MonsterHost {
         }
         if (Math.hypot(this.moveInput.x, this.moveInput.y) > 0.12)
           this.manual(this.moveInput.x, this.moveInput.y, dt);
-        if (this.player.dead) this.basicCombat.cancel();
+        if (this.player.dead) {
+          this.basicCombat.cancel();
+          this.pendingAbilities = [];
+        } else for (const ability of this.pendingAbilities.splice(0)) this.use(ability);
         this.stepLegacy(dt);
         if (this.player.dead || this.fx.cannotAct || (this.safe && !this.trainingTarget)) {
           this.basicCombat.cancel();
@@ -1310,6 +1338,7 @@ export class GameSession implements MonsterHost {
         }
         this.basicCombat.step(dt, {
           canStart: () =>
+            this.kit.lockMs <= 0 &&
             !this.kit.abilities()[0]!.reason &&
             this.kit.abilities()[0]!.remaining <= BASIC_PROTOTYPE.windupMs,
           interval: () => this.kit.stats.attackInterval,

@@ -289,6 +289,7 @@ export function GameHud({
     (q) => q.status !== "done" && (!isCityStage(world) || q.id !== "boars"),
   );
   const renderAbility = (a: GameViewState["abilities"][number]) => {
+    const manualBasic = a.id === "R" && state.combatMode === "manual-prototype";
     const blocked =
       !state.ready ||
       player.dead ||
@@ -296,7 +297,7 @@ export function GameHud({
       state.depotOpen ||
       panel !== null ||
       state.locked ||
-      a.remaining > 0 ||
+      (a.remaining > 0 && !manualBasic) ||
       (a.id !== "R" && player.ki < a.ki) ||
       (a.id !== "R" && state.statuses.some((s) => s.id === "silence")) ||
       state.statuses.some((s) => s.id === "stun" || s.id === "fear");
@@ -311,14 +312,41 @@ export function GameHud({
         }
         aria-label={a.name}
         disabled={blocked}
+        onPointerDown={
+          manualBasic
+            ? (event) => {
+                if (event.button !== 0) return;
+                event.preventDefault();
+                event.currentTarget.setPointerCapture(event.pointerId);
+                onCommand({ type: "combat", input: { kind: "hold", value: true } });
+              }
+            : undefined
+        }
+        onPointerUp={
+          manualBasic
+            ? (event) => {
+                onCommand({ type: "combat", input: { kind: "hold", value: false } });
+                event.currentTarget.releasePointerCapture(event.pointerId);
+              }
+            : undefined
+        }
+        onPointerCancel={
+          manualBasic ? () => onCommand({ type: "combat", input: { kind: "cancel" } }) : undefined
+        }
+        onLostPointerCapture={
+          manualBasic
+            ? () => onCommand({ type: "combat", input: { kind: "hold", value: false } })
+            : undefined
+        }
         onClick={(event) => {
-          onCommand({ type: "ability", ability: a.id });
+          if (!manualBasic || event.detail === 0) onCommand({ type: "ability", ability: a.id });
           event.currentTarget.blur();
         }}
       >
         <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
         <kbd>{a.id === "R" ? "␣" : a.key}</kbd>
         {remaining && <span className="ki-cooldown">{remaining}</span>}
+        {manualBasic && <span className="ki-auto">RĘCZNY · A</span>}
         {a.id === "R" && state.autoAttack && <span className="ki-auto">AUTO</span>}
       </button>
     );
