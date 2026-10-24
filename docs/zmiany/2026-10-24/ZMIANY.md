@@ -68,3 +68,7 @@ formatu zapisów nie zaliczono ponownie; pełna historyczna regresja nie ma tuta
 statusu PASS. Nie scalono do main ani nie opublikowano gry.
 
 Software WebGL: **7/7** na tym samym kodzie `647be05`, w tym podróże przez globus 3D, depozyt, walka i cztery rasy. Czas lokalny: 6,4 min. Headless Software WebGL nie zastępuje pomiaru fizycznego telefonu.
+
+## Naprawa brakującego logu w repozytorium
+
+Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wcześniej pominięty przez `*.log`. Kontrola dokumentacji sprawdza teraz także, czy pliki wskazane w odnośnikach są śledzone przez Git. To naprawa dowodów historycznego przebiegu, bez ponownego deklarowania wyników gry.

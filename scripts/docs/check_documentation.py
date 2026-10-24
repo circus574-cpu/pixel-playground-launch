@@ -9,6 +9,7 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[2]
 D = ROOT / 'docs'
+TRACKED = set(subprocess.check_output(['git', 'ls-files', '--cached'], cwd=ROOT, text=True).splitlines())
 EXPECTED = {
     'INDEX.md', 'ZASADY.md', 'RASY-I-POSTACIE.md', 'ROZWOJ-I-WALKA.md',
     'SWIAT-I-MIASTA.md', 'GPU-I-ZASOBY.md', 'ARCHITEKTURA-I-TESTY.md',
@@ -26,7 +27,10 @@ for path in all_md:
         if re.match(r'[a-z]+://|mailto:|#', target):
             continue
         target = unquote(target.split('#', 1)[0])
-        assert (path.parent / target).exists(), (str(rel), target)
+        linked = (path.parent / target).resolve()
+        assert linked.exists(), (str(rel), target)
+        if linked.is_file():
+            assert str(linked.relative_to(ROOT)) in TRACKED, (str(rel), target, 'linked file is not tracked by Git')
     for start, end in [('<!-- BESTIARY:START -->', '<!-- BESTIARY:END -->'), ('<!-- LICENSE-SUMMARY:START -->', '<!-- LICENSE-SUMMARY:END -->')]:
         assert text.count(start) == text.count(end)
 relocation = json.loads((D / 'zmiany/2026-10-23/segregacja.json').read_text())
