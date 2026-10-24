@@ -1,4 +1,4 @@
-import { openHudTool } from "./fixtures";
+import { openHudTool, superiorArrival } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 import { test, expect, type Page } from "./fixtures";
 const baseRaces = [
@@ -51,18 +51,17 @@ const baseRaces = [
     y: 1330,
   },
 ];
-// Spawn points follow the current map layout (open worlds are shifted by `legacyShift`).
+// New characters arrive at their land's arrival point on the Superior planet.
 const races = baseRaces.map((r) => ({
   ...r,
   settlement: WORLDS[r.world as keyof typeof WORLDS].settlement,
-  x: WORLDS[r.world as keyof typeof WORLDS].spawn.x,
-  y: WORLDS[r.world as keyof typeof WORLDS].spawn.y,
+  ...superiorArrival(r.world),
 }));
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function saved(page: Page) {
   return page.evaluate(() => {
-    const base = "ki-legends:adventure:v1",
+    const base = "ki-legends:adventure:v1:superior-world-v1",
       id = localStorage.getItem(base + ":active-character");
     return JSON.parse(localStorage.getItem(base + ":character:" + id) ?? "null")?.player;
   });

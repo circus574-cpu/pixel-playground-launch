@@ -1,7 +1,7 @@
 import { test, expect, openHudTool, patchActiveCharacter, type Page } from "./fixtures";
 
 const entry = "/scripts/playtest.html";
-const base = "ki-legends:adventure:v1";
+const base = "ki-legends:adventure:v1:superior-world-v1";
 async function start(page: Page, preview = true) {
   await page.goto(entry + (preview ? "?ki-hero-art=1" : ""));
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();

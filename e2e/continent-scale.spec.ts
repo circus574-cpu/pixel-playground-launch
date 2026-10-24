@@ -8,7 +8,7 @@ const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function position(page: Page) {
   return page.evaluate(() => {
-    const key = "ki-legends:adventure:v1";
+    const key = "ki-legends:adventure:v1:superior-world-v1";
     const id = localStorage.getItem(key + ":active-character");
     const p = JSON.parse(localStorage.getItem(key + ":character:" + id) ?? "null")?.player;
     return { x: p.x as number, y: p.y as number };

@@ -1,7 +1,7 @@
 import { test, expect, openHudTool, type Page, patchActiveCharacter } from "./fixtures";
 
 const entry = "/scripts/playtest.html";
-const base = "ki-legends:adventure:v1";
+const base = "ki-legends:adventure:v1:superior-world-v1";
 /** Level 2 with Świetlista Bariera (B1): a real learned skill whose shield plays the skill clip. */
 const SHIELD_SAVE = { level: 2, skills: ["R", "B1"] };
 async function start(page: Page, preview = true) {

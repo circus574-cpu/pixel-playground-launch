@@ -408,13 +408,15 @@ test("malformed scenery atlas fails with a named error and retries without losin
   await expect(error).toBeVisible();
   await expect(error).toContainText("Brak klatki świata: forest-objects/");
   const slot = await page.evaluate(() =>
-    localStorage.getItem("ki-legends:adventure:v1:active-character"),
+    localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character"),
   );
   await page.unroute("**/anime-forest-v1/objects.json");
   await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
   await expect(page.locator(".ki-hud")).toBeVisible();
   expect(
-    await page.evaluate(() => localStorage.getItem("ki-legends:adventure:v1:active-character")),
+    await page.evaluate(() =>
+      localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character"),
+    ),
   ).toBe(slot);
   await expect(page.locator(".ki-canvas")).toHaveAttribute("data-terrain-mode", "cached");
 });

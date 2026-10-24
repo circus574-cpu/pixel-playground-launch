@@ -14,7 +14,7 @@ for (const viewport of [
     await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     await expect(page.locator(".ki-hud")).toBeVisible();
-    const base = "ki-legends:adventure:v1";
+    const base = "ki-legends:adventure:v1:superior-world-v1";
     const originalId = await page.evaluate(
       (base) => localStorage.getItem(base + ":active-character"),
       base,
