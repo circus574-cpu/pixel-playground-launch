@@ -656,7 +656,6 @@ Zdolności i efekty pozostają proceduralne, dopóki nie zostaną zaimportowane 
 Manekin używa realnych kosztów KI i cooldownów, liczy bezpośrednie trafienia przy
 0 obrony, bez XP/złota/łupu; nie jest pełnym symulatorem DOT i kontroli.
 
-
 ## Osobna generacja spawnów całej planety
 
 Decyzja właściciela 23.10.2026: generować spawny jako osobny etap po danych
@@ -665,3 +664,101 @@ wiąże wynik z sumą manifestu terenu i katalogu bestiariusza. Nie modyfikuje
 statystyk 40 potworów, źródłowych map ani zapisów gracza. Zasady bezpieczeństwa,
 streamingu i ograniczenia integracji: [świat](SWIAT-I-MIASTA.md#pełna-generacja-superior-na-cpu--23102026).
 Wygenerowany spawn nie jest aktywnym przeciwnikiem w aktualnie opublikowanej grze.
+
+## Action RPG — audyt i Etap A (24.10.2026)
+
+Baza implementacji wybrana przez właściciela: `integration/all-20261024` na
+`19a28569d96a45da570a1b7701533cb430e012bd`. Sprawdzony `origin/main`:
+`d0bfc2c`; nie przenosimy gry na starszy main. Osobna gałąź:
+`feature/action-combat-stage-a`. Istniejące PR pozostają nietknięte.
+
+### Co wykorzystujemy ponownie
+
+- `src/game/session.ts`: postać, ekwipunek, NPC, miasta, usługi, nawigacja,
+  śmierć/odrodzenie, zapis i adapter między zestawem rasowym a potworami.
+- `src/game/kit/`: zatwierdzone statystyki, KI, drzewka, odnowienia, osłony,
+  pociski i efekty. Planetarny już ma premię ×1,3 do co trzeciego trafienia;
+  to istniejąca mechanika, a nie ukończone nowe combo z Etapu B.
+- `src/game/monsters/system.ts`: jedyna istniejąca ścieżka obrażeń potworów,
+  model `max(1, raw × modyfikatory − DEF/2)`, odporności, śmierć i łup.
+  Obrażenia gracza nadal uwzględniają jego osłony i ratunek przed śmiercią.
+  Nie dodajemy równoległego wzoru obrażeń ani trafień z callbacków animacji.
+- `src/game/assets/actorAnimation.ts`: prezentacja kierunku i priorytetów
+  stanów. Cztery istniejące kontrakty mają siedem stanów i osiem kierunków;
+  nie wymagają generowania nowych klatek dla fundamentu A.
+- `superiorSave.ts`: jeden zapis postaci, kontrola rewizji i ochrona przed
+  nadpisaniem przez inną kartę. Nie zmieniamy kluczy ani schematu.
+
+Przed zmianą atak `R` rozstrzygał trafienie natychmiast w `Kit.use`, a wybór
+celu włączał autoatak i pościg. `GameSession.tick` ograniczał delta do 100 ms,
+zaś ruch ręczny następował raz na klatkę renderera. To zostaje domyślnym
+zachowaniem starszego PvE do zakończenia odbioru migracji.
+
+### Jawny prototyp manualny
+
+Uruchom lokalny podgląd (`npm run playtest`) i otwórz
+`/scripts/playtest.html?ki-combat=manual`. Wybierz Planetarnego.
+Przytrzymaj spację lub przycisk podstawowego ataku. Kierunek ciosu pochodzi
+z kierunku postaci w chwili rozpoczęcia; kliknięty cel musi nadal mieścić
+się w stożku, zasięgu i linii widoczności. Wybranie celu nie uruchamia
+pościgu. Manekin areny korzysta z tego samego okna trafienia, bez nagród.
+Na innych rasach i bez tego parametru działa dotychczasowe PvE. Parametr
+jest rozpoznawany wyłącznie na lokalnym dokumencie podglądu, nie na `/` ani
+prywatnym `/test`. HUD oznacza prototyp jako „RĘCZNY · A”.
+
+`src/game/combat/` nie zależy od React ani Phaser. Polecenia naciśnięcia,
+przytrzymania, zwolnienia i kierunku czekają w ograniczonej kolejce FIFO.
+Przepełnienie anuluje wejście. Sekwencja podstawowego ataku:
+`ready → windup → active → recovery → ready`. Profil roboczy:
+100 ms przygotowania, 80 ms aktywnego stożka ±60°, pozostały czas do
+rasowego interwału jako recovery. Liczby profilu są oddzielone od kanonu
+w `BASIC_PROTOTYPE`; wymagają dalszego dopasowania choreografii w Etapie B.
+W czasie aktywnym wybieramy jeden legalny cel (priorytet wskazanego,
+następnie dystans i stabilne ID). Jeden identyfikator akcji i rejestr
+trafionych celów blokują ponowne naliczenie. Pudło/absorpcja również
+rozstrzygają pojedynczą próbę. Rozpoczęte uderzenie kończy się po puszczeniu
+przycisku, ale nie rozpoczyna kolejnego. Przerwanie przez pauzę, utratę
+fokusu, dialog, śmierć, ogłuszenie/strach lub zmianę usługi czyści wejście.
+Zdolność inna niż mikstura przerywa podstawowy atak; nowe dash i combo są
+poza zakresem A. Zdarzenia trafień mają identyfikatory do diagnostyki.
+
+### Czas, przeciążenie i deterministyczność
+
+W prototypie cała sesja wykonuje krok `1000/60 ms`, najwyżej osiem kroków
+na jedną aktualizację. Nadmiar pełnych kroków jest odrzucany i raportowany
+jako `combatDroppedMs`; ułamek kroku zostaje. Przy 10 FPS zwykła aktualizacja
+wykonuje sześć kroków. Przy zastoju 1 s wykona osiem, odrzucając około
+866,67 ms: symulacja jako całość zwalnia względem zegara ściennego.
+KI, ruch, AI i odnowienia nie nadrabiają osobnymi zegarami. Nie ma nagłego
+wybuchu zaległych ataków. Wznowienie nie nadrabia czasu ukrytej karty.
+Adapter używa znaczników czasu klatek, nie wygładzanej delty Phaser ani
+reszty akumulatora jego limitera FPS. Lokalne `&ki-render-fps=15` pozwala
+sprawdzić rzeczywiste ograniczenie renderowania.
+
+Kolejność kroku: wejście ruchu i kolejka istniejących zdolności → zegary,
+statusy, trasy i AI istniejącej sesji → manualny hitbox i kanoniczne
+rozstrzygnięcie obrażeń/śmierci → odczyt zdarzeń przez renderer. AI może
+więc ogłuszyć lub zabić przed rozstrzygnięciem manualnego ciosu w tym samym
+kroku. To świadoma reguła prototypu. Identyczny stan, seed RNG i polecenia
+na tych samych krokach dają identyczne wyniki. Odczyt sprzętowego wejścia
+jest kwantowany do następnej klatki; nie obiecujemy identycznej latencji
+wejścia przy 10 i 120 FPS. Strumieniowanie świata pozostaje oddzielnym
+adapterem; ten etap nie jest autorytatywnym serwerem ani deterministycznym
+odtworzeniem asynchronicznego pobierania całej planety.
+
+### Bezpieczna migracja do dalszych etapów
+
+1. Pozostawić starsze PvE domyślne, odbierać prototyp na osobnej gałęzi.
+2. Nie zapisywać fazy ataku, kolejki, identyfikatorów ani zegara do postaci.
+   Po przeładowaniu postać ma te same przedmioty, umiejętności i postępy,
+   a nietrwała akcja zaczyna od `ready`. Usunięcie parametru przywraca stare
+   sterowanie tej samej postaci, bez konwersji lub resetu zapisu.
+3. Etap B: dopracować choreografię, okna combo i dash Planetarnego oraz
+   prototyp KI; C: pełny układ dwóch kciuków i celowanie; D: cztery sloty,
+   statusy, archetypy i pozostałe rasy. Nie podmieniać umiejętności kanonicznych
+   na wymyślone nazwy/liczby.
+4. Przed zmianą domyślnego trybu wykonać E: pełne CI, cztery kontynenty/rasy,
+   save/CAS, Canvas/WebGL i odbiór właściciela. Dotyk w emulowanym Chromium
+   nie jest testem na fizycznym Androidzie lub Safari/iOS.
+
+Wyniki i dowody: [dziennik 24.10.2026](zmiany/2026-10-24/ZMIANY.md).

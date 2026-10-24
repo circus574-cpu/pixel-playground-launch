@@ -31,7 +31,6 @@
   z listy 17 oraz pełna regresja na końcowym SHA nie są oznaczone jako zamknięte.
   Bez scalenia i publikacji.
 
-
 ## Wynik szerszej kontroli — kod `22c23d2`
 
 - Wypchnięto poprawkę na własną gałąź. Lokalne kontrole wybranych przypadków:
@@ -49,7 +48,6 @@
   Ten wpis dodaje tylko dowody; nie zmienia kodu przetestowanego `22c23d2`.
 - Nie zmieniano gałęzi HUD ani integracji. Scalenie wykonuje druga strona zgodnie
   z podziałem. Nie scalono do main, nie opublikowano gry.
-
 
 ## Superior jako jedyny świat — reset zatwierdzony przez właściciela
 
@@ -94,3 +92,32 @@ Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wc
   (`hero-sage-painted` 1.0.1). Leśny Pająk, Liściak Skrytobójca i Mchowy Szlamak miały
   kwadratowe tło w klatkach; brzeg każdej klatki jest teraz miękko wygaszony (pakiety 1.0.2).
   Budynki wycięte prostą linią u dołu i z boku (np. Dom Treningu) wygaszają tylko podstawę.
+
+## Codex — fundament walki Action RPG (Etap A)
+
+- Osobna gałąź `feature/action-combat-stage-a` z wybranej przez właściciela
+  bazy integracyjnej `19a28569d96a45da570a1b7701533cb430e012bd`.
+  Sprawdzono main `d0bfc2c` i otwarte PR; nie zmieniano gałęzi Claude'a.
+- Commity implementacji: `2c6da60` (zegar i osiem testów), `d1805e8`
+  (ręczne okna trafienia i adapter PvE), `b381ccd` (sterowanie, diagnostyka,
+  prezentacja i testy uruchomionej aplikacji).
+- Audyt, reguły mechaniki, lokalne uruchomienie i migracja bez resetu:
+  [Rozwój i walka — Action RPG](../../ROZWOJ-I-WALKA.md#action-rpg--audyt-i-etap-a-24102026).
+- Baza przed zmianą: TypeScript PASS, Vitest **365/365**, build podglądu PASS.
+  W trakcie implementacji: **391/391** testów, następnie rozszerzony zestaw
+  integracyjny **17/17**. Testy czasu porównują 10/15/30/60/120 FPS oraz
+  zastoje 250 ms, 1 s i ciągłe przeciążenie. Są asercje dla śmierci, nagród,
+  areny, zapisów, przeszkód i przerwań. Lint: zero błędów, dziewięć istniejących
+  ostrzeżeń. Są to pomiary robocze, nie deklaracja końcowego CI.
+- Nowy Playwright sprawdza realną walkę, przytrzymanie/zwolnienie, brak
+  auto-pościgu, zapis i błędy strony; nagrywa video. Działa w projektach
+  Canvas i software WebGL. Widok dotykowy 844 × 390 ma jawny limit renderera
+  15 FPS. Fizycznego Androida/iOS nie ma w tym środowisku.
+- Dowody końcowego SHA będą w artefaktach dwóch GitHub Actions (pełny
+  Playwright i software WebGL) oraz raporcie PR. Nie uznawać samego tego
+  dziennika za dowód zakończenia CI. Nie scalono ani nie opublikowano.
+- Ograniczenia: prototyp manualny dotyczy tylko Planetarnego i lokalnego
+  podglądu; starsze PvE domyślne. Nowe combo, dash, cztery umiejętności,
+  archetypy AI i pełna ergonomia dwóch kciuków pozostają etapami B–D.
+  W aktualnej mapie korony drzew mogą zasłaniać postacie podczas walki;
+  problem oprawy odnotowano, nie zmieniano wygenerowanej geometrii świata.
