@@ -282,3 +282,9 @@ Wymiary kontynentów to prostokąty opisane na obrysach z `atlasRegions.json` pr
 3. Nazwy i treść stref N/S/E/W Verdantii oraz wyspy questowe.
 4. Dłuższe trasy: kamera, minimapa i mapa świata nie mają jeszcze przybliżenia na całą krainę; podróż po 40-tysięcznym kontynencie pieszo trwa kilka minut.
 5. Pomiar FPS i pamięci na telefonie.
+
+## Odczyt commitów 24.10.2026 — Superior jako jedyny runtime
+
+W dzienniku [24.10](zmiany/2026-10-24/ZMIANY.md) opisano wprowadzenie generatorowego świata Superior jako domyślnego dla wszystkich czterech ras: bez flagi `ki-superior=1`, z podróżami wybieranymi przez atlas 2D/3D i bez osobnego panelu podróży. Wcześniejsze ręczne mapy regionów pełnią rolę szablonów miast, **nie domyślnych światów gry**. Jedna nowa generacja lokalnego slotu przechowuje pozycję, ekwipunek, depozyt, wyspę i spawny; wcześniejsze lokalne postacie nie są automatycznie importowane. Ten reset wynika z decyzji właściciela, nie z przypadkowej migracji.
+
+Punkt dowodowy: commit `647be05c769d06f76163c5d55a435259c17cbef9` i raporty `docs/zmiany/2026-10-24/qa/superior-only/`; według dziennika 338/338 testów jednostkowych, 7/7 Canvas i 7/7 Software WebGL. **Nie przypisywać tych wyników innemu SHA ani aktualnej produkcji.** Późniejsze commity zmieniały `src/game/world/generated/superiorRuntime.ts` i `renderSuperior.ts`; pełna ponowna regresja na końcowym SHA jest osobnym wymaganiem. Zaktualizowano też testy E2E korzystające z rzeczywistej geometrii Superior. To nie dowodzi, że wszystkie kontynenty zostały ręcznie odebrane w prawdziwym Androidzie.
