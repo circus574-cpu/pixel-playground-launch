@@ -303,6 +303,7 @@ for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].wor
   test(`real pursuit, return, enemy collision and world boundary: ${race}`, async ({
     page,
   }, info) => {
+    test.setTimeout(600000);
     const world = WORLDS[RACES[race].world],
       nav = new Navigation(world.width, world.height, worldObstacles(world));
     await start(page, race);
@@ -344,28 +345,43 @@ for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].wor
       .toBe("return");
     await expect.poll(async () => (await enemies())[0]?.mode, { timeout: 15000 }).toBe("patrol");
     expect((await enemies())[0]!.hp).toBe(66);
-    // Zoom out, then walk to the right edge of the (open) world with a real move command.
+    // Zoom out, then walk to the nearest edge of the (continent-sized) world with a real move command.
     for (let i = 0; i < 4; i++) await openHudTool(page, "Oddal mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.35");
     const here = await position(page);
-    const east = nav.safe({ x: world.width - 100, y: here.y });
+    const edges = [
+      { d: world.width - here.x, goal: { x: world.width - 100, y: here.y }, key: "ArrowRight" },
+      { d: here.x, goal: { x: 100, y: here.y }, key: "ArrowLeft" },
+      { d: here.y, goal: { x: here.x, y: 100 }, key: "ArrowUp" },
+      { d: world.height - here.y, goal: { x: here.x, y: world.height - 100 }, key: "ArrowDown" },
+    ].sort((a, b) => a.d - b.d);
+    const edge = edges[0]!;
+    const east = nav.safe(edge.goal);
     await canvas.evaluate(
       (el, p) =>
         el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", ...p } })),
       east,
     );
     await expect
-      .poll(async () => (await position(page)).x, { timeout: 90000 })
-      .toBeGreaterThan(world.width - 180);
+      .poll(
+        async () => {
+          const q = await position(page);
+          return Math.hypot(q.x - east.x, q.y - east.y);
+        },
+        { timeout: 300000 },
+      )
+      .toBeLessThan(120);
     await page.evaluate(() => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     });
-    await page.keyboard.down("ArrowRight");
+    await page.keyboard.down(edge.key);
     await page.waitForTimeout(500);
-    await page.keyboard.up("ArrowRight");
+    await page.keyboard.up(edge.key);
     const p = await position(page);
     expect(nav.walkable(p)).toBe(true);
     expect(p.x).toBeLessThanOrEqual(world.width - 16);
+    expect(p.y).toBeLessThanOrEqual(world.height - 16);
+    expect(Math.min(p.x, p.y)).toBeGreaterThanOrEqual(16);
     await page.screenshot({ path: info.outputPath(race + "-world-edge.png") });
   });
 

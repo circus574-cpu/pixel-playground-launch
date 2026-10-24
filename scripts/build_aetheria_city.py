@@ -40,16 +40,6 @@ BUILDINGS = [
          description="Cicha herbaciarnia nad stawem, gdzie można odpocząć i odzyskać siły."),
 ]
 
-# Connectors from each door to the existing road network (so doors are on a path).
-CONNECTORS = {
-    "shop": [[3250, 1890], [3230, 1990], [3180, 2060]],
-    "depot": [[1850, 2275], [1960, 2210], [1990, 2090], [2000, 1980]],
-    "arena": [],
-    "smithy": [],
-    "inn": [],
-    "hall": [],
-}
-
 NPCS = [
     dict(id="guide", name="Sora", role="Opiekunka źródeł", pos=(2440, 2030), tint=11071695,
          dialogue="Zanim otworzysz księgę, naucz się słuchać. Odwiedź Źródło Pamięci i wróć. Jego cisza jest pierwszą lekcją KI."),
@@ -71,6 +61,28 @@ RESIDENTS = [
     dict(id="innkeeper", building="inn", name="Yuna", role="Mistrzyni herbaty", tint=16766139,
          dialogue="Usiądź. Herbata z wiosennego źródła leczy więcej, niż się wydaje."),
 ]
+
+# --- Continent layout (docs/CITY-CONTINENT-SCALE-2026-10-23.md) ---------------------------------
+# The scene was translated by scripts/expand_continents.py. The city is a safe area of 4000 x 2500
+# units: the building plan below (written for the original scene) is spread over that area with the
+# same relative arrangement, so the districts keep their order but stand much further apart.
+SHIFT = data["layoutShifts"]["3"]
+_xs, _ys = [b["pos"][0] for b in BUILDINGS], [b["pos"][1] for b in BUILDINGS]
+_CX, _CY = (min(_xs) + max(_xs)) / 2, (min(_ys) + max(_ys)) / 2
+# The six buildings fill about 3300 x 1900 of the 4000 x 2500 city, leaving a margin of open ground.
+_KX, _KY = 3300 / (max(_xs) - min(_xs)), 1900 / (max(_ys) - min(_ys))
+
+
+def T(p):
+    return (round(_CX + (p[0] - _CX) * _KX + SHIFT["x"]), round(_CY + (p[1] - _CY) * _KY + SHIFT["y"]))
+
+
+CITY = {"x": round(_CX + SHIFT["x"] - 2000), "y": round(_CY + SHIFT["y"] - 1250), "width": 4000, "height": 2500}
+for _b in BUILDINGS:
+    _b["pos"] = T(_b["pos"])
+# Street NPCs keep their place next to the start (only translated, not spread).
+for _n in NPCS:
+    _n["pos"] = (_n["pos"][0] + SHIFT["x"], _n["pos"][1] + SHIFT["y"])
 
 
 def fp_rect(o):
@@ -96,7 +108,7 @@ for b in BUILDINGS:
     b["objectId"] = o["id"]
 
 # Ponds that collided with the new districts are moved to free ground instead of being deleted.
-RELOCATE = {"x-koi-pond-3": (3720, 1290), "x-koi-pond-4": (2150, 3230)}
+RELOCATE = {"x-koi-pond-3": T((3720, 1290)), "x-koi-pond-4": T((2150, 3230))}
 for oid, (rx, ry) in RELOCATE.items():
     if oid in objects:
         objects[oid]["x"], objects[oid]["y"] = rx, ry
@@ -138,37 +150,70 @@ for w in walls[border:]:
         new_walls.append(w)
 data["obstacles"] = new_walls
 
-# Connecting roads from doors to the network.
+# Connecting roads from each door to the nearest point of the existing road network.
+import math
+
+
+def nearest_on_roads(pt):
+    best = None
+    for r in data["terrain"].get("roads", []):
+        if r.get("city"):
+            continue
+        pts = r["points"]
+        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+            dx, dy = x2 - x1, y2 - y1
+            L = dx * dx + dy * dy
+            t = 0 if not L else max(0, min(1, ((pt[0] - x1) * dx + (pt[1] - y1) * dy) / L))
+            q = (x1 + t * dx, y1 + t * dy)
+            d = math.hypot(q[0] - pt[0], q[1] - pt[1])
+            if best is None or d < best[0]:
+                best = (d, q)
+    return best[1]
+
+
+data["terrain"]["roads"] = [r for r in data["terrain"].get("roads", []) if not r.get("city")]
 for b in BUILDINGS:
-    pts = CONNECTORS.get(b["id"])
-    if pts:
-        data["terrain"].setdefault("roads", [])
-        road = {"width": 110, "points": pts}
-        if road not in data["terrain"]["roads"]:
-            data["terrain"]["roads"].append(road)
+    d = (b["door"]["x"], b["door"]["y"])
+    q = nearest_on_roads(d)
+    if math.hypot(q[0] - d[0], q[1] - d[1]) < 30:
+        continue
+    mid = ((d[0] + q[0]) / 2 + (18 if d[0] < q[0] else -18), (d[1] + q[1]) / 2)
+    data["terrain"]["roads"].append({"width": 110, "city": True,
+                                     "points": [[d[0], d[1]], [round(mid[0]), round(mid[1])], [round(q[0]), round(q[1])]]})
 
 # Street decor: lanterns beside the main roads between districts (non-solid garden beds too).
 decor = []
 lantern = {"kind": "stone-lantern", "asset": "stone-lantern", "width": 70, "height": 152, "anchorX": 0.5,
            "anchorY": 0.92, "solid": True, "expansion": True, "footprint": {"width": 30, "height": 22}}
-LANTERNS = [(2300, 1560), (2500, 1560), (2620, 2090), (2900, 2060), (3100, 2130), (3520, 2090), (3760, 1960),
-            (3880, 1900), (2180, 2090), (1980, 2090), (3680, 2400), (3920, 2660), (2560, 2760), (2700, 3120),
-            (3000, 3130), (2330, 3200), (1900, 3140), (1700, 2300), (3250, 1950), (4120, 1760)]
-for i, (x, y) in enumerate(LANTERNS):
-    decor.append({**lantern, "id": f"city-lantern-{i}", "x": x, "y": y})
-GARDENS = [(2150, 1770), (2650, 1720), (2850, 2400), (3050, 2700), (2250, 2550), (3550, 2250), (2000, 2400),
-           (3700, 3050), (2900, 3300)]
-for i, (x, y) in enumerate(GARDENS):
-    decor.append({"id": f"city-garden-{i}", "kind": "garden", "asset": "garden", "x": x, "y": y, "width": 170,
-                  "height": 120, "anchorX": 0.5, "anchorY": 0.92, "solid": False})
+for i, bd in enumerate(BUILDINGS):
+    dr = bd["door"]
+    for j, (ddx, ddy) in enumerate(((-185, 90), (185, 90), (0, 230))):
+        decor.append({**lantern, "id": f"city-lantern-{i}-{j}", "x": dr["x"] + ddx, "y": dr["y"] + ddy})
+    decor.append({"id": f"city-garden-{i}", "kind": "garden", "asset": "garden",
+                  "x": dr["x"] + (240 if dr["x"] < _CX + SHIFT["x"] else -240), "y": dr["y"] + 40,
+                  "width": 170, "height": 120, "anchorX": 0.5, "anchorY": 0.92, "solid": False})
 # Decor must not sit in building footprints or door corridors.
 decor = [o for o in decor if not any(intersects((o["x"] - 40, o["y"] - 30, 80, 60), z[1], z[2] + 20) for z in zones)]
 data["objects"].extend(decor)
 
 # City safe area: no combat spawns inside it.
 before = len(data["enemies"])
-inside = lambda p: CITY["x"] <= p["x"] <= CITY["x"] + CITY["width"] and CITY["y"] <= p["y"] <= CITY["y"] + CITY["height"]
+# Boars keep at least 400 units from the city border, so a hunter never fights at the gate.
+GATE = 400
+inside = lambda p: (CITY["x"] - GATE <= p["x"] <= CITY["x"] + CITY["width"] + GATE
+                    and CITY["y"] - GATE <= p["y"] <= CITY["y"] + CITY["height"] + GATE)
 data["enemies"] = [e for e in data["enemies"] if not inside(e)]
+
+# Boars that stood inside the (larger) safe city are placed again on a ring just outside it.
+removed_boars = before - len(data["enemies"])
+import math as _m
+for _i in range(removed_boars):
+    _a = 2 * _m.pi * (_i + 0.5) / max(1, removed_boars) + 0.35
+    _ring = _i % 3
+    data["enemies"].append({
+        "x": round(CITY["x"] + CITY["width"] / 2 + (CITY["width"] / 2 + 450 + _ring * 160) * _m.sqrt(2) * _m.cos(_a)),
+        "y": round(CITY["y"] + CITY["height"] / 2 + (CITY["height"] / 2 + 450 + _ring * 120) * _m.sqrt(2) * _m.sin(_a)),
+    })
 
 # Existing NPCs: street NPCs stay on the street; shop/smith NPCs wait at their doors until the
 # interiors of the shared city mechanics take over.

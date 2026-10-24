@@ -1,5 +1,8 @@
 import { test as base } from "@playwright/test";
-export { expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { inSafeCity } from "../src/game/city/types";
+import { WORLDS } from "../src/game/world/worlds";
+export { expect };
 export type { Page, CDPSession } from "@playwright/test";
 /** Attach failures without modifying the game or assuming a browser failure proves a game bug. */
 export const test = base.extend<{ diagnostics: void }>({
@@ -115,4 +118,11 @@ export async function learnSkill(page: import("@playwright/test").Page, name: st
     .getByRole("button", { name: /Poznaj/ })
     .click();
   await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+}
+
+/** Nothing hostile may stand inside the safe city; wild boars live beyond its border. */
+export async function expectCityClear(canvas: import("@playwright/test").Locator) {
+  const raw = await canvas.getAttribute("data-enemies");
+  const list = JSON.parse(raw ?? "[]") as { x: number; y: number }[];
+  expect(list.every((e) => !inSafeCity(WORLDS.verdant, e, null))).toBe(true);
 }

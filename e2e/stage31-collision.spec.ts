@@ -68,7 +68,7 @@ for (const race of RACE_IDS)
     const travelled = distance(before, await position());
     expect(travelled).toBeGreaterThan(5);
     expect(travelled).toBeLessThan(35);
-    await expect(page.locator(".ki-map-marker").first()).toBeVisible();
+    await expect(page.getByTestId("ki-map-you")).toBeVisible();
     expect((await page.locator("canvas").boundingBox())!.width).toBe(1280);
     await openHudTool(page, "Przybliż mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.7");

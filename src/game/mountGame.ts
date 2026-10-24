@@ -238,8 +238,22 @@ export function mountKileGends(
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
-          const room = cityRoom(session.player.interior);
-          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          const room = cityRoom(session.player.interior, world.id);
+          const cam = this.cameras.main;
+          if (room.height > room.width) {
+            // Portrait room: composed for a tall screen, shown whole. Wide screens fit its height; the
+            // walls beyond the room are drawn, never stretched.
+            const portraitScreen = this.scale.height >= this.scale.width;
+            if (portraitScreen) {
+              cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
+              cam.setBounds(0, 0, room.width, room.height);
+              if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
+            } else {
+              cam.setZoom(this.scale.height / room.height);
+              cam.stopFollow().removeBounds();
+              cam.centerOn(room.width / 2, room.height / 2);
+            }
+          } else cam.centerOn(room.width / 2, room.height / 2);
         }
       };
       zoom();
@@ -407,7 +421,7 @@ export function mountKileGends(
             Math.abs(pos.x - b.door.x) < 190 && pos.y > b.door.y - 155 && pos.y < b.door.y + 90,
         );
       if (session.player.interior) {
-        const room = cityRoom(session.player.interior);
+        const room = cityRoom(session.player.interior, world.id);
         if (
           session.player.interior === "depot" &&
           Math.abs(pos.x - room.chest.x) < 85 &&
@@ -495,9 +509,10 @@ export function mountKileGends(
         ctx.translate(32, 12);
         ctx.scale(1, 12 / 32);
         const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 32);
-        g.addColorStop(0, "rgba(16,44,58,1)");
-        g.addColorStop(0.8, "rgba(16,44,58,0.9)");
-        g.addColorStop(1, "rgba(16,44,58,0)");
+        // Dark contact core with a soft rim: a character must stand on the ground, never float above it.
+        g.addColorStop(0, "rgba(8,12,22,1)");
+        g.addColorStop(0.55, "rgba(8,12,22,0.85)");
+        g.addColorStop(1, "rgba(8,12,22,0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(0, 0, 32, 0, Math.PI * 2);
@@ -506,8 +521,32 @@ export function mountKileGends(
       }
       const shadow = this.add
         .image(0, 3, "actor-shadow")
-        .setDisplaySize(boar ? 56 : 35, 13)
-        .setAlpha(0.3);
+        .setDisplaySize(boar ? 74 : 50, boar ? 24 : 18)
+        .setAlpha(0.62);
+      // The hero is the centre of the game: a warm light pool under the feet separates it from the ground.
+      let halo: Phaser.GameObjects.Image | undefined;
+      if (kind === "hero") {
+        if (!this.textures.exists("hero-halo")) {
+          const tex = this.textures.createCanvas("hero-halo", 128, 64)!;
+          const ctx = tex.getContext();
+          ctx.translate(64, 32);
+          ctx.scale(1, 0.5);
+          const g = ctx.createRadialGradient(0, 0, 8, 0, 0, 64);
+          g.addColorStop(0, "rgba(255,236,170,0.9)");
+          g.addColorStop(0.55, "rgba(255,214,130,0.45)");
+          g.addColorStop(1, "rgba(255,200,110,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(0, 0, 64, 0, Math.PI * 2);
+          ctx.fill();
+          tex.refresh();
+        }
+        halo = this.add
+          .image(0, 2, "hero-halo")
+          .setDisplaySize(170, 70)
+          .setAlpha(0.7)
+          .setBlendMode(Phaser.BlendModes.ADD);
+      }
       registerActorAnimations(this, config);
       const clip = config.clips.idle!,
         first = Object.values(clip.directions)[0]![0]!;
@@ -544,7 +583,9 @@ export function mountKileGends(
         visual: config,
         animation: new ActorAnimation(sprite, config),
         facing: { x: 0, y: 1 },
-        body: this.add.container(p.x, p.y, [shadow, sprite]).setDepth(p.y),
+        body: this.add
+          .container(p.x, p.y, halo ? [halo, shadow, sprite] : [shadow, sprite])
+          .setDepth(p.y),
         sprite,
         bar,
         name,
@@ -779,6 +820,7 @@ export function mountKileGends(
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
+      parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
@@ -805,12 +847,13 @@ export function mountKileGends(
             session.player.interior,
             options?.runtime?.interiorBindings,
           );
-          const room = cityRoom(session.player.interior);
+          const room = cityRoom(session.player.interior, world.id);
           this.cameras.main
             .stopFollow()
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
           this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          parent.dispatchEvent(new Event("ki:zoom"));
         } else {
           this.outsideObjects.forEach((o) => o.setVisible(true));
           this.cameras.main
@@ -818,6 +861,7 @@ export function mountKileGends(
             .setBackgroundColor(world.background);
           this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
           this.cameras.main.centerOn(session.player.x, session.player.y);
+          parent.dispatchEvent(new Event("ki:zoom"));
         }
       }
       if (!session.player.interior) this.updateVisibility?.(session.player);
@@ -844,7 +888,11 @@ export function mountKileGends(
         Number(Boolean(k?.["W"]?.isDown || k?.["UP"]?.isDown)) +
         this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
-      this.hero.body.setPosition(session.player.x, session.player.y).setDepth(session.player.y);
+      // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
+      this.hero.body
+        .setPosition(session.player.x, session.player.y)
+        .setDepth(session.player.y)
+        .setScale(world.id === "pyra" && session.player.interior === "smithy" ? 1.45 : 1);
       this.hero.animation.update(
         this.animationTime,
         session.moving,
@@ -855,7 +903,7 @@ export function mountKileGends(
       this.syncEnemies();
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
-        a.body.setVisible(!e.m.hidden);
+        a.body.setVisible(!e.m.hidden && !session.player.interior);
         const vx = e.x - a.body.x,
           vy = e.y - a.body.y;
         if (Math.hypot(vx, vy) > 0.01) {
@@ -872,7 +920,10 @@ export function mountKileGends(
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
         const engaged =
-          e.hp > 0 && !e.m.hidden && (e.mode === "chase" || session.targetId === e.id);
+          e.hp > 0 &&
+          !e.m.hidden &&
+          !session.player.interior &&
+          (e.mode === "chase" || session.targetId === e.id);
         a.track.setVisible(engaged);
         a.bar.setVisible(engaged);
         if (e.hp > 0 && !a.visual.clips.attack)
@@ -892,7 +943,15 @@ export function mountKileGends(
           a.body.y > view.top - pad &&
           a.body.y < view.bottom + pad + 120;
         if (a.kind === "npc")
-          a.body.setVisible(near && Boolean(a.npcId && activeNpcs.has(a.npcId)));
+          a.body.setVisible(
+            near &&
+              Boolean(a.npcId && activeNpcs.has(a.npcId)) &&
+              !(
+                world.id === "pyra" &&
+                a.npcId === "smith" &&
+                catalog.renderBindings["object.pyra.smithy.goro"]
+              ),
+          );
         else if (!near) a.body.setVisible(false);
       }
       for (const actor of this.actors)

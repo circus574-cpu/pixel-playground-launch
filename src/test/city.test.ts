@@ -10,6 +10,7 @@ import {
 } from "../game/session";
 import { WORLDS } from "../game/world/worlds";
 import { VERDANT_CITY } from "../game/city/verdantia";
+import { inSafeCity } from "../game/city/types";
 import { cityRoom } from "../game/city/room";
 import { Navigation, distance } from "../game/navigation";
 import type { BuildingId } from "../game/city/types";
@@ -61,7 +62,8 @@ describe("Verdantia functional city", () => {
   });
   it("has six separated, reachable buildings, collision and accessible interiors", () => {
     const g = new GameSession();
-    expect(g.enemies).toHaveLength(0);
+    expect(g.enemies.length).toBeGreaterThan(0);
+    expect(g.enemies.every((e) => !inSafeCity(g.world, e, null))).toBe(true);
     for (const b of VERDANT_CITY.buildings) {
       expect(g.nav.walkable(b.door), b.name).toBe(true);
       expect(g.nav.path(g.player, b.door).length, b.name).toBeGreaterThan(0);
@@ -122,12 +124,12 @@ describe("Verdantia functional city", () => {
     expect(g.player.kills).toBe(before.kills);
     expect(g.player.hp).toBe(before.hp);
     expect(g.loot).toHaveLength(0);
-    expect(g.enemies).toHaveLength(0);
+    expect(g.enemies.every((e) => !inSafeCity(g.world, e, null))).toBe(true);
     g.command({ type: "exit" });
     run(g, () => !g.player.interior);
     expect(g.training.active).toBe(false);
   });
-  it("supports the city introduction and equipment quest without adding enemies", () => {
+  it("runs the introduction in the city and then sends the player outside to hunt", () => {
     const g = new GameSession();
     talk(g, "guide");
     g.command({ type: "dialogue", action: "accept" });
@@ -136,19 +138,13 @@ describe("Verdantia functional city", () => {
     run(g, () => g.player.quests.steps === "ready");
     talk(g, "guide");
     g.command({ type: "dialogue", action: "claim" });
-    expect(g.player.gold).toBe(60);
-    g.command({ type: "dialogue", action: "claim" });
-    expect(g.player.gold).toBe(60);
+    expect(g.player.xp).toBe(40);
+    expect(g.player.gold).toBe(20);
     g.command({ type: "dialogue", action: "close" });
-    talk(g, "merchant");
-    g.command({ type: "trade", item: "sword", buy: true });
-    g.command({ type: "dialogue", action: "close" });
-    talk(g, "smith");
+    talk(g, "hunter");
     g.command({ type: "dialogue", action: "accept" });
-    g.command({ type: "equip", item: "sword" });
-    g.command({ type: "dialogue", action: "claim" });
-    expect(g.player.quests.gear).toBe("done");
-    expect(g.player.quests.boars).toBe("locked");
+    expect(g.player.quests.boars).toBe("active");
+    expect(g.safe).toBe(true);
   });
   it("rest only charges at the inn, with the innkeeper and below full resources", () => {
     const g = new GameSession();
@@ -185,7 +181,7 @@ describe("Verdantia functional city", () => {
     expect(g.safe).toBe(true);
     g.hurtPlayer(100, g.enemies[0]!, "melee");
     expect(g.player.hp).toBe(g.kit.stats.maxHp);
-    Object.assign(g.player, { x: 4300, y: 500 });
+    Object.assign(g.player, g.nav.safe(g.enemies[0]!));
     expect(g.safe).toBe(false);
     const hp = g.player.hp;
     g.hurtPlayer(100, g.enemies[0]!, "melee");

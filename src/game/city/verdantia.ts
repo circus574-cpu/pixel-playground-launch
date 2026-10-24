@@ -1,16 +1,25 @@
-import { FOREST, FOREST_OBJECTS, type ForestObject } from "../world/forest";
+import {
+  FOREST_ORIGIN,
+  FOREST_RIVER,
+  VERDANT_SIZE,
+  FOREST_OBJECTS,
+  type ForestObject,
+} from "../world/forest";
 import type { WorldNpc } from "../world/types";
-import type { CityDefinition } from "./types";
+import type { BuildingId, CityDefinition } from "./types";
 
-// At least 700 world units between services: separate neighbourhoods, not one plaza.
+// Planned in the valley's own coordinates (0,0 .. 3072×2048), then moved onto the continent.
+// Six services in separate districts, at least 700 units apart: the west bank (trade, craft),
+// the north and south middle (hall, depot) and the far bank of the river (inn, training).
+const O = FOREST_ORIGIN;
 const plots = [
   {
     id: "shop",
     name: "Dom Handlowy Mio",
     district: "Dzielnica kupiecka",
     kind: "cottage",
-    x: 500,
-    y: 650,
+    x: 350 + O.x,
+    y: 560 + O.y,
     description: "Mikstury, wyposażenie i skup materiałów.",
   },
   {
@@ -18,8 +27,8 @@ const plots = [
     name: "Dom Zgromadzeń",
     district: "Górny taras",
     kind: "inn",
-    x: 1400,
-    y: 420,
+    x: 1250 + O.x,
+    y: 330 + O.y,
     description: "Mieszkańcy i przewodnik po usługach miasta.",
   },
   {
@@ -27,8 +36,8 @@ const plots = [
     name: "Gospoda pod Liściem",
     district: "Ogrody wschodnie",
     kind: "inn",
-    x: 2100,
-    y: 620,
+    x: 3150 + O.x,
+    y: 650 + O.y,
     description: "Odpoczynek i regeneracja życia oraz KI.",
   },
   {
@@ -36,8 +45,8 @@ const plots = [
     name: "Kuźnia Taro",
     district: "Dzielnica rzemieślnicza",
     kind: "forge",
-    x: 500,
-    y: 1530,
+    x: 350 + O.x,
+    y: 1700 + O.y,
     description: "Ulepszanie ostrza i przygotowanie wyposażenia.",
   },
   {
@@ -45,8 +54,8 @@ const plots = [
     name: "Depozyt Korzeni",
     district: "Południowa aleja",
     kind: "cottage",
-    x: 1380,
-    y: 1720,
+    x: 1300 + O.x,
+    y: 1900 + O.y,
     description: "Osobista skrzynia tej postaci: przedmioty i materiały.",
   },
   {
@@ -54,21 +63,29 @@ const plots = [
     name: "Dom Treningu",
     district: "Dziedziniec straży",
     kind: "inn",
-    x: 2080,
-    y: 1580,
+    x: 3150 + O.x,
+    y: 1750 + O.y,
     description: "Bezpieczna arena z manekinem i pomiarem obrażeń.",
   },
 ] as const;
+// Main avenue across the bridge, plus an access road to every door.
 const roads = [
-  { x: 420, y: 735, width: 1660, height: 120 },
-  { x: 420, y: 780, width: 140, height: 900 },
-  { x: 1320, y: 490, width: 160, height: 1380 },
-  { x: 2020, y: 690, width: 140, height: 1050 },
-  { x: 460, y: 1110, width: 1770, height: 140 },
-  { x: 460, y: 1670, width: 1690, height: 120 },
+  { x: 250 + O.x, y: 940 + O.y, width: 3050, height: 120 },
+  { x: 290 + O.x, y: 640 + O.y, width: 120, height: 1200 },
+  { x: 1190 + O.x, y: 380 + O.y, width: 120, height: 600 },
+  { x: 1240 + O.x, y: 1000 + O.y, width: 120, height: 1000 },
+  { x: 3090 + O.x, y: 700 + O.y, width: 120, height: 1160 },
 ];
+/** The safe city: 4000 × 2500 units centred on the valley. */
+export const VERDANT_CITY_BOUNDS = {
+  x: O.x + 1536 - 2000,
+  y: O.y + 1024 - 1250,
+  width: 4000,
+  height: 2500,
+};
 export const VERDANT_CITY: CityDefinition = {
   name: "Zielona Przystań",
+  bounds: VERDANT_CITY_BOUNDS,
   buildings: plots.map((p) => ({ ...p, objectId: "city-" + p.id, door: { x: p.x, y: p.y + 75 } })),
   roads,
 };
@@ -99,7 +116,7 @@ export const CITY_OBJECTS: readonly ForestObject[] = [
   })),
 ];
 export const CITY_OBSTACLES = [
-  ...FOREST.riverRows,
+  ...FOREST_RIVER,
   ...CITY_OBJECTS.filter((o) => o.solid && o.footprint).map((o) => ({
     x: o.x - o.footprint!.width / 2,
     y: o.y + (o.footprint!.offsetY ?? 0) - o.footprint!.height / 2,
@@ -107,33 +124,37 @@ export const CITY_OBSTACLES = [
     height: o.footprint!.height,
   })),
 ];
+const DOOR = Object.fromEntries(VERDANT_CITY.buildings.map((b) => [b.id, b.door])) as Record<
+  BuildingId,
+  { x: number; y: number }
+>;
 export const CITY_NPCS: WorldNpc[] = [
   {
     id: "guide",
     name: "Aira",
     role: "Przewodniczka miasta",
-    x: 1570,
-    y: 1250,
+    x: 1570 + O.x,
+    y: 1250 + O.y,
     tint: 0xa8f0cf,
     dialogue:
-      "Witaj w Zielonej Przystani. Odwiedź Rynek na północ od fontanny i wróć po 40 XP oraz 40 monet na pierwsze wyposażenie. Miasto jest bezpieczne. Usługi znajdziesz w osobnych dzielnicach — otwórz plan miasta.",
+      "Witaj w Zielonej Przystani. Odwiedź Rynek na północ od fontanny i wróć po 40 XP. Miasto jest bezpieczne, a usługi znajdziesz w osobnych dzielnicach — otwórz plan miasta.",
   },
   {
     id: "hunter",
     name: "Ren",
     role: "Strażnik bramy",
-    x: 2210,
-    y: 1150,
+    x: 2210 + O.x,
+    y: 1150 + O.y,
     tint: 0xffc7a4,
     dialogue:
-      "W mieście nie ma dzików ani wrogich spawnów. Najpierw przygotuj wyposażenie i poćwicz w Domu Treningu. Wyprawy i przeciwnicy za bramą powstaną w następnym etapie.",
+      "W mieście nie ma dzików, ale tuż za jego granicą w lesie czają się dziki. Pokonaj trzy, a otrzymasz ostrze strażnika. Poćwiczyć możesz wcześniej w Domu Treningu.",
   },
   {
     id: "merchant",
     name: "Mio",
     role: "Kupczyni",
-    x: 500,
-    y: 725,
+    x: DOOR.shop.x,
+    y: DOOR.shop.y,
     tint: 0xd6b3ff,
     building: "shop",
   },
@@ -141,8 +162,8 @@ export const CITY_NPCS: WorldNpc[] = [
     id: "smith",
     name: "Taro",
     role: "Kowal",
-    x: 500,
-    y: 1605,
+    x: DOOR.smithy.x,
+    y: DOOR.smithy.y,
     tint: 0xa4d5ff,
     building: "smithy",
     dialogue:
@@ -152,8 +173,8 @@ export const CITY_NPCS: WorldNpc[] = [
     id: "keeper",
     name: "Nela",
     role: "Opiekunka depozytu",
-    x: 1380,
-    y: 1795,
+    x: DOOR.depot.x,
+    y: DOOR.depot.y,
     tint: 0xe3d49b,
     building: "depot",
     dialogue:
@@ -163,8 +184,8 @@ export const CITY_NPCS: WorldNpc[] = [
     id: "trainer",
     name: "Iwo",
     role: "Mistrz treningu",
-    x: 2080,
-    y: 1655,
+    x: DOOR.arena.x,
+    y: DOOR.arena.y,
     tint: 0xffd191,
     building: "arena",
     dialogue:
@@ -174,8 +195,8 @@ export const CITY_NPCS: WorldNpc[] = [
     id: "innkeeper",
     name: "Lina",
     role: "Gospodyni",
-    x: 2100,
-    y: 695,
+    x: DOOR.inn.x,
+    y: DOOR.inn.y,
     tint: 0xedb5c8,
     building: "inn",
     dialogue:
@@ -185,11 +206,28 @@ export const CITY_NPCS: WorldNpc[] = [
     id: "steward",
     name: "Oren",
     role: "Opiekun miasta",
-    x: 1400,
-    y: 495,
+    x: DOOR.hall.x,
+    y: DOOR.hall.y,
     tint: 0xcadfb2,
     building: "hall",
     dialogue:
       "Zielona Przystań ma sześć dzielnic usługowych połączonych alejami. Kupcy są na północnym zachodzie, kuźnia na południowym zachodzie, a depozyt przy południowej alei. Gospoda i trening leżą na wschodzie.",
   },
 ];
+/** Wild boars live beyond the city bounds, on a ring around them. */
+export const VERDANT_BOARS = Array.from({ length: 20 }, (_, i) => {
+  const angle = (2 * Math.PI * (i + 0.5)) / 20 + 0.35,
+    ring = i % 3;
+  return {
+    x: Math.round(
+      VERDANT_CITY_BOUNDS.x +
+        VERDANT_CITY_BOUNDS.width / 2 +
+        (VERDANT_CITY_BOUNDS.width / 2 + 450 + ring * 160) * Math.SQRT2 * Math.cos(angle),
+    ),
+    y: Math.round(
+      VERDANT_CITY_BOUNDS.y +
+        VERDANT_CITY_BOUNDS.height / 2 +
+        (VERDANT_CITY_BOUNDS.height / 2 + 450 + ring * 120) * Math.SQRT2 * Math.sin(angle),
+    ),
+  };
+});

@@ -95,7 +95,7 @@ export function bakeRoads(
   const shapes = [
     ...zones
       .filter((z) => zoneRefs[z.texture])
-      .map((z) => ({ kind: "zone" as const, z, b: bounds(z.points, 80) })),
+      .map((z) => ({ kind: "zone" as const, z, b: bounds(z.points, 150) })),
     ...roads.map((r) => ({ kind: "road" as const, r, b: bounds(r.points, r.width / 2 + 20) })),
     ...courts.map((c) => ({ kind: "court" as const, c, b: bounds(c.points, 20) })),
   ];
@@ -135,10 +135,16 @@ export function bakeRoads(
       if (s.kind === "zone") {
         const fill = pattern(ctx, zoneRefs[s.z.texture]!);
         trace(ctx, s.z.points, true);
+        // Wide feathered rim: neighbouring ground types melt into each other instead of meeting at an edge.
         for (const [grow, alpha] of [
-          [64, 0.18],
-          [38, 0.32],
-          [16, 0.6],
+          [260, 0.05],
+          [200, 0.07],
+          [150, 0.09],
+          [110, 0.12],
+          [78, 0.16],
+          [50, 0.24],
+          [28, 0.4],
+          [12, 0.65],
         ] as const) {
           ctx.globalAlpha = alpha;
           ctx.strokeStyle = fill;

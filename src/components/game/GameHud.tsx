@@ -8,12 +8,14 @@ import {
   writeUiPreferences,
   type UiPreferences,
 } from "../../game/uiPreferences";
+import { MangaIcon, type MangaSymbol } from "./MangaIcon";
+import originArt from "../../game/world/origin-art.json";
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
 import { minimapPercent, OPEN_WORLDS } from "../../game/world/zoneMap";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
 import "./game-hud.css";
@@ -22,9 +24,11 @@ import { POTION, xpNeeded, type Command } from "../../game/session";
 import { Inventory, QuestJournal, NpcDialogue, SkillTree } from "./AdventurePanels";
 import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
+import { LocalMinimap } from "./LocalMinimap";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
+import "./manga-hud.css";
 
 type Props = {
   worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
@@ -73,14 +77,74 @@ const STATUS_NAMES: Record<string, string> = {
   burn: "Podpalenie",
   bleed: "Krwawienie",
 };
-/** Icon of an ability on the 3×3 UI atlas, by node branch. */
-const abilityIcon = (id: string) =>
-  id === "R" ? 8 : id === "T" ? 0 : id.startsWith("A") ? 2 : id.startsWith("B") ? 3 : 1;
-function Icon({ index, className = "" }: { index: number; className?: string }) {
-  const style: CSSProperties = {
-    backgroundPosition: `${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%`,
-  };
-  return <span aria-hidden="true" className={`ki-icon ${className}`} style={style} />;
+/** Ranged races keep an energy symbol for their actual basic attack. */
+const abilitySymbol = (id: string, race: string): MangaSymbol =>
+  id === "R"
+    ? race === "sage" || race === "android"
+      ? "energy"
+      : "attack"
+    : id === "T"
+      ? "skills"
+      : id.startsWith("A")
+        ? "slash"
+        : id.startsWith("B")
+          ? "shield"
+          : "energy";
+const symbols: MangaSymbol[] = [
+  "attack",
+  "energy",
+  "slash",
+  "shield",
+  "potion",
+  "inventory",
+  "journal",
+  "settings",
+  "skills",
+];
+function Icon({ index }: { index: number }) {
+  return <MangaIcon symbol={symbols[index] ?? "energy"} />;
+}
+
+/** Each page contains complete controls; no half-visible skill at the edge of a scroller. */
+function TechniqueBank({
+  abilities,
+  renderAbility,
+}: {
+  abilities: GameViewState["abilities"];
+  renderAbility: (a: GameViewState["abilities"][number]) => ReactNode;
+}) {
+  const [requestedPage, setPage] = useState(0);
+  if (!abilities.length) return null;
+  const pages = Math.ceil(abilities.length / 2);
+  const page = Math.min(requestedPage, pages - 1);
+  return (
+    <div className="ki-secondary-skills" role="group" aria-label="Poznane techniki">
+      <div className="ki-technique-page">
+        {abilities.slice(page * 2, page * 2 + 2).map(renderAbility)}
+      </div>
+      {pages > 1 && (
+        <nav className="ki-technique-pagination" aria-label="Strony technik">
+          <button
+            aria-label="Poprzednie techniki"
+            disabled={page === 0}
+            onClick={() => setPage(page - 1)}
+          >
+            ‹
+          </button>
+          <span aria-live="polite">
+            {page + 1} / {pages}
+          </span>
+          <button
+            aria-label="Następne techniki"
+            disabled={page === pages - 1}
+            onClick={() => setPage(page + 1)}
+          >
+            ›
+          </button>
+        </nav>
+      )}
+    </div>
+  );
 }
 
 export function GameHud({
@@ -220,14 +284,56 @@ export function GameHud({
   const tracked = state.quests.find(
     (q) => q.status !== "done" && (!isCityStage(world) || q.id !== "boars"),
   );
+  const renderAbility = (a: GameViewState["abilities"][number]) => {
+    const blocked =
+      !state.ready ||
+      player.dead ||
+      Boolean(state.dialogue) ||
+      state.depotOpen ||
+      panel !== null ||
+      state.locked ||
+      a.remaining > 0 ||
+      (a.id !== "R" && player.ki < a.ki) ||
+      (a.id !== "R" && state.statuses.some((s) => s.id === "silence")) ||
+      state.statuses.some((s) => s.id === "stun" || s.id === "fear");
+    const remaining = a.remaining > 0 && a.id !== "R" ? (a.remaining / 1000).toFixed(1) : "";
+    return (
+      <button
+        className="ki-skill"
+        data-ability={a.id}
+        key={a.id}
+        title={
+          a.name + (a.id === "R" ? "" : " · " + a.ki + " KI · " + a.cd / 1000 + " s odnowienia")
+        }
+        aria-label={a.name}
+        disabled={blocked}
+        onClick={(event) => {
+          onCommand({ type: "ability", ability: a.id });
+          event.currentTarget.blur();
+        }}
+      >
+        <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
+        <kbd>{a.id === "R" ? "␣" : a.key}</kbd>
+        {remaining && <span className="ki-cooldown">{remaining}</span>}
+        {a.id === "R" && state.autoAttack && <span className="ki-auto">AUTO</span>}
+      </button>
+    );
+  };
   return (
     <div
       className="ki-hud"
       style={{ "--ki-ui-image": `url("${uiTextureUrl()}")` } as CSSProperties}
     >
       <section className="ki-player ki-frame" aria-label="Postać gracza">
-        <div className="ki-portrait">
-          <Icon index={0} />
+        <div className="ki-portrait" data-race={player.race}>
+          <span className="ki-portrait-art">
+            <img
+              src={originArt[player.race].card}
+              alt={"Portret: " + RACES[player.race].name}
+              width={480}
+              height={580}
+            />
+          </span>
           <span className="ki-level">{player.level}</span>
         </div>
         <div className="ki-player-info">
@@ -345,22 +451,12 @@ export function GameHud({
           aria-label="Otwórz mapę świata"
           onClick={() => toggle("map")}
         >
-          <img src={world.minimap} alt={"Mapa: " + world.settlement} />
+          <LocalMinimap
+            world={world}
+            at={state.building?.door ?? { x: state.x, y: state.y }}
+            inside={!!state.building}
+          />
           {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
-          {world.landmarks.map((l) => (
-            <span
-              key={l.label}
-              className={"ki-landmark ki-landmark-" + l.kind}
-              title={l.label}
-              style={{
-                left: `${minimapPercent(worldOverride ? "" : world.id, l, world).left}%`,
-                top: `${minimapPercent(worldOverride ? "" : world.id, l, world).top}%`,
-              }}
-            >
-              ◆
-            </span>
-          ))}
-          <span className="ki-map-marker" style={{ left: `${x}%`, top: `${y}%` }} />
         </button>
         <div className="ki-map-footer">
           <span>{world.name.toUpperCase()}</span>
@@ -468,42 +564,11 @@ export function GameHud({
       </section>
       <nav className="ki-actionbar ki-frame" aria-label="Umiejętności">
         <div className="ki-action-crest">KI</div>
-        {state.abilities.map((a) => {
-          const blocked =
-            !state.ready ||
-            player.dead ||
-            Boolean(state.dialogue) ||
-            state.depotOpen ||
-            panel !== null ||
-            state.locked ||
-            a.remaining > 0 ||
-            (a.id !== "R" && player.ki < a.ki) ||
-            (a.id !== "R" && state.statuses.some((s) => s.id === "silence")) ||
-            state.statuses.some((s) => s.id === "stun" || s.id === "fear");
-          const remaining = a.remaining > 0 && a.id !== "R" ? (a.remaining / 1000).toFixed(1) : "";
-          return (
-            <button
-              className="ki-skill"
-              data-ability={a.id}
-              key={a.id}
-              title={
-                a.name +
-                (a.id === "R" ? "" : " · " + a.ki + " KI · " + a.cd / 1000 + " s odnowienia")
-              }
-              aria-label={a.name}
-              disabled={blocked}
-              onClick={(event) => {
-                onCommand({ type: "ability", ability: a.id });
-                event.currentTarget.blur();
-              }}
-            >
-              <Icon index={abilityIcon(a.id)} />
-              <kbd>{a.id === "R" ? "␣" : a.key}</kbd>
-              {remaining && <span className="ki-cooldown">{remaining}</span>}
-              {a.id === "R" && state.autoAttack && <span className="ki-auto">AUTO</span>}
-            </button>
-          );
-        })}
+        <TechniqueBank
+          abilities={state.abilities.filter((a) => a.id !== "R")}
+          renderAbility={renderAbility}
+        />
+        {state.abilities.filter((a) => a.id === "R").map(renderAbility)}
         <button
           className="ki-skill"
           data-ability="potion"
@@ -546,7 +611,8 @@ export function GameHud({
           event.currentTarget.blur();
         }}
       >
-        <span aria-hidden="true">{toolsOpen ? "×" : "☰"}</span>
+        {toolsOpen ? <span aria-hidden="true">×</span> : <MangaIcon symbol="map" />}
+        <small>Widok</small>
       </button>
       <div ref={tools} id="ki-tools" className={`ki-tools ${toolsOpen ? "is-open" : ""}`}>
         <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">
@@ -581,43 +647,46 @@ export function GameHud({
             ⛶
           </button>
         </nav>
-        <nav className="ki-menu" aria-label="Menu gry">
-          {(
-            [
-              { p: "inventory", n: 5 },
-              { p: "journal", n: 6 },
-              { p: "skills", n: 8 },
-              { p: "settings", n: 7 },
-            ] as const
-          ).map(({ p, n }) => (
-            <button
-              key={p}
-              className={`ki-menu-button ki-frame ${panel === p ? "active" : ""}`}
-              title={iconNames[n]}
-              aria-label={iconNames[n]}
-              onClick={() => toggle(p)}
-              style={{ position: "relative" }}
-            >
-              <Icon index={n} />
-              {p === "skills" && state.skillPoints > 0 && (
-                <span className="ki-badge" aria-label={state.skillPoints + " punktów umiejętności"}>
-                  {state.skillPoints}
-                </span>
-              )}
-            </button>
-          ))}
-          <button
-            className="ki-menu-chat ki-menu-button ki-frame"
-            aria-label="Czat lokalny"
-            onClick={() => {
-              setToolsOpen(false);
-              setChatOpen(true);
-            }}
-          >
-            <span aria-hidden="true">☷</span>
-          </button>
-        </nav>
+        <button
+          className="ki-menu-chat ki-menu-button ki-frame"
+          aria-label="Czat lokalny"
+          onClick={() => {
+            setToolsOpen(false);
+            setChatOpen(true);
+          }}
+        >
+          <MangaIcon symbol="chat" />
+          <small>Czat lokalny</small>
+        </button>
       </div>
+      <nav className="ki-menu" aria-label="Menu gry">
+        {(
+          [
+            { p: "inventory", n: 5 },
+            { p: "journal", n: 6 },
+            { p: "skills", n: 8 },
+            { p: "settings", n: 7 },
+          ] as const
+        ).map(({ p, n }) => (
+          <button
+            key={p}
+            className={`ki-menu-button ki-frame ${panel === p ? "active" : ""}`}
+            title={iconNames[n]}
+            aria-label={iconNames[n]}
+            aria-pressed={panel === p}
+            onClick={() => toggle(p)}
+            style={{ position: "relative" }}
+          >
+            <Icon index={n} />
+            <span className="ki-menu-label">{p === "journal" ? "Zadania" : iconNames[n]}</span>
+            {p === "skills" && state.skillPoints > 0 && (
+              <span className="ki-badge" aria-label={state.skillPoints + " punktów umiejętności"}>
+                {state.skillPoints}
+              </span>
+            )}
+          </button>
+        ))}
+      </nav>
       {state.saveWarning && (
         <span className="ki-save-indicator ki-save-status" aria-label="Problem z zapisem">
           !

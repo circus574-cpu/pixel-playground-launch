@@ -5,10 +5,14 @@ import { Navigation } from "../game/navigation";
 const aether = WORLDS.aether;
 
 describe("enlarged Aetheria", () => {
-  it("is the open world (6000×4360) and keeps the original content shifted by the layout offset", () => {
-    const { x: dx, y: dy } = aether.legacyShift!;
-    expect([aether.width, aether.height]).toEqual([3600 + 2 * dx, 2560 + 2 * dy]);
-    expect(aether.layout).toBe(2);
+  it("is a continent-sized world and keeps the original content shifted by the layout offset", () => {
+    const first = aether.legacyShift!,
+      second = aether.layoutShifts!["3"]!;
+    const dx = first.x + second.x,
+      dy = first.y + second.y;
+    // Layout 2 enlarged the scene to 6000×4360; layout 3 puts it on the real continent.
+    expect([aether.width, aether.height]).toEqual([44300, 27400]);
+    expect(aether.layout).toBe(3);
     expect(aether.spawn).toEqual({ x: 1150 + dx, y: 1130 + dy });
     // The four spawns that stood inside the sanctuary valley were removed: the city is a safe area.
     expect(aether.enemies).not.toContainEqual({ x: 1820 + dx, y: 1080 + dy });
@@ -23,7 +27,10 @@ describe("enlarged Aetheria", () => {
   });
   it("every old walkable save position in the 2400×1792 area stays reachable", () => {
     const nav = new Navigation(aether.width, aether.height, worldObstacles(aether));
-    const { x: dx, y: dy } = aether.legacyShift!;
+    const first = aether.legacyShift!,
+      second = aether.layoutShifts!["3"]!;
+    const dx = first.x + second.x,
+      dy = first.y + second.y;
     for (const p of [
       { x: 1150, y: 1130 },
       { x: 2300, y: 600 },

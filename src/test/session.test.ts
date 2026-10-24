@@ -101,7 +101,7 @@ describe("complete adventure in a combat region; city services in city.test.ts",
   }, 20000);
   it("all NPCs, tutorial point and living boars can be reached from spawn", () => {
     const game = new GameSession();
-    for (const goal of [...game.npcs, ...game.enemies, { x: 1480, y: 800 }]) {
+    for (const goal of [...game.npcs, ...game.enemies, game.world.market]) {
       expect(game.nav.walkable(goal)).toBe(true);
       expect(game.nav.path(game.player, goal).length, JSON.stringify(goal)).toBeGreaterThan(0);
     }

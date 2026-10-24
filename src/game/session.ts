@@ -102,8 +102,8 @@ export const PlayerSchema = z.object({
   hp: finite(100000),
   ki: finite(100000),
   gold: finite(1000000).int(),
-  x: finite(8192),
-  y: finite(6144),
+  x: finite(65536),
+  y: finite(65536),
   /** Open-world layout revision the position belongs to; older saves are shifted on load. */
   layout: z.number().int().min(1).max(99).optional(),
   items: z.object({
@@ -280,10 +280,12 @@ export function migrateLayout(
   const world = WORLDS[p.continent],
     want = world.layout ?? 1;
   if ((p.layout ?? 1) >= want) return;
-  if (!p.interior) {
-    p.x += world.legacyShift?.x ?? 0;
-    p.y += world.legacyShift?.y ?? 0;
-  }
+  if (!p.interior)
+    for (let step = (p.layout ?? 1) + 1; step <= want; step++) {
+      const shift = step === 2 ? world.legacyShift : world.layoutShifts?.[String(step)];
+      p.x += shift?.x ?? 0;
+      p.y += shift?.y ?? 0;
+    }
   p.layout = want;
 }
 export const SAVE_KEY = "ki-legends:adventure:v1";
@@ -334,10 +336,11 @@ export class SaveStore {
         (p.weapon && !p.items.sword) ||
         (p.armor && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
+        // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
+        // introduction done) stay valid.
         (p.quests.gear !== "locked" &&
-          (isCityStage(WORLDS[p.continent])
-            ? p.quests.steps !== "done"
-            : p.quests.boars !== "done")) ||
+          p.quests.boars !== "done" &&
+          !(p.quests.boars === "locked" && p.quests.steps === "done")) ||
         !p.skills.includes("R") ||
         !validLearned(p.race, p.level, p.skills) ||
         Object.keys(p.materials).some((id) => !isMaterial(id)) ||
@@ -346,8 +349,8 @@ export class SaveStore {
         (p.depot.upgrade > 0 && !p.depot.items.sword) ||
         (p.interior !== null &&
           (!WORLDS[p.continent].city?.buildings.some((b) => b.id === p.interior) ||
-            p.x > cityRoom(p.interior).width ||
-            p.y > cityRoom(p.interior).height))
+            p.x > cityRoom(p.interior, p.continent).width ||
+            p.y > cityRoom(p.interior, p.continent).height))
       ) {
         this.writable = false;
         this.warning = "Niespójny zapis. Oryginał zachowany; zapis tej sesji wyłączony.";
@@ -434,7 +437,7 @@ export class GameSession implements MonsterHost {
       .filter((n) => (n.building ?? null) === this.player.interior)
       .map((n) => ({
         ...n,
-        ...(n.building ? cityRoom(n.building).npc : this.outsideNav.safe(n)),
+        ...(n.building ? cityRoom(n.building, this.world.id).npc : this.outsideNav.safe(n)),
       }));
   }
   enemies: Enemy[] = [];
@@ -495,7 +498,7 @@ export class GameSession implements MonsterHost {
     this.enemyPositionAllowed = options.enemyPositionAllowed;
     if (this.player.dead || this.player.hp <= 0) this.player.interior = null;
     if (this.player.interior && this.world.city) {
-      const room = cityRoom(this.player.interior);
+      const room = cityRoom(this.player.interior, this.world.id);
       this.nav = new Navigation(room.width, room.height, room.obstacles);
     }
     this.kit = createKit(this.player.race, makePort(this), this.player.skills);
@@ -750,7 +753,7 @@ export class GameSession implements MonsterHost {
   }
   private switchInterior(id: BuildingId | null) {
     const previous = this.building;
-    const room = id ? cityRoom(id) : null;
+    const room = id ? cityRoom(id, this.world.id) : null;
     this.player.interior = id;
     this.nav = room ? new Navigation(room.width, room.height, room.obstacles) : this.outsideNav;
     Object.assign(this.player, this.nav.safe(room?.entry ?? previous?.door ?? this.world.spawn));
@@ -778,7 +781,7 @@ export class GameSession implements MonsterHost {
     if (this.player.interior) {
       this.afterExit = id;
       this.pendingExit = true;
-      this.go(cityRoom(this.player.interior).exit);
+      this.go(cityRoom(this.player.interior, this.world.id).exit);
     } else {
       this.pendingBuilding = id;
       this.go(b.door);
@@ -892,7 +895,7 @@ export class GameSession implements MonsterHost {
       this.pendingChest = false;
       this.afterExit = null;
       this.pendingExit = true;
-      this.go(cityRoom(p.interior).exit);
+      this.go(cityRoom(p.interior, this.world.id).exit);
       return;
     }
     if (c.type === "chest") {
@@ -1129,7 +1132,7 @@ export class GameSession implements MonsterHost {
         if (!definition) return;
         this.pendingOutsideNpc = definition.id;
         this.pendingExit = true;
-        this.go(cityRoom(p.interior).exit);
+        this.go(cityRoom(p.interior, this.world.id).exit);
         return;
       }
       const npc = this.npcs.find((n) => n.id === c.npc);
@@ -1309,7 +1312,11 @@ export class GameSession implements MonsterHost {
       this.movePlayer(this.route[0]!, dt);
       if (distance(p, this.route[0]!) < 5) this.route.shift();
     }
-    if (this.pendingExit && p.interior && distance(p, cityRoom(p.interior).exit) <= 80) {
+    if (
+      this.pendingExit &&
+      p.interior &&
+      distance(p, cityRoom(p.interior, this.world.id).exit) <= 80
+    ) {
       const next = this.afterExit;
       const outsideNpc = this.pendingOutsideNpc;
       this.pendingOutsideNpc = null;

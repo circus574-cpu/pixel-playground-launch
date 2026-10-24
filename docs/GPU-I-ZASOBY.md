@@ -321,3 +321,184 @@ nie obiecywać publicznego endpointu ani zmieniać portów bez uprawnienia.
 Bootstrap wymaga zgodnego Pythona/runtime. Dane o wcześniejszym `/opt`, archiwach,
 checkpointach i przywróceniu są dowodami historycznymi w dziennikach, nie odczytem
 aktualnego stanu poda. Hasła/auth nie mogą trafić do kopii ani raportów.
+
+
+## Zestaw grafik do układania świata — kontrakt (23.10.2026)
+
+Codex układa świat i questy (współrzędne, obiekty, NPC, spawny). Ten dokument mówi, **z czego** może
+układać i **jak**, żeby grafika, kolizje i kolejność rysowania zgadzały się bez zgadywania.
+Maszynowy opis: [`world-asset-kit.json`](world-asset-kit.json), generowany przez
+`python3 scripts/export_world_asset_kit.py` (po każdym imporcie paczki uruchomić ponownie).
+
+### Co jest w zestawie
+
+- `objects` — 72 wiązania obiektów (`object.*`) z gotowymi **zalecanymi wymiarami, punktem oparcia
+  i obrysem kolizji** (mediany z dotychczasowych regionów). Pole `placement` = ściągawka do wpisu w JSON regionu.
+- `terrains` — 33 wiązania powierzchni (`terrain.*`): podłoże, ścieżki, place, ściany, strefy.
+- `pending` — zestawy wygenerowane na GPU, jeszcze nie zainstalowane (miasto Pyry, 494 tekstury, krajobraz
+  i fauna). Nie układać ich w regionach, dopóki nie pojawią się w `objects`/`terrains`.
+
+### Jak układać obiekt (region JSON, `objects[]`)
+
+```json
+{
+  "id": "fortress-0",
+  "kind": "fortress",
+  "asset": "fortress",
+  "x": 34404,
+  "y": 2987,
+  "width": 570,
+  "height": 390,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": { "width": 470, "height": 160 }
+}
+```
+
+- `asset` = klucz po `object.` z `world-asset-kit.json` (`regionAsset`). Silnik bierze wiązanie
+  `object.<świat>.<id>` przed `object.<asset>`.
+- `x, y` to **stopa** obiektu (punkt oparcia na ziemi). Kolejność rysowania = `y`: postać przed pniem
+  zasłania go, za koroną jest przez nią zasłaniana. Nie ustawiać ręcznej głębokości.
+- Kolizja pochodzi wyłącznie z `solid` + `footprint` w JSON-ie regionu, **nigdy z grafiki**. Obrys ok.
+  60 % szerokości i niski (patrz `placement.footprint`). Drzewa mają obrys tylko pnia.
+- Cień pod obiektem dodaje silnik sam dla obiektów wyższych niż 56 jednostek na warstwie `objects`
+  (nie dla mostów i płaskich elementów). Nie rysować cieni w grafice.
+- Drzewa (`kind` zawiera `tree`, `pine`, `bamboo`) nie bledną: postać za koroną jest ukryta. Budynki i
+  rekwizyty bledną do 28 %, gdy zasłaniają tułów postaci.
+- `layer: below` = płaskie elementy pod postaciami (mosty, kałuże), `overhead` = nad nimi.
+
+### Czego nie ruszać
+
+- Wnętrze kuźni w Pyrze to **pionowa sala 540 × 1100** (`SMITHY_ROOM` w `src/game/city/room.ts`); jej
+  kolizje są dopasowane do grafik paczki `pyra-smithy`. Inne wnętrza mają układ 960 × 760.
+- Miasto = strefa bezpieczna ~4000 × 2500 (`city.bounds`), poza nią walka. Nowe obiekty w mieście nie mogą
+  zasłaniać drzwi budynków usługowych (muszą być osiągalne A* ze startu).
+- Nie edytować `imported.json` ręcznie ani plików `*.generated.ts`; paczki wchodzą przez
+  `npm run assets:import` z podbiciem wersji.
+
+### Zamawianie nowej grafiki
+
+Wpisz potrzebę do `docs/GPU-BACKLOG-2026-10-23.md` (typ, biom/rasa, rozmiar na ekranie, solid tak/nie).
+Każda część przechodzi: generowanie na GPU → wybór wariantu przez właściciela → wycięcie tła →
+kontur i paczka (`scripts/prepare_*.py`) → import → pojawia się w `world-asset-kit.json`.
+Orientacyjnie: kilkanaście części jednego zestawu to godzina pracy GPU plus przegląd właściciela.
+
+### Stan na 23.10.2026
+
+| Zestaw                                                                                                                            | Stan                                                                                                                      |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Obiekty regionów (świątynie, wieże, drzewa, góry, wulkany, rekwizyty)                                                             | zainstalowane, w `objects`                                                                                                |
+| Kuźnia Pyry (18 części, podłoga, ściana, Goro)                                                                                    | zainstalowane (paczka `pyra-smithy` 1.1.0)                                                                                |
+| Partia 1: miasta Pyry, Aetherii, Nexus-9, Verdantii; biomy las, śnieg, pustynia, wulkan, wybrzeże; ruiny i rekwizyty (138 części) | zainstalowane (paczki `pyra-city`, `aether-city`, `nexus-city`, `verdant-city`, `biome-*`, `ruins-props`), wersja robocza |
+| 494 tekstury krajobrazu + wersja przemalowana                                                                                     | wygenerowane / w trakcie przemalowania                                                                                    |
+| Góry, wulkany, skały, drzewa, 8 zwierząt neutralnych                                                                              | wygenerowane próbki, do wyboru                                                                                            |
+| Bohaterowie 4 ras w nowym stylu z animacjami                                                                                      | Legendy: trening modelu; Androidy: wybrany wygląd; reszta: koncepty                                                       |
+
+
+## Krajobraz planety i neutralna fauna — specyfikacja (23.10.2026)
+
+**Status: SPECYFIKACJA DO ZATWIERDZENIA. Nic z tej listy nie jest wygenerowane ani zaimportowane; liczby i nazwy to propozycje. Uzupełnia GPU-BACKLOG-2026-10-23.md. Pod GPU uruchamia i zatrzymuje wyłącznie właściciel.**
+
+Decyzja właściciela (23.10.2026): cała planeta ma zostać wypełniona. Poprawki animacji i podłoża przy miastach robimy na końcu. Potrzebne jest bardzo zróżnicowane środowisko (skały, góry, wulkany) oraz **neutralne zwierzęta**, które dają pożywienie i inne surowce (osobno od potworów z bestiariusza, które pozostają przeciwnikami).
+
+Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; opt-in przez `PREVIEW_SWITCHES` do akceptacji; budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
+
+### 1. Krajobraz: tekstury podłoża (`terrain.*`)
+
+Kafelkowane, bezszwowe, 512² (kamień i woda 1024²), RGBA tylko dla przejść. Cel: ok. **150 tekstur**, w tym 4 zestawy biomów po ok. 24 plus wspólne.
+
+| Zestaw                       | Zawartość (przykłady)                                                                                                                                                                                                                                                          | Szt.        |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| Verdantia (las, rzeka, łąka) | 4 trawy, łąka z kwiatami, ściółka sosnowa, ściółka liściasta, mech, błoto, torf, pole uprawne, brzeg rzeki, kamyki dna, płycizna, głębia, bagno, ścieżka ziemna, bruk, zbocze trawiaste, polana grzybowa, paprocie, wrzosowisko, suchy step, piasek rzeczny                    | 24          |
+| Aetheria (woda, ogrody, lód) | kryształowy lód, śnieg, zamarznięte jezioro, szczelina lodowca, mokry kamień, ścieżka z płyt, mchy świątynne, płatki wiśni, ziemia bambusowa, pole ryżowe, trzcina, staw koi, basen wodospadu, szron, szklisty szron, granit górski, tundra, wrzosy alpejskie, kamienne tarasy | 24          |
+| Nexus-9 (syntetyczna)        | płyta stalowa, obwody, ciecz energetyczna, wydmy, skorupa pustyni, solnisko, zardzewiony stop, szkło, heksagony, żwir pustkowia, pole lodowe, popiół rdzeni, płyta serwisowa, piasek ze szkła, kable i rury, platforma lądowiska, mokre metale                                 | 24          |
+| Pyra (wulkaniczna)           | lawa płynąca, zastygła skorupa, popiół, obsydian, czerwona skała kanionu, spalona ziemia, siarka, skorupa gejzeru, piasek żarowy, spękana glina, czarny piasek, tuf, bazaltowe kolumny (płaskie), pumeks, wypalony las (ziemia), żwir wulkaniczny                              | 24          |
+| Wspólne skały i góry         | granit, wapień, bazalt, piaskowiec warstwowy, łupek, marmur, skała lodowa, tuf, rumowisko, zwietrzelina, glina czerwona, żwir, głazy w polu, 8 tekstur ścian klifów (pionowe)                                                                                                  | 30          |
+| Przejścia (maski krawędzi)   | trawa ↔ skała, trawa ↔ piasek, śnieg ↔ skała, lawa ↔ popiół, woda ↔ brzeg, metal ↔ piasek i inne, 4 warianty krawędzi na parę                                                                                                                                                  | 24          |
+| **Razem**                    |                                                                                                                                                                                                                                                                                | **ok. 150** |
+
+### 2. Krajobraz: obiekty (`object.*`, RGBA)
+
+| Rodzaj                          | Opis                                                                                                                                | Szt.        |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| Góry i szczyty                  | po 6 na kontynent (3 rozmiary × 2 warianty): granitowe, lodowe, bazaltowe, czerwone, skalne iglice, płaskowyże                      | 24          |
+| Wulkany                         | czynny z dymem, uśpiony, kaldera z jeziorem lawy, stożek popiołowy, komin gejzeru (po 2 warianty), chmura popiołu (nakładka)        | 12          |
+| Formacje skalne                 | łuki, iglice, mesy, grzyby skalne, kolumny bazaltowe, stalaktyty lodu, wysepki skalne                                               | 28          |
+| Głazy i klify                   | 3 rozmiary × 8 rodzajów skały, półki klifowe, rozpadliny                                                                            | 40          |
+| Drzewa                          | po biomie: iglaste, liściaste, bambus, wiśnia, kryształowe, martwe, spalone, kaktus/sukulent, grzyb olbrzymi, drzewo-antena (Nexus) | 48          |
+| Krzewy, kwiaty, trawy, paprocie | wysokie trawy, pola kwiatowe, trzcina, krzaki jagód i ziół (surowce roślinne)                                                       | 36          |
+| Woda                            | jeziora i stawy (kształty), wodospady, bystrza, gejzery, kałuże lawy, mostki, kładki, brody                                         | 18          |
+| Ruiny Chóru i punkty wiedzy     | filary, bramy, węzły sieci, latarnie wysp, wraki, znaczniki szlaków                                                                 | 30          |
+| **Razem**                       |                                                                                                                                     | **ok. 236** |
+
+Rozmiar obiektów: master 1024² (góry i wulkany do 2048 × 1536), klient maks. 512 (góry 1024); cienie wypalane przez silnik.
+
+### 3. Neutralna fauna (`fauna.*`)
+
+Zwierzęta **nie atakują**. Wypasają się lub żerują, uciekają przy zbliżeniu (promień ucieczki 260 j.), wracają po ok. 20 s. Zabicie ich nie daje XP i nie liczy się do zadań z bestiariusza (zasada z Księgi: surowców z obowiązkowych napraw nie wiążemy z losowym łupem). Dają **pożywienie i surowce** używane przez receptury (U-07…U-11, T-03, R-02, R-03). Dopuszczone sposoby zdobycia: polowanie (zwykły atak), zbieranie (jaja, miód, mleko, wełna, pióra bez zabijania) i wędkowanie (ryby, opcjonalnie).
+
+Propozycja **32 gatunków** (po 8 na kontynent, w tym wodne i latające):
+
+| Kontynent | Gatunek (rola)                            | Surowce                            |
+| --------- | ----------------------------------------- | ---------------------------------- |
+| Verdantia | jeleń szlachetny (stado, ucieka)          | mięso, skóra, poroże               |
+| Verdantia | zając, królik (mały, szybki)              | mięso, futerko                     |
+| Verdantia | bażant, kaczka (latają)                   | mięso, pióra, jaja                 |
+| Verdantia | owca górska/koza (wypas)                  | wełna, mleko, mięso                |
+| Verdantia | pszczoła (rój, nie atakuje)               | miód, wosk                         |
+| Verdantia | ryba rzeczna (łowisko)                    | ryba                               |
+| Verdantia | wiewiórka, lis (żerują, uciekają)         | futerko, orzechy (zbiór)           |
+| Verdantia | żuraw leśny (bagno)                       | pióra, jaja                        |
+| Aetheria  | karp koi, pstrąg górski (stawy)           | ryba, łuska                        |
+| Aetheria  | żuraw biały (latający)                    | pióra                              |
+| Aetheria  | jeleń sika, kozica                        | mięso, skóra                       |
+| Aetheria  | żółw kamienny (powolny)                   | skorupa, mięso                     |
+| Aetheria  | jedwabnik, ćma mgielna                    | jedwab, pył świetlny               |
+| Aetheria  | królik kryształowy                        | futerko, odłamek kryształu (zbiór) |
+| Aetheria  | kaczka mandarynka                         | mięso, pióra                       |
+| Aetheria  | piżmak lodowy (lodowce)                   | futro, mięso                       |
+| Nexus-9   | gazela solna                              | mięso, skóra                       |
+| Nexus-9   | jaszczurka pustyni, wąż piaskowy (ucieka) | skóra, jad (zbiór)                 |
+| Nexus-9   | żuk-sprzątacz (drona biologiczna)         | chitin                             |
+| Nexus-9   | zając pustynny                            | mięso, futerko                     |
+| Nexus-9   | ćma świetlna, motyl obwodów               | pył świetlny                       |
+| Nexus-9   | ryba kolektora (zbiorniki)                | ryba                               |
+| Nexus-9   | kozioł skalny                             | mięso, róg                         |
+| Nexus-9   | szczur magazynowy (neutralny)             | skóra, części (zbiór)              |
+| Pyra      | koza lawowa                               | mięso, róg                         |
+| Pyra      | wół popiołowy (powolny, duży)             | mięso, skóra, róg                  |
+| Pyra      | zając popiołowy                           | mięso, futerko                     |
+| Pyra      | jaszczurka żaru                           | łuska                              |
+| Pyra      | ptak ognistopióry (latający)              | pióra żaru                         |
+| Pyra      | żółw obsydianowy                          | skorupa, mięso                     |
+| Pyra      | ryba gorącego źródła                      | ryba                               |
+| Pyra      | gołąb kanionu                             | mięso, pióra                       |
+
+Surowce zwierzęce (propozycja listy, **do zatwierdzenia przez właściciela**): mięso, skóra, futerko, wełna, mleko, jaja, pióra, róg, poroże, ryba, łuska, jedwab, pył świetlny, miód, wosk, chitin, skorupa. Pożywienie przetworzone (ugotowane) jest zwykłym zużywalnym z U-07…U-11; nie powstaje nowy rodzaj waluty.
+
+#### Animacje fauny
+
+Profil `fauna`: 8 kierunków × 24 klatki (bezczynność 6, chód 8, ucieczka 6, trafienie/śmierć 4) = **192 klatki na gatunek**, master 384², klient 96², atlas ≤ 2048. Dla ptaków i ryb profil skrócony: 4 kierunki × 16 klatek. Razem 32 gatunki ≈ **5 400 klatek** (do 6 100 przy pełnym zestawie). Mały ruch dla owadów i wodnych (pętla bez kierunków).
+
+Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (broń 32, pancerz 30, biżuteria 12, narzędzia 8, zużywalne 16, półprodukty 6, klucze 12, materiały bestiariusza ok. 80) są w osobnej pozycji backlogu (UI).
+
+### 4. Kolejność dostaw dla krajobrazu i fauny
+
+1. **P0 — próbki** (po jednej): trawa verdantyjska z przejściem do skały, góra (1024²), wulkan, bryła skalna, drzewo, jeleń z kompletem klatek, ikona mięsa.
+2. Po akceptacji: **zestawy biomów** (4 × 24 tekstury) → obiekty (góry, skały, drzewa) → przejścia → wulkany i woda → ruiny Chóru.
+3. **Fauna**: najpierw 8 gatunków Verdantii (tam startuje większość graczy), potem po 8 na kolejne kontynenty.
+4. Import walidowanym importerem (rozmiary, klatki, SHA-256, budżet 128 MiB), opt-in, ocena na telefonie.
+
+### 5. Wymagania kodowe (po stronie repo, bez GPU)
+
+- Silnik fauny: neutralne AI (wypas, ucieczka, powrót), brak obrażeń i XP, zbiór i polowanie, limity aktywnych zwierząt w pobliżu gracza (PERF-01), respawn po opuszczeniu obszaru.
+- Rozmieszczenie: generator pokrycia kontynentu (biomy według pozycji na atlasie, tekstury i obiekty z gęstością), kolizje z listy obiektów; **spawny potworów z bestiariusza nadal dopiero po ukończeniu kontynentów** (decyzja właściciela).
+- Kamera i minimapa regionu na dużych dystansach, podróż między miastami (osobne zadanie).
+
+### 6. Decyzje do zatwierdzenia
+
+1. Lista 32 gatunków i surowców zwierzęcych (czy dodać lub usunąć, w tym czy ryby i wędkowanie wchodzą od razu).
+2. Gęstość świata: pełne pokrycie całego kontynentu od razu czy najpierw pas wokół miasta o promieniu ok. 15 000 j.
+3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
+4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).

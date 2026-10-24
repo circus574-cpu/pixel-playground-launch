@@ -133,7 +133,8 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
       y: Number(await canvas.getAttribute("data-player-y")),
     };
     expect(Math.hypot(moved.x - race.x, moved.y - race.y)).toBeGreaterThan(150);
-    const marker = await page.locator(".ki-map-marker").first().getAttribute("style");
+    const you = page.getByTestId("ki-map-you").locator("circle").last();
+    const marker = (await you.getAttribute("cx")) + "," + (await you.getAttribute("cy"));
     await page.reload();
     await expect(page.locator(`.ki-canvas[data-world="${race.world}"]`)).toBeVisible();
     const restored = await saved(page);
@@ -142,7 +143,10 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     expect(restored.quests.steps).toBe("ready");
     expect(Math.hypot(restored.x - moved.x, restored.y - moved.y)).toBeLessThan(10);
     await expect
-      .poll(() => page.locator(".ki-map-marker").first().getAttribute("style"))
+      .poll(async () => {
+        const c = page.getByTestId("ki-map-you").locator("circle").last();
+        return (await c.getAttribute("cx")) + "," + (await c.getAttribute("cy"));
+      })
       .toBe(marker);
     await openHudTool(page, "Dziennik");
     await page.getByRole("button", { name: race.back, exact: true }).click();

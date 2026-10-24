@@ -1,22 +1,41 @@
-import { test, expect, basicAttack, type Page } from "./fixtures";
+import { test, expect, basicAttack, expectCityClear, type Page } from "./fixtures";
 import { cityRoom } from "../src/game/city/room";
 import type { BuildingId } from "../src/game/city/types";
 import { VERDANT_CITY } from "../src/game/city/verdantia";
 
 async function clickPoint(page: Page, x: number, y: number) {
   const canvas = page.locator(".ki-canvas");
-  const point = await canvas.evaluate(
-    (el, p) => {
-      const e = el as HTMLElement,
-        b = e.getBoundingClientRect(),
-        z = Number(e.dataset["zoom"]);
-      return {
-        x: b.x + (p.x - Number(e.dataset["cameraX"]) - b.width / 2) * z + b.width / 2,
-        y: b.y + (p.y - Number(e.dataset["cameraY"]) - b.height / 2) * z + b.height / 2,
-      };
-    },
-    { x, y },
-  );
+  const locate = () =>
+    canvas.evaluate(
+      (el, p) => {
+        const e = el as HTMLElement,
+          b = e.getBoundingClientRect(),
+          z = Number(e.dataset["cameraZoom"] ?? e.dataset["zoom"]);
+        return {
+          x: b.x + (p.x - Number(e.dataset["cameraX"]) - b.width / 2) * z + b.width / 2,
+          y: b.y + (p.y - Number(e.dataset["cameraY"]) - b.height / 2) * z + b.height / 2,
+          w: b.width,
+          h: b.height,
+          top: b.y,
+        };
+      },
+      { x, y },
+    );
+  // Rooms cover the whole screen and the camera follows the hero: walk until the target is on screen.
+  let point = await locate();
+  for (let i = 0; i < 14; i++) {
+    const keys: string[] = [];
+    if (point.x < 20) keys.push("ArrowLeft");
+    if (point.x > point.w - 20) keys.push("ArrowRight");
+    if (point.y < point.top + 230) keys.push("ArrowUp");
+    if (point.y > point.top + point.h - 120) keys.push("ArrowDown");
+    if (!keys.length) break;
+    for (const k of keys) await page.keyboard.down(k);
+    await page.waitForTimeout(350);
+    for (const k of keys) await page.keyboard.up(k);
+    await page.waitForTimeout(250);
+    point = await locate();
+  }
   await page.mouse.click(point.x, point.y);
 }
 async function building(page: Page, id: BuildingId) {
@@ -46,7 +65,7 @@ for (const [width, height] of [
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const canvas = page.locator(".ki-canvas");
     await expect(canvas).toHaveAttribute("data-interior", "outside");
-    await expect(canvas).toHaveAttribute("data-enemies", "[]");
+    await expectCityClear(canvas);
     await page.screenshot({ path: info.outputPath(`city-outside-${width}.png`) });
     await building(page, "shop");
     await clickPoint(page, 300, 300);
@@ -92,10 +111,10 @@ for (const [width, height] of [
     await expect(page.getByRole("complementary", { name: "Wnętrze budynku" })).toContainText(
       "Trafienia: 1",
     );
-    await expect(canvas).toHaveAttribute("data-enemies", "[]");
+    await expectCityClear(canvas);
     await page.screenshot({ path: info.outputPath(`city-training-${width}.png`) });
     await exit(page);
-    await expect(canvas).toHaveAttribute("data-enemies", "[]");
+    await expectCityClear(canvas);
     expect(errors).toEqual([]);
   });
 }

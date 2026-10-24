@@ -10,7 +10,7 @@ describe("stage 2.1 regressions", () => {
     const game = new GameSession();
     expect(NPCS.filter((n) => n.id === "guide")).toHaveLength(1);
     expect(game.npcs.filter((n) => n.name === "Aira")).toHaveLength(1);
-    const route = game.nav.path(game.player, TUTORIAL_MARKET);
+    const route = game.nav.path(game.player, game.world.market);
     expect(route.length).toBeGreaterThan(0);
     expect(route.every((p) => game.nav.walkable(p))).toBe(true);
     game.command({ type: "interact", npc: "guide" });
@@ -20,7 +20,7 @@ describe("stage 2.1 regressions", () => {
     expect(game.notice).not.toContain("latar");
     expect(game.questText("steps")).toBe(TUTORIAL_MARKET.instruction);
     game.command({ type: "dialogue", action: "close" });
-    game.command({ type: "move", ...TUTORIAL_MARKET });
+    game.command({ type: "move", ...game.world.market });
     for (let i = 0; i < 600 && game.player.quests.steps !== "ready"; i++) game.tick(50);
     expect(game.player.quests.steps).toBe("ready");
     expect(game.player.visited).toBe(true);

@@ -2683,7 +2683,7 @@
    "tileSize": null,
    "regionAsset": "cherry-tree",
    "placement": {
-    "uses": 10,
+    "uses": 8,
     "width": 300.0,
     "height": 294.0,
     "anchorX": 0.5,
@@ -3568,7 +3568,7 @@
    "tileSize": null,
    "regionAsset": "garden",
    "placement": {
-    "uses": 26,
+    "uses": 18,
     "width": 170.0,
     "height": 120.0,
     "anchorX": 0.5,
@@ -4719,15 +4719,15 @@
    "tileSize": null,
    "regionAsset": "ki-tree",
    "placement": {
-    "uses": 7,
-    "width": 290,
-    "height": 330,
+    "uses": 6,
+    "width": 290.0,
+    "height": 330.0,
     "anchorX": 0.5,
     "anchorY": 0.92,
     "solid": true,
     "footprint": {
-     "width": 75,
-     "height": 60
+     "width": 75.0,
+     "height": 60.0
     }
    }
   },
@@ -4891,15 +4891,15 @@
    "tileSize": null,
    "regionAsset": "nature.mountain-peak",
    "placement": {
-    "uses": 9,
-    "width": 430,
-    "height": 430,
+    "uses": 8,
+    "width": 430.0,
+    "height": 430.0,
     "anchorX": 0.5,
     "anchorY": 0.92,
     "solid": true,
     "footprint": {
-     "width": 215,
-     "height": 77
+     "width": 215.0,
+     "height": 77.0
     }
    }
   },
@@ -6033,6 +6033,230 @@
      "height": 66
     }
    }
+  },
+  {
+   "binding": "object.pyra.smithy.anvil-stump",
+   "asset": "pyra-smithy-anvil-stump",
+   "pixels": [
+    377,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.anvil-stump",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.banner-flame",
+   "asset": "pyra-smithy-banner-flame",
+   "pixels": [
+    257,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.banner-flame",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.barrels",
+   "asset": "pyra-smithy-barrels",
+   "pixels": [
+    482,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.barrels",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.chest-iron",
+   "asset": "pyra-smithy-chest-iron",
+   "pixels": [
+    526,
+    453
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.chest-iron",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.coal-bin",
+   "asset": "pyra-smithy-coal-bin",
+   "pixels": [
+    372,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.coal-bin",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.crates-stack",
+   "asset": "pyra-smithy-crates-stack",
+   "pixels": [
+    403,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.crates-stack",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.door-arch",
+   "asset": "pyra-smithy-door-arch",
+   "pixels": [
+    342,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.door-arch",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.furnace-fire",
+   "asset": "pyra-smithy-furnace-fire",
+   "pixels": [
+    440,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.furnace-fire",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.goro",
+   "asset": "pyra-smithy-goro",
+   "pixels": [
+    489,
+    1038
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.goro",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.grindstone",
+   "asset": "pyra-smithy-grindstone",
+   "pixels": [
+    321,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.grindstone",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.lantern-post",
+   "asset": "pyra-smithy-lantern-post",
+   "pixels": [
+    235,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.lantern-post",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.shelf-ingots",
+   "asset": "pyra-smithy-shelf-ingots",
+   "pixels": [
+    340,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.shelf-ingots",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.sign-hanging",
+   "asset": "pyra-smithy-sign-hanging",
+   "pixels": [
+    218,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.sign-hanging",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.stairs-wood",
+   "asset": "pyra-smithy-stairs-wood",
+   "pixels": [
+    333,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.stairs-wood",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.weapon-rack",
+   "asset": "pyra-smithy-weapon-rack",
+   "pixels": [
+    321,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.weapon-rack",
+   "placement": null
+  },
+  {
+   "binding": "object.pyra.smithy.workbench-tools",
+   "asset": "pyra-smithy-workbench-tools",
+   "pixels": [
+    511,
+    526
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "pyra.smithy.workbench-tools",
+   "placement": null
   },
   {
    "binding": "object.reactor",
@@ -7340,6 +7564,36 @@
    ]
   },
   {
+   "binding": "terrain.pyra.smithy-floor",
+   "asset": "pyra-smithy-floor",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    256,
+    256
+   ]
+  },
+  {
+   "binding": "terrain.pyra.smithy-wall",
+   "asset": "pyra-smithy-wall",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    256,
+    256
+   ]
+  },
+  {
    "binding": "terrain.verdant",
    "asset": "verdant-art-terrain",
    "pixels": [
@@ -7738,6 +7992,11 @@
    "id": "enemy-verdant-straznik-ruin",
    "version": "1.0.1",
    "assets": 1
+  },
+  {
+   "id": "pyra-smithy",
+   "version": "1.1.0",
+   "assets": 18
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."

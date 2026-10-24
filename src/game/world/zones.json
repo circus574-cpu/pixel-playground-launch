@@ -1,18 +1,18 @@
 {
   "aether": {
-    "width": 6000,
-    "height": 4360,
+    "width": 44300,
+    "height": 27400,
     "anchor": {
-      "x": 2400,
-      "y": 2020
+      "x": 23449,
+      "y": 13606
     },
     "zones": [
       {
         "id": "north",
         "name": "Lodowe Szczyty",
         "summary": "Wiatr nad śnieżnymi graniami i szklistymi turniami.",
-        "x": 3000,
-        "y": 515,
+        "x": 24049,
+        "y": 12101,
         "width": 5880,
         "height": 910
       },
@@ -20,8 +20,8 @@
         "id": "south",
         "name": "Dolina Strumieni",
         "summary": "Łąki, trzcina i wodospady spływające z tarasów.",
-        "x": 3000,
-        "y": 3845,
+        "x": 24049,
+        "y": 15431,
         "width": 5880,
         "height": 910
       },
@@ -29,8 +29,8 @@
         "id": "east",
         "name": "Lodowce Wschodu",
         "summary": "Lodowe pola i kryształowe drzewa jarzące się KI.",
-        "x": 5335,
-        "y": 2180,
+        "x": 26384,
+        "y": 13766,
         "width": 1210,
         "height": 2740
       },
@@ -38,8 +38,8 @@
         "id": "west",
         "name": "Skały Zachodu",
         "summary": "Wietrzne urwiska i głazy dawnych pielgrzymów.",
-        "x": 665,
-        "y": 2180,
+        "x": 21714,
+        "y": 13766,
         "width": 1210,
         "height": 2740
       }
@@ -64,19 +64,19 @@
     }
   },
   "nexus": {
-    "width": 4800,
-    "height": 3592,
+    "width": 39700,
+    "height": 26600,
     "anchor": {
-      "x": 1770,
-      "y": 2000
+      "x": 25432,
+      "y": 11733
     },
     "zones": [
       {
         "id": "north",
         "name": "Płaskowyż Północny",
         "summary": "Skaliste wyżyny nad reaktorem, wiatr niesie szum przekaźników.",
-        "x": 2400,
-        "y": 515,
+        "x": 26062,
+        "y": 10248,
         "width": 4680,
         "height": 910
       },
@@ -84,8 +84,8 @@
         "id": "south",
         "name": "Pustkowia Rdzeni",
         "summary": "Spękana ziemia pełna wygasłych modułów.",
-        "x": 2400,
-        "y": 3077,
+        "x": 26062,
+        "y": 12810,
         "width": 4680,
         "height": 910
       },
@@ -93,8 +93,8 @@
         "id": "east",
         "name": "Doki Wschodnie",
         "summary": "Piaszczyste wybrzeże, dawne doki i skały morskie.",
-        "x": 4135,
-        "y": 1796,
+        "x": 27797,
+        "y": 11529,
         "width": 1210,
         "height": 1972
       },
@@ -102,8 +102,8 @@
         "id": "west",
         "name": "Zbocza Zachodnie",
         "summary": "Lodowe stoki i lśniące iglice nad miastem.",
-        "x": 665,
-        "y": 1796,
+        "x": 24327,
+        "y": 11529,
         "width": 1210,
         "height": 1972
       }
@@ -128,19 +128,19 @@
     }
   },
   "pyra": {
-    "width": 4800,
-    "height": 3592,
+    "width": 42000,
+    "height": 25300,
     "anchor": {
-      "x": 2380,
-      "y": 2220
+      "x": 34352,
+      "y": 4352
     },
     "zones": [
       {
         "id": "north",
         "name": "Pola Wulkaniczne",
         "summary": "Skorupa lawy, dymiące kratery i czerwone żyły ognia.",
-        "x": 2400,
-        "y": 515,
+        "x": 34372,
+        "y": 2647,
         "width": 4680,
         "height": 910
       },
@@ -148,8 +148,8 @@
         "id": "south",
         "name": "Rzeki Lawy",
         "summary": "Bazaltowe kolumny nad rozpadlinami żarzącej lawy.",
-        "x": 2400,
-        "y": 3077,
+        "x": 34372,
+        "y": 5209,
         "width": 4680,
         "height": 910
       },
@@ -157,8 +157,8 @@
         "id": "east",
         "name": "Czerwone Kaniony",
         "summary": "Kaniony klanów i skalne bramy dawnych wojowników.",
-        "x": 4135,
-        "y": 1796,
+        "x": 36107,
+        "y": 3928,
         "width": 1210,
         "height": 1972
       },
@@ -166,8 +166,8 @@
         "id": "west",
         "name": "Czarne Pustkowia",
         "summary": "Popiół, szkło wulkaniczne i wypalone głazy.",
-        "x": 665,
-        "y": 1796,
+        "x": 32637,
+        "y": 3928,
         "width": 1210,
         "height": 1972
       }
@@ -188,6 +188,33 @@
         "y0": 608,
         "x1": 915,
         "y1": 993
+      }
+    }
+  },
+  "verdant": {
+    "width": 49000,
+    "height": 31400,
+    "anchor": {
+      "x": 34176,
+      "y": 22400
+    },
+    "zones": [],
+    "atlas": {
+      "settle": {
+        "x": 755,
+        "y": 498
+      },
+      "bbox": {
+        "x0": 245,
+        "y0": 173,
+        "x1": 977,
+        "y1": 630
+      },
+      "crop": {
+        "x0": 201,
+        "y0": 146,
+        "x1": 1021,
+        "y1": 657
       }
     }
   }

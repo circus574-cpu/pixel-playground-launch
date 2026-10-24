@@ -7,8 +7,108 @@ import type { WorldDefinition } from "./types";
 import { renderForest } from "./renderForest";
 import { coversPlayer } from "./visibility";
 import { bakeRoads } from "./renderRoads";
-import { SCENERY_CELL, buildSceneryGrid, sceneryNear } from "./sceneryStream";
+import { macroVariation } from "./macroVariation";
+import { castsShadow, objectShadow } from "./shadows";
+import { SCENERY_CELL, buildSceneryGrid, sceneryNear, sceneryReach } from "./sceneryStream";
 import type { Point } from "../navigation";
+
+/** Derived, softened copy of a ground texture; undefined when the canvas filter is unavailable. */
+function softenGround(scene: Phaser.Scene, asset: string, frame?: string | number) {
+  const key = asset + ":soft";
+  if (scene.textures.exists(key)) return key;
+  if (frame !== undefined && frame !== "__BASE") return undefined;
+  const src = scene.textures.get(asset).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
+  const w = src.width,
+    h = src.height;
+  const tex = scene.textures.createCanvas(key, w, h);
+  if (!tex) return undefined;
+  const ctx = tex.getContext();
+  if (!("filter" in ctx)) {
+    scene.textures.remove(key);
+    return undefined;
+  }
+  // Tile the image 3 × 3 before blurring so the blur wraps around the edges, then keep the middle tile.
+  const big = document.createElement("canvas");
+  big.width = w * 3;
+  big.height = h * 3;
+  const bctx = big.getContext("2d")!;
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) bctx.drawImage(src, i * w, j * h);
+  const out = document.createElement("canvas");
+  out.width = w * 3;
+  out.height = h * 3;
+  const octx = out.getContext("2d")!;
+  octx.filter = "contrast(0.72) saturate(0.85) brightness(1.02) blur(1.5px)";
+  octx.drawImage(big, 0, 0);
+  // Warm painted wash: the ground is a calm backdrop in one limited palette, never the loudest thing on screen.
+  octx.filter = "none";
+  octx.globalAlpha = 0.08;
+  octx.fillStyle = "#d9bf94";
+  octx.fillRect(0, 0, w * 3, h * 3);
+  octx.globalAlpha = 1;
+  ctx.drawImage(out, w, h, w, h, 0, 0, w, h);
+  tex.refresh();
+  return key;
+}
+
+/**
+ * Rectangular path/plaza areas as a feathered canvas patch instead of a hard-edged TileSprite;
+ * falls back to the TileSprite when the texture is a frame or the canvas is unavailable.
+ */
+function featheredArea(
+  scene: Phaser.Scene,
+  area: { x: number; y: number; width: number; height: number },
+  binding: {
+    asset: string;
+    frame?: string | number | undefined;
+    tileSize?: [number, number] | undefined;
+  },
+  depth: number,
+) {
+  const hard = () =>
+    sizeTile(
+      scene.add.tileSprite(area.x, area.y, area.width, area.height, binding.asset, binding.frame),
+      binding.tileSize,
+    )
+      .setOrigin(0)
+      .setDepth(depth);
+  if (binding.frame !== undefined && binding.frame !== "__BASE") return hard();
+  const pad = Math.round(Math.min(48, area.width / 3, area.height / 3));
+  const w = area.width + pad * 2,
+    h = area.height + pad * 2;
+  const key = `feather:${binding.asset}:${area.x}:${area.y}:${area.width}:${area.height}`;
+  if (scene.textures.exists(key)) scene.textures.remove(key);
+  const tex = scene.textures.createCanvas(key, w, h);
+  if (!tex) return hard();
+  const ctx = tex.getContext();
+  const src = scene.textures.get(binding.asset).getSourceImage() as
+    HTMLImageElement | HTMLCanvasElement;
+  const [stepX, stepY] = binding.tileSize ?? [src.width, src.height];
+  const pattern = ctx.createPattern(src, "repeat");
+  if (!pattern || !("filter" in ctx)) {
+    scene.textures.remove(key);
+    return hard();
+  }
+  ctx.save();
+  ctx.scale(stepX / src.width, stepY / src.height);
+  ctx.fillStyle = pattern;
+  ctx.fillRect(0, 0, (w * src.width) / stepX, (h * src.height) / stepY);
+  ctx.restore();
+  const mask = document.createElement("canvas");
+  mask.width = w;
+  mask.height = h;
+  const m = mask.getContext("2d")!;
+  m.filter = `blur(${Math.max(4, pad / 2)}px)`;
+  m.fillStyle = "#fff";
+  m.fillRect(pad, pad, area.width, area.height);
+  ctx.globalCompositeOperation = "destination-in";
+  ctx.drawImage(mask, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+  tex.refresh();
+  return scene.add
+    .image(area.x - pad, area.y - pad, key)
+    .setOrigin(0)
+    .setDepth(depth);
+}
 
 /** World units per streamed ground chunk. */
 const GROUND_CHUNK = 1024;
@@ -16,50 +116,52 @@ const GROUND_CHUNK = 1024;
 export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.terrain) return renderForest(scene, world);
   const terrain = world.terrain;
+  // Every ground-type surface goes through the same softening so the whole floor is one calm palette.
+  const calm = <T extends { asset: string; frame?: string | number | undefined }>(b: T): T => {
+    const key = softenGround(scene, b.asset, b.frame);
+    return key ? { ...b, asset: key, frame: undefined } : b;
+  };
   const ground = textureBinding("terrain." + terrain.ground, { asset: terrain.ground }),
-    path = textureBinding("terrain." + terrain.path, { asset: terrain.path }),
-    plaza = textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza });
+    path = calm(textureBinding("terrain." + terrain.path, { asset: terrain.path })),
+    plaza = calm(textureBinding("terrain." + terrain.plaza, { asset: terrain.plaza }));
   // A painted terrain pack replaces the flat placeholder tiles and their procedural detail.
   const paintedGround = !!catalog.renderBindings["terrain." + terrain.ground];
-  const wall = catalog.renderBindings["terrain." + world.id + "-wall"];
-  const hazard = hazardBinding(world.id);
+  const wallRaw = catalog.renderBindings["terrain." + world.id + "-wall"];
+  const wall = wallRaw ? calm(wallRaw) : wallRaw;
+  const hazardRaw = hazardBinding(world.id);
+  const hazard = hazardRaw ? calm(hazardRaw) : hazardRaw;
   const border = world.border ?? 3;
   const updateAtmosphere = atmosphere(scene, world.id);
   // Ground is streamed in chunks: a world-sized TileSprite would allocate a full-size canvas
   // texture on the Canvas renderer, which does not scale to the open-world maps.
+  // A photographic, high-contrast ground fights with the painted characters: soften it once (contrast,
+  // saturation, a touch of blur) into a derived texture. Browsers without canvas filters keep the original.
+  const soft = softenGround(scene, ground.asset, ground.frame);
+  const groundAsset = soft ?? ground.asset;
+  const groundFrame = soft ? undefined : ground.frame;
   const groundChunks = new Map<string, Phaser.GameObjects.TileSprite>();
   const streamGround = () => {
     const view = scene.cameras.main.worldView;
-    for (let y = 0; y < world.height; y += GROUND_CHUNK)
-      for (let x = 0; x < world.width; x += GROUND_CHUNK) {
+    // Continents are tens of thousands of units wide: visit only the chunks around the camera.
+    const first = (v: number) => Math.max(0, Math.floor((v - 64) / GROUND_CHUNK) * GROUND_CHUNK);
+    for (let y = first(view.top); y < Math.min(world.height, view.bottom + 64); y += GROUND_CHUNK)
+      for (
+        let x = first(view.left);
+        x < Math.min(world.width, view.right + 64);
+        x += GROUND_CHUNK
+      ) {
         const key = x + ":" + y;
-        const inView =
-          x < view.right + 64 &&
-          x + GROUND_CHUNK > view.left - 64 &&
-          y < view.bottom + 64 &&
-          y + GROUND_CHUNK > view.top - 64;
         const chunk = groundChunks.get(key);
-        if (chunk) {
-          chunk.setVisible(inView);
-          // Same rule as the baked road chunks: depend on the camera now, not its history.
-          const far =
-            x > view.right + 640 ||
-            x + GROUND_CHUNK < view.left - 640 ||
-            y > view.bottom + 640 ||
-            y + GROUND_CHUNK < view.top - 640;
-          if (far) {
-            chunk.destroy();
-            groundChunks.delete(key);
-          }
-        } else if (inView) {
+        if (chunk) chunk.setVisible(true);
+        else {
           const tile = sizeTile(
             scene.add.tileSprite(
               x,
               y,
               Math.min(GROUND_CHUNK, world.width - x),
               Math.min(GROUND_CHUNK, world.height - y),
-              ground.asset,
-              ground.frame,
+              groundAsset,
+              groundFrame,
             ),
             ground.tileSize,
           )
@@ -69,22 +171,30 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
           groundChunks.set(key, tile);
         }
       }
+    for (const [key, chunk] of groundChunks) {
+      const [x, y] = key.split(":").map(Number) as [number, number];
+      // Same rule as the baked road chunks: depend on the camera now, not its history.
+      const far =
+        x > view.right + 640 ||
+        x + GROUND_CHUNK < view.left - 640 ||
+        y > view.bottom + 640 ||
+        y + GROUND_CHUNK < view.top - 640;
+      if (far) {
+        chunk.destroy();
+        groundChunks.delete(key);
+      } else if (
+        x >= view.right + 64 ||
+        x + GROUND_CHUNK <= view.left - 64 ||
+        y >= view.bottom + 64 ||
+        y + GROUND_CHUNK <= view.top - 64
+      )
+        chunk.setVisible(false);
+    }
   };
   streamGround();
-  for (const area of terrain.paths)
-    sizeTile(
-      scene.add.tileSprite(area.x, area.y, area.width, area.height, path.asset, path.frame),
-      path.tileSize,
-    )
-      .setOrigin(0)
-      .setDepth(renderDepth("paths"));
-  for (const area of terrain.plazas)
-    sizeTile(
-      scene.add.tileSprite(area.x, area.y, area.width, area.height, plaza.asset, plaza.frame),
-      plaza.tileSize,
-    )
-      .setOrigin(0)
-      .setDepth(renderDepth("paths") + 1);
+  const macro = macroVariation(scene, world, world.id);
+  for (const area of terrain.paths) featheredArea(scene, area, path, renderDepth("paths"));
+  for (const area of terrain.plazas) featheredArea(scene, area, plaza, renderDepth("paths") + 1);
   const roads =
     terrain.roads?.length || terrain.courts?.length || terrain.zones?.length
       ? bakeRoads(
@@ -101,7 +211,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
               .filter((z) => catalog.renderBindings["terrain." + z.texture])
               .map((z) => [
                 z.texture,
-                textureBinding("terrain." + z.texture, { asset: z.texture }),
+                calm(textureBinding("terrain." + z.texture, { asset: z.texture })),
               ]),
           ),
         )
@@ -110,8 +220,14 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
   // Deterministic, camera-independent placement; no save, collision or navigation changes.
   if ((world.id === "aether" || world.id === "nexus") && !paintedGround) {
     const detail = scene.add.graphics().setDepth(renderDepth("ground") + 1);
-    for (let y = 170; y < world.height - 110; y += 112) {
-      for (let x = 180; x < world.width - 160; x += 128) {
+    // Surface detail is limited to the neighbourhood of the city; the continent beyond stays plain.
+    const around = world.city?.bounds;
+    const left = Math.max(180, around ? around.x - 800 : 0),
+      right = Math.min(world.width - 160, around ? around.x + around.width + 800 : world.width),
+      top = Math.max(170, around ? around.y - 800 : 0),
+      bottom = Math.min(world.height - 110, around ? around.y + around.height + 800 : world.height);
+    for (let y = top - (top % 112) + (170 % 112); y < bottom; y += 112) {
+      for (let x = left - (left % 128) + (180 % 128); x < right; x += 128) {
         const seed = (x * 17 + y * 31) % 101;
         const px = x + (seed % 39) - 19;
         const py = y + ((seed * 7) % 43) - 21;
@@ -215,13 +331,16 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     // Outer boundary stays wall; inner blockers (lava, energy, water) use the nature liquid.
     const surface = index >= border && hazard ? hazard : wall;
     if (surface) {
-      // Painted texture on the unchanged collision rectangle.
-      sizeTile(
-        scene.add.tileSprite(o.x, o.y, o.width, o.height, surface.asset, surface.frame),
-        surface.tileSize,
-      )
-        .setOrigin(0)
-        .setDepth(renderDepth("below") - 1);
+      // Painted texture on the unchanged collision rectangle; hazards melt into the ground instead of
+      // ending in a hard-edged rectangle.
+      if (index >= border) featheredArea(scene, o, surface, renderDepth("below") - 1);
+      else
+        sizeTile(
+          scene.add.tileSprite(o.x, o.y, o.width, o.height, surface.asset, surface.frame),
+          surface.tileSize,
+        )
+          .setOrigin(0)
+          .setDepth(renderDepth("below") - 1);
       continue;
     }
     hazards.fillStyle(world.id === "pyra" ? 0x2a2029 : world.id === "nexus" ? 0x091722 : 0x15343b);
@@ -242,40 +361,39 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       hazards.strokePath();
     }
   }
-  // Port of Claude's a0d5b2e: keep only nearby scenery alive, without importing
-  // unrelated terrain, shadow or continent changes from the other branch.
+  // Region worlds carry tens of thousands of decorations: only objects near the camera exist as game objects.
   const sceneryGrid = buildSceneryGrid(world.objects);
-  // Render bindings may override the source anchor; full dimensions safely cover
-  // every validated origin in [0,1], including very tall objects outside the view.
-  const reach = world.objects.reduce((r, o) => Math.max(r, o.width, o.height), 0);
+  const reach = sceneryReach(world.objects);
   const live = new Map<
     number,
-    { object: (typeof world.objects)[number]; image: Phaser.GameObjects.Image }
+    {
+      object: (typeof world.objects)[number];
+      image: Phaser.GameObjects.Image;
+      shadow: Phaser.GameObjects.Image | null;
+    }
   >();
-  const spawnScenery = (index: number) => {
-    const object = world.objects[index]!;
+  const spawn = (i: number) => {
+    const object = world.objects[i]!;
     const ref = textureBinding(
       "object." + world.id + "." + object.id,
       textureBinding("object." + object.asset, { asset: object.asset! }),
     );
-    live.set(index, {
-      object,
-      image: sizeScenery(
-        scene.add
-          .image(object.x, object.y, ref.asset, ref.frame)
-          .setOrigin(ref.origin?.[0] ?? object.anchorX, ref.origin?.[1] ?? object.anchorY),
-        object.width,
-        object.height,
-        ref.fit,
-      ).setDepth(renderDepth(ref.layer ?? "objects", object.y)),
-    });
+    const shadow = castsShadow(object, ref.layer) ? objectShadow(scene, object) : null;
+    const image = sizeScenery(
+      scene.add
+        .image(object.x, object.y, ref.asset, ref.frame)
+        .setOrigin(ref.origin?.[0] ?? object.anchorX, ref.origin?.[1] ?? object.anchorY),
+      object.width,
+      object.height,
+      ref.fit,
+    ).setDepth(renderDepth(ref.layer ?? "objects", object.y));
+    live.set(i, { object, image, shadow });
   };
   let lastCells = "";
   const streamScenery = () => {
     const view = scene.cameras.main.worldView;
     const pad = reach + 128;
-    // Cache the actual expanded query cells. Caching only camera position or
-    // width can miss new visible rows after a height-only resize or small pan.
+    // Cache the actual expanded query cells: position/width alone can miss rows after a height-only resize.
     const cells = [
       Math.floor((view.left - pad) / SCENERY_CELL),
       Math.floor((view.right + pad) / SCENERY_CELL),
@@ -284,11 +402,13 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     ].join(":");
     if (cells === lastCells) return;
     lastCells = cells;
-    for (const i of sceneryNear(sceneryGrid, view, pad)) if (!live.has(i)) spawnScenery(i);
+    for (const i of sceneryNear(sceneryGrid, view, pad)) if (!live.has(i)) spawn(i);
+    // Drop what is two cells further away, so walking back and forth does not thrash.
     const keep = new Set(sceneryNear(sceneryGrid, view, pad + 2048));
     for (const [i, entry] of live)
       if (!keep.has(i)) {
         entry.image.destroy();
+        entry.shadow?.destroy();
         live.delete(i);
       }
   };
@@ -298,7 +418,11 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     terrainMode: "region",
     dispose: () => {
       roads?.dispose();
-      for (const entry of live.values()) entry.image.destroy();
+      macro.dispose();
+      for (const { image, shadow } of live.values()) {
+        image.destroy();
+        shadow?.destroy();
+      }
       live.clear();
       for (const chunk of groundChunks.values()) chunk.destroy();
       groundChunks.clear();
@@ -306,20 +430,12 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     updateVisibility(player: Point) {
       updateAtmosphere();
       streamGround();
+      macro.update();
       roads?.updateVisibility();
-      streamScenery();
       const view = scene.cameras.main.worldView;
-      for (const { object: o, image } of live.values()) {
-        const left = o.x - o.width * o.anchorX,
-          top = o.y - o.height * o.anchorY;
-        const visible =
-          left < view.right + 128 &&
-          left + o.width > view.left - 128 &&
-          top < view.bottom + 128 &&
-          top + o.height > view.top - 128;
-        image.setVisible(visible);
-        if (visible) image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
-      }
+      streamScenery();
+      for (const { object: o, image } of live.values())
+        image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
     },
   };
 }

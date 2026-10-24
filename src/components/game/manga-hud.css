@@ -1,0 +1,1078 @@
+/* Manga HUD v1. Decorative art never receives pointer events; live controls stay HTML. */
+.ki-hud {
+  --ink: #101115;
+  --ink-raised: #232126;
+  --gold: #dcb66c;
+  --gold-dim: #806341;
+  --paper: #fff0cf;
+  --muted: #c2b69d;
+  --dock-height: 76px;
+  color: var(--paper);
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(180deg, #07090c60, transparent 22%, transparent 72%, #07090c55);
+}
+.ki-hud .ki-frame,
+.ki-hud .ki-city-state {
+  color: var(--paper);
+  border: 1px solid var(--gold);
+  border-radius: 3px 13px 3px 13px;
+  background: linear-gradient(125deg, #29262aee, #111216f5 65%);
+  box-shadow:
+    0 0 0 2px #0a0b0ddd,
+    inset 0 0 0 3px #c59a4820,
+    0 5px 16px #0006;
+}
+.ki-manga-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  background: url("/game/assets/hud-manga-v1/icons.png") no-repeat;
+  background-size: 400% 300%;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 1px #0009);
+}
+.ki-hud button:focus-visible,
+.ki-hud input:focus-visible,
+.ki-hud select:focus-visible {
+  outline: 3px solid #fff1b3;
+  outline-offset: 4px;
+}
+.ki-hud button:disabled {
+  opacity: 0.56;
+}
+.ki-hud button:not(:disabled):active {
+  filter: brightness(1.22);
+}
+.ki-hud .ki-player {
+  top: max(14px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left));
+  width: 310px;
+  height: auto;
+  min-height: 88px;
+  padding: 8px 12px 8px 7px;
+  gap: 12px;
+  border-left-width: 3px;
+}
+.ki-hud .ki-portrait {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: radial-gradient(circle, #643724, #101115);
+  box-shadow:
+    0 0 0 3px #101115,
+    0 0 0 4px #9d793f;
+  isolation: isolate;
+}
+.ki-portrait img {
+  position: absolute;
+  left: -115%;
+  top: -35%;
+  width: 330%;
+  max-width: none;
+  height: auto;
+
+  pointer-events: none;
+}
+.ki-hud .ki-level {
+  z-index: 1;
+  width: 29px;
+  height: 29px;
+  bottom: -3px;
+  left: -3px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  background: #141218;
+  color: #fff1d0;
+  font:
+    bold 15px/1 Georgia,
+    serif;
+}
+.ki-hud .ki-player-name {
+  gap: 8px;
+  margin-bottom: 5px;
+  font:
+    bold 17px/1.25 Georgia,
+    serif;
+  text-shadow: 0 2px #000;
+  overflow-wrap: anywhere;
+}
+.ki-hud .ki-player-name > span {
+  font:
+    600 8px/1.2 system-ui,
+    sans-serif;
+  letter-spacing: 1px;
+  color: var(--gold);
+}
+.ki-hud .ki-meter {
+  height: 17px;
+  margin-bottom: 4px;
+  border: 1px solid #cda560b8;
+  border-radius: 3px 10px 3px 10px;
+  background: #070a10;
+  box-shadow: inset 0 2px 4px #000;
+}
+.ki-hud .ki-meter i {
+  inset: 0;
+  border-radius: inherit;
+}
+.ki-hud .ki-meter span {
+  font:
+    700 11px/15px system-ui,
+    sans-serif;
+  text-shadow: 0 1px 2px #000;
+}
+.ki-hud .ki-hp i {
+  background: linear-gradient(90deg, #9e122e, #e43a48 75%, #ff7f6f);
+  box-shadow: inset 0 2px #ffa69577;
+}
+.ki-hud .ki-energy i {
+  background: linear-gradient(90deg, #07678c, #17a9cd 75%, #93eefa);
+  box-shadow: inset 0 2px #a4f6ff77;
+}
+.ki-hud .ki-xp {
+  height: 3px;
+  background: #51412b;
+  margin-top: 5px;
+}
+.ki-hud .ki-xp i {
+  background: var(--gold);
+  height: 3px;
+}
+.ki-hud .ki-resource {
+  height: 16px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: #08090c;
+  border-bottom: 1px solid #98733f;
+}
+.ki-hud .ki-resource span {
+  font-size: 10px;
+  line-height: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.ki-hud .ki-status-strip {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  max-width: 100%;
+}
+.ki-hud .ki-status-chip {
+  background: #1b151bef;
+  border: 1px solid #bd856b;
+  color: var(--paper);
+}
+.ki-hud .ki-status-stack {
+  top: 152px;
+  width: 270px;
+  left: max(14px, env(safe-area-inset-left));
+}
+.ki-hud .ki-target > span {
+  color: var(--gold);
+}
+.ki-hud .ki-map {
+  width: 150px;
+  padding: 6px;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+}
+.ki-hud .ki-map.ki-map-large {
+  width: 200px;
+}
+.ki-hud .ki-map-title {
+  font:
+    700 11px/24px Georgia,
+    serif;
+  color: var(--paper);
+}
+.ki-hud .ki-dot {
+  background: #efbc5b;
+  box-shadow: 0 0 8px #f0c477;
+}
+.ki-hud .ki-map-image {
+  border: 1px solid #886f49;
+  border-radius: 2px 7px;
+}
+.ki-hud .ki-map-marker {
+  border-color: #15151b;
+  background: #fff6c5;
+  box-shadow: 0 0 0 2px #f5c45b88;
+}
+.ki-hud .ki-quest {
+  top: 178px;
+  width: 150px;
+  border: 1px solid #a5834d;
+  border-radius: 2px 10px;
+  background: #131419eb;
+  right: 14px;
+}
+.ki-hud .ki-map-large ~ .ki-quest {
+  top: 224px;
+  width: 200px;
+}
+.ki-hud .ki-quest strong {
+  color: var(--paper);
+  font-size: 11px;
+}
+.ki-hud .ki-quest div > span {
+  color: var(--muted);
+}
+.ki-hud .ki-quest-diamond,
+.ki-hud .ki-quest-arrow {
+  color: var(--gold);
+}
+.ki-hud .ki-location {
+  top: 18px;
+}
+.ki-hud .ki-location strong {
+  font:
+    bold 20px/1.3 Georgia,
+    serif;
+  color: var(--paper);
+}
+/* Permanent menu, separate from the camera popover and combat actions. */
+.ki-hud .ki-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: calc(var(--dock-height) + env(safe-area-inset-bottom));
+  padding: 4px max(12px, env(safe-area-inset-right)) max(5px, env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left));
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 2px solid var(--gold);
+  background: linear-gradient(180deg, #292226f7, #101115fa 28%);
+  box-shadow:
+    0 -4px 0 #111216c9,
+    0 -5px 0 #a981444d;
+  transform: none;
+}
+.ki-hud .ki-menu-button {
+  width: 100%;
+  height: 100%;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px;
+  border: 0;
+  border-right: 1px solid #80634155;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.ki-hud .ki-menu-button:last-child {
+  border-right: 0;
+}
+.ki-hud .ki-menu-button > .ki-manga-icon {
+  width: 36px;
+  height: 36px;
+}
+.ki-menu-label {
+  font:
+    600 11px/16px system-ui,
+    sans-serif;
+  color: var(--paper);
+}
+.ki-hud .ki-menu-button.active,
+.ki-hud .ki-menu-button:hover {
+  background: linear-gradient(0deg, #aa66252d, transparent);
+  box-shadow: inset 0 -3px var(--gold);
+}
+.ki-hud .ki-badge {
+  top: 1px;
+  right: calc(50% - 28px);
+  background: #b72835;
+  color: #fff3d3;
+  border: 1px solid var(--gold);
+}
+.ki-hud .ki-actionbar {
+  bottom: calc(var(--dock-height) + 18px + env(safe-area-inset-bottom));
+  right: max(16px, env(safe-area-inset-right));
+  left: auto;
+  transform: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  align-content: flex-end;
+  gap: 10px;
+  width: max-content;
+  max-width: min(350px, calc(100% - 100px));
+  max-height: 190px;
+  height: auto;
+  overflow-y: auto;
+  padding: 5px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) #17151a;
+}
+.ki-hud .ki-actionbar::before,
+.ki-hud .ki-actionbar::after {
+  display: none;
+}
+.ki-hud .ki-skill {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  padding: 5px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #353037, #101115 70%);
+  box-shadow:
+    0 0 0 3px #101115,
+    inset 0 0 0 2px #715735,
+    0 4px 8px #0008;
+}
+.ki-hud .ki-skill[data-ability="R"] {
+  width: 84px;
+  height: 84px;
+  order: 2;
+  background: radial-gradient(circle at 35% 35%, #6c202a, #210d15 80%);
+}
+.ki-hud .ki-skill[data-ability="potion"] {
+  order: 3;
+}
+.ki-hud .ki-skill:not(:disabled):hover {
+  border-color: #ffeda4;
+  box-shadow:
+    0 0 0 3px #101115,
+    0 0 15px #e8a24c66;
+}
+.ki-hud .ki-skill:disabled {
+  opacity: 0.68;
+  border-color: #9b845e;
+}
+.ki-hud .ki-skill:disabled .ki-manga-icon {
+  filter: saturate(0.5) brightness(0.8);
+}
+.ki-hud .ki-skill kbd {
+  display: block;
+  top: -3px;
+  left: 0;
+  min-width: 18px;
+  padding: 2px 4px;
+  background: #111216;
+  border: 1px solid #806341;
+  border-radius: 4px;
+}
+.ki-hud .ki-cooldown {
+  border-radius: 50%;
+  background: #08090dbd;
+  color: #fff3d5;
+}
+.ki-hud .ki-item-count {
+  bottom: -3px;
+  right: -3px;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #121317;
+  border: 1px solid var(--gold);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+}
+.ki-hud .ki-auto {
+  bottom: 7px;
+  right: 17px;
+  padding: 1px 4px;
+  background: #14151a;
+  border-radius: 3px;
+  color: #f3dba0;
+}
+.ki-hud .ki-tools-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 52px;
+  height: 60px;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: calc(var(--dock-height) + 18px + env(safe-area-inset-bottom));
+  padding: 4px;
+  font-size: 24px;
+}
+.ki-hud .ki-tools-toggle .ki-manga-icon {
+  width: 33px;
+  height: 33px;
+}
+.ki-hud .ki-tools-toggle small {
+  font: 600 10px/14px system-ui;
+}
+.ki-hud .ki-tools {
+  display: none;
+  position: absolute;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: calc(var(--dock-height) + 88px + env(safe-area-inset-bottom));
+  width: 248px;
+  padding: 10px;
+  border: 1px solid var(--gold);
+  border-radius: 3px 12px;
+  background: #111216f5;
+  box-shadow: 0 6px 24px #0008;
+  pointer-events: auto;
+  z-index: 12;
+}
+.ki-hud .ki-tools.is-open {
+  display: grid;
+  gap: 8px;
+}
+.ki-hud .ki-view-controls {
+  display: flex;
+  position: static;
+  justify-content: space-between;
+  padding: 0;
+  gap: 4px;
+  border: 0;
+  box-shadow: none;
+  background: none;
+}
+.ki-hud .ki-view-controls button {
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--paper);
+  border: 1px solid #806341;
+  border-radius: 3px;
+  background: #252127;
+}
+.ki-hud .ki-view-controls .ki-zoom-value {
+  display: block;
+  font-size: 12px;
+}
+.ki-hud .ki-menu-chat {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  border: 1px solid #806341;
+  min-height: 44px;
+}
+.ki-hud .ki-menu-chat > .ki-manga-icon {
+  width: 30px;
+  height: 30px;
+}
+.ki-hud .ki-context-actions {
+  bottom: calc(var(--dock-height) + 120px + env(safe-area-inset-bottom));
+  max-width: min(450px, calc(100% - 24px));
+}
+.ki-hud .ki-context-actions button,
+.ki-hud .ki-city-state button {
+  min-height: 44px;
+  padding: 9px 14px;
+  border: 1px solid var(--gold);
+  border-radius: 3px 10px;
+  background: linear-gradient(125deg, #39302a, #15151b);
+  color: var(--paper);
+  box-shadow: 0 2px 6px #0006;
+  font-size: 12px;
+}
+.ki-hud .ki-city-state {
+  top: 275px;
+  right: 14px;
+  width: 190px;
+  max-width: 190px;
+  padding: 10px;
+  font-size: 11px;
+}
+.ki-hud .ki-city-state strong {
+  font:
+    bold 15px/1.3 Georgia,
+    serif;
+}
+.ki-hud .ki-city-state small {
+  color: var(--muted);
+}
+.ki-hud .ki-city-state button {
+  width: 100%;
+}
+.ki-hud .ki-chat {
+  display: none;
+}
+.ki-hud .ki-chat.ki-chat-open {
+  display: block;
+  left: 14px;
+  bottom: calc(var(--dock-height) + 88px);
+  width: min(320px, calc(100% - 28px));
+}
+.ki-hud .ki-chat-toggle:before {
+  color: var(--paper);
+}
+.ki-hud .ki-chat-tabs,
+.ki-hud .ki-chat form {
+  background: #19171e;
+  border-color: var(--gold-dim);
+}
+.ki-hud .ki-chat-tabs button {
+  color: var(--paper);
+  min-height: 40px;
+}
+.ki-hud .ki-chat-tabs button.active {
+  background: #623329;
+}
+.ki-hud .ki-messages {
+  color: #f0dfc8;
+}
+.ki-hud .ki-messages b {
+  color: var(--gold);
+}
+.ki-hud > .ki-save-status {
+  right: 10px;
+  left: auto;
+  bottom: calc(var(--dock-height) + 2px);
+}
+/* Shared windows, inventory, city directory and skill cards. */
+.ki-hud .ki-modal-backdrop {
+  background: #08090cc4;
+  backdrop-filter: blur(4px);
+}
+.ki-hud .ki-modal {
+  width: min(680px, calc(100vw - 28px));
+  max-height: calc(100dvh - 32px);
+  padding: 18px 20px;
+  border: 2px solid var(--gold);
+  border-radius: 3px 16px;
+  box-shadow:
+    0 0 0 5px #0d0e12,
+    0 20px 80px #0009;
+  background: linear-gradient(130deg, #30252c, #15151c 40%);
+  color: var(--paper);
+  scrollbar-color: #b68e51 #17151c;
+}
+.ki-hud .ki-modal > header {
+  border-bottom: 1px solid #b48c4c88;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+}
+.ki-hud .ki-modal h2 {
+  font:
+    bold 23px/1.25 Georgia,
+    serif;
+  color: var(--paper);
+}
+.ki-hud .ki-modal header button {
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+.ki-hud .ki-adventure-panel,
+.ki-hud .ki-journal p {
+  color: #e8dcc9;
+  font:
+    13px/1.6 system-ui,
+    sans-serif;
+}
+.ki-hud .ki-adventure-panel button,
+.ki-hud .ki-npc-links button,
+.ki-hud .ki-fullscreen-setting {
+  min-height: 44px;
+  border: 1px solid #b48c4c;
+  border-radius: 3px 8px;
+  background: linear-gradient(120deg, #7c3d2c, #41252a);
+  color: var(--paper);
+}
+.ki-hud .ki-adventure-panel button:not(:disabled):hover {
+  background: #844b31;
+}
+.ki-hud .ki-item-row,
+.ki-hud .ki-equipped,
+.ki-hud .ki-journal-entry,
+.ki-hud .ki-settings label {
+  border-color: #ac874d44;
+}
+.ki-hud .ki-item-row {
+  padding: 10px;
+  background: #0c0e1355;
+  border: 1px solid #ac874d44;
+  border-radius: 3px 8px;
+}
+.ki-hud .ki-skill-branch {
+  border-color: #ac874d66;
+  padding-top: 14px;
+  gap: 10px;
+}
+.ki-hud .ki-skill-branch h3 {
+  color: var(--gold);
+  font:
+    bold 18px/1.4 Georgia,
+    serif;
+}
+.ki-hud .ki-skill-node {
+  border: 1px solid #95744888;
+  background: linear-gradient(120deg, #30262e, #15151c);
+  border-radius: 3px 10px;
+  padding: 12px;
+}
+.ki-hud .ki-skill-node header {
+  border: 0;
+  padding-bottom: 4px;
+}
+.ki-hud .ki-skill-node.is-learned {
+  border-color: #f1ce81;
+  background: linear-gradient(125deg, #57412c77, #17151b);
+  box-shadow: inset 3px 0 #dbb464;
+}
+.ki-hud .ki-skill-node.is-blocked {
+  opacity: 1;
+  color: #b9b0a6;
+  border-color: #695e5055;
+}
+.ki-hud .ki-skill-node.is-blocked button {
+  opacity: 1;
+  color: #bab2a5;
+  background: #242127;
+  border-color: #655a4b;
+}
+.ki-hud .ki-skill-state {
+  color: #f1ce81;
+}
+.ki-hud .ki-city-services {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.ki-hud .ki-city-services button {
+  min-height: 140px;
+  padding: 14px;
+  border: 1px solid #a78049;
+  border-radius: 3px 12px;
+  background: radial-gradient(ellipse at top right, #78452744, transparent), #17151c;
+}
+.ki-hud .ki-city-services strong {
+  font:
+    bold 17px/1.3 Georgia,
+    serif;
+  color: var(--paper);
+}
+.ki-hud .ki-city-services small,
+.ki-hud .ki-city-directory > p,
+.ki-hud .ki-panel-caption,
+.ki-hud .ki-race-switch-note {
+  color: var(--muted);
+}
+.ki-hud .ki-city-services button > span {
+  font-size: 12px;
+}
+.ki-hud .ki-city-directory h3,
+.ki-hud .ki-eyebrow {
+  color: var(--gold);
+}
+.ki-hud .ki-settings input {
+  accent-color: #e1b568;
+}
+.ki-hud .ki-depot-quantity select {
+  background: #221e25;
+  color: var(--paper);
+  border-color: var(--gold-dim);
+}
+.ki-hud .ki-game-message {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  border-color: #a78049;
+  border-radius: 2px 9px;
+  background: #17151eed;
+  color: var(--paper);
+  box-shadow: 0 3px 10px #0006;
+}
+.ki-hud .ki-game-message button {
+  color: var(--gold);
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud {
+    --dock-height: 66px;
+  }
+  .ki-hud .ki-player {
+    width: min(236px, calc(100% - 144px));
+    min-height: 78px;
+    padding: 7px;
+    gap: 8px;
+    top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left));
+  }
+  .ki-hud .ki-portrait {
+    width: 52px;
+    height: 52px;
+    margin-top: 3px;
+  }
+  .ki-hud .ki-level {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    bottom: -6px;
+    left: -4px;
+  }
+  .ki-hud .ki-player-name {
+    font-size: 13px;
+    line-height: 16px;
+    margin-bottom: 4px;
+  }
+  .ki-hud .ki-player-name > span {
+    display: none;
+  }
+  .ki-hud .ki-meter {
+    height: 14px;
+    margin-bottom: 3px;
+  }
+  .ki-hud .ki-meter span {
+    font-size: 10px;
+    line-height: 12px;
+  }
+  .ki-hud .ki-xp {
+    margin-top: 4px;
+    height: 2px;
+  }
+  .ki-hud .ki-map {
+    width: 96px;
+    padding: 4px;
+    top: max(10px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+  }
+  .ki-hud .ki-map.ki-map-large {
+    width: 112px;
+  }
+  .ki-hud .ki-map-title {
+    font-size: 8px;
+    line-height: 17px;
+  }
+  .ki-hud .ki-location,
+  .ki-hud .ki-quest {
+    display: none;
+  }
+  .ki-hud .ki-status-stack {
+    top: 130px;
+    left: 10px;
+    width: min(220px, calc(100% - 170px));
+  }
+  .ki-hud .ki-status-stack .ki-target {
+    width: 160px;
+  }
+  .ki-hud .ki-menu {
+    display: grid;
+  }
+  .ki-hud .ki-menu-button {
+    padding: 2px;
+    min-width: 0;
+    border-radius: 0;
+  }
+  .ki-hud .ki-menu-button > .ki-manga-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .ki-menu-label {
+    font-size: 10px;
+    line-height: 15px;
+  }
+  .ki-hud .ki-actionbar {
+    bottom: calc(var(--dock-height) + 14px + env(safe-area-inset-bottom));
+    right: max(10px, env(safe-area-inset-right));
+    gap: 9px;
+    max-width: min(252px, calc(100% - 92px));
+    max-height: 162px;
+    padding: 5px;
+  }
+  .ki-hud .ki-skill {
+    width: 50px;
+    height: 50px;
+    padding: 4px;
+  }
+  .ki-hud .ki-skill[data-ability="R"] {
+    width: 72px;
+    height: 72px;
+  }
+  .ki-hud .ki-skill kbd {
+    display: none;
+  }
+  .ki-hud .ki-auto {
+    right: 12px;
+    bottom: 5px;
+  }
+  .ki-hud .ki-tools-toggle {
+    left: 10px;
+    bottom: calc(var(--dock-height) + 19px + env(safe-area-inset-bottom));
+    width: 48px;
+    height: 54px;
+    border-radius: 3px 12px;
+  }
+  .ki-hud .ki-tools {
+    left: 10px;
+    bottom: calc(var(--dock-height) + 84px + env(safe-area-inset-bottom));
+    width: 240px;
+  }
+  .ki-hud .ki-context-actions {
+    bottom: calc(var(--dock-height) + 102px + env(safe-area-inset-bottom));
+    flex-wrap: wrap;
+    gap: 6px;
+    width: max-content;
+    max-width: calc(100% - 20px);
+  }
+  .ki-hud .ki-context-actions button {
+    font-size: 11px;
+  }
+  .ki-hud .ki-city-state {
+    top: 140px;
+    right: 10px;
+    width: 140px;
+    max-width: 140px;
+    padding: 8px;
+    font-size: 10px;
+  }
+  .ki-hud .ki-city-state strong {
+    font-size: 13px;
+  }
+  .ki-hud .ki-city-state small {
+    margin: 4px 0;
+  }
+  .ki-hud .ki-city-state > small:first-of-type {
+    display: none;
+  }
+  .ki-hud .ki-city-state button {
+    font-size: 10px;
+    padding: 6px;
+    margin: 6px 0 0;
+  }
+  .ki-hud .ki-modal {
+    padding: 14px;
+  }
+  .ki-hud .ki-modal h2 {
+    font-size: 20px;
+  }
+  .ki-hud .ki-city-services {
+    grid-template-columns: 1fr;
+  }
+  .ki-hud .ki-city-services button {
+    min-height: 116px;
+  }
+}
+@media (max-height: 500px) {
+  .ki-hud {
+    --dock-height: 56px;
+  }
+  .ki-hud .ki-player {
+    width: 230px;
+    min-height: 70px;
+  }
+  .ki-hud .ki-map {
+    width: 88px;
+  }
+  .ki-hud .ki-map.ki-map-large {
+    width: 100px;
+  }
+  .ki-hud .ki-status-stack {
+    top: 120px;
+  }
+  .ki-hud .ki-actionbar {
+    max-height: 128px;
+  }
+  .ki-hud .ki-context-actions {
+    bottom: calc(var(--dock-height) + 95px);
+    max-width: 340px;
+  }
+  .ki-hud .ki-city-state {
+    top: 120px;
+    max-height: 120px;
+    overflow: auto;
+  }
+  .ki-hud .ki-menu-button > .ki-manga-icon {
+    width: 25px;
+    height: 25px;
+  }
+  .ki-hud .ki-tools {
+    bottom: calc(var(--dock-height) + 80px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ki-hud *,
+  .ki-hud *::before,
+  .ki-hud *::after {
+    transition: none;
+    animation: none;
+  }
+}
+
+.ki-portrait-art {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.ki-hud .ki-player::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 8px;
+  width: 6px;
+  height: 55%;
+  background: var(--gold);
+  clip-path: polygon(25% 0, 100% 12%, 40% 100%, 0 90%);
+  pointer-events: none;
+}
+.ki-hud .ki-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;
+  height: 5px;
+  background: var(--gold);
+  opacity: 0.8;
+  clip-path: polygon(
+    0 70%,
+    8% 70%,
+    9% 20%,
+    14% 50%,
+    24% 50%,
+    25% 0,
+    27% 50%,
+    73% 50%,
+    75% 0,
+    76% 50%,
+    88% 50%,
+    90% 20%,
+    92% 70%,
+    100% 70%,
+    100% 100%,
+    0 100%
+  );
+  pointer-events: none;
+}
+/* Learned techniques scroll in their own bank; attack and potion never scroll away. */
+.ki-hud .ki-actionbar {
+  display: grid;
+  grid-template-columns: minmax(84px, 1fr) 58px;
+  width: 194px;
+  max-width: calc(100% - 88px);
+  max-height: none;
+  overflow: visible;
+}
+.ki-hud .ki-actionbar > .ki-skill[data-ability="R"] {
+  grid-column: 1;
+  justify-self: end;
+}
+.ki-hud .ki-actionbar > .ki-skill[data-ability="potion"] {
+  grid-column: 2;
+}
+.ki-secondary-skills {
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: grid;
+  gap: 5px;
+  width: 135px;
+  padding: 5px;
+  pointer-events: auto;
+}
+.ki-technique-page {
+  display: grid;
+  grid-template-columns: repeat(2, 58px);
+  gap: 9px;
+}
+.ki-technique-pagination {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  background: #121318ed;
+}
+.ki-hud .ki-technique-pagination button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: none;
+  color: var(--paper);
+  font-size: 24px;
+}
+.ki-technique-pagination span {
+  text-align: center;
+  font-size: 10px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.ki-hud:has(.ki-secondary-skills:not(:empty)) .ki-context-actions {
+  left: max(14px, env(safe-area-inset-left));
+  transform: none;
+  width: max-content;
+  max-width: min(450px, calc(100% - 220px));
+  bottom: calc(var(--dock-height) + 92px + env(safe-area-inset-bottom));
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud .ki-actionbar {
+    grid-template-columns: minmax(72px, 1fr) 50px;
+    width: 168px;
+  }
+  .ki-secondary-skills {
+    width: 119px;
+  }
+  .ki-technique-page {
+    grid-template-columns: repeat(2, 50px);
+  }
+}
+
+.ki-hud .ki-menu {
+  padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right));
+}
+.ki-hud .ki-modal {
+  scroll-padding-block: 24px;
+  scrollbar-gutter: stable;
+}
+.ki-hud .ki-modal > header {
+  position: sticky;
+  top: -18px;
+  z-index: 2;
+  padding-top: 8px;
+  background: #201c24;
+}
+.ki-hud .ki-modal button {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.ki-hud .ki-skill-node {
+  scroll-margin-block: 24px;
+}
+.ki-hud .ki-skilltree {
+  padding-bottom: 36px;
+}
+@media (max-width: 760px) {
+  .ki-hud .ki-modal > header {
+    top: -14px;
+  }
+}
+
+.ki-hud .ki-skill-node > header {
+  margin: 0;
+  padding: 0 0 4px;
+}
+
+/* Portrait phone: the service card is a small exit pill above the dock, never a tall panel over the scene. */
+@media (max-width: 600px) and (min-height: 501px) {
+  .ki-hud .ki-city-state {
+    top: auto;
+    bottom: calc(var(--dock-height) + 10px);
+    left: 8px;
+    right: auto;
+    width: auto;
+    max-width: 52%;
+    padding: 4px 8px;
+  }
+  .ki-hud .ki-city-state strong,
+  .ki-hud .ki-city-state > small:first-of-type {
+    display: none;
+  }
+  .ki-hud .ki-city-state button {
+    width: auto;
+    margin: 3px 6px 3px 0;
+  }
+}

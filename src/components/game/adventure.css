@@ -204,7 +204,7 @@
     width: 176px;
   }
   .ki-map {
-    width: 90px;
+    width: 130px;
   }
   .ki-skill {
     width: 42px;
@@ -476,4 +476,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
+}
+
+/* Local minimap: a schematic map of the place the player is in (the city, or the ground around). */
+.ki-local-map {
+  display: block;
+  width: 100%;
+  aspect-ratio: 8 / 5;
 }

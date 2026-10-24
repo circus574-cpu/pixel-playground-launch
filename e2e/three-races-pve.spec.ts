@@ -9,9 +9,20 @@ import { WORLDS } from "../src/game/world/worlds";
 const races: {
   id: RaceId;
   guide: string;
+  guideGo?: string;
+  /** Smallest KI drop that proves the skill was cast (Szybki Unik costs 8). */
+  minSpend?: number;
   hunter: string;
   skill: string;
 }[] = [
+  {
+    id: "planetary",
+    guide: "Aira",
+    guideGo: "Airy",
+    hunter: "Ren",
+    skill: "Szybki Unik",
+    minSpend: 6,
+  },
   {
     id: "sage",
     guide: "Sora",
@@ -120,7 +131,9 @@ for (const race of races) {
       .poll(async () => (await state(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
     await openHudTool(page, "Dziennik");
-    await page.getByRole("button", { name: "Idź do " + race.guide, exact: true }).click();
+    await page
+      .getByRole("button", { name: "Idź do " + (race.guideGo ?? race.guide), exact: true })
+      .click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     await close(page);
     await visit(
@@ -171,7 +184,7 @@ for (const race of races) {
     await page.getByRole("button", { name: race.skill, exact: true }).click();
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
-      .toBeLessThan(kiBefore - 10);
+      .toBeLessThan(kiBefore - (race.minSpend ?? 10));
     const kiSpent = Number(await ki.getAttribute("aria-valuenow"));
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))

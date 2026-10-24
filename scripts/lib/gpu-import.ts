@@ -19,6 +19,7 @@ import {
 } from "../../src/game/assets/catalog.ts";
 import { WORLD_IDS } from "../../src/game/world/races.ts";
 import { WORLDS } from "../../src/game/world/worlds.ts";
+import { FOREST } from "../../src/game/world/forest.ts";
 export type Inspected = {
   width: number;
   height: number;
@@ -331,16 +332,14 @@ export async function checkActiveAssets(root = process.cwd(), includePreview = f
       bytes += i.width * i.height * 4;
     }
     requireThat(
-      bytes +
-        (world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0) <=
+      bytes + (world === "verdant" ? terrainCacheBytes(FOREST.width, FOREST.height) : 0) <=
         GPU_CONTRACT.maxWorldTextureBytes,
       "World exceeds 128 MiB decoded texture budget: " + world,
     );
     results[world] = {
       textures: assets.length,
       rgbaBytes: bytes,
-      terrainCacheBytes:
-        world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0,
+      terrainCacheBytes: world === "verdant" ? terrainCacheBytes(FOREST.width, FOREST.height) : 0,
     };
     validateWorldReferences(world, source, measured);
   }
@@ -441,14 +440,12 @@ export async function importPackage(
       bytes += info.width * info.height * 4;
     }
     requireThat(
-      bytes +
-        (world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0) <=
+      bytes + (world === "verdant" ? terrainCacheBytes(FOREST.width, FOREST.height) : 0) <=
         GPU_CONTRACT.maxWorldTextureBytes,
       "World exceeds decoded texture budget: " + world,
     );
     worlds[world] =
-      bytes +
-      (world === "verdant" ? terrainCacheBytes(WORLDS[world].width, WORLDS[world].height) : 0);
+      bytes + (world === "verdant" ? terrainCacheBytes(FOREST.width, FOREST.height) : 0);
     validateWorldReferences(world, combined, measured);
   }
   const result = {
