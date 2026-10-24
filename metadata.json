@@ -1,0 +1,7 @@
+{
+  "name": "Ki Legends",
+  "description": "Ki Legends RPG adventure — race roster, monster bestiary, planetary exploration, and anime-styled combat system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
