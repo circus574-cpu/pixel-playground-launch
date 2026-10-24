@@ -413,3 +413,16 @@ buforowany na 100 ms, niezależnie od liczby podpisów i klatek renderowania.
 
 Po uwzględnieniu rzeczywistych prostokątów HUD ponowiono cztery dotknięte scenariusze
 (komputer i trzy strony technik): 4/4 PASS; pełny TypeScript PASS.
+
+## Przegląd nowszych commitów — 24.10.2026
+
+Zweryfikowano obecność następujących zmian w historii Git:
+
+- `647be05c` — przełączenie startu, zapisów i podróży na Superior jako jedyny świat; zakres testów podany w [dzienniku](zmiany/2026-10-24/ZMIANY.md), bez przenoszenia statusu na inne SHA.
+- `4b94fbcd` — adaptacja testów E2E do Superior i korekty renderowania `renderSuperior.ts`, `superiorRuntime.ts`, `blendPlates.ts`.
+- `3e373e2b` — zmiany manifestu importu assetów, paczek Mędrca i trzech przeciwników, oraz scenariuszy `pre-gpu` i `overlay-audit`.
+- `adab3500` — poprawka `blendPlates.ts` i testu cyklu bohatera.
+- `19a28569` — kolejne zmiany `superiorRuntime.ts` i `hero-lifecycle.spec.ts`.
+- `96458e38` — duża dostawa assetów i danych `deliveries/`, aktualizacja AGENTS.md, README.md i księgi przygody; sam commit nie poświadcza pełnej integracji każdej dostawy do gry.
+
+**Granice weryfikacji:** historia zmian potwierdza modyfikację plików, nie PASS pełnej regresji, nie odbiór wizualny na fizycznym telefonie i nie wdrożenie domeny. Dziennik z 24.10 opisuje selektywne wyniki 333/333, 338/338, 17/17 oraz odrębne sesje Software WebGL na różnych SHA. Nie sumować ich jako jednego końcowego przebiegu. Przed wydaniem uruchomić `python3 scripts/docs/check_documentation.py`, pełny TypeScript, testy, lint, build, Canvas i Software WebGL na identycznym SHA oraz niezależny audyt działającej wersji.
