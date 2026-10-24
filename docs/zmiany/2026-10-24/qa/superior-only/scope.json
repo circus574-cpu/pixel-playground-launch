@@ -1,0 +1,10 @@
+{
+  "codeSha": "647be05c769d06f76163c5d55a435259c17cbef9",
+  "branch": "feature/superior-runtime-20261023",
+  "reset": "new namespace; legacy slots are archival and not imported",
+  "save": "one Superior envelope per character; no expedition copy",
+  "canvas": "7/7",
+  "unit": "338/338",
+  "fullLegacyBrowserSuite": "not run for this change; tests that target retired map coordinates/save formats require retargeting; selected Superior suite is not a full-suite PASS",
+  "softwareWebGL": "7/7"
+}

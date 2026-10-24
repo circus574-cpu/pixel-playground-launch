@@ -1,0 +1,436 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/pixel-playground-launch/node_modules/.bin/playwright",
+      "test",
+      "e2e/superior-world.spec.ts",
+      "--project=software-webgl",
+      "--output=test-results-superior-webgl"
+    ],
+    "configFile": "/workspace/pixel-playground-launch/playwright.config.ts",
+    "rootDir": "/workspace/pixel-playground-launch/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-superior-webgl",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-superior-webgl",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/city-webgl.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-superior-webgl",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-superior-webgl",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/pixel-playground-launch/test-results-superior-webgl",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "software-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "snapshotDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/city-webgl.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4174",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "args": [
+              "--no-sandbox",
+              "--use-gl=angle",
+              "--use-angle=swiftshader",
+              "--enable-unsafe-swiftshader"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "software-webgl"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "superior-world.spec.ts",
+      "file": "superior-world.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Superior: ten lands, race and inventory survive travel and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 184434,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:28:24.557Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "superior-streaming",
+                      "contentType": "application/json",
+                      "body": "W3siZmVhdHVyZSI6ImFldGhlciIsImNodW5rcyI6MTIsIm1ldHJpY3MiOiJ7XCJzYW1wbGVBdE1zXCI6MjM4MzgsXCJmcHNcIjozLjY1LFwiZnJhbWVQNTBNc1wiOjExNi4yMDAwMDAwMDI5ODAyMyxcImZyYW1lUDk1TXNcIjo4MDUuMTAwMDAwMDA4OTQwNyxcIm9iamVjdHNcIjoyMDIsXCJhY3RpdmVPYmplY3RzXCI6MjAyLFwidmlzaWJsZU9iamVjdHNcIjoxNjQsXCJ0ZXh0dXJlc1wiOjc3LFwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzXCI6OTQwNDUyNDgsXCJiYWtlZFRleHR1cmVCeXRlc1wiOjAsXCJqc0hlYXBCeXRlc1wiOjcyMjAwMDAwLFwicmVuZGVyZXJcIjpcIldlYkdMXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9LHsiZmVhdHVyZSI6ImlzbGFuZC0xIiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjo0MDY0NCxcImZwc1wiOjMuODgsXCJmcmFtZVA1ME1zXCI6MTE3LjcwMDAwMDAwMjk4MDIzLFwiZnJhbWVQOTVNc1wiOjYzOC43OTk5OTk5OTcwMTk4LFwib2JqZWN0c1wiOjg4LFwiYWN0aXZlT2JqZWN0c1wiOjg4LFwidmlzaWJsZU9iamVjdHNcIjo1MCxcInRleHR1cmVzXCI6NjAsXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjo3NjU0Nzc0NCxcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6NzIyMDAwMDAsXCJyZW5kZXJlclwiOlwiV2ViR0xcIixcImRyYXdDYWxsc1wiOm51bGx9In0seyJmZWF0dXJlIjoiaXNsYW5kLTIiLCJjaHVua3MiOjksIm1ldHJpY3MiOm51bGx9LHsiZmVhdHVyZSI6ImlzbGFuZC0zIiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjo3MzA1NyxcImZwc1wiOjQuMDIsXCJmcmFtZVA1ME1zXCI6MjAxLFwiZnJhbWVQOTVNc1wiOjQ0Ny4zOTk5OTk5OTEwNTkzLFwib2JqZWN0c1wiOjg5LFwiYWN0aXZlT2JqZWN0c1wiOjg5LFwidmlzaWJsZU9iamVjdHNcIjo1MSxcInRleHR1cmVzXCI6NjEsXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjo3NzU5NjMyMCxcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6NzIyMDAwMDAsXCJyZW5kZXJlclwiOlwiV2ViR0xcIixcImRyYXdDYWxsc1wiOm51bGx9In0seyJmZWF0dXJlIjoiaXNsYW5kLTQiLCJjaHVua3MiOjEyLCJtZXRyaWNzIjoie1wic2FtcGxlQXRNc1wiOjg4NDE3LFwiZnBzXCI6Ni45MSxcImZyYW1lUDUwTXNcIjoxMDIuNSxcImZyYW1lUDk1TXNcIjo1MjMuNTk5OTk5OTk0MDM5NSxcIm9iamVjdHNcIjo4OSxcImFjdGl2ZU9iamVjdHNcIjo4OSxcInZpc2libGVPYmplY3RzXCI6NTEsXCJ0ZXh0dXJlc1wiOjU5LFwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzXCI6NzU5MTI2NDAsXCJiYWtlZFRleHR1cmVCeXRlc1wiOjAsXCJqc0hlYXBCeXRlc1wiOjcyMjAwMDAwLFwicmVuZGVyZXJcIjpcIldlYkdMXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSJ9LHsiZmVhdHVyZSI6ImlzbGFuZC01IiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoxMDM4MjIsXCJmcHNcIjo0LjA4LFwiZnJhbWVQNTBNc1wiOjI5MS45MDAwMDAwMDU5NjA0NixcImZyYW1lUDk1TXNcIjo0NzYuNzAwMDAwMDAyOTgwMjMsXCJvYmplY3RzXCI6ODksXCJhY3RpdmVPYmplY3RzXCI6ODksXCJ2aXNpYmxlT2JqZWN0c1wiOjUxLFwidGV4dHVyZXNcIjo1OSxcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjc1OTEyNjQwLFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjo3MjIwMDAwMCxcInJlbmRlcmVyXCI6XCJXZWJHTFwiLFwiZHJhd0NhbGxzXCI6bnVsbH0ifSx7ImZlYXR1cmUiOiJpc2xhbmQtNiIsImNodW5rcyI6MTIsIm1ldHJpY3MiOm51bGx9LHsiZmVhdHVyZSI6Im5leHVzIiwiY2h1bmtzIjoxMiwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjoxMzQzMDMsXCJmcHNcIjoyLjE3LFwiZnJhbWVQNTBNc1wiOjE5Ni4yMDAwMDAwMDI5ODAyMyxcImZyYW1lUDk1TXNcIjoxMDg5LFwib2JqZWN0c1wiOjMyNCxcImFjdGl2ZU9iamVjdHNcIjozMjQsXCJ2aXNpYmxlT2JqZWN0c1wiOjI4NSxcInRleHR1cmVzXCI6NjksXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjo4NDE2NDcwNCxcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6NzIyMDAwMDAsXCJyZW5kZXJlclwiOlwiV2ViR0xcIixcImRyYXdDYWxsc1wiOm51bGx9In0seyJmZWF0dXJlIjoicHlyYSIsImNodW5rcyI6MTIsIm1ldHJpY3MiOiJ7XCJzYW1wbGVBdE1zXCI6MTU0MjMxLFwiZnBzXCI6Mi45NSxcImZyYW1lUDUwTXNcIjoxNDQuNzAwMDAwMDAyOTgwMjMsXCJmcmFtZVA5NU1zXCI6ODE0LjcwMDAwMDAwMjk4MDIsXCJvYmplY3RzXCI6MzY0LFwiYWN0aXZlT2JqZWN0c1wiOjM2NCxcInZpc2libGVPYmplY3RzXCI6MzI2LFwidGV4dHVyZXNcIjo2NyxcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjgxODg5Nzc2LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjo3MjIwMDAwMCxcInJlbmRlcmVyXCI6XCJXZWJHTFwiLFwiZHJhd0NhbGxzXCI6bnVsbH0ifSx7ImZlYXR1cmUiOiJ2ZXJkYW50IiwiY2h1bmtzIjoxMiwibWV0cmljcyI6bnVsbH1d"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-0e1d8ce1ac96619c03d0",
+          "file": "superior-world.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "Superior: real depot entrance and personal chest survive reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 54259,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:31:29.116Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-e9daf3aaad1658a54ab2",
+          "file": "superior-world.spec.ts",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "Superior: mobile world and real overworld combat",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 35507,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:32:23.457Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-04370d7fa0c2f5cbddf4",
+          "file": "superior-world.spec.ts",
+          "line": 117,
+          "column": 1
+        },
+        {
+          "title": "Superior default: planetary starts on generated land with one character save",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25454,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:32:58.995Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-87d871bc2aca3df060db",
+          "file": "superior-world.spec.ts",
+          "line": 185,
+          "column": 3
+        },
+        {
+          "title": "Superior default: sage starts on generated land with one character save",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:33:24.483Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-fc92d3ca145a34286840",
+          "file": "superior-world.spec.ts",
+          "line": 185,
+          "column": 3
+        },
+        {
+          "title": "Superior default: android starts on generated land with one character save",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 26535,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:33:52.114Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-97aabfbccc2eff202af3",
+          "file": "superior-world.spec.ts",
+          "line": 185,
+          "column": 3
+        },
+        {
+          "title": "Superior default: legend starts on generated land with one character save",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27083,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T04:34:18.679Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a06d8ada439aee3ae713-723eb55142b1805d7670",
+          "file": "superior-world.spec.ts",
+          "line": 185,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-24T04:28:24.102Z",
+    "duration": 384674.724,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

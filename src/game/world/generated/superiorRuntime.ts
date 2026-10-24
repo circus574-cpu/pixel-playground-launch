@@ -87,12 +87,7 @@ export async function prepareSuperior(options: {
   } catch {
     /* The dedicated save reports unavailable storage. */
   }
-  const save = new SuperiorSaveStore(
-    storage,
-    options.saveKey + ":superior-v1",
-    index,
-    RACES[options.race].world,
-  );
+  const save = new SuperiorSaveStore(storage, options.saveKey, index, RACES[options.race].world);
   const restored = save.load();
   const info = index.features.find((f) => f.id === save.feature)!;
   const loader = await loadBrowserFeature(BASE, save.feature, { signal: abort.signal });
@@ -464,7 +459,6 @@ export async function prepareSuperior(options: {
     !session.player.interior &&
     !session.player.dead &&
     !session.dialogue &&
-    !session.paused &&
     Math.hypot(session.player.x - info.arrival.x, session.player.y - info.arrival.y) < 320;
   return {
     session,

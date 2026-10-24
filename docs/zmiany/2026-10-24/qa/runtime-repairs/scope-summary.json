@@ -1,0 +1,32 @@
+{
+  "codeSha": "22c23d2ee2c1224c722ba54d258b80da5edf0b9d",
+  "branch": "feature/superior-runtime-20261023",
+  "localScope": {
+    "passed": 17,
+    "failed": 0,
+    "coverage": {
+      "androidDirectionCases": 8,
+      "planetary1280": 1,
+      "preGpuDefeat": 3,
+      "overlayDefeat": 1,
+      "technicalRig": 1,
+      "androidPve": 1,
+      "mobileSceneBudgets": 2
+    }
+  },
+  "unmatchedReportedCase": "Fourth pre-gpu defeat case: this branch generates only sage/android/legend because Verdantia is a safe city stage. No change made to enable combat in the city.",
+  "unitTests": 333,
+  "softwareWebgl": {
+    "run": 40058733599,
+    "passed": 18,
+    "failed": 0,
+    "conclusion": "success"
+  },
+  "fullRegression": {
+    "run": 40058731822,
+    "status": "in_progress"
+  },
+  "productionPublished": false,
+  "otherBranchesModified": false,
+  "sourceTree": "171c458d27c9b024fb2a174d1428bc027ffff02d"
+}

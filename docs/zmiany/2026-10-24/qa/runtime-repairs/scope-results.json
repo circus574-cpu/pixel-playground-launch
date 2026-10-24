@@ -1,0 +1,885 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/pixel-playground-launch/node_modules/.bin/playwright",
+      "test",
+      "e2e/pre-gpu.spec.ts",
+      "e2e/planetary-preview.spec.ts",
+      "e2e/world-rendering.spec.ts",
+      "e2e/three-races-pve.spec.ts",
+      "e2e/overlay-audit.spec.ts",
+      "--grep",
+      "real Android input|real defeat, respawn|imported eight-direction|Planetarni has.*1280px|aether mobile|nexus mobile|real PvE journey: android|death message ends",
+      "--project=gameplay",
+      "--output=test-results-oct24-scope"
+    ],
+    "configFile": "/workspace/pixel-playground-launch/playwright.config.ts",
+    "rootDir": "/workspace/pixel-playground-launch/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-oct24-scope",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-oct24-scope",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/city-webgl.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-oct24-scope",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/pixel-playground-launch/test-results-oct24-scope",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/pixel-playground-launch/test-results-oct24-scope",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "gameplay",
+        "testDir": "/workspace/pixel-playground-launch/e2e",
+        "snapshotDir": "/workspace/pixel-playground-launch/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4182",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-webgl"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "gameplay"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "overlay-audit.spec.ts",
+      "file": "overlay-audit.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "death message ends on real respawn and subsequent movement works",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 46192,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:34:13.730Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ec8f47b6fdfbbc3c5484-d90afe2589a332931e52",
+          "file": "overlay-audit.spec.ts",
+          "line": 212,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "planetary-preview.spec.ts",
+      "file": "planetary-preview.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Planetarni has real eight-direction movement and skill animation at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10211,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:35:00.212Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "708f1687a97acadcd6d8-73b83ebf77939d55fcda",
+          "file": "planetary-preview.spec.ts",
+          "line": 50,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "pre-gpu.spec.ts",
+      "file": "pre-gpu.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real defeat, respawn and movement: sage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 42292,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:38:07.170Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "283585dfc1e390041e8c-0137df1bd200b23b233f",
+          "file": "pre-gpu.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "real defeat, respawn and movement: android",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 36441,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:38:49.478Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "283585dfc1e390041e8c-f8137915fc0e1ceab85b",
+          "file": "pre-gpu.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "real defeat, respawn and movement: legend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 46485,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:39:25.946Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "283585dfc1e390041e8c-efb94f1a5ebb50c8c5a4",
+          "file": "pre-gpu.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12362,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:40:12.462Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "283585dfc1e390041e8c-f58d45f8488c01e7fac7",
+          "file": "pre-gpu.spec.ts",
+          "line": 267,
+          "column": 1
+        }
+      ],
+      "suites": [
+        {
+          "title": "Android planetary 390x844",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: planetary 390x844",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21073,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:35:10.471Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-24fa743743b07bddfdb2",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android planetary 852x393",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: planetary 852x393",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21136,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:35:31.558Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-71ee51b09f581614d548",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android sage 390x844",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: sage 390x844",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 23488,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:35:52.709Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-dbeba6fb8980efe4d0bb",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android sage 852x393",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: sage 852x393",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 23603,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:36:16.219Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-d8b21f8c38a9891ef42c",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android android 390x844",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: android 390x844",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22432,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:36:39.853Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-680b49bfc4326e824afc",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android android 852x393",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: android 852x393",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21018,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:37:02.341Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-f0918b08d01e64972af9",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android legend 390x844",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: legend 390x844",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22556,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:37:23.371Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-7de2048f18953a0816b0",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Android legend 852x393",
+          "file": "pre-gpu.spec.ts",
+          "line": 69,
+          "column": 10,
+          "specs": [
+            {
+              "title": "real Android input in eight directions: legend 852x393",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "gameplay",
+                  "projectName": "gameplay",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21208,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-24T03:37:45.945Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "283585dfc1e390041e8c-6d3288e83f757f02cdc3",
+              "file": "pre-gpu.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "three-races-pve.spec.ts",
+      "file": "three-races-pve.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 480000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 106603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:40:24.860Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b52aa22db39fcf5862df-4c6d0f581114e3e195c1",
+          "file": "three-races-pve.spec.ts",
+          "line": 97,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "world-rendering.spec.ts",
+      "file": "world-rendering.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "aether mobile detail rendering stays within budget and releases each scene",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9163,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:42:11.485Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "scene-resource-samples",
+                      "contentType": "application/json",
+                      "body": "W3sic2FtcGxlQXRNcyI6NDI0OSwiZnBzIjo1OS45MiwiZnJhbWVQNTBNcyI6MTYuNzAwMDAwMDAyOTgwMjMyLCJmcmFtZVA5NU1zIjoxOC42OTk5OTk5OTU1Mjk2NSwib2JqZWN0cyI6MzAzLCJhY3RpdmVPYmplY3RzIjozMDMsInZpc2libGVPYmplY3RzIjoxMjQsInRleHR1cmVzIjo5NCwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzIjoxMjgyNTI0MzIsImJha2VkVGV4dHVyZUJ5dGVzIjoxNDE1NTc3NiwianNIZWFwQnl0ZXMiOjY4MzY2NDc5LCJyZW5kZXJlciI6IkNhbnZhcyIsImRyYXdDYWxscyI6bnVsbH0seyJzYW1wbGVBdE1zIjo4MDI5LCJmcHMiOjYwLjQyLCJmcmFtZVA1ME1zIjoxNi42MDAwMDAwMDE0OTAxMTYsImZyYW1lUDk1TXMiOjE5LjA5OTk5OTk5NDAzOTUzNiwib2JqZWN0cyI6MzAzLCJhY3RpdmVPYmplY3RzIjozMDMsInZpc2libGVPYmplY3RzIjoxMjQsInRleHR1cmVzIjo5NCwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzIjoxMjgyNTI0MzIsImJha2VkVGV4dHVyZUJ5dGVzIjoxNDE1NTc3NiwianNIZWFwQnl0ZXMiOjY2Mjg3MjE2LCJyZW5kZXJlciI6IkNhbnZhcyIsImRyYXdDYWxscyI6bnVsbH1d"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6277a4ba592ef6aff21e-afe8627a3e2b2ea7c0e4",
+          "file": "world-rendering.spec.ts",
+          "line": 7,
+          "column": 3
+        },
+        {
+          "title": "nexus mobile detail rendering stays within budget and releases each scene",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9586,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T03:42:20.666Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "scene-resource-samples",
+                      "contentType": "application/json",
+                      "body": "W3sic2FtcGxlQXRNcyI6NDM2NSwiZnBzIjo2MC4yMSwiZnJhbWVQNTBNcyI6MTYuNjAwMDAwMDAxNDkwMTE2LCJmcmFtZVA5NU1zIjoxOC4xMDAwMDAwMDE0OTAxMTYsIm9iamVjdHMiOjI2MSwiYWN0aXZlT2JqZWN0cyI6MjYxLCJ2aXNpYmxlT2JqZWN0cyI6MTE2LCJ0ZXh0dXJlcyI6OTUsImVzdGltYXRlZFRleHR1cmVCeXRlcyI6MTIzNTUyMTc2LCJiYWtlZFRleHR1cmVCeXRlcyI6MTY1MTUwNzIsImpzSGVhcEJ5dGVzIjo2OTczNTY3MywicmVuZGVyZXIiOiJDYW52YXMiLCJkcmF3Q2FsbHMiOm51bGx9LHsic2FtcGxlQXRNcyI6ODI0OSwiZnBzIjo1OS45OSwiZnJhbWVQNTBNcyI6MTYuNjAwMDAwMDAxNDkwMTE2LCJmcmFtZVA5NU1zIjoxOSwib2JqZWN0cyI6MjYxLCJhY3RpdmVPYmplY3RzIjoyNjEsInZpc2libGVPYmplY3RzIjoxMTYsInRleHR1cmVzIjo5NSwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzIjoxMjM1NTIxNzYsImJha2VkVGV4dHVyZUJ5dGVzIjoxNjUxNTA3MiwianNIZWFwQnl0ZXMiOjcxMTA1NzI0LCJyZW5kZXJlciI6IkNhbnZhcyIsImRyYXdDYWxscyI6bnVsbH1d"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6277a4ba592ef6aff21e-f81e257952cb1500603e",
+          "file": "world-rendering.spec.ts",
+          "line": 7,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-24T03:34:13.237Z",
+    "duration": 497461.948,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, openHudTool } from "./fixtures";
 import { readFileSync } from "node:fs";
 import type { SuperiorIndex } from "../src/game/world/generated/superiorSave";
 const index = JSON.parse(
@@ -11,24 +11,37 @@ test("Superior: ten lands, race and inventory survive travel and reload", async 
   test.setTimeout(300000);
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("/scripts/playtest.html?ki-superior=1");
+  await page.goto("/scripts/playtest.html");
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   const canvas = page.locator(".ki-canvas");
   await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
-  const accepted = await page.evaluate(() =>
-    Object.fromEntries(Object.entries(localStorage).filter(([k]) => !k.endsWith(":superior-v1"))),
-  );
-  const travel = page.getByRole("complementary", { name: "Podróże po Superior" });
   const metrics = [];
   for (const feature of [
     ...index.features.filter((f) => f.id !== "verdant"),
     index.features.find((f) => f.id === "verdant")!,
   ]) {
-    await travel.locator("summary").click();
-    await travel.getByLabel("Cel podróży").selectOption(feature.id);
-    await travel.getByRole("button", { name: "Wyrusz", exact: true }).click();
-    await expect(travel.locator("strong")).toHaveText(feature.name);
+    await openHudTool(page, "Plan miasta");
+    await page.getByRole("button", { name: /Mapa planety Superior/ }).click();
+    const atlas = page.getByRole("dialog", { name: "Mapa planety", exact: true });
+    const legend = atlas.getByRole("button", { name: /^Legenda( i warstwy)?$/ });
+    await expect(legend).toBeVisible();
+    if ((await legend.getAttribute("aria-expanded")) !== "true") await legend.click();
+    if (feature.id.startsWith("island-")) {
+      const numerals = ["I", "II", "III", "IV", "V", "VI"];
+      await atlas
+        .getByRole("button", {
+          name: `Wyspa questowa ${numerals[Number(feature.id.slice(-1)) - 1]} (nazwa robocza)`,
+          exact: true,
+        })
+        .click();
+    } else
+      await atlas
+        .locator(".pm-legend")
+        .getByRole("button", { name: new RegExp(feature.name) })
+        .click();
+    await atlas.getByRole("button", { name: /^Podróżuj —/ }).click();
+    await expect(atlas).not.toBeVisible();
     await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
     await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
     await expect
@@ -52,12 +65,12 @@ test("Superior: ten lands, race and inventory survive travel and reload", async 
   }
   await page.reload();
   await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
-  await expect(travel.locator("strong")).toHaveText("Verdantia");
-  expect(
-    await page.evaluate(() =>
-      Object.fromEntries(Object.entries(localStorage).filter(([k]) => !k.endsWith(":superior-v1"))),
-    ),
-  ).toEqual(accepted);
+  const saves = await page.evaluate(() =>
+    Object.entries(localStorage).filter(([k]) => k.includes(":superior-world-v1:character:")),
+  );
+  expect(saves).toHaveLength(1);
+  expect(JSON.parse(saves[0]![1]).feature).toBe("verdant");
+  await expect(page.getByRole("complementary", { name: "Podróże po Superior" })).toHaveCount(0);
   expect(errors).toEqual([]);
   await info.attach("superior-streaming", {
     body: JSON.stringify(metrics),
@@ -67,7 +80,7 @@ test("Superior: ten lands, race and inventory survive travel and reload", async 
 });
 
 test("Superior: real depot entrance and personal chest survive reload", async ({ page }, info) => {
-  await page.goto("/scripts/playtest.html?ki-superior=1");
+  await page.goto("/scripts/playtest.html");
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   const canvas = page.locator(".ki-canvas");
@@ -101,17 +114,14 @@ test("Superior: real depot entrance and personal chest survive reload", async ({
       expect(e.x >= b.x && e.x <= b.x + b.width && e.y >= b.y && e.y <= b.y + b.height).toBe(false);
 });
 
-test("Superior: mobile expedition menu and real overworld combat", async ({ page }, info) => {
+test("Superior: mobile world and real overworld combat", async ({ page }, info) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/scripts/playtest.html?ki-superior=1");
+  await page.goto("/scripts/playtest.html");
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   const canvas = page.locator(".ki-canvas");
   await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
-  const travel = page.getByRole("complementary", { name: "Podróże po Superior" });
-  await travel.locator("summary").click();
-  await expect(travel.getByRole("button", { name: "Wyrusz", exact: true })).toBeEnabled();
-  await travel.locator("summary").click();
+  await expect(page.getByRole("complementary", { name: "Podróże po Superior" })).toHaveCount(0);
   const command = async (detail: import("../src/game/session").Command) =>
     canvas.evaluate(
       (el, detail) => el.dispatchEvent(new CustomEvent("ki:command", { detail })),
@@ -141,7 +151,7 @@ test("Superior: mobile expedition menu and real overworld combat", async ({ page
     .poll(async () => {
       const values = await page.evaluate(() =>
         Object.entries(localStorage)
-          .filter(([k]) => k.endsWith(":superior-v1"))
+          .filter(([k]) => k.includes(":superior-world-v1:character:"))
           .map(
             ([, v]) =>
               JSON.parse(v) as { spawns: Record<string, { hp: number; deadUntil: number }> },
@@ -157,7 +167,7 @@ test("Superior: mobile expedition menu and real overworld combat", async ({ page
   const save = await page.evaluate(
     () =>
       Object.entries(localStorage)
-        .filter(([k]) => k.endsWith(":superior-v1"))
+        .filter(([k]) => k.includes(":superior-world-v1:character:"))
         .map(
           ([, v]) => JSON.parse(v) as { spawns: Record<string, { hp: number; deadUntil: number }> },
         )[0]!,
@@ -165,3 +175,41 @@ test("Superior: mobile expedition menu and real overworld combat", async ({ page
   expect(save.spawns[slot.id]?.hp).toBe(0);
   expect(save.spawns[slot.id]?.deadUntil).toBeGreaterThan(Date.now());
 });
+
+for (const [race, label, feature] of [
+  ["planetary", "Planetarni", "verdant"],
+  ["sage", "Mędrcy", "aether"],
+  ["android", "Androidy", "nexus"],
+  ["legend", "Legendy", "pyra"],
+] as const) {
+  test(`Superior default: ${race} starts on generated land with one character save`, async ({
+    page,
+  }) => {
+    await page.goto("/scripts/playtest.html");
+    await page.getByRole("button", { name: `Wybierz: ${label}`, exact: true }).click();
+    await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+    const canvas = page.locator(".ki-canvas");
+    await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
+    const land = index.features.find((f) => f.id === feature)!;
+    await expect
+      .poll(async () => Number(await canvas.getAttribute("data-player-x")))
+      .toBeCloseTo(land.arrival.x, 0);
+    await expect
+      .poll(async () => Number(await canvas.getAttribute("data-player-y")))
+      .toBeCloseTo(land.arrival.y, 0);
+    const saves = await page.evaluate(() =>
+      Object.entries(localStorage).filter(([key]) => key.includes(":character:")),
+    );
+    expect(saves).toHaveLength(1);
+    expect(JSON.parse(saves[0]![1])).toMatchObject({
+      format: "superior-character",
+      feature,
+      player: { race, level: 1 },
+    });
+    await page.reload();
+    await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
+    await expect
+      .poll(async () => Number(await canvas.getAttribute("data-player-x")))
+      .toBeCloseTo(land.arrival.x, 0);
+  });
+}

@@ -47,7 +47,7 @@ const spawnRecord = z.object({
   revived: z.boolean().optional(),
 });
 const envelope = z.object({
-  format: z.literal("superior-expedition"),
+  format: z.literal("superior-character"),
   version: z.literal(1),
   revision: z.string(),
   geometry: z.string(),
@@ -58,7 +58,7 @@ const envelope = z.object({
 });
 export type SpawnRecord = z.infer<typeof spawnRecord>;
 
-/** Separate CAS-protected expedition save. Never reads or migrates the accepted character slot. */
+/** Single CAS-protected character save for the generated planet. */
 export class SuperiorSaveStore extends SaveStore {
   private previous: string | null = null;
   private loaded = false;
@@ -124,7 +124,7 @@ export class SuperiorSaveStore extends SaveStore {
     } catch {
       this.allowed = false;
       this.warning =
-        "Nie można odczytać zapisu wyprawy. Oryginał zachowano; zapisywanie tej sesji jest wyłączone.";
+        "Nie można odczytać zapisu postaci. Oryginał zachowano; zapisywanie tej sesji jest wyłączone.";
       return undefined;
     }
   }
@@ -134,11 +134,11 @@ export class SuperiorSaveStore extends SaveStore {
       this.beforeSave?.();
       if (this.port.getItem(this.expeditionKey) !== this.previous) {
         this.allowed = false;
-        this.warning = "Wyprawa zmieniła się w innej karcie. Ta karta nie nadpisze postępu.";
+        this.warning = "Postać zmieniła się w innej karcie. Ta karta nie nadpisze postępu.";
         return false;
       }
       const value = envelope.parse({
-        format: "superior-expedition",
+        format: "superior-character",
         version: 1,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
@@ -152,7 +152,7 @@ export class SuperiorSaveStore extends SaveStore {
       this.previous = raw;
       return true;
     } catch {
-      this.warning = "Nie udało się zapisać wyprawy. Sprawdź dostępną pamięć przeglądarki.";
+      this.warning = "Nie udało się zapisać postaci. Sprawdź dostępną pamięć przeglądarki.";
       return false;
     }
   }

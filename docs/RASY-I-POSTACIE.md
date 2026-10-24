@@ -72,3 +72,15 @@ Przy tworzeniu można wpisać nick 3–16 znaków (litery, cyfry, spacja, `_`, `
 Puste pole daje „Wędrowiec”. Nazwa jest przypisana do slotu, widoczna w HUD i wyborze
 postaci; nie zmienia rasy ani statystyk. Usunięcie postaci dotyczy wybranego lokalnego
 slotu, nie prywatnych szkiców i nie danych innej postaci.
+
+
+## Prezentacja akcji podczas trafienia — 24.10.2026
+
+Zdarzenia bieżącego ticka są obsługiwane przed wyborem klatki aktora. Stan
+animacji i klatka nie opisują już dwóch różnych ticków. Odczyt klatki jest
+aktualizowany po renderze niezależnie od rzadszego odświeżania HUD.
+
+Trafienie zachowuje pierwszeństwo. Zablokowana nim animacja ataku/zdolności może
+poczekać do 500 ms na koniec reakcji. Kolejka mieści jedną akcję, preferuje skill
+przed podstawowym atakiem i odrzuca stare wpisy. Śmierć/odrodzenie ją czyszczą.
+To wyłącznie prezentacja: nie opóźnia ani nie powtarza obrażeń, leczenia lub kosztu KI.

@@ -105,10 +105,14 @@ for (const race of RACE_IDS)
             )
               continue;
             if (
-              Array.from({ length: 16 }, (_, i) => ({
-                x: p.x + Math.cos((i * Math.PI) / 8) * 110,
-                y: p.y + Math.sin((i * Math.PI) / 8) * 110,
-              })).every((q) => nav.walkable(q)) &&
+              Array.from({ length: 12 }, (_, radius) =>
+                Array.from({ length: 16 }, (_, i) => ({
+                  x: p.x + Math.cos((i * Math.PI) / 8) * radius * 10,
+                  y: p.y + Math.sin((i * Math.PI) / 8) * radius * 10,
+                })),
+              )
+                .flat()
+                .every((q) => nav.walkable(q)) &&
               nav.path(world.spawn, p).length
             )
               candidates.push(p);
@@ -134,6 +138,9 @@ for (const race of RACE_IDS)
           if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
         });
         for (const input of inputs) {
+          // Each direction starts in the verified clear area. Polling and key
+          // delivery take variable time; chained legs otherwise drift into walls.
+          await move(page, open.x, open.y);
           const before = await position(page);
           for (const key of input.keys) await page.keyboard.down(key);
           const direction =
@@ -155,6 +162,9 @@ for (const race of RACE_IDS)
           x = width * 0.16,
           y = height * 0.72;
         for (const input of inputs) {
+          // Each direction starts in the verified clear area. Polling and key
+          // delivery take variable time; chained legs otherwise drift into walls.
+          await move(page, open.x, open.y);
           const before = await position(page);
           await cdp.send("Input.dispatchTouchEvent", {
             type: "touchStart",
