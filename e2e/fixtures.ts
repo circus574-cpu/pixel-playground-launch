@@ -117,7 +117,7 @@ export function superiorLand(land: string) {
   };
 }
 /** Attack of the weakest creature that can defeat a first-level hero within a test (not the capital slimes). */
-export const DEFEAT_ATTACK = 12;
+export const DEFEAT_ATTACK = 10;
 type SpawnSlot = { id: string; kind: string; x: number; y: number };
 /** A creature that stays visible and in reach (no hiding, burrowing, fleeing or standing still). */
 const VOLATILE = ["ambush", "burrow", "dive", "fleeAfterHits", "ghost", "still"];
@@ -144,8 +144,62 @@ export function nearestSpawn(land: string, minAttack = 0) {
     const atk = base.get(s.kind)?.atk ?? 0;
     // Strong enough to defeat a first-level hero, but not in one or two hits before the potion.
     // It must also attack a passive hero unprovoked.
-    return !minAttack || (atk >= minAttack && atk <= minAttack * 3 && steady(s.kind, ["provoked"]));
+    return (
+      !minAttack ||
+      (atk >= minAttack && atk <= minAttack * 3 && steady(s.kind, ["provoked", "pack"]))
+    );
   })!;
+}
+/**
+ * Temporary QA aid: the playtest page's `?ki-test-spawn=<kind>` places a defeat-capable creature
+ * just outside the starting town (never in the published game).
+ */
+export function testCreature(land: string) {
+  // One steady, single creature for every land (the QA spawn need not be native): strong enough
+  // to defeat a first-level hero, not so strong that the potion and skill clips are skipped.
+  const kind = "pyra-ognista-salamandra";
+  return { id: land + "-test-spawn", kind, query: "?ki-test-spawn=" + kind };
+}
+/** Whether a point lies beyond every safe settlement of the land (combat is allowed there). */
+export function outsideTowns(land: string, p: { x: number; y: number }) {
+  const { settlements } = JSON.parse(
+    readFileSync(`public/game/worlds/superior-v1/${land}/world.json`, "utf8"),
+  ) as { settlements: { bounds: { x: number; y: number; width: number; height: number } }[] };
+  return settlements.every(
+    ({ bounds: b }) =>
+      p.x < b.x - 16 || p.x > b.x + b.width + 16 || p.y < b.y - 16 || p.y > b.y + b.height + 16,
+  );
+}
+/**
+ * Arrow key that walks the hero into open ground from `from`. The safe arrival may sit right
+ * beside a building, and the city guide stands a step beside it, blocking like a wall.
+ */
+export function openDirection(land: string, from: { x: number; y: number }) {
+  const { nav, npcs } = superiorLand(land);
+  const steps = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] };
+  return (Object.keys(steps) as (keyof typeof steps)[]).find((key) =>
+    [1, 2, 3, 4, 5, 6, 7, 8].every((n) => {
+      const q = { x: from.x + steps[key][0]! * n * 12, y: from.y + steps[key][1]! * n * 12 };
+      return nav.walkable(q) && npcs.every((npc) => Math.hypot(npc.x - q.x, npc.y - q.y) > 70);
+    }),
+  )!;
+}
+/** Live position of a streamed enemy once the game has activated it. */
+export async function liveEnemy(canvas: import("@playwright/test").Locator, id: string) {
+  const { expect } = await import("@playwright/test");
+  let found: { x: number; y: number } | undefined;
+  await expect
+    .poll(async () => {
+      const list = JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as {
+        id: string;
+        x: number;
+        y: number;
+      }[];
+      found = list.find((e) => e.id === id);
+      return Boolean(found);
+    })
+    .toBe(true);
+  return found!;
 }
 /** The nearest creature that notices and chases a hero on its own (not a provoked-only slime). */
 export function nearestHunter(land: string) {

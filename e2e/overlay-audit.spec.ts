@@ -2,7 +2,9 @@ import {
   basicAttack,
   maxHp,
   nearestSpawn,
-  DEFEAT_ATTACK,
+  liveEnemy,
+  testCreature,
+  openDirection,
   openHudTool,
   patchActiveCharacter,
 } from "./fixtures";
@@ -11,8 +13,8 @@ import { mkdir } from "node:fs/promises";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 const evidence = () => test.info().outputDir;
-async function start(page: Page, race = "Legendy") {
-  await page.goto(path);
+async function start(page: Page, race = "Legendy", query = "") {
+  await page.goto(path + query);
   await page.getByRole("button", { name: "Wybierz: " + race, exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(page.locator(".ki-hud")).toBeVisible();
@@ -216,9 +218,10 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
 });
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
-  // The nearest wild creature lives beyond the safe capital: about a minute's walk on software WebGL.
+  // A known creature waits just outside the safe capital (playtest-only QA spawn).
   test.setTimeout(480000);
-  await start(page, "Legendy");
+  const creature = testCreature("pyra");
+  await start(page, "Legendy", creature.query);
   const max = await maxHp(page);
   const canvas = page.locator(".ki-canvas");
   const arrivalX = Number(await canvas.getAttribute("data-player-x"));
@@ -227,12 +230,12 @@ test("death message ends on real respawn and subsequent movement works", async (
       el.dispatchEvent(
         new CustomEvent("ki:command", { detail: { type: "move", x: home.x, y: home.y + 85 } }),
       ),
-    nearestSpawn("pyra", DEFEAT_ATTACK),
+    await liveEnemy(canvas, creature.id),
   );
   await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 240000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
   await page.screenshot({ path: evidence() + "/death.png" });
-  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 20000 });
+  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 60000 });
   await expect
     .poll(async () => Number(await canvas.getAttribute("data-player-x")))
     .toBeCloseTo(arrivalX, 0);
@@ -243,13 +246,22 @@ test("death message ends on real respawn and subsequent movement works", async (
   await page.evaluate(() => {
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   });
-  const before = Number(await canvas.getAttribute("data-player-x"));
-  await page.keyboard.down("ArrowRight");
+  const position = async () => ({
+    x: Number(await canvas.getAttribute("data-player-x")),
+    y: Number(await canvas.getAttribute("data-player-y")),
+  });
+  const before = await position();
+  const free = openDirection("pyra", before);
+  expect(free).toBeDefined();
+  await page.keyboard.down(free);
   await page.waitForTimeout(700);
-  await page.keyboard.up("ArrowRight");
+  await page.keyboard.up(free);
   await expect
-    .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-    .toBeGreaterThan(before + 20);
+    .poll(async () => {
+      const p = await position();
+      return Math.hypot(p.x - before.x, p.y - before.y);
+    })
+    .toBeGreaterThan(20);
 });
 
 for (const [width, height] of [

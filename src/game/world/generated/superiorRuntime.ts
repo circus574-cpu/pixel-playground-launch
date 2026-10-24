@@ -232,6 +232,41 @@ export async function prepareSuperior(options: {
     )
   )
     throw Error("Nieprawidłowe spawny");
+  // Playtest only (temporary QA aid): `?ki-test-spawn=<kind>` places one known creature just
+  // outside the starting town, so browser tests need not walk deep into the wild. The published
+  // game never reads it, and the authored spawn data stays unchanged.
+  const testKind =
+    location.pathname === "/scripts/playtest.html"
+      ? new URLSearchParams(location.search).get("ki-test-spawn")
+      : null;
+  if (testKind) {
+    // Nearest open ground beyond the town border, straight out from where the hero starts.
+    const from = world.spawn;
+    const gate = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ]
+      .map(([dx, dy]) => {
+        let d = 0;
+        while (d < 6000 && !outsideCities({ x: from.x + dx! * d, y: from.y + dy! * d })) d += 64;
+        return loader.navigation.safe({ x: from.x + dx! * (d + 220), y: from.y + dy! * (d + 220) });
+      })
+      .filter((p) => outsideCities(p) && loader.navigation.walkable(p))
+      .sort(
+        (a, b) => Math.hypot(a.x - from.x, a.y - from.y) - Math.hypot(b.x - from.x, b.y - from.y),
+      )[0];
+    if (!gate) throw Error("Brak miejsca na potwora testowego");
+    monsterDef(testKind); // Unknown kinds fail here, as authored ones would.
+    spawnData.overworld.push({
+      id: info.id + "-test-spawn",
+      kind: testKind,
+      ...gate,
+      homeLeash: 300,
+      respawnMs: 60000,
+    });
+  }
   world.huntKinds = [
     ...new Set(spawnData.overworld.filter((s) => monsterDef(s.kind).level <= 4).map((s) => s.kind)),
   ];

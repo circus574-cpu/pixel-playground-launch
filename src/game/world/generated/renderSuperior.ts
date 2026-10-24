@@ -2,6 +2,7 @@ import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
+import { blendedTexture } from "../../assets/blendPlates";
 import { coversPlayer } from "../visibility";
 import { decodeRuns } from "./browserTerrain";
 import type { Point } from "../../navigation";
@@ -55,6 +56,23 @@ const textureId = (binding: string) => {
   return value.asset;
 };
 
+// Scratch canvases shared by every chunk: one pixel per terrain cell, and one full ground layer.
+let cells: HTMLCanvasElement | undefined, layer: HTMLCanvasElement | undefined;
+const cellCanvas = (width: number, height: number) => {
+  cells ??= document.createElement("canvas");
+  if (cells.width !== width || cells.height !== height) {
+    cells.width = width;
+    cells.height = height;
+  }
+  return cells;
+};
+const layerCanvas = () => {
+  if (!layer) {
+    layer = document.createElement("canvas");
+    layer.width = layer.height = 512;
+  }
+  return layer;
+};
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const live = new Map<string, Tile>();
@@ -110,7 +128,6 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     };
     const ground = source.art.groundByBiome.map(pattern),
       water = pattern(source.art.water);
-    const step = 512 / data.terrain.width;
     const tone = (binding: string) =>
       binding.includes("snow")
         ? "#cfdbd6"
@@ -125,21 +142,53 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
                 : binding.includes("forest-floor")
                   ? "#66774e"
                   : "#819763";
+    // One pixel per 32-unit cell, enlarged with smoothing: biome edges and the coast blend
+    // into each other instead of showing the CPU cell grid as pasted square patches.
+    const cols = data.terrain.width,
+      rows = data.terrain.height;
+    const small = cellCanvas(cols, rows),
+      sctx = small.getContext("2d")!;
+    const colors = sctx.createImageData(cols, rows);
+    const biomes = new Set<number>();
     for (let i = 0; i < flags.length; i++) {
-      const x = (i % data.terrain.width) * step,
-        y = Math.floor(i / data.terrain.width) * step;
       const land = !!(flags[i]! & 16);
-      ctx.fillStyle = land
+      if (land) biomes.add(biome[i]!);
+      const hex = land
         ? tone(source.art.groundByBiome[biome[i]!] ?? source.art.groundByBiome[0]!)
         : "#3b7082";
-      ctx.fillRect(x, y, step + 0.1, step + 0.1);
-      // Low-contrast texture reads as a continuous ground surface rather than
-      // a board of repeated flower pictures. Geometry remains in the CPU field.
-      ctx.globalAlpha = land ? 0.15 : 0.5;
-      ctx.fillStyle = land ? (ground[biome[i]!] ?? ground[0]!) : water;
-      ctx.fillRect(x, y, step + 0.1, step + 0.1);
-      ctx.globalAlpha = 1;
+      colors.data[i * 4] = parseInt(hex.slice(1, 3), 16);
+      colors.data[i * 4 + 1] = parseInt(hex.slice(3, 5), 16);
+      colors.data[i * 4 + 2] = parseInt(hex.slice(5, 7), 16);
+      colors.data[i * 4 + 3] = 255;
     }
+    sctx.putImageData(colors, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(small, 0, 0, cols, rows, 0, 0, 512, 512);
+    // Low-contrast texture reads as a continuous ground surface rather than a board of
+    // repeated pictures; each texture fades in through the same smoothed cell mask.
+    const layer = layerCanvas(),
+      lctx = layer.getContext("2d")!;
+    const texture = (fill: CanvasPattern, alpha: number, inside: (i: number) => boolean) => {
+      const mask = sctx.createImageData(cols, rows);
+      for (let i = 0; i < flags.length; i++) mask.data[i * 4 + 3] = inside(i) ? 255 : 0;
+      sctx.clearRect(0, 0, cols, rows);
+      sctx.putImageData(mask, 0, 0);
+      lctx.globalCompositeOperation = "source-over";
+      lctx.clearRect(0, 0, 512, 512);
+      lctx.fillStyle = fill;
+      lctx.fillRect(0, 0, 512, 512);
+      lctx.globalCompositeOperation = "destination-in";
+      lctx.imageSmoothingEnabled = true;
+      lctx.imageSmoothingQuality = "high";
+      lctx.drawImage(small, 0, 0, cols, rows, 0, 0, 512, 512);
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(layer, 0, 0);
+      ctx.globalAlpha = 1;
+    };
+    for (const b of biomes)
+      texture(ground[b] ?? ground[0]!, 0.15, (i) => !!(flags[i]! & 16) && biome[i] === b);
+    texture(water, 0.5, (i) => !(flags[i]! & 16));
     const strokeRoad = (points: [number, number][], width: number, color: string) => {
       if (points.length < 2) return;
       const scaled = points.map(([x, y]) => ({ x: (x - data.x) / 4, y: (y - data.y) / 4 }));
@@ -286,7 +335,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         if (!image) {
           const ref = catalog.renderBindings[item.binding]!;
           image = sizeScenery(
-            scene.add.image(item.x, item.y, ref.asset, ref.frame),
+            scene.add.image(item.x, item.y, blendedTexture(scene, ref.asset, ref.frame), ref.frame),
             item.width,
             item.height,
             ref.fit,

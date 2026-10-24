@@ -72,3 +72,20 @@ Software WebGL: **7/7** na tym samym kodzie `647be05`, w tym podróże przez glo
 ## Naprawa brakującego logu w repozytorium
 
 Dodano niezmieniony, lokalny oryginał `qa/runtime-repairs/scope-canvas.log`, wcześniej pominięty przez `*.log`. Kontrola dokumentacji sprawdza teraz także, czy pliki wskazane w odnośnikach są śledzone przez Git. To naprawa dowodów historycznego przebiegu, bez ponownego deklarowania wyników gry.
+
+## Integracja: testy przeglądarki pod jedyny świat Superior, grafika terenu bez „wklejeń”
+
+- Testy e2e korzystają z danych Superior: siatki nawigacji, punktów przybycia, spawnów,
+  NPC i przeszkód z `collision.json`. Testy starych map przepisano na odpowiedniki w Superior
+  (archiwalny zapis Etapu 2 zostaje nietknięty i nie jest proponowany jako postać).
+- Poprawka gry: przełącznik `?ki-art=technical` na stronie testowej ładuje klatki manekina
+  także w Superior (wcześniej świat się nie otwierał).
+- Tymczasowa pomoc QA (decyzja właściciela, do usunięcia na jego polecenie):
+  `?ki-test-spawn=<rodzaj>` działa tylko na `/scripts/playtest.html` i stawia jednego potwora
+  tuż za granicą miasta startowego. Dane świata (`spawns.json`) bez zmian.
+- Teren: kolory biomów i wybrzeża rysowane po jednym pikselu na komórkę i wygładzane przy
+  powiększeniu, więc granice nie tworzą schodków. Obiekty wycięte z prostokątną płytą tła
+  (fontanna, kupy kości, klify, most) dostają miękko wygaszony brzeg (`blendPlates.ts`);
+  budynki tylko wąski brzeg, mury, schody i sztandary bez zmian.
+- Nagłówkowy Chromium w kontenerze nie przenosi fokusu przy zmianie karty; test pauzy wysyła
+  wtedy to samo zdarzenie `blur` okna, które przeglądarka wysyła przy zmianie karty.

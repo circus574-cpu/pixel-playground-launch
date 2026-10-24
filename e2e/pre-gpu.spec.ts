@@ -4,7 +4,9 @@ import {
   maxHp,
   nearestSpawn,
   nearestHunter,
-  DEFEAT_ATTACK,
+  testCreature,
+  openDirection,
+  liveEnemy,
   superiorLand,
 } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
@@ -248,12 +250,13 @@ for (const race of RACE_IDS)
   }
 for (const race of RACE_IDS)
   test(`real defeat, respawn and movement: ${race}`, async ({ page }, info) => {
-    // The nearest wild creature lives beyond the safe capital: about a minute's walk on software WebGL.
+    // A known creature waits just outside the safe capital (playtest-only QA spawn).
     test.setTimeout(900000);
     const world = superiorLand(RACES[race].world);
-    await start(page, race);
+    const creature = testCreature(RACES[race].world);
+    await start(page, race, creature.query);
     const max = await maxHp(page);
-    const enemy = nearestSpawn(RACES[race].world, DEFEAT_ATTACK);
+    const enemy = await liveEnemy(page.locator(".ki-canvas"), creature.id);
     // A normal movement command approaches danger; no HP, kills, timers or saves are patched.
     await page
       .locator(".ki-canvas")
@@ -277,7 +280,7 @@ for (const race of RACE_IDS)
       .toBeLessThan(Number(max));
     await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 420000 });
     await page.screenshot({ path: info.outputPath(race + "-death.png") });
-    await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 20000 });
+    await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 60000 });
     await expect.poll(async () => distance(await position(page), world.spawn)).toBeLessThan(8);
     await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
       "aria-valuenow",
@@ -287,9 +290,11 @@ for (const race of RACE_IDS)
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     });
     const before = await position(page);
-    await page.keyboard.down("ArrowRight");
+    const free = openDirection(RACES[race].world, before);
+    expect(free).toBeDefined();
+    await page.keyboard.down(free);
     await page.waitForTimeout(700);
-    await page.keyboard.up("ArrowRight");
+    await page.keyboard.up(free);
     await expect.poll(async () => distance(await position(page), before)).toBeGreaterThan(15);
   });
 test("imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely", async ({

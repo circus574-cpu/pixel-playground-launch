@@ -8,7 +8,8 @@ const index = JSON.parse(
 test("Superior: ten lands, race and inventory survive travel and reload", async ({
   page,
 }, info) => {
-  test.setTimeout(300000);
+  // Ten land loads on software WebGL take longer than on Canvas.
+  test.setTimeout(600000);
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/scripts/playtest.html");
