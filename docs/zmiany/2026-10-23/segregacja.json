@@ -1,0 +1,1766 @@
+{
+  "date": "2026-10-23",
+  "baseCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+  "previousMarkdownCount": 83,
+  "activeMarkdownLimit": 10,
+  "documents": [
+    {
+      "previous": "docs/ANIME-FOREST.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "52e3ad3d901feac7c07e157ca958fbb6008d31d28db58017240af191502d383f",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/ANIME-RESET.md",
+      "current": "docs/ZASADY.md",
+      "previousSha256": "8871f0997cd529aa73052328db4c20819ff215236cc69195d30785128930ea30",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/AUDIT-2026-10-19.md",
+      "current": "docs/ZASADY.md",
+      "previousSha256": "e0dd3e71b7446c94b6d95f86f05d81819e9bae00db1e2b8800d0c08d9c7e1c94",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/FOREST-ASSETS.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "23013cdf5b8b2d7f2fa010b4edb6282009fb79331e7102d4752f60ee064455f7",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/GPU-RUNTIME-RESTORE-2026-10-21.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "e99d38709a5991e97efe59c1c83e897126ddf349f711d348ae80a5843b8e3192",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/GPU_ASSET_PIPELINE.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "7324fc52db53b7f17b252ae3efd681f8e423a08a31eaa4ed772fca243eb53aa0",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/INDEX.md",
+      "current": "docs/INDEX.md",
+      "previousSha256": "3a365b8e3e03cb440fb499698c4ab08df0bfb005f7145dbeb7fa62a6a6ded3bc",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/MAPA-GLOBUS-3D.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "94c7d4d3dc23a10aacd5be792840724f0e21bb436565d9404f94d76a93839d90",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/MOBILE-HUD-LAYOUT-2026-10-20.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "b5c07a66b61299b8c04015a515c09e019dca69dc568328e1f30a01afa953042d",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/PLANETARNI-COMPLETE-2026-10-21.md",
+      "current": "docs/RASY-I-POSTACIE.md",
+      "previousSha256": "c7d9384c8e8bcaa0aeb33b0fcee483d396f1905458be674169666855c236ae3f",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/PR9-INDEPENDENT-CLOSURE-2026-10-21.md",
+      "current": "docs/RASY-I-POSTACIE.md",
+      "previousSha256": "5391622804089450bcaee41226c78728dad6eb2890cf54a848cf34e301d2433f",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/PRE_GPU_STABILIZATION.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "308ffe19b8c6ed31dba5b5625778615b81c1e3e8ba2a53b374bafb9224900b82",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/PRODUCTION.md",
+      "current": "docs/ZASADY.md",
+      "previousSha256": "525f7aa1b61dfd5931051658893fbae20f7658860bd20964d0f6ca28937aabf1",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-2026-10-19.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "23eb2b1558a14ba4a4ed2fac3b14084547151e31b40c7254c8b43070b72b42b7",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-GAMEPLAY-OVERLAYS-2026-10-20.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "35e88ee81931fc58357f385d6d32d15f18694239ad79440837290eff30cd8469",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-STAGE2-2026-10-20.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "d790bb73b110b6f74594653c765bc7beb79d461591227915eed0ce1b159c04a2",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-STAGE21-2026-10-20.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "970051ad2edd35898427ce504f0c242adfad7215e2c12abb8c2acaef11b159d2",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-STAGE3-1-UI-AND-FIXES.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "d90866cf7be5e79228b598c7588396f61bcf133108672f83721ad686aad05e95",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/STAGE2-GAMEPLAY.md",
+      "current": "docs/ROZWOJ-I-WALKA.md",
+      "previousSha256": "a7ea092f1f7622232983e81d62e8cf20fc7fac0fb2f8d452de52b00eb6d66cf4",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/STAGE3-FOUR-CONTINENTS.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "f21212b3a62ed5c7492c94bf26f0f3240bde43ea5e56e29862a253db4acf0d31",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/STAGE3-GPU-ASSET-LIST.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "ceac5f830baa1ca707c6155092f4b627cd2730d596ba8b256e5f048ae8f2c2f7",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/TESTING-RACE-SWITCH.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "d701191308fe134ec8ef422684eab8c514b011a08360820d96c75c8a85b228ad",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/NEXUS-PYRA-ANIME-START.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "1f9a9a1248e78b9cef6b1371058178def883d9a03de76ec1370996ce4143823a",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/TASKS.md",
+      "current": "docs/PLAN-I-ZADANIA.md",
+      "previousSha256": "1ca4b6387a5414d548d4d27ecd4f09de1d6a79febd37b212bf37791c7d423583",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/ARCHITECTURE.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "cae2d1eb6a1f6ded130ae88f17b10f7f0a2af762f76150438309e63f2ffc8c8d",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/CITY-AETHERIA-2026-10-23.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "58f352c90fe8e2a5dc677ac144b3c9ef0fce1e1cbbfb46a902bc58af81b24fb4",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/GPU-BACKLOG-2026-10-23.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "c9245e3ecb75374d7989f87d3ca72972aed396184977a4c88ed335fe37601e2e",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/FOUR-PAINTED-RACES-INTEGRATION-2026-10-22.md",
+      "current": "docs/RASY-I-POSTACIE.md",
+      "previousSha256": "458a90c6feacf8ff9f8644abdc5fd2924ed2eb23c0e9ccc28df8370b2129dc8b",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/DEPENDENCY-LICENSE-REGISTER.md",
+      "current": "docs/LICENCJE.md",
+      "previousSha256": "237b0452e7cdbb5246bc554d479527ca4dd14a12adc8a479f8c3814dd4b15a88",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/SESSION-2026-10-22-HANDOFF.md",
+      "current": "docs/PLAN-I-ZADANIA.md",
+      "previousSha256": "e2872df3f025be8958bdcb537e0fcb8394d744f4c55fbe635de5b702ff21c3ed",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/GAMEPLAY-RACES-AND-MONSTERS.md",
+      "current": "docs/ROZWOJ-I-WALKA.md",
+      "previousSha256": "995f2cd6027bae35bfeb84d33d90d5e7650b4f89e4f74a3d4b1e7e06503ecad1",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/PAINTED-MESH-PIPELINE.md",
+      "current": "docs/RASY-I-POSTACIE.md",
+      "previousSha256": "0d7c85abcc2a3a5d38ece4c504c4a422fa18399268b3873c6ead77f9e8b72009",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/CITY-PYRA-2026-10-23.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "dc80eb988965e83074c9a70581f02a528dfd4301fbd1bf7f8c57502cd58538cb",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/VERDANTIA-FUNCTIONAL-CITY-2026-10-23.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "ef61630ba6be8f837cd555517945f1f9e30fc376a9f026d94d18ab8c29b2f6fe",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/STATUS.md",
+      "current": "docs/PLAN-I-ZADANIA.md",
+      "previousSha256": "7ecf2e51f492c5c6f6d014b717a9ca533e3554c91b95284d70e1cf480f0da4d1",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/ASSET-LICENSE-REGISTER.md",
+      "current": "docs/LICENCJE.md",
+      "previousSha256": "62a9fab919710ca4e7b224650ad03e4fdc12ea1cb7ac95c8d993f00d658b15a2",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/SAGE-MAIN-INTEGRATION-2026-10-21.md",
+      "current": "docs/RASY-I-POSTACIE.md",
+      "previousSha256": "8950b4edc21f616f2d095290ea478f5fcc8e1b751f88cbb5db335fe0479de5af",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/VERDANT-ANIME-START.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "46440abb90db511f3227bd63584e4302fc5e29723b57b3acabbad1fe5d7ad546",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/CITY-INTEGRATION-CONTRACT-2026-10-23.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "5de4e55bb4d1b0a5c9e95db73551f847ebdb3d4a656eb3e9519824cb81b0849a",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/PLANET-GEOMETRY-2026-10-22.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "c217a45abd3a9e6da3861c4f0537e07d4cdfb6294729a5fcb398b435ac6142cd",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/DECISIONS.md",
+      "current": "docs/PLAN-I-ZADANIA.md",
+      "previousSha256": "005fa829436a002715fd08c49f2d68a3dfc0fc52337c96892a1fd6beb2a7c78a",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/AETHER-ANIME-START.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "978d9e4f5e9b3e04bc0d55e13d8d3243dbd3166f6239240f70310849484688bf",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/GPU-PRODUCTION-SEQUENCE.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "54b40d0a180a6b0ae3af2a85218119834dbb2a859fb3b7a25c67f0845aa797ab",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/CODEX-PAINTED-HEROES-AND-TERRAIN-2026-10-22.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "b7dca5aae8df471fae2f0806d8d8d80dacace46d45628db51b95a7da01b8f5f3",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/CITY-NEXUS-2026-10-23.md",
+      "current": "docs/SWIAT-I-MIASTA.md",
+      "previousSha256": "ae7e24c66c663c2f44ff38f967f57f4563bf278379dc9e4046eb0d4ae19a0153",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-PR15-NAVIGATION-2026-10-21.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "1f9fc8684fb755fe3c09091017cc7fea013a9e313d7fc8f8c1e6ced1af3facbc",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/QA-INTEGRATION-REGRESSIONS-2026-10-21.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "93e3082832c9dacbd3fc58be5765ff8e8f387f9dac448132f64ccbc53788a0cf",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/NATURE-TERRAIN-DEPLOYMENT-2026-10-22.md",
+      "current": "docs/GPU-I-ZASOBY.md",
+      "previousSha256": "2c9f14055a51c48bf8d9a7607624a540c6ceab04603c0d43aa5ef53fb0fd678c",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/ROADMAP.md",
+      "current": "docs/PLAN-I-ZADANIA.md",
+      "previousSha256": "2f98e9f0c4b3a2006ef271b8ef2379afca2e8e2d6f20de0ade0081dcf310b3a1",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/CHANGELOG.md",
+      "current": "docs/ARCHITEKTURA-I-TESTY.md",
+      "previousSha256": "c22c16f4ab333518ffcc38a293f0dadd7c5208027bba8007af2cb1c901775cb4",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/ENEMIES-KI-LEGENDS.md",
+      "current": "docs/ROZWOJ-I-WALKA.md",
+      "previousSha256": "2085e69e5476732121f11b675c36a8f8649fbdf05b2e94b7b7af7b179455923d",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/RASY_I_ETAPY.md",
+      "current": "docs/INDEX.md",
+      "previousSha256": "e5e757aa79e37f2308babb027083911d1e3e48077ff0ecfdd7e5e111b9ba00c3",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/SOURCE-PDF-ARCHIVE.md",
+      "current": "docs/INDEX.md",
+      "previousSha256": "c47c0fb55950471fd06db60dccae067b4cfc1dba9dce2b412e9ec76c18f45294",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/CHARACTER-PROGRESSION-LEVELS-1-20.md",
+      "current": "docs/ROZWOJ-I-WALKA.md",
+      "previousSha256": "97e48f19398f6a8e7df8ebf7efd1f98fd22aaaa26de24c0ee34163a79a3dc685",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/qa/PUBLISH-AUTHORIZATION-2026-10-22.md",
+      "current": "docs/zmiany/2026-10-20/ZMIANY.md",
+      "previousSha256": "89b48a9ae6ff28561336fce6d0d38db483bf4daf3a5dcf26984800de1d67b636",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/licenses/README.md",
+      "current": "docs/LICENCJE.md",
+      "previousSha256": "293e6c30c6733e77b875c72151d2c1eff92e1d45679d70f69980d37114235156",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/source-pages/page-10.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "2d8d9c44879df5d522d1cb9606b6b52b9eab1b8b6795566debbf986d8de172a3",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-05.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "ee0baebdfdc3749173a8c627c95feaa91a5e1c97c8886557781d4c23b8e85fd2",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-12.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "6b0f27559cb4a07fbedcf2187b2a516af8f5d3152b262f28aa117364ca4bc4a6",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-08.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "d72b1251d0fc9ae874743fcccbc72f092a5414c150733058efca273dd049e5c3",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-07.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "51915f5d1a846e1efcedad1736351ca9b61555801be285936a6646974c3995ba",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-06.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "e855bddf820a2425ce836316e3a57145ee083c79f367f957e48016bd27693b70",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-01.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "74210da80fd4b08cb222c778173ada6f497b537e7cf9929b373099895c084518",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-09.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "d90ba7dba25e5963ad76a19610aed292ef1158e3e8ad9ffe45c52f0d9ea051bb",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-03.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "3e3b7d513ddf33fb735c5ef99ea0359cd375c8e4f05cc18effc10bd84c7596ee",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-02.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "74cb16f3db7e62f649ff36d369d52f007c2fc32efaf874410fce1dfdcee40f4d",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-11.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "31a1a416cb763add38492415cc38da9c0485f64c44a9b96809d915accbe9a938",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/source-pages/page-04.md",
+      "current": "docs/design/source-transcript.txt",
+      "previousSha256": "1836ad6ed85ea1d1a8cf699e6d720e80c6941f17af39156dac837ed14ace92ae",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "source-transcript"
+    },
+    {
+      "previous": "docs/design/original-pdf-parts/README.md",
+      "current": "docs/INDEX.md",
+      "previousSha256": "5bf43dc3333879675df0255c35022676c7c39244ee4acf0ace5fa5f5b755b502",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/adventure-20261023/README.md",
+      "current": "docs/FABULA-I-EKWIPUNEK.md",
+      "previousSha256": "367a906aa8d711636e0e344b522c3a9e2f487c9728de850feb1c565475790eaa",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/adventure-20261023/KI-LEGENDS-KSIEGA-PRZYGODY.md",
+      "current": "docs/FABULA-I-EKWIPUNEK.md",
+      "previousSha256": "1c882ef0615250b1e26850023c90c61ebb32100a1c552b17d4f08519ba163089",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/identity/android-v1/SELECTED.md",
+      "current": "docs/zmiany/2026-10-22/ZMIANY.md",
+      "previousSha256": "acd7d9fcef2a1afcebb97055183d58c84a37f5fe4250defe0a9dab9516793e59",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/identity/planetary-v1/SELECTED.md",
+      "current": "docs/zmiany/2026-10-22/ZMIANY.md",
+      "previousSha256": "386ce47c2cedf47bc05d5d82c601c0a146d0ba6d8c04122c384af511623fbd5c",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/identity/legend-v1/SELECTED.md",
+      "current": "docs/zmiany/2026-10-22/ZMIANY.md",
+      "previousSha256": "3bde5efce3fdad9fced9d3763d5875b2f1772074d1e6a855ecb8a1fe6e503798",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/design/identity/sage-v2/SELECTED.md",
+      "current": "docs/zmiany/2026-10-22/ZMIANY.md",
+      "previousSha256": "1536c36974df125b5852682ffb23a1ff40d910b8b816d2184e9647d9e4b40449",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "consolidated-or-historical-summary"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/pyra-approach/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/pyra-approach/error-context.txt",
+      "previousSha256": "4547367695bc8f9e2304e0c0bebec3953ff1b43651f3d5208ff943a7b91c815a",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/wrong-vite-preview/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/wrong-vite-preview/error-context.txt",
+      "previousSha256": "55192e0e8f51fce1551eb7ead17b2c188baaa983fd93994c8b6e67aa02eb777b",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/error-context.txt",
+      "previousSha256": "a29a80a126f55c906e22648534233fdc0307e9b5e68c2ea96640e7b1a1e2db5f",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/error-context.txt",
+      "previousSha256": "8e89c62ac9f4d2a87f6ed8861cdeca9ea5cb32c0203bd50a4dd46f1cd82b583a",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/error-context.txt",
+      "previousSha256": "7535aa9d1ddfe25ef376eab719783b39e06c15482a060e47801fcc6462690f78",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/android/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/android/error-context.txt",
+      "previousSha256": "b26d96d840e03fb18d882c10a85679ccc00dafa89a8d66dab6d7b628af755687",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/legend/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/legend/error-context.txt",
+      "previousSha256": "927bd61f35d7756737805f7614270400b36aefc8d64ca029e2d7e562a7c20634",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/sage/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/sage/error-context.txt",
+      "previousSha256": "7ae3f828a8b806676cd26961f855888c2ddb9a9430f426b63d0f65bb4161e0b6",
+      "previousCommit": "927146f4e5d84ed1b71cd1a732d4f9efd430615c",
+      "disposition": "evidence-relocated"
+    }
+  ],
+  "relocatedEvidence": [
+    {
+      "previous": "docs/qa/STAGE3-RESULTS-2026-10-20.json",
+      "current": "docs/zmiany/2026-10-20/qa/STAGE3-RESULTS-2026-10-20.json",
+      "sha256": "24db9d851be42e56946c25546367b4cc4c4890ad867dc426b5681aa328658529"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Androidy-390x640.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Androidy-390x640.png",
+      "sha256": "fb18b53fd06dac79fdfbf5026296fe047c33efa958ebe1bbf3f404c30b46d35f"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Androidy-852x393.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Androidy-852x393.png",
+      "sha256": "72bd0e663cd8001b697b4717b6e6f280a3e62102c05feee0e52477df90b7fd9d"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Legendy-414x896.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Legendy-414x896.png",
+      "sha256": "fd4896ced6b47b6d16927cd5134c43e96c76d4f6cf784690003019882fec8853"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Mędrcy-390x844.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Mędrcy-390x844.png",
+      "sha256": "7f6d89cce8c5d2183b326e23f0f83d220a46c14d6181e1acff801100f0f48b27"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Planetarni-1280x900.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Planetarni-1280x900.png",
+      "sha256": "e7a1ad611875ba7769a2b2c2d32f24bab88491d5e91c39d23ce3d450779e2f4d"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Planetarni-360x640.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Planetarni-360x640.png",
+      "sha256": "cf74776cae90d567100880b7349a04f7fc016f55953ccf4b9eedb7878020255c"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/Planetarni-390x640.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/Planetarni-390x640.png",
+      "sha256": "6ca384c355d68c4ee68d7ed2cb35f690f2d1576f74b33daea71ee7fcdea4df98"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/after-390x640.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/after-390x640.png",
+      "sha256": "83d42170b309d3ee0d1807605808d552be45d93ae2c5cb0fff8cf659be80a7aa"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/before-390x640.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/before-390x640.png",
+      "sha256": "a49e64a13e6c6cfd03c791bc1ce8289b42bbcc016d8f2b9955e7189a868671dc"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/full-local-e2e.txt",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/full-local-e2e.txt",
+      "sha256": "63f2209d8e75bc7e89bf295c63264cd55de769a42f7ca63760da622b3b3b085a"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/panel-measurements.json",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/panel-measurements.json",
+      "sha256": "80ad09b6349263978fbce63346b00f466e058beef67b4afcf60d64f7988a9f20"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/production-e2e.txt",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/production-e2e.txt",
+      "sha256": "0c3cf5c9cc8d09fb13ecb6c17fbde5fad536a032d6b128cc6bf1563e85068cc0"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/tools-360x640-Planetarni.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/tools-360x640-Planetarni.png",
+      "sha256": "5d8d1c8974ce385fcc2550de8b64504da505f6f7a67026bb91b48e0f94ef9f6b"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/tools-390x640-Androidy.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/tools-390x640-Androidy.png",
+      "sha256": "605a38c0d3cac4e35d4a93a25caf04cd9182d680e7a6815277b0e14fbff09737"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/tools-390x640-Planetarni.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/tools-390x640-Planetarni.png",
+      "sha256": "b6cabacdb669eb62f4bb92cc2fd654e392d2630c82c229a1e93eb04d13277e89"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/tools-390x844-Mędrcy.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/tools-390x844-Mędrcy.png",
+      "sha256": "95df84e10e0bc5e916a653f344c1ab6733909dbd1ceef6ea23c20d62347e453d"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/tools-414x896-Legendy.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/tools-414x896-Legendy.png",
+      "sha256": "ec3304dbb61a783f300a548a3ef7d765f59bfcc8bb1953b6e3233496044fd801"
+    },
+    {
+      "previous": "docs/qa/mobile-hud-layout/tools-852x393-Androidy.png",
+      "current": "docs/zmiany/2026-10-20/qa/mobile-hud-layout/tools-852x393-Androidy.png",
+      "sha256": "d84c4db7e65c35e28dbe0b7e8288ca438fee7dfb9fbc9265dad37cdbcb3034ad"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/before-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/before-1280.png",
+      "sha256": "37419f56520f592952fed793574382e95a4bc3c9de6ef0d36ca2f4c5affe1ff8"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/before-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/before-390.png",
+      "sha256": "13501452dca2a41cab22aebc0f4a01b11f61ec6674835706eb0d87ed0b1f6946"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/before-dialogue-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/before-dialogue-390.png",
+      "sha256": "febf8c01f1dccee6d058a485867507640619222e970f71a098917d6a4ae2c6b6"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/clean-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/clean-1280.png",
+      "sha256": "b364e0d70ea456c12ce0b3eba9fe8aec0df7bd420615e52aa275b4c44b8e0acc"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/clean-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/clean-360.png",
+      "sha256": "94b8e618ad5845bc2a7147d45ec974483baf421cda16aaae54046aad030a52f8"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/clean-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/clean-390.png",
+      "sha256": "1bd77f93df7b01e2ae0462a2c8c56db687474ca778769edaf2c322659945b72e"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/clean-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/clean-414.png",
+      "sha256": "74bcff0017486b87c7aa00b87b6fcbcad1d406aaf66cabfac0fee245320650b4"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/clean-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/clean-852.png",
+      "sha256": "66057defb4456bb2d8f4db74c5cc7f8dbc2b8df3aa363f1039757ed191580793"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/combat-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/combat-1280.png",
+      "sha256": "41e4505369712a63a173791c8f0d1e14374b055dff75ad5eff6bdf9ca46a20bd"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/combat-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/combat-360.png",
+      "sha256": "d1c6cc015f6684fad1151b253e0d9b2894255a80e595cd453f6525f0360a71ef"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/combat-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/combat-390.png",
+      "sha256": "bc927803a22ad936ffc9dae323732e14024eb7ee5c443994158d4aa57c9a374d"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/combat-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/combat-414.png",
+      "sha256": "0fa1c22a835face026ff3b9b711d447756e441e98042747ccef702061d1130e8"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/combat-640.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/combat-640.png",
+      "sha256": "ba9c3ef58b92689697de9dd0dc012e0f59f29b3150c1583f50a14b1e3f630fbc"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/combat-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/combat-852.png",
+      "sha256": "d1d7ad8a9e0b1bab41000a2331dc9ae02d8f6a8df4ec9c0149dd9ac029abe6dd"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/death.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/death.png",
+      "sha256": "6f1be4efc3c3e6b9c645d5203936fe8b00e7a45ebbd326896f345c117f8cce9e"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/dialogue-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/dialogue-1280.png",
+      "sha256": "ae8d84b4e00914011197a4420c715af3b860dd7819262677bc9914ecb0703390"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/dialogue-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/dialogue-360.png",
+      "sha256": "0149726bf40d002ff403c1095fc689cd6806cc40f158bfca8ac5c7650462ad9d"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/dialogue-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/dialogue-390.png",
+      "sha256": "09488a9c44fd736fbd3f666fb9110ce0ec09742d5e004f7dcd5a798da225e5e3"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/dialogue-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/dialogue-414.png",
+      "sha256": "34ac5028f62cf8114e34da7fb25430f9ab4c4ffb61ce24d3aff60e53eea76bc8"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/dialogue-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/dialogue-852.png",
+      "sha256": "9d8e6aa194b5b411478cb0d7e4c420b7fb36377cfc87b4948e22698befb093c2"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/final-overlay-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/final-overlay-results.json",
+      "sha256": "f176ebfcfeb89101f9fe05d9e634d7b9ce4e30b2f6a12e9137ddb42627807042"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/full-suite-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/full-suite-results.json",
+      "sha256": "a1d9c7c6c8fe310acffffe6966f5f1fd33a4b55dbf4aacfd3dc6e01ef7636340"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/message-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/message-1280.png",
+      "sha256": "437abe0a2be6da3839ae1f39220058a051ac0d367fa9a0e57257f5d311f26daf"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/message-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/message-360.png",
+      "sha256": "f63bb76deab7e4dcec64936e1c94bb61716f4205213bebd581335d5c34103a20"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/message-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/message-390.png",
+      "sha256": "0ba3c660bcebd700337364c1ba1cde69157aceb6cc4b46b6862a23aab4b7fa00"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/message-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/message-414.png",
+      "sha256": "0ef92dc616b53581b5311e0cebf3a1d62b98242ff7cfd3cdf89fd00ef71f8288"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/message-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/message-852.png",
+      "sha256": "6e4c20536eec8cb6d38c4893ee460b634ff2a5073a01f09a6292e6455c9a68a5"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-aether.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-aether.png",
+      "sha256": "529c2e7f1081dafba9b20a6cabf62d6651c130caaad3b7e6107766532b1bd751"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-clean-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-clean-390.png",
+      "sha256": "9b87feba2c44a385d121120ac3e4ed98b94bbdbffe88ab8fdf8ecfca3d261a1b"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-message-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-message-390.png",
+      "sha256": "c320171e5e92e2404a6bb727bc20153f9fddf5af47b28faceca6aa2fe0f6bea5"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-nexus.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-nexus.png",
+      "sha256": "8b7e01dc046ed76edacebb4088ef16b2a2ce06c44e9aa647a3aa71aee6eacb9a"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-origin.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-origin.png",
+      "sha256": "01ca6f829aab285814515d5885861024abe14202ae7593d255f370d9058541f3"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-pyra.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-pyra.png",
+      "sha256": "9095f758f11890d5cefbec083731d145eb39252a75afcd0efd3cb3c823754829"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-results.json",
+      "sha256": "5b0a60cecc560aabb84e387d277ce826d34d0070f62178511ae064941916b427"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-settings-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-settings-390.png",
+      "sha256": "2909c919b7e3f128190b20dc6871cd6276430af8522b9fdeb55fb482392e9dfd"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/production-verdant.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/production-verdant.png",
+      "sha256": "4910288b4ca392f037b6adca43fdd923a9b87b030d80aa0b69f1c2327eb36b7d"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/published-build.json",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/published-build.json",
+      "sha256": "acbefd12d0f2d7d7681a961dda59348e7ed7fcafe214c7f5ba717699aeb691e9"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/save-warning.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/save-warning.png",
+      "sha256": "92304f194c63d51c9057386d9e89bbc8ea7403bec5012650aa1f56215d9dee7f"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/settings-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/settings-1280.png",
+      "sha256": "b2f1d2c542cc6324ec057cebb63bd7700ae0cf81c15b24f12546bfe44d92154d"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/settings-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/settings-360.png",
+      "sha256": "07f7c246b52505cb06de61e4ff2a43047a2a63eb5fc1a366c588e2085f505e62"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/settings-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/settings-390.png",
+      "sha256": "93beb9109ba4b6bfe28062e206c10249bb48e4a7bfbab626af8ef9b0a1e0fa36"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/settings-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/settings-414.png",
+      "sha256": "1b0597e5937df964cc4437a8c596da3db36bcd40343f8c83031604d1e3ffd0e1"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/settings-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/settings-852.png",
+      "sha256": "78172b52864c246352d9c48170935d3af1fbf4f314fef7f6e549c6c32627d7d8"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/webgl-aether.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/webgl-aether.png",
+      "sha256": "5d8a041a9ece9d1bc4e94f05c7a08a3524a6b42095301d7e9d0dd355b05fe23f"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/webgl-nexus.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/webgl-nexus.png",
+      "sha256": "16e67c6741f32bae81f71ff9f8b0837970b92934623d9c271a229c7ff4138193"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/webgl-pyra.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/webgl-pyra.png",
+      "sha256": "ef6ff70dba0e53c029c2b4a13659d72f1e7412a6f802ddac35a44ebc83c62f38"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/webgl-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/webgl-results.json",
+      "sha256": "4c813baa48a4e7ae24fc0a003cc7f3f0758864a7d47498afb6869bfa46af7835"
+    },
+    {
+      "previous": "docs/qa/overlay-audit/webgl-verdant.png",
+      "current": "docs/zmiany/2026-10-20/qa/overlay-audit/webgl-verdant.png",
+      "sha256": "10dee5d57ed3e5a9734d43377a6eb45d61068e990bae88388fa87060c0728653"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/actions-39606146963-summary.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/actions-39606146963-summary.txt",
+      "sha256": "afc037f3dd92677e6e1432a615531c930c2c98dbed09643385efd54ca506760e"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/actions-39611380835-summary.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/actions-39611380835-summary.txt",
+      "sha256": "056befdb3201e9c8a316f3f6ef76b2158850696a72d9af07463c9d75df0c1dcc"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/assets-check.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/assets-check.txt",
+      "sha256": "352446fd7dfd4cbc6e36291c893062510ec9baa63fb5186eb07dfd19fce57311"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/baseline-e2e-summary.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/baseline-e2e-summary.json",
+      "sha256": "8ddc148b54d5f5f9c78de4f44773b0a201f0c20bc643518ba6e3bc60efefd4f3"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/baseline-e2e.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/baseline-e2e.txt",
+      "sha256": "947ecb2320a2dfe6cd1d3516fec949fb646ec4d6015ac7829ea5b90297a45b3d"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/build-final.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/build-final.txt",
+      "sha256": "0daf8fac73c223e389361599f13e06094745e7ccf477af3743219dcbdf8a20ea"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/build.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/build.txt",
+      "sha256": "9a5cabb539651e421ef5663122589b26eeeeade80dfbf83cf7e2c7937c7d9711"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/changed-files-lint.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/changed-files-lint.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/checkpoint-complete.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/checkpoint-complete.json",
+      "sha256": "cc99d19353930b7865e8fa6eb53dd27bae3a76a8ff180ed83e1ca5b250b9264e"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/checks.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/checks.json",
+      "sha256": "4889d9cac772632e420a2872ed1737929fe1b91ffc14efdd3b2da4ff8b8e9346"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/combat-loot-0.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/combat-loot-0.png",
+      "sha256": "2f2c432791edcaf2d2357e8e0c0297384d80cb5dcd5dd7f435bc76ee12e8ecf7"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/combat-loot-2.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/combat-loot-2.png",
+      "sha256": "dc96ba542d2308e29161933fdef63f4e66d31de6f17cafdb7897b07dd483389c"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/filmstrip-down.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/filmstrip-down.png",
+      "sha256": "ce86b12b362b59e1f160740669d384603490c3e894f9c24546a8912192bdfda0"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/filmstrip-right.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/filmstrip-right.png",
+      "sha256": "ac7837c9e884a24fceffb992c0ce1be9de002c0bf87b1ea4088b9c911d0d8c21"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/formatting-ast-check.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/formatting-ast-check.txt",
+      "sha256": "0ae23d256a7b276b132251ace5bb04e3927910f7edd46aef26d284260f6bde07"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/frame-verification.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/frame-verification.json",
+      "sha256": "f6b2f627e3432a45ded4289083f65f2c4481d90d3628852973feccb103c06d47"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/import-install.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/import-install.txt",
+      "sha256": "f8d9c141236af51a8cf7e888c7477550329a724ec561ad392868931d89c77d62"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/import-plan.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/import-plan.txt",
+      "sha256": "99874e206f18761a54effb8d09fc3c3c474c04f3d0a737167e56569242f0d171"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/lfs-readback.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/lfs-readback.json",
+      "sha256": "688af4ad0b402e8a9ef11530bd6e6131350e913b1d37219b78e3d5694928514a"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/lint-final.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/lint-final.txt",
+      "sha256": "0454a76b6bc35290785ea4ea5fbf4073b2fe0e69a7764ade4f849004c4934c10"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/lint.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/lint.txt",
+      "sha256": "bbdc54ca29d2cd25d89d3b764f7243a8024fe4d9cb9758122f76c8e7f624c600"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/pixel-verification.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/pixel-verification.json",
+      "sha256": "0525afc0b8038e8898587afd76e5f18f073c2811418345c0e8876d0ab7da5b43"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/planetary-death.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/planetary-death.png",
+      "sha256": "958f5f59f01b532d66eddb6d9246e1d0354c3886bd229355daaefe5df64c5fd9"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/planetary-idle-1280.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/planetary-idle-1280.png",
+      "sha256": "0168fa3ece601e07bfa592abadb828cc7282471295a6289ec0e088d705b90881"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/planetary-idle-390.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/planetary-idle-390.png",
+      "sha256": "02ac5f5293babdf100678af90902eb575ac0069fa5c3f2a5a737b7a736c616bd"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/planetary-skill-1280.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/planetary-skill-1280.png",
+      "sha256": "043f4ca34d4e1a7dcb8e382bd605c0eeb5a8f0fb40baf253739e036882ee4408"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/planetary-skill-390.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/planetary-skill-390.png",
+      "sha256": "fc0bb8b1417911f4b27494a8302dc09f4effe5d8363b1bde9b8df4803d745b02"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/planetary-touch-390.png",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/planetary-touch-390.png",
+      "sha256": "44d6a6f4c84f773d70193676abbba91f54f3faa0d97e8fc3e6ddafaaaad7568a"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/pod-stop.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/pod-stop.json",
+      "sha256": "daf14af8937036644292f914efe76694578be30ccadc53397ed92890bfdae11a"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/preview-e2e.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/preview-e2e.txt",
+      "sha256": "1345989cf1ce85ec0d430768d2a37c5b6722060b92eecc717989b3dc4ad4a5a0"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/preview-gameplay-e2e.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/preview-gameplay-e2e.txt",
+      "sha256": "5c24563170a01c90f375fdcc08c85e60629a744a207d8d57f25edae59d43430c"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/preview-spec-lint.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/preview-spec-lint.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/preview-touch-e2e.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/preview-touch-e2e.txt",
+      "sha256": "9e1e6f28f7454e669154334fb2a48971bdf4301755ed8e31332d619f0c34b69e"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/render-summary.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/render-summary.txt",
+      "sha256": "444448828f52489c733e27ff54c1e645cc611a1e222cc6e5d8df3195dabc70dd"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/render.log.gz",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/render.log.gz",
+      "sha256": "d5a029eaca89ee827a367f0af9fe4706ffb2c0dbd4a2af315e50309fc0569592"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/review-verification.json",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/review-verification.json",
+      "sha256": "fde716535a7428ad83dc3a4817c85577843949958c18fe34c6fb864b25e9ed5a"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/storage-regression.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/storage-regression.txt",
+      "sha256": "32b356b583497c304d5df3fa918b2a3472b277a143f143f34360893dc7fb685a"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/typecheck.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/typecheck.txt",
+      "sha256": "e3ad87b0ca3ec86534dc4bc5d809bd5a3dcd439abb40cb91a6a1636b0fa21f4a"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/unit-final.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/unit-final.txt",
+      "sha256": "35853ed7bf060f372ea989255bc4f8ff453ae57f7a5ee82bcb0e62ccdb8fd0dd"
+    },
+    {
+      "previous": "docs/qa/planetary-resume-20261021/unit.txt",
+      "current": "docs/zmiany/2026-10-21/qa/planetary-resume-20261021/unit.txt",
+      "sha256": "bcf41bcbc60487b335ace4c43e69175b06399ec75c3a10ced8ec1cdb45a75940"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/actions-final-summary.log.txt",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/actions-final-summary.log.txt",
+      "sha256": "503fc421f89a7283021397e092a8bfb13e2e2ab7f88d23815f377c025511bd1d"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/audit-failures.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/audit-failures.json",
+      "sha256": "7ae116be468b8c48086b49c6391b1bbe66b535dd2e938b55ea6f111d41bbdf02"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-aether-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-aether-1280.png",
+      "sha256": "0801c9c93a3e24fd6cd16b6193f0bfa42fbde495266ffcbf02965db51261a7aa"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-aether-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-aether-390.png",
+      "sha256": "257a349a7851783dcf2dcbe27cd1ffa72a0fb1b5a0d09967e72f6776cfe56277"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-nexus-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-nexus-1280.png",
+      "sha256": "5f037f3ec38f8f7f8f065bcd8049d2531b24347be862cc120daf02d5c6423d33"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-nexus-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-nexus-390.png",
+      "sha256": "0dcc3d664bed50390c596de999bd921c0fd0424a99abcc96fff0c1a7866ba079"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-pyra-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-pyra-1280.png",
+      "sha256": "33bc3f2d1ef8b0dd16346275c66eab058ee41af232fbb6a248eac03ea607ff34"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-pyra-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-pyra-390.png",
+      "sha256": "278c0d57b407d854cdf2554e692c388b11959125aaa1f97b584e9ff358a5808a"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-verdant-1280.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-verdant-1280.png",
+      "sha256": "70e6cafa9f88fc2ca9f728fa271396b596f62d36da279587c26545bb1a809ada"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-canvas-verdant-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-canvas-verdant-390.png",
+      "sha256": "78d3ffb063d833dc2b2f581d3c1c6cc1ec41081f9ba3e0b3a9a31de6978acdf0"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-webgl-aether-640.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-webgl-aether-640.png",
+      "sha256": "dd81628fa852c1c61b865a9127138ca3620c852b81e4e2c62e07240d355c711f"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-webgl-nexus-640.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-webgl-nexus-640.png",
+      "sha256": "05064429edbf3b850ac98c32d3d2ce6899bc8c8d45c5f1f0310d48638ad3a9f7"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-webgl-pyra-640.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-webgl-pyra-640.png",
+      "sha256": "6b52f26947d68dde57023bb7bdc9b560b077d50801acacfcdb0a73317b390eaf"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/benchmark-webgl-verdant-640.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/benchmark-webgl-verdant-640.png",
+      "sha256": "6e8c938aa141c1bdc82087d2ddb33b16b44f8178b1b916f177c1561e2d861d91"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/canvas-resolution-probe.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/canvas-resolution-probe.json",
+      "sha256": "8f93f273d48c7b761adebfcbf6173e13f2e4c2b23b6321db48144299e579f462"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/changed-files.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/changed-files.json",
+      "sha256": "4530a6d19126372521e7a59fbcee0dd7f779faea5583503b82d85e383b2719cf"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/import-cli-plan.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/import-cli-plan.json",
+      "sha256": "f9666036c2de799ef19c6c89a243279c456b79b78664416a6414558b7935a934"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/measurement-environment.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/measurement-environment.json",
+      "sha256": "b4e24fd0e70b14b45d64e04ae2088585e029a660ce1954e2783d05f3cc76cf5f"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/performance-before-terrain-cache-canvas.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/performance-before-terrain-cache-canvas.json",
+      "sha256": "083b29ed49a91bc779ebf6f72d48e6e90b77f049c82086c30961d2bae69ad996"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/performance-before-terrain-cache-webgl.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/performance-before-terrain-cache-webgl.json",
+      "sha256": "3c8984d84f9524cfc4414d7b7077cb3669ed7636b810160eb8c871e4ded1bb14"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/performance-canvas.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/performance-canvas.json",
+      "sha256": "8ce0b7dd50c086f01b5b5f2ff1f2fc45736fce011324324cb76642a0ee797057"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/performance-summary.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/performance-summary.json",
+      "sha256": "40f7f757127ec6ad3af16e26d9e33d3ed0576863864e9883c459643b0a4357f7"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/performance-webgl.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/performance-webgl.json",
+      "sha256": "050ee710b739523ceef34ed13d12ff875bf06ddccc5cc02c314f60869f862e23"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/playwright-actions-final-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/playwright-actions-final-results.json",
+      "sha256": "d63223456da3fedc1df068856a8c2d9b4384dd51186fe1c38b2316a61e20a19d"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/playwright-cache-focused-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/playwright-cache-focused-results.json",
+      "sha256": "aece6d1049885d3cbde50be42c7530012bcf38b918b3abf7d98de08a6ab74fc7"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/playwright-cloudflare-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/playwright-cloudflare-results.json",
+      "sha256": "95a8a4f55838d5bf8ed52f6408e434dbc029f973a1ec6f85ec2ac2eae1fe9119"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/playwright-local-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/playwright-local-results.json",
+      "sha256": "e48a11bb3c06fe982ca031321e395a243cb5f5fd4c43cd93082ec3e0491a9854"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/production-read-only.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/production-read-only.json",
+      "sha256": "3b608f060bf53272819a15088ac0afc07eceadd5be56cde7aa310af10daff9d2"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/terrain-after-canvas.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/terrain-after-canvas.png",
+      "sha256": "31a2eaeb3dcebb35eb44a3e45dc118c702ccc77dc3d367aa23262e26ff0fbe5e"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/terrain-after-webgl.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/terrain-after-webgl.png",
+      "sha256": "ae6dda0a557e5fd66f9fbdb882f09f6c129830d897633147454365e1fe7a0873"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/terrain-before-canvas.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/terrain-before-canvas.png",
+      "sha256": "7af15d2ac3128dc018ee920845ef4df3ac0403513261f3389cbdc95f573bd501"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/terrain-before-webgl.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/terrain-before-webgl.png",
+      "sha256": "3168aad3b718c517a8bd9f10a3d4fc64933ca05817de641049481389709d95fe"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/terrain-cache-comparison.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/terrain-cache-comparison.json",
+      "sha256": "850b3820d2c273e0dade0f33fb13f2c7e430fce0d9e1d28619f9429be712dcf7"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/three-races-baseline-stats.json",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/three-races-baseline-stats.json",
+      "sha256": "82733a7598e9ad036662685a154548b4076797b8c20614a7c31b5f64ad4be04a"
+    },
+    {
+      "previous": "docs/qa/runtime-restore-20261021/bootstrap-v2-test.txt",
+      "current": "docs/zmiany/2026-10-21/qa/runtime-restore-20261021/bootstrap-v2-test.txt",
+      "sha256": "5118ad76356f05bff58fe480f4b07c3c1e5cab67fd8fe7301db291297657bfd8"
+    },
+    {
+      "previous": "docs/qa/runtime-restore-20261021/inference-smoke.png",
+      "current": "docs/zmiany/2026-10-21/qa/runtime-restore-20261021/inference-smoke.png",
+      "sha256": "542ac2d2820065f233b69fde3b9b569c23154ba29e6c5b24a4ea946461f56889"
+    },
+    {
+      "previous": "docs/qa/runtime-restore-20261021/models-verified.json",
+      "current": "docs/zmiany/2026-10-21/qa/runtime-restore-20261021/models-verified.json",
+      "sha256": "a95388865faecb9135dc371873fc6c4dd7e157cca72e763db6749cda25882290"
+    },
+    {
+      "previous": "docs/qa/runtime-restore-20261021/restoration-report.json",
+      "current": "docs/zmiany/2026-10-21/qa/runtime-restore-20261021/restoration-report.json",
+      "sha256": "b816ab4224eabdaa7aeabfd83ec1621ada86fb6b8f673174344062cf141e1a71"
+    },
+    {
+      "previous": "docs/qa/stage3-1/browser-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/browser-results.json",
+      "sha256": "9d1763bb7fe5c114084cecd8a61a41643ac2d8b24e5e3d24b0204aa0a738f915"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-android.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-android.png",
+      "sha256": "744b2bc0c6ae70cdfc8d95c352bb5b0804362dfefe93bc54a99cdf181652a7e0"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-legend.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-legend.png",
+      "sha256": "a4c946371f2abad83bce27ed6fa1a2890d8c4dd562abf2cbd1d59c3a5fba1ba6"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-mobile-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-mobile-360.png",
+      "sha256": "d5845dad145fae854d1b9d87973357521cd768c2a6e7c467f3b3b13531eb3454"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-mobile-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-mobile-390.png",
+      "sha256": "5e051b9b97943a121b230bbe8607bf0ac8b17c85d8102a6b95aca81894a9e2de"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-mobile-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-mobile-414.png",
+      "sha256": "9c5f4df76c67c1110361f076e8214158147fa3bb17fcdd6d103320eadf06c54e"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-mobile-640.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-mobile-640.png",
+      "sha256": "f66fcb5e01b13e4255ecea05124fcd7afbe381015a7eaf9beb7ce2c95f4c3745"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-mobile-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-mobile-852.png",
+      "sha256": "07358568542b233071ebb3205321a5940b235d84fd26c7d342eefb30feb58f2b"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-planetary.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-planetary.png",
+      "sha256": "8168419f13c055d0e0d85c86d9a10473a27948f8e126dc6db3fa4d1f7271a304"
+    },
+    {
+      "previous": "docs/qa/stage3-1/illustration-sage.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/illustration-sage.png",
+      "sha256": "9de2a32ef95000eb3cc40bfd2f51065b6b4075c3f8e910298d9d0af3403ec1e7"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-desktop.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-desktop.png",
+      "sha256": "17d0ce2feff799fbf53b82448489e076abe35450c5744c6ae5cbd4fc559c1158"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-error-360.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-error-360.png",
+      "sha256": "7d133c5d2880c76520142ec9d7619bc9133137fd9439f8a692894473c0bff1a1"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-error-390.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-error-390.png",
+      "sha256": "205fcca4ca7c47437161ac62322dcd34b1f8818b9b2fc523bf638e50d00da0e5"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-error-414.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-error-414.png",
+      "sha256": "5a7d0adb94f2582f4d306adc37e7952f594c7628ba239e7365b777280581d3c0"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-error-852.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-error-852.png",
+      "sha256": "0b9b6f4afbb3c76801998b55b38415c389b06ad571404e0a37426ed4c94897ae"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-error.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-error.png",
+      "sha256": "b32b46a807511ff49b6c4539a14e52bb6cead3ff1fad7daa28fea10b273e8154"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-landscape.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-landscape.png",
+      "sha256": "c59c4f8d1f1357df177ef91b236da1dc209abff2db3197eed527e8bf82c3c5be"
+    },
+    {
+      "previous": "docs/qa/stage3-1/loading-mobile.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/loading-mobile.png",
+      "sha256": "b766498ac2c13777291a7e1d37fae9404cd29fb1d140f0533760d6e58f388c19"
+    },
+    {
+      "previous": "docs/qa/stage3-1/origin-detail.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/origin-detail.png",
+      "sha256": "9509d42c5297c9039b786aff8be6d8d9d3cb858bbee8e027e8bfc3896c3d5f9a"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-aether.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-aether.png",
+      "sha256": "5bafd184f88331b8341d6f10d6aa82dfce8daf4998e450160e14b2ead09d28df"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-assets.json",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-assets.json",
+      "sha256": "ec7f8c1e6d85685d96a37d44a5852d0425f687f2cfca667f95710bc4d155eb7b"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-nexus.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-nexus.png",
+      "sha256": "c8198ff235f25540cf3fc19d5513f36f34bcd40e196c1b19635337a19d18484e"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-origin.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-origin.png",
+      "sha256": "01ca6f829aab285814515d5885861024abe14202ae7593d255f370d9058541f3"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-pyra.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-pyra.png",
+      "sha256": "049814440e81a7787fbaa2d0bbc7d152196850175f09d43975a97f2fecd64c8d"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-results.json",
+      "sha256": "867aa93059d70fda6472f80d793b41d3bd5d8f572bf56ca7c85a4526b233b403"
+    },
+    {
+      "previous": "docs/qa/stage3-1/production-verdant.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/production-verdant.png",
+      "sha256": "33c40be65e178be5ee15d49376e8dacaa17dd50a1798ff9db1b497ffc16a42ca"
+    },
+    {
+      "previous": "docs/qa/stage3-1/publication.json",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/publication.json",
+      "sha256": "34555a97b0e96db9b841e6b6dd122c53a34cd80e129b49005917edfc5dbae83d"
+    },
+    {
+      "previous": "docs/qa/stage3-1/selection-360x800.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/selection-360x800.png",
+      "sha256": "ea1bbcc13491e6845b0d3a21d9d07c4df4e362923279e93272d6e698d9346a48"
+    },
+    {
+      "previous": "docs/qa/stage3-1/selection-390x844.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/selection-390x844.png",
+      "sha256": "4113d62ef9ce64045e68e47adf9dc82cd823973317da5d19bc1edeab3b46d26c"
+    },
+    {
+      "previous": "docs/qa/stage3-1/selection-414x896.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/selection-414x896.png",
+      "sha256": "046b2dee5ecf219810afa0f6d6a01d21e60343ccb9fb9a0eb8ba4f9975674724"
+    },
+    {
+      "previous": "docs/qa/stage3-1/selection-640x480.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/selection-640x480.png",
+      "sha256": "e2f6779447529faf9e9cfd13c2f301eb91c56662819542684527c6962bcd17af"
+    },
+    {
+      "previous": "docs/qa/stage3-1/selection-852x393.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/selection-852x393.png",
+      "sha256": "9145f078f223f3464775214df65decb500e2a37307d42f49bda916b9f1492446"
+    },
+    {
+      "previous": "docs/qa/stage3-1/selection-desktop.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/selection-desktop.png",
+      "sha256": "a3e567e30a795745a57a894dc9d38d2ef6e0589c4c9b28015133d3495008a165"
+    },
+    {
+      "previous": "docs/qa/stage3-1/ui-release-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/ui-release-results.json",
+      "sha256": "87f29af16154863d950edb9f0831dd929d8e68e8c2fefc789d8e7f9b299853ae"
+    },
+    {
+      "previous": "docs/qa/stage3-1/webgl-aether.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/webgl-aether.png",
+      "sha256": "c62a6c06306fd8a2922f1447e5b235600d93065d8af8c5a02e283c75287bb5f6"
+    },
+    {
+      "previous": "docs/qa/stage3-1/webgl-nexus.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/webgl-nexus.png",
+      "sha256": "80cd376396dbd1a3055bf1426ce4b0e23b139a08ad55a93f8053e9ec056afbcd"
+    },
+    {
+      "previous": "docs/qa/stage3-1/webgl-pyra.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/webgl-pyra.png",
+      "sha256": "ba86f5ee5d864dece5298df25735f9ac68bf383a8e4d1e3cb894a69abba39728"
+    },
+    {
+      "previous": "docs/qa/stage3-1/webgl-results.json",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/webgl-results.json",
+      "sha256": "b1b0ebb0e36aed48966e88c1f8db28f1fc2a330f3206d19fecb270be6ecc2411"
+    },
+    {
+      "previous": "docs/qa/stage3-1/webgl-verdant.png",
+      "current": "docs/zmiany/2026-10-20/qa/stage3-1/webgl-verdant.png",
+      "sha256": "256a007eeb2b064849addc2fbb8c212b2befd2c2d931f272f93506adf170dd3d"
+    },
+    {
+      "previous": "docs/qa/sage-delivery-review7/validation.json",
+      "current": "docs/zmiany/2026-10-21/qa/sage-delivery-review7/validation.json",
+      "sha256": "5cb2087c83755497ef4b32b3df3ea7d9240ba8ffec4342344451879c0d07fef5"
+    },
+    {
+      "previous": "docs/qa/four-painted-races-20261022/source-verification.json",
+      "current": "docs/zmiany/2026-10-22/qa/four-painted-races-20261022/source-verification.json",
+      "sha256": "44e5f591e05f058ea3da5d73101ea186f6ce6f17c28f3c7c995c7a5ad935cafa"
+    },
+    {
+      "previous": "docs/qa/four-painted-races-20261022/planetary-import.json",
+      "current": "docs/zmiany/2026-10-22/qa/four-painted-races-20261022/planetary-import.json",
+      "sha256": "c1c9a28d0e0f06768b716ca41938c2c8b1b18dc49e1ba967e74d32692f163eaf"
+    },
+    {
+      "previous": "docs/qa/four-painted-races-20261022/legend-import.json",
+      "current": "docs/zmiany/2026-10-22/qa/four-painted-races-20261022/legend-import.json",
+      "sha256": "8e553891227a799c25349132d65a41f03eb7292be3aa34c0321fb4279a7c1c4d"
+    },
+    {
+      "previous": "docs/qa/four-painted-races-20261022/android-import.json",
+      "current": "docs/zmiany/2026-10-22/qa/four-painted-races-20261022/android-import.json",
+      "sha256": "7974399e5ecebabab2ac1dcbb6e6f1f6bc4330dee0cb60501c78ccdbc1b00247"
+    },
+    {
+      "previous": "docs/qa/four-painted-races-20261022/sage-import.json",
+      "current": "docs/zmiany/2026-10-22/qa/four-painted-races-20261022/sage-import.json",
+      "sha256": "ed2fb92ee50f1a019bc80f4c180341525ef35a5f16f92593863675a1be318a7d"
+    },
+    {
+      "previous": "docs/qa/four-painted-races-20261022/atlas-verification.json",
+      "current": "docs/zmiany/2026-10-22/qa/four-painted-races-20261022/atlas-verification.json",
+      "sha256": "72c86d39893082cc667d7dba95b0851505d368c01e75335c6c397f9436eec4e2"
+    },
+    {
+      "previous": "docs/qa/verdantia-city-20261023/asset-import.txt",
+      "current": "docs/zmiany/2026-10-23/qa/verdantia-city-20261023/asset-import.txt",
+      "sha256": "5341b2e8c7ccb2b40d7c960ffae2b8139151ae03f61803a66d30100e6199f562"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/aether-start-cloudflare.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/aether-start-cloudflare.png",
+      "sha256": "450b5709d0ba5833f02969a6287f58791dbdd6c261c5ec2dc1e0b22ab080e84c"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/android-boundary.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/android-boundary.png",
+      "sha256": "cb651fc404af69d81b5866045f88d16fcec179625fcdb066ea2c1e52d4f47576"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/android-combat.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/android-combat.png",
+      "sha256": "101f821e4f57416cdf865fec811e1421d5eb834f7210d75463e58ad0e5a74f78"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/android-death.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/android-death.png",
+      "sha256": "4072d645ba93708af13fb528b67801fafd051a7c83bf4916cbca55cdae7a8f45"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/android-input-landscape.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/android-input-landscape.png",
+      "sha256": "2f554c0b67964147cffe52e7c3c7ca96bb4c3884b2fc4b3d31415ce9e5efce52"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/android-input.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/android-input.png",
+      "sha256": "49d44c62759fddabfddd513d842f60ed908dc7cc6dd3a51d5915ae2d590fbaec"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/legend-boundary.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/legend-boundary.png",
+      "sha256": "aba21f4c582ae815ef2a89ba39d3d09734c55dee1498b8a7f52227b3bf6ec1ba"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/legend-combat.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/legend-combat.png",
+      "sha256": "9ae07059eaa788a80ef243cea3b186bf6f159875a7903b64b5dd24b407a93163"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/legend-death.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/legend-death.png",
+      "sha256": "b82ebcd707bf2bf7c9f066bfe8c856569eb025543aa36edd30d2c7f73c86d903"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/legend-input-landscape.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/legend-input-landscape.png",
+      "sha256": "fb926fbe9b8112d5ebbdfb73d491e1cb08012e7fac9b3bf19efb99a5b4755366"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/legend-input.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/legend-input.png",
+      "sha256": "6cefafb424bc06135ddd7d41eb8374498b626362c11b4c8cb5b30248bbc009a1"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/nexus-start-cloudflare.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/nexus-start-cloudflare.png",
+      "sha256": "02c03eabab6dfec2ab177fa26828792c527985a81afb410cce035d5d45fd5fe3"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/planetary-boundary.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/planetary-boundary.png",
+      "sha256": "40a716cb56301ae36e3863bfe9772f2c562a4c26b069d832d91772a3694c3d35"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/planetary-combat.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/planetary-combat.png",
+      "sha256": "9c663657bba130ca5dff596c46a74b8df19c781b94413208026d38fadcdb7a41"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/planetary-death.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/planetary-death.png",
+      "sha256": "2e9c0e13c20cf2988aae4c9017c8d75c36b60c57814ce9305052e13a86bbb80d"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/planetary-input-landscape.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/planetary-input-landscape.png",
+      "sha256": "395d785e0e2799376ab7a210d143466b534d888889fd48e3badcd60b4a1a5849"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/planetary-input.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/planetary-input.png",
+      "sha256": "485d889defa43d0156d3a66f06dcdc6f225675d0391c462bfc3ac0f74985676e"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/planetary-start-cloudflare.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/planetary-start-cloudflare.png",
+      "sha256": "5030aa04389ab8a8d945886e56231af07ba6d3b82999677b34bb2542d67a3868"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/pyra-start-cloudflare.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/pyra-start-cloudflare.png",
+      "sha256": "64d5cc0b5ee3497e81f54e27d68ae661beead240fdde79709b38003a5e37fa3f"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/sage-boundary.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/sage-boundary.png",
+      "sha256": "27dbac79df50d0ef449bac776e7ac5f06a9a923993a3b733200a69c2601515d1"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/sage-combat.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/sage-combat.png",
+      "sha256": "3e427a3b2c6cbea1ae8ddc6d11e3f501c15d2bd41c81ce87a59c107b140d358b"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/sage-death.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/sage-death.png",
+      "sha256": "a4966c30d74e88489ea9df9a8d2793ccc0026cbe35289b9e20b62d09d08df368"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/sage-input-landscape.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/sage-input-landscape.png",
+      "sha256": "0466c1118cdb5566150c8d4728a17693f601777f2398c55d676526d3a4dbbe32"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/sage-input.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/sage-input.png",
+      "sha256": "988638eaea0f7da5c14103a0db45577a44f90d845b092265e26709ab714334d7"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/screenshots/technical-skill.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/screenshots/technical-skill.png",
+      "sha256": "354ff65a5fc75cf2a85e1abd8e83fb8ed58b0b65514a19d436d3b57a6e069de4"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/pyra-approach/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/pyra-approach/error-context.txt",
+      "sha256": "4547367695bc8f9e2304e0c0bebec3953ff1b43651f3d5208ff943a7b91c815a"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/pyra-approach/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/pyra-approach/test-failed-1.png",
+      "sha256": "ff63b4380ef350e8cb2f8d843d564d3fa9087c3ef23b90e5eba229c4b942ea6c"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/wrong-vite-preview/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/wrong-vite-preview/error-context.txt",
+      "sha256": "55192e0e8f51fce1551eb7ead17b2c188baaa983fd93994c8b6e67aa02eb777b"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/wrong-vite-preview/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/wrong-vite-preview/test-failed-1.png",
+      "sha256": "8997ed874747f6595aacaa10a73fcc7f7f9a5aceb726958f92a88cf5a98d353a"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/error-context.txt",
+      "sha256": "a29a80a126f55c906e22648534233fdc0307e9b5e68c2ea96640e7b1a1e2db5f"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/test-failed-1.png",
+      "sha256": "10c6f91742408d6746e0c90348f7c342ff8b533094719a50bb929b8b843f49ed"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/test-failed-2.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-android-39-4bb84--directions-android-390x844/test-failed-2.png",
+      "sha256": "fb32313e11bc8ffbd5310a1660e630b64cedb4622f8462a5eae2d5464ac8279e"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/error-context.txt",
+      "sha256": "8e89c62ac9f4d2a87f6ed8861cdeca9ea5cb32c0203bd50a4dd46f1cd82b583a"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-legend-390-1ef6a-t-directions-legend-390x844/test-failed-1.png",
+      "sha256": "e96317a4a11e905ebf96bbd0f233f5f51deb543e8eb536a2357d523df66fa5fe"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/error-context.txt",
+      "sha256": "7535aa9d1ddfe25ef376eab719783b39e06c15482a060e47801fcc6462690f78"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/test-failed-1.png",
+      "sha256": "1379f7593fbe4be8ac5fd680c96427dda1997847fa9865db9547131327d802b9"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/test-failed-2.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/first-mobile-probe/pre-gpu-Android-sage-390x8-b2f23-ght-directions-sage-390x844/test-failed-2.png",
+      "sha256": "fb32313e11bc8ffbd5310a1660e630b64cedb4622f8462a5eae2d5464ac8279e"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/android/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/android/error-context.txt",
+      "sha256": "b26d96d840e03fb18d882c10a85679ccc00dafa89a8d66dab6d7b628af755687"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/android/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/android/test-failed-1.png",
+      "sha256": "395395c283952bf3df9ce38137aaf4d64b17b0bdc378ae2ef5b4395718727bb6"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/legend/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/legend/error-context.txt",
+      "sha256": "927bd61f35d7756737805f7614270400b36aefc8d64ca029e2d7e562a7c20634"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/legend/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/legend/test-failed-1.png",
+      "sha256": "c4972b00d328af2154542b3449f945aac45e5d2d3255ac6fac08a583ba3765d7"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/sage/error-context.md",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/sage/error-context.txt",
+      "sha256": "7ae3f828a8b806676cd26961f855888c2ddb9a9430f426b63d0f65bb4161e0b6"
+    },
+    {
+      "previous": "docs/qa/pre-gpu/failures/initial-focus/sage/test-failed-1.png",
+      "current": "docs/zmiany/2026-10-20/qa/pre-gpu/failures/initial-focus/sage/test-failed-1.png",
+      "sha256": "bf0b5b5206724a007b220e408634bc3a2fb5d19b6b9e27f37ff626fbf76af380"
+    }
+  ]
+}

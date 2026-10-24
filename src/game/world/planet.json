@@ -97,29 +97,11 @@
     }
   },
   "islandEdges": {
-    "island-1": [
-      "aether",
-      "verdant"
-    ],
-    "island-2": [
-      "aether",
-      "pyra"
-    ],
-    "island-3": [
-      "aether",
-      "nexus"
-    ],
-    "island-4": [
-      "verdant",
-      "nexus"
-    ],
-    "island-5": [
-      "verdant",
-      "pyra"
-    ],
-    "island-6": [
-      "pyra",
-      "nexus"
-    ]
+    "island-1": ["aether", "verdant"],
+    "island-2": ["aether", "pyra"],
+    "island-3": ["aether", "nexus"],
+    "island-4": ["verdant", "nexus"],
+    "island-5": ["verdant", "pyra"],
+    "island-6": ["pyra", "nexus"]
   }
 }

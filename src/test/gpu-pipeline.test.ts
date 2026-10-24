@@ -53,9 +53,13 @@ describe("GPU import validates actual pixels, frames and immutable publication",
     );
     expect(result.directory).toContain(result.digest.slice(0, 12));
     const afterImage = path.join(root, "public", installed.assets[0]!.url);
-    expect(await sharp(afterImage).raw().toBuffer()).toEqual(
-      await sharp(path.join(f.source, "actor.webp")).raw().toBuffer(),
-    );
+    const [actualPixels, expectedPixels] = await Promise.all([
+      sharp(afterImage).raw().toBuffer(),
+      sharp(path.join(f.source, "actor.webp")).raw().toBuffer(),
+    ]);
+    // Native byte equality avoids walking millions of Buffer properties in the
+    // assertion framework while retaining an exact, lossless comparison.
+    expect(actualPixels.equals(expectedPixels)).toBe(true);
     const catalog = makeCatalog([installed]);
     expect(worldAssets("aether", false, catalog).map((a) => a.id)).toContain("technical-rig");
     expect(worldAssets("verdant", false, catalog).map((a) => a.id)).not.toContain("technical-rig");
@@ -287,7 +291,7 @@ it("keeps unapproved hero packs opt-in while validating and importing their actu
   );
 });
 
-it("binds a separate look per monster with enemy.<slug> and loads it only in its own world", async () => {
+it("binds a separate look per monster without eagerly loading unused bestiary atlases", async () => {
   const f = await delivery(),
     root = await app(f.root);
   f.pack.actorBindings = { "verdant.enemy.cierniowy-wilk": "technical-mannequin" };
@@ -303,7 +307,8 @@ it("binds a separate look per monster with enemy.<slug> and loads it only in its
   expect(actorVisual("verdant", "enemy", "inny-potwor", false, source).id).not.toBe(
     "technical-mannequin",
   );
-  expect(worldAssets("verdant", false, source).map((a) => a.id)).toContain("technical-rig");
+  expect(source.assets.has("technical-rig")).toBe(true);
+  expect(worldAssets("verdant", false, source).map((a) => a.id)).not.toContain("technical-rig");
   expect(worldAssets("aether", false, source).map((a) => a.id)).not.toContain("technical-rig");
   f.pack.actorBindings = { "verdant.enemy.Zly_Klucz": "technical-mannequin" };
   await f.save();

@@ -32,6 +32,9 @@ export interface MonsterHost {
   readonly nowMs: number;
   readonly world: WorldDefinition;
   readonly nav: Navigation;
+  readonly enemyNavigation?: Navigation | undefined;
+  readonly maximumActiveEnemies?: number | undefined;
+  readonly enemyPositionAllowed?: ((p: Point) => boolean) | undefined;
   readonly enemies: Enemy[];
   readonly player: { x: number; y: number; hp: number; dead: boolean };
   readonly playerMaxHp: number;
@@ -130,10 +133,17 @@ export class MonsterSystem {
   private splits = new Map<string, { cloneId: string; origMax: number; ms: number }>();
   constructor(private host: MonsterHost) {}
 
+  private get navigation() {
+    return this.host.enemyNavigation ?? this.host.nav;
+  }
+  private get hasCapacity() {
+    return this.host.enemies.length < (this.host.maximumActiveEnemies ?? Infinity);
+  }
+
   // --- spawning -----------------------------------------------------------------------------
   spawn(kind: string, at: Point, id?: string): Enemy {
     const def = monsterDef(kind);
-    const home = this.host.nav.safe(at);
+    const home = this.navigation.safe(at);
     const e: Enemy = {
       id: id ?? kind + "#" + this.seq++,
       kind,
@@ -152,13 +162,20 @@ export class MonsterSystem {
     if (def.traits.webs) this.layWebs(e);
     return e;
   }
+  forget(ids: ReadonlySet<string>) {
+    for (const id of ids) {
+      this.paths.delete(id);
+      this.splits.delete(id);
+    }
+    this.zones = this.zones.filter((z) => !ids.has(z.owner));
+  }
   /** Spawns a pack (wolves, bats) around a point. Returns the members. */
   spawnGroup(kind: string, at: Point): Enemy[] {
     const def = monsterDef(kind);
     const [lo, hi] = def.traits.pack ?? [1, 1];
     const n = lo + Math.floor(this.host.random() * (hi - lo + 1));
     const out: Enemy[] = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n && this.hasCapacity; i++) {
       const a = (Math.PI * 2 * i) / Math.max(1, n);
       out.push(this.spawn(kind, { x: at.x + Math.cos(a) * 55, y: at.y + Math.sin(a) * 55 }));
     }
@@ -290,6 +307,7 @@ export class MonsterSystem {
     e.mode = "chase";
   }
   private split(e: Enemy) {
+    if (!this.hasCapacity) return;
     const t = e.m.def.traits.split!;
     const origMax = e.maxHp;
     const part = Math.max(1, Math.round(origMax * t.hpPct));
@@ -369,8 +387,8 @@ export class MonsterSystem {
     if (e.mode === "dead" || e.m.hidden || e.m.def.traits.still) return;
     const u = unit(from, e);
     const to = { x: e.x + u.x * distancePx, y: e.y + u.y * distancePx };
-    if (e.m.def.traits.fly || e.m.def.traits.ghost) Object.assign(e, this.clampWorld(to));
-    else Object.assign(e, this.host.nav.step(e, to, distancePx));
+    if (e.m.def.traits.fly || e.m.def.traits.ghost) Object.assign(e, this.clampWorld(to, e));
+    else Object.assign(e, this.navigation.step(e, to, distancePx));
   }
   breakShield(e: Enemy) {
     e.m.guard = 0;
@@ -415,7 +433,7 @@ export class MonsterSystem {
     for (let i = 0; i < w.max; i++) {
       const a = this.host.random() * Math.PI * 2;
       const r = 90 + this.host.random() * (w.radius - 90);
-      const at = this.host.nav.safe({
+      const at = this.navigation.safe({
         x: e.home.x + Math.cos(a) * r,
         y: e.home.y + Math.sin(a) * r,
       });
@@ -540,7 +558,8 @@ export class MonsterSystem {
     if (m.phase === "idle") {
       const radius = def.agro * (def.traits.night && !host.isNight() ? def.traits.night.day : 1);
       const calm = def.traits.provoked && !m.provoked;
-      if (!calm && !p.dead && !host.safe && d <= radius && host.nav.visible(e, p)) this.engage(e);
+      if (!calm && !p.dead && !host.safe && d <= radius && this.navigation.visible(e, p))
+        this.engage(e);
       else return this.stepIdle(e, dt);
     }
     // engaged
@@ -580,7 +599,7 @@ export class MonsterSystem {
     if (t.still) return;
     if (t.route) {
       const [ox, oy] = t.route[m.routeIndex % t.route.length]!;
-      const goal = this.host.nav.safe({ x: e.home.x + ox, y: e.home.y + oy });
+      const goal = this.navigation.safe({ x: e.home.x + ox, y: e.home.y + oy });
       this.moveTo(e, goal, BASE_SPEED * 0.4 * dt);
       if (distance(e, goal) < 12) m.routeIndex++;
       return;
@@ -590,7 +609,7 @@ export class MonsterSystem {
       e.timer = 2800;
       const phase = (this.seq++ + e.id.length) * 2.4;
       const r = t.wander ?? 65;
-      e.patrol = this.host.nav.safe({
+      e.patrol = this.navigation.safe({
         x: e.home.x + Math.cos(phase) * r,
         y: e.home.y + Math.sin(phase) * r,
       });
@@ -631,7 +650,7 @@ export class MonsterSystem {
       return;
     }
     if (p.dead) return;
-    if (t.ambush && d <= t.ambush.reveal && this.host.nav.visible(e, p)) {
+    if (t.ambush && d <= t.ambush.reveal && this.navigation.visible(e, p)) {
       m.hidden = false;
       m.phase = "engage";
       m.engaged = true;
@@ -646,7 +665,7 @@ export class MonsterSystem {
       const at =
         skill?.mode === "burst"
           ? { x: p.x, y: p.y }
-          : this.host.nav.safe({ x: p.x + away.x * 50, y: p.y + away.y * 50 });
+          : this.navigation.safe({ x: p.x + away.x * 50, y: p.y + away.y * 50 });
       const telegraph = skill?.telegraph ?? 600;
       m.cast = {
         skill: skill ?? { id: "surface", name: "", mode: "burst", cd: 0, range: 0 },
@@ -720,7 +739,18 @@ export class MonsterSystem {
       s *= t.webSlow;
     return s;
   }
-  private clampWorld(p: Point): Point {
+  private clampWorld(p: Point, from?: Point): Point {
+    if (from && this.host.enemyPositionAllowed) {
+      const steps = Math.max(1, Math.ceil(distance(from, p) / 8));
+      for (let i = 1; i <= steps; i++)
+        if (
+          !this.host.enemyPositionAllowed({
+            x: from.x + ((p.x - from.x) * i) / steps,
+            y: from.y + ((p.y - from.y) * i) / steps,
+          })
+        )
+          return { x: from.x, y: from.y };
+    }
     const w = this.host.world;
     return { x: clamp(p.x, 20, w.width - 20), y: clamp(p.y, 20, w.height - 20) };
   }
@@ -734,14 +764,14 @@ export class MonsterSystem {
       const k = Math.min(1, amount / d);
       Object.assign(
         e,
-        this.clampWorld({ x: e.x + (goal.x - e.x) * k, y: e.y + (goal.y - e.y) * k }),
+        this.clampWorld({ x: e.x + (goal.x - e.x) * k, y: e.y + (goal.y - e.y) * k }, e),
       );
     } else {
       let route = this.paths.get(e.id);
       if (!route || distance(route.goal, goal) > 36 || route.remaining <= 0) {
         route = {
           goal: { x: goal.x, y: goal.y },
-          points: this.host.nav.path(e, goal),
+          points: this.navigation.path(e, goal),
           remaining: 700,
         };
         this.paths.set(e.id, route);
@@ -749,7 +779,7 @@ export class MonsterSystem {
       route.remaining -= amount / Math.max(0.001, BASE_SPEED);
       if (!route.points.length) return;
       const next = route.points[0]!;
-      Object.assign(e, this.host.nav.step(e, next, amount));
+      Object.assign(e, this.navigation.step(e, next, amount));
       if (distance(e, next) < 5) route.points.shift();
     }
     const moved = distance(before, e);
@@ -868,8 +898,8 @@ export class MonsterSystem {
       const inReach =
         d <= def.range &&
         (def.basic === "melee"
-          ? this.host.nav.visible(e, p) || t.ghost || t.fly
-          : this.host.nav.visible(e, p) || t.fly);
+          ? this.navigation.visible(e, p) || t.ghost || t.fly
+          : this.navigation.visible(e, p) || t.fly);
       if (inReach && e.attackIn <= 0) return this.basicAttack(e);
     }
     this.positioning(e, dt, d, medicBusy || opportunistic);
@@ -956,7 +986,7 @@ export class MonsterSystem {
       if (t.opportunist !== undefined && p.hp >= this.host.playerMaxHp * t.opportunist) continue;
       if (s.aimed && !this.aimed(e)) continue;
       if (d > s.range) continue;
-      if (!(t.fly || t.ghost) && !this.host.nav.visible(e, p) && s.mode !== "burst") continue;
+      if (!(t.fly || t.ghost) && !this.navigation.visible(e, p) && s.mode !== "burst") continue;
       if (t.medic !== undefined && this.allies(e, t.medic).some((a) => a.hp < a.maxHp * 0.95))
         continue;
       return s;
@@ -1032,7 +1062,7 @@ export class MonsterSystem {
       }
     }
     if (s.summon) {
-      for (let i = 0; i < s.summon.count; i++) {
+      for (let i = 0; i < s.summon.count && this.hasCapacity; i++) {
         const a = (Math.PI * 2 * i) / s.summon.count + 0.5;
         const minion = this.spawn(s.summon.kind, {
           x: e.x + Math.cos(a) * 40,
@@ -1208,9 +1238,9 @@ export class MonsterSystem {
     const u = unit(e, goal);
     let to = { x: e.x + u.x * step, y: e.y + u.y * step };
     if (!m.def.traits.fly && !m.def.traits.ghost) {
-      const moved = this.host.nav.step(e, to, step);
+      const moved = this.navigation.step(e, to, step);
       to = moved;
-    } else to = this.clampWorld(to);
+    } else to = this.clampWorld(to, e);
     Object.assign(e, to);
     m.facing = unit(before, e);
     const blocked = distance(before, e) < step * 0.4 && step > 0.5;

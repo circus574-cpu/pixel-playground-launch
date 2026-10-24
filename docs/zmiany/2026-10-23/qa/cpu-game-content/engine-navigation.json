@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "features": [
+    {
+      "feature": "island-1",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 12,
+      "segments": 1107,
+      "seconds": 0.21,
+      "footRadius": 12
+    },
+    {
+      "feature": "island-3",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 12,
+      "segments": 1534,
+      "seconds": 0.24,
+      "footRadius": 12
+    },
+    {
+      "feature": "island-4",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 12,
+      "segments": 1234,
+      "seconds": 0.15,
+      "footRadius": 12
+    },
+    {
+      "feature": "island-2",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 12,
+      "segments": 2271,
+      "seconds": 0.31,
+      "footRadius": 12
+    },
+    {
+      "feature": "island-5",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 12,
+      "segments": 1588,
+      "seconds": 0.23,
+      "footRadius": 12
+    },
+    {
+      "feature": "island-6",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 12,
+      "segments": 1805,
+      "seconds": 0.34,
+      "footRadius": 12
+    },
+    {
+      "feature": "pyra",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 18,
+      "segments": 8871,
+      "seconds": 3.08,
+      "footRadius": 12
+    },
+    {
+      "feature": "nexus",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 18,
+      "segments": 7522,
+      "seconds": 1.27,
+      "footRadius": 12
+    },
+    {
+      "feature": "verdant",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 18,
+      "segments": 9201,
+      "seconds": 3.55,
+      "footRadius": 12
+    },
+    {
+      "feature": "aether",
+      "passed": true,
+      "engine": "src/game/navigation.ts",
+      "collisionChecks": 1400,
+      "paths": 18,
+      "segments": 8199,
+      "seconds": 2.18,
+      "footRadius": 12
+    }
+  ]
+}

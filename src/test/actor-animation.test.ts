@@ -40,8 +40,10 @@ describe("animation presentation remains separate from mechanical actions", () =
     animation.trigger("attack", 20);
     expect(animation.state).toBe("hit");
     animation.update(300, true, false, { x: 1, y: 0 });
+    expect(animation.state).toBe("attack");
+    animation.update(900, true, false, { x: 1, y: 0 });
     expect(animation.state).toBe("walk");
-    animation.trigger("death", 400);
+    animation.trigger("death", 1000);
     animation.update(5000, false, true, { x: 0, y: 1 });
     expect(animation.state).toBe("death");
     animation.trigger("attack", 5100);
@@ -49,6 +51,34 @@ describe("animation presentation remains separate from mechanical actions", () =
     animation.update(5200, false, false, { x: 0, y: 1 });
     expect(animation.state).toBe("respawn");
     animation.update(5500, false, false, { x: 0, y: 1 });
+    expect(animation.state).toBe("idle");
+  });
+  it("coalesces blocked actions, preserves hit priority and discards stale presentation", () => {
+    const { animation, sprite } = rig();
+    animation.trigger("hit", 0);
+    animation.trigger("attack", 10);
+    animation.trigger("skill", 20);
+    animation.trigger("attack", 30);
+    animation.update(100, false, false, { x: 0, y: 1 });
+    expect(animation.state).toBe("hit");
+    animation.trigger("attack", 270);
+    animation.update(270, false, false, { x: 0, y: 1 });
+    expect(animation.state).toBe("skill");
+    expect(sprite.play).toHaveBeenLastCalledWith("technical-mannequin/skill/down");
+    const stale = rig().animation;
+    stale.trigger("hit", 0);
+    stale.trigger("skill", 10);
+    stale.update(1000, true, false, { x: 0, y: 1 });
+    expect(stale.state).toBe("walk");
+  });
+  it("never replays a blocked action after death and respawn", () => {
+    const { animation } = rig();
+    animation.trigger("hit", 0);
+    animation.trigger("skill", 10);
+    animation.update(30, false, true, { x: 0, y: 1 });
+    expect(animation.state).toBe("death");
+    animation.update(100, false, false, { x: 0, y: 1 });
+    animation.update(900, false, false, { x: 0, y: 1 });
     expect(animation.state).toBe("idle");
   });
   it("uses legacy fallback without inventing missing painted clips, freezes when paused", () => {

@@ -1,0 +1,15 @@
+{
+  "podScope": "CPU z0cd3m8oppqdyv only; not Claude A100",
+  "verifiedFiles": 19199,
+  "archiveBytes": 165780899,
+  "archiveSha256": "296faa6a1878d912d3a4ce23ca26ddc67b2b1438f9bd14bfe22a67eb27986b1e",
+  "parts": 8,
+  "restorationTest": "PASS: every source file restored and hashed",
+  "excludedReinstallable": [
+    "env/",
+    "runtime binaries and package caches",
+    "__pycache__/"
+  ],
+  "providerLifecycleActions": false,
+  "sceneryChangeSource": "a0d5b2e38a46e08bc1607a0d370124ce6fd7085d; integration in progress locally, not part of the pod backup"
+}

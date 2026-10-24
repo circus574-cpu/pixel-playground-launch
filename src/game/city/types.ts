@@ -34,11 +34,17 @@ export function interiorNpcs(npcs: readonly WorldNpc[], building: BuildingId | n
   return npcs.filter((n) => (n.building ?? null) === building);
 }
 
-type CityWorld = { city?: CityDefinition };
+type CityWorld = { city?: CityDefinition; safeAreas?: readonly Obstacle[] };
 /** The whole map is the city (no combat anywhere, tutorial runs on city quests). */
 export const isCityStage = (world: CityWorld) => !!world.city && !world.city.bounds;
 /** True where nothing fights: inside any building, on a city-stage map, or within the city bounds. */
 export function inSafeCity(world: CityWorld, p: Point, interior: BuildingId | null) {
+  if (
+    world.safeAreas?.some(
+      (b) => p.x >= b.x && p.x <= b.x + b.width && p.y >= b.y && p.y <= b.y + b.height,
+    )
+  )
+    return true;
   const c = world.city;
   if (!c) return false;
   if (interior || !c.bounds) return true;

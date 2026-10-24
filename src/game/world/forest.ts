@@ -13,13 +13,29 @@ export type ForestObject = {
   solid: boolean;
   footprint?: { width: number; height: number; offsetY?: number };
 };
+/** The painted valley in its own coordinates (0,0 .. 3072×2048); see `FOREST_ORIGIN`. */
 export const FOREST = mapData;
-export const WORLD_WIDTH = FOREST.width;
-export const WORLD_HEIGHT = FOREST.height;
-export const FOREST_OBJECTS: readonly ForestObject[] = FOREST.objects;
+/**
+ * Where the valley lies on the continent (Verdantia is 49 000 × 31 400 units, like the painted
+ * continent; docs/PLANET-GEOMETRY-2026-10-22.md). Multiples of the 128-unit ground pattern, so the
+ * ground that continues beyond the valley lines up with it.
+ */
+export const FOREST_ORIGIN = { x: 32640, y: 21376 };
+/** Verdantia's playable continent. */
+export const VERDANT_SIZE = { width: 49000, height: 31400 };
+const at = <T extends { x: number; y: number }>(p: T): T => ({
+  ...p,
+  x: p.x + FOREST_ORIGIN.x,
+  y: p.y + FOREST_ORIGIN.y,
+});
+export const FOREST_SPAWN = at(FOREST.spawn);
+export const FOREST_ENEMIES = FOREST.enemies.map(at);
+export const FOREST_BRIDGE = at(FOREST.bridge);
+export const FOREST_RIVER = FOREST.riverRows.map(at);
+export const FOREST_OBJECTS: readonly ForestObject[] = FOREST.objects.map(at);
 export const FOREST_MINIMAP = "/game/assets/anime-forest-v1/minimap.webp";
 export function forestObstacles(): Obstacle[] {
-  const obstacles: Obstacle[] = FOREST.riverRows.map((row) => ({ ...row }));
+  const obstacles: Obstacle[] = FOREST_RIVER.map((row) => ({ ...row }));
   for (const obj of FOREST_OBJECTS) {
     if (!obj.solid || !obj.footprint) continue;
     const { width, height } = obj.footprint;

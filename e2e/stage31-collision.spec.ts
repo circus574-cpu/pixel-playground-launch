@@ -1,17 +1,17 @@
-import { openHudTool } from "./fixtures";
+import { openHudTool, superiorLand } from "./fixtures";
 import { test, expect } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
-import { WORLDS, worldObstacles } from "../src/game/world/worlds";
-import { Navigation, distance } from "../src/game/navigation";
+import { distance } from "../src/game/navigation";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 for (const race of RACE_IDS)
   test("browser collider and camera: " + race, async ({ page }) => {
     const worldId = RACES[race].world;
-    const world = WORLDS[worldId];
-    const obstacles = worldObstacles(world);
+    const world = superiorLand(worldId);
     const npcs = world.npcs;
-    const nav = new Navigation(world.width, world.height, obstacles);
+    const nav = world.nav;
+    // Authored colliders (buildings, rocks, trees) near the safe arrival of the generated land.
+    const obstacles = world.colliders.filter((o) => distance(o, world.spawn) < 1500);
     const candidates = obstacles
       .flatMap((o) => [
         { x: o.x - 30, y: o.y + o.height / 2, key: "ArrowRight" },
@@ -34,10 +34,7 @@ for (const race of RACE_IDS)
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     await expect(page.locator(".ki-hud")).toBeVisible();
     const canvas = page.locator(".ki-canvas");
-    await expect(canvas).toHaveAttribute(
-      "data-terrain-mode",
-      worldId === "verdant" ? "cached" : "region",
-    );
+    await expect(canvas).toHaveAttribute("data-terrain-mode", "superior");
     const position = async () => ({
       x: Number(await canvas.getAttribute("data-player-x")),
       y: Number(await canvas.getAttribute("data-player-y")),
@@ -68,7 +65,7 @@ for (const race of RACE_IDS)
     const travelled = distance(before, await position());
     expect(travelled).toBeGreaterThan(5);
     expect(travelled).toBeLessThan(35);
-    await expect(page.locator(".ki-map-marker").first()).toBeVisible();
+    await expect(page.getByTestId("ki-map-you")).toBeVisible();
     expect((await page.locator("canvas").boundingBox())!.width).toBe(1280);
     await openHudTool(page, "Przybliż mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.7");

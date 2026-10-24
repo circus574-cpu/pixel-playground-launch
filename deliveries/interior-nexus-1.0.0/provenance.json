@@ -1,0 +1,67 @@
+{
+  "pack": "interior-nexus",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "bed-with-blankets",
+      "source": "obj-bed-with-blankets-s7510101.png",
+      "sha256": "6495b1962658def836794a615fad400763ff6de05999f4eaf63c6cdf6f00475d"
+    },
+    {
+      "part": "cooking-pot-over-a-fire",
+      "source": "obj-cooking-pot-over-a-fire-s7510101.png",
+      "sha256": "a5d7a7567c0fffcfdf846bc5d21a119f711b3cf621827a7620a50e428641e79c"
+    },
+    {
+      "part": "counter-with-a-shelf",
+      "source": "obj-counter-with-a-shelf-s7510101.png",
+      "sha256": "8316c8853f80245d1de4b8a5c2947efede2361c2cf56ac4f8c5830ff4f09df41"
+    },
+    {
+      "part": "group-of-barrels",
+      "source": "obj-group-of-barrels-s7510101.png",
+      "sha256": "368616f63b758617defe5da99f7f6a1264ec5f3d964e1ecebc56d9bf6745d536"
+    },
+    {
+      "part": "hanging-lantern-cluster",
+      "source": "obj-hanging-lantern-cluster-s7510101.png",
+      "sha256": "e32610c11fe3947d74fce7558883d5baf0fcbccb6bdbf44e64fdf41fe0cfd120"
+    },
+    {
+      "part": "locked-chest",
+      "source": "obj-locked-chest-s7510101.png",
+      "sha256": "46b94d93204713142a9784d59c97674b2637bbe7fe069f49067b5461558792e4"
+    },
+    {
+      "part": "long-wooden-table-with-benches",
+      "source": "obj-long-wooden-table-with-benches-s7510101.png",
+      "sha256": "fd73cb1ae136ed4859254cff3844e3792353d3b4c48195195d3261b9ea5c3b32"
+    },
+    {
+      "part": "potion-shelf",
+      "source": "obj-potion-shelf-s7510101.png",
+      "sha256": "9b6b36b1aa59f1f762b2e5fe8aa06bf45586c07b30c63eb7de2f5e34d0f33a49"
+    },
+    {
+      "part": "stack-of-crates",
+      "source": "obj-stack-of-crates-s7510101.png",
+      "sha256": "e454b4a8d7f081e05ebde9440300ed356600249dae1328380782305f4667c4f5"
+    },
+    {
+      "part": "tall-bookshelf",
+      "source": "obj-tall-bookshelf-s7510101.png",
+      "sha256": "0a91d90f6fd6bd8e02345a6a88d06db1c14be5eb39525564178570e23996bcc8"
+    },
+    {
+      "part": "weapon-stand",
+      "source": "obj-weapon-stand-s7510101.png",
+      "sha256": "8f8f5a1230df325fdb86d08637f4d09ab12b6583f240f9a23ed1af22f8456ad7"
+    },
+    {
+      "part": "woven-rug-seen-from-above",
+      "source": "obj-woven-rug-seen-from-above-s7510101.png",
+      "sha256": "ce6dfc21aff9173958d50b653d3f99fd3eb899d68128eb39ecb3065b44f37e75"
+    }
+  ]
+}

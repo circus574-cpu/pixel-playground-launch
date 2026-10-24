@@ -1,4 +1,4 @@
-import { openHudTool } from "./fixtures";
+import { openHudTool, superiorArrival } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 import { test, expect, type Page } from "./fixtures";
 const baseRaces = [
@@ -51,18 +51,17 @@ const baseRaces = [
     y: 1330,
   },
 ];
-// Spawn points follow the current map layout (open worlds are shifted by `legacyShift`).
+// New characters arrive at their land's arrival point on the Superior planet.
 const races = baseRaces.map((r) => ({
   ...r,
   settlement: WORLDS[r.world as keyof typeof WORLDS].settlement,
-  x: WORLDS[r.world as keyof typeof WORLDS].spawn.x,
-  y: WORLDS[r.world as keyof typeof WORLDS].spawn.y,
+  ...superiorArrival(r.world),
 }));
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function saved(page: Page) {
   return page.evaluate(() => {
-    const base = "ki-legends:adventure:v1",
+    const base = "ki-legends:adventure:v1:superior-world-v1",
       id = localStorage.getItem(base + ":active-character");
     return JSON.parse(localStorage.getItem(base + ":character:" + id) ?? "null")?.player;
   });
@@ -133,7 +132,8 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
       y: Number(await canvas.getAttribute("data-player-y")),
     };
     expect(Math.hypot(moved.x - race.x, moved.y - race.y)).toBeGreaterThan(150);
-    const marker = await page.locator(".ki-map-marker").first().getAttribute("style");
+    const you = page.getByTestId("ki-map-you").locator("circle").last();
+    const marker = (await you.getAttribute("cx")) + "," + (await you.getAttribute("cy"));
     await page.reload();
     await expect(page.locator(`.ki-canvas[data-world="${race.world}"]`)).toBeVisible();
     const restored = await saved(page);
@@ -142,7 +142,10 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     expect(restored.quests.steps).toBe("ready");
     expect(Math.hypot(restored.x - moved.x, restored.y - moved.y)).toBeLessThan(10);
     await expect
-      .poll(() => page.locator(".ki-map-marker").first().getAttribute("style"))
+      .poll(async () => {
+        const c = page.getByTestId("ki-map-you").locator("circle").last();
+        return (await c.getAttribute("cx")) + "," + (await c.getAttribute("cy"));
+      })
       .toBe(marker);
     await openHudTool(page, "Dziennik");
     await page.getByRole("button", { name: race.back, exact: true }).click();

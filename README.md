@@ -1,6 +1,8 @@
-# Pixel Playground Launch
+# KI Legends
 
-Stwórz projekt. Pusty. GOTOWY na wdrażanie. Strona główna ma mieć zdjęcie które wysłałem. Buduje grę.
+Dokumentacja projektu: [indeks 10 tematów](docs/INDEX.md).
+Historia prac: [dziennik 23.10.2026](docs/zmiany/2026-10-23/ZMIANY.md).
+Projekt fabuły: [Księga przygody PDF](KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf).
 
 This project was built with [Lovable](https://lovable.dev).
 

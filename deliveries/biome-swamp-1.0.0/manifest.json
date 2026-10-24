@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-swamp",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-swamp-bog-boulder",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-bog-boulder.webp",
+      "width": 524,
+      "height": 474
+    },
+    {
+      "id": "biome-swamp-cluster-of-cattails",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-cluster-of-cattails.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-cluster-of-glowing-mushrooms",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-cluster-of-glowing-mushrooms.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-cluster-of-lily-pads-on-water",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-cluster-of-lily-pads-on-water.webp",
+      "width": 320,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-dead-swamp-tree-with-hanging-moss",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-dead-swamp-tree-with-hanging-moss.webp",
+      "width": 453,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-mossy-fallen-log",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-mossy-fallen-log.webp",
+      "width": 516,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-murky-pond-rim",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-murky-pond-rim.webp",
+      "width": 524,
+      "height": 477
+    },
+    {
+      "id": "biome-swamp-skull-on-a-pole",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-skull-on-a-pole.webp",
+      "width": 364,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-small-swamp-hut-on-stilts",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-small-swamp-hut-on-stilts.webp",
+      "width": 465,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-tree-with-hanging-vines",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-tree-with-hanging-vines.webp",
+      "width": 521,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-twisted-mangrove-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-twisted-mangrove-tree.webp",
+      "width": 514,
+      "height": 524
+    },
+    {
+      "id": "biome-swamp-wooden-walkway-section",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-swamp-wooden-walkway-section.webp",
+      "width": 398,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-swamp.bog-boulder": {
+      "asset": "biome-swamp-bog-boulder",
+      "fit": "contain"
+    },
+    "object.biome-swamp.cluster-of-cattails": {
+      "asset": "biome-swamp-cluster-of-cattails",
+      "fit": "contain"
+    },
+    "object.biome-swamp.cluster-of-glowing-mushrooms": {
+      "asset": "biome-swamp-cluster-of-glowing-mushrooms",
+      "fit": "contain"
+    },
+    "object.biome-swamp.cluster-of-lily-pads-on-water": {
+      "asset": "biome-swamp-cluster-of-lily-pads-on-water",
+      "fit": "contain"
+    },
+    "object.biome-swamp.dead-swamp-tree-with-hanging-moss": {
+      "asset": "biome-swamp-dead-swamp-tree-with-hanging-moss",
+      "fit": "contain"
+    },
+    "object.biome-swamp.mossy-fallen-log": {
+      "asset": "biome-swamp-mossy-fallen-log",
+      "fit": "contain"
+    },
+    "object.biome-swamp.murky-pond-rim": {
+      "asset": "biome-swamp-murky-pond-rim",
+      "fit": "contain"
+    },
+    "object.biome-swamp.skull-on-a-pole": {
+      "asset": "biome-swamp-skull-on-a-pole",
+      "fit": "contain"
+    },
+    "object.biome-swamp.small-swamp-hut-on-stilts": {
+      "asset": "biome-swamp-small-swamp-hut-on-stilts",
+      "fit": "contain"
+    },
+    "object.biome-swamp.tree-with-hanging-vines": {
+      "asset": "biome-swamp-tree-with-hanging-vines",
+      "fit": "contain"
+    },
+    "object.biome-swamp.twisted-mangrove-tree": {
+      "asset": "biome-swamp-twisted-mangrove-tree",
+      "fit": "contain"
+    },
+    "object.biome-swamp.wooden-walkway-section": {
+      "asset": "biome-swamp-wooden-walkway-section",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

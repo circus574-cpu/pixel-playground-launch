@@ -145,6 +145,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],
   "ki-pyra-art": ["pyra-start"],
+  /** Pyra smithy "Kuźnia Żaru" built from painted parts (vertical slice). */
+  "ki-smithy-art": ["pyra-smithy"],
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
 };
@@ -200,6 +202,14 @@ export function textureBinding(
 } {
   return source.renderBindings[id] ?? fallback;
 }
+/** Summoned small wasps share the existing wasp identity instead of becoming boars. */
+export function monsterVisual(kind: string, source = catalog): ActorVisual {
+  const visualKind = kind === "verdant-mala-osa" ? "verdant-bursztynowa-osa" : kind;
+  const prefix = visualKind.split("-")[0] as WorldId;
+  if (!(prefix in WORLDS)) return actorVisual("verdant", "enemy", undefined, false, source);
+  return actorVisual(prefix, "enemy", visualKind.slice(prefix.length + 1), false, source);
+}
+
 export function worldAssets(
   worldId: WorldId,
   preview = false,
@@ -214,9 +224,15 @@ export function worldAssets(
   }
   for (const clip of Object.values(actorVisual(worldId, "enemy", undefined, false, source).clips))
     used.add(clip.asset);
-  for (const [key, id] of Object.entries(source.actorBindings))
-    if (key.startsWith(worldId + ".enemy."))
-      for (const clip of Object.values(source.actors.get(id)?.clips ?? {})) used.add(clip.asset);
+  // Installed bestiary packs are available to streaming worlds; only authored
+  // monsters on the accepted static map belong to its eager asset set.
+  for (const spawn of world.monsters ?? []) {
+    const prefix = spawn.kind.split("-")[0] as WorldId;
+    for (const clip of Object.values(
+      actorVisual(prefix, "enemy", spawn.kind.slice(prefix.length + 1), false, source).clips,
+    ))
+      used.add(clip.asset);
+  }
   for (const ref of worldRenderRefs(worldId, source)) add(ref);
   for (const [key, effect] of Object.entries(source.effects))
     if (!key.includes(".") || key.startsWith(worldId + ".")) used.add(effect.asset);
@@ -269,6 +285,13 @@ export function worldRenderRefs(worldId: WorldId, source = catalog): TextureRef[
       const ref = source.renderBindings[key];
       if (ref) refs.push(ref);
     }
+  // Painted interior kits (e.g. the Pyra smithy) are loaded together with their world.
+  for (const [key, ref] of Object.entries(source.renderBindings))
+    if (
+      key.startsWith("object." + worldId + ".smithy.") ||
+      key.startsWith("terrain." + worldId + ".smithy-")
+    )
+      refs.push(ref);
   if (world.terrain)
     for (const id of [world.terrain.ground, world.terrain.path, world.terrain.plaza])
       refs.push(textureBinding("terrain." + id, { asset: id }, source));

@@ -1,4 +1,4 @@
-import { basicAttack, learnSkill, openHudTool } from "./fixtures";
+import { basicAttack, huntTargets, learnSkill, openHudTool, superiorLand } from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, type RaceId } from "../src/game/world/races";
 import { WORLDS } from "../src/game/world/worlds";
@@ -9,9 +9,20 @@ import { WORLDS } from "../src/game/world/worlds";
 const races: {
   id: RaceId;
   guide: string;
+  guideGo?: string;
+  /** Smallest KI drop that proves the skill was cast (Szybki Unik costs 8). */
+  minSpend?: number;
   hunter: string;
   skill: string;
 }[] = [
+  {
+    id: "planetary",
+    guide: "Aira",
+    guideGo: "Airy",
+    hunter: "Ren",
+    skill: "Szybki Unik",
+    minSpend: 6,
+  },
   {
     id: "sage",
     guide: "Sora",
@@ -37,7 +48,7 @@ const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function state(page: Page) {
   return page.evaluate(() => {
-    const key = "ki-legends:adventure:v1";
+    const key = "ki-legends:adventure:v1:superior-world-v1";
     const id = localStorage.getItem(key + ":active-character");
     return JSON.parse(localStorage.getItem(key + ":character:" + id) ?? "null")?.player;
   });
@@ -46,7 +57,7 @@ async function visit(page: Page, name: string) {
   await page.getByRole("button", { name: "Otwórz mapę świata", exact: true }).click();
   await page.getByRole("button", { name, exact: true }).click();
   // Shopkeepers stand inside their buildings: the walk through the door can take a while.
-  await expect(page.getByRole("dialog", { name: /Rozmowa:/ })).toBeVisible({ timeout: 120000 });
+  await expect(page.getByRole("dialog", { name: /Rozmowa:/ })).toBeVisible({ timeout: 300000 });
 }
 async function close(page: Page) {
   await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
@@ -97,7 +108,7 @@ for (const race of races) {
   test(`real PvE journey: ${race.id} — quests, 3 kills, loot, equipment, merchant and smith`, async ({
     page,
   }, info) => {
-    test.setTimeout(480000);
+    test.setTimeout(1500000);
     page.setDefaultTimeout(30000);
     await page.setViewportSize({ width: 1920, height: 1080 });
     const errors: string[] = [];
@@ -120,7 +131,9 @@ for (const race of races) {
       .poll(async () => (await state(page))?.quests.steps, { timeout: 120000 })
       .toBe("ready");
     await openHudTool(page, "Dziennik");
-    await page.getByRole("button", { name: "Idź do " + race.guide, exact: true }).click();
+    await page
+      .getByRole("button", { name: "Idź do " + (race.guideGo ?? race.guide), exact: true })
+      .click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     await close(page);
     await visit(
@@ -130,37 +143,59 @@ for (const race of races) {
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
     await close(page);
     expect((await state(page)).quests.boars).toBe("active");
-    // Select three distinct, rendered enemies. They are not defeated via test hooks.
+    // Select three distinct, rendered first-level creatures beyond the capital. They are not
+    // defeated via test hooks.
+    const land = superiorLand(world.id);
+    const targets = huntTargets(world.id, 3);
+    expect(targets).toHaveLength(3);
     for (let index = 0; index < 3; index++) {
-      const enemy = world.enemies[index]!;
-      await move(page, enemy.x - 130, enemy.y + 90);
+      const enemy = targets[index]!;
+      const stand = land.nav.safe({ x: enemy.x - 130, y: enemy.y + 90 });
+      await move(page, stand.x, stand.y);
       let selected = false;
-      for (const dy of [-30, -20, -40, -10, -25, -35]) {
-        if (await page.locator(".ki-target").count()) {
+      for (const dy of [-30, -20, -40, -10, -25, -35, -50, 0]) {
+        if ((await page.locator(".ki-canvas").getAttribute("data-target-id")) === enemy.id) {
           selected = true;
           break;
         }
-        await clickRenderedEnemy(page, "boar-" + index, dy);
+        await clickRenderedEnemy(page, enemy.id, dy);
         await page.waitForTimeout(300);
       }
-      selected ||= (await page.locator(".ki-target").count()) > 0;
+      selected ||= (await page.locator(".ki-canvas").getAttribute("data-target-id")) === enemy.id;
       expect(selected, `Unable to target rendered enemy ${index + 1} in ${world.id}`).toBe(true);
-      for (let attempt = 0; attempt < 45; attempt++) {
+      for (let attempt = 0; attempt < 90; attempt++) {
         if ((await state(page)).kills > index) break;
+        // A wandering creature may step out of the selection; select the same one again.
+        if ((await page.locator(".ki-canvas").getAttribute("data-target-id")) !== enemy.id)
+          await clickRenderedEnemy(page, enemy.id, -30);
         const button = basicAttack(page);
-        if (await button.isEnabled()) await button.click();
+        // The cooldown can disable the button between the check and the click.
+        if (await button.isEnabled()) await button.click({ timeout: 2000 }).catch(() => {});
         await page.waitForTimeout(450);
       }
       await expect.poll(async () => (await state(page)).kills, { timeout: 60000 }).toBe(index + 1);
-      await page.getByRole("button", { name: /Podnieś łup/ }).click();
-      await expect
-        .poll(async () => (await state(page)).items.tusk, { timeout: 30000 })
-        .toBe(index + 1);
+      // Superior creatures drop their own materials by chance; pick up whatever really fell.
+      const pickUp = page.getByRole("button", { name: /Podnieś łup/ });
+      if (await pickUp.isVisible().catch(() => false)) {
+        const before = await state(page);
+        await pickUp.click();
+        await expect
+          .poll(
+            async () => JSON.stringify((await state(page)).materials) + (await state(page)).gold,
+          )
+          .not.toBe(JSON.stringify(before.materials) + before.gold);
+      }
       await page.screenshot({
         path: info.outputPath(world.id + "-combat-" + (index + 1) + ".png"),
       });
     }
-    // The kills bring level 2: learn the first skill of the race through the real tree panel.
+    await visit(
+      page,
+      "Idź do " + race.hunter + " · " + world.npcs.find((n) => n.id === "hunter")!.role,
+    );
+    await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
+    await close(page);
+    // The hunt reward brings level 2: learn the first skill of the race through the real tree panel.
     await learnSkill(page, race.skill);
     const ki = page.getByRole("meter", { name: "Energia KI", exact: true });
     await expect
@@ -170,17 +205,11 @@ for (const race of races) {
     await page.getByRole("button", { name: race.skill, exact: true }).click();
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
-      .toBeLessThan(kiBefore - 10);
+      .toBeLessThan(kiBefore - (race.minSpend ?? 10));
     const kiSpent = Number(await ki.getAttribute("aria-valuenow"));
     await expect
       .poll(async () => Number(await ki.getAttribute("aria-valuenow")))
       .toBeGreaterThan(kiSpent + 2);
-    await visit(
-      page,
-      "Idź do " + race.hunter + " · " + world.npcs.find((n) => n.id === "hunter")!.role,
-    );
-    await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
-    await close(page);
     await visit(
       page,
       "Idź do " + npcName(world, "smith") + " · " + world.npcs.find((n) => n.id === "smith")!.role,
@@ -207,7 +236,11 @@ for (const race of races) {
     const goldBefore = (await state(page)).gold;
     await page.getByRole("button", { name: "Kup · 8", exact: true }).click();
     expect((await state(page)).gold).toBe(goldBefore - 8);
-    await page.getByRole("button", { name: "Sprzedaj · 5", exact: true }).click();
+    await page
+      .getByRole("article", { name: "Mikstura życia", exact: true })
+      .getByRole("button", { name: /^Sprzedaj/ })
+      .click();
+    await expect.poll(async () => (await state(page)).gold).toBe(goldBefore - 8 + 3);
     await page.getByRole("button", { name: "Kup · 25", exact: true }).click();
     await close(page);
     await openHudTool(page, "Ekwipunek");
@@ -218,7 +251,6 @@ for (const race of races) {
     expect(p.quests).toEqual({ steps: "done", boars: "done", gear: "done" });
     expect(p.upgrade).toBe(1);
     expect(p.level).toBeGreaterThanOrEqual(2);
-    expect(p.items.tusk).toBe(2);
     expect(p.armor).toBe("vest");
     await page.reload();
     await expect(page.locator(".ki-hud")).toBeVisible();

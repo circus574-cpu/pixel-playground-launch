@@ -119,12 +119,14 @@ export function QuestJournal({
   state,
   send,
   close,
+  worldOverride,
 }: {
+  worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
   state: GameViewState;
   send: SendCommand;
   close: () => void;
 }) {
-  const world = WORLDS[state.player.continent];
+  const world = worldOverride ?? WORLDS[state.player.continent];
   return (
     <div className="ki-adventure-panel">
       {state.quests.map((q) => (
@@ -187,12 +189,14 @@ export function NpcDialogue({
   state,
   send,
   feedback,
+  worldOverride,
 }: {
+  worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
   state: GameViewState;
   send: SendCommand;
   feedback?: ReactNode;
 }) {
-  const world = WORLDS[state.player.continent];
+  const world = worldOverride ?? WORLDS[state.player.continent];
   const npc = world.npcs.find((n) => n.id === state.dialogue);
   if (!npc) return null;
   const p = state.player;

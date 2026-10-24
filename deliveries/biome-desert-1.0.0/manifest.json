@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-desert",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-desert-clay-hut",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-clay-hut.webp",
+      "width": 524,
+      "height": 498
+    },
+    {
+      "id": "biome-desert-dry-dead-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-dry-dead-tree.webp",
+      "width": 449,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-nomad-tent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-nomad-tent.webp",
+      "width": 524,
+      "height": 516
+    },
+    {
+      "id": "biome-desert-rusted-metal-wreck",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-rusted-metal-wreck.webp",
+      "width": 524,
+      "height": 502
+    },
+    {
+      "id": "biome-desert-salt-crystal-formation",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-salt-crystal-formation.webp",
+      "width": 509,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-sand-dune-with-a-bone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-sand-dune-with-a-bone.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-sandstone-arch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-sandstone-arch.webp",
+      "width": 493,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-sandstone-spires",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-sandstone-spires.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-small-oasis-with-palms",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-small-oasis-with-palms.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-stone-obelisk",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-stone-obelisk.webp",
+      "width": 221,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-sun-bleached-skull-and-ribs",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-sun-bleached-skull-and-ribs.webp",
+      "width": 485,
+      "height": 524
+    },
+    {
+      "id": "biome-desert-tall-saguaro-cactus",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "biome-desert-tall-saguaro-cactus.webp",
+      "width": 291,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-desert.clay-hut": {
+      "asset": "biome-desert-clay-hut",
+      "fit": "contain"
+    },
+    "object.biome-desert.dry-dead-tree": {
+      "asset": "biome-desert-dry-dead-tree",
+      "fit": "contain"
+    },
+    "object.biome-desert.nomad-tent": {
+      "asset": "biome-desert-nomad-tent",
+      "fit": "contain"
+    },
+    "object.biome-desert.rusted-metal-wreck": {
+      "asset": "biome-desert-rusted-metal-wreck",
+      "fit": "contain"
+    },
+    "object.biome-desert.salt-crystal-formation": {
+      "asset": "biome-desert-salt-crystal-formation",
+      "fit": "contain"
+    },
+    "object.biome-desert.sand-dune-with-a-bone": {
+      "asset": "biome-desert-sand-dune-with-a-bone",
+      "fit": "contain"
+    },
+    "object.biome-desert.sandstone-arch": {
+      "asset": "biome-desert-sandstone-arch",
+      "fit": "contain"
+    },
+    "object.biome-desert.sandstone-spires": {
+      "asset": "biome-desert-sandstone-spires",
+      "fit": "contain"
+    },
+    "object.biome-desert.small-oasis-with-palms": {
+      "asset": "biome-desert-small-oasis-with-palms",
+      "fit": "contain"
+    },
+    "object.biome-desert.stone-obelisk": {
+      "asset": "biome-desert-stone-obelisk",
+      "fit": "contain"
+    },
+    "object.biome-desert.sun-bleached-skull-and-ribs": {
+      "asset": "biome-desert-sun-bleached-skull-and-ribs",
+      "fit": "contain"
+    },
+    "object.biome-desert.tall-saguaro-cactus": {
+      "asset": "biome-desert-tall-saguaro-cactus",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

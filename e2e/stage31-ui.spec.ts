@@ -123,7 +123,7 @@ test("failed real resource shows retry and reuses the same saved character", asy
   await expect(page.getByRole("progressbar")).toHaveCount(0);
   await expect(page.locator(".ki-hud")).toHaveCount(0);
   const before = await page.evaluate(() =>
-    localStorage.getItem("ki-legends:adventure:v1:active-character"),
+    localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character"),
   );
   await page.screenshot({ path: evidence() + "/loading-error.png" });
   for (const [width, height] of [
@@ -151,7 +151,9 @@ test("failed real resource shows retry and reuses the same saved character", asy
   await expect(page.locator("canvas")).toHaveCount(1);
   expect(requests).toBe(failedRequests + 1);
   expect(
-    await page.evaluate(() => localStorage.getItem("ki-legends:adventure:v1:active-character")),
+    await page.evaluate(() =>
+      localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character"),
+    ),
   ).toBe(before);
   expect(
     await page.evaluate(
@@ -176,8 +178,8 @@ test("HP and KI remain separate at low, middle, maximum values and interface sca
     if (!fixture) return;
     const { hp, ki } = JSON.parse(fixture);
     const key =
-      "ki-legends:adventure:v1:character:" +
-      localStorage.getItem("ki-legends:adventure:v1:active-character");
+      "ki-legends:adventure:v1:superior-world-v1:character:" +
+      localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character");
     const raw = JSON.parse(localStorage.getItem(key)!);
     raw.player.hp = hp;
     raw.player.ki = ki;

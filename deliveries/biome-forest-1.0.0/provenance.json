@@ -1,0 +1,67 @@
+{
+  "pack": "biome-forest",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "birch-tree-with-white-bark",
+      "source": "obj-birch-tree-with-white-bark-s7510101.png",
+      "sha256": "dd34630aa50dbf55309275e60e73857f3e0e45854ee15c9b238543df4e66c64c"
+    },
+    {
+      "part": "campfire-with-logs",
+      "source": "obj-campfire-with-logs-s7510101.png",
+      "sha256": "53707e9fdae5cadf38331084c74bae1f676d529eaba59614ff23cd2c2cdb1467"
+    },
+    {
+      "part": "cluster-of-mushrooms",
+      "source": "obj-cluster-of-mushrooms-s7510101.png",
+      "sha256": "b923147e18ea81da35bc54fcbcbbfdb88ad439269805a07e8da6c81260cfcfea"
+    },
+    {
+      "part": "fallen-mossy-log",
+      "source": "obj-fallen-mossy-log-s7510101.png",
+      "sha256": "2072f42d2abbb708cb0200878a8ff124be0626b91df6d3f92db78b1de3831fbd"
+    },
+    {
+      "part": "flowering-bush",
+      "source": "obj-flowering-bush-s7510101.png",
+      "sha256": "dad7499115aa39f2fa6ef58a286e76f1ff6351c8cdeacd252be867473fecf86f"
+    },
+    {
+      "part": "mossy-boulder",
+      "source": "obj-mossy-boulder-s7510101.png",
+      "sha256": "adfbebb2a46745051b55d0a9e48dac74353453295cc8ead073de7a8c58a51c63"
+    },
+    {
+      "part": "small-wooden-hunter-hut",
+      "source": "obj-small-wooden-hunter-hut-s7510101.png",
+      "sha256": "0d410ac462f5654063bf4c6d7c0ee34738316b94f940e001e4dad15ae0cdbb5e"
+    },
+    {
+      "part": "tall-broadleaf-oak-tree",
+      "source": "obj-tall-broadleaf-oak-tree-s7510101.png",
+      "sha256": "c3a764d28b73a9b7b76aaa499071e5f9fc6382348fecb97852f1c36bb25f0d54"
+    },
+    {
+      "part": "tall-fern-cluster",
+      "source": "obj-tall-fern-cluster-s7510101.png",
+      "sha256": "ea672e8e142ce249de83135c5804c4dc08da23ae495bc86b90ef85495cde1179"
+    },
+    {
+      "part": "tall-pine-tree",
+      "source": "obj-tall-pine-tree-s7510101.png",
+      "sha256": "b8c6aa1bbfca178565d5b92392d9babb93d8a14b1a9444acb7fb3c1925d17756"
+    },
+    {
+      "part": "tree-stump-with-an-axe",
+      "source": "obj-tree-stump-with-an-axe-s7510101.png",
+      "sha256": "d0fc1627eb91497d841a7ee31509d641fe03ebe89c59b456b6e1e9127c145065"
+    },
+    {
+      "part": "wooden-signpost",
+      "source": "obj-wooden-signpost-s7510101.png",
+      "sha256": "586ec020407eb085d91ce72eb401b5af3bd5bb8543b2eef8e3d66316c9123ff3"
+    }
+  ]
+}

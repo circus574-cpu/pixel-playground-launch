@@ -1,0 +1,19 @@
+{
+  "terrainSeconds": 11.19,
+  "spawnSeconds": 18.739,
+  "overworldSpawns": 6062,
+  "interiorSpawns": 2220,
+  "all40Kinds": true,
+  "totals": {
+    "settlements": 22,
+    "entrances": 583,
+    "serviceDoors": 132,
+    "locations": 472,
+    "hiddenLocations": 194,
+    "roads": 1699,
+    "dungeons": 152,
+    "resources": 6511,
+    "objects": 271531,
+    "solidObjects": 32936
+  }
+}

@@ -583,6 +583,7 @@ export default function PlanetGlobe({
   onFail,
   current,
   onClose,
+  onTravel,
 }: GameLink & {
   onShowFlat: () => void;
   onFail: (reason: GlobeFailure) => void;
@@ -911,7 +912,7 @@ export default function PlanetGlobe({
             </li>
           ))}
         </ul>
-        <h3 className="pm-h3">Wyspy questowe · planowane</h3>
+        <h3 className="pm-h3">Wyspy Superior</h3>
         <ul className="pm-legend pm-legend-islands">
           {QUEST_ISLANDS.map((i) => (
             <li key={i.id}>
@@ -950,7 +951,7 @@ export default function PlanetGlobe({
               <span className="pm-thumb pm-thumb-lg" style={thumbStyle(selectedRegion, 64)} />
               <div>
                 <p className="pm-kind">
-                  {selectedRegion.kind === "continent" ? "Kontynent" : "Wyspa questowa · planowana"}
+                  {selectedRegion.kind === "continent" ? "Kontynent" : "Wyspa Superior"}
                 </p>
                 <h2>{selectedRegion.name}</h2>
               </div>
@@ -973,7 +974,12 @@ export default function PlanetGlobe({
             )}
             <p>{selectedRegion.summary}</p>
             <ZoneList region={selectedRegion} />
-            <RegionGameNote region={selectedRegion} current={current} onClose={onClose} />
+            <RegionGameNote
+              region={selectedRegion}
+              current={current}
+              onClose={onClose}
+              onTravel={onTravel}
+            />
             <p className="pm-status">{selectedRegion.status}</p>
           </>
         )}

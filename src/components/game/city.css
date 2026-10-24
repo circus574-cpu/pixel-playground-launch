@@ -122,15 +122,18 @@
   }
 }
 @media (max-width: 600px) and (min-height: 501px) {
+  /* Portrait phone: a small exit pill above the action bar instead of a card over the scene. */
   .ki-city-state {
-    top: 145px;
-    width: calc(100% - 16px);
-    max-width: none;
-    padding: 8px 10px;
+    top: auto;
+    bottom: 84px;
+    left: 8px;
+    right: auto;
+    width: auto;
+    max-width: 60%;
+    padding: 4px 8px;
+    background: #132f2bb8;
   }
-  .ki-city-state strong {
-    font-size: 12px;
-  }
+  .ki-city-state strong,
   .ki-city-state > small:first-of-type {
     display: none;
   }
@@ -139,7 +142,7 @@
   }
   .ki-city-state button {
     display: inline-block;
-    margin: 5px 8px 0 0;
+    margin: 3px 6px 3px 0;
     padding: 5px 9px;
   }
 }

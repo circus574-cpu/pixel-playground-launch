@@ -6,7 +6,7 @@ import { runBench } from "./debugBench";
 import { actorVisual, catalog, worldAssets, worldRenderRefs } from "./assets/catalog";
 import { queueAssets, prepareTextures, registerActorAnimations } from "./assets/phaserAssets";
 import { ActorAnimation } from "./assets/actorAnimation";
-import type { ActorVisual } from "./assets/schema";
+import type { ActorVisual, AssetDefinition } from "./assets/schema";
 import { renderDepth } from "./assets/layers";
 import { installRenderTelemetry } from "./assets/telemetry";
 import { RACES, type RaceId } from "./world/races";
@@ -40,13 +40,34 @@ type Actor = {
 };
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
+export type GameRuntime = {
+  session: GameSession;
+  assets: AssetDefinition[];
+  render: (scene: Phaser.Scene) => {
+    terrainMode: string;
+    dispose: () => void;
+    updateVisibility: (player: Point) => void;
+    setVisible: (visible: boolean) => void;
+  };
+  interiorBindings?: Readonly<Record<string, import("./assets/schema").TextureRef>>;
+  enemyVisual?: (kind: string) => ActorVisual;
+  beforeTick?: (dt: number) => void;
+  afterTick?: (dt: number) => void;
+  dispose?: () => void;
+};
 export function mountKileGends(
   parent: HTMLElement,
   onState?: (state: GameViewState) => void,
-  options?: { saveKey: string; race: RaceId; onLoading?: (state: GameLoadingState) => void },
+  options?: {
+    saveKey: string;
+    race: RaceId;
+    onLoading?: (state: GameLoadingState) => void;
+    runtime?: GameRuntime;
+  },
 ): () => void {
   let disposed = false;
   const releaseScene: (() => void)[] = [];
+  delete parent.dataset["metrics"];
   const loading = (state: GameLoadingState) => {
     if (!disposed) options?.onLoading?.(state);
   };
@@ -56,10 +77,12 @@ export function mountKileGends(
   } catch {
     /* SaveStore reports unavailable storage. */
   }
-  const session = new GameSession(
-    new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
-    options?.race,
-  );
+  const session =
+    options?.runtime?.session ??
+    new GameSession(
+      new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
+      options?.race,
+    );
   const world = session.world;
   let worldLabels = readUiPreferences().worldLabels;
   parent.dataset["worldLabels"] = String(worldLabels);
@@ -67,12 +90,13 @@ export function mountKileGends(
   const preview =
     location.pathname === "/scripts/playtest.html" &&
     new URLSearchParams(location.search).get("ki-art") === "technical";
-  const visual = actorVisual(world.id, "hero", undefined, preview);
-  const assets = worldAssets(world.id, preview);
+  const visual = actorVisual(RACES[session.player.race].world, "hero", undefined, preview);
+  const assets = options?.runtime?.assets ?? worldAssets(world.id, preview);
   const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private updateVisibility?: (player: Point) => void;
+    private runtimeVisible: ((visible: boolean) => void) | undefined;
     private outsideObjects: (Phaser.GameObjects.GameObject &
       Phaser.GameObjects.Components.Visible)[] = [];
     private interiorView: { dispose: () => void } | undefined;
@@ -103,14 +127,16 @@ export function mountKileGends(
         message: "Ładowanie kontynentu: " + world.name + "…",
         progress: 0,
       });
-      this.load.on("progress", (progress: number) => {
+      const initialProgress = (progress: number) => {
         if (!this.loadFailed)
           loading({
             phase: "assets",
             message: "Ładowanie kontynentu: " + world.name + "…",
             progress,
           });
-      });
+      };
+      this.load.on("progress", initialProgress);
+      this.load.once("complete", () => this.load.off("progress", initialProgress));
       this.load.on("loaderror", (file: Phaser.Loader.File) => {
         this.loadFailed = true;
         loading({
@@ -132,6 +158,16 @@ export function mountKileGends(
       loading({ phase: "building", message: "Przywoływanie bohatera…", progress: null });
       try {
         this.initializeWorld();
+        // Capture every rendered hero frame independently of the 100 ms HUD
+        // snapshot. Brief reactions must not disappear from frame observations.
+        const captureFrame = () => {
+          const state = this.hero.animation.state,
+            frame = String(this.hero.sprite.frame.name);
+          if (parent.dataset["animationState"] !== state) parent.dataset["animationState"] = state;
+          if (parent.dataset["animationFrame"] !== frame) parent.dataset["animationFrame"] = frame;
+        };
+        this.game.events.on(Phaser.Core.Events.POST_RENDER, captureFrame);
+        releaseScene.push(() => this.game.events.off(Phaser.Core.Events.POST_RENDER, captureFrame));
         this.game.events.once(Phaser.Core.Events.POST_RENDER, () => {
           if (!this.loadFailed)
             loading({ phase: "ready", message: "Świat gotowy", progress: null });
@@ -152,7 +188,7 @@ export function mountKileGends(
     }
     private initializeWorld() {
       prepareTextures(this, assets);
-      for (const ref of worldRenderRefs(world.id))
+      for (const ref of options?.runtime ? [] : worldRenderRefs(world.id))
         if (ref.frame !== undefined && !this.textures.get(ref.asset).has(String(ref.frame)))
           throw new Error("Brak klatki świata: " + ref.asset + "/" + ref.frame);
       for (const [id, effect] of Object.entries(catalog.effects).filter(
@@ -167,8 +203,10 @@ export function mountKileGends(
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
       const beforeWorld = new Set(this.children.list);
-      const rendering = renderWorld(this, world);
-      renderCityStreets(this, world);
+      const runtimeRendering = options?.runtime?.render(this);
+      const rendering = runtimeRendering ?? renderWorld(this, world);
+      this.runtimeVisible = runtimeRendering?.setVisible;
+      if (!options?.runtime) renderCityStreets(this, world);
       this.outsideObjects = this.children.list.filter(
         (o): o is Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Visible =>
           !beforeWorld.has(o) && "setVisible" in o,
@@ -176,6 +214,7 @@ export function mountKileGends(
       this.updateVisibility = rendering.updateVisibility;
       parent.dataset["terrainMode"] = rendering.terrainMode;
       releaseScene.push(rendering.dispose);
+      if (options?.runtime?.dispose) releaseScene.push(options.runtime.dispose);
       releaseScene.push(() => this.interiorView?.dispose());
       this.hero = this.actor(
         session.player,
@@ -209,8 +248,22 @@ export function mountKileGends(
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
-          const room = cityRoom(session.player.interior);
-          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          const room = cityRoom(session.player.interior, world.id);
+          const cam = this.cameras.main;
+          if (room.height > room.width) {
+            // Portrait room: composed for a tall screen, shown whole. Wide screens fit its height; the
+            // walls beyond the room are drawn, never stretched.
+            const portraitScreen = this.scale.height >= this.scale.width;
+            if (portraitScreen) {
+              cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
+              cam.setBounds(0, 0, room.width, room.height);
+              if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
+            } else {
+              cam.setZoom(this.scale.height / room.height);
+              cam.stopFollow().removeBounds();
+              cam.centerOn(room.width / 2, room.height / 2);
+            }
+          } else cam.centerOn(room.width / 2, room.height / 2);
         }
       };
       zoom();
@@ -378,7 +431,7 @@ export function mountKileGends(
             Math.abs(pos.x - b.door.x) < 190 && pos.y > b.door.y - 155 && pos.y < b.door.y + 90,
         );
       if (session.player.interior) {
-        const room = cityRoom(session.player.interior);
+        const room = cityRoom(session.player.interior, world.id);
         if (
           session.player.interior === "depot" &&
           Math.abs(pos.x - room.chest.x) < 85 &&
@@ -427,7 +480,12 @@ export function mountKileGends(
         const role = e.kind === "boar" ? undefined : e.kind.replace(world.id + "-", "");
         this.enemies.set(
           e.id,
-          this.actor(e, e.m.def.name, "enemy", actorVisual(world.id, "enemy", role)),
+          this.actor(
+            e,
+            e.m.def.name,
+            "enemy",
+            options?.runtime?.enemyVisual?.(e.kind) ?? actorVisual(world.id, "enemy", role),
+          ),
         );
       }
       for (const [id, actor] of this.enemies)
@@ -461,9 +519,10 @@ export function mountKileGends(
         ctx.translate(32, 12);
         ctx.scale(1, 12 / 32);
         const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 32);
-        g.addColorStop(0, "rgba(16,44,58,1)");
-        g.addColorStop(0.8, "rgba(16,44,58,0.9)");
-        g.addColorStop(1, "rgba(16,44,58,0)");
+        // Dark contact core with a soft rim: a character must stand on the ground, never float above it.
+        g.addColorStop(0, "rgba(8,12,22,1)");
+        g.addColorStop(0.55, "rgba(8,12,22,0.85)");
+        g.addColorStop(1, "rgba(8,12,22,0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(0, 0, 32, 0, Math.PI * 2);
@@ -472,8 +531,32 @@ export function mountKileGends(
       }
       const shadow = this.add
         .image(0, 3, "actor-shadow")
-        .setDisplaySize(boar ? 56 : 35, 13)
-        .setAlpha(0.3);
+        .setDisplaySize(boar ? 74 : 50, boar ? 24 : 18)
+        .setAlpha(0.62);
+      // The hero is the centre of the game: a warm light pool under the feet separates it from the ground.
+      let halo: Phaser.GameObjects.Image | undefined;
+      if (kind === "hero") {
+        if (!this.textures.exists("hero-halo")) {
+          const tex = this.textures.createCanvas("hero-halo", 128, 64)!;
+          const ctx = tex.getContext();
+          ctx.translate(64, 32);
+          ctx.scale(1, 0.5);
+          const g = ctx.createRadialGradient(0, 0, 8, 0, 0, 64);
+          g.addColorStop(0, "rgba(255,236,170,0.9)");
+          g.addColorStop(0.55, "rgba(255,214,130,0.45)");
+          g.addColorStop(1, "rgba(255,200,110,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(0, 0, 64, 0, Math.PI * 2);
+          ctx.fill();
+          tex.refresh();
+        }
+        halo = this.add
+          .image(0, 2, "hero-halo")
+          .setDisplaySize(170, 70)
+          .setAlpha(0.7)
+          .setBlendMode(Phaser.BlendModes.ADD);
+      }
       registerActorAnimations(this, config);
       const clip = config.clips.idle!,
         first = Object.values(clip.directions)[0]![0]!;
@@ -510,7 +593,9 @@ export function mountKileGends(
         visual: config,
         animation: new ActorAnimation(sprite, config),
         facing: { x: 0, y: 1 },
-        body: this.add.container(p.x, p.y, [shadow, sprite]).setDepth(p.y),
+        body: this.add
+          .container(p.x, p.y, halo ? [halo, shadow, sprite] : [shadow, sprite])
+          .setDepth(p.y),
         sprite,
         bar,
         name,
@@ -735,12 +820,17 @@ export function mountKileGends(
       parent.dataset["actorVisual"] = this.hero.visual.id;
       parent.dataset["animationState"] = this.hero.animation.state;
       parent.dataset["animationFrame"] = String(this.hero.sprite.frame.name);
+      parent.dataset["targetId"] = session.targetId ?? "";
+      parent.dataset["enemyVisuals"] = JSON.stringify(
+        [...this.enemies.entries()].map(([id, actor]) => ({ id, visual: actor.visual.id })),
+      );
       parent.dataset["enemies"] = JSON.stringify(
         session.enemies.map((e) => ({ id: e.id, x: e.x, y: e.y, hp: e.hp, mode: e.mode })),
       );
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
+      parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
@@ -749,22 +839,31 @@ export function mountKileGends(
       if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
       const dt = Math.min(delta, 100);
       if (!session.paused && !session.dialogue) this.animationTime += dt;
+      options?.runtime?.beforeTick?.(dt);
       session.tick(dt);
+      options?.runtime?.afterTick?.(dt);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();
         this.interiorView = undefined;
         this.lastInterior = session.player.interior;
+        this.runtimeVisible?.(!session.player.interior);
         this.resetStick();
         this.input.keyboard?.resetKeys();
         if (session.player.interior) {
           this.outsideObjects.forEach((o) => o.setVisible(false));
-          this.interiorView = renderCityInterior(this, world, session.player.interior);
-          const room = cityRoom(session.player.interior);
+          this.interiorView = renderCityInterior(
+            this,
+            world,
+            session.player.interior,
+            options?.runtime?.interiorBindings,
+          );
+          const room = cityRoom(session.player.interior, world.id);
           this.cameras.main
             .stopFollow()
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
           this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          parent.dispatchEvent(new Event("ki:zoom"));
         } else {
           this.outsideObjects.forEach((o) => o.setVisible(true));
           this.cameras.main
@@ -772,6 +871,7 @@ export function mountKileGends(
             .setBackgroundColor(world.background);
           this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
           this.cameras.main.centerOn(session.player.x, session.player.y);
+          parent.dispatchEvent(new Event("ki:zoom"));
         }
       }
       if (!session.player.interior) this.updateVisibility?.(session.player);
@@ -779,7 +879,10 @@ export function mountKileGends(
       for (const actor of this.actors)
         if (actor.npcId) {
           const npc = activeNpcs.get(actor.npcId);
-          if (npc) actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+          if (npc) {
+            actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+            actor.name.setText(npc.name);
+          }
         }
       const focused = document.activeElement;
       const typing =
@@ -795,7 +898,15 @@ export function mountKileGends(
         Number(Boolean(k?.["W"]?.isDown || k?.["UP"]?.isDown)) +
         this.joystick.y / 48;
       if (Math.hypot(dx, dy) > 0.12) session.manual(dx, dy, dt);
-      this.hero.body.setPosition(session.player.x, session.player.y).setDepth(session.player.y);
+      // Apply this tick's events before selecting frames. Reporting a newly
+      // triggered state with the previous sprite frame delayed actions one tick.
+      this.syncEnemies();
+      for (const event of session.events.splice(0)) this.effect(event);
+      // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
+      this.hero.body
+        .setPosition(session.player.x, session.player.y)
+        .setDepth(session.player.y)
+        .setScale(world.id === "pyra" && session.player.interior === "smithy" ? 1.45 : 1);
       this.hero.animation.update(
         this.animationTime,
         session.moving,
@@ -803,10 +914,9 @@ export function mountKileGends(
         session.facing,
         session.paused || !!session.dialogue,
       );
-      this.syncEnemies();
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
-        a.body.setVisible(!e.m.hidden);
+        a.body.setVisible(!e.m.hidden && !session.player.interior);
         const vx = e.x - a.body.x,
           vy = e.y - a.body.y;
         if (Math.hypot(vx, vy) > 0.01) {
@@ -823,7 +933,10 @@ export function mountKileGends(
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
         const engaged =
-          e.hp > 0 && !e.m.hidden && (e.mode === "chase" || session.targetId === e.id);
+          e.hp > 0 &&
+          !e.m.hidden &&
+          !session.player.interior &&
+          (e.mode === "chase" || session.targetId === e.id);
         a.track.setVisible(engaged);
         a.bar.setVisible(engaged);
         if (e.hp > 0 && !a.visual.clips.attack)
@@ -843,7 +956,15 @@ export function mountKileGends(
           a.body.y > view.top - pad &&
           a.body.y < view.bottom + pad + 120;
         if (a.kind === "npc")
-          a.body.setVisible(near && Boolean(a.npcId && activeNpcs.has(a.npcId)));
+          a.body.setVisible(
+            near &&
+              Boolean(a.npcId && activeNpcs.has(a.npcId)) &&
+              !(
+                world.id === "pyra" &&
+                a.npcId === "smith" &&
+                catalog.renderBindings["object.pyra.smithy.goro"]
+              ),
+          );
         else if (!near) a.body.setVisible(false);
       }
       for (const actor of this.actors)
@@ -924,7 +1045,6 @@ export function mountKileGends(
           body.destroy();
           this.loot.delete(id);
         }
-      for (const event of session.events.splice(0)) this.effect(event);
       if (time - this.lastReport > 100) {
         this.lastReport = time;
         this.report();

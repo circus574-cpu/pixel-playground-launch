@@ -31,7 +31,7 @@ for (const path of files) {
     evidence: [
       "source code and committed history",
       "SHA-256 of this file",
-      "docs/qa/verdantia-city-20261023/asset-import.txt",
+      "docs/zmiany/2026-10-23/qa/verdantia-city-20261023/asset-import.txt",
     ],
     status: "SOURCE_AND_PROCESS_DOCUMENTED; LEGAL_REVIEW_NOT_PERFORMED",
   });
@@ -42,7 +42,7 @@ await writeFile(
     {
       date: "2026-10-23",
       scope:
-        "New city utility illustrations only. Existing forest, exterior building and character artwork retains unresolved rights recorded in ASSET-LICENSE-REGISTER.md.",
+        "New city utility illustrations only. Existing forest, exterior building and character artwork retains unresolved rights recorded in LICENCJE.md.",
       renderer:
         "SVG authored as code; Sharp exports lossless WebP; no image-generation model or rented GPU used.",
       records,

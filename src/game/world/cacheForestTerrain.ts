@@ -2,7 +2,7 @@ import { tintPixels } from "./tintPixels";
 import type { TextureRef } from "../assets/schema";
 import { FOREST_OBJECTS, type ForestObject } from "./forest";
 import type Phaser from "phaser";
-import { FOREST } from "./forest";
+import { FOREST, FOREST_ORIGIN } from "./forest";
 import { renderDepth } from "../assets/layers";
 import { TERRAIN_CHUNK_SIDE, terrainBlits } from "./terrainBlits";
 /** Bake static terrain and below-foot shadows only. Scenery, actors and map data stay independent. */
@@ -62,8 +62,8 @@ export function cacheForestTerrain(
       shadows.push({
         source: sourceFor(ref.asset),
         frame,
-        x: o.x + 8 - o.width / 2 + frame.x * sx,
-        y: o.y + 8 - (o.height * 0.3) / 2 + frame.y * sy,
+        x: o.x - FOREST_ORIGIN.x + 8 - o.width / 2 + frame.x * sx,
+        y: o.y - FOREST_ORIGIN.y + 8 - (o.height * 0.3) / 2 + frame.y * sy,
         width: frame.cutWidth * sx,
         height: frame.cutHeight * sy,
       });
@@ -88,8 +88,11 @@ export function cacheForestTerrain(
           key = `terrain-cache:verdant:${x}:${y}`;
         const texture = scene.textures.createCanvas(key, width, height);
         if (!texture) throw Error("Nie można przygotować bufora podłoża.");
-        const image = scene.add.image(x, y, key).setOrigin(0).setDepth(renderDepth("ground"));
-        chunks.push({ key, image, x, y, width, height });
+        const image = scene.add
+          .image(x + FOREST_ORIGIN.x, y + FOREST_ORIGIN.y, key)
+          .setOrigin(0)
+          .setDepth(renderDepth("ground"));
+        chunks.push({ key, image, x: x + FOREST_ORIGIN.x, y: y + FOREST_ORIGIN.y, width, height });
         const ctx = texture.getContext();
         ctx.imageSmoothingEnabled = true;
         for (const b of terrainBlits(

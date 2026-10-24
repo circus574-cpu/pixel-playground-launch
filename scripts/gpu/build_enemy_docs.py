@@ -1,4 +1,4 @@
-"""Writes docs/ENEMIES-KI-LEGENDS.md from art/production/enemies/roster.json (run from the repo root).
+"""Updates the generated bestiary block in docs/ROZWOJ-I-WALKA.md from art/production/enemies/roster.json (run from the repo root).
   python3 scripts/gpu/build_enemy_docs.py
 """
 import json
@@ -19,40 +19,27 @@ MOTION = {
     "hover": ("unoszenie", "pływa w górę i w dół, lekkie pulsowanie", "gaśnie i opada na ziemię"),
     "stomp": ("ciężki krok", "podskok i nacisk kolejnych łap", "opada na ziemię, spłaszcza się"),
 }
-head = """# Ki Legends — 40 potworów (przeciwnicy NPC) — dokumentacja produkcyjna
+head = """### Kontrakt grafiki potworów
 
-**Data: 2026-10-22. Status: PRZYGOTOWANE W REPO, NIEZAINSTALOWANE W GRZE, NIEOCENIONE PRZEZ WŁAŚCICIELA** (poza podglądem pilota). Bossowie (8) **nie** należą do tej partii.
-Źródło wymagań: bestiariusz właściciela [`design/BESTIARY-OWNER-2026-10-22.html`](design/BESTIARY-OWNER-2026-10-22.html) (obrazy tamże są tylko poglądowe; projekty wizualne potworów są własne). Surowe dane: `art/production/enemies/bestiary-owner.json`, wybrane projekty: `art/production/enemies/roster.json`, `selection-v1.json`.
+Paczka: 8 kierunków × 52 klatki = 416; master 512² RGBA, klient 128²,
+profil `enemy` 84×84, origin `(0.5,0.8)`. Ruch/stan nie zmienia statystyk.
+Kierunki lewe są odbiciami prawych; asymetria projektu też jest odbijana.
+Punkt stóp w masterze `(256,409.6)`, latające unoszą się o 36 px i lądują przy śmierci.
+Animacja jest deformacją obrazu, nie pełnym ruchem ręcznie animowanych kończyn.
+Kontrola raportu: 416 klatek, brak violations i pustej alfy, zgodne hashe/marginesy.
+Skala S/M/L: 0.62/0.80/0.98; shrink w raporcie przy zbyt małym marginesie.
+Wiązanie `<świat>.enemy.<slug>`; pełna mapa `art/production/enemies/bindings.json`.
+Silnik danych/AI jest zaimplementowany. Grafiki dostaw nie są jeszcze zainstalowane,
+a nowe spawny wymagają ukończenia kontynentów. Bossowie nie należą do tej czterdziestki.
 
-## 1. Kontrakt wizualny (ten sam dla wszystkich)
-- Paczka na potwora: **8 kierunków × 52 klatki = 416** (`idle 8`, `walk 8`, `attack 8`, `skill 8`, `hit 4`, `death 8`, `respawn 8`). Master 512×512 RGBA, dostawa 128×128, 2 strony atlasu ≤ 2048 px, profil `enemy` (rozmiar 84×84, origin `[0.5, 0.8]`).
-- FPS: `idle 6`, `walk 16`, `attack 16`, `skill 12`, `hit 16`, `death 10`, `respawn 12`; `idle` i `walk` w pętli, pozostałe jednorazowo.
-- Kierunki: `down`, `down-right`, `right`, `up-right`, `up` są malowane osobno; `left`, `down-left`, `up-left` są **dokładnymi lustrzanymi odbiciami** `right`, `down-right`, `up-right` (asymetria projektu jest więc odbijana).
-- Punkt stóp stały: (256; 409,6) w masterze; latające i unoszące się potwory mają stopy podniesione o 36 px, a przy `death`/`respawn` lądują na ziemi.
-- Atak: skok w stronę kierunku patrzenia, największe wychylenie w klatce 0, potem powrót. `skill`: pulsujące rozjaśnienie i powiększenie (sam efekt umiejętności nie jest częścią sprite'a). `hit`: biały błysk 60 → 35 → 15 → 0%, odrzut przeciwny do kierunku. `death`: opadanie i przyciemnienie wg archetypu; `respawn` to ten sam ruch odwrócony.
-- Skala w ramce zależy od klasy rozmiaru (S 0,62 / M 0,80 / L 0,98 szerokości bazowej). Gdy animacja wychodzi poza margines bezpieczny (22 px), cały potwór jest zmniejszany (`shrink` w `report.json`).
-- Kontrola: `report.json` w każdym wyjściu (`violations` musi być puste, `frames` = 416).
-
-## 2. Powiększanie w grze bez GPU
-Rozmiar potwora w świecie to pole `size` aktora w manifeście (domyślnie `[84, 84]`) i da się je zmienić tekstem. Klatki mają 128 px, więc **powiększenie do ok. 1,3× jest bezpieczne, powyżej ok. 1,3× obraz się rozmywa**. Ostrzejsze, większe klatki wymagałyby zmiany kontraktu (dostawa 128 px), więc to osobna decyzja; mastery 512 px są zachowane jako źródło. Zwiększenie bez GPU nie zmienia kolizji: footprint pozostaje w danych regionu.
-
-## 3. Archetypy ruchu (animacja proceduralna deformacją siatki, bez szkieletu)
-| Archetyp | Chód / bezruch | Śmierć |
-|---|---|---|
+| Archetyp | Ruch | Śmierć |
+| --- | --- | --- |
 """
 rows = "\n".join("| `%s` | %s: %s | %s |" % (k, v[0], v[1], v[2]) for k, v in MOTION.items())
-bind = """
-
-## 4. Wiązanie z grą
-Każda paczka wiąże się własnym kluczem `<świat>.enemy.<slug>` (np. `verdant.enemy.cierniowy-wilk` → `enemy-verdant-cierniowy-wilk`), więc 10 wrogów jednego świata nie nadpisuje się. Walidator `scripts/lib/gpu-import.ts` przyjmuje takie klucze (test w `src/test/gpu-pipeline.test.ts`), `actorVisual(świat, "enemy", slug)` je odczytuje, a `worldAssets()` ładuje atlasy wszystkich wrogów danego świata. Pełna mapa: `art/production/enemies/bindings.json`.
-**Stan w grze:** silnik potworów (AI, umiejętności, statusy, strefy, łup) jest zaimplementowany — zob. [GAMEPLAY-RACES-AND-MONSTERS.md](GAMEPLAY-RACES-AND-MONSTERS.md). **Spawnów w regionach jeszcze nie ma** (po ukończeniu kontynentów), a grafiki potworów z paczek nie są zainstalowane, więc do tego czasu `mountGame.ts` użyje dla nich wyglądu dzika (`actorVisual(świat, "enemy", slug)`).
-
-## 5. Dane bestiariusza (wartości z dokumentu właściciela — nie wdrożone w kodzie gry)
-Statystyki, zasięgi, zachowania i łupy poniżej są **kopią wymagań właściciela**, a nie opisem stanu implementacji.
-"""
+bind = "\n\n### Pełne dane 40 potworów\n"
 body = []
 for w in WORLD:
-    body.append("\n### %s\n" % WORLD[w])
+    body.append("\n#### %s\n" % WORLD[w])
     for e in [m for m in roster if m["world"] == w]:
         st = e["stats"]; mo = MOTION[e["archetype"]]
         body.append(
@@ -65,12 +52,12 @@ for w in WORLD:
             "- Animacja: chód — %s; śmierć — %s.\n"
             % (e["name"], e["id"], e["level"], e["archetype"], mo[0], SIZE[e["size"]], e["design"], st["hp"], st["atk"], st["def"], st["xp"],
                e["speed"], e["range"], e["agro"], e["behavior"], "; ".join(e["skills"]), e["weakness"], e["loot"], mo[1], mo[2]))
-tail = """
-## 6. Znane wady i prawa
-- Widoki malowane są niezależnie, więc proporcje i detale mogą różnić się między kierunkami; kierunki lewe to lustra.
-- Animacja jest deformacją pojedynczego obrazu: nie ma ruchu kończyn jak w animacji ręcznej, a duże wychylenia wymuszają zmniejszenie potwora (wilk i krab pilota: 72% i 78%).
-- Prawa do obrazów referencyjnych, punktów kontrolnych modeli i obrazów pochodnych są nierozstrzygnięte (patrz `ASSET-LICENSE-REGISTER.md`); nie publikować przed decyzją właściciela.
-- Pod nie zostało zatrzymane ani zmienione; nic nie jest zainstalowane w grze ani opublikowane.
-"""
-(ROOT / "docs/ENEMIES-KI-LEGENDS.md").write_text(head + rows + bind + "\n".join(body) + tail, encoding="utf-8")
-print("OK", len(roster))
+tail = "\nPrawa do referencji i checkpointów: [licencje](LICENCJE.md). Kontrola grafiki nie jest odbiorem praw.\n"
+target = ROOT / "docs/ROZWOJ-I-WALKA.md"
+text = target.read_text()
+start, end = "<!-- BESTIARY:START -->", "<!-- BESTIARY:END -->"
+assert text.count(start) == text.count(end) == 1
+before, rest = text.split(start)
+_, after = rest.split(end)
+target.write_text(before + start + "\n" + head + rows + bind + "\n".join(body) + tail + "\n" + end + after)
+print("OK", len(roster), "bestiary records in", target)

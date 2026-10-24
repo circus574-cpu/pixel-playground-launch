@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "id": "pyra-city",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "pyra-city-arena-dojo",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-arena-dojo.webp",
+      "width": 524,
+      "height": 503
+    },
+    {
+      "id": "pyra-city-banner-pole",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-banner-pole.webp",
+      "width": 306,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-bridge-stone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-bridge-stone.webp",
+      "width": 486,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-depot-warehouse",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-depot-warehouse.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-fountain-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-fountain-fire.webp",
+      "width": 524,
+      "height": 495
+    },
+    {
+      "id": "pyra-city-gate-fortress",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-gate-fortress.webp",
+      "width": 460,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-hall-council",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-hall-council.webp",
+      "width": 500,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-house-small",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-house-small.webp",
+      "width": 524,
+      "height": 517
+    },
+    {
+      "id": "pyra-city-inn-tavern",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-inn-tavern.webp",
+      "width": 465,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-lantern-stone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-lantern-stone.webp",
+      "width": 352,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-market-stall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-market-stall.webp",
+      "width": 499,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-rocks-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-rocks-cluster.webp",
+      "width": 494,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-smithy-forge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-smithy-forge.webp",
+      "width": 497,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-steps-stone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-steps-stone.webp",
+      "width": 519,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-tower-watch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-tower-watch.webp",
+      "width": 308,
+      "height": 524
+    },
+    {
+      "id": "pyra-city-tree-maple-red",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-tree-maple-red.webp",
+      "width": 524,
+      "height": 505
+    },
+    {
+      "id": "pyra-city-tree-pine-dark",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-tree-pine-dark.webp",
+      "width": 524,
+      "height": 521
+    },
+    {
+      "id": "pyra-city-wall-segment",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pyra-city-wall-segment.webp",
+      "width": 464,
+      "height": 524
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.pyra-city.arena-dojo": {
+      "asset": "pyra-city-arena-dojo",
+      "fit": "contain"
+    },
+    "object.pyra-city.banner-pole": {
+      "asset": "pyra-city-banner-pole",
+      "fit": "contain"
+    },
+    "object.pyra-city.bridge-stone": {
+      "asset": "pyra-city-bridge-stone",
+      "fit": "contain"
+    },
+    "object.pyra-city.depot-warehouse": {
+      "asset": "pyra-city-depot-warehouse",
+      "fit": "contain"
+    },
+    "object.pyra-city.fountain-fire": {
+      "asset": "pyra-city-fountain-fire",
+      "fit": "contain"
+    },
+    "object.pyra-city.gate-fortress": {
+      "asset": "pyra-city-gate-fortress",
+      "fit": "contain"
+    },
+    "object.pyra-city.hall-council": {
+      "asset": "pyra-city-hall-council",
+      "fit": "contain"
+    },
+    "object.pyra-city.house-small": {
+      "asset": "pyra-city-house-small",
+      "fit": "contain"
+    },
+    "object.pyra-city.inn-tavern": {
+      "asset": "pyra-city-inn-tavern",
+      "fit": "contain"
+    },
+    "object.pyra-city.lantern-stone": {
+      "asset": "pyra-city-lantern-stone",
+      "fit": "contain"
+    },
+    "object.pyra-city.market-stall": {
+      "asset": "pyra-city-market-stall",
+      "fit": "contain"
+    },
+    "object.pyra-city.rocks-cluster": {
+      "asset": "pyra-city-rocks-cluster",
+      "fit": "contain"
+    },
+    "object.pyra-city.smithy-forge": {
+      "asset": "pyra-city-smithy-forge",
+      "fit": "contain"
+    },
+    "object.pyra-city.steps-stone": {
+      "asset": "pyra-city-steps-stone",
+      "fit": "contain"
+    },
+    "object.pyra-city.tower-watch": {
+      "asset": "pyra-city-tower-watch",
+      "fit": "contain"
+    },
+    "object.pyra-city.tree-maple-red": {
+      "asset": "pyra-city-tree-maple-red",
+      "fit": "contain"
+    },
+    "object.pyra-city.tree-pine-dark": {
+      "asset": "pyra-city-tree-pine-dark",
+      "fit": "contain"
+    },
+    "object.pyra-city.wall-segment": {
+      "asset": "pyra-city-wall-segment",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

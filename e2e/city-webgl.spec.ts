@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "./fixtures";
+import { test, expect, expectCityClear, type Page } from "./fixtures";
 
 type Metrics = {
   sampleAtMs: number;
@@ -31,7 +31,7 @@ test("Verdantia software WebGL: actual chest interiors release resources on each
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   const canvas = page.locator(".ki-canvas");
-  await expect(canvas).toHaveAttribute("data-enemies", "[]");
+  await expectCityClear(canvas);
   await page.getByRole("button", { name: "Plan miasta", exact: true }).click();
   await page.getByRole("button", { name: /Południowa aleja.*Depozyt Korzeni/ }).click();
   await expect(canvas).toHaveAttribute("data-interior", "depot");

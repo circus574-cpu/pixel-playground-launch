@@ -45,6 +45,7 @@ export default defineConfig({
         "**/gpu-webgl-smoke.spec.ts",
         "**/hero-lifecycle.spec.ts",
         "**/world-rendering.spec.ts",
+        "**/superior-world.spec.ts",
       ],
       use: { launchOptions: { args: webglArgs } },
     },

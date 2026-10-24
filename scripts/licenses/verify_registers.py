@@ -23,14 +23,17 @@ def main():
     for r in load(L/'evidence/source-receipts.json'):
         if r.get('file'):assert sha((ROOT/r['file']).read_bytes())==r['sha256']
         if r.get('expectedSha256'):assert r['hashMatches']
+    relocation=load(ROOT/'docs/zmiany/2026-10-23/segregacja.json')
+    moved={e['previous']:e['current'] for e in relocation['relocatedEvidence']}
     tracked=[]
     for r in rows:
         p=ROOT/r['path']
+        if not p.exists() and r['path'] in moved:p=ROOT/moved[r['path']]
         if not r['path'].startswith('/') and '#' not in r['path'] and p.is_file():
             tracked.append(r['path']);b=p.read_bytes()
             if r.get('pointerSha256'):
                 assert sha(b)==r['pointerSha256'];assert ('oid sha256:'+r['sha256']).encode() in b
-            else:assert sha(b)==r['sha256'] and len(b)==r['bytes']
+            else:assert sha(b)==r['sha256'] and len(b)==r['bytes'], r['path']
     assert len(tracked)==assets['trackedFileCount']
     assert len(rows)==len({r['path'] for r in rows})
     for r in rows:
@@ -39,10 +42,10 @@ def main():
     pdf=load(L/'evidence/pdf-images.json');assert pdf['imagePlacements']==11 and pdf['uniqueImages']==10
     assert all(any(r['matchesTrackedReference']==f'public/game/assets/stage3/references/{race}.jpg' for r in pdf['images']) for race in ['planetary','sage','android','legend'])
     assert sha((ROOT/'docs/design/Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf').read_bytes())==pdf['pdfSha256']
-    # Every document row must be present exactly once in the individual table.
-    text=(ROOT/'docs/ASSET-LICENSE-REGISTER.md').read_text().split('<!-- GENERATED-ASSET-TABLE -->')[1]
-    assert sum(l.startswith('| ') for l in text.splitlines())==len(rows)+2
-    for r in rows:assert '| '+r['path']+' |' in text
+    # Full individual records live in machine-readable JSON/CSV, linked from the thematic manual.
+    text=(ROOT/'docs/LICENCJE.md').read_text()
+    assert 'licenses/asset-inventory.json' in text and 'licenses/asset-inventory.csv' in text
+    assert '<!-- LICENSE-SUMMARY:START -->' in text
     # Changes to preexisting files must stay in audit documentation; no asset, app, lockfile or production changes.
     changed=subprocess.check_output(['git','diff','--name-only',assets['auditedBase']],cwd=ROOT,text=True).splitlines()
     assert all(p.startswith(('docs/','scripts/licenses/')) for p in changed),changed

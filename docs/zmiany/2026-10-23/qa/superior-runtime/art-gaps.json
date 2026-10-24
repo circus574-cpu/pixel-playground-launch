@@ -1,0 +1,271 @@
+{
+  "monsters": [
+    {
+      "kind": "verdant-mchowy-szlamak",
+      "actor": "enemy-verdant-mchowy-szlamak",
+      "source": "deliveries/enemy-verdant-mchowy-szlamak-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-cierniowy-wilk",
+      "actor": "enemy-verdant-cierniowy-wilk",
+      "source": "deliveries/enemy-verdant-cierniowy-wilk-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-lisciak-skrytobojca",
+      "actor": "enemy-verdant-lisciak-skrytobojca",
+      "source": "deliveries/enemy-verdant-lisciak-skrytobojca-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-korzeniowy-pelzacz",
+      "actor": "enemy-verdant-korzeniowy-pelzacz",
+      "source": "deliveries/enemy-verdant-korzeniowy-pelzacz-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-grzybowy-zarodnik",
+      "actor": "enemy-verdant-grzybowy-zarodnik",
+      "source": "deliveries/enemy-verdant-grzybowy-zarodnik-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-bursztynowa-osa",
+      "actor": "enemy-verdant-bursztynowa-osa",
+      "source": "deliveries/enemy-verdant-bursztynowa-osa-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-skalny-jelen",
+      "actor": "enemy-verdant-skalny-jelen",
+      "source": "deliveries/enemy-verdant-skalny-jelen-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-lesny-pajak",
+      "actor": "enemy-verdant-lesny-pajak",
+      "source": "deliveries/enemy-verdant-lesny-pajak-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-puchacz-pylowy",
+      "actor": "enemy-verdant-puchacz-pylowy",
+      "source": "deliveries/enemy-verdant-puchacz-pylowy-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "verdant-straznik-ruin",
+      "actor": "enemy-verdant-straznik-ruin",
+      "source": "deliveries/enemy-verdant-straznik-ruin-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-swietlik-pieczeci",
+      "actor": "enemy-aether-swietlik-pieczeci",
+      "source": "deliveries/enemy-aether-swietlik-pieczeci-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-pergaminowy-straznik",
+      "actor": "enemy-aether-pergaminowy-straznik",
+      "source": "deliveries/enemy-aether-pergaminowy-straznik-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-krysztalowy-motyl",
+      "actor": "enemy-aether-krysztalowy-motyl",
+      "source": "deliveries/enemy-aether-krysztalowy-motyl-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-szmaragdowy-waz",
+      "actor": "enemy-aether-szmaragdowy-waz",
+      "source": "deliveries/enemy-aether-szmaragdowy-waz-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-duch-bibliotekarza",
+      "actor": "enemy-aether-duch-bibliotekarza",
+      "source": "deliveries/enemy-aether-duch-bibliotekarza-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-zloty-skarabeusz",
+      "actor": "enemy-aether-zloty-skarabeusz",
+      "source": "deliveries/enemy-aether-zloty-skarabeusz-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-lew-swiatyni",
+      "actor": "enemy-aether-lew-swiatyni",
+      "source": "deliveries/enemy-aether-lew-swiatyni-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-oko-wiedzy",
+      "actor": "enemy-aether-oko-wiedzy",
+      "source": "deliveries/enemy-aether-oko-wiedzy-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-marionetka-rytualu",
+      "actor": "enemy-aether-marionetka-rytualu",
+      "source": "deliveries/enemy-aether-marionetka-rytualu-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "aether-mgielny-zuraw",
+      "actor": "enemy-aether-mgielny-zuraw",
+      "source": "deliveries/enemy-aether-mgielny-zuraw-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-dron-zwiadowca",
+      "actor": "enemy-nexus-dron-zwiadowca",
+      "source": "deliveries/enemy-nexus-dron-zwiadowca-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-pelzacz-serwisowy",
+      "actor": "enemy-nexus-pelzacz-serwisowy",
+      "source": "deliveries/enemy-nexus-pelzacz-serwisowy-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-skaner-gasienicowy",
+      "actor": "enemy-nexus-skaner-gasienicowy",
+      "source": "deliveries/enemy-nexus-skaner-gasienicowy-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-pajak-spawalniczy",
+      "actor": "enemy-nexus-pajak-spawalniczy",
+      "source": "deliveries/enemy-nexus-pajak-spawalniczy-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-wiezyczka-autonomiczna",
+      "actor": "enemy-nexus-wiezyczka-autonomiczna",
+      "source": "deliveries/enemy-nexus-wiezyczka-autonomiczna-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-roj-nanitow",
+      "actor": "enemy-nexus-roj-nanitow",
+      "source": "deliveries/enemy-nexus-roj-nanitow-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-pies-lowca",
+      "actor": "enemy-nexus-pies-lowca",
+      "source": "deliveries/enemy-nexus-pies-lowca-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-straznik-rdzenia",
+      "actor": "enemy-nexus-straznik-rdzenia",
+      "source": "deliveries/enemy-nexus-straznik-rdzenia-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-latarnia-plazmowa",
+      "actor": "enemy-nexus-latarnia-plazmowa",
+      "source": "deliveries/enemy-nexus-latarnia-plazmowa-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "nexus-kruk-danych",
+      "actor": "enemy-nexus-kruk-danych",
+      "source": "deliveries/enemy-nexus-kruk-danych-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-wegielek",
+      "actor": "enemy-pyra-wegielek",
+      "source": "deliveries/enemy-pyra-wegielek-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-ognista-salamandra",
+      "actor": "enemy-pyra-ognista-salamandra",
+      "source": "deliveries/enemy-pyra-ognista-salamandra-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-popielny-wilk",
+      "actor": "enemy-pyra-popielny-wilk",
+      "source": "deliveries/enemy-pyra-popielny-wilk-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-skalny-berserker",
+      "actor": "enemy-pyra-skalny-berserker",
+      "source": "deliveries/enemy-pyra-skalny-berserker-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-magmowy-krab",
+      "actor": "enemy-pyra-magmowy-krab",
+      "source": "deliveries/enemy-pyra-magmowy-krab-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-zarowy-nietoperz",
+      "actor": "enemy-pyra-zarowy-nietoperz",
+      "source": "deliveries/enemy-pyra-zarowy-nietoperz-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-golem-ruin",
+      "actor": "enemy-pyra-golem-ruin",
+      "source": "deliveries/enemy-pyra-golem-ruin-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-plomien-duch",
+      "actor": "enemy-pyra-plomien-duch",
+      "source": "deliveries/enemy-pyra-plomien-duch-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-byk-areny",
+      "actor": "enemy-pyra-byk-areny",
+      "source": "deliveries/enemy-pyra-byk-areny-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    },
+    {
+      "kind": "pyra-skorpion-obsydianowy",
+      "actor": "enemy-pyra-skorpion-obsydianowy",
+      "source": "deliveries/enemy-pyra-skorpion-obsydianowy-1.0.0/manifest.json",
+      "status": "installed-technical-checks-passed-art-review-open"
+    }
+  ],
+  "missingMonsterAppearances": 0,
+  "npcProfileActors": [],
+  "defectiveArt": [
+    {
+      "asset": "biome-forest-tall-pine-tree",
+      "issue": "rectangular illustration crop with clipped neighbouring vegetation; visually inspected",
+      "temporaryReplacement": "biome-forest-tall-broadleaf-oak-tree"
+    },
+    {
+      "asset": "biome-forest-birch-tree-with-white-bark",
+      "issue": "rectangular illustration crop with clipped neighbouring vegetation; visually inspected",
+      "temporaryReplacement": "biome-forest-tall-broadleaf-oak-tree"
+    },
+    {
+      "asset": "biome-forest-tall-fern-cluster",
+      "issue": "rectangular illustration crop with clipped neighbouring vegetation; visually inspected",
+      "temporaryReplacement": "biome-forest-flowering-bush"
+    },
+    {
+      "asset": "biome-forest-cluster-of-mushrooms",
+      "issue": "rectangular illustration crop with clipped neighbouring vegetation; visually inspected",
+      "temporaryReplacement": "biome-forest-flowering-bush"
+    }
+  ],
+  "scope": "installed catalog after validated import of all 40 existing delivery packages",
+  "sourcePackagesPresent": 40,
+  "missingSourceGraphics": 0
+}

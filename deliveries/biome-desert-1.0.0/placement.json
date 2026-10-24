@@ -1,0 +1,131 @@
+{
+ "biome-desert.clay-hut": {
+  "width": 320,
+  "height": 304,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 76
+  }
+ },
+ "biome-desert.dry-dead-tree": {
+  "width": 240,
+  "height": 280,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "biome-desert.nomad-tent": {
+  "width": 320,
+  "height": 315,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 79
+  }
+ },
+ "biome-desert.rusted-metal-wreck": {
+  "width": 240,
+  "height": 230,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "biome-desert.salt-crystal-formation": {
+  "width": 200,
+  "height": 206,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 45
+  }
+ },
+ "biome-desert.sand-dune-with-a-bone": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "biome-desert.sandstone-arch": {
+  "width": 200,
+  "height": 213,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 47
+  }
+ },
+ "biome-desert.sandstone-spires": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 48
+  }
+ },
+ "biome-desert.small-oasis-with-palms": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "biome-desert.stone-obelisk": {
+  "width": 240,
+  "height": 569,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 114
+  }
+ },
+ "biome-desert.sun-bleached-skull-and-ribs": {
+  "width": 130,
+  "height": 140,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "biome-desert.tall-saguaro-cactus": {
+  "width": 240,
+  "height": 432,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 52
+  }
+ }
+}

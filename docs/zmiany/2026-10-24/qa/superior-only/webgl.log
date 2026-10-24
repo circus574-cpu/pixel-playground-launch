@@ -1,0 +1,16 @@
+
+Running 7 tests using 1 worker
+
+(node:60489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload (3.1m)
+  ✓  2 [software-webgl] › e2e/superior-world.spec.ts:82:1 › Superior: real depot entrance and personal chest survive reload (54.3s)
+  ✓  3 [software-webgl] › e2e/superior-world.spec.ts:117:1 › Superior: mobile world and real overworld combat (35.5s)
+  ✓  4 [software-webgl] › e2e/superior-world.spec.ts:185:3 › Superior default: planetary starts on generated land with one character save (25.5s)
+  ✓  5 [software-webgl] › e2e/superior-world.spec.ts:185:3 › Superior default: sage starts on generated land with one character save (27.6s)
+  ✓  6 [software-webgl] › e2e/superior-world.spec.ts:185:3 › Superior default: android starts on generated land with one character save (26.5s)
+  ✓  7 [software-webgl] › e2e/superior-world.spec.ts:185:3 › Superior default: legend starts on generated land with one character save (27.1s)
+
+  Slow test file: [software-webgl] › e2e/superior-world.spec.ts (6.3m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  7 passed (6.4m)

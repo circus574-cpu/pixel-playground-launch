@@ -1,0 +1,483 @@
+{
+  "engine": "GameSession + all race kits + MonsterSystem",
+  "complete": true,
+  "scenarios": 1392,
+  "fights": 22272,
+  "wins": 20346,
+  "deaths": 1487,
+  "timeouts": 439,
+  "groups": [
+    {
+      "race": "android",
+      "profile": "bare-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.8765625,
+      "deathRate": 0.0984375,
+      "timeoutRate": 0.025,
+      "medianOfSuccessfulKillMedians": 6.05,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "android",
+      "profile": "equipped-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.95,
+      "deathRate": 0.025,
+      "timeoutRate": 0.025,
+      "medianOfSuccessfulKillMedians": 4.6,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "android",
+      "profile": "equipped-skills-potions",
+      "sameLevelScenarios": 40,
+      "winRate": 0.975,
+      "deathRate": 0.0,
+      "timeoutRate": 0.025,
+      "medianOfSuccessfulKillMedians": 2.15,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "legend",
+      "profile": "bare-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.934375,
+      "deathRate": 0.04375,
+      "timeoutRate": 0.021875,
+      "medianOfSuccessfulKillMedians": 6.15,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "legend",
+      "profile": "equipped-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.9578125,
+      "deathRate": 0.025,
+      "timeoutRate": 0.0171875,
+      "medianOfSuccessfulKillMedians": 5.4,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "legend",
+      "profile": "equipped-skills-potions",
+      "sameLevelScenarios": 40,
+      "winRate": 1.0,
+      "deathRate": 0.0,
+      "timeoutRate": 0.0,
+      "medianOfSuccessfulKillMedians": 1.5,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "planetary",
+      "profile": "bare-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.8859375,
+      "deathRate": 0.0640625,
+      "timeoutRate": 0.05,
+      "medianOfSuccessfulKillMedians": 6.0,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "planetary",
+      "profile": "equipped-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.95,
+      "deathRate": 0.025,
+      "timeoutRate": 0.025,
+      "medianOfSuccessfulKillMedians": 4.800000000000001,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "planetary",
+      "profile": "equipped-skills-potions",
+      "sameLevelScenarios": 40,
+      "winRate": 0.975,
+      "deathRate": 0.0,
+      "timeoutRate": 0.025,
+      "medianOfSuccessfulKillMedians": 4.15,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "sage",
+      "profile": "bare-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.809375,
+      "deathRate": 0.165625,
+      "timeoutRate": 0.025,
+      "medianOfSuccessfulKillMedians": 5.15,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "sage",
+      "profile": "equipped-basic",
+      "sameLevelScenarios": 40,
+      "winRate": 0.8859375,
+      "deathRate": 0.09375,
+      "timeoutRate": 0.0203125,
+      "medianOfSuccessfulKillMedians": 4.05,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    },
+    {
+      "race": "sage",
+      "profile": "equipped-skills-potions",
+      "sameLevelScenarios": 40,
+      "winRate": 0.9765625,
+      "deathRate": 0.0,
+      "timeoutRate": 0.0234375,
+      "medianOfSuccessfulKillMedians": 2.75,
+      "warning": "Kill medians omit losses; do not infer overall difficulty from them alone."
+    }
+  ],
+  "reviewFindings": [
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 4,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 2,
+      "profile": "equipped-skills-potions",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "planetary",
+      "playerLevel": 16,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "planetary",
+      "playerLevel": 4,
+      "profile": "equipped-skills-potions",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "same-level-low-win-rate",
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 4,
+      "profile": "equipped-basic",
+      "winRate": 0.1875,
+      "medianKillSeconds": 0.9,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 4,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "planetary",
+      "playerLevel": 16,
+      "profile": "equipped-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "legend",
+      "playerLevel": 20,
+      "profile": "bare-basic",
+      "winRate": 0.625,
+      "medianKillSeconds": 5.1,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 4,
+      "profile": "equipped-skills-potions",
+      "winRate": 0.0625,
+      "medianKillSeconds": 0.9,
+      "flags": [
+        "same-level-low-win-rate",
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 4,
+      "profile": "equipped-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 6,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 4,
+      "profile": "equipped-skills-potions",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "same-level-low-win-rate",
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "planetary",
+      "playerLevel": 18,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "legend",
+      "playerLevel": 16,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 6,
+      "profile": "equipped-basic",
+      "winRate": 0.1875,
+      "medianKillSeconds": 0.9,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 6,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "planetary",
+      "playerLevel": 18,
+      "profile": "equipped-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "legend",
+      "playerLevel": 16,
+      "profile": "equipped-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 2,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 6,
+      "profile": "equipped-basic",
+      "winRate": 0.125,
+      "medianKillSeconds": 0.8,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "planetary",
+      "playerLevel": 2,
+      "profile": "equipped-skills-potions",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 2,
+      "profile": "equipped-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 2,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 6,
+      "profile": "equipped-skills-potions",
+      "winRate": 0.6875,
+      "medianKillSeconds": 0.8,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "planetary",
+      "playerLevel": 20,
+      "profile": "bare-basic",
+      "winRate": 0.3125,
+      "medianKillSeconds": 50.9,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "legend",
+      "playerLevel": 18,
+      "profile": "bare-basic",
+      "winRate": 0.125,
+      "medianKillSeconds": 5.25,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "sage",
+      "playerLevel": 2,
+      "profile": "equipped-skills-potions",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "verdant-lisciak-skrytobojca",
+      "race": "android",
+      "playerLevel": 2,
+      "profile": "equipped-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "aether-pergaminowy-straznik",
+      "race": "planetary",
+      "playerLevel": 2,
+      "profile": "bare-basic",
+      "winRate": 0,
+      "medianKillSeconds": null,
+      "flags": [
+        "frequent-timeout"
+      ]
+    },
+    {
+      "monster": "nexus-kruk-danych",
+      "race": "legend",
+      "playerLevel": 18,
+      "profile": "equipped-basic",
+      "winRate": 0.3125,
+      "medianKillSeconds": 5.25,
+      "flags": [
+        "frequent-timeout"
+      ]
+    }
+  ],
+  "activeSkillsStarted": 14796,
+  "canonicalBalanceChanged": false,
+  "assumptions": {
+    "fixedStepMs": 50,
+    "maxFightSeconds": 90,
+    "arena": "8192×8192 empty arena; stationary auto-chase, no human dodging",
+    "dayNight": "alternating existing 8-minute AI clock",
+    "equipment": "existing sword + one upgrade and vest; no new items",
+    "skillBuild": "legal A-branch purchases attempted through game commands",
+    "economy": "full material sale assumed; no inventory saturation; 30s travel + 5s recovery; inn cost 5 every trial",
+    "confidence": "16 seeded trials are exploratory; Wilson 95% intervals, not player telemetry"
+  },
+  "limitations": [
+    "Exploratory 16 seeded trials per scenario; confidence intervals retained in raw shards.",
+    "Fixed arena, automatic play and one A-branch strategy do not replace skilled-player tests.",
+    "Economy estimates assume material sale and travel/recovery time; no live market simulation."
+  ]
+}

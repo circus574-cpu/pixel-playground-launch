@@ -1,0 +1,122 @@
+{
+ "ruins-props.an-ancient-stone-gate-ruin": {
+  "width": 520,
+  "height": 520,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 114
+  }
+ },
+ "ruins-props.barrel-group": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ruins-props.broken-stone-pillar": {
+  "width": 240,
+  "height": 415,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 83
+  }
+ },
+ "ruins-props.campfire-with-a-tent": {
+  "width": 320,
+  "height": 316,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 79
+  }
+ },
+ "ruins-props.ruined-wall-segment": {
+  "width": 420,
+  "height": 420,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 399,
+   "height": 59
+  }
+ },
+ "ruins-props.signpost-with-arrows": {
+  "width": 130,
+  "height": 152,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ruins-props.stone-altar-with-glowing-runes": {
+  "width": 200,
+  "height": 191,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 42
+  }
+ },
+ "ruins-props.stone-well": {
+  "width": 200,
+  "height": 203,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 45
+  }
+ },
+ "ruins-props.toppled-statue": {
+  "width": 200,
+  "height": 246,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 54
+  }
+ },
+ "ruins-props.treasure-chest": {
+  "width": 130,
+  "height": 126,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ruins-props.weapon-rack": {
+  "width": 130,
+  "height": 225,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ruins-props.wooden-crate-stack": {
+  "width": 200,
+  "height": 206,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 45
+  }
+ }
+}

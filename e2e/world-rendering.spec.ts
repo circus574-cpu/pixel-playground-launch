@@ -34,7 +34,9 @@ for (const [race, world] of [
         metrics = next;
         if (settled) break;
       }
-      expect(metrics.renderer).toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
+      // Gameplay runs on Canvas unless the run opts into software WebGL (KI_QA_WEBGL).
+      const webgl = info.project.name === "software-webgl" || Boolean(process.env["KI_QA_WEBGL"]);
+      expect(metrics.renderer).toBe(webgl ? "WebGL" : "Canvas");
       expect(metrics.estimatedTextureBytes).toBeLessThan(128 * 1024 * 1024);
       samples.push(metrics);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(

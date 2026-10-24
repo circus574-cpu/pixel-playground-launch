@@ -1,0 +1,67 @@
+{
+  "pack": "biome-snow",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "an-ice-crystal-cluster",
+      "source": "obj-an-ice-crystal-cluster-s7510101.png",
+      "sha256": "c6fb243c1a9a86dcac2e39d955d621fa263c6bf52b8189e5f2246ee8e71850eb"
+    },
+    {
+      "part": "an-igloo-style-stone-hut",
+      "source": "obj-an-igloo-style-stone-hut-s7510101.png",
+      "sha256": "6cc7cb555e773d09acf6a83ed8202219735c97c2bc8ad73e1f45a55017795cd1"
+    },
+    {
+      "part": "frozen-dead-tree",
+      "source": "obj-frozen-dead-tree-s7510101.png",
+      "sha256": "dc26263d739ad6ae31846f273f51ddb34044e211c4b2f61cd30c61707d497f1e"
+    },
+    {
+      "part": "frozen-waterfall-cliff",
+      "source": "obj-frozen-waterfall-cliff-s7510101.png",
+      "sha256": "e08a3f7da5376baafdd1352050bb3049a878744e376c059dbd65eb806a2a39ce"
+    },
+    {
+      "part": "glacier-ice-block",
+      "source": "obj-glacier-ice-block-s7510101.png",
+      "sha256": "56d3959a4432abdeaca193c17efb75753b574cd3687fea7145152f506490a57d"
+    },
+    {
+      "part": "snow-covered-pine-tree",
+      "source": "obj-snow-covered-pine-tree-s7510101.png",
+      "sha256": "569369919f9a65df646fa6645f281ca51e0725fb3398d755449531abb1abc4b2"
+    },
+    {
+      "part": "snow-mound-with-a-lantern",
+      "source": "obj-snow-mound-with-a-lantern-s7510101.png",
+      "sha256": "dff554c9174c4c3418fbd7709a94271e6d64a92e27881d7522fd786459b26334"
+    },
+    {
+      "part": "snowy-boulder",
+      "source": "obj-snowy-boulder-s7510101.png",
+      "sha256": "0efdf44a0aeb1dce204f800d654e562743ac55afe6948f69f1138651cd46ccbb"
+    },
+    {
+      "part": "snowy-cabin",
+      "source": "obj-snowy-cabin-s7510101.png",
+      "sha256": "654b74ae90ddb5c7240a967c0758728eb8607c94845e29417df38606328f0438"
+    },
+    {
+      "part": "snowy-mountain-peak",
+      "source": "obj-snowy-mountain-peak-s7510101.png",
+      "sha256": "07b844a4081a255fc50a7433122cc28c1221546456e7e6bd1fad3928e3ac0ce1"
+    },
+    {
+      "part": "tall-ice-spire-cluster",
+      "source": "obj-tall-ice-spire-cluster-s7510101.png",
+      "sha256": "faa0e6b7e1c3f620b293cdd63120755a088b507fe9d6355885a8a18fccdc7814"
+    },
+    {
+      "part": "wooden-sled",
+      "source": "obj-wooden-sled-s7510101.png",
+      "sha256": "0a3b74607c7e42c6c13398c8aaed96064ba4566883f14b56a03ab2ea5a7772d5"
+    }
+  ]
+}

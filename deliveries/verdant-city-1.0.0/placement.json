@@ -1,0 +1,163 @@
+{
+ "verdant-city.arena": {
+  "width": 520,
+  "height": 516,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 114
+  }
+ },
+ "verdant-city.banner": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "verdant-city.bridge": {
+  "width": 360,
+  "height": 360,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "verdant-city.depot": {
+  "width": 520,
+  "height": 520,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 114
+  }
+ },
+ "verdant-city.fountain": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "verdant-city.gate": {
+  "width": 520,
+  "height": 520,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 114
+  }
+ },
+ "verdant-city.hall": {
+  "width": 520,
+  "height": 540,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 119
+  }
+ },
+ "verdant-city.house": {
+  "width": 320,
+  "height": 353,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 88
+  }
+ },
+ "verdant-city.inn": {
+  "width": 520,
+  "height": 625,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 138
+  }
+ },
+ "verdant-city.lamp": {
+  "width": 130,
+  "height": 403,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "verdant-city.market": {
+  "width": 520,
+  "height": 570,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 125
+  }
+ },
+ "verdant-city.smithy": {
+  "width": 520,
+  "height": 553,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 122
+  }
+ },
+ "verdant-city.steps": {
+  "width": 360,
+  "height": 360,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "verdant-city.tower": {
+  "width": 240,
+  "height": 327,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 65
+  }
+ },
+ "verdant-city.tree": {
+  "width": 240,
+  "height": 292,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 35
+  }
+ },
+ "verdant-city.wall": {
+  "width": 420,
+  "height": 420,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 399,
+   "height": 59
+  }
+ }
+}

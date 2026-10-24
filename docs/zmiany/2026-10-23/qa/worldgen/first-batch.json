@@ -1,0 +1,285 @@
+{
+  "generator": "cpu-worldgen-0.1.0",
+  "environment": {
+    "python": "3.12.15",
+    "numpy": "2.2.6",
+    "hostCpuThreads": 256,
+    "cpuBudget": 8
+  },
+  "wallSeconds": 2.263,
+  "workers": 4,
+  "variants": [
+    {
+      "seed": 5741200,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741200",
+      "seconds": 1.07,
+      "passed": true,
+      "layoutSha256": "34502c80684e1553b54349be88e5c725e0b36633d44f214b818c30615129b4ec",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 180152,
+        "reachableWalkablePercent": 99.96,
+        "biomePercent": {
+          "water": 7.43,
+          "meadow": 54.66,
+          "forest": 29.4,
+          "rock": 2.21,
+          "wetland": 6.3
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741201,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741201",
+      "seconds": 1.12,
+      "passed": true,
+      "layoutSha256": "852ef6ba379b6af75330124597e89bead7db20039811f343257f05e35f50967e",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 187363,
+        "reachableWalkablePercent": 99.88,
+        "biomePercent": {
+          "water": 3.76,
+          "meadow": 58.74,
+          "forest": 29.57,
+          "rock": 4.15,
+          "wetland": 3.78
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741202,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741202",
+      "seconds": 0.996,
+      "passed": true,
+      "layoutSha256": "7422980af5d9ca7a0a5fb2a47273ddc61d78b3c149a2e1313be1cfb08c12964f",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 187067,
+        "reachableWalkablePercent": 99.97,
+        "biomePercent": {
+          "water": 3.91,
+          "meadow": 56.8,
+          "forest": 30.6,
+          "rock": 3.74,
+          "wetland": 4.95
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741203,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741203",
+      "seconds": 1.017,
+      "passed": true,
+      "layoutSha256": "bea154dda393140d80b85b471966d92269737473f27e860406b01c43c8cf213e",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 184337,
+        "reachableWalkablePercent": 99.94,
+        "biomePercent": {
+          "water": 5.3,
+          "meadow": 58.62,
+          "forest": 27.63,
+          "rock": 3.89,
+          "wetland": 4.56
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741204,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741204",
+      "seconds": 0.876,
+      "passed": true,
+      "layoutSha256": "e19fd1cfbe1a6e2b289d3912a19bb81081ae69e993bd09348d72fe229af521ec",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 186566,
+        "reachableWalkablePercent": 99.96,
+        "biomePercent": {
+          "water": 4.17,
+          "meadow": 55.92,
+          "forest": 30.77,
+          "rock": 4.47,
+          "wetland": 4.68
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741205,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741205",
+      "seconds": 0.867,
+      "passed": true,
+      "layoutSha256": "fa4097446af8b761f6ad424821eeb988ccd52b39531ecba2d96196ccd5604765",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 179798,
+        "reachableWalkablePercent": 99.9,
+        "biomePercent": {
+          "water": 7.61,
+          "meadow": 58.75,
+          "forest": 26.57,
+          "rock": 1.84,
+          "wetland": 5.23
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741206,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741206",
+      "seconds": 1.048,
+      "passed": true,
+      "layoutSha256": "7f0b07b58dd5353212aa7e4943f12aa1bcce83545e9cad0fb9d79edd87be422e",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 182306,
+        "reachableWalkablePercent": 99.96,
+        "biomePercent": {
+          "water": 6.34,
+          "meadow": 57.0,
+          "forest": 30.72,
+          "rock": 1.68,
+          "wetland": 4.26
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    },
+    {
+      "seed": 5741207,
+      "resumed": false,
+      "directory": "/workspace/ki-legends-worldgen/outputs/first-batch/verdant-5741207",
+      "seconds": 1.06,
+      "passed": true,
+      "layoutSha256": "0b4bfe5cc6037ad9a1b5f73697d31d2cfe052b81504dc701932da688c3a0e3e5",
+      "report": {
+        "passed": true,
+        "errors": [],
+        "doorsChecked": 24,
+        "settlements": 4,
+        "proposedBuildings": 18,
+        "roads": 22,
+        "resources": 180,
+        "decorations": 2500,
+        "walkableCells": 180720,
+        "reachableWalkablePercent": 99.88,
+        "biomePercent": {
+          "water": 7.14,
+          "meadow": 54.44,
+          "forest": 31.46,
+          "rock": 2.06,
+          "wetland": 4.9
+        },
+        "activeSpawns": 0,
+        "sourceUnchanged": true,
+        "validationResolutionWorldUnits": 32,
+        "limitations": [
+          "Grid connectivity is not full Phaser navigation or visual acceptance.",
+          "Existing city is preserved as exact source data; final integration requires coordinate migration."
+        ]
+      }
+    }
+  ]
+}

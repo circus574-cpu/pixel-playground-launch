@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "biome-volcanic",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "biome-volcanic-an-obsidian-shard-formation",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-an-obsidian-shard-formation.webp",
+      "width": 408,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-basalt-column-cluster",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-basalt-column-cluster.webp",
+      "width": 258,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-bone-pile",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-bone-pile.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-dark-rock-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-dark-rock-bridge.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-dead-charred-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-dead-charred-tree.webp",
+      "width": 441,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-lava-geyser-vent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-lava-geyser-vent.webp",
+      "width": 475,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-lava-rock-cluster-with-glowing-cracks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-lava-rock-cluster-with-glowing-cracks.webp",
+      "width": 524,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-magma-pool-rim",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-magma-pool-rim.webp",
+      "width": 524,
+      "height": 494
+    },
+    {
+      "id": "biome-volcanic-ruined-dark-stone-pillar",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-ruined-dark-stone-pillar.webp",
+      "width": 250,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-smoking-volcano",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-smoking-volcano.webp",
+      "width": 519,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-stone-brazier-with-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-stone-brazier-with-fire.webp",
+      "width": 486,
+      "height": 524
+    },
+    {
+      "id": "biome-volcanic-sulfur-vent-with-yellow-crust",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/biome-volcanic/1.0.0-1d48e2198224/biome-volcanic-sulfur-vent-with-yellow-crust.webp",
+      "width": 524,
+      "height": 486
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.biome-volcanic.an-obsidian-shard-formation": {
+      "asset": "biome-volcanic-an-obsidian-shard-formation",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.basalt-column-cluster": {
+      "asset": "biome-volcanic-basalt-column-cluster",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.bone-pile": {
+      "asset": "biome-volcanic-bone-pile",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.dark-rock-bridge": {
+      "asset": "biome-volcanic-dark-rock-bridge",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.dead-charred-tree": {
+      "asset": "biome-volcanic-dead-charred-tree",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.lava-geyser-vent": {
+      "asset": "biome-volcanic-lava-geyser-vent",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.lava-rock-cluster-with-glowing-cracks": {
+      "asset": "biome-volcanic-lava-rock-cluster-with-glowing-cracks",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.magma-pool-rim": {
+      "asset": "biome-volcanic-magma-pool-rim",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.ruined-dark-stone-pillar": {
+      "asset": "biome-volcanic-ruined-dark-stone-pillar",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.smoking-volcano": {
+      "asset": "biome-volcanic-smoking-volcano",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.stone-brazier-with-fire": {
+      "asset": "biome-volcanic-stone-brazier-with-fire",
+      "fit": "contain"
+    },
+    "object.biome-volcanic.sulfur-vent-with-yellow-crust": {
+      "asset": "biome-volcanic-sulfur-vent-with-yellow-crust",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

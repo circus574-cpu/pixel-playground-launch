@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   FOREST,
+  FOREST_BRIDGE,
+  FOREST_ENEMIES,
   FOREST_OBJECTS,
+  FOREST_RIVER,
+  FOREST_SPAWN,
   forestObstacles,
   terrainMask,
   tileIndex,
@@ -36,13 +40,13 @@ describe("production forest world", () => {
   });
   it("keeps spawns and the bridge open while houses and the river remain solid", () => {
     const obstacles = forestObstacles();
-    expect(blockedAt(FOREST.spawn.x, FOREST.spawn.y, obstacles)).toBe(false);
-    for (const enemy of FOREST.enemies)
+    expect(blockedAt(FOREST_SPAWN.x, FOREST_SPAWN.y, obstacles)).toBe(false);
+    for (const enemy of FOREST_ENEMIES)
       expect(blockedAt(enemy.x, enemy.y, obstacles), `spawn ${enemy.x},${enemy.y}`).toBe(false);
-    expect(blockedAt(FOREST.bridge.x, FOREST.bridge.y, obstacles)).toBe(false);
+    expect(blockedAt(FOREST_BRIDGE.x, FOREST_BRIDGE.y, obstacles)).toBe(false);
     const house = FOREST_OBJECTS.find((obj) => obj.kind === "inn")!;
     expect(blockedAt(house.x, house.y, obstacles)).toBe(true);
-    const river = FOREST.riverRows[0]!;
+    const river = FOREST_RIVER[0]!;
     expect(blockedAt(river.x + 100, river.y + 16, obstacles)).toBe(true);
   });
 });

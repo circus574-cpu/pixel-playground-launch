@@ -1,0 +1,255 @@
+{
+  "monsters": [
+    {
+      "kind": "verdant-mchowy-szlamak",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-cierniowy-wilk",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-lisciak-skrytobojca",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-korzeniowy-pelzacz",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-grzybowy-zarodnik",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-bursztynowa-osa",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-skalny-jelen",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-lesny-pajak",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-puchacz-pylowy",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "verdant-straznik-ruin",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-swietlik-pieczeci",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-pergaminowy-straznik",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-krysztalowy-motyl",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-szmaragdowy-waz",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-duch-bibliotekarza",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-zloty-skarabeusz",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-lew-swiatyni",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-oko-wiedzy",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-marionetka-rytualu",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "aether-mgielny-zuraw",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-dron-zwiadowca",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-pelzacz-serwisowy",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-skaner-gasienicowy",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-pajak-spawalniczy",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-wiezyczka-autonomiczna",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-roj-nanitow",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-pies-lowca",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-straznik-rdzenia",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-latarnia-plazmowa",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "nexus-kruk-danych",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-wegielek",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-ognista-salamandra",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-popielny-wilk",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-skalny-berserker",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-magmowy-krab",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-zarowy-nietoperz",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-golem-ruin",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-plomien-duch",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-byk-areny",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    },
+    {
+      "kind": "pyra-skorpion-obsydianowy",
+      "actor": "boar-v1",
+      "explicitBinding": null,
+      "status": "placeholder-boar"
+    }
+  ],
+  "missingMonsterAppearances": 40,
+  "npcProfileActors": [],
+  "defectiveArt": [
+    {
+      "asset": "biome-forest-tall-pine-tree",
+      "issue": "neighbouring tree fragments and rectangular border; visually inspected",
+      "temporaryReplacement": "biome-forest-tall-broadleaf-oak-tree"
+    }
+  ],
+  "scope": "installed catalog before inspecting delivery packages",
+  "sourcePackagesPresent": 40
+}

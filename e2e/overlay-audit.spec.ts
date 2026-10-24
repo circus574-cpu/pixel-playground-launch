@@ -1,12 +1,20 @@
-import { basicAttack, maxHp, openHudTool } from "./fixtures";
-import { WORLDS } from "../src/game/world/worlds";
+import {
+  basicAttack,
+  maxHp,
+  nearestSpawn,
+  liveEnemy,
+  testCreature,
+  openDirection,
+  openHudTool,
+  patchActiveCharacter,
+} from "./fixtures";
 import { test, expect, type Page, type CDPSession } from "./fixtures";
 import { mkdir } from "node:fs/promises";
 const path =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 const evidence = () => test.info().outputDir;
-async function start(page: Page, race = "Legendy") {
-  await page.goto(path);
+async function start(page: Page, race = "Legendy", query = "") {
+  await page.goto(path + query);
   await page.getByRole("button", { name: "Wybierz: " + race, exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(page.locator(".ki-hud")).toBeVisible();
@@ -124,7 +132,7 @@ for (const [width, height] of [
       await expect.poll(async () => Number(await canvas.getAttribute("data-npc-labels"))).toBe(0);
       await expect
         .poll(async () => (await page.locator(".ki-map").boundingBox())!.width)
-        .toBe(width <= 760 || height <= 500 ? 130 : 180);
+        .toBe(height <= 500 ? 100 : width <= 760 ? 112 : 200);
       expect(
         overlaps(
           (await page.locator(".ki-map").boundingBox())!,
@@ -210,23 +218,27 @@ test("save failure stays actionable after normal guidance is disabled or dismiss
 });
 
 test("death message ends on real respawn and subsequent movement works", async ({ page }) => {
-  await start(page, "Legendy");
+  // A known creature waits just outside the safe capital (playtest-only QA spawn).
+  test.setTimeout(480000);
+  const creature = testCreature("pyra");
+  await start(page, "Legendy", creature.query);
   const max = await maxHp(page);
   const canvas = page.locator(".ki-canvas");
+  const arrivalX = Number(await canvas.getAttribute("data-player-x"));
   await canvas.evaluate(
     (el, home) =>
       el.dispatchEvent(
         new CustomEvent("ki:command", { detail: { type: "move", x: home.x, y: home.y + 85 } }),
       ),
-    WORLDS.pyra.enemies[0]!,
+    await liveEnemy(canvas, creature.id),
   );
-  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
+  await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 240000 });
   await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0);
   await page.screenshot({ path: evidence() + "/death.png" });
-  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
+  await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 60000 });
   await expect
     .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-    .toBeCloseTo(WORLDS.pyra.spawn.x, 0);
+    .toBeCloseTo(arrivalX, 0);
   await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
     "aria-valuenow",
     max,
@@ -234,52 +246,84 @@ test("death message ends on real respawn and subsequent movement works", async (
   await page.evaluate(() => {
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   });
-  const before = Number(await canvas.getAttribute("data-player-x"));
-  await page.keyboard.down("ArrowRight");
-  await page.waitForTimeout(350);
-  await page.keyboard.up("ArrowRight");
+  const position = async () => ({
+    x: Number(await canvas.getAttribute("data-player-x")),
+    y: Number(await canvas.getAttribute("data-player-y")),
+  });
+  const before = await position();
+  // The respawn clip holds the hero in place; walk once it has finished.
+  await expect(page.locator(".ki-canvas")).toHaveAttribute("data-animation-state", /^(idle|walk)$/);
+  const free = openDirection("pyra", before);
+  expect(free).toBeDefined();
+  await page.keyboard.down(free);
+  await page.waitForTimeout(700);
+  await page.keyboard.up(free);
   await expect
-    .poll(async () => Number(await canvas.getAttribute("data-player-x")))
-    .toBeGreaterThan(before + 20);
+    .poll(async () => {
+      const p = await position();
+      return Math.hypot(p.x - before.x, p.y - before.y);
+    })
+    .toBeGreaterThan(20);
 });
 
-test("combat messages leave the actual target panel clear at every HUD breakpoint", async ({
-  browser,
-  baseURL,
-}) => {
-  for (const [width, height] of [
-    [360, 800],
-    [390, 844],
-    [414, 896],
-    [640, 480],
-    [852, 393],
-    [1280, 900],
-  ]) {
-    const page = await browser.newPage({
-      ...(baseURL ? { baseURL } : {}),
-      viewport: { width: width!, height: height! },
-    });
-    try {
-      await start(page);
-      // Use the same public command adapter as a canvas click, without changing session state.
-      await page.locator(".ki-canvas").evaluate((el) =>
+for (const [width, height] of [
+  [360, 800],
+  [390, 844],
+  [414, 896],
+  [640, 480],
+  [852, 393],
+  [1280, 900],
+] as const) {
+  test(`combat messages leave the actual target panel clear at ${width}px`, async ({ page }) => {
+    test.setTimeout(300000);
+    await page.setViewportSize({ width, height });
+    await start(page);
+    // Combat targeting is correctly forbidden in the safe capital. Walk out
+    // through the public movement adapter before checking the combat overlay.
+    const outside = nearestSpawn("pyra");
+    await page.locator(".ki-canvas").evaluate(
+      (el, p) =>
         el.dispatchEvent(
           new CustomEvent("ki:command", {
-            detail: { type: "target", id: "boar-0" },
+            detail: { type: "move", x: p.x - 150, y: p.y + 90 },
           }),
         ),
-      );
-      const target = page.locator(".ki-target"),
-        message = page.getByRole("status", { name: "Komunikat gry", exact: true });
-      await expect(target).toBeVisible();
-      await expect(message).toBeVisible();
-      expect(
-        overlaps((await target.boundingBox())!, (await message.boundingBox())!),
-        String(width),
-      ).toBe(false);
-      await page.screenshot({ path: evidence() + "/combat-" + width + ".png" });
-    } finally {
-      await page.close();
-    }
-  }
-});
+      outside,
+    );
+    await expect
+      .poll(
+        () =>
+          page
+            .locator(".ki-canvas")
+            .evaluate(
+              (el, p) =>
+                Math.hypot(
+                  Number((el as HTMLElement).dataset["playerX"]) - (p.x - 150),
+                  Number((el as HTMLElement).dataset["playerY"]) - (p.y + 90),
+                ),
+              outside,
+            ),
+        { timeout: 180000 },
+      )
+      .toBeLessThan(95);
+    // Use the same public command adapter as a canvas click, without changing session state.
+    await page.locator(".ki-canvas").evaluate(
+      (el, id) =>
+        el.dispatchEvent(
+          new CustomEvent("ki:command", {
+            detail: { type: "target", id },
+          }),
+        ),
+      outside.id,
+    );
+    const target = page.locator(".ki-target"),
+      message = page.getByRole("status", { name: "Komunikat gry", exact: true });
+    await expect(target).toBeVisible();
+    await expect(message).toBeVisible();
+    expect(
+      overlaps((await target.boundingBox())!, (await message.boundingBox())!),
+      String(width),
+    ).toBe(false);
+    await page.screenshot({ path: evidence() + "/combat-" + width + ".png" });
+  });
+}

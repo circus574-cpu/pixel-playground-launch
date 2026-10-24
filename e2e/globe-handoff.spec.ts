@@ -1,4 +1,4 @@
-import { test, expect, openHudTool, type Page } from "./fixtures";
+import { test, expect, openHudTool, superiorArrival, type Page } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 
 const regions = [
@@ -78,7 +78,8 @@ for (const [continent, race, name] of regions) {
     const actor = page.locator(".ki-canvas");
     await expect(actor).toHaveAttribute("data-world", continent);
     await expect(page.locator(".ki-hud")).toBeVisible();
-    const spawn = WORLDS[continent].spawn;
+    // A new character appears at its land's arrival on the single Superior planet.
+    const spawn = superiorArrival(continent);
     await expect
       .poll(async () => Number(await actor.getAttribute("data-player-x")))
       .toBeCloseTo(spawn.x, 0);

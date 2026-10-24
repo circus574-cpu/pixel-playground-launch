@@ -1,0 +1,642 @@
+[
+  {
+    "id": "enemy-aether-duch-bibliotekarza",
+    "version": "1.0.1",
+    "digest": "e6fe21782d7c4558de38d806366d098b61f2958053704721b1487d70acd3d99f",
+    "assets": 1,
+    "bytesBefore": 2401409,
+    "bytesAfter": 1428256,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-duch-bibliotekarza/1.0.1-e6fe21782d7c"
+  },
+  {
+    "id": "enemy-aether-krysztalowy-motyl",
+    "version": "1.0.1",
+    "digest": "8d21d6ba7ab6e5d04ba2d51ce4147f9b6a8f4ce31746331d085f60f27c87b021",
+    "assets": 1,
+    "bytesBefore": 2302031,
+    "bytesAfter": 1434156,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-krysztalowy-motyl/1.0.1-8d21d6ba7ab6"
+  },
+  {
+    "id": "enemy-aether-lew-swiatyni",
+    "version": "1.0.1",
+    "digest": "56b790ad826fd94ae1c228fa47522502142adc2a325b9b3db461af5457510da5",
+    "assets": 1,
+    "bytesBefore": 2494349,
+    "bytesAfter": 2216504,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-lew-swiatyni/1.0.1-56b790ad826f"
+  },
+  {
+    "id": "enemy-aether-marionetka-rytualu",
+    "version": "1.0.1",
+    "digest": "8e7d5f0a7b96f8204d4c5805b7141748b8715029cf141593c7a79a0e4777b2ce",
+    "assets": 1,
+    "bytesBefore": 3420227,
+    "bytesAfter": 3201320,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-marionetka-rytualu/1.0.1-8e7d5f0a7b96"
+  },
+  {
+    "id": "enemy-aether-mgielny-zuraw",
+    "version": "1.0.1",
+    "digest": "3ec975c9a2bd00fef1e214e82a11a5ec2ff94ea220f2bf419957d00aa0ee2f4b",
+    "assets": 1,
+    "bytesBefore": 1897284,
+    "bytesAfter": 1580302,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-mgielny-zuraw/1.0.1-3ec975c9a2bd"
+  },
+  {
+    "id": "enemy-aether-oko-wiedzy",
+    "version": "1.0.1",
+    "digest": "743b38ca6411f721e6e12687a53601940b9bb72588a2b6f93b71f79280afe0f6",
+    "assets": 1,
+    "bytesBefore": 4184169,
+    "bytesAfter": 3648748,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-oko-wiedzy/1.0.1-743b38ca6411"
+  },
+  {
+    "id": "enemy-aether-pergaminowy-straznik",
+    "version": "1.0.1",
+    "digest": "f062065543c4627060297dc60d12d5e91712b81bbe38e522349ece7c2d97b743",
+    "assets": 1,
+    "bytesBefore": 2801406,
+    "bytesAfter": 2521544,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-pergaminowy-straznik/1.0.1-f062065543c4"
+  },
+  {
+    "id": "enemy-aether-swietlik-pieczeci",
+    "version": "1.0.1",
+    "digest": "1cb6fb9ac2961c7af8f4015c3f3644655c3915626eedc6333362dae77359f8ec",
+    "assets": 1,
+    "bytesBefore": 2448592,
+    "bytesAfter": 1538734,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-swietlik-pieczeci/1.0.1-1cb6fb9ac296"
+  },
+  {
+    "id": "enemy-aether-szmaragdowy-waz",
+    "version": "1.0.1",
+    "digest": "3752e46182698437ca49f2c06f35df14202b773a8f8d196ea622670f06522964",
+    "assets": 1,
+    "bytesBefore": 4069542,
+    "bytesAfter": 3742744,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-szmaragdowy-waz/1.0.1-3752e4618269"
+  },
+  {
+    "id": "enemy-aether-zloty-skarabeusz",
+    "version": "1.0.1",
+    "digest": "9c7a07de8f6bc22cff0f300b7ee6c4f9d7d7d9bd919f6cae2a412ab6649663ff",
+    "assets": 1,
+    "bytesBefore": 2308723,
+    "bytesAfter": 1279112,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-aether-zloty-skarabeusz/1.0.1-9c7a07de8f6b"
+  },
+  {
+    "id": "enemy-nexus-dron-zwiadowca",
+    "version": "1.0.1",
+    "digest": "074c1e1da24097f5a1a850569df28fe51bab3d95136452d7f594fe87cb086bd1",
+    "assets": 1,
+    "bytesBefore": 2654326,
+    "bytesAfter": 1886590,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-dron-zwiadowca/1.0.1-074c1e1da240"
+  },
+  {
+    "id": "enemy-nexus-kruk-danych",
+    "version": "1.0.1",
+    "digest": "72b7b079a2ce386c8f86e0f0b84d1abc0546167399ba5b1033295e14fecd18c6",
+    "assets": 1,
+    "bytesBefore": 2716960,
+    "bytesAfter": 1572170,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-kruk-danych/1.0.1-72b7b079a2ce"
+  },
+  {
+    "id": "enemy-nexus-latarnia-plazmowa",
+    "version": "1.0.1",
+    "digest": "b5cd92b27131d4a614bcbe63b27e908871cca742e323537c84ccbaf8609a044b",
+    "assets": 1,
+    "bytesBefore": 3811554,
+    "bytesAfter": 2272126,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-latarnia-plazmowa/1.0.1-b5cd92b27131"
+  },
+  {
+    "id": "enemy-nexus-pajak-spawalniczy",
+    "version": "1.0.1",
+    "digest": "f25c5a0dc7f9631f71ef0168d93c412eaa372a930f62ab3d61c3d9ead9b6cf19",
+    "assets": 1,
+    "bytesBefore": 1626028,
+    "bytesAfter": 898752,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-pajak-spawalniczy/1.0.1-f25c5a0dc7f9"
+  },
+  {
+    "id": "enemy-nexus-pelzacz-serwisowy",
+    "version": "1.0.1",
+    "digest": "b0624e01bfcceef8839c6421c3898d78e0a60f4fd2cac96d6bd14cb7078a6763",
+    "assets": 1,
+    "bytesBefore": 1947483,
+    "bytesAfter": 1052900,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-pelzacz-serwisowy/1.0.1-b0624e01bfcc"
+  },
+  {
+    "id": "enemy-nexus-pies-lowca",
+    "version": "1.0.1",
+    "digest": "12334a218f1308aa5b8d4d215c1a9d0370c4ae03156aea2576563b1736e81ded",
+    "assets": 1,
+    "bytesBefore": 1904196,
+    "bytesAfter": 1097838,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-pies-lowca/1.0.1-12334a218f13"
+  },
+  {
+    "id": "enemy-nexus-roj-nanitow",
+    "version": "1.0.1",
+    "digest": "c8f9dd7ac6cfcb5b230f756980516eeaefe99fbba1dccf89c819e6e8f40cd045",
+    "assets": 1,
+    "bytesBefore": 4453484,
+    "bytesAfter": 3328082,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-roj-nanitow/1.0.1-c8f9dd7ac6cf"
+  },
+  {
+    "id": "enemy-nexus-skaner-gasienicowy",
+    "version": "1.0.1",
+    "digest": "80228dfaabde7bb3d075d781b0476cfcfcb6708f4a4b3926d846af023d7505d3",
+    "assets": 1,
+    "bytesBefore": 4485781,
+    "bytesAfter": 3079070,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-skaner-gasienicowy/1.0.1-80228dfaabde"
+  },
+  {
+    "id": "enemy-nexus-straznik-rdzenia",
+    "version": "1.0.1",
+    "digest": "b0c8b0bf7513597e8a71e340386334231fc161745adff9214e78ef666e9ca946",
+    "assets": 1,
+    "bytesBefore": 4792002,
+    "bytesAfter": 2465644,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-straznik-rdzenia/1.0.1-b0c8b0bf7513"
+  },
+  {
+    "id": "enemy-nexus-wiezyczka-autonomiczna",
+    "version": "1.0.1",
+    "digest": "6e21593703d60c731f08262873fe85e36029701b240f65630faf644d4a13addb",
+    "assets": 1,
+    "bytesBefore": 3724915,
+    "bytesAfter": 2368494,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-nexus-wiezyczka-autonomiczna/1.0.1-6e21593703d6"
+  },
+  {
+    "id": "enemy-pyra-byk-areny",
+    "version": "1.0.1",
+    "digest": "89493f7b57457a50e24ff18931c583510c7f59d75abd5d6b6ef9f17f771b6cd4",
+    "assets": 1,
+    "bytesBefore": 2846508,
+    "bytesAfter": 2466220,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-byk-areny/1.0.1-89493f7b5745"
+  },
+  {
+    "id": "enemy-pyra-golem-ruin",
+    "version": "1.0.1",
+    "digest": "043a53c93907159798e35a542bf593a2e26c6accf7dd9fecc1f7511011cd9a6b",
+    "assets": 1,
+    "bytesBefore": 4198810,
+    "bytesAfter": 3658238,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-golem-ruin/1.0.1-043a53c93907"
+  },
+  {
+    "id": "enemy-pyra-magmowy-krab",
+    "version": "1.0.1",
+    "digest": "cee4b891d02a1603e6d749e2189b15e3802e577103b0b06718f634ddccf2da6b",
+    "assets": 1,
+    "bytesBefore": 2513677,
+    "bytesAfter": 1415812,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-magmowy-krab/1.0.1-cee4b891d02a"
+  },
+  {
+    "id": "enemy-pyra-ognista-salamandra",
+    "version": "1.0.1",
+    "digest": "2202eebe9e4701d8b265f782167c18fff775840773f65fd9236f89bcef9d5e4c",
+    "assets": 1,
+    "bytesBefore": 4727605,
+    "bytesAfter": 3862940,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-ognista-salamandra/1.0.1-2202eebe9e47"
+  },
+  {
+    "id": "enemy-pyra-plomien-duch",
+    "version": "1.0.1",
+    "digest": "4a5753614b4253814b1e935a08b3f4ee11c94ca17f1490d5f6764eac518641d3",
+    "assets": 1,
+    "bytesBefore": 4409459,
+    "bytesAfter": 3915922,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-plomien-duch/1.0.1-4a5753614b42"
+  },
+  {
+    "id": "enemy-pyra-popielny-wilk",
+    "version": "1.0.1",
+    "digest": "b11dbf660aedf8d313226fbeb1820898aab784a6fe96bdddf890af2820207583",
+    "assets": 1,
+    "bytesBefore": 2724792,
+    "bytesAfter": 2320712,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-popielny-wilk/1.0.1-b11dbf660aed"
+  },
+  {
+    "id": "enemy-pyra-skalny-berserker",
+    "version": "1.0.1",
+    "digest": "dcd294b41361ef630f9096560cb947dca4f63483e197993337eb65ca86e77046",
+    "assets": 1,
+    "bytesBefore": 5149432,
+    "bytesAfter": 3977788,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-skalny-berserker/1.0.1-dcd294b41361"
+  },
+  {
+    "id": "enemy-pyra-skorpion-obsydianowy",
+    "version": "1.0.1",
+    "digest": "05ec05cb4c2536303b61a6e991b6fb795662b38ede003333a86a3be7c9a4015d",
+    "assets": 1,
+    "bytesBefore": 2005328,
+    "bytesAfter": 1700898,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-skorpion-obsydianowy/1.0.1-05ec05cb4c25"
+  },
+  {
+    "id": "enemy-pyra-wegielek",
+    "version": "1.0.1",
+    "digest": "776615230d1f01b56df091d05ea517ddb2a24fd992a829902160ac65dedd947f",
+    "assets": 1,
+    "bytesBefore": 2588063,
+    "bytesAfter": 2161252,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-wegielek/1.0.1-776615230d1f"
+  },
+  {
+    "id": "enemy-pyra-zarowy-nietoperz",
+    "version": "1.0.1",
+    "digest": "26afed64d31b7a2c407690b00195d5d6090c31679fa9d3d24424ea1c45ff3d24",
+    "assets": 1,
+    "bytesBefore": 2845843,
+    "bytesAfter": 2562012,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-pyra-zarowy-nietoperz/1.0.1-26afed64d31b"
+  },
+  {
+    "id": "enemy-verdant-bursztynowa-osa",
+    "version": "1.0.1",
+    "digest": "bcedb11cc41e0df6b4ecdd221cac1c28e55659486eb0ba3901d90ea9924b9633",
+    "assets": 1,
+    "bytesBefore": 1893721,
+    "bytesAfter": 1150262,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-bursztynowa-osa/1.0.1-bcedb11cc41e"
+  },
+  {
+    "id": "enemy-verdant-cierniowy-wilk",
+    "version": "1.0.1",
+    "digest": "d877ec7c445fb9b234254d74e0e5a03abc28c6f68c3b489395bb15b7de2eabed",
+    "assets": 1,
+    "bytesBefore": 1624616,
+    "bytesAfter": 998934,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-cierniowy-wilk/1.0.1-d877ec7c445f"
+  },
+  {
+    "id": "enemy-verdant-grzybowy-zarodnik",
+    "version": "1.0.1",
+    "digest": "818c21a3560bd326f0a355571ed7525682e2f8629bf141cb098b2d13437f0302",
+    "assets": 1,
+    "bytesBefore": 4398611,
+    "bytesAfter": 3223774,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-grzybowy-zarodnik/1.0.1-818c21a3560b"
+  },
+  {
+    "id": "enemy-verdant-korzeniowy-pelzacz",
+    "version": "1.0.1",
+    "digest": "b07cfd05e9d4961133fa8817009ff96f2fbc52d00865740f7fbeaef15698ae24",
+    "assets": 1,
+    "bytesBefore": 3371153,
+    "bytesAfter": 2913858,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-korzeniowy-pelzacz/1.0.1-b07cfd05e9d4"
+  },
+  {
+    "id": "enemy-verdant-lesny-pajak",
+    "version": "1.0.1",
+    "digest": "eeb4f2a325889125532c9db7c4242fce65b5afacb52e9164d99524a1a6839fc9",
+    "assets": 1,
+    "bytesBefore": 2962980,
+    "bytesAfter": 2410280,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-lesny-pajak/1.0.1-eeb4f2a32588"
+  },
+  {
+    "id": "enemy-verdant-lisciak-skrytobojca",
+    "version": "1.0.1",
+    "digest": "0bd60f1883f7824bc1b0b90983b0733f22d1c5d889545d27f9fb75a1018f6440",
+    "assets": 1,
+    "bytesBefore": 2172499,
+    "bytesAfter": 1873022,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-lisciak-skrytobojca/1.0.1-0bd60f1883f7"
+  },
+  {
+    "id": "enemy-verdant-mchowy-szlamak",
+    "version": "1.0.1",
+    "digest": "f05f4af8fbd8d5503e5e3e964fee3371ac68d6a2d08acd0705715a7654f1f143",
+    "assets": 1,
+    "bytesBefore": 2909166,
+    "bytesAfter": 2283126,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-mchowy-szlamak/1.0.1-f05f4af8fbd8"
+  },
+  {
+    "id": "enemy-verdant-puchacz-pylowy",
+    "version": "1.0.1",
+    "digest": "800f044ed0fe44969f96431092d3a08ce5fa8cd3e6fc13c0184561b51ce21b09",
+    "assets": 1,
+    "bytesBefore": 2770964,
+    "bytesAfter": 2535788,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-puchacz-pylowy/1.0.1-800f044ed0fe"
+  },
+  {
+    "id": "enemy-verdant-skalny-jelen",
+    "version": "1.0.1",
+    "digest": "cb3e87602ad5eda7eb197c5013e9dfe626369e1b5eddf806271ccd86d4c1e181",
+    "assets": 1,
+    "bytesBefore": 1943022,
+    "bytesAfter": 1747820,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-skalny-jelen/1.0.1-cb3e87602ad5"
+  },
+  {
+    "id": "enemy-verdant-straznik-ruin",
+    "version": "1.0.1",
+    "digest": "4268ea1caa9bc89f764defb03b3e70c6838b7e2656710bf5549af39302fc2446",
+    "assets": 1,
+    "bytesBefore": 4223160,
+    "bytesAfter": 3374606,
+    "worlds": {
+      "verdant": 100521760,
+      "aether": 81226016,
+      "nexus": 71873312,
+      "pyra": 68319008
+    },
+    "installed": true,
+    "directory": "game/assets/gpu/enemy-verdant-straznik-ruin/1.0.1-4268ea1caa9b"
+  }
+]

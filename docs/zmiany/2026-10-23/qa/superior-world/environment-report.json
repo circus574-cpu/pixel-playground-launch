@@ -1,0 +1,19 @@
+{
+  "status": "CPU_ENVIRONMENT_INSTALLED",
+  "installedAtUtc": "2026-10-23T17:47:45Z",
+  "elapsedSeconds": 2.21,
+  "root": "/workspace/ki-legends-worldgen",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.29",
+  "hostCpuLogical": 256,
+  "allocatedVcpuBudget": 8,
+  "volumeQuotaGb": 500,
+  "diskStatsAreBackingFilesystemNotVolumeQuota": true,
+  "disk": {
+    "total": 575958688137216,
+    "used": 198352523821056,
+    "free": 377606164316160
+  },
+  "bundleSha256": "7160245e809cbff5733d6c5ff307e27a346491b00d3686985c3764ee2da7770b",
+  "python": "Python 3.12.15",
+  "gpuUsed": false
+}

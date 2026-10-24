@@ -1,0 +1,427 @@
+TRANSKRYPCJA HISTORYCZNA — źródłem wizualnym i nadrzędnym pozostaje oryginalny PDF.
+Strona 6 jest indeksem opisowym, nie pełną transkrypcją.
+
+
+===== page-01.md =====
+# Ki Legends — wierna transkrypcja PDF, strona 1/12
+
+> Źródło: Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf, 20.10.2026. Transkrypcja tekstu, **bez ilustracji i układu oryginału**. NIE ZASTĘPUJE PDF. Oryginalny SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+
+ KI LEGENDS
+ Anime fantasy MMORPG 2D | Wizja gry, cztery rasy i plan produkcji
+
+
+
+
+ DOKUMENT PROJEKTOWY • WERSJA KONCEPCYJNA 1.0
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                       1
+
+
+===== page-02.md =====
+# Ki Legends — wierna transkrypcja PDF, strona 2/12
+
+> Źródło: Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf, 20.10.2026. Transkrypcja tekstu, **bez ilustracji i układu oryginału**. NIE ZASTĘPUJE PDF. Oryginalny SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+
+ 01 | Czym jest Ki Legends?
+ Ki Legends to rozwijana gra RPG online uruchamiana bezpośrednio w przeglądarce, z kamerą z góry /
+ pod kątem, estetyką ręcznie malowanego anime fantasy i walką w czasie rzeczywistym. Docelowo
+ projekt ma stać się wieloosobowym światem MMORPG, w którym gracze tworzą bohaterów należących
+ do czterech odmiennych ras i odkrywają rozległe krainy.
+
+
+ Główna obietnica gry
+ Łatwy start bez instalacji, atrakcyjna oprawa wizualna, czytelna walka i poczucie rozwoju bohatera.
+ Krótkie sesje mają być satysfakcjonujące, ale świat powinien oferować także długofalowe cele:
+ odkrywanie regionów, zdobywanie wyposażenia, rozwój umiejętności oraz interakcje między graczami.
+
+
+ Fundamenty rozgrywki
+ • Eksploracja: lokacje, osady, szlaki, przeciwnicy, sekrety i odrębne biomy.
+
+ • Walka PvE: wybór celu, ataki podstawowe, zdolności wykorzystujące energię KI, obrona i przedmioty
+ lecznicze.
+
+ • Postęp: zadania fabularne i poboczne, doświadczenie, poziomy, łupy, uzbrojenie, handel i ulepszanie
+ przedmiotów.
+
+ • Tożsamość rasy: charakterystyczna estetyka, pochodzenie, kultura, architektura i docelowo odmienny
+ styl rozgrywki.
+
+ • Docelowe MMORPG: konta, trwały stan postaci na serwerze, wspólny świat, interakcje i kooperacja.
+
+
+ Platforma i technologia
+ Gra jest tworzona w Phaser 4 + TypeScript + React, jako produkcja przeglądarkowa dostępna na
+ komputerach i telefonach. Adres produkcyjny: kilegends.pl. Kierunek graficzny: wysokiej jakości
+ ilustracyjne anime 2D, bez stylistyki pixel art.
+
+ Ważne rozróżnienie: aktualna wersja stanowi lokalną rozgrywkę PvE z zapisem na urządzeniu. Pełna sieciowa architektura
+ MMORPG, synchronizacja graczy i autorytatywny serwer należą do przyszłych etapów.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                                            2
+
+
+===== page-03.md =====
+# Ki Legends — wierna transkrypcja PDF, strona 3/12
+
+> Źródło: Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf, 20.10.2026. Transkrypcja tekstu, **bez ilustracji i układu oryginału**. NIE ZASTĘPUJE PDF. Oryginalny SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+
+ 02 | Cztery rasy — filary świata
+ Cztery rasy są podstawą kierunku artystycznego i przyszłej struktury świata. Każda powinna być
+ rozpoznawalna już po sylwetce, kolorystyce, efektach energii KI i wyposażeniu. Poniższe charakterystyki
+ opisują zamierzony kierunek fabularno-projektowy, a nie wszystkie mechaniki już zaimplementowane.
+
+
+ Planetarni
+ Odkrywcy i wojownicy związani z żywą energią świata; naturalne barwy, brąz, zieleń, bursztynowe
+ światło, podróżnicze stroje i mobilność.
+
+
+ Mędrcy
+ Strażnicy dawnej wiedzy i mistycznej energii; biel, szmaragd, złoto, rytualne ornamenty, kostury,
+ elegancja i kontrola KI.
+
+
+ Androidy
+ Technologicznie udoskonalone istoty; srebro, grafit i elektryczny błękit, segmentowane pancerze,
+ energetyczne rdzenie, precyzja.
+
+
+ Legendy
+ Potężni wojownicy o aurze wyjątkowej siły; czerń, głęboka czerwień, ogniste złoto, dynamiczne szarfy i
+ ofensywny styl walki.
+
+
+ Wspólne reguły artystyczne
+ Jedna spójna perspektywa kamery dla wszystkich postaci, konsekwentne proporcje, czytelna sylwetka
+ przy małej skali ekranowej, rozdzielenie animacji ciała od aury oraz efektów ataków. Ilustracje
+ referencyjne nie są gotowymi arkuszami sprite’ów: wymagają odtworzenia modelu, animacji i eksportu z
+ przezroczystością.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                             3
+
+
+===== page-04.md =====
+# Ki Legends — wierna transkrypcja PDF, strona 4/12
+
+> Źródło: Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf, 20.10.2026. Transkrypcja tekstu, **bez ilustracji i układu oryginału**. NIE ZASTĘPUJE PDF. Oryginalny SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+
+ 03 | Planetarni
+ Rasa podróżników i obrońców równowagi
+
+
+
+
+                   Po lewej: referencja sylwetki i kostiumu • Po prawej: referencja perspektywy w grze
+
+
+ Tożsamość wizualna
+ Zieleń, ochra, bursztyn, naturalne materiały, skóra, tkaniny i subtelne metalowe akcenty.
+
+
+ Docelowy charakter rozgrywki
+ Dynamika ruchu, walka wręcz i adaptacja do otoczenia. Przykładowe umiejętności: impuls ziemi, wir
+ energii, szybki unik.
+
+
+ Kierunek krainy startowej
+ Początkowa kraina: żyzne doliny, skalne ścieżki, lasy i osady na styku dzikiej przyrody oraz dawnych
+ ruin.
+
+ Status: koncepcja artystyczna. Finalne modele, animacje, umiejętności rasowe i kraina startowa wymagają produkcji oraz
+ testów.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                                            4
+
+
+===== page-05.md =====
+# Ki Legends — wierna transkrypcja PDF, strona 5/12
+
+> Źródło: Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf, 20.10.2026. Transkrypcja tekstu, **bez ilustracji i układu oryginału**. NIE ZASTĘPUJE PDF. Oryginalny SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
+
+ 04 | Mędrcy
+ Rasa wiedzy, dyscypliny i kontroli KI
+
+
+
+
+                   Po lewej: referencja sylwetki i kostiumu • Po prawej: referencja perspektywy w grze
+
+
+ Tożsamość wizualna
+ Biel, szmaragd i złoto; długie szaty, biżuteria rytualna, bogato zdobione kostury oraz świetliste kręgi.
+
+
+ Docelowy charakter rozgrywki
+ Dystans, kontrola pola walki, bariery i wsparcie. Przykładowe umiejętności: pieczęć energii, świetlista
+ bariera, skupienie KI.
+
+
+ Kierunek krainy startowej
+ Początkowa kraina: świątynie, tarasowe ogrody, biblioteki i sanktuaria starożytnej wiedzy.
+
+ Status: koncepcja artystyczna. Finalne modele, animacje, umiejętności rasowe i kraina startowa wymagają produkcji oraz
+ testów.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                                            5
+
+
+===== page-06.md =====
+# Oryginalny PDF — strona 6/12: Androidy
+
+**Status:** zastępczy indeks treści strony; pełny tekst i obraz muszą zostać porównane z PDF. Ta strona nie jest transkrypcją bajtową ani wizualną.
+
+## Kanon wizualny
+Rasa technologii i syntetycznej energii. Srebro, czerń, intensywny błękit. Wielowarstwowy pancerz, świecące rdzenie, geometryczne wzory i cyfrowe aureole.
+
+## Postać
+Strona 6 oryginału zawiera dwie ilustracje Androida: po lewej referencja sylwetki i kostiumu, po prawej referencja perspektywy gry. Białe włosy, metaliczny pancerz, błękitny rdzeń, ornamentowana tkanina i świetlne motywy.
+
+## Kierunek świata
+Metaliczne fortece, laboratoria, miasta technologiczne i pradawne instalacje. Docelowo precyzyjne uderzenia, osłony i impulsy. Nie przypisywać tych pomysłów do już wdrożonej mechaniki.
+
+**Oryginał**: `Ki_Legends_Dokument_Projektowy_Rasy_i_Etapy_Produkcji.pdf`, 20.10.2026, SHA-256 `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`; plik binarny pozostaje jeszcze poza repozytorium.
+
+
+===== page-07.md =====
+# Ki Legends — oryginalny dokument, strona 7/12
+
+Transkrypcja tekstowa oryginalnego PDF z 20.10.2026. Nie zawiera oryginalnych ilustracji ani nie zastępuje PDF.
+
+ 06 | Legendy
+ Rasa wojowników o niezwykłej sile
+
+
+
+
+                   Po lewej: referencja sylwetki i kostiumu • Po prawej: referencja perspektywy w grze
+
+
+ Tożsamość wizualna
+ Czerń, karmazyn, stal i ogień; mocna sylwetka, kolczaste elementy pancerza, rozwiane czerwone szarfy
+ i płomienna aura.
+
+
+ Docelowy charakter rozgrywki
+ Dynamiczna walka w zwarciu, kombinacje ataków i wybuchy KI. Przykładowe umiejętności: ogniste
+ cięcie, przełamanie, płomienny szał.
+
+
+ Kierunek krainy startowej
+ Początkowa kraina: monumentalne ruiny, areny, skaliste wyżyny i miejsca naznaczone potężnymi
+ starciami.
+
+ Status: koncepcja artystyczna. Finalne modele, animacje, umiejętności rasowe i kraina startowa wymagają produkcji oraz
+ testów.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                                            7
+
+===== page-08.md =====
+# Ki Legends — oryginalny dokument, strona 8/12
+
+Transkrypcja tekstowa oryginalnego PDF z 20.10.2026. Nie zawiera oryginalnych ilustracji ani nie zastępuje PDF.
+
+ 07 | Dodatkowe referencje i skala świata
+ Wizualizacje poniżej pokazują bohaterów w bardziej monumentalnym otoczeniu. Służą jako inspiracja
+ dla ilustracji promocyjnych, ekranów wyboru rasy i klimatu późniejszych kontynentów — nie jako
+ bezpośredni widok kamery w grze.
+
+
+
+
+         Legendy — monumentalne ruiny i aura ognia | Planetarni — otwarty świat i unoszące się formacje skalne
+
+
+ Zasada spójności
+ Postać powinna wyglądać jak ta sama osoba w portrecie, na ekranie wyboru rasy, podczas biegu i w
+ walce. Referencje różnią się szczegółami stroju i twarzy; przed modelowaniem należy wybrać jeden
+ kanoniczny wariant każdej rasy, a pozostałe traktować jako pomocnicze.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                                   8
+
+===== page-09.md =====
+# Ki Legends — oryginalny dokument, strona 9/12
+
+Transkrypcja tekstowa oryginalnego PDF z 20.10.2026. Nie zawiera oryginalnych ilustracji ani nie zastępuje PDF.
+
+ 08 | Etapy produkcji
+ ETAP 1 — Fundament techniczny i prototyp
+ Silnik Phaser, mapa startowa, kamera, poruszanie, interfejs i pierwsze zasoby świata.
+
+ Stan: Zrealizowany w podstawowym zakresie.
+
+
+ ETAP 2 — Grywalna pętla PvE
+ NPC, rozmowy, zadania, walka, przeciwnicy, XP, poziomy, łupy, plecak, handel i lokalny zapis.
+
+ Stan: Według raportu QA z 20.10.2026 wdrożony; trwa dalsza regresja i dopracowanie.
+
+
+ ETAP 2.1 — Stabilizacja
+ Niezależny playtest, weryfikacja oznaczeń zadań, widoczności sprite’ów, obsługi mobilnej, regresja i
+ poprawki.
+
+ Stan: Bieżący priorytet.
+
+
+ ETAP 3 — Wzorcowa postać animowana
+ Wybór kanonicznego designu; model 3D/rig lub inna spójna metoda; animacje idle, bieg, atak,
+ obrażenia, śmierć; eksport atlasu 2D i integracja w Phaser.
+
+ Stan: Planowany po stabilizacji rozgrywki.
+
+
+ ETAP 4 — Cztery kompletne rasy
+ Produkcja modeli i animacji Planetarnych, Mędrców, Androidów i Legendów; efekty KI, stroje, sylwetki,
+ ekran wyboru rasy.
+
+ Stan: Planowany.
+
+
+ ETAP 5 — Cztery krainy startowe
+ Oddzielne miejsca startu, architektura, fauna, NPC, zadania i klimat każdej rasy; balans pierwszych
+ godzin gry.
+
+ Stan: Planowany.
+
+
+ ETAP 6 — Kontynenty i eksploracja
+ Rozbudowa regionów, połączenia między obszarami, nowe typy wrogów, lochy, bossowie, ekonomia i
+ fabuła.
+
+ Stan: Planowany.
+
+
+ ETAP 7 — Prawdziwe MMORPG
+ Konta, baza postaci, autorytatywny serwer, synchronizacja, instancje/świat współdzielony, drużyny, czat
+ i zabezpieczenia.
+
+ Stan: Wymaga osobnego projektu architektury sieciowej.
+
+
+ ETAP 8 — Beta i rozwój
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                             9
+
+===== page-10.md =====
+# Ki Legends — oryginalny dokument, strona 10/12
+
+Transkrypcja tekstowa oryginalnego PDF z 20.10.2026. Nie zawiera oryginalnych ilustracji ani nie zastępuje PDF.
+
+ Testy obciążeniowe, optymalizacja, telemetria, balans, onboarding, bezpieczeństwo, aktualizacje i
+ dalsza zawartość.
+
+ Stan: Przyszły etap.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                       10
+
+===== page-11.md =====
+# Ki Legends — oryginalny dokument, strona 11/12
+
+Transkrypcja tekstowa oryginalnego PDF z 20.10.2026. Nie zawiera oryginalnych ilustracji ani nie zastępuje PDF.
+
+ 09 | Produkcja grafiki i animacji
+ Rekomendowany pipeline
+ • 1. Kanon postaci: zatwierdzenie jednej twarzy, sylwetki, kolorystyki, ubioru i detali dla każdej rasy.
+
+ • 2. Model referencyjny: przygotowanie pierwszego bohatera Legendów; test proporcji i perspektywy w
+ istniejącej mapie.
+
+ • 3. Rig i animacja: ruch w ośmiu kierunkach, idle, bieg, atak, trafienie, śmierć; aury jako osobne efekty.
+
+ • 4. Render do 2D: eksport przezroczystych klatek, spójna kamera, oświetlenie i skala; pakowanie w
+ atlas.
+
+ • 5. Integracja: test 128 / 144 / 160 jednostek wielkości postaci w świecie i dobór skali do telefonu oraz
+ komputera.
+
+ • 6. Rozszerzenie: dopiero po zaakceptowaniu wzorca powielenie pipeline’u na pozostałe rasy.
+
+
+ Dlaczego nie generować każdej klatki oddzielnie?
+ Generowanie setek niezależnych ilustracji zwiększa ryzyko zmian twarzy, uzbrojenia, proporcji i
+ kierunku światła między klatkami. Spójny model i rig ułatwiają utrzymanie identycznej postaci w całej
+ animacji. Sam Blender nie odtworzy automatycznie idealnego modelu 3D z jednej ilustracji — etap
+ modelowania i korekt artystycznych pozostaje istotnym zadaniem.
+
+
+ Zasady gospodarowania GPU
+ Przed uruchomieniem wynajętego GPU należy mieć przygotowane środowisko, modele, skrypty,
+ strukturę folderów, referencje i testowy eksport. Najpierw próbka jednej postaci, następnie produkcja
+ seryjna. Wersje źródłowe i zasoby muszą być zapisywane na trwałym dysku; nie wolno usuwać
+ istniejących modeli i konfiguracji.
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                                11
+
+===== page-12.md =====
+# Ki Legends — oryginalny dokument, strona 12/12
+
+Transkrypcja tekstowa oryginalnego PDF z 20.10.2026. Nie zawiera oryginalnych ilustracji ani nie zastępuje PDF.
+
+ 10 | Priorytety, ryzyka i definicja sukcesu
+ Najbliższy kamień milowy
+ Stabilna i przetestowana pętla: rozmowa z NPC → przyjęcie zadania → walka → łup → nagroda → rozwój
+ postaci → zapis. Dopiero wtedy produkcja wzorcowej postaci i test animacji w docelowej scenie.
+
+
+ Ryzyka
+ • Spójność wizualna: różnice pomiędzy referencjami tej samej rasy; potrzebna karta kanonicznego
+ projektu.
+
+ • Czytelność na telefonie: wysoka szczegółowość ilustracji może zniknąć po zmniejszeniu sprite’a.
+
+ • Wydajność: duże atlasy i efekty cząsteczkowe mogą obciążać słabsze urządzenia; konieczne
+ profilowanie.
+
+ • Sieć: lokalny zapis i PvE nie są jeszcze multiplayerem; potrzebne serwerowe reguły i bezpieczeństwo.
+
+ • Zakres: jednoczesna produkcja czterech kontynentów przed sprawdzeniem pierwszego regionu
+ zwiększa koszt poprawek.
+
+
+ Kryteria akceptacji pierwszej rasy
+ Jedna rozpoznawalna postać w ośmiu kierunkach; płynne animacje; brak migotania stroju; oddzielne
+ efekty KI; poprawne kolizje i hitboxy; zgodność ze światem gry; akceptowalna płynność na komputerze i
+ telefonie.
+
+
+ Źródła i status dokumentu
+ Podstawa: wizja projektu Ki Legends, dziesięć ilustracji przekazanych przez autora oraz raport
+ „QA-STAGE2-2026-10-20.md” z repozytorium GitHub. Opisy historii ras, ich krain i przyszłych
+ umiejętności są propozycją kreatywną do zatwierdzenia, a nie deklaracją istniejącej zawartości.
+
+ Repozytorium: github.com/circus574-cpu/pixel-playground-launch | Produkcja: kilegends.pl
+
+
+
+
+KI LEGENDS • Dokument koncepcyjny • 20.10.2026                                                            12

@@ -18,8 +18,11 @@ describe("planet atlas matches the game", () => {
   it("reads the active character's continent without writing", () => {
     expect(GAME_SAVE_KEY).toBe(SAVE_KEY);
     const data: Record<string, string> = {
-      [SAVE_KEY + ":active-character"]: "abc",
-      [SAVE_KEY + ":character:abc"]: JSON.stringify({ version: 3, player: { continent: "pyra" } }),
+      [SAVE_KEY + ":superior-world-v1:active-character"]: "abc",
+      [SAVE_KEY + ":superior-world-v1:character:abc"]: JSON.stringify({
+        format: "superior-character",
+        feature: "pyra",
+      }),
     };
     const storage = { getItem: (k: string) => data[k] ?? null };
     expect(readActiveContinent(storage)).toBe("pyra");

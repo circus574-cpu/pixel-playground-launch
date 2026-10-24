@@ -1,0 +1,618 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-verdant-grzybowy-zarodnik",
+  "version": "1.0.1",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+      "version": "1.0.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-verdant-grzybowy-zarodnik/1.0.1-818c21a3560b/enemy-verdant-grzybowy-zarodnik-packed-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-verdant-grzybowy-zarodnik/1.0.1-818c21a3560b/enemy-verdant-grzybowy-zarodnik-packed-page-0.json",
+      "width": 2047,
+      "height": 1768
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-verdant-grzybowy-zarodnik",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/idle/down/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/idle/left/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/idle/up/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/idle/right/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/03",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/04",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/05",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/06",
+              "enemy-verdant-grzybowy-zarodnik/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/walk/down/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/walk/left/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/walk/up/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/walk/right/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/03",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/04",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/05",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/06",
+              "enemy-verdant-grzybowy-zarodnik/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/attack/down/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/attack/left/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/attack/up/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/attack/right/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/03",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/04",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/05",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/06",
+              "enemy-verdant-grzybowy-zarodnik/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/skill/down/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/skill/left/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/skill/up/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/skill/right/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/03",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/04",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/05",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/06",
+              "enemy-verdant-grzybowy-zarodnik/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/hit/down/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/down/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/down/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/hit/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/hit/left/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/left/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/left/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/hit/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/hit/up/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/up/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/up/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/hit/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/hit/right/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/right/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/right/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/hit/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/hit/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/hit/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/death/down/00",
+              "enemy-verdant-grzybowy-zarodnik/death/down/01",
+              "enemy-verdant-grzybowy-zarodnik/death/down/02",
+              "enemy-verdant-grzybowy-zarodnik/death/down/03",
+              "enemy-verdant-grzybowy-zarodnik/death/down/04",
+              "enemy-verdant-grzybowy-zarodnik/death/down/05",
+              "enemy-verdant-grzybowy-zarodnik/death/down/06",
+              "enemy-verdant-grzybowy-zarodnik/death/down/07"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/03",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/04",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/05",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/06",
+              "enemy-verdant-grzybowy-zarodnik/death/down-left/07"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/death/left/00",
+              "enemy-verdant-grzybowy-zarodnik/death/left/01",
+              "enemy-verdant-grzybowy-zarodnik/death/left/02",
+              "enemy-verdant-grzybowy-zarodnik/death/left/03",
+              "enemy-verdant-grzybowy-zarodnik/death/left/04",
+              "enemy-verdant-grzybowy-zarodnik/death/left/05",
+              "enemy-verdant-grzybowy-zarodnik/death/left/06",
+              "enemy-verdant-grzybowy-zarodnik/death/left/07"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/03",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/04",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/05",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/06",
+              "enemy-verdant-grzybowy-zarodnik/death/up-left/07"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/death/up/00",
+              "enemy-verdant-grzybowy-zarodnik/death/up/01",
+              "enemy-verdant-grzybowy-zarodnik/death/up/02",
+              "enemy-verdant-grzybowy-zarodnik/death/up/03",
+              "enemy-verdant-grzybowy-zarodnik/death/up/04",
+              "enemy-verdant-grzybowy-zarodnik/death/up/05",
+              "enemy-verdant-grzybowy-zarodnik/death/up/06",
+              "enemy-verdant-grzybowy-zarodnik/death/up/07"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/03",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/04",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/05",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/06",
+              "enemy-verdant-grzybowy-zarodnik/death/up-right/07"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/death/right/00",
+              "enemy-verdant-grzybowy-zarodnik/death/right/01",
+              "enemy-verdant-grzybowy-zarodnik/death/right/02",
+              "enemy-verdant-grzybowy-zarodnik/death/right/03",
+              "enemy-verdant-grzybowy-zarodnik/death/right/04",
+              "enemy-verdant-grzybowy-zarodnik/death/right/05",
+              "enemy-verdant-grzybowy-zarodnik/death/right/06",
+              "enemy-verdant-grzybowy-zarodnik/death/right/07"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/03",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/04",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/05",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/06",
+              "enemy-verdant-grzybowy-zarodnik/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-verdant-grzybowy-zarodnik-packed-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/00",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/01",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/02",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/03",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/04",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/05",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/06",
+              "enemy-verdant-grzybowy-zarodnik/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "verdant.enemy.grzybowy-zarodnik": "enemy-verdant-grzybowy-zarodnik"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

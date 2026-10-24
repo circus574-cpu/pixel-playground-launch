@@ -8,3 +8,6 @@ bun.lock
 routeTree.gen.ts
 src/integrations/supabase/types.ts
 src/integrations/supabase/previewAuthStorage.ts
+
+# Generated Markdown projection of the fixed PDF edition; hashes recorded in its manifest.
+docs/FABULA-I-EKWIPUNEK.md

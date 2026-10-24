@@ -1,0 +1,87 @@
+{
+  "pack": "aether-city",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/ASSET-LICENSE-REGISTER.md)",
+  "parts": [
+    {
+      "part": "arena",
+      "source": "obj-arena-s7510101.png",
+      "sha256": "72ebf80188ef7fd8b90fd0245f086cbceb61d4ac3bbef7a4f50f831e7900884d"
+    },
+    {
+      "part": "banner",
+      "source": "obj-banner-s7510101.png",
+      "sha256": "9a42abb1d015fd1b9166413f894ee37d230fde9e00a78943d5b226fe65a05267"
+    },
+    {
+      "part": "bridge",
+      "source": "obj-bridge-s7510101.png",
+      "sha256": "45854b50b4cfb55f1633fa636a2d077ccdedb0562c8caee1a978594110e178fc"
+    },
+    {
+      "part": "depot",
+      "source": "obj-depot-s7510101.png",
+      "sha256": "f899541b9d63088d0a1dec3711940906c4a267488709b81a78f50b1259ae0876"
+    },
+    {
+      "part": "fountain",
+      "source": "obj-fountain-s7510101.png",
+      "sha256": "5d8a2fce39937a81226ba1cbe4d097fa0a48612916c5b91034c2d4a7ae4c2bac"
+    },
+    {
+      "part": "gate",
+      "source": "obj-gate-s7510101.png",
+      "sha256": "30c4ed5484cac32d78bbaec4901863c7fa8ec18f8e57b70f07e19b11b94d475c"
+    },
+    {
+      "part": "hall",
+      "source": "obj-hall-s7510101.png",
+      "sha256": "821761db3445803c7f7061c3fedf448db81c35bd56e07fe3a12bfb86d9d535f5"
+    },
+    {
+      "part": "house",
+      "source": "obj-house-s7510101.png",
+      "sha256": "f1a7f4525184746474bb14ce2f2bf62cf0a1b166c4d37944e98c79283e9ca9b9"
+    },
+    {
+      "part": "inn",
+      "source": "obj-inn-s7510101.png",
+      "sha256": "b0912040063134510040cb44e1f2292b02f371882550d6aaddad2b92adc9dd57"
+    },
+    {
+      "part": "lamp",
+      "source": "obj-lamp-s7510101.png",
+      "sha256": "dc706033ded505f7da9a49aae0ed095f88ad78822769ac92eeb1a003a574f3cc"
+    },
+    {
+      "part": "market",
+      "source": "obj-market-s7510101.png",
+      "sha256": "fa4ec89252bf8df1b6a6c415abd4db69ab7fb623c6a0c851b099c1c746eb245a"
+    },
+    {
+      "part": "smithy",
+      "source": "obj-smithy-s7510101.png",
+      "sha256": "919ba4c6b9d2cd666a513714050e8f1677070cf01e0590e171c23b9576b050db"
+    },
+    {
+      "part": "steps",
+      "source": "obj-steps-s7510101.png",
+      "sha256": "4cfb2a240a01a07f475ec878d172b1aa7bcd521cd5d414c6fef4a8a96c07e21c"
+    },
+    {
+      "part": "tower",
+      "source": "obj-tower-s7510101.png",
+      "sha256": "b9193881e772ee0398f32ac6a6f57535747d3fdff10a93f41b065c713ca6a4a5"
+    },
+    {
+      "part": "tree",
+      "source": "obj-tree-s7510101.png",
+      "sha256": "00bc695d114d4729d52729df790fd9535dff36962af2f115b06474bc039817c4"
+    },
+    {
+      "part": "wall",
+      "source": "obj-wall-s7510101.png",
+      "sha256": "28317c7b441be6d56dff0f0fe8b22ae09aea5edb5d9922a8eaa4bf1f0798a220"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 """Offline production export: python3 scripts/build_forest.py SOURCE_DIR.
-Source filenames and prompts are documented in docs/FOREST-ASSETS.md.
+Source filenames and prompts are documented in docs/GPU-I-ZASOBY.md.
 No network, model calls or secrets. Requires Pillow and numpy.
 """
 import json, math, sys, hashlib

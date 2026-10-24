@@ -1,0 +1,48 @@
+{
+  "complete": true,
+  "seconds": 47.871,
+  "stages": [
+    {
+      "stage": "conversion-and-navigation",
+      "passed": true
+    },
+    {
+      "stage": "balance-summary",
+      "seconds": 0.258,
+      "passed": true
+    },
+    {
+      "stage": "dungeon-generation",
+      "seconds": 3.363,
+      "passed": true
+    },
+    {
+      "stage": "dungeon-spawn-pass",
+      "seconds": 12.698,
+      "passed": true
+    },
+    {
+      "stage": "settlement-life",
+      "seconds": 16.888,
+      "passed": true
+    },
+    {
+      "stage": "engine-content-check",
+      "seconds": 1.034,
+      "passed": true
+    }
+  ],
+  "sourceFiles": {
+    "convert_browser.py": "059f85a100cf0ba7d7b1e0c055a008c72c6343ab31b45d9cdb6ef065943cfb30",
+    "expand_dungeons.py": "7616e401fb5f90f143271bb52a88aa3c801a68b720256157f3412cc1bbd58f28",
+    "dungeon_spawns.py": "f9a294e39b09bfb103e0e6dbf85e3f90b616827122fa0a21b2ca68c968320b93",
+    "settlement_life.py": "920b2da24c2c44e72a89bd86d68d24cfad34143d77b1d7c6ede96168173d11c4",
+    "summarize_balance.py": "eb03e7ee4f6539990f49f4fe2aee86b87170790482d0da368c910e3e8b9f6dc6",
+    "simulate-balance-final.mjs": "8d91004e80135b3e7c12e6470ff4b7071bdc2962d4201fed97d8c5bce54cdcc9",
+    "check-navigation-final.mjs": "c34838b696d4686010535a33f609fc208fdc264a7d4fb2355da6a146a89d2d62",
+    "check-content.mjs": "0599fda3f0199643b72eda1d0f68698b904da431738421ddf9f096b38ebc3261",
+    "run_content_pipeline.py": "9012272d1bae11b265d04fd3e0e2f5c11aecd29d48851b8a81b8122bd9ea244f"
+  },
+  "balanceFights": 22272,
+  "runtimeSceneInstalled": false
+}

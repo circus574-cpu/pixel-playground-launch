@@ -1,7 +1,7 @@
 KI LEGENDS — THIRD-PARTY NOTICES (AUDIT SUPPLEMENT; NOT A COMPLETE RELEASE COMPLIANCE CERTIFICATE)
 Lockfile SHA-256: 724789bd04ff36f73bdbce5ed7ddfd3e7a9cf0182781b800dfb0075fca756432
 Audited base: d9599277924e6c3f1ce99b43e2a1b20654b42c22
-Includes development/optional platforms as a conservative superset. Missing or insufficient legal texts remain for 40 lockfile paths; see DEPENDENCY-LICENSE-REGISTER.md.
+Includes development/optional platforms as a conservative superset. Missing or insufficient legal texts remain for 40 lockfile paths; see docs/LICENCJE.md.
 LGPL/MPL source and relinking obligations, native bundled-component notices, and artwork clearances are separate outstanding requirements.
 
 ==============================================================================

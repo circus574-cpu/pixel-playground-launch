@@ -36,15 +36,21 @@ export type WorldDefinition = {
   monsters?: { kind: string; x: number; y: number }[];
   enemyName: string;
   huntName: string;
+  /** Authored expedition hunt; absent retains the accepted boar tutorial. */
+  huntKinds?: readonly string[];
   landmarks: Landmark[];
   objects: readonly RegionObject[];
   obstacles: readonly Obstacle[];
   city?: CityDefinition;
+  /** Additional safe settlements in a generated feature. */
+  safeAreas?: readonly Obstacle[];
   /** Number of leading obstacles that form the outer boundary (default 3). */
   border?: number;
   /** Open-world layout revision; saves from an earlier layout are shifted by `legacyShift`. */
   layout?: number;
   legacyShift?: Point;
+  /** Offset applied to saves from the layout just before the given revision (3 and later). */
+  layoutShifts?: Record<string, Point>;
   terrain?: {
     ground: string;
     path: string;

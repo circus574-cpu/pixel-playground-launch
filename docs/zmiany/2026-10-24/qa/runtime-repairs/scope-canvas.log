@@ -1,0 +1,26 @@
+
+Running 17 tests using 1 worker
+
+(node:54637) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [gameplay] › e2e/overlay-audit.spec.ts:212:1 › death message ends on real respawn and subsequent movement works (46.2s)
+  ✓   2 [gameplay] › e2e/planetary-preview.spec.ts:50:3 › Planetarni has real eight-direction movement and skill animation at 1280px (10.2s)
+  ✓   3 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android planetary 390x844 › real Android input in eight directions: planetary 390x844 (21.1s)
+  ✓   4 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 (21.1s)
+  ✓   5 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android sage 390x844 › real Android input in eight directions: sage 390x844 (23.5s)
+  ✓   6 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android sage 852x393 › real Android input in eight directions: sage 852x393 (23.6s)
+  ✓   7 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android android 390x844 › real Android input in eight directions: android 390x844 (22.4s)
+  ✓   8 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android android 852x393 › real Android input in eight directions: android 852x393 (21.0s)
+  ✓   9 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android legend 390x844 › real Android input in eight directions: legend 390x844 (22.6s)
+  ✓  10 [gameplay] › e2e/pre-gpu.spec.ts:77:7 › Android legend 852x393 › real Android input in eight directions: legend 852x393 (21.2s)
+  ✓  11 [gameplay] › e2e/pre-gpu.spec.ts:224:3 › real defeat, respawn and movement: sage (42.3s)
+  ✓  12 [gameplay] › e2e/pre-gpu.spec.ts:224:3 › real defeat, respawn and movement: android (36.4s)
+  ✓  13 [gameplay] › e2e/pre-gpu.spec.ts:224:3 › real defeat, respawn and movement: legend (46.5s)
+  ✓  14 [gameplay] › e2e/pre-gpu.spec.ts:267:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (12.4s)
+  ✓  15 [gameplay] › e2e/three-races-pve.spec.ts:97:3 › real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith (1.8m)
+  ✓  16 [gameplay] › e2e/world-rendering.spec.ts:7:3 › aether mobile detail rendering stays within budget and releases each scene (9.2s)
+  ✓  17 [gameplay] › e2e/world-rendering.spec.ts:7:3 › nexus mobile detail rendering stays within budget and releases each scene (9.6s)
+
+  Slow test file: [gameplay] › e2e/pre-gpu.spec.ts (5.2m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  17 passed (8.3m)

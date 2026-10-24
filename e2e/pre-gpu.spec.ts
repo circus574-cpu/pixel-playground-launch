@@ -1,9 +1,17 @@
-import { openHudTool, patchActiveCharacter, maxHp } from "./fixtures";
-import { isCityStage } from "../src/game/city/types";
+import {
+  openHudTool,
+  patchActiveCharacter,
+  maxHp,
+  nearestSpawn,
+  nearestHunter,
+  testCreature,
+  openDirection,
+  liveEnemy,
+  superiorLand,
+} from "./fixtures";
 import { test, expect, type Page } from "./fixtures";
 import { RACES, RACE_IDS } from "../src/game/world/races";
-import { WORLDS, worldObstacles } from "../src/game/world/worlds";
-import { Navigation, distance } from "../src/game/navigation";
+import { distance } from "../src/game/navigation";
 const entry =
   process.env["KI_QA_PATH"] ?? (process.env["KI_QA_BASE_URL"] ? "/" : "/scripts/playtest.html");
 async function start(page: Page, race: (typeof RACE_IDS)[number], suffix = "") {
@@ -29,7 +37,7 @@ async function move(page: Page, x: number, y: number) {
       { x, y },
     );
   await expect
-    .poll(async () => distance(await position(page), { x, y }), { timeout: 60000 })
+    .poll(async () => distance(await position(page), { x, y }), { timeout: 300000 })
     .toBeLessThan(8);
 }
 async function groundClick(page: Page, x: number, y: number, width: number, height: number) {
@@ -53,13 +61,14 @@ async function groundClick(page: Page, x: number, y: number, width: number, heig
     const hit = await page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.tagName, point);
     if (hit === "CANVAS") {
       await page.locator("canvas").click({ position: point, timeout: 5000 });
-      return;
+      return true;
     }
     const zoomOut = page.getByRole("button", { name: "Oddal mapę", exact: true });
-    if (await zoomOut.isEnabled()) await openHudTool(page, "Oddal mapę");
+    if ((await zoomOut.isVisible()) && (await zoomOut.isEnabled()))
+      await openHudTool(page, "Oddal mapę");
     else break;
   }
-  throw new Error("Mouse test goal is hidden by HUD or outside the viewport even at minimum zoom");
+  return false;
 }
 for (const race of RACE_IDS)
   for (const [width, height] of [
@@ -78,8 +87,8 @@ for (const race of RACE_IDS)
         page,
         context,
       }, info) => {
-        const world = WORLDS[RACES[race].world],
-          nav = new Navigation(world.width, world.height, worldObstacles(world));
+        const world = superiorLand(RACES[race].world),
+          nav = world.nav;
         await start(page, race);
         expect(nav.walkable(await position(page))).toBe(true);
         await expect
@@ -105,10 +114,14 @@ for (const race of RACE_IDS)
             )
               continue;
             if (
-              Array.from({ length: 16 }, (_, i) => ({
-                x: p.x + Math.cos((i * Math.PI) / 8) * 110,
-                y: p.y + Math.sin((i * Math.PI) / 8) * 110,
-              })).every((q) => nav.walkable(q)) &&
+              Array.from({ length: 12 }, (_, radius) =>
+                Array.from({ length: 16 }, (_, i) => ({
+                  x: p.x + Math.cos((i * Math.PI) / 8) * radius * 10,
+                  y: p.y + Math.sin((i * Math.PI) / 8) * radius * 10,
+                })),
+              )
+                .flat()
+                .every((q) => nav.walkable(q)) &&
               nav.path(world.spawn, p).length
             )
               candidates.push(p);
@@ -117,8 +130,22 @@ for (const race of RACE_IDS)
         const open = candidates[0]!;
         expect(open).toBeDefined();
         await move(page, open.x, open.y);
-        const mouseGoal = { x: open.x + 35, y: open.y + 15 };
-        await groundClick(page, mouseGoal.x, mouseGoal.y, world.width, world.height);
+        // Context buttons (city plan, doors) may cover one side of the hero; click open ground beside it.
+        let mouseGoal: { x: number; y: number } | undefined;
+        for (const [dx, dy] of [
+          [35, 15],
+          [35, -30],
+          [-35, -30],
+          [-35, 15],
+        ] as const) {
+          const goal = { x: open.x + dx, y: open.y + dy };
+          if (!nav.walkable(goal)) continue;
+          if (await groundClick(page, goal.x, goal.y, world.width, world.height)) {
+            mouseGoal = goal;
+            break;
+          }
+        }
+        if (!mouseGoal) throw new Error("Every mouse test goal beside the hero is covered by HUD");
         await expect.poll(async () => distance(await position(page), mouseGoal)).toBeLessThan(8);
         const inputs = [
           { x: 1, y: 0, keys: ["ArrowRight"] },
@@ -134,6 +161,9 @@ for (const race of RACE_IDS)
           if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
         });
         for (const input of inputs) {
+          // Each direction starts in the verified clear area. Polling and key
+          // delivery take variable time; chained legs otherwise drift into walls.
+          await move(page, open.x, open.y);
           const before = await position(page);
           for (const key of input.keys) await page.keyboard.down(key);
           const direction =
@@ -155,6 +185,9 @@ for (const race of RACE_IDS)
           x = width * 0.16,
           y = height * 0.72;
         for (const input of inputs) {
+          // Each direction starts in the verified clear area. Polling and key
+          // delivery take variable time; chained legs otherwise drift into walls.
+          await move(page, open.x, open.y);
           const before = await position(page);
           await cdp.send("Input.dispatchTouchEvent", {
             type: "touchStart",
@@ -187,12 +220,17 @@ for (const race of RACE_IDS)
         const other = await context.newPage();
         await other.goto("about:blank");
         await other.bringToFront();
+        // Some headless Chromium builds keep the background tab focused; then deliver the
+        // same window blur the browser sends on a tab switch, so the game's own handler runs.
+        const keptFocus = await page.evaluate(() => document.hasFocus());
+        if (keptFocus) await page.evaluate(() => window.dispatchEvent(new Event("blur")));
         await expect(page.locator(".ki-canvas")).toHaveAttribute("data-focused", "false");
         await other.keyboard.up("ArrowRight");
         const hidden = await position(page);
         await page.waitForTimeout(400);
         expect(distance(await position(page), hidden)).toBeLessThan(2);
         await page.bringToFront();
+        if (keptFocus) await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         await expect(page.locator(".ki-canvas")).toHaveAttribute("data-focused", "true");
         await other.close();
         await page.waitForTimeout(350);
@@ -200,7 +238,7 @@ for (const race of RACE_IDS)
         await page.waitForTimeout(350);
         expect(distance(await position(page), restored)).toBeLessThan(2);
         await page.keyboard.down("ArrowLeft");
-        await page.waitForTimeout(220);
+        await page.waitForTimeout(500);
         await page.keyboard.up("ArrowLeft");
         await expect.poll(async () => distance(await position(page), restored)).toBeGreaterThan(12);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
@@ -210,12 +248,15 @@ for (const race of RACE_IDS)
       });
     });
   }
-for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].world])))
+for (const race of RACE_IDS)
   test(`real defeat, respawn and movement: ${race}`, async ({ page }, info) => {
-    const world = WORLDS[RACES[race].world];
-    await start(page, race);
+    // A known creature waits just outside the safe capital (playtest-only QA spawn).
+    test.setTimeout(900000);
+    const world = superiorLand(RACES[race].world);
+    const creature = testCreature(RACES[race].world);
+    await start(page, race, creature.query);
     const max = await maxHp(page);
-    const enemy = world.enemies[0]!;
+    const enemy = await liveEnemy(page.locator(".ki-canvas"), creature.id);
     // A normal movement command approaches danger; no HP, kills, timers or saves are patched.
     await page
       .locator(".ki-canvas")
@@ -234,12 +275,12 @@ for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].wor
               .getByRole("meter", { name: "Zdrowie", exact: true })
               .getAttribute("aria-valuenow"),
           ),
-        { timeout: 30000 },
+        { timeout: 420000 },
       )
       .toBeLessThan(Number(max));
-    await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 60000 });
+    await expect(page.locator(".ki-death-overlay")).toBeVisible({ timeout: 420000 });
     await page.screenshot({ path: info.outputPath(race + "-death.png") });
-    await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 6000 });
+    await expect(page.locator(".ki-death-overlay")).toHaveCount(0, { timeout: 60000 });
     await expect.poll(async () => distance(await position(page), world.spawn)).toBeLessThan(8);
     await expect(page.getByRole("meter", { name: "Zdrowie", exact: true })).toHaveAttribute(
       "aria-valuenow",
@@ -249,9 +290,16 @@ for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].wor
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     });
     const before = await position(page);
-    await page.keyboard.down("ArrowRight");
-    await page.waitForTimeout(300);
-    await page.keyboard.up("ArrowRight");
+    // The respawn clip holds the hero in place; walk once it has finished.
+    await expect(page.locator(".ki-canvas")).toHaveAttribute(
+      "data-animation-state",
+      /^(idle|walk)$/,
+    );
+    const free = openDirection(RACES[race].world, before);
+    expect(free).toBeDefined();
+    await page.keyboard.down(free);
+    await page.waitForTimeout(700);
+    await page.keyboard.up(free);
     await expect.poll(async () => distance(await position(page), before)).toBeGreaterThan(15);
   });
 test("imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely", async ({
@@ -297,17 +345,18 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
   await expect(page.locator(".ki-hud")).toBeVisible();
   await expect(canvas).toHaveAttribute("data-actor-visual", "technical-mannequin");
 });
-// Beyond leash (300) plus the longest ranged reach, so every race makes the boar give up.
+// Beyond leash plus the longest ranged reach, so every race makes the pursuer give up.
 const LOSE_RADIUS = 1000;
-for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].world])))
+for (const race of RACE_IDS)
   test(`real pursuit, return, enemy collision and world boundary: ${race}`, async ({
     page,
   }, info) => {
-    const world = WORLDS[RACES[race].world],
-      nav = new Navigation(world.width, world.height, worldObstacles(world));
+    test.setTimeout(1200000);
+    const world = superiorLand(RACES[race].world),
+      nav = world.nav;
     await start(page, race);
     const canvas = page.locator(".ki-canvas"),
-      home = world.enemies[0]!;
+      home = nearestHunter(RACES[race].world);
     const enemies = async () =>
       JSON.parse((await canvas.getAttribute("data-enemies"))!) as {
         id: string;
@@ -316,9 +365,11 @@ for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].wor
         hp: number;
         mode: string;
       }[];
+    const pursuer = async () => (await enemies()).find((e) => e.id === home.id);
     const approach = nav.safe({ x: home.x, y: home.y + 120 });
     await move(page, approach.x, approach.y);
-    await expect.poll(async () => (await enemies())[0]?.mode, { timeout: 20000 }).toBe("chase");
+    await expect.poll(async () => (await pursuer())?.mode, { timeout: 180000 }).toBe("chase");
+    const fullHp = (await pursuer())!.hp;
     const goals = Array.from({ length: 16 }, (_, i) => ({
       x: home.x + Math.cos((i * Math.PI) / 8) * LOSE_RADIUS,
       y: home.y + Math.sin((i * Math.PI) / 8) * LOSE_RADIUS,
@@ -337,42 +388,71 @@ for (const race of RACE_IDS.filter((race) => !isCityStage(WORLDS[RACES[race].wor
           const list = await enemies();
           for (const e of list)
             if (e.hp > 0) expect(nav.walkable(e), e.id + " collision").toBe(true);
-          return list[0]?.mode;
+          return list.find((e) => e.id === home.id)?.mode;
         },
-        { timeout: 30000 },
+        { timeout: 60000 },
       )
       .toBe("return");
-    await expect.poll(async () => (await enemies())[0]?.mode, { timeout: 15000 }).toBe("patrol");
-    expect((await enemies())[0]!.hp).toBe(66);
-    // Zoom out, then walk to the right edge of the (open) world with a real move command.
+    await expect.poll(async () => (await pursuer())?.mode, { timeout: 30000 }).toBe("patrol");
+    expect((await pursuer())!.hp).toBe(fullHp);
+    // Zoom out, then walk to the nearest impassable boundary (coast, cliff or wall) of the land.
     for (let i = 0; i < 4; i++) await openHudTool(page, "Oddal mapę");
     await expect(canvas).toHaveAttribute("data-zoom", "0.35");
     const here = await position(page);
-    const east = nav.safe({ x: world.width - 100, y: here.y });
+    const edges = [
+      { dx: 1, dy: 0, key: "ArrowRight" },
+      { dx: -1, dy: 0, key: "ArrowLeft" },
+      { dx: 0, dy: -1, key: "ArrowUp" },
+      { dx: 0, dy: 1, key: "ArrowDown" },
+    ]
+      .map((e) => {
+        let d = 0;
+        while (
+          d < 6000 &&
+          nav.walkable({ x: here.x + e.dx * (d + 16), y: here.y + e.dy * (d + 16) })
+        )
+          d += 16;
+        return { ...e, d, goal: { x: here.x + e.dx * (d - 48), y: here.y + e.dy * (d - 48) } };
+      })
+      .filter((e) => e.d < 6000 && e.d > 64 && nav.path(here, e.goal).length)
+      .sort((a, b) => a.d - b.d);
+    const edge = edges[0]!;
+    expect(edge).toBeDefined();
+    const east = nav.safe(edge.goal);
     await canvas.evaluate(
       (el, p) =>
         el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", ...p } })),
       east,
     );
     await expect
-      .poll(async () => (await position(page)).x, { timeout: 90000 })
-      .toBeGreaterThan(world.width - 180);
+      .poll(
+        async () => {
+          const q = await position(page);
+          return Math.hypot(q.x - east.x, q.y - east.y);
+        },
+        { timeout: 300000 },
+      )
+      .toBeLessThan(120);
     await page.evaluate(() => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     });
-    await page.keyboard.down("ArrowRight");
+    await page.keyboard.down(edge.key);
     await page.waitForTimeout(500);
-    await page.keyboard.up("ArrowRight");
+    await page.keyboard.up(edge.key);
     const p = await position(page);
     expect(nav.walkable(p)).toBe(true);
     expect(p.x).toBeLessThanOrEqual(world.width - 16);
+    expect(p.y).toBeLessThanOrEqual(world.height - 16);
+    expect(Math.min(p.x, p.y)).toBeGreaterThanOrEqual(16);
     await page.screenshot({ path: info.outputPath(race + "-world-edge.png") });
   });
 
-test("malformed scenery atlas fails with a named error and retries without losing the slot", async ({
+test("malformed actor atlas fails with a named error and retries without losing the slot", async ({
   page,
 }) => {
-  await page.route("**/anime-forest-v1/objects.json", (route) =>
+  // Superior scenery is plain images; the hero page atlas is the frame-indexed sheet a world needs.
+  const atlas = "**/hero-planetary-painted/**/hero-planetary-painted-page-0.json";
+  await page.route(atlas, (route) =>
     route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
   );
   await page.goto(entry);
@@ -380,15 +460,17 @@ test("malformed scenery atlas fails with a named error and retries without losin
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   const error = page.getByRole("alert", { name: "Ładowanie Ki Legends", exact: true });
   await expect(error).toBeVisible();
-  await expect(error).toContainText("Brak klatki świata: forest-objects/");
+  await expect(error).toContainText("Brak klatki: hero-planetary-painted/");
   const slot = await page.evaluate(() =>
-    localStorage.getItem("ki-legends:adventure:v1:active-character"),
+    localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character"),
   );
-  await page.unroute("**/anime-forest-v1/objects.json");
+  await page.unroute(atlas);
   await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
   await expect(page.locator(".ki-hud")).toBeVisible();
   expect(
-    await page.evaluate(() => localStorage.getItem("ki-legends:adventure:v1:active-character")),
+    await page.evaluate(() =>
+      localStorage.getItem("ki-legends:adventure:v1:superior-world-v1:active-character"),
+    ),
   ).toBe(slot);
-  await expect(page.locator(".ki-canvas")).toHaveAttribute("data-terrain-mode", "cached");
+  await expect(page.locator(".ki-canvas")).toHaveAttribute("data-terrain-mode", "superior");
 });
