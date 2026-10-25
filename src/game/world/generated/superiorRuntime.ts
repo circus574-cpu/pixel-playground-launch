@@ -22,6 +22,7 @@ import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
 import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
 import { v2Places } from "../../worlds/v2Places";
+import { questsV2 } from "../../quests/v2Tracker";
 import { FEATURE_IDS, SuperiorSaveStore, type SuperiorIndex, type FeatureId } from "./superiorSave";
 
 const BASE = WORLD_BASE;
@@ -291,6 +292,7 @@ export async function prepareSuperior(options: {
           "Poza osadą pokonaj trzech przeciwników pierwszych poziomów i wróć po nagrodę. Miasta pozostają bezpieczne.";
   // The session consumes the same initial snapshot; never rebase a writer on another tab mid-load.
   save.town = initialTown;
+  if (WORLD_V2) questsV2.enterTown(info.affinity, initialTown);
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
   // Diagnostic art is available only on the isolated local playtest document (as in mountGame).
   const preview =
@@ -406,6 +408,7 @@ export async function prepareSuperior(options: {
   const owned = new Set([...initialAssets.keys()].filter((id) => !protectedAssets.has(id)));
   const owners = new Map<string, Set<string>>(),
     requests = new Map<string, Promise<void>>();
+  const countedDeaths = new WeakSet<object>();
   let disposed = false,
     failed = false;
   const error = () => {
@@ -556,6 +559,17 @@ export async function prepareSuperior(options: {
     },
     afterTick() {
       spawnStream.update();
+      if (!WORLD_V2) return;
+      const p = session.player;
+      if (!p.interior) questsV2.near(info.affinity, p.x, p.y);
+      questsV2.level(p.level);
+      for (const event of session.events) {
+        if (event.type !== "death" || event.target === "player" || countedDeaths.has(event))
+          continue;
+        countedDeaths.add(event);
+        const kind = session.enemies.find((e) => e.id === event.target)?.kind;
+        if (kind) questsV2.defeated(kind);
+      }
     },
     beforeTick() {
       if (session.player.interior || session.paused || session.dialogue) return;
@@ -570,6 +584,7 @@ export async function prepareSuperior(options: {
         world.npcs = next.npcs;
         world.market = next.market;
         save.town = town.id;
+        if (WORLD_V2) questsV2.enterTown(info.affinity, town.id);
       }
     },
     dispose() {

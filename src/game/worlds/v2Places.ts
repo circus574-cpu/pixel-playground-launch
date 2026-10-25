@@ -21,5 +21,5 @@ export function v2Places(continent: string) {
     label: f.name,
     kind: "famous",
   }));
-  return { townNames, famous, cities: c.cities, hidden: c.hidden };
+  return { townNames, famous, famousById: c.famous, cities: c.cities, hidden: c.hidden };
 }
