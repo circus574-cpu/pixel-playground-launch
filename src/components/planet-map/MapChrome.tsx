@@ -5,6 +5,7 @@
  */
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import { V2ContinentMap } from "./V2ContinentMap";
 import { CONTINENTS, QUEST_ISLANDS, ZONE_DIR_NAMES, zonesOf, type MapRegion } from "./mapData";
 
 export type GameLink = {
@@ -55,12 +56,16 @@ export function PlayerChip({ current, globe }: Pick<GameLink, "current"> & { glo
   );
 }
 
-export function RegionGameNote({
-  region,
-  current,
-  onClose,
-  onTravel,
-}: GameLink & { region: MapRegion }) {
+export function RegionGameNote(props: GameLink & { region: MapRegion }) {
+  return (
+    <>
+      <RegionGameLink {...props} />
+      <V2ContinentMap regionId={props.region.id} name={props.region.name} />
+    </>
+  );
+}
+
+function RegionGameLink({ region, current, onClose, onTravel }: GameLink & { region: MapRegion }) {
   if (onTravel)
     return region.id === current ? (
       <p className="pm-here-note">
