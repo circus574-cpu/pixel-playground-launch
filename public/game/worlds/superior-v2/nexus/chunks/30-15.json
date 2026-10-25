@@ -1,1 +1,1 @@
-{"format":"superior-browser-1","id":"30-15","x":61440,"y":30720,"terrain":{"cell":32,"width":54,"height":64,"flags":[[0,3402],[17,1],[0,53]],"biome":[[255,3402],[0,1],[255,53]]},"navigation":{"cell":16,"width":108,"height":128,"blocked":[[1,13824]]},"colliders":[],"objects":[]}
+{"format":"superior-browser-1","id":"30-15","x":61440,"y":30720,"terrain":{"cell":32,"width":54,"height":64,"flags":[[0,3402],[17,1],[0,53]],"biome":[[255,3402],[1,1],[255,53]]},"navigation":{"cell":16,"width":108,"height":128,"blocked":[[1,13824]]},"colliders":[],"objects":[]}

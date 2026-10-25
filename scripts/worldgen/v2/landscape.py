@@ -3,7 +3,7 @@
 Never edits v1. Stable old spawn IDs survive; fresh encounters use a v2 namespace.
 """
 from __future__ import annotations
-import argparse, copy, hashlib, math, sys, time
+import argparse, copy, hashlib, json, math, sys, time
 from pathlib import Path
 import numpy as np
 from scipy import ndimage
@@ -19,6 +19,49 @@ from bind_world_art import BIOMES, PALETTES
 ROOT=Path(__file__).resolve().parents[3]
 V1=ROOT/'public/game/worlds/superior-v1'
 PROTO=ROOT/'public/game/worlds/superior-v2-prototype'
+GEOGRAPHY='astra'
+
+def ki_relief(rng,shape,land,new):
+    """Ridged mountain chains inland, gentle lowland near the coast (geography 'ki')."""
+    def octaves(spacing,ridge=False):
+        acc=np.zeros(shape);amp=1.;total=0.
+        for o in range(4):
+            n=smooth_noise(rng,shape,max(2,spacing/2**o))
+            if ridge:n=1-np.abs(n*2-1)
+            acc+=n*amp;total+=amp;amp*=.5
+        return acc/total
+    coast=ndimage.distance_transform_edt(land);dn=np.clip(coast/max(1.,coast.max()),0,1)
+    chain=np.clip((octaves(160,True)**2.2-.3)*2.2,0,1)*(.35+.65*np.clip(dn*1.8,0,1))
+    e=.18+.45*np.sqrt(dn)+.12*(octaves(70)-.5)+.55*chain*(.6+.4*octaves(60))
+    e=ndimage.gaussian_filter(e,1.2);e[~land]=0;e=e/max(1e-6,e[land].max())
+    # Rank-normalise the added land so every continent gets ranges (~14%) regardless of its size.
+    if new.any():
+        r=np.zeros(shape);order=np.argsort(e[new]);v=np.empty(len(order));v[order]=np.linspace(0,1,len(order));r[new]=v;e=np.where(new,r,e)
+    return e
+
+def ki_rivers(rng,elevation,land,allowed,count=10):
+    """Rivers start high and walk downhill to the sea; they widen downstream."""
+    height=elevation+(smooth_noise(rng,elevation.shape,14)-.5)*.09;river=np.zeros(elevation.shape,np.uint8)
+    starts=np.argwhere(allowed&(elevation>.88));rng.shuffle(starts);made=0;h,w=elevation.shape
+    for y,x in starts[:600]:
+        if made>=count:break
+        if river[max(0,y-12):y+12,max(0,x-12):x+12].any():continue
+        path=[(y,x)];seen={(y,x)};ok=False
+        for _ in range(4000):
+            best=None;bh=height[y,x]+.02
+            for dy,dx in((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,1),(-1,1),(1,-1)):
+                ny,nx=y+dy,x+dx
+                if 0<=ny<h and 0<=nx<w and(ny,nx)not in seen and height[ny,nx]<bh:bh=height[ny,nx];best=(ny,nx)
+            if best is None:break
+            y,x=best;seen.add(best);path.append(best)
+            if not land[y,x]or river[y,x]:ok=True;break
+            if not allowed[y,x]:break
+        if ok and len(path)>60:
+            made+=1
+            for i,(py,px)in enumerate(path):river[py,px]=max(river[py,px],1+int(i/len(path)*2.99))
+    water=np.zeros(river.shape,bool)
+    for width in(1,2,3):water|=ndimage.binary_dilation(river>=width,iterations=width)
+    return water&land&allowed,made
 
 def move(value,delta):
     """Translate explicit world positions, not widths, local interior coordinates or art metadata."""
@@ -60,6 +103,11 @@ def region(key,output,context,labels):
         if ap.exists():art_objects.extend(move(o,delta)for o in read(ap)['objects'])
     if island:land=prior.copy();raw&=land
     new=land&~prior;water=land&~raw
+    if GEOGRAPHY=='ki':
+        elevation=ki_relief(rng,shape,land,new);wet0=ndimage.gaussian_filter((~land).astype(float),10)*1.2+smooth_noise(rng,shape,40)*.9
+        forest=.5*wet0+.5*smooth_noise(rng,shape,22);kb=np.zeros(shape,np.uint8)
+        kb[forest>np.quantile(forest[new],.6)if new.any()else 1]=1;kb[elevation>.86]=2;kb[(elevation>.74)&(elevation<=.86)]=1
+        biome[new]=kb[new]
     plan=copy.deepcopy(old);plan['generator']='superior-landscape-2';plan['geometry']={**old['geometry'],'width':width,'height':height,'anchor':anchor,'cellSize':32,'projection':'azimuthal-equidistant; spherical v2 coastline','geometryVersion':2}
     for field in ['settlements','buildings','npcs','zones','resources','roads','doors']:
         plan[field]=[move(p,delta)for p in old[field]]
@@ -77,7 +125,7 @@ def region(key,output,context,labels):
     for p in plan['locations']+plan['doors']+plan['resources']:
         x,y=int(p['x']//32),int(p['y']//32);protected[max(0,y-8):y+9,max(0,x-8):x+9]=True
     # New lakes only in added geography; original terrain and saved positions stay intact.
-    for _ in range(4 if not island else 0):
+    for _ in range(4 if not island and GEOGRAPHY!='ki' else 0):
         candidates=np.argwhere(new&~protected&(elevation<.44))
         if not len(candidates):break
         y,x=candidates[int(rng.integers(len(candidates)))];ry,rx=int(rng.integers(7,14)),int(rng.integers(10,20))
@@ -94,7 +142,8 @@ def region(key,output,context,labels):
         if not len(candidates):break
         score=(candidates[:,1]*32-anchor['x'])*math.cos(angle)+(candidates[:,0]*32-anchor['y'])*math.sin(angle);yy,xx=candidates[np.argmax(score)];target={'id':key+'-v2-landmark-'+str(number),'kind':'wilderness','hidden':False,'x':int(xx*32+16),'y':int(yy*32+16)}
         town=min(plan['settlements'],key=lambda p:math.hypot(p['x']-target['x'],p['y']-target['y']))
-        cost=np.where(land[2::4,2::4]&~ndimage.maximum_filter(blocked,size=3)[2::4,2::4],1+elevation[2::4,2::4]*2,np.inf)
+        relief=1+elevation*2 if GEOGRAPHY!='ki' else 1+(elevation*4)**2+(biome==2)*30+water*40+smooth_noise(rng,shape,6)*3
+        cost=np.where(land[2::4,2::4]&~ndimage.maximum_filter(blocked,size=3)[2::4,2::4],relief[2::4,2::4],np.inf)
         start=(int(town['x']//128),int(town['y']//128));end=(int(target['x']//128),int(target['y']//128))
         try:path=astar(cost,start,end)
         except ValueError:continue
@@ -108,7 +157,10 @@ def region(key,output,context,labels):
     roads_wide=ndimage.binary_dilation(roads,iterations=2)&land&~blocked
     bridges|=roads_wide&water
     # Stream channels crossing the added region terminate at the actual ocean shore.
-    for _ in range(2 if not island else 0):
+    if GEOGRAPHY=='ki' and not island:
+        rivers,made=ki_rivers(rng,elevation,land,new&~protected&~blocked);water|=rivers
+        near=ndimage.binary_dilation(rivers,iterations=5)&new&~water&(elevation<.7)&(biome!=2);biome[near&(smooth_noise(rng,shape,9)>.45)]=3
+    for _ in range(2 if not island and GEOGRAPHY!='ki' else 0):
         candidates=np.argwhere(new&~protected&~blocked&(coast>1200))
         ends=np.argwhere(new&(coast<96)&~blocked)
         if not len(candidates)or not len(ends):continue
@@ -168,7 +220,7 @@ def region(key,output,context,labels):
     write(directory/'landscape-report.json',report);print(report,flush=True);return report
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--context',type=Path,required=True);p.add_argument('--features',nargs='*',default=IDS);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True);context=read(a.context);labels=read_labels();results=[]
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--context',type=Path,required=True);p.add_argument('--features',nargs='*',default=IDS);p.add_argument('--geography',choices=['astra','ki'],default='astra');a=p.parse_args();global GEOGRAPHY;GEOGRAPHY=a.geography;a.output.mkdir(parents=True,exist_ok=True);context=read(a.context);labels=read_labels();results=[]
     for key in a.features:
         if (a.output/key).exists():raise FileExistsError('Refusing to overwrite existing generated region '+key)
         results.append(region(key,a.output,context,labels))

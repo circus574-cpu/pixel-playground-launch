@@ -1,1 +1,1 @@
-{"format":"superior-art-overlay-1","sourceChunkSha256":"a9cbfcb9180ce4623650b02b19aa74c00c98a98dc9faaffbb911c4a2777cb13b","objects":[]}
+{"format":"superior-art-overlay-1","sourceChunkSha256":"de742b6492a3f4c4252d8d6cb3260e3a044d5cbf147f378ab5e26ef673ba4c2a","objects":[{"id":"pyra-v2-object-9197","kind":"tree","asset":"ki-v2-objects.pyra-tree2-4","binding":"object.ki-v2-objects.pyra-tree2-4","x":15760,"y":2000,"width":240,"height":242,"anchorX":0.5,"anchorY":0.92,"layer":"objects","solid":false,"footprint":null,"collisionPolicy":"read-original-world-only"}]}
