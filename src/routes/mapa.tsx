@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { GlobeLoading, MapaView } from "../components/planet-map/MapaView";
 import { readActiveContinent } from "../components/planet-map/MapChrome";
+import { V2WorldMap } from "../components/planet-map/V2WorldMap";
 
 export const Route = createFileRoute("/mapa")({
   head: () => ({
@@ -34,5 +35,7 @@ function MapaPage() {
     setChecked(true);
   }, []);
   if (!checked) return <GlobeLoading />;
+  if (new URLSearchParams(window.location.search).get("ki-world-v2") === "1")
+    return <V2WorldMap continent={current} />;
   return <MapaView current={current} />;
 }
