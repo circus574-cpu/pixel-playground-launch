@@ -2,8 +2,8 @@
  * Argon's quest engine played on world v2 (preview switch ?ki-world-v2=1).
  *
  * The engine keeps its own save (ki_legends_save_v5); the adventure save is never touched.
- * World events feed it: entering a town counts as visiting it and talking to its NPCs (they have
- * no sprites yet), walking up to a famous or hidden place discovers it, and defeating a monster
+ * World events feed it: entering a town counts as visiting it, talking to a game NPC (guide,
+ * merchant, smith, hunter) counts for its binding id, walking up to a famous or hidden place discovers it, and defeating a monster
  * advances combat objectives for its bestiary id.
  */
 import { ALL_CITIES_V2, ALL_HIDDEN_PLACES_V2 } from "../worlds";
@@ -64,10 +64,20 @@ export const questsV2 = {
     const city = Object.entries(v2Places(continent)?.cities ?? {}).find(
       ([, c]) => c.settlement === settlementId,
     )?.[0];
-    if (!city) return;
-    let s = recordQuestObjectiveEvent(current(), "visit", city);
+    if (city) commit(recordQuestObjectiveEvent(current(), "visit", city));
+  },
+  /**
+   * A conversation with a game NPC (guide, merchant, smith, hunter) in a v2 town counts for every
+   * Argon NPC of that town bound to it (bindingId "<continent>.npc.<id>").
+   */
+  talk(continent: string, settlementId: string, npcId: string) {
+    const binding = continent + ".npc." + npcId;
+    const city = Object.entries(v2Places(continent)?.cities ?? {}).find(
+      ([, c]) => c.settlement === settlementId,
+    )?.[0];
+    let s = recordQuestObjectiveEvent(current(), "talk", binding);
     for (const npc of ALL_CITIES_V2.find((c) => c.id === city)?.npcs ?? [])
-      s = recordQuestObjectiveEvent(s, "talk", npc.id);
+      if (npc.bindingId === binding) s = recordQuestObjectiveEvent(s, "talk", npc.id);
     commit(s);
   },
   /** Called every tick with the player position; discovers places within reach once. */

@@ -409,6 +409,7 @@ export async function prepareSuperior(options: {
   const owners = new Map<string, Set<string>>(),
     requests = new Map<string, Promise<void>>();
   const countedDeaths = new WeakSet<object>();
+  let lastDialogue: string | null = null;
   let disposed = false,
     failed = false;
   const error = () => {
@@ -563,6 +564,9 @@ export async function prepareSuperior(options: {
       const p = session.player;
       if (!p.interior) questsV2.near(info.affinity, p.x, p.y);
       questsV2.level(p.level);
+      if (session.dialogue && session.dialogue !== lastDialogue)
+        questsV2.talk(info.affinity, save.town ?? "", session.dialogue);
+      lastDialogue = session.dialogue ?? null;
       for (const event of session.events) {
         if (event.type !== "death" || event.target === "player" || countedDeaths.has(event))
           continue;

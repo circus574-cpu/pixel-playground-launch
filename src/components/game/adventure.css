@@ -634,3 +634,160 @@
   color: #f3d27a;
   font-weight: 600;
 }
+
+/* World v2 quest cards. */
+.ki-qv2-title {
+  margin: 16px 0 8px;
+  font:
+    700 16px "Cinzel",
+    serif;
+  color: #f3d27a;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+.ki-qv2-title::before,
+.ki-qv2-title::after {
+  content: " ❖ ";
+  color: #8a6a3a;
+}
+.ki-qv2-card {
+  position: relative;
+  margin: 0 0 10px;
+  padding: 12px 14px 12px 18px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2a1d11, #17100a);
+  border: 1px solid #6b4a22;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.6);
+}
+.ki-qv2-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 0 3px 3px 0;
+  background: #8a6a3a;
+}
+.ki-qv2-card.is-active::before {
+  background: linear-gradient(#f3d27a, #c98a2a);
+  box-shadow: 0 0 8px #f3d27a;
+}
+.ki-qv2-card.is-completed {
+  opacity: 0.65;
+}
+.ki-qv2-card.is-completed::before {
+  background: #6fbf73;
+}
+.ki-qv2-card h3 {
+  margin: 0 0 6px;
+  font:
+    700 15px "Cinzel",
+    serif;
+  color: #fff3d1;
+}
+.ki-qv2-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  font-size: 12px;
+  color: #c9b38a;
+}
+.ki-qv2-badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 11px;
+  background: #3a2814;
+  color: #f3d27a;
+}
+.ki-qv2-badge.is-active {
+  background: #f3d27a;
+  color: #20140a;
+}
+.ki-qv2-badge.is-completed {
+  background: #2f5a31;
+  color: #d8f5d9;
+}
+.ki-qv2-reward {
+  margin-left: auto;
+  color: #b07cff;
+  font-weight: 600;
+}
+.ki-qv2-story {
+  margin: 8px 0;
+  font-style: italic;
+  color: #e2d4b4;
+  line-height: 1.45;
+}
+.ki-qv2-stage {
+  margin: 6px 0;
+  font:
+    600 13px "Cinzel",
+    serif;
+  color: #f3d27a;
+}
+.ki-qv2-goals {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.ki-qv2-goals li {
+  display: grid;
+  grid-template-columns: 26px 1fr 84px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #e8dcc0;
+}
+.ki-qv2-goals li.is-done .ki-qv2-text {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.ki-qv2-icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #120b06;
+  border: 1px solid #8a6a3a;
+  font-size: 13px;
+}
+.ki-qv2-bar {
+  position: relative;
+  height: 16px;
+  border-radius: 8px;
+  background: #120b06;
+  border: 1px solid #5a3e1c;
+  overflow: hidden;
+}
+.ki-qv2-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, #c98a2a, #f3d27a);
+}
+.ki-qv2-bar b {
+  position: relative;
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  line-height: 14px;
+  color: #fff;
+  text-shadow: 0 0 3px #000;
+}
+.ki-qv2-accept {
+  margin-top: 10px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid #f3d27a;
+  background: linear-gradient(#c98a2a, #7a4a14);
+  color: #fff3d1;
+  font:
+    700 13px "Cinzel",
+    serif;
+  cursor: pointer;
+}

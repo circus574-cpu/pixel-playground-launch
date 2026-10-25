@@ -2,6 +2,13 @@ import { useSyncExternalStore } from "react";
 import { questsV2 } from "../../game/quests/v2Tracker";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 
+const OBJECTIVE_ICON: Record<string, string> = {
+  combat: "⚔",
+  talk: "💬",
+  discover: "🔍",
+  visit: "📍",
+  deliver: "📦",
+};
 const STATE_LABEL: Record<string, string> = {
   available: "Do przyjęcia",
   active: "W toku",
@@ -21,34 +28,59 @@ export function QuestsV2Journal({ continent }: { continent: string }) {
   entries.sort((a, b) => (order[a.state] ?? 3) - (order[b.state] ?? 3));
   return (
     <section className="ki-quests-v2" aria-label="Przygody świata v2">
-      <h3 className="ki-panel-caption">Przygody kontynentu · {entries.length}</h3>
+      <h3 className="ki-qv2-title">Przygody kontynentu</h3>
       {entries.map(({ quest, state, stage }) => {
         const current = quest.stages[stage];
         const progress = save.quests[quest.id]?.objectiveProgress ?? {};
         return (
-          <article className="ki-quest-entry" key={quest.id}>
+          <article className={"ki-qv2-card is-" + state} key={quest.id}>
             <h3>
               {state === "completed" ? "✓ " : "◆ "}
               {quest.title}
             </h3>
-            <small>
-              {STATE_LABEL[state] ?? state} · {quest.giverName} · poziom {quest.recommendedLevel}
-            </small>
-            <p>{state === "active" && current ? current.narrativeText : quest.summary}</p>
+            <div className="ki-qv2-meta">
+              <span className={"ki-qv2-badge is-" + state}>{STATE_LABEL[state] ?? state}</span>
+              <span>{quest.giverName}</span>
+              <span>poz. {quest.recommendedLevel}</span>
+              <span className="ki-qv2-reward">
+                +{quest.reward.xp} XP
+                {quest.reward.coins ? " · " + quest.reward.coins + " monet" : ""}
+              </span>
+            </div>
+            <p className="ki-qv2-story">
+              {state === "active" && current ? current.narrativeText : quest.summary}
+            </p>
+            {state === "active" && current && <h4 className="ki-qv2-stage">{current.title}</h4>}
             {state === "active" && current && (
-              <ul>
-                {current.objectives.map((o) => (
-                  <li key={o.id}>
-                    {o.description} — {Math.min(progress[o.id] ?? 0, o.targetCount)}/{o.targetCount}
-                  </li>
-                ))}
+              <ul className="ki-qv2-goals">
+                {current.objectives.map((o) => {
+                  const done = Math.min(progress[o.id] ?? 0, o.targetCount);
+                  return (
+                    <li key={o.id} className={done >= o.targetCount ? "is-done" : ""}>
+                      <span className="ki-qv2-icon" aria-hidden>
+                        {OBJECTIVE_ICON[o.type] ?? "◆"}
+                      </span>
+                      <span className="ki-qv2-text">
+                        {o.description.replace(/\s*\([a-z0-9._-]+\)/g, "")}
+                      </span>
+                      <span className="ki-qv2-bar" aria-label={done + " z " + o.targetCount}>
+                        <i style={{ width: (100 * done) / o.targetCount + "%" }} />
+                        <b>
+                          {done}/{o.targetCount}
+                        </b>
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             )}
             {!quest.playableInCurrentRuntime && quest.runtimeLimitationNote && (
               <small>{quest.runtimeLimitationNote}</small>
             )}
             {state === "available" && (
-              <button onClick={() => questsV2.start(quest.id)}>Przyjmij zadanie</button>
+              <button className="ki-qv2-accept" onClick={() => questsV2.start(quest.id)}>
+                Przyjmij zadanie
+              </button>
             )}
           </article>
         );

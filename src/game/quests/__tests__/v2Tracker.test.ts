@@ -6,18 +6,17 @@ describe("questsV2 tracker", () => {
     localStorage.clear();
     vi.resetModules();
   });
-  it("offers Verdantia quests, starts one and advances a visit/talk objective by entering its town", async () => {
+  it("offers Verdantia quests, starts one and advances a talk objective by talking to the game NPC", async () => {
     const { questsV2 } = await import("../v2Tracker");
     const available = questsV2.journal("verdant").filter((q) => q.state === "available");
     expect(available.length).toBeGreaterThan(0);
     const target = available.find(({ quest }) =>
-      quest.stages[0]!.objectives.some((o) => o.type === "visit" || o.type === "talk"),
+      quest.stages[0]!.objectives.some((o) => o.type === "talk" && o.targetId === "npc-aira"),
     );
     expect(target).toBeDefined();
     questsV2.start(target!.quest.id);
     expect(questsV2.save.quests[target!.quest.id]?.state).toBe("active");
-    for (const s of ["verdant-capital", "verdant-town-1", "verdant-town-2", "verdant-town-3"])
-      questsV2.enterTown("verdant", s);
+    questsV2.talk("verdant", "verdant-capital", "guide");
     const record = questsV2.save.quests[target!.quest.id]!;
     const progressed =
       record.state === "completed" ||
