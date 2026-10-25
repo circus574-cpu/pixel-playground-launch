@@ -20,8 +20,14 @@
       {
         "id": "technical-mannequin",
         "profile": "hero",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -29,14 +35,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/idle/down/00", "technical/idle/down/01"],
-              "down-left": ["technical/idle/down-left/00", "technical/idle/down-left/01"],
-              "left": ["technical/idle/left/00", "technical/idle/left/01"],
-              "up-left": ["technical/idle/up-left/00", "technical/idle/up-left/01"],
-              "up": ["technical/idle/up/00", "technical/idle/up/01"],
-              "up-right": ["technical/idle/up-right/00", "technical/idle/up-right/01"],
-              "right": ["technical/idle/right/00", "technical/idle/right/01"],
-              "down-right": ["technical/idle/down-right/00", "technical/idle/down-right/01"]
+              "down": [
+                "technical/idle/down/00",
+                "technical/idle/down/01"
+              ],
+              "down-left": [
+                "technical/idle/down-left/00",
+                "technical/idle/down-left/01"
+              ],
+              "left": [
+                "technical/idle/left/00",
+                "technical/idle/left/01"
+              ],
+              "up-left": [
+                "technical/idle/up-left/00",
+                "technical/idle/up-left/01"
+              ],
+              "up": [
+                "technical/idle/up/00",
+                "technical/idle/up/01"
+              ],
+              "up-right": [
+                "technical/idle/up-right/00",
+                "technical/idle/up-right/01"
+              ],
+              "right": [
+                "technical/idle/right/00",
+                "technical/idle/right/01"
+              ],
+              "down-right": [
+                "technical/idle/down-right/00",
+                "technical/idle/down-right/01"
+              ]
             }
           },
           "walk": {
@@ -44,14 +74,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/walk/down/00", "technical/walk/down/01"],
-              "down-left": ["technical/walk/down-left/00", "technical/walk/down-left/01"],
-              "left": ["technical/walk/left/00", "technical/walk/left/01"],
-              "up-left": ["technical/walk/up-left/00", "technical/walk/up-left/01"],
-              "up": ["technical/walk/up/00", "technical/walk/up/01"],
-              "up-right": ["technical/walk/up-right/00", "technical/walk/up-right/01"],
-              "right": ["technical/walk/right/00", "technical/walk/right/01"],
-              "down-right": ["technical/walk/down-right/00", "technical/walk/down-right/01"]
+              "down": [
+                "technical/walk/down/00",
+                "technical/walk/down/01"
+              ],
+              "down-left": [
+                "technical/walk/down-left/00",
+                "technical/walk/down-left/01"
+              ],
+              "left": [
+                "technical/walk/left/00",
+                "technical/walk/left/01"
+              ],
+              "up-left": [
+                "technical/walk/up-left/00",
+                "technical/walk/up-left/01"
+              ],
+              "up": [
+                "technical/walk/up/00",
+                "technical/walk/up/01"
+              ],
+              "up-right": [
+                "technical/walk/up-right/00",
+                "technical/walk/up-right/01"
+              ],
+              "right": [
+                "technical/walk/right/00",
+                "technical/walk/right/01"
+              ],
+              "down-right": [
+                "technical/walk/down-right/00",
+                "technical/walk/down-right/01"
+              ]
             }
           },
           "run": {
@@ -59,14 +113,38 @@
             "fps": 8,
             "loop": true,
             "directions": {
-              "down": ["technical/run/down/00", "technical/run/down/01"],
-              "down-left": ["technical/run/down-left/00", "technical/run/down-left/01"],
-              "left": ["technical/run/left/00", "technical/run/left/01"],
-              "up-left": ["technical/run/up-left/00", "technical/run/up-left/01"],
-              "up": ["technical/run/up/00", "technical/run/up/01"],
-              "up-right": ["technical/run/up-right/00", "technical/run/up-right/01"],
-              "right": ["technical/run/right/00", "technical/run/right/01"],
-              "down-right": ["technical/run/down-right/00", "technical/run/down-right/01"]
+              "down": [
+                "technical/run/down/00",
+                "technical/run/down/01"
+              ],
+              "down-left": [
+                "technical/run/down-left/00",
+                "technical/run/down-left/01"
+              ],
+              "left": [
+                "technical/run/left/00",
+                "technical/run/left/01"
+              ],
+              "up-left": [
+                "technical/run/up-left/00",
+                "technical/run/up-left/01"
+              ],
+              "up": [
+                "technical/run/up/00",
+                "technical/run/up/01"
+              ],
+              "up-right": [
+                "technical/run/up-right/00",
+                "technical/run/up-right/01"
+              ],
+              "right": [
+                "technical/run/right/00",
+                "technical/run/right/01"
+              ],
+              "down-right": [
+                "technical/run/down-right/00",
+                "technical/run/down-right/01"
+              ]
             }
           },
           "attack": {
@@ -74,14 +152,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/attack/down/00", "technical/attack/down/01"],
-              "down-left": ["technical/attack/down-left/00", "technical/attack/down-left/01"],
-              "left": ["technical/attack/left/00", "technical/attack/left/01"],
-              "up-left": ["technical/attack/up-left/00", "technical/attack/up-left/01"],
-              "up": ["technical/attack/up/00", "technical/attack/up/01"],
-              "up-right": ["technical/attack/up-right/00", "technical/attack/up-right/01"],
-              "right": ["technical/attack/right/00", "technical/attack/right/01"],
-              "down-right": ["technical/attack/down-right/00", "technical/attack/down-right/01"]
+              "down": [
+                "technical/attack/down/00",
+                "technical/attack/down/01"
+              ],
+              "down-left": [
+                "technical/attack/down-left/00",
+                "technical/attack/down-left/01"
+              ],
+              "left": [
+                "technical/attack/left/00",
+                "technical/attack/left/01"
+              ],
+              "up-left": [
+                "technical/attack/up-left/00",
+                "technical/attack/up-left/01"
+              ],
+              "up": [
+                "technical/attack/up/00",
+                "technical/attack/up/01"
+              ],
+              "up-right": [
+                "technical/attack/up-right/00",
+                "technical/attack/up-right/01"
+              ],
+              "right": [
+                "technical/attack/right/00",
+                "technical/attack/right/01"
+              ],
+              "down-right": [
+                "technical/attack/down-right/00",
+                "technical/attack/down-right/01"
+              ]
             }
           },
           "skill": {
@@ -89,14 +191,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/skill/down/00", "technical/skill/down/01"],
-              "down-left": ["technical/skill/down-left/00", "technical/skill/down-left/01"],
-              "left": ["technical/skill/left/00", "technical/skill/left/01"],
-              "up-left": ["technical/skill/up-left/00", "technical/skill/up-left/01"],
-              "up": ["technical/skill/up/00", "technical/skill/up/01"],
-              "up-right": ["technical/skill/up-right/00", "technical/skill/up-right/01"],
-              "right": ["technical/skill/right/00", "technical/skill/right/01"],
-              "down-right": ["technical/skill/down-right/00", "technical/skill/down-right/01"]
+              "down": [
+                "technical/skill/down/00",
+                "technical/skill/down/01"
+              ],
+              "down-left": [
+                "technical/skill/down-left/00",
+                "technical/skill/down-left/01"
+              ],
+              "left": [
+                "technical/skill/left/00",
+                "technical/skill/left/01"
+              ],
+              "up-left": [
+                "technical/skill/up-left/00",
+                "technical/skill/up-left/01"
+              ],
+              "up": [
+                "technical/skill/up/00",
+                "technical/skill/up/01"
+              ],
+              "up-right": [
+                "technical/skill/up-right/00",
+                "technical/skill/up-right/01"
+              ],
+              "right": [
+                "technical/skill/right/00",
+                "technical/skill/right/01"
+              ],
+              "down-right": [
+                "technical/skill/down-right/00",
+                "technical/skill/down-right/01"
+              ]
             }
           },
           "hit": {
@@ -104,14 +230,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/hit/down/00", "technical/hit/down/01"],
-              "down-left": ["technical/hit/down-left/00", "technical/hit/down-left/01"],
-              "left": ["technical/hit/left/00", "technical/hit/left/01"],
-              "up-left": ["technical/hit/up-left/00", "technical/hit/up-left/01"],
-              "up": ["technical/hit/up/00", "technical/hit/up/01"],
-              "up-right": ["technical/hit/up-right/00", "technical/hit/up-right/01"],
-              "right": ["technical/hit/right/00", "technical/hit/right/01"],
-              "down-right": ["technical/hit/down-right/00", "technical/hit/down-right/01"]
+              "down": [
+                "technical/hit/down/00",
+                "technical/hit/down/01"
+              ],
+              "down-left": [
+                "technical/hit/down-left/00",
+                "technical/hit/down-left/01"
+              ],
+              "left": [
+                "technical/hit/left/00",
+                "technical/hit/left/01"
+              ],
+              "up-left": [
+                "technical/hit/up-left/00",
+                "technical/hit/up-left/01"
+              ],
+              "up": [
+                "technical/hit/up/00",
+                "technical/hit/up/01"
+              ],
+              "up-right": [
+                "technical/hit/up-right/00",
+                "technical/hit/up-right/01"
+              ],
+              "right": [
+                "technical/hit/right/00",
+                "technical/hit/right/01"
+              ],
+              "down-right": [
+                "technical/hit/down-right/00",
+                "technical/hit/down-right/01"
+              ]
             }
           },
           "death": {
@@ -119,14 +269,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/death/down/00", "technical/death/down/01"],
-              "down-left": ["technical/death/down-left/00", "technical/death/down-left/01"],
-              "left": ["technical/death/left/00", "technical/death/left/01"],
-              "up-left": ["technical/death/up-left/00", "technical/death/up-left/01"],
-              "up": ["technical/death/up/00", "technical/death/up/01"],
-              "up-right": ["technical/death/up-right/00", "technical/death/up-right/01"],
-              "right": ["technical/death/right/00", "technical/death/right/01"],
-              "down-right": ["technical/death/down-right/00", "technical/death/down-right/01"]
+              "down": [
+                "technical/death/down/00",
+                "technical/death/down/01"
+              ],
+              "down-left": [
+                "technical/death/down-left/00",
+                "technical/death/down-left/01"
+              ],
+              "left": [
+                "technical/death/left/00",
+                "technical/death/left/01"
+              ],
+              "up-left": [
+                "technical/death/up-left/00",
+                "technical/death/up-left/01"
+              ],
+              "up": [
+                "technical/death/up/00",
+                "technical/death/up/01"
+              ],
+              "up-right": [
+                "technical/death/up-right/00",
+                "technical/death/up-right/01"
+              ],
+              "right": [
+                "technical/death/right/00",
+                "technical/death/right/01"
+              ],
+              "down-right": [
+                "technical/death/down-right/00",
+                "technical/death/down-right/01"
+              ]
             }
           },
           "respawn": {
@@ -134,14 +308,38 @@
             "fps": 8,
             "loop": false,
             "directions": {
-              "down": ["technical/respawn/down/00", "technical/respawn/down/01"],
-              "down-left": ["technical/respawn/down-left/00", "technical/respawn/down-left/01"],
-              "left": ["technical/respawn/left/00", "technical/respawn/left/01"],
-              "up-left": ["technical/respawn/up-left/00", "technical/respawn/up-left/01"],
-              "up": ["technical/respawn/up/00", "technical/respawn/up/01"],
-              "up-right": ["technical/respawn/up-right/00", "technical/respawn/up-right/01"],
-              "right": ["technical/respawn/right/00", "technical/respawn/right/01"],
-              "down-right": ["technical/respawn/down-right/00", "technical/respawn/down-right/01"]
+              "down": [
+                "technical/respawn/down/00",
+                "technical/respawn/down/01"
+              ],
+              "down-left": [
+                "technical/respawn/down-left/00",
+                "technical/respawn/down-left/01"
+              ],
+              "left": [
+                "technical/respawn/left/00",
+                "technical/respawn/left/01"
+              ],
+              "up-left": [
+                "technical/respawn/up-left/00",
+                "technical/respawn/up-left/01"
+              ],
+              "up": [
+                "technical/respawn/up/00",
+                "technical/respawn/up/01"
+              ],
+              "up-right": [
+                "technical/respawn/up-right/00",
+                "technical/respawn/up-right/01"
+              ],
+              "right": [
+                "technical/respawn/right/00",
+                "technical/respawn/right/01"
+              ],
+              "down-right": [
+                "technical/respawn/down-right/00",
+                "technical/respawn/down-right/01"
+              ]
             }
           }
         }
@@ -182,8 +380,14 @@
         "id": "hero-planetary",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [128, 128],
-        "origin": [0.5, 0.75],
+        "size": [
+          128,
+          128
+        ],
+        "origin": [
+          0.5,
+          0.75
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -803,8 +1007,14 @@
         "id": "hero-sage",
         "profile": "hero",
         "presentation": "grounded",
-        "size": [128, 128],
-        "origin": [0.5, 0.75],
+        "size": [
+          128,
+          128
+        ],
+        "origin": [
+          0.5,
+          0.75
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -1487,17 +1697,26 @@
       "object.sanctum": {
         "asset": "aether-art-sanctum",
         "fit": "contain",
-        "origin": [0.5, 0.81]
+        "origin": [
+          0.5,
+          0.81
+        ]
       },
       "object.archive": {
         "asset": "aether-art-archive",
         "fit": "contain",
-        "origin": [0.5, 0.79]
+        "origin": [
+          0.5,
+          0.79
+        ]
       },
       "object.ki-source": {
         "asset": "aether-art-ki-source",
         "fit": "contain",
-        "origin": [0.5, 0.84]
+        "origin": [
+          0.5,
+          0.84
+        ]
       },
       "object.ki-tree": {
         "asset": "aether-art-ki-tree",
@@ -1514,22 +1733,34 @@
       "terrain.aether-ground": {
         "asset": "aether-art-aether-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.aether-path": {
         "asset": "aether-art-aether-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.aether-plaza": {
         "asset": "aether-art-aether-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.aether-wall": {
         "asset": "aether-art-aether-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -1628,52 +1859,82 @@
       "object.lab": {
         "asset": "nexus-art-lab",
         "fit": "contain",
-        "origin": [0.5, 0.8]
+        "origin": [
+          0.5,
+          0.8
+        ]
       },
       "object.reactor": {
         "asset": "nexus-art-reactor",
         "fit": "contain",
-        "origin": [0.5, 0.82]
+        "origin": [
+          0.5,
+          0.82
+        ]
       },
       "object.terminal": {
         "asset": "nexus-art-terminal",
         "fit": "contain",
-        "origin": [0.5, 0.89]
+        "origin": [
+          0.5,
+          0.89
+        ]
       },
       "object.crystal": {
         "asset": "nexus-art-crystal",
         "fit": "contain",
-        "origin": [0.5, 0.87]
+        "origin": [
+          0.5,
+          0.87
+        ]
       },
       "object.pylon": {
         "asset": "nexus-art-pylon",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.tech-garden": {
         "asset": "nexus-art-tech-garden",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "terrain.nexus-ground": {
         "asset": "nexus-art-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.nexus-path": {
         "asset": "nexus-art-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.nexus-plaza": {
         "asset": "nexus-art-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.nexus-wall": {
         "asset": "nexus-art-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -1772,52 +2033,82 @@
       "object.fortress": {
         "asset": "pyra-art-fortress",
         "fit": "contain",
-        "origin": [0.5, 0.8]
+        "origin": [
+          0.5,
+          0.8
+        ]
       },
       "object.war-shrine": {
         "asset": "pyra-art-war-shrine",
         "fit": "contain",
-        "origin": [0.5, 0.8]
+        "origin": [
+          0.5,
+          0.8
+        ]
       },
       "object.statue": {
         "asset": "pyra-art-statue",
         "fit": "contain",
-        "origin": [0.5, 0.87]
+        "origin": [
+          0.5,
+          0.87
+        ]
       },
       "object.basalt": {
         "asset": "pyra-art-basalt",
         "fit": "contain",
-        "origin": [0.5, 0.86]
+        "origin": [
+          0.5,
+          0.86
+        ]
       },
       "object.volcano": {
         "asset": "pyra-art-volcano",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.clan-banner": {
         "asset": "pyra-art-clan-banner",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "terrain.pyra-ground": {
         "asset": "pyra-art-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.pyra-path": {
         "asset": "pyra-art-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.pyra-plaza": {
         "asset": "pyra-art-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.pyra-wall": {
         "asset": "pyra-art-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -1998,27 +2289,42 @@
       "object.pagoda": {
         "asset": "aether-x-pagoda",
         "fit": "contain",
-        "origin": [0.5, 0.9]
+        "origin": [
+          0.5,
+          0.9
+        ]
       },
       "object.koi-pond": {
         "asset": "aether-x-koi-pond",
         "fit": "contain",
-        "origin": [0.5, 0.62]
+        "origin": [
+          0.5,
+          0.62
+        ]
       },
       "object.spirit-gate": {
         "asset": "aether-x-spirit-gate",
         "fit": "contain",
-        "origin": [0.5, 0.95]
+        "origin": [
+          0.5,
+          0.95
+        ]
       },
       "object.stone-lantern": {
         "asset": "aether-x-stone-lantern",
         "fit": "contain",
-        "origin": [0.5, 0.94]
+        "origin": [
+          0.5,
+          0.94
+        ]
       },
       "object.cherry-tree": {
         "asset": "aether-x-cherry-tree",
         "fit": "contain",
-        "origin": [0.5, 0.93]
+        "origin": [
+          0.5,
+          0.93
+        ]
       }
     },
     "effects": {}
@@ -2054,8 +2360,14 @@
         "id": "hero-android",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -2675,8 +2987,14 @@
         "id": "hero-legend",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -3296,8 +3614,14 @@
         "id": "hero-planetary-painted",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -3917,8 +4241,14 @@
         "id": "hero-sage-painted",
         "profile": "hero",
         "presentation": "legacy",
-        "size": [96, 96],
-        "origin": [0.5, 0.95],
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -4553,22 +4883,34 @@
       "terrain.aether-ground": {
         "asset": "aether-terrain-v2-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.aether-path": {
         "asset": "aether-terrain-v2-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.aether-plaza": {
         "asset": "aether-terrain-v2-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.aether-wall": {
         "asset": "aether-terrain-v2-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -4619,22 +4961,34 @@
       "terrain.nexus-ground": {
         "asset": "nexus-terrain-v2-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.nexus-path": {
         "asset": "nexus-terrain-v2-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.nexus-plaza": {
         "asset": "nexus-terrain-v2-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.nexus-wall": {
         "asset": "nexus-terrain-v2-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -4685,22 +5039,34 @@
       "terrain.pyra-ground": {
         "asset": "pyra-terrain-v2-ground",
         "fit": "stretch",
-        "tileSize": [320, 320]
+        "tileSize": [
+          320,
+          320
+        ]
       },
       "terrain.pyra-path": {
         "asset": "pyra-terrain-v2-path",
         "fit": "stretch",
-        "tileSize": [208, 208]
+        "tileSize": [
+          208,
+          208
+        ]
       },
       "terrain.pyra-plaza": {
         "asset": "pyra-terrain-v2-plaza",
         "fit": "stretch",
-        "tileSize": [288, 288]
+        "tileSize": [
+          288,
+          288
+        ]
       },
       "terrain.pyra-wall": {
         "asset": "pyra-terrain-v2-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -4847,82 +5213,130 @@
       "terrain.nature-water-ocean-deep": {
         "asset": "nature-tex-water-ocean-deep",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-ocean-shallow": {
         "asset": "nature-tex-water-ocean-shallow",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-river": {
         "asset": "nature-tex-water-river",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-lake-calm": {
         "asset": "nature-tex-water-lake-calm",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-water-crystal": {
         "asset": "nature-tex-water-crystal",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-energy-liquid": {
         "asset": "nature-tex-energy-liquid",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-ice-glacier": {
         "asset": "nature-tex-ice-glacier",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-snow": {
         "asset": "nature-tex-snow",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-sand-beach": {
         "asset": "nature-tex-sand-beach",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-meadow-grass": {
         "asset": "nature-tex-meadow-grass",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-forest-floor": {
         "asset": "nature-tex-forest-floor",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-cliff-rock": {
         "asset": "nature-tex-cliff-rock",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-lava-flow": {
         "asset": "nature-tex-lava-flow",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-lava-crust": {
         "asset": "nature-tex-lava-crust",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-ash-ground": {
         "asset": "nature-tex-ash-ground",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.nature-basalt-columns": {
         "asset": "nature-tex-basalt-columns",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -5105,7 +5519,10 @@
       "object.nature.iceberg": {
         "asset": "nature-obj-iceberg",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-ice-spires": {
         "asset": "nature-obj-ice-spires",
@@ -5130,12 +5547,18 @@
       "object.nature.mountain-peak": {
         "asset": "nature-obj-mountain-peak",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.grassy-hill": {
         "asset": "nature-obj-grassy-hill",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-cliff-outcrop": {
         "asset": "nature-obj-cliff-outcrop",
@@ -5144,22 +5567,34 @@
       "object.nature.pine-tree": {
         "asset": "nature-obj-pine-tree",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.broadleaf-tree": {
         "asset": "nature-obj-broadleaf-tree",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.crystal-tree": {
         "asset": "nature-obj-crystal-tree",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.flower-bush": {
         "asset": "nature-obj-flower-bush",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-boulder-group": {
         "asset": "nature-obj-boulder-group",
@@ -5168,7 +5603,10 @@
       "object.nature.reed-clump": {
         "asset": "nature-obj-reed-clump",
         "fit": "contain",
-        "origin": [0.5, 0.92]
+        "origin": [
+          0.5,
+          0.92
+        ]
       },
       "object.nature.patch-small-island": {
         "asset": "nature-obj-small-island",
@@ -5249,12 +5687,18 @@
       "terrain.city-floor": {
         "asset": "city-floor",
         "fit": "contain",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.city-stone": {
         "asset": "city-stone",
         "fit": "contain",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       }
     },
     "effects": {}
@@ -8499,8 +8943,14 @@
         "id": "enemy-aether-duch-bibliotekarza",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -9111,8 +9561,14 @@
         "id": "enemy-aether-krysztalowy-motyl",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -9723,8 +10179,14 @@
         "id": "enemy-aether-lew-swiatyni",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -10335,8 +10797,14 @@
         "id": "enemy-aether-marionetka-rytualu",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -10947,8 +11415,14 @@
         "id": "enemy-aether-mgielny-zuraw",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -11559,8 +12033,14 @@
         "id": "enemy-aether-oko-wiedzy",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -12171,8 +12651,14 @@
         "id": "enemy-aether-pergaminowy-straznik",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -12783,8 +13269,14 @@
         "id": "enemy-aether-swietlik-pieczeci",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -13395,8 +13887,14 @@
         "id": "enemy-aether-szmaragdowy-waz",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -14007,8 +14505,14 @@
         "id": "enemy-aether-zloty-skarabeusz",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -14619,8 +15123,14 @@
         "id": "enemy-nexus-dron-zwiadowca",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -15231,8 +15741,14 @@
         "id": "enemy-nexus-kruk-danych",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -15843,8 +16359,14 @@
         "id": "enemy-nexus-latarnia-plazmowa",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -16455,8 +16977,14 @@
         "id": "enemy-nexus-pajak-spawalniczy",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -17067,8 +17595,14 @@
         "id": "enemy-nexus-pelzacz-serwisowy",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -17679,8 +18213,14 @@
         "id": "enemy-nexus-pies-lowca",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -18291,8 +18831,14 @@
         "id": "enemy-nexus-roj-nanitow",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -18903,8 +19449,14 @@
         "id": "enemy-nexus-skaner-gasienicowy",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -19515,8 +20067,14 @@
         "id": "enemy-nexus-straznik-rdzenia",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -20127,8 +20685,14 @@
         "id": "enemy-nexus-wiezyczka-autonomiczna",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -20739,8 +21303,14 @@
         "id": "enemy-pyra-byk-areny",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -21351,8 +21921,14 @@
         "id": "enemy-pyra-golem-ruin",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -21963,8 +22539,14 @@
         "id": "enemy-pyra-magmowy-krab",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -22575,8 +23157,14 @@
         "id": "enemy-pyra-ognista-salamandra",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -23187,8 +23775,14 @@
         "id": "enemy-pyra-plomien-duch",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -23799,8 +24393,14 @@
         "id": "enemy-pyra-popielny-wilk",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -24411,8 +25011,14 @@
         "id": "enemy-pyra-skalny-berserker",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -25023,8 +25629,14 @@
         "id": "enemy-pyra-skorpion-obsydianowy",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -25635,8 +26247,14 @@
         "id": "enemy-pyra-wegielek",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -26247,8 +26865,14 @@
         "id": "enemy-pyra-zarowy-nietoperz",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -26859,8 +27483,14 @@
         "id": "enemy-verdant-bursztynowa-osa",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -27471,8 +28101,14 @@
         "id": "enemy-verdant-cierniowy-wilk",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -28083,8 +28719,14 @@
         "id": "enemy-verdant-grzybowy-zarodnik",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -28695,8 +29337,14 @@
         "id": "enemy-verdant-korzeniowy-pelzacz",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -29307,8 +29955,14 @@
         "id": "enemy-verdant-lesny-pajak",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -29919,8 +30573,14 @@
         "id": "enemy-verdant-lisciak-skrytobojca",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -30531,8 +31191,14 @@
         "id": "enemy-verdant-mchowy-szlamak",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -31143,8 +31809,14 @@
         "id": "enemy-verdant-puchacz-pylowy",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -31755,8 +32427,14 @@
         "id": "enemy-verdant-skalny-jelen",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -32367,8 +33045,14 @@
         "id": "enemy-verdant-straznik-ruin",
         "profile": "enemy",
         "presentation": "legacy",
-        "size": [84, 84],
-        "origin": [0.5, 0.8],
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
         "tintable": false,
         "clips": {
           "idle": {
@@ -33179,12 +33863,3322 @@
       "terrain.pyra.smithy-floor": {
         "asset": "pyra-smithy-floor",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
       },
       "terrain.pyra.smithy-wall": {
         "asset": "pyra-smithy-wall",
         "fit": "stretch",
-        "tileSize": [256, 256]
+        "tileSize": [
+          256,
+          256
+        ]
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "ki-v2-objects",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "ki-v2-objects-aether-boulder-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-boulder-0.webp",
+        "width": 899,
+        "height": 798
+      },
+      {
+        "id": "ki-v2-objects-aether-boulder-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-boulder-2.webp",
+        "width": 855,
+        "height": 842
+      },
+      {
+        "id": "ki-v2-objects-aether-boulder-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-boulder-3.webp",
+        "width": 901,
+        "height": 946
+      },
+      {
+        "id": "ki-v2-objects-aether-boulder-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-boulder-4.webp",
+        "width": 909,
+        "height": 964
+      },
+      {
+        "id": "ki-v2-objects-aether-boulder-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-boulder-5.webp",
+        "width": 896,
+        "height": 876
+      },
+      {
+        "id": "ki-v2-objects-aether-bush-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-bush-0.webp",
+        "width": 828,
+        "height": 832
+      },
+      {
+        "id": "ki-v2-objects-aether-bush-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-bush-1.webp",
+        "width": 804,
+        "height": 822
+      },
+      {
+        "id": "ki-v2-objects-aether-bush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-bush-2.webp",
+        "width": 715,
+        "height": 772
+      },
+      {
+        "id": "ki-v2-objects-aether-bush-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-bush-3.webp",
+        "width": 901,
+        "height": 929
+      },
+      {
+        "id": "ki-v2-objects-aether-bush-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-bush-5.webp",
+        "width": 755,
+        "height": 770
+      },
+      {
+        "id": "ki-v2-objects-aether-fern-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-fern-1.webp",
+        "width": 544,
+        "height": 732
+      },
+      {
+        "id": "ki-v2-objects-aether-fern-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-fern-2.webp",
+        "width": 521,
+        "height": 489
+      },
+      {
+        "id": "ki-v2-objects-aether-fern-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-fern-3.webp",
+        "width": 426,
+        "height": 692
+      },
+      {
+        "id": "ki-v2-objects-aether-fern-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-fern-4.webp",
+        "width": 360,
+        "height": 528
+      },
+      {
+        "id": "ki-v2-objects-aether-fern-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-fern-5.webp",
+        "width": 448,
+        "height": 554
+      },
+      {
+        "id": "ki-v2-objects-aether-flowerbush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-flowerbush-2.webp",
+        "width": 912,
+        "height": 817
+      },
+      {
+        "id": "ki-v2-objects-aether-flowerbush-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-flowerbush-3.webp",
+        "width": 916,
+        "height": 947
+      },
+      {
+        "id": "ki-v2-objects-aether-log-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-log-1.webp",
+        "width": 700,
+        "height": 675
+      },
+      {
+        "id": "ki-v2-objects-aether-log-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-log-2.webp",
+        "width": 630,
+        "height": 502
+      },
+      {
+        "id": "ki-v2-objects-aether-log-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-log-4.webp",
+        "width": 932,
+        "height": 903
+      },
+      {
+        "id": "ki-v2-objects-aether-log-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-log-5.webp",
+        "width": 537,
+        "height": 636
+      },
+      {
+        "id": "ki-v2-objects-aether-mushrooms-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-mushrooms-0.webp",
+        "width": 560,
+        "height": 626
+      },
+      {
+        "id": "ki-v2-objects-aether-mushrooms-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-mushrooms-3.webp",
+        "width": 847,
+        "height": 771
+      },
+      {
+        "id": "ki-v2-objects-aether-oak-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-oak-0.webp",
+        "width": 833,
+        "height": 946
+      },
+      {
+        "id": "ki-v2-objects-aether-oak-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-oak-1.webp",
+        "width": 925,
+        "height": 899
+      },
+      {
+        "id": "ki-v2-objects-aether-oak-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-oak-2.webp",
+        "width": 875,
+        "height": 916
+      },
+      {
+        "id": "ki-v2-objects-aether-oak-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-oak-3.webp",
+        "width": 901,
+        "height": 955
+      },
+      {
+        "id": "ki-v2-objects-aether-oak-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-oak-4.webp",
+        "width": 981,
+        "height": 990
+      },
+      {
+        "id": "ki-v2-objects-aether-pine-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-pine-3.webp",
+        "width": 624,
+        "height": 1014
+      },
+      {
+        "id": "ki-v2-objects-aether-pine-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-pine-4.webp",
+        "width": 836,
+        "height": 1007
+      },
+      {
+        "id": "ki-v2-objects-aether-pine-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-pine-5.webp",
+        "width": 749,
+        "height": 1018
+      },
+      {
+        "id": "ki-v2-objects-aether-reeds-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-reeds-3.webp",
+        "width": 981,
+        "height": 918
+      },
+      {
+        "id": "ki-v2-objects-aether-rocks-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-rocks-0.webp",
+        "width": 802,
+        "height": 747
+      },
+      {
+        "id": "ki-v2-objects-aether-rocks-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-rocks-3.webp",
+        "width": 921,
+        "height": 699
+      },
+      {
+        "id": "ki-v2-objects-aether-rocks-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-rocks-4.webp",
+        "width": 953,
+        "height": 738
+      },
+      {
+        "id": "ki-v2-objects-aether-stump-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-stump-0.webp",
+        "width": 638,
+        "height": 826
+      },
+      {
+        "id": "ki-v2-objects-aether-stump-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-stump-1.webp",
+        "width": 550,
+        "height": 784
+      },
+      {
+        "id": "ki-v2-objects-aether-stump-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-stump-2.webp",
+        "width": 573,
+        "height": 827
+      },
+      {
+        "id": "ki-v2-objects-aether-stump-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-stump-3.webp",
+        "width": 957,
+        "height": 988
+      },
+      {
+        "id": "ki-v2-objects-aether-stump-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-stump-5.webp",
+        "width": 521,
+        "height": 851
+      },
+      {
+        "id": "ki-v2-objects-aether-tree2-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-tree2-0.webp",
+        "width": 737,
+        "height": 914
+      },
+      {
+        "id": "ki-v2-objects-aether-tree2-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-tree2-1.webp",
+        "width": 792,
+        "height": 877
+      },
+      {
+        "id": "ki-v2-objects-aether-tree2-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-tree2-2.webp",
+        "width": 722,
+        "height": 890
+      },
+      {
+        "id": "ki-v2-objects-aether-tree2-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-tree2-3.webp",
+        "width": 719,
+        "height": 881
+      },
+      {
+        "id": "ki-v2-objects-aether-tree2-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-tree2-4.webp",
+        "width": 876,
+        "height": 923
+      },
+      {
+        "id": "ki-v2-objects-aether-tree2-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-aether-tree2-5.webp",
+        "width": 644,
+        "height": 882
+      },
+      {
+        "id": "ki-v2-objects-nexus-bush-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-bush-0.webp",
+        "width": 732,
+        "height": 836
+      },
+      {
+        "id": "ki-v2-objects-nexus-bush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-bush-2.webp",
+        "width": 811,
+        "height": 916
+      },
+      {
+        "id": "ki-v2-objects-nexus-fern-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-fern-0.webp",
+        "width": 852,
+        "height": 895
+      },
+      {
+        "id": "ki-v2-objects-nexus-fern-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-fern-1.webp",
+        "width": 912,
+        "height": 944
+      },
+      {
+        "id": "ki-v2-objects-nexus-fern-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-fern-2.webp",
+        "width": 953,
+        "height": 876
+      },
+      {
+        "id": "ki-v2-objects-nexus-fern-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-fern-3.webp",
+        "width": 910,
+        "height": 954
+      },
+      {
+        "id": "ki-v2-objects-nexus-fern-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-fern-5.webp",
+        "width": 817,
+        "height": 935
+      },
+      {
+        "id": "ki-v2-objects-nexus-flowerbush-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-flowerbush-0.webp",
+        "width": 763,
+        "height": 828
+      },
+      {
+        "id": "ki-v2-objects-nexus-flowerbush-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-flowerbush-1.webp",
+        "width": 905,
+        "height": 905
+      },
+      {
+        "id": "ki-v2-objects-nexus-flowerbush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-flowerbush-2.webp",
+        "width": 862,
+        "height": 776
+      },
+      {
+        "id": "ki-v2-objects-nexus-mushrooms-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-mushrooms-3.webp",
+        "width": 873,
+        "height": 844
+      },
+      {
+        "id": "ki-v2-objects-nexus-oak-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-oak-3.webp",
+        "width": 819,
+        "height": 965
+      },
+      {
+        "id": "ki-v2-objects-nexus-pine-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-pine-0.webp",
+        "width": 701,
+        "height": 991
+      },
+      {
+        "id": "ki-v2-objects-nexus-pine-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-pine-1.webp",
+        "width": 897,
+        "height": 925
+      },
+      {
+        "id": "ki-v2-objects-nexus-pine-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-pine-2.webp",
+        "width": 687,
+        "height": 952
+      },
+      {
+        "id": "ki-v2-objects-nexus-pine-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-pine-3.webp",
+        "width": 765,
+        "height": 957
+      },
+      {
+        "id": "ki-v2-objects-nexus-pine-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-pine-4.webp",
+        "width": 978,
+        "height": 978
+      },
+      {
+        "id": "ki-v2-objects-nexus-reeds-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-reeds-0.webp",
+        "width": 622,
+        "height": 774
+      },
+      {
+        "id": "ki-v2-objects-nexus-reeds-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-reeds-1.webp",
+        "width": 761,
+        "height": 815
+      },
+      {
+        "id": "ki-v2-objects-nexus-reeds-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-reeds-2.webp",
+        "width": 644,
+        "height": 734
+      },
+      {
+        "id": "ki-v2-objects-nexus-reeds-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-reeds-3.webp",
+        "width": 930,
+        "height": 923
+      },
+      {
+        "id": "ki-v2-objects-nexus-stump-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-stump-1.webp",
+        "width": 801,
+        "height": 829
+      },
+      {
+        "id": "ki-v2-objects-nexus-stump-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-stump-2.webp",
+        "width": 856,
+        "height": 886
+      },
+      {
+        "id": "ki-v2-objects-nexus-tree2-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-tree2-0.webp",
+        "width": 753,
+        "height": 985
+      },
+      {
+        "id": "ki-v2-objects-nexus-tree2-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-tree2-1.webp",
+        "width": 778,
+        "height": 992
+      },
+      {
+        "id": "ki-v2-objects-nexus-tree2-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-tree2-2.webp",
+        "width": 723,
+        "height": 1012
+      },
+      {
+        "id": "ki-v2-objects-nexus-tree2-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-tree2-3.webp",
+        "width": 841,
+        "height": 962
+      },
+      {
+        "id": "ki-v2-objects-nexus-tree2-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-tree2-4.webp",
+        "width": 944,
+        "height": 990
+      },
+      {
+        "id": "ki-v2-objects-nexus-tree2-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-nexus-tree2-5.webp",
+        "width": 704,
+        "height": 976
+      },
+      {
+        "id": "ki-v2-objects-pyra-bush-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-bush-1.webp",
+        "width": 879,
+        "height": 794
+      },
+      {
+        "id": "ki-v2-objects-pyra-bush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-bush-2.webp",
+        "width": 793,
+        "height": 813
+      },
+      {
+        "id": "ki-v2-objects-pyra-bush-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-bush-3.webp",
+        "width": 898,
+        "height": 973
+      },
+      {
+        "id": "ki-v2-objects-pyra-bush-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-bush-4.webp",
+        "width": 905,
+        "height": 973
+      },
+      {
+        "id": "ki-v2-objects-pyra-fern-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-fern-1.webp",
+        "width": 818,
+        "height": 833
+      },
+      {
+        "id": "ki-v2-objects-pyra-fern-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-fern-2.webp",
+        "width": 724,
+        "height": 777
+      },
+      {
+        "id": "ki-v2-objects-pyra-fern-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-fern-3.webp",
+        "width": 813,
+        "height": 1001
+      },
+      {
+        "id": "ki-v2-objects-pyra-flowerbush-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-flowerbush-0.webp",
+        "width": 506,
+        "height": 555
+      },
+      {
+        "id": "ki-v2-objects-pyra-flowerbush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-flowerbush-2.webp",
+        "width": 717,
+        "height": 685
+      },
+      {
+        "id": "ki-v2-objects-pyra-log-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-log-1.webp",
+        "width": 890,
+        "height": 655
+      },
+      {
+        "id": "ki-v2-objects-pyra-log-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-log-3.webp",
+        "width": 907,
+        "height": 726
+      },
+      {
+        "id": "ki-v2-objects-pyra-oak-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-oak-0.webp",
+        "width": 685,
+        "height": 961
+      },
+      {
+        "id": "ki-v2-objects-pyra-oak-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-oak-1.webp",
+        "width": 756,
+        "height": 964
+      },
+      {
+        "id": "ki-v2-objects-pyra-oak-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-oak-2.webp",
+        "width": 655,
+        "height": 947
+      },
+      {
+        "id": "ki-v2-objects-pyra-oak-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-oak-3.webp",
+        "width": 761,
+        "height": 987
+      },
+      {
+        "id": "ki-v2-objects-pyra-oak-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-oak-4.webp",
+        "width": 673,
+        "height": 1014
+      },
+      {
+        "id": "ki-v2-objects-pyra-pine-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-pine-0.webp",
+        "width": 547,
+        "height": 973
+      },
+      {
+        "id": "ki-v2-objects-pyra-pine-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-pine-1.webp",
+        "width": 605,
+        "height": 929
+      },
+      {
+        "id": "ki-v2-objects-pyra-pine-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-pine-2.webp",
+        "width": 663,
+        "height": 1013
+      },
+      {
+        "id": "ki-v2-objects-pyra-pine-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-pine-3.webp",
+        "width": 710,
+        "height": 968
+      },
+      {
+        "id": "ki-v2-objects-pyra-pine-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-pine-4.webp",
+        "width": 817,
+        "height": 976
+      },
+      {
+        "id": "ki-v2-objects-pyra-pine-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-pine-5.webp",
+        "width": 656,
+        "height": 932
+      },
+      {
+        "id": "ki-v2-objects-pyra-reeds-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-reeds-1.webp",
+        "width": 821,
+        "height": 759
+      },
+      {
+        "id": "ki-v2-objects-pyra-reeds-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-reeds-2.webp",
+        "width": 902,
+        "height": 779
+      },
+      {
+        "id": "ki-v2-objects-pyra-reeds-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-reeds-4.webp",
+        "width": 488,
+        "height": 355
+      },
+      {
+        "id": "ki-v2-objects-pyra-rocks-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-rocks-0.webp",
+        "width": 639,
+        "height": 571
+      },
+      {
+        "id": "ki-v2-objects-pyra-stump-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-stump-0.webp",
+        "width": 669,
+        "height": 553
+      },
+      {
+        "id": "ki-v2-objects-pyra-stump-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-stump-1.webp",
+        "width": 761,
+        "height": 810
+      },
+      {
+        "id": "ki-v2-objects-pyra-stump-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-stump-2.webp",
+        "width": 629,
+        "height": 513
+      },
+      {
+        "id": "ki-v2-objects-pyra-stump-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-stump-4.webp",
+        "width": 812,
+        "height": 917
+      },
+      {
+        "id": "ki-v2-objects-pyra-stump-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-stump-5.webp",
+        "width": 638,
+        "height": 629
+      },
+      {
+        "id": "ki-v2-objects-pyra-tree2-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-tree2-0.webp",
+        "width": 929,
+        "height": 968
+      },
+      {
+        "id": "ki-v2-objects-pyra-tree2-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-tree2-1.webp",
+        "width": 894,
+        "height": 801
+      },
+      {
+        "id": "ki-v2-objects-pyra-tree2-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-tree2-2.webp",
+        "width": 886,
+        "height": 854
+      },
+      {
+        "id": "ki-v2-objects-pyra-tree2-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-tree2-3.webp",
+        "width": 947,
+        "height": 972
+      },
+      {
+        "id": "ki-v2-objects-pyra-tree2-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-pyra-tree2-4.webp",
+        "width": 974,
+        "height": 983
+      },
+      {
+        "id": "ki-v2-objects-verdant-boulder-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-boulder-0.webp",
+        "width": 759,
+        "height": 775
+      },
+      {
+        "id": "ki-v2-objects-verdant-boulder-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-boulder-1.webp",
+        "width": 921,
+        "height": 716
+      },
+      {
+        "id": "ki-v2-objects-verdant-boulder-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-boulder-2.webp",
+        "width": 952,
+        "height": 790
+      },
+      {
+        "id": "ki-v2-objects-verdant-boulder-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-boulder-4.webp",
+        "width": 943,
+        "height": 959
+      },
+      {
+        "id": "ki-v2-objects-verdant-boulder-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-boulder-5.webp",
+        "width": 960,
+        "height": 904
+      },
+      {
+        "id": "ki-v2-objects-verdant-bush-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-bush-0.webp",
+        "width": 555,
+        "height": 511
+      },
+      {
+        "id": "ki-v2-objects-verdant-bush-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-bush-1.webp",
+        "width": 791,
+        "height": 768
+      },
+      {
+        "id": "ki-v2-objects-verdant-bush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-bush-2.webp",
+        "width": 689,
+        "height": 689
+      },
+      {
+        "id": "ki-v2-objects-verdant-fern-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-fern-0.webp",
+        "width": 594,
+        "height": 732
+      },
+      {
+        "id": "ki-v2-objects-verdant-fern-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-fern-1.webp",
+        "width": 874,
+        "height": 809
+      },
+      {
+        "id": "ki-v2-objects-verdant-fern-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-fern-2.webp",
+        "width": 796,
+        "height": 824
+      },
+      {
+        "id": "ki-v2-objects-verdant-fern-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-fern-3.webp",
+        "width": 937,
+        "height": 937
+      },
+      {
+        "id": "ki-v2-objects-verdant-fern-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-fern-5.webp",
+        "width": 838,
+        "height": 857
+      },
+      {
+        "id": "ki-v2-objects-verdant-flowerbush-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-flowerbush-0.webp",
+        "width": 593,
+        "height": 474
+      },
+      {
+        "id": "ki-v2-objects-verdant-flowerbush-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-flowerbush-1.webp",
+        "width": 849,
+        "height": 709
+      },
+      {
+        "id": "ki-v2-objects-verdant-flowerbush-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-flowerbush-2.webp",
+        "width": 868,
+        "height": 681
+      },
+      {
+        "id": "ki-v2-objects-verdant-log-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-log-1.webp",
+        "width": 910,
+        "height": 610
+      },
+      {
+        "id": "ki-v2-objects-verdant-log-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-log-2.webp",
+        "width": 962,
+        "height": 606
+      },
+      {
+        "id": "ki-v2-objects-verdant-log-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-log-3.webp",
+        "width": 889,
+        "height": 609
+      },
+      {
+        "id": "ki-v2-objects-verdant-log-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-log-4.webp",
+        "width": 913,
+        "height": 561
+      },
+      {
+        "id": "ki-v2-objects-verdant-log-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-log-5.webp",
+        "width": 819,
+        "height": 729
+      },
+      {
+        "id": "ki-v2-objects-verdant-mushrooms-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-mushrooms-1.webp",
+        "width": 859,
+        "height": 761
+      },
+      {
+        "id": "ki-v2-objects-verdant-mushrooms-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-mushrooms-5.webp",
+        "width": 702,
+        "height": 633
+      },
+      {
+        "id": "ki-v2-objects-verdant-oak-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-oak-0.webp",
+        "width": 984,
+        "height": 973
+      },
+      {
+        "id": "ki-v2-objects-verdant-oak-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-oak-1.webp",
+        "width": 764,
+        "height": 969
+      },
+      {
+        "id": "ki-v2-objects-verdant-oak-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-oak-2.webp",
+        "width": 718,
+        "height": 887
+      },
+      {
+        "id": "ki-v2-objects-verdant-oak-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-oak-3.webp",
+        "width": 891,
+        "height": 966
+      },
+      {
+        "id": "ki-v2-objects-verdant-oak-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-oak-4.webp",
+        "width": 956,
+        "height": 978
+      },
+      {
+        "id": "ki-v2-objects-verdant-oak-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-oak-5.webp",
+        "width": 698,
+        "height": 924
+      },
+      {
+        "id": "ki-v2-objects-verdant-pine-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-pine-1.webp",
+        "width": 543,
+        "height": 1002
+      },
+      {
+        "id": "ki-v2-objects-verdant-pine-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-pine-2.webp",
+        "width": 449,
+        "height": 1018
+      },
+      {
+        "id": "ki-v2-objects-verdant-pine-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-pine-3.webp",
+        "width": 701,
+        "height": 1008
+      },
+      {
+        "id": "ki-v2-objects-verdant-pine-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-pine-4.webp",
+        "width": 732,
+        "height": 990
+      },
+      {
+        "id": "ki-v2-objects-verdant-pine-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-pine-5.webp",
+        "width": 606,
+        "height": 977
+      },
+      {
+        "id": "ki-v2-objects-verdant-reeds-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-reeds-1.webp",
+        "width": 648,
+        "height": 656
+      },
+      {
+        "id": "ki-v2-objects-verdant-reeds-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-reeds-2.webp",
+        "width": 614,
+        "height": 573
+      },
+      {
+        "id": "ki-v2-objects-verdant-reeds-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-reeds-3.webp",
+        "width": 940,
+        "height": 914
+      },
+      {
+        "id": "ki-v2-objects-verdant-reeds-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-reeds-5.webp",
+        "width": 530,
+        "height": 685
+      },
+      {
+        "id": "ki-v2-objects-verdant-rocks-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-rocks-3.webp",
+        "width": 976,
+        "height": 952
+      },
+      {
+        "id": "ki-v2-objects-verdant-stump-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-stump-0.webp",
+        "width": 665,
+        "height": 575
+      },
+      {
+        "id": "ki-v2-objects-verdant-stump-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-stump-1.webp",
+        "width": 766,
+        "height": 734
+      },
+      {
+        "id": "ki-v2-objects-verdant-stump-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-stump-2.webp",
+        "width": 693,
+        "height": 500
+      },
+      {
+        "id": "ki-v2-objects-verdant-stump-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-stump-3.webp",
+        "width": 923,
+        "height": 939
+      },
+      {
+        "id": "ki-v2-objects-verdant-stump-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-stump-4.webp",
+        "width": 970,
+        "height": 952
+      },
+      {
+        "id": "ki-v2-objects-verdant-stump-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-stump-5.webp",
+        "width": 698,
+        "height": 690
+      },
+      {
+        "id": "ki-v2-objects-verdant-tree2-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-tree2-0.webp",
+        "width": 764,
+        "height": 969
+      },
+      {
+        "id": "ki-v2-objects-verdant-tree2-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-tree2-2.webp",
+        "width": 718,
+        "height": 887
+      },
+      {
+        "id": "ki-v2-objects-verdant-tree2-3",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-tree2-3.webp",
+        "width": 891,
+        "height": 966
+      },
+      {
+        "id": "ki-v2-objects-verdant-tree2-4",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-tree2-4.webp",
+        "width": 956,
+        "height": 978
+      },
+      {
+        "id": "ki-v2-objects-verdant-tree2-5",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-objects/1.0.0-5e0892f86c12/ki-v2-objects-verdant-tree2-5.webp",
+        "width": 698,
+        "height": 924
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.ki-v2-objects.aether-boulder-0": {
+        "asset": "ki-v2-objects-aether-boulder-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-boulder-2": {
+        "asset": "ki-v2-objects-aether-boulder-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-boulder-3": {
+        "asset": "ki-v2-objects-aether-boulder-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-boulder-4": {
+        "asset": "ki-v2-objects-aether-boulder-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-boulder-5": {
+        "asset": "ki-v2-objects-aether-boulder-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-bush-0": {
+        "asset": "ki-v2-objects-aether-bush-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-bush-1": {
+        "asset": "ki-v2-objects-aether-bush-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-bush-2": {
+        "asset": "ki-v2-objects-aether-bush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-bush-3": {
+        "asset": "ki-v2-objects-aether-bush-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-bush-5": {
+        "asset": "ki-v2-objects-aether-bush-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-fern-1": {
+        "asset": "ki-v2-objects-aether-fern-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-fern-2": {
+        "asset": "ki-v2-objects-aether-fern-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-fern-3": {
+        "asset": "ki-v2-objects-aether-fern-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-fern-4": {
+        "asset": "ki-v2-objects-aether-fern-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-fern-5": {
+        "asset": "ki-v2-objects-aether-fern-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-flowerbush-2": {
+        "asset": "ki-v2-objects-aether-flowerbush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-flowerbush-3": {
+        "asset": "ki-v2-objects-aether-flowerbush-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-log-1": {
+        "asset": "ki-v2-objects-aether-log-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-log-2": {
+        "asset": "ki-v2-objects-aether-log-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-log-4": {
+        "asset": "ki-v2-objects-aether-log-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-log-5": {
+        "asset": "ki-v2-objects-aether-log-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-mushrooms-0": {
+        "asset": "ki-v2-objects-aether-mushrooms-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-mushrooms-3": {
+        "asset": "ki-v2-objects-aether-mushrooms-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-oak-0": {
+        "asset": "ki-v2-objects-aether-oak-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-oak-1": {
+        "asset": "ki-v2-objects-aether-oak-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-oak-2": {
+        "asset": "ki-v2-objects-aether-oak-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-oak-3": {
+        "asset": "ki-v2-objects-aether-oak-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-oak-4": {
+        "asset": "ki-v2-objects-aether-oak-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-pine-3": {
+        "asset": "ki-v2-objects-aether-pine-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-pine-4": {
+        "asset": "ki-v2-objects-aether-pine-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-pine-5": {
+        "asset": "ki-v2-objects-aether-pine-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-reeds-3": {
+        "asset": "ki-v2-objects-aether-reeds-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-rocks-0": {
+        "asset": "ki-v2-objects-aether-rocks-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-rocks-3": {
+        "asset": "ki-v2-objects-aether-rocks-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-rocks-4": {
+        "asset": "ki-v2-objects-aether-rocks-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-stump-0": {
+        "asset": "ki-v2-objects-aether-stump-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-stump-1": {
+        "asset": "ki-v2-objects-aether-stump-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-stump-2": {
+        "asset": "ki-v2-objects-aether-stump-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-stump-3": {
+        "asset": "ki-v2-objects-aether-stump-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-stump-5": {
+        "asset": "ki-v2-objects-aether-stump-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-tree2-0": {
+        "asset": "ki-v2-objects-aether-tree2-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-tree2-1": {
+        "asset": "ki-v2-objects-aether-tree2-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-tree2-2": {
+        "asset": "ki-v2-objects-aether-tree2-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-tree2-3": {
+        "asset": "ki-v2-objects-aether-tree2-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-tree2-4": {
+        "asset": "ki-v2-objects-aether-tree2-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.aether-tree2-5": {
+        "asset": "ki-v2-objects-aether-tree2-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-bush-0": {
+        "asset": "ki-v2-objects-nexus-bush-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-bush-2": {
+        "asset": "ki-v2-objects-nexus-bush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-fern-0": {
+        "asset": "ki-v2-objects-nexus-fern-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-fern-1": {
+        "asset": "ki-v2-objects-nexus-fern-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-fern-2": {
+        "asset": "ki-v2-objects-nexus-fern-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-fern-3": {
+        "asset": "ki-v2-objects-nexus-fern-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-fern-5": {
+        "asset": "ki-v2-objects-nexus-fern-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-flowerbush-0": {
+        "asset": "ki-v2-objects-nexus-flowerbush-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-flowerbush-1": {
+        "asset": "ki-v2-objects-nexus-flowerbush-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-flowerbush-2": {
+        "asset": "ki-v2-objects-nexus-flowerbush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-mushrooms-3": {
+        "asset": "ki-v2-objects-nexus-mushrooms-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-oak-3": {
+        "asset": "ki-v2-objects-nexus-oak-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-pine-0": {
+        "asset": "ki-v2-objects-nexus-pine-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-pine-1": {
+        "asset": "ki-v2-objects-nexus-pine-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-pine-2": {
+        "asset": "ki-v2-objects-nexus-pine-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-pine-3": {
+        "asset": "ki-v2-objects-nexus-pine-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-pine-4": {
+        "asset": "ki-v2-objects-nexus-pine-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-reeds-0": {
+        "asset": "ki-v2-objects-nexus-reeds-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-reeds-1": {
+        "asset": "ki-v2-objects-nexus-reeds-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-reeds-2": {
+        "asset": "ki-v2-objects-nexus-reeds-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-reeds-3": {
+        "asset": "ki-v2-objects-nexus-reeds-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-stump-1": {
+        "asset": "ki-v2-objects-nexus-stump-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-stump-2": {
+        "asset": "ki-v2-objects-nexus-stump-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-tree2-0": {
+        "asset": "ki-v2-objects-nexus-tree2-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-tree2-1": {
+        "asset": "ki-v2-objects-nexus-tree2-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-tree2-2": {
+        "asset": "ki-v2-objects-nexus-tree2-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-tree2-3": {
+        "asset": "ki-v2-objects-nexus-tree2-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-tree2-4": {
+        "asset": "ki-v2-objects-nexus-tree2-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.nexus-tree2-5": {
+        "asset": "ki-v2-objects-nexus-tree2-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-bush-1": {
+        "asset": "ki-v2-objects-pyra-bush-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-bush-2": {
+        "asset": "ki-v2-objects-pyra-bush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-bush-3": {
+        "asset": "ki-v2-objects-pyra-bush-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-bush-4": {
+        "asset": "ki-v2-objects-pyra-bush-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-fern-1": {
+        "asset": "ki-v2-objects-pyra-fern-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-fern-2": {
+        "asset": "ki-v2-objects-pyra-fern-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-fern-3": {
+        "asset": "ki-v2-objects-pyra-fern-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-flowerbush-0": {
+        "asset": "ki-v2-objects-pyra-flowerbush-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-flowerbush-2": {
+        "asset": "ki-v2-objects-pyra-flowerbush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-log-1": {
+        "asset": "ki-v2-objects-pyra-log-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-log-3": {
+        "asset": "ki-v2-objects-pyra-log-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-oak-0": {
+        "asset": "ki-v2-objects-pyra-oak-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-oak-1": {
+        "asset": "ki-v2-objects-pyra-oak-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-oak-2": {
+        "asset": "ki-v2-objects-pyra-oak-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-oak-3": {
+        "asset": "ki-v2-objects-pyra-oak-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-oak-4": {
+        "asset": "ki-v2-objects-pyra-oak-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-pine-0": {
+        "asset": "ki-v2-objects-pyra-pine-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-pine-1": {
+        "asset": "ki-v2-objects-pyra-pine-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-pine-2": {
+        "asset": "ki-v2-objects-pyra-pine-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-pine-3": {
+        "asset": "ki-v2-objects-pyra-pine-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-pine-4": {
+        "asset": "ki-v2-objects-pyra-pine-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-pine-5": {
+        "asset": "ki-v2-objects-pyra-pine-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-reeds-1": {
+        "asset": "ki-v2-objects-pyra-reeds-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-reeds-2": {
+        "asset": "ki-v2-objects-pyra-reeds-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-reeds-4": {
+        "asset": "ki-v2-objects-pyra-reeds-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-rocks-0": {
+        "asset": "ki-v2-objects-pyra-rocks-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-stump-0": {
+        "asset": "ki-v2-objects-pyra-stump-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-stump-1": {
+        "asset": "ki-v2-objects-pyra-stump-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-stump-2": {
+        "asset": "ki-v2-objects-pyra-stump-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-stump-4": {
+        "asset": "ki-v2-objects-pyra-stump-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-stump-5": {
+        "asset": "ki-v2-objects-pyra-stump-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-tree2-0": {
+        "asset": "ki-v2-objects-pyra-tree2-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-tree2-1": {
+        "asset": "ki-v2-objects-pyra-tree2-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-tree2-2": {
+        "asset": "ki-v2-objects-pyra-tree2-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-tree2-3": {
+        "asset": "ki-v2-objects-pyra-tree2-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.pyra-tree2-4": {
+        "asset": "ki-v2-objects-pyra-tree2-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-boulder-0": {
+        "asset": "ki-v2-objects-verdant-boulder-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-boulder-1": {
+        "asset": "ki-v2-objects-verdant-boulder-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-boulder-2": {
+        "asset": "ki-v2-objects-verdant-boulder-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-boulder-4": {
+        "asset": "ki-v2-objects-verdant-boulder-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-boulder-5": {
+        "asset": "ki-v2-objects-verdant-boulder-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-bush-0": {
+        "asset": "ki-v2-objects-verdant-bush-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-bush-1": {
+        "asset": "ki-v2-objects-verdant-bush-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-bush-2": {
+        "asset": "ki-v2-objects-verdant-bush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-fern-0": {
+        "asset": "ki-v2-objects-verdant-fern-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-fern-1": {
+        "asset": "ki-v2-objects-verdant-fern-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-fern-2": {
+        "asset": "ki-v2-objects-verdant-fern-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-fern-3": {
+        "asset": "ki-v2-objects-verdant-fern-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-fern-5": {
+        "asset": "ki-v2-objects-verdant-fern-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-flowerbush-0": {
+        "asset": "ki-v2-objects-verdant-flowerbush-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-flowerbush-1": {
+        "asset": "ki-v2-objects-verdant-flowerbush-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-flowerbush-2": {
+        "asset": "ki-v2-objects-verdant-flowerbush-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-log-1": {
+        "asset": "ki-v2-objects-verdant-log-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-log-2": {
+        "asset": "ki-v2-objects-verdant-log-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-log-3": {
+        "asset": "ki-v2-objects-verdant-log-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-log-4": {
+        "asset": "ki-v2-objects-verdant-log-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-log-5": {
+        "asset": "ki-v2-objects-verdant-log-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-mushrooms-1": {
+        "asset": "ki-v2-objects-verdant-mushrooms-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-mushrooms-5": {
+        "asset": "ki-v2-objects-verdant-mushrooms-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-oak-0": {
+        "asset": "ki-v2-objects-verdant-oak-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-oak-1": {
+        "asset": "ki-v2-objects-verdant-oak-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-oak-2": {
+        "asset": "ki-v2-objects-verdant-oak-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-oak-3": {
+        "asset": "ki-v2-objects-verdant-oak-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-oak-4": {
+        "asset": "ki-v2-objects-verdant-oak-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-oak-5": {
+        "asset": "ki-v2-objects-verdant-oak-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-pine-1": {
+        "asset": "ki-v2-objects-verdant-pine-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-pine-2": {
+        "asset": "ki-v2-objects-verdant-pine-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-pine-3": {
+        "asset": "ki-v2-objects-verdant-pine-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-pine-4": {
+        "asset": "ki-v2-objects-verdant-pine-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-pine-5": {
+        "asset": "ki-v2-objects-verdant-pine-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-reeds-1": {
+        "asset": "ki-v2-objects-verdant-reeds-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-reeds-2": {
+        "asset": "ki-v2-objects-verdant-reeds-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-reeds-3": {
+        "asset": "ki-v2-objects-verdant-reeds-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-reeds-5": {
+        "asset": "ki-v2-objects-verdant-reeds-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-rocks-3": {
+        "asset": "ki-v2-objects-verdant-rocks-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-stump-0": {
+        "asset": "ki-v2-objects-verdant-stump-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-stump-1": {
+        "asset": "ki-v2-objects-verdant-stump-1",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-stump-2": {
+        "asset": "ki-v2-objects-verdant-stump-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-stump-3": {
+        "asset": "ki-v2-objects-verdant-stump-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-stump-4": {
+        "asset": "ki-v2-objects-verdant-stump-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-stump-5": {
+        "asset": "ki-v2-objects-verdant-stump-5",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-tree2-0": {
+        "asset": "ki-v2-objects-verdant-tree2-0",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-tree2-2": {
+        "asset": "ki-v2-objects-verdant-tree2-2",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-tree2-3": {
+        "asset": "ki-v2-objects-verdant-tree2-3",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-tree2-4": {
+        "asset": "ki-v2-objects-verdant-tree2-4",
+        "fit": "contain"
+      },
+      "object.ki-v2-objects.verdant-tree2-5": {
+        "asset": "ki-v2-objects-verdant-tree2-5",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "ki-v2-terrain",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "ki-v2-terrain-aether-forest-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-forest-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-forest-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-forest-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-forest-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-forest-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-grass-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-grass-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-grass-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-grass-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-grass-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-grass-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-mountain-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-mountain-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-mountain-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-mountain-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-mountain-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-mountain-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-road-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-road-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-road-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-road-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-road-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-road-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-sea-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-sea-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-sea-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-sea-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-sea-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-sea-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-shore-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-shore-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-shore-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-shore-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-shore-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-shore-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-wetland-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-wetland-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-wetland-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-wetland-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-aether-wetland-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-aether-wetland-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-forest-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-forest-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-forest-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-forest-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-forest-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-forest-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-grass-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-grass-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-grass-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-grass-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-grass-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-grass-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-mountain-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-mountain-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-mountain-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-mountain-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-mountain-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-mountain-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-road-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-road-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-road-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-road-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-road-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-road-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-sea-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-sea-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-sea-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-sea-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-sea-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-sea-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-shore-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-shore-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-shore-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-shore-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-shore-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-shore-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-wetland-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-wetland-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-wetland-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-wetland-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-nexus-wetland-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-nexus-wetland-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-forest-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-forest-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-forest-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-forest-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-forest-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-forest-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-grass-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-grass-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-grass-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-grass-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-grass-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-grass-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-mountain-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-mountain-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-mountain-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-mountain-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-mountain-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-mountain-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-road-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-road-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-road-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-road-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-road-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-road-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-sea-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-sea-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-sea-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-sea-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-sea-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-sea-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-shore-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-shore-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-shore-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-shore-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-shore-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-shore-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-wetland-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-wetland-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-wetland-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-wetland-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-pyra-wetland-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-pyra-wetland-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-forest-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-forest-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-forest-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-forest-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-forest-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-forest-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-grass-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-grass-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-grass-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-grass-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-grass-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-grass-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-mountain-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-mountain-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-mountain-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-mountain-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-mountain-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-mountain-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-road-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-road-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-road-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-road-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-road-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-road-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-sea-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-sea-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-sea-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-sea-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-sea-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-sea-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-shore-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-shore-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-shore-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-shore-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-shore-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-shore-2.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-wetland-0",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-wetland-0.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-wetland-1",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-wetland-1.webp",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "id": "ki-v2-terrain-verdant-wetland-2",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/ki-v2-terrain/1.0.0-3b600917b520/ki-v2-terrain-verdant-wetland-2.webp",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "terrain.ki-v2-aether-forest-0": {
+        "asset": "ki-v2-terrain-aether-forest-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-forest-1": {
+        "asset": "ki-v2-terrain-aether-forest-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-forest-2": {
+        "asset": "ki-v2-terrain-aether-forest-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-grass-0": {
+        "asset": "ki-v2-terrain-aether-grass-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-grass-1": {
+        "asset": "ki-v2-terrain-aether-grass-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-grass-2": {
+        "asset": "ki-v2-terrain-aether-grass-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-mountain-0": {
+        "asset": "ki-v2-terrain-aether-mountain-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-mountain-1": {
+        "asset": "ki-v2-terrain-aether-mountain-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-mountain-2": {
+        "asset": "ki-v2-terrain-aether-mountain-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-road-0": {
+        "asset": "ki-v2-terrain-aether-road-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-road-1": {
+        "asset": "ki-v2-terrain-aether-road-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-road-2": {
+        "asset": "ki-v2-terrain-aether-road-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-sea-0": {
+        "asset": "ki-v2-terrain-aether-sea-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-sea-1": {
+        "asset": "ki-v2-terrain-aether-sea-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-sea-2": {
+        "asset": "ki-v2-terrain-aether-sea-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-shore-0": {
+        "asset": "ki-v2-terrain-aether-shore-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-shore-1": {
+        "asset": "ki-v2-terrain-aether-shore-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-shore-2": {
+        "asset": "ki-v2-terrain-aether-shore-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-wetland-0": {
+        "asset": "ki-v2-terrain-aether-wetland-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-wetland-1": {
+        "asset": "ki-v2-terrain-aether-wetland-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-aether-wetland-2": {
+        "asset": "ki-v2-terrain-aether-wetland-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-forest-0": {
+        "asset": "ki-v2-terrain-nexus-forest-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-forest-1": {
+        "asset": "ki-v2-terrain-nexus-forest-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-forest-2": {
+        "asset": "ki-v2-terrain-nexus-forest-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-grass-0": {
+        "asset": "ki-v2-terrain-nexus-grass-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-grass-1": {
+        "asset": "ki-v2-terrain-nexus-grass-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-grass-2": {
+        "asset": "ki-v2-terrain-nexus-grass-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-mountain-0": {
+        "asset": "ki-v2-terrain-nexus-mountain-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-mountain-1": {
+        "asset": "ki-v2-terrain-nexus-mountain-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-mountain-2": {
+        "asset": "ki-v2-terrain-nexus-mountain-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-road-0": {
+        "asset": "ki-v2-terrain-nexus-road-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-road-1": {
+        "asset": "ki-v2-terrain-nexus-road-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-road-2": {
+        "asset": "ki-v2-terrain-nexus-road-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-sea-0": {
+        "asset": "ki-v2-terrain-nexus-sea-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-sea-1": {
+        "asset": "ki-v2-terrain-nexus-sea-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-sea-2": {
+        "asset": "ki-v2-terrain-nexus-sea-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-shore-0": {
+        "asset": "ki-v2-terrain-nexus-shore-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-shore-1": {
+        "asset": "ki-v2-terrain-nexus-shore-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-shore-2": {
+        "asset": "ki-v2-terrain-nexus-shore-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-wetland-0": {
+        "asset": "ki-v2-terrain-nexus-wetland-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-wetland-1": {
+        "asset": "ki-v2-terrain-nexus-wetland-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-nexus-wetland-2": {
+        "asset": "ki-v2-terrain-nexus-wetland-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-forest-0": {
+        "asset": "ki-v2-terrain-pyra-forest-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-forest-1": {
+        "asset": "ki-v2-terrain-pyra-forest-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-forest-2": {
+        "asset": "ki-v2-terrain-pyra-forest-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-grass-0": {
+        "asset": "ki-v2-terrain-pyra-grass-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-grass-1": {
+        "asset": "ki-v2-terrain-pyra-grass-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-grass-2": {
+        "asset": "ki-v2-terrain-pyra-grass-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-mountain-0": {
+        "asset": "ki-v2-terrain-pyra-mountain-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-mountain-1": {
+        "asset": "ki-v2-terrain-pyra-mountain-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-mountain-2": {
+        "asset": "ki-v2-terrain-pyra-mountain-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-road-0": {
+        "asset": "ki-v2-terrain-pyra-road-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-road-1": {
+        "asset": "ki-v2-terrain-pyra-road-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-road-2": {
+        "asset": "ki-v2-terrain-pyra-road-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-sea-0": {
+        "asset": "ki-v2-terrain-pyra-sea-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-sea-1": {
+        "asset": "ki-v2-terrain-pyra-sea-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-sea-2": {
+        "asset": "ki-v2-terrain-pyra-sea-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-shore-0": {
+        "asset": "ki-v2-terrain-pyra-shore-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-shore-1": {
+        "asset": "ki-v2-terrain-pyra-shore-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-shore-2": {
+        "asset": "ki-v2-terrain-pyra-shore-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-wetland-0": {
+        "asset": "ki-v2-terrain-pyra-wetland-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-wetland-1": {
+        "asset": "ki-v2-terrain-pyra-wetland-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-pyra-wetland-2": {
+        "asset": "ki-v2-terrain-pyra-wetland-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-forest-0": {
+        "asset": "ki-v2-terrain-verdant-forest-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-forest-1": {
+        "asset": "ki-v2-terrain-verdant-forest-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-forest-2": {
+        "asset": "ki-v2-terrain-verdant-forest-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-grass-0": {
+        "asset": "ki-v2-terrain-verdant-grass-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-grass-1": {
+        "asset": "ki-v2-terrain-verdant-grass-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-grass-2": {
+        "asset": "ki-v2-terrain-verdant-grass-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-mountain-0": {
+        "asset": "ki-v2-terrain-verdant-mountain-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-mountain-1": {
+        "asset": "ki-v2-terrain-verdant-mountain-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-mountain-2": {
+        "asset": "ki-v2-terrain-verdant-mountain-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-road-0": {
+        "asset": "ki-v2-terrain-verdant-road-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-road-1": {
+        "asset": "ki-v2-terrain-verdant-road-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-road-2": {
+        "asset": "ki-v2-terrain-verdant-road-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-sea-0": {
+        "asset": "ki-v2-terrain-verdant-sea-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-sea-1": {
+        "asset": "ki-v2-terrain-verdant-sea-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-sea-2": {
+        "asset": "ki-v2-terrain-verdant-sea-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-shore-0": {
+        "asset": "ki-v2-terrain-verdant-shore-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-shore-1": {
+        "asset": "ki-v2-terrain-verdant-shore-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-shore-2": {
+        "asset": "ki-v2-terrain-verdant-shore-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-wetland-0": {
+        "asset": "ki-v2-terrain-verdant-wetland-0",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-wetland-1": {
+        "asset": "ki-v2-terrain-verdant-wetland-1",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
+      },
+      "terrain.ki-v2-verdant-wetland-2": {
+        "asset": "ki-v2-terrain-verdant-wetland-2",
+        "fit": "stretch",
+        "tileSize": [
+          384,
+          384
+        ]
       }
     },
     "effects": {}

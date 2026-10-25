@@ -1,0 +1,427 @@
+{
+  "pack": "ki-v2-terrain",
+  "generator": "DreamShaper XL Turbo, circular padding (tileable), RealESRGAN",
+  "licenseStatus": "unresolved (docs/LICENCJE.md)",
+  "parts": [
+    {
+      "part": "aether-forest-0",
+      "source": "aether-forest-0.png",
+      "sha256": "2ab76a91afebc2bb8bb73d52d1ec74f1e69d5f2fa1521a5c79bd5db0f4e0084d"
+    },
+    {
+      "part": "aether-forest-1",
+      "source": "aether-forest-1.png",
+      "sha256": "75869a1e091212a40337c96bd514c9184a5a3b3d6775e032e5b2c03ad805bbe5"
+    },
+    {
+      "part": "aether-forest-2",
+      "source": "aether-forest-2.png",
+      "sha256": "6b59b95688dfb483ce8ad53794cac3a5989d0ca9378c1eabe4e6a5e74c8341ac"
+    },
+    {
+      "part": "aether-grass-0",
+      "source": "aether-grass-0.png",
+      "sha256": "60bfd8951dfdbb2a2d1ecb96380e552a58cd8f99b19a4f495b5421871bbd6ce8"
+    },
+    {
+      "part": "aether-grass-1",
+      "source": "aether-grass-1.png",
+      "sha256": "68bb16bcb5ecefed82b7a05da1fc3f0f051d478124bc76acbcacbd294743cdea"
+    },
+    {
+      "part": "aether-grass-2",
+      "source": "aether-grass-2.png",
+      "sha256": "c5c56291b0b6e5dcb27e31c8e224d374560eec870a9cf7c08f2ad6169a5f950d"
+    },
+    {
+      "part": "aether-mountain-0",
+      "source": "aether-mountain-0.png",
+      "sha256": "5a3588076ccef07805a0f70af1cd87ebc1b7ba8b462a070bee3994059eef98a6"
+    },
+    {
+      "part": "aether-mountain-1",
+      "source": "aether-mountain-1.png",
+      "sha256": "60dbd7504fc4877168e529a9a66f7455d189a40dc5e85ef67941c2c0e14deadf"
+    },
+    {
+      "part": "aether-mountain-2",
+      "source": "aether-mountain-2.png",
+      "sha256": "4833ff54c3351631e8377162faef29a153e5b8ff5191ea82ce0f71d5d59407dd"
+    },
+    {
+      "part": "aether-road-0",
+      "source": "aether-road-0.png",
+      "sha256": "c6a88f0b71595f1ea419b2fec420debd2582fe3a8c24e9d336bb0bf56736b24b"
+    },
+    {
+      "part": "aether-road-1",
+      "source": "aether-road-1.png",
+      "sha256": "eb3fb65435f8100f9ca4c55ef8b56e4cd99dcdaad1d2e9c4c21a3f07a7d2e3b8"
+    },
+    {
+      "part": "aether-road-2",
+      "source": "aether-road-2.png",
+      "sha256": "42efae6ea47858ef1b15eb01373fc395ca7dc7874c5a76c4c07258012ab7b830"
+    },
+    {
+      "part": "aether-sea-0",
+      "source": "aether-sea-0.png",
+      "sha256": "899466ccef3b84bc4ee749af5dfe02469dd8c78222c1e8f9d164a0dd44eb3fb3"
+    },
+    {
+      "part": "aether-sea-1",
+      "source": "aether-sea-1.png",
+      "sha256": "4a331bf3f7b17357d2e8d588acf46d4456a8a229fc5fbb467f42c75b589d9a79"
+    },
+    {
+      "part": "aether-sea-2",
+      "source": "aether-sea-2.png",
+      "sha256": "227b53b1d8f5d922e681d48542666ecd6d987ab88f12762c5e179f98b4d8a94d"
+    },
+    {
+      "part": "aether-shore-0",
+      "source": "aether-shore-0.png",
+      "sha256": "113f3408523e88804860a22f47f5e767a738231d5d4b43204481e29b12bf0059"
+    },
+    {
+      "part": "aether-shore-1",
+      "source": "aether-shore-1.png",
+      "sha256": "2f789526ddfd842770aed27054812a599b34cfdc7da360cef7a67030b44dd14c"
+    },
+    {
+      "part": "aether-shore-2",
+      "source": "aether-shore-2.png",
+      "sha256": "ea9d4a2e993b46b9c250f7b762e358b6476903c0289025ea8a0086aaaa5a7a81"
+    },
+    {
+      "part": "aether-wetland-0",
+      "source": "aether-wetland-0.png",
+      "sha256": "6948ae6617b7fe1a9a052df80af4e295bd1718f13c1732335caa442ec977f8f5"
+    },
+    {
+      "part": "aether-wetland-1",
+      "source": "aether-wetland-1.png",
+      "sha256": "7d5a0b7334b1da97b684750c652dbbaae18e410a455529cfedcd01bb0fd2f5ec"
+    },
+    {
+      "part": "aether-wetland-2",
+      "source": "aether-wetland-2.png",
+      "sha256": "d8a0d6fec63ec2231da76373c21e91f7b009cf0b43a4ff0e2e888617fea08d01"
+    },
+    {
+      "part": "nexus-forest-0",
+      "source": "nexus-forest-0.png",
+      "sha256": "a2465b3629f39e6cc950945e44fab575897274ce4de9f48e3986e95177279142"
+    },
+    {
+      "part": "nexus-forest-1",
+      "source": "nexus-forest-1.png",
+      "sha256": "e7c398d585a514990a7fd99ef59df28161d02dc9cec70a3e675f0b5b3716242f"
+    },
+    {
+      "part": "nexus-forest-2",
+      "source": "nexus-forest-2.png",
+      "sha256": "d85bc52883c32fb408154648e3b11c99615534d0ab5ae18c09ab43f89917d2d2"
+    },
+    {
+      "part": "nexus-grass-0",
+      "source": "nexus-grass-0.png",
+      "sha256": "a7986423fabfd6181cf67b9cc0d3e76667be473d209e27d7f5c692fbb5470d4f"
+    },
+    {
+      "part": "nexus-grass-1",
+      "source": "nexus-grass-1.png",
+      "sha256": "7993a39ae9b716465a01bf0983f80586d7dd896968bddefc15c74c31aeda2024"
+    },
+    {
+      "part": "nexus-grass-2",
+      "source": "nexus-grass-2.png",
+      "sha256": "3acd743e0216f031675312f029fc654b30f58f3ec1518006e3dbab201c0398ad"
+    },
+    {
+      "part": "nexus-mountain-0",
+      "source": "nexus-mountain-0.png",
+      "sha256": "44781e23d09e3e11a69be02f86931fd4a79c29da0b5bdf9c05bc20a9876d10c6"
+    },
+    {
+      "part": "nexus-mountain-1",
+      "source": "nexus-mountain-1.png",
+      "sha256": "93b854413ff27e94bf910f7e328a2aff1831be33424dcc2e4b7114d8f6f18219"
+    },
+    {
+      "part": "nexus-mountain-2",
+      "source": "nexus-mountain-2.png",
+      "sha256": "e0ceaa99e1ff843af7dcfa6a5c4fad9c8decadc8dacb5529bc4cf3c5b659a4f2"
+    },
+    {
+      "part": "nexus-road-0",
+      "source": "nexus-road-0.png",
+      "sha256": "dce72c62752fdf774045496f57bec8811bca2a54552ab6ba6f7e450a22e0167f"
+    },
+    {
+      "part": "nexus-road-1",
+      "source": "nexus-road-1.png",
+      "sha256": "ef17174f0ace3041c62ecde1560946c546b4a310efa9e4a4bd5d8115e86237fb"
+    },
+    {
+      "part": "nexus-road-2",
+      "source": "nexus-road-2.png",
+      "sha256": "67ac73f1929a2733ef5fd301ac841e702c0c790f2297efcf756cacf02a31a4ee"
+    },
+    {
+      "part": "nexus-sea-0",
+      "source": "nexus-sea-0.png",
+      "sha256": "f05f583f35e81eaca19c03d623ed89d6eccc9c1a6bf24fcf7762c6091a86ac65"
+    },
+    {
+      "part": "nexus-sea-1",
+      "source": "nexus-sea-1.png",
+      "sha256": "f385f4b56c2d78da21b8db0abcf5ea2d77ec681ea7a4587ac806a042db6f9cc7"
+    },
+    {
+      "part": "nexus-sea-2",
+      "source": "nexus-sea-2.png",
+      "sha256": "3aa1aa975060dfdcf892ebc4fc4f19aaad1d211f82b401af692c8cdcafc566f2"
+    },
+    {
+      "part": "nexus-shore-0",
+      "source": "nexus-shore-0.png",
+      "sha256": "3d19944f453618148e0bc34f2754493bec5166621d24d5bf1b20535e6197a661"
+    },
+    {
+      "part": "nexus-shore-1",
+      "source": "nexus-shore-1.png",
+      "sha256": "cfda1a1f979b84419a95ba407b113baf2d547a5aa7ee60c12d3616d5a42e1e14"
+    },
+    {
+      "part": "nexus-shore-2",
+      "source": "nexus-shore-2.png",
+      "sha256": "0acfd5673fd9c43863dcb1b1954a3d0ebe815a61496a82a8abb581b174aa8d32"
+    },
+    {
+      "part": "nexus-wetland-0",
+      "source": "nexus-wetland-0.png",
+      "sha256": "c168fad3bd5d3c27a60d0ae922083656e946468a571289bdee6a1493017a45fa"
+    },
+    {
+      "part": "nexus-wetland-1",
+      "source": "nexus-wetland-1.png",
+      "sha256": "5281fde639a633614978e7e71be4991d43c46ada23650b7c9ab5e1066cadd35f"
+    },
+    {
+      "part": "nexus-wetland-2",
+      "source": "nexus-wetland-2.png",
+      "sha256": "492acef57a4825b055b19e9d00975893bb05ceea0e99f06bacf7d33f0dd9560d"
+    },
+    {
+      "part": "pyra-forest-0",
+      "source": "pyra-forest-0.png",
+      "sha256": "3b3a9dda6106cf945f12a264a3255947f7ac6cf1ee645984e1232f8dd8c0ea38"
+    },
+    {
+      "part": "pyra-forest-1",
+      "source": "pyra-forest-1.png",
+      "sha256": "dcea066b8dcf1fb337e7a73f2de20e528388f8d0f9a69ca49fbeaa1dad20b173"
+    },
+    {
+      "part": "pyra-forest-2",
+      "source": "pyra-forest-2.png",
+      "sha256": "00a01ffe4362b95f323ff4780937bb0e246684e44502dba685098520ee18beff"
+    },
+    {
+      "part": "pyra-grass-0",
+      "source": "pyra-grass-0.png",
+      "sha256": "6a04b8039eaebba589a0595e614055714a8cc768d37ac97574bb3f417874bd4d"
+    },
+    {
+      "part": "pyra-grass-1",
+      "source": "pyra-grass-1.png",
+      "sha256": "feacc08369fd031b40c07d36e7377aab273d5d9df963d538e598eaf34c56d708"
+    },
+    {
+      "part": "pyra-grass-2",
+      "source": "pyra-grass-2.png",
+      "sha256": "40ca474e377d3c0bd8945a34de75280768134d036d8e492a163c1811465f805d"
+    },
+    {
+      "part": "pyra-mountain-0",
+      "source": "pyra-mountain-0.png",
+      "sha256": "59b4589e465c68152299663d2fbe8e6c049599f0c93c9caf8613cd9eea8481f6"
+    },
+    {
+      "part": "pyra-mountain-1",
+      "source": "pyra-mountain-1.png",
+      "sha256": "2d482bea00773492d796a736bcfe19e931a3fdb6325556dc918b34af1a9df751"
+    },
+    {
+      "part": "pyra-mountain-2",
+      "source": "pyra-mountain-2.png",
+      "sha256": "dc9f5ee85c1ee45cb79d833cbcc73a5f183890796312ae0fe3515c8ba4e0ef0b"
+    },
+    {
+      "part": "pyra-road-0",
+      "source": "pyra-road-0.png",
+      "sha256": "ce359756214828e88981f4119f7370eec5862342adc868b18a47087bf49d89f5"
+    },
+    {
+      "part": "pyra-road-1",
+      "source": "pyra-road-1.png",
+      "sha256": "2ef87a9a384ef8010bb38f21285cafe8f34dbfd7c674a52ef82fd0001612b9cf"
+    },
+    {
+      "part": "pyra-road-2",
+      "source": "pyra-road-2.png",
+      "sha256": "681436132aa89595f9b39769b122c5533e90c234dc98a03df5bd51c68c1a08af"
+    },
+    {
+      "part": "pyra-sea-0",
+      "source": "pyra-sea-0.png",
+      "sha256": "742c098bbe5244e508e470b37f2463e5677383fd52eff76c23daa9d206ebbc36"
+    },
+    {
+      "part": "pyra-sea-1",
+      "source": "pyra-sea-1.png",
+      "sha256": "fa0774b49c1c291c22180396d954b42ff6e30bcf5ec8edb3851d18026b18a17f"
+    },
+    {
+      "part": "pyra-sea-2",
+      "source": "pyra-sea-2.png",
+      "sha256": "dddee7d1f5fb63611c3e8672cccef8bb2aa83de3b4f0abbe48c6687a15bd04f2"
+    },
+    {
+      "part": "pyra-shore-0",
+      "source": "pyra-shore-0.png",
+      "sha256": "23026a3e367aeffdae647567d6db9c1d344285553aebab57c4735ea6567a14ef"
+    },
+    {
+      "part": "pyra-shore-1",
+      "source": "pyra-shore-1.png",
+      "sha256": "1c8149f4a845244802f6317f94d3e5b6e0f2f57446aac0774e49302e21174528"
+    },
+    {
+      "part": "pyra-shore-2",
+      "source": "pyra-shore-2.png",
+      "sha256": "369fab785941aa4b346a9734fccc1d0a216a4bcc060168e11ef7a4edcf6363ab"
+    },
+    {
+      "part": "pyra-wetland-0",
+      "source": "pyra-wetland-0.png",
+      "sha256": "a449783b64a84eca6f590a530f1bbfb511b90fa0f2e8ac0aa5e933ff15631f8e"
+    },
+    {
+      "part": "pyra-wetland-1",
+      "source": "pyra-wetland-1.png",
+      "sha256": "715fac24e18c2d93459e0aa4da37d0a54fa1abc58e7abfbb26054974b2bece89"
+    },
+    {
+      "part": "pyra-wetland-2",
+      "source": "pyra-wetland-2.png",
+      "sha256": "a5bce84c24725f7e2955c1cd867ffe819dbdefc0421b932df102e0c8dc5eb180"
+    },
+    {
+      "part": "verdant-forest-0",
+      "source": "verdant-forest-0.png",
+      "sha256": "43d0cda4f082758973ca1587d64d37ff64f080d77765df5b82a989168ca17f06"
+    },
+    {
+      "part": "verdant-forest-1",
+      "source": "verdant-forest-1.png",
+      "sha256": "0cc257e2087b72557fff12dfd4666e4352ee551bc01082d2dd198429385588d1"
+    },
+    {
+      "part": "verdant-forest-2",
+      "source": "verdant-forest-2.png",
+      "sha256": "4513119de06ecd29f0ea653f63c9b7d9427961860e9b36310c97b55800d9b3bc"
+    },
+    {
+      "part": "verdant-grass-0",
+      "source": "verdant-grass-0.png",
+      "sha256": "28b9c1ab8e28593ebca84247adf2e1ffdf4189ceff98d25a07d8aeb69d60f8eb"
+    },
+    {
+      "part": "verdant-grass-1",
+      "source": "verdant-grass-1.png",
+      "sha256": "b17e8e0207cd6f4ea8a91ad00c42a2ec7bc2ecfbdb3cb09ee75c7101e364030b"
+    },
+    {
+      "part": "verdant-grass-2",
+      "source": "verdant-grass-2.png",
+      "sha256": "d1c56e55abfa023da711a8f185e403f613545b182aa6e4cf6f7b92e7db1bf8db"
+    },
+    {
+      "part": "verdant-mountain-0",
+      "source": "verdant-mountain-0.png",
+      "sha256": "093b5e838243cf81b46256fa94671eadde2c82b895e515ff7c927582891ab8a3"
+    },
+    {
+      "part": "verdant-mountain-1",
+      "source": "verdant-mountain-1.png",
+      "sha256": "369bb56c3bff11818745a86d31ef54667ab66e8e00b566d0e4298c7816c26077"
+    },
+    {
+      "part": "verdant-mountain-2",
+      "source": "verdant-mountain-2.png",
+      "sha256": "ce03adefc5006ae5167dd9f1fdfd0ca9eb0292b7ea1eb93f81a4257218f4c2ae"
+    },
+    {
+      "part": "verdant-road-0",
+      "source": "verdant-road-0.png",
+      "sha256": "943194316d30a5d70280fcbb971e6a5a0c42530e990b0da3a50c09e9f44e25d0"
+    },
+    {
+      "part": "verdant-road-1",
+      "source": "verdant-road-1.png",
+      "sha256": "a5e7e504c5570a8d9e5812f0da639034c73c649c99b26f70c304ad0f96d3af28"
+    },
+    {
+      "part": "verdant-road-2",
+      "source": "verdant-road-2.png",
+      "sha256": "ca117c18c26c08996bab87712bca2e628cdbdcba64843789c3f9035b6fe54589"
+    },
+    {
+      "part": "verdant-sea-0",
+      "source": "verdant-sea-0.png",
+      "sha256": "cdbc747a99ec2700acf4042866203be6d71a2e8103de4f142919ccccb5df1847"
+    },
+    {
+      "part": "verdant-sea-1",
+      "source": "verdant-sea-1.png",
+      "sha256": "dd23d0b4683dfddd558dabc4d60876f1c61febf4399d160d28cb59d55901d12b"
+    },
+    {
+      "part": "verdant-sea-2",
+      "source": "verdant-sea-2.png",
+      "sha256": "0722d949c2cfd8190d163bf2c686520acabeb93b6a993bffdb2d7317b2c6b011"
+    },
+    {
+      "part": "verdant-shore-0",
+      "source": "verdant-shore-0.png",
+      "sha256": "c560173e87e5198b62101bfa994657f901f58b541ea9b6e8b52d8cf588203734"
+    },
+    {
+      "part": "verdant-shore-1",
+      "source": "verdant-shore-1.png",
+      "sha256": "86ce7def6be0a3351fe554dfef216cbcae80e96c65633e990890d0bd4b9ec2bd"
+    },
+    {
+      "part": "verdant-shore-2",
+      "source": "verdant-shore-2.png",
+      "sha256": "baf7109f144e8731b8e6618b5cce0b083f4b554c9f42511c13535af173eea4c0"
+    },
+    {
+      "part": "verdant-wetland-0",
+      "source": "verdant-wetland-0.png",
+      "sha256": "05a6d1e31021ea82de487b54050e3e3ebc19acf06030f2d928774ca791e56894"
+    },
+    {
+      "part": "verdant-wetland-1",
+      "source": "verdant-wetland-1.png",
+      "sha256": "bae3bbfa069a5848580ba70d516a35c997d5ab309542bf753f6b2952b14e0c48"
+    },
+    {
+      "part": "verdant-wetland-2",
+      "source": "verdant-wetland-2.png",
+      "sha256": "a240a161cd7c5c117b893a8a7d74cf752f685bc0548905b0bb69a40498e952cb"
+    }
+  ]
+}

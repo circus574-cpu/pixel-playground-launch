@@ -91,7 +91,25 @@ PYRA = {'market': 'market-stall', 'hall': 'hall-council', 'inn': 'inn-tavern',
         'smithy': 'smithy-forge', 'depot': 'depot-warehouse', 'arena': 'arena-dojo', 'house': 'house-small'}
 
 
-def build_feature(browser, output, feature, source):
+# Opt-in art set "ki-v2" (packs ki-v2-terrain / ki-v2-objects, switch ?ki-world-v2=1):
+# per-continent painted ground per biome index and the matching freestanding props.
+KI_V2_GROUND = ['grass', 'forest', 'mountain', 'wetland']
+KI_V2_OVERRIDE = {('aether', 3): 'terrain.nature-snow', ('nexus', 2): 'terrain.ki-v2-nexus-shore-0'}
+KI_V2_KINDS = {'tree': ['oak', 'tree2', 'pine'], 'bush': ['bush', 'fern', 'flowerbush', 'mushrooms', 'reeds'],
+               'rock': ['boulder', 'rocks', 'stump', 'log']}
+
+
+def ki_v2_art(affinity, entries):
+    ground = [KI_V2_OVERRIDE.get((affinity, i), 'terrain.ki-v2-%s-%s-0' % (affinity, g)) for i, g in enumerate(KI_V2_GROUND)]
+    props = {}
+    for kind, names in KI_V2_KINDS.items():
+        props[kind] = sorted(k[len('object.'):] for k in entries if k.startswith('object.ki-v2-objects.%s-' % affinity)
+                             and k.rsplit('.', 1)[1][len(affinity) + 1:].rsplit('-', 1)[0] in names)
+        assert props[kind], (affinity, kind)
+    return ground, 'terrain.ki-v2-%s-sea-0' % affinity, props
+
+
+def build_feature(browser, output, feature, source, art_set='default'):
     region = browser / feature
     manifest = json.loads((region / 'manifest.json').read_text())
     for name, sha in manifest['files'].items():
@@ -102,6 +120,8 @@ def build_feature(browser, output, feature, source):
     entries = source['entries']
     used, counts = set(), {'props': 0, 'buildings': 0, 'resources': 0, 'dungeonEntrances': 0, 'acceptedScenery': 0}
     affinity = world['affinity']
+    if art_set == 'ki-v2':
+        ki_ground, ki_water, ki_props = ki_v2_art(affinity, source['entries'])
 
     def instance(obj, asset, category, preserve_display=False):
         # The delivered pine includes neighbouring trees and a rectangular frame.
@@ -139,6 +159,8 @@ def build_feature(browser, output, feature, source):
         for obj in chunk['objects']:
             palette = PALETTES[BIOMES[affinity][obj['biome']]]
             choices = palette[obj['kind']]
+            if art_set == 'ki-v2' and obj['kind'] in ki_props:
+                choices = ki_props[obj['kind']]
             variant = int(hashlib.sha256(obj['id'].encode()).hexdigest()[:8], 16) % len(choices)
             objects.append(instance(obj, choices[variant], 'props'))
         target = output / feature / 'chunks' / (path.stem + '.art.json.gz')
@@ -182,12 +204,15 @@ def build_feature(browser, output, feature, source):
     entrances = [instance({'id': d['id'], **d['overworldEntrance']}, 'ruins-props.an-ancient-stone-gate-ruin',
                           'dungeonEntrances') for d in world['dungeons']]
     terrain = [GROUND[p] for p in BIOMES[affinity]]
-    for key in terrain + ['terrain.nature-water-ocean-deep']:
+    water = 'terrain.nature-water-ocean-deep'
+    if art_set == 'ki-v2':
+        terrain, water = ki_ground, ki_water
+    for key in terrain + [water]:
         assert key in entries, key
         used.add(key)
     save(output / feature / 'feature.art.json', {'format': 'superior-art-overlay-1', 'feature': feature,
          'sourceWorldSha256': digest(region / 'world.json'), 'sourceManifestSha256': digest(region / 'manifest.json'),
-         'groundByBiome': terrain, 'water': 'terrain.nature-water-ocean-deep', 'buildings': building_art,
+         'groundByBiome': terrain, 'water': water, 'buildings': building_art,
          'acceptedCityBuildings': accepted_art, 'acceptedCityScenery': accepted_scenery, 'resources': resources, 'dungeonEntrances': entrances,
          'chunks': chunk_files, 'geometryChanged': False, 'runtimeInstalled': False})
     # Read back all source checksums after assembly. Input directory is never an output destination.
@@ -204,6 +229,7 @@ def main():
     p.add_argument('--world', type=Path)
     p.add_argument('--output', type=Path)
     p.add_argument('--workers', type=int, default=8)
+    p.add_argument('--art-set', choices=['default', 'ki-v2'], default='default')
     a = p.parse_args()
     if a.export_input:
         export_input(a.repo, a.export_input)
@@ -218,7 +244,7 @@ def main():
     features = sorted(p.parent.name for p in a.world.glob('*/world.json'))
     assert len(features) == 10
     with concurrent.futures.ThreadPoolExecutor(max_workers=a.workers) as pool:
-        reports = list(pool.map(lambda f: build_feature(a.world, a.output, f, source), features))
+        reports = list(pool.map(lambda f: build_feature(a.world, a.output, f, source, a.art_set), features))
     used = sorted({b for r in reports for b in r['bindingsUsed']})
     save(a.output / 'assets.json', {b: source['entries'][b] for b in used})
     save(a.output / 'report.json', {'format': 'superior-art-overlay-1', 'features': reports,

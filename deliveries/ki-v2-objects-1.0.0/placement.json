@@ -1,0 +1,1596 @@
+{
+ "ki-v2-objects.aether-boulder-0": {
+  "width": 200,
+  "height": 178,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 39
+  }
+ },
+ "ki-v2-objects.aether-boulder-2": {
+  "width": 200,
+  "height": 197,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 43
+  }
+ },
+ "ki-v2-objects.aether-boulder-3": {
+  "width": 200,
+  "height": 210,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 46
+  }
+ },
+ "ki-v2-objects.aether-boulder-4": {
+  "width": 200,
+  "height": 212,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 47
+  }
+ },
+ "ki-v2-objects.aether-boulder-5": {
+  "width": 200,
+  "height": 196,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 43
+  }
+ },
+ "ki-v2-objects.aether-bush-0": {
+  "width": 130,
+  "height": 131,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-bush-1": {
+  "width": 130,
+  "height": 133,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-bush-2": {
+  "width": 130,
+  "height": 140,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-bush-3": {
+  "width": 130,
+  "height": 134,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-bush-5": {
+  "width": 130,
+  "height": 133,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-fern-1": {
+  "width": 130,
+  "height": 175,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-fern-2": {
+  "width": 130,
+  "height": 122,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-fern-3": {
+  "width": 130,
+  "height": 211,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-fern-4": {
+  "width": 130,
+  "height": 191,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-fern-5": {
+  "width": 130,
+  "height": 161,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-flowerbush-2": {
+  "width": 130,
+  "height": 116,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-flowerbush-3": {
+  "width": 130,
+  "height": 134,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-log-1": {
+  "width": 240,
+  "height": 231,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.aether-log-2": {
+  "width": 240,
+  "height": 191,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 23
+  }
+ },
+ "ki-v2-objects.aether-log-4": {
+  "width": 240,
+  "height": 233,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.aether-log-5": {
+  "width": 240,
+  "height": 284,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "ki-v2-objects.aether-mushrooms-0": {
+  "width": 130,
+  "height": 145,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-mushrooms-3": {
+  "width": 130,
+  "height": 118,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-oak-0": {
+  "width": 240,
+  "height": 273,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 33
+  }
+ },
+ "ki-v2-objects.aether-oak-1": {
+  "width": 240,
+  "height": 233,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.aether-oak-2": {
+  "width": 240,
+  "height": 251,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.aether-oak-3": {
+  "width": 240,
+  "height": 254,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.aether-oak-4": {
+  "width": 240,
+  "height": 242,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "ki-v2-objects.aether-pine-3": {
+  "width": 240,
+  "height": 390,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 47
+  }
+ },
+ "ki-v2-objects.aether-pine-4": {
+  "width": 240,
+  "height": 289,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 35
+  }
+ },
+ "ki-v2-objects.aether-pine-5": {
+  "width": 240,
+  "height": 326,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 39
+  }
+ },
+ "ki-v2-objects.aether-reeds-3": {
+  "width": 130,
+  "height": 122,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.aether-rocks-0": {
+  "width": 200,
+  "height": 186,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 41
+  }
+ },
+ "ki-v2-objects.aether-rocks-3": {
+  "width": 200,
+  "height": 152,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 33
+  }
+ },
+ "ki-v2-objects.aether-rocks-4": {
+  "width": 200,
+  "height": 155,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 34
+  }
+ },
+ "ki-v2-objects.aether-stump-0": {
+  "width": 240,
+  "height": 311,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 37
+  }
+ },
+ "ki-v2-objects.aether-stump-1": {
+  "width": 240,
+  "height": 342,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 41
+  }
+ },
+ "ki-v2-objects.aether-stump-2": {
+  "width": 240,
+  "height": 346,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 42
+  }
+ },
+ "ki-v2-objects.aether-stump-3": {
+  "width": 240,
+  "height": 248,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.aether-stump-5": {
+  "width": 240,
+  "height": 392,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 47
+  }
+ },
+ "ki-v2-objects.aether-tree2-0": {
+  "width": 240,
+  "height": 298,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.aether-tree2-1": {
+  "width": 240,
+  "height": 266,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 32
+  }
+ },
+ "ki-v2-objects.aether-tree2-2": {
+  "width": 240,
+  "height": 296,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.aether-tree2-3": {
+  "width": 240,
+  "height": 294,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 35
+  }
+ },
+ "ki-v2-objects.aether-tree2-4": {
+  "width": 240,
+  "height": 253,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.aether-tree2-5": {
+  "width": 240,
+  "height": 329,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 39
+  }
+ },
+ "ki-v2-objects.nexus-bush-0": {
+  "width": 130,
+  "height": 148,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-bush-2": {
+  "width": 130,
+  "height": 147,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-fern-0": {
+  "width": 130,
+  "height": 137,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-fern-1": {
+  "width": 130,
+  "height": 135,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-fern-2": {
+  "width": 130,
+  "height": 119,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-fern-3": {
+  "width": 130,
+  "height": 136,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-fern-5": {
+  "width": 130,
+  "height": 149,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-flowerbush-0": {
+  "width": 130,
+  "height": 141,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-flowerbush-1": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-flowerbush-2": {
+  "width": 130,
+  "height": 117,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-mushrooms-3": {
+  "width": 130,
+  "height": 126,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-oak-3": {
+  "width": 240,
+  "height": 283,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "ki-v2-objects.nexus-pine-0": {
+  "width": 240,
+  "height": 339,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 41
+  }
+ },
+ "ki-v2-objects.nexus-pine-1": {
+  "width": 240,
+  "height": 247,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.nexus-pine-2": {
+  "width": 240,
+  "height": 333,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 40
+  }
+ },
+ "ki-v2-objects.nexus-pine-3": {
+  "width": 240,
+  "height": 300,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.nexus-pine-4": {
+  "width": 240,
+  "height": 240,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "ki-v2-objects.nexus-reeds-0": {
+  "width": 130,
+  "height": 162,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-reeds-1": {
+  "width": 130,
+  "height": 139,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-reeds-2": {
+  "width": 130,
+  "height": 148,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-reeds-3": {
+  "width": 130,
+  "height": 129,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.nexus-stump-1": {
+  "width": 240,
+  "height": 248,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.nexus-stump-2": {
+  "width": 240,
+  "height": 248,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.nexus-tree2-0": {
+  "width": 240,
+  "height": 314,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 38
+  }
+ },
+ "ki-v2-objects.nexus-tree2-1": {
+  "width": 240,
+  "height": 306,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 37
+  }
+ },
+ "ki-v2-objects.nexus-tree2-2": {
+  "width": 240,
+  "height": 336,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 40
+  }
+ },
+ "ki-v2-objects.nexus-tree2-3": {
+  "width": 240,
+  "height": 275,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 33
+  }
+ },
+ "ki-v2-objects.nexus-tree2-4": {
+  "width": 240,
+  "height": 252,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.nexus-tree2-5": {
+  "width": 240,
+  "height": 333,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 40
+  }
+ },
+ "ki-v2-objects.pyra-bush-1": {
+  "width": 130,
+  "height": 117,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-bush-2": {
+  "width": 130,
+  "height": 133,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-bush-3": {
+  "width": 130,
+  "height": 141,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-bush-4": {
+  "width": 130,
+  "height": 140,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-fern-1": {
+  "width": 130,
+  "height": 132,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-fern-2": {
+  "width": 130,
+  "height": 140,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-fern-3": {
+  "width": 130,
+  "height": 160,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-flowerbush-0": {
+  "width": 130,
+  "height": 143,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-flowerbush-2": {
+  "width": 130,
+  "height": 124,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-log-1": {
+  "width": 240,
+  "height": 177,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 21
+  }
+ },
+ "ki-v2-objects.pyra-log-3": {
+  "width": 240,
+  "height": 192,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 23
+  }
+ },
+ "ki-v2-objects.pyra-oak-0": {
+  "width": 240,
+  "height": 337,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 40
+  }
+ },
+ "ki-v2-objects.pyra-oak-1": {
+  "width": 240,
+  "height": 306,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 37
+  }
+ },
+ "ki-v2-objects.pyra-oak-2": {
+  "width": 240,
+  "height": 347,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 42
+  }
+ },
+ "ki-v2-objects.pyra-oak-3": {
+  "width": 240,
+  "height": 311,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 37
+  }
+ },
+ "ki-v2-objects.pyra-oak-4": {
+  "width": 240,
+  "height": 362,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 43
+  }
+ },
+ "ki-v2-objects.pyra-pine-0": {
+  "width": 240,
+  "height": 427,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 51
+  }
+ },
+ "ki-v2-objects.pyra-pine-1": {
+  "width": 240,
+  "height": 369,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 44
+  }
+ },
+ "ki-v2-objects.pyra-pine-2": {
+  "width": 240,
+  "height": 367,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 44
+  }
+ },
+ "ki-v2-objects.pyra-pine-3": {
+  "width": 240,
+  "height": 327,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 39
+  }
+ },
+ "ki-v2-objects.pyra-pine-4": {
+  "width": 240,
+  "height": 287,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 34
+  }
+ },
+ "ki-v2-objects.pyra-pine-5": {
+  "width": 240,
+  "height": 341,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 41
+  }
+ },
+ "ki-v2-objects.pyra-reeds-1": {
+  "width": 130,
+  "height": 120,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-reeds-2": {
+  "width": 130,
+  "height": 112,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-reeds-4": {
+  "width": 130,
+  "height": 95,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.pyra-rocks-0": {
+  "width": 200,
+  "height": 179,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 39
+  }
+ },
+ "ki-v2-objects.pyra-stump-0": {
+  "width": 240,
+  "height": 198,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 24
+  }
+ },
+ "ki-v2-objects.pyra-stump-1": {
+  "width": 240,
+  "height": 255,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 31
+  }
+ },
+ "ki-v2-objects.pyra-stump-2": {
+  "width": 240,
+  "height": 196,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 24
+  }
+ },
+ "ki-v2-objects.pyra-stump-4": {
+  "width": 240,
+  "height": 271,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 33
+  }
+ },
+ "ki-v2-objects.pyra-stump-5": {
+  "width": 240,
+  "height": 237,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.pyra-tree2-0": {
+  "width": 240,
+  "height": 250,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.pyra-tree2-1": {
+  "width": 240,
+  "height": 215,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 26
+  }
+ },
+ "ki-v2-objects.pyra-tree2-2": {
+  "width": 240,
+  "height": 231,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.pyra-tree2-3": {
+  "width": 240,
+  "height": 246,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.pyra-tree2-4": {
+  "width": 240,
+  "height": 242,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "ki-v2-objects.verdant-boulder-0": {
+  "width": 200,
+  "height": 204,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 45
+  }
+ },
+ "ki-v2-objects.verdant-boulder-1": {
+  "width": 200,
+  "height": 155,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 34
+  }
+ },
+ "ki-v2-objects.verdant-boulder-2": {
+  "width": 200,
+  "height": 166,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 37
+  }
+ },
+ "ki-v2-objects.verdant-boulder-4": {
+  "width": 200,
+  "height": 203,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 45
+  }
+ },
+ "ki-v2-objects.verdant-boulder-5": {
+  "width": 200,
+  "height": 188,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 41
+  }
+ },
+ "ki-v2-objects.verdant-bush-0": {
+  "width": 130,
+  "height": 120,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-bush-1": {
+  "width": 130,
+  "height": 126,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-bush-2": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-fern-0": {
+  "width": 130,
+  "height": 160,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-fern-1": {
+  "width": 130,
+  "height": 120,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-fern-2": {
+  "width": 130,
+  "height": 135,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-fern-3": {
+  "width": 130,
+  "height": 130,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-fern-5": {
+  "width": 130,
+  "height": 133,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-flowerbush-0": {
+  "width": 130,
+  "height": 104,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-flowerbush-1": {
+  "width": 130,
+  "height": 109,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-flowerbush-2": {
+  "width": 130,
+  "height": 102,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-log-1": {
+  "width": 240,
+  "height": 161,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 19
+  }
+ },
+ "ki-v2-objects.verdant-log-2": {
+  "width": 240,
+  "height": 151,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 18
+  }
+ },
+ "ki-v2-objects.verdant-log-3": {
+  "width": 240,
+  "height": 164,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 20
+  }
+ },
+ "ki-v2-objects.verdant-log-4": {
+  "width": 240,
+  "height": 147,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 18
+  }
+ },
+ "ki-v2-objects.verdant-log-5": {
+  "width": 240,
+  "height": 214,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 26
+  }
+ },
+ "ki-v2-objects.verdant-mushrooms-1": {
+  "width": 130,
+  "height": 115,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-mushrooms-5": {
+  "width": 130,
+  "height": 117,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-oak-0": {
+  "width": 240,
+  "height": 237,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.verdant-oak-1": {
+  "width": 240,
+  "height": 304,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.verdant-oak-2": {
+  "width": 240,
+  "height": 296,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.verdant-oak-3": {
+  "width": 240,
+  "height": 260,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 31
+  }
+ },
+ "ki-v2-objects.verdant-oak-4": {
+  "width": 240,
+  "height": 246,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.verdant-oak-5": {
+  "width": 240,
+  "height": 318,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 38
+  }
+ },
+ "ki-v2-objects.verdant-pine-1": {
+  "width": 240,
+  "height": 443,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 53
+  }
+ },
+ "ki-v2-objects.verdant-pine-2": {
+  "width": 240,
+  "height": 544,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 65
+  }
+ },
+ "ki-v2-objects.verdant-pine-3": {
+  "width": 240,
+  "height": 345,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 41
+  }
+ },
+ "ki-v2-objects.verdant-pine-4": {
+  "width": 240,
+  "height": 325,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 39
+  }
+ },
+ "ki-v2-objects.verdant-pine-5": {
+  "width": 240,
+  "height": 387,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 46
+  }
+ },
+ "ki-v2-objects.verdant-reeds-1": {
+  "width": 130,
+  "height": 132,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-reeds-2": {
+  "width": 130,
+  "height": 121,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-reeds-3": {
+  "width": 130,
+  "height": 126,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-reeds-5": {
+  "width": 130,
+  "height": 168,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-objects.verdant-rocks-3": {
+  "width": 200,
+  "height": 195,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 43
+  }
+ },
+ "ki-v2-objects.verdant-stump-0": {
+  "width": 240,
+  "height": 208,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 25
+  }
+ },
+ "ki-v2-objects.verdant-stump-1": {
+  "width": 240,
+  "height": 230,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.verdant-stump-2": {
+  "width": 240,
+  "height": 173,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 21
+  }
+ },
+ "ki-v2-objects.verdant-stump-3": {
+  "width": 240,
+  "height": 244,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 29
+  }
+ },
+ "ki-v2-objects.verdant-stump-4": {
+  "width": 240,
+  "height": 236,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.verdant-stump-5": {
+  "width": 240,
+  "height": 237,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 28
+  }
+ },
+ "ki-v2-objects.verdant-tree2-0": {
+  "width": 240,
+  "height": 304,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.verdant-tree2-2": {
+  "width": 240,
+  "height": 296,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 36
+  }
+ },
+ "ki-v2-objects.verdant-tree2-3": {
+  "width": 240,
+  "height": 260,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 31
+  }
+ },
+ "ki-v2-objects.verdant-tree2-4": {
+  "width": 240,
+  "height": 246,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 30
+  }
+ },
+ "ki-v2-objects.verdant-tree2-5": {
+  "width": 240,
+  "height": 318,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 53,
+   "height": 38
+  }
+ }
+}
