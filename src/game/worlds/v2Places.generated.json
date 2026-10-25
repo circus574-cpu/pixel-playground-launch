@@ -1,0 +1,311 @@
+{
+ "aether": {
+  "cities": {
+   "aether-sanktuarium-tysiaca-zrodel": {
+    "settlement": "aether-capital",
+    "name": "Sanktuarium Tysiąca Źródeł",
+    "x": 36511.22667100001,
+    "y": 25730.014998
+   },
+   "aether-tarasy-switu": {
+    "settlement": "aether-town-3",
+    "name": "Tarasy Świtu",
+    "x": 25040,
+    "y": 14352
+   },
+   "aether-biala-przystan": {
+    "settlement": "aether-town-1",
+    "name": "Biała Przystań",
+    "x": 17008,
+    "y": 27856
+   },
+   "aether-archiwum-nad-chmurami": {
+    "settlement": "aether-town-2",
+    "name": "Archiwum Nad Chmurami",
+    "x": 54384,
+    "y": 28688
+   }
+  },
+  "famous": {
+   "famous-aether-1": {
+    "name": "Sanktuarium Pustej Paginy (Górna Świątynia)",
+    "x": 36561,
+    "y": 25030,
+    "source": "map-point"
+   },
+   "famous-aether-2": {
+    "name": "Zachodnie Archiwum Skreślonych Imion",
+    "x": 36011,
+    "y": 25850,
+    "source": "map-point"
+   },
+   "famous-aether-3": {
+    "name": "Wschodnie Obserwatorium Lustrzanych Sygnałów",
+    "x": 37411,
+    "y": 25460,
+    "source": "map-point"
+   },
+   "famous-aether-4": {
+    "name": "Źródło Między Kroplami (Źródło Pamięci)",
+    "x": 36561,
+    "y": 25335,
+    "source": "map-point"
+   }
+  },
+  "hidden": {
+   "hidden-aether-1": {
+    "name": "Drzewo Świetlistych Glifów (Zachodni Gaj)",
+    "x": 34721,
+    "y": 25020
+   },
+   "hidden-aether-2": {
+    "name": "Ołtarz Złotego Skarabeusza",
+    "x": 34591,
+    "y": 24200
+   },
+   "hidden-aether-3": {
+    "name": "Opuszczona Stacja Nadajnika na Szczycie Chmur",
+    "x": 36111,
+    "y": 24120
+   },
+   "hidden-aether-4": {
+    "name": "Zatoka Zapomnianych Kronik (Krypta Podwodna)",
+    "x": 35471,
+    "y": 25230
+   }
+  }
+ },
+ "nexus": {
+  "cities": {
+   "nexus-wezel-swiadomosci": {
+    "settlement": "nexus-capital",
+    "name": "Węzeł Świadomości",
+    "x": 37129.72373500001,
+    "y": 23831.645136000006
+   },
+   "nexus-stacja-meridian": {
+    "settlement": "nexus-town-1",
+    "name": "Stacja Meridian",
+    "x": 16432,
+    "y": 23856
+   },
+   "nexus-kuznia-obwodow": {
+    "settlement": "nexus-town-2",
+    "name": "Kuźnia Obwodów",
+    "x": 26736,
+    "y": 15888
+   },
+   "nexus-port-zerowy": {
+    "settlement": "nexus-town-3",
+    "name": "Port Zerowy",
+    "x": 33904,
+    "y": 35184
+   }
+  },
+  "famous": {
+   "famous-nexus-1": {
+    "name": "Laboratorium Pierwszej Kalibracji (Sektor Meridian)",
+    "x": 38430,
+    "y": 23262,
+    "source": "map-point"
+   },
+   "famous-nexus-2": {
+    "name": "Rdzeń Przeciążonej Pamięci (Główny Reaktor)",
+    "x": 38180,
+    "y": 23142,
+    "source": "map-point"
+   },
+   "famous-nexus-3": {
+    "name": "Terminal Odmowy Demontażu (Konsola Południowa)",
+    "x": 37700,
+    "y": 23882,
+    "source": "same-kind"
+   },
+   "famous-nexus-4": {
+    "name": "Pryzmat Sygnału Horyzontu (Wschodni Monolit)",
+    "x": 38040,
+    "y": 24272,
+    "source": "same-kind"
+   }
+  },
+  "hidden": {
+   "hidden-nexus-1": {
+    "name": "Północny Kryształ Rezonansowy",
+    "x": 35660,
+    "y": 22262
+   },
+   "hidden-nexus-2": {
+    "name": "Miejsce Awaryjnego Lądowania Sondy",
+    "x": 36840,
+    "y": 23372
+   },
+   "hidden-nexus-3": {
+    "name": "Ukryty Schowek Konserwatorów (Pylon 14)",
+    "x": 37330,
+    "y": 23142
+   },
+   "hidden-nexus-4": {
+    "name": "Szyb Konserwacyjny do Podziemnej Serwerowni",
+    "x": 36380,
+    "y": 22262
+   }
+  }
+ },
+ "pyra": {
+  "cities": {
+   "pyra-twierdza-popiolu": {
+    "settlement": "pyra-capital",
+    "name": "Twierdza Popiołu",
+    "x": 45850.28602700001,
+    "y": 13832.471948999999
+   },
+   "pyra-zarowy-trakt": {
+    "settlement": "pyra-town-3",
+    "name": "Żarowy Trakt",
+    "x": 29200,
+    "y": 13200
+   },
+   "pyra-cytadela-kowadel": {
+    "settlement": "pyra-town-1",
+    "name": "Cytadela Kowadeł",
+    "x": 17648,
+    "y": 25168
+   },
+   "pyra-port-czerwonych-zagli": {
+    "settlement": "pyra-town-2",
+    "name": "Port Czerwonych Żagli",
+    "x": 35664,
+    "y": 29360
+   }
+  },
+  "famous": {
+   "famous-pyra-1": {
+    "name": "Bastion Złamanej Przysięgi (Cytadela Północy)",
+    "x": 45870,
+    "y": 12752,
+    "source": "map-point"
+   },
+   "famous-pyra-2": {
+    "name": "Kaplica Dezerterów Popiołu (Zachodnie Sanktuarium)",
+    "x": 45170,
+    "y": 13052,
+    "source": "map-point"
+   },
+   "famous-pyra-3": {
+    "name": "Ołtarz Płomiennego Pojedynku i Przerwanej Walki",
+    "x": 46570,
+    "y": 13802,
+    "source": "map-point"
+   },
+   "famous-pyra-4": {
+    "name": "Kolos Areny Dziedzictwa (Zachodni Monument)",
+    "x": 45530,
+    "y": 13272,
+    "source": "map-point"
+   }
+  },
+  "hidden": {
+   "hidden-pyra-1": {
+    "name": "Starożytny Ołtarz Pierwszego Żaru",
+    "x": 43880,
+    "y": 12182
+   },
+   "hidden-pyra-2": {
+    "name": "Opuszczony Obóz Straży Zaporowej",
+    "x": 45510,
+    "y": 12062
+   },
+   "hidden-pyra-3": {
+    "name": "Skarbiec Popielnych Klanów",
+    "x": 45400,
+    "y": 13172
+   },
+   "hidden-pyra-4": {
+    "name": "Tunel Lawowy pod Kraterem (Wejście Zamknięte)",
+    "x": 43920,
+    "y": 11932
+   }
+  }
+ },
+ "verdant": {
+  "cities": {
+   "verdant-zielona-przystan": {
+    "settlement": "verdant-capital",
+    "name": "Zielona Przystań",
+    "x": 49031.06261,
+    "y": 34975.481075
+   },
+   "verdant-przystan-trzech-mostow": {
+    "settlement": "verdant-town-3",
+    "name": "Przystań Trzech Mostów",
+    "x": 58864,
+    "y": 21200
+   },
+   "verdant-kamienny-sad": {
+    "settlement": "verdant-town-1",
+    "name": "Kamienny Sad",
+    "x": 19408,
+    "y": 27216
+   },
+   "verdant-latarnia-korzeni": {
+    "settlement": "verdant-town-2",
+    "name": "Latarnia Korzeni",
+    "x": 37392,
+    "y": 19120
+   }
+  },
+  "famous": {
+   "famous-verdant-1": {
+    "name": "Źródło Pierwszego Oddechu (Fontanna Rynku)",
+    "x": 49016,
+    "y": 34715,
+    "source": "map-point"
+   },
+   "famous-verdant-2": {
+    "name": "Most Trzech Nurtów i Zaginionych Znaków",
+    "x": 49999,
+    "y": 34715,
+    "source": "map-point"
+   },
+   "famous-verdant-3": {
+    "name": "Dom Podwójnego Echa (Opuszczona Chata Doliny)",
+    "x": 48036,
+    "y": 34365,
+    "source": "same-kind"
+   },
+   "famous-verdant-4": {
+    "name": "Korzenna Kuźnia Pradawnych Rytów",
+    "x": 48036,
+    "y": 35245,
+    "source": "same-kind"
+   }
+  },
+  "hidden": {
+   "hidden-verdant-1": {
+    "name": "Zapomniana Kapliczka Siewców",
+    "x": 48771,
+    "y": 33879
+   },
+   "hidden-verdant-2": {
+    "name": "Opuszczony Obóz Mierniczych",
+    "x": 48511,
+    "y": 34970
+   },
+   "hidden-verdant-3": {
+    "name": "Starożytny Ołtarz Mchu i Rosy",
+    "x": 47909,
+    "y": 35332
+   },
+   "hidden-verdant-4": {
+    "name": "Ślady Zaginionej Wyprawy Botaników",
+    "x": 50268,
+    "y": 35513
+   },
+   "hidden-verdant-5": {
+    "name": "Podziemny Kanał Przelewowy pod Rozdzielnią",
+    "x": 48876,
+    "y": 34465
+   }
+  }
+ }
+}

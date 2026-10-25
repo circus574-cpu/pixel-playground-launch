@@ -20,7 +20,8 @@ import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
-import { WORLD_BASE } from "./worldVersion";
+import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
+import { v2Places } from "../../worlds/v2Places";
 import { FEATURE_IDS, SuperiorSaveStore, type SuperiorIndex, type FeatureId } from "./superiorSave";
 
 const BASE = WORLD_BASE;
@@ -123,6 +124,10 @@ export async function prepareSuperior(options: {
     !source.settlements.length
   )
     throw Error("Nieprawidłowy ląd");
+  // World v2 towns carry Argon's city names; famous locations become map landmarks.
+  const places = WORLD_V2 ? v2Places(info.affinity) : undefined;
+  if (places)
+    for (const town of source.settlements) town.name = places.townNames[town.id] ?? town.name;
   const offset = source.sourceOffset ?? { x: 0, y: 0 };
   const shift = (p: Point): Point => ({ x: p.x + offset.x, y: p.y + offset.y });
   const base = structuredClone(WORLDS[info.affinity]);
@@ -200,12 +205,15 @@ export async function prepareSuperior(options: {
     npcs: first.npcs,
     market: first.market,
     safeAreas: source.settlements.map((s) => s.bounds),
-    landmarks: source.settlements.map((s) => ({
-      x: s.x,
-      y: s.y,
-      label: s.name,
-      kind: "settlement" as const,
-    })),
+    landmarks: [
+      ...source.settlements.map((s) => ({
+        x: s.x,
+        y: s.y,
+        label: s.name,
+        kind: "settlement" as const,
+      })),
+      ...(places?.famous ?? []),
+    ],
   };
   const outsideCities = (p: Point) =>
     !source.settlements.some(

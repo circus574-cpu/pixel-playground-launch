@@ -13,7 +13,10 @@ export type WorldNpc = Point & {
   dialogue?: string;
   building?: BuildingId;
 };
-export type Landmark = Point & { label: string; kind: "settlement" | "energy" | "danger" };
+export type Landmark = Point & {
+  label: string;
+  kind: "settlement" | "energy" | "danger" | "famous";
+};
 export type RegionObject = ForestObject & { asset?: string };
 /** Organic floor of an open-world zone; `texture` is a `terrain.<texture>` binding. Presentation only. */
 export type ZoneFloor = { id: string; texture: string; points: [number, number][] };
