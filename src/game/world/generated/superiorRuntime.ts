@@ -20,9 +20,10 @@ import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
+import { WORLD_BASE } from "./worldVersion";
 import { FEATURE_IDS, SuperiorSaveStore, type SuperiorIndex, type FeatureId } from "./superiorSave";
 
-const BASE = "/game/worlds/superior-v1";
+const BASE = WORLD_BASE;
 type Settlement = Point & { id: string; name: string; kind: string; bounds: Obstacle };
 type Source = {
   feature: FeatureId;

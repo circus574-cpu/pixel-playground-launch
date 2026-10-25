@@ -10,8 +10,10 @@ export type GridData = {
   blocked?: Runs;
   flags?: Runs;
 };
+/** One byte per cell: the largest v2 land (Verdantia, 4844 × 3660 navigation cells) needs ~18 MB. */
+const MAX_GRID_CELLS = 24_000_000;
 export function decodeRuns(input: unknown, count: number): Uint8Array {
-  if (!Number.isSafeInteger(count) || count < 1 || count > 16_000_000 || !Array.isArray(input))
+  if (!Number.isSafeInteger(count) || count < 1 || count > MAX_GRID_CELLS || !Array.isArray(input))
     throw new Error("Invalid CPU grid size");
   const result = new Uint8Array(count);
   let at = 0;
