@@ -141,6 +141,11 @@ class SfxPlayer {
     });
   }
 
+  unlock() {
+    const ctx = this.ensureContext();
+    if (ctx?.state === "suspended") void ctx.resume();
+  }
+
   private ensureContext() {
     if (this.context) return this.context;
     const Ctx =
@@ -188,6 +193,14 @@ class SfxPlayer {
 }
 
 let player: SfxPlayer | null = null;
+// Mobile browsers start Web Audio only inside a gesture: the first tap anywhere unlocks it.
+if (typeof window !== "undefined") {
+  const unlock = () => {
+    window.removeEventListener("pointerdown", unlock, true);
+    (player ??= new SfxPlayer()).unlock();
+  };
+  window.addEventListener("pointerdown", unlock, true);
+}
 export const sfx = {
   play(file: string) {
     (player ??= new SfxPlayer()).play(file);

@@ -35,7 +35,7 @@ import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
 import { music, trackFor } from "../../game/music";
-import { sfx } from "../../game/sfx";
+import { sfx, sfxFile } from "../../game/sfx";
 import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
 import "./staff-tools.css";
@@ -135,6 +135,15 @@ function TechniqueBank({
 }) {
   const [requestedPage, setPage] = useState(0);
   if (!abilities.length) return null;
+  // World v2 lays every learned technique out beside the attack button (no pages).
+  if (WORLD_V2)
+    return (
+      <div className="ki-secondary-skills" role="group" aria-label="Poznane techniki">
+        <div className="ki-technique-page" data-count={abilities.length}>
+          {abilities.map(renderAbility)}
+        </div>
+      </div>
+    );
   const pages = Math.ceil(abilities.length / 2);
   const page = Math.min(requestedPage, pages - 1);
   return (
@@ -352,7 +361,12 @@ export function GameHud({
         }
         aria-label={a.name}
         disabled={blocked}
-        onActivate={() => onCommand({ type: "ability", ability: a.id })}
+        onActivate={() => {
+          // Immediate feedback on the press itself; the game's own cue for the cast is deduplicated.
+          const file = sfxFile({ race: player.race, ability: a.id });
+          if (file) sfx.play(file);
+          onCommand({ type: "ability", ability: a.id });
+        }}
       >
         <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
         <kbd>{a.id === "R" ? "␣" : a.key}</kbd>

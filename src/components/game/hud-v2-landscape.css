@@ -179,3 +179,55 @@
     max-height: calc(100vh - 140px);
   }
 }
+
+/* Every learned technique beside the attack button (no pages): two rows that grow to the left. */
+@media (max-height: 500px) and (max-width: 1100px) {
+  html[data-ki-world-v2] .ki-hud .ki-actionbar .ki-secondary-skills {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 6px);
+    width: max-content;
+    padding: 0;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-technique-page {
+    direction: rtl;
+    grid-template-columns: none;
+    grid-template-rows: repeat(2, 46px);
+    grid-auto-flow: column;
+    grid-auto-columns: 46px;
+    gap: 6px;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-technique-page .ki-skill {
+    direction: ltr;
+    width: 46px;
+    height: 46px;
+  }
+}
+
+/* Skill tree on a landscape phone: the tree on the left, the chosen node and "Poznaj" beside it. */
+@media (max-height: 500px) and (max-width: 1100px) {
+  html[data-ki-world-v2] .ki-gst {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(260px, 38%);
+    align-items: start;
+    gap: 10px;
+  }
+  html[data-ki-world-v2] .ki-gst-points,
+  html[data-ki-world-v2] .ki-gst-board {
+    grid-column: 1;
+  }
+  html[data-ki-world-v2] .ki-gst-card {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 0;
+  }
+  html[data-ki-world-v2] .ki-gst-respec {
+    grid-column: 2;
+  }
+}
+
+/* The GM button stays off open panels. */
+html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
+  display: none;
+}
