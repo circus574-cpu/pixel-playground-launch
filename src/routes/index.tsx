@@ -9,6 +9,7 @@ import { SuperiorCharacterStore as CharacterStore } from "../game/world/generate
 import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
+import { syncCloud } from "../components/account/cloudSync";
 import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
 import { isPlaytest, STAGE21_BUILD } from "../game/playtest";
@@ -47,28 +48,49 @@ export function Index() {
   const [warning, setWarning] = useState("");
   const [startWithOrigins, setStartWithOrigins] = useState(false);
   useEffect(() => {
-    try {
-      const profiles = new CharacterStore(
-        window.localStorage,
-        playtestSaveKey(window.location.search),
-      );
-      setStore(profiles);
-      setSlots(profiles.list());
-      setActive(profiles.active() ?? null);
-      setWarning(profiles.warning);
-    } catch {
-      setWarning(
-        "Pamięć lokalna jest zablokowana. Zezwól na zapis, aby bezpiecznie utworzyć postać.",
-      );
-    }
-    setLoaded(true);
-    // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
-    const params = new URLSearchParams(window.location.search);
-    if (["verdant", "aether", "nexus", "pyra"].includes(params.get("continent") ?? "")) {
-      setMapNotice(params.get("continent") as "verdant" | "aether" | "nexus" | "pyra");
-      setActive(null);
-    }
+    let cancelled = false;
+    // A signed-in player's cloud saves arrive before the slots are read (no-op without an account).
+    void syncCloud(true).then(() => {
+      if (cancelled) return;
+      try {
+        const profiles = new CharacterStore(
+          window.localStorage,
+          playtestSaveKey(window.location.search),
+        );
+        setStore(profiles);
+        setSlots(profiles.list());
+        setActive(profiles.active() ?? null);
+        setWarning(profiles.warning);
+      } catch {
+        setWarning(
+          "Pamięć lokalna jest zablokowana. Zezwól na zapis, aby bezpiecznie utworzyć postać.",
+        );
+      }
+      setLoaded(true);
+      // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
+      const params = new URLSearchParams(window.location.search);
+      if (["verdant", "aether", "nexus", "pyra"].includes(params.get("continent") ?? "")) {
+        setMapNotice(params.get("continent") as "verdant" | "aether" | "nexus" | "pyra");
+        setActive(null);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
+  // During play only local changes go up; a full sync runs again when the player leaves the game.
+  const playing = Boolean(active?.player);
+  useEffect(() => {
+    if (!playing) return;
+    const push = () => void syncCloud(false);
+    const hidden = () => document.visibilityState === "hidden" && push();
+    const timer = window.setInterval(push, 60_000);
+    document.addEventListener("visibilitychange", hidden);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", hidden);
+    };
+  }, [playing]);
   const open = (slot: CharacterSlot) => {
     store?.select(slot);
     setActive(slot);
@@ -100,6 +122,10 @@ export function Index() {
           setActive(null);
           setSlots(store?.list() ?? []);
           setWarning(store?.warning ?? "");
+          // The game is unmounted: bring in game-master edits, then refresh the slot list.
+          void syncCloud(true).then((report) => {
+            if (report?.pulled.length) setSlots(store?.list() ?? []);
+          });
         }}
       />
     );

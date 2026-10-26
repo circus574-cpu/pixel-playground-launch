@@ -99,6 +99,9 @@ export function CharacterSelection({
           <button aria-pressed={showSlots} onClick={() => setShowSlots(true)}>
             Twoje postacie <span>{visibleSlots.length}</span>
           </button>
+          <a href="/konto" className="ki-origins-account">
+            Konto
+          </a>
         </nav>
       </header>
       {warning && (
