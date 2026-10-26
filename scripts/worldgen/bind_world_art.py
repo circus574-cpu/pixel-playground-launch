@@ -136,16 +136,16 @@ KI_V2_RELIEF = {
                 ('biome-mountain.cliff-outcrop', 520), ('biome-mountain.rock-with-a-small-waterfall', 460),
                 ('biome-mountain.boulder-pile', 320), ('biome-mountain.mountain-pine-tree', 300)],
     'aether': [('biome-snow.snowy-mountain-peak', 1300), ('nature.mountain-peak', 1100),
-               ('biome-mountain.snowy-rock-ledge', 520), ('biome-snow.frozen-waterfall-cliff', 520),
+               ('biome-mountain.snowy-rock-ledge', 520), ('biome-mountain.rock-with-a-small-waterfall', 460),
                ('biome-snow.snow-covered-pine-tree', 300), ('biome-mountain.stone-cairn', 220)],
     'nexus': [('nature.mountain-peak', 1200), ('biome-mountain.tall-rocky-mountain-peak', 1100),
               ('biome-mountain.cliff-outcrop', 520), ('biome-mountain.an-ore-vein-rock', 340),
               ('biome-mountain.boulder-pile', 320), ('biome-volcanic.basalt-column-cluster', 360)],
-    'pyra': [('biome-volcanic.smoking-volcano', 1500), ('nature.patch-volcano-active', 1300),
-             ('biome-volcanic.basalt-column-cluster', 480), ('biome-volcanic.lava-rock-cluster-with-glowing-cracks', 380),
-             ('biome-volcanic.lava-geyser-vent', 300), ('biome-volcanic.sulfur-vent-with-yellow-crust', 300)],
+    'pyra': [('biome-volcanic.smoking-volcano', 1500), ('biome-volcanic.smoking-volcano', 1200),
+             ('biome-volcanic.basalt-column-cluster', 480), ('biome-volcanic.magma-pool-rim', 420),
+             ('biome-volcanic.sulfur-vent-with-yellow-crust', 300), ('biome-mountain.cliff-outcrop', 480)],
 }
-KI_V2_LAVA = ['biome-volcanic.magma-pool-rim', 'biome-volcanic.lava-geyser-vent', 'nature.patch-lava-rocks']
+KI_V2_LAVA = ['biome-volcanic.magma-pool-rim', 'biome-volcanic.sulfur-vent-with-yellow-crust', 'biome-volcanic.basalt-column-cluster']
 
 
 def ki_v2_relief(region, affinity, entries):
