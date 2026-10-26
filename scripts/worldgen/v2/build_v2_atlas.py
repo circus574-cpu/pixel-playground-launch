@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """World v2 atlas for /mapa (preview ?ki-world-v2=1): the painted equirectangular planet of the v2
-geometry (deliveries/world-v2-art/maps/globe-painted.webp: globe-equirect.webp repainted on the GPU with the old atlas as style reference, 45% land) plus traced region outlines.
+geometry (deliveries/world-v2-art/maps/globe-painted.webp: render_v2_planet_terrain.py output repainted on the GPU with the old atlas as style reference, 45% land) plus traced region outlines.
 
   python3 scripts/worldgen/v2/build_v2_atlas.py && python3 scripts/build_globe_textures.py --v2
 Writes src/assets/planet-map/atlas-v2-{1920,3840}.webp, src/components/planet-map/atlasRegions.v2.json
