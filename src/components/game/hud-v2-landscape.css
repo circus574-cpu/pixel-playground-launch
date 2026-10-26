@@ -180,8 +180,9 @@
   }
 }
 
-/* Every learned technique beside the attack button (no pages): two rows that grow to the left. */
-@media (max-height: 500px) and (max-width: 1100px) {
+/* Every learned technique beside the attack button (no pages): two rows that grow to the left,
+   on landscape phones and on computers (where a column of skills covered the quest tracker). */
+@media (max-height: 500px) and (max-width: 1100px), (min-width: 900px) and (min-height: 600px) {
   html[data-ki-world-v2] .ki-hud .ki-actionbar .ki-secondary-skills {
     position: absolute;
     right: 0;
@@ -276,4 +277,43 @@ html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
   html[data-ki-world-v2] .ki-hud .ki-modal {
     max-height: calc((100dvh - 48px) / 1.7);
   }
+}
+
+/* Computers: the GM button under the portrait card, clear of the (scaled) minimap. */
+@media (min-width: 900px) and (min-height: 600px) {
+  html[data-ki-world-v2] .ki-staff {
+    top: 210px;
+    right: auto;
+    left: 14px;
+  }
+}
+
+/* Settings → Klawisze: one row per action, the current key on a gold button. */
+.ki-settings-keys {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--gold-dim, #6b5a3a);
+  border-radius: 8px;
+}
+.ki-settings-keys .ki-key-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ki-hud .ki-settings-keys .ki-key-bind {
+  min-width: 96px;
+  min-height: 34px;
+  padding: 4px 12px;
+  border: 1px solid var(--gold, #c8a35a);
+  border-radius: 6px;
+  background: #2a2333;
+  color: #f5e6c4;
+  font-weight: 600;
+}
+.ki-hud .ki-settings-keys .ki-key-bind[aria-pressed="true"] {
+  background: #8a6a2c;
+  color: #fff8e6;
 }

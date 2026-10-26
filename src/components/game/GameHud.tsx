@@ -36,6 +36,18 @@ import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
 import { music, trackFor } from "../../game/music";
 import { sfx, sfxFile } from "../../game/sfx";
+import {
+  bindKey,
+  DEFAULT_KEYS,
+  KEY_ACTION_LABEL,
+  KEY_ACTIONS,
+  keyLabel,
+  readKeyBindings,
+  skillSlot,
+  writeKeyBindings,
+  type KeyAction,
+  type KeyBindings,
+} from "../../game/keyBindings";
 import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
 import "./staff-tools.css";
@@ -199,6 +211,25 @@ export function GameHud({
   const [toolsOpen, setToolsOpen] = useState(false);
   const [arranging, setArranging] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(true);
+  const [keys, setKeys] = useState<KeyBindings>(() =>
+    typeof window === "undefined" ? DEFAULT_KEYS : readKeyBindings(),
+  );
+  const [listening, setListening] = useState<KeyAction | null>(null);
+  useEffect(() => {
+    if (!listening) return;
+    const onKey = (e: KeyboardEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.key !== "Escape") {
+        const next = bindKey(keys, listening, e.key);
+        setKeys(next);
+        writeKeyBindings(next);
+      }
+      setListening(null);
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [listening, keys]);
   const touchJoystick =
     WORLD_V2 && typeof window !== "undefined" && !!window.matchMedia?.("(pointer: coarse)").matches;
   const [mapFocus, setMapFocus] = useState<{ land: string; x: number; y: number }>();
@@ -369,7 +400,13 @@ export function GameHud({
         }}
       >
         <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
-        <kbd>{a.id === "R" ? "␣" : a.key}</kbd>
+        <kbd>
+          {a.id === "R"
+            ? keyLabel(keys.attack)
+            : skillSlot(a.key)
+              ? keyLabel(keys[("skill" + skillSlot(a.key)) as KeyAction])
+              : ""}
+        </kbd>
         {a.id !== "R" && <span className="ki-ability-cost">{a.ki} KI</span>}
         {remaining && <span className="ki-cooldown">{remaining}</span>}
         {a.id === "R" && state.autoAttack && <span className="ki-auto">AUTO</span>}
@@ -689,7 +726,7 @@ export function GameHud({
           }}
         >
           <Icon index={4} />
-          <kbd>Q</kbd>
+          <kbd>{keyLabel(keys.potion)}</kbd>
           {state.potion.remaining > 0 && (
             <span className="ki-cooldown">{(state.potion.remaining / 1000).toFixed(1)}</span>
           )}
@@ -873,12 +910,12 @@ export function GameHud({
                 event.currentTarget.blur();
               }}
             >
-              Rozmowa · {nearbyNpc.name} <kbd>E</kbd>
+              Rozmowa · {nearbyNpc.name} <kbd>{keyLabel(keys.interact)}</kbd>
             </button>
           )}
           {state.nearbyLoot[0] && (
             <button onClick={() => onCommand({ type: "loot", id: state.nearbyLoot[0]!.id })}>
-              Podnieś łup <kbd>F</kbd>
+              Podnieś łup <kbd>{keyLabel(keys.loot)}</kbd>
             </button>
           )}
         </div>
@@ -1050,6 +1087,34 @@ export function GameHud({
                       }}
                     >
                       Przesuń przyciski
+                    </button>
+                  </fieldset>
+                )}
+                {!touchJoystick && (
+                  <fieldset className="ki-settings-keys">
+                    <legend>Klawisze</legend>
+                    {KEY_ACTIONS.map((action) => (
+                      <div className="ki-key-row" key={action}>
+                        <span>{KEY_ACTION_LABEL[action]}</span>
+                        <button
+                          type="button"
+                          className="ki-key-bind"
+                          aria-pressed={listening === action}
+                          onClick={() => setListening(action)}
+                        >
+                          {listening === action ? "Naciśnij klawisz…" : keyLabel(keys[action])}
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="ki-fullscreen-setting"
+                      onClick={() => {
+                        setKeys({ ...DEFAULT_KEYS });
+                        writeKeyBindings({ ...DEFAULT_KEYS });
+                      }}
+                    >
+                      Przywróć domyślne klawisze
                     </button>
                   </fieldset>
                 )}

@@ -21,6 +21,7 @@ import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
 import { cuesFor, sfx } from "./sfx";
+import { actionFor, readKeyBindings, skillSlot } from "./keyBindings";
 import { heroOcclusion } from "./world/visibility";
 import {
   GameSession,
@@ -351,23 +352,32 @@ export function mountKileGends(
       this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
         const el = document.activeElement;
         if (el instanceof HTMLElement && el.closest("input,textarea,button,[role=dialog]")) return;
-        const slot = session.kit.abilities().find((a) => a.key !== "" && a.key === event.key);
-        const map: Record<string, Command> = {
-          ...(slot ? { [event.key]: { type: "ability", ability: slot.id } as Command } : {}),
-          " ": { type: "ability", ability: "R" },
-          q: { type: "ability", ability: "potion" },
-          e:
-            session.player.interior === "depot" &&
-            distance(session.player, cityRoom("depot").chest) < 145
-              ? { type: "chest" }
-              : session.snapshot().nearbyBuilding &&
-                  !session.npcs.some((n) => distance(n, session.player) < 140)
-                ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
-                : { type: "interact", npc: session.snapshot().nearestNpc },
-          Escape: { type: "cancel" },
-          f: { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" },
-        };
-        const action = map[event.key] ?? map[event.key.toLowerCase()];
+        const bound = actionFor(readKeyBindings(), event.key);
+        const slot = bound?.startsWith("skill")
+          ? session.kit
+              .abilities()
+              .find((a) => a.key !== "" && skillSlot(a.key) === Number(bound.slice(5)))
+          : undefined;
+        const action: Command | undefined =
+          event.key === "Escape"
+            ? { type: "cancel" }
+            : bound === "attack"
+              ? { type: "ability", ability: "R" }
+              : bound === "potion"
+                ? { type: "ability", ability: "potion" }
+                : bound === "loot"
+                  ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
+                  : bound === "interact"
+                    ? session.player.interior === "depot" &&
+                      distance(session.player, cityRoom("depot").chest) < 145
+                      ? { type: "chest" }
+                      : session.snapshot().nearbyBuilding &&
+                          !session.npcs.some((n) => distance(n, session.player) < 140)
+                        ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
+                        : { type: "interact", npc: session.snapshot().nearestNpc }
+                    : slot
+                      ? { type: "ability", ability: slot.id }
+                      : undefined;
         if (action && !event.repeat) {
           event.preventDefault();
           session.command(action);
