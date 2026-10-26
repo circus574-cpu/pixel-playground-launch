@@ -159,6 +159,20 @@ def region(key,output,context,labels):
     # Stream channels crossing the added region terminate at the actual ocean shore.
     if GEOGRAPHY=='ki' and not island:
         rivers,made=ki_rivers(rng,elevation,land,new&~protected&~blocked);water|=rivers
+        # Lakes fill the lowest basins of the added land (each 0.5-2% of it), away from towns and paths.
+        free=new&~protected&~blocked&~ndimage.binary_dilation(roads,iterations=8)&(coast>2500/32)
+        # Depressions relative to their surroundings, so lakes sit in inland hollows rather than on the coast.
+        basin=ndimage.gaussian_filter(elevation,6)-ndimage.gaussian_filter(elevation,60)
+        for _ in range(7):
+            cand=np.argwhere(free&~ndimage.binary_dilation(water,iterations=40))
+            if not len(cand):break
+            y,x=cand[np.argmin(basin[cand[:,0],cand[:,1]])]
+            target=int(new.sum()*rng.uniform(.004,.012));level=basin[y,x];lake=np.zeros(shape,bool)
+            for step in range(60):
+                level+=.004;lab,_=ndimage.label(free&(basin<=level));lake=lab==lab[y,x]
+                if lake.sum()>=target:break
+            lake=ndimage.binary_opening(ndimage.binary_closing(lake,iterations=3),iterations=2)&free
+            water|=lake;free&=~ndimage.binary_dilation(lake,iterations=30)
         near=ndimage.binary_dilation(rivers,iterations=5)&new&~water&(elevation<.7)&(biome!=2);biome[near&(smooth_noise(rng,shape,9)>.45)]=3
     for _ in range(2 if not island and GEOGRAPHY!='ki' else 0):
         candidates=np.argwhere(new&~protected&~blocked&(coast>1200))

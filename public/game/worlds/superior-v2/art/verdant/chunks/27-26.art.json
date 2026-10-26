@@ -1,1 +1,1 @@
-{"format":"superior-art-overlay-1","sourceChunkSha256":"b1d5612ea1b644a30c84d9790290ed369a6797da3d999da57f67f77f2c465d32","objects":[]}
+{"format":"superior-art-overlay-1","sourceChunkSha256":"b901e22b91fed2b5ba3f82a5067d5479abb32fcf3a4a4cf2cf989ca6d7f1e841","objects":[{"id":"verdant-v2-object-9610","kind":"tree","asset":"ki-v2-objects.verdant-tree2-4","binding":"object.ki-v2-objects.verdant-tree2-4","x":55440,"y":53264,"width":240,"height":246,"anchorX":0.5,"anchorY":0.92,"layer":"objects","solid":false,"footprint":null,"collisionPolicy":"read-original-world-only"}]}
