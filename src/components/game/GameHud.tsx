@@ -8,6 +8,9 @@ import { useGameMessage, type MessageEvent } from "./useGameMessage";
 import {
   readUiPreferences,
   writeUiPreferences,
+  CONTROL_IDS,
+  CONTROL_SCALE,
+  type ControlLayout,
   type UiPreferences,
 } from "../../game/uiPreferences";
 import { MangaIcon, type MangaSymbol } from "./MangaIcon";
@@ -31,10 +34,12 @@ import { Inventory, QuestJournal, NpcDialogue, SkillTree } from "./AdventurePane
 import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
+import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
 import "./manga-hud.css";
+import "./hud-v2-landscape.css";
 
 type Props = {
   planetLocation?: string | undefined;
@@ -174,6 +179,11 @@ export function GameHud({
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [arranging, setArranging] = useState(false);
+  const [actionsOpen, setActionsOpen] = useState(true);
+  const touchJoystick =
+    WORLD_V2 && typeof window !== "undefined" && !!window.matchMedia?.("(pointer: coarse)").matches;
+  const [mapFocus, setMapFocus] = useState<{ land: string; x: number; y: number }>();
   const tools = useRef<HTMLDivElement>(null);
   const toolsToggle = useRef<HTMLButtonElement>(null);
   const [draft, setDraft] = useState("");
@@ -215,7 +225,14 @@ export function GameHud({
       )}
     </>
   );
-  function changePreference(key: keyof UiPreferences, value: boolean) {
+  function changeControls(controls: ControlLayout) {
+    setPreferences((current) => ({ ...current, controls }));
+    // The joystick is drawn by the game; it reads the stored layout on this signal.
+    queueMicrotask(() =>
+      document.querySelector(".ki-canvas")?.dispatchEvent(new Event("ki:controls")),
+    );
+  }
+  function changePreference(key: Exclude<keyof UiPreferences, "controls">, value: boolean) {
     setPreferences((current) => {
       const next = { ...current, [key]: value };
       return next;
@@ -330,8 +347,21 @@ export function GameHud({
   return (
     <div
       className="ki-hud"
-      style={{ "--ki-ui-image": `url("${uiTextureUrl()}")` } as CSSProperties}
+      style={
+        {
+          "--ki-ui-image": `url("${uiTextureUrl()}")`,
+          ...controlStyle(preferences.controls),
+        } as CSSProperties
+      }
     >
+      {arranging && (
+        <ControlEditor
+          controls={preferences.controls}
+          joystick={touchJoystick}
+          onChange={changeControls}
+          onDone={() => setArranging(false)}
+        />
+      )}
       <section className="ki-player ki-frame" aria-label="Postać gracza">
         <div className="ki-portrait" data-race={player.race}>
           <span className="ki-portrait-art">
@@ -457,7 +487,15 @@ export function GameHud({
         <button
           className="ki-map-image"
           aria-label="Otwórz mapę świata"
-          onClick={() => toggle(WORLD_V2 ? "planet" : "map")}
+          onClick={() => {
+            // World v2: the minimap opens the flat continent map centred on the player.
+            setMapFocus(
+              WORLD_V2 && !state.building && !player.interior
+                ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
+                : undefined,
+            );
+            toggle(WORLD_V2 ? "planet" : "map");
+          }}
         >
           {WORLD_V2 && !state.building ? (
             <V2Minimap land={state.player.continent} at={{ x: state.x, y: state.y }} />
@@ -750,7 +788,20 @@ export function GameHud({
         </aside>
       )}
       {!panel && !state.dialogue && !state.depotOpen && !chatOpen && !toolsOpen && !player.dead && (
-        <div className="ki-context-actions">
+        <div
+          className={"ki-context-actions" + (WORLD_V2 && !actionsOpen ? " is-collapsed" : "")}
+          aria-label="Akcje"
+        >
+          {WORLD_V2 && (
+            <button
+              className="ki-actions-toggle"
+              aria-expanded={actionsOpen}
+              aria-label={actionsOpen ? "Zwiń akcje" : "Rozwiń akcje"}
+              onClick={() => setActionsOpen((v) => !v)}
+            >
+              Akcje {actionsOpen ? "◂" : "▸"}
+            </button>
+          )}
           {world.city && !player.interior && (!WORLD_V2 || state.inCity) && (
             <button onClick={() => toggle(WORLD_V2 ? "planet" : "map")}>Plan miasta</button>
           )}
@@ -813,6 +864,7 @@ export function GameHud({
           >
             <PlanetAtlas
               current={planetLocation ?? state.player.continent}
+              focus={mapFocus}
               onTravel={onPlanetTravel}
               onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
             />
@@ -928,6 +980,39 @@ export function GameHud({
                     onChange={(e) => changePreference("worldLabels", e.target.checked)}
                   />
                 </label>
+                <fieldset className="ki-settings-controls">
+                  <legend>Przyciski i joystick</legend>
+                  {CONTROL_IDS.filter((id) => id !== "joystick" || touchJoystick).map((id) => (
+                    <label key={id}>
+                      <span>
+                        {CONTROL_LABEL[id]} · {Math.round(preferences.controls[id].scale * 100)}%
+                      </span>
+                      <input
+                        type="range"
+                        min={CONTROL_SCALE.min}
+                        max={CONTROL_SCALE.max}
+                        step={0.05}
+                        value={preferences.controls[id].scale}
+                        aria-label={"Wielkość: " + CONTROL_LABEL[id]}
+                        onChange={(e) =>
+                          changeControls({
+                            ...preferences.controls,
+                            [id]: { ...preferences.controls[id], scale: Number(e.target.value) },
+                          })
+                        }
+                      />
+                    </label>
+                  ))}
+                  <button
+                    className="ki-fullscreen-setting"
+                    onClick={() => {
+                      setPanel(null);
+                      setArranging(true);
+                    }}
+                  >
+                    Przesuń przyciski
+                  </button>
+                </fieldset>
                 <label>
                   <span>Duża minimapa</span>
                   <input

@@ -4,11 +4,12 @@
  * place keeps its world id so a fog of war can hide undiscovered ones later.
  */
 import { useEffect, useState } from "react";
+import type { OverlayLands, OverlayTile } from "./worldToAtlas";
 
 type Road = { id: string; land: string; kind: string; width: number; points: [number, number][] };
 type Place = { id: string; land: string; kind: string; name: string; x: number; y: number };
-type Tile = { land: string; crop: number[]; m: number[]; size: number[] };
-type Overlay = { roads: Road[]; places: Place[]; tiles: Tile[] };
+type Tile = OverlayTile;
+type Overlay = { lands?: OverlayLands; roads: Road[]; places: Place[]; tiles: Tile[] };
 
 const GLYPH: Record<string, string> = {
   capital: "♛",
@@ -31,7 +32,9 @@ export function WorldOverlay({ zoom, px }: { zoom: number; px: (screen: number) 
   const [data, setData] = useState<Overlay | null>(null);
   useEffect(() => {
     let live = true;
-    void import("./worldOverlay.v2.json").then((m) => live && setData(m.default as Overlay));
+    void import("./worldOverlay.v2.json").then(
+      (m) => live && setData(m.default as unknown as Overlay),
+    );
     return () => {
       live = false;
     };

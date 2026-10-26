@@ -92,6 +92,10 @@ test("Argon v2 quest summary follows the real journal and survives reload", asyn
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).tap();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).tap();
   await expect(page.locator(".ki-hud")).toBeVisible();
+  // World v2 on a phone is played in landscape: portrait shows the turn-the-phone screen.
+  await expect(page.getByText("Obróć telefon poziomo")).toBeVisible();
+  await page.setViewportSize({ width: 852, height: 393 });
+  await expect(page.getByText("Obróć telefon poziomo")).toBeHidden();
   // A new character is guided by the starter quest first; Argon's adventures follow.
   await expect(page.locator(".ki-quest strong")).toHaveText("Pierwsze kroki");
   await patchActiveCharacter(

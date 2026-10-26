@@ -1004,3 +1004,29 @@ html[data-ki-world-v2] .pg-zone {
   fill: #5a1010;
   stroke: #ff6a4a;
 }
+
+/* The player's position when the atlas is opened from the game (world v2). */
+.pm-player-halo {
+  fill: #ffe9a066;
+  stroke: #fff4cf;
+  stroke-width: 0.15;
+  animation: pm-player-pulse 1.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.pm-player-dot {
+  fill: #ffd257;
+  stroke: #2a1a00;
+  stroke-width: 0.12;
+}
+@keyframes pm-player-pulse {
+  50% {
+    transform: scale(1.35);
+    opacity: 0.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pm-player-halo {
+    animation: none;
+  }
+}
