@@ -8,7 +8,13 @@ import {
 } from "../components/game/useGameMessage";
 import { GameHud } from "../components/game/GameHud";
 import { GameSession, initialView, SAVE_KEY } from "../game/session";
-import { readUiPreferences, writeUiPreferences, UI_PREFERENCES_KEY } from "../game/uiPreferences";
+import {
+  readUiPreferences,
+  writeUiPreferences,
+  UI_PREFERENCES_KEY,
+  DEFAULT_CONTROLS,
+  CONTROL_SCALE,
+} from "../game/uiPreferences";
 function MessageHarness({
   event,
   scope = "world",
@@ -134,8 +140,20 @@ describe("UI preferences survive refresh without touching character saves", () =
     localStorage.setItem(SAVE_KEY, "preserved");
     const value = { messages: false, worldLabels: false, largeMinimap: true };
     writeUiPreferences(value);
-    expect(readUiPreferences()).toEqual(value);
+    expect(readUiPreferences()).toEqual({ ...value, controls: DEFAULT_CONTROLS });
     expect(localStorage.getItem(SAVE_KEY)).toBe("preserved");
+  });
+  it("keeps the player's control layout and clamps impossible sizes", () => {
+    const controls = {
+      ...DEFAULT_CONTROLS,
+      attack: { dx: -40, dy: 12, scale: 1.4 },
+      joystick: { dx: 30, dy: -20, scale: 9 },
+    };
+    writeUiPreferences({ messages: true, worldLabels: true, largeMinimap: false, controls });
+    const read = readUiPreferences().controls;
+    expect(read.attack).toEqual({ dx: -40, dy: 12, scale: 1.4 });
+    expect(read.joystick).toEqual({ dx: 30, dy: -20, scale: CONTROL_SCALE.max });
+    expect(read.potion).toEqual(DEFAULT_CONTROLS.potion);
   });
   it("handles invalid preferences and blocked storage without crashing gameplay", () => {
     localStorage.setItem(UI_PREFERENCES_KEY, "{broken");

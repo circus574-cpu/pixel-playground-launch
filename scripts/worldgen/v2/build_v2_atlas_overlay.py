@@ -42,11 +42,13 @@ def pieces(p):
 
 
 roads, marks, tiles = [], [], []
+lands = {}  # world units per map-hi pixel, so the client maps a world position through the tiles
 for key in IDS:
     world = json.loads((W / key / 'world.json').read_text()); anchor = world['geometry']['anchor']
     # Detail tiles: the land's painted map (map.webp) cut into a grid, each cell placed with the affine
     # transform of its projected corners, so zoomed-in atlas views stay sharp.
     meta = json.loads((W / key / 'map-hi.json').read_text()); upp = meta['unitsPerPixel']
+    lands[key] = {'upp': upp}
     gx, gy = 16, 12
     for j in range(gy):
         for i in range(gx):
@@ -73,5 +75,5 @@ for key in IDS:
         xy = project(key, anchor, [[s[3], s[4]] for s in spots])
         for (sid, kind, name, _, _), (x, y) in zip(spots, xy):
             marks.append({'id': sid, 'land': key, 'kind': kind, 'name': name, 'x': round(float(x), 2), 'y': round(float(y), 2)})
-(ROOT / 'src/components/planet-map/worldOverlay.v2.json').write_text(json.dumps({'roads': roads, 'places': marks, 'tiles': tiles}, ensure_ascii=False, separators=(',', ':')) + '\n')
+(ROOT / 'src/components/planet-map/worldOverlay.v2.json').write_text(json.dumps({'lands': lands, 'roads': roads, 'places': marks, 'tiles': tiles}, ensure_ascii=False, separators=(',', ':')) + '\n')
 print(len(roads), 'road pieces', len(marks), 'places', round((ROOT / 'src/components/planet-map/worldOverlay.v2.json').stat().st_size / 1024), 'KiB')

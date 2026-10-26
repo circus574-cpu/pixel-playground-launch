@@ -56,8 +56,10 @@ export function MapaView({
   current,
   onClose,
   onTravel,
+  focus,
 }: GameLink & { probe?: () => boolean }) {
   const [mode, setMode] = useState<Mode>("checking");
+  const focused = Boolean(focus);
   const [canGlobe, setCanGlobe] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -65,9 +67,10 @@ export function MapaView({
   useEffect(() => {
     const ok = probe();
     setCanGlobe(ok);
-    setMode(ok ? "globe" : "flat");
+    // Opened on the player's position: the flat atlas first, the globe one tap away.
+    setMode(ok && !focused ? "globe" : "flat");
     setNotice(ok ? null : FALLBACK_NOTICE["no-webgl"]);
-  }, [probe]);
+  }, [probe, focused]);
 
   const fallBack = useCallback((reason: FallbackReason) => {
     setMode("flat");
@@ -80,6 +83,7 @@ export function MapaView({
     return (
       <PlanetMap
         current={current}
+        focus={focus}
         onClose={onClose}
         onTravel={onTravel}
         notice={notice}
