@@ -10,6 +10,7 @@ import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
 import { music } from "../game/music";
+import { registerAssetCache } from "../game/assetCache";
 import { RotateNotice } from "../components/game/RotateNotice";
 import { syncCloud } from "../components/account/cloudSync";
 import { markStaff, verifiedStaffRole } from "../game/account/staff";
@@ -346,5 +347,6 @@ function GameScreen({
 /** While a world loads (also on travel between lands) the loading theme plays. */
 function LoadingTheme() {
   useEffect(() => music.play("loading"), []);
+  useEffect(registerAssetCache, []);
   return null;
 }
