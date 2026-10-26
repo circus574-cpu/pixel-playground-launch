@@ -4735,8 +4735,8 @@
    "binding": "object.ki-v2-buildings.aether-arena",
    "asset": "ki-v2-buildings-aether-arena",
    "pixels": [
-    1018,
-    929
+    738,
+    673
    ],
    "frame": null,
    "fit": "contain",
@@ -4759,8 +4759,8 @@
    "binding": "object.ki-v2-buildings.aether-depot",
    "asset": "ki-v2-buildings-aether-depot",
    "pixels": [
-    1023,
-    999
+    738,
+    721
    ],
    "frame": null,
    "fit": "contain",
@@ -4783,8 +4783,8 @@
    "binding": "object.ki-v2-buildings.aether-hall",
    "asset": "ki-v2-buildings-aether-hall",
    "pixels": [
-    1020,
-    944
+    738,
+    683
    ],
    "frame": null,
    "fit": "contain",
@@ -4807,8 +4807,8 @@
    "binding": "object.ki-v2-buildings.aether-house",
    "asset": "ki-v2-buildings-aether-house",
    "pixels": [
-    1001,
-    953
+    257,
+    245
    ],
    "frame": null,
    "fit": "contain",
@@ -4831,8 +4831,8 @@
    "binding": "object.ki-v2-buildings.aether-inn",
    "asset": "ki-v2-buildings-aether-inn",
    "pixels": [
-    969,
-    975
+    737,
+    742
    ],
    "frame": null,
    "fit": "contain",
@@ -4855,8 +4855,8 @@
    "binding": "object.ki-v2-buildings.aether-market",
    "asset": "ki-v2-buildings-aether-market",
    "pixels": [
-    1012,
-    962
+    738,
+    702
    ],
    "frame": null,
    "fit": "contain",
@@ -4879,8 +4879,8 @@
    "binding": "object.ki-v2-buildings.aether-smithy",
    "asset": "ki-v2-buildings-aether-smithy",
    "pixels": [
-    1020,
-    957
+    738,
+    692
    ],
    "frame": null,
    "fit": "contain",
@@ -4903,8 +4903,8 @@
    "binding": "object.ki-v2-buildings.nexus-arena",
    "asset": "ki-v2-buildings-nexus-arena",
    "pixels": [
-    962,
-    885
+    738,
+    679
    ],
    "frame": null,
    "fit": "contain",
@@ -4927,8 +4927,8 @@
    "binding": "object.ki-v2-buildings.nexus-depot",
    "asset": "ki-v2-buildings-nexus-depot",
    "pixels": [
-    1001,
-    1000
+    738,
+    737
    ],
    "frame": null,
    "fit": "contain",
@@ -4951,8 +4951,8 @@
    "binding": "object.ki-v2-buildings.nexus-hall",
    "asset": "ki-v2-buildings-nexus-hall",
    "pixels": [
-    987,
-    943
+    738,
+    705
    ],
    "frame": null,
    "fit": "contain",
@@ -4975,8 +4975,8 @@
    "binding": "object.ki-v2-buildings.nexus-house",
    "asset": "ki-v2-buildings-nexus-house",
    "pixels": [
-    989,
-    922
+    257,
+    240
    ],
    "frame": null,
    "fit": "contain",
@@ -4999,8 +4999,8 @@
    "binding": "object.ki-v2-buildings.nexus-inn",
    "asset": "ki-v2-buildings-nexus-inn",
    "pixels": [
-    875,
-    947
+    738,
+    799
    ],
    "frame": null,
    "fit": "contain",
@@ -5023,8 +5023,8 @@
    "binding": "object.ki-v2-buildings.nexus-market",
    "asset": "ki-v2-buildings-nexus-market",
    "pixels": [
-    1031,
-    998
+    738,
+    714
    ],
    "frame": null,
    "fit": "contain",
@@ -5047,8 +5047,8 @@
    "binding": "object.ki-v2-buildings.nexus-smithy",
    "asset": "ki-v2-buildings-nexus-smithy",
    "pixels": [
-    881,
-    821
+    738,
+    688
    ],
    "frame": null,
    "fit": "contain",
@@ -5071,8 +5071,8 @@
    "binding": "object.ki-v2-buildings.pyra-arena",
    "asset": "ki-v2-buildings-pyra-arena",
    "pixels": [
-    967,
-    898
+    738,
+    685
    ],
    "frame": null,
    "fit": "contain",
@@ -5095,8 +5095,8 @@
    "binding": "object.ki-v2-buildings.pyra-depot",
    "asset": "ki-v2-buildings-pyra-depot",
    "pixels": [
-    1032,
-    997
+    738,
+    713
    ],
    "frame": null,
    "fit": "contain",
@@ -5119,8 +5119,8 @@
    "binding": "object.ki-v2-buildings.pyra-hall",
    "asset": "ki-v2-buildings-pyra-hall",
    "pixels": [
-    982,
-    955
+    855,
+    831
    ],
    "frame": null,
    "fit": "contain",
@@ -5143,8 +5143,8 @@
    "binding": "object.ki-v2-buildings.pyra-house",
    "asset": "ki-v2-buildings-pyra-house",
    "pixels": [
-    929,
-    866
+    257,
+    240
    ],
    "frame": null,
    "fit": "contain",
@@ -5167,8 +5167,8 @@
    "binding": "object.ki-v2-buildings.pyra-inn",
    "asset": "ki-v2-buildings-pyra-inn",
    "pixels": [
-    877,
-    937
+    738,
+    789
    ],
    "frame": null,
    "fit": "contain",
@@ -5191,8 +5191,8 @@
    "binding": "object.ki-v2-buildings.pyra-market",
    "asset": "ki-v2-buildings-pyra-market",
    "pixels": [
-    1018,
-    987
+    738,
+    716
    ],
    "frame": null,
    "fit": "contain",
@@ -5215,8 +5215,8 @@
    "binding": "object.ki-v2-buildings.pyra-smithy",
    "asset": "ki-v2-buildings-pyra-smithy",
    "pixels": [
-    969,
-    1036
+    738,
+    789
    ],
    "frame": null,
    "fit": "contain",
@@ -5239,8 +5239,8 @@
    "binding": "object.ki-v2-buildings.verdant-arena",
    "asset": "ki-v2-buildings-verdant-arena",
    "pixels": [
-    894,
-    956
+    738,
+    789
    ],
    "frame": null,
    "fit": "contain",
@@ -5263,8 +5263,8 @@
    "binding": "object.ki-v2-buildings.verdant-depot",
    "asset": "ki-v2-buildings-verdant-depot",
    "pixels": [
-    987,
-    1036
+    738,
+    775
    ],
    "frame": null,
    "fit": "contain",
@@ -5287,8 +5287,8 @@
    "binding": "object.ki-v2-buildings.verdant-hall",
    "asset": "ki-v2-buildings-verdant-hall",
    "pixels": [
-    969,
-    954
+    750,
+    738
    ],
    "frame": null,
    "fit": "contain",
@@ -5311,8 +5311,8 @@
    "binding": "object.ki-v2-buildings.verdant-house",
    "asset": "ki-v2-buildings-verdant-house",
    "pixels": [
-    873,
-    810
+    257,
+    238
    ],
    "frame": null,
    "fit": "contain",
@@ -5335,8 +5335,8 @@
    "binding": "object.ki-v2-buildings.verdant-inn",
    "asset": "ki-v2-buildings-verdant-inn",
    "pixels": [
-    929,
-    991
+    739,
+    788
    ],
    "frame": null,
    "fit": "contain",
@@ -5359,8 +5359,8 @@
    "binding": "object.ki-v2-buildings.verdant-market",
    "asset": "ki-v2-buildings-verdant-market",
    "pixels": [
-    1036,
-    965
+    750,
+    699
    ],
    "frame": null,
    "fit": "contain",
@@ -5383,8 +5383,8 @@
    "binding": "object.ki-v2-buildings.verdant-smithy",
    "asset": "ki-v2-buildings-verdant-smithy",
    "pixels": [
-    990,
-    973
+    750,
+    737
    ],
    "frame": null,
    "fit": "contain",
@@ -5407,8 +5407,8 @@
    "binding": "object.ki-v2-camps.aether-banner",
    "asset": "ki-v2-camps-aether-banner",
    "pixels": [
-    338,
-    907
+    330,
+    885
    ],
    "frame": null,
    "fit": "contain",
@@ -5428,8 +5428,8 @@
    "binding": "object.ki-v2-camps.aether-bonfire",
    "asset": "ki-v2-camps-aether-bonfire",
    "pixels": [
-    867,
-    722
+    330,
+    275
    ],
    "frame": null,
    "fit": "contain",
@@ -5449,8 +5449,8 @@
    "binding": "object.ki-v2-camps.aether-crates",
    "asset": "ki-v2-camps-aether-crates",
    "pixels": [
-    733,
-    892
+    390,
+    474
    ],
    "frame": null,
    "fit": "contain",
@@ -5470,8 +5470,8 @@
    "binding": "object.ki-v2-camps.aether-tent",
    "asset": "ki-v2-camps-aether-tent",
    "pixels": [
-    964,
-    937
+    630,
+    612
    ],
    "frame": null,
    "fit": "contain",
@@ -5494,8 +5494,8 @@
    "binding": "object.ki-v2-camps.aether-totem",
    "asset": "ki-v2-camps-aether-totem",
    "pixels": [
-    826,
-    958
+    391,
+    453
    ],
    "frame": null,
    "fit": "contain",
@@ -5518,8 +5518,8 @@
    "binding": "object.ki-v2-camps.nexus-banner",
    "asset": "ki-v2-camps-nexus-banner",
    "pixels": [
-    679,
-    983
+    329,
+    477
    ],
    "frame": null,
    "fit": "contain",
@@ -5539,8 +5539,8 @@
    "binding": "object.ki-v2-camps.nexus-bonfire",
    "asset": "ki-v2-camps-nexus-bonfire",
    "pixels": [
-    624,
-    552
+    330,
+    292
    ],
    "frame": null,
    "fit": "contain",
@@ -5560,8 +5560,8 @@
    "binding": "object.ki-v2-camps.nexus-crates",
    "asset": "ki-v2-camps-nexus-crates",
    "pixels": [
-    947,
-    979
+    391,
+    404
    ],
    "frame": null,
    "fit": "contain",
@@ -5581,8 +5581,8 @@
    "binding": "object.ki-v2-camps.nexus-tent",
    "asset": "ki-v2-camps-nexus-tent",
    "pixels": [
-    994,
-    967
+    630,
+    613
    ],
    "frame": null,
    "fit": "contain",
@@ -5605,8 +5605,8 @@
    "binding": "object.ki-v2-camps.nexus-totem",
    "asset": "ki-v2-camps-nexus-totem",
    "pixels": [
-    716,
-    958
+    390,
+    522
    ],
    "frame": null,
    "fit": "contain",
@@ -5629,8 +5629,8 @@
    "binding": "object.ki-v2-camps.pyra-banner",
    "asset": "ki-v2-camps-pyra-banner",
    "pixels": [
-    383,
-    1002
+    330,
+    864
    ],
    "frame": null,
    "fit": "contain",
@@ -5650,8 +5650,8 @@
    "binding": "object.ki-v2-camps.pyra-bonfire",
    "asset": "ki-v2-camps-pyra-bonfire",
    "pixels": [
-    446,
-    965
+    330,
+    714
    ],
    "frame": null,
    "fit": "contain",
@@ -5671,8 +5671,8 @@
    "binding": "object.ki-v2-camps.pyra-crates",
    "asset": "ki-v2-camps-pyra-crates",
    "pixels": [
-    811,
-    729
+    390,
+    351
    ],
    "frame": null,
    "fit": "contain",
@@ -5692,8 +5692,8 @@
    "binding": "object.ki-v2-camps.pyra-tent",
    "asset": "ki-v2-camps-pyra-tent",
    "pixels": [
-    970,
-    942
+    630,
+    612
    ],
    "frame": null,
    "fit": "contain",
@@ -5716,8 +5716,8 @@
    "binding": "object.ki-v2-camps.pyra-totem",
    "asset": "ki-v2-camps-pyra-totem",
    "pixels": [
-    577,
-    971
+    390,
+    657
    ],
    "frame": null,
    "fit": "contain",
@@ -5740,8 +5740,8 @@
    "binding": "object.ki-v2-camps.verdant-banner",
    "asset": "ki-v2-camps-verdant-banner",
    "pixels": [
-    424,
-    509
+    330,
+    396
    ],
    "frame": null,
    "fit": "contain",
@@ -5761,8 +5761,8 @@
    "binding": "object.ki-v2-camps.verdant-bonfire",
    "asset": "ki-v2-camps-verdant-bonfire",
    "pixels": [
-    633,
-    509
+    330,
+    265
    ],
    "frame": null,
    "fit": "contain",
@@ -5782,8 +5782,8 @@
    "binding": "object.ki-v2-camps.verdant-crates",
    "asset": "ki-v2-camps-verdant-crates",
    "pixels": [
-    742,
-    838
+    390,
+    441
    ],
    "frame": null,
    "fit": "contain",
@@ -5803,8 +5803,8 @@
    "binding": "object.ki-v2-camps.verdant-tent",
    "asset": "ki-v2-camps-verdant-tent",
    "pixels": [
-    847,
-    934
+    630,
+    695
    ],
    "frame": null,
    "fit": "contain",
@@ -5827,8 +5827,8 @@
    "binding": "object.ki-v2-camps.verdant-totem",
    "asset": "ki-v2-camps-verdant-totem",
    "pixels": [
-    479,
-    904
+    391,
+    737
    ],
    "frame": null,
    "fit": "contain",
@@ -6229,8 +6229,8 @@
    "binding": "object.ki-v2-objects.aether-boulder-0",
    "asset": "ki-v2-objects-aether-boulder-0",
    "pixels": [
-    899,
-    798
+    300,
+    266
    ],
    "frame": null,
    "fit": "contain",
@@ -6253,8 +6253,8 @@
    "binding": "object.ki-v2-objects.aether-boulder-2",
    "asset": "ki-v2-objects-aether-boulder-2",
    "pixels": [
-    855,
-    842
+    300,
+    295
    ],
    "frame": null,
    "fit": "contain",
@@ -6277,8 +6277,8 @@
    "binding": "object.ki-v2-objects.aether-boulder-3",
    "asset": "ki-v2-objects-aether-boulder-3",
    "pixels": [
-    901,
-    946
+    300,
+    315
    ],
    "frame": null,
    "fit": "contain",
@@ -6301,8 +6301,8 @@
    "binding": "object.ki-v2-objects.aether-boulder-4",
    "asset": "ki-v2-objects-aether-boulder-4",
    "pixels": [
-    909,
-    964
+    300,
+    318
    ],
    "frame": null,
    "fit": "contain",
@@ -6325,8 +6325,8 @@
    "binding": "object.ki-v2-objects.aether-boulder-5",
    "asset": "ki-v2-objects-aether-boulder-5",
    "pixels": [
-    896,
-    876
+    300,
+    293
    ],
    "frame": null,
    "fit": "contain",
@@ -6349,8 +6349,8 @@
    "binding": "object.ki-v2-objects.aether-bush-0",
    "asset": "ki-v2-objects-aether-bush-0",
    "pixels": [
-    828,
-    832
+    255,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6370,8 +6370,8 @@
    "binding": "object.ki-v2-objects.aether-bush-1",
    "asset": "ki-v2-objects-aether-bush-1",
    "pixels": [
-    804,
-    822
+    250,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6391,8 +6391,8 @@
    "binding": "object.ki-v2-objects.aether-bush-2",
    "asset": "ki-v2-objects-aether-bush-2",
    "pixels": [
-    715,
-    772
+    237,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6412,8 +6412,8 @@
    "binding": "object.ki-v2-objects.aether-bush-3",
    "asset": "ki-v2-objects-aether-bush-3",
    "pixels": [
-    901,
-    929
+    248,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6433,8 +6433,8 @@
    "binding": "object.ki-v2-objects.aether-bush-5",
    "asset": "ki-v2-objects-aether-bush-5",
    "pixels": [
-    755,
-    770
+    251,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6454,8 +6454,8 @@
    "binding": "object.ki-v2-objects.aether-fern-1",
    "asset": "ki-v2-objects-aether-fern-1",
    "pixels": [
-    544,
-    732
+    195,
+    263
    ],
    "frame": null,
    "fit": "contain",
@@ -6475,8 +6475,8 @@
    "binding": "object.ki-v2-objects.aether-fern-2",
    "asset": "ki-v2-objects-aether-fern-2",
    "pixels": [
-    521,
-    489
+    256,
+    240
    ],
    "frame": null,
    "fit": "contain",
@@ -6496,8 +6496,8 @@
    "binding": "object.ki-v2-objects.aether-fern-3",
    "asset": "ki-v2-objects-aether-fern-3",
    "pixels": [
-    426,
-    692
+    195,
+    317
    ],
    "frame": null,
    "fit": "contain",
@@ -6517,8 +6517,8 @@
    "binding": "object.ki-v2-objects.aether-fern-4",
    "asset": "ki-v2-objects-aether-fern-4",
    "pixels": [
-    360,
-    528
+    196,
+    287
    ],
    "frame": null,
    "fit": "contain",
@@ -6538,8 +6538,8 @@
    "binding": "object.ki-v2-objects.aether-fern-5",
    "asset": "ki-v2-objects-aether-fern-5",
    "pixels": [
-    448,
-    554
+    207,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6559,8 +6559,8 @@
    "binding": "object.ki-v2-objects.aether-flowerbush-2",
    "asset": "ki-v2-objects-aether-flowerbush-2",
    "pixels": [
-    912,
-    817
+    256,
+    229
    ],
    "frame": null,
    "fit": "contain",
@@ -6580,8 +6580,8 @@
    "binding": "object.ki-v2-objects.aether-flowerbush-3",
    "asset": "ki-v2-objects-aether-flowerbush-3",
    "pixels": [
-    916,
-    947
+    248,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6601,8 +6601,8 @@
    "binding": "object.ki-v2-objects.aether-log-1",
    "asset": "ki-v2-objects-aether-log-1",
    "pixels": [
-    700,
-    675
+    360,
+    347
    ],
    "frame": null,
    "fit": "contain",
@@ -6625,8 +6625,8 @@
    "binding": "object.ki-v2-objects.aether-log-2",
    "asset": "ki-v2-objects-aether-log-2",
    "pixels": [
-    630,
-    502
+    360,
+    287
    ],
    "frame": null,
    "fit": "contain",
@@ -6649,8 +6649,8 @@
    "binding": "object.ki-v2-objects.aether-log-4",
    "asset": "ki-v2-objects-aether-log-4",
    "pixels": [
-    932,
-    903
+    360,
+    349
    ],
    "frame": null,
    "fit": "contain",
@@ -6673,8 +6673,8 @@
    "binding": "object.ki-v2-objects.aether-log-5",
    "asset": "ki-v2-objects-aether-log-5",
    "pixels": [
-    537,
-    636
+    360,
+    426
    ],
    "frame": null,
    "fit": "contain",
@@ -6697,8 +6697,8 @@
    "binding": "object.ki-v2-objects.aether-mushrooms-0",
    "asset": "ki-v2-objects-aether-mushrooms-0",
    "pixels": [
-    560,
-    626
+    229,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -6718,8 +6718,8 @@
    "binding": "object.ki-v2-objects.aether-mushrooms-3",
    "asset": "ki-v2-objects-aether-mushrooms-3",
    "pixels": [
-    847,
-    771
+    256,
+    233
    ],
    "frame": null,
    "fit": "contain",
@@ -6739,8 +6739,8 @@
    "binding": "object.ki-v2-objects.aether-oak-0",
    "asset": "ki-v2-objects-aether-oak-0",
    "pixels": [
-    833,
-    946
+    361,
+    410
    ],
    "frame": null,
    "fit": "contain",
@@ -6763,8 +6763,8 @@
    "binding": "object.ki-v2-objects.aether-oak-1",
    "asset": "ki-v2-objects-aether-oak-1",
    "pixels": [
-    925,
-    899
+    360,
+    350
    ],
    "frame": null,
    "fit": "contain",
@@ -6787,8 +6787,8 @@
    "binding": "object.ki-v2-objects.aether-oak-2",
    "asset": "ki-v2-objects-aether-oak-2",
    "pixels": [
-    875,
-    916
+    360,
+    377
    ],
    "frame": null,
    "fit": "contain",
@@ -6811,8 +6811,8 @@
    "binding": "object.ki-v2-objects.aether-oak-3",
    "asset": "ki-v2-objects-aether-oak-3",
    "pixels": [
-    901,
-    955
+    359,
+    381
    ],
    "frame": null,
    "fit": "contain",
@@ -6835,8 +6835,8 @@
    "binding": "object.ki-v2-objects.aether-oak-4",
    "asset": "ki-v2-objects-aether-oak-4",
    "pixels": [
-    981,
-    990
+    360,
+    363
    ],
    "frame": null,
    "fit": "contain",
@@ -6859,8 +6859,8 @@
    "binding": "object.ki-v2-objects.aether-pine-3",
    "asset": "ki-v2-objects-aether-pine-3",
    "pixels": [
-    624,
-    1014
+    360,
+    585
    ],
    "frame": null,
    "fit": "contain",
@@ -6883,8 +6883,8 @@
    "binding": "object.ki-v2-objects.aether-pine-4",
    "asset": "ki-v2-objects-aether-pine-4",
    "pixels": [
-    836,
-    1007
+    360,
+    434
    ],
    "frame": null,
    "fit": "contain",
@@ -6907,8 +6907,8 @@
    "binding": "object.ki-v2-objects.aether-pine-5",
    "asset": "ki-v2-objects-aether-pine-5",
    "pixels": [
-    749,
-    1018
+    360,
+    489
    ],
    "frame": null,
    "fit": "contain",
@@ -6931,8 +6931,8 @@
    "binding": "object.ki-v2-objects.aether-reeds-3",
    "asset": "ki-v2-objects-aether-reeds-3",
    "pixels": [
-    981,
-    918
+    256,
+    240
    ],
    "frame": null,
    "fit": "contain",
@@ -6952,8 +6952,8 @@
    "binding": "object.ki-v2-objects.aether-rocks-0",
    "asset": "ki-v2-objects-aether-rocks-0",
    "pixels": [
-    802,
-    747
+    300,
+    279
    ],
    "frame": null,
    "fit": "contain",
@@ -6976,8 +6976,8 @@
    "binding": "object.ki-v2-objects.aether-rocks-3",
    "asset": "ki-v2-objects-aether-rocks-3",
    "pixels": [
-    921,
-    699
+    300,
+    228
    ],
    "frame": null,
    "fit": "contain",
@@ -7000,8 +7000,8 @@
    "binding": "object.ki-v2-objects.aether-rocks-4",
    "asset": "ki-v2-objects-aether-rocks-4",
    "pixels": [
-    953,
-    738
+    300,
+    232
    ],
    "frame": null,
    "fit": "contain",
@@ -7024,8 +7024,8 @@
    "binding": "object.ki-v2-objects.aether-stump-0",
    "asset": "ki-v2-objects-aether-stump-0",
    "pixels": [
-    638,
-    826
+    361,
+    467
    ],
    "frame": null,
    "fit": "contain",
@@ -7048,8 +7048,8 @@
    "binding": "object.ki-v2-objects.aether-stump-1",
    "asset": "ki-v2-objects-aether-stump-1",
    "pixels": [
-    550,
-    784
+    360,
+    513
    ],
    "frame": null,
    "fit": "contain",
@@ -7072,8 +7072,8 @@
    "binding": "object.ki-v2-objects.aether-stump-2",
    "asset": "ki-v2-objects-aether-stump-2",
    "pixels": [
-    573,
-    827
+    360,
+    519
    ],
    "frame": null,
    "fit": "contain",
@@ -7096,8 +7096,8 @@
    "binding": "object.ki-v2-objects.aether-stump-3",
    "asset": "ki-v2-objects-aether-stump-3",
    "pixels": [
-    957,
-    988
+    360,
+    372
    ],
    "frame": null,
    "fit": "contain",
@@ -7120,8 +7120,8 @@
    "binding": "object.ki-v2-objects.aether-stump-5",
    "asset": "ki-v2-objects-aether-stump-5",
    "pixels": [
-    521,
-    851
+    360,
+    588
    ],
    "frame": null,
    "fit": "contain",
@@ -7144,8 +7144,8 @@
    "binding": "object.ki-v2-objects.aether-tree2-0",
    "asset": "ki-v2-objects-aether-tree2-0",
    "pixels": [
-    737,
-    914
+    360,
+    447
    ],
    "frame": null,
    "fit": "contain",
@@ -7168,8 +7168,8 @@
    "binding": "object.ki-v2-objects.aether-tree2-1",
    "asset": "ki-v2-objects-aether-tree2-1",
    "pixels": [
-    792,
-    877
+    360,
+    399
    ],
    "frame": null,
    "fit": "contain",
@@ -7192,8 +7192,8 @@
    "binding": "object.ki-v2-objects.aether-tree2-2",
    "asset": "ki-v2-objects-aether-tree2-2",
    "pixels": [
-    722,
-    890
+    360,
+    444
    ],
    "frame": null,
    "fit": "contain",
@@ -7216,8 +7216,8 @@
    "binding": "object.ki-v2-objects.aether-tree2-3",
    "asset": "ki-v2-objects-aether-tree2-3",
    "pixels": [
-    719,
-    881
+    360,
+    441
    ],
    "frame": null,
    "fit": "contain",
@@ -7240,8 +7240,8 @@
    "binding": "object.ki-v2-objects.aether-tree2-4",
    "asset": "ki-v2-objects-aether-tree2-4",
    "pixels": [
-    876,
-    923
+    361,
+    380
    ],
    "frame": null,
    "fit": "contain",
@@ -7264,8 +7264,8 @@
    "binding": "object.ki-v2-objects.aether-tree2-5",
    "asset": "ki-v2-objects-aether-tree2-5",
    "pixels": [
-    644,
-    882
+    361,
+    494
    ],
    "frame": null,
    "fit": "contain",
@@ -7288,8 +7288,8 @@
    "binding": "object.ki-v2-objects.nexus-bush-0",
    "asset": "ki-v2-objects-nexus-bush-0",
    "pixels": [
-    732,
-    836
+    224,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7309,8 +7309,8 @@
    "binding": "object.ki-v2-objects.nexus-bush-2",
    "asset": "ki-v2-objects-nexus-bush-2",
    "pixels": [
-    811,
-    916
+    227,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7330,8 +7330,8 @@
    "binding": "object.ki-v2-objects.nexus-fern-0",
    "asset": "ki-v2-objects-nexus-fern-0",
    "pixels": [
-    852,
-    895
+    244,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7351,8 +7351,8 @@
    "binding": "object.ki-v2-objects.nexus-fern-1",
    "asset": "ki-v2-objects-nexus-fern-1",
    "pixels": [
-    912,
-    944
+    247,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7372,8 +7372,8 @@
    "binding": "object.ki-v2-objects.nexus-fern-2",
    "asset": "ki-v2-objects-nexus-fern-2",
    "pixels": [
-    953,
-    876
+    256,
+    235
    ],
    "frame": null,
    "fit": "contain",
@@ -7393,8 +7393,8 @@
    "binding": "object.ki-v2-objects.nexus-fern-3",
    "asset": "ki-v2-objects-nexus-fern-3",
    "pixels": [
-    910,
-    954
+    244,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7414,8 +7414,8 @@
    "binding": "object.ki-v2-objects.nexus-fern-5",
    "asset": "ki-v2-objects-nexus-fern-5",
    "pixels": [
-    817,
-    935
+    224,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7435,8 +7435,8 @@
    "binding": "object.ki-v2-objects.nexus-flowerbush-0",
    "asset": "ki-v2-objects-nexus-flowerbush-0",
    "pixels": [
-    763,
-    828
+    236,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7456,8 +7456,8 @@
    "binding": "object.ki-v2-objects.nexus-flowerbush-1",
    "asset": "ki-v2-objects-nexus-flowerbush-1",
    "pixels": [
-    905,
-    905
+    256,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7477,8 +7477,8 @@
    "binding": "object.ki-v2-objects.nexus-flowerbush-2",
    "asset": "ki-v2-objects-nexus-flowerbush-2",
    "pixels": [
-    862,
-    776
+    256,
+    230
    ],
    "frame": null,
    "fit": "contain",
@@ -7498,8 +7498,8 @@
    "binding": "object.ki-v2-objects.nexus-mushrooms-3",
    "asset": "ki-v2-objects-nexus-mushrooms-3",
    "pixels": [
-    873,
-    844
+    256,
+    247
    ],
    "frame": null,
    "fit": "contain",
@@ -7519,8 +7519,8 @@
    "binding": "object.ki-v2-objects.nexus-oak-3",
    "asset": "ki-v2-objects-nexus-oak-3",
    "pixels": [
-    819,
-    965
+    361,
+    425
    ],
    "frame": null,
    "fit": "contain",
@@ -7543,8 +7543,8 @@
    "binding": "object.ki-v2-objects.nexus-pine-0",
    "asset": "ki-v2-objects-nexus-pine-0",
    "pixels": [
-    701,
-    991
+    360,
+    509
    ],
    "frame": null,
    "fit": "contain",
@@ -7567,8 +7567,8 @@
    "binding": "object.ki-v2-objects.nexus-pine-1",
    "asset": "ki-v2-objects-nexus-pine-1",
    "pixels": [
-    897,
-    925
+    360,
+    371
    ],
    "frame": null,
    "fit": "contain",
@@ -7591,8 +7591,8 @@
    "binding": "object.ki-v2-objects.nexus-pine-2",
    "asset": "ki-v2-objects-nexus-pine-2",
    "pixels": [
-    687,
-    952
+    361,
+    500
    ],
    "frame": null,
    "fit": "contain",
@@ -7615,8 +7615,8 @@
    "binding": "object.ki-v2-objects.nexus-pine-3",
    "asset": "ki-v2-objects-nexus-pine-3",
    "pixels": [
-    765,
-    957
+    360,
+    450
    ],
    "frame": null,
    "fit": "contain",
@@ -7639,8 +7639,8 @@
    "binding": "object.ki-v2-objects.nexus-pine-4",
    "asset": "ki-v2-objects-nexus-pine-4",
    "pixels": [
-    978,
-    978
+    360,
+    360
    ],
    "frame": null,
    "fit": "contain",
@@ -7663,8 +7663,8 @@
    "binding": "object.ki-v2-objects.nexus-reeds-0",
    "asset": "ki-v2-objects-nexus-reeds-0",
    "pixels": [
-    622,
-    774
+    206,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7684,8 +7684,8 @@
    "binding": "object.ki-v2-objects.nexus-reeds-1",
    "asset": "ki-v2-objects-nexus-reeds-1",
    "pixels": [
-    761,
-    815
+    239,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7705,8 +7705,8 @@
    "binding": "object.ki-v2-objects.nexus-reeds-2",
    "asset": "ki-v2-objects-nexus-reeds-2",
    "pixels": [
-    644,
-    734
+    225,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7726,8 +7726,8 @@
    "binding": "object.ki-v2-objects.nexus-reeds-3",
    "asset": "ki-v2-objects-nexus-reeds-3",
    "pixels": [
-    930,
-    923
+    256,
+    254
    ],
    "frame": null,
    "fit": "contain",
@@ -7747,8 +7747,8 @@
    "binding": "object.ki-v2-objects.nexus-stump-1",
    "asset": "ki-v2-objects-nexus-stump-1",
    "pixels": [
-    801,
-    829
+    359,
+    372
    ],
    "frame": null,
    "fit": "contain",
@@ -7771,8 +7771,8 @@
    "binding": "object.ki-v2-objects.nexus-stump-2",
    "asset": "ki-v2-objects-nexus-stump-2",
    "pixels": [
-    856,
-    886
+    359,
+    372
    ],
    "frame": null,
    "fit": "contain",
@@ -7795,8 +7795,8 @@
    "binding": "object.ki-v2-objects.nexus-tree2-0",
    "asset": "ki-v2-objects-nexus-tree2-0",
    "pixels": [
-    753,
-    985
+    360,
+    471
    ],
    "frame": null,
    "fit": "contain",
@@ -7819,8 +7819,8 @@
    "binding": "object.ki-v2-objects.nexus-tree2-1",
    "asset": "ki-v2-objects-nexus-tree2-1",
    "pixels": [
-    778,
-    992
+    360,
+    459
    ],
    "frame": null,
    "fit": "contain",
@@ -7843,8 +7843,8 @@
    "binding": "object.ki-v2-objects.nexus-tree2-2",
    "asset": "ki-v2-objects-nexus-tree2-2",
    "pixels": [
-    723,
-    1012
+    360,
+    504
    ],
    "frame": null,
    "fit": "contain",
@@ -7867,8 +7867,8 @@
    "binding": "object.ki-v2-objects.nexus-tree2-3",
    "asset": "ki-v2-objects-nexus-tree2-3",
    "pixels": [
-    841,
-    962
+    361,
+    413
    ],
    "frame": null,
    "fit": "contain",
@@ -7891,8 +7891,8 @@
    "binding": "object.ki-v2-objects.nexus-tree2-4",
    "asset": "ki-v2-objects-nexus-tree2-4",
    "pixels": [
-    944,
-    990
+    360,
+    378
    ],
    "frame": null,
    "fit": "contain",
@@ -7915,8 +7915,8 @@
    "binding": "object.ki-v2-objects.nexus-tree2-5",
    "asset": "ki-v2-objects-nexus-tree2-5",
    "pixels": [
-    704,
-    976
+    361,
+    500
    ],
    "frame": null,
    "fit": "contain",
@@ -7939,8 +7939,8 @@
    "binding": "object.ki-v2-objects.pyra-bush-1",
    "asset": "ki-v2-objects-pyra-bush-1",
    "pixels": [
-    879,
-    794
+    256,
+    231
    ],
    "frame": null,
    "fit": "contain",
@@ -7960,8 +7960,8 @@
    "binding": "object.ki-v2-objects.pyra-bush-2",
    "asset": "ki-v2-objects-pyra-bush-2",
    "pixels": [
-    793,
-    813
+    250,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -7981,8 +7981,8 @@
    "binding": "object.ki-v2-objects.pyra-bush-3",
    "asset": "ki-v2-objects-pyra-bush-3",
    "pixels": [
-    898,
-    973
+    236,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8002,8 +8002,8 @@
    "binding": "object.ki-v2-objects.pyra-bush-4",
    "asset": "ki-v2-objects-pyra-bush-4",
    "pixels": [
-    905,
-    973
+    238,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8023,8 +8023,8 @@
    "binding": "object.ki-v2-objects.pyra-fern-1",
    "asset": "ki-v2-objects-pyra-fern-1",
    "pixels": [
-    818,
-    833
+    251,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8044,8 +8044,8 @@
    "binding": "object.ki-v2-objects.pyra-fern-2",
    "asset": "ki-v2-objects-pyra-fern-2",
    "pixels": [
-    724,
-    777
+    239,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8065,8 +8065,8 @@
    "binding": "object.ki-v2-objects.pyra-fern-3",
    "asset": "ki-v2-objects-pyra-fern-3",
    "pixels": [
-    813,
-    1001
+    208,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8086,8 +8086,8 @@
    "binding": "object.ki-v2-objects.pyra-flowerbush-0",
    "asset": "ki-v2-objects-pyra-flowerbush-0",
    "pixels": [
-    506,
-    555
+    233,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8107,8 +8107,8 @@
    "binding": "object.ki-v2-objects.pyra-flowerbush-2",
    "asset": "ki-v2-objects-pyra-flowerbush-2",
    "pixels": [
-    717,
-    685
+    256,
+    245
    ],
    "frame": null,
    "fit": "contain",
@@ -8128,8 +8128,8 @@
    "binding": "object.ki-v2-objects.pyra-log-1",
    "asset": "ki-v2-objects-pyra-log-1",
    "pixels": [
-    890,
-    655
+    360,
+    265
    ],
    "frame": null,
    "fit": "contain",
@@ -8152,8 +8152,8 @@
    "binding": "object.ki-v2-objects.pyra-log-3",
    "asset": "ki-v2-objects-pyra-log-3",
    "pixels": [
-    907,
-    726
+    360,
+    288
    ],
    "frame": null,
    "fit": "contain",
@@ -8176,8 +8176,8 @@
    "binding": "object.ki-v2-objects.pyra-oak-0",
    "asset": "ki-v2-objects-pyra-oak-0",
    "pixels": [
-    685,
-    961
+    361,
+    506
    ],
    "frame": null,
    "fit": "contain",
@@ -8200,8 +8200,8 @@
    "binding": "object.ki-v2-objects.pyra-oak-1",
    "asset": "ki-v2-objects-pyra-oak-1",
    "pixels": [
-    756,
-    964
+    360,
+    459
    ],
    "frame": null,
    "fit": "contain",
@@ -8224,8 +8224,8 @@
    "binding": "object.ki-v2-objects.pyra-oak-2",
    "asset": "ki-v2-objects-pyra-oak-2",
    "pixels": [
-    655,
-    947
+    360,
+    521
    ],
    "frame": null,
    "fit": "contain",
@@ -8248,8 +8248,8 @@
    "binding": "object.ki-v2-objects.pyra-oak-3",
    "asset": "ki-v2-objects-pyra-oak-3",
    "pixels": [
-    761,
-    987
+    360,
+    467
    ],
    "frame": null,
    "fit": "contain",
@@ -8272,8 +8272,8 @@
    "binding": "object.ki-v2-objects.pyra-oak-4",
    "asset": "ki-v2-objects-pyra-oak-4",
    "pixels": [
-    673,
-    1014
+    360,
+    543
    ],
    "frame": null,
    "fit": "contain",
@@ -8296,8 +8296,8 @@
    "binding": "object.ki-v2-objects.pyra-pine-0",
    "asset": "ki-v2-objects-pyra-pine-0",
    "pixels": [
-    547,
-    973
+    360,
+    641
    ],
    "frame": null,
    "fit": "contain",
@@ -8320,8 +8320,8 @@
    "binding": "object.ki-v2-objects.pyra-pine-1",
    "asset": "ki-v2-objects-pyra-pine-1",
    "pixels": [
-    605,
-    929
+    361,
+    554
    ],
    "frame": null,
    "fit": "contain",
@@ -8344,8 +8344,8 @@
    "binding": "object.ki-v2-objects.pyra-pine-2",
    "asset": "ki-v2-objects-pyra-pine-2",
    "pixels": [
-    663,
-    1013
+    361,
+    551
    ],
    "frame": null,
    "fit": "contain",
@@ -8368,8 +8368,8 @@
    "binding": "object.ki-v2-objects.pyra-pine-3",
    "asset": "ki-v2-objects-pyra-pine-3",
    "pixels": [
-    710,
-    968
+    360,
+    491
    ],
    "frame": null,
    "fit": "contain",
@@ -8392,8 +8392,8 @@
    "binding": "object.ki-v2-objects.pyra-pine-4",
    "asset": "ki-v2-objects-pyra-pine-4",
    "pixels": [
-    817,
-    976
+    361,
+    431
    ],
    "frame": null,
    "fit": "contain",
@@ -8416,8 +8416,8 @@
    "binding": "object.ki-v2-objects.pyra-pine-5",
    "asset": "ki-v2-objects-pyra-pine-5",
    "pixels": [
-    656,
-    932
+    360,
+    512
    ],
    "frame": null,
    "fit": "contain",
@@ -8440,8 +8440,8 @@
    "binding": "object.ki-v2-objects.pyra-reeds-1",
    "asset": "ki-v2-objects-pyra-reeds-1",
    "pixels": [
-    821,
-    759
+    256,
+    237
    ],
    "frame": null,
    "fit": "contain",
@@ -8461,8 +8461,8 @@
    "binding": "object.ki-v2-objects.pyra-reeds-2",
    "asset": "ki-v2-objects-pyra-reeds-2",
    "pixels": [
-    902,
-    779
+    256,
+    221
    ],
    "frame": null,
    "fit": "contain",
@@ -8482,8 +8482,8 @@
    "binding": "object.ki-v2-objects.pyra-reeds-4",
    "asset": "ki-v2-objects-pyra-reeds-4",
    "pixels": [
-    488,
-    355
+    256,
+    186
    ],
    "frame": null,
    "fit": "contain",
@@ -8503,8 +8503,8 @@
    "binding": "object.ki-v2-objects.pyra-rocks-0",
    "asset": "ki-v2-objects-pyra-rocks-0",
    "pixels": [
-    639,
-    571
+    300,
+    268
    ],
    "frame": null,
    "fit": "contain",
@@ -8527,8 +8527,8 @@
    "binding": "object.ki-v2-objects.pyra-stump-0",
    "asset": "ki-v2-objects-pyra-stump-0",
    "pixels": [
-    669,
-    553
+    360,
+    298
    ],
    "frame": null,
    "fit": "contain",
@@ -8551,8 +8551,8 @@
    "binding": "object.ki-v2-objects.pyra-stump-1",
    "asset": "ki-v2-objects-pyra-stump-1",
    "pixels": [
-    761,
-    810
+    360,
+    383
    ],
    "frame": null,
    "fit": "contain",
@@ -8575,8 +8575,8 @@
    "binding": "object.ki-v2-objects.pyra-stump-2",
    "asset": "ki-v2-objects-pyra-stump-2",
    "pixels": [
-    629,
-    513
+    360,
+    294
    ],
    "frame": null,
    "fit": "contain",
@@ -8599,8 +8599,8 @@
    "binding": "object.ki-v2-objects.pyra-stump-4",
    "asset": "ki-v2-objects-pyra-stump-4",
    "pixels": [
-    812,
-    917
+    360,
+    407
    ],
    "frame": null,
    "fit": "contain",
@@ -8623,8 +8623,8 @@
    "binding": "object.ki-v2-objects.pyra-stump-5",
    "asset": "ki-v2-objects-pyra-stump-5",
    "pixels": [
-    638,
-    629
+    360,
+    355
    ],
    "frame": null,
    "fit": "contain",
@@ -8647,8 +8647,8 @@
    "binding": "object.ki-v2-objects.pyra-tree2-0",
    "asset": "ki-v2-objects-pyra-tree2-0",
    "pixels": [
-    929,
-    968
+    360,
+    375
    ],
    "frame": null,
    "fit": "contain",
@@ -8671,8 +8671,8 @@
    "binding": "object.ki-v2-objects.pyra-tree2-1",
    "asset": "ki-v2-objects-pyra-tree2-1",
    "pixels": [
-    894,
-    801
+    360,
+    323
    ],
    "frame": null,
    "fit": "contain",
@@ -8695,8 +8695,8 @@
    "binding": "object.ki-v2-objects.pyra-tree2-2",
    "asset": "ki-v2-objects-pyra-tree2-2",
    "pixels": [
-    886,
-    854
+    360,
+    347
    ],
    "frame": null,
    "fit": "contain",
@@ -8719,8 +8719,8 @@
    "binding": "object.ki-v2-objects.pyra-tree2-3",
    "asset": "ki-v2-objects-pyra-tree2-3",
    "pixels": [
-    947,
-    972
+    360,
+    369
    ],
    "frame": null,
    "fit": "contain",
@@ -8743,8 +8743,8 @@
    "binding": "object.ki-v2-objects.pyra-tree2-4",
    "asset": "ki-v2-objects-pyra-tree2-4",
    "pixels": [
-    974,
-    983
+    360,
+    363
    ],
    "frame": null,
    "fit": "contain",
@@ -8767,8 +8767,8 @@
    "binding": "object.ki-v2-objects.verdant-boulder-0",
    "asset": "ki-v2-objects-verdant-boulder-0",
    "pixels": [
-    759,
-    775
+    300,
+    306
    ],
    "frame": null,
    "fit": "contain",
@@ -8791,8 +8791,8 @@
    "binding": "object.ki-v2-objects.verdant-boulder-1",
    "asset": "ki-v2-objects-verdant-boulder-1",
    "pixels": [
-    921,
-    716
+    300,
+    233
    ],
    "frame": null,
    "fit": "contain",
@@ -8815,8 +8815,8 @@
    "binding": "object.ki-v2-objects.verdant-boulder-2",
    "asset": "ki-v2-objects-verdant-boulder-2",
    "pixels": [
-    952,
-    790
+    300,
+    249
    ],
    "frame": null,
    "fit": "contain",
@@ -8839,8 +8839,8 @@
    "binding": "object.ki-v2-objects.verdant-boulder-4",
    "asset": "ki-v2-objects-verdant-boulder-4",
    "pixels": [
-    943,
-    959
+    300,
+    305
    ],
    "frame": null,
    "fit": "contain",
@@ -8863,8 +8863,8 @@
    "binding": "object.ki-v2-objects.verdant-boulder-5",
    "asset": "ki-v2-objects-verdant-boulder-5",
    "pixels": [
-    960,
-    904
+    300,
+    282
    ],
    "frame": null,
    "fit": "contain",
@@ -8887,8 +8887,8 @@
    "binding": "object.ki-v2-objects.verdant-bush-0",
    "asset": "ki-v2-objects-verdant-bush-0",
    "pixels": [
-    555,
-    511
+    256,
+    236
    ],
    "frame": null,
    "fit": "contain",
@@ -8908,8 +8908,8 @@
    "binding": "object.ki-v2-objects.verdant-bush-1",
    "asset": "ki-v2-objects-verdant-bush-1",
    "pixels": [
-    791,
-    768
+    256,
+    249
    ],
    "frame": null,
    "fit": "contain",
@@ -8929,8 +8929,8 @@
    "binding": "object.ki-v2-objects.verdant-bush-2",
    "asset": "ki-v2-objects-verdant-bush-2",
    "pixels": [
-    689,
-    689
+    256,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8950,8 +8950,8 @@
    "binding": "object.ki-v2-objects.verdant-fern-0",
    "asset": "ki-v2-objects-verdant-fern-0",
    "pixels": [
-    594,
-    732
+    208,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -8971,8 +8971,8 @@
    "binding": "object.ki-v2-objects.verdant-fern-1",
    "asset": "ki-v2-objects-verdant-fern-1",
    "pixels": [
-    874,
-    809
+    256,
+    237
    ],
    "frame": null,
    "fit": "contain",
@@ -8992,8 +8992,8 @@
    "binding": "object.ki-v2-objects.verdant-fern-2",
    "asset": "ki-v2-objects-verdant-fern-2",
    "pixels": [
-    796,
-    824
+    247,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -9013,8 +9013,8 @@
    "binding": "object.ki-v2-objects.verdant-fern-3",
    "asset": "ki-v2-objects-verdant-fern-3",
    "pixels": [
-    937,
-    937
+    256,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -9034,8 +9034,8 @@
    "binding": "object.ki-v2-objects.verdant-fern-5",
    "asset": "ki-v2-objects-verdant-fern-5",
    "pixels": [
-    838,
-    857
+    250,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -9055,8 +9055,8 @@
    "binding": "object.ki-v2-objects.verdant-flowerbush-0",
    "asset": "ki-v2-objects-verdant-flowerbush-0",
    "pixels": [
-    593,
-    474
+    256,
+    205
    ],
    "frame": null,
    "fit": "contain",
@@ -9076,8 +9076,8 @@
    "binding": "object.ki-v2-objects.verdant-flowerbush-1",
    "asset": "ki-v2-objects-verdant-flowerbush-1",
    "pixels": [
-    849,
-    709
+    256,
+    214
    ],
    "frame": null,
    "fit": "contain",
@@ -9097,8 +9097,8 @@
    "binding": "object.ki-v2-objects.verdant-flowerbush-2",
    "asset": "ki-v2-objects-verdant-flowerbush-2",
    "pixels": [
-    868,
-    681
+    256,
+    201
    ],
    "frame": null,
    "fit": "contain",
@@ -9118,8 +9118,8 @@
    "binding": "object.ki-v2-objects.verdant-log-1",
    "asset": "ki-v2-objects-verdant-log-1",
    "pixels": [
-    910,
-    610
+    360,
+    241
    ],
    "frame": null,
    "fit": "contain",
@@ -9142,8 +9142,8 @@
    "binding": "object.ki-v2-objects.verdant-log-2",
    "asset": "ki-v2-objects-verdant-log-2",
    "pixels": [
-    962,
-    606
+    360,
+    227
    ],
    "frame": null,
    "fit": "contain",
@@ -9166,8 +9166,8 @@
    "binding": "object.ki-v2-objects.verdant-log-3",
    "asset": "ki-v2-objects-verdant-log-3",
    "pixels": [
-    889,
-    609
+    360,
+    247
    ],
    "frame": null,
    "fit": "contain",
@@ -9190,8 +9190,8 @@
    "binding": "object.ki-v2-objects.verdant-log-4",
    "asset": "ki-v2-objects-verdant-log-4",
    "pixels": [
-    913,
-    561
+    360,
+    221
    ],
    "frame": null,
    "fit": "contain",
@@ -9214,8 +9214,8 @@
    "binding": "object.ki-v2-objects.verdant-log-5",
    "asset": "ki-v2-objects-verdant-log-5",
    "pixels": [
-    819,
-    729
+    360,
+    320
    ],
    "frame": null,
    "fit": "contain",
@@ -9238,8 +9238,8 @@
    "binding": "object.ki-v2-objects.verdant-mushrooms-1",
    "asset": "ki-v2-objects-verdant-mushrooms-1",
    "pixels": [
-    859,
-    761
+    256,
+    227
    ],
    "frame": null,
    "fit": "contain",
@@ -9259,8 +9259,8 @@
    "binding": "object.ki-v2-objects.verdant-mushrooms-5",
    "asset": "ki-v2-objects-verdant-mushrooms-5",
    "pixels": [
-    702,
-    633
+    256,
+    231
    ],
    "frame": null,
    "fit": "contain",
@@ -9280,8 +9280,8 @@
    "binding": "object.ki-v2-objects.verdant-oak-0",
    "asset": "ki-v2-objects-verdant-oak-0",
    "pixels": [
-    984,
-    973
+    360,
+    356
    ],
    "frame": null,
    "fit": "contain",
@@ -9304,8 +9304,8 @@
    "binding": "object.ki-v2-objects.verdant-oak-1",
    "asset": "ki-v2-objects-verdant-oak-1",
    "pixels": [
-    764,
-    969
+    360,
+    456
    ],
    "frame": null,
    "fit": "contain",
@@ -9328,8 +9328,8 @@
    "binding": "object.ki-v2-objects.verdant-oak-2",
    "asset": "ki-v2-objects-verdant-oak-2",
    "pixels": [
-    718,
-    887
+    359,
+    444
    ],
    "frame": null,
    "fit": "contain",
@@ -9352,8 +9352,8 @@
    "binding": "object.ki-v2-objects.verdant-oak-3",
    "asset": "ki-v2-objects-verdant-oak-3",
    "pixels": [
-    891,
-    966
+    360,
+    390
    ],
    "frame": null,
    "fit": "contain",
@@ -9376,8 +9376,8 @@
    "binding": "object.ki-v2-objects.verdant-oak-4",
    "asset": "ki-v2-objects-verdant-oak-4",
    "pixels": [
-    956,
-    978
+    361,
+    369
    ],
    "frame": null,
    "fit": "contain",
@@ -9400,8 +9400,8 @@
    "binding": "object.ki-v2-objects.verdant-oak-5",
    "asset": "ki-v2-objects-verdant-oak-5",
    "pixels": [
-    698,
-    924
+    360,
+    477
    ],
    "frame": null,
    "fit": "contain",
@@ -9424,8 +9424,8 @@
    "binding": "object.ki-v2-objects.verdant-pine-1",
    "asset": "ki-v2-objects-verdant-pine-1",
    "pixels": [
-    543,
-    1002
+    360,
+    665
    ],
    "frame": null,
    "fit": "contain",
@@ -9448,8 +9448,8 @@
    "binding": "object.ki-v2-objects.verdant-pine-2",
    "asset": "ki-v2-objects-verdant-pine-2",
    "pixels": [
-    449,
-    1018
+    360,
+    816
    ],
    "frame": null,
    "fit": "contain",
@@ -9472,8 +9472,8 @@
    "binding": "object.ki-v2-objects.verdant-pine-3",
    "asset": "ki-v2-objects-verdant-pine-3",
    "pixels": [
-    701,
-    1008
+    360,
+    518
    ],
    "frame": null,
    "fit": "contain",
@@ -9496,8 +9496,8 @@
    "binding": "object.ki-v2-objects.verdant-pine-4",
    "asset": "ki-v2-objects-verdant-pine-4",
    "pixels": [
-    732,
-    990
+    361,
+    488
    ],
    "frame": null,
    "fit": "contain",
@@ -9520,8 +9520,8 @@
    "binding": "object.ki-v2-objects.verdant-pine-5",
    "asset": "ki-v2-objects-verdant-pine-5",
    "pixels": [
-    606,
-    977
+    360,
+    581
    ],
    "frame": null,
    "fit": "contain",
@@ -9544,8 +9544,8 @@
    "binding": "object.ki-v2-objects.verdant-reeds-1",
    "asset": "ki-v2-objects-verdant-reeds-1",
    "pixels": [
-    648,
-    656
+    253,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -9565,8 +9565,8 @@
    "binding": "object.ki-v2-objects.verdant-reeds-2",
    "asset": "ki-v2-objects-verdant-reeds-2",
    "pixels": [
-    614,
-    573
+    256,
+    239
    ],
    "frame": null,
    "fit": "contain",
@@ -9586,8 +9586,8 @@
    "binding": "object.ki-v2-objects.verdant-reeds-3",
    "asset": "ki-v2-objects-verdant-reeds-3",
    "pixels": [
-    940,
-    914
+    256,
+    249
    ],
    "frame": null,
    "fit": "contain",
@@ -9607,8 +9607,8 @@
    "binding": "object.ki-v2-objects.verdant-reeds-5",
    "asset": "ki-v2-objects-verdant-reeds-5",
    "pixels": [
-    530,
-    685
+    198,
+    256
    ],
    "frame": null,
    "fit": "contain",
@@ -9628,8 +9628,8 @@
    "binding": "object.ki-v2-objects.verdant-rocks-3",
    "asset": "ki-v2-objects-verdant-rocks-3",
    "pixels": [
-    976,
-    952
+    300,
+    293
    ],
    "frame": null,
    "fit": "contain",
@@ -9652,8 +9652,8 @@
    "binding": "object.ki-v2-objects.verdant-stump-0",
    "asset": "ki-v2-objects-verdant-stump-0",
    "pixels": [
-    665,
-    575
+    360,
+    311
    ],
    "frame": null,
    "fit": "contain",
@@ -9676,8 +9676,8 @@
    "binding": "object.ki-v2-objects.verdant-stump-1",
    "asset": "ki-v2-objects-verdant-stump-1",
    "pixels": [
-    766,
-    734
+    360,
+    345
    ],
    "frame": null,
    "fit": "contain",
@@ -9700,8 +9700,8 @@
    "binding": "object.ki-v2-objects.verdant-stump-2",
    "asset": "ki-v2-objects-verdant-stump-2",
    "pixels": [
-    693,
-    500
+    360,
+    260
    ],
    "frame": null,
    "fit": "contain",
@@ -9724,8 +9724,8 @@
    "binding": "object.ki-v2-objects.verdant-stump-3",
    "asset": "ki-v2-objects-verdant-stump-3",
    "pixels": [
-    923,
-    939
+    360,
+    366
    ],
    "frame": null,
    "fit": "contain",
@@ -9748,8 +9748,8 @@
    "binding": "object.ki-v2-objects.verdant-stump-4",
    "asset": "ki-v2-objects-verdant-stump-4",
    "pixels": [
-    970,
-    952
+    360,
+    353
    ],
    "frame": null,
    "fit": "contain",
@@ -9772,8 +9772,8 @@
    "binding": "object.ki-v2-objects.verdant-stump-5",
    "asset": "ki-v2-objects-verdant-stump-5",
    "pixels": [
-    698,
-    690
+    360,
+    356
    ],
    "frame": null,
    "fit": "contain",
@@ -9796,8 +9796,8 @@
    "binding": "object.ki-v2-objects.verdant-tree2-0",
    "asset": "ki-v2-objects-verdant-tree2-0",
    "pixels": [
-    764,
-    969
+    360,
+    456
    ],
    "frame": null,
    "fit": "contain",
@@ -9820,8 +9820,8 @@
    "binding": "object.ki-v2-objects.verdant-tree2-2",
    "asset": "ki-v2-objects-verdant-tree2-2",
    "pixels": [
-    718,
-    887
+    359,
+    444
    ],
    "frame": null,
    "fit": "contain",
@@ -9844,8 +9844,8 @@
    "binding": "object.ki-v2-objects.verdant-tree2-3",
    "asset": "ki-v2-objects-verdant-tree2-3",
    "pixels": [
-    891,
-    966
+    360,
+    390
    ],
    "frame": null,
    "fit": "contain",
@@ -9868,8 +9868,8 @@
    "binding": "object.ki-v2-objects.verdant-tree2-4",
    "asset": "ki-v2-objects-verdant-tree2-4",
    "pixels": [
-    956,
-    978
+    361,
+    369
    ],
    "frame": null,
    "fit": "contain",
@@ -9892,8 +9892,8 @@
    "binding": "object.ki-v2-objects.verdant-tree2-5",
    "asset": "ki-v2-objects-verdant-tree2-5",
    "pixels": [
-    698,
-    924
+    360,
+    477
    ],
    "frame": null,
    "fit": "contain",
@@ -14560,11 +14560,6 @@
    "assets": 18
   },
   {
-   "id": "ki-v2-objects",
-   "version": "1.0.0",
-   "assets": 161
-  },
-  {
    "id": "ki-v2-terrain",
    "version": "1.0.0",
    "assets": 84
@@ -14760,19 +14755,9 @@
    "assets": 2
   },
   {
-   "id": "ki-v2-buildings",
-   "version": "1.0.0",
-   "assets": 28
-  },
-  {
    "id": "enemy-v2-aether-oko-wiedzy",
    "version": "1.0.0",
    "assets": 2
-  },
-  {
-   "id": "ki-v2-camps",
-   "version": "1.0.0",
-   "assets": 20
   },
   {
    "id": "ki-v2-landmarks",
@@ -14788,6 +14773,21 @@
    "id": "enemy-v2-verdant-mchowy-szlamak",
    "version": "1.0.0",
    "assets": 2
+  },
+  {
+   "id": "ki-v2-objects",
+   "version": "1.1.0",
+   "assets": 161
+  },
+  {
+   "id": "ki-v2-buildings",
+   "version": "1.1.0",
+   "assets": 28
+  },
+  {
+   "id": "ki-v2-camps",
+   "version": "1.1.0",
+   "assets": 20
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."

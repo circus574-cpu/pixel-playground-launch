@@ -518,7 +518,9 @@ export async function prepareSuperior(options: {
         const asset = catalog.assets.get(id);
         bytes += (asset?.width ?? 512) * (asset?.height ?? 512) * 4;
       }
-      return !!activeScene && bytes <= 128 * 1024 * 1024;
+      // World v2 art (~55 MiB near a camp) plus 2048² monster atlases (~26 MiB per kind) does not
+      // fit the v1 budget, which then refused every spawn; v2 keeps room for about four kinds.
+      return !!activeScene && bytes <= (WORLD_V2 ? 192 : 128) * 1024 * 1024;
     },
     async acquire(slot) {
       if (!activeScene || disposed) throw Error("World is not mounted");

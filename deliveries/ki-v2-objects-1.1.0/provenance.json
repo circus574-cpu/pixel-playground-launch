@@ -1,0 +1,812 @@
+{
+  "pack": "ki-v2-objects",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/LICENCJE.md)",
+  "parts": [
+    {
+      "part": "aether-boulder-0",
+      "source": "aether-boulder-0.png",
+      "sha256": "3aea0adbafd0b6f5a69aa0572b681757b2fffa8264e332b3f36b42e3f82b8ac8"
+    },
+    {
+      "part": "aether-boulder-2",
+      "source": "aether-boulder-2.png",
+      "sha256": "75e742bac1682aab56d7eaf7a91a8daf8394741289939e9e293d6ecb962e1bce"
+    },
+    {
+      "part": "aether-boulder-3",
+      "source": "aether-boulder-3.png",
+      "sha256": "cddbeb7adad9241774238bdb9e1fdc8bed5def88d82f8fb62b2e2b2e5b03cf43"
+    },
+    {
+      "part": "aether-boulder-4",
+      "source": "aether-boulder-4.png",
+      "sha256": "e0c14f5d84afe8a169677e8303144fcd747f1206761bcd31d05e4882240682ee"
+    },
+    {
+      "part": "aether-boulder-5",
+      "source": "aether-boulder-5.png",
+      "sha256": "2496d1bd7599b2fe0e79641aa04af70f3d42e680270a5a0a5501496ab769f25a"
+    },
+    {
+      "part": "aether-bush-0",
+      "source": "aether-bush-0.png",
+      "sha256": "97a0976944658de7950aca3378ab731d0634e0b69ffe08f6ba2fee180cebfb32"
+    },
+    {
+      "part": "aether-bush-1",
+      "source": "aether-bush-1.png",
+      "sha256": "a805ef4c11d9aa25ca50d5303bb4d62b575a4392adceb6d9908505a45ba1a6cb"
+    },
+    {
+      "part": "aether-bush-2",
+      "source": "aether-bush-2.png",
+      "sha256": "0c987da0f2e9b3d13fca0f1a26ae1c8ae7c86c9beae6dd84cff0a58c5474d7aa"
+    },
+    {
+      "part": "aether-bush-3",
+      "source": "aether-bush-3.png",
+      "sha256": "9baeae3e0d18cbb7b10a1d50145d9aba7665039963461fd31a6e6b773945aa71"
+    },
+    {
+      "part": "aether-bush-5",
+      "source": "aether-bush-5.png",
+      "sha256": "b1afc4e805a409311fc2371c7c06281cf1b08cf44b5426eba15d35dc7884e033"
+    },
+    {
+      "part": "aether-fern-1",
+      "source": "aether-fern-1.png",
+      "sha256": "90353146b2768603c6df987d457ba204a26f58227a989c1de6d5913baad0d584"
+    },
+    {
+      "part": "aether-fern-2",
+      "source": "aether-fern-2.png",
+      "sha256": "9a2296950ad33923adf03d318bc381cfb03d854cf6ef78ee6ada03f1f3c5cbe8"
+    },
+    {
+      "part": "aether-fern-3",
+      "source": "aether-fern-3.png",
+      "sha256": "ef1f1813760a7d9c204b5177234b9d303467371d156e8d971079cf197df94d63"
+    },
+    {
+      "part": "aether-fern-4",
+      "source": "aether-fern-4.png",
+      "sha256": "4afca86b9ec347bcfa8ac9dc41d98cc02a6847cdbb10b5fdddfb59c772cca8fa"
+    },
+    {
+      "part": "aether-fern-5",
+      "source": "aether-fern-5.png",
+      "sha256": "1ab4992623741c55dddf2e752f63bc107a977ca1a64cf4b455a788fbc42ef13d"
+    },
+    {
+      "part": "aether-flowerbush-2",
+      "source": "aether-flowerbush-2.png",
+      "sha256": "a87c4a40f2d4ad9c3eeb8ab306e6af3e6d20dd4d38e3924b2e1778a4d5385d99"
+    },
+    {
+      "part": "aether-flowerbush-3",
+      "source": "aether-flowerbush-3.png",
+      "sha256": "4e97214bca67ac08e72f224fd139af394f887455b442f2471f88fc8d71f8ead9"
+    },
+    {
+      "part": "aether-log-1",
+      "source": "aether-log-1.png",
+      "sha256": "b77e0969654c46573fd63fad3f51baa80de78b9cb3e83f4e44b3cef593f79a50"
+    },
+    {
+      "part": "aether-log-2",
+      "source": "aether-log-2.png",
+      "sha256": "c9e58984a04d2e94487815b911b561b42196843f4a77938adca15a98ef24fed9"
+    },
+    {
+      "part": "aether-log-4",
+      "source": "aether-log-4.png",
+      "sha256": "9f5e88ceea3ee0b0d17f2c41caad86ed9e4314ecde5c240c3d2096b42281cad9"
+    },
+    {
+      "part": "aether-log-5",
+      "source": "aether-log-5.png",
+      "sha256": "c7b1e637ac63bf3892dd1151f49cc17cbfaf99fda7d75b953119b432fee2cf57"
+    },
+    {
+      "part": "aether-mushrooms-0",
+      "source": "aether-mushrooms-0.png",
+      "sha256": "4dc98d0907158b0a22be66127ef0f3faf59f8b0de4df42c8777f7858b84d6cc1"
+    },
+    {
+      "part": "aether-mushrooms-3",
+      "source": "aether-mushrooms-3.png",
+      "sha256": "9a6b574ddd6ae243b22d6e25a25d80fa262c2712954b29e85c047c6e412e1e9f"
+    },
+    {
+      "part": "aether-oak-0",
+      "source": "aether-oak-0.png",
+      "sha256": "bcd922c9602036eef100da2c6b95b9ced0556bc73a4570bab429d5ffde4c7426"
+    },
+    {
+      "part": "aether-oak-1",
+      "source": "aether-oak-1.png",
+      "sha256": "e343be6d1d932b8b082d3a0bc5c62fd2e9365dae9bd146e964b0d1b6e294a224"
+    },
+    {
+      "part": "aether-oak-2",
+      "source": "aether-oak-2.png",
+      "sha256": "57b8cc1040c5f5bab660220e43879ceda427c3ac2b9ae26194f71cb8b51dd227"
+    },
+    {
+      "part": "aether-oak-3",
+      "source": "aether-oak-3.png",
+      "sha256": "75917c5938ad822cdcbdc2ff048708960679ca738a12cc34bd5515478c7eccf4"
+    },
+    {
+      "part": "aether-oak-4",
+      "source": "aether-oak-4.png",
+      "sha256": "736619d24184f354ec7e1dfe1db71fd620af08e62fa0820f2e39224e3e9d0967"
+    },
+    {
+      "part": "aether-pine-3",
+      "source": "aether-pine-3.png",
+      "sha256": "453a4dbe168440fa07516e50f7b89dd70674209d0fb69934853a6a414ca20946"
+    },
+    {
+      "part": "aether-pine-4",
+      "source": "aether-pine-4.png",
+      "sha256": "f6c493431f2aad1c2d4fe7200b20e4ff746dc478a01ba546b23810c351cedb41"
+    },
+    {
+      "part": "aether-pine-5",
+      "source": "aether-pine-5.png",
+      "sha256": "76ac7b56bc054da5ec552b05b180ba16286d21d4ff30ca444812d9affe7d7760"
+    },
+    {
+      "part": "aether-reeds-3",
+      "source": "aether-reeds-3.png",
+      "sha256": "9070bc6c04f874132a3a82d3001b130890c0d31efc15e0a01cdc0490da834ef3"
+    },
+    {
+      "part": "aether-rocks-0",
+      "source": "aether-rocks-0.png",
+      "sha256": "0d110a1235967ea72a44765f30ab15aaffbc24f2e0c38b4b5b209486cfcf0591"
+    },
+    {
+      "part": "aether-rocks-3",
+      "source": "aether-rocks-3.png",
+      "sha256": "6ee489957d5f5ff4b668ae907a14ef511c5acf285d4e42ff1959d0492f823e8b"
+    },
+    {
+      "part": "aether-rocks-4",
+      "source": "aether-rocks-4.png",
+      "sha256": "4520cffd0bb2af051ad776f7dcbf3c45da8ae0e9f24135c7bca28ff8aa3d1a75"
+    },
+    {
+      "part": "aether-stump-0",
+      "source": "aether-stump-0.png",
+      "sha256": "a934656fa5e058693c30e12240917a7f74f35ca6643ecd40eb35cadfd95c45fd"
+    },
+    {
+      "part": "aether-stump-1",
+      "source": "aether-stump-1.png",
+      "sha256": "9a8ffc47379e57c3d15e8d7cb8579cbd0c1afb7a196cbd2b48261895f7859010"
+    },
+    {
+      "part": "aether-stump-2",
+      "source": "aether-stump-2.png",
+      "sha256": "e8c242ca1605b47e9115d436c3265910d7c5ca8f24ca0a7d2ccba0fbb1f00fd7"
+    },
+    {
+      "part": "aether-stump-3",
+      "source": "aether-stump-3.png",
+      "sha256": "6e2982b6b1098ff9589a31be7d23a2d9be9b302f0c5389b5dcf283dcb3d23e61"
+    },
+    {
+      "part": "aether-stump-5",
+      "source": "aether-stump-5.png",
+      "sha256": "abf076f7c687053dd05b51521e06ebaa3de72b74d93307a85ba75bb1db475a20"
+    },
+    {
+      "part": "aether-tree2-0",
+      "source": "aether-tree2-0.png",
+      "sha256": "317e033198de2b3011c434797384f6d9b7132b2a01b486779851c82aff67ed49"
+    },
+    {
+      "part": "aether-tree2-1",
+      "source": "aether-tree2-1.png",
+      "sha256": "4d0c4976a9b3e40c759012474bbdd7a136fe357ce91585c106ab01ff71a2da50"
+    },
+    {
+      "part": "aether-tree2-2",
+      "source": "aether-tree2-2.png",
+      "sha256": "c0e1c062cb7a0ab42adbd44a4cf1149f35a09edf364f4291c8b9834d54cad17c"
+    },
+    {
+      "part": "aether-tree2-3",
+      "source": "aether-tree2-3.png",
+      "sha256": "f8e68469860054860d92ccb6f79d399c533de952cd5afd21679762ee112f64b4"
+    },
+    {
+      "part": "aether-tree2-4",
+      "source": "aether-tree2-4.png",
+      "sha256": "d4b4ae1af7bb56ddb3d16145a38705932d0ed2548215ca1fd0563612a8618343"
+    },
+    {
+      "part": "aether-tree2-5",
+      "source": "aether-tree2-5.png",
+      "sha256": "c0527947e5328938ab1db5d4b209c16dce503e45ee87b1abced77ba868fce91c"
+    },
+    {
+      "part": "nexus-bush-0",
+      "source": "nexus-bush-0.png",
+      "sha256": "2fcee08ed47c6a5e37dec2191f69d41793bd5c2939a1d3c0512c42697ffdbf7e"
+    },
+    {
+      "part": "nexus-bush-2",
+      "source": "nexus-bush-2.png",
+      "sha256": "80fcdd137b6c20cb7c1f4e9545ec9ed6115d1e95169e8b3fbe60ac4831694823"
+    },
+    {
+      "part": "nexus-fern-0",
+      "source": "nexus-fern-0.png",
+      "sha256": "1c7b130214a094c799537626dff87bb8d93c008f7f1beba93bd916762bb543a8"
+    },
+    {
+      "part": "nexus-fern-1",
+      "source": "nexus-fern-1.png",
+      "sha256": "6d4534f31b09adcd933d492709ea2a00b10a629ed879b78466c49e0e369c4404"
+    },
+    {
+      "part": "nexus-fern-2",
+      "source": "nexus-fern-2.png",
+      "sha256": "ee6ee59ae60ec504816728fc27901672f7f31ffa24a37880ba3d97a5abaaffd0"
+    },
+    {
+      "part": "nexus-fern-3",
+      "source": "nexus-fern-3.png",
+      "sha256": "7c47028ea6c7566fa3978ea4131beccf5c8d04d493c9457c1b1e1c00c08aff18"
+    },
+    {
+      "part": "nexus-fern-5",
+      "source": "nexus-fern-5.png",
+      "sha256": "8be6d91ba545fc233d7b83eaf790f87f6b36bdec69b47a8405b3eb8189e97db6"
+    },
+    {
+      "part": "nexus-flowerbush-0",
+      "source": "nexus-flowerbush-0.png",
+      "sha256": "7c0f9a14afc8be7f8ab16ed1d9bcdfc0ec7230e3dddb55aa5b09274fd69d8443"
+    },
+    {
+      "part": "nexus-flowerbush-1",
+      "source": "nexus-flowerbush-1.png",
+      "sha256": "26b05bf83ea75443cd3c9a316f7307949cb48db71e1845ed61e69a8bd0ead431"
+    },
+    {
+      "part": "nexus-flowerbush-2",
+      "source": "nexus-flowerbush-2.png",
+      "sha256": "91b3c5b78d3cafd27b7f9d9cb1170fc11e4ac3c2d7c095b36cca7b0321b04771"
+    },
+    {
+      "part": "nexus-mushrooms-3",
+      "source": "nexus-mushrooms-3.png",
+      "sha256": "095f6a0446804f2396c41bf30d78a68e5083cb6b8e129cf45b7927bd9bbc378a"
+    },
+    {
+      "part": "nexus-oak-3",
+      "source": "nexus-oak-3.png",
+      "sha256": "fa7b46d8036eb2d7c178deadf829fed5be1b0ff14f5cd91b437754b2e9a6a9d8"
+    },
+    {
+      "part": "nexus-pine-0",
+      "source": "nexus-pine-0.png",
+      "sha256": "4ec8413cb65ce536a46670ab6f475f926f8b4fae89071d11e4aa79b11d0a1ce0"
+    },
+    {
+      "part": "nexus-pine-1",
+      "source": "nexus-pine-1.png",
+      "sha256": "00ef246f8977e67b69100c69dd51706505c7811ed62e65e451b757080d04fbca"
+    },
+    {
+      "part": "nexus-pine-2",
+      "source": "nexus-pine-2.png",
+      "sha256": "cac2dfcffc26d26777908fa4c08f2cfaa5bbc7324e3d2ebd6f38bd60fcc2ba2d"
+    },
+    {
+      "part": "nexus-pine-3",
+      "source": "nexus-pine-3.png",
+      "sha256": "57ee0f949bf97644ebad38ec8b1f2a7df19e60c602bf484c4e653f2d719b7edb"
+    },
+    {
+      "part": "nexus-pine-4",
+      "source": "nexus-pine-4.png",
+      "sha256": "d873f8bfa8eba68c0412785c5991e57341bc717ad2931315342122aee9f0d4a5"
+    },
+    {
+      "part": "nexus-reeds-0",
+      "source": "nexus-reeds-0.png",
+      "sha256": "db0a089e8eadd739dcd3c740c73b9e8e8745daae88d5171c592ab226208590e8"
+    },
+    {
+      "part": "nexus-reeds-1",
+      "source": "nexus-reeds-1.png",
+      "sha256": "3f24013c22a6039d0a40e1f06c50510bb020f142844f4eea675aac9704e1f340"
+    },
+    {
+      "part": "nexus-reeds-2",
+      "source": "nexus-reeds-2.png",
+      "sha256": "1c9f2c7f025b7a8f662392f83d72808cbd0233f98f7d0fe6c00da666df4ec463"
+    },
+    {
+      "part": "nexus-reeds-3",
+      "source": "nexus-reeds-3.png",
+      "sha256": "d941fd5383c7589a2e95565cd4564421255752bb84ae2ee1d90bf0ba805e2b55"
+    },
+    {
+      "part": "nexus-stump-1",
+      "source": "nexus-stump-1.png",
+      "sha256": "8a9674541668b2dbd60db7ba28418095e2bef41275ecc50727151a8835bbb1d6"
+    },
+    {
+      "part": "nexus-stump-2",
+      "source": "nexus-stump-2.png",
+      "sha256": "3140563dac67b18076ca360ed983199d2f28b20d84082231e2f4625bd6753e6a"
+    },
+    {
+      "part": "nexus-tree2-0",
+      "source": "nexus-tree2-0.png",
+      "sha256": "ed8cdc5bc1e58ddf934f40d47114f37c222baad6ba3d1c3dcce1cb72a9d88fbf"
+    },
+    {
+      "part": "nexus-tree2-1",
+      "source": "nexus-tree2-1.png",
+      "sha256": "f36b4f09493af61e1708d0980dae2e74d63b72fa7e6f47d0c1ce6ac5abcf3c21"
+    },
+    {
+      "part": "nexus-tree2-2",
+      "source": "nexus-tree2-2.png",
+      "sha256": "35f523cf0d975a20ad4925d79a431918e11e9171f5a3023ecc6c0a3f47fe7227"
+    },
+    {
+      "part": "nexus-tree2-3",
+      "source": "nexus-tree2-3.png",
+      "sha256": "fae33cb7fe44b743eb26998c2720d96a89326aae40deaf50bf9f73075f457008"
+    },
+    {
+      "part": "nexus-tree2-4",
+      "source": "nexus-tree2-4.png",
+      "sha256": "02335149490c9fc92f27a82790e8ecfb6c9aeeeec1c2e3e7d7d8e75d8beb6b03"
+    },
+    {
+      "part": "nexus-tree2-5",
+      "source": "nexus-tree2-5.png",
+      "sha256": "f6b37530ee9104321fbbb1d602174aa8f09cd8b7b053b706a13f480eb28a1c19"
+    },
+    {
+      "part": "pyra-bush-1",
+      "source": "pyra-bush-1.png",
+      "sha256": "8ebd38edbcf5a357069e69c02a04f8a27a94ae84521daab95b4b2296217de305"
+    },
+    {
+      "part": "pyra-bush-2",
+      "source": "pyra-bush-2.png",
+      "sha256": "154a67fcc5b9d8c40b1c4edd000824fbe9449d21854813425cc69285b22b2663"
+    },
+    {
+      "part": "pyra-bush-3",
+      "source": "pyra-bush-3.png",
+      "sha256": "bb6246e5cd1b5b7644d09c0d65222df7b916a3dc7839816893fce68f60539f57"
+    },
+    {
+      "part": "pyra-bush-4",
+      "source": "pyra-bush-4.png",
+      "sha256": "a39b97077317efe934b189a10518c7dab7d5718e9062040fec4aa9c54fb4525f"
+    },
+    {
+      "part": "pyra-fern-1",
+      "source": "pyra-fern-1.png",
+      "sha256": "942bcf0d4f8b7c96c500662ceceb336f7b78df3245a94e76c2d59f2802964151"
+    },
+    {
+      "part": "pyra-fern-2",
+      "source": "pyra-fern-2.png",
+      "sha256": "a3204242f40122afe547fa9b0fc3ea7d3859756c5383d30dd9c88cea08154362"
+    },
+    {
+      "part": "pyra-fern-3",
+      "source": "pyra-fern-3.png",
+      "sha256": "dee00f14f445e483b10d6877395d57d3fc3cf07ef4d255928c742859f9815440"
+    },
+    {
+      "part": "pyra-flowerbush-0",
+      "source": "pyra-flowerbush-0.png",
+      "sha256": "18d68d739be9109a16ac1a72e4ff02081532d01d6e05cb3d00bf0a99d9f10bfe"
+    },
+    {
+      "part": "pyra-flowerbush-2",
+      "source": "pyra-flowerbush-2.png",
+      "sha256": "3a8a5610942d4e76c0128742f5e53fe828cf337fd28969e616eb630f8db72289"
+    },
+    {
+      "part": "pyra-log-1",
+      "source": "pyra-log-1.png",
+      "sha256": "def9934659effb8fd47eeb1b620cb2f867f1339a63ed02841f6813f22f6f8ada"
+    },
+    {
+      "part": "pyra-log-3",
+      "source": "pyra-log-3.png",
+      "sha256": "8f468636edf14d16b2e4f2bd375fdc9e5e38475d5949fd1e4542d551b03df14a"
+    },
+    {
+      "part": "pyra-oak-0",
+      "source": "pyra-oak-0.png",
+      "sha256": "3b4ac4519bc17caad89a47be0749251a85e3f858adf64b413094b04c815060d1"
+    },
+    {
+      "part": "pyra-oak-1",
+      "source": "pyra-oak-1.png",
+      "sha256": "7d36071443928c78939398ef9b828a94f03432867a49b8b20dde4b987e38434c"
+    },
+    {
+      "part": "pyra-oak-2",
+      "source": "pyra-oak-2.png",
+      "sha256": "59d4b62a01fa38012e9a0cf1f69a0ccd06edb06d52f42465acdd0ebaec1e91eb"
+    },
+    {
+      "part": "pyra-oak-3",
+      "source": "pyra-oak-3.png",
+      "sha256": "7115d030d36ff828513e1e99adac0e58e51bc7d04827f511084cd2cda26a6a63"
+    },
+    {
+      "part": "pyra-oak-4",
+      "source": "pyra-oak-4.png",
+      "sha256": "6713d10b986f57367e9b1a45cb26e5c449b8b5c2061ce69a89973e7d29683871"
+    },
+    {
+      "part": "pyra-pine-0",
+      "source": "pyra-pine-0.png",
+      "sha256": "c5f5bab1775d36f58130f2432d977caf826f539194a197a5ba7a3ebed42295c1"
+    },
+    {
+      "part": "pyra-pine-1",
+      "source": "pyra-pine-1.png",
+      "sha256": "7665f42ae76d720f78d19fdf09cee004df5c6caa1a1aab344b4831fb0217a810"
+    },
+    {
+      "part": "pyra-pine-2",
+      "source": "pyra-pine-2.png",
+      "sha256": "9308b334bad7f3e7218067b8492e817b8515720f58e28e240437b63b979eec13"
+    },
+    {
+      "part": "pyra-pine-3",
+      "source": "pyra-pine-3.png",
+      "sha256": "4a3311f2d655933ca3d9c65f6b4e73f2aec7d8f955bc3a616355aee33e8ffffc"
+    },
+    {
+      "part": "pyra-pine-4",
+      "source": "pyra-pine-4.png",
+      "sha256": "07721f6ec6f45e8264833b9ace0dd49037286b7ffc98a09712408ff5d353a20b"
+    },
+    {
+      "part": "pyra-pine-5",
+      "source": "pyra-pine-5.png",
+      "sha256": "cd2b7d6848dc22999320fc0e789ca628ad53d9c69df43048bd4cc3735c667e28"
+    },
+    {
+      "part": "pyra-reeds-1",
+      "source": "pyra-reeds-1.png",
+      "sha256": "5190e41e9f6236c70ce5e3a672552908cf4211582a47f60bc1d8bd0567b4e69a"
+    },
+    {
+      "part": "pyra-reeds-2",
+      "source": "pyra-reeds-2.png",
+      "sha256": "b7875f4c899cce764867080477e47462b35deb5d6bc3761b3a134907e95b3c02"
+    },
+    {
+      "part": "pyra-reeds-4",
+      "source": "pyra-reeds-4.png",
+      "sha256": "b4affb42a715dba98228ab7daf3a2b8dec86abfaa4a3bf0d7cf48f2eebd4dc50"
+    },
+    {
+      "part": "pyra-rocks-0",
+      "source": "pyra-rocks-0.png",
+      "sha256": "5d130c6df61374d18f30a30e411ae98088063a01daa84806df5ef1bc3a13ac0e"
+    },
+    {
+      "part": "pyra-stump-0",
+      "source": "pyra-stump-0.png",
+      "sha256": "0394a72bd340850ccd82a3a42de06a9e815d2a024ba2e82f40b92662a96f1525"
+    },
+    {
+      "part": "pyra-stump-1",
+      "source": "pyra-stump-1.png",
+      "sha256": "6a532ab56b2cf3d64dbb2e2adbe4499a072c4642ba8047271b601c49882237df"
+    },
+    {
+      "part": "pyra-stump-2",
+      "source": "pyra-stump-2.png",
+      "sha256": "36af699984535c7ab27dd9f79ae6efedc9fbea0e96a2591f85e265bc7b2eb032"
+    },
+    {
+      "part": "pyra-stump-4",
+      "source": "pyra-stump-4.png",
+      "sha256": "ed9142e92da2ba0372ad9e6a1d1e48464a558d204ac2465fa1cf2452b6f23a6d"
+    },
+    {
+      "part": "pyra-stump-5",
+      "source": "pyra-stump-5.png",
+      "sha256": "83366b5028b1591fbb943b310576da5d077f49bc3fcab0792faf12f520920f5e"
+    },
+    {
+      "part": "pyra-tree2-0",
+      "source": "pyra-tree2-0.png",
+      "sha256": "259084f60c7e290f468168c08854c8245340270c3569c56100f597d821fdd9fd"
+    },
+    {
+      "part": "pyra-tree2-1",
+      "source": "pyra-tree2-1.png",
+      "sha256": "8ddf9f4886962c3088fd5e7aa94f57d414898fa86b3d90f0751c7efe4d915c2e"
+    },
+    {
+      "part": "pyra-tree2-2",
+      "source": "pyra-tree2-2.png",
+      "sha256": "5cd8899c88551e8e98dc1043e61474fd1dcfa81a9845cbd64e72919c938fd5f1"
+    },
+    {
+      "part": "pyra-tree2-3",
+      "source": "pyra-tree2-3.png",
+      "sha256": "aabbb665f7e1387774fc47e9cd05285a392f20d4ffec83916d0a3d9ab7f1a777"
+    },
+    {
+      "part": "pyra-tree2-4",
+      "source": "pyra-tree2-4.png",
+      "sha256": "992e8ba0d54ed6d496b8a0fe1568ce4799d2ed9b214afc8650201d2a55238d32"
+    },
+    {
+      "part": "verdant-boulder-0",
+      "source": "verdant-boulder-0.png",
+      "sha256": "0feeec70c3ca66f5b465dc35cf95aa084174398a84e626d37241410ad0007183"
+    },
+    {
+      "part": "verdant-boulder-1",
+      "source": "verdant-boulder-1.png",
+      "sha256": "246c8690de0fbcc7264ff9ea020265106a76923474d4a079a9fd61bc3a5c88b0"
+    },
+    {
+      "part": "verdant-boulder-2",
+      "source": "verdant-boulder-2.png",
+      "sha256": "1bf4ad9a0b772c0171a464363594820b9970af621c315f9e16da37ccd8d837a5"
+    },
+    {
+      "part": "verdant-boulder-4",
+      "source": "verdant-boulder-4.png",
+      "sha256": "0f9678c424c8cc67d1293894ed25da540d3b2b60b1d61176ccaeb2fc17661c6b"
+    },
+    {
+      "part": "verdant-boulder-5",
+      "source": "verdant-boulder-5.png",
+      "sha256": "ae864e11a32147215505a66cd9b1989cd13baa2f832d0e65a7380f2ed9462516"
+    },
+    {
+      "part": "verdant-bush-0",
+      "source": "verdant-bush-0.png",
+      "sha256": "a22c031d980bd414a701110967f0d944c8522d15e2e3555c9c70b76f5b499453"
+    },
+    {
+      "part": "verdant-bush-1",
+      "source": "verdant-bush-1.png",
+      "sha256": "879edff50c414e0e4d963588bef17c4a50a20e918b6b433d5938ecaea40c48ae"
+    },
+    {
+      "part": "verdant-bush-2",
+      "source": "verdant-bush-2.png",
+      "sha256": "f0d110e94293233747fa36a02da7d019acd21bef89b1473b5f47273ea9067f6b"
+    },
+    {
+      "part": "verdant-fern-0",
+      "source": "verdant-fern-0.png",
+      "sha256": "3125861d802c47b1714349416d784da851d07d072bc157bee43ce5ce845d363c"
+    },
+    {
+      "part": "verdant-fern-1",
+      "source": "verdant-fern-1.png",
+      "sha256": "2f052f1a70c34b0bea1c0800a122d33357e538ff8e6cf5ba660e3631b8aceaec"
+    },
+    {
+      "part": "verdant-fern-2",
+      "source": "verdant-fern-2.png",
+      "sha256": "8e65ec9b05736dc8965ef522e944df497498c9edb36317dac248d0d234e25ef0"
+    },
+    {
+      "part": "verdant-fern-3",
+      "source": "verdant-fern-3.png",
+      "sha256": "1c531a7d1d34c4c062e786a5231d1202cdcad6606b2aa45f47b687cb500fdfe3"
+    },
+    {
+      "part": "verdant-fern-5",
+      "source": "verdant-fern-5.png",
+      "sha256": "19f27547c7f016b5e6ab3d1092b1af988721c30a924308779acefc77fd701611"
+    },
+    {
+      "part": "verdant-flowerbush-0",
+      "source": "verdant-flowerbush-0.png",
+      "sha256": "ac2d623c4e48a429b909700a255c5868dc8b91e3ed67c74a0f96a04dfd5b1364"
+    },
+    {
+      "part": "verdant-flowerbush-1",
+      "source": "verdant-flowerbush-1.png",
+      "sha256": "130f455027a3647e917012daa6884a1217d1013e2def9987dfa22fafb2a259e7"
+    },
+    {
+      "part": "verdant-flowerbush-2",
+      "source": "verdant-flowerbush-2.png",
+      "sha256": "c353f7a7ca254a5f8f0298b1eb461915813f92e28e612f1b7068003364816dd7"
+    },
+    {
+      "part": "verdant-log-1",
+      "source": "verdant-log-1.png",
+      "sha256": "7f6ccd310170f99543b78a79ec2a7149e9d0166bf63f9ed5676e03b6723941f1"
+    },
+    {
+      "part": "verdant-log-2",
+      "source": "verdant-log-2.png",
+      "sha256": "be6e1402e14259c4ae825d9053d83c024661bd909e0a9b46156e721115115e03"
+    },
+    {
+      "part": "verdant-log-3",
+      "source": "verdant-log-3.png",
+      "sha256": "ae42473aeb72b031db3380520a62a520026b7c62eb678596ed71a79453ca7840"
+    },
+    {
+      "part": "verdant-log-4",
+      "source": "verdant-log-4.png",
+      "sha256": "e10a57700178d1ff0335ee0639d7e16217e4c482eae4ccdbe389a48b2e9c9769"
+    },
+    {
+      "part": "verdant-log-5",
+      "source": "verdant-log-5.png",
+      "sha256": "feb8af47213ec7ba291dc00798d64528fec5181c4a47dd8a9fba7ac1064c26e0"
+    },
+    {
+      "part": "verdant-mushrooms-1",
+      "source": "verdant-mushrooms-1.png",
+      "sha256": "cb94b6b7e01a210ef6f9c45eb16860f45a8b011e52caef8fafcae31ac4d9bf8d"
+    },
+    {
+      "part": "verdant-mushrooms-5",
+      "source": "verdant-mushrooms-5.png",
+      "sha256": "2120ec27626737a63db7b6da8a8aa947690bcb57d8044d764c8f611ca840ffc2"
+    },
+    {
+      "part": "verdant-oak-0",
+      "source": "verdant-oak-0.png",
+      "sha256": "2d430ba6e5940ba88678a198dd584b13a812c0ea389360c9df3d95a0b597f052"
+    },
+    {
+      "part": "verdant-oak-1",
+      "source": "verdant-oak-1.png",
+      "sha256": "a3106d322f5a96ea92090aa31f1c96236cb3df6e13904a47deca98957ab76ceb"
+    },
+    {
+      "part": "verdant-oak-2",
+      "source": "verdant-oak-2.png",
+      "sha256": "a54e250adff7e0bc33ee04db51ca06e3b7ce46fe79b233692627765195fb66f5"
+    },
+    {
+      "part": "verdant-oak-3",
+      "source": "verdant-oak-3.png",
+      "sha256": "9d6cedd97417a4043a847c0f99592a968e026687cb4d1264bad6d9fc19ee01e4"
+    },
+    {
+      "part": "verdant-oak-4",
+      "source": "verdant-oak-4.png",
+      "sha256": "0d1aca2c307067edbfb794e8acb9df33cf1672c4f08d321b37a1e2f4c3dbb886"
+    },
+    {
+      "part": "verdant-oak-5",
+      "source": "verdant-oak-5.png",
+      "sha256": "8875bf7254125ee1cf30c91db031bcd5e0f16a5adfba25b224096d648160ab63"
+    },
+    {
+      "part": "verdant-pine-1",
+      "source": "verdant-pine-1.png",
+      "sha256": "cd556f34b3810153ba2f04bdf8d8c36d4e7b26f60378d624c0720177d84ebf72"
+    },
+    {
+      "part": "verdant-pine-2",
+      "source": "verdant-pine-2.png",
+      "sha256": "3822c59e89bf938fde4da07c38d5ffdd2bc69859e2840ff99d718e6a9196b46b"
+    },
+    {
+      "part": "verdant-pine-3",
+      "source": "verdant-pine-3.png",
+      "sha256": "620e3195de32e02e55478fa34d5367d5d76dd1d59d8563da9e02ceaa69f585ba"
+    },
+    {
+      "part": "verdant-pine-4",
+      "source": "verdant-pine-4.png",
+      "sha256": "4b3c390b6faf59617c6aa3b720417031e544298e0550a9cc376d78fee8f9089c"
+    },
+    {
+      "part": "verdant-pine-5",
+      "source": "verdant-pine-5.png",
+      "sha256": "faa5cfde52198d2842ec7a153d2b3ceeea72497eb7911bc1d06f69e9d24b5628"
+    },
+    {
+      "part": "verdant-reeds-1",
+      "source": "verdant-reeds-1.png",
+      "sha256": "f6999576df890bbefaeaa29da9304863558799a3493ddd48dbdea149d84a802b"
+    },
+    {
+      "part": "verdant-reeds-2",
+      "source": "verdant-reeds-2.png",
+      "sha256": "28eb03ac4854c41004b9a048691f3cb8a6821b538441d60fe54c0649da098d75"
+    },
+    {
+      "part": "verdant-reeds-3",
+      "source": "verdant-reeds-3.png",
+      "sha256": "ae339eb3841a0ef843e071a9ac64efcf0265d264000d1b2b8215eb6b2a31ff43"
+    },
+    {
+      "part": "verdant-reeds-5",
+      "source": "verdant-reeds-5.png",
+      "sha256": "d505146831e0887eb3ce8f63e7b5f74c3bbf6280d2b3bc55d116ded6b8ef4bf1"
+    },
+    {
+      "part": "verdant-rocks-3",
+      "source": "verdant-rocks-3.png",
+      "sha256": "ff0dd5f36faab0845a4ff003db63207a1e7c9be84b5801a4f90c9614a97154fb"
+    },
+    {
+      "part": "verdant-stump-0",
+      "source": "verdant-stump-0.png",
+      "sha256": "8264f111d6a1ea1d8e4cc1102d3e7acd8e3cfbbdb4ad9e5b3d13ab0656852f6a"
+    },
+    {
+      "part": "verdant-stump-1",
+      "source": "verdant-stump-1.png",
+      "sha256": "909b6a2a34919a9606875da11ec6c532a72735aa9f9005d3cc6656b723036dd3"
+    },
+    {
+      "part": "verdant-stump-2",
+      "source": "verdant-stump-2.png",
+      "sha256": "f9163f512c0dfbe68c7dca675acfa7b4fed1457fad496640ee61ef7c7fa571ac"
+    },
+    {
+      "part": "verdant-stump-3",
+      "source": "verdant-stump-3.png",
+      "sha256": "206bb4bce0274fde9769a6bd4f916eaee4fe9764d6227fbf1dfe5cbee54b22be"
+    },
+    {
+      "part": "verdant-stump-4",
+      "source": "verdant-stump-4.png",
+      "sha256": "f555443f04699ac35fbe26f6b370074682a366332aba24a7daf0a0a2d1136b46"
+    },
+    {
+      "part": "verdant-stump-5",
+      "source": "verdant-stump-5.png",
+      "sha256": "1a4c4709fc97380d62f1743db8e6f008dc0efe1e29150d93f586d6b967b3c3eb"
+    },
+    {
+      "part": "verdant-tree2-0",
+      "source": "verdant-tree2-0.png",
+      "sha256": "a3106d322f5a96ea92090aa31f1c96236cb3df6e13904a47deca98957ab76ceb"
+    },
+    {
+      "part": "verdant-tree2-2",
+      "source": "verdant-tree2-2.png",
+      "sha256": "a54e250adff7e0bc33ee04db51ca06e3b7ce46fe79b233692627765195fb66f5"
+    },
+    {
+      "part": "verdant-tree2-3",
+      "source": "verdant-tree2-3.png",
+      "sha256": "9d6cedd97417a4043a847c0f99592a968e026687cb4d1264bad6d9fc19ee01e4"
+    },
+    {
+      "part": "verdant-tree2-4",
+      "source": "verdant-tree2-4.png",
+      "sha256": "0d1aca2c307067edbfb794e8acb9df33cf1672c4f08d321b37a1e2f4c3dbb886"
+    },
+    {
+      "part": "verdant-tree2-5",
+      "source": "verdant-tree2-5.png",
+      "sha256": "8875bf7254125ee1cf30c91db031bcd5e0f16a5adfba25b224096d648160ab63"
+    }
+  ]
+}

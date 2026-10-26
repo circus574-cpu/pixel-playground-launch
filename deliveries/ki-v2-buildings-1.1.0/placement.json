@@ -1,0 +1,310 @@
+{
+ "ki-v2-buildings.aether-arena": {
+  "width": 520,
+  "height": 475,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 104
+  }
+ },
+ "ki-v2-buildings.aether-depot": {
+  "width": 520,
+  "height": 508,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 112
+  }
+ },
+ "ki-v2-buildings.aether-hall": {
+  "width": 520,
+  "height": 481,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 106
+  }
+ },
+ "ki-v2-buildings.aether-house": {
+  "width": 320,
+  "height": 305,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 76
+  }
+ },
+ "ki-v2-buildings.aether-inn": {
+  "width": 520,
+  "height": 523,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 115
+  }
+ },
+ "ki-v2-buildings.aether-market": {
+  "width": 520,
+  "height": 494,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 109
+  }
+ },
+ "ki-v2-buildings.aether-smithy": {
+  "width": 520,
+  "height": 488,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 107
+  }
+ },
+ "ki-v2-buildings.nexus-arena": {
+  "width": 520,
+  "height": 478,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 105
+  }
+ },
+ "ki-v2-buildings.nexus-depot": {
+  "width": 520,
+  "height": 519,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 114
+  }
+ },
+ "ki-v2-buildings.nexus-hall": {
+  "width": 520,
+  "height": 497,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 109
+  }
+ },
+ "ki-v2-buildings.nexus-house": {
+  "width": 320,
+  "height": 298,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 74
+  }
+ },
+ "ki-v2-buildings.nexus-inn": {
+  "width": 520,
+  "height": 563,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 124
+  }
+ },
+ "ki-v2-buildings.nexus-market": {
+  "width": 520,
+  "height": 503,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 111
+  }
+ },
+ "ki-v2-buildings.nexus-smithy": {
+  "width": 520,
+  "height": 485,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 107
+  }
+ },
+ "ki-v2-buildings.pyra-arena": {
+  "width": 520,
+  "height": 483,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 106
+  }
+ },
+ "ki-v2-buildings.pyra-depot": {
+  "width": 520,
+  "height": 502,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 110
+  }
+ },
+ "ki-v2-buildings.pyra-hall": {
+  "width": 520,
+  "height": 506,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 111
+  }
+ },
+ "ki-v2-buildings.pyra-house": {
+  "width": 320,
+  "height": 298,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 74
+  }
+ },
+ "ki-v2-buildings.pyra-inn": {
+  "width": 520,
+  "height": 556,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 122
+  }
+ },
+ "ki-v2-buildings.pyra-market": {
+  "width": 520,
+  "height": 504,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 111
+  }
+ },
+ "ki-v2-buildings.pyra-smithy": {
+  "width": 520,
+  "height": 556,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 122
+  }
+ },
+ "ki-v2-buildings.verdant-arena": {
+  "width": 520,
+  "height": 556,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 122
+  }
+ },
+ "ki-v2-buildings.verdant-depot": {
+  "width": 520,
+  "height": 546,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 120
+  }
+ },
+ "ki-v2-buildings.verdant-hall": {
+  "width": 520,
+  "height": 512,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 113
+  }
+ },
+ "ki-v2-buildings.verdant-house": {
+  "width": 320,
+  "height": 297,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 74
+  }
+ },
+ "ki-v2-buildings.verdant-inn": {
+  "width": 520,
+  "height": 555,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 122
+  }
+ },
+ "ki-v2-buildings.verdant-market": {
+  "width": 520,
+  "height": 484,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 106
+  }
+ },
+ "ki-v2-buildings.verdant-smithy": {
+  "width": 520,
+  "height": 511,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 112
+  }
+ }
+}
