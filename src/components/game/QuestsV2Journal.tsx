@@ -34,6 +34,14 @@ export function QuestsV2Journal({ continent }: { continent: string }) {
         const progress = save.quests[quest.id]?.objectiveProgress ?? {};
         return (
           <article className={"ki-qv2-card is-" + state} key={quest.id}>
+            <img
+              className="ki-qv2-portrait"
+              src={`/game/portraits-v2/${quest.giverNpcId}.webp`}
+              alt={quest.giverName}
+              width={64}
+              height={78}
+              onError={(e) => (e.currentTarget.style.display = "none")}
+            />
             <h3>
               {state === "completed" ? "✓ " : "◆ "}
               {quest.title}

@@ -13,19 +13,24 @@ import {
   type GameViewState,
   type ItemId,
 } from "../../game/session";
-import { ItemIcon, type SendCommand } from "./AdventurePanels";
+import { type SendCommand } from "./AdventurePanels";
+
+/** Painted item icons (GPU, public/game/icons-v2); every slot and bag item has one. */
+function ItemIcon({ item }: { item: string }) {
+  return <img className="ki-dinv-icon" src={`/game/icons-v2/${item}.webp`} alt="" aria-hidden />;
+}
 
 const BAG_CELLS = 40;
 /** Slots without items in the game yet are shown locked so the layout stays complete. */
 const SLOTS = [
-  { id: "head", label: "Hełm", area: "head" },
-  { id: "weapon", label: "Broń", area: "weapon" },
-  { id: "armor", label: "Pancerz", area: "chest" },
-  { id: "offhand", label: "Tarcza", area: "offhand" },
-  { id: "hands", label: "Rękawice", area: "hands" },
-  { id: "ring", label: "Pierścień", area: "ring" },
-  { id: "amulet", label: "Amulet", area: "amulet" },
-  { id: "feet", label: "Buty", area: "feet" },
+  { id: "head", label: "Hełm", area: "head", icon: "helmet" },
+  { id: "weapon", label: "Broń", area: "weapon", icon: "sword" },
+  { id: "armor", label: "Pancerz", area: "chest", icon: "vest" },
+  { id: "offhand", label: "Tarcza", area: "offhand", icon: "shield" },
+  { id: "hands", label: "Rękawice", area: "hands", icon: "gloves" },
+  { id: "ring", label: "Pierścień", area: "ring", icon: "ring" },
+  { id: "amulet", label: "Amulet", area: "amulet", icon: "amulet" },
+  { id: "feet", label: "Buty", area: "feet", icon: "boots" },
 ] as const;
 
 type BagEntry =
@@ -98,7 +103,15 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
               {item ? (
                 <ItemIcon item={item} />
               ) : (
-                <span className="ki-dinv-ghost">{slot.label}</span>
+                <>
+                  <img
+                    className="ki-dinv-icon ki-dinv-ghost-icon"
+                    src={`/game/icons-v2/${slot.icon}.webp`}
+                    alt=""
+                    aria-hidden
+                  />
+                  <span className="ki-dinv-ghost">{slot.label}</span>
+                </>
               )}
               {item && slot.id === "weapon" && p.upgrade > 0 && (
                 <b className="ki-dinv-plus">+{p.upgrade}</b>
@@ -151,15 +164,7 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
                   if (usable && entry.kind === "item") send({ type: "equip", item: entry.id });
                 }}
               >
-                {entry.kind === "item" ? (
-                  <ItemIcon item={entry.id} />
-                ) : (
-                  <span
-                    aria-hidden="true"
-                    className="ki-icon ki-item-icon"
-                    style={{ backgroundPosition: "100% 50%" }}
-                  />
-                )}
+                {entry.kind === "item" ? <ItemIcon item={entry.id} /> : <ItemIcon item="tusk" />}
                 {entry.count > 1 && <b>{entry.count}</b>}
               </button>
             );
