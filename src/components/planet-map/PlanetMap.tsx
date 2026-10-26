@@ -521,7 +521,18 @@ export function PlanetMap({
             ) : null,
           )}
 
-          {ATLAS_V2 && <WorldOverlay zoom={zoom} px={px} />}
+          {ATLAS_V2 && (
+            <WorldOverlay
+              zoom={zoom}
+              px={px}
+              bounds={[
+                view.cx - size.w / view.s / 2 - 20,
+                view.cy - size.h / view.s / 2 - 20,
+                view.cx + size.w / view.s / 2 + 20,
+                view.cy + size.h / view.s / 2 + 20,
+              ]}
+            />
+          )}
           {playerAt && (
             <g className="pm-player" aria-label="Twoja pozycja">
               <circle cx={playerAt.x} cy={playerAt.y} r={px(13)} className="pm-player-halo" />
