@@ -791,3 +791,205 @@
     serif;
   cursor: pointer;
 }
+
+/* Graphic skill tree (world v2 preview). */
+.ki-gst {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ki-gst-points {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  color: #d9c9a6;
+  font-size: 14px;
+}
+.ki-gst-points b {
+  color: #f3d27a;
+  font-size: 18px;
+}
+.ki-gst-board {
+  position: relative;
+  padding: 12px 6px;
+  border-radius: 12px;
+  background: radial-gradient(ellipse at 50% 0%, #3a2814 0%, #120b06 70%);
+  box-shadow:
+    inset 0 0 0 2px #6b4a22,
+    inset 0 0 40px #000;
+}
+.ki-gst-root {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.ki-gst-root:first-child::after {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: -14px;
+  height: 14px;
+  border: 2px solid #8a6a3a;
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+}
+.ki-gst-mode {
+  margin-top: 14px;
+}
+.ki-gst-mode::before {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  top: -14px;
+  height: 14px;
+  border: 2px solid #8a6a3a;
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+}
+.ki-gst-branches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-top: 14px;
+}
+.ki-gst-branch h3 {
+  margin: 0 0 6px;
+  text-align: center;
+  font:
+    700 11px "Cinzel",
+    serif;
+  color: #f3d27a;
+  min-height: 2.4em;
+}
+.ki-gst-column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.ki-gst-column::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  width: 3px;
+  background: linear-gradient(#8a6a3a, #3a2814);
+}
+.ki-gst-node {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 35% 30%, #4a3520, #150d07);
+  border: 2px solid #5a3e1c;
+  color: #8d7a5c;
+  cursor: pointer;
+}
+.ki-gst-node .ki-gst-glyph {
+  font-size: 18px;
+  line-height: 1;
+}
+.ki-gst-id {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  min-width: 20px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: #120b06;
+  border: 1px solid #5a3e1c;
+  font-size: 9px;
+  color: #d9c9a6;
+}
+.ki-gst-node.is-ready {
+  border-color: #f3d27a;
+  color: #f3d27a;
+  animation: ki-gst-ready 1.6s ease-in-out infinite;
+}
+@keyframes ki-gst-ready {
+  50% {
+    box-shadow: 0 0 12px rgba(243, 210, 122, 0.7);
+  }
+}
+.ki-gst-node.is-learned {
+  background: radial-gradient(circle at 35% 30%, #f7dc8a, #b5791f);
+  border-color: #fff1c2;
+  color: #3a2006;
+  box-shadow: 0 0 10px rgba(243, 210, 122, 0.6);
+}
+.ki-gst-node.is-blocked {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+.ki-gst-node.is-locked {
+  opacity: 0.7;
+}
+.ki-gst-node.is-selected {
+  outline: 3px solid #4ff0ff;
+  outline-offset: 2px;
+}
+.ki-gst-card {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2a1d11, #17100a);
+  border: 1px solid #6b4a22;
+}
+.ki-gst-card header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ki-gst-card header .ki-gst-glyph {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #120b06;
+  border: 2px solid #8a6a3a;
+  color: #f3d27a;
+  font-size: 18px;
+}
+.ki-gst-card strong {
+  display: block;
+  color: #fff3d1;
+  font:
+    700 15px "Cinzel",
+    serif;
+}
+.ki-gst-card small {
+  color: #c9b38a;
+}
+.ki-gst-card p {
+  margin: 8px 0;
+  color: #e8dcc0;
+  line-height: 1.45;
+}
+.ki-gst-learned {
+  color: #f3d27a;
+  font-weight: 700;
+}
+.ki-gst-learn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #f3d27a;
+  background: linear-gradient(#c98a2a, #7a4a14);
+  color: #fff3d1;
+  font-weight: 700;
+}
+.ki-gst-learn:disabled {
+  border-color: #5a3e1c;
+  background: #2a1d11;
+  color: #8d7a5c;
+}
+.ki-gst-respec {
+  align-self: center;
+  font-size: 12px;
+}

@@ -61,7 +61,8 @@ for lab, aff in AFF.items():
     base = np.where((forest > .52)[..., None], f, g)
     c = base * (1 - mount[..., None]) + mt * mount[..., None]
     snow = np.clip((mount - .7) * 3, 0, 1)[..., None]
-    c = c * (1 - snow) + np.array([236, 240, 245.]) * snow
+    peak = np.array([255, 120, 30.]) if aff == 'pyra' else np.array([236, 240, 245.])  # lava on Pyra, snow elsewhere
+    c = c * (1 - snow) + peak * snow
     c = np.where((coast < 3)[..., None], sh, c)
     c *= (.85 + .3 * detail)[..., None]
     img[mask] = c[mask]

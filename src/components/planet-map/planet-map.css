@@ -936,3 +936,16 @@
   font-size: 12px;
   color: #b9ab8c;
 }
+
+/* World v2 preview: the atlas and globe show maps only — no description tables. */
+html[data-ki-world-v2] .pm-details > p,
+html[data-ki-world-v2] .pm-zones,
+html[data-ki-world-v2] .pm-panel,
+html[data-ki-world-v2] .pm-legend-toggle,
+html[data-ki-world-v2] .pm-demo-chip {
+  display: none !important;
+}
+html[data-ki-world-v2] .pm-details {
+  max-height: none;
+  padding-bottom: 8px;
+}
