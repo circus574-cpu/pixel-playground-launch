@@ -1,4 +1,4 @@
-import { test, expect, patchActiveCharacter, superiorLand } from "./fixtures";
+import { test, expect, patchActiveCharacter, superiorLand, WORLD_SAVE } from "./fixtures";
 
 test.use({ hasTouch: true, isMobile: true });
 const cases = [
@@ -94,7 +94,11 @@ test("Argon v2 quest summary follows the real journal and survives reload", asyn
   await expect(page.locator(".ki-hud")).toBeVisible();
   // A new character is guided by the starter quest first; Argon's adventures follow.
   await expect(page.locator(".ki-quest strong")).toHaveText("Pierwsze kroki");
-  await patchActiveCharacter(page, { quests: { steps: "done", boars: "done", gear: "done" } });
+  await patchActiveCharacter(
+    page,
+    { quests: { steps: "done", boars: "done", gear: "done" } },
+    WORLD_SAVE.replace("superior-world-v1", "superior-world-v2"),
+  );
   await expect(page.locator(".ki-quest strong")).toHaveText("Przygody kontynentu");
   await page.getByRole("button", { name: "Dziennik", exact: true }).tap();
   const journal = page.getByRole("region", { name: "Przygody świata v2" });

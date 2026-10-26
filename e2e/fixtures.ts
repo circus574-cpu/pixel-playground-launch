@@ -229,6 +229,7 @@ export async function maxHp(page: import("@playwright/test").Page) {
 export async function patchActiveCharacter(
   page: import("@playwright/test").Page,
   patch: Record<string, unknown>,
+  save: string = WORLD_SAVE,
 ) {
   await page.evaluate(
     ({ base, patch }) => {
@@ -237,7 +238,7 @@ export async function patchActiveCharacter(
       Object.assign(raw.player, patch);
       localStorage.setItem(key, JSON.stringify(raw));
     },
-    { base: WORLD_SAVE, patch },
+    { base: save, patch },
   );
   await page.reload();
   await base_expectHud(page);
