@@ -20,7 +20,7 @@ from migration_preview import decode  # noqa: E402
 P = ROOT / 'public/game/worlds/superior-v2-prototype'
 W = ROOT / 'public/game/worlds/superior-v2'
 TEX = ROOT / 'deliveries/ki-v2-terrain-1.0.0'
-context = read(Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / 'public/game/worlds/superior-v2-context.json')
+context = read(Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / 'art/production/worlds/superior-v2-context.json')
 planet = context['planet']
 m = read(P / 'sphere-chunks.json'); labels = np.zeros((m['height'], m['width']), np.uint8)
 for n in m['chunks']:
