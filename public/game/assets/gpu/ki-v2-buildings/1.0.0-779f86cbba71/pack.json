@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "id": "ki-v2-buildings",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "ki-v2-buildings-aether-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-arena.webp",
+      "width": 1018,
+      "height": 929
+    },
+    {
+      "id": "ki-v2-buildings-aether-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-depot.webp",
+      "width": 1023,
+      "height": 999
+    },
+    {
+      "id": "ki-v2-buildings-aether-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-hall.webp",
+      "width": 1020,
+      "height": 944
+    },
+    {
+      "id": "ki-v2-buildings-aether-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-house.webp",
+      "width": 1001,
+      "height": 953
+    },
+    {
+      "id": "ki-v2-buildings-aether-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-inn.webp",
+      "width": 969,
+      "height": 975
+    },
+    {
+      "id": "ki-v2-buildings-aether-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-market.webp",
+      "width": 1012,
+      "height": 962
+    },
+    {
+      "id": "ki-v2-buildings-aether-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-aether-smithy.webp",
+      "width": 1020,
+      "height": 957
+    },
+    {
+      "id": "ki-v2-buildings-nexus-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-arena.webp",
+      "width": 962,
+      "height": 885
+    },
+    {
+      "id": "ki-v2-buildings-nexus-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-depot.webp",
+      "width": 1001,
+      "height": 1000
+    },
+    {
+      "id": "ki-v2-buildings-nexus-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-hall.webp",
+      "width": 987,
+      "height": 943
+    },
+    {
+      "id": "ki-v2-buildings-nexus-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-house.webp",
+      "width": 989,
+      "height": 922
+    },
+    {
+      "id": "ki-v2-buildings-nexus-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-inn.webp",
+      "width": 875,
+      "height": 947
+    },
+    {
+      "id": "ki-v2-buildings-nexus-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-market.webp",
+      "width": 1031,
+      "height": 998
+    },
+    {
+      "id": "ki-v2-buildings-nexus-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-nexus-smithy.webp",
+      "width": 881,
+      "height": 821
+    },
+    {
+      "id": "ki-v2-buildings-pyra-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-arena.webp",
+      "width": 967,
+      "height": 898
+    },
+    {
+      "id": "ki-v2-buildings-pyra-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-depot.webp",
+      "width": 1032,
+      "height": 997
+    },
+    {
+      "id": "ki-v2-buildings-pyra-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-hall.webp",
+      "width": 982,
+      "height": 955
+    },
+    {
+      "id": "ki-v2-buildings-pyra-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-house.webp",
+      "width": 929,
+      "height": 866
+    },
+    {
+      "id": "ki-v2-buildings-pyra-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-inn.webp",
+      "width": 877,
+      "height": 937
+    },
+    {
+      "id": "ki-v2-buildings-pyra-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-market.webp",
+      "width": 1018,
+      "height": 987
+    },
+    {
+      "id": "ki-v2-buildings-pyra-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-pyra-smithy.webp",
+      "width": 969,
+      "height": 1036
+    },
+    {
+      "id": "ki-v2-buildings-verdant-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-arena.webp",
+      "width": 894,
+      "height": 956
+    },
+    {
+      "id": "ki-v2-buildings-verdant-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-depot.webp",
+      "width": 987,
+      "height": 1036
+    },
+    {
+      "id": "ki-v2-buildings-verdant-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-hall.webp",
+      "width": 969,
+      "height": 954
+    },
+    {
+      "id": "ki-v2-buildings-verdant-house",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-house.webp",
+      "width": 873,
+      "height": 810
+    },
+    {
+      "id": "ki-v2-buildings-verdant-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-inn.webp",
+      "width": 929,
+      "height": 991
+    },
+    {
+      "id": "ki-v2-buildings-verdant-market",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-market.webp",
+      "width": 1036,
+      "height": 965
+    },
+    {
+      "id": "ki-v2-buildings-verdant-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.0.0-779f86cbba71/ki-v2-buildings-verdant-smithy.webp",
+      "width": 990,
+      "height": 973
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.ki-v2-buildings.aether-arena": {
+      "asset": "ki-v2-buildings-aether-arena",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.aether-depot": {
+      "asset": "ki-v2-buildings-aether-depot",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.aether-hall": {
+      "asset": "ki-v2-buildings-aether-hall",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.aether-house": {
+      "asset": "ki-v2-buildings-aether-house",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.aether-inn": {
+      "asset": "ki-v2-buildings-aether-inn",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.aether-market": {
+      "asset": "ki-v2-buildings-aether-market",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.aether-smithy": {
+      "asset": "ki-v2-buildings-aether-smithy",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-arena": {
+      "asset": "ki-v2-buildings-nexus-arena",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-depot": {
+      "asset": "ki-v2-buildings-nexus-depot",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-hall": {
+      "asset": "ki-v2-buildings-nexus-hall",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-house": {
+      "asset": "ki-v2-buildings-nexus-house",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-inn": {
+      "asset": "ki-v2-buildings-nexus-inn",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-market": {
+      "asset": "ki-v2-buildings-nexus-market",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.nexus-smithy": {
+      "asset": "ki-v2-buildings-nexus-smithy",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-arena": {
+      "asset": "ki-v2-buildings-pyra-arena",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-depot": {
+      "asset": "ki-v2-buildings-pyra-depot",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-hall": {
+      "asset": "ki-v2-buildings-pyra-hall",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-house": {
+      "asset": "ki-v2-buildings-pyra-house",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-inn": {
+      "asset": "ki-v2-buildings-pyra-inn",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-market": {
+      "asset": "ki-v2-buildings-pyra-market",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.pyra-smithy": {
+      "asset": "ki-v2-buildings-pyra-smithy",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-arena": {
+      "asset": "ki-v2-buildings-verdant-arena",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-depot": {
+      "asset": "ki-v2-buildings-verdant-depot",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-hall": {
+      "asset": "ki-v2-buildings-verdant-hall",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-house": {
+      "asset": "ki-v2-buildings-verdant-house",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-inn": {
+      "asset": "ki-v2-buildings-verdant-inn",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-market": {
+      "asset": "ki-v2-buildings-verdant-market",
+      "fit": "contain"
+    },
+    "object.ki-v2-buildings.verdant-smithy": {
+      "asset": "ki-v2-buildings-verdant-smithy",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

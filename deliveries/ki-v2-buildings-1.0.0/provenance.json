@@ -1,0 +1,147 @@
+{
+  "pack": "ki-v2-buildings",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/LICENCJE.md)",
+  "parts": [
+    {
+      "part": "aether-arena",
+      "source": "aether-arena.png",
+      "sha256": "7a19b267512d9c8ebe603062a404408b72470a813eb022d133aed8b4a1b7b571"
+    },
+    {
+      "part": "aether-depot",
+      "source": "aether-depot.png",
+      "sha256": "d3ead95681c6ccc97543a988531a825ec6a45760cf64702a372639bbdf53a77f"
+    },
+    {
+      "part": "aether-hall",
+      "source": "aether-hall.png",
+      "sha256": "e07d6ba68028b86c29bc2cd8e133c09fe07e99657162afb3e94af1bb5a36019c"
+    },
+    {
+      "part": "aether-house",
+      "source": "aether-house.png",
+      "sha256": "e0629026d9b7b5ba7bc79c3eac94965b1816999e065355d7aaab975132020ac8"
+    },
+    {
+      "part": "aether-inn",
+      "source": "aether-inn.png",
+      "sha256": "1c59e26dfa1c99df5d4fbbee354dec05321713b51ff9aadfc7b33e0c87ab696a"
+    },
+    {
+      "part": "aether-market",
+      "source": "aether-market.png",
+      "sha256": "5e1c2bb2ff30dbece08897383cdbca6fc80c301c7d7bb114caa3f01901f799b0"
+    },
+    {
+      "part": "aether-smithy",
+      "source": "aether-smithy.png",
+      "sha256": "1b81eb8c1546a381592621d21391eca953d51951a42cae16aef55c3262cefb44"
+    },
+    {
+      "part": "nexus-arena",
+      "source": "nexus-arena.png",
+      "sha256": "bc455c5e367b901079578f830e8583789c858d73b84cba7a999bf7f8ef8ba8ed"
+    },
+    {
+      "part": "nexus-depot",
+      "source": "nexus-depot.png",
+      "sha256": "7c7ca7aa3acae93944587b1d68257828e5bb25b2e35fb2f22269d02b0091868c"
+    },
+    {
+      "part": "nexus-hall",
+      "source": "nexus-hall.png",
+      "sha256": "5098adb60081f15bf2cd20aff57bcd838bc069305219ef32daf47a1c3f4372b7"
+    },
+    {
+      "part": "nexus-house",
+      "source": "nexus-house.png",
+      "sha256": "b740516e7b504ac0e8059e1d3044436dca50d07c53c3a97100f3d63f4b61aa06"
+    },
+    {
+      "part": "nexus-inn",
+      "source": "nexus-inn.png",
+      "sha256": "5417514b9d3cc50f3d428bd06c3adceef0f5252ea90672b9dea4c34a0097f702"
+    },
+    {
+      "part": "nexus-market",
+      "source": "nexus-market.png",
+      "sha256": "51cd5868c19c53128aeaf7a0b6dde2bdb9c56e97a7082054dd2d27eeba8b3b4f"
+    },
+    {
+      "part": "nexus-smithy",
+      "source": "nexus-smithy.png",
+      "sha256": "3b66abf5c34343288dc6dd1dd1fab867d3f34a282bd88c901cf2b546f2495bfe"
+    },
+    {
+      "part": "pyra-arena",
+      "source": "pyra-arena.png",
+      "sha256": "7807be6b3d796f34d6d8d915ad38840e72b559b39d737cdd345e0ebae289d81d"
+    },
+    {
+      "part": "pyra-depot",
+      "source": "pyra-depot.png",
+      "sha256": "cd2e478c971dd1f506c07360bf2111fb7377167e6130de25445bb2c55b4a65a2"
+    },
+    {
+      "part": "pyra-hall",
+      "source": "pyra-hall.png",
+      "sha256": "f9c09bbec01ff69a0a171d5f5618027047f5536008ea218488e0b8e12204dff4"
+    },
+    {
+      "part": "pyra-house",
+      "source": "pyra-house.png",
+      "sha256": "7f7a6f5779b6dc4cb4f7232616d917019cfd4139b8f4e56dbf6fed117c5e3c3f"
+    },
+    {
+      "part": "pyra-inn",
+      "source": "pyra-inn.png",
+      "sha256": "a32682f8c6adfd933db3aaaf870daeb864155cb59234686d41243bad0678fe58"
+    },
+    {
+      "part": "pyra-market",
+      "source": "pyra-market.png",
+      "sha256": "aeb5b6c25e46f9ddea5bb41cc83450aa5724f1f9d7b3bc70583e024280d58f41"
+    },
+    {
+      "part": "pyra-smithy",
+      "source": "pyra-smithy.png",
+      "sha256": "29ac593c53e1e1689b80075ac4704b291289ab86301fe3c8d834f52329ba6eb3"
+    },
+    {
+      "part": "verdant-arena",
+      "source": "verdant-arena.png",
+      "sha256": "6a838028f04afffe3cf79d9bb716a48284c274cc0a8e7efd3da7b466929f89d4"
+    },
+    {
+      "part": "verdant-depot",
+      "source": "verdant-depot.png",
+      "sha256": "0167000eeee793cac810ba81173b881919c53a1ed57f54b10e023fb245423d68"
+    },
+    {
+      "part": "verdant-hall",
+      "source": "verdant-hall.png",
+      "sha256": "7d30bcc7145212c5d503ab082fd18a4d0ce66f41815f77b643f434e5df1bb2a3"
+    },
+    {
+      "part": "verdant-house",
+      "source": "verdant-house.png",
+      "sha256": "8a3213b1c6361fc4f555a54dcdcd948d06cd7499586666b878bbcded626b1a53"
+    },
+    {
+      "part": "verdant-inn",
+      "source": "verdant-inn.png",
+      "sha256": "82d55967f3c7c438798056823b71658fa193f4ee151f0904bcdd3a905d7bc3cb"
+    },
+    {
+      "part": "verdant-market",
+      "source": "verdant-market.png",
+      "sha256": "7e26910349ff552a699cc6be83fefd9959b8129d66c4eeb8f195ec4d5969495f"
+    },
+    {
+      "part": "verdant-smithy",
+      "source": "verdant-smithy.png",
+      "sha256": "14f974459a97ecb925adcff9356d1948275e9034c5b32600adeb7405ef3bef53"
+    }
+  ]
+}

@@ -387,11 +387,13 @@ export async function prepareSuperior(options: {
     if (!asset) throw Error("Brak zasobu świata: " + key);
     initialAssets.set(asset.id, asset);
   };
-  for (const key of [...art.groundByBiome, art.water]) addBinding(key);
+  for (const key of [...art.groundByBiome, art.water, art.road, art.plaza])
+    if (key) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,
     ...(art.acceptedCityScenery ?? []),
+    ...(art.landmarks ?? []),
     ...art.resources,
     ...art.dungeonEntrances,
   ])

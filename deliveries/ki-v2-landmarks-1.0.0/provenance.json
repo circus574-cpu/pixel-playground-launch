@@ -1,0 +1,82 @@
+{
+  "pack": "ki-v2-landmarks",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/LICENCJE.md)",
+  "parts": [
+    {
+      "part": "aether-archive",
+      "source": "aether-archive.png",
+      "sha256": "ed9e22236c7dfb70353132cb5ac7cfdfbf4241fdc28aedffedf5a86748671f2e"
+    },
+    {
+      "part": "aether-observatory",
+      "source": "aether-observatory.png",
+      "sha256": "5f37efd40e01ffe894d82d340c3be324079552359175301715f1660add191670"
+    },
+    {
+      "part": "aether-sanctum",
+      "source": "aether-sanctum.png",
+      "sha256": "177f75b9c8ec2686c3d5c5b6cc788d97eb33fe56edba537e360217a993143118"
+    },
+    {
+      "part": "aether-spring",
+      "source": "aether-spring.png",
+      "sha256": "380bcbf9adafbbcd08d4705c2b16d5bb486ef096703212b38d20a3f072ef848d"
+    },
+    {
+      "part": "nexus-lab",
+      "source": "nexus-lab.png",
+      "sha256": "ce2580448f6cc57a3d6bbacdc9740c1e6c5e98aa91050c6974dcf9ca2adfea9b"
+    },
+    {
+      "part": "nexus-monolith",
+      "source": "nexus-monolith.png",
+      "sha256": "d4c57e34e6a446388379c45ec72d60ea8b3819562df6f19582a9156e364a7d50"
+    },
+    {
+      "part": "nexus-reactor",
+      "source": "nexus-reactor.png",
+      "sha256": "19390b4252a2cb2ddc5bfec36d6386a5d2c054c6fd565a73ce7d895e171f7b54"
+    },
+    {
+      "part": "nexus-terminal",
+      "source": "nexus-terminal.png",
+      "sha256": "bb2fc4ca85151639b4fec90cb6ed955aecc44f6a91cda95ba6f7bd08d6d07273"
+    },
+    {
+      "part": "pyra-altar",
+      "source": "pyra-altar.png",
+      "sha256": "0a6f5ad226310055a887b2ac41f39404fdbd0045867e5eb0fd64e85170c2eba2"
+    },
+    {
+      "part": "pyra-fortress",
+      "source": "pyra-fortress.png",
+      "sha256": "db780543ff4dfed8f35b65d9012ba3137ef941451e9f5877a5750e41a73a756f"
+    },
+    {
+      "part": "pyra-statue",
+      "source": "pyra-statue.png",
+      "sha256": "59b4720109d5520aae6712ec9994f6b894e9852f72f59d8a4c970171627d2461"
+    },
+    {
+      "part": "pyra-war-shrine",
+      "source": "pyra-war-shrine.png",
+      "sha256": "4cdf615f482711c8081d08c9e844d29de3f72bb3bc22c785864c450b0bee92a2"
+    },
+    {
+      "part": "verdant-bridge",
+      "source": "verdant-bridge.png",
+      "sha256": "ada62b4497466201a57278c171e9ccd012aa224b07b7a5d7bbe04fce75b6a038"
+    },
+    {
+      "part": "verdant-cottage",
+      "source": "verdant-cottage.png",
+      "sha256": "d72a81797a9cb179ff58e14a4ef7714c86dd33e09a87c6795cb74d3d89817775"
+    },
+    {
+      "part": "verdant-fountain",
+      "source": "verdant-fountain.png",
+      "sha256": "bcd2bba467eb07983b37cfcfe0d8863111f6e6cf296db0d922be76544ead8679"
+    }
+  ]
+}

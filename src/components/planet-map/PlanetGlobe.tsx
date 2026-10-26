@@ -25,12 +25,21 @@ import { Line2 } from "three/addons/lines/Line2.js";
 import { LineGeometry } from "three/addons/lines/LineGeometry.js";
 import { LineMaterial } from "three/addons/lines/LineMaterial.js";
 import { Button } from "@/components/ui/button";
-import colorHiUrl from "@/assets/planet-map/globe-color-3840.webp";
-import colorLoUrl from "@/assets/planet-map/globe-color-1920.webp";
+import colorHiUrlV1 from "@/assets/planet-map/globe-color-3840.webp";
+import colorHiUrlV2 from "@/assets/planet-map/v2-globe-color-3840.webp";
+import colorLoUrlV1 from "@/assets/planet-map/globe-color-1920.webp";
+import colorLoUrlV2 from "@/assets/planet-map/v2-globe-color-1920.webp";
 import cloudsUrl from "@/assets/planet-map/globe-clouds-2048.webp";
-import lightsUrl from "@/assets/planet-map/globe-lights-2048.webp";
-import surfaceUrl from "@/assets/planet-map/globe-surface-2048.webp";
+import lightsUrlV1 from "@/assets/planet-map/globe-lights-2048.webp";
+import lightsUrlV2 from "@/assets/planet-map/v2-globe-lights-2048.webp";
+import surfaceUrlV1 from "@/assets/planet-map/globe-surface-2048.webp";
+import surfaceUrlV2 from "@/assets/planet-map/v2-globe-surface-2048.webp";
 import spaceUrl from "@/assets/planet-map/space.jpg";
+import { ATLAS_V2 } from "./mapData";
+const colorHiUrl = ATLAS_V2 ? colorHiUrlV2 : colorHiUrlV1;
+const colorLoUrl = ATLAS_V2 ? colorLoUrlV2 : colorLoUrlV1;
+const lightsUrl = ATLAS_V2 ? lightsUrlV2 : lightsUrlV1;
+const surfaceUrl = ATLAS_V2 ? surfaceUrlV2 : surfaceUrlV1;
 import { CONTINENTS, QUEST_ISLANDS, REGIONS, ZONES, type MapRegion, type Point } from "./mapData";
 import {
   cameraFor,

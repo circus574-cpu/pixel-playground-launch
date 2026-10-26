@@ -949,3 +949,11 @@ html[data-ki-world-v2] .pm-details {
   max-height: none;
   padding-bottom: 8px;
 }
+/* Zones and settlement pins belong to the old atlas geography; the v2 atlas shows the land only. */
+html[data-ki-world-v2] .pm-zone,
+html[data-ki-world-v2] .pm-settlement {
+  display: none;
+}
+html[data-ki-world-v2] .pg-zone {
+  display: none;
+}

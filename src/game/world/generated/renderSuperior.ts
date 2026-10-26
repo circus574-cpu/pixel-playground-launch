@@ -16,9 +16,14 @@ export type ArtObject = RegionObject & {
 export type FeatureArt = {
   groundByBiome: string[];
   water: string;
+  /** Painted road and town-square textures (art set ki-v2); flat colours when absent. */
+  road?: string;
+  plaza?: string;
   buildings: ArtObject[];
   acceptedCityBuildings: ArtObject[];
   acceptedCityScenery?: ArtObject[];
+  /** Famous places standing in the open world (art set ki-v2), presentation only. */
+  landmarks?: ArtObject[];
   resources: ArtObject[];
   dungeonEntrances: ArtObject[];
 };
@@ -88,6 +93,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     ...source.art.buildings,
     ...source.art.acceptedCityBuildings,
     ...(source.art.acceptedCityScenery ?? []),
+    ...(source.art.landmarks ?? []),
     ...source.art.resources,
     ...source.art.dungeonEntrances,
   ];
@@ -127,7 +133,12 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       return tile;
     };
     const ground = source.art.groundByBiome.map(pattern),
-      water = pattern(source.art.water);
+      water = pattern(source.art.water),
+      road = source.art.road ? pattern(source.art.road) : undefined,
+      plaza = source.art.plaza ? pattern(source.art.plaza) : undefined;
+    // Painted sets (with a road texture) are meant to be seen; the legacy kit stays a faint tint.
+    const groundAlpha = road ? 0.6 : 0.15,
+      waterAlpha = road ? 0.85 : 0.5;
     const tone = (binding: string) =>
       binding.includes("snow")
         ? "#cfdbd6"
@@ -187,9 +198,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       ctx.globalAlpha = 1;
     };
     for (const b of biomes)
-      texture(ground[b] ?? ground[0]!, 0.15, (i) => !!(flags[i]! & 16) && biome[i] === b);
-    texture(water, 0.5, (i) => !(flags[i]! & 16));
-    const strokeRoad = (points: [number, number][], width: number, color: string) => {
+      texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
+    texture(water, waterAlpha, (i) => !(flags[i]! & 16));
+    const strokeRoad = (
+      points: [number, number][],
+      width: number,
+      color: string | CanvasPattern,
+    ) => {
       if (points.length < 2) return;
       const scaled = points.map(([x, y]) => ({ x: (x - data.x) / 4, y: (y - data.y) / 4 }));
       ctx.beginPath();
@@ -220,6 +235,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       ctx.lineJoin = "round";
       ctx.stroke();
     };
+    const roadFill = road;
     for (const road of source.roads) {
       const xs = road.points.map((p) => p[0]),
         ys = road.points.map((p) => p[1]);
@@ -231,10 +247,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       )
         continue;
       strokeRoad(road.points, road.width + 16, "#88916a");
-      strokeRoad(road.points, road.width, road.kind === "trail" ? "#b2a27c" : "#bdae8b");
+      strokeRoad(
+        road.points,
+        road.width,
+        roadFill ?? (road.kind === "trail" ? "#b2a27c" : "#bdae8b"),
+      );
     }
     for (const road of source.cityRoads) {
-      ctx.fillStyle = "#b5ad8b";
+      ctx.fillStyle = plaza ?? roadFill ?? "#b5ad8b";
       ctx.beginPath();
       ctx.roundRect(
         (road.x - data.x) / 4,
@@ -263,7 +283,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
       if (disposed || !wanted.has(id)) return;
       const items = [...art, ...(staticGrid.get(id) ?? [])];
-      const ids = new Set([...source.art.groundByBiome, source.art.water].map(textureId));
+      const ids = new Set(
+        [...source.art.groundByBiome, source.art.water, source.art.road, source.art.plaza]
+          .filter((b): b is string => !!b)
+          .map(textureId),
+      );
       for (const item of items) ids.add(textureId(item.binding));
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {

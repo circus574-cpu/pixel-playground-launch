@@ -9,10 +9,19 @@
  * Pure, deterministic and browser-safe: no storage access, no dependency on
  * game sessions or saves.
  */
-import outlines from "./atlasRegions.json";
-import layout from "./planetLayout.json";
+import outlinesV1 from "./atlasRegions.json";
+import outlinesV2 from "./atlasRegions.v2.json";
+import layoutV1 from "./planetLayout.json";
+import layoutV2 from "./planetLayout.v2.json";
 import { sourceToPlanet } from "../../game/world/planet";
 import { atlasPoint, OPEN_WORLDS } from "../../game/world/zoneMap";
+
+/** World v2 preview (?ki-world-v2=1): atlas painted from the v2 planet geometry (45% land). */
+export const ATLAS_V2 =
+  typeof window !== "undefined" &&
+  new URLSearchParams(window.location.search).get("ki-world-v2") === "1";
+const outlines = ATLAS_V2 ? outlinesV2 : outlinesV1;
+const layout = ATLAS_V2 ? layoutV2 : layoutV1;
 
 export const MAP_W = 2000;
 export const MAP_H = 1000;

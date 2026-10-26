@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-v2-aether-marionetka-rytualu",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "enemy-v2-aether-marionetka-rytualu-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "enemy-v2-aether-marionetka-rytualu-page-1",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-1.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-1.json",
+      "width": 2048,
+      "height": 1280
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-v2-aether-marionetka-rytualu",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/idle/down/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/idle/left/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/idle/up/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/idle/right/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/03",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/04",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/05",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/06",
+              "enemy-v2-aether-marionetka-rytualu/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/walk/down/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/walk/left/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/walk/up/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/walk/right/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/03",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/04",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/05",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/06",
+              "enemy-v2-aether-marionetka-rytualu/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/attack/down/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/attack/left/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/attack/up/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/attack/right/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/03",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/04",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/05",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/06",
+              "enemy-v2-aether-marionetka-rytualu/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/skill/down/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/skill/left/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/skill/up/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/skill/right/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/03",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/04",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/05",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/06",
+              "enemy-v2-aether-marionetka-rytualu/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-1",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/hit/down/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/down/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/down/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/hit/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/hit/left/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/left/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/left/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/hit/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/hit/up/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/up/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/up/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/hit/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/hit/right/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/right/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/right/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/hit/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/hit/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/hit/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/death/down/00",
+              "enemy-v2-aether-marionetka-rytualu/death/down/01",
+              "enemy-v2-aether-marionetka-rytualu/death/down/02",
+              "enemy-v2-aether-marionetka-rytualu/death/down/03",
+              "enemy-v2-aether-marionetka-rytualu/death/down/04",
+              "enemy-v2-aether-marionetka-rytualu/death/down/05",
+              "enemy-v2-aether-marionetka-rytualu/death/down/06",
+              "enemy-v2-aether-marionetka-rytualu/death/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/03",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/04",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/05",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/06",
+              "enemy-v2-aether-marionetka-rytualu/death/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/death/left/00",
+              "enemy-v2-aether-marionetka-rytualu/death/left/01",
+              "enemy-v2-aether-marionetka-rytualu/death/left/02",
+              "enemy-v2-aether-marionetka-rytualu/death/left/03",
+              "enemy-v2-aether-marionetka-rytualu/death/left/04",
+              "enemy-v2-aether-marionetka-rytualu/death/left/05",
+              "enemy-v2-aether-marionetka-rytualu/death/left/06",
+              "enemy-v2-aether-marionetka-rytualu/death/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/03",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/04",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/05",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/06",
+              "enemy-v2-aether-marionetka-rytualu/death/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/death/up/00",
+              "enemy-v2-aether-marionetka-rytualu/death/up/01",
+              "enemy-v2-aether-marionetka-rytualu/death/up/02",
+              "enemy-v2-aether-marionetka-rytualu/death/up/03",
+              "enemy-v2-aether-marionetka-rytualu/death/up/04",
+              "enemy-v2-aether-marionetka-rytualu/death/up/05",
+              "enemy-v2-aether-marionetka-rytualu/death/up/06",
+              "enemy-v2-aether-marionetka-rytualu/death/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/03",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/04",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/05",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/06",
+              "enemy-v2-aether-marionetka-rytualu/death/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/death/right/00",
+              "enemy-v2-aether-marionetka-rytualu/death/right/01",
+              "enemy-v2-aether-marionetka-rytualu/death/right/02",
+              "enemy-v2-aether-marionetka-rytualu/death/right/03",
+              "enemy-v2-aether-marionetka-rytualu/death/right/04",
+              "enemy-v2-aether-marionetka-rytualu/death/right/05",
+              "enemy-v2-aether-marionetka-rytualu/death/right/06",
+              "enemy-v2-aether-marionetka-rytualu/death/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/03",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/04",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/05",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/06",
+              "enemy-v2-aether-marionetka-rytualu/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-v2-aether-marionetka-rytualu-page-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/00",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/01",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/02",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/03",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/04",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/05",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/06",
+              "enemy-v2-aether-marionetka-rytualu/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "aether.enemy.marionetka-rytualu": "enemy-v2-aether-marionetka-rytualu"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

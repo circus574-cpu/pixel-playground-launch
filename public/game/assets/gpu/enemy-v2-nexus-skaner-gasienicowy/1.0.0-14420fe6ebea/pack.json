@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-v2-nexus-skaner-gasienicowy",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "enemy-v2-nexus-skaner-gasienicowy-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "enemy-v2-nexus-skaner-gasienicowy-page-1",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-1.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-1.json",
+      "width": 2048,
+      "height": 1280
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-v2-nexus-skaner-gasienicowy",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-1",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-v2-nexus-skaner-gasienicowy-page-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/00",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/01",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/02",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/03",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/04",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/05",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/06",
+              "enemy-v2-nexus-skaner-gasienicowy/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "nexus.enemy.skaner-gasienicowy": "enemy-v2-nexus-skaner-gasienicowy"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

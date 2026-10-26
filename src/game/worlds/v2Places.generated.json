@@ -29,27 +29,27 @@
   "famous": {
    "famous-aether-1": {
     "name": "Sanktuarium Pustej Paginy (Górna Świątynia)",
-    "x": 36561,
-    "y": 25030,
-    "source": "map-point"
+    "x": 69328,
+    "y": 33712,
+    "source": "aether-v2-landmark-0"
    },
    "famous-aether-2": {
     "name": "Zachodnie Archiwum Skreślonych Imion",
-    "x": 36011,
-    "y": 25850,
-    "source": "map-point"
+    "x": 30768,
+    "y": 52560,
+    "source": "aether-v2-landmark-1"
    },
    "famous-aether-3": {
     "name": "Wschodnie Obserwatorium Lustrzanych Sygnałów",
-    "x": 37411,
-    "y": 25460,
-    "source": "map-point"
+    "x": 944,
+    "y": 28464,
+    "source": "aether-v2-landmark-2"
    },
    "famous-aether-4": {
     "name": "Źródło Między Kroplami (Źródło Pamięci)",
-    "x": 36561,
-    "y": 25335,
-    "source": "map-point"
+    "x": 26864,
+    "y": 848,
+    "source": "aether-v2-landmark-3"
    }
   },
   "hidden": {
@@ -105,27 +105,27 @@
   "famous": {
    "famous-nexus-1": {
     "name": "Laboratorium Pierwszej Kalibracji (Sektor Meridian)",
-    "x": 38430,
-    "y": 23262,
-    "source": "map-point"
+    "x": 62192,
+    "y": 23568,
+    "source": "nexus-v2-landmark-0"
    },
    "famous-nexus-2": {
     "name": "Rdzeń Przeciążonej Pamięci (Główny Reaktor)",
-    "x": 38180,
-    "y": 23142,
-    "source": "map-point"
+    "x": 34096,
+    "y": 48784,
+    "source": "nexus-v2-landmark-1"
    },
    "famous-nexus-3": {
     "name": "Terminal Odmowy Demontażu (Konsola Południowa)",
-    "x": 37700,
-    "y": 23882,
-    "source": "same-kind"
+    "x": 944,
+    "y": 26416,
+    "source": "nexus-v2-landmark-2"
    },
    "famous-nexus-4": {
     "name": "Pryzmat Sygnału Horyzontu (Wschodni Monolit)",
-    "x": 38040,
-    "y": 24272,
-    "source": "same-kind"
+    "x": 27792,
+    "y": 912,
+    "source": "nexus-v2-landmark-3"
    }
   },
   "hidden": {
@@ -181,27 +181,27 @@
   "famous": {
    "famous-pyra-1": {
     "name": "Bastion Złamanej Przysięgi (Cytadela Północy)",
-    "x": 45870,
-    "y": 12752,
-    "source": "map-point"
+    "x": 64688,
+    "y": 17904,
+    "source": "pyra-v2-landmark-0"
    },
    "famous-pyra-2": {
     "name": "Kaplica Dezerterów Popiołu (Zachodnie Sanktuarium)",
-    "x": 45170,
-    "y": 13052,
-    "source": "map-point"
+    "x": 37712,
+    "y": 41328,
+    "source": "pyra-v2-landmark-1"
    },
    "famous-pyra-3": {
     "name": "Ołtarz Płomiennego Pojedynku i Przerwanej Walki",
-    "x": 46570,
-    "y": 13802,
-    "source": "map-point"
+    "x": 848,
+    "y": 21520,
+    "source": "pyra-v2-landmark-2"
    },
    "famous-pyra-4": {
     "name": "Kolos Areny Dziedzictwa (Zachodni Monument)",
-    "x": 45530,
-    "y": 13272,
-    "source": "map-point"
+    "x": 31792,
+    "y": 848,
+    "source": "pyra-v2-landmark-3"
    }
   },
   "hidden": {
@@ -257,27 +257,27 @@
   "famous": {
    "famous-verdant-1": {
     "name": "Źródło Pierwszego Oddechu (Fontanna Rynku)",
-    "x": 49016,
-    "y": 34715,
-    "source": "map-point"
+    "x": 76624,
+    "y": 26288,
+    "source": "verdant-v2-landmark-0"
    },
    "famous-verdant-2": {
     "name": "Most Trzech Nurtów i Zaginionych Znaków",
-    "x": 49999,
-    "y": 34715,
-    "source": "map-point"
+    "x": 34576,
+    "y": 57712,
+    "source": "verdant-v2-landmark-1"
    },
    "famous-verdant-3": {
     "name": "Dom Podwójnego Echa (Opuszczona Chata Doliny)",
-    "x": 48036,
-    "y": 34365,
-    "source": "same-kind"
+    "x": 816,
+    "y": 29072,
+    "source": "verdant-v2-landmark-2"
    },
    "famous-verdant-4": {
     "name": "Korzenna Kuźnia Pradawnych Rytów",
-    "x": 48036,
-    "y": 35245,
-    "source": "same-kind"
+    "x": 34448,
+    "y": 880,
+    "source": "verdant-v2-landmark-3"
    }
   },
   "hidden": {

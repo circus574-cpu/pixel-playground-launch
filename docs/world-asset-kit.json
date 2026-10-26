@@ -4732,6 +4732,1032 @@
    }
   },
   {
+   "binding": "object.ki-v2-buildings.aether-arena",
+   "asset": "ki-v2-buildings-aether-arena",
+   "pixels": [
+    1018,
+    929
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-arena",
+   "placement": {
+    "width": 520,
+    "height": 475,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 104
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.aether-depot",
+   "asset": "ki-v2-buildings-aether-depot",
+   "pixels": [
+    1023,
+    999
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-depot",
+   "placement": {
+    "width": 520,
+    "height": 508,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 112
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.aether-hall",
+   "asset": "ki-v2-buildings-aether-hall",
+   "pixels": [
+    1020,
+    944
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-hall",
+   "placement": {
+    "width": 520,
+    "height": 481,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 106
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.aether-house",
+   "asset": "ki-v2-buildings-aether-house",
+   "pixels": [
+    1001,
+    953
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-house",
+   "placement": {
+    "width": 320,
+    "height": 305,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 76
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.aether-inn",
+   "asset": "ki-v2-buildings-aether-inn",
+   "pixels": [
+    969,
+    975
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-inn",
+   "placement": {
+    "width": 520,
+    "height": 523,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 115
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.aether-market",
+   "asset": "ki-v2-buildings-aether-market",
+   "pixels": [
+    1012,
+    962
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-market",
+   "placement": {
+    "width": 520,
+    "height": 494,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 109
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.aether-smithy",
+   "asset": "ki-v2-buildings-aether-smithy",
+   "pixels": [
+    1020,
+    957
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.aether-smithy",
+   "placement": {
+    "width": 520,
+    "height": 488,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 107
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-arena",
+   "asset": "ki-v2-buildings-nexus-arena",
+   "pixels": [
+    962,
+    885
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-arena",
+   "placement": {
+    "width": 520,
+    "height": 478,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 105
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-depot",
+   "asset": "ki-v2-buildings-nexus-depot",
+   "pixels": [
+    1001,
+    1000
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-depot",
+   "placement": {
+    "width": 520,
+    "height": 519,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 114
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-hall",
+   "asset": "ki-v2-buildings-nexus-hall",
+   "pixels": [
+    987,
+    943
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-hall",
+   "placement": {
+    "width": 520,
+    "height": 497,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 109
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-house",
+   "asset": "ki-v2-buildings-nexus-house",
+   "pixels": [
+    989,
+    922
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-house",
+   "placement": {
+    "width": 320,
+    "height": 298,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 74
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-inn",
+   "asset": "ki-v2-buildings-nexus-inn",
+   "pixels": [
+    875,
+    947
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-inn",
+   "placement": {
+    "width": 520,
+    "height": 563,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 124
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-market",
+   "asset": "ki-v2-buildings-nexus-market",
+   "pixels": [
+    1031,
+    998
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-market",
+   "placement": {
+    "width": 520,
+    "height": 503,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 111
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.nexus-smithy",
+   "asset": "ki-v2-buildings-nexus-smithy",
+   "pixels": [
+    881,
+    821
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.nexus-smithy",
+   "placement": {
+    "width": 520,
+    "height": 485,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 107
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-arena",
+   "asset": "ki-v2-buildings-pyra-arena",
+   "pixels": [
+    967,
+    898
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-arena",
+   "placement": {
+    "width": 520,
+    "height": 483,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 106
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-depot",
+   "asset": "ki-v2-buildings-pyra-depot",
+   "pixels": [
+    1032,
+    997
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-depot",
+   "placement": {
+    "width": 520,
+    "height": 502,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 110
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-hall",
+   "asset": "ki-v2-buildings-pyra-hall",
+   "pixels": [
+    982,
+    955
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-hall",
+   "placement": {
+    "width": 520,
+    "height": 506,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 111
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-house",
+   "asset": "ki-v2-buildings-pyra-house",
+   "pixels": [
+    929,
+    866
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-house",
+   "placement": {
+    "width": 320,
+    "height": 298,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 74
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-inn",
+   "asset": "ki-v2-buildings-pyra-inn",
+   "pixels": [
+    877,
+    937
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-inn",
+   "placement": {
+    "width": 520,
+    "height": 556,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 122
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-market",
+   "asset": "ki-v2-buildings-pyra-market",
+   "pixels": [
+    1018,
+    987
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-market",
+   "placement": {
+    "width": 520,
+    "height": 504,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 111
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.pyra-smithy",
+   "asset": "ki-v2-buildings-pyra-smithy",
+   "pixels": [
+    969,
+    1036
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.pyra-smithy",
+   "placement": {
+    "width": 520,
+    "height": 556,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 122
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-arena",
+   "asset": "ki-v2-buildings-verdant-arena",
+   "pixels": [
+    894,
+    956
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-arena",
+   "placement": {
+    "width": 520,
+    "height": 556,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 122
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-depot",
+   "asset": "ki-v2-buildings-verdant-depot",
+   "pixels": [
+    987,
+    1036
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-depot",
+   "placement": {
+    "width": 520,
+    "height": 546,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 120
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-hall",
+   "asset": "ki-v2-buildings-verdant-hall",
+   "pixels": [
+    969,
+    954
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-hall",
+   "placement": {
+    "width": 520,
+    "height": 512,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 113
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-house",
+   "asset": "ki-v2-buildings-verdant-house",
+   "pixels": [
+    873,
+    810
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-house",
+   "placement": {
+    "width": 320,
+    "height": 297,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 74
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-inn",
+   "asset": "ki-v2-buildings-verdant-inn",
+   "pixels": [
+    929,
+    991
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-inn",
+   "placement": {
+    "width": 520,
+    "height": 555,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 122
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-market",
+   "asset": "ki-v2-buildings-verdant-market",
+   "pixels": [
+    1036,
+    965
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-market",
+   "placement": {
+    "width": 520,
+    "height": 484,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 106
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-buildings.verdant-smithy",
+   "asset": "ki-v2-buildings-verdant-smithy",
+   "pixels": [
+    990,
+    973
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-buildings.verdant-smithy",
+   "placement": {
+    "width": 520,
+    "height": 511,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 112
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.aether-archive",
+   "asset": "ki-v2-landmarks-aether-archive",
+   "pixels": [
+    951,
+    1028
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.aether-archive",
+   "placement": {
+    "width": 200,
+    "height": 216,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 48
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.aether-observatory",
+   "asset": "ki-v2-landmarks-aether-observatory",
+   "pixels": [
+    845,
+    986
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.aether-observatory",
+   "placement": {
+    "width": 240,
+    "height": 280,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 62
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.aether-sanctum",
+   "asset": "ki-v2-landmarks-aether-sanctum",
+   "pixels": [
+    1015,
+    974
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.aether-sanctum",
+   "placement": {
+    "width": 240,
+    "height": 230,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 51
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.aether-spring",
+   "asset": "ki-v2-landmarks-aether-spring",
+   "pixels": [
+    930,
+    1000
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.aether-spring",
+   "placement": {
+    "width": 240,
+    "height": 258,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 57
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.nexus-lab",
+   "asset": "ki-v2-landmarks-nexus-lab",
+   "pixels": [
+    987,
+    1035
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.nexus-lab",
+   "placement": {
+    "width": 240,
+    "height": 252,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 55
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.nexus-monolith",
+   "asset": "ki-v2-landmarks-nexus-monolith",
+   "pixels": [
+    892,
+    1020
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.nexus-monolith",
+   "placement": {
+    "width": 240,
+    "height": 274,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 60
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.nexus-reactor",
+   "asset": "ki-v2-landmarks-nexus-reactor",
+   "pixels": [
+    1042,
+    1006
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.nexus-reactor",
+   "placement": {
+    "width": 240,
+    "height": 232,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 51
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.nexus-terminal",
+   "asset": "ki-v2-landmarks-nexus-terminal",
+   "pixels": [
+    1042,
+    1018
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.nexus-terminal",
+   "placement": {
+    "width": 240,
+    "height": 234,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 51
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.pyra-altar",
+   "asset": "ki-v2-landmarks-pyra-altar",
+   "pixels": [
+    1022,
+    1024
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.pyra-altar",
+   "placement": {
+    "width": 200,
+    "height": 200,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 44
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.pyra-fortress",
+   "asset": "ki-v2-landmarks-pyra-fortress",
+   "pixels": [
+    1042,
+    1042
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.pyra-fortress",
+   "placement": {
+    "width": 520,
+    "height": 520,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 406,
+     "height": 114
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.pyra-statue",
+   "asset": "ki-v2-landmarks-pyra-statue",
+   "pixels": [
+    627,
+    1032
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.pyra-statue",
+   "placement": {
+    "width": 200,
+    "height": 329,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 72
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.pyra-war-shrine",
+   "asset": "ki-v2-landmarks-pyra-war-shrine",
+   "pixels": [
+    1025,
+    991
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.pyra-war-shrine",
+   "placement": {
+    "width": 240,
+    "height": 232,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 51
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.verdant-bridge",
+   "asset": "ki-v2-landmarks-verdant-bridge",
+   "pixels": [
+    1006,
+    1012
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.verdant-bridge",
+   "placement": {
+    "width": 360,
+    "height": 362,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.verdant-cottage",
+   "asset": "ki-v2-landmarks-verdant-cottage",
+   "pixels": [
+    930,
+    977
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.verdant-cottage",
+   "placement": {
+    "width": 240,
+    "height": 252,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 55
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.verdant-fountain",
+   "asset": "ki-v2-landmarks-verdant-fountain",
+   "pixels": [
+    1029,
+    1019
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.verdant-fountain",
+   "placement": {
+    "width": 130,
+    "height": 129,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
    "binding": "object.ki-v2-objects.aether-boulder-0",
    "asset": "ki-v2-objects-aether-boulder-0",
    "pixels": [
@@ -10901,8 +11927,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10916,8 +11942,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10931,8 +11957,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10946,8 +11972,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10961,8 +11987,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10976,8 +12002,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10991,8 +12017,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11006,8 +12032,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11021,8 +12047,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11036,8 +12062,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11051,8 +12077,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11066,8 +12092,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11081,8 +12107,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11096,8 +12122,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11111,8 +12137,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11126,8 +12152,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11141,8 +12167,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11156,8 +12182,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11171,8 +12197,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11186,8 +12212,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11201,8 +12227,128 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-aether-garden-0",
+   "asset": "ki-v2-city-aether-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-aether-plaza-0",
+   "asset": "ki-v2-city-aether-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-nexus-garden-0",
+   "asset": "ki-v2-city-nexus-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-nexus-plaza-0",
+   "asset": "ki-v2-city-nexus-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-pyra-garden-0",
+   "asset": "ki-v2-city-pyra-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-pyra-plaza-0",
+   "asset": "ki-v2-city-pyra-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-verdant-garden-0",
+   "asset": "ki-v2-city-verdant-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-verdant-plaza-0",
+   "asset": "ki-v2-city-verdant-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
    ]
   },
   {
@@ -11216,8 +12362,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11231,8 +12377,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11246,8 +12392,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11261,8 +12407,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11276,8 +12422,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11291,8 +12437,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11306,8 +12452,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11321,8 +12467,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11336,8 +12482,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11351,8 +12497,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11366,8 +12512,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11381,8 +12527,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11396,8 +12542,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11411,8 +12557,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11426,8 +12572,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11441,8 +12587,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11456,8 +12602,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11471,8 +12617,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11486,8 +12632,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11501,8 +12647,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11516,8 +12662,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11531,8 +12677,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11546,8 +12692,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11561,8 +12707,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11576,8 +12722,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11591,8 +12737,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11606,8 +12752,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11621,8 +12767,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11636,8 +12782,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11651,8 +12797,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11666,8 +12812,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11681,8 +12827,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11696,8 +12842,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11711,8 +12857,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11726,8 +12872,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11741,8 +12887,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11756,8 +12902,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11771,8 +12917,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11786,8 +12932,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11801,8 +12947,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11816,8 +12962,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11831,8 +12977,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11846,8 +12992,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11861,8 +13007,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11876,8 +13022,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11891,8 +13037,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11906,8 +13052,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11921,8 +13067,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11936,8 +13082,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11951,8 +13097,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11966,8 +13112,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11981,8 +13127,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11996,8 +13142,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -12011,8 +13157,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -12026,8 +13172,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12041,8 +13187,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12056,8 +13202,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12071,8 +13217,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12086,8 +13232,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12101,8 +13247,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12116,8 +13262,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12131,8 +13277,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12146,8 +13292,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12954,6 +14100,206 @@
    "id": "ki-v2-terrain",
    "version": "1.0.0",
    "assets": 84
+  },
+  {
+   "id": "ki-v2-city",
+   "version": "1.0.0",
+   "assets": 8
+  },
+  {
+   "id": "enemy-v2-aether-duch-bibliotekarza",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-krysztalowy-motyl",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-lew-swiatyni",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-marionetka-rytualu",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-mgielny-zuraw",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-pergaminowy-straznik",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-swietlik-pieczeci",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-szmaragdowy-waz",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-aether-zloty-skarabeusz",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-dron-zwiadowca",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-kruk-danych",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-latarnia-plazmowa",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-pajak-spawalniczy",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-pelzacz-serwisowy",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-pies-lowca",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-roj-nanitow",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-skaner-gasienicowy",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-straznik-rdzenia",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-nexus-wiezyczka-autonomiczna",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-byk-areny",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-golem-ruin",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-magmowy-krab",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-ognista-salamandra",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-plomien-duch",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-popielny-wilk",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-skalny-berserker",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-skorpion-obsydianowy",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-wegielek",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-pyra-zarowy-nietoperz",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-bursztynowa-osa",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-cierniowy-wilk",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-grzybowy-zarodnik",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-lesny-pajak",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-lisciak-skrytobojca",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-puchacz-pylowy",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-skalny-jelen",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-straznik-ruin",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "ki-v2-buildings",
+   "version": "1.0.0",
+   "assets": 28
+  },
+  {
+   "id": "ki-v2-landmarks",
+   "version": "1.0.0",
+   "assets": 15
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."
