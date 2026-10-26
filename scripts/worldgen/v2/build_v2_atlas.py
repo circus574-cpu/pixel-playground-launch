@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """World v2 atlas for /mapa (preview ?ki-world-v2=1): the painted equirectangular planet of the v2
-geometry (deliveries/world-v2-art/maps/globe-equirect.webp, 45% land) plus traced region outlines.
+geometry (deliveries/world-v2-art/maps/globe-painted.webp: globe-equirect.webp repainted on the GPU with the old atlas as style reference, 45% land) plus traced region outlines.
 
   python3 scripts/worldgen/v2/build_v2_atlas.py && python3 scripts/build_globe_textures.py --v2
 Writes src/assets/planet-map/atlas-v2-{1920,3840}.webp, src/components/planet-map/atlasRegions.v2.json
@@ -20,7 +20,7 @@ from migration_preview import decode  # noqa: E402
 P = ROOT / 'public/game/worlds/superior-v2-prototype'
 ASSETS = ROOT / 'src/assets/planet-map'
 MW, MH = 2000, 1000
-src = Image.open(ROOT / 'deliveries/world-v2-art/maps/globe-equirect.webp').convert('RGB')
+src = Image.open(ROOT / 'deliveries/world-v2-art/maps/globe-painted.webp').convert('RGB')
 src.resize((3840, 1920), Image.LANCZOS).save(ASSETS / 'atlas-v2-3840.webp', 'WEBP', quality=88, method=6)
 src.resize((1920, 960), Image.LANCZOS).save(ASSETS / 'atlas-v2-1920.webp', 'WEBP', quality=86, method=6)
 m = read(P / 'sphere-chunks.json'); labels = np.zeros((m['height'], m['width']), np.uint8)
