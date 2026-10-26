@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { isCityStage } from "../../game/city/types";
 import { CityDirectory } from "./CityPanels";
 import { QuestsV2Journal } from "./QuestsV2Journal";
+import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { WORLDS } from "../../game/world/worlds";
 import {
   ITEMS,
@@ -130,56 +131,85 @@ export function QuestJournal({
   const world = worldOverride ?? WORLDS[state.player.continent];
   return (
     <div className="ki-adventure-panel">
-      {state.quests.map((q) => (
-        <article className="ki-quest-entry" key={q.id}>
-          <h3>
-            {q.status === "done" ? "✓ " : "◆ "}
-            {q.name}
-          </h3>
-          <p>{q.text}</p>
-          <small>
-            Nagroda:{" "}
-            {q.id === "steps"
-              ? isCityStage(world)
-                ? "40 XP · 40 monet"
-                : "40 XP"
+      {WORLD_V2 && <h3 className="ki-qv2-title">Pierwsze kroki</h3>}
+      {state.quests.map((q) => {
+        const npcId = q.id === "steps" ? "guide" : q.id === "boars" ? "hunter" : "smith";
+        const npcName =
+          world.id === "verdant"
+            ? q.id === "steps"
+              ? "Airy"
               : q.id === "boars"
-                ? "80 XP · 30 monet · Ostrze strażnika"
-                : "40 XP"}
-          </small>
-          {q.status !== "done" && (
+                ? "Rena"
+                : "Taro"
+            : world.npcs.find((n) => n.id === npcId)!.name;
+        const reward =
+          q.id === "steps"
+            ? isCityStage(world)
+              ? "40 XP · 40 monet"
+              : "40 XP"
+            : q.id === "boars"
+              ? "80 XP · 30 monet · Ostrze strażnika"
+              : "40 XP";
+        const action =
+          q.status !== "done" ? (
             <button
+              className={WORLD_V2 ? "ki-qv2-accept" : undefined}
               onClick={() => {
                 close();
                 if (q.id === "steps" && q.status === "active")
                   send({ type: "move", ...world.market });
-                else
-                  send({
-                    type: "interact",
-                    npc: q.id === "steps" ? "guide" : q.id === "boars" ? "hunter" : "smith",
-                  });
+                else send({ type: "interact", npc: npcId });
               }}
             >
               {q.id === "steps" && q.status === "active"
                 ? world.id === "verdant"
                   ? "Idź na rynek"
                   : world.market.action
-                : "Idź do " +
-                  (world.id === "verdant"
-                    ? q.id === "steps"
-                      ? "Airy"
-                      : q.id === "boars"
-                        ? "Rena"
-                        : "Taro"
-                    : world.npcs.find(
-                        (n) =>
-                          n.id ===
-                          (q.id === "steps" ? "guide" : q.id === "boars" ? "hunter" : "smith"),
-                      )!.name)}
+                : "Idź do " + npcName}
             </button>
-          )}
-        </article>
-      ))}
+          ) : null;
+        if (WORLD_V2) {
+          // World v2: the starter quests share the card look of the continent adventures.
+          const cardState = q.status === "done" ? "completed" : "active";
+          const giver = world.npcs.find((n) => n.id === npcId)?.name ?? npcName;
+          return (
+            <article className={"ki-qv2-card is-" + cardState} key={q.id}>
+              <img
+                className="ki-qv2-portrait"
+                src={`/game/portraits-v2/npc-${giver.toLowerCase().replace(/[^a-z0-9]/g, "")}.webp`}
+                alt={giver}
+                width={64}
+                height={78}
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
+              <h3>
+                {q.status === "done" ? "✓ " : "◆ "}
+                {q.name}
+              </h3>
+              <div className="ki-qv2-meta">
+                <span className={"ki-qv2-badge is-" + cardState}>
+                  {q.status === "done" ? "Ukończone" : "W toku"}
+                </span>
+                <span>{giver}</span>
+                <span className="ki-qv2-reward">+{reward}</span>
+              </div>
+              <p className="ki-qv2-story">{q.text}</p>
+              {action}
+            </article>
+          );
+        }
+        return (
+          <article className="ki-quest-entry" key={q.id}>
+            <h3>
+              {q.status === "done" ? "✓ " : "◆ "}
+              {q.name}
+            </h3>
+            <p>{q.text}</p>
+            <small>Nagroda: {reward}</small>
+            {action}
+          </article>
+        );
+      })}
       <p className="ki-panel-caption">
         Zadania można wykonać kolejno. Postęp i odebrane nagrody zapisują się automatycznie.
       </p>
