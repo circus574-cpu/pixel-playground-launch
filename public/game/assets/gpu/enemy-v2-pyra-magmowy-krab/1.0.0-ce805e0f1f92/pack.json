@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-v2-pyra-magmowy-krab",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "enemy-v2-pyra-magmowy-krab-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "enemy-v2-pyra-magmowy-krab-page-1",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-1.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-1.json",
+      "width": 2048,
+      "height": 1280
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-v2-pyra-magmowy-krab",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/idle/down/00",
+              "enemy-v2-pyra-magmowy-krab/idle/down/01",
+              "enemy-v2-pyra-magmowy-krab/idle/down/02",
+              "enemy-v2-pyra-magmowy-krab/idle/down/03",
+              "enemy-v2-pyra-magmowy-krab/idle/down/04",
+              "enemy-v2-pyra-magmowy-krab/idle/down/05",
+              "enemy-v2-pyra-magmowy-krab/idle/down/06",
+              "enemy-v2-pyra-magmowy-krab/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/03",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/04",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/05",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/06",
+              "enemy-v2-pyra-magmowy-krab/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/idle/left/00",
+              "enemy-v2-pyra-magmowy-krab/idle/left/01",
+              "enemy-v2-pyra-magmowy-krab/idle/left/02",
+              "enemy-v2-pyra-magmowy-krab/idle/left/03",
+              "enemy-v2-pyra-magmowy-krab/idle/left/04",
+              "enemy-v2-pyra-magmowy-krab/idle/left/05",
+              "enemy-v2-pyra-magmowy-krab/idle/left/06",
+              "enemy-v2-pyra-magmowy-krab/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/03",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/04",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/05",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/06",
+              "enemy-v2-pyra-magmowy-krab/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/idle/up/00",
+              "enemy-v2-pyra-magmowy-krab/idle/up/01",
+              "enemy-v2-pyra-magmowy-krab/idle/up/02",
+              "enemy-v2-pyra-magmowy-krab/idle/up/03",
+              "enemy-v2-pyra-magmowy-krab/idle/up/04",
+              "enemy-v2-pyra-magmowy-krab/idle/up/05",
+              "enemy-v2-pyra-magmowy-krab/idle/up/06",
+              "enemy-v2-pyra-magmowy-krab/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/03",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/04",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/05",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/06",
+              "enemy-v2-pyra-magmowy-krab/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/idle/right/00",
+              "enemy-v2-pyra-magmowy-krab/idle/right/01",
+              "enemy-v2-pyra-magmowy-krab/idle/right/02",
+              "enemy-v2-pyra-magmowy-krab/idle/right/03",
+              "enemy-v2-pyra-magmowy-krab/idle/right/04",
+              "enemy-v2-pyra-magmowy-krab/idle/right/05",
+              "enemy-v2-pyra-magmowy-krab/idle/right/06",
+              "enemy-v2-pyra-magmowy-krab/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/03",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/04",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/05",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/06",
+              "enemy-v2-pyra-magmowy-krab/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/walk/down/00",
+              "enemy-v2-pyra-magmowy-krab/walk/down/01",
+              "enemy-v2-pyra-magmowy-krab/walk/down/02",
+              "enemy-v2-pyra-magmowy-krab/walk/down/03",
+              "enemy-v2-pyra-magmowy-krab/walk/down/04",
+              "enemy-v2-pyra-magmowy-krab/walk/down/05",
+              "enemy-v2-pyra-magmowy-krab/walk/down/06",
+              "enemy-v2-pyra-magmowy-krab/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/03",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/04",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/05",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/06",
+              "enemy-v2-pyra-magmowy-krab/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/walk/left/00",
+              "enemy-v2-pyra-magmowy-krab/walk/left/01",
+              "enemy-v2-pyra-magmowy-krab/walk/left/02",
+              "enemy-v2-pyra-magmowy-krab/walk/left/03",
+              "enemy-v2-pyra-magmowy-krab/walk/left/04",
+              "enemy-v2-pyra-magmowy-krab/walk/left/05",
+              "enemy-v2-pyra-magmowy-krab/walk/left/06",
+              "enemy-v2-pyra-magmowy-krab/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/03",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/04",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/05",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/06",
+              "enemy-v2-pyra-magmowy-krab/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/walk/up/00",
+              "enemy-v2-pyra-magmowy-krab/walk/up/01",
+              "enemy-v2-pyra-magmowy-krab/walk/up/02",
+              "enemy-v2-pyra-magmowy-krab/walk/up/03",
+              "enemy-v2-pyra-magmowy-krab/walk/up/04",
+              "enemy-v2-pyra-magmowy-krab/walk/up/05",
+              "enemy-v2-pyra-magmowy-krab/walk/up/06",
+              "enemy-v2-pyra-magmowy-krab/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/03",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/04",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/05",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/06",
+              "enemy-v2-pyra-magmowy-krab/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/walk/right/00",
+              "enemy-v2-pyra-magmowy-krab/walk/right/01",
+              "enemy-v2-pyra-magmowy-krab/walk/right/02",
+              "enemy-v2-pyra-magmowy-krab/walk/right/03",
+              "enemy-v2-pyra-magmowy-krab/walk/right/04",
+              "enemy-v2-pyra-magmowy-krab/walk/right/05",
+              "enemy-v2-pyra-magmowy-krab/walk/right/06",
+              "enemy-v2-pyra-magmowy-krab/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/03",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/04",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/05",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/06",
+              "enemy-v2-pyra-magmowy-krab/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/attack/down/00",
+              "enemy-v2-pyra-magmowy-krab/attack/down/01",
+              "enemy-v2-pyra-magmowy-krab/attack/down/02",
+              "enemy-v2-pyra-magmowy-krab/attack/down/03",
+              "enemy-v2-pyra-magmowy-krab/attack/down/04",
+              "enemy-v2-pyra-magmowy-krab/attack/down/05",
+              "enemy-v2-pyra-magmowy-krab/attack/down/06",
+              "enemy-v2-pyra-magmowy-krab/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/03",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/04",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/05",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/06",
+              "enemy-v2-pyra-magmowy-krab/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/attack/left/00",
+              "enemy-v2-pyra-magmowy-krab/attack/left/01",
+              "enemy-v2-pyra-magmowy-krab/attack/left/02",
+              "enemy-v2-pyra-magmowy-krab/attack/left/03",
+              "enemy-v2-pyra-magmowy-krab/attack/left/04",
+              "enemy-v2-pyra-magmowy-krab/attack/left/05",
+              "enemy-v2-pyra-magmowy-krab/attack/left/06",
+              "enemy-v2-pyra-magmowy-krab/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/03",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/04",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/05",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/06",
+              "enemy-v2-pyra-magmowy-krab/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/attack/up/00",
+              "enemy-v2-pyra-magmowy-krab/attack/up/01",
+              "enemy-v2-pyra-magmowy-krab/attack/up/02",
+              "enemy-v2-pyra-magmowy-krab/attack/up/03",
+              "enemy-v2-pyra-magmowy-krab/attack/up/04",
+              "enemy-v2-pyra-magmowy-krab/attack/up/05",
+              "enemy-v2-pyra-magmowy-krab/attack/up/06",
+              "enemy-v2-pyra-magmowy-krab/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/03",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/04",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/05",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/06",
+              "enemy-v2-pyra-magmowy-krab/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/attack/right/00",
+              "enemy-v2-pyra-magmowy-krab/attack/right/01",
+              "enemy-v2-pyra-magmowy-krab/attack/right/02",
+              "enemy-v2-pyra-magmowy-krab/attack/right/03",
+              "enemy-v2-pyra-magmowy-krab/attack/right/04",
+              "enemy-v2-pyra-magmowy-krab/attack/right/05",
+              "enemy-v2-pyra-magmowy-krab/attack/right/06",
+              "enemy-v2-pyra-magmowy-krab/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/03",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/04",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/05",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/06",
+              "enemy-v2-pyra-magmowy-krab/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/skill/down/00",
+              "enemy-v2-pyra-magmowy-krab/skill/down/01",
+              "enemy-v2-pyra-magmowy-krab/skill/down/02",
+              "enemy-v2-pyra-magmowy-krab/skill/down/03",
+              "enemy-v2-pyra-magmowy-krab/skill/down/04",
+              "enemy-v2-pyra-magmowy-krab/skill/down/05",
+              "enemy-v2-pyra-magmowy-krab/skill/down/06",
+              "enemy-v2-pyra-magmowy-krab/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/03",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/04",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/05",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/06",
+              "enemy-v2-pyra-magmowy-krab/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/skill/left/00",
+              "enemy-v2-pyra-magmowy-krab/skill/left/01",
+              "enemy-v2-pyra-magmowy-krab/skill/left/02",
+              "enemy-v2-pyra-magmowy-krab/skill/left/03",
+              "enemy-v2-pyra-magmowy-krab/skill/left/04",
+              "enemy-v2-pyra-magmowy-krab/skill/left/05",
+              "enemy-v2-pyra-magmowy-krab/skill/left/06",
+              "enemy-v2-pyra-magmowy-krab/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/03",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/04",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/05",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/06",
+              "enemy-v2-pyra-magmowy-krab/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/skill/up/00",
+              "enemy-v2-pyra-magmowy-krab/skill/up/01",
+              "enemy-v2-pyra-magmowy-krab/skill/up/02",
+              "enemy-v2-pyra-magmowy-krab/skill/up/03",
+              "enemy-v2-pyra-magmowy-krab/skill/up/04",
+              "enemy-v2-pyra-magmowy-krab/skill/up/05",
+              "enemy-v2-pyra-magmowy-krab/skill/up/06",
+              "enemy-v2-pyra-magmowy-krab/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/03",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/04",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/05",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/06",
+              "enemy-v2-pyra-magmowy-krab/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/skill/right/00",
+              "enemy-v2-pyra-magmowy-krab/skill/right/01",
+              "enemy-v2-pyra-magmowy-krab/skill/right/02",
+              "enemy-v2-pyra-magmowy-krab/skill/right/03",
+              "enemy-v2-pyra-magmowy-krab/skill/right/04",
+              "enemy-v2-pyra-magmowy-krab/skill/right/05",
+              "enemy-v2-pyra-magmowy-krab/skill/right/06",
+              "enemy-v2-pyra-magmowy-krab/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/03",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/04",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/05",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/06",
+              "enemy-v2-pyra-magmowy-krab/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-1",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/hit/down/00",
+              "enemy-v2-pyra-magmowy-krab/hit/down/01",
+              "enemy-v2-pyra-magmowy-krab/hit/down/02",
+              "enemy-v2-pyra-magmowy-krab/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/hit/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/hit/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/hit/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/hit/left/00",
+              "enemy-v2-pyra-magmowy-krab/hit/left/01",
+              "enemy-v2-pyra-magmowy-krab/hit/left/02",
+              "enemy-v2-pyra-magmowy-krab/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/hit/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/hit/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/hit/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/hit/up/00",
+              "enemy-v2-pyra-magmowy-krab/hit/up/01",
+              "enemy-v2-pyra-magmowy-krab/hit/up/02",
+              "enemy-v2-pyra-magmowy-krab/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/hit/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/hit/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/hit/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/hit/right/00",
+              "enemy-v2-pyra-magmowy-krab/hit/right/01",
+              "enemy-v2-pyra-magmowy-krab/hit/right/02",
+              "enemy-v2-pyra-magmowy-krab/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/hit/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/hit/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/hit/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/death/down/00",
+              "enemy-v2-pyra-magmowy-krab/death/down/01",
+              "enemy-v2-pyra-magmowy-krab/death/down/02",
+              "enemy-v2-pyra-magmowy-krab/death/down/03",
+              "enemy-v2-pyra-magmowy-krab/death/down/04",
+              "enemy-v2-pyra-magmowy-krab/death/down/05",
+              "enemy-v2-pyra-magmowy-krab/death/down/06",
+              "enemy-v2-pyra-magmowy-krab/death/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/death/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/03",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/04",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/05",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/06",
+              "enemy-v2-pyra-magmowy-krab/death/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/death/left/00",
+              "enemy-v2-pyra-magmowy-krab/death/left/01",
+              "enemy-v2-pyra-magmowy-krab/death/left/02",
+              "enemy-v2-pyra-magmowy-krab/death/left/03",
+              "enemy-v2-pyra-magmowy-krab/death/left/04",
+              "enemy-v2-pyra-magmowy-krab/death/left/05",
+              "enemy-v2-pyra-magmowy-krab/death/left/06",
+              "enemy-v2-pyra-magmowy-krab/death/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/death/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/03",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/04",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/05",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/06",
+              "enemy-v2-pyra-magmowy-krab/death/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/death/up/00",
+              "enemy-v2-pyra-magmowy-krab/death/up/01",
+              "enemy-v2-pyra-magmowy-krab/death/up/02",
+              "enemy-v2-pyra-magmowy-krab/death/up/03",
+              "enemy-v2-pyra-magmowy-krab/death/up/04",
+              "enemy-v2-pyra-magmowy-krab/death/up/05",
+              "enemy-v2-pyra-magmowy-krab/death/up/06",
+              "enemy-v2-pyra-magmowy-krab/death/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/death/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/03",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/04",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/05",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/06",
+              "enemy-v2-pyra-magmowy-krab/death/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/death/right/00",
+              "enemy-v2-pyra-magmowy-krab/death/right/01",
+              "enemy-v2-pyra-magmowy-krab/death/right/02",
+              "enemy-v2-pyra-magmowy-krab/death/right/03",
+              "enemy-v2-pyra-magmowy-krab/death/right/04",
+              "enemy-v2-pyra-magmowy-krab/death/right/05",
+              "enemy-v2-pyra-magmowy-krab/death/right/06",
+              "enemy-v2-pyra-magmowy-krab/death/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/death/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/03",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/04",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/05",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/06",
+              "enemy-v2-pyra-magmowy-krab/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-v2-pyra-magmowy-krab-page-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-pyra-magmowy-krab/respawn/down/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-pyra-magmowy-krab/respawn/left/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-pyra-magmowy-krab/respawn/up/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-pyra-magmowy-krab/respawn/right/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/00",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/01",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/02",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/03",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/04",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/05",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/06",
+              "enemy-v2-pyra-magmowy-krab/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "pyra.enemy.magmowy-krab": "enemy-v2-pyra-magmowy-krab"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

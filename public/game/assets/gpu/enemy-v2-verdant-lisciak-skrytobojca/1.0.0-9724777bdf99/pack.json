@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "id": "enemy-v2-verdant-lisciak-skrytobojca",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "enemy-v2-verdant-lisciak-skrytobojca-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "enemy-v2-verdant-lisciak-skrytobojca-page-1",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-1.webp",
+      "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-1.json",
+      "width": 2048,
+      "height": 1280
+    }
+  ],
+  "actors": [
+    {
+      "id": "enemy-v2-verdant-lisciak-skrytobojca",
+      "profile": "enemy",
+      "presentation": "legacy",
+      "size": [
+        84,
+        84
+      ],
+      "origin": [
+        0.5,
+        0.8
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-1",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down/03"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-left/03"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/left/03"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-left/03"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up/03"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/up-right/03"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/right/03"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "enemy-v2-verdant-lisciak-skrytobojca-page-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down/07"
+            ],
+            "down-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-left/07"
+            ],
+            "left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/left/07"
+            ],
+            "up-left": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-left/07"
+            ],
+            "up": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up/07"
+            ],
+            "up-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/up-right/07"
+            ],
+            "right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/right/07"
+            ],
+            "down-right": [
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/00",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/01",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/02",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/03",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/04",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/05",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/06",
+              "enemy-v2-verdant-lisciak-skrytobojca/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "verdant.enemy.lisciak-skrytobojca": "enemy-v2-verdant-lisciak-skrytobojca"
+  },
+  "renderBindings": {},
+  "effects": {}
+}
