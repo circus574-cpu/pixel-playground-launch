@@ -497,7 +497,9 @@ export function GameHud({
       </button>
       <div className="ki-location">
         <BrandMark compact />
-        <strong>{state.building?.name ?? world.settlement}</strong>
+        <strong>
+          {state.building?.name ?? (WORLD_V2 && !state.inCity ? "Dzikie ziemie" : world.settlement)}
+        </strong>
         <i />
         {world.name}
       </div>
@@ -749,7 +751,7 @@ export function GameHud({
       )}
       {!panel && !state.dialogue && !state.depotOpen && !chatOpen && !toolsOpen && !player.dead && (
         <div className="ki-context-actions">
-          {world.city && !player.interior && (
+          {world.city && !player.interior && (!WORLD_V2 || state.inCity) && (
             <button onClick={() => toggle(WORLD_V2 ? "planet" : "map")}>Plan miasta</button>
           )}
           {state.nearbyBuilding && (

@@ -1471,6 +1471,8 @@ export class GameSession implements MonsterHost {
     return {
       x: this.player.x,
       y: this.player.y,
+      /** Within a safe city (or a city-stage map), not out in the wilderness. */
+      inCity: this.safe,
       player: structuredClone(this.player),
       stats: {
         maxHp: live.maxHp,
@@ -1671,6 +1673,7 @@ export function initialView(player?: Player): GameViewState {
   const s = stats(p);
   return {
     ...p,
+    inCity: true,
     player: p,
     stats: {
       maxHp: s.maxHp,
