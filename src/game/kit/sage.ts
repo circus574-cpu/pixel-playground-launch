@@ -64,9 +64,8 @@ export class SageKit extends Kit {
       weaken: this.has("B6") ? 0.1 : undefined,
     });
   }
-  private explodeSeal(foe: Foe, id: string) {
+  private explodeSeal(foe: Foe, id: string, bonus: number) {
     if (foe.hp <= 0) return;
-    const bonus = this.abilityBonus();
     this.port.emit({ type: "burst", x: foe.x, y: foe.y, ability: id, radius: 120 });
     this.strike(foe, 2, { tags: ["ki", "area"], ranged: true, ability: id }, bonus);
     if (this.has("A5"))
@@ -85,6 +84,11 @@ export class SageKit extends Kit {
       });
     if (this.has("A8")) this.port.addKi(15);
   }
+  override use(id: string): UseResult {
+    const result = super.use(id);
+    if (result.ok && id !== "R") this.leaveCircle(100);
+    return result;
+  }
   protected override cast(id: string): UseResult {
     const p = this.port.player;
     const s = this.stats;
@@ -101,8 +105,8 @@ export class SageKit extends Kit {
           ability: "A1",
           to: { x: foe.x, y: foe.y },
         });
-        this.schedule(3000, () => this.explodeSeal(foe, "A1"));
-        this.leaveCircle(100);
+        const bonus = this.abilityBonus();
+        this.schedule(3000, () => this.explodeSeal(foe, "A1", bonus));
         return { ok: true };
       }
       case "A4": {
@@ -129,7 +133,6 @@ export class SageKit extends Kit {
           },
           onEnd: () => {},
         });
-        this.leaveCircle(100);
         return { ok: true };
       }
       case "A9": {
@@ -143,7 +146,6 @@ export class SageKit extends Kit {
           for (const f of this.port.foesIn(at, 200))
             this.strike(f, 4.2, { tags: ["ki", "area"], ranged: true, ability: "A9" }, bonus);
         });
-        this.leaveCircle(100);
         return { ok: true };
       }
       case "B1": {
@@ -156,7 +158,6 @@ export class SageKit extends Kit {
           reflectProjectile: this.has("B5") ? 0.15 : undefined,
           mirror: this.has("B8") ? true : undefined,
         });
-        this.leaveCircle(100);
         return { ok: true };
       }
       case "B4": {

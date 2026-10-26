@@ -10,6 +10,7 @@
     "scripts/measure-game.ts",
     "scripts/pack-gpu-frames.ts",
     "scripts/city/**/*.ts",
+    "scripts/combat/**/*.ts",
     "scripts/worldgen/**/*.ts"
   ],
   "compilerOptions": {

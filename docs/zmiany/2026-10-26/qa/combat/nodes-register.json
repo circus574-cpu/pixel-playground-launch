@@ -1,0 +1,814 @@
+[
+  {
+    "race": "planetary",
+    "node": "R",
+    "name": "Cios Szlaku",
+    "state": "passed",
+    "test": "planetary: node runtime contracts R: Cios Szlaku"
+  },
+  {
+    "race": "planetary",
+    "node": "A1",
+    "name": "Szybki Unik",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A1: Szybki Unik"
+  },
+  {
+    "race": "planetary",
+    "node": "A2",
+    "name": "Lekki Krok",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A2: Lekki Krok"
+  },
+  {
+    "race": "planetary",
+    "node": "A3",
+    "name": "Pęd Szlaku",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A3: Pęd Szlaku"
+  },
+  {
+    "race": "planetary",
+    "node": "A4",
+    "name": "Wir Energii",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A4: Wir Energii"
+  },
+  {
+    "race": "planetary",
+    "node": "A5",
+    "name": "Wiatr w Plecy",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A5: Wiatr w Plecy"
+  },
+  {
+    "race": "planetary",
+    "node": "A6",
+    "name": "Oko Zwiadowcy",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A6: Oko Zwiadowcy"
+  },
+  {
+    "race": "planetary",
+    "node": "A7",
+    "name": "Cios z Cienia",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A7: Cios z Cienia"
+  },
+  {
+    "race": "planetary",
+    "node": "A8",
+    "name": "Nieuchwytny",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A8: Nieuchwytny"
+  },
+  {
+    "race": "planetary",
+    "node": "A9",
+    "name": "Burza Wędrowca",
+    "state": "passed",
+    "test": "planetary: node runtime contracts A9: Burza Wędrowca"
+  },
+  {
+    "race": "planetary",
+    "node": "B1",
+    "name": "Impuls Ziemi",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B1: Impuls Ziemi"
+  },
+  {
+    "race": "planetary",
+    "node": "B2",
+    "name": "Adaptacja",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B2: Adaptacja"
+  },
+  {
+    "race": "planetary",
+    "node": "B3",
+    "name": "Kamienna Skóra",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B3: Kamienna Skóra"
+  },
+  {
+    "race": "planetary",
+    "node": "B4",
+    "name": "Kruszący Stąp",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B4: Kruszący Stąp"
+  },
+  {
+    "race": "planetary",
+    "node": "B5",
+    "name": "Rezonans",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B5: Rezonans"
+  },
+  {
+    "race": "planetary",
+    "node": "B6",
+    "name": "Żyła Ziemi",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B6: Żyła Ziemi"
+  },
+  {
+    "race": "planetary",
+    "node": "B7",
+    "name": "Głaz Strażnik",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B7: Głaz Strażnik"
+  },
+  {
+    "race": "planetary",
+    "node": "B8",
+    "name": "Trzęsienie",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B8: Trzęsienie"
+  },
+  {
+    "race": "planetary",
+    "node": "B9",
+    "name": "Gniew Doliny",
+    "state": "passed",
+    "test": "planetary: node runtime contracts B9: Gniew Doliny"
+  },
+  {
+    "race": "planetary",
+    "node": "C1",
+    "name": "Korzenny Oddech",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C1: Korzenny Oddech"
+  },
+  {
+    "race": "planetary",
+    "node": "C2",
+    "name": "Zielona Krew",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C2: Zielona Krew"
+  },
+  {
+    "race": "planetary",
+    "node": "C3",
+    "name": "Leśna Cierpliwość",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C3: Leśna Cierpliwość"
+  },
+  {
+    "race": "planetary",
+    "node": "C4",
+    "name": "Tarcza Liści",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C4: Tarcza Liści"
+  },
+  {
+    "race": "planetary",
+    "node": "C5",
+    "name": "Korzenie Odporności",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C5: Korzenie Odporności"
+  },
+  {
+    "race": "planetary",
+    "node": "C6",
+    "name": "Ziarno Życia",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C6: Ziarno Życia"
+  },
+  {
+    "race": "planetary",
+    "node": "C7",
+    "name": "Strażnik Gaju",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C7: Strażnik Gaju"
+  },
+  {
+    "race": "planetary",
+    "node": "C8",
+    "name": "Dar Lasu",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C8: Dar Lasu"
+  },
+  {
+    "race": "planetary",
+    "node": "C9",
+    "name": "Pieśń Korzeni",
+    "state": "passed",
+    "test": "planetary: node runtime contracts C9: Pieśń Korzeni"
+  },
+  {
+    "race": "planetary",
+    "node": "T",
+    "name": "Forma Rezonansu Świata",
+    "state": "passed",
+    "test": "planetary: node runtime contracts T: Forma Rezonansu Świata"
+  },
+  {
+    "race": "sage",
+    "node": "R",
+    "name": "Pocisk Ki",
+    "state": "passed",
+    "test": "sage: node runtime contracts R: Pocisk Ki"
+  },
+  {
+    "race": "sage",
+    "node": "A1",
+    "name": "Pieczęć Energii",
+    "state": "passed",
+    "test": "sage: node runtime contracts A1: Pieczęć Energii"
+  },
+  {
+    "race": "sage",
+    "node": "A2",
+    "name": "Znak Wiedzy",
+    "state": "passed",
+    "test": "sage: node runtime contracts A2: Znak Wiedzy"
+  },
+  {
+    "race": "sage",
+    "node": "A3",
+    "name": "Szybka Pieczęć",
+    "state": "passed",
+    "test": "sage: node runtime contracts A3: Szybka Pieczęć"
+  },
+  {
+    "race": "sage",
+    "node": "A4",
+    "name": "Strumień Ki",
+    "state": "passed",
+    "test": "sage: node runtime contracts A4: Strumień Ki"
+  },
+  {
+    "race": "sage",
+    "node": "A5",
+    "name": "Echo Pieczęci",
+    "state": "passed",
+    "test": "sage: node runtime contracts A5: Echo Pieczęci"
+  },
+  {
+    "race": "sage",
+    "node": "A6",
+    "name": "Precyzja Mędrca",
+    "state": "passed",
+    "test": "sage: node runtime contracts A6: Precyzja Mędrca"
+  },
+  {
+    "race": "sage",
+    "node": "A7",
+    "name": "Złoty Krąg",
+    "state": "passed",
+    "test": "sage: node runtime contracts A7: Złoty Krąg"
+  },
+  {
+    "race": "sage",
+    "node": "A8",
+    "name": "Pieczęć Skupienia",
+    "state": "passed",
+    "test": "sage: node runtime contracts A8: Pieczęć Skupienia"
+  },
+  {
+    "race": "sage",
+    "node": "A9",
+    "name": "Sąd Światła",
+    "state": "passed",
+    "test": "sage: node runtime contracts A9: Sąd Światła"
+  },
+  {
+    "race": "sage",
+    "node": "B1",
+    "name": "Świetlista Bariera",
+    "state": "passed",
+    "test": "sage: node runtime contracts B1: Świetlista Bariera"
+  },
+  {
+    "race": "sage",
+    "node": "B2",
+    "name": "Kontrola Kręgu",
+    "state": "passed",
+    "test": "sage: node runtime contracts B2: Kontrola Kręgu"
+  },
+  {
+    "race": "sage",
+    "node": "B3",
+    "name": "Gęste Światło",
+    "state": "passed",
+    "test": "sage: node runtime contracts B3: Gęste Światło"
+  },
+  {
+    "race": "sage",
+    "node": "B4",
+    "name": "Krąg Spowolnienia",
+    "state": "passed",
+    "test": "sage: node runtime contracts B4: Krąg Spowolnienia"
+  },
+  {
+    "race": "sage",
+    "node": "B5",
+    "name": "Odbicie",
+    "state": "passed",
+    "test": "sage: node runtime contracts B5: Odbicie"
+  },
+  {
+    "race": "sage",
+    "node": "B6",
+    "name": "Strażnik Kręgu",
+    "state": "passed",
+    "test": "sage: node runtime contracts B6: Strażnik Kręgu"
+  },
+  {
+    "race": "sage",
+    "node": "B7",
+    "name": "Kopuła",
+    "state": "passed",
+    "test": "sage: node runtime contracts B7: Kopuła"
+  },
+  {
+    "race": "sage",
+    "node": "B8",
+    "name": "Lustro",
+    "state": "passed",
+    "test": "sage: node runtime contracts B8: Lustro"
+  },
+  {
+    "race": "sage",
+    "node": "B9",
+    "name": "Świątynia Światła",
+    "state": "passed",
+    "test": "sage: node runtime contracts B9: Świątynia Światła"
+  },
+  {
+    "race": "sage",
+    "node": "C1",
+    "name": "Skupienie KI",
+    "state": "passed",
+    "test": "sage: node runtime contracts C1: Skupienie KI"
+  },
+  {
+    "race": "sage",
+    "node": "C2",
+    "name": "Głęboki Oddech",
+    "state": "passed",
+    "test": "sage: node runtime contracts C2: Głęboki Oddech"
+  },
+  {
+    "race": "sage",
+    "node": "C3",
+    "name": "Mądrość Strażników",
+    "state": "passed",
+    "test": "sage: node runtime contracts C3: Mądrość Strażników"
+  },
+  {
+    "race": "sage",
+    "node": "C4",
+    "name": "Medytacja Bojowa",
+    "state": "passed",
+    "test": "sage: node runtime contracts C4: Medytacja Bojowa"
+  },
+  {
+    "race": "sage",
+    "node": "C5",
+    "name": "Czysty Umysł",
+    "state": "passed",
+    "test": "sage: node runtime contracts C5: Czysty Umysł"
+  },
+  {
+    "race": "sage",
+    "node": "C6",
+    "name": "Strumień Wiedzy",
+    "state": "passed",
+    "test": "sage: node runtime contracts C6: Strumień Wiedzy"
+  },
+  {
+    "race": "sage",
+    "node": "C7",
+    "name": "Dar Mędrca",
+    "state": "passed",
+    "test": "sage: node runtime contracts C7: Dar Mędrca"
+  },
+  {
+    "race": "sage",
+    "node": "C8",
+    "name": "Skupienie Mistrza",
+    "state": "passed",
+    "test": "sage: node runtime contracts C8: Skupienie Mistrza"
+  },
+  {
+    "race": "sage",
+    "node": "C9",
+    "name": "Pełnia Skupienia",
+    "state": "passed",
+    "test": "sage: node runtime contracts C9: Pełnia Skupienia"
+  },
+  {
+    "race": "sage",
+    "node": "T",
+    "name": "Forma Oświecenia",
+    "state": "passed",
+    "test": "sage: node runtime contracts T: Forma Oświecenia"
+  },
+  {
+    "race": "android",
+    "node": "R",
+    "name": "Strzał Impulsowy",
+    "state": "passed",
+    "test": "android: node runtime contracts R: Strzał Impulsowy"
+  },
+  {
+    "race": "android",
+    "node": "A1",
+    "name": "Namierzanie",
+    "state": "passed",
+    "test": "android: node runtime contracts A1: Namierzanie"
+  },
+  {
+    "race": "android",
+    "node": "A2",
+    "name": "Kalibracja",
+    "state": "passed",
+    "test": "android: node runtime contracts A2: Kalibracja"
+  },
+  {
+    "race": "android",
+    "node": "A3",
+    "name": "Stabilizatory",
+    "state": "passed",
+    "test": "android: node runtime contracts A3: Stabilizatory"
+  },
+  {
+    "race": "android",
+    "node": "A4",
+    "name": "Salwa Precyzyjna",
+    "state": "passed",
+    "test": "android: node runtime contracts A4: Salwa Precyzyjna"
+  },
+  {
+    "race": "android",
+    "node": "A5",
+    "name": "Analiza Słabości",
+    "state": "passed",
+    "test": "android: node runtime contracts A5: Analiza Słabości"
+  },
+  {
+    "race": "android",
+    "node": "A6",
+    "name": "Szybkie Przeładowanie",
+    "state": "passed",
+    "test": "android: node runtime contracts A6: Szybkie Przeładowanie"
+  },
+  {
+    "race": "android",
+    "node": "A7",
+    "name": "Snajper",
+    "state": "passed",
+    "test": "android: node runtime contracts A7: Snajper"
+  },
+  {
+    "race": "android",
+    "node": "A8",
+    "name": "Rój",
+    "state": "passed",
+    "test": "android: node runtime contracts A8: Rój"
+  },
+  {
+    "race": "android",
+    "node": "A9",
+    "name": "Protokół Egzekucji",
+    "state": "passed",
+    "test": "android: node runtime contracts A9: Protokół Egzekucji"
+  },
+  {
+    "race": "android",
+    "node": "B1",
+    "name": "Tarcza Plazmowa",
+    "state": "passed",
+    "test": "android: node runtime contracts B1: Tarcza Plazmowa"
+  },
+  {
+    "race": "android",
+    "node": "B2",
+    "name": "Płyty Pancerne",
+    "state": "passed",
+    "test": "android: node runtime contracts B2: Płyty Pancerne"
+  },
+  {
+    "race": "android",
+    "node": "B3",
+    "name": "Generator Tarczy",
+    "state": "passed",
+    "test": "android: node runtime contracts B3: Generator Tarczy"
+  },
+  {
+    "race": "android",
+    "node": "B4",
+    "name": "Impuls Odpychający",
+    "state": "passed",
+    "test": "android: node runtime contracts B4: Impuls Odpychający"
+  },
+  {
+    "race": "android",
+    "node": "B5",
+    "name": "Protokół Adaptacji",
+    "state": "passed",
+    "test": "android: node runtime contracts B5: Protokół Adaptacji"
+  },
+  {
+    "race": "android",
+    "node": "B6",
+    "name": "Samonaprawa",
+    "state": "passed",
+    "test": "android: node runtime contracts B6: Samonaprawa"
+  },
+  {
+    "race": "android",
+    "node": "B7",
+    "name": "Tarcza Kolcowa",
+    "state": "passed",
+    "test": "android: node runtime contracts B7: Tarcza Kolcowa"
+  },
+  {
+    "race": "android",
+    "node": "B8",
+    "name": "Tarcza Modułowa",
+    "state": "passed",
+    "test": "android: node runtime contracts B8: Tarcza Modułowa"
+  },
+  {
+    "race": "android",
+    "node": "B9",
+    "name": "Fortyfikacja",
+    "state": "passed",
+    "test": "android: node runtime contracts B9: Fortyfikacja"
+  },
+  {
+    "race": "android",
+    "node": "C1",
+    "name": "Wyładowanie Rdzenia",
+    "state": "passed",
+    "test": "android: node runtime contracts C1: Wyładowanie Rdzenia"
+  },
+  {
+    "race": "android",
+    "node": "C2",
+    "name": "Zarządzanie Rdzeniem",
+    "state": "passed",
+    "test": "android: node runtime contracts C2: Zarządzanie Rdzeniem"
+  },
+  {
+    "race": "android",
+    "node": "C3",
+    "name": "Radiatory",
+    "state": "passed",
+    "test": "android: node runtime contracts C3: Radiatory"
+  },
+  {
+    "race": "android",
+    "node": "C4",
+    "name": "Rozładowanie Awaryjne",
+    "state": "passed",
+    "test": "android: node runtime contracts C4: Rozładowanie Awaryjne"
+  },
+  {
+    "race": "android",
+    "node": "C5",
+    "name": "Rezerwowy Akumulator",
+    "state": "passed",
+    "test": "android: node runtime contracts C5: Rezerwowy Akumulator"
+  },
+  {
+    "race": "android",
+    "node": "C6",
+    "name": "Optymalizacja",
+    "state": "passed",
+    "test": "android: node runtime contracts C6: Optymalizacja"
+  },
+  {
+    "race": "android",
+    "node": "C7",
+    "name": "Przeciążony Rdzeń",
+    "state": "passed",
+    "test": "android: node runtime contracts C7: Przeciążony Rdzeń"
+  },
+  {
+    "race": "android",
+    "node": "C8",
+    "name": "Stabilny Rdzeń",
+    "state": "passed",
+    "test": "android: node runtime contracts C8: Stabilny Rdzeń"
+  },
+  {
+    "race": "android",
+    "node": "C9",
+    "name": "Przeciążenie Systemu",
+    "state": "passed",
+    "test": "android: node runtime contracts C9: Przeciążenie Systemu"
+  },
+  {
+    "race": "android",
+    "node": "T",
+    "name": "Forma Pełnego Rdzenia",
+    "state": "passed",
+    "test": "android: node runtime contracts T: Forma Pełnego Rdzenia"
+  },
+  {
+    "race": "legend",
+    "node": "R",
+    "name": "Uderzenie Żaru",
+    "state": "passed",
+    "test": "legend: node runtime contracts R: Uderzenie Żaru"
+  },
+  {
+    "race": "legend",
+    "node": "A1",
+    "name": "Ogniste Cięcie",
+    "state": "passed",
+    "test": "legend: node runtime contracts A1: Ogniste Cięcie"
+  },
+  {
+    "race": "legend",
+    "node": "A2",
+    "name": "Rozgrzane Ostrza",
+    "state": "passed",
+    "test": "legend: node runtime contracts A2: Rozgrzane Ostrza"
+  },
+  {
+    "race": "legend",
+    "node": "A3",
+    "name": "Łańcuch Ciosów",
+    "state": "passed",
+    "test": "legend: node runtime contracts A3: Łańcuch Ciosów"
+  },
+  {
+    "race": "legend",
+    "node": "A4",
+    "name": "Szarża Płomienia",
+    "state": "passed",
+    "test": "legend: node runtime contracts A4: Szarża Płomienia"
+  },
+  {
+    "race": "legend",
+    "node": "A5",
+    "name": "Rozżarzone Pięści",
+    "state": "passed",
+    "test": "legend: node runtime contracts A5: Rozżarzone Pięści"
+  },
+  {
+    "race": "legend",
+    "node": "A6",
+    "name": "Okrucieństwo",
+    "state": "passed",
+    "test": "legend: node runtime contracts A6: Okrucieństwo"
+  },
+  {
+    "race": "legend",
+    "node": "A7",
+    "name": "Taniec Płomieni",
+    "state": "passed",
+    "test": "legend: node runtime contracts A7: Taniec Płomieni"
+  },
+  {
+    "race": "legend",
+    "node": "A8",
+    "name": "Pojedynkowicz",
+    "state": "passed",
+    "test": "legend: node runtime contracts A8: Pojedynkowicz"
+  },
+  {
+    "race": "legend",
+    "node": "A9",
+    "name": "Tysiąc Cięć",
+    "state": "passed",
+    "test": "legend: node runtime contracts A9: Tysiąc Cięć"
+  },
+  {
+    "race": "legend",
+    "node": "B1",
+    "name": "Przełamanie",
+    "state": "passed",
+    "test": "legend: node runtime contracts B1: Przełamanie"
+  },
+  {
+    "race": "legend",
+    "node": "B2",
+    "name": "Hartowana Skóra",
+    "state": "passed",
+    "test": "legend: node runtime contracts B2: Hartowana Skóra"
+  },
+  {
+    "race": "legend",
+    "node": "B3",
+    "name": "Honor Wojownika",
+    "state": "passed",
+    "test": "legend: node runtime contracts B3: Honor Wojownika"
+  },
+  {
+    "race": "legend",
+    "node": "B4",
+    "name": "Płomienny Szał",
+    "state": "passed",
+    "test": "legend: node runtime contracts B4: Płomienny Szał"
+  },
+  {
+    "race": "legend",
+    "node": "B5",
+    "name": "Żelazna Wola",
+    "state": "passed",
+    "test": "legend: node runtime contracts B5: Żelazna Wola"
+  },
+  {
+    "race": "legend",
+    "node": "B6",
+    "name": "Krew Legendy",
+    "state": "passed",
+    "test": "legend: node runtime contracts B6: Krew Legendy"
+  },
+  {
+    "race": "legend",
+    "node": "B7",
+    "name": "Wściekłość",
+    "state": "passed",
+    "test": "legend: node runtime contracts B7: Wściekłość"
+  },
+  {
+    "race": "legend",
+    "node": "B8",
+    "name": "Kontrolowany Żar",
+    "state": "passed",
+    "test": "legend: node runtime contracts B8: Kontrolowany Żar"
+  },
+  {
+    "race": "legend",
+    "node": "B9",
+    "name": "Ostatni Płomień",
+    "state": "passed",
+    "test": "legend: node runtime contracts B9: Ostatni Płomień"
+  },
+  {
+    "race": "legend",
+    "node": "C1",
+    "name": "Wybuch Ki",
+    "state": "passed",
+    "test": "legend: node runtime contracts C1: Wybuch Ki"
+  },
+  {
+    "race": "legend",
+    "node": "C2",
+    "name": "Żar",
+    "state": "passed",
+    "test": "legend: node runtime contracts C2: Żar"
+  },
+  {
+    "race": "legend",
+    "node": "C3",
+    "name": "Ognisty Oddech",
+    "state": "passed",
+    "test": "legend: node runtime contracts C3: Ognisty Oddech"
+  },
+  {
+    "race": "legend",
+    "node": "C4",
+    "name": "Eksplozja Żaru",
+    "state": "passed",
+    "test": "legend: node runtime contracts C4: Eksplozja Żaru"
+  },
+  {
+    "race": "legend",
+    "node": "C5",
+    "name": "Szybkie Rozżarzenie",
+    "state": "passed",
+    "test": "legend: node runtime contracts C5: Szybkie Rozżarzenie"
+  },
+  {
+    "race": "legend",
+    "node": "C6",
+    "name": "Nieugaszony",
+    "state": "passed",
+    "test": "legend: node runtime contracts C6: Nieugaszony"
+  },
+  {
+    "race": "legend",
+    "node": "C7",
+    "name": "Wulkan",
+    "state": "passed",
+    "test": "legend: node runtime contracts C7: Wulkan"
+  },
+  {
+    "race": "legend",
+    "node": "C8",
+    "name": "Detonator",
+    "state": "passed",
+    "test": "legend: node runtime contracts C8: Detonator"
+  },
+  {
+    "race": "legend",
+    "node": "C9",
+    "name": "Ognisty Kataklizm",
+    "state": "passed",
+    "test": "legend: node runtime contracts C9: Ognisty Kataklizm"
+  },
+  {
+    "race": "legend",
+    "node": "T",
+    "name": "Forma Płomiennego Legendy",
+    "state": "passed",
+    "test": "legend: node runtime contracts T: Forma Płomiennego Legendy"
+  }
+]

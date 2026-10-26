@@ -36,6 +36,11 @@ for (const [race, worldId, actor] of [
   }, info) => {
     // A known creature waits just outside the safe capital (playtest-only QA spawn).
     test.setTimeout(900000);
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("console", (e) => {
+      if (e.type() === "error") errors.push(e.text());
+    });
     const creature = testCreature(worldId);
     await page.goto("/scripts/playtest.html" + creature.query);
     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
@@ -104,6 +109,7 @@ for (const [race, worldId, actor] of [
       await expect(health).toHaveAttribute("aria-valuenow", max);
       await expect(page.locator(".ki-death-overlay")).toHaveCount(0);
       await page.screenshot({ path: info.outputPath(`${actor}-city-training.png`) });
+      expect(errors).toEqual([]);
       return;
     }
     // Where the hero stands to fight: on the wild side of the creature, reachable on foot.
@@ -250,5 +256,6 @@ for (const [race, worldId, actor] of [
       contentType: "application/json",
     });
     await page.screenshot({ path: info.outputPath(`${actor}-respawn.png`) });
+    expect(errors).toEqual([]);
   });
 }

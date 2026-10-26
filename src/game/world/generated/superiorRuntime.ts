@@ -10,6 +10,8 @@ import {
 } from "../../assets/catalog";
 import { queueAssets, prepareTextures, animationKey } from "../../assets/phaserAssets";
 import { monsterDef } from "../../monsters/catalog";
+import { MONSTER_BASE } from "../../monsters/base.generated";
+
 import { streamSpawns, type AuthoredSpawn } from "./spawnStream";
 import { RACES, type RaceId } from "../races";
 import { WORLDS } from "../worlds";
@@ -24,6 +26,9 @@ import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
 import { v2Places } from "../../worlds/v2Places";
 import { questsV2 } from "../../quests/v2Tracker";
 import { FEATURE_IDS, SuperiorSaveStore, type SuperiorIndex, type FeatureId } from "./superiorSave";
+
+/** Drawn side of a creature per bestiary size class (world v2). */
+const MONSTER_SIZE_PX: Record<string, number> = { S: 74, M: 96, L: 118 };
 
 const BASE = WORLD_BASE;
 type Settlement = Point & { id: string; name: string; kind: string; bounds: Obstacle };
@@ -492,7 +497,15 @@ export async function prepareSuperior(options: {
       }
   };
   let activeScene: Phaser.Scene | undefined;
-  const enemyVisual = monsterVisual;
+  // World v2 draws each creature at its bestiary size class (S/M/L = 0.62/0.8/0.98, an M creature
+  // is as tall as the hero); presentation only — reach and collision stay in the monster rules.
+  const enemyVisual = (kind: string) => {
+    const visual = monsterVisual(kind);
+    const size = MONSTER_BASE.find((b) => b.id === kind)?.size;
+    if (!WORLD_V2 || !size) return visual;
+    const side = MONSTER_SIZE_PX[size] ?? visual.size[1];
+    return { ...visual, size: [side, side] as [number, number] };
+  };
   const monsterAssets = new Map<string, Set<string>>();
   const neededByMonster = (kind: string) => {
     if (monsterAssets.has(kind)) return monsterAssets.get(kind)!;
@@ -518,7 +531,9 @@ export async function prepareSuperior(options: {
         const asset = catalog.assets.get(id);
         bytes += (asset?.width ?? 512) * (asset?.height ?? 512) * 4;
       }
-      return !!activeScene && bytes <= 128 * 1024 * 1024;
+      // World v2 art (~55 MiB near a camp) plus 2048² monster atlases (~26 MiB per kind) does not
+      // fit the v1 budget, which then refused every spawn; v2 keeps room for about four kinds.
+      return !!activeScene && bytes <= (WORLD_V2 ? 192 : 128) * 1024 * 1024;
     },
     async acquire(slot) {
       if (!activeScene || disposed) throw Error("World is not mounted");

@@ -1,3 +1,4 @@
+import { rollBossLoot, type BossReward } from "./bosses/runtime";
 import { isValidNick } from "./nickname";
 import { z } from "zod";
 import { WORLDS, worldObstacles } from "./world/worlds";
@@ -625,7 +626,28 @@ export class GameSession implements MonsterHost {
       text: statusText(spec),
     });
   }
+  /** Preview-only loot ledger; catalog boss items have no approved save/inventory contract. */
+  readonly bossRewards: BossReward[] = [];
+  summonBoss(id: string, at: Point) {
+    if (this.safe || this.player.dead || this.player.interior)
+      throw Error("Próba bossa wymaga terenu poza miastem.");
+    if (this.enemies.some((e) => e.boss && e.hp > 0))
+      throw Error("Tylko jeden boss w próbie solo.");
+    return this.monsters.spawnBoss(id, at);
+  }
   killed(e: Enemy) {
+    if (e.boss) {
+      if (!e.boss.lootRolled) {
+        e.boss.lootRolled = true;
+        this.kit.onKill(e);
+        this.bossRewards.push(...rollBossLoot(e.boss.definition.lootTable, this.rng));
+        this.say(
+          "Łup próby bossa: " +
+            this.bossRewards.map((d) => d.itemName + " ×" + d.quantity).join(", "),
+        );
+      }
+      return;
+    }
     const def = e.m.def;
     this.kit.onKill(e);
     if (this.targetId === e.id) {
@@ -1241,7 +1263,7 @@ export class GameSession implements MonsterHost {
     this.movePlayer({ x: this.player.x + dx * 100, y: this.player.y + dy * 100 }, dt);
   }
   private movePlayer(to: Point, dt: number) {
-    if (this.fx.cannotMove || this.kit.lockMs < 0) return;
+    if (this.fx.cannotMove || this.kit.lockMs > 0) return;
     const before = { x: this.player.x, y: this.player.y };
     const speed = this.kit.stats.speed * this.fx.speedMul;
     const next = this.nav.step(before, to, (speed * dt) / 1000);
@@ -1449,6 +1471,8 @@ export class GameSession implements MonsterHost {
     return {
       x: this.player.x,
       y: this.player.y,
+      /** Within a safe city (or a city-stage map), not out in the wilderness. */
+      inCity: this.safe,
       player: structuredClone(this.player),
       stats: {
         maxHp: live.maxHp,
@@ -1649,6 +1673,7 @@ export function initialView(player?: Player): GameViewState {
   const s = stats(p);
   return {
     ...p,
+    inCity: true,
     player: p,
     stats: {
       maxHp: s.maxHp,

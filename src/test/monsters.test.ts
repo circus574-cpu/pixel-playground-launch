@@ -109,6 +109,9 @@ describe("bestiary: 40 monsters from the owner document", () => {
       e.m.guard = 0;
       e.m.reduceMs = 0;
       e.m.curlMs = 0;
+      // The hero may have respawned in town during the artificial survival loop.
+      // A kill must be attempted from the combat region, never from the safe city.
+      Object.assign(g.player, g.nav.safe(e));
       const before = g.player.xp;
       const level = g.player.level;
       let guard = 0;

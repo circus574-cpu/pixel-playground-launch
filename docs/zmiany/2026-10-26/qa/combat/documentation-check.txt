@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pixel-playground-launch/scripts/docs/check_documentation.py", line 18, in <module>
+    assert {p.name for p in D.glob('*.md')} == EXPECTED
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

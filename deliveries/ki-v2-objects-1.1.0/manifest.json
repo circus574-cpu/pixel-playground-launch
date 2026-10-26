@@ -1,0 +1,1946 @@
+{
+  "schemaVersion": 1,
+  "id": "ki-v2-objects",
+  "version": "1.1.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "ki-v2-objects-aether-boulder-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-boulder-0.webp",
+      "width": 300,
+      "height": 266
+    },
+    {
+      "id": "ki-v2-objects-aether-boulder-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-boulder-2.webp",
+      "width": 300,
+      "height": 295
+    },
+    {
+      "id": "ki-v2-objects-aether-boulder-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-boulder-3.webp",
+      "width": 300,
+      "height": 315
+    },
+    {
+      "id": "ki-v2-objects-aether-boulder-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-boulder-4.webp",
+      "width": 300,
+      "height": 318
+    },
+    {
+      "id": "ki-v2-objects-aether-boulder-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-boulder-5.webp",
+      "width": 300,
+      "height": 293
+    },
+    {
+      "id": "ki-v2-objects-aether-bush-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-bush-0.webp",
+      "width": 255,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-bush-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-bush-1.webp",
+      "width": 250,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-bush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-bush-2.webp",
+      "width": 237,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-bush-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-bush-3.webp",
+      "width": 248,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-bush-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-bush-5.webp",
+      "width": 251,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-fern-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-fern-1.webp",
+      "width": 195,
+      "height": 263
+    },
+    {
+      "id": "ki-v2-objects-aether-fern-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-fern-2.webp",
+      "width": 256,
+      "height": 240
+    },
+    {
+      "id": "ki-v2-objects-aether-fern-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-fern-3.webp",
+      "width": 195,
+      "height": 317
+    },
+    {
+      "id": "ki-v2-objects-aether-fern-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-fern-4.webp",
+      "width": 196,
+      "height": 287
+    },
+    {
+      "id": "ki-v2-objects-aether-fern-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-fern-5.webp",
+      "width": 207,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-flowerbush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-flowerbush-2.webp",
+      "width": 256,
+      "height": 229
+    },
+    {
+      "id": "ki-v2-objects-aether-flowerbush-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-flowerbush-3.webp",
+      "width": 248,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-log-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-log-1.webp",
+      "width": 360,
+      "height": 347
+    },
+    {
+      "id": "ki-v2-objects-aether-log-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-log-2.webp",
+      "width": 360,
+      "height": 287
+    },
+    {
+      "id": "ki-v2-objects-aether-log-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-log-4.webp",
+      "width": 360,
+      "height": 349
+    },
+    {
+      "id": "ki-v2-objects-aether-log-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-log-5.webp",
+      "width": 360,
+      "height": 426
+    },
+    {
+      "id": "ki-v2-objects-aether-mushrooms-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-mushrooms-0.webp",
+      "width": 229,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-aether-mushrooms-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-mushrooms-3.webp",
+      "width": 256,
+      "height": 233
+    },
+    {
+      "id": "ki-v2-objects-aether-oak-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-oak-0.webp",
+      "width": 361,
+      "height": 410
+    },
+    {
+      "id": "ki-v2-objects-aether-oak-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-oak-1.webp",
+      "width": 360,
+      "height": 350
+    },
+    {
+      "id": "ki-v2-objects-aether-oak-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-oak-2.webp",
+      "width": 360,
+      "height": 377
+    },
+    {
+      "id": "ki-v2-objects-aether-oak-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-oak-3.webp",
+      "width": 359,
+      "height": 381
+    },
+    {
+      "id": "ki-v2-objects-aether-oak-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-oak-4.webp",
+      "width": 360,
+      "height": 363
+    },
+    {
+      "id": "ki-v2-objects-aether-pine-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-pine-3.webp",
+      "width": 360,
+      "height": 585
+    },
+    {
+      "id": "ki-v2-objects-aether-pine-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-pine-4.webp",
+      "width": 360,
+      "height": 434
+    },
+    {
+      "id": "ki-v2-objects-aether-pine-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-pine-5.webp",
+      "width": 360,
+      "height": 489
+    },
+    {
+      "id": "ki-v2-objects-aether-reeds-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-reeds-3.webp",
+      "width": 256,
+      "height": 240
+    },
+    {
+      "id": "ki-v2-objects-aether-rocks-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-rocks-0.webp",
+      "width": 300,
+      "height": 279
+    },
+    {
+      "id": "ki-v2-objects-aether-rocks-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-rocks-3.webp",
+      "width": 300,
+      "height": 228
+    },
+    {
+      "id": "ki-v2-objects-aether-rocks-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-rocks-4.webp",
+      "width": 300,
+      "height": 232
+    },
+    {
+      "id": "ki-v2-objects-aether-stump-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-stump-0.webp",
+      "width": 361,
+      "height": 467
+    },
+    {
+      "id": "ki-v2-objects-aether-stump-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-stump-1.webp",
+      "width": 360,
+      "height": 513
+    },
+    {
+      "id": "ki-v2-objects-aether-stump-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-stump-2.webp",
+      "width": 360,
+      "height": 519
+    },
+    {
+      "id": "ki-v2-objects-aether-stump-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-stump-3.webp",
+      "width": 360,
+      "height": 372
+    },
+    {
+      "id": "ki-v2-objects-aether-stump-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-stump-5.webp",
+      "width": 360,
+      "height": 588
+    },
+    {
+      "id": "ki-v2-objects-aether-tree2-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-tree2-0.webp",
+      "width": 360,
+      "height": 447
+    },
+    {
+      "id": "ki-v2-objects-aether-tree2-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-tree2-1.webp",
+      "width": 360,
+      "height": 399
+    },
+    {
+      "id": "ki-v2-objects-aether-tree2-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-tree2-2.webp",
+      "width": 360,
+      "height": 444
+    },
+    {
+      "id": "ki-v2-objects-aether-tree2-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-tree2-3.webp",
+      "width": 360,
+      "height": 441
+    },
+    {
+      "id": "ki-v2-objects-aether-tree2-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-tree2-4.webp",
+      "width": 361,
+      "height": 380
+    },
+    {
+      "id": "ki-v2-objects-aether-tree2-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-aether-tree2-5.webp",
+      "width": 361,
+      "height": 494
+    },
+    {
+      "id": "ki-v2-objects-nexus-bush-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-bush-0.webp",
+      "width": 224,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-bush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-bush-2.webp",
+      "width": 227,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-fern-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-fern-0.webp",
+      "width": 244,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-fern-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-fern-1.webp",
+      "width": 247,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-fern-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-fern-2.webp",
+      "width": 256,
+      "height": 235
+    },
+    {
+      "id": "ki-v2-objects-nexus-fern-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-fern-3.webp",
+      "width": 244,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-fern-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-fern-5.webp",
+      "width": 224,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-flowerbush-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-flowerbush-0.webp",
+      "width": 236,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-flowerbush-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-flowerbush-1.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-flowerbush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-flowerbush-2.webp",
+      "width": 256,
+      "height": 230
+    },
+    {
+      "id": "ki-v2-objects-nexus-mushrooms-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-mushrooms-3.webp",
+      "width": 256,
+      "height": 247
+    },
+    {
+      "id": "ki-v2-objects-nexus-oak-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-oak-3.webp",
+      "width": 361,
+      "height": 425
+    },
+    {
+      "id": "ki-v2-objects-nexus-pine-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-pine-0.webp",
+      "width": 360,
+      "height": 509
+    },
+    {
+      "id": "ki-v2-objects-nexus-pine-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-pine-1.webp",
+      "width": 360,
+      "height": 371
+    },
+    {
+      "id": "ki-v2-objects-nexus-pine-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-pine-2.webp",
+      "width": 361,
+      "height": 500
+    },
+    {
+      "id": "ki-v2-objects-nexus-pine-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-pine-3.webp",
+      "width": 360,
+      "height": 450
+    },
+    {
+      "id": "ki-v2-objects-nexus-pine-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-pine-4.webp",
+      "width": 360,
+      "height": 360
+    },
+    {
+      "id": "ki-v2-objects-nexus-reeds-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-reeds-0.webp",
+      "width": 206,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-reeds-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-reeds-1.webp",
+      "width": 239,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-reeds-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-reeds-2.webp",
+      "width": 225,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-nexus-reeds-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-reeds-3.webp",
+      "width": 256,
+      "height": 254
+    },
+    {
+      "id": "ki-v2-objects-nexus-stump-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-stump-1.webp",
+      "width": 359,
+      "height": 372
+    },
+    {
+      "id": "ki-v2-objects-nexus-stump-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-stump-2.webp",
+      "width": 359,
+      "height": 372
+    },
+    {
+      "id": "ki-v2-objects-nexus-tree2-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-tree2-0.webp",
+      "width": 360,
+      "height": 471
+    },
+    {
+      "id": "ki-v2-objects-nexus-tree2-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-tree2-1.webp",
+      "width": 360,
+      "height": 459
+    },
+    {
+      "id": "ki-v2-objects-nexus-tree2-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-tree2-2.webp",
+      "width": 360,
+      "height": 504
+    },
+    {
+      "id": "ki-v2-objects-nexus-tree2-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-tree2-3.webp",
+      "width": 361,
+      "height": 413
+    },
+    {
+      "id": "ki-v2-objects-nexus-tree2-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-tree2-4.webp",
+      "width": 360,
+      "height": 378
+    },
+    {
+      "id": "ki-v2-objects-nexus-tree2-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-nexus-tree2-5.webp",
+      "width": 361,
+      "height": 500
+    },
+    {
+      "id": "ki-v2-objects-pyra-bush-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-bush-1.webp",
+      "width": 256,
+      "height": 231
+    },
+    {
+      "id": "ki-v2-objects-pyra-bush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-bush-2.webp",
+      "width": 250,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-bush-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-bush-3.webp",
+      "width": 236,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-bush-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-bush-4.webp",
+      "width": 238,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-fern-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-fern-1.webp",
+      "width": 251,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-fern-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-fern-2.webp",
+      "width": 239,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-fern-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-fern-3.webp",
+      "width": 208,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-flowerbush-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-flowerbush-0.webp",
+      "width": 233,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-pyra-flowerbush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-flowerbush-2.webp",
+      "width": 256,
+      "height": 245
+    },
+    {
+      "id": "ki-v2-objects-pyra-log-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-log-1.webp",
+      "width": 360,
+      "height": 265
+    },
+    {
+      "id": "ki-v2-objects-pyra-log-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-log-3.webp",
+      "width": 360,
+      "height": 288
+    },
+    {
+      "id": "ki-v2-objects-pyra-oak-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-oak-0.webp",
+      "width": 361,
+      "height": 506
+    },
+    {
+      "id": "ki-v2-objects-pyra-oak-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-oak-1.webp",
+      "width": 360,
+      "height": 459
+    },
+    {
+      "id": "ki-v2-objects-pyra-oak-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-oak-2.webp",
+      "width": 360,
+      "height": 521
+    },
+    {
+      "id": "ki-v2-objects-pyra-oak-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-oak-3.webp",
+      "width": 360,
+      "height": 467
+    },
+    {
+      "id": "ki-v2-objects-pyra-oak-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-oak-4.webp",
+      "width": 360,
+      "height": 543
+    },
+    {
+      "id": "ki-v2-objects-pyra-pine-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-pine-0.webp",
+      "width": 360,
+      "height": 641
+    },
+    {
+      "id": "ki-v2-objects-pyra-pine-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-pine-1.webp",
+      "width": 361,
+      "height": 554
+    },
+    {
+      "id": "ki-v2-objects-pyra-pine-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-pine-2.webp",
+      "width": 361,
+      "height": 551
+    },
+    {
+      "id": "ki-v2-objects-pyra-pine-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-pine-3.webp",
+      "width": 360,
+      "height": 491
+    },
+    {
+      "id": "ki-v2-objects-pyra-pine-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-pine-4.webp",
+      "width": 361,
+      "height": 431
+    },
+    {
+      "id": "ki-v2-objects-pyra-pine-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-pine-5.webp",
+      "width": 360,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-objects-pyra-reeds-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-reeds-1.webp",
+      "width": 256,
+      "height": 237
+    },
+    {
+      "id": "ki-v2-objects-pyra-reeds-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-reeds-2.webp",
+      "width": 256,
+      "height": 221
+    },
+    {
+      "id": "ki-v2-objects-pyra-reeds-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-reeds-4.webp",
+      "width": 256,
+      "height": 186
+    },
+    {
+      "id": "ki-v2-objects-pyra-rocks-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-rocks-0.webp",
+      "width": 300,
+      "height": 268
+    },
+    {
+      "id": "ki-v2-objects-pyra-stump-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-stump-0.webp",
+      "width": 360,
+      "height": 298
+    },
+    {
+      "id": "ki-v2-objects-pyra-stump-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-stump-1.webp",
+      "width": 360,
+      "height": 383
+    },
+    {
+      "id": "ki-v2-objects-pyra-stump-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-stump-2.webp",
+      "width": 360,
+      "height": 294
+    },
+    {
+      "id": "ki-v2-objects-pyra-stump-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-stump-4.webp",
+      "width": 360,
+      "height": 407
+    },
+    {
+      "id": "ki-v2-objects-pyra-stump-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-stump-5.webp",
+      "width": 360,
+      "height": 355
+    },
+    {
+      "id": "ki-v2-objects-pyra-tree2-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-tree2-0.webp",
+      "width": 360,
+      "height": 375
+    },
+    {
+      "id": "ki-v2-objects-pyra-tree2-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-tree2-1.webp",
+      "width": 360,
+      "height": 323
+    },
+    {
+      "id": "ki-v2-objects-pyra-tree2-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-tree2-2.webp",
+      "width": 360,
+      "height": 347
+    },
+    {
+      "id": "ki-v2-objects-pyra-tree2-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-tree2-3.webp",
+      "width": 360,
+      "height": 369
+    },
+    {
+      "id": "ki-v2-objects-pyra-tree2-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-pyra-tree2-4.webp",
+      "width": 360,
+      "height": 363
+    },
+    {
+      "id": "ki-v2-objects-verdant-boulder-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-boulder-0.webp",
+      "width": 300,
+      "height": 306
+    },
+    {
+      "id": "ki-v2-objects-verdant-boulder-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-boulder-1.webp",
+      "width": 300,
+      "height": 233
+    },
+    {
+      "id": "ki-v2-objects-verdant-boulder-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-boulder-2.webp",
+      "width": 300,
+      "height": 249
+    },
+    {
+      "id": "ki-v2-objects-verdant-boulder-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-boulder-4.webp",
+      "width": 300,
+      "height": 305
+    },
+    {
+      "id": "ki-v2-objects-verdant-boulder-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-boulder-5.webp",
+      "width": 300,
+      "height": 282
+    },
+    {
+      "id": "ki-v2-objects-verdant-bush-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-bush-0.webp",
+      "width": 256,
+      "height": 236
+    },
+    {
+      "id": "ki-v2-objects-verdant-bush-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-bush-1.webp",
+      "width": 256,
+      "height": 249
+    },
+    {
+      "id": "ki-v2-objects-verdant-bush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-bush-2.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-fern-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-fern-0.webp",
+      "width": 208,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-fern-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-fern-1.webp",
+      "width": 256,
+      "height": 237
+    },
+    {
+      "id": "ki-v2-objects-verdant-fern-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-fern-2.webp",
+      "width": 247,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-fern-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-fern-3.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-fern-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-fern-5.webp",
+      "width": 250,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-flowerbush-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-flowerbush-0.webp",
+      "width": 256,
+      "height": 205
+    },
+    {
+      "id": "ki-v2-objects-verdant-flowerbush-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-flowerbush-1.webp",
+      "width": 256,
+      "height": 214
+    },
+    {
+      "id": "ki-v2-objects-verdant-flowerbush-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-flowerbush-2.webp",
+      "width": 256,
+      "height": 201
+    },
+    {
+      "id": "ki-v2-objects-verdant-log-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-log-1.webp",
+      "width": 360,
+      "height": 241
+    },
+    {
+      "id": "ki-v2-objects-verdant-log-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-log-2.webp",
+      "width": 360,
+      "height": 227
+    },
+    {
+      "id": "ki-v2-objects-verdant-log-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-log-3.webp",
+      "width": 360,
+      "height": 247
+    },
+    {
+      "id": "ki-v2-objects-verdant-log-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-log-4.webp",
+      "width": 360,
+      "height": 221
+    },
+    {
+      "id": "ki-v2-objects-verdant-log-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-log-5.webp",
+      "width": 360,
+      "height": 320
+    },
+    {
+      "id": "ki-v2-objects-verdant-mushrooms-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-mushrooms-1.webp",
+      "width": 256,
+      "height": 227
+    },
+    {
+      "id": "ki-v2-objects-verdant-mushrooms-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-mushrooms-5.webp",
+      "width": 256,
+      "height": 231
+    },
+    {
+      "id": "ki-v2-objects-verdant-oak-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-oak-0.webp",
+      "width": 360,
+      "height": 356
+    },
+    {
+      "id": "ki-v2-objects-verdant-oak-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-oak-1.webp",
+      "width": 360,
+      "height": 456
+    },
+    {
+      "id": "ki-v2-objects-verdant-oak-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-oak-2.webp",
+      "width": 359,
+      "height": 444
+    },
+    {
+      "id": "ki-v2-objects-verdant-oak-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-oak-3.webp",
+      "width": 360,
+      "height": 390
+    },
+    {
+      "id": "ki-v2-objects-verdant-oak-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-oak-4.webp",
+      "width": 361,
+      "height": 369
+    },
+    {
+      "id": "ki-v2-objects-verdant-oak-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-oak-5.webp",
+      "width": 360,
+      "height": 477
+    },
+    {
+      "id": "ki-v2-objects-verdant-pine-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-pine-1.webp",
+      "width": 360,
+      "height": 665
+    },
+    {
+      "id": "ki-v2-objects-verdant-pine-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-pine-2.webp",
+      "width": 360,
+      "height": 816
+    },
+    {
+      "id": "ki-v2-objects-verdant-pine-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-pine-3.webp",
+      "width": 360,
+      "height": 518
+    },
+    {
+      "id": "ki-v2-objects-verdant-pine-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-pine-4.webp",
+      "width": 361,
+      "height": 488
+    },
+    {
+      "id": "ki-v2-objects-verdant-pine-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-pine-5.webp",
+      "width": 360,
+      "height": 581
+    },
+    {
+      "id": "ki-v2-objects-verdant-reeds-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-reeds-1.webp",
+      "width": 253,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-reeds-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-reeds-2.webp",
+      "width": 256,
+      "height": 239
+    },
+    {
+      "id": "ki-v2-objects-verdant-reeds-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-reeds-3.webp",
+      "width": 256,
+      "height": 249
+    },
+    {
+      "id": "ki-v2-objects-verdant-reeds-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-reeds-5.webp",
+      "width": 198,
+      "height": 256
+    },
+    {
+      "id": "ki-v2-objects-verdant-rocks-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-rocks-3.webp",
+      "width": 300,
+      "height": 293
+    },
+    {
+      "id": "ki-v2-objects-verdant-stump-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-stump-0.webp",
+      "width": 360,
+      "height": 311
+    },
+    {
+      "id": "ki-v2-objects-verdant-stump-1",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-stump-1.webp",
+      "width": 360,
+      "height": 345
+    },
+    {
+      "id": "ki-v2-objects-verdant-stump-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-stump-2.webp",
+      "width": 360,
+      "height": 260
+    },
+    {
+      "id": "ki-v2-objects-verdant-stump-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-stump-3.webp",
+      "width": 360,
+      "height": 366
+    },
+    {
+      "id": "ki-v2-objects-verdant-stump-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-stump-4.webp",
+      "width": 360,
+      "height": 353
+    },
+    {
+      "id": "ki-v2-objects-verdant-stump-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-stump-5.webp",
+      "width": 360,
+      "height": 356
+    },
+    {
+      "id": "ki-v2-objects-verdant-tree2-0",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-tree2-0.webp",
+      "width": 360,
+      "height": 456
+    },
+    {
+      "id": "ki-v2-objects-verdant-tree2-2",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-tree2-2.webp",
+      "width": 359,
+      "height": 444
+    },
+    {
+      "id": "ki-v2-objects-verdant-tree2-3",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-tree2-3.webp",
+      "width": 360,
+      "height": 390
+    },
+    {
+      "id": "ki-v2-objects-verdant-tree2-4",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-tree2-4.webp",
+      "width": 361,
+      "height": 369
+    },
+    {
+      "id": "ki-v2-objects-verdant-tree2-5",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "ki-v2-objects-verdant-tree2-5.webp",
+      "width": 360,
+      "height": 477
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.ki-v2-objects.aether-boulder-0": {
+      "asset": "ki-v2-objects-aether-boulder-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-boulder-2": {
+      "asset": "ki-v2-objects-aether-boulder-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-boulder-3": {
+      "asset": "ki-v2-objects-aether-boulder-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-boulder-4": {
+      "asset": "ki-v2-objects-aether-boulder-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-boulder-5": {
+      "asset": "ki-v2-objects-aether-boulder-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-bush-0": {
+      "asset": "ki-v2-objects-aether-bush-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-bush-1": {
+      "asset": "ki-v2-objects-aether-bush-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-bush-2": {
+      "asset": "ki-v2-objects-aether-bush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-bush-3": {
+      "asset": "ki-v2-objects-aether-bush-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-bush-5": {
+      "asset": "ki-v2-objects-aether-bush-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-fern-1": {
+      "asset": "ki-v2-objects-aether-fern-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-fern-2": {
+      "asset": "ki-v2-objects-aether-fern-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-fern-3": {
+      "asset": "ki-v2-objects-aether-fern-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-fern-4": {
+      "asset": "ki-v2-objects-aether-fern-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-fern-5": {
+      "asset": "ki-v2-objects-aether-fern-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-flowerbush-2": {
+      "asset": "ki-v2-objects-aether-flowerbush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-flowerbush-3": {
+      "asset": "ki-v2-objects-aether-flowerbush-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-log-1": {
+      "asset": "ki-v2-objects-aether-log-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-log-2": {
+      "asset": "ki-v2-objects-aether-log-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-log-4": {
+      "asset": "ki-v2-objects-aether-log-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-log-5": {
+      "asset": "ki-v2-objects-aether-log-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-mushrooms-0": {
+      "asset": "ki-v2-objects-aether-mushrooms-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-mushrooms-3": {
+      "asset": "ki-v2-objects-aether-mushrooms-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-oak-0": {
+      "asset": "ki-v2-objects-aether-oak-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-oak-1": {
+      "asset": "ki-v2-objects-aether-oak-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-oak-2": {
+      "asset": "ki-v2-objects-aether-oak-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-oak-3": {
+      "asset": "ki-v2-objects-aether-oak-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-oak-4": {
+      "asset": "ki-v2-objects-aether-oak-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-pine-3": {
+      "asset": "ki-v2-objects-aether-pine-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-pine-4": {
+      "asset": "ki-v2-objects-aether-pine-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-pine-5": {
+      "asset": "ki-v2-objects-aether-pine-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-reeds-3": {
+      "asset": "ki-v2-objects-aether-reeds-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-rocks-0": {
+      "asset": "ki-v2-objects-aether-rocks-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-rocks-3": {
+      "asset": "ki-v2-objects-aether-rocks-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-rocks-4": {
+      "asset": "ki-v2-objects-aether-rocks-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-stump-0": {
+      "asset": "ki-v2-objects-aether-stump-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-stump-1": {
+      "asset": "ki-v2-objects-aether-stump-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-stump-2": {
+      "asset": "ki-v2-objects-aether-stump-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-stump-3": {
+      "asset": "ki-v2-objects-aether-stump-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-stump-5": {
+      "asset": "ki-v2-objects-aether-stump-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-tree2-0": {
+      "asset": "ki-v2-objects-aether-tree2-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-tree2-1": {
+      "asset": "ki-v2-objects-aether-tree2-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-tree2-2": {
+      "asset": "ki-v2-objects-aether-tree2-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-tree2-3": {
+      "asset": "ki-v2-objects-aether-tree2-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-tree2-4": {
+      "asset": "ki-v2-objects-aether-tree2-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.aether-tree2-5": {
+      "asset": "ki-v2-objects-aether-tree2-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-bush-0": {
+      "asset": "ki-v2-objects-nexus-bush-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-bush-2": {
+      "asset": "ki-v2-objects-nexus-bush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-fern-0": {
+      "asset": "ki-v2-objects-nexus-fern-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-fern-1": {
+      "asset": "ki-v2-objects-nexus-fern-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-fern-2": {
+      "asset": "ki-v2-objects-nexus-fern-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-fern-3": {
+      "asset": "ki-v2-objects-nexus-fern-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-fern-5": {
+      "asset": "ki-v2-objects-nexus-fern-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-flowerbush-0": {
+      "asset": "ki-v2-objects-nexus-flowerbush-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-flowerbush-1": {
+      "asset": "ki-v2-objects-nexus-flowerbush-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-flowerbush-2": {
+      "asset": "ki-v2-objects-nexus-flowerbush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-mushrooms-3": {
+      "asset": "ki-v2-objects-nexus-mushrooms-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-oak-3": {
+      "asset": "ki-v2-objects-nexus-oak-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-pine-0": {
+      "asset": "ki-v2-objects-nexus-pine-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-pine-1": {
+      "asset": "ki-v2-objects-nexus-pine-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-pine-2": {
+      "asset": "ki-v2-objects-nexus-pine-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-pine-3": {
+      "asset": "ki-v2-objects-nexus-pine-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-pine-4": {
+      "asset": "ki-v2-objects-nexus-pine-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-reeds-0": {
+      "asset": "ki-v2-objects-nexus-reeds-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-reeds-1": {
+      "asset": "ki-v2-objects-nexus-reeds-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-reeds-2": {
+      "asset": "ki-v2-objects-nexus-reeds-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-reeds-3": {
+      "asset": "ki-v2-objects-nexus-reeds-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-stump-1": {
+      "asset": "ki-v2-objects-nexus-stump-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-stump-2": {
+      "asset": "ki-v2-objects-nexus-stump-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-tree2-0": {
+      "asset": "ki-v2-objects-nexus-tree2-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-tree2-1": {
+      "asset": "ki-v2-objects-nexus-tree2-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-tree2-2": {
+      "asset": "ki-v2-objects-nexus-tree2-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-tree2-3": {
+      "asset": "ki-v2-objects-nexus-tree2-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-tree2-4": {
+      "asset": "ki-v2-objects-nexus-tree2-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.nexus-tree2-5": {
+      "asset": "ki-v2-objects-nexus-tree2-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-bush-1": {
+      "asset": "ki-v2-objects-pyra-bush-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-bush-2": {
+      "asset": "ki-v2-objects-pyra-bush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-bush-3": {
+      "asset": "ki-v2-objects-pyra-bush-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-bush-4": {
+      "asset": "ki-v2-objects-pyra-bush-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-fern-1": {
+      "asset": "ki-v2-objects-pyra-fern-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-fern-2": {
+      "asset": "ki-v2-objects-pyra-fern-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-fern-3": {
+      "asset": "ki-v2-objects-pyra-fern-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-flowerbush-0": {
+      "asset": "ki-v2-objects-pyra-flowerbush-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-flowerbush-2": {
+      "asset": "ki-v2-objects-pyra-flowerbush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-log-1": {
+      "asset": "ki-v2-objects-pyra-log-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-log-3": {
+      "asset": "ki-v2-objects-pyra-log-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-oak-0": {
+      "asset": "ki-v2-objects-pyra-oak-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-oak-1": {
+      "asset": "ki-v2-objects-pyra-oak-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-oak-2": {
+      "asset": "ki-v2-objects-pyra-oak-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-oak-3": {
+      "asset": "ki-v2-objects-pyra-oak-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-oak-4": {
+      "asset": "ki-v2-objects-pyra-oak-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-pine-0": {
+      "asset": "ki-v2-objects-pyra-pine-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-pine-1": {
+      "asset": "ki-v2-objects-pyra-pine-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-pine-2": {
+      "asset": "ki-v2-objects-pyra-pine-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-pine-3": {
+      "asset": "ki-v2-objects-pyra-pine-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-pine-4": {
+      "asset": "ki-v2-objects-pyra-pine-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-pine-5": {
+      "asset": "ki-v2-objects-pyra-pine-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-reeds-1": {
+      "asset": "ki-v2-objects-pyra-reeds-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-reeds-2": {
+      "asset": "ki-v2-objects-pyra-reeds-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-reeds-4": {
+      "asset": "ki-v2-objects-pyra-reeds-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-rocks-0": {
+      "asset": "ki-v2-objects-pyra-rocks-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-stump-0": {
+      "asset": "ki-v2-objects-pyra-stump-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-stump-1": {
+      "asset": "ki-v2-objects-pyra-stump-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-stump-2": {
+      "asset": "ki-v2-objects-pyra-stump-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-stump-4": {
+      "asset": "ki-v2-objects-pyra-stump-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-stump-5": {
+      "asset": "ki-v2-objects-pyra-stump-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-tree2-0": {
+      "asset": "ki-v2-objects-pyra-tree2-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-tree2-1": {
+      "asset": "ki-v2-objects-pyra-tree2-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-tree2-2": {
+      "asset": "ki-v2-objects-pyra-tree2-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-tree2-3": {
+      "asset": "ki-v2-objects-pyra-tree2-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.pyra-tree2-4": {
+      "asset": "ki-v2-objects-pyra-tree2-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-boulder-0": {
+      "asset": "ki-v2-objects-verdant-boulder-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-boulder-1": {
+      "asset": "ki-v2-objects-verdant-boulder-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-boulder-2": {
+      "asset": "ki-v2-objects-verdant-boulder-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-boulder-4": {
+      "asset": "ki-v2-objects-verdant-boulder-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-boulder-5": {
+      "asset": "ki-v2-objects-verdant-boulder-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-bush-0": {
+      "asset": "ki-v2-objects-verdant-bush-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-bush-1": {
+      "asset": "ki-v2-objects-verdant-bush-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-bush-2": {
+      "asset": "ki-v2-objects-verdant-bush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-fern-0": {
+      "asset": "ki-v2-objects-verdant-fern-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-fern-1": {
+      "asset": "ki-v2-objects-verdant-fern-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-fern-2": {
+      "asset": "ki-v2-objects-verdant-fern-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-fern-3": {
+      "asset": "ki-v2-objects-verdant-fern-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-fern-5": {
+      "asset": "ki-v2-objects-verdant-fern-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-flowerbush-0": {
+      "asset": "ki-v2-objects-verdant-flowerbush-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-flowerbush-1": {
+      "asset": "ki-v2-objects-verdant-flowerbush-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-flowerbush-2": {
+      "asset": "ki-v2-objects-verdant-flowerbush-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-log-1": {
+      "asset": "ki-v2-objects-verdant-log-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-log-2": {
+      "asset": "ki-v2-objects-verdant-log-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-log-3": {
+      "asset": "ki-v2-objects-verdant-log-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-log-4": {
+      "asset": "ki-v2-objects-verdant-log-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-log-5": {
+      "asset": "ki-v2-objects-verdant-log-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-mushrooms-1": {
+      "asset": "ki-v2-objects-verdant-mushrooms-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-mushrooms-5": {
+      "asset": "ki-v2-objects-verdant-mushrooms-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-oak-0": {
+      "asset": "ki-v2-objects-verdant-oak-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-oak-1": {
+      "asset": "ki-v2-objects-verdant-oak-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-oak-2": {
+      "asset": "ki-v2-objects-verdant-oak-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-oak-3": {
+      "asset": "ki-v2-objects-verdant-oak-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-oak-4": {
+      "asset": "ki-v2-objects-verdant-oak-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-oak-5": {
+      "asset": "ki-v2-objects-verdant-oak-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-pine-1": {
+      "asset": "ki-v2-objects-verdant-pine-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-pine-2": {
+      "asset": "ki-v2-objects-verdant-pine-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-pine-3": {
+      "asset": "ki-v2-objects-verdant-pine-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-pine-4": {
+      "asset": "ki-v2-objects-verdant-pine-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-pine-5": {
+      "asset": "ki-v2-objects-verdant-pine-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-reeds-1": {
+      "asset": "ki-v2-objects-verdant-reeds-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-reeds-2": {
+      "asset": "ki-v2-objects-verdant-reeds-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-reeds-3": {
+      "asset": "ki-v2-objects-verdant-reeds-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-reeds-5": {
+      "asset": "ki-v2-objects-verdant-reeds-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-rocks-3": {
+      "asset": "ki-v2-objects-verdant-rocks-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-stump-0": {
+      "asset": "ki-v2-objects-verdant-stump-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-stump-1": {
+      "asset": "ki-v2-objects-verdant-stump-1",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-stump-2": {
+      "asset": "ki-v2-objects-verdant-stump-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-stump-3": {
+      "asset": "ki-v2-objects-verdant-stump-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-stump-4": {
+      "asset": "ki-v2-objects-verdant-stump-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-stump-5": {
+      "asset": "ki-v2-objects-verdant-stump-5",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-tree2-0": {
+      "asset": "ki-v2-objects-verdant-tree2-0",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-tree2-2": {
+      "asset": "ki-v2-objects-verdant-tree2-2",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-tree2-3": {
+      "asset": "ki-v2-objects-verdant-tree2-3",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-tree2-4": {
+      "asset": "ki-v2-objects-verdant-tree2-4",
+      "fit": "contain"
+    },
+    "object.ki-v2-objects.verdant-tree2-5": {
+      "asset": "ki-v2-objects-verdant-tree2-5",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

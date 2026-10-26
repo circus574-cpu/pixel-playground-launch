@@ -141,6 +141,8 @@ export function makeCatalog(
 }
 /** Packs enabled by each opt-in review switch (`?<param>=1`). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
+  /** Combat-only boss catalog preview; uses existing actor graphics. */
+  "ki-bosses": [],
   /** Anime start point of Aetheria, awaiting the owner's review. */
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],

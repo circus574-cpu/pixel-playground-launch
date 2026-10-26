@@ -1,0 +1,4 @@
+
+> assets:check
+> tsx scripts/check-game-assets.ts
+

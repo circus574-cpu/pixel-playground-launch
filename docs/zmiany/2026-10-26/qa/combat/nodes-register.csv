@@ -1,0 +1,117 @@
+race,node,name,state,test
+planetary,R,Cios Szlaku,passed,planetary: node runtime contracts R: Cios Szlaku
+planetary,A1,Szybki Unik,passed,planetary: node runtime contracts A1: Szybki Unik
+planetary,A2,Lekki Krok,passed,planetary: node runtime contracts A2: Lekki Krok
+planetary,A3,Pęd Szlaku,passed,planetary: node runtime contracts A3: Pęd Szlaku
+planetary,A4,Wir Energii,passed,planetary: node runtime contracts A4: Wir Energii
+planetary,A5,Wiatr w Plecy,passed,planetary: node runtime contracts A5: Wiatr w Plecy
+planetary,A6,Oko Zwiadowcy,passed,planetary: node runtime contracts A6: Oko Zwiadowcy
+planetary,A7,Cios z Cienia,passed,planetary: node runtime contracts A7: Cios z Cienia
+planetary,A8,Nieuchwytny,passed,planetary: node runtime contracts A8: Nieuchwytny
+planetary,A9,Burza Wędrowca,passed,planetary: node runtime contracts A9: Burza Wędrowca
+planetary,B1,Impuls Ziemi,passed,planetary: node runtime contracts B1: Impuls Ziemi
+planetary,B2,Adaptacja,passed,planetary: node runtime contracts B2: Adaptacja
+planetary,B3,Kamienna Skóra,passed,planetary: node runtime contracts B3: Kamienna Skóra
+planetary,B4,Kruszący Stąp,passed,planetary: node runtime contracts B4: Kruszący Stąp
+planetary,B5,Rezonans,passed,planetary: node runtime contracts B5: Rezonans
+planetary,B6,Żyła Ziemi,passed,planetary: node runtime contracts B6: Żyła Ziemi
+planetary,B7,Głaz Strażnik,passed,planetary: node runtime contracts B7: Głaz Strażnik
+planetary,B8,Trzęsienie,passed,planetary: node runtime contracts B8: Trzęsienie
+planetary,B9,Gniew Doliny,passed,planetary: node runtime contracts B9: Gniew Doliny
+planetary,C1,Korzenny Oddech,passed,planetary: node runtime contracts C1: Korzenny Oddech
+planetary,C2,Zielona Krew,passed,planetary: node runtime contracts C2: Zielona Krew
+planetary,C3,Leśna Cierpliwość,passed,planetary: node runtime contracts C3: Leśna Cierpliwość
+planetary,C4,Tarcza Liści,passed,planetary: node runtime contracts C4: Tarcza Liści
+planetary,C5,Korzenie Odporności,passed,planetary: node runtime contracts C5: Korzenie Odporności
+planetary,C6,Ziarno Życia,passed,planetary: node runtime contracts C6: Ziarno Życia
+planetary,C7,Strażnik Gaju,passed,planetary: node runtime contracts C7: Strażnik Gaju
+planetary,C8,Dar Lasu,passed,planetary: node runtime contracts C8: Dar Lasu
+planetary,C9,Pieśń Korzeni,passed,planetary: node runtime contracts C9: Pieśń Korzeni
+planetary,T,Forma Rezonansu Świata,passed,planetary: node runtime contracts T: Forma Rezonansu Świata
+sage,R,Pocisk Ki,passed,sage: node runtime contracts R: Pocisk Ki
+sage,A1,Pieczęć Energii,passed,sage: node runtime contracts A1: Pieczęć Energii
+sage,A2,Znak Wiedzy,passed,sage: node runtime contracts A2: Znak Wiedzy
+sage,A3,Szybka Pieczęć,passed,sage: node runtime contracts A3: Szybka Pieczęć
+sage,A4,Strumień Ki,passed,sage: node runtime contracts A4: Strumień Ki
+sage,A5,Echo Pieczęci,passed,sage: node runtime contracts A5: Echo Pieczęci
+sage,A6,Precyzja Mędrca,passed,sage: node runtime contracts A6: Precyzja Mędrca
+sage,A7,Złoty Krąg,passed,sage: node runtime contracts A7: Złoty Krąg
+sage,A8,Pieczęć Skupienia,passed,sage: node runtime contracts A8: Pieczęć Skupienia
+sage,A9,Sąd Światła,passed,sage: node runtime contracts A9: Sąd Światła
+sage,B1,Świetlista Bariera,passed,sage: node runtime contracts B1: Świetlista Bariera
+sage,B2,Kontrola Kręgu,passed,sage: node runtime contracts B2: Kontrola Kręgu
+sage,B3,Gęste Światło,passed,sage: node runtime contracts B3: Gęste Światło
+sage,B4,Krąg Spowolnienia,passed,sage: node runtime contracts B4: Krąg Spowolnienia
+sage,B5,Odbicie,passed,sage: node runtime contracts B5: Odbicie
+sage,B6,Strażnik Kręgu,passed,sage: node runtime contracts B6: Strażnik Kręgu
+sage,B7,Kopuła,passed,sage: node runtime contracts B7: Kopuła
+sage,B8,Lustro,passed,sage: node runtime contracts B8: Lustro
+sage,B9,Świątynia Światła,passed,sage: node runtime contracts B9: Świątynia Światła
+sage,C1,Skupienie KI,passed,sage: node runtime contracts C1: Skupienie KI
+sage,C2,Głęboki Oddech,passed,sage: node runtime contracts C2: Głęboki Oddech
+sage,C3,Mądrość Strażników,passed,sage: node runtime contracts C3: Mądrość Strażników
+sage,C4,Medytacja Bojowa,passed,sage: node runtime contracts C4: Medytacja Bojowa
+sage,C5,Czysty Umysł,passed,sage: node runtime contracts C5: Czysty Umysł
+sage,C6,Strumień Wiedzy,passed,sage: node runtime contracts C6: Strumień Wiedzy
+sage,C7,Dar Mędrca,passed,sage: node runtime contracts C7: Dar Mędrca
+sage,C8,Skupienie Mistrza,passed,sage: node runtime contracts C8: Skupienie Mistrza
+sage,C9,Pełnia Skupienia,passed,sage: node runtime contracts C9: Pełnia Skupienia
+sage,T,Forma Oświecenia,passed,sage: node runtime contracts T: Forma Oświecenia
+android,R,Strzał Impulsowy,passed,android: node runtime contracts R: Strzał Impulsowy
+android,A1,Namierzanie,passed,android: node runtime contracts A1: Namierzanie
+android,A2,Kalibracja,passed,android: node runtime contracts A2: Kalibracja
+android,A3,Stabilizatory,passed,android: node runtime contracts A3: Stabilizatory
+android,A4,Salwa Precyzyjna,passed,android: node runtime contracts A4: Salwa Precyzyjna
+android,A5,Analiza Słabości,passed,android: node runtime contracts A5: Analiza Słabości
+android,A6,Szybkie Przeładowanie,passed,android: node runtime contracts A6: Szybkie Przeładowanie
+android,A7,Snajper,passed,android: node runtime contracts A7: Snajper
+android,A8,Rój,passed,android: node runtime contracts A8: Rój
+android,A9,Protokół Egzekucji,passed,android: node runtime contracts A9: Protokół Egzekucji
+android,B1,Tarcza Plazmowa,passed,android: node runtime contracts B1: Tarcza Plazmowa
+android,B2,Płyty Pancerne,passed,android: node runtime contracts B2: Płyty Pancerne
+android,B3,Generator Tarczy,passed,android: node runtime contracts B3: Generator Tarczy
+android,B4,Impuls Odpychający,passed,android: node runtime contracts B4: Impuls Odpychający
+android,B5,Protokół Adaptacji,passed,android: node runtime contracts B5: Protokół Adaptacji
+android,B6,Samonaprawa,passed,android: node runtime contracts B6: Samonaprawa
+android,B7,Tarcza Kolcowa,passed,android: node runtime contracts B7: Tarcza Kolcowa
+android,B8,Tarcza Modułowa,passed,android: node runtime contracts B8: Tarcza Modułowa
+android,B9,Fortyfikacja,passed,android: node runtime contracts B9: Fortyfikacja
+android,C1,Wyładowanie Rdzenia,passed,android: node runtime contracts C1: Wyładowanie Rdzenia
+android,C2,Zarządzanie Rdzeniem,passed,android: node runtime contracts C2: Zarządzanie Rdzeniem
+android,C3,Radiatory,passed,android: node runtime contracts C3: Radiatory
+android,C4,Rozładowanie Awaryjne,passed,android: node runtime contracts C4: Rozładowanie Awaryjne
+android,C5,Rezerwowy Akumulator,passed,android: node runtime contracts C5: Rezerwowy Akumulator
+android,C6,Optymalizacja,passed,android: node runtime contracts C6: Optymalizacja
+android,C7,Przeciążony Rdzeń,passed,android: node runtime contracts C7: Przeciążony Rdzeń
+android,C8,Stabilny Rdzeń,passed,android: node runtime contracts C8: Stabilny Rdzeń
+android,C9,Przeciążenie Systemu,passed,android: node runtime contracts C9: Przeciążenie Systemu
+android,T,Forma Pełnego Rdzenia,passed,android: node runtime contracts T: Forma Pełnego Rdzenia
+legend,R,Uderzenie Żaru,passed,legend: node runtime contracts R: Uderzenie Żaru
+legend,A1,Ogniste Cięcie,passed,legend: node runtime contracts A1: Ogniste Cięcie
+legend,A2,Rozgrzane Ostrza,passed,legend: node runtime contracts A2: Rozgrzane Ostrza
+legend,A3,Łańcuch Ciosów,passed,legend: node runtime contracts A3: Łańcuch Ciosów
+legend,A4,Szarża Płomienia,passed,legend: node runtime contracts A4: Szarża Płomienia
+legend,A5,Rozżarzone Pięści,passed,legend: node runtime contracts A5: Rozżarzone Pięści
+legend,A6,Okrucieństwo,passed,legend: node runtime contracts A6: Okrucieństwo
+legend,A7,Taniec Płomieni,passed,legend: node runtime contracts A7: Taniec Płomieni
+legend,A8,Pojedynkowicz,passed,legend: node runtime contracts A8: Pojedynkowicz
+legend,A9,Tysiąc Cięć,passed,legend: node runtime contracts A9: Tysiąc Cięć
+legend,B1,Przełamanie,passed,legend: node runtime contracts B1: Przełamanie
+legend,B2,Hartowana Skóra,passed,legend: node runtime contracts B2: Hartowana Skóra
+legend,B3,Honor Wojownika,passed,legend: node runtime contracts B3: Honor Wojownika
+legend,B4,Płomienny Szał,passed,legend: node runtime contracts B4: Płomienny Szał
+legend,B5,Żelazna Wola,passed,legend: node runtime contracts B5: Żelazna Wola
+legend,B6,Krew Legendy,passed,legend: node runtime contracts B6: Krew Legendy
+legend,B7,Wściekłość,passed,legend: node runtime contracts B7: Wściekłość
+legend,B8,Kontrolowany Żar,passed,legend: node runtime contracts B8: Kontrolowany Żar
+legend,B9,Ostatni Płomień,passed,legend: node runtime contracts B9: Ostatni Płomień
+legend,C1,Wybuch Ki,passed,legend: node runtime contracts C1: Wybuch Ki
+legend,C2,Żar,passed,legend: node runtime contracts C2: Żar
+legend,C3,Ognisty Oddech,passed,legend: node runtime contracts C3: Ognisty Oddech
+legend,C4,Eksplozja Żaru,passed,legend: node runtime contracts C4: Eksplozja Żaru
+legend,C5,Szybkie Rozżarzenie,passed,legend: node runtime contracts C5: Szybkie Rozżarzenie
+legend,C6,Nieugaszony,passed,legend: node runtime contracts C6: Nieugaszony
+legend,C7,Wulkan,passed,legend: node runtime contracts C7: Wulkan
+legend,C8,Detonator,passed,legend: node runtime contracts C8: Detonator
+legend,C9,Ognisty Kataklizm,passed,legend: node runtime contracts C9: Ognisty Kataklizm
+legend,T,Forma Płomiennego Legendy,passed,legend: node runtime contracts T: Forma Płomiennego Legendy

@@ -1,0 +1,60 @@
+{
+  "monsters": {
+    "scenarios": 1392,
+    "fights": 22272,
+    "wins": 20351,
+    "deaths": 1478,
+    "timeouts": 443,
+    "byRace": {
+      "planetary": {
+        "wins": 5095,
+        "deaths": 351,
+        "timeouts": 122
+      },
+      "sage": {
+        "wins": 4879,
+        "deaths": 565,
+        "timeouts": 124
+      },
+      "android": {
+        "wins": 5142,
+        "deaths": 295,
+        "timeouts": 131
+      },
+      "legend": {
+        "wins": 5235,
+        "deaths": 267,
+        "timeouts": 66
+      }
+    }
+  },
+  "bosses": {
+    "scenarios": 240,
+    "fights": 3840,
+    "wins": 1214,
+    "deaths": 2626,
+    "timeouts": 0,
+    "byRace": {
+      "planetary": {
+        "wins": 310,
+        "deaths": 650,
+        "timeouts": 0
+      },
+      "sage": {
+        "wins": 169,
+        "deaths": 791,
+        "timeouts": 0
+      },
+      "android": {
+        "wins": 289,
+        "deaths": 671,
+        "timeouts": 0
+      },
+      "legend": {
+        "wins": 446,
+        "deaths": 514,
+        "timeouts": 0
+      }
+    }
+  }
+}

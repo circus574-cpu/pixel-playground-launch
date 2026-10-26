@@ -270,6 +270,7 @@ export abstract class Kit {
   // --- damage ----------------------------------------------------------------------------
   /** Rolls a crit and deals `mult` × ATK (× buffs) to the foe through the session's damage model. */
   protected strike(foe: Foe, mult: number, hit: Hit, extra = 0, forceCrit = false): number {
+    if (!hit.tags.includes("area") && !this.port.visible(this.port.player, foe)) return 0;
     const s = this.stats;
     let raw = s.attack * mult * s.dealt * (1 + extra + this.dealtVs(foe));
     const chance = s.crit + this.critVs(foe);
@@ -373,6 +374,8 @@ export abstract class Kit {
     return out;
   }
   use(id: string): UseResult {
+    if (id === "T" && (this.port.player.level < 20 || !["A9", "B9", "C9"].some((n) => this.has(n))))
+      return { ok: false, reason: "Tryb KI wymaga poziomu 20 i zdolności ostatecznej." };
     if (this.lockMs > 0) return { ok: false, reason: "Układy wyłączone." };
     if (id === "R") {
       const why = this.canAttack();
@@ -392,10 +395,17 @@ export abstract class Kit {
     const cost = Math.round(def.ki * this.stats.kiCostMul);
     if (this.port.player.ki < cost) return { ok: false, reason: "Za mało KI (" + cost + ")." };
     if (this.channel) return { ok: false, reason: "Trwa kanałowanie." };
+    if (def.needsFoe) {
+      const target = this.port.target();
+      if (target && !this.port.visible(this.port.player, target))
+        return { ok: false, reason: "Przeszkoda zasłania cel." };
+    }
+    // Snapshot before cast: the KI form must not shorten its own stated cooldown.
+    const cooldown = Math.round(this.cooldownOf(id) * this.stats.cooldownMul);
     const r = this.cast(id);
     if (!r.ok) return r;
     this.port.addKi(-cost);
-    this.cooldowns[id] = Math.round(this.cooldownOf(id) * this.stats.cooldownMul);
+    this.cooldowns[id] = cooldown;
     return r;
   }
   tick(dt: number, moving: boolean) {

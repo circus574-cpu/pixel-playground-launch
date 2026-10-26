@@ -1,0 +1,24 @@
+{
+  "implementationSha": "72eab7bcf9a6aa200f7591f404ce4f8d987173f0",
+  "branch": "feature/argon-combat-mobile-integration",
+  "pr": "https://github.com/circus574-cpu/pixel-playground-launch/pull/36",
+  "localChecks": {
+    "typecheck": "PASS",
+    "vitest": {
+      "passed": 391,
+      "failed": 0
+    },
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 9
+    },
+    "build": "PASS",
+    "assets": "PASS",
+    "newCanvasScenarios": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "scope": "Local checks ran on the implementation tree saved as implementationSha. Full regression and Software WebGL results are recorded by PR checks/Actions on their exact tested SHA.",
+  "physicalPhone": "NOT_VERIFIED"
+}
