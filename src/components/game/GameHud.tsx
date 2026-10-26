@@ -12,6 +12,7 @@ import { MangaIcon, type MangaSymbol } from "./MangaIcon";
 import originArt from "../../game/world/origin-art.json";
 import { DiabloInventory } from "./DiabloInventory";
 import { GraphicSkillTree } from "./GraphicSkillTree";
+import { V2Minimap } from "./V2Minimap";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
@@ -458,11 +459,15 @@ export function GameHud({
           aria-label="Otwórz mapę świata"
           onClick={() => toggle(WORLD_V2 ? "planet" : "map")}
         >
-          <LocalMinimap
-            world={world}
-            at={state.building?.door ?? { x: state.x, y: state.y }}
-            inside={!!state.building}
-          />
+          {WORLD_V2 && !state.building ? (
+            <V2Minimap land={state.player.continent} at={{ x: state.x, y: state.y }} />
+          ) : (
+            <LocalMinimap
+              world={world}
+              at={state.building?.door ?? { x: state.x, y: state.y }}
+              inside={!!state.building}
+            />
+          )}
           {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
         </button>
         <div className="ki-map-footer">
