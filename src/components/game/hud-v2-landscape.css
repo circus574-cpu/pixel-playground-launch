@@ -264,9 +264,16 @@ html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
   html[data-ki-world-v2] .ki-hud {
     zoom: 1.3;
   }
+  /* Zoom also scales the panel's height limit: keep the close button on screen. */
+  html[data-ki-world-v2] .ki-hud .ki-modal {
+    max-height: calc((100dvh - 48px) / 1.3);
+  }
 }
 @media (min-width: 2200px) and (min-height: 1200px) {
   html[data-ki-world-v2] .ki-hud {
     zoom: 1.7;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-modal {
+    max-height: calc((100dvh - 48px) / 1.7);
   }
 }
