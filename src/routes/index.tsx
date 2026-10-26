@@ -9,6 +9,7 @@ import { SuperiorCharacterStore as CharacterStore } from "../game/world/generate
 import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
+import { music } from "../game/music";
 import { syncCloud } from "../components/account/cloudSync";
 import { markStaff, verifiedStaffRole } from "../game/account/staff";
 import { useAccount } from "../components/account/useAccount";
@@ -109,6 +110,10 @@ export function Index() {
     else setWarning("");
     setSlots(store?.list() ?? []);
   };
+  // Start screen and character selection: the loading theme (the game switches per continent).
+  useEffect(() => {
+    if (!active?.player) music.play("loading");
+  }, [active]);
   if (!loaded)
     return (
       <main className="ki-bootstrap">
@@ -315,6 +320,7 @@ function GameScreen({
           }}
         />
       )}
+      {loading.phase !== "ready" && <LoadingTheme />}
       {loading.phase !== "ready" && (
         <GameLoadingScreen
           state={loading}
@@ -333,4 +339,10 @@ function GameScreen({
       )}
     </main>
   );
+}
+
+/** While a world loads (also on travel between lands) the loading theme plays. */
+function LoadingTheme() {
+  useEffect(() => music.play("loading"), []);
+  return null;
 }

@@ -134,8 +134,15 @@ describe("UI preferences survive refresh without touching character saves", () =
     localStorage.setItem(SAVE_KEY, "preserved");
     const value = { messages: false, worldLabels: false, largeMinimap: true };
     writeUiPreferences(value);
-    expect(readUiPreferences()).toEqual(value);
+    expect(readUiPreferences()).toEqual({ ...value, musicVolume: 0.3, musicMuted: false });
     expect(localStorage.getItem(SAVE_KEY)).toBe("preserved");
+  });
+  it("keeps the music level, 30 % by default, within 0–100 %", () => {
+    const base = { messages: true, worldLabels: true, largeMinimap: false };
+    writeUiPreferences({ ...base, musicVolume: 0.65, musicMuted: true });
+    expect(readUiPreferences()).toMatchObject({ musicVolume: 0.65, musicMuted: true });
+    writeUiPreferences({ ...base, musicVolume: 7 });
+    expect(readUiPreferences().musicVolume).toBe(1);
   });
   it("handles invalid preferences and blocked storage without crashing gameplay", () => {
     localStorage.setItem(UI_PREFERENCES_KEY, "{broken");
