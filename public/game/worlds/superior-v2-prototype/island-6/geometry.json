@@ -1,0 +1,1 @@
+{"feature":"island-6","projection":"azimuthal-equidistant","width":14592,"height":11008,"cellSize":128,"anchor":{"x":7296.0,"y":5504.0},"oldToNewTranslation":{"x":326.07534500000475,"y":244.11383099999512},"coastlineAuthority":"../sphere-chunks.json","status":"prototype; not compatible with runtime-1 navigation contract"}

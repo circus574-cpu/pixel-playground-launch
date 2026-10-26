@@ -10,6 +10,9 @@ import {
 } from "../../game/uiPreferences";
 import { MangaIcon, type MangaSymbol } from "./MangaIcon";
 import originArt from "../../game/world/origin-art.json";
+import { DiabloInventory } from "./DiabloInventory";
+import { V2WorldMap } from "../planet-map/V2WorldMap";
+import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
@@ -840,7 +843,12 @@ export function GameHud({
               </button>
             </header>
             <div className="ki-inline-messages">{feedback}</div>
-            {panel === "inventory" && <Inventory state={state} send={onCommand} />}
+            {panel === "inventory" &&
+              (WORLD_V2 ? (
+                <DiabloInventory state={state} send={onCommand} />
+              ) : (
+                <Inventory state={state} send={onCommand} />
+              ))}
             {panel === "journal" && (
               <QuestJournal
                 worldOverride={worldOverride}
@@ -930,7 +938,14 @@ export function GameHud({
                 </details>
               </div>
             )}
-            {panel === "map" && (
+            {panel === "map" && WORLD_V2 && (
+              <V2WorldMap
+                continent={state.player.continent}
+                player={{ x: state.player.x, y: state.player.y }}
+                onClose={closeAndResume}
+              />
+            )}
+            {panel === "map" && !WORLD_V2 && (
               <>
                 {world.city && (
                   <CityDirectory city={world.city} send={onCommand} close={closeAndResume} />

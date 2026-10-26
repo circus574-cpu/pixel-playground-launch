@@ -1,0 +1,1 @@
+{"feature":"pyra","projection":"azimuthal-equidistant","width":65536,"height":42240,"cellSize":128,"anchor":{"x":45824.0,"y":13824.0},"oldToNewTranslation":{"x":9125.71397299999,"y":9879.528051000001},"coastlineAuthority":"../sphere-chunks.json","status":"prototype; not compatible with runtime-1 navigation contract"}

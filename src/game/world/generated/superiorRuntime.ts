@@ -20,9 +20,12 @@ import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
+import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
+import { v2Places } from "../../worlds/v2Places";
+import { questsV2 } from "../../quests/v2Tracker";
 import { FEATURE_IDS, SuperiorSaveStore, type SuperiorIndex, type FeatureId } from "./superiorSave";
 
-const BASE = "/game/worlds/superior-v1";
+const BASE = WORLD_BASE;
 type Settlement = Point & { id: string; name: string; kind: string; bounds: Obstacle };
 type Source = {
   feature: FeatureId;
@@ -122,6 +125,10 @@ export async function prepareSuperior(options: {
     !source.settlements.length
   )
     throw Error("Nieprawidłowy ląd");
+  // World v2 towns carry Argon's city names; famous locations become map landmarks.
+  const places = WORLD_V2 ? v2Places(info.affinity) : undefined;
+  if (places)
+    for (const town of source.settlements) town.name = places.townNames[town.id] ?? town.name;
   const offset = source.sourceOffset ?? { x: 0, y: 0 };
   const shift = (p: Point): Point => ({ x: p.x + offset.x, y: p.y + offset.y });
   const base = structuredClone(WORLDS[info.affinity]);
@@ -199,12 +206,15 @@ export async function prepareSuperior(options: {
     npcs: first.npcs,
     market: first.market,
     safeAreas: source.settlements.map((s) => s.bounds),
-    landmarks: source.settlements.map((s) => ({
-      x: s.x,
-      y: s.y,
-      label: s.name,
-      kind: "settlement" as const,
-    })),
+    landmarks: [
+      ...source.settlements.map((s) => ({
+        x: s.x,
+        y: s.y,
+        label: s.name,
+        kind: "settlement" as const,
+      })),
+      ...(places?.famous ?? []),
+    ],
   };
   const outsideCities = (p: Point) =>
     !source.settlements.some(
@@ -282,6 +292,7 @@ export async function prepareSuperior(options: {
           "Poza osadą pokonaj trzech przeciwników pierwszych poziomów i wróć po nagrodę. Miasta pozostają bezpieczne.";
   // The session consumes the same initial snapshot; never rebase a writer on another tab mid-load.
   save.town = initialTown;
+  if (WORLD_V2) questsV2.enterTown(info.affinity, initialTown);
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
   // Diagnostic art is available only on the isolated local playtest document (as in mountGame).
   const preview =
@@ -397,6 +408,8 @@ export async function prepareSuperior(options: {
   const owned = new Set([...initialAssets.keys()].filter((id) => !protectedAssets.has(id)));
   const owners = new Map<string, Set<string>>(),
     requests = new Map<string, Promise<void>>();
+  const countedDeaths = new WeakSet<object>();
+  let lastDialogue: string | null = null;
   let disposed = false,
     failed = false;
   const error = () => {
@@ -547,6 +560,20 @@ export async function prepareSuperior(options: {
     },
     afterTick() {
       spawnStream.update();
+      if (!WORLD_V2) return;
+      const p = session.player;
+      if (!p.interior) questsV2.near(info.affinity, p.x, p.y);
+      questsV2.level(p.level);
+      if (session.dialogue && session.dialogue !== lastDialogue)
+        questsV2.talk(info.affinity, save.town ?? "", session.dialogue);
+      lastDialogue = session.dialogue ?? null;
+      for (const event of session.events) {
+        if (event.type !== "death" || event.target === "player" || countedDeaths.has(event))
+          continue;
+        countedDeaths.add(event);
+        const kind = session.enemies.find((e) => e.id === event.target)?.kind;
+        if (kind) questsV2.defeated(kind);
+      }
     },
     beforeTick() {
       if (session.player.interior || session.paused || session.dialogue) return;
@@ -561,6 +588,7 @@ export async function prepareSuperior(options: {
         world.npcs = next.npcs;
         world.market = next.market;
         save.town = town.id;
+        if (WORLD_V2) questsV2.enterTown(info.affinity, town.id);
       }
     },
     dispose() {

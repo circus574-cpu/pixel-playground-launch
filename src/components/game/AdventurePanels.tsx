@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { isCityStage } from "../../game/city/types";
 import { CityDirectory } from "./CityPanels";
+import { QuestsV2Journal } from "./QuestsV2Journal";
 import { WORLDS } from "../../game/world/worlds";
 import {
   ITEMS,
@@ -182,6 +183,7 @@ export function QuestJournal({
       <p className="ki-panel-caption">
         Zadania można wykonać kolejno. Postęp i odebrane nagrody zapisują się automatycznie.
       </p>
+      <QuestsV2Journal continent={state.player.continent} />
     </div>
   );
 }

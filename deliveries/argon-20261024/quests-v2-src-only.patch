@@ -1,0 +1,4524 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index fedca6f..b37cf7c 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -1,6 +1,7 @@
+-import React, { useState } from 'react';
++import React, { useState, useEffect } from 'react';
+ import { Navigation, ActiveTab } from './components/Navigation';
+ import { HeroExplorer } from './components/HeroExplorer';
++import { CharacterRaceEditor } from './components/CharacterRaceEditor';
+ import { BestiaryExplorer } from './components/BestiaryExplorer';
+ import { CombatSandbox } from './components/CombatSandbox';
+ import { WorldAtlas } from './components/WorldAtlas';
+@@ -11,13 +12,26 @@ import { HeroRace } from './data/heroes';
+ import { Monster } from './data/bestiary';
+ import { loadSaveFromStorage, saveToStorage } from './game/quests/engine';
+ import { PlayerSaveV5 } from './game/quests/types';
++import {
++  RaceDynamicTheme,
++  getActiveUiThemeRaceId,
++  getRaceProfile,
++  applyRaceThemeToDocument,
++} from './game/heroes/raceMetadata';
+ 
+ export default function App() {
+-  const [activeTab, setActiveTab] = useState<ActiveTab>('world-v2');
+-  const [selectedHeroId, setSelectedHeroId] = useState<HeroRace['id']>('planetary');
++  const [activeTab, setActiveTab] = useState<ActiveTab>('race-editor');
++  const [selectedHeroId, setSelectedHeroId] = useState<HeroRace['id']>(() => getActiveUiThemeRaceId());
++  const [activeRaceTheme, setActiveRaceTheme] = useState<RaceDynamicTheme>(
++    () => getRaceProfile(getActiveUiThemeRaceId()).theme
++  );
+   const [queuedMonster, setQueuedMonster] = useState<Monster | null>(null);
+   const [playerSave, setPlayerSave] = useState<PlayerSaveV5>(() => loadSaveFromStorage());
+ 
++  useEffect(() => {
++    applyRaceThemeToDocument(activeRaceTheme, selectedHeroId);
++  }, [activeRaceTheme, selectedHeroId]);
++
+   const handleUpdateSave = (next: PlayerSaveV5) => {
+     setPlayerSave(next);
+     saveToStorage(next);
+@@ -25,18 +39,45 @@ export default function App() {
+ 
+   const handleSelectHeroForCombat = (heroId: HeroRace['id']) => {
+     setSelectedHeroId(heroId);
++    setActiveRaceTheme(getRaceProfile(heroId).theme);
+     setActiveTab('combat');
+   };
+ 
++  const handleOpenRaceEditor = (heroId: HeroRace['id']) => {
++    setSelectedHeroId(heroId);
++    setActiveRaceTheme(getRaceProfile(heroId).theme);
++    setActiveTab('race-editor');
++  };
++
++  const handleActiveThemeChange = (raceId: HeroRace['id'], theme: RaceDynamicTheme) => {
++    setSelectedHeroId(raceId);
++    setActiveRaceTheme(theme);
++  };
++
+   const handleSpawnMonsterInArena = (monster: Monster) => {
+     setQueuedMonster(monster);
+     setActiveTab('combat');
+   };
+ 
+   return (
+-    <div className="min-h-screen bg-stone-950 text-stone-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-black">
++    <div
++      className="min-h-screen bg-stone-950 text-stone-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-black"
++      style={
++        {
++          '--race-primary': activeRaceTheme.primaryAccent,
++          '--race-secondary': activeRaceTheme.secondaryAccent,
++          '--race-glow': activeRaceTheme.auraGlow,
++          '--race-surface': activeRaceTheme.surfaceTint,
++          '--race-border': activeRaceTheme.borderAccent,
++        } as React.CSSProperties
++      }
++    >
+       {/* Navigation */}
+-      <Navigation activeTab={activeTab} onSelectTab={setActiveTab} />
++      <Navigation
++        activeTab={activeTab}
++        onSelectTab={setActiveTab}
++        activeTheme={activeRaceTheme}
++      />
+ 
+       {/* Main View Area */}
+       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+@@ -44,6 +85,14 @@ export default function App() {
+           <WorldV2Explorer save={playerSave} onUpdateSave={handleUpdateSave} />
+         )}
+ 
++        {activeTab === 'race-editor' && (
++          <CharacterRaceEditor
++            initialRaceId={selectedHeroId}
++            onLaunchCombatWithRace={handleSelectHeroForCombat}
++            onActiveThemeChange={handleActiveThemeChange}
++          />
++        )}
++
+         {activeTab === 'hud-ui' && <HudShowcase />}
+ 
+         {activeTab === 'combat' && (
+@@ -55,7 +104,10 @@ export default function App() {
+         )}
+ 
+         {activeTab === 'heroes' && (
+-          <HeroExplorer onSelectForCombat={handleSelectHeroForCombat} />
++          <HeroExplorer
++            onSelectForCombat={handleSelectHeroForCombat}
++            onOpenRaceEditor={handleOpenRaceEditor}
++          />
+         )}
+ 
+         {activeTab === 'bestiary' && (
+@@ -68,12 +120,19 @@ export default function App() {
+       </main>
+ 
+       {/* Footer */}
+-      <footer className="border-t border-stone-800/80 bg-stone-950 py-6 text-xs text-stone-500">
++      <footer
++        className="border-t bg-stone-950 py-6 text-xs text-stone-500 transition-colors"
++        style={{ borderColor: `${activeRaceTheme.primaryAccent}33` }}
++      >
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+           <div className="flex items-center gap-2">
+-            <span className="font-bold text-stone-400">KI Legends — World V2</span>
++            <span className="font-bold text-stone-300">KI Legends — World V2 & Race Studio</span>
+             <span>•</span>
+             <span>Gałąź: feature/quests-v2 (Save v5)</span>
++            <span>•</span>
++            <span style={{ color: activeRaceTheme.primaryAccent }}>
++              Motyw UI: {activeRaceTheme.namePl}
++            </span>
+           </div>
+ 
+           <div className="flex flex-wrap items-center gap-3 text-stone-400 font-mono text-[11px]">
+diff --git a/src/components/CharacterRaceEditor.tsx b/src/components/CharacterRaceEditor.tsx
+new file mode 100644
+index 0000000..f7c630c
+--- /dev/null
++++ b/src/components/CharacterRaceEditor.tsx
+@@ -0,0 +1,1504 @@
++import React, { useState, useEffect, useRef } from 'react';
++import { HERO_RACES, HeroRace, Direction } from '../data/heroes';
++import {
++  HeroAnimState,
++  HERO_ANIM_FRAMES,
++  ensureCleanedHeroSprite,
++  getCachedCleanedHeroSprite,
++  renderAnimatedHero,
++} from '../game/heroes/spriteAnimator';
++import {
++  RaceProvenanceMetadata,
++  Stage3RenderContract,
++  RaceEditorProfile,
++  RaceDynamicTheme,
++  RaceVisualRigConfig,
++  CANONICAL_RACE_PROVENANCE,
++  CANONICAL_STAGE3_CONTRACT,
++  RACE_THEME_PRESETS,
++  fetchRaceProvenance,
++  fetchStage3RenderContract,
++  getRaceProfile,
++  saveRaceProfile,
++  resetRaceProfileToCanonical,
++  setActiveUiThemeRaceId,
++  applyRaceThemeToDocument,
++  computeEffectiveAnimFps,
++} from '../game/heroes/raceMetadata';
++import {
++  Sliders,
++  Palette,
++  Activity,
++  FileJson,
++  RotateCcw,
++  Play,
++  Pause,
++  RotateCw,
++  Check,
++  Copy,
++  Eye,
++  Layers,
++  Crosshair,
++  Shield,
++  Zap,
++  Sparkles,
++  ChevronRight,
++  Wand2,
++} from 'lucide-react';
++
++const DIRECTIONS: { key: Direction; short: string; labelPl: string }[] = [
++  { key: 'down', short: 'S', labelPl: 'Południe (Down)' },
++  { key: 'down-left', short: 'SW', labelPl: 'Pd.-Zach. (Down-Left)' },
++  { key: 'left', short: 'W', labelPl: 'Zachód (Left)' },
++  { key: 'up-left', short: 'NW', labelPl: 'Pn.-Zach. (Up-Left)' },
++  { key: 'up', short: 'N', labelPl: 'Północ (Up)' },
++  { key: 'up-right', short: 'NE', labelPl: 'Pn.-Wsch. (Up-Right)' },
++  { key: 'right', short: 'E', labelPl: 'Wschód (Right)' },
++  { key: 'down-right', short: 'SE', labelPl: 'Pd.-Wsch. (Down-Right)' },
++];
++
++const ANIM_STATES: { key: HeroAnimState; labelPl: string; descPl: string }[] = [
++  { key: 'walk', labelPl: 'Chód (Walk)', descPl: '8 klatek · Naprzemienny krok L/P + wahadło tułowia' },
++  { key: 'attack', labelPl: 'Atak (Attack)', descPl: '8 klatek · Zamach, wypad bojowy i łuk cięcia KI' },
++  { key: 'skill', labelPl: 'Technika KI (Skill)', descPl: '8 klatek · Lewitacja, pieczęć i eksplozja aury' },
++  { key: 'idle', labelPl: 'Oddech (Idle)', descPl: '8 klatek · Oddech bojowy i falowanie szat' },
++  { key: 'hit', labelPl: 'Obrażenia (Hit)', descPl: '4 klatki · Odrzut kierunkowy i błysk trafienia' },
++  { key: 'death', labelPl: 'Upadek (Death)', descPl: '8 klatek · Progresywny upadek na podłoże' },
++];
++
++type EditorWorkspaceTab = 'appearance' | 'animation' | 'theme' | 'metadata';
++
++interface CharacterRaceEditorProps {
++  initialRaceId?: HeroRace['id'];
++  onLaunchCombatWithRace?: (raceId: HeroRace['id']) => void;
++  onActiveThemeChange?: (raceId: HeroRace['id'], theme: RaceDynamicTheme) => void;
++}
++
++export const CharacterRaceEditor: React.FC<CharacterRaceEditorProps> = ({
++  initialRaceId = 'planetary',
++  onLaunchCombatWithRace,
++  onActiveThemeChange,
++}) => {
++  const [selectedRaceId, setSelectedRaceId] = useState<HeroRace['id']>(initialRaceId);
++  const [profile, setProfile] = useState<RaceEditorProfile>(() => getRaceProfile(initialRaceId));
++  const [provenance, setProvenance] = useState<RaceProvenanceMetadata>(
++    () => CANONICAL_RACE_PROVENANCE[initialRaceId]
++  );
++  const [contract, setContract] = useState<Stage3RenderContract>(() => CANONICAL_STAGE3_CONTRACT);
++
++  const [workspaceTab, setWorkspaceTab] = useState<EditorWorkspaceTab>('appearance');
++  const [currentDirection, setCurrentDirection] = useState<Direction>('down');
++  const [activeAnim, setActiveAnim] = useState<HeroAnimState>('walk');
++  const [animFrameIndex, setAnimFrameIndex] = useState<number>(0);
++  const [isPlaying, setIsPlaying] = useState<boolean>(true);
++  const [isTurntableRotating, setIsTurntableRotating] = useState<boolean>(false);
++  const [applyThemeGlobally, setApplyThemeGlobally] = useState<boolean>(true);
++  const [copiedJson, setCopiedJson] = useState<boolean>(false);
++  const [spriteReadyTick, setSpriteReadyTick] = useState<number>(0);
++
++  const mainStageCanvasRef = useRef<HTMLCanvasElement | null>(null);
++  const directionMiniCanvasRefs = useRef<Record<Direction, HTMLCanvasElement | null>>({
++    down: null,
++    'down-left': null,
++    left: null,
++    'up-left': null,
++    up: null,
++    'up-right': null,
++    right: null,
++    'down-right': null,
++  });
++
++  const hero = HERO_RACES.find((r) => r.id === selectedRaceId) || HERO_RACES[0];
++  const totalFrames = HERO_ANIM_FRAMES[activeAnim];
++  const effectiveFps = computeEffectiveAnimFps(activeAnim, profile.rig.fpsMultiplier);
++
++  // Load race profile and provenance.json when race changes
++  useEffect(() => {
++    const loadedProfile = getRaceProfile(selectedRaceId);
++    setProfile(loadedProfile);
++    setProvenance(CANONICAL_RACE_PROVENANCE[selectedRaceId]);
++
++    let active = true;
++    fetchRaceProvenance(selectedRaceId).then((meta) => {
++      if (active) setProvenance(meta);
++    });
++    fetchStage3RenderContract().then((c) => {
++      if (active) setContract(c);
++    });
++
++    if (applyThemeGlobally) {
++      setActiveUiThemeRaceId(selectedRaceId);
++      applyRaceThemeToDocument(loadedProfile.theme, selectedRaceId);
++      onActiveThemeChange?.(selectedRaceId, loadedProfile.theme);
++    }
++
++    return () => {
++      active = false;
++    };
++  }, [selectedRaceId]);
++
++  // Preload and clean all 8 directional master PNGs for the active race
++  useEffect(() => {
++    let mounted = true;
++    Promise.all(DIRECTIONS.map((d) => ensureCleanedHeroSprite(hero, d.key))).then(() => {
++      if (mounted) setSpriteReadyTick((t) => t + 1);
++    });
++    return () => {
++      mounted = false;
++    };
++  }, [hero]);
++
++  // Auto 360 turntable rotation across 8 directions
++  useEffect(() => {
++    if (!isTurntableRotating) return;
++    const timer = setInterval(() => {
++      setCurrentDirection((prev) => {
++        const idx = DIRECTIONS.findIndex((d) => d.key === prev);
++        return DIRECTIONS[(idx + 1) % DIRECTIONS.length].key;
++      });
++    }, 650);
++    return () => clearInterval(timer);
++  }, [isTurntableRotating]);
++
++  // Frame index ticker for timeline scrubber highlight
++  useEffect(() => {
++    if (!isPlaying) return;
++    const intervalMs = Math.max(30, Math.round(1000 / effectiveFps));
++    const timer = setInterval(() => {
++      setAnimFrameIndex((prev) => (prev + 1) % HERO_ANIM_FRAMES[activeAnim]);
++    }, intervalMs);
++    return () => clearInterval(timer);
++  }, [isPlaying, activeAnim, effectiveFps]);
++
++  // 60 FPS Canvas render loop for main stage + 8-direction simultaneous matrix
++  useEffect(() => {
++    let rafId: number;
++    const startTime = performance.now();
++
++    const renderFrame = (now: number) => {
++      const framesCount = HERO_ANIM_FRAMES[activeAnim];
++      let frameIdx = animFrameIndex % framesCount;
++      let subFrame = 0;
++
++      if (isPlaying) {
++        const elapsedSec = (now - startTime) / 1000;
++        const continuous = (elapsedSec * effectiveFps) % framesCount;
++        frameIdx = Math.floor(continuous);
++        subFrame = continuous - frameIdx;
++      }
++
++      const customization = {
++        scaleMultiplier: profile.rig.scaleMultiplier * (profile.rig.worldHeightTrialPx / 96),
++        feetAnchorY: profile.rig.feetAnchorY,
++        collisionRadiusUnits: profile.rig.collisionRadiusUnits,
++        hueShiftDeg: profile.rig.hueShiftDeg,
++        saturationPct: profile.rig.saturationPct,
++        brightnessPct: profile.rig.brightnessPct,
++        contrastPct: profile.rig.contrastPct,
++        strideAmplitude: profile.rig.strideAmplitude,
++        clothWaveIntensity: profile.rig.clothWaveIntensity,
++        attackLungeDistance: profile.rig.attackLungeDistance,
++        skillLevitationHeight: profile.rig.skillLevitationHeight,
++        breathingDepth: profile.rig.breathingDepth,
++        auraIntensity: profile.rig.auraIntensity,
++        auraColorOverride: profile.theme.primaryAccent,
++        secondaryGlowOverride: profile.theme.auraGlow,
++        showFeetAnchor: profile.rig.showFeetAnchor,
++        showCollisionCircle: profile.rig.showCollisionCircle,
++      };
++
++      // 1. Render Main Stage Canvas
++      const stageCanvas = mainStageCanvasRef.current;
++      if (stageCanvas) {
++        const ctx = stageCanvas.getContext('2d');
++        if (ctx) {
++          ctx.clearRect(0, 0, stageCanvas.width, stageCanvas.height);
++          renderAnimatedHero(
++            ctx,
++            hero,
++            currentDirection,
++            stageCanvas.width / 2,
++            stageCanvas.height - 34,
++            290,
++            {
++              state: activeAnim,
++              frameIndex: frameIdx,
++              subFrame,
++              useCleanedSprite: profile.rig.useCleanedSprite,
++              showAura: profile.rig.showAura,
++              customization,
++            }
++          );
++        }
++      }
++
++      // 2. Render 8-Direction Simultaneous Miniature Matrix
++      for (const dirItem of DIRECTIONS) {
++        const miniCanvas = directionMiniCanvasRefs.current[dirItem.key];
++        if (!miniCanvas) continue;
++        const mCtx = miniCanvas.getContext('2d');
++        if (!mCtx) continue;
++        mCtx.clearRect(0, 0, miniCanvas.width, miniCanvas.height);
++        renderAnimatedHero(
++          mCtx,
++          hero,
++          dirItem.key,
++          miniCanvas.width / 2,
++          miniCanvas.height - 10,
++          78,
++          {
++            state: activeAnim,
++            frameIndex: frameIdx,
++            subFrame,
++            useCleanedSprite: profile.rig.useCleanedSprite,
++            showAura: profile.rig.showAura,
++            customization: {
++              ...customization,
++              scaleMultiplier: 1.0,
++              showFeetAnchor: false,
++              showCollisionCircle: false,
++            },
++          }
++        );
++      }
++
++      if (isPlaying) {
++        rafId = requestAnimationFrame(renderFrame);
++      }
++    };
++
++    rafId = requestAnimationFrame(renderFrame);
++    return () => cancelAnimationFrame(rafId);
++  }, [
++    hero,
++    currentDirection,
++    activeAnim,
++    animFrameIndex,
++    isPlaying,
++    effectiveFps,
++    profile,
++    spriteReadyTick,
++  ]);
++
++  const updateRig = (patch: Partial<RaceVisualRigConfig>) => {
++    const nextProfile: RaceEditorProfile = {
++      ...profile,
++      rig: { ...profile.rig, ...patch },
++      updatedAt: new Date().toISOString(),
++    };
++    setProfile(nextProfile);
++    saveRaceProfile(nextProfile);
++  };
++
++  const updateTheme = (patch: Partial<RaceDynamicTheme>) => {
++    const nextTheme: RaceDynamicTheme = {
++      ...profile.theme,
++      ...patch,
++      id: patch.id || `${selectedRaceId}-custom`,
++    };
++    const nextProfile: RaceEditorProfile = {
++      ...profile,
++      theme: nextTheme,
++      updatedAt: new Date().toISOString(),
++    };
++    setProfile(nextProfile);
++    saveRaceProfile(nextProfile);
++    if (applyThemeGlobally) {
++      applyRaceThemeToDocument(nextTheme, selectedRaceId);
++      onActiveThemeChange?.(selectedRaceId, nextTheme);
++    }
++  };
++
++  const handleResetToCanonical = () => {
++    const fresh = resetRaceProfileToCanonical(selectedRaceId);
++    setProfile(fresh);
++    if (applyThemeGlobally) {
++      applyRaceThemeToDocument(fresh.theme, selectedRaceId);
++      onActiveThemeChange?.(selectedRaceId, fresh.theme);
++    }
++  };
++
++  const handleCopyJson = () => {
++    const payload = {
++      raceId: selectedRaceId,
++      provenancePackId: provenance.pack_id,
++      paintedViewsSeed: provenance.painted_views_seed,
++      stage3ContractVersion: contract.version,
++      theme: profile.theme,
++      rig: profile.rig,
++    };
++    if (typeof navigator !== 'undefined' && navigator.clipboard) {
++      navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
++      setCopiedJson(true);
++      setTimeout(() => setCopiedJson(false), 2000);
++    }
++  };
++
++  const activeSpriteRecord = getCachedCleanedHeroSprite(hero.id, currentDirection);
++  const currentMasterMeta = provenance.masters.find((m) =>
++    m.file.includes(`master-${currentDirection}.png`)
++  );
++  const currentPaintedViewMeta = provenance.painted_views.find(
++    (v) => v.direction === currentDirection
++  );
++
++  return (
++    <div
++      className="space-y-6 text-stone-100"
++      style={
++        {
++          '--editor-accent': profile.theme.primaryAccent,
++          '--editor-secondary': profile.theme.secondaryAccent,
++          '--editor-glow': profile.theme.auraGlow,
++          '--editor-surface': profile.theme.surfaceTint,
++          '--editor-border': profile.theme.borderAccent,
++        } as React.CSSProperties
++      }
++    >
++      {/* Top Studio Header */}
++      <div
++        className="rounded-2xl border p-5 transition-colors"
++        style={{
++          backgroundColor: 'rgba(12, 10, 9, 0.9)',
++          borderColor: `${profile.theme.primaryAccent}44`,
++          boxShadow: `0 12px 40px -16px ${profile.theme.primaryAccent}33`,
++        }}
++      >
++        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
++          <div>
++            <div
++              className="text-xs font-mono uppercase tracking-widest flex items-center gap-2"
++              style={{ color: profile.theme.primaryAccent }}
++            >
++              <Sparkles className="w-3.5 h-3.5" />
++              <span>
++                Character Race Editor · Pack: {provenance.pack_id} · Seed #{provenance.painted_views_seed} · Stage 3 Contract v{contract.version}
++              </span>
++            </div>
++            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1">
++              Edytor Rasy, Animacji 2D i Dynamicznego Motywu UI
++            </h2>
++            <p className="text-sm text-stone-400 mt-1 max-w-3xl">
++              Zarządzaj wyglądem 8-kierunkowych masterów ({provenance.tools.rembg_model}), kalibracją kotwicy stóp, kinematyką 6 stanów ruchu oraz dynamiczną paletą kolorystyczną interfejsu rasy.
++            </p>
++          </div>
++
++          <div className="flex flex-wrap items-center gap-2.5">
++            <button
++              onClick={handleResetToCanonical}
++              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-stone-700 bg-stone-900 hover:bg-stone-800 text-stone-300 transition-colors cursor-pointer"
++            >
++              <RotateCcw className="w-3.5 h-3.5" />
++              Reset Kanoniczny
++            </button>
++
++            <button
++              onClick={handleCopyJson}
++              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-stone-700 bg-stone-900 hover:bg-stone-800 text-stone-200 transition-colors cursor-pointer"
++            >
++              {copiedJson ? (
++                <>
++                  <Check className="w-3.5 h-3.5 text-emerald-400" />
++                  Skopiowano JSON
++                </>
++              ) : (
++                <>
++                  <Copy className="w-3.5 h-3.5" />
++                  Kopiuj Profil JSON
++                </>
++              )}
++            </button>
++
++            {onLaunchCombatWithRace && (
++              <button
++                onClick={() => onLaunchCombatWithRace(selectedRaceId)}
++                className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-stone-950 transition-all cursor-pointer shadow-lg"
++                style={{
++                  backgroundColor: profile.theme.primaryAccent,
++                  boxShadow: `0 6px 20px -4px ${profile.theme.primaryAccent}80`,
++                }}
++              >
++                Testuj {hero.polishName} w Walce
++                <ChevronRight className="w-4 h-4" />
++              </button>
++            )}
++          </div>
++        </div>
++
++        {/* 4 Race Selector Cards with Dynamic Theme Indicator */}
++        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
++          {HERO_RACES.map((r) => {
++            const rProfile = getRaceProfile(r.id);
++            const rMeta = CANONICAL_RACE_PROVENANCE[r.id];
++            const isSelected = r.id === selectedRaceId;
++            return (
++              <button
++                key={r.id}
++                onClick={() => {
++                  setSelectedRaceId(r.id);
++                  setAnimFrameIndex(0);
++                }}
++                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer relative overflow-hidden ${
++                  isSelected ? 'bg-stone-900/95 shadow-lg' : 'bg-stone-950/60 border-stone-800/90 hover:border-stone-700'
++                }`}
++                style={
++                  isSelected
++                    ? {
++                        borderColor: rProfile.theme.primaryAccent,
++                        boxShadow: `0 0 0 1px ${rProfile.theme.primaryAccent}55, 0 8px 24px -8px ${rProfile.theme.primaryAccent}40`,
++                      }
++                    : undefined
++                }
++              >
++                <div className="flex items-center justify-between text-[11px] font-mono text-stone-400">
++                  <span>
++                    {r.homeworld.toUpperCase()} · {rMeta.pack_id}
++                  </span>
++                  <span
++                    className="w-3 h-3 rounded-sm border border-white/20"
++                    style={{ backgroundColor: rProfile.theme.primaryAccent }}
++                  />
++                </div>
++                <div className="font-bold text-base text-white mt-1 flex items-center justify-between">
++                  <span>{r.polishName}</span>
++                  <span className="text-xs font-mono text-stone-400">{r.name}</span>
++                </div>
++                <div className="text-[11px] font-mono text-stone-400 mt-1.5 truncate">
++                  Motyw: <span style={{ color: rProfile.theme.primaryAccent }}>{rProfile.theme.namePl}</span>
++                </div>
++              </button>
++            );
++          })}
++        </div>
++      </div>
++
++      {/* Main Two-Column Studio Workspace */}
++      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
++        {/* LEFT COLUMN (7 cols): Live Interactive Stage + 8-Direction Matrix + Live Dynamic HUD Preview */}
++        <div className="lg:col-span-7 space-y-5">
++          <div
++            className="rounded-2xl border p-5 bg-stone-900/75 backdrop-blur-sm"
++            style={{ borderColor: `${profile.theme.primaryAccent}33` }}
++          >
++            {/* Stage Toolbar */}
++            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-stone-800">
++              <div className="flex flex-wrap items-center gap-2">
++                <button
++                  onClick={() => updateRig({ useCleanedSprite: !profile.rig.useCleanedSprite })}
++                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-all cursor-pointer ${
++                    profile.rig.useCleanedSprite
++                      ? 'bg-emerald-950/80 border-emerald-500/70 text-emerald-300'
++                      : 'bg-amber-950/80 border-amber-500/70 text-amber-300'
++                  }`}
++                >
++                  <Wand2 className="w-3.5 h-3.5" />
++                  {profile.rig.useCleanedSprite ? 'Matting Alfa: OCZYSZCZONY' : 'Matting Alfa: SUROWY MASTER'}
++                </button>
++
++                <button
++                  onClick={() => updateRig({ showAura: !profile.rig.showAura })}
++                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-all cursor-pointer ${
++                    profile.rig.showAura
++                      ? 'bg-stone-900 text-white'
++                      : 'bg-stone-950 border-stone-800 text-stone-400'
++                  }`}
++                  style={
++                    profile.rig.showAura
++                      ? { borderColor: profile.theme.primaryAccent, color: profile.theme.auraGlow }
++                      : undefined
++                  }
++                >
++                  <Layers className="w-3.5 h-3.5" />
++                  Aura KI: {profile.rig.showAura ? 'AKTYWNA' : 'WYŁ.'}
++                </button>
++
++                <button
++                  onClick={() => updateRig({ showFeetAnchor: !profile.rig.showFeetAnchor })}
++                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono border transition-all cursor-pointer ${
++                    profile.rig.showFeetAnchor
++                      ? 'bg-emerald-950/70 border-emerald-500 text-emerald-300'
++                      : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
++                  }`}
++                >
++                  <Crosshair className="w-3.5 h-3.5" />
++                  Kotwica [{profile.rig.feetAnchorY.toFixed(2)}]
++                </button>
++              </div>
++
++              <button
++                onClick={() => setIsTurntableRotating(!isTurntableRotating)}
++                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-all cursor-pointer ${
++                  isTurntableRotating
++                    ? 'bg-stone-800 text-white border-stone-500'
++                    : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
++                }`}
++              >
++                <RotateCw className={`w-3.5 h-3.5 ${isTurntableRotating ? 'animate-spin' : ''}`} />
++                {isTurntableRotating ? 'Obrót 360°: WŁ.' : 'Obrót 360°'}
++              </button>
++            </div>
++
++            {/* Primary 512x512 Calibrated Viewport */}
++            <div
++              className="relative rounded-xl border overflow-hidden flex items-center justify-center min-h-[360px]"
++              style={{
++                borderColor: `${profile.theme.borderAccent}55`,
++                background: profile.rig.useCleanedSprite
++                  ? `radial-gradient(circle at 50% 60%, ${profile.theme.surfaceTint} 0%, #090807 85%)`
++                  : 'repeating-conic-gradient(#292524 0% 25%, #1c1917 0% 50%) 50% / 24px 24px',
++              }}
++            >
++              {/* Subtle Isometric Calibration Grid */}
++              <div
++                className="absolute inset-0 opacity-20 pointer-events-none"
++                style={{
++                  backgroundImage: `radial-gradient(circle at center, ${profile.theme.primaryAccent} 1px, transparent 1px)`,
++                  backgroundSize: '24px 24px',
++                }}
++              />
++
++              {/* Top-left Metadata Overlay */}
++              <div className="absolute top-3 left-3 z-20 space-y-1 text-[11px] font-mono text-stone-300 bg-stone-950/85 border border-stone-800/90 px-3 py-2 rounded-lg backdrop-blur-sm">
++                <div>
++                  Plik: <span className="text-white">{currentMasterMeta?.file || `${hero.id}-master-${currentDirection}.png`}</span>
++                </div>
++                <div>
++                  SHA-256: <span className="text-stone-400">{currentMasterMeta?.sha256.slice(0, 16)}…</span>
++                </div>
++                {activeSpriteRecord && (
++                  <div>
++                    Oczyszczono tło:{' '}
++                    <span style={{ color: profile.theme.primaryAccent }}>
++                      {(
++                        activeSpriteRecord.removedPixelsCount +
++                        activeSpriteRecord.defringedPixelsCount
++                      ).toLocaleString('pl-PL')}{' '}
++                      px
++                    </span>{' '}
++                    · Bounds: {activeSpriteRecord.bounds.width}×{activeSpriteRecord.bounds.height}px
++                  </div>
++                )}
++              </div>
++
++              {/* Top-right World Size Badge */}
++              <div className="absolute top-3 right-3 z-20 text-[11px] font-mono bg-stone-950/85 border border-stone-800/90 px-3 py-1.5 rounded-lg text-stone-300">
++                Rozmiar świata: <strong className="text-white">{profile.rig.worldHeightTrialPx}px</strong> · Skala: <strong className="text-white">{profile.rig.scaleMultiplier.toFixed(2)}x</strong>
++              </div>
++
++              <canvas
++                ref={mainStageCanvasRef}
++                width={420}
++                height={360}
++                className="relative z-10 max-h-[340px] w-auto object-contain drop-shadow-[0_14px_24px_rgba(0,0,0,0.85)]"
++              />
++
++              {/* Bottom Status Strip inside Stage */}
++              <div className="absolute bottom-3 inset-x-3 z-20 flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 rounded-lg bg-stone-950/90 border border-stone-800/90 text-xs font-mono">
++                <div className="flex items-center gap-2">
++                  <span style={{ color: profile.theme.primaryAccent }}>
++                    Kierunek: {currentDirection.toUpperCase()}
++                  </span>
++                  <span className="text-stone-600">·</span>
++                  <span className="text-stone-200">
++                    Animacja: {ANIM_STATES.find((a) => a.key === activeAnim)?.labelPl}
++                  </span>
++                </div>
++                <div className="text-stone-300">
++                  Klatka {(animFrameIndex % totalFrames) + 1}/{totalFrames} · {effectiveFps} FPS
++                </div>
++              </div>
++            </div>
++
++            {/* Timeline Scrubber & Quick State Bar */}
++            <div className="mt-4 bg-stone-950/90 border border-stone-800/90 rounded-xl p-3.5 space-y-3">
++              <div className="flex flex-wrap items-center justify-between gap-2">
++                <div className="flex items-center gap-2">
++                  <button
++                    onClick={() => setIsPlaying(!isPlaying)}
++                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-stone-950 cursor-pointer"
++                    style={{ backgroundColor: profile.theme.primaryAccent }}
++                  >
++                    {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
++                    {isPlaying ? 'PAUZA' : 'ODTWÓRZ'}
++                  </button>
++                  <span className="text-xs font-mono text-stone-400">
++                    Oś klatek ({totalFrames} kl.) — kliknij klatkę aby zbadać pozę
++                  </span>
++                </div>
++
++                <div className="flex items-center gap-1.5">
++                  {Array.from({ length: totalFrames }).map((_, idx) => {
++                    const isCurrent = animFrameIndex % totalFrames === idx;
++                    return (
++                      <button
++                        key={idx}
++                        onClick={() => {
++                          setIsPlaying(false);
++                          setAnimFrameIndex(idx);
++                        }}
++                        className={`w-7 h-7 rounded-md font-mono text-xs font-bold border transition-all cursor-pointer ${
++                          isCurrent
++                            ? 'text-stone-950 shadow-sm'
++                            : 'bg-stone-900 border-stone-800 text-stone-400 hover:text-white'
++                        }`}
++                        style={
++                          isCurrent
++                            ? {
++                                backgroundColor: profile.theme.primaryAccent,
++                                borderColor: profile.theme.auraGlow,
++                              }
++                            : undefined
++                        }
++                      >
++                        {idx + 1}
++                      </button>
++                    );
++                  })}
++                </div>
++              </div>
++
++              {/* 6 Animation States Selector */}
++              <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
++                {ANIM_STATES.map((st) => {
++                  const active = activeAnim === st.key;
++                  return (
++                    <button
++                      key={st.key}
++                      onClick={() => {
++                        setActiveAnim(st.key);
++                        setAnimFrameIndex(0);
++                      }}
++                      className={`py-2 px-2 rounded-lg text-xs font-mono font-semibold border transition-all cursor-pointer ${
++                        active
++                          ? 'text-white shadow-sm'
++                          : 'bg-stone-900/70 border-stone-800 text-stone-400 hover:text-stone-200'
++                      }`}
++                      style={
++                        active
++                          ? {
++                              backgroundColor: `${profile.theme.primaryAccent}28`,
++                              borderColor: profile.theme.primaryAccent,
++                              color: profile.theme.auraGlow,
++                            }
++                          : undefined
++                      }
++                    >
++                      {st.key.toUpperCase()}
++                    </button>
++                  );
++                })}
++              </div>
++            </div>
++
++            {/* Simultaneous 8-Direction Miniature Matrix */}
++            <div className="mt-4">
++              <div className="flex items-center justify-between text-xs font-mono text-stone-400 mb-2">
++                <span>PODGLĄD WSZYSTKICH 8 KIERUNKÓW NA ŻYWO (KLIKNIJ ABY WYBRAĆ KIERUNEK GŁÓWNY)</span>
++                <span className="text-stone-500">Kamera ortograficzna 60°</span>
++              </div>
++              <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
++                {DIRECTIONS.map((dir) => {
++                  const isCurrentDir = currentDirection === dir.key;
++                  return (
++                    <button
++                      key={dir.key}
++                      onClick={() => {
++                        setIsTurntableRotating(false);
++                        setCurrentDirection(dir.key);
++                      }}
++                      className={`p-1.5 rounded-xl border flex flex-col items-center transition-all cursor-pointer ${
++                        isCurrentDir
++                          ? 'bg-stone-900 shadow-md'
++                          : 'bg-stone-950/70 border-stone-800/80 hover:border-stone-700'
++                      }`}
++                      style={
++                        isCurrentDir
++                          ? {
++                              borderColor: profile.theme.primaryAccent,
++                              boxShadow: `0 0 0 1px ${profile.theme.primaryAccent}55`,
++                            }
++                          : undefined
++                      }
++                    >
++                      <canvas
++                        ref={(el) => {
++                          directionMiniCanvasRefs.current[dir.key] = el;
++                        }}
++                        width={88}
++                        height={88}
++                        className="w-14 h-14 object-contain"
++                      />
++                      <span
++                        className="text-[10px] font-mono font-bold mt-1"
++                        style={{ color: isCurrentDir ? profile.theme.primaryAccent : '#a8a29e' }}
++                      >
++                        {dir.short} ({dir.key})
++                      </span>
++                    </button>
++                  );
++                })}
++              </div>
++            </div>
++          </div>
++
++          {/* Live Dynamic Race UI Theme HUD Preview Card */}
++          <div
++            className="rounded-2xl border p-5 transition-all"
++            style={{
++              backgroundColor: profile.theme.surfaceTint,
++              borderColor: `${profile.theme.borderAccent}77`,
++              boxShadow: `0 12px 32px -12px ${profile.theme.primaryAccent}33`,
++            }}
++          >
++            <div className="flex items-center justify-between mb-3">
++              <div className="text-xs font-mono uppercase tracking-wider flex items-center gap-2" style={{ color: profile.theme.auraGlow }}>
++                <Palette className="w-3.5 h-3.5" />
++                <span>Podgląd HUD na Żywo — Dynamiczny Motyw Rasy: {profile.theme.namePl}</span>
++              </div>
++              <span className="text-[11px] font-mono text-stone-300">
++                Primary {profile.theme.primaryAccent} · Glow {profile.theme.auraGlow}
++              </span>
++            </div>
++
++            {/* Simulated In-Game Anime RPG HUD Bar using the Race Dynamic Theme */}
++            <div className="bg-stone-950/90 border rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: `${profile.theme.borderAccent}66` }}>
++              {/* Left: Portrait & HP/KI Bars */}
++              <div className="flex items-center gap-3.5 w-full sm:w-auto">
++                <div
++                  className="w-14 h-14 rounded-xl border-2 flex items-center justify-center relative overflow-hidden shrink-0 bg-stone-900"
++                  style={{
++                    borderColor: profile.theme.primaryAccent,
++                    boxShadow: `0 0 16px ${profile.theme.primaryAccent}55`,
++                  }}
++                >
++                  <img
++                    src={hero.views[currentDirection]}
++                    alt={hero.polishName}
++                    className="w-12 h-12 object-contain"
++                  />
++                  <span
++                    className="absolute bottom-0 right-0 px-1 text-[9px] font-mono font-bold text-stone-950"
++                    style={{ backgroundColor: profile.theme.primaryAccent }}
++                  >
++                    LV.20
++                  </span>
++                </div>
++
++                <div className="flex-1 min-w-[180px] space-y-2">
++                  <div className="flex items-center justify-between text-xs">
++                    <span className="font-bold text-white">{hero.polishName}</span>
++                    <span className="font-mono text-[11px]" style={{ color: profile.theme.auraGlow }}>
++                      {hero.combatRole}
++                    </span>
++                  </div>
++
++                  {/* HP Bar */}
++                  <div>
++                    <div className="flex justify-between text-[10px] font-mono text-stone-300 mb-0.5">
++                      <span>HP</span>
++                      <span>{hero.baseStats.hp * 10} / {hero.baseStats.hp * 10}</span>
++                    </div>
++                    <div className="w-full h-2.5 bg-stone-900 rounded-sm overflow-hidden border border-stone-800">
++                      <div
++                        className="h-full transition-all"
++                        style={{
++                          width: '88%',
++                          backgroundColor: profile.theme.hpBarColor,
++                          boxShadow: `0 0 10px ${profile.theme.hpBarColor}`,
++                        }}
++                      />
++                    </div>
++                  </div>
++
++                  {/* KI Bar */}
++                  <div>
++                    <div className="flex justify-between text-[10px] font-mono text-stone-300 mb-0.5">
++                      <span>ENERGIA KI (+{hero.baseStats.kiRegen}/s)</span>
++                      <span>{hero.baseStats.ki} / {hero.baseStats.ki}</span>
++                    </div>
++                    <div className="w-full h-2 bg-stone-900 rounded-sm overflow-hidden border border-stone-800">
++                      <div
++                        className="h-full transition-all"
++                        style={{
++                          width: '94%',
++                          backgroundColor: profile.theme.kiBarColor,
++                          boxShadow: `0 0 10px ${profile.theme.kiBarColor}`,
++                        }}
++                      />
++                    </div>
++                  </div>
++                </div>
++              </div>
++
++              {/* Right: 3 Racial Skill Slots (Q, E, R) */}
++              <div className="flex items-center gap-2">
++                {hero.skills.map((sk) => (
++                  <button
++                    key={sk.key}
++                    onClick={() => {
++                      setActiveAnim(sk.key === 'Q' ? 'attack' : 'skill');
++                      setIsPlaying(true);
++                    }}
++                    title={`${sk.polishName} (${sk.cost} KI)`}
++                    className="group relative w-14 h-14 rounded-xl border bg-stone-900/90 flex flex-col items-center justify-center transition-all cursor-pointer hover:-translate-y-0.5"
++                    style={{
++                      borderColor: `${profile.theme.primaryAccent}88`,
++                      boxShadow: `inset 0 0 12px ${profile.theme.primaryAccent}22`,
++                    }}
++                  >
++                    <span
++                      className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-stone-950 border"
++                      style={{
++                        borderColor: profile.theme.borderAccent,
++                        color: profile.theme.auraGlow,
++                      }}
++                    >
++                      {sk.key}
++                    </span>
++                    <span className="text-[10px] font-medium text-stone-200 mt-1 truncate max-w-[48px]">
++                      {sk.polishName.split(' ')[0]}
++                    </span>
++                  </button>
++                ))}
++              </div>
++            </div>
++          </div>
++        </div>
++
++        {/* RIGHT COLUMN (5 cols): Tabbed Inspector & Editor Controls */}
++        <div className="lg:col-span-5 bg-stone-900/80 border border-stone-800 rounded-2xl p-5 backdrop-blur-sm space-y-5">
++          {/* 4 Sub-Workspace Tabs */}
++          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-stone-950 rounded-xl border border-stone-800 text-xs font-mono">
++            <button
++              onClick={() => setWorkspaceTab('appearance')}
++              className={`py-2 px-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
++                workspaceTab === 'appearance' ? 'text-stone-950 shadow-sm' : 'text-stone-400 hover:text-white'
++              }`}
++              style={workspaceTab === 'appearance' ? { backgroundColor: profile.theme.primaryAccent } : undefined}
++            >
++              <Sliders className="w-3.5 h-3.5" />
++              Wygląd
++            </button>
++            <button
++              onClick={() => setWorkspaceTab('animation')}
++              className={`py-2 px-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
++                workspaceTab === 'animation' ? 'text-stone-950 shadow-sm' : 'text-stone-400 hover:text-white'
++              }`}
++              style={workspaceTab === 'animation' ? { backgroundColor: profile.theme.primaryAccent } : undefined}
++            >
++              <Activity className="w-3.5 h-3.5" />
++              Rig 2D
++            </button>
++            <button
++              onClick={() => setWorkspaceTab('theme')}
++              className={`py-2 px-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
++                workspaceTab === 'theme' ? 'text-stone-950 shadow-sm' : 'text-stone-400 hover:text-white'
++              }`}
++              style={workspaceTab === 'theme' ? { backgroundColor: profile.theme.primaryAccent } : undefined}
++            >
++              <Palette className="w-3.5 h-3.5" />
++              Motyw UI
++            </button>
++            <button
++              onClick={() => setWorkspaceTab('metadata')}
++              className={`py-2 px-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
++                workspaceTab === 'metadata' ? 'text-stone-950 shadow-sm' : 'text-stone-400 hover:text-white'
++              }`}
++              style={workspaceTab === 'metadata' ? { backgroundColor: profile.theme.primaryAccent } : undefined}
++            >
++              <FileJson className="w-3.5 h-3.5" />
++              Metadane
++            </button>
++          </div>
++
++          {/* TAB 1: APPEARANCE & MATTING CALIBRATION */}
++          {workspaceTab === 'appearance' && (
++            <div className="space-y-5">
++              <div>
++                <h3 className="text-base font-bold text-white flex items-center gap-2">
++                  <Eye className="w-4 h-4" style={{ color: profile.theme.primaryAccent }} />
++                  Kalibracja Wyglądu, Skali i Mattingu Alfa
++                </h3>
++                <p className="text-xs text-stone-400 mt-1">
++                  Parametry zgodne z kontraktem <code className="text-stone-200">stage3-render-contract.json</code> (źródło {contract.character.sourceFrame[0]}×{contract.character.sourceFrame[1]}px).
++                </p>
++              </div>
++
++              {/* World Height Trials from stage3-render-contract.json */}
++              <div className="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 space-y-2.5">
++                <div className="flex items-center justify-between text-xs font-mono">
++                  <span className="text-stone-300">Rozmiar w świecie (Stage 3 Height Trials)</span>
++                  <span style={{ color: profile.theme.primaryAccent }}>{profile.rig.worldHeightTrialPx}px</span>
++                </div>
++                <div className="grid grid-cols-4 gap-2">
++                  {[96, ...contract.character.futureWorldHeightTrials].map((px) => (
++                    <button
++                      key={px}
++                      onClick={() => updateRig({ worldHeightTrialPx: px })}
++                      className={`py-1.5 rounded-lg text-xs font-mono font-bold border transition-all cursor-pointer ${
++                        profile.rig.worldHeightTrialPx === px
++                          ? 'text-stone-950'
++                          : 'bg-stone-900 border-stone-800 text-stone-400 hover:text-white'
++                      }`}
++                      style={
++                        profile.rig.worldHeightTrialPx === px
++                          ? { backgroundColor: profile.theme.primaryAccent, borderColor: profile.theme.auraGlow }
++                          : undefined
++                      }
++                    >
++                      {px}px {px === 96 ? '(Dom.)' : ''}
++                    </button>
++                  ))}
++                </div>
++              </div>
++
++              {/* Sliders for Scale, Feet Anchor Y, Collision Radius */}
++              <div className="space-y-3.5 p-4 rounded-xl bg-stone-950/80 border border-stone-800">
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Mnożnik Skali Postaci</span>
++                    <span className="text-white">{profile.rig.scaleMultiplier.toFixed(2)}x</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.7}
++                    max={1.35}
++                    step={0.05}
++                    value={profile.rig.scaleMultiplier}
++                    onChange={(e) => updateRig({ scaleMultiplier: parseFloat(e.target.value) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Kotwica Stóp Y (Feet Anchor)</span>
++                    <span className="text-white">[0.50, {profile.rig.feetAnchorY.toFixed(2)}]</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.84}
++                    max={0.97}
++                    step={0.01}
++                    value={profile.rig.feetAnchorY}
++                    onChange={(e) => updateRig({ feetAnchorY: parseFloat(e.target.value) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Promień Kolizji (World Units)</span>
++                    <span className="text-white">{profile.rig.collisionRadiusUnits} j.</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={8}
++                    max={20}
++                    step={1}
++                    value={profile.rig.collisionRadiusUnits}
++                    onChange={(e) =>
++                      updateRig({
++                        collisionRadiusUnits: parseInt(e.target.value, 10),
++                        showCollisionCircle: true,
++                      })
++                    }
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div className="flex items-center justify-between pt-2 border-t border-stone-800/80 text-xs">
++                  <label className="flex items-center gap-2 cursor-pointer text-stone-300">
++                    <input
++                      type="checkbox"
++                      checked={profile.rig.showFeetAnchor}
++                      onChange={(e) => updateRig({ showFeetAnchor: e.target.checked })}
++                      className="rounded border-stone-700"
++                    />
++                    Pokaż celownik kotwicy stóp
++                  </label>
++                  <label className="flex items-center gap-2 cursor-pointer text-stone-300">
++                    <input
++                      type="checkbox"
++                      checked={profile.rig.showCollisionCircle}
++                      onChange={(e) => updateRig({ showCollisionCircle: e.target.checked })}
++                      className="rounded border-stone-700"
++                    />
++                    Pokaż okrąg kolizji
++                  </label>
++                </div>
++              </div>
++
++              {/* Color Grading Filters */}
++              <div className="space-y-3.5 p-4 rounded-xl bg-stone-950/80 border border-stone-800">
++                <div className="flex items-center justify-between">
++                  <span className="text-xs font-mono uppercase tracking-wider text-stone-400">
++                    Korekcja Barwna Sprite&apos;a (Shader 2D)
++                  </span>
++                  <button
++                    onClick={() =>
++                      updateRig({
++                        hueShiftDeg: 0,
++                        saturationPct: 100,
++                        brightnessPct: 100,
++                        contrastPct: 100,
++                      })
++                    }
++                    className="text-[11px] font-mono text-stone-400 hover:text-white underline cursor-pointer"
++                  >
++                    Zeruj filtry
++                  </button>
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Przesunięcie Barwy (Hue)</span>
++                    <span className="text-white">{profile.rig.hueShiftDeg}°</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={-180}
++                    max={180}
++                    step={5}
++                    value={profile.rig.hueShiftDeg}
++                    onChange={(e) => updateRig({ hueShiftDeg: parseInt(e.target.value, 10) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Nasycenie (Saturation)</span>
++                    <span className="text-white">{profile.rig.saturationPct}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={50}
++                    max={160}
++                    step={5}
++                    value={profile.rig.saturationPct}
++                    onChange={(e) => updateRig({ saturationPct: parseInt(e.target.value, 10) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div className="grid grid-cols-2 gap-3">
++                  <div>
++                    <div className="flex justify-between text-xs font-mono mb-1">
++                      <span className="text-stone-300">Jasność</span>
++                      <span className="text-white">{profile.rig.brightnessPct}%</span>
++                    </div>
++                    <input
++                      type="range"
++                      min={75}
++                      max={135}
++                      step={5}
++                      value={profile.rig.brightnessPct}
++                      onChange={(e) => updateRig({ brightnessPct: parseInt(e.target.value, 10) })}
++                      className="w-full accent-emerald-500 cursor-pointer"
++                    />
++                  </div>
++                  <div>
++                    <div className="flex justify-between text-xs font-mono mb-1">
++                      <span className="text-stone-300">Kontrast</span>
++                      <span className="text-white">{profile.rig.contrastPct}%</span>
++                    </div>
++                    <input
++                      type="range"
++                      min={80}
++                      max={140}
++                      step={5}
++                      value={profile.rig.contrastPct}
++                      onChange={(e) => updateRig({ contrastPct: parseInt(e.target.value, 10) })}
++                      className="w-full accent-emerald-500 cursor-pointer"
++                    />
++                  </div>
++                </div>
++              </div>
++            </div>
++          )}
++
++          {/* TAB 2: 2D MESH ANIMATION RIG */}
++          {workspaceTab === 'animation' && (
++            <div className="space-y-5">
++              <div>
++                <h3 className="text-base font-bold text-white flex items-center gap-2">
++                  <Activity className="w-4 h-4" style={{ color: profile.theme.primaryAccent }} />
++                  Kinematyka Rigu 2D i Parametry Animacji (8×6)
++                </h3>
++                <p className="text-xs text-stone-400 mt-1">
++                  Metoda z <code className="text-stone-200">provenance.json</code>: {provenance.method}.
++                </p>
++              </div>
++
++              <div className="space-y-3.5 p-4 rounded-xl bg-stone-950/80 border border-stone-800">
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Prędkość Odtwarzania (Mnożnik FPS)</span>
++                    <span className="text-white">
++                      {profile.rig.fpsMultiplier.toFixed(2)}x ({effectiveFps} FPS)
++                    </span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.25}
++                    max={2.0}
++                    step={0.05}
++                    value={profile.rig.fpsMultiplier}
++                    onChange={(e) => updateRig({ fpsMultiplier: parseFloat(e.target.value) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Amplituda Kroku L/P (Walk Stride)</span>
++                    <span className="text-white">{(profile.rig.strideAmplitude * 100).toFixed(0)}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.3}
++                    max={1.7}
++                    step={0.05}
++                    value={profile.rig.strideAmplitude}
++                    onChange={(e) => {
++                      setActiveAnim('walk');
++                      updateRig({ strideAmplitude: parseFloat(e.target.value) });
++                    }}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Fizyka Szat i Płaszcza (4 pasma)</span>
++                    <span className="text-white">{(profile.rig.clothWaveIntensity * 100).toFixed(0)}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.0}
++                    max={2.0}
++                    step={0.05}
++                    value={profile.rig.clothWaveIntensity}
++                    onChange={(e) => updateRig({ clothWaveIntensity: parseFloat(e.target.value) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Zasięg Wypadu Bojowego (Attack Lunge)</span>
++                    <span className="text-white">{(profile.rig.attackLungeDistance * 100).toFixed(0)}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.4}
++                    max={1.7}
++                    step={0.05}
++                    value={profile.rig.attackLungeDistance}
++                    onChange={(e) => {
++                      setActiveAnim('attack');
++                      updateRig({ attackLungeDistance: parseFloat(e.target.value) });
++                    }}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Wysokość Lewitacji KI (Skill Surge)</span>
++                    <span className="text-white">{(profile.rig.skillLevitationHeight * 100).toFixed(0)}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.3}
++                    max={1.8}
++                    step={0.05}
++                    value={profile.rig.skillLevitationHeight}
++                    onChange={(e) => {
++                      setActiveAnim('skill');
++                      updateRig({ skillLevitationHeight: parseFloat(e.target.value) });
++                    }}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Głębokość Oddechu (Idle Breathing)</span>
++                    <span className="text-white">{(profile.rig.breathingDepth * 100).toFixed(0)}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.2}
++                    max={2.0}
++                    step={0.05}
++                    value={profile.rig.breathingDepth}
++                    onChange={(e) => {
++                      setActiveAnim('idle');
++                      updateRig({ breathingDepth: parseFloat(e.target.value) });
++                    }}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++
++                <div>
++                  <div className="flex justify-between text-xs font-mono mb-1">
++                    <span className="text-stone-300">Intensywność Warstwy Aury KI</span>
++                    <span className="text-white">{(profile.rig.auraIntensity * 100).toFixed(0)}%</span>
++                  </div>
++                  <input
++                    type="range"
++                    min={0.0}
++                    max={1.6}
++                    step={0.05}
++                    value={profile.rig.auraIntensity}
++                    onChange={(e) => updateRig({ auraIntensity: parseFloat(e.target.value) })}
++                    className="w-full accent-emerald-500 cursor-pointer"
++                  />
++                </div>
++              </div>
++            </div>
++          )}
++
++          {/* TAB 3: DYNAMIC RACE UI COLOR THEME */}
++          {workspaceTab === 'theme' && (
++            <div className="space-y-5">
++              <div>
++                <h3 className="text-base font-bold text-white flex items-center gap-2">
++                  <Palette className="w-4 h-4" style={{ color: profile.theme.primaryAccent }} />
++                  Dynamiczny Motyw Kolorystyczny Rasy ({hero.polishName})
++                </h3>
++                <p className="text-xs text-stone-400 mt-1">
++                  Zmieniaj paletę akcentów UI, poświatę aury KI oraz paski HUD dla wybranej rasy.
++                </p>
++              </div>
++
++              {/* Global UI Sync Toggle */}
++              <label className="flex items-center justify-between p-3.5 rounded-xl bg-stone-950/90 border border-stone-800 cursor-pointer">
++                <div>
++                  <div className="text-xs font-bold text-white">
++                    Synchronizuj motyw z całym interfejsem aplikacji
++                  </div>
++                  <div className="text-[11px] text-stone-400">
++                    Aktualizuje zmienne CSS <code className="text-stone-300">--race-primary</code> i nawigację na żywo
++                  </div>
++                </div>
++                <input
++                  type="checkbox"
++                  checked={applyThemeGlobally}
++                  onChange={(e) => {
++                    const checked = e.target.checked;
++                    setApplyThemeGlobally(checked);
++                    if (checked) {
++                      setActiveUiThemeRaceId(selectedRaceId);
++                      applyRaceThemeToDocument(profile.theme, selectedRaceId);
++                      onActiveThemeChange?.(selectedRaceId, profile.theme);
++                    }
++                  }}
++                  className="w-4 h-4 rounded"
++                />
++              </label>
++
++              {/* Preset Palettes for Selected Race */}
++              <div className="space-y-2">
++                <div className="text-xs font-mono uppercase tracking-wider text-stone-400">
++                  Gotowe Palety Rasy ({hero.polishName})
++                </div>
++                <div className="space-y-2">
++                  {RACE_THEME_PRESETS[selectedRaceId].map((preset) => {
++                    const isCurrentPreset = profile.theme.id === preset.id;
++                    return (
++                      <button
++                        key={preset.id}
++                        onClick={() => updateTheme(preset)}
++                        className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
++                          isCurrentPreset
++                            ? 'bg-stone-900 border-white/40 shadow-md'
++                            : 'bg-stone-950/70 border-stone-800 hover:border-stone-700'
++                        }`}
++                      >
++                        <div>
++                          <div className="text-xs font-bold text-white">{preset.namePl}</div>
++                          <div className="text-[11px] font-mono text-stone-400 mt-0.5">
++                            {preset.primaryAccent} · {preset.secondaryAccent} · {preset.surfaceTint}
++                          </div>
++                        </div>
++                        <div className="flex items-center gap-1.5">
++                          <span
++                            className="w-5 h-5 rounded-md border border-white/20"
++                            style={{ backgroundColor: preset.primaryAccent }}
++                          />
++                          <span
++                            className="w-5 h-5 rounded-md border border-white/20"
++                            style={{ backgroundColor: preset.auraGlow }}
++                          />
++                          <span
++                            className="w-5 h-5 rounded-md border border-white/20"
++                            style={{ backgroundColor: preset.surfaceTint }}
++                          />
++                        </div>
++                      </button>
++                    );
++                  })}
++                </div>
++              </div>
++
++              {/* Custom Color Pickers */}
++              <div className="p-4 rounded-xl bg-stone-950/80 border border-stone-800 space-y-3">
++                <div className="text-xs font-mono uppercase tracking-wider text-stone-400">
++                  Niestandardowe Kolory Motywu i Aury
++                </div>
++
++                <div className="grid grid-cols-2 gap-3">
++                  <label className="flex items-center justify-between p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-xs">
++                    <span className="text-stone-300">Akcent Główny</span>
++                    <input
++                      type="color"
++                      value={profile.theme.primaryAccent}
++                      onChange={(e) => updateTheme({ primaryAccent: e.target.value, namePl: 'Własna Paleta Rasy' })}
++                      className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
++                    />
++                  </label>
++
++                  <label className="flex items-center justify-between p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-xs">
++                    <span className="text-stone-300">Poświata Aury</span>
++                    <input
++                      type="color"
++                      value={profile.theme.auraGlow}
++                      onChange={(e) => updateTheme({ auraGlow: e.target.value, namePl: 'Własna Paleta Rasy' })}
++                      className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
++                    />
++                  </label>
++
++                  <label className="flex items-center justify-between p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-xs">
++                    <span className="text-stone-300">Tło Powierzchni</span>
++                    <input
++                      type="color"
++                      value={profile.theme.surfaceTint}
++                      onChange={(e) => updateTheme({ surfaceTint: e.target.value, namePl: 'Własna Paleta Rasy' })}
++                      className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
++                    />
++                  </label>
++
++                  <label className="flex items-center justify-between p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-xs">
++                    <span className="text-stone-300">Obramowanie UI</span>
++                    <input
++                      type="color"
++                      value={profile.theme.borderAccent}
++                      onChange={(e) => updateTheme({ borderAccent: e.target.value, namePl: 'Własna Paleta Rasy' })}
++                      className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
++                    />
++                  </label>
++
++                  <label className="flex items-center justify-between p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-xs">
++                    <span className="text-stone-300">Pasek Zdrowia (HP)</span>
++                    <input
++                      type="color"
++                      value={profile.theme.hpBarColor}
++                      onChange={(e) => updateTheme({ hpBarColor: e.target.value, namePl: 'Własna Paleta Rasy' })}
++                      className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
++                    />
++                  </label>
++
++                  <label className="flex items-center justify-between p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-xs">
++                    <span className="text-stone-300">Pasek Energii (KI)</span>
++                    <input
++                      type="color"
++                      value={profile.theme.kiBarColor}
++                      onChange={(e) => updateTheme({ kiBarColor: e.target.value, namePl: 'Własna Paleta Rasy' })}
++                      className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
++                    />
++                  </label>
++                </div>
++              </div>
++            </div>
++          )}
++
++          {/* TAB 4: PROVENANCE.JSON & STAGE 3 RENDER CONTRACT METADATA INSPECTOR */}
++          {workspaceTab === 'metadata' && (
++            <div className="space-y-4">
++              <div>
++                <h3 className="text-base font-bold text-white flex items-center gap-2">
++                  <FileJson className="w-4 h-4" style={{ color: profile.theme.primaryAccent }} />
++                  Inspektor Plików Metadanych Rasy
++                </h3>
++                <p className="text-xs text-stone-400 mt-1">
++                  Dane odczytane bezpośrednio z <code className="text-stone-200">/art/production/heroes/{selectedRaceId}/painted-v1/provenance.json</code>.
++                </p>
++              </div>
++
++              <div className="p-3.5 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2 text-xs font-mono">
++                <div className="flex justify-between">
++                  <span className="text-stone-400">Pack ID:</span>
++                  <span className="text-white font-bold">{provenance.pack_id}</span>
++                </div>
++                <div className="flex justify-between">
++                  <span className="text-stone-400">Świat macierzysty:</span>
++                  <span className="text-white">{provenance.world}</span>
++                </div>
++                <div className="flex justify-between">
++                  <span className="text-stone-400">Seed widoków:</span>
++                  <span style={{ color: profile.theme.primaryAccent }}>#{provenance.painted_views_seed}</span>
++                </div>
++                <div className="flex justify-between">
++                  <span className="text-stone-400">Model mattingu:</span>
++                  <span className="text-stone-200">{provenance.tools.rembg_model}</span>
++                </div>
++                <div className="flex justify-between">
++                  <span className="text-stone-400">Checkpoint:</span>
++                  <span className="text-stone-200">{provenance.tools.checkpoint}</span>
++                </div>
++                <div className="pt-1 border-t border-stone-800 text-[11px] text-stone-300">
++                  Status właściciela: <span className="text-emerald-400">{provenance.owner_status}</span>
++                </div>
++              </div>
++
++              {/* 8 Directional Master PNG SHA-256 Table */}
++              <div className="p-3.5 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2">
++                <div className="text-xs font-mono uppercase tracking-wider text-stone-400">
++                  Sumy Kontrolne 8 Masterów PNG (SHA-256)
++                </div>
++                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
++                  {provenance.masters.map((m) => {
++                    const isSelectedMaster = m.file.includes(`master-${currentDirection}.png`);
++                    return (
++                      <div
++                        key={m.file}
++                        className={`p-2 rounded-lg border text-[11px] font-mono flex items-center justify-between ${
++                          isSelectedMaster
++                            ? 'bg-stone-900 border-stone-600 text-white'
++                            : 'bg-stone-950 border-stone-800/80 text-stone-400'
++                        }`}
++                      >
++                        <span className="truncate mr-2">{m.file}</span>
++                        <span className="text-stone-500 shrink-0">{m.sha256.slice(0, 14)}…</span>
++                      </div>
++                    );
++                  })}
++                </div>
++              </div>
++
++              {/* Stage 3 Validation Checklist */}
++              <div className="p-3.5 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2">
++                <div className="text-xs font-mono uppercase tracking-wider text-stone-400">
++                  Walidacja Kontraktu Renderowania (Stage 3)
++                </div>
++                <div className="flex flex-wrap gap-1.5 text-[11px] font-mono">
++                  {contract.validation.map((rule) => (
++                    <span
++                      key={rule}
++                      className="px-2 py-1 rounded bg-stone-900 border border-stone-800 text-stone-300"
++                    >
++                      ✓ {rule}
++                    </span>
++                  ))}
++                </div>
++              </div>
++            </div>
++          )}
++        </div>
++      </div>
++    </div>
++  );
++};
+diff --git a/src/components/CombatSandbox.tsx b/src/components/CombatSandbox.tsx
+index 13490a2..77182d9 100644
+--- a/src/components/CombatSandbox.tsx
++++ b/src/components/CombatSandbox.tsx
+@@ -1,6 +1,13 @@
+ import React, { useState, useEffect, useRef, useCallback } from 'react';
+ import { HERO_RACES, HeroRace, Direction } from '../data/heroes';
+ import { MONSTERS, Monster, WORLDS } from '../data/bestiary';
++import {
++  HeroAnimState,
++  HERO_ANIM_FPS,
++  HERO_ANIM_FRAMES,
++  ensureCleanedHeroSprite,
++  renderAnimatedHero,
++} from '../game/heroes/spriteAnimator';
+ import { 
+   Swords, 
+   Shield, 
+@@ -92,6 +99,12 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+   const floatingTextsRef = useRef<FloatingText[]>([]);
+   const lastTimeRef = useRef<number>(performance.now());
+   const heroImgCacheRef = useRef<Record<string, HTMLImageElement>>({});
++  const playerDirectionRef = useRef<Direction>('down');
++  const playerActionRef = useRef<{ state: HeroAnimState; startTime: number; durationMs: number }>({
++    state: 'idle',
++    startTime: 0,
++    durationMs: 0,
++  });
+ 
+   // Skill cooldown trackers
+   const [cooldowns, setCooldowns] = useState<{ [key: string]: number }>({ Q: 0, E: 0, R: 0 });
+@@ -101,12 +114,13 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+     setCombatLog((prev) => [{ id: Math.random().toString(), time, text, type }, ...prev.slice(0, 19)]);
+   }, []);
+ 
+-  // Preload hero 8-direction images
++  // Preload & clean hero 8-direction images
+   useEffect(() => {
+     Object.entries(hero.views).forEach(([dir, src]) => {
+       const img = new Image();
+       img.src = src;
+       heroImgCacheRef.current[dir] = img;
++      ensureCleanedHeroSprite(hero, dir as Direction);
+     });
+   }, [hero]);
+ 
+@@ -185,6 +199,11 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+ 
+   // Basic Attack
+   const triggerBasicAttack = () => {
++    playerActionRef.current = {
++      state: 'attack',
++      startTime: performance.now(),
++      durationMs: 520,
++    };
+     const px = playerPosRef.current.x;
+     const py = playerPosRef.current.y;
+ 
+@@ -230,6 +249,12 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+       return;
+     }
+ 
++    playerActionRef.current = {
++      state: 'skill',
++      startTime: performance.now(),
++      durationMs: 680,
++    };
++
+     // Spend Ki
+     setPlayerKi((prev) => Math.max(0, prev - skill.cost));
+     setCooldowns((prev) => ({ ...prev, [key]: skill.cooldown }));
+@@ -359,14 +384,20 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+         playerPosRef.current.y = Math.max(35, Math.min(565, playerPosRef.current.y + (my / len) * moveSpeed));
+ 
+         // Determine 8-direction facing
+-        if (mx > 0 && my === 0) setPlayerDirection('right');
+-        else if (mx < 0 && my === 0) setPlayerDirection('left');
+-        else if (mx === 0 && my > 0) setPlayerDirection('down');
+-        else if (mx === 0 && my < 0) setPlayerDirection('up');
+-        else if (mx > 0 && my > 0) setPlayerDirection('down-right');
+-        else if (mx < 0 && my > 0) setPlayerDirection('down-left');
+-        else if (mx > 0 && my < 0) setPlayerDirection('up-right');
+-        else if (mx < 0 && my < 0) setPlayerDirection('up-left');
++        let nextDir: Direction = playerDirectionRef.current;
++        if (mx > 0 && my === 0) nextDir = 'right';
++        else if (mx < 0 && my === 0) nextDir = 'left';
++        else if (mx === 0 && my > 0) nextDir = 'down';
++        else if (mx === 0 && my < 0) nextDir = 'up';
++        else if (mx > 0 && my > 0) nextDir = 'down-right';
++        else if (mx < 0 && my > 0) nextDir = 'down-left';
++        else if (mx > 0 && my < 0) nextDir = 'up-right';
++        else if (mx < 0 && my < 0) nextDir = 'up-left';
++
++        if (nextDir !== playerDirectionRef.current) {
++          playerDirectionRef.current = nextDir;
++          setPlayerDirection(nextDir);
++        }
+       }
+ 
+       // 2. Ki Regeneration
+@@ -447,6 +478,13 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+               m.lastAttackTime = currentTime;
+               const dmg = Math.max(1, Math.round(m.atk - hero.baseStats.def * 0.4));
+               setPlayerHp((prev) => Math.max(0, prev - dmg));
++              if (currentTime - playerActionRef.current.startTime >= playerActionRef.current.durationMs) {
++                playerActionRef.current = {
++                  state: 'hit',
++                  startTime: currentTime,
++                  durationMs: 360,
++                };
++              }
+               addLog(`${m.name} struck for ${dmg} damage!`, 'damage');
+ 
+               floatingTextsRef.current.push({
+@@ -540,32 +578,43 @@ export const CombatSandbox: React.FC<CombatSandboxProps> = ({
+         ctx.fillRect(m.x - barWidth / 2, m.y - 20, barWidth * hpPct, 4);
+       });
+ 
+-      // Render Player
+-      const pimg = heroImgCacheRef.current[playerDirection];
+-      // Player Shadow
+-      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+-      ctx.beginPath();
+-      ctx.ellipse(px, py + 22, 22, 9, 0, 0, Math.PI * 2);
+-      ctx.fill();
+-
+-      if (pimg && pimg.complete && pimg.naturalWidth > 0) {
+-        // Draw real sprite
+-        const spriteSize = 72;
+-        ctx.drawImage(pimg, px - spriteSize / 2, py - spriteSize / 2 - 8, spriteSize, spriteSize);
++      // Render Player with 8-direction x 6-state 2D Mesh Animator & Cleaned Alpha
++      const isMoving = mx !== 0 || my !== 0;
++      const actionElapsed = currentTime - playerActionRef.current.startTime;
++      let activeAnimState: HeroAnimState = isMoving ? 'walk' : 'idle';
++      let frameIdx = 0;
++      let subFrame = 0;
++
++      if (actionElapsed < playerActionRef.current.durationMs) {
++        activeAnimState = playerActionRef.current.state;
++        const totalActionFrames = HERO_ANIM_FRAMES[activeAnimState];
++        const exactFrame =
++          (actionElapsed / playerActionRef.current.durationMs) * totalActionFrames;
++        frameIdx = Math.min(totalActionFrames - 1, Math.floor(exactFrame));
++        subFrame = exactFrame - frameIdx;
+       } else {
+-        // Fallback circle
+-        ctx.fillStyle = hero.accentColor;
+-        ctx.beginPath();
+-        ctx.arc(px, py, 18, 0, Math.PI * 2);
+-        ctx.fill();
++        const loopFps = HERO_ANIM_FPS[activeAnimState] * (isMoving ? speedMult : 1);
++        const totalLoopFrames = HERO_ANIM_FRAMES[activeAnimState];
++        const totalElapsedFrames = ((currentTime / 1000) * loopFps) % totalLoopFrames;
++        frameIdx = Math.floor(totalElapsedFrames);
++        subFrame = totalElapsedFrames - frameIdx;
+       }
+ 
+-      // Player Direction Indicator
+-      ctx.strokeStyle = hero.accentColor;
+-      ctx.lineWidth = 2;
+-      ctx.beginPath();
+-      ctx.arc(px, py, 26, 0, Math.PI * 2);
+-      ctx.stroke();
++      renderAnimatedHero(
++        ctx,
++        hero,
++        playerDirectionRef.current,
++        px,
++        py + 28,
++        96,
++        {
++          state: activeAnimState,
++          frameIndex: frameIdx,
++          subFrame,
++          useCleanedSprite: true,
++          showAura: true,
++        }
++      );
+ 
+       // Render Projectiles
+       projectilesRef.current.forEach((p) => {
+diff --git a/src/components/HeroExplorer.tsx b/src/components/HeroExplorer.tsx
+index f010dd4..008ad80 100644
+--- a/src/components/HeroExplorer.tsx
++++ b/src/components/HeroExplorer.tsx
+@@ -1,48 +1,94 @@
+-import React, { useState, useEffect } from 'react';
++import React, { useState, useEffect, useRef } from 'react';
+ import { HERO_RACES, HeroRace, Direction } from '../data/heroes';
+-import { 
+-  Shield, 
+-  Zap, 
+-  RotateCw, 
+-  Play, 
+-  Pause, 
+-  Sparkles, 
+-  Heart, 
+-  Flame, 
+-  Cpu, 
+-  Wind, 
+-  Crosshair, 
++import {
++  HeroAnimState,
++  HERO_ANIM_FPS,
++  HERO_ANIM_FRAMES,
++  ensureCleanedHeroSprite,
++  getCachedCleanedHeroSprite,
++  renderAnimatedHero,
++} from '../game/heroes/spriteAnimator';
++import { getRaceProfile } from '../game/heroes/raceMetadata';
++import {
++  Shield,
++  Zap,
++  RotateCw,
++  Play,
++  Pause,
++  Sparkles,
++  Heart,
++  Flame,
++  Wind,
++  Crosshair,
+   ChevronRight,
+-  Info
++  Info,
++  Wand2,
++  Eye,
++  Layers,
++  Sliders,
+ } from 'lucide-react';
+ 
+ const DIRECTIONS: { key: Direction; label: string; angle: number }[] = [
+-  { key: 'up', label: 'North', angle: 0 },
++  { key: 'up', label: 'N (Góra)', angle: 0 },
+   { key: 'up-right', label: 'NE', angle: 45 },
+-  { key: 'right', label: 'East', angle: 90 },
++  { key: 'right', label: 'E (Prawo)', angle: 90 },
+   { key: 'down-right', label: 'SE', angle: 135 },
+-  { key: 'down', label: 'South', angle: 180 },
++  { key: 'down', label: 'S (Dół)', angle: 180 },
+   { key: 'down-left', label: 'SW', angle: 225 },
+-  { key: 'left', label: 'West', angle: 270 },
++  { key: 'left', label: 'W (Lewo)', angle: 270 },
+   { key: 'up-left', label: 'NW', angle: 315 },
+ ];
+ 
++const ANIM_LABELS: Record<HeroAnimState, { pl: string; en: string }> = {
++  walk: { pl: 'Chód (Walk)', en: 'Walk' },
++  attack: { pl: 'Atak (Attack)', en: 'Attack' },
++  skill: { pl: 'Technika KI (Skill)', en: 'Skill' },
++  idle: { pl: 'Oddech (Idle)', en: 'Idle' },
++  hit: { pl: 'Obrażenia (Hit)', en: 'Hit' },
++  death: { pl: 'Upadek (Death)', en: 'Death' },
++};
++
+ interface HeroExplorerProps {
+   onSelectForCombat?: (heroId: HeroRace['id']) => void;
++  onOpenRaceEditor?: (heroId: HeroRace['id']) => void;
+ }
+ 
+-export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat }) => {
++export const HeroExplorer: React.FC<HeroExplorerProps> = ({
++  onSelectForCombat,
++  onOpenRaceEditor,
++}) => {
+   const [selectedRaceId, setSelectedRaceId] = useState<HeroRace['id']>('planetary');
+   const [currentDirection, setCurrentDirection] = useState<Direction>('down');
+   const [isRotating, setIsRotating] = useState(false);
+-  const [activeAnim, setActiveAnim] = useState<'idle' | 'walk' | 'attack' | 'skill' | 'hit' | 'death'>('walk');
++  const [activeAnim, setActiveAnim] = useState<HeroAnimState>('walk');
+   const [animFrameIndex, setAnimFrameIndex] = useState(0);
+   const [isAnimPlaying, setIsAnimPlaying] = useState(true);
+-  const [viewMode, setViewMode] = useState<'masters' | 'animation' | 'sheet'>('masters');
++  const [viewMode, setViewMode] = useState<'animation' | 'masters' | 'sheet'>('animation');
++  const [useCleanedSprite, setUseCleanedSprite] = useState(true);
++  const [showAura, setShowAura] = useState(true);
++  const [spriteReadyVersion, setSpriteReadyVersion] = useState(0);
++
++  const stageCanvasRef = useRef<HTMLCanvasElement | null>(null);
++  const stripCanvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
+ 
+   const hero = HERO_RACES.find((h) => h.id === selectedRaceId) || HERO_RACES[0];
++  const raceProfile = getRaceProfile(hero.id);
++  const totalFrames = HERO_ANIM_FRAMES[activeAnim];
++
++  // Preload and clean all 8 directional master sprites for the selected race
++  useEffect(() => {
++    let mounted = true;
++    Promise.all(DIRECTIONS.map((d) => ensureCleanedHeroSprite(hero, d.key))).then(() => {
++      if (mounted) {
++        setSpriteReadyVersion((v) => v + 1);
++      }
++    });
++    return () => {
++      mounted = false;
++    };
++  }, [hero]);
+ 
+-  // Auto rotation loop
++  // Auto rotation loop across 8 directions
+   useEffect(() => {
+     if (!isRotating) return;
+     const interval = setInterval(() => {
+@@ -51,21 +97,128 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+         const nextIdx = (idx + 1) % DIRECTIONS.length;
+         return DIRECTIONS[nextIdx].key;
+       });
+-    }, 450);
++    }, 650);
+     return () => clearInterval(interval);
+   }, [isRotating]);
+ 
+-  // Animation frame loop for Planetary motion
++  // Discrete frame counter for UI badge & frame strip highlight
+   useEffect(() => {
+-    if (!isAnimPlaying || viewMode !== 'animation' || !hero.motionFrames) return;
+-    const frames = hero.motionFrames[activeAnim] || [];
+-    if (frames.length === 0) return;
+-
++    if (!isAnimPlaying || viewMode !== 'animation') return;
++    const fps = HERO_ANIM_FPS[activeAnim] || 10;
+     const interval = setInterval(() => {
+-      setAnimFrameIndex((prev) => (prev + 1) % frames.length);
+-    }, 120);
++      setAnimFrameIndex((prev) => (prev + 1) % HERO_ANIM_FRAMES[activeAnim]);
++    }, Math.round(1000 / fps));
+     return () => clearInterval(interval);
+-  }, [isAnimPlaying, viewMode, activeAnim, hero]);
++  }, [isAnimPlaying, viewMode, activeAnim]);
++
++  // Smooth 60fps Canvas stage loop
++  useEffect(() => {
++    if (viewMode === 'sheet') return;
++    let rafId: number;
++    const startTime = performance.now();
++
++    const renderLoop = (now: number) => {
++      const canvas = stageCanvasRef.current;
++      if (canvas) {
++        const ctx = canvas.getContext('2d');
++        if (ctx) {
++          ctx.clearRect(0, 0, canvas.width, canvas.height);
++
++          const effectiveState: HeroAnimState = viewMode === 'masters' ? 'idle' : activeAnim;
++          const fps = HERO_ANIM_FPS[effectiveState];
++          const framesCount = HERO_ANIM_FRAMES[effectiveState];
++
++          let frameIdx = animFrameIndex % framesCount;
++          let subFrame = 0;
++
++          if (viewMode === 'masters') {
++            frameIdx = 0;
++            subFrame = 0;
++          } else if (isAnimPlaying) {
++            const elapsedSec = (now - startTime) / 1000;
++            const totalElapsedFrames = (elapsedSec * fps) % framesCount;
++            frameIdx = Math.floor(totalElapsedFrames);
++            subFrame = totalElapsedFrames - frameIdx;
++          }
++
++          renderAnimatedHero(
++            ctx,
++            hero,
++            currentDirection,
++            canvas.width / 2,
++            canvas.height - 28,
++            320,
++            {
++              state: effectiveState,
++              frameIndex: frameIdx,
++              subFrame,
++              useCleanedSprite,
++              showAura: viewMode === 'animation' ? showAura : false,
++              customization: {
++                scaleMultiplier: raceProfile.rig.scaleMultiplier,
++                feetAnchorY: raceProfile.rig.feetAnchorY,
++                hueShiftDeg: raceProfile.rig.hueShiftDeg,
++                saturationPct: raceProfile.rig.saturationPct,
++                brightnessPct: raceProfile.rig.brightnessPct,
++                contrastPct: raceProfile.rig.contrastPct,
++                strideAmplitude: raceProfile.rig.strideAmplitude,
++                clothWaveIntensity: raceProfile.rig.clothWaveIntensity,
++                attackLungeDistance: raceProfile.rig.attackLungeDistance,
++                skillLevitationHeight: raceProfile.rig.skillLevitationHeight,
++                breathingDepth: raceProfile.rig.breathingDepth,
++                auraIntensity: raceProfile.rig.auraIntensity,
++                auraColorOverride: raceProfile.theme.primaryAccent,
++                secondaryGlowOverride: raceProfile.theme.auraGlow,
++              },
++            }
++          );
++        }
++      }
++
++      if (isAnimPlaying && viewMode === 'animation') {
++        rafId = requestAnimationFrame(renderLoop);
++      }
++    };
++
++    rafId = requestAnimationFrame(renderLoop);
++    return () => cancelAnimationFrame(rafId);
++  }, [
++    hero,
++    raceProfile,
++    currentDirection,
++    activeAnim,
++    animFrameIndex,
++    isAnimPlaying,
++    viewMode,
++    useCleanedSprite,
++    showAura,
++    spriteReadyVersion,
++  ]);
++
++  // Render 8-frame strip thumbnails whenever direction, race, anim, or cleanup mode changes
++  useEffect(() => {
++    if (viewMode !== 'animation') return;
++    for (let i = 0; i < totalFrames; i++) {
++      const c = stripCanvasRefs.current[i];
++      if (!c) continue;
++      const ctx = c.getContext('2d');
++      if (!ctx) continue;
++      ctx.clearRect(0, 0, c.width, c.height);
++      renderAnimatedHero(ctx, hero, currentDirection, c.width / 2, c.height - 8, 86, {
++        state: activeAnim,
++        frameIndex: i,
++        subFrame: 0,
++        useCleanedSprite,
++        showAura,
++        customization: {
++          auraColorOverride: raceProfile.theme.primaryAccent,
++          secondaryGlowOverride: raceProfile.theme.auraGlow,
++        },
++      });
++    }
++  }, [hero, raceProfile, currentDirection, activeAnim, totalFrames, useCleanedSprite, showAura, viewMode, spriteReadyVersion]);
++
++  const currentSpriteRecord = getCachedCleanedHeroSprite(hero.id, currentDirection);
+ 
+   return (
+     <div className="space-y-8 text-stone-100">
+@@ -74,25 +227,37 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+         <div>
+           <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-emerald-400">
+             <Sparkles className="w-4 h-4" />
+-            Ki Legends Production Masters
++            Ki Legends Production Masters — 2D Mesh & Alpha Cleanup V2
+           </div>
+           <h2 className="text-3xl font-extrabold tracking-tight text-white mt-1">
+-            Playable Races & Master Renders
++            Postacie Ras, Czyszczenie Alfa i Animacje 8×6
+           </h2>
+           <p className="text-sm text-stone-400 mt-1">
+-            Inspect the 8-directional sprite masters, combat capabilities, and motion matrices.
++            Oczyszczone sprite&apos;y 8-kierunkowe wszystkich 4 ras z rigiem kończyn, fizyką szat/płaszcza i osobną warstwą aury KI.
+           </p>
+         </div>
+ 
+-        {onSelectForCombat && (
+-          <button
+-            onClick={() => onSelectForCombat(hero.id)}
+-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-lg shadow-emerald-950/40 transition-all text-white cursor-pointer"
+-          >
+-            Deploy {hero.name} to Stage 2
+-            <ChevronRight className="w-4 h-4" />
+-          </button>
+-        )}
++        <div className="flex flex-wrap items-center gap-2.5">
++          {onOpenRaceEditor && (
++            <button
++              onClick={() => onOpenRaceEditor(hero.id)}
++              className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold text-xs bg-stone-900 border border-stone-700 hover:bg-stone-800 text-stone-200 transition-all cursor-pointer"
++            >
++              <Sliders className="w-4 h-4 text-emerald-400" />
++              Otwórz w Edytorze Ras 2D
++            </button>
++          )}
++
++          {onSelectForCombat && (
++            <button
++              onClick={() => onSelectForCombat(hero.id)}
++              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-lg shadow-emerald-950/40 transition-all text-white cursor-pointer"
++            >
++              Testuj {hero.polishName} na Arenie PvE
++              <ChevronRight className="w-4 h-4" />
++            </button>
++          )}
++        </div>
+       </div>
+ 
+       {/* Race Selector Tabs */}
+@@ -104,9 +269,7 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+               key={r.id}
+               onClick={() => {
+                 setSelectedRaceId(r.id);
+-                if (r.id !== 'planetary' && viewMode === 'animation') {
+-                  setViewMode('masters');
+-                }
++                setAnimFrameIndex(0);
+               }}
+               className={`p-4 rounded-xl border text-left transition-all cursor-pointer relative overflow-hidden ${
+                 isSelected
+@@ -123,8 +286,8 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+                   style={{ backgroundColor: r.accentColor }}
+                 />
+               </div>
+-              <div className="font-bold text-lg text-white">{r.name}</div>
+-              <div className="text-xs text-stone-400 mt-0.5">{r.polishName}</div>
++              <div className="font-bold text-lg text-white">{r.polishName}</div>
++              <div className="text-xs text-stone-400 mt-0.5">{r.name} • 8 kierunków × 6 animacji</div>
+               <div className="text-xs text-stone-500 mt-2 line-clamp-1">{r.combatRole}</div>
+             </button>
+           );
+@@ -136,104 +299,145 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+         {/* Left Column: Visual Turntable & Motion Viewer */}
+         <div className="lg:col-span-6 bg-stone-900/60 border border-stone-800 rounded-2xl p-6 backdrop-blur-sm">
+           {/* View Mode Switcher */}
+-          <div className="flex items-center justify-between border-b border-stone-800 pb-4 mb-6">
++          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-800 pb-4 mb-5">
+             <div className="flex items-center gap-1.5 p-1 bg-stone-950 rounded-lg border border-stone-800/80 text-xs">
++              <button
++                onClick={() => setViewMode('animation')}
++                className={`px-3 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
++                  viewMode === 'animation'
++                    ? 'bg-emerald-600 text-white shadow-sm'
++                    : 'text-stone-400 hover:text-stone-200'
++                }`}
++              >
++                Animacje 8×6 (Rig 2D)
++              </button>
+               <button
+                 onClick={() => setViewMode('masters')}
+-                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
++                className={`px-3 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
+                   viewMode === 'masters'
+                     ? 'bg-stone-800 text-white shadow-sm'
+                     : 'text-stone-400 hover:text-stone-200'
+                 }`}
+               >
+-                8-Direction Turntable
++                8 Kierunków (Statyczny)
+               </button>
+-              {hero.hasMotionFrames && (
+-                <button
+-                  onClick={() => setViewMode('animation')}
+-                  className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+-                    viewMode === 'animation'
+-                      ? 'bg-emerald-600 text-white shadow-sm'
+-                      : 'text-stone-400 hover:text-stone-200'
+-                  }`}
+-                >
+-                  Motion Frames
+-                </button>
+-              )}
+               <button
+                 onClick={() => setViewMode('sheet')}
+-                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
++                className={`px-3 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
+                   viewMode === 'sheet'
+                     ? 'bg-stone-800 text-white shadow-sm'
+                     : 'text-stone-400 hover:text-stone-200'
+                 }`}
+               >
+-                Master Sheet
++                Arkusz Master
+               </button>
+             </div>
+ 
+-            {viewMode === 'masters' && (
++            {viewMode !== 'sheet' && (
+               <button
+                 onClick={() => setIsRotating(!isRotating)}
+-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
++                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                   isRotating
+                     ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                     : 'bg-stone-800/80 border-stone-700 text-stone-300 hover:bg-stone-700'
+                 }`}
+               >
+                 <RotateCw className={`w-3.5 h-3.5 ${isRotating ? 'animate-spin' : ''}`} />
+-                {isRotating ? 'Auto Orbiting' : 'Auto Rotate'}
++                {isRotating ? 'Auto Obrót (8 kier.)' : 'Obracaj 360°'}
+               </button>
+             )}
+           </div>
+ 
++          {/* Cleanup & Aura Layer Toggles */}
++          {viewMode !== 'sheet' && (
++            <div className="flex flex-wrap items-center justify-between gap-2 mb-4 bg-stone-950/80 p-2.5 rounded-xl border border-stone-800/80 text-xs">
++              <div className="flex items-center gap-2">
++                <button
++                  onClick={() => setUseCleanedSprite(!useCleanedSprite)}
++                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-mono font-semibold border transition-all cursor-pointer ${
++                    useCleanedSprite
++                      ? 'bg-emerald-950/90 border-emerald-500/70 text-emerald-300'
++                      : 'bg-amber-950/80 border-amber-600/70 text-amber-300'
++                  }`}
++                >
++                  <Wand2 className="w-3.5 h-3.5" />
++                  {useCleanedSprite ? 'Alfa/Tło: OCZYSZCZONE' : 'Alfa/Tło: SUROWY ORYGINAŁ'}
++                </button>
++
++                {viewMode === 'animation' && (
++                  <button
++                    onClick={() => setShowAura(!showAura)}
++                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-mono font-semibold border transition-all cursor-pointer ${
++                      showAura
++                        ? 'bg-cyan-950/80 border-cyan-500/70 text-cyan-300'
++                        : 'bg-stone-900 border-stone-700 text-stone-400'
++                    }`}
++                  >
++                    <Layers className="w-3.5 h-3.5" />
++                    Aura KI: {showAura ? 'WŁ.' : 'WYŁ.'}
++                  </button>
++                )}
++              </div>
++
++              {currentSpriteRecord && (
++                <div className="text-[11px] font-mono text-stone-400 flex items-center gap-1.5">
++                  <Eye className="w-3.5 h-3.5 text-emerald-400" />
++                  <span>
++                    Usunięto tło/halo:{' '}
++                    <strong className="text-emerald-400">
++                      {(
++                        currentSpriteRecord.removedPixelsCount +
++                        currentSpriteRecord.defringedPixelsCount
++                      ).toLocaleString('pl-PL')}{' '}
++                      px
++                    </strong>
++                  </span>
++                </div>
++              )}
++            </div>
++          )}
++
+           {/* Central Character Stage */}
+-          <div className="relative aspect-square max-h-[380px] w-full mx-auto flex items-center justify-center bg-radial from-stone-800/40 via-stone-950/80 to-stone-950 rounded-xl border border-stone-800 overflow-hidden">
++          <div
++            className="relative aspect-square max-h-[380px] w-full mx-auto flex items-center justify-center rounded-xl border border-stone-800 overflow-hidden"
++            style={{
++              background: useCleanedSprite
++                ? 'radial-gradient(circle at center, rgba(28,38,32,0.75) 0%, rgba(12,10,9,0.95) 100%)'
++                : 'repeating-conic-gradient(#292524 0% 25%, #1c1917 0% 50%) 50% / 24px 24px',
++            }}
++          >
+             {/* Grid Floor Effect */}
+-            <div 
+-              className="absolute inset-0 opacity-15"
++            <div
++              className="absolute inset-0 opacity-20 pointer-events-none"
+               style={{
+-                backgroundImage: 'radial-gradient(circle at center, #10b981 1px, transparent 1px)',
+-                backgroundSize: '24px 24px'
++                backgroundImage: `radial-gradient(circle at center, ${hero.accentColor} 1px, transparent 1px)`,
++                backgroundSize: '24px 24px',
+               }}
+             />
+ 
+-            {/* Masters 8-Direction View */}
+-            {viewMode === 'masters' && (
+-              <div className="relative z-10 flex flex-col items-center justify-center">
+-                <img
+-                  src={hero.views[currentDirection]}
+-                  alt={`${hero.name} facing ${currentDirection}`}
+-                  className="max-h-[300px] object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)] filter transition-all duration-150"
+-                  onError={(e) => {
+-                    // Fallback to preview gif if direct view fails
+-                    (e.currentTarget as HTMLImageElement).src = hero.previewGif;
+-                  }}
+-                />
+-                <div className="mt-3 px-3 py-1 bg-stone-900/90 border border-stone-700 rounded-full text-xs font-mono text-emerald-400">
+-                  Facing: {currentDirection.toUpperCase()}
+-                </div>
+-              </div>
+-            )}
+-
+-            {/* Motion Frames View */}
+-            {viewMode === 'animation' && hero.motionFrames && (
+-              <div className="relative z-10 flex flex-col items-center justify-center">
+-                <img
+-                  src={hero.motionFrames[activeAnim][animFrameIndex] || hero.previewGif}
+-                  alt={`${hero.name} ${activeAnim} animation frame ${animFrameIndex}`}
+-                  className="max-h-[290px] object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]"
+-                  onError={(e) => {
+-                    (e.currentTarget as HTMLImageElement).src = hero.previewGif;
+-                  }}
++            {/* Animated or Static 8-Direction Canvas */}
++            {viewMode !== 'sheet' && (
++              <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
++                <canvas
++                  ref={stageCanvasRef}
++                  width={380}
++                  height={350}
++                  className="max-h-[320px] w-auto object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.85)]"
+                 />
+-                <div className="mt-3 flex items-center gap-2">
+-                  <span className="px-2.5 py-0.5 bg-stone-900 border border-stone-700 rounded-full text-xs font-mono text-stone-300">
+-                    Action: {activeAnim.toUpperCase()}
+-                  </span>
+-                  <span className="px-2 py-0.5 bg-emerald-950 border border-emerald-700/60 rounded-full text-xs font-mono text-emerald-400">
+-                    Frame {animFrameIndex + 1}/{hero.motionFrames[activeAnim]?.length || 8}
++                <div className="absolute bottom-3 flex flex-wrap items-center justify-center gap-2">
++                  <span className="px-2.5 py-0.5 bg-stone-900/90 border border-stone-700 rounded-full text-xs font-mono text-emerald-400">
++                    Kierunek: {currentDirection.toUpperCase()}
+                   </span>
++                  {viewMode === 'animation' && (
++                    <>
++                      <span className="px-2.5 py-0.5 bg-stone-900/90 border border-stone-700 rounded-full text-xs font-mono text-stone-200">
++                        Stan: {ANIM_LABELS[activeAnim].pl}
++                      </span>
++                      <span className="px-2 py-0.5 bg-emerald-950/90 border border-emerald-700/60 rounded-full text-xs font-mono text-emerald-300">
++                        Klatka {(animFrameIndex % totalFrames) + 1}/{totalFrames} ({HERO_ANIM_FPS[activeAnim]} FPS)
++                      </span>
++                    </>
++                  )}
+                 </div>
+               </div>
+             )}
+@@ -253,62 +457,98 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+             )}
+           </div>
+ 
+-          {/* Direction Controls (Compass) */}
+-          {viewMode === 'masters' && (
+-            <div className="mt-6">
+-              <div className="text-xs text-stone-400 mb-2 font-mono text-center">
+-                SELECT SPRITE ANGLE
++          {/* 8-Frame Strip Preview */}
++          {viewMode === 'animation' && (
++            <div className="mt-4 bg-stone-950/80 border border-stone-800/90 rounded-xl p-3">
++              <div className="flex items-center justify-between text-[11px] font-mono text-stone-400 mb-2">
++                <span>SEKWENCJA KLATEK ({totalFrames} KLATEK • KLIKNIJ ABY ZATRZYMAĆ NA KLATCE)</span>
++                <button
++                  onClick={() => setIsAnimPlaying(!isAnimPlaying)}
++                  className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer"
++                >
++                  {isAnimPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
++                  {isAnimPlaying ? 'Pauza' : 'Odtwórz'}
++                </button>
+               </div>
+-              <div className="grid grid-cols-4 gap-2">
+-                {DIRECTIONS.map((d) => (
++              <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5">
++                {Array.from({ length: totalFrames }).map((_, idx) => {
++                  const isCurrent = animFrameIndex % totalFrames === idx;
++                  return (
++                    <button
++                      key={idx}
++                      onClick={() => {
++                        setIsAnimPlaying(false);
++                        setAnimFrameIndex(idx);
++                      }}
++                      className={`relative rounded-lg border p-1 flex flex-col items-center justify-center transition-all cursor-pointer ${
++                        isCurrent
++                          ? 'bg-emerald-950/60 border-emerald-500 ring-1 ring-emerald-500/40'
++                          : 'bg-stone-900/70 border-stone-800 hover:border-stone-700'
++                      }`}
++                    >
++                      <canvas
++                        ref={(el) => {
++                          stripCanvasRefs.current[idx] = el;
++                        }}
++                        width={96}
++                        height={96}
++                        className="w-12 h-12 object-contain"
++                      />
++                      <span className="text-[10px] font-mono text-stone-400">#{idx + 1}</span>
++                    </button>
++                  );
++                })}
++              </div>
++            </div>
++          )}
++
++          {/* Animation State Controls */}
++          {viewMode === 'animation' && (
++            <div className="mt-5 space-y-2.5">
++              <div className="text-xs text-stone-400 font-mono">WYBIERZ STAN ANIMACJI (6 STANÓW)</div>
++              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
++                {(['walk', 'attack', 'skill', 'idle', 'hit', 'death'] as const).map((anim) => (
+                   <button
+-                    key={d.key}
++                    key={anim}
+                     onClick={() => {
+-                      setIsRotating(false);
+-                      setCurrentDirection(d.key);
++                      setActiveAnim(anim);
++                      setAnimFrameIndex(0);
++                      setIsAnimPlaying(true);
+                     }}
+-                    className={`py-2 px-3 rounded-lg text-xs font-mono font-medium border transition-all cursor-pointer ${
+-                      currentDirection === d.key
++                    className={`py-2 px-3 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
++                      activeAnim === anim
+                         ? 'bg-emerald-900/60 border-emerald-500 text-emerald-200 shadow-sm'
+                         : 'bg-stone-950/60 border-stone-800 text-stone-400 hover:border-stone-700 hover:text-stone-200'
+                     }`}
+                   >
+-                    {d.key}
++                    {ANIM_LABELS[anim].pl}
+                   </button>
+                 ))}
+               </div>
+             </div>
+           )}
+ 
+-          {/* Animation Controls */}
+-          {viewMode === 'animation' && hero.motionFrames && (
+-            <div className="mt-6 space-y-3">
+-              <div className="flex items-center justify-between">
+-                <div className="text-xs text-stone-400 font-mono">ANIMATION SEQUENCE</div>
+-                <button
+-                  onClick={() => setIsAnimPlaying(!isAnimPlaying)}
+-                  className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 font-semibold"
+-                >
+-                  {isAnimPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+-                  {isAnimPlaying ? 'Pause' : 'Play'}
+-                </button>
++          {/* Direction Controls (Compass - active in both Animation and Masters mode!) */}
++          {viewMode !== 'sheet' && (
++            <div className="mt-5">
++              <div className="text-xs text-stone-400 mb-2 font-mono">
++                KIERUNEK KAMERY (8 KIERUNKÓW ORTOGRAFICZNYCH)
+               </div>
+-
+-              <div className="grid grid-cols-3 gap-2">
+-                {(['walk', 'attack', 'skill', 'idle', 'hit', 'death'] as const).map((anim) => (
++              <div className="grid grid-cols-4 gap-2">
++                {DIRECTIONS.map((d) => (
+                   <button
+-                    key={anim}
++                    key={d.key}
+                     onClick={() => {
+-                      setActiveAnim(anim);
+-                      setAnimFrameIndex(0);
++                      setIsRotating(false);
++                      setCurrentDirection(d.key);
+                     }}
+-                    className={`py-2 px-3 rounded-lg text-xs font-medium capitalize border transition-all cursor-pointer ${
+-                      activeAnim === anim
++                    className={`py-2 px-2.5 rounded-lg text-xs font-mono font-medium border transition-all cursor-pointer ${
++                      currentDirection === d.key
+                         ? 'bg-emerald-900/60 border-emerald-500 text-emerald-200 shadow-sm'
+                         : 'bg-stone-950/60 border-stone-800 text-stone-400 hover:border-stone-700 hover:text-stone-200'
+                     }`}
+                   >
+-                    {anim}
++                    {d.key}
+                   </button>
+                 ))}
+               </div>
+@@ -320,12 +560,15 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+         <div className="lg:col-span-6 space-y-6">
+           {/* Header & Lore */}
+           <div className="bg-stone-900/60 border border-stone-800 rounded-2xl p-6 backdrop-blur-sm">
+-            <div className="flex items-center gap-2 mb-2">
++            <div className="flex flex-wrap items-center gap-2 mb-2">
+               <span className="px-2.5 py-1 rounded bg-stone-800 text-stone-300 text-xs font-mono font-semibold">
+-                Class: {hero.combatRole}
++                Klasa: {hero.combatRole}
+               </span>
+               <span className="px-2.5 py-1 rounded bg-stone-800 text-stone-300 text-xs font-mono font-semibold">
+-                Origin: {hero.homeworld}
++                Kontynent: {hero.homeworld}
++              </span>
++              <span className="px-2.5 py-1 rounded bg-emerald-950/80 border border-emerald-700/50 text-emerald-300 text-xs font-mono font-semibold">
++                Status: ACCEPTED + Rig 2D V2
+               </span>
+             </div>
+             <h3 className="text-2xl font-black text-white">{hero.tagline}</h3>
+@@ -336,7 +579,7 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+           <div className="bg-stone-900/60 border border-stone-800 rounded-2xl p-6 backdrop-blur-sm">
+             <h4 className="text-xs font-mono uppercase tracking-widest text-stone-400 mb-4 flex items-center gap-2">
+               <Zap className="w-4 h-4 text-emerald-400" />
+-              Base Combat Profile
++              Bazowy Profil Bojowy
+             </h4>
+ 
+             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+@@ -427,7 +670,9 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+ 
+             <div className="mt-4 flex items-center gap-2 p-3 bg-stone-950/40 rounded-xl border border-stone-800 text-xs text-stone-400">
+               <Info className="w-4 h-4 text-emerald-400 shrink-0" />
+-              <span>Owner Progression Rule: Movement speed scales +5% base per level up to level 20.</span>
++              <span>
++                Zasada właściciela: Szybkość ruchu rośnie o +5% bazowej na poziom aż do poziomu 20.
++              </span>
+             </div>
+           </div>
+ 
+@@ -435,7 +680,7 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+           <div className="bg-stone-900/60 border border-stone-800 rounded-2xl p-6 backdrop-blur-sm">
+             <h4 className="text-xs font-mono uppercase tracking-widest text-stone-400 mb-4 flex items-center gap-2">
+               <Crosshair className="w-4 h-4 text-cyan-400" />
+-              Ki Techniques & Keybindings
++              Techniki KI i Przypisanie Klawiszy
+             </h4>
+ 
+             <div className="space-y-3">
+@@ -450,8 +695,8 @@ export const HeroExplorer: React.FC<HeroExplorerProps> = ({ onSelectForCombat })
+                         <span className="w-6 h-6 rounded-md bg-stone-800 text-white font-mono font-bold text-xs flex items-center justify-center border border-stone-700">
+                           {skill.key}
+                         </span>
+-                        <span className="font-bold text-white text-base">{skill.name}</span>
+-                        <span className="text-xs text-stone-400">({skill.polishName})</span>
++                        <span className="font-bold text-white text-base">{skill.polishName}</span>
++                        <span className="text-xs text-stone-400">({skill.name})</span>
+                       </div>
+                       <p className="text-xs text-stone-300 mt-1.5 leading-relaxed">
+                         {skill.description}
+diff --git a/src/components/Navigation.tsx b/src/components/Navigation.tsx
+index 321a893..fc54613 100644
+--- a/src/components/Navigation.tsx
++++ b/src/components/Navigation.tsx
+@@ -1,8 +1,10 @@
+ import React from 'react';
+-import { Swords, Skull, Users, Globe, BookOpen, Sparkles, Compass, Layout } from 'lucide-react';
++import { Swords, Skull, Users, Globe, BookOpen, Sparkles, Compass, Layout, Sliders } from 'lucide-react';
++import { RaceDynamicTheme } from '../game/heroes/raceMetadata';
+ 
+ export type ActiveTab =
+   | 'world-v2'
++  | 'race-editor'
+   | 'hud-ui'
+   | 'combat'
+   | 'heroes'
+@@ -13,23 +15,32 @@ export type ActiveTab =
+ interface NavigationProps {
+   activeTab: ActiveTab;
+   onSelectTab: (tab: ActiveTab) => void;
++  activeTheme?: RaceDynamicTheme;
+ }
+ 
+-export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab }) => {
++export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab, activeTheme }) => {
++  const accentColor = activeTheme?.primaryAccent || '#10b981';
++
+   const tabs = [
+     {
+       id: 'world-v2' as const,
+       label: 'World V2 & Questy',
+       sublabel: '106 Przygód • 16 Miast',
+       icon: Compass,
+-      badge: 'NOWE V2',
++      badge: 'V2',
+     },
+     {
+-      id: 'hud-ui' as const,
+-      label: 'Grafiki HUD / UI',
+-      sublabel: '3 Plansze • 29 Węzłów',
+-      icon: Layout,
+-      badge: 'Makiety',
++      id: 'race-editor' as const,
++      label: 'Edytor Ras 2D',
++      sublabel: 'Wygląd • Animacje • Motyw',
++      icon: Sliders,
++      badge: 'STUDIO',
++    },
++    {
++      id: 'heroes' as const,
++      label: 'Rasy (4)',
++      sublabel: '8-Dir Sprites',
++      icon: Users,
+     },
+     {
+       id: 'combat' as const,
+@@ -38,10 +49,10 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab }
+       icon: Swords,
+     },
+     {
+-      id: 'heroes' as const,
+-      label: 'Rasy (4)',
+-      sublabel: '8-Dir Sprites',
+-      icon: Users,
++      id: 'hud-ui' as const,
++      label: 'Grafiki HUD / UI',
++      sublabel: '3 Plansze • 29 Węzłów',
++      icon: Layout,
+     },
+     {
+       id: 'bestiary' as const,
+@@ -64,23 +75,38 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab }
+   ];
+ 
+   return (
+-    <nav className="border-b border-stone-800 bg-stone-950/90 backdrop-blur-md sticky top-0 z-40">
++    <nav
++      className="border-b bg-stone-950/90 backdrop-blur-md sticky top-0 z-40 transition-colors"
++      style={{ borderColor: `${accentColor}33` }}
++    >
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+         <div className="flex items-center justify-between h-16 gap-3">
+           {/* Logo Brand */}
+           <div className="flex items-center gap-3 shrink-0">
+-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-amber-500 flex items-center justify-center shadow-lg shadow-emerald-950/50">
++            <div
++              className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg transition-colors"
++              style={{
++                backgroundColor: accentColor,
++                boxShadow: `0 6px 20px -4px ${accentColor}66`,
++              }}
++            >
+               <Sparkles className="w-5 h-5 text-stone-950 font-bold" />
+             </div>
+             <div>
+               <div className="flex items-center gap-2">
+                 <span className="font-black text-lg tracking-tight text-white">KI LEGENDS</span>
+-                <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 border border-amber-600/60 text-amber-300">
++                <span
++                  className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-stone-900 border"
++                  style={{
++                    borderColor: `${accentColor}66`,
++                    color: activeTheme?.auraGlow || accentColor,
++                  }}
++                >
+                   WORLD V2
+                 </span>
+               </div>
+               <p className="text-[11px] text-stone-400 -mt-0.5 font-mono hidden md:block">
+-                feature/quests-v2 • Żyjąca Planeta, Eksploracja i Przygody
++                feature/quests-v2 • Żyjąca Planeta, Rasy 8×6 i Przygody
+               </p>
+             </div>
+           </div>
+@@ -94,18 +120,36 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab }
+                 <button
+                   key={tab.id}
+                   onClick={() => onSelectTab(tab.id)}
+-                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
++                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap border ${
+                     isActive
+-                      ? 'bg-stone-800/95 text-white shadow-md ring-1 ring-amber-500/50'
+-                      : 'text-stone-400 hover:text-stone-200 hover:bg-stone-900/60'
++                      ? 'bg-stone-900 text-white shadow-md'
++                      : 'border-transparent text-stone-400 hover:text-stone-200 hover:bg-stone-900/60'
+                   }`}
++                  style={
++                    isActive
++                      ? {
++                          borderColor: `${accentColor}88`,
++                          boxShadow: `0 0 14px -4px ${accentColor}55`,
++                        }
++                      : undefined
++                  }
+                 >
+-                  <Icon className={`w-4 h-4 ${isActive ? 'text-amber-400' : 'text-stone-400'}`} />
++                  <Icon
++                    className="w-4 h-4"
++                    style={{ color: isActive ? accentColor : '#a8a29e' }}
++                  />
+                   <div className="text-left">
+                     <div className="leading-tight">{tab.label}</div>
+                   </div>
+                   {tab.badge && (
+-                    <span className="hidden lg:inline px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-mono rounded">
++                    <span
++                      className="hidden lg:inline px-1.5 py-0.2 text-[9px] font-mono rounded border"
++                      style={{
++                        backgroundColor: `${accentColor}22`,
++                        borderColor: `${accentColor}55`,
++                        color: activeTheme?.auraGlow || accentColor,
++                      }}
++                    >
+                       {tab.badge}
+                     </span>
+                   )}
+diff --git a/src/data/heroes.ts b/src/data/heroes.ts
+index 84bfcb7..4c18a70 100644
+--- a/src/data/heroes.ts
++++ b/src/data/heroes.ts
+@@ -175,7 +175,7 @@ export const HERO_RACES: HeroRace[] = [
+       'right': '/art/production/heroes/sage/painted-v1/masters/sage-master-right.png',
+       'down-right': '/art/production/heroes/sage/painted-v1/masters/sage-master-down-right.png'
+     },
+-    hasMotionFrames: false
++    hasMotionFrames: true
+   },
+   {
+     id: 'android',
+@@ -235,7 +235,7 @@ export const HERO_RACES: HeroRace[] = [
+       'right': '/art/production/heroes/android/painted-v1/masters/android-master-right.png',
+       'down-right': '/art/production/heroes/android/painted-v1/masters/android-master-down-right.png'
+     },
+-    hasMotionFrames: false
++    hasMotionFrames: true
+   },
+   {
+     id: 'legend',
+@@ -295,6 +295,6 @@ export const HERO_RACES: HeroRace[] = [
+       'right': '/art/production/heroes/legend/painted-v1/masters/legend-master-right.png',
+       'down-right': '/art/production/heroes/legend/painted-v1/masters/legend-master-down-right.png'
+     },
+-    hasMotionFrames: false
++    hasMotionFrames: true
+   }
+ ];
+diff --git a/src/game/heroes/raceMetadata.ts b/src/game/heroes/raceMetadata.ts
+new file mode 100644
+index 0000000..33b1f10
+--- /dev/null
++++ b/src/game/heroes/raceMetadata.ts
+@@ -0,0 +1,670 @@
++import { Direction, HERO_RACES, HeroRace } from '../../data/heroes';
++import { HeroAnimState, HERO_ANIM_FPS, HERO_ANIM_FRAMES } from './spriteAnimator';
++
++export interface ProvenancePaintedView {
++  file: string;
++  direction: Direction;
++  source_png_sha256: string;
++  sha256: string;
++}
++
++export interface ProvenanceMasterFile {
++  file: string;
++  sha256: string;
++}
++
++export interface RaceProvenanceMetadata {
++  hero: HeroRace['id'];
++  pack_id: string;
++  world: string;
++  owner_status: string;
++  method: string;
++  identity_candidate: string;
++  identity_sha256: string;
++  painted_views_seed: number;
++  views_source: string;
++  painted_views: ProvenancePaintedView[];
++  masters: ProvenanceMasterFile[];
++  pack_manifest_sha256: string;
++  frames_tarball_on_volume: string;
++  tools: {
++    checkpoint: string;
++    diffusers: string;
++    torch: string;
++    rembg_model: string;
++    controlnet: string;
++    ip_adapter: string;
++  };
++  render: {
++    KI_SAFE: number;
++    clips: string;
++  };
++  rights: string;
++}
++
++export interface Stage3RenderContract {
++  version: number;
++  status: string;
++  projection: string;
++  camera: {
++    azimuthDegrees: number;
++    elevationDegrees: number;
++    rollDegrees: number;
++    lockedForAllAssets: boolean;
++  };
++  lighting: {
++    key: string;
++    bakedContactShadow: boolean;
++    auraSeparate: boolean;
++  };
++  character: {
++    sourceFrame: [number, number];
++    runtimeCurrentWorldSize: [number, number];
++    futureWorldHeightTrials: number[];
++    feetAnchor: [number, number];
++    collisionRadiusWorldUnits: number;
++    directions: Direction[];
++    states: Record<string, number>;
++    fps: Record<string, number>;
++    namePattern: string;
++    firstDelivery: string;
++  };
++  validation: string[];
++}
++
++export interface RaceDynamicTheme {
++  id: string;
++  namePl: string;
++  primaryAccent: string;
++  secondaryAccent: string;
++  auraGlow: string;
++  surfaceTint: string;
++  borderAccent: string;
++  hpBarColor: string;
++  kiBarColor: string;
++}
++
++export interface RaceVisualRigConfig {
++  // Appearance & Calibration
++  useCleanedSprite: boolean;
++  showAura: boolean;
++  showFeetAnchor: boolean;
++  showCollisionCircle: boolean;
++  scaleMultiplier: number;
++  worldHeightTrialPx: number;
++  feetAnchorY: number;
++  collisionRadiusUnits: number;
++  hueShiftDeg: number;
++  saturationPct: number;
++  brightnessPct: number;
++  contrastPct: number;
++  // Animation Rig & Kinematics
++  fpsMultiplier: number;
++  strideAmplitude: number;
++  clothWaveIntensity: number;
++  attackLungeDistance: number;
++  skillLevitationHeight: number;
++  breathingDepth: number;
++  auraIntensity: number;
++}
++
++export interface RaceEditorProfile {
++  raceId: HeroRace['id'];
++  theme: RaceDynamicTheme;
++  rig: RaceVisualRigConfig;
++  updatedAt: string;
++}
++
++export const CANONICAL_STAGE3_CONTRACT: Stage3RenderContract = {
++  version: 1,
++  status: 'specification-only-no-gpu-job-started',
++  projection: 'orthographic-top-down-with-visible-south-facade',
++  camera: {
++    azimuthDegrees: 0,
++    elevationDegrees: 60,
++    rollDegrees: 0,
++    lockedForAllAssets: true,
++  },
++  lighting: {
++    key: 'north-west',
++    bakedContactShadow: false,
++    auraSeparate: true,
++  },
++  character: {
++    sourceFrame: [512, 512],
++    runtimeCurrentWorldSize: [96, 96],
++    futureWorldHeightTrials: [128, 144, 160],
++    feetAnchor: [0.5, 0.91],
++    collisionRadiusWorldUnits: 12,
++    directions: ['down', 'down-left', 'left', 'up-left', 'up', 'up-right', 'right', 'down-right'],
++    states: { ...HERO_ANIM_FRAMES },
++    fps: { ...HERO_ANIM_FPS },
++    namePattern: 'hero/{state}/{direction}/{frame:02}',
++    firstDelivery: 'one-canonical-hero-before-four-race-batch',
++  },
++  validation: [
++    'canonical-identity',
++    'same-camera-and-light',
++    'contact-at-feet',
++    'no-aura-on-body',
++    'no-frame-flicker',
++    'no-cut-feet',
++    'readable-at-360x800',
++    'collision-independent-from-art',
++    'atlas-padding-no-bleed',
++  ],
++};
++
++export const CANONICAL_RACE_PROVENANCE: Record<HeroRace['id'], RaceProvenanceMetadata> = {
++  planetary: {
++    hero: 'planetary',
++    pack_id: 'hero-planetary-painted',
++    world: 'verdant',
++    owner_status: 'ACCEPTED by owner (2026-10-22)',
++    method: 'painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw',
++    identity_candidate: 'docs/design/identity/planetary-v1/planetary-s5741102-d62.png',
++    identity_sha256: '086d7e1377b2c8639c9c01532298631e44e952d18b9bfdc64733e27214a3eeb8',
++    painted_views_seed: 5741103,
++    views_source: 'renders/planetary-painted-v1 on the GPU volume (webp copies here are lossless)',
++    painted_views: [
++      { file: 'planetary-down-s5741103.webp', direction: 'down', source_png_sha256: 'd4bd0d2d8fa219e71f8e0372a9c4d1924f3b2e99883744c3513504cc9b2fde77', sha256: '5ae592836c121cc171557d413a1f0220546672b0b9fdcab5ce82c40ddf55770c' },
++      { file: 'planetary-down-left-s5741103.webp', direction: 'down-left', source_png_sha256: 'ab799f8c6429304090160c5e72db8848337b7c0cb8fa72e40fd477fae9973cf7', sha256: 'd27e58312644bc4acfc7b11d21cd56ea060c3657e87527f0bf75fe726de9e54e' },
++      { file: 'planetary-left-s5741103.webp', direction: 'left', source_png_sha256: '0ad6cec6cd57fbc29951145cf524967fa1df88d600659a0a8cdcc5ce41dbe903', sha256: '970e4bf33cf18b376f06fc98ad5eb270b6ee1fef6eebc577f3356e0f2f69a278' },
++      { file: 'planetary-up-left-s5741103.webp', direction: 'up-left', source_png_sha256: 'a19b2a6c2e37868654698141a10b38f15da64c09a2f1f6834cf53b59963c82e4', sha256: 'ae4b386b050733ab38aabc86e055bb1ff9437fbfc1f30f5426ddc3a258eb9210' },
++      { file: 'planetary-up-s5741103.webp', direction: 'up', source_png_sha256: 'd30252c6a733488ed07f0ef527405cfa9d46716d780fa9366714c70ec6a1072f', sha256: '5945c53b117da17aaee07d605d807d10794048ebd00a6647d510b4e173d79520' },
++      { file: 'planetary-up-right-s5741103.webp', direction: 'up-right', source_png_sha256: '8b630e5a9556a30eedca92d3a35f457726192e6a3e83d1695aa7b277e7cc9270', sha256: '8f22a62da877fda869bd7744e0e52c3cf7acb0da8b71bcaec2d5c5b04754c1ae' },
++      { file: 'planetary-right-s5741103.webp', direction: 'right', source_png_sha256: 'f87c1a2acafcd8890f4333d8ddaebd24a46c1805db5646b3dc156051d8922e6e', sha256: '4b825e8dfbc28ae916946a54ec26f7cfdfc8db3db1844c9cf951564da5fa5542' },
++      { file: 'planetary-down-right-s5741103.webp', direction: 'down-right', source_png_sha256: '40f6eb9e2d97b8d93642800aff78ed3a1df3c610862947ae33431bc54ea5e268', sha256: '2a1d3b90fbe7e81b24865389e17d96a0b7b6d3984581ded194ba946d0c2b6a02' },
++    ],
++    masters: [
++      { file: 'planetary-master-down.png', sha256: 'e0d2f123ff8a131eb5ebd877e1bc4b92acf3af7c26c3d529188d937ea73abca4' },
++      { file: 'planetary-master-down-left.png', sha256: 'ad7c4cfe9ae27353ab75f3906edbd909693eb3a0f656605f91d8e8a03dd63baf' },
++      { file: 'planetary-master-left.png', sha256: '4cfaa50456c702a72c0cc151b5b46c6068b024f68258c9865bcb68fd94199fce' },
++      { file: 'planetary-master-up-left.png', sha256: '80fa71d850119965494fc850adf535d5522cdabfd99beecae7e254d20619595d' },
++      { file: 'planetary-master-up.png', sha256: '772906503fa74602024e4de7155ffd393f61c3acf4e18700ddfc8781344e33e6' },
++      { file: 'planetary-master-up-right.png', sha256: '3074c02f4a13d531f2756f4625a3044b9c2a34117d9bb6479b38263619ea2e5f' },
++      { file: 'planetary-master-right.png', sha256: 'babe4970f651c277d5215cb571d66062b3ad0acea7ca975805c789818cb08232' },
++      { file: 'planetary-master-down-right.png', sha256: 'd0cd8b5b64f3e08490f81dd40de73dc495a47caeb59dfe9c5dafa8fd2d144872' },
++    ],
++    pack_manifest_sha256: 'ae59e5153b5a90c35e5aa46b44bec61c5407928364e585bc5907c5655e43dea5',
++    frames_tarball_on_volume: 'ki-legends-gpu/deliveries-src/layout-planetary-v6.tar (416 PNG 512x512)',
++    tools: {
++      checkpoint: 'animagine-xl-3.1.safetensors',
++      diffusers: '0.41.0',
++      torch: '2.8.0+cu128',
++      rembg_model: 'isnet-anime',
++      controlnet: 'xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)',
++      ip_adapter: 'h94/IP-Adapter sdxl_models (Apache-2.0)',
++    },
++    render: {
++      KI_SAFE: 22,
++      clips: 'idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416',
++    },
++    rights: 'Accepted canonical identity; local 2D mesh & alpha matting active',
++  },
++  sage: {
++    hero: 'sage',
++    pack_id: 'hero-sage-painted',
++    world: 'aether',
++    owner_status: 'ACCEPTED by owner (2026-10-22)',
++    method: 'painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw',
++    identity_candidate: 'docs/design/identity/sage-v2/sage-s5741102-d55.png',
++    identity_sha256: 'f8c049347ccf2ffa0e3364c8c2bfa46488d37edf528c02a9066cad393a10d38a',
++    painted_views_seed: 5741102,
++    views_source: 'renders/sage-painted-v1 on the GPU volume (webp copies here are lossless)',
++    painted_views: [
++      { file: 'sage-down-s5741102.webp', direction: 'down', source_png_sha256: 'a6970f5ed77266a5b916191a473fec65be10a947080b770b7eb097268d684dfd', sha256: '7b6293a871dffa6122fd70e84ca59209bf66fa91f767ebd15b1ddffb6305df38' },
++      { file: 'sage-down-left-s5741102.webp', direction: 'down-left', source_png_sha256: 'f1630c15793159f75a5da7d6274b8126862053bdb942e7788b0c400d4105498d', sha256: '306df2e528ef04990ce1c1f950ddc810b89b2d15f6848b2d5e3a9950d67fa681' },
++      { file: 'sage-left-s5741102.webp', direction: 'left', source_png_sha256: 'c81a0e41c2c05b1150a56e72d1adb8a00bb4d7e6352aedb4b94a03c69f89b666', sha256: 'd9e1ec1c1c27c9da74016a0600a1feeec139dc43968a8bd6c42d704bd4f0ec87' },
++      { file: 'sage-up-left-s5741102.webp', direction: 'up-left', source_png_sha256: 'de52d9c5d85dba8b8f6a7466ed4a8b53edb1b3152a8d6431456dc0792208c150', sha256: 'a3feafb806b580b1f88b13c4157f71175ec573a925f47c7d5ff49506358905ea' },
++      { file: 'sage-up-s5741102.webp', direction: 'up', source_png_sha256: 'c0a660971f9b8389e736ebecd9860bd95b8e758472718deb191cf001ebedb560', sha256: '40e3de32a888667028b2d952b6124b3cb741c4a9819702e944f617d60faf13ca' },
++      { file: 'sage-up-right-s5741102.webp', direction: 'up-right', source_png_sha256: 'cc0a2f6aa4fdca3d8e10e18a59f5c689c717656651c0011b046d37526b548aae', sha256: '6fe41214bd17c819386dfc0ce1ec9802f4369c8b7e10fe90be785bccd1b18147' },
++      { file: 'sage-right-s5741102.webp', direction: 'right', source_png_sha256: '6918c5a59ee768be250fad6d4f5188f523a1a4386494954c55f94b69997329cc', sha256: 'afa7d7c0977a3d87a7e8e838862c7efbb453bcbb9dff14db44a2c1ece2a1eb4e' },
++      { file: 'sage-down-right-s5741102.webp', direction: 'down-right', source_png_sha256: '90859d6c1bf7cefc47192ce9b1d8d2ee9f2941d9ad0825f692f8a2c8ba0ef239', sha256: '5fa7f9e4db6985878a7421609af6284451713d577ed93d9e05dc4450c4850ba2' },
++    ],
++    masters: [
++      { file: 'sage-master-down.png', sha256: '1251ccb4c83f0410bf76398188b45c74ab451e1d40b01ef296d4dca0417f39df' },
++      { file: 'sage-master-down-left.png', sha256: '338df7e0d94482e7f6985eb351fbe37501a5977113b5c3381c227b0f1b0032f0' },
++      { file: 'sage-master-left.png', sha256: 'e425cf9dcefec7eb42dd0af2ea09b91b013b76fb6c14584cfe9bc830f979326e' },
++      { file: 'sage-master-up-left.png', sha256: '039a658c307dcbe90bd4f79d75ae4d7413577d807df9d8c155012eef330c7256' },
++      { file: 'sage-master-up.png', sha256: 'd1c588b96a24001c320137771be0947072e8e0e2296e09f92170807bad1c6a7e' },
++      { file: 'sage-master-up-right.png', sha256: '332d5fb604be429fd9f6c70e1407f7a4be3dc1fb6417311ba8cba85773dfffe9' },
++      { file: 'sage-master-right.png', sha256: 'bd848373718559645cc49c3b5a02b06e7bd6f2f69878454a364328db866cf4c8' },
++      { file: 'sage-master-down-right.png', sha256: 'a6bcf7887fee54ecdb3577ad2aff2b67e8d192586f328794edd8f58db513f42e' },
++    ],
++    pack_manifest_sha256: '1aed6563555daaece5e7230afcf39f9d94d2eac6ff095537c8932ad0bc47566a',
++    frames_tarball_on_volume: 'ki-legends-gpu/deliveries-src/layout-sage-v6.tar (416 PNG 512x512)',
++    tools: {
++      checkpoint: 'animagine-xl-3.1.safetensors',
++      diffusers: '0.41.0',
++      torch: '2.8.0+cu128',
++      rembg_model: 'isnet-anime',
++      controlnet: 'xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)',
++      ip_adapter: 'h94/IP-Adapter sdxl_models (Apache-2.0)',
++    },
++    render: {
++      KI_SAFE: 22,
++      clips: 'idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416',
++    },
++    rights: 'Accepted canonical identity; local 2D mesh & alpha matting active',
++  },
++  android: {
++    hero: 'android',
++    pack_id: 'hero-android',
++    world: 'nexus',
++    owner_status: 'identity candidate accepted; motion review accepted by owner (2026-10-22)',
++    method: 'painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw',
++    identity_candidate: 'docs/design/identity/android-v1/android-s5741102-d62.png',
++    identity_sha256: '02a5fdc8cd3f465267c44a05cfb01b8f46ff24cd8cb98911c68047ff9b50ae67',
++    painted_views_seed: 5741102,
++    views_source: 'renders/android-painted-v3 on the GPU volume (webp copies here are lossless)',
++    painted_views: [
++      { file: 'android-down-s5741102.webp', direction: 'down', source_png_sha256: '208d580aeb307e80e9b40f8521cf58ddfb2d5c94eec33a2e8851a5fddc614493', sha256: '4b0fb5c4977960b68298bb8bcb20d77fb9d2f27f962e7fe4eafc815dcdfc833f' },
++      { file: 'android-down-left-s5741102.webp', direction: 'down-left', source_png_sha256: '5284f359724786d4459de49fdd2d68effbab436354eb85cf437b27a6cdf8be97', sha256: 'db07b6e77c8272c5501729b6258958477f16a7c96a47bf1b6ac5b3ae204ba2ce' },
++      { file: 'android-left-s5741102.webp', direction: 'left', source_png_sha256: '79885d71f69f7dd13dcbaa6b2d2d57fb212e847e5291376fe78acd1f837cc37c', sha256: 'a2172c50338e76f38468f6bae62ae44d908b7a92e90badd0bca945e3507c77d5' },
++      { file: 'android-up-left-s5741102.webp', direction: 'up-left', source_png_sha256: 'e118bec7e0ba00aa8223362adff0a2998c788a299ff7aff19e6917846110afe5', sha256: '3654a3880fadae74432725d03070c532dc898e0db42bfc2bc3b1d90c6f34350b' },
++      { file: 'android-up-s5741102.webp', direction: 'up', source_png_sha256: '0e722b8a859223633f635328aae27617ff9062c3e06ea92391a556ea65496675', sha256: '8ba208cad128927c55206a82c503059bd35e6796e05d24278858be373284769f' },
++      { file: 'android-up-right-s5741102.webp', direction: 'up-right', source_png_sha256: 'f3504d1962c9f38c9e7e3c18f72c9cec556088033893e7d95fadec378fda0892', sha256: '9f46e02809c8d05d2fb56048e33069d6195e1dff1bce7b787c3ccdd7b4dd7032' },
++      { file: 'android-right-s5741102.webp', direction: 'right', source_png_sha256: '413ac578ba57e62d7023532d88e622b8e79f5e43874f243925444662061dc04f', sha256: '1815b41a82826fa5863dd40af64d10c726ac4dbb8671a3e9402c7567b4361751' },
++      { file: 'android-down-right-s5741102.webp', direction: 'down-right', source_png_sha256: 'b432a4dbdf4e4bbfad31830b2baafa7de6914128bef868db9d0a34b304bb491f', sha256: '36eeb92350357722c31ae61b1130b7478c51daf88ad78659aa46627a1b772848' },
++    ],
++    masters: [
++      { file: 'android-master-down.png', sha256: 'd30a922bcd6d4f87fcf5dcb3934ab7a9496fc6909aa22873457bf3f00127e4e7' },
++      { file: 'android-master-down-left.png', sha256: '95370d4a8fd1e25b8c8325506ddd86e2b05327ceb80177b5a28fec443067a60f' },
++      { file: 'android-master-left.png', sha256: 'b174ff2b8bf772f5f19e8e899914248aec814a8f0401f195831743fa7ad9874e' },
++      { file: 'android-master-up-left.png', sha256: '7e6cd87ac138a6e8b88dd29088658a82b0d543aa9b1b4e4b084858014577f7fc' },
++      { file: 'android-master-up.png', sha256: 'd58eeb527b24797324762510c193e1c5b87da0fbb70049623830e713b62d5f43' },
++      { file: 'android-master-up-right.png', sha256: 'de2f9c149d1528704303f8b55d4f1bed5d0b366b181701576f3b380e59144aaa' },
++      { file: 'android-master-right.png', sha256: '422038d24901fddc33bf3f6d789e381974c07408d1ee610ef4b39ec16963bda9' },
++      { file: 'android-master-down-right.png', sha256: 'd0cb87fbead54992c8e20820f0ab621e4714b2f0dfbc3d73d09bd18d02b06e31' },
++    ],
++    pack_manifest_sha256: 'e729ce083a3afc67296492f5154006efa2a996b3b45c52b3972a6101409556f4',
++    frames_tarball_on_volume: 'ki-legends-gpu/deliveries-src/layout-android-v6.tar (416 PNG 512x512)',
++    tools: {
++      checkpoint: 'animagine-xl-3.1.safetensors',
++      diffusers: '0.41.0',
++      torch: '2.8.0+cu128',
++      rembg_model: 'isnet-anime',
++      controlnet: 'xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)',
++      ip_adapter: 'h94/IP-Adapter sdxl_models (Apache-2.0)',
++    },
++    render: {
++      KI_SAFE: 22,
++      clips: 'idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416',
++    },
++    rights: 'Accepted canonical identity; local 2D mesh & alpha matting active',
++  },
++  legend: {
++    hero: 'legend',
++    pack_id: 'hero-legend',
++    world: 'pyra',
++    owner_status: 'identity candidate accepted; local 2D mesh & alpha matting active',
++    method: 'painted base views (ControlNet OpenPose + IP-Adapter) + 2D mesh skinning; no per-frame redraw',
++    identity_candidate: 'docs/design/identity/legend-v1/legend-s5741102-d62.png',
++    identity_sha256: '35421413ffe928e53aa50916fa2028cdb3d89cf5c0db3d0982c6db32d29d121b',
++    painted_views_seed: 5741102,
++    views_source: 'renders/legend-painted-v1 on the GPU volume (webp copies here are lossless)',
++    painted_views: [
++      { file: 'legend-down-s5741102.webp', direction: 'down', source_png_sha256: '7c77c4703738f71c6d36b172fae3540996c6d90bd5043f398b5eb3fbe8627cd4', sha256: 'e301371ee20343b6215ae6f31bc6c04773272e88ae5d81a5ef4eda45d847c495' },
++      { file: 'legend-down-left-s5741102.webp', direction: 'down-left', source_png_sha256: 'b8fd126e42713e2aa26e3004362736d8ed2803baed15ad12485718bf057c173d', sha256: '849e7f7991e93d6057669af9ae9e61e1fa2809416d68342ff7026c7e85bbe752' },
++      { file: 'legend-left-s5741102.webp', direction: 'left', source_png_sha256: '42bf637f8033c78fec71965aff92622e6c1ecff5a75760c62daec84100338734', sha256: '776217a5238be350bf5985d85ad72775aef89f004dffc26418ea9742862f473d' },
++      { file: 'legend-up-left-s5741102.webp', direction: 'up-left', source_png_sha256: '0a66b619af394407b40f0473f23f76c9968b9fc2797d7161a778889e5137a431', sha256: 'cc953d894f4dc18a1017a533ebaa17de5ef47c90fad79844b2200477ae8ffc65' },
++      { file: 'legend-up-s5741102.webp', direction: 'up', source_png_sha256: 'cc6d96353322e8b0c7ebdf34ed46436dc9eca873d5a26e901fc2c48423eaadce', sha256: '27d21dd3ee992f138ba22946ab58c05d7995f4537eafb37840b34c4c78309c9a' },
++      { file: 'legend-up-right-s5741102.webp', direction: 'up-right', source_png_sha256: 'f7e3c4fcc868d122c3d029040f7daa90981bd609680b6f6aab3d416c3687c913', sha256: '529b18cd306413b42431ad2c9726fa56bdc938f5cf67469b0af7526b95167f6a' },
++      { file: 'legend-right-s5741102.webp', direction: 'right', source_png_sha256: 'd844edb612ee031e6ebdf2e5556ba41f71f870755c4035f0a1b2fd89c44d286c', sha256: 'c556f76a24009e25f1280430e0200bf33e302c88155bc170756114b9ca2342bc' },
++      { file: 'legend-down-right-s5741102.webp', direction: 'down-right', source_png_sha256: '24270ee9b21abe422c0d9869679ba7c5a15dfed65498a1ec95577e265dbc3d67', sha256: 'fda1c470d7089b6b79fd1d8552db246a56b2512bb50b41eebe7a38ebf2a0403c' },
++    ],
++    masters: [
++      { file: 'legend-master-down.png', sha256: '158b6372606ae6f46944c8939c91ac0dbafe0fd08a35adf068d3dded9ed78662' },
++      { file: 'legend-master-down-left.png', sha256: 'ad22cc45f7267a18601690583cb2f8b8bf560b095a09c743e1270cbb778d0ee7' },
++      { file: 'legend-master-left.png', sha256: 'ae8a854c0c7e4855f98b252c512e58b58b728d6b1707d3b4eb538241c3c73d06' },
++      { file: 'legend-master-up-left.png', sha256: '1aabb81392553e4d317436799750b8f2c3ef6091e24fe24c3a9a552372daf812' },
++      { file: 'legend-master-up.png', sha256: '897236279e937c86cbd046338dff24dd64b57fb160887f6678c02169e3046fe2' },
++      { file: 'legend-master-up-right.png', sha256: 'f48b5d9117961c5b46d34fb5aac99344221a4e1c6995b60c30c1ccc012a66aad' },
++      { file: 'legend-master-right.png', sha256: '6ea79e22797b97ae47ceeffe7350207f43aaed3af662c70ee615dada5c6266ac' },
++      { file: 'legend-master-down-right.png', sha256: '3a01b52aa1945e787aca938c850a104a7188e9fc88f5fa22d1d0553bcb54efb9' },
++    ],
++    pack_manifest_sha256: '844973d5d4a7b59c83b9e82e43bab741158ef6c76e95bed0445518689a688ee1',
++    frames_tarball_on_volume: 'ki-legends-gpu/deliveries-src/layout-legend-v6.tar (416 PNG 512x512)',
++    tools: {
++      checkpoint: 'animagine-xl-3.1.safetensors',
++      diffusers: '0.41.0',
++      torch: '2.8.0+cu128',
++      rembg_model: 'isnet-anime',
++      controlnet: 'xinsir/controlnet-openpose-sdxl-1.0 (Apache-2.0)',
++      ip_adapter: 'h94/IP-Adapter sdxl_models (Apache-2.0)',
++    },
++    render: {
++      KI_SAFE: 22,
++      clips: 'idle8 walk8 attack8 skill8 hit4 death8 respawn8 x 8 directions = 416',
++    },
++    rights: 'Accepted canonical identity; local 2D mesh & alpha matting active',
++  },
++};
++
++export const RACE_THEME_PRESETS: Record<HeroRace['id'], RaceDynamicTheme[]> = {
++  planetary: [
++    {
++      id: 'planetary-canonical',
++      namePl: 'Szmaragd Verdantii (Kanoniczny)',
++      primaryAccent: '#10b981',
++      secondaryAccent: '#14b8a6',
++      auraGlow: '#34d399',
++      surfaceTint: '#06281e',
++      borderAccent: '#059669',
++      hpBarColor: '#10b981',
++      kiBarColor: '#2dd4bf',
++    },
++    {
++      id: 'planetary-jade-canopy',
++      namePl: 'Nefrytowy Korzeń Życia',
++      primaryAccent: '#22c55e',
++      secondaryAccent: '#84cc16',
++      auraGlow: '#4ade80',
++      surfaceTint: '#092614',
++      borderAccent: '#16a34a',
++      hpBarColor: '#22c55e',
++      kiBarColor: '#a3e635',
++    },
++    {
++      id: 'planetary-solar-bloom',
++      namePl: 'Złoty Rozkwit Pradawnych',
++      primaryAccent: '#059669',
++      secondaryAccent: '#eab308',
++      auraGlow: '#facc15',
++      surfaceTint: '#112218',
++      borderAccent: '#10b981',
++      hpBarColor: '#10b981',
++      kiBarColor: '#facc15',
++    },
++  ],
++  sage: [
++    {
++      id: 'sage-canonical',
++      namePl: 'Złota Pieczęć Eteru (Kanoniczny)',
++      primaryAccent: '#f59e0b',
++      secondaryAccent: '#eab308',
++      auraGlow: '#fbbf24',
++      surfaceTint: '#291a05',
++      borderAccent: '#d97706',
++      hpBarColor: '#f43f5e',
++      kiBarColor: '#f59e0b',
++    },
++    {
++      id: 'sage-celestial-azure',
++      namePl: 'Astralny Glif Niebios',
++      primaryAccent: '#eab308',
++      secondaryAccent: '#38bdf8',
++      auraGlow: '#fde047',
++      surfaceTint: '#1f1908',
++      borderAccent: '#ca8a04',
++      hpBarColor: '#f43f5e',
++      kiBarColor: '#38bdf8',
++    },
++    {
++      id: 'sage-radiant-saffron',
++      namePl: 'Szafranowe Sanktuarium',
++      primaryAccent: '#f97316',
++      secondaryAccent: '#f59e0b',
++      auraGlow: '#fdba74',
++      surfaceTint: '#2b1406',
++      borderAccent: '#ea580c',
++      hpBarColor: '#fb7185',
++      kiBarColor: '#fbbf24',
++    },
++  ],
++  android: [
++    {
++      id: 'android-canonical',
++      namePl: 'Cyjan Rdzenia Nexus-9 (Kanoniczny)',
++      primaryAccent: '#06b6d4',
++      secondaryAccent: '#3b82f6',
++      auraGlow: '#22d3ee',
++      surfaceTint: '#06202a',
++      borderAccent: '#0891b2',
++      hpBarColor: '#06b6d4',
++      kiBarColor: '#38bdf8',
++    },
++    {
++      id: 'android-overdrive-ion',
++      namePl: 'Przeciążenie Jonowe',
++      primaryAccent: '#0ea5e9',
++      secondaryAccent: '#6366f1',
++      auraGlow: '#38bdf8',
++      surfaceTint: '#081b2e',
++      borderAccent: '#0284c7',
++      hpBarColor: '#38bdf8',
++      kiBarColor: '#818cf8',
++    },
++    {
++      id: 'android-hardlight-neon',
++      namePl: 'Twarde Światło Plazmy',
++      primaryAccent: '#14b8a6',
++      secondaryAccent: '#06b6d4',
++      auraGlow: '#5eead4',
++      surfaceTint: '#042424',
++      borderAccent: '#0d9488',
++      hpBarColor: '#2dd4bf',
++      kiBarColor: '#22d3ee',
++    },
++  ],
++  legend: [
++    {
++      id: 'legend-canonical',
++      namePl: 'Magma Wulkanu Pyra (Kanoniczny)',
++      primaryAccent: '#ef4444',
++      secondaryAccent: '#f97316',
++      auraGlow: '#f87171',
++      surfaceTint: '#2a0909',
++      borderAccent: '#dc2626',
++      hpBarColor: '#ef4444',
++      kiBarColor: '#f97316',
++    },
++    {
++      id: 'legend-obsidian-wrath',
++      namePl: 'Obsydianowa Furia Tytanów',
++      primaryAccent: '#dc2626',
++      secondaryAccent: '#fb923c',
++      auraGlow: '#fb7185',
++      surfaceTint: '#24070b',
++      borderAccent: '#b91c1c',
++      hpBarColor: '#e11d48',
++      kiBarColor: '#fb923c',
++    },
++    {
++      id: 'legend-solar-eruption',
++      namePl: 'Żar Korony Bazaltowej',
++      primaryAccent: '#f97316',
++      secondaryAccent: '#ef4444',
++      auraGlow: '#fdba74',
++      surfaceTint: '#2b1106',
++      borderAccent: '#ea580c',
++      hpBarColor: '#ef4444',
++      kiBarColor: '#facc15',
++    },
++  ],
++};
++
++export function createDefaultRigConfig(raceId: HeroRace['id']): RaceVisualRigConfig {
++  return {
++    useCleanedSprite: true,
++    showAura: true,
++    showFeetAnchor: false,
++    showCollisionCircle: false,
++    scaleMultiplier: 1.0,
++    worldHeightTrialPx: 96,
++    feetAnchorY: 0.91,
++    collisionRadiusUnits: 12,
++    hueShiftDeg: 0,
++    saturationPct: 100,
++    brightnessPct: 100,
++    contrastPct: 100,
++    fpsMultiplier: 1.0,
++    strideAmplitude: 1.0,
++    clothWaveIntensity: raceId === 'sage' || raceId === 'android' ? 1.15 : 1.0,
++    attackLungeDistance: 1.0,
++    skillLevitationHeight: 1.0,
++    breathingDepth: 1.0,
++    auraIntensity: 1.0,
++  };
++}
++
++export function createDefaultRaceProfile(raceId: HeroRace['id']): RaceEditorProfile {
++  return {
++    raceId,
++    theme: { ...RACE_THEME_PRESETS[raceId][0] },
++    rig: createDefaultRigConfig(raceId),
++    updatedAt: new Date().toISOString(),
++  };
++}
++
++const STORAGE_KEY = 'ki_legends_race_editor_profiles_v1';
++const ACTIVE_RACE_THEME_KEY = 'ki_legends_active_race_theme_id_v1';
++
++const inMemoryProfiles: Record<HeroRace['id'], RaceEditorProfile> = {
++  planetary: createDefaultRaceProfile('planetary'),
++  sage: createDefaultRaceProfile('sage'),
++  android: createDefaultRaceProfile('android'),
++  legend: createDefaultRaceProfile('legend'),
++};
++
++export function loadAllRaceProfiles(): Record<HeroRace['id'], RaceEditorProfile> {
++  try {
++    if (typeof window !== 'undefined' && window.localStorage) {
++      const raw = window.localStorage.getItem(STORAGE_KEY);
++      if (raw) {
++        const parsed = JSON.parse(raw) as Partial<Record<HeroRace['id'], RaceEditorProfile>>;
++        for (const r of HERO_RACES) {
++          if (parsed[r.id]) {
++            inMemoryProfiles[r.id] = {
++              raceId: r.id,
++              theme: { ...RACE_THEME_PRESETS[r.id][0], ...parsed[r.id]?.theme },
++              rig: { ...createDefaultRigConfig(r.id), ...parsed[r.id]?.rig },
++              updatedAt: parsed[r.id]?.updatedAt || new Date().toISOString(),
++            };
++          }
++        }
++      }
++    }
++  } catch {
++    // Fallback to in-memory defaults
++  }
++  return { ...inMemoryProfiles };
++}
++
++export function getRaceProfile(raceId: HeroRace['id']): RaceEditorProfile {
++  const all = loadAllRaceProfiles();
++  return all[raceId] || createDefaultRaceProfile(raceId);
++}
++
++export function saveRaceProfile(profile: RaceEditorProfile): void {
++  inMemoryProfiles[profile.raceId] = {
++    ...profile,
++    updatedAt: new Date().toISOString(),
++  };
++  try {
++    if (typeof window !== 'undefined' && window.localStorage) {
++      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(inMemoryProfiles));
++      window.dispatchEvent(
++        new CustomEvent('ki-legends-race-profile-updated', { detail: inMemoryProfiles[profile.raceId] })
++      );
++    }
++  } catch {
++    // Ignore storage quota issues
++  }
++}
++
++export function resetRaceProfileToCanonical(raceId: HeroRace['id']): RaceEditorProfile {
++  const fresh = createDefaultRaceProfile(raceId);
++  saveRaceProfile(fresh);
++  return fresh;
++}
++
++export function getActiveUiThemeRaceId(): HeroRace['id'] {
++  try {
++    if (typeof window !== 'undefined' && window.localStorage) {
++      const val = window.localStorage.getItem(ACTIVE_RACE_THEME_KEY) as HeroRace['id'] | null;
++      if (val && ['planetary', 'sage', 'android', 'legend'].includes(val)) {
++        return val;
++      }
++    }
++  } catch {
++    // ignore
++  }
++  return 'planetary';
++}
++
++export function setActiveUiThemeRaceId(raceId: HeroRace['id']): void {
++  try {
++    if (typeof window !== 'undefined' && window.localStorage) {
++      window.localStorage.setItem(ACTIVE_RACE_THEME_KEY, raceId);
++      const profile = getRaceProfile(raceId);
++      applyRaceThemeToDocument(profile.theme, raceId);
++      window.dispatchEvent(
++        new CustomEvent('ki-legends-active-race-theme-changed', { detail: { raceId, theme: profile.theme } })
++      );
++    }
++  } catch {
++    // ignore
++  }
++}
++
++export function applyRaceThemeToDocument(theme: RaceDynamicTheme, raceId: HeroRace['id']): void {
++  if (typeof document === 'undefined') return;
++  const root = document.documentElement;
++  root.style.setProperty('--race-primary', theme.primaryAccent);
++  root.style.setProperty('--race-secondary', theme.secondaryAccent);
++  root.style.setProperty('--race-glow', theme.auraGlow);
++  root.style.setProperty('--race-surface', theme.surfaceTint);
++  root.style.setProperty('--race-border', theme.borderAccent);
++  root.style.setProperty('--race-hp-bar', theme.hpBarColor);
++  root.style.setProperty('--race-ki-bar', theme.kiBarColor);
++  root.setAttribute('data-active-race', raceId);
++}
++
++/**
++ * Fetches live provenance.json from `/art/production/heroes/<race>/painted-v1/provenance.json`
++ * with canonical fallback when running in headless test environments.
++ */
++export async function fetchRaceProvenance(raceId: HeroRace['id']): Promise<RaceProvenanceMetadata> {
++  try {
++    if (typeof fetch !== 'undefined') {
++      const res = await fetch(`/art/production/heroes/${raceId}/painted-v1/provenance.json`);
++      if (res.ok) {
++        const data = (await res.json()) as RaceProvenanceMetadata;
++        if (data && data.hero === raceId && Array.isArray(data.masters)) {
++          return data;
++        }
++      }
++    }
++  } catch {
++    // Fallback to embedded canonical provenance
++  }
++  return CANONICAL_RACE_PROVENANCE[raceId];
++}
++
++/**
++ * Fetches live stage3-render-contract.json from `/art/pipeline/stage3-render-contract.json`
++ * with canonical fallback.
++ */
++export async function fetchStage3RenderContract(): Promise<Stage3RenderContract> {
++  try {
++    if (typeof fetch !== 'undefined') {
++      const res = await fetch('/art/pipeline/stage3-render-contract.json');
++      if (res.ok) {
++        const data = (await res.json()) as Stage3RenderContract;
++        if (data && data.character && Array.isArray(data.validation)) {
++          return data;
++        }
++      }
++    }
++  } catch {
++    // Fallback to canonical contract
++  }
++  return CANONICAL_STAGE3_CONTRACT;
++}
++
++export function computeEffectiveAnimFps(state: HeroAnimState, fpsMultiplier: number): number {
++  const base = HERO_ANIM_FPS[state] || 10;
++  return Math.max(2, Math.min(30, Math.round(base * fpsMultiplier)));
++}
+diff --git a/src/game/heroes/spriteAnimator.ts b/src/game/heroes/spriteAnimator.ts
+new file mode 100644
+index 0000000..e29b2ee
+--- /dev/null
++++ b/src/game/heroes/spriteAnimator.ts
+@@ -0,0 +1,1003 @@
++import { Direction, HeroRace } from '../../data/heroes';
++
++export type HeroAnimState = 'idle' | 'walk' | 'attack' | 'skill' | 'hit' | 'death';
++
++export const HERO_ANIM_FPS: Record<HeroAnimState, number> = {
++  idle: 6,
++  walk: 10,
++  attack: 12,
++  skill: 12,
++  hit: 12,
++  death: 10,
++};
++
++export const HERO_ANIM_FRAMES: Record<HeroAnimState, number> = {
++  idle: 8,
++  walk: 8,
++  attack: 8,
++  skill: 8,
++  hit: 4,
++  death: 8,
++};
++
++export interface CleanedSpriteRecord {
++  rawImage: HTMLImageElement;
++  cleanedCanvas: HTMLCanvasElement;
++  bounds: {
++    minX: number;
++    minY: number;
++    maxX: number;
++    maxY: number;
++    width: number;
++    height: number;
++  };
++  removedPixelsCount: number;
++  defringedPixelsCount: number;
++}
++
++const spriteCache = new Map<string, CleanedSpriteRecord>();
++const loadingPromises = new Map<string, Promise<CleanedSpriteRecord | null>>();
++
++/**
++ * Checks whether a pixel is likely a residual background / matting artifact
++ * left over by automated background removal (gray backdrop boxes, floor smudges, white fringes).
++ */
++function isBackgroundArtifactPixel(
++  r: number,
++  g: number,
++  b: number,
++  a: number,
++  x: number,
++  y: number,
++  w: number,
++  h: number,
++  raceId: HeroRace['id']
++): boolean {
++  if (a === 0) return true;
++
++  const maxC = Math.max(r, g, b);
++  const minC = Math.min(r, g, b);
++  const chroma = maxC - minC;
++  const luma = 0.299 * r + 0.587 * g + 0.114 * b;
++  const normY = y / h;
++  const normX = x / w;
++  const distFromCenterX = Math.abs(normX - 0.5);
++
++  // Very low alpha noise anywhere
++  if (a < 28) return true;
++
++  // Semi-transparent white/light-gray halo around outlines
++  if (a < 185 && luma > 185 && chroma < 26) {
++    return true;
++  }
++
++  // Semi-transparent neutral gray/dark-gray matting residue (common in sage-right, planetary hair, android cape)
++  if (a < 215 && chroma < 22 && luma > 28 && luma < 145) {
++    return true;
++  }
++
++  // Opaque or near-opaque neutral gray studio backdrop remnants connected to exterior (e.g. sage right/up dark box)
++  if (chroma < 16 && luma >= 34 && luma <= 96) {
++    return true;
++  }
++
++  // Race-specific floor/backdrop artifacts
++  if (raceId === 'legend') {
++    // Legend has semi-transparent gray/red floor smudge at the bottom (y > 0.72) and outer sides
++    if (normY > 0.73 && (a < 175 || (luma > 110 && chroma < 45))) {
++      return true;
++    }
++    if (normY > 0.82 && distFromCenterX > 0.26 && a < 230) {
++      return true;
++    }
++  }
++
++  if (raceId === 'sage') {
++    // Sage has dark olive-gray rectangle remnants behind sleeves/hair in right & up-left views
++    if (chroma < 28 && luma >= 30 && luma <= 88 && (distFromCenterX > 0.18 || normY < 0.65)) {
++      return true;
++    }
++  }
++
++  if (raceId === 'android') {
++    // Android has bright grayish-white webbing between cape tails
++    if (normY > 0.55 && a < 165 && luma > 150 && chroma < 32) {
++      return true;
++    }
++  }
++
++  return false;
++}
++
++/**
++ * Cleans the 8-direction master PNG on an offscreen 512x512 canvas:
++ * 1. Flood-fills from exterior and transparent regions to strip gray backdrop boxes & floor smudges
++ * 2. De-fringes white/gray alpha halos along the silhouette contour
++ * 3. Smooths hard bottom cuts (Sage robe) and normalizes feet anchor at [0.5, 0.92]
++ */
++export function cleanHeroMasterSprite(
++  img: HTMLImageElement,
++  raceId: HeroRace['id']
++): CleanedSpriteRecord {
++  const targetSize = 512;
++  const workCanvas = document.createElement('canvas');
++  workCanvas.width = targetSize;
++  workCanvas.height = targetSize;
++  const workCtx = workCanvas.getContext('2d', { willReadFrequently: true });
++
++  if (!workCtx) {
++    return {
++      rawImage: img,
++      cleanedCanvas: workCanvas,
++      bounds: { minX: 64, minY: 32, maxX: 448, maxY: 480, width: 384, height: 448 },
++      removedPixelsCount: 0,
++      defringedPixelsCount: 0,
++    };
++  }
++
++  workCtx.clearRect(0, 0, targetSize, targetSize);
++  workCtx.drawImage(img, 0, 0, targetSize, targetSize);
++
++  const imgData = workCtx.getImageData(0, 0, targetSize, targetSize);
++  const data = imgData.data;
++  const totalPixels = targetSize * targetSize;
++  const visited = new Uint8Array(totalPixels);
++  const queue = new Int32Array(totalPixels);
++  let qHead = 0;
++  let qTail = 0;
++
++  // Seed flood-fill with all border pixels and all nearly-transparent pixels
++  for (let y = 0; y < targetSize; y++) {
++    for (let x = 0; x < targetSize; x++) {
++      const idx = y * targetSize + x;
++      const a = data[idx * 4 + 3];
++      const isBorder = x === 0 || y === 0 || x === targetSize - 1 || y === targetSize - 1;
++      if (a < 18 || isBorder) {
++        visited[idx] = 1;
++        queue[qTail++] = idx;
++      }
++    }
++  }
++
++  let removedPixelsCount = 0;
++  const dirs = [-1, 1, -targetSize, targetSize, -targetSize - 1, -targetSize + 1, targetSize - 1, targetSize + 1];
++
++  // BFS flood-fill from outside inward to strip connected background remnants & floor smudges
++  while (qHead < qTail) {
++    const curr = queue[qHead++];
++    const cx = curr % targetSize;
++    const cy = (curr / targetSize) | 0;
++
++    const pIdx = curr * 4;
++    if (data[pIdx + 3] > 0) {
++      data[pIdx + 3] = 0;
++      removedPixelsCount++;
++    }
++
++    for (let d = 0; d < 8; d++) {
++      const next = curr + dirs[d];
++      if (next < 0 || next >= totalPixels || visited[next]) continue;
++      const nx = next % targetSize;
++      if (Math.abs(nx - cx) > 1) continue;
++      const ny = (next / targetSize) | 0;
++
++      const np = next * 4;
++      const r = data[np];
++      const g = data[np + 1];
++      const b = data[np + 2];
++      const a = data[np + 3];
++
++      if (isBackgroundArtifactPixel(r, g, b, a, nx, ny, targetSize, targetSize, raceId)) {
++        visited[next] = 1;
++        queue[qTail++] = next;
++      }
++    }
++  }
++
++  // Pass 2: Edge de-fringing (2-pixel contour pass to remove white/gray matting halo)
++  let defringedPixelsCount = 0;
++  const alphaCopy = new Uint8ClampedArray(totalPixels);
++  for (let i = 0; i < totalPixels; i++) {
++    alphaCopy[i] = data[i * 4 + 3];
++  }
++
++  for (let y = 2; y < targetSize - 2; y++) {
++    for (let x = 2; x < targetSize - 2; x++) {
++      const idx = y * targetSize + x;
++      const a = alphaCopy[idx];
++      if (a === 0) continue;
++
++      // Check if adjacent to transparent pixel
++      const hasZeroNeighbor =
++        alphaCopy[idx - 1] === 0 ||
++        alphaCopy[idx + 1] === 0 ||
++        alphaCopy[idx - targetSize] === 0 ||
++        alphaCopy[idx + targetSize] === 0;
++
++      const hasNearZeroNeighbor =
++        hasZeroNeighbor ||
++        alphaCopy[idx - 2] === 0 ||
++        alphaCopy[idx + 2] === 0 ||
++        alphaCopy[idx - targetSize * 2] === 0 ||
++        alphaCopy[idx + targetSize * 2] === 0;
++
++      if (!hasNearZeroNeighbor) continue;
++
++      const p = idx * 4;
++      const r = data[p];
++      const g = data[p + 1];
++      const b = data[p + 2];
++      const maxC = Math.max(r, g, b);
++      const minC = Math.min(r, g, b);
++      const chroma = maxC - minC;
++      const luma = 0.299 * r + 0.587 * g + 0.114 * b;
++
++      // If contour pixel has low saturation and bright/gray fringe, erode or recolor from interior
++      if ((luma > 175 && chroma < 38) || (a < 190 && chroma < 24)) {
++        if (hasZeroNeighbor && a < 150) {
++          data[p + 3] = 0;
++          defringedPixelsCount++;
++        } else {
++          // Pull RGB from the nearest opaque interior pixel within a 3x3 window
++          let bestA = 0;
++          let bestR = r;
++          let bestG = g;
++          let bestB = b;
++          for (let dy = -2; dy <= 2; dy++) {
++            for (let dx = -2; dx <= 2; dx++) {
++              const nIdx = (y + dy) * targetSize + (x + dx);
++              const na = alphaCopy[nIdx];
++              const np = nIdx * 4;
++              const nChroma =
++                Math.max(data[np], data[np + 1], data[np + 2]) -
++                Math.min(data[np], data[np + 1], data[np + 2]);
++              if (na > 220 && nChroma > chroma && na > bestA) {
++                bestA = na;
++                bestR = data[np];
++                bestG = data[np + 1];
++                bestB = data[np + 2];
++              }
++            }
++          }
++          data[p] = bestR;
++          data[p + 1] = bestG;
++          data[p + 2] = bestB;
++          data[p + 3] = Math.min(a, (a * 0.72) | 0);
++          defringedPixelsCount++;
++        }
++      }
++    }
++  }
++
++  // Pass 3: Compute clean opaque bounding box
++  let minX = targetSize;
++  let minY = targetSize;
++  let maxX = 0;
++  let maxY = 0;
++
++  for (let y = 0; y < targetSize; y++) {
++    for (let x = 0; x < targetSize; x++) {
++      const a = data[(y * targetSize + x) * 4 + 3];
++      if (a > 35) {
++        if (x < minX) minX = x;
++        if (x > maxY) {
++          // keep separate
++        }
++        if (x > maxX) maxX = x;
++        if (y < minY) minY = y;
++        if (y > maxY) maxY = y;
++      }
++    }
++  }
++
++  if (minX >= maxX || minY >= maxY) {
++    minX = 64;
++    minY = 32;
++    maxX = 448;
++    maxY = 480;
++  }
++
++  // Soften flat-cut bottom edge on Sage robes (stage3-render-contract: no-cut-feet)
++  if (raceId === 'sage' && maxY >= targetSize - 6) {
++    for (let y = maxY - 10; y <= maxY; y++) {
++      if (y < 0 || y >= targetSize) continue;
++      for (let x = minX; x <= maxX; x++) {
++        const normX = (x - (minX + maxX) / 2) / Math.max(1, (maxX - minX) / 2);
++        // Rounded hem curve so robe bottom is naturally arched instead of flat-cropped
++        const curveOffset = Math.round(normX * normX * 7);
++        const distFromBottom = maxY - curveOffset - y;
++        const p = (y * targetSize + x) * 4;
++        if (distFromBottom < 0) {
++          data[p + 3] = 0;
++        } else if (distFromBottom < 5 && data[p + 3] > 0) {
++          data[p + 3] = Math.round(data[p + 3] * (distFromBottom / 5));
++        }
++      }
++    }
++  }
++
++  workCtx.putImageData(imgData, 0, 0);
++
++  // Pass 4: Normalize character placement onto calibrated 512x512 output canvas
++  // Target feet anchor: [0.5, 0.91] (y = 466px), target height ~ 410px
++  const outCanvas = document.createElement('canvas');
++  outCanvas.width = targetSize;
++  outCanvas.height = targetSize;
++  const outCtx = outCanvas.getContext('2d');
++
++  const rawW = Math.max(1, maxX - minX + 1);
++  const rawH = Math.max(1, maxY - minY + 1);
++  const desiredHeight = 408;
++  const scale = Math.min(desiredHeight / rawH, 410 / rawW);
++
++  const dstW = rawW * scale;
++  const dstH = rawH * scale;
++  const dstX = (targetSize - dstW) / 2;
++  const dstY = 468 - dstH; // Feet anchored consistently at y = 468
++
++  if (outCtx) {
++    outCtx.imageSmoothingEnabled = true;
++    outCtx.imageSmoothingQuality = 'high';
++    outCtx.drawImage(workCanvas, minX, minY, rawW, rawH, dstX, dstY, dstW, dstH);
++  }
++
++  return {
++    rawImage: img,
++    cleanedCanvas: outCanvas,
++    bounds: {
++      minX: Math.round(dstX),
++      minY: Math.round(dstY),
++      maxX: Math.round(dstX + dstW),
++      maxY: Math.round(dstY + dstH),
++      width: Math.round(dstW),
++      height: Math.round(dstH),
++    },
++    removedPixelsCount,
++    defringedPixelsCount,
++  };
++}
++
++/**
++ * Loads and caches a cleaned master sprite for a given hero and direction.
++ */
++export function ensureCleanedHeroSprite(
++  race: HeroRace,
++  direction: Direction
++): Promise<CleanedSpriteRecord | null> {
++  const key = `${race.id}:${direction}`;
++  const cached = spriteCache.get(key);
++  if (cached) return Promise.resolve(cached);
++
++  const existingPromise = loadingPromises.get(key);
++  if (existingPromise) return existingPromise;
++
++  const src = race.views[direction];
++  const promise = new Promise<CleanedSpriteRecord | null>((resolve) => {
++    const img = new Image();
++    img.crossOrigin = 'anonymous';
++    img.onload = () => {
++      const cleaned = cleanHeroMasterSprite(img, race.id);
++      spriteCache.set(key, cleaned);
++      loadingPromises.delete(key);
++      resolve(cleaned);
++    };
++    img.onerror = () => {
++      loadingPromises.delete(key);
++      resolve(null);
++    };
++    img.src = src;
++  });
++
++  loadingPromises.set(key, promise);
++  return promise;
++}
++
++export function getCachedCleanedHeroSprite(
++  raceId: HeroRace['id'],
++  direction: Direction
++): CleanedSpriteRecord | undefined {
++  return spriteCache.get(`${raceId}:${direction}`);
++}
++
++/**
++ * Direction unit vector helper for directional lunges, stride, and slash VFX.
++ */
++function getDirectionVector(direction: Direction): { dx: number; dy: number; angle: number } {
++  switch (direction) {
++    case 'right':
++      return { dx: 1, dy: 0, angle: 0 };
++    case 'down-right':
++      return { dx: 0.707, dy: 0.707, angle: Math.PI / 4 };
++    case 'down':
++      return { dx: 0, dy: 1, angle: Math.PI / 2 };
++    case 'down-left':
++      return { dx: -0.707, dy: 0.707, angle: (3 * Math.PI) / 4 };
++    case 'left':
++      return { dx: -1, dy: 0, angle: Math.PI };
++    case 'up-left':
++      return { dx: -0.707, dy: -0.707, angle: -(3 * Math.PI) / 4 };
++    case 'up':
++      return { dx: 0, dy: -1, angle: -Math.PI / 2 };
++    case 'up-right':
++      return { dx: 0.707, dy: -0.707, angle: -Math.PI / 4 };
++  }
++}
++
++export interface RenderHeroCustomization {
++  scaleMultiplier?: number;
++  feetAnchorY?: number;
++  collisionRadiusUnits?: number;
++  hueShiftDeg?: number;
++  saturationPct?: number;
++  brightnessPct?: number;
++  contrastPct?: number;
++  strideAmplitude?: number;
++  clothWaveIntensity?: number;
++  attackLungeDistance?: number;
++  skillLevitationHeight?: number;
++  breathingDepth?: number;
++  auraIntensity?: number;
++  auraColorOverride?: string;
++  secondaryGlowOverride?: string;
++  showFeetAnchor?: boolean;
++  showCollisionCircle?: boolean;
++}
++
++export interface RenderHeroOptions {
++  state: HeroAnimState;
++  /** Normalized progress within the animation loop [0..1) or discrete frame index */
++  frameIndex: number;
++  /** Smooth sub-frame phase [0..1) for 60fps interpolation */
++  subFrame?: number;
++  /** Whether to use the cleaned sprite (true) or raw uncleaned image (false) */
++  useCleanedSprite?: boolean;
++  /** Whether to render the separate race Ki aura & combat VFX layer */
++  showAura?: boolean;
++  /** Optional appearance, rig, and theme customization from CharacterRaceEditor */
++  customization?: RenderHeroCustomization;
++}
++
++/**
++ * Renders a single animated frame of a HeroRace in any of the 8 directions and 6 states
++ * onto the target 2D canvas context centered at (cx, footY) with target height `drawSize`.
++ *
++ * Uses 2D Anatomical Mesh Slicing + Left/Right Limb Articulation + Separate Ki Aura Layer:
++ * - Upper Head & Hair (0.00 - 0.24)
++ * - Torso, Shoulders & Arms (0.22 - 0.56)
++ * - Waist, Sash & Robe/Cape (0.52 - 0.72)
++ * - Left Leg & Right Leg independent stride/stance rigs (0.68 - 1.00)
++ */
++export function renderAnimatedHero(
++  ctx: CanvasRenderingContext2D,
++  race: HeroRace,
++  direction: Direction,
++  cx: number,
++  footY: number,
++  drawSize: number,
++  options: RenderHeroOptions
++): void {
++  const {
++    state,
++    frameIndex,
++    subFrame = 0,
++    useCleanedSprite = true,
++    showAura = true,
++    customization,
++  } = options;
++
++  const scaleMultiplier = customization?.scaleMultiplier ?? 1.0;
++  const feetAnchorY = customization?.feetAnchorY ?? 0.91;
++  const collisionRadiusUnits = customization?.collisionRadiusUnits ?? 12;
++  const hueShiftDeg = customization?.hueShiftDeg ?? 0;
++  const saturationPct = customization?.saturationPct ?? 100;
++  const brightnessPct = customization?.brightnessPct ?? 100;
++  const contrastPct = customization?.contrastPct ?? 100;
++  const strideAmplitude = customization?.strideAmplitude ?? 1.0;
++  const clothWaveIntensity = customization?.clothWaveIntensity ?? 1.0;
++  const attackLungeDistance = customization?.attackLungeDistance ?? 1.0;
++  const skillLevitationHeight = customization?.skillLevitationHeight ?? 1.0;
++  const breathingDepth = customization?.breathingDepth ?? 1.0;
++  const auraIntensity = customization?.auraIntensity ?? 1.0;
++  const auraColor = customization?.auraColorOverride || race.accentColor;
++  const secondaryGlow = customization?.secondaryGlowOverride || '#ffffff';
++  const showFeetAnchor = customization?.showFeetAnchor ?? false;
++  const showCollisionCircle = customization?.showCollisionCircle ?? false;
++
++  const effectiveDrawSize = drawSize * scaleMultiplier;
++  const totalFrames = HERO_ANIM_FRAMES[state];
++  const continuousFrame = (frameIndex % totalFrames) + subFrame;
++  const phase = (continuousFrame / totalFrames) * Math.PI * 2;
++  const progress = Math.min(1, continuousFrame / Math.max(1, totalFrames - 0.001));
++  const { dx: dirX, dy: dirY, angle: dirAngle } = getDirectionVector(direction);
++
++  const record = getCachedCleanedHeroSprite(race.id, direction);
++  if (!record) {
++    ensureCleanedHeroSprite(race, direction);
++    return;
++  }
++
++  const sourceImage: CanvasImageSource = useCleanedSprite ? record.cleanedCanvas : record.rawImage;
++  const srcW = useCleanedSprite ? 512 : record.rawImage.naturalWidth || 512;
++  const srcH = useCleanedSprite ? 512 : record.rawImage.naturalHeight || 512;
++
++  // Compute kinematic articulation parameters per state
++  let bodyBobY = 0;
++  let bodyShiftX = 0;
++  let bodyShiftY = 0;
++  let torsoTilt = 0;
++  let torsoScaleX = 1;
++  let torsoScaleY = 1;
++  let headBobY = 0;
++  let headTilt = 0;
++  let clothWaveAmp = 2.5;
++  let leftLegLiftY = 0;
++  let rightLegLiftY = 0;
++  let leftLegShiftX = 0;
++  let rightLegShiftX = 0;
++  let leftLegRot = 0;
++  let rightLegRot = 0;
++  let hitFlashAlpha = 0;
++  let globalAlpha = 1;
++
++  const scaleFactor = effectiveDrawSize / 512;
++
++  if (state === 'idle') {
++    // Deep martial breathing + gentle cape/robe sway
++    const breath = Math.sin(phase) * breathingDepth;
++    bodyBobY = breath * 4.5 * scaleFactor;
++    torsoScaleX = 1 + breath * 0.022;
++    torsoScaleY = 1 - breath * 0.015;
++    headBobY = Math.sin(phase - 0.5) * 3.0 * breathingDepth * scaleFactor;
++    clothWaveAmp = 4.5 * clothWaveIntensity * scaleFactor;
++  } else if (state === 'walk') {
++    // 8-frame full stride cycle: 2 vertical bounces per full left+right step cycle
++    const stride = Math.sin(phase) * strideAmplitude;
++    const bounce = Math.abs(Math.cos(phase)) * strideAmplitude;
++    bodyBobY = -bounce * 9.5 * scaleFactor;
++    bodyShiftX = dirX * Math.sin(phase * 2) * 3.5 * strideAmplitude * scaleFactor;
++    torsoTilt = (dirX !== 0 ? dirX * 0.065 : stride * 0.045) + stride * 0.04;
++    torsoScaleX = 1 + stride * 0.035;
++    headBobY = -bounce * 6.0 * scaleFactor;
++    headTilt = -stride * 0.035;
++    clothWaveAmp = 8.5 * clothWaveIntensity * scaleFactor;
++
++    // Alternating left & right leg articulation
++    const leftStep = Math.sin(phase) * strideAmplitude;
++    const rightStep = Math.sin(phase + Math.PI) * strideAmplitude;
++
++    leftLegLiftY = Math.min(0, leftStep) * 22 * scaleFactor;
++    rightLegLiftY = Math.min(0, rightStep) * 22 * scaleFactor;
++
++    // Horizontal stride displacement works in both frontal and side/diagonal views
++    const lateralStride = Math.abs(dirX) > 0.3 ? dirX : 0.65;
++    leftLegShiftX = leftStep * 15 * lateralStride * scaleFactor;
++    rightLegShiftX = rightStep * 15 * lateralStride * scaleFactor;
++
++    leftLegRot = leftStep * 0.16;
++    rightLegRot = rightStep * 0.16;
++  } else if (state === 'attack') {
++    // Wind-up (0..0.25) -> Explosive strike lunge (0.25..0.6) -> Recovery (0.6..1.0)
++    let lunge = 0;
++    if (progress < 0.25) {
++      const t = progress / 0.25;
++      lunge = -0.35 * Math.sin((t * Math.PI) / 2);
++    } else if (progress < 0.62) {
++      const t = (progress - 0.25) / 0.37;
++      lunge = -0.35 + 1.35 * Math.sin((t * Math.PI) / 2);
++    } else {
++      const t = (progress - 0.62) / 0.38;
++      lunge = 1.0 * (1 - t);
++    }
++    lunge *= attackLungeDistance;
++
++    bodyShiftX = dirX * lunge * 28 * scaleFactor;
++    bodyShiftY = dirY * lunge * 18 * scaleFactor - Math.max(0, lunge) * 6 * scaleFactor;
++    torsoTilt = (dirX !== 0 ? dirX : 0.6) * lunge * 0.18;
++    torsoScaleX = 1 + Math.max(0, lunge) * 0.08;
++    torsoScaleY = 1 - Math.max(0, lunge) * 0.04;
++    headTilt = torsoTilt * 0.6;
++    clothWaveAmp = 12 * clothWaveIntensity * scaleFactor;
++
++    // Wide martial combat stance during strike
++    leftLegShiftX = -Math.abs(lunge) * 10 * scaleFactor + dirX * lunge * 8 * scaleFactor;
++    rightLegShiftX = Math.abs(lunge) * 12 * scaleFactor + dirX * lunge * 14 * scaleFactor;
++    rightLegLiftY = -Math.max(0, lunge) * 10 * scaleFactor;
++  } else if (state === 'skill') {
++    // Ki channeling levitation + power surge release around frame 4-5
++    const surge = Math.sin(progress * Math.PI) * skillLevitationHeight;
++    const pulse = Math.sin(phase * 2);
++    bodyBobY = -surge * 18 * scaleFactor + pulse * 3 * scaleFactor;
++    torsoScaleX = 1 + surge * 0.075;
++    torsoScaleY = 1 + surge * 0.045;
++    headBobY = -surge * 6 * scaleFactor;
++    clothWaveAmp = 14 * clothWaveIntensity * scaleFactor;
++    leftLegLiftY = -surge * 8 * scaleFactor;
++    rightLegLiftY = -surge * 12 * scaleFactor;
++    leftLegShiftX = -surge * 6 * scaleFactor;
++    rightLegShiftX = surge * 6 * scaleFactor;
++  } else if (state === 'hit') {
++    // Sharp recoil away from facing direction + hit flash
++    const recoil = Math.sin(progress * Math.PI);
++    bodyShiftX = -dirX * recoil * 22 * scaleFactor;
++    bodyShiftY = -dirY * recoil * 12 * scaleFactor;
++    torsoTilt = -(dirX !== 0 ? dirX : 0.7) * recoil * 0.22;
++    headTilt = torsoTilt * 1.3;
++    leftLegLiftY = -recoil * 8 * scaleFactor;
++    hitFlashAlpha = recoil * 0.65;
++  } else if (state === 'death') {
++    // Progressive collapse to ground
++    const collapse = Math.min(1, Math.pow(progress, 1.15));
++    bodyShiftX = -dirX * collapse * 18 * scaleFactor;
++    bodyBobY = collapse * 64 * scaleFactor;
++    torsoTilt = (dirX >= 0 ? 1 : -1) * collapse * 1.28; // ~73 deg fall
++    torsoScaleY = 1 - collapse * 0.25;
++    leftLegLiftY = -collapse * 18 * scaleFactor;
++    rightLegLiftY = -collapse * 12 * scaleFactor;
++    globalAlpha = 1 - Math.max(0, (progress - 0.75) * 2.2);
++  }
++
++  ctx.save();
++  ctx.globalAlpha = Math.max(0.15, globalAlpha);
++
++  // 1. Ground Contact Shadow (scales with levitation/jump height)
++  const shadowScale = Math.max(0.55, 1 - Math.abs(bodyBobY) / (effectiveDrawSize * 0.35));
++  ctx.save();
++  ctx.fillStyle = 'rgba(0, 0, 0, 0.52)';
++  ctx.beginPath();
++  ctx.ellipse(
++    cx + bodyShiftX * 0.6,
++    footY - 4 * scaleFactor,
++    58 * scaleFactor * shadowScale,
++    18 * scaleFactor * shadowScale,
++    0,
++    0,
++    Math.PI * 2
++  );
++  ctx.fill();
++  ctx.restore();
++
++  // Optional Stage 3 Collision Radius World Units Circle overlay (collision-independent-from-art)
++  if (showCollisionCircle) {
++    ctx.save();
++    const radiusPx = (collisionRadiusUnits / 12) * 56 * scaleFactor;
++    ctx.strokeStyle = auraColor;
++    ctx.fillStyle = auraColor;
++    ctx.lineWidth = 2;
++    ctx.setLineDash([5, 4]);
++    ctx.globalAlpha = 0.75;
++    ctx.beginPath();
++    ctx.ellipse(cx, footY - 2, radiusPx, radiusPx * 0.38, 0, 0, Math.PI * 2);
++    ctx.stroke();
++    ctx.globalAlpha = 0.14;
++    ctx.fill();
++    ctx.restore();
++  }
++
++  // 2. Back Aura Layer (separate from character body per stage3-render-contract: auraSeparate: true)
++  if (showAura && state !== 'death' && auraIntensity > 0.02) {
++    renderHeroBackAura(
++      ctx,
++      race,
++      cx + bodyShiftX,
++      footY - 42 * scaleFactor + bodyShiftY,
++      effectiveDrawSize,
++      state,
++      phase,
++      progress,
++      auraColor,
++      auraIntensity
++    );
++  }
++
++  // Destination character box centered at (cx + bodyShiftX, footY + bodyBobY + bodyShiftY)
++  const anchorPixel512 = Math.round(feetAnchorY * 512);
++  const charCenterX = cx + bodyShiftX;
++  const charFootY = footY + bodyBobY + bodyShiftY;
++  const dstTopY = charFootY - anchorPixel512 * scaleFactor;
++
++  // Apply color grading filters if customized
++  const hasColorFilter =
++    hueShiftDeg !== 0 || saturationPct !== 100 || brightnessPct !== 100 || contrastPct !== 100;
++  if (hasColorFilter && typeof ctx.filter === 'string') {
++    ctx.filter = `hue-rotate(${hueShiftDeg}deg) saturate(${saturationPct}%) brightness(${brightnessPct}%) contrast(${contrastPct}%)`;
++  }
++
++  // Define normalized vertical zones in the 512x512 master canvas
++  const headY0 = 0;
++  const headY1 = 158;
++  const torsoY0 = 150;
++  const torsoY1 = 290;
++  const waistY0 = 282;
++  const waistY1 = 356;
++  const legsY0 = 348;
++  const legsY1 = 500;
++
++  // 3A. Draw Left & Right Legs (independent left/right articulation for real walking/combat steps!)
++  const legsSrcY = (legsY0 / 512) * srcH;
++  const legsSrcH = ((legsY1 - legsY0) / 512) * srcH;
++  const legsDstY = dstTopY + legsY0 * scaleFactor;
++  const legsDstH = (legsY1 - legsY0) * scaleFactor;
++
++  // Left Leg (x: 0..256)
++  ctx.save();
++  const leftHipX = charCenterX - 38 * scaleFactor + leftLegShiftX;
++  const leftHipY = legsDstY + leftLegLiftY;
++  ctx.translate(leftHipX, leftHipY);
++  ctx.rotate(leftLegRot + torsoTilt * 0.35);
++  ctx.drawImage(
++    sourceImage,
++    0,
++    legsSrcY,
++    srcW * 0.52,
++    legsSrcH,
++    -256 * scaleFactor + 38 * scaleFactor,
++    0,
++    256 * 1.04 * scaleFactor,
++    legsDstH
++  );
++  ctx.restore();
++
++  // Right Leg (x: 256..512)
++  ctx.save();
++  const rightHipX = charCenterX + 38 * scaleFactor + rightLegShiftX;
++  const rightHipY = legsDstY + rightLegLiftY;
++  ctx.translate(rightHipX, rightHipY);
++  ctx.rotate(rightLegRot + torsoTilt * 0.35);
++  ctx.drawImage(
++    sourceImage,
++    srcW * 0.48,
++    legsSrcY,
++    srcW * 0.52,
++    legsSrcH,
++    -38 * scaleFactor - 256 * 0.04 * scaleFactor,
++    0,
++    256 * 1.04 * scaleFactor,
++    legsDstH
++  );
++  ctx.restore();
++
++  // 3B. Draw Waist / Robe / Cape Mid-Section with cloth wave strips
++  const clothStrips = 4;
++  const stripHeight512 = (waistY1 - waistY0) / clothStrips;
++  for (let s = 0; s < clothStrips; s++) {
++    const sy512 = waistY0 + s * stripHeight512;
++    const waveX = Math.sin(phase * 1.5 - s * 0.9) * clothWaveAmp * ((s + 1) / clothStrips);
++    ctx.save();
++    ctx.translate(charCenterX + waveX, dstTopY + sy512 * scaleFactor);
++    ctx.rotate(torsoTilt * 0.65);
++    ctx.scale(torsoScaleX, 1);
++    ctx.drawImage(
++      sourceImage,
++      0,
++      (sy512 / 512) * srcH,
++      srcW,
++      ((stripHeight512 + 3) / 512) * srcH,
++      -256 * scaleFactor,
++      0,
++      512 * scaleFactor,
++      (stripHeight512 + 3) * scaleFactor
++    );
++    ctx.restore();
++  }
++
++  // 3C. Draw Torso, Shoulders & Arms
++  ctx.save();
++  const torsoPivotY = dstTopY + ((torsoY0 + torsoY1) * 0.5) * scaleFactor;
++  ctx.translate(charCenterX, torsoPivotY);
++  ctx.rotate(torsoTilt);
++  ctx.scale(torsoScaleX, torsoScaleY);
++  ctx.drawImage(
++    sourceImage,
++    0,
++    (torsoY0 / 512) * srcH,
++    srcW,
++    ((torsoY1 - torsoY0 + 6) / 512) * srcH,
++    -256 * scaleFactor,
++    -((torsoY1 - torsoY0) * 0.5) * scaleFactor,
++    512 * scaleFactor,
++    (torsoY1 - torsoY0 + 6) * scaleFactor
++  );
++  ctx.restore();
++
++  // 3D. Draw Head, Hair & Upper Scarf
++  ctx.save();
++  const headPivotY = dstTopY + headY1 * scaleFactor + headBobY;
++  ctx.translate(charCenterX + Math.sin(torsoTilt) * 14 * scaleFactor, headPivotY);
++  ctx.rotate(torsoTilt * 0.75 + headTilt);
++  ctx.drawImage(
++    sourceImage,
++    0,
++    (headY0 / 512) * srcH,
++    srcW,
++    ((headY1 - headY0 + 6) / 512) * srcH,
++    -256 * scaleFactor,
++    -(headY1 - headY0) * scaleFactor,
++    512 * scaleFactor,
++    (headY1 - headY0 + 6) * scaleFactor
++  );
++  ctx.restore();
++
++  if (hasColorFilter && typeof ctx.filter === 'string') {
++    ctx.filter = 'none';
++  }
++
++  // 4. Hit Recoil Flash Overlay
++  if (hitFlashAlpha > 0.05) {
++    ctx.save();
++    ctx.globalAlpha = hitFlashAlpha * 0.45;
++    ctx.fillStyle = '#ef4444';
++    ctx.beginPath();
++    ctx.arc(charCenterX, charFootY - 190 * scaleFactor, 95 * scaleFactor, 0, Math.PI * 2);
++    ctx.fill();
++    ctx.restore();
++  }
++
++  // 5. Foreground Combat & Skill VFX (Attack Slashes, Ki Bursts, Runes)
++  if (showAura && (state === 'attack' || state === 'skill') && auraIntensity > 0.02) {
++    renderHeroForegroundVfx(
++      ctx,
++      charCenterX,
++      charFootY - 175 * scaleFactor,
++      effectiveDrawSize,
++      state,
++      dirAngle,
++      progress,
++      auraColor,
++      secondaryGlow,
++      auraIntensity
++    );
++  }
++
++  // 6. Optional Feet Anchor Crosshair Overlay ([0.5, feetAnchorY] calibration marker)
++  if (showFeetAnchor) {
++    ctx.save();
++    ctx.strokeStyle = '#10b981';
++    ctx.fillStyle = '#10b981';
++    ctx.lineWidth = 1.5;
++    ctx.beginPath();
++    ctx.moveTo(cx - 24, footY);
++    ctx.lineTo(cx + 24, footY);
++    ctx.moveTo(cx, footY - 14);
++    ctx.lineTo(cx, footY + 14);
++    ctx.stroke();
++    ctx.beginPath();
++    ctx.arc(cx, footY, 3.5, 0, Math.PI * 2);
++    ctx.fill();
++    ctx.font = '10px monospace';
++    ctx.fillText(`anchor [0.5, ${feetAnchorY.toFixed(2)}]`, cx + 8, footY - 6);
++    ctx.restore();
++  }
++
++  ctx.restore();
++}
++
++/**
++ * Renders the race-specific ground seal and rising Ki aura behind the character.
++ */
++function renderHeroBackAura(
++  ctx: CanvasRenderingContext2D,
++  race: HeroRace,
++  cx: number,
++  groundY: number,
++  drawSize: number,
++  state: HeroAnimState,
++  phase: number,
++  progress: number,
++  auraColor: string,
++  auraIntensity: number
++): void {
++  const s = drawSize / 512;
++  const baseIntensity = state === 'skill' ? 1.0 : state === 'attack' ? 0.75 : 0.42;
++  const intensity = Math.min(1.6, baseIntensity * auraIntensity);
++
++  ctx.save();
++  ctx.strokeStyle = auraColor;
++  ctx.fillStyle = auraColor;
++
++  // Ground energy ring / seal
++  ctx.save();
++  ctx.translate(cx, groundY + 34 * s);
++  ctx.scale(1, 0.36);
++  ctx.rotate(phase * (state === 'skill' ? 1.5 : 0.5));
++  ctx.globalAlpha = Math.min(1, (0.28 + intensity * 0.38) * auraIntensity);
++  ctx.lineWidth = (state === 'skill' ? 5 : 3) * s;
++
++  ctx.beginPath();
++  const ringRadius = (state === 'skill' ? 105 + Math.sin(progress * Math.PI) * 35 : 74) * s;
++  ctx.arc(0, 0, ringRadius, 0, Math.PI * 2);
++  ctx.stroke();
++
++  if (race.id === 'sage' || state === 'skill') {
++    // Inner geometric seal for Sage or during any race's Skill cast
++    ctx.beginPath();
++    for (let i = 0; i < 6; i++) {
++      const a = (i / 6) * Math.PI * 2;
++      const rx = Math.cos(a) * ringRadius * 0.78;
++      const ry = Math.sin(a) * ringRadius * 0.78;
++      if (i === 0) ctx.moveTo(rx, ry);
++      else ctx.lineTo(rx, ry);
++    }
++    ctx.closePath();
++    ctx.stroke();
++  }
++  ctx.restore();
++
++  // Rising Ki particles / flame wisps
++  const particleCount = state === 'skill' ? 8 : 4;
++  for (let i = 0; i < particleCount; i++) {
++    const pPhase = (phase + i * 1.57) % (Math.PI * 2);
++    const normP = pPhase / (Math.PI * 2);
++    const px = cx + Math.sin(i * 2.3 + phase) * (58 + i * 8) * s;
++    const py = groundY + 20 * s - normP * 260 * s;
++    const pRadius = (1 - normP) * (state === 'skill' ? 9 : 5.5) * s;
++
++    ctx.globalAlpha = Math.min(1, (1 - normP) * (0.35 + intensity * 0.45));
++    ctx.beginPath();
++    ctx.arc(px, py, Math.max(1, pRadius), 0, Math.PI * 2);
++    ctx.fill();
++  }
++
++  ctx.restore();
++}
++
++/**
++ * Renders directional weapon/martial slash arcs on `attack` and Ki shockwaves on `skill`.
++ */
++function renderHeroForegroundVfx(
++  ctx: CanvasRenderingContext2D,
++  cx: number,
++  cy: number,
++  drawSize: number,
++  state: HeroAnimState,
++  dirAngle: number,
++  progress: number,
++  auraColor: string,
++  secondaryGlow: string,
++  auraIntensity: number
++): void {
++  const s = drawSize / 512;
++
++  ctx.save();
++  if (state === 'attack' && progress >= 0.22 && progress <= 0.75) {
++    const slashProgress = (progress - 0.22) / 0.53;
++    const alpha = Math.sin(slashProgress * Math.PI) * Math.min(1.3, auraIntensity);
++
++    ctx.translate(cx, cy);
++    ctx.rotate(dirAngle);
++    ctx.globalAlpha = Math.min(1, alpha * 0.9);
++    ctx.strokeStyle = auraColor;
++    ctx.shadowColor = auraColor;
++    ctx.shadowBlur = 16 * s;
++    ctx.lineWidth = 14 * s * alpha;
++    ctx.lineCap = 'round';
++
++    const arcRadius = (95 + slashProgress * 45) * s;
++    const startAngle = -1.05 + slashProgress * 0.6;
++    const endAngle = 0.65 + slashProgress * 0.7;
++
++    ctx.beginPath();
++    ctx.arc(18 * s, 0, arcRadius, startAngle, endAngle);
++    ctx.stroke();
++
++    // Inner bright core arc
++    ctx.strokeStyle = secondaryGlow;
++    ctx.lineWidth = 5 * s * alpha;
++    ctx.beginPath();
++    ctx.arc(22 * s, 0, arcRadius * 0.96, startAngle + 0.1, endAngle - 0.1);
++    ctx.stroke();
++  } else if (state === 'skill') {
++    const burst = Math.sin(progress * Math.PI) * Math.min(1.3, auraIntensity);
++    ctx.translate(cx, cy);
++    ctx.globalAlpha = Math.min(1, burst * 0.75);
++    ctx.strokeStyle = auraColor;
++    ctx.shadowColor = auraColor;
++    ctx.shadowBlur = 22 * s;
++    ctx.lineWidth = 8 * s * burst;
++
++    const r = (60 + progress * 130) * s;
++    ctx.beginPath();
++    ctx.arc(0, 0, r, 0, Math.PI * 2);
++    ctx.stroke();
++  }
++  ctx.restore();
++}
+diff --git a/src/game/quests/__tests__/quests.test.ts b/src/game/quests/__tests__/quests.test.ts
+index 0ad984e..9bbe18b 100644
+--- a/src/game/quests/__tests__/quests.test.ts
++++ b/src/game/quests/__tests__/quests.test.ts
+@@ -1,5 +1,16 @@
+ import { describe, expect, it } from 'vitest';
++import { HERO_RACES } from '../../../data/heroes';
+ import { SKILL_TREES_BY_RACE } from '../../../data/skillTrees';
++import { HERO_ANIM_FPS, HERO_ANIM_FRAMES } from '../../heroes/spriteAnimator';
++import {
++  CANONICAL_RACE_PROVENANCE,
++  CANONICAL_STAGE3_CONTRACT,
++  RACE_THEME_PRESETS,
++  computeEffectiveAnimFps,
++  getRaceProfile,
++  resetRaceProfileToCanonical,
++  saveRaceProfile,
++} from '../../heroes/raceMetadata';
+ import { MONSTERS, OWNER_BESTIARY_IDS } from '../../monsters';
+ import {
+   ALL_CITIES_V2,
+@@ -224,4 +235,73 @@ describe('KI Legends World V2 & Quests Engine (Unit Suite — Section 10)', () =
+     expect(isPositionInSafeCity('verdant', 1480, 900)).not.toBeNull();
+     expect(isPositionInSafeCity('verdant', 100, 100)).toBeNull();
+   });
++
++  it('10. Weryfikuje 4 rasy bohaterów, 8 kierunków sprite master oraz 6 stanów animacji 2D Mesh', () => {
++    expect(HERO_RACES).toHaveLength(4);
++    const expectedDirs = [
++      'down',
++      'down-left',
++      'left',
++      'up-left',
++      'up',
++      'up-right',
++      'right',
++      'down-right',
++    ];
++    for (const race of HERO_RACES) {
++      expect(race.hasMotionFrames).toBe(true);
++      expect(Object.keys(race.views).sort()).toEqual([...expectedDirs].sort());
++    }
++    expect(HERO_ANIM_FRAMES).toEqual({
++      idle: 8,
++      walk: 8,
++      attack: 8,
++      skill: 8,
++      hit: 4,
++      death: 8,
++    });
++    expect(HERO_ANIM_FPS.walk).toBe(10);
++    expect(HERO_ANIM_FPS.attack).toBe(12);
++  });
++
++  it('11. Weryfikuje metadane provenance.json, kontrakt stage3-render-contract.json oraz dynamiczne motywy kolorystyczne ras w CharacterRaceEditor', () => {
++    expect(CANONICAL_STAGE3_CONTRACT.version).toBe(1);
++    expect(CANONICAL_STAGE3_CONTRACT.character.sourceFrame).toEqual([512, 512]);
++    expect(CANONICAL_STAGE3_CONTRACT.lighting.auraSeparate).toBe(true);
++
++    for (const race of HERO_RACES) {
++      const prov = CANONICAL_RACE_PROVENANCE[race.id];
++      expect(prov.hero).toBe(race.id);
++      expect(prov.masters).toHaveLength(8);
++      expect(prov.painted_views).toHaveLength(8);
++      expect(prov.tools.rembg_model).toBe('isnet-anime');
++
++      const presets = RACE_THEME_PRESETS[race.id];
++      expect(presets.length).toBeGreaterThanOrEqual(3);
++      expect(presets[0].primaryAccent).toBe(race.accentColor);
++
++      const profile = getRaceProfile(race.id);
++      expect(profile.raceId).toBe(race.id);
++      expect(profile.rig.useCleanedSprite).toBe(true);
++    }
++
++    // Sprawdzenie zapisu i resetu profilu edytora rasy
++    const sageProfile = getRaceProfile('sage');
++    saveRaceProfile({
++      ...sageProfile,
++      rig: { ...sageProfile.rig, strideAmplitude: 1.45, fpsMultiplier: 1.5 },
++      theme: { ...sageProfile.theme, primaryAccent: '#38bdf8' },
++    });
++
++    const updatedSage = getRaceProfile('sage');
++    expect(updatedSage.rig.strideAmplitude).toBe(1.45);
++    expect(updatedSage.theme.primaryAccent).toBe('#38bdf8');
++    expect(computeEffectiveAnimFps('walk', updatedSage.rig.fpsMultiplier)).toBe(15);
++
++    const resetSage = resetRaceProfileToCanonical('sage');
++    expect(resetSage.rig.strideAmplitude).toBe(1.0);
++    expect(resetSage.theme.primaryAccent).toBe('#f59e0b');
++  });
+ });
++
++

@@ -4732,6 +4732,3693 @@
    }
   },
   {
+   "binding": "object.ki-v2-objects.aether-boulder-0",
+   "asset": "ki-v2-objects-aether-boulder-0",
+   "pixels": [
+    899,
+    798
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-boulder-0",
+   "placement": {
+    "width": 200,
+    "height": 178,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 39
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-boulder-2",
+   "asset": "ki-v2-objects-aether-boulder-2",
+   "pixels": [
+    855,
+    842
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-boulder-2",
+   "placement": {
+    "width": 200,
+    "height": 197,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 43
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-boulder-3",
+   "asset": "ki-v2-objects-aether-boulder-3",
+   "pixels": [
+    901,
+    946
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-boulder-3",
+   "placement": {
+    "width": 200,
+    "height": 210,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 46
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-boulder-4",
+   "asset": "ki-v2-objects-aether-boulder-4",
+   "pixels": [
+    909,
+    964
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-boulder-4",
+   "placement": {
+    "width": 200,
+    "height": 212,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 47
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-boulder-5",
+   "asset": "ki-v2-objects-aether-boulder-5",
+   "pixels": [
+    896,
+    876
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-boulder-5",
+   "placement": {
+    "width": 200,
+    "height": 196,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 43
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-bush-0",
+   "asset": "ki-v2-objects-aether-bush-0",
+   "pixels": [
+    828,
+    832
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-bush-0",
+   "placement": {
+    "width": 130,
+    "height": 131,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-bush-1",
+   "asset": "ki-v2-objects-aether-bush-1",
+   "pixels": [
+    804,
+    822
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-bush-1",
+   "placement": {
+    "width": 130,
+    "height": 133,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-bush-2",
+   "asset": "ki-v2-objects-aether-bush-2",
+   "pixels": [
+    715,
+    772
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-bush-2",
+   "placement": {
+    "width": 130,
+    "height": 140,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-bush-3",
+   "asset": "ki-v2-objects-aether-bush-3",
+   "pixels": [
+    901,
+    929
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-bush-3",
+   "placement": {
+    "width": 130,
+    "height": 134,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-bush-5",
+   "asset": "ki-v2-objects-aether-bush-5",
+   "pixels": [
+    755,
+    770
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-bush-5",
+   "placement": {
+    "width": 130,
+    "height": 133,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-fern-1",
+   "asset": "ki-v2-objects-aether-fern-1",
+   "pixels": [
+    544,
+    732
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-fern-1",
+   "placement": {
+    "width": 130,
+    "height": 175,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-fern-2",
+   "asset": "ki-v2-objects-aether-fern-2",
+   "pixels": [
+    521,
+    489
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-fern-2",
+   "placement": {
+    "width": 130,
+    "height": 122,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-fern-3",
+   "asset": "ki-v2-objects-aether-fern-3",
+   "pixels": [
+    426,
+    692
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-fern-3",
+   "placement": {
+    "width": 130,
+    "height": 211,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-fern-4",
+   "asset": "ki-v2-objects-aether-fern-4",
+   "pixels": [
+    360,
+    528
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-fern-4",
+   "placement": {
+    "width": 130,
+    "height": 191,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-fern-5",
+   "asset": "ki-v2-objects-aether-fern-5",
+   "pixels": [
+    448,
+    554
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-fern-5",
+   "placement": {
+    "width": 130,
+    "height": 161,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-flowerbush-2",
+   "asset": "ki-v2-objects-aether-flowerbush-2",
+   "pixels": [
+    912,
+    817
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-flowerbush-2",
+   "placement": {
+    "width": 130,
+    "height": 116,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-flowerbush-3",
+   "asset": "ki-v2-objects-aether-flowerbush-3",
+   "pixels": [
+    916,
+    947
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-flowerbush-3",
+   "placement": {
+    "width": 130,
+    "height": 134,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-log-1",
+   "asset": "ki-v2-objects-aether-log-1",
+   "pixels": [
+    700,
+    675
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-log-1",
+   "placement": {
+    "width": 240,
+    "height": 231,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-log-2",
+   "asset": "ki-v2-objects-aether-log-2",
+   "pixels": [
+    630,
+    502
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-log-2",
+   "placement": {
+    "width": 240,
+    "height": 191,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 23
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-log-4",
+   "asset": "ki-v2-objects-aether-log-4",
+   "pixels": [
+    932,
+    903
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-log-4",
+   "placement": {
+    "width": 240,
+    "height": 233,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-log-5",
+   "asset": "ki-v2-objects-aether-log-5",
+   "pixels": [
+    537,
+    636
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-log-5",
+   "placement": {
+    "width": 240,
+    "height": 284,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 34
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-mushrooms-0",
+   "asset": "ki-v2-objects-aether-mushrooms-0",
+   "pixels": [
+    560,
+    626
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-mushrooms-0",
+   "placement": {
+    "width": 130,
+    "height": 145,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-mushrooms-3",
+   "asset": "ki-v2-objects-aether-mushrooms-3",
+   "pixels": [
+    847,
+    771
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-mushrooms-3",
+   "placement": {
+    "width": 130,
+    "height": 118,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-oak-0",
+   "asset": "ki-v2-objects-aether-oak-0",
+   "pixels": [
+    833,
+    946
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-oak-0",
+   "placement": {
+    "width": 240,
+    "height": 273,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 33
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-oak-1",
+   "asset": "ki-v2-objects-aether-oak-1",
+   "pixels": [
+    925,
+    899
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-oak-1",
+   "placement": {
+    "width": 240,
+    "height": 233,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-oak-2",
+   "asset": "ki-v2-objects-aether-oak-2",
+   "pixels": [
+    875,
+    916
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-oak-2",
+   "placement": {
+    "width": 240,
+    "height": 251,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-oak-3",
+   "asset": "ki-v2-objects-aether-oak-3",
+   "pixels": [
+    901,
+    955
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-oak-3",
+   "placement": {
+    "width": 240,
+    "height": 254,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-oak-4",
+   "asset": "ki-v2-objects-aether-oak-4",
+   "pixels": [
+    981,
+    990
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-oak-4",
+   "placement": {
+    "width": 240,
+    "height": 242,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 29
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-pine-3",
+   "asset": "ki-v2-objects-aether-pine-3",
+   "pixels": [
+    624,
+    1014
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-pine-3",
+   "placement": {
+    "width": 240,
+    "height": 390,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 47
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-pine-4",
+   "asset": "ki-v2-objects-aether-pine-4",
+   "pixels": [
+    836,
+    1007
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-pine-4",
+   "placement": {
+    "width": 240,
+    "height": 289,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 35
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-pine-5",
+   "asset": "ki-v2-objects-aether-pine-5",
+   "pixels": [
+    749,
+    1018
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-pine-5",
+   "placement": {
+    "width": 240,
+    "height": 326,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 39
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-reeds-3",
+   "asset": "ki-v2-objects-aether-reeds-3",
+   "pixels": [
+    981,
+    918
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-reeds-3",
+   "placement": {
+    "width": 130,
+    "height": 122,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-rocks-0",
+   "asset": "ki-v2-objects-aether-rocks-0",
+   "pixels": [
+    802,
+    747
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-rocks-0",
+   "placement": {
+    "width": 200,
+    "height": 186,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 41
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-rocks-3",
+   "asset": "ki-v2-objects-aether-rocks-3",
+   "pixels": [
+    921,
+    699
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-rocks-3",
+   "placement": {
+    "width": 200,
+    "height": 152,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 33
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-rocks-4",
+   "asset": "ki-v2-objects-aether-rocks-4",
+   "pixels": [
+    953,
+    738
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-rocks-4",
+   "placement": {
+    "width": 200,
+    "height": 155,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 34
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-stump-0",
+   "asset": "ki-v2-objects-aether-stump-0",
+   "pixels": [
+    638,
+    826
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-stump-0",
+   "placement": {
+    "width": 240,
+    "height": 311,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 37
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-stump-1",
+   "asset": "ki-v2-objects-aether-stump-1",
+   "pixels": [
+    550,
+    784
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-stump-1",
+   "placement": {
+    "width": 240,
+    "height": 342,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 41
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-stump-2",
+   "asset": "ki-v2-objects-aether-stump-2",
+   "pixels": [
+    573,
+    827
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-stump-2",
+   "placement": {
+    "width": 240,
+    "height": 346,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 42
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-stump-3",
+   "asset": "ki-v2-objects-aether-stump-3",
+   "pixels": [
+    957,
+    988
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-stump-3",
+   "placement": {
+    "width": 240,
+    "height": 248,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-stump-5",
+   "asset": "ki-v2-objects-aether-stump-5",
+   "pixels": [
+    521,
+    851
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-stump-5",
+   "placement": {
+    "width": 240,
+    "height": 392,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 47
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-tree2-0",
+   "asset": "ki-v2-objects-aether-tree2-0",
+   "pixels": [
+    737,
+    914
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-tree2-0",
+   "placement": {
+    "width": 240,
+    "height": 298,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-tree2-1",
+   "asset": "ki-v2-objects-aether-tree2-1",
+   "pixels": [
+    792,
+    877
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-tree2-1",
+   "placement": {
+    "width": 240,
+    "height": 266,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 32
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-tree2-2",
+   "asset": "ki-v2-objects-aether-tree2-2",
+   "pixels": [
+    722,
+    890
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-tree2-2",
+   "placement": {
+    "width": 240,
+    "height": 296,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-tree2-3",
+   "asset": "ki-v2-objects-aether-tree2-3",
+   "pixels": [
+    719,
+    881
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-tree2-3",
+   "placement": {
+    "width": 240,
+    "height": 294,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 35
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-tree2-4",
+   "asset": "ki-v2-objects-aether-tree2-4",
+   "pixels": [
+    876,
+    923
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-tree2-4",
+   "placement": {
+    "width": 240,
+    "height": 253,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.aether-tree2-5",
+   "asset": "ki-v2-objects-aether-tree2-5",
+   "pixels": [
+    644,
+    882
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.aether-tree2-5",
+   "placement": {
+    "width": 240,
+    "height": 329,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 39
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-bush-0",
+   "asset": "ki-v2-objects-nexus-bush-0",
+   "pixels": [
+    732,
+    836
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-bush-0",
+   "placement": {
+    "width": 130,
+    "height": 148,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-bush-2",
+   "asset": "ki-v2-objects-nexus-bush-2",
+   "pixels": [
+    811,
+    916
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-bush-2",
+   "placement": {
+    "width": 130,
+    "height": 147,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-fern-0",
+   "asset": "ki-v2-objects-nexus-fern-0",
+   "pixels": [
+    852,
+    895
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-fern-0",
+   "placement": {
+    "width": 130,
+    "height": 137,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-fern-1",
+   "asset": "ki-v2-objects-nexus-fern-1",
+   "pixels": [
+    912,
+    944
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-fern-1",
+   "placement": {
+    "width": 130,
+    "height": 135,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-fern-2",
+   "asset": "ki-v2-objects-nexus-fern-2",
+   "pixels": [
+    953,
+    876
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-fern-2",
+   "placement": {
+    "width": 130,
+    "height": 119,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-fern-3",
+   "asset": "ki-v2-objects-nexus-fern-3",
+   "pixels": [
+    910,
+    954
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-fern-3",
+   "placement": {
+    "width": 130,
+    "height": 136,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-fern-5",
+   "asset": "ki-v2-objects-nexus-fern-5",
+   "pixels": [
+    817,
+    935
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-fern-5",
+   "placement": {
+    "width": 130,
+    "height": 149,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-flowerbush-0",
+   "asset": "ki-v2-objects-nexus-flowerbush-0",
+   "pixels": [
+    763,
+    828
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-flowerbush-0",
+   "placement": {
+    "width": 130,
+    "height": 141,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-flowerbush-1",
+   "asset": "ki-v2-objects-nexus-flowerbush-1",
+   "pixels": [
+    905,
+    905
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-flowerbush-1",
+   "placement": {
+    "width": 130,
+    "height": 130,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-flowerbush-2",
+   "asset": "ki-v2-objects-nexus-flowerbush-2",
+   "pixels": [
+    862,
+    776
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-flowerbush-2",
+   "placement": {
+    "width": 130,
+    "height": 117,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-mushrooms-3",
+   "asset": "ki-v2-objects-nexus-mushrooms-3",
+   "pixels": [
+    873,
+    844
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-mushrooms-3",
+   "placement": {
+    "width": 130,
+    "height": 126,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-oak-3",
+   "asset": "ki-v2-objects-nexus-oak-3",
+   "pixels": [
+    819,
+    965
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-oak-3",
+   "placement": {
+    "width": 240,
+    "height": 283,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 34
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-pine-0",
+   "asset": "ki-v2-objects-nexus-pine-0",
+   "pixels": [
+    701,
+    991
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-pine-0",
+   "placement": {
+    "width": 240,
+    "height": 339,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 41
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-pine-1",
+   "asset": "ki-v2-objects-nexus-pine-1",
+   "pixels": [
+    897,
+    925
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-pine-1",
+   "placement": {
+    "width": 240,
+    "height": 247,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-pine-2",
+   "asset": "ki-v2-objects-nexus-pine-2",
+   "pixels": [
+    687,
+    952
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-pine-2",
+   "placement": {
+    "width": 240,
+    "height": 333,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 40
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-pine-3",
+   "asset": "ki-v2-objects-nexus-pine-3",
+   "pixels": [
+    765,
+    957
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-pine-3",
+   "placement": {
+    "width": 240,
+    "height": 300,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-pine-4",
+   "asset": "ki-v2-objects-nexus-pine-4",
+   "pixels": [
+    978,
+    978
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-pine-4",
+   "placement": {
+    "width": 240,
+    "height": 240,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 29
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-reeds-0",
+   "asset": "ki-v2-objects-nexus-reeds-0",
+   "pixels": [
+    622,
+    774
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-reeds-0",
+   "placement": {
+    "width": 130,
+    "height": 162,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-reeds-1",
+   "asset": "ki-v2-objects-nexus-reeds-1",
+   "pixels": [
+    761,
+    815
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-reeds-1",
+   "placement": {
+    "width": 130,
+    "height": 139,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-reeds-2",
+   "asset": "ki-v2-objects-nexus-reeds-2",
+   "pixels": [
+    644,
+    734
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-reeds-2",
+   "placement": {
+    "width": 130,
+    "height": 148,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-reeds-3",
+   "asset": "ki-v2-objects-nexus-reeds-3",
+   "pixels": [
+    930,
+    923
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-reeds-3",
+   "placement": {
+    "width": 130,
+    "height": 129,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-stump-1",
+   "asset": "ki-v2-objects-nexus-stump-1",
+   "pixels": [
+    801,
+    829
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-stump-1",
+   "placement": {
+    "width": 240,
+    "height": 248,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-stump-2",
+   "asset": "ki-v2-objects-nexus-stump-2",
+   "pixels": [
+    856,
+    886
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-stump-2",
+   "placement": {
+    "width": 240,
+    "height": 248,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-tree2-0",
+   "asset": "ki-v2-objects-nexus-tree2-0",
+   "pixels": [
+    753,
+    985
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-tree2-0",
+   "placement": {
+    "width": 240,
+    "height": 314,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 38
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-tree2-1",
+   "asset": "ki-v2-objects-nexus-tree2-1",
+   "pixels": [
+    778,
+    992
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-tree2-1",
+   "placement": {
+    "width": 240,
+    "height": 306,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 37
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-tree2-2",
+   "asset": "ki-v2-objects-nexus-tree2-2",
+   "pixels": [
+    723,
+    1012
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-tree2-2",
+   "placement": {
+    "width": 240,
+    "height": 336,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 40
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-tree2-3",
+   "asset": "ki-v2-objects-nexus-tree2-3",
+   "pixels": [
+    841,
+    962
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-tree2-3",
+   "placement": {
+    "width": 240,
+    "height": 275,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 33
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-tree2-4",
+   "asset": "ki-v2-objects-nexus-tree2-4",
+   "pixels": [
+    944,
+    990
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-tree2-4",
+   "placement": {
+    "width": 240,
+    "height": 252,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.nexus-tree2-5",
+   "asset": "ki-v2-objects-nexus-tree2-5",
+   "pixels": [
+    704,
+    976
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.nexus-tree2-5",
+   "placement": {
+    "width": 240,
+    "height": 333,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 40
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-bush-1",
+   "asset": "ki-v2-objects-pyra-bush-1",
+   "pixels": [
+    879,
+    794
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-bush-1",
+   "placement": {
+    "width": 130,
+    "height": 117,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-bush-2",
+   "asset": "ki-v2-objects-pyra-bush-2",
+   "pixels": [
+    793,
+    813
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-bush-2",
+   "placement": {
+    "width": 130,
+    "height": 133,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-bush-3",
+   "asset": "ki-v2-objects-pyra-bush-3",
+   "pixels": [
+    898,
+    973
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-bush-3",
+   "placement": {
+    "width": 130,
+    "height": 141,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-bush-4",
+   "asset": "ki-v2-objects-pyra-bush-4",
+   "pixels": [
+    905,
+    973
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-bush-4",
+   "placement": {
+    "width": 130,
+    "height": 140,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-fern-1",
+   "asset": "ki-v2-objects-pyra-fern-1",
+   "pixels": [
+    818,
+    833
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-fern-1",
+   "placement": {
+    "width": 130,
+    "height": 132,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-fern-2",
+   "asset": "ki-v2-objects-pyra-fern-2",
+   "pixels": [
+    724,
+    777
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-fern-2",
+   "placement": {
+    "width": 130,
+    "height": 140,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-fern-3",
+   "asset": "ki-v2-objects-pyra-fern-3",
+   "pixels": [
+    813,
+    1001
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-fern-3",
+   "placement": {
+    "width": 130,
+    "height": 160,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-flowerbush-0",
+   "asset": "ki-v2-objects-pyra-flowerbush-0",
+   "pixels": [
+    506,
+    555
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-flowerbush-0",
+   "placement": {
+    "width": 130,
+    "height": 143,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-flowerbush-2",
+   "asset": "ki-v2-objects-pyra-flowerbush-2",
+   "pixels": [
+    717,
+    685
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-flowerbush-2",
+   "placement": {
+    "width": 130,
+    "height": 124,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-log-1",
+   "asset": "ki-v2-objects-pyra-log-1",
+   "pixels": [
+    890,
+    655
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-log-1",
+   "placement": {
+    "width": 240,
+    "height": 177,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 21
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-log-3",
+   "asset": "ki-v2-objects-pyra-log-3",
+   "pixels": [
+    907,
+    726
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-log-3",
+   "placement": {
+    "width": 240,
+    "height": 192,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 23
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-oak-0",
+   "asset": "ki-v2-objects-pyra-oak-0",
+   "pixels": [
+    685,
+    961
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-oak-0",
+   "placement": {
+    "width": 240,
+    "height": 337,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 40
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-oak-1",
+   "asset": "ki-v2-objects-pyra-oak-1",
+   "pixels": [
+    756,
+    964
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-oak-1",
+   "placement": {
+    "width": 240,
+    "height": 306,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 37
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-oak-2",
+   "asset": "ki-v2-objects-pyra-oak-2",
+   "pixels": [
+    655,
+    947
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-oak-2",
+   "placement": {
+    "width": 240,
+    "height": 347,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 42
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-oak-3",
+   "asset": "ki-v2-objects-pyra-oak-3",
+   "pixels": [
+    761,
+    987
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-oak-3",
+   "placement": {
+    "width": 240,
+    "height": 311,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 37
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-oak-4",
+   "asset": "ki-v2-objects-pyra-oak-4",
+   "pixels": [
+    673,
+    1014
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-oak-4",
+   "placement": {
+    "width": 240,
+    "height": 362,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 43
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-pine-0",
+   "asset": "ki-v2-objects-pyra-pine-0",
+   "pixels": [
+    547,
+    973
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-pine-0",
+   "placement": {
+    "width": 240,
+    "height": 427,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 51
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-pine-1",
+   "asset": "ki-v2-objects-pyra-pine-1",
+   "pixels": [
+    605,
+    929
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-pine-1",
+   "placement": {
+    "width": 240,
+    "height": 369,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 44
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-pine-2",
+   "asset": "ki-v2-objects-pyra-pine-2",
+   "pixels": [
+    663,
+    1013
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-pine-2",
+   "placement": {
+    "width": 240,
+    "height": 367,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 44
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-pine-3",
+   "asset": "ki-v2-objects-pyra-pine-3",
+   "pixels": [
+    710,
+    968
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-pine-3",
+   "placement": {
+    "width": 240,
+    "height": 327,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 39
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-pine-4",
+   "asset": "ki-v2-objects-pyra-pine-4",
+   "pixels": [
+    817,
+    976
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-pine-4",
+   "placement": {
+    "width": 240,
+    "height": 287,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 34
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-pine-5",
+   "asset": "ki-v2-objects-pyra-pine-5",
+   "pixels": [
+    656,
+    932
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-pine-5",
+   "placement": {
+    "width": 240,
+    "height": 341,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 41
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-reeds-1",
+   "asset": "ki-v2-objects-pyra-reeds-1",
+   "pixels": [
+    821,
+    759
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-reeds-1",
+   "placement": {
+    "width": 130,
+    "height": 120,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-reeds-2",
+   "asset": "ki-v2-objects-pyra-reeds-2",
+   "pixels": [
+    902,
+    779
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-reeds-2",
+   "placement": {
+    "width": 130,
+    "height": 112,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-reeds-4",
+   "asset": "ki-v2-objects-pyra-reeds-4",
+   "pixels": [
+    488,
+    355
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-reeds-4",
+   "placement": {
+    "width": 130,
+    "height": 95,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-rocks-0",
+   "asset": "ki-v2-objects-pyra-rocks-0",
+   "pixels": [
+    639,
+    571
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-rocks-0",
+   "placement": {
+    "width": 200,
+    "height": 179,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 39
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-stump-0",
+   "asset": "ki-v2-objects-pyra-stump-0",
+   "pixels": [
+    669,
+    553
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-stump-0",
+   "placement": {
+    "width": 240,
+    "height": 198,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 24
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-stump-1",
+   "asset": "ki-v2-objects-pyra-stump-1",
+   "pixels": [
+    761,
+    810
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-stump-1",
+   "placement": {
+    "width": 240,
+    "height": 255,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 31
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-stump-2",
+   "asset": "ki-v2-objects-pyra-stump-2",
+   "pixels": [
+    629,
+    513
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-stump-2",
+   "placement": {
+    "width": 240,
+    "height": 196,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 24
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-stump-4",
+   "asset": "ki-v2-objects-pyra-stump-4",
+   "pixels": [
+    812,
+    917
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-stump-4",
+   "placement": {
+    "width": 240,
+    "height": 271,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 33
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-stump-5",
+   "asset": "ki-v2-objects-pyra-stump-5",
+   "pixels": [
+    638,
+    629
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-stump-5",
+   "placement": {
+    "width": 240,
+    "height": 237,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-tree2-0",
+   "asset": "ki-v2-objects-pyra-tree2-0",
+   "pixels": [
+    929,
+    968
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-tree2-0",
+   "placement": {
+    "width": 240,
+    "height": 250,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-tree2-1",
+   "asset": "ki-v2-objects-pyra-tree2-1",
+   "pixels": [
+    894,
+    801
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-tree2-1",
+   "placement": {
+    "width": 240,
+    "height": 215,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 26
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-tree2-2",
+   "asset": "ki-v2-objects-pyra-tree2-2",
+   "pixels": [
+    886,
+    854
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-tree2-2",
+   "placement": {
+    "width": 240,
+    "height": 231,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-tree2-3",
+   "asset": "ki-v2-objects-pyra-tree2-3",
+   "pixels": [
+    947,
+    972
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-tree2-3",
+   "placement": {
+    "width": 240,
+    "height": 246,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.pyra-tree2-4",
+   "asset": "ki-v2-objects-pyra-tree2-4",
+   "pixels": [
+    974,
+    983
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.pyra-tree2-4",
+   "placement": {
+    "width": 240,
+    "height": 242,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 29
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-boulder-0",
+   "asset": "ki-v2-objects-verdant-boulder-0",
+   "pixels": [
+    759,
+    775
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-boulder-0",
+   "placement": {
+    "width": 200,
+    "height": 204,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 45
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-boulder-1",
+   "asset": "ki-v2-objects-verdant-boulder-1",
+   "pixels": [
+    921,
+    716
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-boulder-1",
+   "placement": {
+    "width": 200,
+    "height": 155,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 34
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-boulder-2",
+   "asset": "ki-v2-objects-verdant-boulder-2",
+   "pixels": [
+    952,
+    790
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-boulder-2",
+   "placement": {
+    "width": 200,
+    "height": 166,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 37
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-boulder-4",
+   "asset": "ki-v2-objects-verdant-boulder-4",
+   "pixels": [
+    943,
+    959
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-boulder-4",
+   "placement": {
+    "width": 200,
+    "height": 203,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 45
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-boulder-5",
+   "asset": "ki-v2-objects-verdant-boulder-5",
+   "pixels": [
+    960,
+    904
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-boulder-5",
+   "placement": {
+    "width": 200,
+    "height": 188,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 41
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-bush-0",
+   "asset": "ki-v2-objects-verdant-bush-0",
+   "pixels": [
+    555,
+    511
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-bush-0",
+   "placement": {
+    "width": 130,
+    "height": 120,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-bush-1",
+   "asset": "ki-v2-objects-verdant-bush-1",
+   "pixels": [
+    791,
+    768
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-bush-1",
+   "placement": {
+    "width": 130,
+    "height": 126,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-bush-2",
+   "asset": "ki-v2-objects-verdant-bush-2",
+   "pixels": [
+    689,
+    689
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-bush-2",
+   "placement": {
+    "width": 130,
+    "height": 130,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-fern-0",
+   "asset": "ki-v2-objects-verdant-fern-0",
+   "pixels": [
+    594,
+    732
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-fern-0",
+   "placement": {
+    "width": 130,
+    "height": 160,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-fern-1",
+   "asset": "ki-v2-objects-verdant-fern-1",
+   "pixels": [
+    874,
+    809
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-fern-1",
+   "placement": {
+    "width": 130,
+    "height": 120,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-fern-2",
+   "asset": "ki-v2-objects-verdant-fern-2",
+   "pixels": [
+    796,
+    824
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-fern-2",
+   "placement": {
+    "width": 130,
+    "height": 135,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-fern-3",
+   "asset": "ki-v2-objects-verdant-fern-3",
+   "pixels": [
+    937,
+    937
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-fern-3",
+   "placement": {
+    "width": 130,
+    "height": 130,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-fern-5",
+   "asset": "ki-v2-objects-verdant-fern-5",
+   "pixels": [
+    838,
+    857
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-fern-5",
+   "placement": {
+    "width": 130,
+    "height": 133,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-flowerbush-0",
+   "asset": "ki-v2-objects-verdant-flowerbush-0",
+   "pixels": [
+    593,
+    474
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-flowerbush-0",
+   "placement": {
+    "width": 130,
+    "height": 104,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-flowerbush-1",
+   "asset": "ki-v2-objects-verdant-flowerbush-1",
+   "pixels": [
+    849,
+    709
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-flowerbush-1",
+   "placement": {
+    "width": 130,
+    "height": 109,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-flowerbush-2",
+   "asset": "ki-v2-objects-verdant-flowerbush-2",
+   "pixels": [
+    868,
+    681
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-flowerbush-2",
+   "placement": {
+    "width": 130,
+    "height": 102,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-log-1",
+   "asset": "ki-v2-objects-verdant-log-1",
+   "pixels": [
+    910,
+    610
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-log-1",
+   "placement": {
+    "width": 240,
+    "height": 161,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 19
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-log-2",
+   "asset": "ki-v2-objects-verdant-log-2",
+   "pixels": [
+    962,
+    606
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-log-2",
+   "placement": {
+    "width": 240,
+    "height": 151,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 18
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-log-3",
+   "asset": "ki-v2-objects-verdant-log-3",
+   "pixels": [
+    889,
+    609
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-log-3",
+   "placement": {
+    "width": 240,
+    "height": 164,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 20
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-log-4",
+   "asset": "ki-v2-objects-verdant-log-4",
+   "pixels": [
+    913,
+    561
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-log-4",
+   "placement": {
+    "width": 240,
+    "height": 147,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 18
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-log-5",
+   "asset": "ki-v2-objects-verdant-log-5",
+   "pixels": [
+    819,
+    729
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-log-5",
+   "placement": {
+    "width": 240,
+    "height": 214,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 26
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-mushrooms-1",
+   "asset": "ki-v2-objects-verdant-mushrooms-1",
+   "pixels": [
+    859,
+    761
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-mushrooms-1",
+   "placement": {
+    "width": 130,
+    "height": 115,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-mushrooms-5",
+   "asset": "ki-v2-objects-verdant-mushrooms-5",
+   "pixels": [
+    702,
+    633
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-mushrooms-5",
+   "placement": {
+    "width": 130,
+    "height": 117,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-oak-0",
+   "asset": "ki-v2-objects-verdant-oak-0",
+   "pixels": [
+    984,
+    973
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-oak-0",
+   "placement": {
+    "width": 240,
+    "height": 237,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-oak-1",
+   "asset": "ki-v2-objects-verdant-oak-1",
+   "pixels": [
+    764,
+    969
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-oak-1",
+   "placement": {
+    "width": 240,
+    "height": 304,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-oak-2",
+   "asset": "ki-v2-objects-verdant-oak-2",
+   "pixels": [
+    718,
+    887
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-oak-2",
+   "placement": {
+    "width": 240,
+    "height": 296,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-oak-3",
+   "asset": "ki-v2-objects-verdant-oak-3",
+   "pixels": [
+    891,
+    966
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-oak-3",
+   "placement": {
+    "width": 240,
+    "height": 260,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 31
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-oak-4",
+   "asset": "ki-v2-objects-verdant-oak-4",
+   "pixels": [
+    956,
+    978
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-oak-4",
+   "placement": {
+    "width": 240,
+    "height": 246,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-oak-5",
+   "asset": "ki-v2-objects-verdant-oak-5",
+   "pixels": [
+    698,
+    924
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-oak-5",
+   "placement": {
+    "width": 240,
+    "height": 318,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 38
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-pine-1",
+   "asset": "ki-v2-objects-verdant-pine-1",
+   "pixels": [
+    543,
+    1002
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-pine-1",
+   "placement": {
+    "width": 240,
+    "height": 443,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 53
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-pine-2",
+   "asset": "ki-v2-objects-verdant-pine-2",
+   "pixels": [
+    449,
+    1018
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-pine-2",
+   "placement": {
+    "width": 240,
+    "height": 544,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 65
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-pine-3",
+   "asset": "ki-v2-objects-verdant-pine-3",
+   "pixels": [
+    701,
+    1008
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-pine-3",
+   "placement": {
+    "width": 240,
+    "height": 345,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 41
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-pine-4",
+   "asset": "ki-v2-objects-verdant-pine-4",
+   "pixels": [
+    732,
+    990
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-pine-4",
+   "placement": {
+    "width": 240,
+    "height": 325,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 39
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-pine-5",
+   "asset": "ki-v2-objects-verdant-pine-5",
+   "pixels": [
+    606,
+    977
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-pine-5",
+   "placement": {
+    "width": 240,
+    "height": 387,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 46
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-reeds-1",
+   "asset": "ki-v2-objects-verdant-reeds-1",
+   "pixels": [
+    648,
+    656
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-reeds-1",
+   "placement": {
+    "width": 130,
+    "height": 132,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-reeds-2",
+   "asset": "ki-v2-objects-verdant-reeds-2",
+   "pixels": [
+    614,
+    573
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-reeds-2",
+   "placement": {
+    "width": 130,
+    "height": 121,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-reeds-3",
+   "asset": "ki-v2-objects-verdant-reeds-3",
+   "pixels": [
+    940,
+    914
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-reeds-3",
+   "placement": {
+    "width": 130,
+    "height": 126,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-reeds-5",
+   "asset": "ki-v2-objects-verdant-reeds-5",
+   "pixels": [
+    530,
+    685
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-reeds-5",
+   "placement": {
+    "width": 130,
+    "height": 168,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-rocks-3",
+   "asset": "ki-v2-objects-verdant-rocks-3",
+   "pixels": [
+    976,
+    952
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-rocks-3",
+   "placement": {
+    "width": 200,
+    "height": 195,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 120,
+     "height": 43
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-stump-0",
+   "asset": "ki-v2-objects-verdant-stump-0",
+   "pixels": [
+    665,
+    575
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-stump-0",
+   "placement": {
+    "width": 240,
+    "height": 208,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 25
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-stump-1",
+   "asset": "ki-v2-objects-verdant-stump-1",
+   "pixels": [
+    766,
+    734
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-stump-1",
+   "placement": {
+    "width": 240,
+    "height": 230,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-stump-2",
+   "asset": "ki-v2-objects-verdant-stump-2",
+   "pixels": [
+    693,
+    500
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-stump-2",
+   "placement": {
+    "width": 240,
+    "height": 173,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 21
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-stump-3",
+   "asset": "ki-v2-objects-verdant-stump-3",
+   "pixels": [
+    923,
+    939
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-stump-3",
+   "placement": {
+    "width": 240,
+    "height": 244,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 29
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-stump-4",
+   "asset": "ki-v2-objects-verdant-stump-4",
+   "pixels": [
+    970,
+    952
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-stump-4",
+   "placement": {
+    "width": 240,
+    "height": 236,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-stump-5",
+   "asset": "ki-v2-objects-verdant-stump-5",
+   "pixels": [
+    698,
+    690
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-stump-5",
+   "placement": {
+    "width": 240,
+    "height": 237,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 28
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-tree2-0",
+   "asset": "ki-v2-objects-verdant-tree2-0",
+   "pixels": [
+    764,
+    969
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-tree2-0",
+   "placement": {
+    "width": 240,
+    "height": 304,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-tree2-2",
+   "asset": "ki-v2-objects-verdant-tree2-2",
+   "pixels": [
+    718,
+    887
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-tree2-2",
+   "placement": {
+    "width": 240,
+    "height": 296,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 36
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-tree2-3",
+   "asset": "ki-v2-objects-verdant-tree2-3",
+   "pixels": [
+    891,
+    966
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-tree2-3",
+   "placement": {
+    "width": 240,
+    "height": 260,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 31
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-tree2-4",
+   "asset": "ki-v2-objects-verdant-tree2-4",
+   "pixels": [
+    956,
+    978
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-tree2-4",
+   "placement": {
+    "width": 240,
+    "height": 246,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 30
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-objects.verdant-tree2-5",
+   "asset": "ki-v2-objects-verdant-tree2-5",
+   "pixels": [
+    698,
+    924
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-objects.verdant-tree2-5",
+   "placement": {
+    "width": 240,
+    "height": 318,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 53,
+     "height": 38
+    }
+   }
+  },
+  {
    "binding": "object.koi-pond",
    "asset": "aether-x-koi-pond",
    "pixels": [
@@ -7204,6 +10891,1266 @@
    ]
   },
   {
+   "binding": "terrain.ki-v2-aether-forest-0",
+   "asset": "ki-v2-terrain-aether-forest-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-forest-1",
+   "asset": "ki-v2-terrain-aether-forest-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-forest-2",
+   "asset": "ki-v2-terrain-aether-forest-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-grass-0",
+   "asset": "ki-v2-terrain-aether-grass-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-grass-1",
+   "asset": "ki-v2-terrain-aether-grass-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-grass-2",
+   "asset": "ki-v2-terrain-aether-grass-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-mountain-0",
+   "asset": "ki-v2-terrain-aether-mountain-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-mountain-1",
+   "asset": "ki-v2-terrain-aether-mountain-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-mountain-2",
+   "asset": "ki-v2-terrain-aether-mountain-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-road-0",
+   "asset": "ki-v2-terrain-aether-road-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-road-1",
+   "asset": "ki-v2-terrain-aether-road-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-road-2",
+   "asset": "ki-v2-terrain-aether-road-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-sea-0",
+   "asset": "ki-v2-terrain-aether-sea-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-sea-1",
+   "asset": "ki-v2-terrain-aether-sea-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-sea-2",
+   "asset": "ki-v2-terrain-aether-sea-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-shore-0",
+   "asset": "ki-v2-terrain-aether-shore-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-shore-1",
+   "asset": "ki-v2-terrain-aether-shore-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-shore-2",
+   "asset": "ki-v2-terrain-aether-shore-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-wetland-0",
+   "asset": "ki-v2-terrain-aether-wetland-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-wetland-1",
+   "asset": "ki-v2-terrain-aether-wetland-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-aether-wetland-2",
+   "asset": "ki-v2-terrain-aether-wetland-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-forest-0",
+   "asset": "ki-v2-terrain-nexus-forest-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-forest-1",
+   "asset": "ki-v2-terrain-nexus-forest-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-forest-2",
+   "asset": "ki-v2-terrain-nexus-forest-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-grass-0",
+   "asset": "ki-v2-terrain-nexus-grass-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-grass-1",
+   "asset": "ki-v2-terrain-nexus-grass-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-grass-2",
+   "asset": "ki-v2-terrain-nexus-grass-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-mountain-0",
+   "asset": "ki-v2-terrain-nexus-mountain-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-mountain-1",
+   "asset": "ki-v2-terrain-nexus-mountain-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-mountain-2",
+   "asset": "ki-v2-terrain-nexus-mountain-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-road-0",
+   "asset": "ki-v2-terrain-nexus-road-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-road-1",
+   "asset": "ki-v2-terrain-nexus-road-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-road-2",
+   "asset": "ki-v2-terrain-nexus-road-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-sea-0",
+   "asset": "ki-v2-terrain-nexus-sea-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-sea-1",
+   "asset": "ki-v2-terrain-nexus-sea-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-sea-2",
+   "asset": "ki-v2-terrain-nexus-sea-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-shore-0",
+   "asset": "ki-v2-terrain-nexus-shore-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-shore-1",
+   "asset": "ki-v2-terrain-nexus-shore-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-shore-2",
+   "asset": "ki-v2-terrain-nexus-shore-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-wetland-0",
+   "asset": "ki-v2-terrain-nexus-wetland-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-wetland-1",
+   "asset": "ki-v2-terrain-nexus-wetland-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-nexus-wetland-2",
+   "asset": "ki-v2-terrain-nexus-wetland-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-forest-0",
+   "asset": "ki-v2-terrain-pyra-forest-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-forest-1",
+   "asset": "ki-v2-terrain-pyra-forest-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-forest-2",
+   "asset": "ki-v2-terrain-pyra-forest-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-grass-0",
+   "asset": "ki-v2-terrain-pyra-grass-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-grass-1",
+   "asset": "ki-v2-terrain-pyra-grass-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-grass-2",
+   "asset": "ki-v2-terrain-pyra-grass-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-mountain-0",
+   "asset": "ki-v2-terrain-pyra-mountain-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-mountain-1",
+   "asset": "ki-v2-terrain-pyra-mountain-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-mountain-2",
+   "asset": "ki-v2-terrain-pyra-mountain-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-road-0",
+   "asset": "ki-v2-terrain-pyra-road-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-road-1",
+   "asset": "ki-v2-terrain-pyra-road-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-road-2",
+   "asset": "ki-v2-terrain-pyra-road-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-sea-0",
+   "asset": "ki-v2-terrain-pyra-sea-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-sea-1",
+   "asset": "ki-v2-terrain-pyra-sea-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-sea-2",
+   "asset": "ki-v2-terrain-pyra-sea-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-shore-0",
+   "asset": "ki-v2-terrain-pyra-shore-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-shore-1",
+   "asset": "ki-v2-terrain-pyra-shore-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-shore-2",
+   "asset": "ki-v2-terrain-pyra-shore-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-wetland-0",
+   "asset": "ki-v2-terrain-pyra-wetland-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-wetland-1",
+   "asset": "ki-v2-terrain-pyra-wetland-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-pyra-wetland-2",
+   "asset": "ki-v2-terrain-pyra-wetland-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-forest-0",
+   "asset": "ki-v2-terrain-verdant-forest-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-forest-1",
+   "asset": "ki-v2-terrain-verdant-forest-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-forest-2",
+   "asset": "ki-v2-terrain-verdant-forest-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-grass-0",
+   "asset": "ki-v2-terrain-verdant-grass-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-grass-1",
+   "asset": "ki-v2-terrain-verdant-grass-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-grass-2",
+   "asset": "ki-v2-terrain-verdant-grass-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-mountain-0",
+   "asset": "ki-v2-terrain-verdant-mountain-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-mountain-1",
+   "asset": "ki-v2-terrain-verdant-mountain-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-mountain-2",
+   "asset": "ki-v2-terrain-verdant-mountain-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-road-0",
+   "asset": "ki-v2-terrain-verdant-road-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-road-1",
+   "asset": "ki-v2-terrain-verdant-road-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-road-2",
+   "asset": "ki-v2-terrain-verdant-road-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-sea-0",
+   "asset": "ki-v2-terrain-verdant-sea-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-sea-1",
+   "asset": "ki-v2-terrain-verdant-sea-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-sea-2",
+   "asset": "ki-v2-terrain-verdant-sea-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-shore-0",
+   "asset": "ki-v2-terrain-verdant-shore-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-shore-1",
+   "asset": "ki-v2-terrain-verdant-shore-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-shore-2",
+   "asset": "ki-v2-terrain-verdant-shore-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-wetland-0",
+   "asset": "ki-v2-terrain-verdant-wetland-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-wetland-1",
+   "asset": "ki-v2-terrain-verdant-wetland-1",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-verdant-wetland-2",
+   "asset": "ki-v2-terrain-verdant-wetland-2",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    384,
+    384
+   ]
+  },
+  {
    "binding": "terrain.nature-ash-ground",
    "asset": "nature-tex-ash-ground",
    "pixels": [
@@ -7665,7 +12612,7 @@
   },
   {
    "id": "hero-sage-painted",
-   "version": "1.0.0",
+   "version": "1.0.1",
    "assets": 2
   },
   {
@@ -7965,17 +12912,17 @@
   },
   {
    "id": "enemy-verdant-lesny-pajak",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "assets": 1
   },
   {
    "id": "enemy-verdant-lisciak-skrytobojca",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "assets": 1
   },
   {
    "id": "enemy-verdant-mchowy-szlamak",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "assets": 1
   },
   {
@@ -7997,6 +12944,16 @@
    "id": "pyra-smithy",
    "version": "1.1.0",
    "assets": 18
+  },
+  {
+   "id": "ki-v2-objects",
+   "version": "1.0.0",
+   "assets": 161
+  },
+  {
+   "id": "ki-v2-terrain",
+   "version": "1.0.0",
+   "assets": 84
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."

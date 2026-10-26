@@ -3,7 +3,7 @@ import { newPlayer } from "../../session";
 import { normalizeNick, nickError } from "../../nickname";
 import { RACES, type RaceId } from "../races";
 import { SuperiorSaveStore, type SuperiorIndex } from "./superiorSave";
-import worldIndex from "../../../../public/game/worlds/superior-v1/index.json";
+import { WORLD_INDEX as worldIndex, WORLD_NAMESPACE } from "./worldVersion";
 
 export const superiorIndex = worldIndex as SuperiorIndex;
 /** Owner-authorized reset: old slots remain archival, never active or migrated. */
@@ -12,7 +12,7 @@ export class SuperiorCharacterStore extends CharacterStore {
     private readonly port: Storage,
     base: string,
   ) {
-    super(port, base + ":superior-world-v1");
+    super(port, base + WORLD_NAMESPACE);
   }
   override list(): CharacterSlot[] {
     const slots: CharacterSlot[] = [];

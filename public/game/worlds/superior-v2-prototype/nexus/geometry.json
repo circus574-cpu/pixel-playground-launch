@@ -1,0 +1,1 @@
+{"feature":"nexus","projection":"azimuthal-equidistant","width":63104,"height":49664,"cellSize":128,"anchor":{"x":37120.0,"y":23808.0},"oldToNewTranslation":{"x":11734.276264999993,"y":12168.354863999994},"coastlineAuthority":"../sphere-chunks.json","status":"prototype; not compatible with runtime-1 navigation contract"}

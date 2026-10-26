@@ -1,0 +1,247 @@
+{
+  "status": "WORK_IN_PROGRESS_NOT_INSTALLED_NOT_ACCEPTED",
+  "archive": "landscape-work-in-progress.tar.gz",
+  "sha256": "c0a154648642d4c51340c96bb4e72b898b40563af34bbfacfd8bcb91665ffccc",
+  "bytes": 14208217,
+  "regions": [
+    {
+      "feature": "aether",
+      "width": 70208,
+      "height": 53440,
+      "arrival": {
+        "x": 36511.22667100001,
+        "y": 25730.014998
+      },
+      "affinity": "aether",
+      "name": "Aetheria",
+      "worldSha256": "c951ad641b9a74c339735ad5ece18790b7d03855f525672602e59c3455bce8ff",
+      "translation": {
+        "x": 12704,
+        "y": 11328
+      },
+      "retainedSpawns": 1376,
+      "spawns": 1536,
+      "objects": 73624,
+      "newObjects": 12000,
+      "settlements": 4,
+      "newAreaCells": 1814305,
+      "seconds": 5.359
+    },
+    {
+      "feature": "island-1",
+      "width": 13024,
+      "height": 8224,
+      "arrival": {
+        "x": 6509.529678000006,
+        "y": 4108.8987265
+      },
+      "affinity": "aether",
+      "name": "Wyspa 1",
+      "worldSha256": "a4fdc1d8d309ab444eb975fdda4e0adbc08bfe69502a893732fe31767dfa1449",
+      "translation": {
+        "x": 0,
+        "y": 0
+      },
+      "retainedSpawns": 118,
+      "spawns": 118,
+      "objects": 5299,
+      "newObjects": 0,
+      "settlements": 1,
+      "newAreaCells": 0,
+      "seconds": 0.253
+    },
+    {
+      "feature": "island-2",
+      "width": 15936,
+      "height": 10400,
+      "arrival": {
+        "x": 7956.485320000007,
+        "y": 5194.115457999997
+      },
+      "affinity": "aether",
+      "name": "Wyspa 2",
+      "worldSha256": "2fed6502a320cdbb4cc935ff8d72fc6172907f6bb7792927c604122eb01a8c8b",
+      "translation": {
+        "x": 0,
+        "y": 0
+      },
+      "retainedSpawns": 166,
+      "spawns": 166,
+      "objects": 7431,
+      "newObjects": 0,
+      "settlements": 1,
+      "newAreaCells": 0,
+      "seconds": 0.343
+    },
+    {
+      "feature": "island-3",
+      "width": 12704,
+      "height": 10016,
+      "arrival": {
+        "x": 6345.102900500002,
+        "y": 4996.803324999999
+      },
+      "affinity": "aether",
+      "name": "Wyspa 3",
+      "worldSha256": "a074745c85ff6b2a14686e6879f7347b5e59364803ca6abfd7244fc6e9fd4e99",
+      "translation": {
+        "x": 0,
+        "y": 0
+      },
+      "retainedSpawns": 125,
+      "spawns": 125,
+      "objects": 5605,
+      "newObjects": 0,
+      "settlements": 1,
+      "newAreaCells": 0,
+      "seconds": 0.258
+    },
+    {
+      "feature": "island-4",
+      "width": 13760,
+      "height": 11712,
+      "arrival": {
+        "x": 6871.2685884999955,
+        "y": 5851.822568000003
+      },
+      "affinity": "verdant",
+      "name": "Wyspa 4",
+      "worldSha256": "d6fb2e2d4fba16a5b7fa09d594410504e742292d28679775f5a25285c246188e",
+      "translation": {
+        "x": 0,
+        "y": 0
+      },
+      "retainedSpawns": 173,
+      "spawns": 173,
+      "objects": 7770,
+      "newObjects": 0,
+      "settlements": 1,
+      "newAreaCells": 0,
+      "seconds": 0.356
+    },
+    {
+      "feature": "island-5",
+      "width": 14080,
+      "height": 8960,
+      "arrival": {
+        "x": 7035.695366,
+        "y": 4470.637637
+      },
+      "affinity": "verdant",
+      "name": "Wyspa 5",
+      "worldSha256": "d34e6ad1a34c658fc222a28747cd1e4f720cdfa8651b3ff3e5e2bbe4641354a2",
+      "translation": {
+        "x": 0,
+        "y": 0
+      },
+      "retainedSpawns": 128,
+      "spawns": 128,
+      "objects": 5733,
+      "newObjects": 0,
+      "settlements": 1,
+      "newAreaCells": 0,
+      "seconds": 0.259
+    },
+    {
+      "feature": "island-6",
+      "width": 13952,
+      "height": 10528,
+      "arrival": {
+        "x": 6969.924654999995,
+        "y": 5259.886169000005
+      },
+      "affinity": "pyra",
+      "name": "Wyspa 6",
+      "worldSha256": "e81c278021964f5adde9367da7f1486bd526a5db63b409e37ec0e8b714bb43e8",
+      "translation": {
+        "x": 0,
+        "y": 0
+      },
+      "retainedSpawns": 116,
+      "spawns": 116,
+      "objects": 5229,
+      "newObjects": 0,
+      "settlements": 1,
+      "newAreaCells": 0,
+      "seconds": 0.275
+    },
+    {
+      "feature": "nexus",
+      "width": 63168,
+      "height": 49728,
+      "arrival": {
+        "x": 37129.72373500001,
+        "y": 23831.645136000006
+      },
+      "affinity": "nexus",
+      "name": "Nexus-9",
+      "worldSha256": "c0e031bd539028e7c3d70c70566c33aea9e2788860efca20cac627144c96d925",
+      "translation": {
+        "x": 11744,
+        "y": 12192
+      },
+      "retainedSpawns": 1135,
+      "spawns": 1295,
+      "objects": 62819,
+      "newObjects": 12000,
+      "settlements": 4,
+      "newAreaCells": 1489408,
+      "seconds": 4.768
+    },
+    {
+      "feature": "pyra",
+      "width": 65600,
+      "height": 42304,
+      "arrival": {
+        "x": 45850.28602700001,
+        "y": 13832.471948999999
+      },
+      "affinity": "pyra",
+      "name": "Pyra",
+      "worldSha256": "7cf19bb5026bdafb3eb4b081ea9495d9bbfe8e9d775a572de209b3702bc1f281",
+      "translation": {
+        "x": 9152,
+        "y": 9888
+      },
+      "retainedSpawns": 1055,
+      "spawns": 1215,
+      "objects": 59238,
+      "newObjects": 12000,
+      "settlements": 4,
+      "newAreaCells": 1382082,
+      "seconds": 4.05
+    },
+    {
+      "feature": "verdant",
+      "width": 77504,
+      "height": 58560,
+      "arrival": {
+        "x": 49031.06261,
+        "y": 34975.481075
+      },
+      "affinity": "verdant",
+      "name": "Verdantia",
+      "worldSha256": "da41b714c78a6b4cb80ab30d7bc7672e7a8763cbb2db0eadc6c920851860b164",
+      "translation": {
+        "x": 15424,
+        "y": 13536
+      },
+      "retainedSpawns": 1670,
+      "spawns": 1830,
+      "objects": 86783,
+      "newObjects": 12000,
+      "settlements": 4,
+      "newAreaCells": 2218406,
+      "seconds": 5.835
+    }
+  ],
+  "archiveVerifiedAgainstLocalFiles": true,
+  "missing": [
+    "root runtime index.json",
+    "root art manifest",
+    "runtime integration",
+    "save migration",
+    "playable new dungeon interiors",
+    "browser and final regression tests"
+  ]
+}

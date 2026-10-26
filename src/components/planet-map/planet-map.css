@@ -691,3 +691,248 @@
   border-left: 3px solid var(--pm-gold);
   background: rgb(215 189 123 / 0.08);
 }
+
+/* World v2 continent map (preview switch ?ki-world-v2=1). */
+.v2map {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(8, 10, 16, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.v2map-frame {
+  position: relative;
+  width: min(100%, calc((100vh - 32px) * 1.33));
+  max-height: calc(100vh - 32px);
+}
+.v2map-frame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px #3a2a1a;
+}
+.v2map-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 32px;
+  color: #f1e6cf;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.v2map-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.v2map-pin i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #2a1a0c;
+}
+.v2map-town i {
+  background: #f3d27a;
+  width: 16px;
+  height: 16px;
+}
+.v2map-famous i {
+  background: #e8664a;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+.v2map-pin b {
+  margin-top: 2px;
+  font:
+    600 12px/1.2 "Cinzel",
+    serif;
+  color: #fff7e6;
+  text-shadow:
+    0 1px 2px #000,
+    0 0 4px #000;
+  white-space: nowrap;
+}
+
+.v2map-famous {
+  pointer-events: auto;
+  z-index: 1;
+}
+.v2map-tip {
+  display: none;
+  position: absolute;
+  top: 14px;
+}
+.v2map-famous:hover .v2map-tip,
+.v2map-famous:focus .v2map-tip {
+  display: block;
+}
+.v2map-town {
+  z-index: 2;
+}
+
+/* World v2 map: full screen, maps only. */
+.v2wm {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse at 50% 40%, #0d1a2e, #03060c 75%);
+  color: #f1e6cf;
+}
+.v2wm-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: max(10px, env(safe-area-inset-top)) 16px 8px;
+}
+.v2wm-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid #6b4a22;
+}
+.v2wm-tabs button {
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 0;
+  background: none;
+  color: #d9c9a6;
+  font:
+    600 14px "Cinzel",
+    serif;
+  cursor: pointer;
+}
+.v2wm-tabs button[aria-selected="true"] {
+  background: linear-gradient(#e6c066, #a87b2f);
+  color: #20140a;
+}
+.v2wm-close {
+  font-size: 34px;
+  line-height: 1;
+  color: #f1e6cf;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.v2wm-land {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+.v2wm-frame {
+  position: relative;
+  max-width: 100%;
+  max-height: calc(100% - 48px);
+  height: 100%;
+}
+.v2wm-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 2px #6b4a22,
+    0 10px 40px #000;
+}
+.v2wm-player {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #4ff0ff;
+  border: 3px solid #fff;
+  box-shadow:
+    0 0 0 4px rgba(79, 240, 255, 0.35),
+    0 0 16px #4ff0ff;
+  animation: v2wm-pulse 1.4s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes v2wm-pulse {
+  50% {
+    box-shadow:
+      0 0 0 10px rgba(79, 240, 255, 0),
+      0 0 16px #4ff0ff;
+  }
+}
+.v2wm-lands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.v2wm-lands button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #6b4a22;
+  background: rgba(20, 13, 8, 0.85);
+  color: #d9c9a6;
+  font:
+    600 13px "Cinzel",
+    serif;
+  cursor: pointer;
+}
+.v2wm-lands button[aria-pressed="true"] {
+  border-color: #f1d080;
+  color: #fff3d1;
+  box-shadow: 0 0 8px rgba(241, 208, 128, 0.4);
+}
+.v2wm-globe {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  touch-action: none;
+  overflow: hidden;
+}
+.v2wm-globe canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+.v2wm-globe-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(241, 208, 128, 0.6);
+  background: rgba(10, 8, 6, 0.7);
+  color: #fff3d1;
+  font:
+    600 13px "Cinzel",
+    serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.v2wm-globe-label.is-here {
+  border-color: #4ff0ff;
+  box-shadow: 0 0 10px rgba(79, 240, 255, 0.6);
+}
+.v2wm-note {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 12px;
+  color: #b9ab8c;
+}
