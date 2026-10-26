@@ -3,7 +3,7 @@ import { bossPreviewEnabled } from "./bosses/runtime";
 import { createBossPlaytest } from "./bosses/playtest";
 import { INTERACTION_BOUNDS } from "./geometry";
 import Phaser from "phaser";
-import { readUiPreferences } from "./uiPreferences";
+import { joystickRest, readUiPreferences } from "./uiPreferences";
 import type { GameLoadingState } from "./loading";
 import { runBench } from "./debugBench";
 import { actorVisual, catalog, worldAssets, worldRenderRefs } from "./assets/catalog";
@@ -19,6 +19,7 @@ import { renderCityStreets, renderCityInterior } from "./city/renderCity";
 import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
+import { WORLD_V2 } from "./world/generated/worldVersion";
 import {
   GameSession,
   SaveStore,
@@ -284,11 +285,19 @@ export function mountKileGends(
             }
           } else cam.centerOn(room.width / 2, room.height / 2);
         }
+        // The resting joystick keeps its screen place and size at any zoom.
+        if (this.stickBase && this.joystickId === null) this.resetStick();
       };
       zoom();
       this.scale.on(Phaser.Scale.Events.RESIZE, zoom);
       releaseScene.push(() => this.scale.off(Phaser.Scale.Events.RESIZE, zoom));
       parent.addEventListener("ki:zoom", zoom);
+      // Settings moved or resized the joystick.
+      const controls = () => {
+        if (this.joystickId === null) this.resetStick();
+      };
+      parent.addEventListener("ki:controls", controls);
+      releaseScene.push(() => parent.removeEventListener("ki:controls", controls));
       const labels = (event: Event) => {
         worldLabels = Boolean((event as CustomEvent<boolean>).detail);
         parent.dataset["worldLabels"] = String(worldLabels);
@@ -372,6 +381,7 @@ export function mountKileGends(
         .setScrollFactor(0)
         .setDepth(renderDepth("combat"))
         .setVisible(false);
+      this.resetStick();
       this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
         if (pointer.id !== this.joystickId) return;
         const dx = pointer.x - this.joystickStart.x,
@@ -381,14 +391,17 @@ export function mountKileGends(
           this.joystickDragging = true;
           this.pendingTouch = null;
           session.command({ type: "cancel" });
-          this.stickBase.setPosition(this.joystickStart.x, this.joystickStart.y).setVisible(true);
-          this.stickKnob.setVisible(true);
+          const at = this.onScreen(this.joystickStart.x, this.joystickStart.y),
+            k = this.stickScale() / this.cameras.main.zoom;
+          this.stickBase.setPosition(at.x, at.y).setScale(k).setAlpha(1).setVisible(true);
+          this.stickKnob.setScale(k).setAlpha(1).setVisible(true);
         }
-        this.joystick.set(dx, dy).limit(48);
-        this.stickKnob.setPosition(
+        this.joystick.set(dx, dy).limit(48 * this.stickScale());
+        const knob = this.onScreen(
           this.joystickStart.x + this.joystick.x,
           this.joystickStart.y + this.joystick.y,
         );
+        this.stickKnob.setPosition(knob.x, knob.y);
       });
       this.input.on("pointerup", (pointer: Phaser.Input.Pointer) => {
         if (pointer.id === this.joystickId) {
@@ -426,10 +439,12 @@ export function mountKileGends(
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
         if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
+        const rest = pointer.wasTouch ? this.stickRest() : null;
         if (
           pointer.wasTouch &&
-          pointer.x < this.scale.width * 0.32 &&
-          pointer.y > this.scale.height * 0.55
+          ((pointer.x < this.scale.width * 0.32 && pointer.y > this.scale.height * 0.55) ||
+            // A joystick moved in the settings is also grabbed where it is drawn.
+            (rest && Math.hypot(pointer.x - rest.x, pointer.y - rest.y) < 80 * this.stickScale()))
         ) {
           if (this.joystickId !== null) return;
           this.joystickId = pointer.id;
@@ -498,8 +513,37 @@ export function mountKileGends(
       this.pendingTouch = null;
       this.joystickDragging = false;
       this.joystick.set(0, 0);
+      const rest = this.stickRest();
+      if (rest) {
+        // World v2 on a touch screen: the stick waits, dimmed, in the lower-left corner.
+        const at = this.onScreen(rest.x, rest.y),
+          k = this.stickScale() / this.cameras.main.zoom;
+        this.stickBase?.setPosition(at.x, at.y).setScale(k).setAlpha(0.55).setVisible(true);
+        this.stickKnob?.setPosition(at.x, at.y).setScale(k).setAlpha(0.55).setVisible(true);
+        return;
+      }
       this.stickBase?.setVisible(false);
       this.stickKnob?.setVisible(false);
+    }
+    /**
+     * Position for a screen-fixed object to appear at screen point (x, y): the camera zoom still
+     * scales scroll-factor-0 objects around the screen centre, so it is undone here.
+     */
+    private onScreen(x: number, y: number): Point {
+      const cam = this.cameras.main,
+        cx = cam.width / 2,
+        cy = cam.height / 2;
+      return { x: cx + (x - cx) / cam.zoom, y: cy + (y - cy) / cam.zoom };
+    }
+    /** Resting place of the visible joystick (world v2, coarse pointer), inside its touch zone. */
+    private stickRest(): Point | null {
+      if (!WORLD_V2 || !window.matchMedia?.("(pointer: coarse)").matches) return null;
+      const c = readUiPreferences().controls.joystick;
+      return joystickRest(this.scale.width, this.scale.height, c);
+    }
+    /** Screen-size factor of the joystick chosen in the settings (1 outside world v2). */
+    private stickScale() {
+      return this.stickRest() ? readUiPreferences().controls.joystick.scale : 1;
     }
     /** One actor per live enemy; spawned (summons, packs) and removed (despawned) enemies follow the session. */
     private syncEnemies() {

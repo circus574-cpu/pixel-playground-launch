@@ -10,6 +10,7 @@ import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
 import { music } from "../game/music";
+import { RotateNotice } from "../components/game/RotateNotice";
 import { syncCloud } from "../components/account/cloudSync";
 import { markStaff, verifiedStaffRole } from "../game/account/staff";
 import { useAccount } from "../components/account/useAccount";
@@ -284,6 +285,7 @@ function GameScreen({
   return (
     <main ref={stage} className="ki-stage">
       <div ref={container} className="ki-canvas" aria-label="Ki Legends — ekran gry" />
+      <RotateNotice stage={stage.current} onCommand={sendCommand} />
       {state.ready && loading.phase === "ready" && (
         <GameHud
           worldOverride={worldRuntime?.session.world}

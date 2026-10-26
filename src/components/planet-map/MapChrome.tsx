@@ -13,6 +13,8 @@ export type GameLink = {
   current?: string | null | undefined;
   /** Opened from inside the game: close the overlay instead of navigating. */
   onClose?: (() => void) | undefined;
+  /** World v2: open the flat atlas centred on the player's position in this land. */
+  focus?: { land: string; x: number; y: number } | undefined;
 };
 
 export const GAME_CONTINENTS = ["verdant", "aether", "nexus", "pyra"] as const;

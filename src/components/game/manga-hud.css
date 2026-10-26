@@ -1123,3 +1123,77 @@
   white-space: nowrap;
   pointer-events: none;
 }
+
+/* Player-arranged controls (settings): offset and size per control, zero by default. */
+.ki-hud .ki-actionbar > .ki-skill[data-ability="R"] {
+  translate: var(--ctl-attack-x, 0px) var(--ctl-attack-y, 0px);
+  scale: var(--ctl-attack-s, 1);
+}
+.ki-hud .ki-actionbar > .ki-skill[data-ability="potion"] {
+  translate: var(--ctl-potion-x, 0px) var(--ctl-potion-y, 0px);
+  scale: var(--ctl-potion-s, 1);
+}
+.ki-hud .ki-actionbar .ki-secondary-skills {
+  translate: var(--ctl-skills-x, 0px) var(--ctl-skills-y, 0px);
+  scale: var(--ctl-skills-s, 1);
+}
+.ki-control-editor {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: auto;
+  background: #0006;
+  touch-action: none;
+}
+.ki-control-editor-bar {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--gold, #c8a35a);
+  border-radius: 10px;
+  background: #15121bf2;
+  color: #f1e6cc;
+  font:
+    13px system-ui,
+    sans-serif;
+}
+.ki-control-editor-bar button {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid #6b5a3a;
+  border-radius: 6px;
+  background: #2a2333;
+  color: inherit;
+}
+.ki-control-editor-bar button.is-primary {
+  border-color: #c8a35a;
+  background: #8a6a2c;
+  color: #fff8e6;
+  font-weight: 600;
+}
+.ki-control-handle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #f5d48a;
+  border-radius: 12px;
+  background: #f5d48a22;
+  color: #fff3d0;
+  font:
+    600 11px system-ui,
+    sans-serif;
+  text-shadow: 0 1px 2px #000;
+  cursor: grab;
+}
+.ki-control-handle.is-dragging {
+  border-style: solid;
+  background: #f5d48a44;
+}

@@ -25,6 +25,7 @@ import {
   QUEST_ISLANDS,
   REGIONS,
   clampView,
+  fitScale,
   focusOn,
   initialView,
   panBy,
@@ -38,6 +39,7 @@ import {
   type View,
 } from "./mapData";
 import { thumbStyle } from "./thumb";
+import { worldToAtlas } from "./worldToAtlas";
 import "./planet-map.css";
 
 type Size = { w: number; h: number };
@@ -52,6 +54,7 @@ export function PlanetMap({
   current,
   onClose,
   onTravel,
+  focus,
 }: GameLink & {
   /** Switch back to the 3D globe; omitted when WebGL 2 is unavailable. */
   onShowGlobe?: (() => void) | undefined;
@@ -74,6 +77,8 @@ export function PlanetMap({
   const [selected, setSelected] = useState<string | null>(current ?? null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [fog, setFog] = useState(false);
+  /** Atlas point of the player when the map was opened from the game (world v2). */
+  const [playerAt, setPlayerAt] = useState<{ x: number; y: number } | null>(null);
   const [perspective, setPerspective] = useState<string>(current ?? "verdant");
   /** null = layout default (open on desktop, closed on phones). */
   const [legend, setLegend] = useState<boolean | null>(null);
@@ -125,6 +130,15 @@ export function PlanetMap({
         measured.current = true;
         setView(initialView(w, h));
         setReady(true);
+        if (focus)
+          void import("./worldOverlay.v2.json").then((m) => {
+            const at = worldToAtlas(m.default, focus.land, focus.x, focus.y);
+            if (!at) return;
+            setPlayerAt(at);
+            const { w: cw, h: ch } = sizeRef.current;
+            // A continent fills the screen around the player.
+            setView(clampView({ cx: at.x, cy: at.y, s: fitScale(cw, ch) * 6 }, cw, ch));
+          });
       } else {
         setView((v) => clampView(v, w, h));
       }
@@ -508,6 +522,12 @@ export function PlanetMap({
           )}
 
           {ATLAS_V2 && <WorldOverlay zoom={zoom} px={px} />}
+          {playerAt && (
+            <g className="pm-player" aria-label="Twoja pozycja">
+              <circle cx={playerAt.x} cy={playerAt.y} r={px(13)} className="pm-player-halo" />
+              <circle cx={playerAt.x} cy={playerAt.y} r={px(6)} className="pm-player-dot" />
+            </g>
+          )}
 
           {ZONES.filter((z) => z.region === selected || z.region === current || zoom >= 2.5).map(
             (z) => (
