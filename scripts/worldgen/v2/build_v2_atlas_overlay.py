@@ -54,6 +54,7 @@ for key in IDS:
     spots += [(l['id'], l['kind'], l.get('name') or '', l['x'], l['y']) for l in world['locations']
               if l['id'] not in taken and not l.get('hidden') and l['kind'] != 'settlement']
     spots += [(fid, 'famous', f['name'], f['x'], f['y']) for fid, f in famous.items()]
+    spots += [(c['id'], 'camp', 'Obóz · poz. %d' % c['level'], c['x'], c['y']) for c in world.get('camps', [])]
     if spots:
         xy = project(key, anchor, [[s[3], s[4]] for s in spots])
         for (sid, kind, name, _, _), (x, y) in zip(spots, xy):

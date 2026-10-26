@@ -463,6 +463,7 @@ function Planet({
       >
         <sphereGeometry args={[1, segs, segs / 2]} />
       </mesh>
+      {ATLAS_V2 && <GlobeRoads />}
       <mesh ref={cloudRef} material={cloudMaterial} raycast={noRaycast} renderOrder={1}>
         <sphereGeometry args={[1.011, segs, segs / 2]} />
       </mesh>
@@ -474,6 +475,66 @@ function Planet({
       </mesh>
     </group>
   );
+}
+
+/** World v2: the game's roads and towns drawn on the globe (same data as the 2D atlas overlay). */
+function GlobeRoads() {
+  const [group, setGroup] = useState<THREE.Group | null>(null);
+  useEffect(() => {
+    let live = true;
+    void import("./worldOverlay.v2.json").then(({ default: data }) => {
+      if (!live) return;
+      const seg: number[] = [];
+      for (const r of data.roads)
+        for (let i = 1; i < r.points.length; i++) {
+          const a = r.points[i - 1]!,
+            b = r.points[i]!;
+          seg.push(
+            ...mapToSphere({ x: a[0]!, y: a[1]! }, 1.004),
+            ...mapToSphere({ x: b[0]!, y: b[1]! }, 1.004),
+          );
+        }
+      const lines = new THREE.LineSegments(
+        new THREE.BufferGeometry().setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(seg, 3),
+        ),
+        new THREE.LineBasicMaterial({
+          color: 0xf0d9a4,
+          transparent: true,
+          opacity: 0.85,
+          depthWrite: false,
+        }),
+      );
+      const towns = data.places.filter((p) => p.kind === "capital" || p.kind === "town");
+      const dots = new THREE.Points(
+        new THREE.BufferGeometry().setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(
+            towns.flatMap((p) => mapToSphere({ x: p.x, y: p.y }, 1.006)),
+            3,
+          ),
+        ),
+        new THREE.PointsMaterial({
+          color: 0xffe08a,
+          size: 5,
+          sizeAttenuation: false,
+          depthWrite: false,
+        }),
+      );
+      const g = new THREE.Group();
+      g.add(lines, dots);
+      g.traverse((o) => {
+        o.raycast = noRaycast;
+        o.renderOrder = 3;
+      });
+      setGroup(g);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+  return group ? <primitive object={group} /> : null;
 }
 
 /* ------------------------------------------------------------------ */

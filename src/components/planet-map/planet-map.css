@@ -1000,3 +1000,7 @@ html[data-ki-world-v2] .pg-zone {
   font-family: "Cinzel", serif;
   font-weight: 600;
 }
+.pm-world-camp circle {
+  fill: #5a1010;
+  stroke: #ff6a4a;
+}

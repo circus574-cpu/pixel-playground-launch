@@ -21,9 +21,10 @@ const GLYPH: Record<string, string> = {
   maze: "▦",
   "hidden-cache": "?",
   wilderness: "▲",
+  camp: "⚔",
 };
 /** Zoom from which a kind of place gets its name (capitals always). */
-const NAME_ZOOM: Record<string, number> = { capital: 0, town: 2.5, famous: 3, village: 6 };
+const NAME_ZOOM: Record<string, number> = { capital: 0, town: 2.5, famous: 3, village: 6, camp: 5 };
 
 export function WorldOverlay({ zoom, px }: { zoom: number; px: (screen: number) => number }) {
   const [data, setData] = useState<Overlay | null>(null);
