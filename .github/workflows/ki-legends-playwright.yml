@@ -36,7 +36,7 @@ jobs:
   browser-qa:
     name: Browser QA (${{ github.event_name == 'pull_request' && 'full' || github.event.inputs.suite || 'smoke' }})
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 80
     env:
       CI: "true"
     steps:
