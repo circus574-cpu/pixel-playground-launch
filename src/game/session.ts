@@ -678,6 +678,21 @@ export class GameSession implements MonsterHost {
   emit(event: GameEvent | MonsterEvent) {
     this.events.push(event as GameEvent);
   }
+  /** Rewards from the world-v2 quest engine (Argon's quests): experience, coins and canonical items. */
+  grantQuestReward(
+    reward: { xp: number; gold: number; items: Partial<Record<ItemId, number>> },
+    title: string,
+  ) {
+    this.say("Nagroda: " + title);
+    if (reward.gold > 0) {
+      this.player.gold += reward.gold;
+      this.say("+" + reward.gold + " monet");
+    }
+    for (const [item, n] of Object.entries(reward.items) as [ItemId, number][])
+      if (n > 0 && item in ITEMS) this.add(item, n);
+    if (reward.xp > 0) this.award(reward.xp);
+    this.flush();
+  }
   private award(xp: number) {
     this.player.xp += xp;
     this.say("+" + xp + " XP");

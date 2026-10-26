@@ -162,6 +162,7 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
     "enemy-v2-aether-lew-swiatyni",
     "enemy-v2-aether-marionetka-rytualu",
     "enemy-v2-aether-mgielny-zuraw",
+    "enemy-v2-aether-oko-wiedzy",
     "enemy-v2-aether-pergaminowy-straznik",
     "enemy-v2-aether-swietlik-pieczeci",
     "enemy-v2-aether-szmaragdowy-waz",

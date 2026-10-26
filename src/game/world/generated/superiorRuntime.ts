@@ -293,6 +293,14 @@ export async function prepareSuperior(options: {
   // The session consumes the same initial snapshot; never rebase a writer on another tab mid-load.
   save.town = initialTown;
   if (WORLD_V2) questsV2.enterTown(info.affinity, initialTown);
+  const stopRewards = WORLD_V2
+    ? questsV2.onReward((reward) =>
+        session.grantQuestReward(
+          { xp: reward.xp, gold: reward.gold, items: reward.items as Record<string, number> },
+          "przygoda Argona",
+        ),
+      )
+    : () => false;
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
   // Diagnostic art is available only on the isolated local playtest document (as in mountGame).
   const preview =
@@ -594,6 +602,7 @@ export async function prepareSuperior(options: {
       }
     },
     dispose() {
+      stopRewards();
       spawnStream.dispose();
       disposed = true;
       abort.abort();

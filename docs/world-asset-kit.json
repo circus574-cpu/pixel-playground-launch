@@ -14300,6 +14300,11 @@
    "id": "ki-v2-landmarks",
    "version": "1.0.0",
    "assets": 15
+  },
+  {
+   "id": "enemy-v2-aether-oko-wiedzy",
+   "version": "1.0.0",
+   "assets": 2
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."

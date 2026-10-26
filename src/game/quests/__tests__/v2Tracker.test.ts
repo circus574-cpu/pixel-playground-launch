@@ -33,4 +33,14 @@ describe("questsV2 tracker", () => {
     questsV2.near("verdant", place.x + 100, place.y);
     expect(questsV2.save.discoveredLocationIds).toContain(id);
   });
+  it("hands every reward the engine grants to the game (first discovery of a famous place)", async () => {
+    const { questsV2 } = await import("../v2Tracker");
+    const { v2Places } = await import("../../worlds/v2Places");
+    const rewards: { xp: number; gold: number }[] = [];
+    questsV2.onReward((r) => rewards.push(r));
+    const [, place] = Object.entries(v2Places("aether")!.famousById)[0]!;
+    questsV2.near("aether", place.x, place.y);
+    expect(rewards.length).toBe(1);
+    expect(rewards[0]!.xp + rewards[0]!.gold).toBeGreaterThan(0);
+  });
 });
