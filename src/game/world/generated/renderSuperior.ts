@@ -3,7 +3,7 @@ import { catalog } from "../../assets/catalog";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
 import { blendedTexture } from "../../assets/blendPlates";
-import { coversPlayer } from "../visibility";
+import { occlusionAlpha } from "../visibility";
 import { decodeRuns } from "./browserTerrain";
 import type { Point } from "../../navigation";
 import type { RegionObject } from "../types";
@@ -368,7 +368,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
           tile.images.set(item.id, image);
         }
-        image.setAlpha(coversPlayer(item, player) ? 0.28 : 1);
+        image.setAlpha(occlusionAlpha(item, player));
       }
     const doors = source.currentDoors(),
       nextKey = doors.map((d) => d.door.x + "," + d.door.y).join(";");

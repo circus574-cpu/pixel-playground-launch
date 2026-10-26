@@ -8,7 +8,26 @@ import { expect } from "@playwright/test";
 export { expect };
 export type { Page, CDPSession } from "@playwright/test";
 /** Attach failures without modifying the game or assuming a browser failure proves a game bug. */
-export const test = base.extend<{ diagnostics: void }>({
+export const test = base.extend<{ diagnostics: void; legacyWorld: void }>({
+  /**
+   * World v2 became the default world on 26.10.2026. Specs written for the original world keep it
+   * through `?ki-world-v1=1`; a spec that names `ki-world-v2` in its URL plays the new world.
+   */
+  legacyWorld: [
+    async ({ page }, use) => {
+      const goto = page.goto.bind(page);
+      page.goto = (url, options) => {
+        if (!/ki-world-v[12]=/.test(url)) {
+          const [path, hash] = url.split("#");
+          url =
+            path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+        }
+        return goto(url, options);
+      };
+      await use();
+    },
+    { auto: true },
+  ],
   diagnostics: [
     async ({ page }, use, info) => {
       const logs: string[] = [];

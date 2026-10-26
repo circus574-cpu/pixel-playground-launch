@@ -5,7 +5,7 @@ import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "./types";
 import { renderForest } from "./renderForest";
-import { coversPlayer } from "./visibility";
+import { occlusionAlpha } from "./visibility";
 import { bakeRoads } from "./renderRoads";
 import { macroVariation } from "./macroVariation";
 import { castsShadow, objectShadow } from "./shadows";
@@ -434,8 +434,7 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
       roads?.updateVisibility();
       const view = scene.cameras.main.worldView;
       streamScenery();
-      for (const { object: o, image } of live.values())
-        image.setAlpha(coversPlayer(o, player) ? 0.28 : 1);
+      for (const { object: o, image } of live.values()) image.setAlpha(occlusionAlpha(o, player));
     },
   };
 }

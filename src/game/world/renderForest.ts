@@ -5,7 +5,7 @@ import Phaser from "phaser";
 import { textureBinding } from "../assets/catalog";
 import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
-import { coversPlayer } from "./visibility";
+import { occlusionAlpha } from "./visibility";
 import { macroVariation } from "./macroVariation";
 import { castsShadow, objectShadow } from "./shadows";
 import type { Point } from "../navigation";
@@ -166,7 +166,7 @@ export function renderForest(scene: Phaser.Scene, world?: WorldDefinition) {
           top + object.height > view.top - 128;
         image.setVisible(visible);
         shadow?.setVisible(visible);
-        if (visible) image.setAlpha(coversPlayer(object, player) ? 0.28 : 1);
+        if (visible) image.setAlpha(occlusionAlpha(object, player));
       }
     },
   };

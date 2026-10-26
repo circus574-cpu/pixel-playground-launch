@@ -1198,6 +1198,7 @@ export class GameSession implements MonsterHost {
       if (this.safe) {
         if (c.id === "training-dummy" && p.interior === "arena")
           this.command({ type: "training", action: "start" });
+        else this.say("W mieście nie walczysz. Wyjdź poza mury.");
         return;
       }
       const enemy = this.enemies.find(

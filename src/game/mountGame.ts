@@ -21,6 +21,7 @@ import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
 import { cuesFor, sfx } from "./sfx";
+import { heroOcclusion } from "./world/visibility";
 import {
   GameSession,
   SaveStore,
@@ -124,6 +125,7 @@ export function mountKileGends(
     private interiorView: { dispose: () => void } | undefined;
     private lastInterior: BuildingId | null | undefined;
     private hero!: Actor;
+    private heroGhost?: Phaser.GameObjects.Image;
     private enemies = new Map<string, Actor>();
     private selection!: Phaser.GameObjects.Ellipse;
     private shield!: Phaser.GameObjects.Ellipse | Phaser.GameObjects.Sprite;
@@ -966,6 +968,7 @@ export function mountKileGends(
           parent.dispatchEvent(new Event("ki:zoom"));
         }
       }
+      heroOcclusion.reset();
       if (!session.player.interior) this.updateVisibility?.(session.player);
       const activeNpcs = new Map(session.npcs.map((n) => [n.id, n]));
       for (const actor of this.actors)
@@ -1016,6 +1019,22 @@ export function mountKileGends(
         session.facing,
         session.paused || !!session.dialogue,
       );
+      // Behind trees or buildings the hero shows as a light outline drawn over them (as in Diablo).
+      const sprite = this.hero.sprite,
+        holder = this.hero.body;
+      const ghost = (this.heroGhost ??= this.add
+        .image(0, 0, sprite.texture.key)
+        .setDepth(renderDepth("overhead"))
+        .setAlpha(0.6)
+        .setTint(0xffe7a8));
+      ghost.setVisible(heroOcclusion.covered && !session.player.interior);
+      if (ghost.visible)
+        ghost
+          .setTexture(sprite.texture.key, sprite.frame.name)
+          .setOrigin(sprite.originX, sprite.originY)
+          .setPosition(holder.x + sprite.x * holder.scaleX, holder.y + sprite.y * holder.scaleY)
+          .setScale(sprite.scaleX * holder.scaleX, sprite.scaleY * holder.scaleY)
+          .setFlip(sprite.flipX, sprite.flipY);
       for (const e of session.enemies) {
         const a = this.enemies.get(e.id)!;
         a.body.setVisible(!e.m.hidden && !session.player.interior);
