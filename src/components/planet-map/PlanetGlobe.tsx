@@ -21,9 +21,9 @@ import {
 } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { Line2 } from "three/addons/lines/Line2.js";
-import { LineGeometry } from "three/addons/lines/LineGeometry.js";
 import { LineMaterial } from "three/addons/lines/LineMaterial.js";
+import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
+import { LineSegmentsGeometry } from "three/addons/lines/LineSegmentsGeometry.js";
 import { Button } from "@/components/ui/button";
 import colorHiUrlV1 from "@/assets/planet-map/globe-color-3840.webp";
 import colorHiUrlV2 from "@/assets/planet-map/v2-globe-color-3840.webp";
@@ -40,7 +40,15 @@ const colorHiUrl = ATLAS_V2 ? colorHiUrlV2 : colorHiUrlV1;
 const colorLoUrl = ATLAS_V2 ? colorLoUrlV2 : colorLoUrlV1;
 const lightsUrl = ATLAS_V2 ? lightsUrlV2 : lightsUrlV1;
 const surfaceUrl = ATLAS_V2 ? surfaceUrlV2 : surfaceUrlV1;
-import { CONTINENTS, QUEST_ISLANDS, REGIONS, ZONES, type MapRegion, type Point } from "./mapData";
+import {
+  CONTINENTS,
+  MAP_W,
+  QUEST_ISLANDS,
+  REGIONS,
+  ZONES,
+  type MapRegion,
+  type Point,
+} from "./mapData";
 import {
   cameraFor,
   clampDistance,
@@ -555,20 +563,23 @@ function RegionOutline({
   const size = useThree((s) => s.size);
   const line = useMemo(() => {
     const pts = region.outline;
+    // Pairs of points (segments). Edges running along the atlas seam (x = 0 / MAP_W) are not
+    // borders: land continuing across the seam would get a false line through it on the globe.
     const out: number[] = [];
-    for (let i = 0; i <= pts.length; i++) {
-      const p = pts[i % pts.length];
-      const q = pts[(i + 1) % pts.length];
-      if (!p || !q) continue;
-      const steps =
-        i === pts.length ? 1 : Math.max(1, Math.ceil(Math.hypot(q.x - p.x, q.y - p.y) / 5));
+    const onSeam = (p: Point) => p.x <= 0.5 || p.x >= MAP_W - 0.5;
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i]!;
+      const q = pts[(i + 1) % pts.length]!;
+      if (onSeam(p) && onSeam(q)) continue;
+      const steps = Math.max(1, Math.ceil(Math.hypot(q.x - p.x, q.y - p.y) / 5));
       for (let s = 0; s < steps; s++) {
-        const t = s / steps;
-        out.push(...mapToSphere({ x: p.x + (q.x - p.x) * t, y: p.y + (q.y - p.y) * t }, 1.014));
-        if (i === pts.length) break;
+        const a = s / steps;
+        const b = (s + 1) / steps;
+        out.push(...mapToSphere({ x: p.x + (q.x - p.x) * a, y: p.y + (q.y - p.y) * a }, 1.014));
+        out.push(...mapToSphere({ x: p.x + (q.x - p.x) * b, y: p.y + (q.y - p.y) * b }, 1.014));
       }
     }
-    const geometry = new LineGeometry();
+    const geometry = new LineSegmentsGeometry();
     geometry.setPositions(out);
     const mat = new LineMaterial({
       color,
@@ -577,7 +588,7 @@ function RegionOutline({
       opacity,
       depthWrite: false,
     });
-    const l = new Line2(geometry, mat);
+    const l = new LineSegments2(geometry, mat);
     l.renderOrder = 3;
     l.raycast = noRaycast;
     return l;
