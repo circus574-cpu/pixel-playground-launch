@@ -16,6 +16,13 @@ import type {
 
 /** Critical hits multiply damage by this factor (not specified by the annex; recorded in DECISIONS.md). */
 export const CRIT_MULT = 1.5;
+/** Basic-attack combo: extra time after the attack interval to chain the next hit, and the bonus of
+ *  the third (finisher) hit. Unik: dash length, invulnerable time and cooldown. Owner 26.10.2026. */
+export const COMBO_WINDOW_MS = 450;
+export const COMBO_FINISHER_BONUS = 0.6;
+export const DODGE_DISTANCE = 170;
+export const DODGE_INVULNERABLE_MS = 350;
+export const DODGE_COOLDOWN_MS = 900;
 export const roundHalfUp = (x: number) => Math.floor(x + 0.5);
 
 /** Passive modifiers a race kit derives from the nodes the player learned. All values are fractions. */
@@ -101,6 +108,30 @@ export abstract class Kit {
   protected timers: { ms: number; fn: () => void }[] = [];
   /** Last time the player made a basic attack (series logic). */
   protected lastBasic = -1e9;
+  /** True for a race whose basic attack already has an annex series bonus. */
+  protected readonly ownSeries: boolean = false;
+  /** Hits in the current basic-attack chain (1–3). */
+  protected combo = 0;
+  private nextDodgeAt = -1e9;
+  /** Unik for every race: a short dash with a moment of invulnerability, no KI. */
+  dodge(direction: { x: number; y: number }): UseResult {
+    const now = this.port.nowMs;
+    if (this.lockMs > 0) return { ok: false, reason: "Układy wyłączone." };
+    if (now < this.nextDodgeAt) return { ok: false, reason: "" };
+    const p = this.port.player;
+    const len = Math.hypot(direction.x, direction.y) || 1;
+    this.port.dash(
+      {
+        x: p.x + (direction.x / len) * DODGE_DISTANCE,
+        y: p.y + (direction.y / len) * DODGE_DISTANCE,
+      },
+      DODGE_DISTANCE,
+    );
+    this.addBuff({ id: "dodge", ms: DODGE_INVULNERABLE_MS, invulnerable: true });
+    this.nextDodgeAt = now + DODGE_COOLDOWN_MS;
+    this.port.emit({ type: "buff", x: p.x, y: p.y, ability: "dodge", text: "Unik" });
+    return { ok: true };
+  }
   protected nextBasicAt = 0;
   abstract readonly defs: Record<string, ActiveDef>;
   protected abstract readonly baseRange: number;
@@ -381,11 +412,28 @@ export abstract class Kit {
       const why = this.canAttack();
       if (why) return { ok: false, reason: why };
       if (this.nextBasicAt > this.port.nowMs) return { ok: false, reason: "" };
+      // Combo: presses in rhythm chain three hits; the third is a heavy finisher that knocks the
+      // target back (owner 26.10.2026: an anime brawler, not a click-RPG).
+      const now = this.port.nowMs;
+      this.combo =
+        now - this.lastBasic <= this.stats.attackInterval + COMBO_WINDOW_MS ? this.combo + 1 : 1;
+      const finisher = this.combo >= 3;
+      // A race with its own series bonus (Planetarni ×1,3 from the annex) keeps that number.
+      if (finisher && !this.ownSeries)
+        this.addBuff({ id: "combo", ms: 400, nextHitPct: COMBO_FINISHER_BONUS });
       const r = this.basic();
       if (r.ok) {
-        this.nextBasicAt = this.port.nowMs + this.stats.attackInterval;
-        this.lastBasic = this.port.nowMs;
-      }
+        // Chained hits come quicker than an opening hit.
+        this.nextBasicAt = now + this.stats.attackInterval * (this.combo > 1 ? 0.75 : 1);
+        this.lastBasic = now;
+        if (finisher) {
+          const t = this.port.target();
+          const p = this.port.player;
+          if (t) this.port.pushFoe(t, p, 70);
+          this.port.emit({ type: "buff", x: p.x, y: p.y, ability: "combo", text: "KOMBO!" });
+          this.combo = 0;
+        }
+      } else this.combo = 0;
       return r;
     }
     const def = this.defs[id];

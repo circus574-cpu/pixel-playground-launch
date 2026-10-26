@@ -86,6 +86,7 @@ export class PlanetaryKit extends Kit {
     }
     return foes;
   }
+  protected override readonly ownSeries = true;
   protected override cast(id: string): UseResult {
     const p = this.port.player;
     const f = this.port.facing;

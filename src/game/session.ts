@@ -173,6 +173,7 @@ export type Command =
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
   | { type: "ability"; ability: Ability }
+  | { type: "dodge" }
   | { type: "interact"; npc: NpcId }
   | { type: "dialogue"; action: "close" | "accept" | "claim" | "upgrade" }
   | { type: "equip"; item: ItemId }
@@ -196,6 +197,9 @@ export type StaffCommand =
   | { type: "staff"; action: "teleport"; x: number; y: number }
   | { type: "staff"; action: "heal" | "god" | "level" | "gold" | "potions" };
 export type StaffRole = "admin" | "gm";
+/** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
+export const FOE_PANEL_RANGE = 900;
+export const AUTO_TARGET_RANGE = 650;
 export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 
 const noop = () => {};
@@ -1179,6 +1183,13 @@ export class GameSession implements MonsterHost {
     if (this.dialogue || this.depotOpen || this.paused)
       return this.say("Zamknij okno, aby kontynuować.");
     if (c.type === "ability") return this.use(c.ability);
+    if (c.type === "dodge") {
+      if (this.fx.cannotAct || p.dead) return;
+      this.route = [];
+      const r = this.kit.dodge(this.facing);
+      if (!r.ok && r.reason) this.say(r.reason);
+      return;
+    }
     if (this.fx.cannotAct && c.type !== "loot") return this.say("Nie możesz działać.");
     if (c.type === "move") {
       this.clearDestinations();
@@ -1289,6 +1300,15 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (id !== "R" && this.fx.silenced) return this.say("Uciszony: nie możesz używać zdolności.");
+    // An attack with nothing selected takes the nearest monster (an action game, not a click-RPG).
+    if (!this.target && !this.safe) {
+      const nearest = this.enemies
+        .filter((e) => e.hp > 0 && e.mode !== "dead" && !e.m.hidden && !e.m.invulnerable)
+        .map((e) => ({ e, d: distance(p, e) }))
+        .filter(({ d }) => d <= AUTO_TARGET_RANGE)
+        .sort((a, b) => a.d - b.d)[0];
+      if (nearest) this.targetId = nearest.e.id;
+    }
     const r = this.kit.use(id);
     if (!r.ok) {
       if (r.reason) this.say(r.reason);
@@ -1553,6 +1573,25 @@ export class GameSession implements MonsterHost {
               distance(this.player, target) <= live.range && this.nav.visible(this.player, target),
           }
         : null,
+      /** Monsters within reach for the Walka panel, nearest first. */
+      foes: this.safe
+        ? []
+        : this.enemies
+            .filter((e) => e.hp > 0 && e.mode !== "dead" && !e.m.hidden)
+            .map((e) => ({ e, d: distance(this.player, e) }))
+            .filter(({ d }) => d <= FOE_PANEL_RANGE)
+            .sort((a, b) => a.d - b.d)
+            .slice(0, 6)
+            .map(({ e, d }) => ({
+              id: e.id,
+              name: e.m.def.name,
+              level: e.m.def.level,
+              hp: Math.ceil(e.hp),
+              maxHp: e.maxHp,
+              distance: Math.round(d),
+              boss: Boolean(e.boss),
+            })),
+      targetId: target?.id ?? null,
       defeated: this.player.kills,
       ready: true,
       dialogue: this.dialogue,
@@ -1734,6 +1773,8 @@ export function initialView(player?: Player): GameViewState {
     inCity: true,
     staff: null,
     god: false,
+    foes: [],
+    targetId: null,
     player: p,
     stats: {
       maxHp: s.maxHp,

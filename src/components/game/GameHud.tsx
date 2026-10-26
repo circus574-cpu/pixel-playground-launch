@@ -50,6 +50,7 @@ import {
 } from "../../game/keyBindings";
 import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
+import { CombatPanel } from "./CombatPanel";
 import "./staff-tools.css";
 import "./adventure.css";
 import "./game-messages.css";
@@ -423,6 +424,7 @@ export function GameHud({
         } as CSSProperties
       }
     >
+      {WORLD_V2 && panel === null && <CombatPanel state={state} send={onCommand} />}
       {arranging && (
         <ControlEditor
           controls={preferences.controls}
@@ -704,6 +706,20 @@ export function GameHud({
           renderAbility={renderAbility}
         />
         {state.abilities.filter((a) => a.id === "R").map(renderAbility)}
+        {WORLD_V2 && (
+          <CombatAction
+            className="ki-skill ki-dodge"
+            data-ability="dodge"
+            key="dodge"
+            title="Unik · krótki zryw z chwilą nietykalności"
+            aria-label="Unik"
+            disabled={!state.ready || player.dead || panel !== null || Boolean(state.dialogue)}
+            onActivate={() => onCommand({ type: "dodge" })}
+          >
+            <MangaIcon symbol="energy" />
+            <kbd>{keyLabel(keys.dodge)}</kbd>
+          </CombatAction>
+        )}
         <button
           className="ki-skill"
           data-ability="potion"

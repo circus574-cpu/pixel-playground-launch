@@ -5,6 +5,7 @@
  */
 export const KEY_ACTIONS = [
   "attack",
+  "dodge",
   "potion",
   "interact",
   "loot",
@@ -24,6 +25,7 @@ export type KeyBindings = Record<KeyAction, string>;
 
 export const KEY_ACTION_LABEL: Record<KeyAction, string> = {
   attack: "Atak",
+  dodge: "Unik",
   potion: "Mikstura",
   interact: "Rozmowa / wejście",
   loot: "Podnieś łup",
@@ -41,6 +43,7 @@ export const KEY_ACTION_LABEL: Record<KeyAction, string> = {
 
 export const DEFAULT_KEYS: KeyBindings = {
   attack: " ",
+  dodge: "shift",
   potion: "q",
   interact: "e",
   loot: "f",

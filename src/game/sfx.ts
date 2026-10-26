@@ -85,6 +85,8 @@ export function cuesFor(
     } else if (e.type === "level") add(sfxFile("level-up"));
     else if (e.type === "loot") add(sfxFile(e.text?.endsWith("monet") ? "gold" : "loot"));
     else if (e.type === "telegraph") add(sfxFile("boss-warning"));
+    else if (e.ability === "dodge" && !e.source) add(sfxFile("dodge"));
+    else if (e.ability === "combo" && !e.source) add(sfxFile("hit-crit"));
     else if (e.ability && !e.source && KIT_EVENTS.has(e.type))
       add(sfxFile({ race, ability: e.ability }));
   }

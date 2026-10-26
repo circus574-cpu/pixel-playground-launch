@@ -363,21 +363,23 @@ export function mountKileGends(
             ? { type: "cancel" }
             : bound === "attack"
               ? { type: "ability", ability: "R" }
-              : bound === "potion"
-                ? { type: "ability", ability: "potion" }
-                : bound === "loot"
-                  ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
-                  : bound === "interact"
-                    ? session.player.interior === "depot" &&
-                      distance(session.player, cityRoom("depot").chest) < 145
-                      ? { type: "chest" }
-                      : session.snapshot().nearbyBuilding &&
-                          !session.npcs.some((n) => distance(n, session.player) < 140)
-                        ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
-                        : { type: "interact", npc: session.snapshot().nearestNpc }
-                    : slot
-                      ? { type: "ability", ability: slot.id }
-                      : undefined;
+              : bound === "dodge"
+                ? { type: "dodge" }
+                : bound === "potion"
+                  ? { type: "ability", ability: "potion" }
+                  : bound === "loot"
+                    ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
+                    : bound === "interact"
+                      ? session.player.interior === "depot" &&
+                        distance(session.player, cityRoom("depot").chest) < 145
+                        ? { type: "chest" }
+                        : session.snapshot().nearbyBuilding &&
+                            !session.npcs.some((n) => distance(n, session.player) < 140)
+                          ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
+                          : { type: "interact", npc: session.snapshot().nearestNpc }
+                      : slot
+                        ? { type: "ability", ability: slot.id }
+                        : undefined;
         if (action && !event.repeat) {
           event.preventDefault();
           session.command(action);
@@ -735,6 +737,11 @@ export function mountKileGends(
       return true;
     }
     private effect(event: GameEvent) {
+      // Weight on big hits: the combo finisher and critical hits shake the camera briefly.
+      if (event.type === "buff" && event.ability === "combo" && !event.source)
+        this.cameras.main.shake(110, 0.006);
+      else if (event.type === "hit" && event.crit && event.target !== "player")
+        this.cameras.main.shake(70, 0.003);
       if (event.type === "telegraph") {
         if (event.radius) this.ring(event, event.radius, 0xff5a4a, event.ms ?? 300, 0.18);
         return;
