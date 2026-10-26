@@ -1046,7 +1046,9 @@ export function mountKileGends(
       const quiet =
         !worldLabels || Boolean(session.dialogue) || session.paused || session.player.dead;
       for (const a of this.actors) {
-        a.name.setPosition(a.body.x, a.body.y - 104).setScale(1 / this.cameras.main.zoom);
+        // Labels and bars follow a creature's height (sized by its bestiary class) from the 84 px baseline.
+        const lift = a.kind === "enemy" ? (a.visual.size[1] - 84) * a.visual.origin[1] : 0;
+        a.name.setPosition(a.body.x, a.body.y - 104 - lift).setScale(1 / this.cameras.main.zoom);
         // A name is less important than the hero's silhouette. Never paint it over the body.
         const left = a.name.x - a.name.displayWidth / 2,
           right = a.name.x + a.name.displayWidth / 2;
@@ -1064,8 +1066,8 @@ export function mountKileGends(
             ((a.kind === "npc" && a === nearestNpc && !labelledEnemy) ||
               (a.kind === "enemy" && a === labelledEnemy)),
         );
-        a.track.setPosition(a.body.x, a.body.y - 76);
-        a.bar.setPosition(a.body.x - 32, a.body.y - 76);
+        a.track.setPosition(a.body.x, a.body.y - 76 - lift);
+        a.bar.setPosition(a.body.x - 32, a.body.y - 76 - lift);
       }
       this.selection.setVisible(Boolean(session.target));
       if (session.target)
