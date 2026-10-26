@@ -16,10 +16,10 @@ import layoutV2 from "./planetLayout.v2.json";
 import { sourceToPlanet } from "../../game/world/planet";
 import { atlasPoint, OPEN_WORLDS } from "../../game/world/zoneMap";
 
-/** World v2 preview (?ki-world-v2=1): atlas painted from the v2 planet geometry (45% land). */
+/** World v2 (the default; `?ki-world-v1=1` is the old world): atlas painted from the v2 geometry. */
 export const ATLAS_V2 =
   typeof window !== "undefined" &&
-  new URLSearchParams(window.location.search).get("ki-world-v2") === "1";
+  new URLSearchParams(window.location.search).get("ki-world-v1") !== "1";
 const outlines = ATLAS_V2 ? outlinesV2 : outlinesV1;
 const layout = ATLAS_V2 ? layoutV2 : layoutV1;
 

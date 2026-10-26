@@ -34,7 +34,7 @@ function MapaPage() {
     setChecked(true);
   }, []);
   if (!checked) return <GlobeLoading />;
-  if (new URLSearchParams(window.location.search).get("ki-world-v2") === "1")
+  if (new URLSearchParams(window.location.search).get("ki-world-v1") !== "1")
     document.documentElement.dataset["kiWorldV2"] = "1";
   return <MapaView current={current} />;
 }

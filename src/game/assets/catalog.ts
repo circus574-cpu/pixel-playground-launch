@@ -205,9 +205,10 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
 /** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
-  return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) =>
-    params.get(param) === "1" ? packs : [],
-  );
+  // World v2 is the default world (owner decision 26.10.2026); only `?ki-world-v1=1` turns it off.
+  const on = (param: string) =>
+    param === "ki-world-v2" ? params.get("ki-world-v1") !== "1" : params.get(param) === "1";
+  return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) => (on(param) ? packs : []));
 }
 export const catalog = makeCatalog(
   (imported as unknown[]).map((p) => PackSchema.parse(p)),
