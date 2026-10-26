@@ -1,0 +1,19 @@
+
+Running 12 tests using 1 worker
+
+(node:12734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (7.5s)
+  ✓   2 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (6.9s)
+  ✓   3 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (6.7s)
+  ✓   4 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (7.3s)
+  ✓   5 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (13.7s)
+  ✓   6 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (15.7s)
+  ✓   7 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (14.9s)
+  ✓   8 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (19.6s)
+  ✓   9 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-planetary-painted: all seven clips follow real combat, defeat and respawn (44.0s)
+  ✓  10 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (43.7s)
+  ✓  11 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-android: all seven clips follow real combat, defeat and respawn (37.3s)
+  ✓  12 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-legend: all seven clips follow real combat, defeat and respawn (41.0s)
+
+  12 passed (4.3m)

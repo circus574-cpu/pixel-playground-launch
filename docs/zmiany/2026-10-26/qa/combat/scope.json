@@ -1,0 +1,29 @@
+{
+  "base": "3ffddcd82249f5cb5923b0deb594bf1621721ffa",
+  "implementationSha": "5660af9ead3c27b3228655c9ef67cfca8f1ded07",
+  "protectedFilesChanged": [],
+  "sources": {
+    "e2e/combat-bosses.spec.ts": "5613fa9bf29e61ef96161bd2e5bb0261166e6dcb5c6594ad9e89f3d94de3c242",
+    "e2e/combat-skills.spec.ts": "c65c07344c0a5b73003a58d6347bdda7c498021a2b069f68537953e25c5ddd07",
+    "e2e/hero-lifecycle.spec.ts": "170445b29c677d0e072bd2b23ae3b11dded88e60cd7099298703f744c1e2620f",
+    "scripts/combat/benchmark.ts": "a9eff073b03184338916078ec2821e3932eacb2b6f2eff55de8d697b62f6c31d",
+    "scripts/combat/simulate-balance.ts": "4ec55f6128d7189e2fa50c22aaaf4bacffbe00d14070873d94c1ca264a63b7ce",
+    "src/game/assets/catalog.ts": "1e2bdb1f004cce9bab90945ea39dada86cebe50116d72e410b5875d256fde09c",
+    "src/game/bosses/playtest.ts": "1eb1a28e46535f6bfe7f6438824d702bd07e5e8035f4d573a5fe96768063d535",
+    "src/game/bosses/preview.ts": "1eb5e649060e9c6b42c769ba4dc23ff98d8956deec4d0d73d5a5265f58463a40",
+    "src/game/bosses/runtime.ts": "3f5fe9588233f75d106abcdcdcef9e3d9426d234f34e71645888d62aa249cb65",
+    "src/game/combatBudget.ts": "74910eca270b4dd5cec1549d07e76fc40f5a460eb21eacc5338156fe17e0cb61",
+    "src/game/kit/base.ts": "82a93d2a83a4a6708684702abb49f3f0566013eadb0f877e89110489564ba7d8",
+    "src/game/kit/legend.ts": "70cb0e0fe878d329f509a4cc79d9b61b2b083bec4d92580f3b98c1aac694ffdc",
+    "src/game/kit/sage.ts": "ccd1e648875037ac94de2602eef24c5bb40db7a9e0d82003673ca32bb6176fe9",
+    "src/game/monsters/system.ts": "1720e3ba9aaa13615b5d8ef63246d49ba23d0198551084b49781fd22c5694a2f",
+    "src/game/monsters/types.ts": "bc20f09d63e24869de7839f39d88ee6b3ac91fe93b00811361e16becbcf0cda4",
+    "src/game/mountGame.ts": "e1b1d5ad3844969d36620f07c6ebf9f29cc4071b24aa5e757f926cf44b021d25",
+    "src/game/session.ts": "8aadf3706347ad3d8c2e78036ca28b84cffa9fb349dca57cbccb54288efaf14b",
+    "src/routes/index.tsx": "ffd1a0d4920d9eda2d6a483c6e063ec6390435863b6c624429dd33d970cf2692",
+    "src/test/combat-system.test.ts": "cd9be6bd54b7d055f51f4be3abe9089a20716b20e40b2e6db320f1a1e87fb57c",
+    "src/test/helpers/kitHarness.ts": "ac02123da4a576efc0631f6af8e9d688fea2c42ef88a90e80a0998ee4f8dc9fd",
+    "src/test/kit-nodes-audit.test.ts": "b954f136b23e49a74fd7cafb9f79d30cf4eb7b6c65fa9f7f85008540ddcfc5d9",
+    "src/test/monsters.test.ts": "8e915eda74207bf3d231f02c7aaafc0215aab3fd60b9fad6084922f85174abc3"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "base": "3ffddcd82249f5cb5923b0deb594bf1621721ffa",
+  "manualCount": 11,
+  "manuals": [
+    "docs/ARCHITEKTURA-I-TESTY.md",
+    "docs/FABULA-I-EKWIPUNEK.md",
+    "docs/GPU-I-ZASOBY.md",
+    "docs/INDEX.md",
+    "docs/LICENCJE.md",
+    "docs/PLAN-I-ZADANIA.md",
+    "docs/QUESTS-V2.md",
+    "docs/RASY-I-POSTACIE.md",
+    "docs/ROZWOJ-I-WALKA.md",
+    "docs/SWIAT-I-MIASTA.md",
+    "docs/ZASADY.md"
+  ],
+  "failure": "Baseline contains 11 manuals, checker expects 10; this combat-only branch does not relocate unrelated quest documentation."
+}

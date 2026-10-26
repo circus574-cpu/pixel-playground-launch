@@ -1,0 +1,17 @@
+
+Running 8 tests using 1 worker
+
+(node:17365) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (5.4s)
+  ✓  2 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (4.5s)
+  ✓  3 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (4.6s)
+  ✓  4 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (4.7s)
+(node:17642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (15.5s)
+  ✓  6 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (22.3s)
+  ✓  7 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (20.7s)
+  ✓  8 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (20.8s)
+
+  8 passed (1.7m)

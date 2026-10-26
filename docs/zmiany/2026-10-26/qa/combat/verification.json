@@ -1,0 +1,38 @@
+{
+  "implementationSha": "5660af9ead3c27b3228655c9ef67cfca8f1ded07",
+  "typecheck": "PASS",
+  "vitest": {
+    "passed": 741,
+    "failed": 0
+  },
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 9
+  },
+  "build": "PASS",
+  "canvas": {
+    "passed": 12,
+    "failed": 0
+  },
+  "isolatedBossBootCanvas": {
+    "passed": 4,
+    "failed": 0
+  },
+  "softwareWebGL": {
+    "passed": 12,
+    "failed": 0,
+    "log": "software-webgl.txt"
+  },
+  "saveCompatibility": "Existing round-trip/migration/CAS tests pass in the full unit suite",
+  "physicalAndroid": "NOT_VERIFIED",
+  "physicaliOS": "NOT_VERIFIED",
+  "documentationChecker": "BASELINE_FAILURE: 11 manuals instead of 10 (see documentation-baseline.json)",
+  "finalBossLoadout": {
+    "canvasPassed": 4,
+    "softwareWebGLPassed": 4,
+    "failed": 0,
+    "json": "boss-loadout-browser.json"
+  },
+  "playtestBuild": "PASS",
+  "evidenceNote": "Local tests refer to implementation SHA 5660af9ead3c27b3228655c9ef67cfca8f1ded07; later commit only adds documentation and evidence."
+}

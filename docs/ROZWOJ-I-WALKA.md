@@ -665,3 +665,105 @@ wiąże wynik z sumą manifestu terenu i katalogu bestiariusza. Nie modyfikuje
 statystyk 40 potworów, źródłowych map ani zapisów gracza. Zasady bezpieczeństwa,
 streamingu i ograniczenia integracji: [świat](SWIAT-I-MIASTA.md#pełna-generacja-superior-na-cpu--23102026).
 Wygenerowany spawn nie jest aktywnym przeciwnikiem w aktualnie opublikowanej grze.
+
+## Audyt mechaniki walki — feat/combat, 26.10.2026
+
+Baza: `origin/main` `3ffddcd82249f5cb5923b0deb594bf1621721ffa`.
+Zmiany dotyczą lokalnego PvE, kitów, AI, adaptera bossów i budżetu prezentacji.
+Nie zmieniono statystyk, XP ani danych generowanych aneksu/bestiariusza.
+
+### Węzły i naprawy
+
+Każdy z 116 węzłów otrzymał osobny test działania oraz osobny test wymagań
+i kosztów. [Rejestr węzeł → stan](zmiany/2026-10-26/qa/combat/nodes-register.csv)
+i [wynik testów kontraktów](zmiany/2026-10-26/qa/combat/nodes-tests.json).
+Testy obejmują efekty, mnożniki, promienie, koszty KI, cooldowny, wymagania
+poziomów, rodziców i wykluczające się wybory. Dotychczasowe testy pozostają.
+
+Naprawione rozbieżności:
+
+- Forma Oświecenia nie skraca własnego bazowego cooldownu 120 s do 84 s:
+  koszt i cooldown są ustalane przed aktywowaniem nowego buffa.
+- Tryb KI jest sprawdzany również przy wykonaniu: poziom 20 i A9/B9/C9.
+- Mędrzec B2 tworzy krąg także po zdolnościach wspierających/kanałowanych.
+- Premia C6 Mędrca zostaje przechwycona przy rzucaniu pieczęci; wygaśnięcie
+  buffa przed detonacją nie odbiera prawidłowo uzyskanej premii.
+- Chybienie/zerowe obrażenia Legendy nie dają Żaru ani serii.
+- Shutdown blokuje także ruch (wcześniejszy warunek sprawdzał ujemny lockMs).
+- Bezpośrednie trafienia i celowane umiejętności respektują widoczność.
+- Ukryty atak/wyjście spod ziemi nie rozpoczyna się na graczu w mieście.
+  Każdy krok, także lot/przenikanie, respektuje bezpieczne granice.
+
+### AI i wydajność
+
+40 definicji ma osobne deterministyczne scenariusze wykrywania, atakowania,
+bezpiecznych granic i powrotu. Nie dodano spawnów ani nie zmieniono map.
+AI wykonuje maksymalnie 32 jednostki na tick (lub mniej, jeśli host ma niższy
+limit). Poza 1800 jednostek bezczynne AI zasypia; rozpoczęty powrót do domu
+może dokończyć się w ramach tego samego limitu. Kolejność jest deterministyczna.
+Statusy/cooldowny śpiących jednostek nadal upływają, stare casty są anulowane.
+
+Limit stref walki: 64; limit obiektów efektów: 96. Dekoracje są usuwane przed
+ostrzeżeniami. Obejmuje teksty, sprite'y, kręgi, pociski zastępcze i cięcia;
+wynik obrażeń nie zależy od liczby wyświetlonych efektów. Test gęstej sceny:
+60 potworów, 1200 kroków po 50 ms;
+[pomiar CPU](zmiany/2026-10-26/qa/combat/dense-scene.json).
+To pomiar Node, nie FPS ani RAM fizycznego telefonu. PERF-01 pozostaje otwarty
+dla pomiaru Androida i odbioru zachowania dużego tłumu.
+
+### Bossowie — wykonywalny podgląd, nie rozmieszczenie na planecie
+
+W `PREVIEW_SWITCHES` dodano `ki-bosses`. Próba działa wyłącznie na
+`/scripts/playtest.html?ki-bosses=1&ki-boss=ygdrasha`. Inne ID:
+`thorgar`, `arcykaplan-pustki`, `aurelith`, `arbiter-zero`, `hydra-rdzen`,
+`kharzul`, `pyrrhax`. Wybrać rasę i rozpocząć przygodę.
+
+`bosses/playtest.ts` tworzy tymczasową arenę w istniejącym silniku.
+Gated adapter rozruchu w src/routes/index.tsx pomija przygotowanie zapisanego
+świata dla tej próby; przyciski podróży nie mają wówczas aktywnego runtime planety.
+Postać próbna otrzymuje poziom bossa, legalną gałąź umiejętności i istniejący
+miecz/kamizelkę — wyłącznie w pamięci. Sesja nie ma SaveStore, nie zapisuje obrażeń/ekwipunku/XP i nie zmienia
+plików świata. Próba używa obecnej grafiki zastępczej przeciwnika.
+Adapter `bosses/runtime.ts` wiąże statystyki katalogowe z MonsterSystem:
+progi HP i mnożniki faz, odblokowane zestawy ataków, odnowienia,
+telegrafy i obszary. Przejście fazy nie cofa się po leczeniu w walce;
+powrót do domu rozpoczyna nową próbę od fazy 1.
+Przywołania Szlamaków/wilków/nanitów, szarża, krwawienie, tarcza,
+przełamanie i buff są mapowane jawnie na istniejące mechaniki.
+
+Katalog nie określa wszystkich parametrów wykonawczych. `BOSS_PREVIEW`
+i jawne adaptery zawierają wartości podglądu: domyślny promień AoE 250,
+leash 1200 oraz czas/pojemność prototypowych osłon i buffów. To nie nowe
+zatwierdzone statystyki produkcyjne. Narracyjne mechaniki, takie jak
+fizyczne głowy Hydry, filary, sekwencja trzech Świetlików, lot/kruszenie
+areny czy ciągły kanał Oddechu Eteru, wymagają odrębnych kontraktów.
+Nie deklarujemy pełnego wdrożenia tych opisów przez ogólny adapter ataku.
+
+Łup losuje katalogowe ID/ilości/szanse raz na śmierć. Trafia do tymczasowego
+`session.bossRewards`, widocznego w komunikacie i telemetrii debugowej.
+Nowe ID nie są wciskane do zapisu v5 jako nieznane materiały. Powiązanie ich
+z produkcyjnym ekwipunkiem, nagrodą XP i questami wymaga zatwierdzenia
+kontraktu przedmiotów oraz pracy w zastrzeżonych modułach — pozostaje
+do integracji przez właściciela tych modułów. GAME-02 nie jest odbiorem
+wyglądu, roli ani końcowego balansu ośmiu bossów.
+
+### Symulacja i decyzje właściciela
+
+Narzędzie `scripts/combat/simulate-balance.ts` przenosi istniejący przebieg CPU
+bez edycji zastrzeżonego scripts/worldgen, dodając `--bosses true`.
+Powtórzenie: `npx tsx scripts/combat/simulate-balance.ts --trials 16 --output /tmp/combat-monsters`;
+dla bossów dodać `--bosses true` i osobny katalog. Macierz obejmuje rasy,
+trzy profile wyposażenia i poziomy w pobliżu poziomu przeciwnika.
+
+[Podsumowanie](zmiany/2026-10-26/qa/combat/balance-summary.json):
+22272 walki ze zwykłymi potworami: 20351 zwycięstw, 1478 śmierci, 443 timeouty;
+3840 prób bossów: 1214 zwycięstw, 2626 śmierci, zero timeoutów.
+Pełne macierze JSON/CSV leżą w tym samym QA. Seed, 16 prób/scenariusz, krok 50 ms
+i bot bez ludzkich uników to warunki eksperymentu, nie telemetria graczy.
+Gospodarka bossów w macierzy nie jest nagrodą produkcyjną — ich łup jest tymczasowy.
+
+Wnioski do decyzji: Mędrcy mają najniższy wynik z bossami (169/960),
+Legendy najwyższy (446/960). Najpierw potrzebne są próby ręczne z unikami
+i uzgodnienie parametrów ataków, potem ewentualna propozycja zmiany balansu.
+Nie dostosowano liczb do wyników bota. GAME-04: nie importowano grafik ani aur,
+ponieważ assets są poza zakresem tej gałęzi.

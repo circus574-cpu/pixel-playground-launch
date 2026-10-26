@@ -1,0 +1,21 @@
+
+Running 12 tests using 1 worker
+
+(node:14030) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (32.2s)
+  ✓   2 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (31.2s)
+  ✓   3 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (53.5s)
+  ✓   4 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (43.7s)
+  ✓   5 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (1.6m)
+  ✓   6 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (55.8s)
+  ✓   7 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (1.1m)
+  ✓   8 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (1.1m)
+  ✓   9 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-planetary-painted: all seven clips follow real combat, defeat and respawn (2.5m)
+  ✓  10 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (5.0m)
+  ✓  11 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-android: all seven clips follow real combat, defeat and respawn (2.2m)
+  ✓  12 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-legend: all seven clips follow real combat, defeat and respawn (2.0m)
+
+  Slow test file: [software-webgl] › e2e/hero-lifecycle.spec.ts (11.7m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  12 passed (19.3m)
