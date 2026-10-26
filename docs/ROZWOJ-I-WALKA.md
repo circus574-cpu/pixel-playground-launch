@@ -767,3 +767,72 @@ Legendy najwyższy (446/960). Najpierw potrzebne są próby ręczne z unikami
 i uzgodnienie parametrów ataków, potem ewentualna propozycja zmiany balansu.
 Nie dostosowano liczb do wyników bota. GAME-04: nie importowano grafik ani aur,
 ponieważ assets są poza zakresem tej gałęzi.
+
+## Integracja sterowania Argona — 26.10.2026
+
+Baza audytu: main `062b57b73600264ab354018a624c2b132f8bc08c`, po scalonym PR #29.
+Gałąź: `feature/argon-combat-mobile-integration`. Oryginalny ZIP właściciela
+zabezpieczono w `deliveries/argon-20261026/` wraz z SHA-256 każdego źródła.
+Przeanalizowano także `deliveries/argon-20261024/quests-v2-src-only.patch`.
+
+### Audyt i decyzje
+
+CombatSandbox jest osobną symulacją Canvas/React: pociski poruszają się o wartości
+na klatkę, koszty i cooldowny żyją w React, XP używa `level * 60`, a śmierć nie
+korzysta z kontraktu sesji Phaser. Nie włączamy tego silnika. Aktualny GameSession
+i cztery kity już obsługują ataki, combo Planetarnego, dash A1, kanały, tarcze,
+statusy, reakcje, śmierć/odrodzenie i progresję według aneksu właściciela.
+
+`skillTrees.ts` ma 29 alternatywnych węzłów na rasę, lecz zero wspólnych ID
+z kanonem, cztery gałęzie zamiast trzech i inne statystyki (np. HP Planetarnego
+165 zamiast 125). Brak równoważnych wymagań poziomów i kosztów nauki.
+Nie przenosimy nazw, zależności, premii ani nowych mechanik rasowych tego pliku.
+Natomiast `progression.ts`, używany przez HudShowcaseModal, zgadza się z kanonem
+w ID, nazwach, wymaganiach poziomów, rodzicach i wykluczeniach wszystkich 116 węzłów.
+Dowód: [porównanie drzewek](zmiany/2026-10-26/qa/argon-combat/tree-comparison.json).
+Istniejący GraphicSkillTree już czyta kanoniczne węzły, więc nie dodano drugiego.
+
+### Faktyczne zmiany runtime
+
+| Funkcja | Stan przed | Zmiana | Dowód działania |
+| --- | --- | --- | --- |
+| Ruch i atak/skill dwoma kciukami | każda komenda HUD zerowała joystick | komendy ability zachowują wskaźnik ruchu | argon-mobile.spec.ts: cztery rasy i cztery rozdzielczości |
+| Naciśnięcie akcji | click po zwolnieniu palca | pointerdown, jeden właściciel wskaźnika, bez podwójnego click; klawiatura zachowana | combat-action.test.tsx i testy CDP |
+| Anulowanie dotyku | anulowany krótki dotyk mógł wykonać akcję mapy | wasCanceled nie wywołuje interactAt; pointercancel zwalnia ruch | argon-mobile.spec.ts |
+| Menu i okna | niejednolite zwalnianie wejścia | otwarcie menu zwalnia joystick; dialog/depozyt/pauza/śmierć czyszczą ruch | argon-mobile.spec.ts i regresja stage3 |
+| KI i cooldowny | koszt w tytule, czas w ikonie | widoczny koszt KI w każdej technice, wartości z AbilityInfo | argon-mobile.spec.ts, argon-combat.test.ts |
+| Zadanie v2 w HUD | pasek pokazywał stare zadania | krótki tytuł aktywnego zadania/stadium z istniejącego questsV2 | test dziennika i reload w argon-mobile.spec.ts |
+| Drzewka i zapisy | kanoniczne kity i walidowane zapisy | bez zmiany formatu; dodatkowe testy v4→v5, umiejętności i konfliktu kart | argon-combat.test.ts: cztery rasy |
+
+HUD zachowuje obecną oprawę manga i strony technik; dostęp do HP/KI/XP/celu,
+ekwipunku, drzewek, dziennika i mapy pozostaje w dotychczasowych komponentach.
+Nowe małe komponenty CombatAction i CombatQuestSummary ograniczają zakres
+wspólnego GameHud.tsx. Nie zmieniono DiabloInventory, GraphicSkillTree ani
+QuestsV2Journal, generatorów świata, geometrii i plików *.generated.ts.
+
+### Świadomie nieprzeniesione rozwiązania
+
+- Alternatywny balans skillTrees oraz projectile/AI/XP sandboxa: sprzeczne
+  z kanonem lub dublujące działający silnik; cooldowny i obrażenia zostają w kitach.
+- Udawane zasoby, tarcze i ultimate z makiet: HUD pokazuje realny stan sesji.
+- D-pad: działający analogowy joystick Phaser pozostaje podstawowym sterowaniem.
+- Nowe deformacje sprite'ów i czyszczenie tła: istnieją już atlasy i kontrakty
+  siedmiu stanów w ośmiu kierunkach, ich zastąpienie zmieniłoby oprawę poza zadaniem.
+- Dane sprzętu i nowych baz ras z Argona: nie zastępują zatwierdzonego ekwipunku.
+
+Zapis v5 i starsze v1/v3/v4, zapis Superior oraz oddzielny dziennik questsV2
+nie otrzymały nowej migracji ani resetu; testy sprawdzają istniejące ścieżki odczytu
+i kopię bajtów przed migracją. Nie przenosi się save z sandboxa do gry.
+Fizyczny Android/iPhone pozostaje niezweryfikowany w tym środowisku.
+Wyniki końcowe i SHA należy odczytać z dziennika 26.10 i PR.
+
+### Zastąpiony dokument QUESTS-V2
+
+Dostarczony wcześniej osobny dokument miał opisy makiet jako wdrożeń i stare
+rozmiary map. Jego niezmienione bajty zachowano w
+[źródle historycznym](zmiany/2026-10-26/qa/argon-combat/quests-v2-source.txt),
+aby przywrócić wymagane 10 aktywnych dokumentów bez utraty materiału.
+Aktualnie questsV2 jest podłączony w superiorRuntime wyłącznie dla
+`?ki-world-v2=1`: rozmowy, odkrycia, wejścia do miast i zabójstwa zasilają tracker,
+a QuestsV2Journal czyta jego oddzielny zapis `ki_legends_save_v5`.
+Nie wszystkie zadania mają wsparcie runtime; oznaczenia ograniczeń są w dzienniku.

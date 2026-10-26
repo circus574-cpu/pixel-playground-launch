@@ -295,11 +295,19 @@ export function mountKileGends(
       };
       parent.addEventListener("ki:labels", labels);
       const command = (event: Event) => {
-        session.command((event as CustomEvent<Command>).detail);
-        this.resetStick();
+        const action = (event as CustomEvent<Command>).detail;
+        session.command(action);
+        // A right-thumb action must not release the left-thumb movement pointer.
+        if (action.type !== "ability") this.resetStick();
         this.report();
       };
       parent.addEventListener("ki:command", command);
+      const cancelPointer = (event: PointerEvent) => {
+        // Native cancellation on the game surface abandons movement, never turns into a tap.
+        // HUD pointers are on separate DOM elements and do not reach this listener.
+        if (event.pointerType !== "mouse") this.resetStick();
+      };
+      this.game.canvas.addEventListener("pointercancel", cancelPointer);
       const save = () => {
         session.flush();
         this.resetStick();
@@ -315,6 +323,7 @@ export function mountKileGends(
         parent.removeEventListener("ki:zoom", zoom);
         parent.removeEventListener("ki:labels", labels);
         parent.removeEventListener("ki:command", command);
+        this.game.canvas.removeEventListener("pointercancel", cancelPointer);
         parent.removeEventListener("ki:flush", save);
         window.removeEventListener("pagehide", save);
         document.removeEventListener("visibilitychange", save);
@@ -385,7 +394,7 @@ export function mountKileGends(
         if (pointer.id === this.joystickId) {
           const tap = this.pendingTouch;
           this.resetStick();
-          if (tap) this.interactAt(tap);
+          if (tap && !pointer.wasCanceled) this.interactAt(tap);
         }
       });
       this.input.on("gameout", () => this.resetStick());
@@ -415,7 +424,7 @@ export function mountKileGends(
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseBlur);
       this.events.once(Phaser.Scenes.Events.DESTROY, releaseBlur);
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-        if (session.dialogue || session.paused || session.player.dead) return;
+        if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
         if (
           pointer.wasTouch &&
@@ -863,6 +872,8 @@ export function mountKileGends(
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
       parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
+      parent.dataset["joystickX"] = String(this.joystick.x);
+      parent.dataset["joystickY"] = String(this.joystick.y);
       parent.dataset["playerX"] = String(session.player.x);
       parent.dataset["playerY"] = String(session.player.y);
       onState?.(session.snapshot());
@@ -873,6 +884,8 @@ export function mountKileGends(
       if (!session.paused && !session.dialogue) this.animationTime += dt;
       runtime?.beforeTick?.(dt);
       session.tick(dt);
+      if (session.paused || session.dialogue || session.depotOpen || session.player.dead)
+        this.resetStick();
       runtime?.afterTick?.(dt);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();

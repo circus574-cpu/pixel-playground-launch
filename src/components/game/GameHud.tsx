@@ -1,3 +1,5 @@
+import { CombatQuestSummary } from "./CombatQuestSummary";
+import { CombatAction } from "./CombatAction";
 import { uiTextureUrl } from "../../game/assets/catalog";
 import { isCityStage } from "../../game/city/types";
 import { TEST_RACE_SWITCH_ENABLED } from "../../game/features";
@@ -306,7 +308,7 @@ export function GameHud({
       state.statuses.some((s) => s.id === "stun" || s.id === "fear");
     const remaining = a.remaining > 0 && a.id !== "R" ? (a.remaining / 1000).toFixed(1) : "";
     return (
-      <button
+      <CombatAction
         className="ki-skill"
         data-ability={a.id}
         key={a.id}
@@ -315,16 +317,14 @@ export function GameHud({
         }
         aria-label={a.name}
         disabled={blocked}
-        onClick={(event) => {
-          onCommand({ type: "ability", ability: a.id });
-          event.currentTarget.blur();
-        }}
+        onActivate={() => onCommand({ type: "ability", ability: a.id })}
       >
         <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
         <kbd>{a.id === "R" ? "␣" : a.key}</kbd>
+        {a.id !== "R" && <span className="ki-ability-cost">{a.ki} KI</span>}
         {remaining && <span className="ki-cooldown">{remaining}</span>}
         {a.id === "R" && state.autoAttack && <span className="ki-auto">AUTO</span>}
-      </button>
+      </CombatAction>
     );
   };
   return (
@@ -482,12 +482,16 @@ export function GameHud({
       </section>
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
-        <div>
-          <strong>
-            {tracked?.name ?? (world.id === "verdant" ? "Wioska ocalona" : "Region ocalony")}
-          </strong>
-          <span>{tracked?.text ?? "Trenuj i zdobywaj wyposażenie"}</span>
-        </div>
+        {WORLD_V2 ? (
+          <CombatQuestSummary continent={player.continent} />
+        ) : (
+          <div>
+            <strong>
+              {tracked?.name ?? (world.id === "verdant" ? "Wioska ocalona" : "Region ocalony")}
+            </strong>
+            <span>{tracked?.text ?? "Trenuj i zdobywaj wyposażenie"}</span>
+          </div>
+        )}
         <span className="ki-quest-arrow">›</span>
       </button>
       <div className="ki-location">
@@ -618,6 +622,7 @@ export function GameHud({
         aria-expanded={toolsOpen}
         aria-controls="ki-tools"
         onClick={(event) => {
+          if (!toolsOpen) onCommand({ type: "cancel" });
           setToolsOpen((v) => !v);
           setChatOpen(false);
           event.currentTarget.blur();

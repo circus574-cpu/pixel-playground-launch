@@ -1,0 +1,16 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 /workspace/pixel-playground-launch
+
+(node:3651) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  48 passed (48)
+      Tests  391 passed (391)
+   Start at  05:34:11
+   Duration  48.52s (transform 1.89s, setup 1.85s, import 6.40s, tests 21.73s, environment 13.09s)
+
