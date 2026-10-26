@@ -1048,7 +1048,7 @@ export class MonsterSystem {
           continue;
         }
         if (s.buff) {
-          if (this.allies(e, s.range).length) return s;
+          if (s.range === 0 || this.allies(e, s.range).length) return s;
           continue;
         }
         if (s.nextAttack) {

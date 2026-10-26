@@ -639,6 +639,7 @@ export class GameSession implements MonsterHost {
     if (e.boss) {
       if (!e.boss.lootRolled) {
         e.boss.lootRolled = true;
+        this.kit.onKill(e);
         this.bossRewards.push(...rollBossLoot(e.boss.definition.lootTable, this.rng));
         this.say(
           "Łup próby bossa: " +

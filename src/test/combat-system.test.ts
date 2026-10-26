@@ -1,4 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { createBossPlaytest } from "../game/bosses/playtest";
+import { validLearned } from "../game/kit";
+import { describe, it, expect, vi } from "vitest";
 import { GameSession } from "../game/session";
 import { Navigation } from "../game/navigation";
 import { WORLDS } from "../game/world/worlds";
@@ -185,4 +187,33 @@ it("shutdown blocks movement and resumes after the explicit lock duration", () =
   for (let i = 0; i < 40; i++) g.tick(50);
   g.manual(1, 0, 50);
   expect(g.player.x).toBeGreaterThan(before.x);
+});
+
+it("boss defeat triggers canonical on-kill effects exactly once", () => {
+  const g = arena();
+  const killed = vi.spyOn(g.kit, "onKill");
+  const e = g.summonBoss("ygdrasha", { x: 4250, y: 4096 });
+  g.monsters.damage(e, 1e9, { tags: ["ki"] });
+  g.killed(e);
+  expect(killed).toHaveBeenCalledTimes(1);
+});
+
+it("solo trial starts at the catalog level with a legal canonical build and full resources", () => {
+  const g = createBossPlaytest("sage", "ygdrasha");
+  expect(g.saves).toBeUndefined();
+  expect(g.player.level).toBe(15);
+  expect(validLearned("sage", 15, g.player.skills)).toBe(true);
+  expect(g.player.hp).toBe(g.kit.stats.maxHp);
+  expect(g.player.ki).toBe(g.kit.stats.maxKi);
+});
+
+it("a solo boss can select its self buff without nearby allies", () => {
+  const g = arena();
+  const e = g.summonBoss("kharzul", { x: 4250, y: 4096 });
+  e.hp = e.maxHp * 0.5;
+  g.monsters.damage(e, 1, { tags: ["ki"] });
+  for (const s of e.m.def.skills) e.m.cooldowns[s.id] = s.id === "kharzul-szal" ? 0 : 1e6;
+  for (let i = 0; i < 60; i++) g.tick(50);
+  expect(e.m.buffMs).toBeGreaterThan(0);
+  expect(e.m.buff).toBe(0.2);
 });
