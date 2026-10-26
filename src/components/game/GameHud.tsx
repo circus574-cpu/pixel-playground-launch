@@ -1018,39 +1018,41 @@ export function GameHud({
                     onChange={(e) => changePreference("worldLabels", e.target.checked)}
                   />
                 </label>
-                <fieldset className="ki-settings-controls">
-                  <legend>Przyciski i joystick</legend>
-                  {CONTROL_IDS.filter((id) => id !== "joystick" || touchJoystick).map((id) => (
-                    <label key={id}>
-                      <span>
-                        {CONTROL_LABEL[id]} · {Math.round(preferences.controls[id].scale * 100)}%
-                      </span>
-                      <input
-                        type="range"
-                        min={CONTROL_SCALE.min}
-                        max={CONTROL_SCALE.max}
-                        step={0.05}
-                        value={preferences.controls[id].scale}
-                        aria-label={"Wielkość: " + CONTROL_LABEL[id]}
-                        onChange={(e) =>
-                          changeControls({
-                            ...preferences.controls,
-                            [id]: { ...preferences.controls[id], scale: Number(e.target.value) },
-                          })
-                        }
-                      />
-                    </label>
-                  ))}
-                  <button
-                    className="ki-fullscreen-setting"
-                    onClick={() => {
-                      setPanel(null);
-                      setArranging(true);
-                    }}
-                  >
-                    Przesuń przyciski
-                  </button>
-                </fieldset>
+                {touchJoystick && (
+                  <fieldset className="ki-settings-controls">
+                    <legend>Przyciski i joystick</legend>
+                    {CONTROL_IDS.map((id) => (
+                      <label key={id}>
+                        <span>
+                          {CONTROL_LABEL[id]} · {Math.round(preferences.controls[id].scale * 100)}%
+                        </span>
+                        <input
+                          type="range"
+                          min={CONTROL_SCALE.min}
+                          max={CONTROL_SCALE.max}
+                          step={0.05}
+                          value={preferences.controls[id].scale}
+                          aria-label={"Wielkość: " + CONTROL_LABEL[id]}
+                          onChange={(e) =>
+                            changeControls({
+                              ...preferences.controls,
+                              [id]: { ...preferences.controls[id], scale: Number(e.target.value) },
+                            })
+                          }
+                        />
+                      </label>
+                    ))}
+                    <button
+                      className="ki-fullscreen-setting"
+                      onClick={() => {
+                        setPanel(null);
+                        setArranging(true);
+                      }}
+                    >
+                      Przesuń przyciski
+                    </button>
+                  </fieldset>
+                )}
                 <label>
                   <span>
                     Muzyka ·{" "}

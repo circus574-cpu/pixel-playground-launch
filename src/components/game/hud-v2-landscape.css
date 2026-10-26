@@ -204,8 +204,9 @@
   }
 }
 
-/* Skill tree on a landscape phone: the tree on the left, the chosen node and "Poznaj" beside it. */
-@media (max-height: 500px) and (max-width: 1100px) {
+/* Skill tree on a landscape phone or a computer: the tree on the left, the chosen node and
+   "Poznaj" beside it. */
+@media (max-height: 500px) and (max-width: 1100px), (min-width: 900px) and (min-height: 600px) {
   html[data-ki-world-v2] .ki-gst {
     display: grid;
     grid-template-columns: minmax(0, 1fr) min(260px, 38%);
@@ -254,5 +255,18 @@ html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
   html[data-ki-world-v2] .ki-hud .ki-resource span {
     line-height: 10px;
     font-size: 8px;
+  }
+}
+
+/* Large screens: the HUD and its panels were drawn at phone size (an inventory a fifth of a
+   1920 px monitor); scale the whole overlay up. */
+@media (min-width: 1500px) and (min-height: 850px) {
+  html[data-ki-world-v2] .ki-hud {
+    zoom: 1.3;
+  }
+}
+@media (min-width: 2200px) and (min-height: 1200px) {
+  html[data-ki-world-v2] .ki-hud {
+    zoom: 1.7;
   }
 }
