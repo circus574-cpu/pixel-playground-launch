@@ -1,0 +1,5025 @@
+diff --git a/src/game/bosses/__tests__/bosses.test.ts b/src/game/bosses/__tests__/bosses.test.ts
+new file mode 100644
+index 0000000..817238a
+--- /dev/null
++++ b/src/game/bosses/__tests__/bosses.test.ts
+@@ -0,0 +1,118 @@
++import { describe, it, expect } from 'vitest';
++import { BOSS_CATALOG, BOSS_BY_ID, getBossById, getBossesByContinent } from '../index';
++import { getItemById } from '../../items';
++import { ContinentId } from '../../worlds/types';
++
++describe('Bosses Catalog Consistency Tests', () => {
++  it('should have exactly 8 bosses from Księga Przygody v1.0', () => {
++    expect(BOSS_CATALOG.length).toBe(8);
++
++    const ids = new Set<string>();
++    for (const boss of BOSS_CATALOG) {
++      expect(boss.id).toBeTruthy();
++      expect(ids.has(boss.id)).toBe(false);
++      ids.add(boss.id);
++    }
++  });
++
++  it('should have exactly 2 bosses per continent (one Lv 15 and one Lv 20)', () => {
++    const continents: ContinentId[] = ['verdant', 'pyra', 'aether', 'nexus'];
++
++    for (const cont of continents) {
++      const continentBosses = getBossesByContinent(cont);
++      expect(continentBosses.length).toBe(2);
++
++      const levels = continentBosses.map((b) => b.level).sort((a, b) => a - b);
++      expect(levels).toEqual([15, 20]);
++    }
++  });
++
++  it('should have valid combat stats and scaling multipliers for all bosses', () => {
++    for (const boss of BOSS_CATALOG) {
++      expect(boss.name).toBeTruthy();
++      expect(boss.title).toBeTruthy();
++      expect(boss.lore.length).toBeGreaterThan(50);
++      expect(boss.weakness.length).toBeGreaterThan(10);
++      expect(boss.behavior.length).toBeGreaterThan(20);
++
++      // Check stats
++      expect(boss.stats.hp).toBeGreaterThanOrEqual(4000);
++      expect(boss.stats.atk).toBeGreaterThanOrEqual(50);
++      expect(boss.stats.def).toBeGreaterThanOrEqual(25);
++      expect(boss.stats.xp).toBeGreaterThanOrEqual(500);
++
++      // Check multipliers
++      expect(boss.mult.hp).toBeGreaterThanOrEqual(8);
++      expect(boss.mult.atk).toBeGreaterThanOrEqual(1.4);
++      expect(boss.mult.def).toBeGreaterThanOrEqual(1.2);
++    }
++  });
++
++  it('should have well-defined descending phase thresholds for all bosses', () => {
++    for (const boss of BOSS_CATALOG) {
++      expect(boss.phases.length).toBeGreaterThanOrEqual(3);
++
++      let prevThreshold = 101;
++      for (const phase of boss.phases) {
++        expect(phase.name).toBeTruthy();
++        expect(phase.description).toBeTruthy();
++        expect(phase.hpThresholdPercent).toBeLessThan(prevThreshold);
++        expect(phase.hpThresholdPercent).toBeGreaterThan(0);
++        prevThreshold = phase.hpThresholdPercent;
++      }
++    }
++  });
++
++  it('should have valid attacks and phase unlocks', () => {
++    for (const boss of BOSS_CATALOG) {
++      expect(boss.attacks.length).toBeGreaterThanOrEqual(3);
++
++      const attackIds = new Set(boss.attacks.map((a) => a.id));
++      for (const attack of boss.attacks) {
++        expect(attack.name).toBeTruthy();
++        expect(attack.cooldownSeconds).toBeGreaterThan(0);
++        expect(attack.damageMultiplier).toBeGreaterThan(0);
++      }
++
++      for (const phase of boss.phases) {
++        for (const attackId of phase.unlockedAttacks) {
++          expect(
++            attackIds.has(attackId),
++            `Attack "${attackId}" in boss "${boss.id}" phase "${phase.name}" must be defined in attacks array`,
++          ).toBe(true);
++        }
++      }
++    }
++  });
++
++  it('should ensure all boss loot drop item IDs exist in the item catalog', () => {
++    for (const boss of BOSS_CATALOG) {
++      expect(boss.lootTable.length).toBeGreaterThanOrEqual(2);
++
++      for (const loot of boss.lootTable) {
++        const item = getItemById(loot.itemId);
++        expect(
++          item,
++          `Loot item ID "${loot.itemId}" for boss "${boss.id}" must exist in ITEM_CATALOG`,
++        ).toBeDefined();
++
++        expect(loot.chancePercent).toBeGreaterThan(0);
++        expect(loot.chancePercent).toBeLessThanOrEqual(100);
++        expect(loot.minCount).toBeGreaterThan(0);
++        expect(loot.maxCount).toBeGreaterThanOrEqual(loot.minCount);
++      }
++    }
++  });
++
++  it('should provide functioning lookup helpers', () => {
++    const ygdrasha = getBossById('ygdrasha');
++    expect(ygdrasha).toBeDefined();
++    expect(ygdrasha?.continent).toBe('verdant');
++    expect(ygdrasha?.level).toBe(15);
++
++    const pyrrhax = getBossById('pyrrhax');
++    expect(pyrrhax).toBeDefined();
++    expect(pyrrhax?.continent).toBe('pyra');
++    expect(pyrrhax?.level).toBe(20);
++  });
++});
+diff --git a/src/game/bosses/catalog.ts b/src/game/bosses/catalog.ts
+new file mode 100644
+index 0000000..19b42a2
+--- /dev/null
++++ b/src/game/bosses/catalog.ts
+@@ -0,0 +1,935 @@
++import { BossDefinition } from './types';
++
++export const BOSS_CATALOG: BossDefinition[] = [
++  // ==========================================
++  // KONTYNENT VERDANT (PLANETARNI)
++  // ==========================================
++  {
++    id: 'ygdrasha',
++    name: 'Ygdrasha, Matka Puszczy',
++    title: 'Starożytna Władczyni Puszczy',
++    continent: 'verdant',
++    race: 'Planetarni',
++    level: 15,
++    icon: 'plant',
++    variant: 3,
++    speed: 0,
++    range: 450,
++    agro: 600,
++    stats: {
++      hp: 4520,
++      atk: 59,
++      def: 37,
++      xp: 541,
++    },
++    mult: {
++      hp: 8,
++      atk: 1.4,
++      def: 1.5,
++    },
++    behavior:
++      'Stacjonarna. Faza 1 (100–60% HP): bicze korzeni i trucizna. Faza 2 (60–30%): co 15 s przyzywa 2 Mchowe Szlamaki. Faza 3 (poniżej 30%): +30% obrażeń, kwiat się otwiera i przyjmuje +25% obrażeń. Regeneruje 1% HP/s w fazach 1–2.',
++    weakness: 'Ogień i KI; odsłonięta w fazie 3 (+25% obrażeń)',
++    lore:
++      'Prastary żywy organizm puszczy, którego korzenie przenikają cały zielony kontynent. Ygdrasha nie walczy z nienawiści — broni pradawnego rytmu rzeki przed mechanicznym zanieczyszczeniem i ludzkim wyzyskiem. Jej kielich rozkwita tylko w obliczu śmiertelnego zagrożenia, uwalniając zarodniki pamięci sprzed tysiąca lat.',
++    locationName: 'Gaj Pradawnych Korzeni (Głęboka Knieja Verdantii)',
++    associatedLocationId: 'famous-verdant-4',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Uśpiony Korzeń',
++        description:
++          'Ygdrasha smaga intruzów potężnymi biczami korzeni i rozpyla trujące opary. Regeneruje 1% HP na sekundę.',
++        statModifiers: {
++          damageTakenMultiplier: 1.0,
++        },
++        unlockedAttacks: ['ygdrasha-bicz', 'ygdrasha-burza'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 60,
++        name: 'Przebudzenie Splotu',
++        description:
++          'Ziemia wokół pnia pęka. Co 15 sekund z korzeni wyłaniają się 2 Mchowe Szlamaki ochraniające rdzeń.',
++        statModifiers: {
++          damageTakenMultiplier: 1.0,
++        },
++        unlockedAttacks: ['ygdrasha-bicz', 'ygdrasha-burza', 'ygdrasha-szlamaki'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 30,
++        name: 'Rozkwit Gniewu',
++        description:
++          'Kwiat Ygdrashy otwiera się, wpadając w szał (+30% siły ataku, uderzenia pyłowe). Odsłonięty kielich przyjmuje jednak +25% obrażeń, a regeneracja zostaje zatrzymana.',
++        statModifiers: {
++          atkMultiplier: 1.3,
++          damageTakenMultiplier: 1.25,
++        },
++        unlockedAttacks: ['ygdrasha-bicz', 'ygdrasha-burza', 'ygdrasha-rozkwit'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'ygdrasha-bicz',
++        name: 'Bicz Korzeni',
++        cooldownSeconds: 8,
++        telegraphSeconds: 1.2,
++        description: 'Masywny podziemny pęd uderza z wielką siłą w kierunku gracza.',
++        damageMultiplier: 1.4,
++        isAoe: false,
++      },
++      {
++        id: 'ygdrasha-burza',
++        name: 'Zarodnikowa Burza',
++        cooldownSeconds: 20,
++        telegraphSeconds: 1.8,
++        description: 'Chmura toksycznych zarodników pokrywająca obszar w promieniu 250 jednostek, zadająca obrażenia z czasem.',
++        damageMultiplier: 1.0,
++        isAoe: true,
++      },
++      {
++        id: 'ygdrasha-szlamaki',
++        name: 'Przyzwanie Szlamaków',
++        cooldownSeconds: 15,
++        telegraphSeconds: 1.0,
++        description: 'Z żywicznych pąków wykluwają się dwa Mchowe Szlamaki spowalniające gracza.',
++        damageMultiplier: 0.5,
++        isAoe: false,
++      },
++      {
++        id: 'ygdrasha-rozkwit',
++        name: 'Eksplozja Pyłowa',
++        cooldownSeconds: 12,
++        telegraphSeconds: 1.5,
++        description: 'Gwałtowny wyrzut stężonej energii fotosyntetycznej i pyłków o krytycznej sile rażenia.',
++        damageMultiplier: 1.8,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'serce-puszczy',
++        itemName: 'Serce Puszczy',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'zielona-esencja',
++        itemName: 'Zielona Esencja',
++        chancePercent: 100,
++        minCount: 2,
++        maxCount: 4,
++      },
++      {
++        itemId: 'kwiat-ygdrashy',
++        itemName: 'Kwiat Ygdrashy',
++        chancePercent: 25,
++        minCount: 1,
++        maxCount: 1,
++        isRare: true,
++      },
++    ],
++  },
++  {
++    id: 'thorgar',
++    name: 'Thorgar, Alfa Kłów',
++    title: 'Władca Ciernistego Stada',
++    continent: 'verdant',
++    race: 'Planetarni',
++    level: 20,
++    icon: 'beast',
++    variant: 3,
++    speed: 1.2,
++    range: 100,
++    agro: 500,
++    stats: {
++      hp: 7560,
++      atk: 88,
++      def: 45,
++      xp: 795,
++    },
++    mult: {
++      hp: 9,
++      atk: 1.6,
++      def: 1.4,
++    },
++    behavior:
++      'Faza 1: pojedynek, szarże i cięcia. Faza 2 (poniżej 65% HP): wzywa 3 Cierniowe Wilki. Faza 3 (poniżej 30%): berserk, +25% szybkości; Wycie rozprasza gracza.',
++    weakness: 'Ogłuszony na 1,5 s po chybionej szarży w przeszkodę terenową',
++    lore:
++      'Ogromny prabestia z rodu pierwotnych wilków, który przeżył wieki dzięki adaptacji ciernistych narośli na kościach. Thorgar przewodzi najgroźniejszej sforze leśnej, a jego kły są w stanie przeciąć hartowaną stal. Szanowany przez tropicieli Verdantii jako wcielenie nieokiełznanej siły natury.',
++    locationName: 'Jaskinia Pradawnych Kłów (Północne Wzgórza Verdantii)',
++    associatedLocationId: 'famous-verdant-3',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Próba Przeżycia',
++        description: 'Thorgar krąży wokół ofiary, wyprowadzając gwałtowne serie cięć i proste szarże.',
++        statModifiers: {
++          speedMultiplier: 1.0,
++        },
++        unlockedAttacks: ['thorgar-szarza', 'thorgar-rozdarcie'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 65,
++        name: 'Zew Sfory',
++        description: 'Potężne wycie przyzywa do walki 3 Cierniowe Wilki oskrzydlające gracza.',
++        statModifiers: {
++          speedMultiplier: 1.1,
++        },
++        unlockedAttacks: ['thorgar-szarza', 'thorgar-rozdarcie', 'thorgar-wycie'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 30,
++        name: 'Szał Ciernistego Alfy',
++        description: 'Thorgar wpada w niekontrolowany szał (+25% prędkości ruchu i ataku). Każde chybienie może jednak kosztować go utratę równowagi.',
++        statModifiers: {
++          atkMultiplier: 1.2,
++          speedMultiplier: 1.25,
++        },
++        unlockedAttacks: ['thorgar-szarza', 'thorgar-rozdarcie', 'thorgar-wycie'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'thorgar-szarza',
++        name: 'Szarża Alfy',
++        cooldownSeconds: 10,
++        telegraphSeconds: 1.4,
++        description: 'Błyskawiczny bieg po linii prostej tratujący wszystko na drodze. Jeśli trafi w skałę, Alfa zostaje ogłuszony na 1,5 sekundy.',
++        damageMultiplier: 1.6,
++        isAoe: false,
++      },
++      {
++        id: 'thorgar-rozdarcie',
++        name: 'Cierniste Rozdarcie',
++        cooldownSeconds: 6,
++        telegraphSeconds: 0.8,
++        description: 'Głębokie cięcie potężnymi szponami wywołujące krwawienie przez 5 sekund.',
++        damageMultiplier: 1.2,
++        isAoe: false,
++      },
++      {
++        id: 'thorgar-wycie',
++        name: 'Wycie Grozy',
++        cooldownSeconds: 25,
++        telegraphSeconds: 1.5,
++        description: 'Paraliżujący ryk rozpraszający obronę wroga i wzywający leśne wilki.',
++        damageMultiplier: 0.6,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'kiel-alfy',
++        itemName: 'Kieł Alfy',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'skora-thorgara',
++        itemName: 'Skóra Thorgara',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 2,
++      },
++      {
++        itemId: 'pazury-alfy',
++        itemName: 'Pazury Alfy',
++        chancePercent: 25,
++        minCount: 1,
++        maxCount: 1,
++        isRare: true,
++      },
++    ],
++  },
++
++  // ==========================================
++  // KONTYNENT AETHER (MĘDRCY)
++  // ==========================================
++  {
++    id: 'arcykaplan-pustki',
++    name: 'Arcykapłan Pustki',
++    title: 'Kustosz Zgasłej Gwiazdy',
++    continent: 'aether',
++    race: 'Mędrcy',
++    level: 15,
++    icon: 'humanoid',
++    variant: 2,
++    speed: 0.8,
++    range: 400,
++    agro: 600,
++    stats: {
++      hp: 4520,
++      atk: 59,
++      def: 29,
++      xp: 541,
++    },
++    mult: {
++      hp: 8,
++      atk: 1.4,
++      def: 1.2,
++    },
++    behavior:
++      'Faza 1: pieczęcie na ziemi (strefy obrażeń 5 s). Faza 2 (poniżej 60% HP): bariera −70% obrażeń; trzeba zniszczyć 3 Świetliki. Faza 3 (poniżej 25%): Zamknięcie areny i kurczące się strefy.',
++    weakness: 'Przerwanie rzucania czarów (stagger) ogłusza go na 2 s',
++    lore:
++      'Niegdyś najjaśniejszy uczony Akademii Obserwacji, który w poszukiwaniu absolutnej harmonii spojrzał w szczelinę Pustki poza sferą KI. Odrzucił cielesność i zamienił swoje szaty w naczynie próżni. Wierzy, że unicestwienie materii jest jedynym sposobem na zakończenie cierpienia świata.',
++    locationName: 'Zapomniane Sanktuarium Nicości (Podziemia Aetherii)',
++    associatedLocationId: 'famous-aether-1',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Rytuał Zgaszenia',
++        description: 'Arcykapłan wyznacza na podłożu mroczne pieczęcie eteru wypalające siły witalne przez 5 sekund.',
++        statModifiers: {
++          damageTakenMultiplier: 1.0,
++        },
++        unlockedAttacks: ['arcykaplan-pieczec'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 60,
++        name: 'Bariera Trzech Świetlików',
++        description: 'Boss wznosi sferę ochronną absorbującą 70% wszelkich obrażeń. Aby ją zdjąć, gracz musi rozbić 3 Świetliki Pieczęci orbitujące wokół ołtarza.',
++        statModifiers: {
++          damageTakenMultiplier: 0.3,
++        },
++        unlockedAttacks: ['arcykaplan-pieczec', 'arcykaplan-bariera'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 25,
++        name: 'Zapadlisko Nicości',
++        description: 'Bariery znikają, a zewnętrzny obwód areny zapada się w nicość. Przestrzeń kurczy się z każdą sekundą.',
++        statModifiers: {
++          atkMultiplier: 1.25,
++          damageTakenMultiplier: 1.0,
++        },
++        unlockedAttacks: ['arcykaplan-pieczec', 'arcykaplan-zamkniecie'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'arcykaplan-pieczec',
++        name: 'Pieczęć Pustki',
++        cooldownSeconds: 8,
++        telegraphSeconds: 1.0,
++        description: 'Tworzy pod graczem pulsujący krąg czarnego światła zadający periodyczne obrażenia.',
++        damageMultiplier: 1.3,
++        isAoe: true,
++      },
++      {
++        id: 'arcykaplan-bariera',
++        name: 'Bariera Odwrócenia KI',
++        cooldownSeconds: 30,
++        telegraphSeconds: 1.5,
++        description: 'Pochłania 70% obrażeń i odbija część impulsów jako pociski eteryczne.',
++        damageMultiplier: 0.8,
++        isAoe: false,
++      },
++      {
++        id: 'arcykaplan-zamkniecie',
++        name: 'Zamknięcie Areny',
++        cooldownSeconds: 20,
++        telegraphSeconds: 2.0,
++        description: 'Potężna implozja wymiarowa spychająca gracza w stronę centrum i zadająca obrażenia strefowe.',
++        damageMultiplier: 1.7,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'szaty-arcykaplana',
++        itemName: 'Szaty Arcykapłana',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'eter-pustki',
++        itemName: 'Eter Pustki',
++        chancePercent: 100,
++        minCount: 2,
++        maxCount: 4,
++      },
++      {
++        itemId: 'pieczec-arcykaplana',
++        itemName: 'Pieczęć Arcykapłana',
++        chancePercent: 25,
++        minCount: 1,
++        maxCount: 1,
++        isRare: true,
++      },
++    ],
++  },
++  {
++    id: 'aurelith',
++    name: 'Aurelith, Smok Sanktuarium',
++    title: 'Żywa Pieczęć Archontów',
++    continent: 'aether',
++    race: 'Mędrcy',
++    level: 20,
++    icon: 'serpent',
++    variant: 1,
++    speed: 0.9,
++    range: 450,
++    agro: 600,
++    stats: {
++      hp: 8400,
++      atk: 88,
++      def: 51,
++      xp: 870,
++    },
++    mult: {
++      hp: 10,
++      atk: 1.6,
++      def: 1.6,
++    },
++    behavior:
++      'Faza 1: fale światła i uderzenie ogonem. Faza 2 (poniżej 66% HP): lot i fale obszarowe. Faza 3 (poniżej 33%): Oddech eteru, kanał 4 s (osłona za filarami).',
++    weakness: 'Po zakończeniu Oddechu Eteru smok ląduje i jest bezbronny przez 3 s (+50% obrażeń)',
++    lore:
++      'Istota czystego eteru skrystalizowana w ciele smoka wężowego o alabastrowych łuskach. Aurelith od zarania dziejów strzeże Wielkiego Ołtarza Eteru na szczycie lewitujących wysp. Jego obecność stabilizuje przepływ lewitacji w całym Aetherze — pokonanie go wymaga czystego umysłu i nienagannej dyscypliny w unikaniu jego fal.',
++    locationName: 'Wielki Ołtarz Eteru (Zawieszona Iglica)',
++    associatedLocationId: 'famous-aether-4',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Blask Archontów',
++        description: 'Aurelith stąpa majestatycznie po marmurowych płytach, emitując fale światła i zamiatając ogonem.',
++        statModifiers: {
++          speedMultiplier: 1.0,
++        },
++        unlockedAttacks: ['aurelith-fala', 'aurelith-ogon'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 66,
++        name: 'Lewitujący Sąd',
++        description: 'Smok unosi się ponad zasięg broni białej, bombardując platformę kaskadami eterycznych komet.',
++        statModifiers: {
++          speedMultiplier: 1.15,
++        },
++        unlockedAttacks: ['aurelith-fala', 'aurelith-ogon'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 33,
++        name: 'Pierwotny Oddech Eteru',
++        description: 'Aurelith kumuluje energię przez 4 sekundy, wypalając arenę promienistą strugą. Ukrycie się za kamiennymi filarami jest jedyną ochroną.',
++        statModifiers: {
++          atkMultiplier: 1.3,
++        },
++        unlockedAttacks: ['aurelith-fala', 'aurelith-ogon', 'aurelith-oddech'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'aurelith-fala',
++        name: 'Fala Światła',
++        cooldownSeconds: 8,
++        telegraphSeconds: 1.2,
++        description: 'Koncentryczna fala promienistej energii rozchodząca się po całej arenie.',
++        damageMultiplier: 1.3,
++        isAoe: true,
++      },
++      {
++        id: 'aurelith-ogon',
++        name: 'Uderzenie Ogonem Sanktuarium',
++        cooldownSeconds: 6,
++        telegraphSeconds: 0.9,
++        description: 'Gwałtowny zamach ciężkiego, łuskowatego ogona odrzucający przeciwnika w tył.',
++        damageMultiplier: 1.2,
++        isAoe: false,
++      },
++      {
++        id: 'aurelith-oddech',
++        name: 'Oddech Eteru',
++        cooldownSeconds: 25,
++        telegraphSeconds: 2.5,
++        description: 'Ciągły 4-sekundowy strumień czystego eteru niszczący wszystko na swej drodze.',
++        damageMultiplier: 2.4,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'luska-aurelitha',
++        itemName: 'Łuska Aurelitha',
++        chancePercent: 100,
++        minCount: 2,
++        maxCount: 4,
++      },
++      {
++        itemId: 'serce-sanktuarium',
++        itemName: 'Serce Sanktuarium',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++    ],
++  },
++
++  // ==========================================
++  // KONTYNENT NEXUS (ANDROIDY)
++  // ==========================================
++  {
++    id: 'arbiter-zero',
++    name: 'Arbiter Zero',
++    title: 'Pierwotny Protokół Porządku',
++    continent: 'nexus',
++    race: 'Androidy',
++    level: 15,
++    icon: 'golem',
++    variant: 1,
++    speed: 0.7,
++    range: 400,
++    agro: 600,
++    stats: {
++      hp: 4520,
++      atk: 64,
++      def: 42,
++      xp: 546,
++    },
++    mult: {
++      hp: 8,
++      atk: 1.5,
++      def: 1.7,
++    },
++    behavior:
++      'Faza 1: pociski i tarcza. Faza 2 (poniżej 60% HP): przeciążenie, kula energii i 2 drony. Faza 3 (poniżej 25%): przegrzanie — brak tarczy i +40% otrzymywanych obrażeń przez 10 s co 30 s.',
++    weakness: 'Obrażenia elektryczne i ciosy w okienku przegrzania reaktora (+40% obrażeń)',
++    lore:
++      'Prototyp ciężkiego mecha obronnego wyprodukowany w pierwszych dekadach rozbudowy Nexusa. Po utracie łączności z głównym serwerem logicznym zinterpretował każde żywe stworzenie jako błąd syntaktyczny w architekturze świata. Jego potężny stop tytanowo-kobaltowy odbija większość konwencjonalnych ataków.',
++    locationName: 'Sektor Egzekutorów (Przemysłowy Rdzeń Nexus-0)',
++    associatedLocationId: 'famous-nexus-1',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Procedura Diagnostyczna',
++        description: 'Arbiter prowadzi ogień z działka obrotowego pod osłoną kompozytowej tarczy barierowej.',
++        statModifiers: {
++          damageTakenMultiplier: 0.85,
++        },
++        unlockedAttacks: ['arbiter-salwa', 'arbiter-tarcza'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 60,
++        name: 'Przeciążenie Sieci',
++        description: 'Reaktor zaczyna wchodzić w stan niestabilności, wystrzeliwując kule plazmy i przywołując 2 Drony Asystujące.',
++        statModifiers: {
++          atkMultiplier: 1.15,
++        },
++        unlockedAttacks: ['arbiter-salwa', 'arbiter-tarcza', 'arbiter-przeciazenie'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 25,
++        name: 'Termiczny Wyrzut Awaryjny',
++        description: 'Tarcze padają na stałe. Co 30 sekund reaktor otwiera komory chłodzące na 10 sekund — w tym czasie Arbiter przyjmuje +40% obrażeń.',
++        statModifiers: {
++          atkMultiplier: 1.3,
++          damageTakenMultiplier: 1.4,
++        },
++        unlockedAttacks: ['arbiter-salwa', 'arbiter-przeciazenie'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'arbiter-salwa',
++        name: 'Salwa Egzekutora',
++        cooldownSeconds: 7,
++        telegraphSeconds: 1.0,
++        description: 'Seria trzech kinetycznych pocisków smugowych o wysokiej prędkości wylotowej.',
++        damageMultiplier: 1.3,
++        isAoe: false,
++      },
++      {
++        id: 'arbiter-tarcza',
++        name: 'Tarcza Polaryzacyjna',
++        cooldownSeconds: 20,
++        telegraphSeconds: 0.8,
++        description: 'Włącza pole ochronne pochłaniające nadchodzące ataki dystansowe.',
++        damageMultiplier: 0.5,
++        isAoe: false,
++      },
++      {
++        id: 'arbiter-przeciazenie',
++        name: 'Kula Przeciążenia',
++        cooldownSeconds: 18,
++        telegraphSeconds: 1.8,
++        description: 'Koncentruje energię w ogromną kulę plazmy o wielkim promieniu rażenia.',
++        damageMultiplier: 1.7,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'kod-arbitra',
++        itemName: 'Kod Arbitra',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'plyta-egzekutora',
++        itemName: 'Płyta Egzekutora',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 2,
++      },
++    ],
++  },
++  {
++    id: 'hydra-rdzen',
++    name: 'Hydra-Rdzeń',
++    title: 'Wielogłowy Klaster Przeliczeniowy',
++    continent: 'nexus',
++    race: 'Androidy',
++    level: 20,
++    icon: 'serpent',
++    variant: 0,
++    speed: 0,
++    range: 400,
++    agro: 600,
++    stats: {
++      hp: 8400,
++      atk: 88,
++      def: 48,
++      xp: 870,
++    },
++    mult: {
++      hp: 10,
++      atk: 1.6,
++      def: 1.5,
++    },
++    behavior:
++      'Trzy segmenty-głowy atakują różnie (plazma, wiązka, uderzenie). Faza 1: 3 głowy. Faza 2 (poniżej 66% HP): 2 głowy i przyzwanie nanitów. Faza 3 (poniżej 33%): rdzeń odsłonięty, szybsze ataki.',
++    weakness: 'Odsłonięty centralny rdzeń w fazie 3 przyjmuje +50% obrażeń',
++    lore:
++      'Samoreplikujący się superkomputer umieszczony w sercu opuszczonego reaktora podziemnego Nexusa. Posiada trzy mechaniczne segmenty wężowe przypominające głowy mitycznej hydry, sterowane równoległymi wątkami logicznymi. Kontroluje zapomniane fabryki zbrojeniowe i dąży do bezwzględnej optymalizacji planety.',
++    locationName: 'Podziemna Krypta Rdzenia (Sektor Głęboki)',
++    associatedLocationId: 'famous-nexus-4',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Trójwątkowość Bojowa',
++        description: 'Wszystkie trzy segmenty atakują jednocześnie: plazmą dalekosiężną, laserową wiązką tnącą oraz uderzeniami miażdżącymi.',
++        statModifiers: {
++          speedMultiplier: 1.0,
++        },
++        unlockedAttacks: ['hydra-plazma', 'hydra-wiazka', 'hydra-uderzenie'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 66,
++        name: 'Wstrzyknięcie Nanitów',
++        description: 'Jedna z głowic ulega zniszczeniu, a Hydra wypuszcza chmurę nanitów naprawczych i zwiększa częstotliwość wystrzałów.',
++        statModifiers: {
++          atkMultiplier: 1.15,
++        },
++        unlockedAttacks: ['hydra-plazma', 'hydra-wiazka', 'hydra-nanity'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 33,
++        name: 'Odsłonięcie Macierzy Prime',
++        description: 'Wszystkie segmenty pękają, odsłaniając pulsujący kryształ obliczeniowy. Rdzeń przyjmuje +50% obrażeń, lecz wystrzeliwuje chaotyczne wiązki we wszystkich kierunkach.',
++        statModifiers: {
++          atkMultiplier: 1.35,
++          damageTakenMultiplier: 1.5,
++        },
++        unlockedAttacks: ['hydra-plazma', 'hydra-wiazka', 'hydra-uderzenie'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'hydra-plazma',
++        name: 'Salwa Plazmowa Głowicy Alfa',
++        cooldownSeconds: 6,
++        telegraphSeconds: 1.0,
++        description: 'Wystrzał kuli plazmowej pozostawiającej palącą plamę energii na podłodze.',
++        damageMultiplier: 1.2,
++        isAoe: false,
++      },
++      {
++        id: 'hydra-wiazka',
++        name: 'Tnąca Wiązka Beta',
++        cooldownSeconds: 8,
++        telegraphSeconds: 1.4,
++        description: 'Wysokoenergetyczny laser przecinający szeroki łuk areny.',
++        damageMultiplier: 1.6,
++        isAoe: true,
++      },
++      {
++        id: 'hydra-uderzenie',
++        name: 'Miażdżące Uderzenie Gamma',
++        cooldownSeconds: 5,
++        telegraphSeconds: 0.8,
++        description: 'Ciężki segment taranuje ziemię w miejscu gracza, powodując falę uderzeniową.',
++        damageMultiplier: 1.1,
++        isAoe: false,
++      },
++      {
++        id: 'hydra-nanity',
++        name: 'Chmura Nanitów',
++        cooldownSeconds: 20,
++        telegraphSeconds: 1.5,
++        description: 'Przywołuje rój mikroskopijnych dronów spowalniających ruch i regenerujących pancerz bossa.',
++        damageMultiplier: 0.7,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'rdzen-hydry',
++        itemName: 'Rdzeń Hydry',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'modul-prime',
++        itemName: 'Moduł Prime',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 2,
++      },
++    ],
++  },
++
++  // ==========================================
++  // KONTYNENT PYRA (LEGENDY)
++  // ==========================================
++  {
++    id: 'kharzul',
++    name: 'Kharzul, Mistrz Areny',
++    title: 'Niezwyciężony Czempion Krateru',
++    continent: 'pyra',
++    race: 'Legendy',
++    level: 15,
++    icon: 'humanoid',
++    variant: 3,
++    speed: 1.1,
++    range: 100,
++    agro: 600,
++    stats: {
++      hp: 4520,
++      atk: 68,
++      def: 34,
++      xp: 552,
++    },
++    mult: {
++      hp: 8,
++      atk: 1.6,
++      def: 1.4,
++    },
++    behavior:
++      'Faza 1: kombinacje 3 ciosów. Faza 2 (poniżej 60% HP): Płomienny szał, +25% szybkości. Faza 3 (poniżej 25%): arena płonie (strefy obrażeń), wyłączone leczenie.',
++    weakness: 'Po wykonaniu Przełamania traci równowagę i jest odsłonięty przez 2 s',
++    lore:
++      'Najsłynniejszy gladiator w historii Krateru Pyry, który stoczył setki pojedynków i nigdy nie opuścił areny pokonany. Jego ciężki pancerz z wulkanicznego obsydianu stopił się z ciałem pod wpływem żaru. Uważa walkę za jedyną prawdziwą formę modlitwy do bóstw ognia i nie zna litości dla słabych.',
++    locationName: 'Wielka Arena Popiołów (Cytadela Ognia)',
++    associatedLocationId: 'famous-pyra-1',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Rytuał Gladiatora',
++        description: 'Kharzul testuje kunszt przeciwnika w zwarciu za pomocą dynamicznych kombinacji trzech cięć.',
++        statModifiers: {
++          speedMultiplier: 1.0,
++        },
++        unlockedAttacks: ['kharzul-ciecie'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 60,
++        name: 'Płomienny Szał Areny',
++        description: 'Mistrz podpala swój oręż w koksowniku; jego prędkość ruchu i częstotliwość ataków rośnie o 25%.',
++        statModifiers: {
++          atkMultiplier: 1.2,
++          speedMultiplier: 1.25,
++        },
++        unlockedAttacks: ['kharzul-ciecie', 'kharzul-przelamanie', 'kharzul-szal'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 25,
++        name: 'Piekielny Krąg Śmierci',
++        description: 'Cała podłoga areny staje w płomieniach. Wyjątkowy żar wyłącza możliwość używania mikstur leczących — walka na śmierć i życie.',
++        statModifiers: {
++          atkMultiplier: 1.35,
++          speedMultiplier: 1.3,
++        },
++        unlockedAttacks: ['kharzul-ciecie', 'kharzul-przelamanie'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'kharzul-ciecie',
++        name: 'Ogniste Cięcie',
++        cooldownSeconds: 6,
++        telegraphSeconds: 0.8,
++        description: 'Cięcie wielkim mieczem zostawiające smugę ognia na dystansie kilku kroków.',
++        damageMultiplier: 1.3,
++        isAoe: false,
++      },
++      {
++        id: 'kharzul-przelamanie',
++        name: 'Przełamanie Pancerza',
++        cooldownSeconds: 12,
++        telegraphSeconds: 1.6,
++        description: 'Potężne uderzenie z góry rozłupujące tarczę i blok obronny. Po chybieniu odsłania Kharzula na 2 sekundy.',
++        damageMultiplier: 1.8,
++        isAoe: false,
++      },
++      {
++        id: 'kharzul-szal',
++        name: 'Płomienny Szał',
++        cooldownSeconds: 30,
++        telegraphSeconds: 1.2,
++        description: 'Bojowy ryk rozpalający wewnętrzny płomień, zapewniający premię do szybkości.',
++        damageMultiplier: 0.5,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'pancerz-kharzula',
++        itemName: 'Pancerz Kharzula',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'plomien-areny',
++        itemName: 'Płomień Areny',
++        chancePercent: 100,
++        minCount: 2,
++        maxCount: 3,
++      },
++    ],
++  },
++  {
++    id: 'pyrrhax',
++    name: 'Pyrrhax, Smok Wulkanu',
++    title: 'Władca Płonącej Otchłani',
++    continent: 'pyra',
++    race: 'Legendy',
++    level: 20,
++    icon: 'serpent',
++    variant: 3,
++    speed: 0.6,
++    range: 450,
++    agro: 600,
++    stats: {
++      hp: 8400,
++      atk: 94,
++      def: 51,
++      xp: 878,
++    },
++    mult: {
++      hp: 10,
++      atk: 1.7,
++      def: 1.6,
++    },
++    behavior:
++      'Faza 1: ogon i fale żaru. Faza 2 (poniżej 66% HP): lot i deszcz lawy. Faza 3 (poniżej 33%): erupcja — bezpieczne strefy wskazane na ziemi.',
++    weakness: 'Przy lądowaniu po locie odsłania brzuch (+30% obrażeń przez 3 s)',
++    lore:
++      'Prastary tytaniczny gad spoczywający w komorze magmowej pod kalderą Najwyższego Szczytu Pyry. Zbudzony przez wybuchy kopalń i drążenie tuneli przez poszukiwaczy obsydianu. Gdy rozpościera swe skrzydła ze skrzepniętej bazaltowej lawy, niebo nad kontynentem staje się krwistoczerwone.',
++    locationName: 'Gardziel Wulkanu (Krater Główny Pyry)',
++    associatedLocationId: 'famous-pyra-4',
++    phases: [
++      {
++        phaseNumber: 1,
++        hpThresholdPercent: 100,
++        name: 'Gniew Kalderowy',
++        description: 'Smok przemieszcza się po brzegu jeziora lawy, smagając ogonem i wyrzucając fale żaru.',
++        statModifiers: {
++          speedMultiplier: 1.0,
++        },
++        unlockedAttacks: ['pyrrhax-fala'],
++      },
++      {
++        phaseNumber: 2,
++        hpThresholdPercent: 66,
++        name: 'Ogniste Skrzydła Zagłady',
++        description: 'Pyrrhax wznosi się w powietrze ponad arenę, sprowadzając na walczących nieustanny deszcz odłamków lawy.',
++        statModifiers: {
++          speedMultiplier: 1.2,
++        },
++        unlockedAttacks: ['pyrrhax-fala', 'pyrrhax-deszcz'],
++      },
++      {
++        phaseNumber: 3,
++        hpThresholdPercent: 33,
++        name: 'Katastrofalna Erupcja',
++        description: 'Smok ląduje z impetem w centrum krateru i inicjuje erupcję całego podłoża. Jedynie wskazane kamienne platformy są bezpieczne.',
++        statModifiers: {
++          atkMultiplier: 1.35,
++        },
++        unlockedAttacks: ['pyrrhax-fala', 'pyrrhax-deszcz', 'pyrrhax-erupcja'],
++      },
++    ],
++    attacks: [
++      {
++        id: 'pyrrhax-fala',
++        name: 'Fala Żaru',
++        cooldownSeconds: 7,
++        telegraphSeconds: 1.2,
++        description: 'Rozległy podmuch gorącego gazu i popiołu w stożku przed paszczą smoka.',
++        damageMultiplier: 1.4,
++        isAoe: true,
++      },
++      {
++        id: 'pyrrhax-deszcz',
++        name: 'Deszcz Lawy',
++        cooldownSeconds: 15,
++        telegraphSeconds: 2.0,
++        description: 'Bombardowanie areny płynną magmą spadającą z góry w oznaczonych punktach.',
++        damageMultiplier: 1.7,
++        isAoe: true,
++      },
++      {
++        id: 'pyrrhax-erupcja',
++        name: 'Wulkaniczna Erupcja',
++        cooldownSeconds: 30,
++        telegraphSeconds: 3.0,
++        description: 'Przelanie się magmy przez całą arenę. Po lądowaniu smok odsłania brzuch na 3 sekundy (+30% obrażeń).',
++        damageMultiplier: 2.5,
++        isAoe: true,
++      },
++    ],
++    lootTable: [
++      {
++        itemId: 'serce-wulkanu',
++        itemName: 'Serce Wulkanu',
++        chancePercent: 100,
++        minCount: 1,
++        maxCount: 1,
++      },
++      {
++        itemId: 'luska-pyrrhaxa',
++        itemName: 'Łuska Pyrrhaxa',
++        chancePercent: 100,
++        minCount: 2,
++        maxCount: 4,
++      },
++    ],
++  },
++];
+diff --git a/src/game/bosses/index.ts b/src/game/bosses/index.ts
+new file mode 100644
+index 0000000..68d3255
+--- /dev/null
++++ b/src/game/bosses/index.ts
+@@ -0,0 +1,24 @@
++export * from './types';
++export * from './catalog';
++
++import { BOSS_CATALOG } from './catalog';
++import { BossDefinition } from './types';
++import { ContinentId } from '../worlds/types';
++
++export const BOSS_BY_ID: Record<string, BossDefinition> = Object.fromEntries(
++  BOSS_CATALOG.map((boss) => [boss.id, boss]),
++);
++
++export function getBossById(id: string): BossDefinition | undefined {
++  return BOSS_BY_ID[id];
++}
++
++export function getBossesByContinent(continent: ContinentId): BossDefinition[] {
++  return BOSS_CATALOG.filter((boss) => boss.continent === continent);
++}
++
++export function getBossesByLevel(minLevel: number, maxLevel: number): BossDefinition[] {
++  return BOSS_CATALOG.filter(
++    (boss) => boss.level >= minLevel && boss.level <= maxLevel,
++  );
++}
+diff --git a/src/game/bosses/types.ts b/src/game/bosses/types.ts
+new file mode 100644
+index 0000000..4b64746
+--- /dev/null
++++ b/src/game/bosses/types.ts
+@@ -0,0 +1,66 @@
++import { ContinentId } from '../worlds/types';
++
++export interface BossAttack {
++  id: string;
++  name: string;
++  cooldownSeconds: number;
++  telegraphSeconds?: number;
++  description: string;
++  damageMultiplier: number;
++  isAoe?: boolean;
++}
++
++export interface BossPhase {
++  phaseNumber: number;
++  hpThresholdPercent: number;
++  name: string;
++  description: string;
++  statModifiers?: {
++    atkMultiplier?: number;
++    speedMultiplier?: number;
++    damageTakenMultiplier?: number;
++  };
++  unlockedAttacks: string[];
++}
++
++export interface BossLootDrop {
++  itemId: string;
++  itemName: string;
++  chancePercent: number;
++  minCount: number;
++  maxCount: number;
++  isRare?: boolean;
++}
++
++export interface BossDefinition {
++  id: string;
++  name: string;
++  title: string;
++  continent: ContinentId;
++  race: string;
++  level: number;
++  icon: string;
++  variant: number;
++  speed: number;
++  range: number;
++  agro: number;
++  stats: {
++    hp: number;
++    atk: number;
++    def: number;
++    xp: number;
++  };
++  mult: {
++    hp: number;
++    atk: number;
++    def: number;
++  };
++  behavior: string;
++  weakness: string;
++  lore: string;
++  locationName: string;
++  associatedLocationId?: string;
++  phases: BossPhase[];
++  attacks: BossAttack[];
++  lootTable: BossLootDrop[];
++}
+diff --git a/src/game/dialogue/__tests__/dialogue.test.ts b/src/game/dialogue/__tests__/dialogue.test.ts
+new file mode 100644
+index 0000000..9b84352
+--- /dev/null
++++ b/src/game/dialogue/__tests__/dialogue.test.ts
+@@ -0,0 +1,88 @@
++import { describe, expect, it } from 'vitest';
++import { ALL_QUESTS_V2, QUEST_BY_ID } from '../../quests/engine';
++import { ALL_CITIES_V2, CONTINENTS_WORLD_V2 } from '../../worlds';
++import {
++  ALL_CONTINENT_DIALOGUES,
++  ALL_NPC_DIALOGUES,
++  getNpcDialogue,
++  getNpcQuestDialogue,
++} from '../index';
++
++describe('NPC Dialogue Catalog (Zadanie 1 — Dialogi NPC)', () => {
++  const worldNpcMap = new Map<string, { npcId: string; cityId: string; name: string }>();
++  for (const city of ALL_CITIES_V2) {
++    for (const npc of city.npcs) {
++      worldNpcMap.set(npc.id, { npcId: npc.id, cityId: city.id, name: npc.name });
++    }
++  }
++
++  it('1. Wszystkie 4 kontynenty posiadają katalog dialogów z dokładnie 7 NPC każdy (łącznie 28 NPC)', () => {
++    const continents = ['verdant', 'pyra', 'aether', 'nexus'] as const;
++    for (const c of continents) {
++      expect(ALL_CONTINENT_DIALOGUES[c]).toBeDefined();
++      expect(ALL_CONTINENT_DIALOGUES[c].continent).toBe(c);
++      const npcs = Object.values(ALL_CONTINENT_DIALOGUES[c].dialogues);
++      expect(npcs).toHaveLength(7);
++    }
++    expect(Object.keys(ALL_NPC_DIALOGUES)).toHaveLength(28);
++  });
++
++  it('2. Każde NPC ID z katalogu dialogów istnieje w świecie i odpowiada właściwemu miastu', () => {
++    for (const [npcId, def] of Object.entries(ALL_NPC_DIALOGUES)) {
++      expect(worldNpcMap.has(npcId), `NPC ${npcId} nie istnieje w świecie`).toBe(true);
++      const worldNpc = worldNpcMap.get(npcId)!;
++      expect(def.cityId).toBe(worldNpc.cityId);
++      expect(def.npcId).toBe(npcId);
++      expect(def.greetings).toHaveLength(3);
++      for (const g of def.greetings) {
++        expect(typeof g).toBe('string');
++        expect(g.trim().length).toBeGreaterThan(10);
++      }
++      expect(def.rumors).toHaveLength(3);
++      for (const r of def.rumors) {
++        expect(typeof r).toBe('string');
++        expect(r.trim().length).toBeGreaterThan(15);
++      }
++    }
++  });
++
++  it('3. Każde quest ID w dialogach NPC istnieje w silniku questów (ALL_QUESTS_V2)', () => {
++    for (const [npcId, def] of Object.entries(ALL_NPC_DIALOGUES)) {
++      for (const [questId, qDialogue] of Object.entries(def.quests)) {
++        expect(QUEST_BY_ID[questId], `Quest ${questId} przypisany do ${npcId} nie istnieje w ALL_QUESTS_V2`).toBeDefined();
++        expect(qDialogue.questId).toBe(questId);
++        expect(qDialogue.before.trim().length).toBeGreaterThan(10);
++        expect(qDialogue.during.trim().length).toBeGreaterThan(10);
++        expect(qDialogue.after.trim().length).toBeGreaterThan(10);
++      }
++    }
++  });
++
++  it('4. Każdy z 106 questów w świecie posiada przypisany zestaw dialogów (before, during, after) u swojego zleceniodawcy', () => {
++    expect(ALL_QUESTS_V2).toHaveLength(106);
++    for (const quest of ALL_QUESTS_V2) {
++      const npcDef = ALL_NPC_DIALOGUES[quest.giverNpcId];
++      expect(npcDef, `Zleceniodawca ${quest.giverNpcId} dla questu ${quest.id} nie istnieje w ALL_NPC_DIALOGUES`).toBeDefined();
++      const qDialogue = npcDef.quests[quest.id];
++      expect(qDialogue, `Brak dialogu dla questu ${quest.id} u zleceniodawcy ${quest.giverNpcId}`).toBeDefined();
++      expect(qDialogue.before).toBeTruthy();
++      expect(qDialogue.during).toBeTruthy();
++      expect(qDialogue.after).toBeTruthy();
++    }
++  });
++
++  it('5. Funkcje pomocnicze getNpcDialogue oraz getNpcQuestDialogue zwracają poprawne dane', () => {
++    const aira = getNpcDialogue('npc-aira');
++    expect(aira).toBeDefined();
++    expect(aira?.npcName).toBe('Aira');
++    expect(aira?.greetings).toHaveLength(3);
++
++    const ov01 = getNpcQuestDialogue('npc-aira', 'O-V01');
++    expect(ov01).toBeDefined();
++    expect(ov01?.questId).toBe('O-V01');
++    expect(ov01?.before).toContain('Verdantii');
++
++    const nonExistent = getNpcDialogue('npc-nieznany');
++    expect(nonExistent).toBeUndefined();
++  });
++});
+diff --git a/src/game/dialogue/aether.ts b/src/game/dialogue/aether.ts
+new file mode 100644
+index 0000000..04ba5d1
+--- /dev/null
++++ b/src/game/dialogue/aether.ts
+@@ -0,0 +1,295 @@
++import { ContinentDialogueCatalog } from './types';
++
++export const AETHER_DIALOGUES: ContinentDialogueCatalog = {
++  continent: 'aether',
++  dialogues: {
++    'npc-sora': {
++      npcId: 'npc-sora',
++      npcName: 'Sora',
++      cityId: 'aether-sanktuarium-tysiaca-zrodel',
++      role: 'Opiekunka Sanktuarium i Kronik',
++      greetings: [
++        'Pokój twojej duszy, poszukiwaczu prawdy. Niechaj złote glify Aetherii rozjaśnią twoje myśli.',
++        'Witaj w Sanktuarium Tysiąca Źródeł. Woda i wiatr śpiewają tu pieśń o pierwotnej harmonii kosmosu.',
++        'Wycisz oddech i spójrz w chmury. W Aetherii każda odpowiedź przychodzi w chwili wewnętrznego spokoju.',
++      ],
++      rumors: [
++        'W Sanktuarium Ciszy Dzwonu żaden dźwięk nie rozbrzmiał od stu lat — mówią, że gdy dzwon zadzwoni, zmieni się układ planet.',
++        'Wielkie Archiwum Wiatru unosi się na wysokości, gdzie powietrze jest tak rzadkie, że myśli materializują się w postaci złotych iskier.',
++        'W Zapomnianych Bibliotekach Siódmej Oktawy ukryto księgi zakazanej wiedzy, które same przewracają swoje karty.',
++      ],
++      quests: {
++        'O-A01': {
++          questId: 'O-A01',
++          before: 'Czystość naszych źródeł została zakłócona przez świetliki pieczęci. Pomóż nam przywrócić pierwotną czystość rytualnych sadzawek.',
++          during: 'Obejdź dolne tarasy sanktuarium i użyj runicznego dzwonka, by zharmonizować rozproszone świetliki.',
++          after: 'Woda w sadzawkach znów lśni czystym blaskiem. Pierwszy krok na ścieżce mądrości został uczyniony.',
++        },
++        'O-A06': {
++          questId: 'O-A06',
++          before: 'Wielki Rytuał Siódmej Oktawy wymaga zjednoczenia wszystkich czterech żywiołów KI na szczycie Iglicy Świtu.',
++          during: 'Wznieś się na najwyższy podest świątyni. Skup całą energię duchową i poprowadź ceremonię zjednoczenia.',
++          after: 'Pieczęcie rezonują pełną harmonią! Zostałeś uznany za Pierwszego Mistrza Złotego Kręgu Aetherii.',
++        },
++        'M19': {
++          questId: 'M19',
++          before: 'Pierwotne Źródło KI na południu zostało spowite gęstą mgłą zapomnienia. Odszukaj jego rdzeń i odczytaj pierwotną inskrypcję.',
++          during: 'Zejdź do świętej groty pod obłokami. Oczyść monolit z mchu i przepisz znaki na jedwabny zwój.',
++          after: 'Inskrypcja zawiera proroctwo o zjednoczeniu czterech ras. Twoje imię zapisano w Złotej Księdze Mędrców.',
++        },
++        'S-A08': {
++          questId: 'S-A08',
++          before: 'Duch dawnego bibliotekarza błąka się po ruinach lektorium. Pomóż mu odnaleźć spokój, odzyskując jego ulubiony kałamarz.',
++          during: 'Przeszukaj zgliszcza dawnego skryptorium. Uważaj na pergaminowych strażników chroniących wejścia.',
++          after: 'Duch uśmiechnął się i rozpłynął w porannej bryzie. W bibliotece znów panuje uświęcona cisza.',
++        },
++        'IC-10': {
++          questId: 'IC-10',
++          before: 'Wielka Narada Mędrców ze wszystkimi kontynentami wzywa posłańców. Zgromadź przedstawicieli kultur na neutralnym gruncie.',
++          during: 'Przygotuj ceremonialne dary ze złota i jedwabiu dla delegacji z Verdantii, Pyry i Nexusa.',
++          after: 'Narada zakończyła się podpisaniem Traktatu Świtu. Zjednoczyłeś serca mieszkańców całej planety.',
++        },
++      },
++    },
++    'npc-mei': {
++      npcId: 'npc-mei',
++      npcName: 'Mei',
++      cityId: 'aether-sanktuarium-tysiaca-zrodel',
++      role: 'Kustoszka Depozytu i Kupiec Kolegium',
++      greetings: [
++        'Kadzidła, pergaminy, kryształy medytacyjne — wszystko, czego potrzebuje adept sztuk wyższych, znajdziesz u Mei.',
++        'Witaj! Pokaż mi rzadkie minerały z podniebnych urwisk, a sowicie cię wynagrodzę monetami i rzadkimi zwojami.',
++        'Mądrość nie ma ceny, ale pergamin i atrament kosztują niemało. W czym mogę ci dziś usłużyć?',
++      ],
++      rumors: [
++        'Kryształowe motyle żywią się pyłem gwiezdnym opadającym na Tarasy Świtu podczas przesilenia letniego.',
++        'W Białej Przystani przewoźnik używa liny splecionej z chmur — mówią, że nie pęka pod żadnym ciężarem.',
++        'Złoty skarabeusz znaleziony na stepach Aetherii potrafi wskazywać podziemne żyły płynnego KI.',
++      ],
++      quests: {
++        'M09': {
++          questId: 'M09',
++          before: 'Do sporządzenia atramentu kronikarskiego potrzebuję pyłu ze skrzydeł kryształowych motyli z podniebnych łąk.',
++          during: 'Motyle są płochliwe. Podejdź do nich cicho i zbierz pyłek za pomocą jedwabnej siatki.',
++          after: 'Cudowny, opalizujący pył! Kronikarze będą zachwyceni trwałością nowego atramentu.',
++        },
++        'S-A01': {
++          questId: 'S-A01',
++          before: 'Zapasy kadzideł w świątyni wyczerpały się. Zdobądź żywicę szafranową z drzew rosnących na krawędzi chmur.',
++          during: 'Drzewa szafranowe rosną na stromych zboczach. Zbieraj tylko zastygłe, bursztynowe krople.',
++          after: 'Ten zapach napełnia świątynię spokojem. Przyjmij zapłatę i błogosławieństwo kapłanek.',
++        },
++        'S-A10': {
++          questId: 'S-A10',
++          before: 'Zaginęła skrzynia z cennymi nefrytowymi figurkami przeznaczonymi dla studentów akademii. Sprawdź trakt ku Białej Przystani.',
++          during: 'Tropy prowadzą ku skalnemu urwisku. Przepędź szmaragdowe węże i odzyskaj ładunek.',
++          after: 'Figurki są nienaruszone! Studenci będą mogli kontynuować swoje ćwiczenia skupienia energii.',
++        },
++      },
++    },
++    'npc-enso': {
++      npcId: 'npc-enso',
++      npcName: 'Enso',
++      cityId: 'aether-sanktuarium-tysiaca-zrodel',
++      role: 'Mistrz Pieczęci i Kosturów',
++      greetings: [
++        'Równowaga jest wszystkim. Gdy pieczęć jest doskonała, żaden demon nie zdoła jej naruszyć.',
++        'Witaj w pracowni pieczęci. Każda runa, którą tu kreślimy, to słowo wyjęte z samego serca wszechświata.',
++        'Kostur to nie broń, lecz przedłużenie ramienia maga. Czy twój umysł jest gotów na głębsze wtajemniczenie?',
++      ],
++      rumors: [
++        'Pieczęć chroniąca Wielkie Archiwum Wiatru wymaga odnawiania co dekadę poprzez intonowanie akordu F-dur.',
++        'W ruinach Klasztoru Chmur spoczywa kostur pierwszego arcykapłana wykonany ze skamieniałego promienia słońca.',
++        'Szmaragdowy wąż pilnujący wąwozów jest w rzeczywistości zaklętym strażnikiem dawnego skarbca.',
++      ],
++      quests: {
++        'O-A02': {
++          questId: 'O-A02',
++          before: 'Pęknięcia na pieczęci wschodniej bramy grożą przeniknięciem cieni. Pomóż mi wyryć nowe znaki ochronne na kolumnach.',
++          during: 'Użyj rylca z białego złota i dokładnie odtwórz glify harmonii na czterech narożnych filarach.',
++          after: 'Brama znów promienieje złotą barierą. Ani jeden cień nie przedostanie się do wnętrza osady.',
++        },
++        'S-A02': {
++          questId: 'S-A02',
++          before: 'Do ukończenia mistrzowskiego kosturu potrzebuję piór mgielnego żurawia zebranego bez czynienia krzywdy ptakom.',
++          during: 'Szukaj gniazd żurawi na wysokich iglicach skalnych o świcie, gdy ptaki wyruszają na żer.',
++          after: 'Te pióra są miękkie jak puch, a przewodzą energię KI lepiej niż srebrny drut. Kostur będzie arcydziełem.',
++        },
++        'S-A09': {
++          questId: 'S-A09',
++          before: 'Zbuntowana marionetka rytuału uciekła z laboratorium i niszczy święte ogrody. Trzeba ją unieszkodliwić.',
++          during: 'Przetnij jej zasilające nici eteryczne za pomocą celnego cięcia i zabezpiecz rdzeń pamięci.',
++          after: 'Marionetka została opanowana. Jej rdzeń posłuży do ulepszenia mechanizmów obronnych kolegium.',
++        },
++        'H-A02': {
++          questId: 'H-A02',
++          before: 'Odnaleziono zatarte runy wskazujące na ukrytą komnatę medytacyjną pod ołtarzem głównym. Zbadaj ją dyskretnie.',
++          during: 'Wypowiedz hasło w starożytnym dialekcie Mędrców i zejdź spiralnymi schodami w dół.',
++          after: 'Niewiarygodne! Komnata kryła pierwotny rezonator fal KI i zapieczętowany kostur założyciela.',
++        },
++        'IC-03': {
++          questId: 'IC-03',
++          before: 'Inżynierowie z Nexus-9 poprosili o konsultację w sprawie izolacji ich generatorów plazmowych naszymi pieczęciami.',
++          during: 'Sporządź repliki glifów uziemiających i dostarcz je na stację graniczną.',
++          after: 'Naukowe obliczenia androidów potwierdziły skuteczność naszej magii. Most wiedzy został przerzucony.',
++        },
++      },
++    },
++    'npc-ishin': {
++      npcId: 'npc-ishin',
++      npcName: 'Ishin',
++      cityId: 'aether-sanktuarium-tysiaca-zrodel',
++      role: 'Strażnik Zewnętrznych Schodów',
++      greetings: [
++        'Schody do sanktuarium liczą tysiąc stopni. Każdy krok to próba pokory i wytrwałości. Witaj.',
++        'Witaj, wędrowcze. Moja włócznia strzeże spokoju modlących się mędrców przed dzikimi bestiami z mgieł.',
++        'Stój i przedstaw swoje intencje. W tych progach nie tolerujemy gniewu ani nieczystych myśli.',
++      ],
++      rumors: [
++        'Gdy mgła opada ze Schodów, w przepaści pod mostem widać ruiny pierwszej świątyni zniszczonej przed wiekami.',
++        'Lwy świątynne na zewnątrz nie są z kamienia — w chwilach wielkiego niebezpieczeństwa ożywają, by bronić kapłanów.',
++        'Na Tarasach Świtu dzwony same wydają cichy ton przed nadejściem burzy energetycznej.',
++      ],
++      quests: {
++        'O-A03': {
++          questId: 'O-A03',
++          before: 'Dzikie bestie mgielne zaczęły gromadzić się na półkach skalnych poniżej schodów. Oczyść dolne podejścia.',
++          during: 'Zejdź do mgielnej strefy i zlikwiduj drapieżniki atakujące pielgrzymów.',
++          after: 'Schody są bezpieczne. Pielgrzymi mogą bez obaw wznosić swoje modły ku niebiosom.',
++        },
++        'S-A07': {
++          questId: 'S-A07',
++          before: 'Jeden z mnichów zgubił swój ceremonialny różaniec ze szmaragdów podczas ucieczki przed drapieżnikiem. Odszukaj go.',
++          during: 'Przeszukaj krzewy jałowca przy pięćsetnym stopniu schodów. Uważaj na śliskie krawędzie urwiska.',
++          after: 'Różaniec powrócił do właściciela. Mnich obiecał modlić się o twoje powodzenie we wszystkich walkach.',
++        },
++        'H-A04': {
++          questId: 'H-A04',
++          before: 'W załomie skalnym za wodospadem na dziewięćsetnym stopniu odkryłem szczelinę prowadzącą do jaskini pustelnika.',
++          during: 'Przejdź za kurtynę wody i zbadaj kamienną pryczę pustelnika. Uważaj na wilgotne stopnie.',
++          after: 'Odnaleziono pamiętnik pustelnika opisujący sekretne techniki lewitacji i kontroli oddechu.',
++        },
++      },
++    },
++    'npc-nari': {
++      npcId: 'npc-nari',
++      npcName: 'Nari (Archiwistka)',
++      cityId: 'aether-tarasy-switu',
++      role: 'Opiekunka Zbiorów Prywatnych',
++      greetings: [
++        'Cicho, proszę... Nawet szelest papieru potrafi przerwać delikatną nić rozważań filozoficznych. Witaj.',
++        'Witaj na Tarasach Świtu. W tym ogrodzie ksiąg każda myśl dojrzewa w cieple wschodzącego słońca.',
++        'Kataloguję zbiory od pięćdziesięciu lat i wciąż odkrywam zwoje, o których istnieniu nikt nie pamiętał.',
++      ],
++      rumors: [
++        'W Archiwum Nad Chmurami przechowują atlas gwiazd, na którym zaznaczono planety spoza naszego układu słonecznego.',
++        'W ogrodzie Tarasów rośnie biała magnolia, która zakwita tylko wtedy, gdy w pobliżu przebywa człowiek o czystym sercu.',
++        'Zwierciadlana Przystań odbija nie tylko światło słońca, lecz także projekcje myśli medytujących mędrców.',
++      ],
++      quests: {
++        'S-A03': {
++          questId: 'S-A03',
++          before: 'Wilgoć z porannych mgieł zagraża najstarszym zwojom pergaminowym. Przynieś mi suche kryształy higroskopijne z jaskiń.',
++          during: 'Kryształy rosną w suchych kawernach na północnym zboczu. Zbierz dwanaście nieuszkodzonych narostów.',
++          after: 'Zwoje są bezpieczne! Suche kryształy wchłoną całą wilgoć i ocalą bezcenne teksty przed pleśnią.',
++        },
++        'S-A04': {
++          questId: 'S-A04',
++          before: 'Oko wiedzy w ogrodzie rozregulowało się i rzuca błędne projekcje astronomiczne. Skalibruj pryzmaty na tarasie.',
++          during: 'Obróć trzy szklane pryzmaty tak, by promień porannego słońca trafił w centralną soczewkę.',
++          after: 'Projekcja jest krystalicznie czysta! Konstelacje znów układają się we właściwym porządku.',
++        },
++        'H-A01': {
++          questId: 'H-A01',
++          before: 'Pomiędzy półkami z księgami natrafiłam na zamaskowane drzwi biblioteczne. Kluczem jest ułożenie tomów według barw widma.',
++          during: 'Ułóż księgi w kolejności od czerwieni do fioletu i przekręć mosiężną dźwignię ukrytą w regale.',
++          after: 'Drzwi ustąpiły! W tajnym archiwum spoczywały oryginalne mapy nieba Pierwszych Planetarnych.',
++        },
++      },
++    },
++    'npc-aether-ferryman': {
++      npcId: 'npc-aether-ferryman',
++      npcName: 'Kael (Przewoźnik Mgły)',
++      cityId: 'aether-biala-przystan',
++      role: 'Nawigator Białej Przystani',
++      greetings: [
++        'Wsiadaj do gondoli chmurowej i trzymaj się mocno lin. Lot nad przepaściami Aetherii zapiera dech w piersiach!',
++        'Biała Przystań to brama do podniebnych szlaków. Chcesz wzbić się ku wyższym sanktuariom?',
++        'Witaj! Wiatr dziś sprzyja żegludze powietrznej. Żagle z jedwabiu łapią każdy powiew prądów wstępujących.',
++      ],
++      rumors: [
++        'Pod Białą Przystanią leży przepaść bez dna — mówią, że kto w nią wpadnie, spada w nieskończoność przez krainę marzeń.',
++        'W bezwietrzne dni z gondoli można dostrzec ruiny Archiwum Siódmej Oktawy zawieszone na samotnym skalnym filarze.',
++        'Nawigatorzy widzieli smoka Aurelitha szybującego w chmurach o zachodzie słońca — jego łuski lśniły niczym czyste złoto.',
++      ],
++      quests: {
++        'O-A04': {
++          questId: 'O-A04',
++          before: 'Lina nośna głównej gondoli uległa przetarciu przez ostre skały. Potrzebujemy mocnego jedwabiu od podniebnych pająków.',
++          during: 'Zapoluj na pająki na urwiskach i zbierz nieprzerwane zwoje srebrzystego jedwabiu.',
++          after: 'Lina została wymieniona i wzmocniona. Gondola może znowu bezpiecznie przewozić podróżnych.',
++        },
++        'S-A05': {
++          questId: 'S-A05',
++          before: 'Gęsta mgła sparaliżowała ruch na przystani. Musimy zapalić lampy sygnałowe na trzech samotnych iglicach.',
++          during: 'Dostań się do iglic sygnałowych i rozpal ogień w mosiężnych koszach za pomocą iskier KI.',
++          after: 'Światła przebiły mgłę! Nawigatorzy widzą już bezpieczną drogę do pomostów cumowniczych.',
++        },
++        'S-A11': {
++          questId: 'S-A11',
++          before: 'Skrzydlaty drapieżnik porwał skrzynię z pocztą dyplomatyczną. Wytrop jego gniazdo i odzyskaj zalakowane listy.',
++          during: 'Gniazdo znajduje się na niedostępnej półce skalnej. Użyj prądów wznoszących, by się tam dostać.',
++          after: 'Wszystkie listy wróciły do torby kurierskiej. Tajemnice państwowe Mędrców pozostały bezpieczne.',
++        },
++        'H-A03': {
++          questId: 'H-A03',
++          before: 'Prąd powietrzny zniósł wrak starożytnej barki podniebnej na opuszczoną wysepkę chmurową. Zbadaj jej szczątki.',
++          during: 'Wyląduj na ruchomej wysepce i przeszukaj ładownię wraku. Uważaj, bo grunt może się osunąć.',
++          after: 'Odnaleziono starożytny ster chmurowy z wbudowanym żyroskopem na bazie czystego kryształu eteru!',
++        },
++      },
++    },
++    'npc-aether-observer': {
++      npcId: 'npc-aether-observer',
++      npcName: 'Talen (Obserwator Niebios)',
++      cityId: 'aether-archiwum-nad-chmurami',
++      role: 'Strażnik Zwierciadeł Sygnałowych',
++      greetings: [
++        'Patrz w gwiazdy, a zobaczysz przeszłość i przyszłość zapisaną w układzie świateł. Witaj w Archiwum Nad Chmurami.',
++        'Witaj na najwyższym punkcie Aetherii. Stąd ziemia wydaje się mała, a troski codzienne znikają bez śladu.',
++        'Teleskopy i zwierciadła to moje oczy na wszechświat. Czy przyszedłeś badać ruch komet?',
++      ],
++      rumors: [
++        'Zwierciadła sygnałowe mogą przesyłać wiadomości świetlne na odległość tysięcy mil w ułamku sekundy.',
++        'Na szczycie Archiwum powietrze jest tak nasycone czystą energią, że rany goją się dwukrotnie szybciej niż na dole.',
++        'Podobno Pierwotne Źródło KI na południu wysyła co noc impuls świetlny w stronę Wielkiego Wiru.',
++      ],
++      quests: {
++        'O-A05': {
++          questId: 'O-A05',
++          before: 'Zwierciadło głównego teleskopu uległo zabrudzeniu przez pył kosmiczny. Oczyść je za pomocą specjalnej mikstury spirytusowej.',
++          during: 'Wejdź na szczyt kopuły obserwatorium i delikatnie przetrzyj soczewkę bawełnianą szmatką.',
++          after: 'Obraz jest nieskazitelny! Na dalekim horyzoncie dostrzegłem aktywność sejsmiczną w wulkanach Pyry.',
++        },
++        'S-A06': {
++          questId: 'S-A06',
++          before: 'Zanotowałem anomalię magnetyczną w pobliżu Archiwum Wiatru. Rozstaw czujniki rezonansowe wokół obserwatorium.',
++          during: 'Umieść cztery mosiężne iglice w oznaczonych punktach wokół platformy obserwacyjnej.',
++          after: 'Czujniki działają bez zarzutu. Dane o przepływie fal KI spływają prosto na tablice pomiarowe.',
++        },
++        'S-A12': {
++          questId: 'S-A12',
++          before: 'Młody adept astronomii zapatrzył się w gwiazdy i spadł na niższą półkę skalną. Sprowadź go bezpiecznie na górę.',
++          during: 'Zejdź z liną ratunkową na urwisko i zabezpiecz rannego chłopca przed wstrząsami.',
++          after: 'Adept jest cały i zdrowy, choć z pewnością zapamięta tę lekcję ostrożności na całe życie.',
++        },
++        'IC-05': {
++          questId: 'IC-05',
++          before: 'Projekt globalnej sieci zwierciadeł: nawiąż kontakt sygnałowy z Wieżą Sygnałową w Nexus-9 i Twierdzą Popiołu w Pyry.',
++          during: 'Skieruj zwierciadło główne na koordynaty partnerskich wież i nadaj kod zjednoczenia.',
++          after: 'Sygnał odebrany i potwierdzony przez oba kontynenty! Globalna łączność planety stała się faktem.',
++        },
++      },
++    },
++  },
++};
+diff --git a/src/game/dialogue/index.ts b/src/game/dialogue/index.ts
+new file mode 100644
+index 0000000..11a718e
+--- /dev/null
++++ b/src/game/dialogue/index.ts
+@@ -0,0 +1,35 @@
++import { ContinentId } from '../worlds/types';
++import { AETHER_DIALOGUES } from './aether';
++import { NEXUS_DIALOGUES } from './nexus';
++import { PYRA_DIALOGUES } from './pyra';
++import { ContinentDialogueCatalog, NpcDialogueDefinition, NpcQuestDialogue } from './types';
++import { VERDANT_DIALOGUES } from './verdant';
++
++export * from './types';
++export { VERDANT_DIALOGUES, PYRA_DIALOGUES, AETHER_DIALOGUES, NEXUS_DIALOGUES };
++
++export const ALL_CONTINENT_DIALOGUES: Record<ContinentId, ContinentDialogueCatalog> = {
++  verdant: VERDANT_DIALOGUES,
++  pyra: PYRA_DIALOGUES,
++  aether: AETHER_DIALOGUES,
++  nexus: NEXUS_DIALOGUES,
++};
++
++export const ALL_NPC_DIALOGUES: Record<string, NpcDialogueDefinition> = {
++  ...VERDANT_DIALOGUES.dialogues,
++  ...PYRA_DIALOGUES.dialogues,
++  ...AETHER_DIALOGUES.dialogues,
++  ...NEXUS_DIALOGUES.dialogues,
++};
++
++export function getNpcDialogue(npcId: string): NpcDialogueDefinition | undefined {
++  return ALL_NPC_DIALOGUES[npcId];
++}
++
++export function getNpcQuestDialogue(
++  npcId: string,
++  questId: string,
++): NpcQuestDialogue | undefined {
++  const npc = ALL_NPC_DIALOGUES[npcId];
++  return npc?.quests[questId];
++}
+diff --git a/src/game/dialogue/nexus.ts b/src/game/dialogue/nexus.ts
+new file mode 100644
+index 0000000..c523bbc
+--- /dev/null
++++ b/src/game/dialogue/nexus.ts
+@@ -0,0 +1,289 @@
++import { ContinentDialogueCatalog } from './types';
++
++export const NEXUS_DIALOGUES: ContinentDialogueCatalog = {
++  continent: 'nexus',
++  dialogues: {
++    'npc-lyra7': {
++      npcId: 'npc-lyra7',
++      npcName: 'LYRA-7',
++      cityId: 'nexus-wezel-swiadomosci',
++      role: 'Przewodniczka Węzła Świadomości',
++      greetings: [
++        'Identyfikator zatwierdzony. Węzeł Świadomości Nexus-9 wita jednostkę organiczną/syntetyczną.',
++        'Witaj w Sektorze Pierwszym. Wszystkie procesy logiczne przebiegają zgodnie z protokołem stabilności.',
++        'Skaner biometryczny wykazuje stabilny poziom energii KI. Przystąp do transmisji parametrów zapytania.',
++      ],
++      rumors: [
++        'Laboratorium Rdzenia Zero na zachodzie wciąż emituje harmoniczne fale promieniowania z pierwszego cyklu aktywacji.',
++        'Reaktor Pulsacyjny Sektora Centralnego wytwarza 80% energii dla podziemnych linii przesyłowych całego kontynentu.',
++        'W Terminalu Zaginionych Danych zachowały się wpisy w kodzie binarnym z czasów przed wybudowaniem pierwszych cytadel.',
++      ],
++      quests: {
++        'O-N01': {
++          questId: 'O-N01',
++          before: 'Protokół powitalny: zwiadowcze drony i pełzacze serwisowe w sektorze wejściowym wykazują błędy oprogramowania. Dokonaj ich formatowania.',
++          during: 'Zlokalizuj niestabilne jednostki na obrzeżach Węzła i zneutralizuj ich jednostki logiczne.',
++          after: 'Formatowanie zakończone sukcesem. Sektor wejściowy osiągnął 99,8% wydajności operacyjnej.',
++        },
++        'O-N06': {
++          questId: 'O-N06',
++          before: 'Protokół Transcendencji: kryształ pamięci Pierwszego Architekta wymaga ponownej synchronizacji z głównym serwerem.',
++          during: 'Wprowadź kody autoryzacji do czterech terminali brzegowych i ustabilizuj przepływ danych w komorze rdzenia.',
++          after: 'Synchronizacja globalna zakończona! Zyskałeś status Honorowego Administratora Węzła Nexus-9.',
++        },
++        'M20': {
++          questId: 'M20',
++          before: 'Kryształ Pamięci Pierwszego Architekta na południu przechowuje zapisy o genezie sztucznej energii KI. Pobierz kopię zapasową.',
++          during: 'Zejdź do podziemnego skarbca danych i podłącz moduł transmisyjny do centralnego monolitu.',
++          after: 'Dane pobrane i zaszyfrowane. Wiedza o początkach Androidów jest bezpieczna w archiwach Węzła.',
++        },
++        'S-N07': {
++          questId: 'S-N07',
++          before: 'Rój nanitów rozprzestrzenia się w szybie wentylacyjnym sektora mieszkalnego. Zastosuj impuls dezaktywujący.',
++          during: 'Zejdź do szybu z emiterem zakłóceń elektromagnetycznych i rozprosz skupiska nanitów.',
++          after: 'Szyby wentylacyjne oczyszczone. Przepływ powietrza i chłodziwa powrócił do normy.',
++        },
++        'H-N01': {
++          questId: 'H-N01',
++          before: 'Wykryto anomalię w podsieci czwartej — ukryty bufor danych nieodnotowany w oficjalnych rejestrach. Zbadaj jego zawartość.',
++          during: 'Przełam zaporę logiczną za pomocą deszyfratora i odczytaj ukryty blok pamięci operacyjnej.',
++          after: 'Odnaleziono dziennik jednostki prototypowej zawierający algorytmy zwiększające regenerację energii o 15%!',
++        },
++      },
++    },
++    'npc-mira2': {
++      npcId: 'npc-mira2',
++      npcName: 'MIRA-2',
++      cityId: 'nexus-wezel-swiadomosci',
++      role: 'Kwatermistrzyni Magazynu Modułów',
++      greetings: [
++        'Zapas ogniw, kondensatorów i pasty termoprzewodzącej gotowy do dystrybucji. Co zamawiasz?',
++        'Wymiana barterowa lub płatność kredytami. Towary w moim magazynie posiadają certyfikat zerowej awaryjności.',
++        'Witaj, jednostko. Przed wyruszeniem poza obwód ochronny upewnij się, że twoje akumulatory są naładowane.',
++      ],
++      rumors: [
++        'W Kuźni Obwodów spawacz KOR-9 konstruuje pancerze ze stopu tytanu i przewodników nadprzewodzących.',
++        'W Zardzewiałym Doku handlarze sprzedają zużyte baterie plazmowe, które po regeneracji mają dwukrotnie większą pojemność.',
++        'Wieża Sygnałowa na wschodzie rejestruje regularne impulsy dochodzące z dna oceanu między kontynentami.',
++      ],
++      quests: {
++        'S-N01': {
++          questId: 'S-N01',
++          before: 'Brakuje nam czystego złomu i sprawnych cewek do naprawy jednostek pomocniczych. Pozyskaj je z uszkodzonych robotów na złomowisku.',
++          during: 'Przeszukaj sterty części na zachodnim złomowisku. Uważaj na autonomiczne pająki spawalnicze.',
++          after: 'Materiał spełnia wszystkie normy techniczne. Jednostki pomocnicze zostaną zmontowane przed końcem cyklu.',
++        },
++        'S-N10': {
++          questId: 'S-N10',
++          before: 'Transport akumulatorów wysokiego napięcia utknął na szlaku przesyłowym z powodu awarii zasilacza. Zabezpiecz ładunek.',
++          during: 'Odszukaj opuszczoną platformę transportową i podłącz zapasowy kabel uziemiający przed przegrzaniem ogniw.',
++          after: 'Ogniwa ocalone przed eksplozją termiczną. Twoja precyzja i czas reakcji zasługują na premię kredytową.',
++        },
++      },
++    },
++    'npc-hef4': {
++      npcId: 'npc-hef4',
++      npcName: 'HEF-4',
++      cityId: 'nexus-wezel-swiadomosci',
++      role: 'Inżynier Rdzeni i Uzbrojenia',
++      greetings: [
++        'Moc wyjściowa: 100%. Kalibracja działka plazmowego: idealna. Czego potrzebujesz, rekrucie?',
++        'Współczynniki tarcia zminimalizowane, przewodność maksymalna. Pokaż mi swój oręż, a zoptymalizuję jego parametry.',
++        'Witaj w laboratorium inżynieryjnym. Pamiętaj o noszeniu okularów z filtrem polaryzacyjnym przy łuku plazmowym.',
++      ],
++      rumors: [
++        'Reaktor Pulsacyjny posiada rezerwę mocy zdolną zasilić działo orbitalne, o ile takie kiedykolwiek istniało.',
++        'W starych schematach odkryto projekt wibro-ostrza zasilanego mikro-reaktorem fuzji zimnej.',
++        'W kanałach serwisowych pod Stacją Meridian żyją cybernetyczne gryzonie pochłaniające izolację kabli miedzianych.',
++      ],
++      quests: {
++        'O-N02': {
++          questId: 'O-N02',
++          before: 'Do budowy nowego stabilizatora strumienia potrzebuję rdzeni plazmowych od wieżyczek autonomicznych na poligonie.',
++          during: 'Zneutralizuj wieżyczki bojowe w sektorze testowym i wymontuj nieuszkodzone rdzenie z ich komór.',
++          after: 'Rdzenie w idealnym stanie! Nowy generator impulsów plazmowych będzie gotowy do montażu w pancerzach.',
++        },
++        'S-N02': {
++          questId: 'S-N02',
++          before: 'Skaner gąsienicowy na północnym szlaku zaciął się w pętli decyzyjnej i atakuje konwoje. Przeprowadź twardy reset.',
++          during: 'Podejdź od tyłu do maszyny i wciśnij awaryjny wyłącznik zasilania lub zniszcz układ sterowania.',
++          after: 'Maszyna została zresetowana i powróciła do bazy. Uniknęliśmy poważnych strat w zaopatrzeniu.',
++        },
++        'S-N08': {
++          questId: 'S-N08',
++          before: 'Potrzebuję elektrod ze stopu wolframu z porzuconego magazynu transformatorów. Zdobądź je z wnętrza instalacji.',
++          during: 'Uważaj na wysokie napięcie w kałużach wody destylowanej. Wyłącz główny bezpiecznik przed demontażem.',
++          after: 'Elektrody dostarczone. Nasze działa zyskają o 20% większy zasięg efektywny.',
++        },
++        'H-N02': {
++          questId: 'H-N02',
++          before: 'Znalazłem w bazie danych koordynaty zablokowanego laboratorium badawczego pod Reaktorem. Złam kod zabezpieczający.',
++          during: 'Wprowadź sekwencję Fibonacciego w konsoli wejściowej i zbadaj wnętrze kriokomory.',
++          after: 'Odnaleziono prototypowy moduł tarczy hardlight zasilany bezpośrednio z rezerwy KI użytkownika!',
++        },
++        'IC-04': {
++          questId: 'IC-04',
++          before: 'Protokół wymiany technologicznej: przekaż akumulatory plazmowe kowalom z Pyry w zamian za próbki żaroodpornego bazaltu.',
++          during: 'Dostarcz zapieczętowany kontener do punktu granicznego w Porcie Czerwonych Żagli.',
++          after: 'Próbki bazaltu dotarły do laboratorium. Nasze osłony termiczne będą odporne na każdą temperaturę.',
++        },
++      },
++    },
++    'npc-axon': {
++      npcId: 'npc-axon',
++      npcName: 'AXON',
++      cityId: 'nexus-wezel-swiadomosci',
++      role: 'Koordynator Zwiadu Zewnętrznego',
++      greetings: [
++        'Zasięg radarów: pełny. Obwód zewnętrzny zabezpieczony. Raportuj stan gotowości bojowej.',
++        'Witaj, jednostko operacyjna. Poza barierą energetyczną czyhają mechaniczne drapieżniki pozbawione protokołów etycznych.',
++        'Wykryto obecność jednostki sojuszniczej. Przejdź do odprawy taktycznej przed wyjściem w teren.',
++      ],
++      rumors: [
++        'Psy-łowcy w ruinach polują na wszelkie źródła ciepła — najłatwiej zmylić je, stosując race fosforowe lub granaty dymne.',
++        'Terminal Zaginionych Danych próbuje nadawać sygnał ratunkowy od stu dwudziestu lat, lecz nikt nie zna hasła zwrotnego.',
++        'Latarnia plazmowa w porcie jest zasilana z kabla podmorskiego biegnącego w stronę wysp centralnych.',
++      ],
++      quests: {
++        'O-N03': {
++          questId: 'O-N03',
++          before: 'Stado cybernetycznych psów-łowców zaatakowało wysunięty posterunek nasłuchowy. Wyrusz natychmiast i odeprzyj atak.',
++          during: 'Psy poruszają się z dużą prędkością. Użyj ataków obszarowych, by przerwać ich koordynację w stadzie.',
++          after: 'Posterunek ocalony, a łączność radiowa z północnymi rubieżami została w pełni przywrócona.',
++        },
++        'M10': {
++          questId: 'M10',
++          before: 'Laboratorium Rdzenia Zero wymaga pobrania próbek stabilnego kondensatu energetycznego. Zadanie wysokiego ryzyka.',
++          during: 'Wejdź do komory reaktora w laboratorium i napełnij kriofiolkę płynnym izotopem.',
++          after: 'Próbka zabezpieczona w ołowianym pojemniku. Te dane pozwolą udoskonalić ogniwa całej armii.',
++        },
++        'S-N04': {
++          questId: 'S-N04',
++          before: 'Dron zwiadowczy z cennymi danymi kartograficznymi rozbił się w kanionie kablowym. Odzyskaj czarną skrzynkę.',
++          during: 'Wrak leży na dnie szczeliny. Uważaj na spadające kable pod wysokim napięciem i dzikie roboty.',
++          after: 'Czarna skrzynka nienaruszona! Mapy zewnętrznych sektorów zostały zaktualizowane o nowe przejścia.',
++        },
++      },
++    },
++    'npc-eko0': {
++      npcId: 'npc-eko0',
++      npcName: 'Eko-0 (Jednostka Serwisowa)',
++      cityId: 'nexus-stacja-meridian',
++      role: 'Rzecznik Wolnych Jednostek Serwisowych',
++      greetings: [
++        'Witaj na Stacji Meridian. Tutaj naprawiamy to, co inni uznali za bezużyteczny złom.',
++        'Każda śrubka i każdy tranzystor zasługuje na drugą szansę. Jak możemy ci dziś pomóc?',
++        'Witaj, przyjacielu mechaniki. W naszych warsztatach zawsze znajdziesz wolny klucz francuski i lutownicę.',
++      ],
++      rumors: [
++        'Stacja Meridian powstała na konstrukcji dawnego pociągu maglev, który kursował w podziemiach kontynentu.',
++        'W kanałach odwadniających pod stacją zbiera się emulsja chłodząca o właściwościach przyspieszających regenerację obwodów.',
++        'Reaktor Pulsacyjny w nocy słychać stąd jako głęboki, uspokajający pomruk o częstotliwości 50 Hz.',
++      ],
++      quests: {
++        'S-N03': {
++          questId: 'S-N03',
++          before: 'Główna pompa chłodziwa na stacji przegrzewa się. Potrzebujemy świeżego płynu z instalacji w opuszczonym reaktorze.',
++          during: 'Pobierz płyn z zaworu bezpieczeństwa reaktora i dostarcz go do zbiornika na stacji przed upływem limitu czasu.',
++          after: 'Temperatura pompy spadła do normy roboczej! Cała stacja uniknęła awaryjnego wyłączenia systemów.',
++        },
++        'S-N11': {
++          questId: 'S-N11',
++          before: 'Jednostka serwisowa numer 12 została uwięziona przez zawał rur w starym tunelu przesyłowym. Uwolnij naszego towarzysza.',
++          during: 'Użyj ciężkiego oręża, by rozbić stalowe dźwigary i odprowadzić robota do strefy bezpieczeństwa.',
++          after: 'Jednostka 12 znów z nami! Wolne jednostki serwisowe nigdy nie zapomną twojej bezinteresownej pomocy.',
++        },
++        'H-N04': {
++          questId: 'H-N04',
++          before: 'Za starym transformatorem odkryłem właz do zapomnianego schronu technicznego z czasów budowy magistrali. Zbadaj go.',
++          during: 'Otwórz zardzewiałą śluzę pneumatyczną i przeszukaj szafki narzędziowe wewnątrz schronu.',
++          after: 'Wspaniałe znalezisko! Oryginalne schematy montażowe pancerzy tytanowych i komplet kluczy z nanodiamentu.',
++        },
++      },
++    },
++    'npc-nexus-welder': {
++      npcId: 'npc-nexus-welder',
++      npcName: 'KОР-9 (Mistrz Spawu)',
++      cityId: 'nexus-kuznia-obwodow',
++      role: 'Specjalista Ogniw i Przewodników R-01/R-04',
++      greetings: [
++        'Bzzzt! Uwaga na iskry łuku plazmowego! Witaj w Kuźni Obwodów.',
++        'Spaw plazmowy nie pęka nawet pod ciśnieniem miliona atmosfer. Co mamy dziś połączyć?',
++        'Witaj! Temperatura w kuźni wynosi stałe 400 stopni. Dla androida to optymalne warunki pracy.',
++      ],
++      rumors: [
++        'W głębi kuźni stoi piec indukcyjny zdolny wytapiać pancerze z czystego grafenu domieszkowanego borem.',
++        'Pod fundamentami kuźni przebiega główna magistrala danych R-04 łącząca Nexus z podmorskimi kablami.',
++        'Kruk danych widywany na dachu kuźni nie jest zwykłym ptakiem — to autonomiczny dron szpiegowski dawnej korporacji.',
++      ],
++      quests: {
++        'O-N04': {
++          questId: 'O-N04',
++          before: 'Magistrala przesyłowa uległa przerwaniu w trzech miejscach. Musimy zespawać przewody nadprzewodzące w tunelu.',
++          during: 'Zejdź do tunelu kablowego z palnikiem plazmowym i połącz zerwane złącza w oznaczonych punktach.',
++          after: 'Magistrala znowu przesyła pełną moc! Światła w całym sektorze przestały migotać.',
++        },
++        'S-N05': {
++          questId: 'S-N05',
++          before: 'Do hartowania złączy potrzebuję ciekłego azotu ze stacji kriogenicznej. Przynieś mi bezpieczny termos z lodem.',
++          during: 'Pobierz ciekły azot ze zbiornika kriogenicznego. Uważaj na wycieki gazu i zamrożone przeszkody.',
++          after: 'Azot na miejscu! Teraz złącza uzyskają nadprzewodnictwo w temperaturze pokojowej.',
++        },
++        'S-N09': {
++          questId: 'S-N09',
++          before: 'Złomiarze zepsuli automatyczną linię spawalniczą. Zastąp uszkodzone ramiona robotów nowymi siłownikami.',
++          during: 'Zamontuj cztery siłowniki hydrauliczne na ramionach manipulatorów i skalibruj kąt zgięcia.',
++          after: 'Linia spawalnicza ruszyła pełną parą! Produkcja nowych płyt pancernych wzrosła dwukrotnie.',
++        },
++        'H-N03': {
++          questId: 'H-N03',
++          before: 'Pod starym paleniskiem indukcyjnym odkryłem zapomnianą skrytkę z nanitami montażowymi. Wydobądź ten pojemnik.',
++          during: 'Użyj manipulatora magnetycznego, by wyciągnąć zasobnik z głębokiej szczeliny termicznej.',
++          after: 'Pojemnik jest pełen aktywnych nanitów budowlanych! To przyspieszy naprawy oręża o połowę.',
++        },
++        'IC-08': {
++          questId: 'IC-08',
++          before: 'Projekt połączenia magistrali energetycznej z podziemiami Pyry: przygotuj złącza odporne na strumienie lawy.',
++          during: 'Wytop partię dwudziestu złączy z węglika krzemu i dostarcz je do punktu styku w kanionie granicznym.',
++          after: 'Złącza wytrzymały próbę lawy! Pierwsza międzykontynentalna linia energetyczna została połączona.',
++        },
++      },
++    },
++    'npc-nexus-portmaster': {
++      npcId: 'npc-nexus-portmaster',
++      npcName: 'VEX-3 (Nawigator Portu Zerowego)',
++      cityId: 'nexus-port-zerowy',
++      role: 'Dowódca Zabezpieczenia Szlaków Wschodnich',
++      greetings: [
++        'Port Zerowy przyjmuje statki transportowe i barki kontenerowe. Przedstaw manifest ładunkowy.',
++        'Witaj na wschodnim nabrzeżu. Woda morska w połączeniu z plazmą daje widowiskowe wyładowania świetlne.',
++        'Wszystkie dźwigi przeładunkowe pracują na maksymalnych obrotach. Szukasz transportu morskiego?',
++      ],
++      rumors: [
++        'Na horyzoncie widać czasami światła Wielkiego Wiru — według sensorów wir emituje zakłócenia kwantowe.',
++        'Na dnie basenu portowego spoczywa zatopiona barka z ładunkiem nienaruszonych rdzeni pamięci z Pierwszej Ery.',
++        'Wokół latarni plazmowej gromadzą się ryby o świecących łuskach, które żywią się wyciekami jonowymi.',
++      ],
++      quests: {
++        'O-N05': {
++          questId: 'O-N05',
++          before: 'Latarnia plazmowa na falochronie straciła synchronizację fazową. Wprowadź nowe parametry częstotliwości na wieży.',
++          during: 'Wejdź po stalowych klamrach na szczyt latarni i wpisz kod rezonansu na pulpicie sterowniczym.',
++          after: 'Snop plazmy rozciąga się na pięćdziesiąt mil morskich! Statki handlowe widzą już bezpieczny tor wodny.',
++        },
++        'S-N06': {
++          questId: 'S-N06',
++          before: 'Morskie drapieżniki uszkodziły podwodny kabel zasilający dźwigi portowe. Zanurkuj i nałóż mufę ochronną.',
++          during: 'Zejdź na dno basenu portowego w kombinezonie ciśnieniowym i zaciśnij klamrę mufy na kablu.',
++          after: 'Kabel zaizolowany, a dźwigi znów rozładowują kontenery z rudą bazaltu. Świetna robota podwodna!',
++        },
++        'S-N12': {
++          questId: 'S-N12',
++          before: 'Zautomatyzowana barka zboczyła z kursu i grozi uderzeniem w pirs główny. Wejdź na pokład i przejmij stery.',
++          during: 'Dostań się motorówką do burty barki, wejdź na mostek kapitański i wyłącz uszkodzonego autopilota.',
++          after: 'Barka bezpiecznie zacumowana przy pirsie trzecim. Katastrofa portowa została zażegnana w ostatniej chwili.',
++        },
++      },
++    },
++  },
++};
+diff --git a/src/game/dialogue/pyra.ts b/src/game/dialogue/pyra.ts
+new file mode 100644
+index 0000000..7259821
+--- /dev/null
++++ b/src/game/dialogue/pyra.ts
+@@ -0,0 +1,283 @@
++import { ContinentDialogueCatalog } from './types';
++
++export const PYRA_DIALOGUES: ContinentDialogueCatalog = {
++  continent: 'pyra',
++  dialogues: {
++    'npc-kaena': {
++      npcId: 'npc-kaena',
++      npcName: 'Kaena',
++      cityId: 'pyra-twierdza-popiolu',
++      role: 'Strażniczka Twierdzy Popiołu',
++      greetings: [
++        'Witaj w Twierdzy Popiołu. Tutaj hartuje się stal i męstwo, a słabość spala się w płomieniach.',
++        'Ogień Pyry nie pyta o pochodzenie, lecz o siłę woli. Wykaż się czynem, a zyskasz szacunek Legend.',
++        'Popiół i krew to fundamenty tej twierdzy. Stań prosto przed wodzem i mów, z czym przychodzisz.',
++      ],
++      rumors: [
++        'Na zachodzie wznosi się Cytadela Pierwszego Płomienia. Mówią, że wieczny ogień w jej sercu zapalili sami pradawni tytani.',
++        'Kaplica Krwi i Popiołu kryje ołtarze, na których dawni berserkerzy składali przysięgi przed wielkimi wyprawami wojennymi.',
++        'Wulkaniczny Kolos na południowym krańcu kontynentu spogląda w stronę oceanu — legenda głosi, że ożyje, gdy zatrzęsie się cała planeta.',
++      ],
++      quests: {
++        'O-P01': {
++          questId: 'O-P01',
++          before: 'Jeśli chcesz dowieść swej wartości wśród wojowników Pyry, musisz wyjść poza mury twierdzy i okiełznać wściekłe węgiełki oraz salamandry.',
++          during: 'Zejdź na bazaltowe tarasy i ugaś furię ognistych bestii. Pokaż, że twój duch nie ugina się przed żarem.',
++          after: 'Dobra robota. Twoje ostrze nie zadrżało w ogniu. Zasłużyłeś na prawo noszenia znaku bojowego Twierdzy.',
++        },
++        'O-P02': {
++          questId: 'O-P02',
++          before: 'Popielne wilki odcięły szlak zaopatrzeniowy ku Żarowemu Traktowi. Czas ruszyć z kontratakiem.',
++          during: 'Wytrop przywódcę watahy w załomach skalnych i przywróć porządek na szlaku.',
++          after: 'Szlak znów jest przejezdny. Kupcy z Twierdzy nie zapomną twojej determinacji.',
++        },
++        'O-P03': {
++          questId: 'O-P03',
++          before: 'Cytadela Pierwszego Płomienia tętni niebezpiecznym żarem. Musisz zbadać tamtejszy piec i upewnić się, że magma nie przerwie wałów.',
++          during: 'Zbadaj ołtarz ognia wewnątrz Cytadeli. Uważaj na tryskające gejzery lawy.',
++          after: 'Wały zostały zabezpieczone. Pradawny ogień tytanów płonie teraz pod kontrolą naszych strażników.',
++        },
++        'O-P04': {
++          questId: 'O-P04',
++          before: 'Czas na wyprawę do Cytadeli Kowadeł. Spotkaj się z kowalami i odbierz przygotowany zapas ciężkich płyt pancerza.',
++          during: 'Przejdź przez kanion obsydianu. Ścieżka jest wąska i narażona na spadające odłamki bazaltu.',
++          after: 'Pancerze dotarły na czas. Nasze oddziały przednie są gotowe na każde starcie.',
++        },
++        'O-P05': {
++          questId: 'O-P05',
++          before: 'Port Czerwonych Żagli melduje o podejrzanych statkach u brzegów. Wyrusz na południe i sprawdź gotowość floty.',
++          during: 'Kapitan Daro czeka na nabrzeżu w porcie. Przeprowadź inspekcję umocnień nabrzeżnych.',
++          after: 'Flota stoi w gotowości, a straże przybrzeżne zostały wzmocnione. Południowa granica Pyry jest bezpieczna.',
++        },
++        'O-P06': {
++          questId: 'O-P06',
++          before: 'Nadszedł czas na ostateczną próbę ognia na Wielkiej Arenie. Stań naprzeciw elity wojowników i zdobądź tytuł Bohatera Kalderonu.',
++          during: 'Wejdź na piasek areny pod spojrzeniami tysięcy wojowników. Niech twoja energia KI eksploduje pełnią potęgi.',
++          after: 'Niechaj ryk tłumu niesie twoje imię aż po szczyty wulkanów! Jesteś prawdziwym Czempionem Legend!',
++        },
++        'M05': {
++          questId: 'M05',
++          before: 'Jako uznany wojownik musisz złożyć przysięgę krwi przy Ołtarzu Wygasłych Ostrzy. Przynieś trofeum z pokonanego berserkera.',
++          during: 'Ołtarz wznosi się na samotnej iglicy skalnej. Pokonaj strażnika wzgórza i złóż dar godny wojownika.',
++          after: 'Przysięga została przyjęta przez duchy dawnych wodzów. Twoja broń otrzymała błogosławieństwo ognia.',
++        },
++        'M15': {
++          questId: 'M15',
++          before: 'Z głębi kaldery wyłania się starożytny kolos ognia. To starcie, o którym pieśni będą śpiewać przez pokolenia.',
++          during: 'Zstąp do krateru. Uderzaj w pęknięcia pancerza kolosa, gdy ten przygotowuje uderzenie obszarowe.',
++          after: 'Tytan padł, a jego serce z krzepnącej lawy spoczęło w skarbcu Twierdzy. Pyra nigdy nie zapomni tego czynu.',
++        },
++      },
++    },
++    'npc-yumi': {
++      npcId: 'npc-yumi',
++      npcName: 'Yumi',
++      cityId: 'pyra-twierdza-popiolu',
++      role: 'Kwatermistrzyni i Kupiec Popiołu',
++      greetings: [
++        'Potrzebujesz ostrzałki, pyłu lawowego czy solidnych pasów? U Yumi kupisz ekwipunek, który nie stopi się w walce.',
++        'Witaj! Pokaż, jakie trofea przynosisz z lawowych pustkowi. Dla rzadkich skór i rogów zawsze mam pełną sakiewkę.',
++        'W Pyry nikt nie handluje świecidełkami. Sprzedaję wyłącznie to, co chroni życie i zadaje śmiertelne rany.',
++      ],
++      rumors: [
++        'W kopalniach za Cytadelą Kowadeł natrafiono na żyłę czarnego obsydianu, który odbija zaklęcia eteryczne.',
++        'Na szlaku do Portu widywano skalnego berserkera niosącego kamienny kufer z herbem zaginionego legionu.',
++        'Mówią, że woda w zatoce Portu Czerwonych Żagli wrze od podwodnych kominów hydrotermalnych.',
++      ],
++      quests: {
++        'S-P01': {
++          questId: 'S-P01',
++          before: 'Brakuje mi pancerzy magmowych krabów do wzmocnienia napierśników rekrutów. Zapoluj na nie wzdłuż lawowego strumienia.',
++          during: 'Krabie skorupy zbieraj ostrożnie szczypcami — świeża skorupa parzy nawet przez grube rękawice.',
++          after: 'Te pancerze są twarde jak żelazo. Płatnerze od razu wezmą się do kucia dodatkowych wzmocnień.',
++        },
++        'S-P02': {
++          questId: 'S-P02',
++          before: 'Żarowe nietoperze zanieczyszczają zapasy suszonego mięsa w zachodnich magazynach. Oczyść pieczary magazynowe.',
++          during: 'Nietoperze chowają się pod stropem jaskini. Wykurz je dymem ze spalonej siarki i zlikwiduj gniazda.',
++          after: 'Magazyny są czyste, a kwatermistrzostwo może znowu wydawać pełne racje dla załogi murów.',
++        },
++        'S-P03': {
++          questId: 'S-P03',
++          before: 'Karawana z pyłem siarkowym została zaatakowana przez stado popielnych wilków. Odszukaj porzucone wozy.',
++          during: 'Wozy stoją w wąwozie dymnym. Odeprzyj drapieżniki i zabezpiecz nienaruszone beczki z prochem.',
++          after: 'Cały transport ocalony! Twoja nagroda to nie tylko złoto, ale i szacunek gildii kupieckiej.',
++        },
++        'H-P04': {
++          questId: 'H-P04',
++          before: 'Odkryłam starą księgę rachunkową z zaznaczoną skrytką przemytników pod fundamentami muru. Sprawdź, czy coś tam zostało.',
++          during: 'Wejście kryje się za luźną płytą bazaltową w cieniu południowego bastionu. Uważaj na zapadnie.',
++          after: 'Niezwykłe znalezisko! Stare monety z czasów przed podziałem kontynentów i ceremonialny sztylet.',
++        },
++      },
++    },
++    'npc-goro': {
++      npcId: 'npc-goro',
++      npcName: 'Goro',
++      cityId: 'pyra-twierdza-popiolu',
++      role: 'Mistrz Kowadeł Lawowych',
++      greetings: [
++        'Dźwięk uderzenia młota to najwspanialsza muzyka na tej planecie. Co chcesz wykuć, wojowniku?',
++        'Ogień, pot i żelazo — tak powstaje oręż Legend. Pokaż mi swoją broń, a powiem ci, ile jesteś wart.',
++        'Witaj przy palenisku. Trzymaj się z dala od kanału spływowego surówki, chyba że chcesz stopić podeszwy butów.',
++      ],
++      rumors: [
++        'W sercu wulkanu żyje salamandra o łuskach tak twardych, że tępią diamentowe przecinaki.',
++        'W Cytadeli Kowadeł kują pancerze ze stopu meteorytu z wulkaniczną szlaką. Podobno są lżejsze od skóry, a twardsze od granitu.',
++        'Dawni kowale potrafili uwięzić żywiołaka ognia wewnątrz rękojeści miecza, dając mu wieczny płomień.',
++      ],
++      quests: {
++        'S-P05': {
++          questId: 'S-P05',
++          before: 'Do hartowania ostrzy potrzebuję łusek ognistej salamandry. Przynieś mi kilka okazów prosto z lawowych rozlewisk.',
++          during: 'Salamandry nurkują w płynnej lawie. Wywab je kawałkami siarki i zbierz nienaruszone łuski.',
++          after: 'Wspaniała jakość! Te łuski nie tracą twardości nawet przy temperaturze tysiąca stopni.',
++        },
++        'S-P06': {
++          questId: 'S-P06',
++          before: 'Mój ulubiony młot kowalski pękł na meteorytowej rudzie. Potrzebuję nowego rdzenia z czarnego obsydianu.',
++          during: 'Zejdź do głębokiej rozpadliny przy Ołtarzu Wygasłych Ostrzy. Ociosaj monolityczny blok czarnego szkła.',
++          after: 'Ten obsydian jest idealnie czysty. Wykuję młot, który posłuży moim uczniom przez kolejne sto lat.',
++        },
++        'H-P02': {
++          questId: 'H-P02',
++          before: 'Znalazłem w starym palenisku wskazówkę prowadzącą do ukrytej pieczary pierwszego kowala Pyry. Sprawdź te koordynaty.',
++          during: 'Wejście zasypane jest przez zastygłą lawę. Rozbij blokadę i odszukaj pradawne kowadło mistrza.',
++          after: 'Pradawne kowadło wciąż rezonuje energią KI! Odnaleźliśmy zaginione schematy oręża bojowego.',
++        },
++      },
++    },
++    'npc-rokan': {
++      npcId: 'npc-rokan',
++      npcName: 'Rokan',
++      cityId: 'pyra-twierdza-popiolu',
++      role: 'Mistrz Wypraw i Prób Areny',
++      greetings: [
++        'Blizny na ciele to mapa przebytych walk. Ile z nich nosisz ty, przybyszu?',
++        'Witaj w kwaterze wypraw. Tutaj planujemy rajdy na najdziksze bestie wulkanicznego płaskowyżu.',
++        'Wojownik bez wyzwania gnuśnieje jak stojąca woda. Szukasz chwały czy bezpiecznego kąta?',
++      ],
++      rumors: [
++        'Na szczycie Bazaltowego Rogu gnieździ się stary żarowy nietoperz o rozpiętości skrzydeł przewyższającej rydwan bojowy.',
++        'Kaplica Krwi i Popiołu jest nawiedzana przez upiory poległych wojowników, którzy nie zaznali spokoju po przegranej bitwie.',
++        'Na granicy z pustynią popiołu widziano gigantycznego skorpiona obsydianowego, którego kolec przebija żelazne tarcze.',
++      ],
++      quests: {
++        'S-P04': {
++          questId: 'S-P04',
++          before: 'Młodzi rekruci boją się wejść do Przełęczy Płomieni z powodu grasującego skalnego berserkera. Idź i rzuć mu wyzwanie.',
++          during: 'Berserker nie używa uników — polega wyłącznie na brutalnej sile. Wykorzystaj swoją zwinność i uderzaj w plecy.',
++          after: 'Wieść o twoim zwycięstwie już obiegła koszary. Rekruci znowu maszerują przez przełęcz z podniesionym czołem.',
++        },
++        'S-P07': {
++          questId: 'S-P07',
++          before: 'Skorpion obsydianowy zaatakował patrol zwiadowczy. Musimy pomścić naszych braci i zdobyć jego jadowy kolec.',
++          during: 'Uważaj na cios z podziemi — skorpion potrafi zakopać się w popiele i uderzyć znienacka.',
++          after: 'Kolec bestii zawiśnie nad wejściem do kwatery. Pokazałeś, czym jest niezłomny duch Legend.',
++        },
++        'S-P08': {
++          questId: 'S-P08',
++          before: 'Próba Trzech Żywiołów: musisz pokonać po jednym drapieżniku z każdego z trzech wulkanicznych rejonów w określonym czasie.',
++          during: 'Czas ucieka. Pokonaj salamandrę, popielnego wilka i magmowego kraba, zbierając ich bojowe znaki.',
++          after: 'Znakomity czas i bezbłędna technika! Twoje imię trafiło na tablicę mistrzów wypraw.',
++        },
++      },
++    },
++    'npc-pyra-warden-west': {
++      npcId: 'npc-pyra-warden-west',
++      npcName: 'Toren (Strażnik Traktu)',
++      cityId: 'pyra-zarowy-trakt',
++      role: 'Dowódca Zachodnich Ratowników',
++      greetings: [
++        'Żarowy Trakt to najgorętsza droga na tej planecie. Trzymaj się kamiennego traktu, jeśli nie chcesz spłonąć.',
++        'Witaj na zachodnim posterunku. Pilnujemy, by magma nie zalała jedynego połączenia z Cytadelą Kowadeł.',
++        'Dobre buty to podstawa na tym szlaku. Skały są tu tak gorące, że woda w manierce gotuje się w godzinę.',
++      ],
++      rumors: [
++        'Pod Żarowym Traktem płynie podziemna rzeka lawy zasilająca fontanny wulkaniczne w Cytadeli Pierwszego Płomienia.',
++        'Ratownicy znaleźli niedawno porzucony wóz kupiecki z Aetherii — jak ci Mędrcy dali radę tu dotrzeć w swoich jedwabiach?',
++        'W bezksiężycowe noce w dymie nad traktem układają się sylwetki dawnych gigantów.',
++      ],
++      quests: {
++        'S-P09': {
++          questId: 'S-P09',
++          before: 'Pęknięcie skorupy ziemskiej zagroziło mostowi na trakcie. Pomóż ratownikom ustabilizować grunt i odpędź golema ruin.',
++          during: 'Golem blokuje podejście do podpory mostu. Rozbij jego kamienny rdzeń i ułóż wsporniki z bazaltu.',
++          after: 'Most uratowany! Karawany z zaopatrzeniem mogą bezpiecznie kontynuować podróż ku Twierdzy.',
++        },
++        'H-P01': {
++          questId: 'H-P01',
++          before: 'W szczelinie pod traktem dostrzegłem blask starożytnej kapsuły ratunkowej z czasów pierwszego lądowania. Zbadaj ją.',
++          during: 'Zejdź ostrożnie po linach asekuracyjnych do wąwozu. Temperatura jest tam ekstremalnie wysoka.',
++          after: 'W kapsule znajdował się nienaruszony moduł nawigacyjny i starożytny pancerz ognioodporny!',
++        },
++      },
++    },
++    'npc-pyra-smith-east': {
++      npcId: 'npc-pyra-smith-east',
++      npcName: 'Hana (Płatnerka Obsydianu)',
++      cityId: 'pyra-cytadela-kowadel',
++      role: 'Mistrzyni Pancerzy Płytowych',
++      greetings: [
++        'Pancerz musi być jak druga skóra — elastyczny tam, gdzie ruch, i nieprzebijalny na piersi. Witaj w Cytadeli Kowadeł.',
++        'W moich żyłach płynie płynny metal! Szukasz zbroi, która powstrzyma uderzenie smoczego ogona?',
++        'Witaj w stolicy kowalskiego rzemiosła. Tu każde uderzenie młota rozbrzmiewa w całym wąwozie.',
++      ],
++      rumors: [
++        'Najlepszy obsydian wydobywa się w pobliżu Kolosa Pierwszego Bohatera — kamień ten ma naturalną zdolność pochłaniania ciepła.',
++        'Pod fundamentami Cytadeli Kowadeł znajduje się sala pamięci ze zbrojami wszystkich wodzów Pyry od zarania dziejów.',
++        'Mówią, że kowale z Nexus-9 próbowali podkraść nasze receptury hartowania próżniowego.',
++      ],
++      quests: {
++        'S-P10': {
++          questId: 'S-P10',
++          before: 'Do wykucia ceremonialnego pancerza potrzebuję czystego pyłu obsydianowego. Rozbij kryształy w Wąwozie Dymu.',
++          during: 'Kryształy są kruche, ale tną skórę jak brzytwy. Zbieraj pył do żelaznego słoja z filtrem.',
++          after: 'Idealna ziarnistość! Pancerz pokryty tą emalią będzie lśnił czernią głębszą niż bezgwiezdna noc.',
++        },
++        'S-P11': {
++          questId: 'S-P11',
++          before: 'Mistrzowski test pancerza: ubierz mój prototypowy kirys i przetrwaj serię uderzeń magmowego kraba w kanionie.',
++          during: 'Załóż pancerz i przyjmij uderzenia na tarczę. Obserwuj, jak materiał rozprasza energię kinetyczną.',
++          after: 'Żadnego pęknięcia, żadnego wgniecenia! To triumf kowalstwa Cytadeli Kowadeł!',
++        },
++      },
++    },
++    'npc-pyra-captain': {
++      npcId: 'npc-pyra-captain',
++      npcName: 'Daro (Ssternik Przymierza)',
++      cityId: 'pyra-port-czerwonych-zagli',
++      role: 'Kapitan Przepraw Południowych',
++      greetings: [
++        'Ahoj, lądowy szczurze! W Porcie Czerwonych Żagli pachnie smołą, solą i pieczoną rybą. Czego szukasz na nabrzeżu?',
++        'Nasze drakary ze stali i żelaznego drewna pływają nawet po wrzącej wodzie. Witaj na pokładzie!',
++        'Morze wokół Pyry jest równie zdradliwe jak jej lądy — podwodne wulkany potrafią wysadzić statek w powietrze bez ostrzeżenia.',
++      ],
++      rumors: [
++        'Na południe od portu z wody wystaje Kolos Pierwszego Bohatera — jego kamienne oczy wskazują drogę do Wielkiego Wiru.',
++        'Rybacy opowiadają o lewiatanach z lawowymi grzbietami, które wynurzają się nocą, by ogrzać się pod księżycem.',
++        'Zatopione wraki w Zatoce Żaru kryją skrzynie z pradawnym złotem z czasów przedwielkich wojen.',
++      ],
++      quests: {
++        'S-P12': {
++          questId: 'S-P12',
++          before: 'Piracka łódź rozbiła się na rafie żarowej, a ocalali terroryzują naszą latarnię morską. Przepędź korsarzy.',
++          during: 'Wejdź na groblę prowadzącą do latarni i zlikwiduj bandytów okupujących magazyn sygnałowy.',
++          after: 'Latarnia znów bezpieczna, a czerwone żagle mogą bez przeszkód wpływać do przystani.',
++        },
++        'H-P03': {
++          questId: 'H-P03',
++          before: 'Wyrzucona na brzeg beczka zawierała mapę prowadzącą do zatopionej jaskini skarbów pod Kolosem. Sprawdź to miejsce.',
++          during: 'Zanurkuj przy stopach Kolosa podczas odpływu. Wejście jest wąskie i porośnięte ostrymi skorupami.',
++          after: 'Skarb z dawnych latarni morskich odnaleziony! Złote monety i starożytna sekstanta nawigacyjna.',
++        },
++        'IC-09': {
++          questId: 'IC-09',
++          before: 'Przygotowujemy ekspedycję oceaniczną ku Wyspom Pośrednim. Zgromadź zapasy prowiantu odpornego na sól i wilgoć.',
++          during: 'Zbierz zapasy od kwatermistrzów i dostarcz je na flagowy drakar stojący przy pirsie pierwszym.',
++          after: 'Drakar jest w pełni wyposażony. Gdy tylko nadejdzie rozkaz, ruszymy ku nieznanym archipelagom!',
++        },
++      },
++    },
++  },
++};
+diff --git a/src/game/dialogue/types.ts b/src/game/dialogue/types.ts
+new file mode 100644
+index 0000000..d6d7ff3
+--- /dev/null
++++ b/src/game/dialogue/types.ts
+@@ -0,0 +1,23 @@
++import { ContinentId } from '../worlds/types';
++
++export interface NpcQuestDialogue {
++  questId: string;
++  before: string;
++  during: string;
++  after: string;
++}
++
++export interface NpcDialogueDefinition {
++  npcId: string;
++  npcName: string;
++  cityId: string;
++  role: string;
++  greetings: [string, string, string];
++  rumors: [string, string, string];
++  quests: Record<string, NpcQuestDialogue>;
++}
++
++export interface ContinentDialogueCatalog {
++  continent: ContinentId;
++  dialogues: Record<string, NpcDialogueDefinition>;
++}
+diff --git a/src/game/dialogue/verdant.ts b/src/game/dialogue/verdant.ts
+new file mode 100644
+index 0000000..1ac98e9
+--- /dev/null
++++ b/src/game/dialogue/verdant.ts
+@@ -0,0 +1,301 @@
++import { ContinentDialogueCatalog } from './types';
++
++export const VERDANT_DIALOGUES: ContinentDialogueCatalog = {
++  continent: 'verdant',
++  dialogues: {
++    'npc-aira': {
++      npcId: 'npc-aira',
++      npcName: 'Aira',
++      cityId: 'verdant-zielona-przystan',
++      role: 'Przewodniczka Zielonej Przystani',
++      greetings: [
++        'Niech korzenie Verdantii prowadzą twe kroki, wędrowcze. Czuję w tobie czysty przepływ energii KI.',
++        'Witaj w Zielonej Przystani. Prastare korony szumią dziś niespokojnie, lecz w naszej osadzie jesteś bezpieczny.',
++        'Niech zieleń da ci ukojenie. Jeśli twoje serce bije w rytmie Puszczy, znajdziesz tu dom i cel.',
++      ],
++      rumors: [
++        'Na południe stąd leży Źródło Pierwszego Drzewa. Mówią, że woda czerpana o świcie leczy rany duszy, lecz pilnują jej czujne leśne bestie.',
++        'Most Splątanych Korzeni łączy nas z wschodnimi bagnami. Uważaj pod nim — nocami pnącza same zaciskają się na nieostrożnych stopach.',
++        'W głębi kniei, w Opuszczonej Chacie Zielarza Pierwszej Ery, wciąż tli się zapomniana receptura eliksiru żywicznego.',
++      ],
++      quests: {
++        'O-V01': {
++          questId: 'O-V01',
++          before: 'Witaj w Verdantii. Zanim wyruszymy w głąb puszczy, musisz zrozumieć tutejszy rytm życia i oczyścić najbliższy szlak z niespokojnych szlamaków.',
++          during: 'Mchowe Szlamaki wciąż podchodzą pod palisadę Zielonej Przystani. Odszukaj je na ścieżce i przywróć równowagę.',
++          after: 'Doskonale. Wyczuwam, że las przyjął twój dar. Szlak jest znów bezpieczny dla zbieraczy mchu.',
++        },
++        'O-V02': {
++          questId: 'O-V02',
++          before: 'Nasze patrole meldują o Cierniowych Wilkach grasujących w pobliżu mostów. Potrzebujemy zwiadu wzdłuż starego traktu.',
++          during: 'Uważaj na watahę w cieniu paproci. Cierniowe Wilki atakują stadnie, gdy wyczują wahanie.',
++          after: 'Wataha została rozproszona. Dzięki tobie kurierzy mogą przejść suchą stopą do Przystani Trzech Mostów.',
++        },
++        'O-V03': {
++          questId: 'O-V03',
++          before: 'Z pradawnych ruin dochodzą echa dziwnego pulsu. Czas, abyś zbadał Źródło Pierwszego Drzewa i jego pradawne mechanizmy.',
++          during: 'Źródło tętni na południowym skraju polany. Sprawdź, co zakłóca pierwotny rezonans KI.',
++          after: 'Woda w źródle znowu płynie krystalicznym błękitem. Prastary duch puszczy odetchnął z ulgą.',
++        },
++        'O-V04': {
++          questId: 'O-V04',
++          before: 'Zaburzenia rozprzestrzeniają się ku wschodnim lasom. Czas udać się do Kamiennego Sadu i skonsultować mapy z Orenem.',
++          during: 'Droga do Kamiennego Sadu jest długa. Pamiętaj o uzupełnieniu zapasów w sakwie przed wyruszeniem.',
++          after: 'Wiadomości od Orena potwierdzają moje obawy — zjawisko dotyka całej Verdantii, nie tylko naszej doliny.',
++        },
++        'O-V05': {
++          questId: 'O-V05',
++          before: 'Północne pnącza oplatają Latarnię Korzeni. Strażniczka Lina potrzebuje wsparcia doświadczonego wojownika KI.',
++          during: 'Latarnia Korzeni stoi na stromym wzgórzu. Jej światło nie może zgasnąć, bo zagubią się nocne karawany.',
++          after: 'Światło latarni rozprasza mgły. Twoje poświęcenie dla Planetarnych staje się pieśnią powtarzaną wśród gałęzi.',
++        },
++        'O-V06': {
++          questId: 'O-V06',
++          before: 'Czas na ostateczne oczyszczenie matecznika. Rdzeń Puszczy wzywa cię na próbę hartu ducha i siły uderzeń.',
++          during: 'Skup całą energię w uderzeniach. Nie pozwól, aby mrok zachwiał harmonicznym przepływem energii KI.',
++          after: 'Dokonałeś tego! Puszcza jest wolna, a twoje imię zostało wyryte w zwojach Zielonej Przystani na wieki.',
++        },
++        'M01': {
++          questId: 'M01',
++          before: 'Jako nowo mianowany obrońca puszczy musisz przejść Rytuał Pierwszego Pąka. Przynieś mi dowód swej więzi z lasem.',
++          during: 'Rytuał wymaga skupienia i szacunku dla powalonych pni. Znajdź święte nasiono w gęstwinie.',
++          after: 'Pąk zakwitł w twojej dłoni szmaragdowym blaskiem. Prawdziwy z ciebie wojownik Planetarnych.',
++        },
++        'M13': {
++          questId: 'M13',
++          before: 'Głęboko w Kniewie zagnieździł się pradawny relikt. To zadanie dla mistrza, który potrafi stawić czoła pradawnym bestiom.',
++          during: 'Zmierzasz ku zapomnianym zrębom. Bądź czujny, bo tamtejsze bestie nie znają litości.',
++          after: 'Relikt spoczął w bezpiecznym archiwum. Verdantia zawdzięcza ci ocalenie swojego prastarego dziedzictwa.',
++        },
++        'IC-02': {
++          questId: 'IC-02',
++          before: 'Dotarły do nas niepokojące wieści z Aetherii. Złote zwoje Mędrców wspominają o wspólnym zagrożeniu dla obu światów.',
++          during: 'Przygotuj raport dla posłów Mędrców. Mosty międzykontynentalne wymagają czujności.',
++          after: 'Posłowie przyjęli naszą przestrogę. Sojusz Planetarnych z Mędrcami nabiera realnych kształtów.',
++        },
++        'IC-06': {
++          questId: 'IC-06',
++          before: 'Wielki Trakt Dyplomatyczny wymaga otwarcia bezpiecznego kanału z Nexus-9 i Pyrą. Podejmij się tej misji.',
++          during: 'Podróżuj z poselstwem. Każdy kontynent ma własne prawa, lecz wspólna planeta wymaga jedności.',
++          after: 'Wielki Trakt został zaprzysiężony. Twoje czyny przekroczyły granice samej Verdantii.',
++        },
++      },
++    },
++    'npc-mio': {
++      npcId: 'npc-mio',
++      npcName: 'Mio',
++      cityId: 'verdant-zielona-przystan',
++      role: 'Kupiec Zielonej Przystani',
++      greetings: [
++        'Zioła, esencje, żywiczne bandaże! U Mio kupisz tylko towar najwyższej próby.',
++        'Witaj! Pokaż, co znalazłeś w kniei — płacę uczciwie brzęczącą monetą za rzadkie składniki.',
++        'Potrzebujesz zapasów na drogę? Bez dobrej mikstury w ostępy Verdantii lepiej się nie zapuszczać.',
++      ],
++      rumors: [
++        'Mówią, że w Mszanej Przystani rybacy wyławiają bursztyny wielkości pięści z zatopionych korzeni.',
++        'Stara Kuźnia Żywego Korzenia na wschodzie wciąż dymi w bezwietrzne noce, choć mistrz kowalski odszedł stamtąd lata temu.',
++        'Kupcy szeptają, że na szlaku do Kamiennego Sadu grasuje złodziej kradnący wyłącznie nasiona świecących mchów.',
++      ],
++      quests: {
++        'S-V01': {
++          questId: 'S-V01',
++          before: 'Brakuje mi mchowej galaretki do wywaru leczniczego. Czy przyniesiesz mi kilka próbek od szlamaków z doliny?',
++          during: 'Szukaj szlamaków w wilgotnych parowach na zachód od osady. Uważaj, by galaretka nie wyschła!',
++          after: 'Świetny materiał! Teraz uwarzę maści, które postawią na nogi każdego zmęczonego zwiadowcę.',
++        },
++        'S-V02': {
++          questId: 'S-V02',
++          before: 'Zasadziłam lecznicze zioła przy południowym strumieniu, ale zagnieździły się tam jadowite żądła. Pomóż mi je zebrać.',
++          during: 'Uważaj na brzęczące osy przy zaroślach. Chodzi o zebranie świeżych liści i oczyszczenie terenu.',
++          after: 'Zapach tych ziół przywraca siły od samego wdechu. Masz tu swoją dolę monet i miksturę na drogę.',
++        },
++        'S-V05': {
++          questId: 'S-V05',
++          before: 'Karawana handlowa utknęła na starym nasypie przez rozszalałe korzeniowce. Zabezpiecz ładunek rzadkich korzeni.',
++          during: 'Rozprosz korzeniowce wokół wozów i przynieś mi plombowaną skrzynię z nasionami.',
++          after: 'Wszystkie nasiona nienaruszone! Uratowałeś mój miesięczny dochód, wędrowcze.',
++        },
++      },
++    },
++    'npc-taro': {
++      npcId: 'npc-taro',
++      npcName: 'Taro',
++      cityId: 'verdant-zielona-przystan',
++      role: 'Mistrz Kowal Korzeni',
++      greetings: [
++        'Uderzaj w żelazo póki tętni w nim energia KI! W czym mogę ci pomóc?',
++        'Ostrza z zielonej żywicy nie pękają pod żadnym ciosem. Szukasz solidnego oręża?',
++        'Witaj przy kowadle. Dym z żywicznego drewna dobrze robi na płuca i odstrasza leśne insekty.',
++      ],
++      rumors: [
++        'W Kuźni Żywego Korzenia spoczywa matryca, która potrafi stopić stal bez użycia węgla, wyłącznie żarem żywicy.',
++        'Powiadają, że na bagnach można znaleźć skamieniałe kły bestii twardsze niż zahartowany bazalt.',
++        'Gdy rzeka opada po ulewach, przy Mostach ukazują się ślady dawnych wojennych rydwanów.',
++      ],
++      quests: {
++        'S-V03': {
++          questId: 'S-V03',
++          before: 'Moje zapasy twardej kory i kłów do oprawy rękojeści wyczerpały się. Zdobądź dla mnie materiał od leśnych drapieżników.',
++          during: 'Potrzebuję nienaruszonych kłów i włókien korzeniowych. Sprawdź okolice gęstwin na północ od kuźni.',
++          after: 'Te kły mają idealną strukturę. Wykuję z nich rękojeść, która nigdy nie wyślizgnie się z dłoni.',
++        },
++        'S-V06': {
++          questId: 'S-V06',
++          before: 'Chcę odtworzyć legendarny szmaragdowy miecz z Pierwszej Ery. Potrzebuję fragmentu żywego korzenia ze sławnej kuźni.',
++          during: 'Udaj się do Kuźni Żywego Korzenia i zbadaj pradawny piec. Przynieś mi nasyconą szlakę.',
++          after: 'Niewiarygodne! Żar w tym kruszcu wciąż pulsuje. Zaraz zabieram się do kucia prototypu oręża.',
++        },
++        'IC-01': {
++          questId: 'IC-01',
++          before: 'Kowale z Pyry przysłali wyzwanie rzemieślnicze. Musimy udowodnić wyższość żywicznego hartowania nad czystą lawą.',
++          during: 'Przygotuj wzorcowy stop oręża Verdantii do wysyłki na południowy kontynent.',
++          after: 'Mistrzowie z Kalderonu zaniemówili na widok elastyczności naszej klingi. Honor kowali Verdantii został obroniony!',
++        },
++      },
++    },
++    'npc-ren': {
++      npcId: 'npc-ren',
++      npcName: 'Ren',
++      cityId: 'verdant-zielona-przystan',
++      role: 'Zwiadowca Kręgu Żywych Szlaków',
++      greetings: [
++        'Cisza. W lesie najpierw słuchasz, potem patrzysz, a dopiero na końcu sięgasz po broń.',
++        'Wróciłem ze zwiadu. Szlaki na północ stają się coraz bardziej zdradliwe.',
++        'Witaj, cichy wędrowcze. Twoje kroki są lekkie, a to rzadka zaleta w tych czasach.',
++      ],
++      rumors: [
++        'Widziałem ze szczytu dębów dziwne światła wokół Mostu Splątanych Korzeni. To nie były świetliki ani ogniska kłusowników.',
++        'W zaroślach niedaleko Kamiennego Sadu odnaleziono opuszczony obóz zwiadowców z emblematem dawnego królestwa.',
++        'Puchacze pyłowe krążą nad starymi kurhanami. Gdy te ptaki nie śpią za dnia, w ziemi budzi się coś niespokojnego.',
++      ],
++      quests: {
++        'S-V04': {
++          questId: 'S-V04',
++          before: 'Zauważyłem tropy leśnych pająków wokół zachodniego duktu. Sprawdź ich gniazdo i zabezpiecz ścieżkę zwiadowczą.',
++          during: 'Gniazdo znajduje się pod wykrotem starego wiązu. Wytnij kokony i zlikwiduj pajęcze straże.',
++          after: 'Ścieżka zwiadu jest czysta. Znakomicie poruszasz się w gęstwinie.',
++        },
++        'S-V07': {
++          questId: 'S-V07',
++          before: 'Zaginął jeden z naszych młodszych tropicieli. Ostatni raz widziano go przy zwalonym pniu na wschodnich mokradłach.',
++          during: 'Podążaj za śladami złamanych gałęzi ku bagnom. Miejmy nadzieję, że chłopak jeszcze żyje.',
++          after: 'Odnaleziony i bezpieczny w chacie medyka. Verdantia nie zapomina o tych, którzy ratują jej synów.',
++        },
++        'S-V08': {
++          questId: 'S-V08',
++          before: 'Wataha puchaczy pyłowych zaślepia wędrowców pyłkami ze swoich piór. Musimy ukrócić ich agresję na głównym szlaku.',
++          during: 'Puchacze gnieżdżą się w koronach drzew przy starym trakcie. Wywabić je możesz tylko dźwiękiem rogu.',
++          after: 'Niebo nad traktem znowu jest czyste. Podróżni nie muszą już obawiać się pyłowego zaślepienia.',
++        },
++        'H-V04': {
++          questId: 'H-V04',
++          before: 'Odkryłem ukryte przejście w korzeniach najstarszego dębu. Legenda mówi o sanktuarium pradawnego strażnika puszczy.',
++          during: 'Wejdź w szczelinę między korzeniami. Zapal żywiczną pochodnię, by nie zabłądzić w plątaninie korytarzy.',
++          after: 'Skarb pradawnych strażników ujrzał światło dzienne. Znalazłeś artefakt, który pamięta narodziny kontynentu.',
++        },
++        'IC-07': {
++          questId: 'IC-07',
++          before: 'Doniesienia z Wysp Pośrednich mówią o dziwnych prądach morskich spychających łodzie w stronę Wielkiego Wiru.',
++          during: 'Zbadaj wybrzeże i zbierz dane nawigacyjne od przybrzeżnych obserwatorów.',
++          after: 'Mapy prądów zostały zaktualizowane. To bezcenna wiedza przed planowaną ekspedycją oceaniczną.',
++        },
++      },
++    },
++    'npc-nela': {
++      npcId: 'npc-nela',
++      npcName: 'Nela (Przewoźniczka)',
++      cityId: 'verdant-przystan-trzech-mostow',
++      role: 'Przewoźniczka Rzeczna i Kurierka',
++      greetings: [
++        'Woda płynie wartko, ale moja łódź nigdy nie zawodzi. Dokąd chcesz się przeprawić?',
++        'Przystań Trzech Mostów wita wędrowca! Rzeka to najszybsza droga przez gęste ostępy Verdantii.',
++        'Witaj! Uważaj na śliskie deski pomostu — rzeka wezbrała po wczorajszych opadach w górnym biegu.',
++      ],
++      rumors: [
++        'Pod Trzema Mostami żyją sumy tak olbrzymie, że potrafią wywrócić pustą łódź. Żywią się żywicznymi orzechami.',
++        'Na drugim brzegu, tuż za trzcinami, znajduje się zapomniany ołtarz rzecznego ducha, gdzie dawniej składano lilie wodne.',
++        'Most Splątanych Korzeni widać stąd o zmierzchu — korzenie świecą wtedy bladym, szmaragdowym blaskiem.',
++      ],
++      quests: {
++        'S-V09': {
++          questId: 'S-V09',
++          before: 'Rzeka naniosła pnie i zablokowała środkowe przęsło mostu. Potrzebuję kogoś silnego, by rozbił zator i odpędził rzeczne pełzacze.',
++          during: 'Zejdź na płyciznę przy filarach mostu. Oczyść koryto i uważaj na wiry pod filarem.',
++          after: 'Nurt znów płynie swobodnie! Łodzie handlowe mogą bezpiecznie cumować przy naszych pomostach.',
++        },
++        'S-V10': {
++          questId: 'S-V10',
++          before: 'Muszę dostarczyć pilną przesyłkę z lekarstwami do odciętej osady rybackiej. Czy podejdziesz wzdłuż szuwarów?',
++          during: 'Droga brzegiem jest podmokła. Uważaj na błotne zasadzki i dostarcz pakunek w całości.',
++          after: 'Rybacy dziękują ci ze łzami w oczach. Bez tych lekarstw gorączka z bagien zabrałaby niejedno życie.',
++        },
++        'H-V01': {
++          questId: 'H-V01',
++          before: 'Znalazłam w mule rzecznym starożytną tabliczkę z wyrytą mapą zalanej pieczary. Czy odważysz się tam zajrzeć?',
++          during: 'Jaskinia znajduje się za kurtyną wodospadu na północ od przystani. Weź ze sobą zapas powietrza.',
++          after: 'Niewiarygodne! Zatopiony ołtarz krył nienaruszony kryształ czystej energii wodnej.',
++        },
++      },
++    },
++    'npc-oren': {
++      npcId: 'npc-oren',
++      npcName: 'Oren (Kartograf Osady)',
++      cityId: 'verdant-kamienny-sad',
++      role: 'Starszy Mierniczy i Rzemieślnik',
++      greetings: [
++        'Kamień milczy, ale pamięta więcej niż najstarsze księgi. Witaj w Kamiennym Sadzie.',
++        'Każda rysa na tych głazach to zapis dawnych trzęsień i przemian KI. Co sprowadza cię w nasze skromne progi?',
++        'Witaj, podróżniku. Jeśli szukasz dokładnych map tutejszych wąwozów, trafiłeś pod właściwy adres.',
++      ],
++      rumors: [
++        'Głazy w Kamiennym Sadzie nie leżą tu przypadkowo — to pradawny kalendarz astronomiczny dawnych Planetarnych.',
++        'Wąwóz Cieni na wschodzie odbija echa kroków, nawet gdy nikt w nim nie idzie. Miejscowi omijają go po zmroku.',
++        'Kuźnia Żywego Korzenia była niegdyś połączona podziemnym kanałem z naszymi kamieniołomami.',
++      ],
++      quests: {
++        'S-V11': {
++          questId: 'S-V11',
++          before: 'Skalne jelenie zniszczyły moje punkty triangulacyjne na wzgórzach. Muszę odnowić pomiary granicy lasu.',
++          during: 'Odwiedź trzy punkty pomiarowe na skalnych graniach i odnotuj odczyty na pergaminie.',
++          after: 'Pomiary są kompletne! Dzięki tobie nowa mapa wschodniej Verdantii będzie najdokładniejsza od stuleci.',
++        },
++        'H-V02': {
++          questId: 'H-V02',
++          before: 'Jeden z głazów w sadzie ma wydrążony otwór pasujący do runicznego klucza. Odszukaj brakujący fragment w wąwozie.',
++          during: 'Klucz runiczny został porzucony w starym legowisku bestii. Odszukaj go i dopasuj do monolitu.',
++          after: 'Mechanizm zaskoczył! Wewnątrz głazu spoczywał pradawny traktat o harmonii kamienia i drzewa.',
++        },
++      },
++    },
++    'npc-lina': {
++      npcId: 'npc-lina',
++      npcName: 'Lina (Strażniczka Latarni)',
++      cityId: 'verdant-latarnia-korzeni',
++      role: 'Opiekunka Północnych Szlaków',
++      greetings: [
++        'Dopóki ogień latarni płonie, żaden wędrowiec nie zginie w północnych moczarach. Witaj!',
++        'Witaj na północnej rubieży. Wiatr od morza niesie chłód, ale w cieple latarni zawsze znajdziesz schronienie.',
++        'Krocz ostrożnie po wąskich stopniach. Widok ze szczytu latarni obejmuje całą zieloną koronę Verdantii.',
++      ],
++      rumors: [
++        'Gdy w nocy patrzy się z latarni na północ, na horyzoncie majaczą kontury Latających Wysp Mędrców z Aetherii.',
++        'Pod fundamentami latarni znajduje się naturalna szczelina geotermalna, która zasila jej wieczny płomień.',
++        'W starym gnieździe puchaczy na klifie znaleziono pierścień z herbem dawnego admirała floty handlowej.',
++      ],
++      quests: {
++        'S-V12': {
++          questId: 'S-V12',
++          before: 'Olej żywiczny do zasilania zwierciadła latarni kończy się. Przynieś mi czystą żywicę z prastarych sosen na klifie.',
++          during: 'Żywicę zbieraj tylko z naciętych pni oznaczonych znakiem strażników. Uważaj na strome zbocza.',
++          after: 'Zwierciadło lśni pełnym blaskiem! Dziękuję ci w imieniu wszystkich żeglarzy i wędrowców nocy.',
++        },
++        'H-V03': {
++          questId: 'H-V03',
++          before: 'Zauważyłam jaskinię odsłoniętą przez ostatnie oberwanie klifu pod latarnią. Wygląda na zapomniany skład rozbitków.',
++          during: 'Zejdź po linie na półkę skalną i zbadaj wejście do jaskini. Miej broń w pogotowiu.',
++          after: 'Odnaleźliśmy skrzynię nawigatora z nienaruszonym kompasem i zapiskami o sekretnych zatokach!',
++        },
++      },
++    },
++  },
++};
+diff --git a/src/game/items/__tests__/items.test.ts b/src/game/items/__tests__/items.test.ts
+new file mode 100644
+index 0000000..a79d7e2
+--- /dev/null
++++ b/src/game/items/__tests__/items.test.ts
+@@ -0,0 +1,87 @@
++import { describe, it, expect } from 'vitest';
++import { ITEM_CATALOG, ITEM_BY_ID, getItemById } from '../index';
++import { CRAFTING_RECIPES, RECIPE_BY_ID, getRecipeById } from '../index';
++
++describe('Item Catalog & Recipes Tests', () => {
++  it('should have a rich catalog of items with no duplicate IDs', () => {
++    expect(ITEM_CATALOG.length).toBeGreaterThanOrEqual(80);
++
++    const ids = new Set<string>();
++    for (const item of ITEM_CATALOG) {
++      expect(item.id).toBeTruthy();
++      expect(item.name).toBeTruthy();
++      expect(item.description).toBeTruthy();
++      expect(item.price).toBeGreaterThanOrEqual(0);
++      expect(['common', 'uncommon', 'rare', 'epic', 'legendary']).toContain(item.rarity);
++      expect([
++        'consumable',
++        'material',
++        'weapon',
++        'armor',
++        'helmet',
++        'boots',
++        'accessory',
++        'artifact',
++      ]).toContain(item.category);
++
++      expect(ids.has(item.id)).toBe(false);
++      ids.add(item.id);
++    }
++  });
++
++  it('should include the core runtime items required for game compatibility', () => {
++    expect(getItemById('potion')).toBeDefined();
++    expect(getItemById('tusk')).toBeDefined();
++    expect(getItemById('sword')).toBeDefined();
++    expect(getItemById('shield')).toBeDefined();
++  });
++
++  it('should have no duplicate recipe IDs', () => {
++    expect(CRAFTING_RECIPES.length).toBeGreaterThanOrEqual(25);
++
++    const ids = new Set<string>();
++    for (const recipe of CRAFTING_RECIPES) {
++      expect(recipe.id).toBeTruthy();
++      expect(recipe.name).toBeTruthy();
++      expect(recipe.requiredLevel).toBeGreaterThanOrEqual(1);
++      expect(recipe.craftingCostCoins).toBeGreaterThanOrEqual(0);
++      expect(['alchemy', 'forge', 'runic', 'cyber_fabricator']).toContain(recipe.station);
++
++      expect(ids.has(recipe.id)).toBe(false);
++      ids.add(recipe.id);
++    }
++  });
++
++  it('should ensure every recipe ingredient exists in the item catalog', () => {
++    for (const recipe of CRAFTING_RECIPES) {
++      expect(recipe.ingredients.length).toBeGreaterThan(0);
++      for (const ingredient of recipe.ingredients) {
++        const item = getItemById(ingredient.itemId);
++        expect(
++          item,
++          `Ingredient "${ingredient.itemId}" in recipe "${recipe.id}" must exist in ITEM_CATALOG`,
++        ).toBeDefined();
++        expect(ingredient.count).toBeGreaterThan(0);
++      }
++    }
++  });
++
++  it('should ensure every recipe result item exists in the item catalog and count > 0', () => {
++    for (const recipe of CRAFTING_RECIPES) {
++      const resultItem = getItemById(recipe.resultItemId);
++      expect(
++        resultItem,
++        `Result item "${recipe.resultItemId}" in recipe "${recipe.id}" must exist in ITEM_CATALOG`,
++      ).toBeDefined();
++      expect(recipe.resultCount).toBeGreaterThan(0);
++    }
++  });
++
++  it('should have working helper lookup functions', () => {
++    const potion = getItemById('potion');
++    expect(potion?.name).toBe('Mikstura Życia');
++
++    const basicPotionRecipe = getRecipeById('rec-potion-basic');
++    expect(basicPotionRecipe?.station).toBe('alchemy');
++  });
++});
+diff --git a/src/game/items/catalog.ts b/src/game/items/catalog.ts
+new file mode 100644
+index 0000000..72f8cfc
+--- /dev/null
++++ b/src/game/items/catalog.ts
+@@ -0,0 +1,1583 @@
++import { ItemDefinition } from './types';
++
++export const ITEM_CATALOG: ItemDefinition[] = [
++  // --- 1. PODSTAWOWE PRZEDMIOTY RUNTIME (SAVE V4/V5) ---
++  {
++    id: 'potion',
++    name: 'Mikstura Życia',
++    category: 'consumable',
++    rarity: 'common',
++    description: 'Buteleczka esencji z leśnych ziół przywracająca natychmiast 60 punktów zdrowia.',
++    price: 15,
++    stackable: true,
++    maxStack: 99,
++    effectDescription: 'Przywraca 60 HP',
++    sourceContinent: 'all',
++  },
++  {
++    id: 'tusk',
++    name: 'Kieł Bestii',
++    category: 'material',
++    rarity: 'common',
++    description: 'Ostry kieł drapieżnika używany do wzmacniania rękojeści i rzemiosła wojennego.',
++    price: 10,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'all',
++  },
++  {
++    id: 'sword',
++    name: 'Żelazny Miecz Bojowy',
++    category: 'weapon',
++    rarity: 'common',
++    description: 'Podstawowy oręż jednoręczny o wyważonej głowni i solidnym jelcu.',
++    price: 50,
++    stackable: false,
++    stats: { atkBonus: 8 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'vest',
++    name: 'Skórzana Kamizelka Ochronna',
++    category: 'armor',
++    rarity: 'common',
++    description: 'Prosta kamizelka z garbowanej skóry tłumiąca siłę lekkich ciosów.',
++    price: 45,
++    stackable: false,
++    stats: { defBonus: 6, hpBonus: 20 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'shield',
++    name: 'Drewniany Puklerz Obronny',
++    category: 'armor',
++    rarity: 'common',
++    description: 'Wzmocniony okuciami puklerz chroniący przed ciosami w zwarciu.',
++    price: 40,
++    stackable: false,
++    stats: { defBonus: 5, hpBonus: 15 },
++    sourceContinent: 'all',
++  },
++
++  // --- 2. ZAAWANSOWANE MIKSTURY I ELIKSIRY ---
++  {
++    id: 'P-KI-01',
++    name: 'Mikstura Esencji KI',
++    category: 'consumable',
++    rarity: 'uncommon',
++    description: 'Niebieski wywar ze świecących alg przywracający 50 punktów energii KI.',
++    price: 25,
++    stackable: true,
++    maxStack: 99,
++    effectDescription: 'Przywraca 50 KI',
++    sourceContinent: 'all',
++  },
++  {
++    id: 'P-ELX-V',
++    name: 'Eliksir Żywotności Korzenia',
++    category: 'consumable',
++    rarity: 'rare',
++    description: 'Żywiczny eliksir Planetarnych zwiększający regenerację zdrowia o +10 HP/s przez 30 sekund.',
++    price: 60,
++    stackable: true,
++    maxStack: 20,
++    effectDescription: '+10 HP/s przez 30s',
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'P-ELX-P',
++    name: 'Eliksir Ognistego Szału',
++    category: 'consumable',
++    rarity: 'rare',
++    description: 'Gorąca mikstura Legend podnosząca ATK o +25% i szansę na trafienie krytyczne o +15% przez 20 sekund.',
++    price: 75,
++    stackable: true,
++    maxStack: 20,
++    effectDescription: '+25% ATK, +15% Kryt przez 20s',
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'P-ELX-A',
++    name: 'Eliksir Spokoju Siódmej Oktawy',
++    category: 'consumable',
++    rarity: 'rare',
++    description: 'Złocisty napar Mędrców natychmiastowo odnawiający 120 punktów KI i zwiększający regenerację KI o +100% przez 15s.',
++    price: 80,
++    stackable: true,
++    maxStack: 20,
++    effectDescription: '+120 KI, +100% KI Regen przez 15s',
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'P-ELX-N',
++    name: 'Zastrzyk Przeciążeniowy Plazmy',
++    category: 'consumable',
++    rarity: 'rare',
++    description: 'Ampułka z nanitami zwiększająca szybkość ruchu o +30% i szybkość ataku o +25% przez 25 sekund.',
++    price: 70,
++    stackable: true,
++    maxStack: 20,
++    effectDescription: '+30% Szybkości przez 25s',
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'P-BUFF-DEF',
++    name: 'Żelazny Wywar Skalny',
++    category: 'consumable',
++    rarity: 'uncommon',
++    description: 'Gęsty wywar zwiększający obronę pancerza o +15 DEF na 60 sekund.',
++    price: 35,
++    stackable: true,
++    maxStack: 30,
++    effectDescription: '+15 DEF przez 60s',
++    sourceContinent: 'all',
++  },
++
++  // --- 3. SKŁADNIKI I MATERIAŁY Z BESTIARIUSZA (VERDANT) ---
++  {
++    id: 'mchowa-galaretka',
++    name: 'Mchowa Galaretka',
++    category: 'material',
++    rarity: 'common',
++    description: 'Lepka substancja z Mchowego Szlamaka stosowana jako spoiwo maści leczniczych.',
++    price: 6,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'zielone-ziele',
++    name: 'Zielone Ziele',
++    category: 'material',
++    rarity: 'common',
++    description: 'Podstawowe zioło rosnące w wilgotnym poszyciu lasu Verdantii.',
++    price: 5,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'ciern-wilka',
++    name: 'Cierń Wilka',
++    category: 'material',
++    rarity: 'common',
++    description: 'Twardy, ostry kolec z grzbietu Cierniowego Wilka.',
++    price: 8,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'skora-wilcza',
++    name: 'Skóra Wilcza',
++    category: 'material',
++    rarity: 'common',
++    description: 'Gęste, zielonkawe futro chroniące przed wilgocią i chłodem.',
++    price: 14,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'sok-lisciaka',
++    name: 'Sok Liściaka',
++    category: 'material',
++    rarity: 'common',
++    description: 'Substancja maskująca zapach myśliwego w gęstym poszyciu.',
++    price: 9,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'zielone-ostrze',
++    name: 'Zielone Ostrze',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Sklerotyzowany liść o krawędziach ostrych jak stalowy sztylet.',
++    price: 18,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'zywy-korzen',
++    name: 'Żywy Korzeń',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Elastyczny korzeń tętniący energią KI nawet po ścięciu.',
++    price: 22,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'czerwony-grzyb',
++    name: 'Czerwony Grzyb',
++    category: 'material',
++    rarity: 'common',
++    description: 'Zarodnikujący grzyb o właściwościach przyspieszających metabolizm.',
++    price: 7,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'zarodniki',
++    name: 'Zarodniki',
++    category: 'material',
++    rarity: 'common',
++    description: 'Drobny pyłek wywołujący paraliż w recepturach obronnych.',
++    price: 11,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'bursztyn',
++    name: 'Bursztyn',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Skamieniała żywica z zatopionymi pęcherzykami czystego gazu KI.',
++    price: 30,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'zadlo-osy',
++    name: 'Żądło Osy',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Kanalik jadowy bursztynowej osy stosowany do zatruwania grotów strzał i ostrzy.',
++    price: 20,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'poroze',
++    name: 'Poroże',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Masywne poroże skalnego jelenia o gęstości litego granitu.',
++    price: 25,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'skalna-skora',
++    name: 'Skalna Skóra',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Płat zmineralizowanej skóry chroniący przed ciosami obuchowymi.',
++    price: 35,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'jedwab-pajaka',
++    name: 'Jedwab Pająka',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Wytrzymałe nici pajęcze używane do cięciw łuków i lekkich pancerzy.',
++    price: 24,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'jad',
++    name: 'Jad',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Silna toksyna leśnych pajęczaków o działaniu rozpuszczającym pancerz.',
++    price: 32,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'pioro-puchacza',
++    name: 'Pióro Puchacza',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Aksamitne pióro tłumiące dźwięk kroków i świst rzucanych noży.',
++    price: 26,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'pyl',
++    name: 'Pył',
++    category: 'material',
++    rarity: 'common',
++    description: 'Drobny osad ze skrzydeł puchacza oślepiający atakujących napastników.',
++    price: 12,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'fragment-ruin',
++    name: 'Fragment Ruin',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Blok starożytnego piaskowca z wyrytą pieczęcią Strażnika Ruin.',
++    price: 40,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'kamien-runiczny',
++    name: 'Kamień Runiczny',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Rezonujący monolit wykorzystywany w zaawansowanym rzemiośle ochronnym.',
++    price: 50,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'verdant',
++  },
++  // Łup z bossów Verdant:
++  {
++    id: 'serce-puszczy',
++    name: 'Serce Puszczy',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Promieniejący rdzeń Ygdrashy pulsujący skoncentrowaną energią życia.',
++    price: 250,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'zielona-esencja',
++    name: 'Zielona Esencja',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Kropla pierwotnego soku pradrzewa o potężnych właściwościach regeneracyjnych.',
++    price: 120,
++    stackable: true,
++    maxStack: 20,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'kwiat-ygdrashy',
++    name: 'Kwiat Ygdrashy',
++    category: 'material',
++    rarity: 'legendary',
++    description: 'Mityczny pąk otwierający się raz na stulecie w koronie Matki Puszczy.',
++    price: 500,
++    stackable: true,
++    maxStack: 5,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'kiel-alfy',
++    name: 'Kieł Alfy',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Potężny kieł Thorgara zdolny przebić najgrubszy pancerz płytowy.',
++    price: 280,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'skora-thorgara',
++    name: 'Skóra Thorgara',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Cierniste futro przywódcy watahy całkowicie odporne na cięcia mieczem.',
++    price: 320,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'pazury-alfy',
++    name: 'Pazury Alfy',
++    category: 'material',
++    rarity: 'legendary',
++    description: 'Komplet zakrzywionych pazurów berserkerskich używanych do kucia broni ostatecznej.',
++    price: 550,
++    stackable: true,
++    maxStack: 5,
++    sourceContinent: 'verdant',
++  },
++
++  // --- 4. SKŁADNIKI I MATERIAŁY Z BESTIARIUSZA (PYRA) ---
++  {
++    id: 'wegiel',
++    name: 'Węgiel',
++    category: 'material',
++    rarity: 'common',
++    description: 'Wysokokaloryczny koks wulkaniczny niezbędny do rozpalenia pieców kuźniczych.',
++    price: 5,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'esencja-plomienia',
++    name: 'Esencja Płomienia',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Płynny żar zamknięty w ognioodpornej fiolce.',
++    price: 18,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'luska-salamandry',
++    name: 'Łuska Salamandry',
++    category: 'material',
++    rarity: 'common',
++    description: 'Żaroodporna płytka rogowa chroniąca przed płomieniami.',
++    price: 12,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'popielne-futro',
++    name: 'Popielne Futro',
++    category: 'material',
++    rarity: 'common',
++    description: 'Szorstka sierść wilków z kaldery odporna na iskry i popiół.',
++    price: 14,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'skalny-kastet',
++    name: 'Skalny Kastet',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Skamieniały narost z kości berserkera o potężnej masie uderzeniowej.',
++    price: 24,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'magmowy-pancerz',
++    name: 'Magmowy Pancerz',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Skorupa skorupiaka z jeziora lawowego odbijająca ciosy sieczne.',
++    price: 26,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'skrzydlo-zaru',
++    name: 'Skrzydło Żaru',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Skórzasta błona nietoperza wulkanicznego podszyta żyłami ognia.',
++    price: 22,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'golem-ruin',
++    name: 'Rdzeń Golema Ruin',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Basaltowy kamień napędowy ożywiający dawne mechanizmy obronne.',
++    price: 45,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'plomien-duch',
++    name: 'Płomień Duch',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Eteryczna wstęga niegasnącego ognia pobrana z upiora areny.',
++    price: 48,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'rog-areny',
++    name: 'Róg Areny',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Zakrzywiony róg bojowego byka używany do wyrobu hełmów i rękojeści.',
++    price: 42,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'szklo-obsydianowe',
++    name: 'Szkło Obsydianowe',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Ostre odłamki czarnego szkła wulkanicznego o mikroskopijnej krawędzi tnącej.',
++    price: 28,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'obsydian',
++    name: 'Obsydian',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Masywny blok czarnego minerału niezbędny do wykuwania najtwardszych pancerzy.',
++    price: 38,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'pyra',
++  },
++  // Łup z bossów Pyra:
++  {
++    id: 'pancerz-kharzula',
++    name: 'Pancerz Kharzula',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Zahartowana w krwi mistrzów płyta bojowa z osobistego rynsztunku Władcy Areny.',
++    price: 340,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'plomien-areny',
++    name: 'Płomień Areny',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Niekontrolowana iskra bojowego szału rozpalająca oręż niebieskim żarem.',
++    price: 290,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'serce-wulkanu',
++    name: 'Serce Wulkanu',
++    category: 'material',
++    rarity: 'legendary',
++    description: 'Monolityczny kryształ czystej magmy bijący w piersi smoka Pyrrhaxa.',
++    price: 600,
++    stackable: true,
++    maxStack: 5,
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'luska-pyrrhaxa',
++    name: 'Łuska Pyrrhaxa',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Potężna smocza łuska wielkości tarczy bojowej odporna na uderzenia taranem.',
++    price: 360,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'pyra',
++  },
++
++  // --- 5. SKŁADNIKI I MATERIAŁY Z BESTIARIUSZA (AETHER) ---
++  {
++    id: 'pyl-swiatla',
++    name: 'Pył Światła',
++    category: 'material',
++    rarity: 'common',
++    description: 'Lśniący pył zebrany ze świetlików pieczęci oświetlający ciemności.',
++    price: 8,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'karta-pergaminu',
++    name: 'Karta Pergaminu',
++    category: 'material',
++    rarity: 'common',
++    description: 'Trwały arkusz preparowanego jedwabiu gotowy do nanoszenia glifów ochronnych.',
++    price: 10,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'eter-bibliotekarza',
++    name: 'Eter Bibliotekarza',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Skondensowana aura mądrości unosząca się w starych księgozbiorach.',
++    price: 22,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'kamien-swiatynny',
++    name: 'Kamień Świątynny',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Biały marmur nasycony harmonicznym śpiewem dzwonów medytacyjnych.',
++    price: 20,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'nic-eteru',
++    name: 'Nić Eteru',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Subtelne pasmo energii spajające materię ze sferą duchową.',
++    price: 25,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'szmaragdowa-luska',
++    name: 'Szmaragdowa Łuska',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Błyszcząca łuska świętego węża strażniczego odbijająca promienie słoneczne.',
++    price: 36,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'skarabeusz',
++    name: 'Złoty Skarabeusz',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Owad o pancerzu z czystego złota reagujący na podziemne prądy KI.',
++    price: 45,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'soczewka-wiedzy',
++    name: 'Soczewka Wiedzy',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Precyzyjnie szlifowany kryształ skupiający wiązki myśli i energii duchowej.',
++    price: 52,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'maska-rytualu',
++    name: 'Maska Rytuału',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Ceremonialna maska używana przez adeptów podczas inicjacji w chmurach.',
++    price: 48,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'pioro-mgly',
++    name: 'Pióro Mgły',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Pióro żurawia górskiego niemal niewidoczne na tle porannych obłoków.',
++    price: 24,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'aether',
++  },
++  // Łup z bossów Aether:
++  {
++    id: 'szaty-arcykaplana',
++    name: 'Szaty Arcykapłana',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Tkana ze złotych nici szata nasycona potężnymi zaklęciami barierowymi.',
++    price: 330,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'eter-pustki',
++    name: 'Eter Pustki',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Ciemna materia duchowa z komory wewnętrznej Arcykapłana Pustki.',
++    price: 310,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'pieczec-arcykaplana',
++    name: 'Pieczęć Arcykapłana',
++    category: 'material',
++    rarity: 'legendary',
++    description: 'Osobisty pierścień pieczętny pozwalający otwierać wrota Siódmej Oktawy.',
++    price: 580,
++    stackable: true,
++    maxStack: 5,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'luska-aurelitha',
++    name: 'Łuska Aurelitha',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Złota łuska smoka sanktuarium o niezrównanej odporności na ataki dystansowe.',
++    price: 350,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'serce-sanktuarium',
++    name: 'Serce Sanktuarium',
++    category: 'material',
++    rarity: 'legendary',
++    description: 'Jaśniejący rdzeń niebiańskiego smoka skupiający wszystkie promienie słońca.',
++    price: 620,
++    stackable: true,
++    maxStack: 5,
++    sourceContinent: 'aether',
++  },
++
++  // --- 6. SKŁADNIKI I MATERIAŁY Z BESTIARIUSZA (NEXUS) ---
++  {
++    id: 'zlom',
++    name: 'Złom Tytanowy',
++    category: 'material',
++    rarity: 'common',
++    description: 'Kawałki utwardzonego stopu metalu gotowe do ponownego przetopienia w piecu indukcyjnym.',
++    price: 6,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'cewka',
++    name: 'Cewka Indukcyjna',
++    category: 'material',
++    rarity: 'common',
++    description: 'Miedziane uzwojenie generujące pole magnetyczne w systemach zasilania.',
++    price: 10,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'nanopyl',
++    name: 'Nanopył',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Mikroskopijne roboty budowlane zdolne do samoczynnej naprawy pęknięć pancerza.',
++    price: 24,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'czujnik',
++    name: 'Czujnik Biometryczny',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Układ scalony rejestrujący wahania aury i przepływ prądów KI.',
++    price: 22,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'silownik',
++    name: 'Siłownik Hydrauliczny',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Precyzyjny tłok wspomagający siłę uderzeń i skoków bojowych.',
++    price: 26,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'elektroda',
++    name: 'Elektroda Wolframowa',
++    category: 'material',
++    rarity: 'uncommon',
++    description: 'Pręt ze stopu żaroodpornego używany w spawarkach plazmowych.',
++    price: 20,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'lufa',
++    name: 'Lufa Precyzyjna',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Gwintowana lufa ze stopu kompozytowego o minimalnej dyspersji wiązki.',
++    price: 44,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'plyta-pancerna',
++    name: 'Płyta Pancerna',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Wielowarstwowa płyta grafenowa pochłaniająca impakt pocisków kinetycznych.',
++    price: 48,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'rdzen-energii',
++    name: 'Rdzeń Energii',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Miniaturowy reaktor fuzji zimnej dostarczający stabilnego napięcia.',
++    price: 55,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'pamiec-danych',
++    name: 'Kość Pamięci Danych',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Krystaliczny nośnik pamięci zawierający zapomniane algorytmy bojowe.',
++    price: 50,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'rdzen-plazmy',
++    name: 'Rdzeń Plazmy',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Komora wyładowcza z uwięzionym zjonizowanym gazem o barwie cyjanu.',
++    price: 58,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'modul-optyczny',
++    name: 'Moduł Optyczny',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Laserowy dalmierz z noktowizorem podnoszący celność ostrzału.',
++    price: 46,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'kruk-danych',
++    name: 'Procesor Kruka Danych',
++    category: 'material',
++    rarity: 'rare',
++    description: 'Zdemontowany układ logiczny zwiadowczego drona autonomicznego.',
++    price: 54,
++    stackable: true,
++    maxStack: 99,
++    sourceContinent: 'nexus',
++  },
++  // Łup z bossów Nexus:
++  {
++    id: 'kod-arbitra',
++    name: 'Kod Arbitra',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Kryptograficzny klucz dostępu do systemów dowodzenia Arbitra Zero.',
++    price: 320,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'plyta-egzekutora',
++    name: 'Płyta Egzekutora',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Pancerz tytanowy zdemontowany z korpusu głównego Arbitra Zero.',
++    price: 340,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'rdzen-hydry',
++    name: 'Rdzeń Hydry',
++    category: 'material',
++    rarity: 'legendary',
++    description: 'Trójbiegunowy generator mocy napędzający wszystkie głowy mechanicznej bestii.',
++    price: 610,
++    stackable: true,
++    maxStack: 5,
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'modul-prime',
++    name: 'Moduł Prime',
++    category: 'material',
++    rarity: 'epic',
++    description: 'Główny koprocesor neuronowy zarządzający obroną cytadeli Nexus-9.',
++    price: 370,
++    stackable: true,
++    maxStack: 10,
++    sourceContinent: 'nexus',
++  },
++
++  // --- 7. BROŃ (WEAPONS: W-V*, W-P*, W-A*, W-N*) ---
++  // Verdant:
++  {
++    id: 'W-V1',
++    name: 'Sztylet Mchowego Zwiadowcy',
++    category: 'weapon',
++    rarity: 'uncommon',
++    description: 'Lekki puginał z hartowanego drewna żelaznego o zielonym ostrzu.',
++    price: 80,
++    stackable: false,
++    stats: { atkBonus: 14, critChancePercent: 5 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'W-V2',
++    name: 'Ostrze Prastarego Dębu',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Miecz wykuty z rdzenia pnia dębu pamiętającego Pierwszą Erę Planetarnych.',
++    price: 180,
++    stackable: false,
++    stats: { atkBonus: 26, hpBonus: 40 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'W-V3',
++    name: 'Klinga Żywicy',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Półprzezroczysty miecz nasycony sokiem roślinnym paraliżującym wrogów.',
++    price: 240,
++    stackable: false,
++    stats: { atkBonus: 34, speedMultiplier: 1.05 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'W-V4',
++    name: 'Topór Strażnika Puszczy',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Ciężki topór bojowy zdolny jednym zamachem ściąć najgrubsze konary i pancerze.',
++    price: 380,
++    stackable: false,
++    stats: { atkBonus: 48, critChancePercent: 10 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'W-V5',
++    name: 'Pazury Leśnego Berserkera',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Broń na przedramiona z kłów bestii umożliwiająca błyskawiczne serie uderzeń.',
++    price: 490,
++    stackable: false,
++    stats: { atkBonus: 56, speedMultiplier: 1.1, critChancePercent: 12 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'W-V6',
++    name: 'Szmaragdowy Włócznik Ygdrashy',
++    category: 'weapon',
++    rarity: 'legendary',
++    description: 'Mityczna włócznia Planetarnych pulsująca pierwotnym życiem samego serca puszczy.',
++    price: 850,
++    stackable: false,
++    stats: { atkBonus: 74, hpBonus: 120, kiRegenBonus: 4 },
++    sourceContinent: 'verdant',
++  },
++
++  // Pyra:
++  {
++    id: 'W-P1',
++    name: 'Ognisty Puginał Kalderonu',
++    category: 'weapon',
++    rarity: 'uncommon',
++    description: 'Krótki sztylet z krawędzią rozgrzaną do czerwoności przez uwięziony żar.',
++    price: 85,
++    stackable: false,
++    stats: { atkBonus: 16, critChancePercent: 6 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'W-P2',
++    name: 'Topór Bazaltowy',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Jednoręczny topór o głowicy z litego bazaltu kruszący tarcze przeciwników.',
++    price: 190,
++    stackable: false,
++    stats: { atkBonus: 29, defBonus: 6 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'W-P3',
++    name: 'Miecz Magmowego Żaru',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Bojowy miecz Legend, którego klinga zapala się przy wyprowadzaniu techniki KI.',
++    price: 260,
++    stackable: false,
++    stats: { atkBonus: 38, critChancePercent: 8 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'W-P4',
++    name: 'Młot Przełamania',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Dwuręczny obuch bojowy wywołujący wstrząsy sejsmiczne przy uderzeniu w ziemię.',
++    price: 410,
++    stackable: false,
++    stats: { atkBonus: 52, defBonus: 12 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'W-P5',
++    name: 'Ostrze Kharzula',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Mistrzowska szabla z aren Twierdzy Popiołu nosząca ślady setek pojedynków.',
++    price: 520,
++    stackable: false,
++    stats: { atkBonus: 62, speedMultiplier: 1.08, critChancePercent: 15 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'W-P6',
++    name: 'Smoczy Kieł Pyrrhaxa',
++    category: 'weapon',
++    rarity: 'legendary',
++    description: 'Ostrze wykute z kła smoka wulkanu buchające płomieniem przy każdym uderzeniu.',
++    price: 900,
++    stackable: false,
++    stats: { atkBonus: 82, critChancePercent: 18, hpBonus: 80 },
++    sourceContinent: 'pyra',
++  },
++
++  // Aether:
++  {
++    id: 'W-A1',
++    name: 'Runiczny Kostur Ciszy',
++    category: 'weapon',
++    rarity: 'uncommon',
++    description: 'Kostur z białego marmuru wspomagający skupienie i rzucanie zaklęć ochronnych.',
++    price: 85,
++    stackable: false,
++    stats: { atkBonus: 12, kiBonus: 30, kiRegenBonus: 2 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'W-A2',
++    name: 'Ostrze Mistrza Oddechu',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Lekka, zakrzywiona szabla Mędrców przecinająca powietrze bez najmniejszego szelestu.',
++    price: 195,
++    stackable: false,
++    stats: { atkBonus: 25, kiBonus: 45, speedMultiplier: 1.06 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'W-A3',
++    name: 'Laska Złotego Eteru',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Broń magiczna zwieńczona obracającym się kryształem słonecznym.',
++    price: 270,
++    stackable: false,
++    stats: { atkBonus: 33, kiBonus: 70, kiRegenBonus: 3 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'W-A4',
++    name: 'Berło Sanktuarium',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Święte insygnium kapłanów Aetherii potęgujące zasięg fal uderzeniowych KI.',
++    price: 430,
++    stackable: false,
++    stats: { atkBonus: 46, kiBonus: 90, kiRegenBonus: 5 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'W-A5',
++    name: 'Klinga Tysiąca Źródeł',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Miecz z czystego kryształu eterycznego rezonujący z pieśnią dzwonów świątynnych.',
++    price: 540,
++    stackable: false,
++    stats: { atkBonus: 58, kiBonus: 110, critChancePercent: 10 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'W-A6',
++    name: 'Promień Aurelitha',
++    category: 'weapon',
++    rarity: 'legendary',
++    description: 'Boski kostur niebiańskiego smoka strzelający skoncentrowanymi promieniami gwiazd.',
++    price: 920,
++    stackable: false,
++    stats: { atkBonus: 76, kiBonus: 160, kiRegenBonus: 8 },
++    sourceContinent: 'aether',
++  },
++
++  // Nexus:
++  {
++    id: 'W-N1',
++    name: 'Emiter Wiązki Plazmowej',
++    category: 'weapon',
++    rarity: 'uncommon',
++    description: 'Kompaktowy pistolet jonowy zasilany standardowym akumulatorem R-01.',
++    price: 85,
++    stackable: false,
++    stats: { atkBonus: 15, kiBonus: 20 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'W-N2',
++    name: 'Wibro-Ostrze Nanitowe',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Miecz o krawędzi drgającej z częstotliwością ultradźwiękową rozcinający pancerze.',
++    price: 200,
++    stackable: false,
++    stats: { atkBonus: 28, speedMultiplier: 1.07 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'W-N3',
++    name: 'Karabinek Łukowy V-2',
++    category: 'weapon',
++    rarity: 'rare',
++    description: 'Karabinek strzelający podwójnymi wiązkami wyładowań elektrycznych.',
++    price: 275,
++    stackable: false,
++    stats: { atkBonus: 36, critChancePercent: 8 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'W-N4',
++    name: 'Działko Przeciążeniowe',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Ciężka broń energetyczna zdolna jednym strzałem rozbić barykadę ze stali.',
++    price: 440,
++    stackable: false,
++    stats: { atkBonus: 50, kiBonus: 60, critChancePercent: 10 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'W-N5',
++    name: 'Kosa Arbitra Zero',
++    category: 'weapon',
++    rarity: 'epic',
++    description: 'Cybernetyczna kosa bojowa z laserowym ostrzem wyłączająca systemy obronne celów.',
++    price: 550,
++    stackable: false,
++    stats: { atkBonus: 60, speedMultiplier: 1.1, critChancePercent: 14 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'W-N6',
++    name: 'Rozpruwacz Hydry-Rdzenia',
++    category: 'weapon',
++    rarity: 'legendary',
++    description: 'Wielolufowe działo plazmowe o potrójnym strumieniu wyładowań plazmy wysokiej gęstości.',
++    price: 930,
++    stackable: false,
++    stats: { atkBonus: 80, kiBonus: 80, speedMultiplier: 1.12 },
++    sourceContinent: 'nexus',
++  },
++
++  // --- 8. ZBROJE I PANCERZE (ARMORS: A-V*, A-P*, A-A*, A-N*) ---
++  // Verdant:
++  {
++    id: 'A-V1',
++    name: 'Kamizelka Leśnego Pąka',
++    category: 'armor',
++    rarity: 'uncommon',
++    description: 'Lekki pancerz ze splecionych pnączy wspomagający swobodę ruchów.',
++    price: 80,
++    stackable: false,
++    stats: { defBonus: 10, hpBonus: 40 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'A-V2',
++    name: 'Pancerz z Kory Pradrzewa',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Masywny napierśnik chroniący tułów niczym pień tysiącletniego dębu.',
++    price: 180,
++    stackable: false,
++    stats: { defBonus: 22, hpBonus: 80 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'A-V3',
++    name: 'Płaszcz Zielonego Wędrowca',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Zwiadowcza peleryna wtapiająca sylwetkę w leśne tło i dająca ochronę przed magią.',
++    price: 240,
++    stackable: false,
++    stats: { defBonus: 28, speedMultiplier: 1.05, kiRegenBonus: 2 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'A-V4',
++    name: 'Zbroja Żywego Korzenia',
++    category: 'armor',
++    rarity: 'epic',
++    description: 'Pancerz regenerujący mikropęknięcia dzięki sokom żywicznym krążącym we włóknach.',
++    price: 380,
++    stackable: false,
++    stats: { defBonus: 38, hpBonus: 140, kiRegenBonus: 3 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'A-V5',
++    name: 'Pancerz Thorgara Alfy',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Nieprzebijalna zbroja z ciernistego futra i płyt z kości wielkich drapieżników.',
++    price: 780,
++    stackable: false,
++    stats: { defBonus: 52, hpBonus: 220, atkBonus: 15 },
++    sourceContinent: 'verdant',
++  },
++
++  // Pyra:
++  {
++    id: 'A-P1',
++    name: 'Skórzak z Popiołu',
++    category: 'armor',
++    rarity: 'uncommon',
++    description: 'Kaftan ze skóry popielnego wilka odporny na przypalenia i iskry.',
++    price: 85,
++    stackable: false,
++    stats: { defBonus: 12, hpBonus: 45 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'A-P2',
++    name: 'Kolczuga Kalderonu',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Gęsto pleciona kolczuga ze stali wulkanicznej chroniąca przed cięciami.',
++    price: 190,
++    stackable: false,
++    stats: { defBonus: 24, hpBonus: 90 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'A-P3',
++    name: 'Zbroja Płytowa z Obsydianu',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Ciężki pancerz płytowy odbijający bezpośrednie uderzenia młotów bojowych.',
++    price: 260,
++    stackable: false,
++    stats: { defBonus: 32, hpBonus: 120 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'A-P4',
++    name: 'Karacenowa Skorupa Bazaltu',
++    category: 'armor',
++    rarity: 'epic',
++    description: 'Elitarny rynsztunek czempionów aren wulkanicznych redukujący obrażenia o stałą wartość.',
++    price: 420,
++    stackable: false,
++    stats: { defBonus: 44, hpBonus: 170, atkBonus: 12 },
++    sourceContinent: 'pyra',
++  },
++  {
++    id: 'A-P5',
++    name: 'Pancerz Płomiennego Czempiona Pyrrhaxa',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Mityczna smocza zbroja, która podpala każdego wroga atakującego w zwarciu.',
++    price: 820,
++    stackable: false,
++    stats: { defBonus: 58, hpBonus: 250, atkBonus: 20 },
++    sourceContinent: 'pyra',
++  },
++
++  // Aether:
++  {
++    id: 'A-A1',
++    name: 'Szata Ucznia Chmur',
++    category: 'armor',
++    rarity: 'uncommon',
++    description: 'Lekka tunika jedwabna ułatwiająca koncentrację i płynny przepływ energii duchowej.',
++    price: 85,
++    stackable: false,
++    stats: { defBonus: 8, kiBonus: 50, kiRegenBonus: 2 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'A-A2',
++    name: 'Toga Mistrza Zwojów',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Szata z wyhaftowanymi złotą nicią pieczęciami pochłaniającymi energię uderzeń.',
++    price: 195,
++    stackable: false,
++    stats: { defBonus: 18, kiBonus: 80, kiRegenBonus: 4 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'A-A3',
++    name: 'Tunika Słonecznego Świtu',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Pancerz kapłański roztaczający wokół noszącego łagodne światło ochronne.',
++    price: 265,
++    stackable: false,
++    stats: { defBonus: 26, kiBonus: 100, hpBonus: 60 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'A-A4',
++    name: 'Płaszcz Gwiezdnego Obserwatora',
++    category: 'armor',
++    rarity: 'epic',
++    description: 'Szata utkana z chmur i nici eterycznych umożliwiająca unoszenie się nad ziemią.',
++    price: 430,
++    stackable: false,
++    stats: { defBonus: 36, kiBonus: 140, kiRegenBonus: 6, speedMultiplier: 1.05 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'A-A5',
++    name: 'Święte Szaty Sanktuarium Aurelitha',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Najświętszy rynsztunek Mędrców dający całkowitą odporność na zaklęcia paraliżujące.',
++    price: 840,
++    stackable: false,
++    stats: { defBonus: 48, kiBonus: 220, kiRegenBonus: 10, hpBonus: 100 },
++    sourceContinent: 'aether',
++  },
++
++  // Nexus:
++  {
++    id: 'A-N1',
++    name: 'Kombinezon Podszyty Przewodnikami',
++    category: 'armor',
++    rarity: 'uncommon',
++    description: 'Kombinezon z gumy syntetycznej z wplecionymi taśmami uziemiającymi wyładowania.',
++    price: 85,
++    stackable: false,
++    stats: { defBonus: 11, kiBonus: 30, hpBonus: 35 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'A-N2',
++    name: 'Pancerz Kompozytowy Sektora',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Lekka osłona klatki piersiowej ze sprasowanych włókien szklanych i tytanu.',
++    price: 200,
++    stackable: false,
++    stats: { defBonus: 23, hpBonus: 85 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'A-N3',
++    name: 'Płyta Grafenowa V-2',
++    category: 'armor',
++    rarity: 'rare',
++    description: 'Elastyczny napierśnik grafenowy rozpraszający energię kinetyczną pocisków.',
++    price: 270,
++    stackable: false,
++    stats: { defBonus: 30, hpBonus: 110, speedMultiplier: 1.04 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'A-N4',
++    name: 'Egzoszkielet Vanguarda',
++    category: 'armor',
++    rarity: 'epic',
++    description: 'Wzmocniony korpus ze zintegrowanymi siłownikami hydraulicznymi potęgującymi siłę noszącego.',
++    price: 440,
++    stackable: false,
++    stats: { defBonus: 42, hpBonus: 160, atkBonus: 14 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'A-N5',
++    name: 'Pancerz Rdzenia Prime Arbitra',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Szczytowe osiągnięcie inżynierii Nexus-9 z polem siłowym pochłaniającym 30% obrażeń.',
++    price: 850,
++    stackable: false,
++    stats: { defBonus: 56, hpBonus: 240, kiBonus: 100 },
++    sourceContinent: 'nexus',
++  },
++
++  // --- 9. UNIKATOWE ARTEFAKTY Z KSIĘGI PRZYGODY (U-*) ---
++  {
++    id: 'U-W01',
++    name: 'Amulet Pierwszego Drzewa',
++    category: 'artifact',
++    rarity: 'epic',
++    description: 'Relikwia z prastarych ruin Verdantii zapewniająca stałą regenerację energii życiowej.',
++    price: 450,
++    stackable: false,
++    stats: { hpBonus: 100, kiRegenBonus: 3, defBonus: 10 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'U-W02',
++    name: 'Totem Matki Ygdrashy',
++    category: 'artifact',
++    rarity: 'legendary',
++    description: 'Święty posążek rzeźbiony z serca puszczy, który ocala noszącego przed śmiertelnym ciosem.',
++    price: 900,
++    stackable: false,
++    stats: { hpBonus: 250, defBonus: 25, kiRegenBonus: 5 },
++    sourceContinent: 'verdant',
++  },
++  {
++    id: 'U-W03',
++    name: 'Pryzmat Archiwum Wiatru',
++    category: 'artifact',
++    rarity: 'epic',
++    description: 'Kryształ astronomiczny rozpraszający iluzje i podwajający zasięg technik dystansowych.',
++    price: 480,
++    stackable: false,
++    stats: { kiBonus: 150, kiRegenBonus: 5, critChancePercent: 8 },
++    sourceContinent: 'aether',
++  },
++  {
++    id: 'U-W04',
++    name: 'Rdzeń Arbitrażu Danych',
++    category: 'artifact',
++    rarity: 'epic',
++    description: 'Koprocesor kwantowy analizujący słabe punkty wrogów w ułamkach mikrosekund.',
++    price: 500,
++    stackable: false,
++    stats: { atkBonus: 25, critChancePercent: 12, speedMultiplier: 1.06 },
++    sourceContinent: 'nexus',
++  },
++  {
++    id: 'U-W05',
++    name: 'Klejnot Południowych Mórz',
++    category: 'artifact',
++    rarity: 'epic',
++    description: 'Lśniący szafir morski ułatwiający żeglugę i chroniący statek przed sztormami.',
++    price: 520,
++    stackable: false,
++    stats: { hpBonus: 120, defBonus: 15, speedMultiplier: 1.05 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'U-W06',
++    name: 'Pradawny Kompas Przymierza',
++    category: 'artifact',
++    rarity: 'epic',
++    description: 'Kompas wskazujący drogę do zaginionych wysp i ukrytych sanktuariów oceanu.',
++    price: 550,
++    stackable: false,
++    stats: { speedMultiplier: 1.08, kiBonus: 80 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'U-W07',
++    name: 'Pieczęć Siedmiu Oktaw',
++    category: 'artifact',
++    rarity: 'legendary',
++    description: 'Złoty medalion harmonizujący przepływ energii KI wszystkich czterech żywiołów.',
++    price: 950,
++    stackable: false,
++    stats: { kiBonus: 200, kiRegenBonus: 8, atkBonus: 20, defBonus: 20 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'U-W08',
++    name: 'Korona Gwiazd Oceanu',
++    category: 'artifact',
++    rarity: 'legendary',
++    description: 'Diadem pierwszego władcy planety wykuty z meteorytowego złota i pereł głębinowych.',
++    price: 1200,
++    stackable: false,
++    stats: { hpBonus: 300, kiBonus: 250, atkBonus: 30, defBonus: 30, speedMultiplier: 1.1 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'U-A05',
++    name: 'Pancerz Wielkiego Wiru',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Zbroja wykuta z muszli prastarych lewiatanów głębinowych i stopu tytanu.',
++    price: 1100,
++    stackable: false,
++    stats: { defBonus: 65, hpBonus: 280, speedMultiplier: 1.05 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'U-A06',
++    name: 'Płaszcz Zaginionego Architekta',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Peleryna ze splotu światłowodów i jedwabiu eterycznego chroniąca przed wszelkimi anomaliami.',
++    price: 1150,
++    stackable: false,
++    stats: { defBonus: 60, kiBonus: 240, kiRegenBonus: 10 },
++    sourceContinent: 'all',
++  },
++  {
++    id: 'U-A08',
++    name: 'Szata Transcendencji KI',
++    category: 'armor',
++    rarity: 'legendary',
++    description: 'Szata ostatecznego mistrza sztuk walki redukująca koszty technik KI o 30%.',
++    price: 1300,
++    stackable: false,
++    stats: { defBonus: 70, hpBonus: 320, kiBonus: 300, kiRegenBonus: 12 },
++    sourceContinent: 'all',
++  },
++];
++
++export const ITEM_BY_ID: Record<string, ItemDefinition> = Object.fromEntries(
++  ITEM_CATALOG.map((item) => [item.id, item]),
++);
++
++export function getItemById(id: string): ItemDefinition | undefined {
++  return ITEM_BY_ID[id];
++}
+diff --git a/src/game/items/index.ts b/src/game/items/index.ts
+new file mode 100644
+index 0000000..9ce4d18
+--- /dev/null
++++ b/src/game/items/index.ts
+@@ -0,0 +1,42 @@
++export * from './types';
++export * from './catalog';
++export * from './recipes';
++
++import { ITEM_CATALOG } from './catalog';
++import { CRAFTING_RECIPES } from './recipes';
++import { ItemCategory, ItemDefinition, CraftingRecipe, CraftingStation } from './types';
++import { ContinentId } from '../worlds/types';
++
++export const ITEM_BY_ID: Record<string, ItemDefinition> = Object.fromEntries(
++  ITEM_CATALOG.map((item) => [item.id, item]),
++);
++
++export function getItemById(id: string): ItemDefinition | undefined {
++  return ITEM_BY_ID[id];
++}
++
++export function getItemsByCategory(category: ItemCategory): ItemDefinition[] {
++  return ITEM_CATALOG.filter((item) => item.category === category);
++}
++
++export function getItemsByContinent(continent: ContinentId | 'all'): ItemDefinition[] {
++  return ITEM_CATALOG.filter(
++    (item) => item.sourceContinent === continent || item.sourceContinent === 'all',
++  );
++}
++
++export const RECIPE_BY_ID: Record<string, CraftingRecipe> = Object.fromEntries(
++  CRAFTING_RECIPES.map((recipe) => [recipe.id, recipe]),
++);
++
++export function getRecipeById(id: string): CraftingRecipe | undefined {
++  return RECIPE_BY_ID[id];
++}
++
++export function getRecipesByStation(station: CraftingStation): CraftingRecipe[] {
++  return CRAFTING_RECIPES.filter((recipe) => recipe.station === station);
++}
++
++export function getRecipesByCrafter(crafterNpcId: string): CraftingRecipe[] {
++  return CRAFTING_RECIPES.filter((recipe) => recipe.crafterNpcId === crafterNpcId);
++}
+diff --git a/src/game/items/recipes.ts b/src/game/items/recipes.ts
+new file mode 100644
+index 0000000..38b37ea
+--- /dev/null
++++ b/src/game/items/recipes.ts
+@@ -0,0 +1,704 @@
++import { CraftingRecipe } from './types';
++
++export const CRAFTING_RECIPES: CraftingRecipe[] = [
++  // --- ALCHEMY (ZIELARSTWO I ALCHEMIA) ---
++  {
++    id: 'rec-potion-basic',
++    name: 'Warzenie Mikstury Życia',
++    station: 'alchemy',
++    requiredLevel: 1,
++    craftingCostCoins: 5,
++    crafterNpcId: 'npc-mio',
++    ingredients: [
++      { itemId: 'zielone-ziele', count: 2 },
++      { itemId: 'mchowa-galaretka', count: 1 },
++    ],
++    resultItemId: 'potion',
++    resultCount: 2,
++  },
++  {
++    id: 'rec-potion-ki',
++    name: 'Destylacja Esencji KI',
++    station: 'alchemy',
++    requiredLevel: 3,
++    craftingCostCoins: 10,
++    crafterNpcId: 'npc-mei',
++    ingredients: [
++      { itemId: 'pyl-swiatla', count: 2 },
++      { itemId: 'nic-eteru', count: 1 },
++    ],
++    resultItemId: 'P-KI-01',
++    resultCount: 2,
++  },
++  {
++    id: 'rec-def-brew',
++    name: 'Ekstrakcja Żelaznego Wywaru',
++    station: 'alchemy',
++    requiredLevel: 4,
++    craftingCostCoins: 15,
++    crafterNpcId: 'npc-mio',
++    ingredients: [
++      { itemId: 'skalna-skora', count: 1 },
++      { itemId: 'zywy-korzen', count: 1 },
++    ],
++    resultItemId: 'P-BUFF-DEF',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-elixir-verdant',
++    name: 'Eliksir Żywotności Korzenia',
++    station: 'alchemy',
++    requiredLevel: 8,
++    craftingCostCoins: 30,
++    crafterNpcId: 'npc-mio',
++    ingredients: [
++      { itemId: 'zywy-korzen', count: 3 },
++      { itemId: 'bursztyn', count: 2 },
++      { itemId: 'zielona-esencja', count: 1 },
++    ],
++    resultItemId: 'P-ELX-V',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-elixir-pyra',
++    name: 'Warzenie Ognistego Szału',
++    station: 'alchemy',
++    requiredLevel: 8,
++    craftingCostCoins: 35,
++    crafterNpcId: 'npc-yumi',
++    ingredients: [
++      { itemId: 'esencja-plomienia', count: 3 },
++      { itemId: 'luska-salamandry', count: 2 },
++      { itemId: 'plomien-duch', count: 1 },
++    ],
++    resultItemId: 'P-ELX-P',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-elixir-aether',
++    name: 'Napar Spokoju Siódmej Oktawy',
++    station: 'alchemy',
++    requiredLevel: 8,
++    craftingCostCoins: 40,
++    crafterNpcId: 'npc-mei',
++    ingredients: [
++      { itemId: 'eter-bibliotekarza', count: 2 },
++      { itemId: 'pioro-mgly', count: 2 },
++      { itemId: 'soczewka-wiedzy', count: 1 },
++    ],
++    resultItemId: 'P-ELX-A',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-elixir-nexus',
++    name: 'Synteza Zastrzyku Plazmowego',
++    station: 'alchemy',
++    requiredLevel: 8,
++    craftingCostCoins: 35,
++    crafterNpcId: 'npc-eko0',
++    ingredients: [
++      { itemId: 'nanopyl', count: 3 },
++      { itemId: 'rdzen-plazmy', count: 1 },
++      { itemId: 'elektroda', count: 2 },
++    ],
++    resultItemId: 'P-ELX-N',
++    resultCount: 1,
++  },
++
++  // --- FORGE (KUŹNIA TRADYCYJNA I LAWOWA) ---
++  {
++    id: 'rec-sword-basic',
++    name: 'Kucie Żelaznego Miecza',
++    station: 'forge',
++    requiredLevel: 1,
++    craftingCostCoins: 20,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'tusk', count: 2 },
++      { itemId: 'fragment-ruin', count: 1 },
++    ],
++    resultItemId: 'sword',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-v1',
++    name: 'Wykucie Sztyletu Mchowego Zwiadowcy',
++    station: 'forge',
++    requiredLevel: 2,
++    craftingCostCoins: 30,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'zielone-ostrze', count: 2 },
++      { itemId: 'ciern-wilka', count: 2 },
++    ],
++    resultItemId: 'W-V1',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-v2',
++    name: 'Kucie Ostrza Prastarego Dębu',
++    station: 'forge',
++    requiredLevel: 5,
++    craftingCostCoins: 60,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'zywy-korzen', count: 3 },
++      { itemId: 'bursztyn', count: 2 },
++      { itemId: 'kamien-runiczny', count: 1 },
++    ],
++    resultItemId: 'W-V2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-v4',
++    name: 'Topór Strażnika Puszczy',
++    station: 'forge',
++    requiredLevel: 10,
++    craftingCostCoins: 120,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'poroze', count: 3 },
++      { itemId: 'skalna-skora', count: 2 },
++      { itemId: 'kamien-runiczny', count: 2 },
++    ],
++    resultItemId: 'W-V4',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-v5',
++    name: 'Pazury Leśnego Berserkera',
++    station: 'forge',
++    requiredLevel: 14,
++    craftingCostCoins: 160,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'kiel-alfy', count: 2 },
++      { itemId: 'pazury-alfy', count: 1 },
++      { itemId: 'skora-thorgara', count: 1 },
++    ],
++    resultItemId: 'W-V5',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-v6',
++    name: 'Wykucie Szmaragdowego Włócznika',
++    station: 'forge',
++    requiredLevel: 18,
++    craftingCostCoins: 300,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'serce-puszczy', count: 1 },
++      { itemId: 'kwiat-ygdrashy', count: 1 },
++      { itemId: 'zywy-korzen', count: 5 },
++    ],
++    resultItemId: 'W-V6',
++    resultCount: 1,
++  },
++  // Pyra Forge:
++  {
++    id: 'rec-w-p1',
++    name: 'Ognisty Puginał Kalderonu',
++    station: 'forge',
++    requiredLevel: 2,
++    craftingCostCoins: 30,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'wegiel', count: 3 },
++      { itemId: 'esencja-plomienia', count: 1 },
++    ],
++    resultItemId: 'W-P1',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-p2',
++    name: 'Kucie Topora Bazaltowego',
++    station: 'forge',
++    requiredLevel: 5,
++    craftingCostCoins: 65,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'szklo-obsydianowe', count: 3 },
++      { itemId: 'magmowy-pancerz', count: 2 },
++    ],
++    resultItemId: 'W-P2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-p3',
++    name: 'Kucie Miecza Magmowego Żaru',
++    station: 'forge',
++    requiredLevel: 8,
++    craftingCostCoins: 90,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'obsydian', count: 3 },
++      { itemId: 'esencja-plomienia', count: 2 },
++      { itemId: 'skrzydlo-zaru', count: 2 },
++    ],
++    resultItemId: 'W-P3',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-p4',
++    name: 'Młot Przełamania',
++    station: 'forge',
++    requiredLevel: 12,
++    craftingCostCoins: 140,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'golem-ruin', count: 2 },
++      { itemId: 'rog-areny', count: 2 },
++      { itemId: 'obsydian', count: 4 },
++    ],
++    resultItemId: 'W-P4',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-p5',
++    name: 'Ostrze Kharzula',
++    station: 'forge',
++    requiredLevel: 15,
++    craftingCostCoins: 180,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'pancerz-kharzula', count: 1 },
++      { itemId: 'plomien-areny', count: 1 },
++      { itemId: 'obsydian', count: 3 },
++    ],
++    resultItemId: 'W-P5',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-p6',
++    name: 'Smoczy Kieł Pyrrhaxa',
++    station: 'forge',
++    requiredLevel: 19,
++    craftingCostCoins: 320,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'serce-wulkanu', count: 1 },
++      { itemId: 'luska-pyrrhaxa', count: 2 },
++      { itemId: 'obsydian', count: 5 },
++    ],
++    resultItemId: 'W-P6',
++    resultCount: 1,
++  },
++
++  // --- ARMORS & GARMENTS (PANCERZE) ---
++  {
++    id: 'rec-a-v1',
++    name: 'Plecenie Kamizelki Leśnego Pąka',
++    station: 'forge',
++    requiredLevel: 2,
++    craftingCostCoins: 25,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'skora-wilcza', count: 2 },
++      { itemId: 'jedwab-pajaka', count: 2 },
++    ],
++    resultItemId: 'A-V1',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-v2',
++    name: 'Pancerz z Kory Pradrzewa',
++    station: 'forge',
++    requiredLevel: 6,
++    craftingCostCoins: 60,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'skalna-skora', count: 2 },
++      { itemId: 'zywy-korzen', count: 2 },
++      { itemId: 'bursztyn', count: 1 },
++    ],
++    resultItemId: 'A-V2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-v5',
++    name: 'Pancerz Thorgara Alfy',
++    station: 'forge',
++    requiredLevel: 17,
++    craftingCostCoins: 280,
++    crafterNpcId: 'npc-taro',
++    ingredients: [
++      { itemId: 'skora-thorgara', count: 2 },
++      { itemId: 'kiel-alfy', count: 2 },
++      { itemId: 'skalna-skora', count: 4 },
++    ],
++    resultItemId: 'A-V5',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-p2',
++    name: 'Kolczuga Kalderonu',
++    station: 'forge',
++    requiredLevel: 5,
++    craftingCostCoins: 55,
++    crafterNpcId: 'npc-pyra-smith-east',
++    ingredients: [
++      { itemId: 'popielne-futro', count: 3 },
++      { itemId: 'luska-salamandry', count: 3 },
++    ],
++    resultItemId: 'A-P2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-p3',
++    name: 'Zbroja Płytowa z Obsydianu',
++    station: 'forge',
++    requiredLevel: 8,
++    craftingCostCoins: 85,
++    crafterNpcId: 'npc-pyra-smith-east',
++    ingredients: [
++      { itemId: 'obsydian', count: 4 },
++      { itemId: 'magmowy-pancerz', count: 2 },
++    ],
++    resultItemId: 'A-P3',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-p5',
++    name: 'Pancerz Płomiennego Czempiona',
++    station: 'forge',
++    requiredLevel: 18,
++    craftingCostCoins: 290,
++    crafterNpcId: 'npc-pyra-smith-east',
++    ingredients: [
++      { itemId: 'luska-pyrrhaxa', count: 2 },
++      { itemId: 'pancerz-kharzula', count: 1 },
++      { itemId: 'plomien-areny', count: 2 },
++    ],
++    resultItemId: 'A-P5',
++    resultCount: 1,
++  },
++
++  // --- RUNIC WORKBENCH (AETHER) ---
++  {
++    id: 'rec-w-a1',
++    name: 'Runiczny Kostur Ciszy',
++    station: 'runic',
++    requiredLevel: 2,
++    craftingCostCoins: 30,
++    crafterNpcId: 'npc-enso',
++    ingredients: [
++      { itemId: 'kamien-swiatynny', count: 2 },
++      { itemId: 'pyl-swiatla', count: 3 },
++    ],
++    resultItemId: 'W-A1',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-a2',
++    name: 'Ostrze Mistrza Oddechu',
++    station: 'runic',
++    requiredLevel: 5,
++    craftingCostCoins: 65,
++    crafterNpcId: 'npc-enso',
++    ingredients: [
++      { itemId: 'nic-eteru', count: 3 },
++      { itemId: 'pioro-mgly', count: 2 },
++    ],
++    resultItemId: 'W-A2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-a3',
++    name: 'Laska Złotego Eteru',
++    station: 'runic',
++    requiredLevel: 8,
++    craftingCostCoins: 95,
++    crafterNpcId: 'npc-enso',
++    ingredients: [
++      { itemId: 'skarabeusz', count: 2 },
++      { itemId: 'eter-bibliotekarza', count: 2 },
++      { itemId: 'soczewka-wiedzy', count: 1 },
++    ],
++    resultItemId: 'W-A3',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-a5',
++    name: 'Klinga Tysiąca Źródeł',
++    station: 'runic',
++    requiredLevel: 14,
++    craftingCostCoins: 170,
++    crafterNpcId: 'npc-enso',
++    ingredients: [
++      { itemId: 'szmaragdowa-luska', count: 3 },
++      { itemId: 'eter-pustki', count: 1 },
++      { itemId: 'maska-rytualu', count: 1 },
++    ],
++    resultItemId: 'W-A5',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-a6',
++    name: 'Promień Aurelitha',
++    station: 'runic',
++    requiredLevel: 19,
++    craftingCostCoins: 320,
++    crafterNpcId: 'npc-enso',
++    ingredients: [
++      { itemId: 'serce-sanktuarium', count: 1 },
++      { itemId: 'luska-aurelitha', count: 2 },
++      { itemId: 'pieczec-arcykaplana', count: 1 },
++    ],
++    resultItemId: 'W-A6',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-a2',
++    name: 'Toga Mistrza Zwojów',
++    station: 'runic',
++    requiredLevel: 5,
++    craftingCostCoins: 55,
++    crafterNpcId: 'npc-nari',
++    ingredients: [
++      { itemId: 'karta-pergaminu', count: 4 },
++      { itemId: 'nic-eteru', count: 3 },
++    ],
++    resultItemId: 'A-A2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-a5',
++    name: 'Święte Szaty Sanktuarium',
++    station: 'runic',
++    requiredLevel: 18,
++    craftingCostCoins: 300,
++    crafterNpcId: 'npc-sora',
++    ingredients: [
++      { itemId: 'szaty-arcykaplana', count: 1 },
++      { itemId: 'luska-aurelitha', count: 2 },
++      { itemId: 'serce-sanktuarium', count: 1 },
++    ],
++    resultItemId: 'A-A5',
++    resultCount: 1,
++  },
++
++  // --- CYBER FABRICATOR (NEXUS-9) ---
++  {
++    id: 'rec-w-n1',
++    name: 'Emiter Wiązki Plazmowej',
++    station: 'cyber_fabricator',
++    requiredLevel: 2,
++    craftingCostCoins: 30,
++    crafterNpcId: 'npc-hef4',
++    ingredients: [
++      { itemId: 'zlom', count: 3 },
++      { itemId: 'cewka', count: 2 },
++    ],
++    resultItemId: 'W-N1',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-n2',
++    name: 'Wibro-Ostrze Nanitowe',
++    station: 'cyber_fabricator',
++    requiredLevel: 5,
++    craftingCostCoins: 65,
++    crafterNpcId: 'npc-hef4',
++    ingredients: [
++      { itemId: 'nanopyl', count: 3 },
++      { itemId: 'silownik', count: 2 },
++      { itemId: 'elektroda', count: 1 },
++    ],
++    resultItemId: 'W-N2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-n3',
++    name: 'Karabinek Łukowy V-2',
++    station: 'cyber_fabricator',
++    requiredLevel: 8,
++    craftingCostCoins: 95,
++    crafterNpcId: 'npc-hef4',
++    ingredients: [
++      { itemId: 'lufa', count: 1 },
++      { itemId: 'modul-optyczny', count: 1 },
++      { itemId: 'rdzen-energii', count: 1 },
++    ],
++    resultItemId: 'W-N3',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-n5',
++    name: 'Kosa Arbitra Zero',
++    station: 'cyber_fabricator',
++    requiredLevel: 15,
++    craftingCostCoins: 190,
++    crafterNpcId: 'npc-hef4',
++    ingredients: [
++      { itemId: 'kod-arbitra', count: 1 },
++      { itemId: 'plyta-egzekutora', count: 2 },
++      { itemId: 'rdzen-plazmy', count: 2 },
++    ],
++    resultItemId: 'W-N5',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-w-n6',
++    name: 'Rozpruwacz Hydry-Rdzenia',
++    station: 'cyber_fabricator',
++    requiredLevel: 19,
++    craftingCostCoins: 330,
++    crafterNpcId: 'npc-hef4',
++    ingredients: [
++      { itemId: 'rdzen-hydry', count: 1 },
++      { itemId: 'modul-prime', count: 1 },
++      { itemId: 'lufa', count: 3 },
++    ],
++    resultItemId: 'W-N6',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-n2',
++    name: 'Pancerz Kompozytowy Sektora',
++    station: 'cyber_fabricator',
++    requiredLevel: 5,
++    craftingCostCoins: 60,
++    crafterNpcId: 'npc-nexus-welder',
++    ingredients: [
++      { itemId: 'plyta-pancerna', count: 2 },
++      { itemId: 'silownik', count: 2 },
++    ],
++    resultItemId: 'A-N2',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-n3',
++    name: 'Płyta Grafenowa V-2',
++    station: 'cyber_fabricator',
++    requiredLevel: 8,
++    craftingCostCoins: 90,
++    crafterNpcId: 'npc-nexus-welder',
++    ingredients: [
++      { itemId: 'plyta-pancerna', count: 3 },
++      { itemId: 'nanopyl', count: 3 },
++      { itemId: 'czujnik', count: 1 },
++    ],
++    resultItemId: 'A-N3',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-a-n5',
++    name: 'Pancerz Rdzenia Prime',
++    station: 'cyber_fabricator',
++    requiredLevel: 18,
++    craftingCostCoins: 310,
++    crafterNpcId: 'npc-nexus-welder',
++    ingredients: [
++      { itemId: 'modul-prime', count: 1 },
++      { itemId: 'plyta-egzekutora', count: 2 },
++      { itemId: 'rdzen-energii', count: 3 },
++    ],
++    resultItemId: 'A-N5',
++    resultCount: 1,
++  },
++
++  // --- UNIKATOWE ARTEFAKTY MIĘDZYKONTYNENTALNE (ARTIFACTS) ---
++  {
++    id: 'rec-u-w01',
++    name: 'Splatanie Amuletu Pierwszego Drzewa',
++    station: 'alchemy',
++    requiredLevel: 10,
++    craftingCostCoins: 150,
++    crafterNpcId: 'npc-aira',
++    ingredients: [
++      { itemId: 'zywy-korzen', count: 4 },
++      { itemId: 'bursztyn', count: 3 },
++      { itemId: 'zielona-esencja', count: 1 },
++    ],
++    resultItemId: 'U-W01',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-u-w02',
++    name: 'Rzeźbienie Totemu Matki Ygdrashy',
++    station: 'runic',
++    requiredLevel: 16,
++    craftingCostCoins: 350,
++    crafterNpcId: 'npc-aira',
++    ingredients: [
++      { itemId: 'serce-puszczy', count: 1 },
++      { itemId: 'kwiat-ygdrashy', count: 1 },
++      { itemId: 'kamien-runiczny', count: 4 },
++    ],
++    resultItemId: 'U-W02',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-u-w03',
++    name: 'Szlifowanie Pryzmatu Archiwum Wiatru',
++    station: 'runic',
++    requiredLevel: 11,
++    craftingCostCoins: 160,
++    crafterNpcId: 'npc-enso',
++    ingredients: [
++      { itemId: 'soczewka-wiedzy', count: 2 },
++      { itemId: 'eter-bibliotekarza', count: 3 },
++      { itemId: 'pyl-swiatla', count: 5 },
++    ],
++    resultItemId: 'U-W03',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-u-w04',
++    name: 'Kompilacja Rdzenia Arbitrażu Danych',
++    station: 'cyber_fabricator',
++    requiredLevel: 12,
++    craftingCostCoins: 170,
++    crafterNpcId: 'npc-hef4',
++    ingredients: [
++      { itemId: 'kod-arbitra', count: 1 },
++      { itemId: 'pamiec-danych', count: 2 },
++      { itemId: 'kruk-danych', count: 1 },
++    ],
++    resultItemId: 'U-W04',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-u-w07',
++    name: 'Pieczęć Siedmiu Oktaw Przymierza',
++    station: 'runic',
++    requiredLevel: 18,
++    craftingCostCoins: 400,
++    crafterNpcId: 'npc-sora',
++    ingredients: [
++      { itemId: 'pieczec-arcykaplana', count: 1 },
++      { itemId: 'serce-sanktuarium', count: 1 },
++      { itemId: 'kamien-swiatynny', count: 5 },
++    ],
++    resultItemId: 'U-W07',
++    resultCount: 1,
++  },
++  {
++    id: 'rec-u-w08',
++    name: 'Wykuwanie Korony Gwiazd Oceanu',
++    station: 'forge',
++    requiredLevel: 20,
++    craftingCostCoins: 500,
++    crafterNpcId: 'npc-goro',
++    ingredients: [
++      { itemId: 'serce-wulkanu', count: 1 },
++      { itemId: 'serce-sanktuarium', count: 1 },
++      { itemId: 'serce-puszczy', count: 1 },
++      { itemId: 'rdzen-hydry', count: 1 },
++    ],
++    resultItemId: 'U-W08',
++    resultCount: 1,
++  },
++];
++
++export const RECIPE_BY_ID: Record<string, CraftingRecipe> = Object.fromEntries(
++  CRAFTING_RECIPES.map((recipe) => [recipe.id, recipe]),
++);
++
++export function getRecipeById(id: string): CraftingRecipe | undefined {
++  return RECIPE_BY_ID[id];
++}
++
++export function getRecipesByStation(station: CraftingRecipe['station']): CraftingRecipe[] {
++  return CRAFTING_RECIPES.filter((r) => r.station === station);
++}
+diff --git a/src/game/items/types.ts b/src/game/items/types.ts
+new file mode 100644
+index 0000000..54b506c
+--- /dev/null
++++ b/src/game/items/types.ts
+@@ -0,0 +1,56 @@
++import { ContinentId } from '../worlds/types';
++
++export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
++
++export type ItemCategory =
++  | 'consumable'
++  | 'material'
++  | 'weapon'
++  | 'armor'
++  | 'helmet'
++  | 'boots'
++  | 'accessory'
++  | 'artifact';
++
++export interface ItemStats {
++  hpBonus?: number;
++  kiBonus?: number;
++  atkBonus?: number;
++  defBonus?: number;
++  speedMultiplier?: number;
++  kiRegenBonus?: number;
++  critChancePercent?: number;
++}
++
++export interface ItemDefinition {
++  id: string;
++  name: string;
++  category: ItemCategory;
++  rarity: ItemRarity;
++  description: string;
++  price: number;
++  stackable: boolean;
++  maxStack?: number;
++  stats?: ItemStats;
++  effectDescription?: string;
++  sourceContinent?: ContinentId | 'all';
++}
++
++export interface CraftingIngredient {
++  itemId: string;
++  count: number;
++}
++
++export type CraftingStation = 'alchemy' | 'forge' | 'runic' | 'cyber_fabricator';
++
++export interface CraftingRecipe {
++  id: string;
++  name: string;
++  station: CraftingStation;
++  requiredLevel: number;
++  craftingCostCoins: number;
++  crafterNpcId?: string;
++  ingredients: CraftingIngredient[];
++  resultItemId: string;
++  resultCount: number;
++}

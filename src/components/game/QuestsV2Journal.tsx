@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { questsV2 } from "../../game/quests/v2Tracker";
+import { getNpcQuestDialogue } from "../../game/dialogue";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 
 const OBJECTIVE_ICON: Record<string, string> = {
@@ -58,6 +59,21 @@ export function QuestsV2Journal({ continent }: { continent: string }) {
             <p className="ki-qv2-story">
               {state === "active" && current ? current.narrativeText : quest.summary}
             </p>
+            {(() => {
+              const talk = getNpcQuestDialogue(quest.giverNpcId, quest.id);
+              const said =
+                talk &&
+                (state === "completed"
+                  ? talk.after
+                  : state === "active"
+                    ? talk.during
+                    : talk.before);
+              return said ? (
+                <blockquote className="ki-qv2-say">
+                  <b>{quest.giverName}:</b> {said}
+                </blockquote>
+              ) : null;
+            })()}
             {state === "active" && current && <h4 className="ki-qv2-stage">{current.title}</h4>}
             {state === "active" && current && (
               <ul className="ki-qv2-goals">
