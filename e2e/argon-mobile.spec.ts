@@ -92,6 +92,10 @@ test("Argon v2 quest summary follows the real journal and survives reload", asyn
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).tap();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).tap();
   await expect(page.locator(".ki-hud")).toBeVisible();
+  // A new character is guided by the starter quest first; Argon's adventures follow.
+  await expect(page.locator(".ki-quest strong")).toHaveText("Pierwsze kroki");
+  await patchActiveCharacter(page, { quests: { steps: "done", boars: "done", gear: "done" } });
+  await expect(page.locator(".ki-quest strong")).toHaveText("Przygody kontynentu");
   await page.getByRole("button", { name: "Dziennik", exact: true }).tap();
   const journal = page.getByRole("region", { name: "Przygody świata v2" });
   const card = journal

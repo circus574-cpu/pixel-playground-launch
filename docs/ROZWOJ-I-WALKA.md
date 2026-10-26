@@ -656,7 +656,6 @@ Zdolności i efekty pozostają proceduralne, dopóki nie zostaną zaimportowane 
 Manekin używa realnych kosztów KI i cooldownów, liczy bezpośrednie trafienia przy
 0 obrony, bez XP/złota/łupu; nie jest pełnym symulatorem DOT i kontroli.
 
-
 ## Osobna generacja spawnów całej planety
 
 Decyzja właściciela 23.10.2026: generować spawny jako osobny etap po danych
@@ -794,15 +793,15 @@ Istniejący GraphicSkillTree już czyta kanoniczne węzły, więc nie dodano dru
 
 ### Faktyczne zmiany runtime
 
-| Funkcja | Stan przed | Zmiana | Dowód działania |
-| --- | --- | --- | --- |
-| Ruch i atak/skill dwoma kciukami | każda komenda HUD zerowała joystick | komendy ability zachowują wskaźnik ruchu | argon-mobile.spec.ts: cztery rasy i cztery rozdzielczości |
-| Naciśnięcie akcji | click po zwolnieniu palca | pointerdown, jeden właściciel wskaźnika, bez podwójnego click; klawiatura zachowana | combat-action.test.tsx i testy CDP |
-| Anulowanie dotyku | anulowany krótki dotyk mógł wykonać akcję mapy | wasCanceled nie wywołuje interactAt; pointercancel zwalnia ruch | argon-mobile.spec.ts |
-| Menu i okna | niejednolite zwalnianie wejścia | otwarcie menu zwalnia joystick; dialog/depozyt/pauza/śmierć czyszczą ruch | argon-mobile.spec.ts i regresja stage3 |
-| KI i cooldowny | koszt w tytule, czas w ikonie | widoczny koszt KI w każdej technice, wartości z AbilityInfo | argon-mobile.spec.ts, argon-combat.test.ts |
-| Zadanie v2 w HUD | pasek pokazywał stare zadania | krótki tytuł aktywnego zadania/stadium z istniejącego questsV2 | test dziennika i reload w argon-mobile.spec.ts |
-| Drzewka i zapisy | kanoniczne kity i walidowane zapisy | bez zmiany formatu; dodatkowe testy v4→v5, umiejętności i konfliktu kart | argon-combat.test.ts: cztery rasy |
+| Funkcja                          | Stan przed                                     | Zmiana                                                                              | Dowód działania                                           |
+| -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Ruch i atak/skill dwoma kciukami | każda komenda HUD zerowała joystick            | komendy ability zachowują wskaźnik ruchu                                            | argon-mobile.spec.ts: cztery rasy i cztery rozdzielczości |
+| Naciśnięcie akcji                | click po zwolnieniu palca                      | pointerdown, jeden właściciel wskaźnika, bez podwójnego click; klawiatura zachowana | combat-action.test.tsx i testy CDP                        |
+| Anulowanie dotyku                | anulowany krótki dotyk mógł wykonać akcję mapy | wasCanceled nie wywołuje interactAt; pointercancel zwalnia ruch                     | argon-mobile.spec.ts                                      |
+| Menu i okna                      | niejednolite zwalnianie wejścia                | otwarcie menu zwalnia joystick; dialog/depozyt/pauza/śmierć czyszczą ruch           | argon-mobile.spec.ts i regresja stage3                    |
+| KI i cooldowny                   | koszt w tytule, czas w ikonie                  | widoczny koszt KI w każdej technice, wartości z AbilityInfo                         | argon-mobile.spec.ts, argon-combat.test.ts                |
+| Zadanie v2 w HUD                 | pasek pokazywał stare zadania                  | krótki tytuł aktywnego zadania/stadium z istniejącego questsV2                      | test dziennika i reload w argon-mobile.spec.ts            |
+| Drzewka i zapisy                 | kanoniczne kity i walidowane zapisy            | bez zmiany formatu; dodatkowe testy v4→v5, umiejętności i konfliktu kart            | argon-combat.test.ts: cztery rasy                         |
 
 HUD zachowuje obecną oprawę manga i strony technik; dostęp do HP/KI/XP/celu,
 ekwipunku, drzewek, dziennika i mapy pozostaje w dotychczasowych komponentach.

@@ -482,7 +482,8 @@ export function GameHud({
       </section>
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
-        {WORLD_V2 ? (
+        {WORLD_V2 && !tracked ? (
+          // Starter quests come first; Argon's adventures show once they are done.
           <CombatQuestSummary continent={player.continent} />
         ) : (
           <div>
