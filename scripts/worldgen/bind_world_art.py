@@ -5,6 +5,7 @@ import concurrent.futures
 import gzip
 import hashlib
 import json
+import random
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -94,7 +95,7 @@ PYRA = {'market': 'market-stall', 'hall': 'hall-council', 'inn': 'inn-tavern',
 # Opt-in art set "ki-v2" (packs ki-v2-terrain / ki-v2-objects, switch ?ki-world-v2=1):
 # per-continent painted ground per biome index and the matching freestanding props.
 KI_V2_GROUND = ['grass', 'forest', 'mountain', 'wetland']
-KI_V2_OVERRIDE = {('aether', 3): 'terrain.nature-snow', ('nexus', 2): 'terrain.ki-v2-nexus-shore-0'}
+KI_V2_OVERRIDE = {('pyra', 3): 'terrain.nature-lava-crust'}  # Pyra's low wet ground is a crusted lava field
 KI_V2_KINDS = {'tree': ['oak', 'tree2', 'pine'], 'bush': ['bush', 'fern', 'flowerbush', 'mushrooms', 'reeds'],
                'rock': ['boulder', 'rocks', 'stump', 'log']}
 
@@ -125,6 +126,89 @@ def ki_v2_landmarks(feature, affinity, entries):
                     'x': f['x'], 'y': f['y'], 'width': 760, 'height': round(760 * e['pixels'][1] / e['pixels'][0]),
                     'anchorX': 0.5, 'anchorY': 0.9, 'layer': 'objects', 'solid': False, 'footprint': None,
                     'collisionPolicy': 'presentation-only'})
+    return out
+
+
+# Standing relief for the painted set: (asset, display width) per land; the first entry marks the
+# biggest ranges (peaks, volcanoes), the rest fill slopes. Presentation only, collision unchanged.
+KI_V2_RELIEF = {
+    'verdant': [('biome-mountain.tall-rocky-mountain-peak', 1300), ('nature.mountain-peak', 1100),
+                ('biome-mountain.cliff-outcrop', 520), ('biome-mountain.rock-with-a-small-waterfall', 460),
+                ('biome-mountain.boulder-pile', 320), ('biome-mountain.mountain-pine-tree', 300)],
+    'aether': [('biome-snow.snowy-mountain-peak', 1300), ('nature.mountain-peak', 1100),
+               ('biome-mountain.snowy-rock-ledge', 520), ('biome-mountain.rock-with-a-small-waterfall', 460),
+               ('biome-snow.snow-covered-pine-tree', 300), ('biome-mountain.stone-cairn', 220)],
+    'nexus': [('nature.mountain-peak', 1200), ('biome-mountain.tall-rocky-mountain-peak', 1100),
+              ('biome-mountain.cliff-outcrop', 520), ('biome-mountain.an-ore-vein-rock', 340),
+              ('biome-mountain.boulder-pile', 320), ('biome-volcanic.basalt-column-cluster', 360)],
+    'pyra': [('biome-volcanic.smoking-volcano', 1500), ('biome-volcanic.smoking-volcano', 1200),
+             ('biome-volcanic.basalt-column-cluster', 480), ('biome-volcanic.magma-pool-rim', 420),
+             ('biome-volcanic.sulfur-vent-with-yellow-crust', 300), ('biome-mountain.cliff-outcrop', 480)],
+}
+KI_V2_LAVA = ['biome-volcanic.magma-pool-rim', 'biome-volcanic.sulfur-vent-with-yellow-crust', 'biome-volcanic.basalt-column-cluster']
+
+
+def ki_v2_relief(region, affinity, entries):
+    import numpy as np
+    from scipy import ndimage
+    world = json.loads((region / 'world.json').read_text())
+    cw, ch = world['geometry']['width'] // 32, world['geometry']['height'] // 32
+    biome = np.full((ch, cw), 255, np.uint8); flags = np.zeros((ch, cw), np.uint8)
+    def unrle(runs, w, h):
+        return np.concatenate([np.full(n, v, np.uint8) for v, n in runs]).reshape(h, w)
+    for path in (region / 'chunks').glob('*.json'):
+        c = json.loads(path.read_text()); t = c['terrain']; x, y = c['x'] // 32, c['y'] // 32
+        biome[y:y + t['height'], x:x + t['width']] = unrle(t['biome'], t['width'], t['height'])
+        flags[y:y + t['height'], x:x + t['width']] = unrle(t['flags'], t['width'], t['height'])
+    walk = (flags & 1) > 0; safe = ndimage.binary_dilation((flags & 2) > 0, iterations=40)
+    rng = random.Random(sum(map(ord, region.name)))
+    out = []
+    def place(asset, width, cy, cx, n):
+        key = 'object.' + asset
+        if key not in entries: return
+        px = entries[key]['pixels']
+        out.append({'id': '%s-relief-%d' % (region.name, n), 'kind': 'relief', 'asset': asset, 'binding': key,
+                    'x': int(cx * 32 + 16), 'y': int(cy * 32 + 16), 'width': width, 'height': round(width * px[1] / px[0]),
+                    'anchorX': 0.5, 'anchorY': 0.9, 'layer': 'objects', 'solid': False, 'footprint': None,
+                    'collisionPolicy': 'presentation-only'})
+    kit = KI_V2_RELIEF.get(affinity, [])
+    mount = (biome == 2) & walk & ~safe
+    lab, n = ndimage.label(mount); n_obj = 0
+    for comp in range(1, n + 1):
+        cells = np.argwhere(lab == comp)
+        if len(cells) < 300: continue
+        inner = ndimage.distance_transform_edt(lab == comp)
+        cy, cx = np.unravel_index(np.argmax(np.where(lab == comp, inner, 0)), inner.shape)
+        big = kit[0] if len(cells) > 4000 else kit[1]
+        place(big[0], big[1], cy, cx, n_obj); n_obj += 1
+        for _ in range(min(40, len(cells) // 500)):
+            y, x = cells[rng.randrange(len(cells))]
+            a, w = kit[rng.randrange(2, len(kit))]
+            place(a, w, y, x, n_obj); n_obj += 1
+    if affinity == 'pyra':
+        lava = (biome == 3) & walk & ~safe; cells = np.argwhere(lava)
+        for _ in range(min(120, len(cells) // 800)):
+            y, x = cells[rng.randrange(len(cells))]
+            place(KI_V2_LAVA[rng.randrange(len(KI_V2_LAVA))], 360, y, x, n_obj); n_obj += 1
+    return out
+
+
+# Monster camps (landscape.py 'camps'): props around each camp centre, offsets in world units.
+KI_V2_CAMP = [('bonfire', 0, 0, 220), ('tent', -320, -180, 420), ('tent', 300, -220, 420), ('totem', -60, -360, 260),
+              ('crates', 180, 140, 260), ('banner', -220, 120, 220)]
+
+
+def ki_v2_camps(region, affinity, entries):
+    world = json.loads((region / 'world.json').read_text()); out = []
+    for camp in world.get('camps', []):
+        for i, (prop, dx, dy, width) in enumerate(KI_V2_CAMP):
+            key = 'object.ki-v2-camps.%s-%s' % (affinity, prop)
+            if key not in entries: continue
+            px = entries[key]['pixels']
+            out.append({'id': '%s-%d' % (camp['id'], i), 'kind': 'camp', 'asset': key[len('object.'):], 'binding': key,
+                        'x': camp['x'] + dx, 'y': camp['y'] + dy, 'width': width, 'height': round(width * px[1] / px[0]),
+                        'anchorX': 0.5, 'anchorY': 0.9, 'layer': 'objects', 'solid': False, 'footprint': None,
+                        'collisionPolicy': 'presentation-only'})
     return out
 
 
@@ -234,7 +318,8 @@ def build_feature(browser, output, feature, source, art_set='default'):
         extra = {'road': 'terrain.ki-v2-%s-road-0' % affinity}
         plaza = 'terrain.ki-v2-city-%s-plaza-0' % affinity
         extra['plaza'] = plaza if plaza in entries else extra['road']
-        marks = ki_v2_landmarks(feature, affinity, entries)
+        marks = (ki_v2_landmarks(feature, affinity, entries) + ki_v2_relief(region, affinity, entries)
+                 + ki_v2_camps(region, affinity, entries))
         used.update(m['binding'] for m in marks)
     for key in terrain + [water] + [v for v in extra.values() if isinstance(v, str)]:
         assert key in entries, key

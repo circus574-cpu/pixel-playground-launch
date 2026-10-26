@@ -1,1 +1,1 @@
-{"format":"superior-art-overlay-1","sourceChunkSha256":"a935d208a3b1b25aef48a88fe55395a584e08060a5a901aa5311815340c4c8a4","objects":[]}
+{"format":"superior-art-overlay-1","sourceChunkSha256":"9cc2dec58e1d4f5200de4ffd253567747ed653c5d797aab74fbf45777580b386","objects":[{"id":"aether-v2-object-3253","kind":"tree","asset":"ki-v2-objects.aether-tree2-0","binding":"object.ki-v2-objects.aether-tree2-0","x":1776,"y":18416,"width":240,"height":298,"anchorX":0.5,"anchorY":0.92,"layer":"objects","solid":false,"footprint":null,"collisionPolicy":"read-original-world-only"}]}

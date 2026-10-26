@@ -15,6 +15,7 @@ import atlasLoV1 from "@/assets/planet-map/atlas-1920.webp";
 import atlasHiV2 from "@/assets/planet-map/atlas-v2-3840.webp";
 import atlasLoV2 from "@/assets/planet-map/atlas-v2-1920.webp";
 import { ATLAS_V2 } from "./mapData";
+import { WorldOverlay } from "./WorldOverlay";
 const atlasHi = ATLAS_V2 ? atlasHiV2 : atlasHiV1;
 const atlasLo = ATLAS_V2 ? atlasLoV2 : atlasLoV1;
 import {
@@ -505,6 +506,8 @@ export function PlanetMap({
               </g>
             ) : null,
           )}
+
+          {ATLAS_V2 && <WorldOverlay zoom={zoom} px={px} />}
 
           {ZONES.filter((z) => z.region === selected || z.region === current || zoom >= 2.5).map(
             (z) => (

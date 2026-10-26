@@ -1,1 +1,1 @@
-{"format":"superior-art-overlay-1","sourceChunkSha256":"118a9f6e1e4479a8e71a2bafb64c5a3db2d85c5d78eeddb397b69d93590bd125","objects":[]}
+{"format":"superior-art-overlay-1","sourceChunkSha256":"9fdfa6b348af67667bb508db364b062d38aaf5fdb216cf61a0f1d0884144e690","objects":[{"id":"verdant-v2-object-7588","kind":"bush","asset":"ki-v2-objects.verdant-fern-1","binding":"object.ki-v2-objects.verdant-fern-1","x":24368,"y":4048,"width":130,"height":120,"anchorX":0.5,"anchorY":0.92,"layer":"objects","solid":false,"footprint":null,"collisionPolicy":"read-original-world-only"}]}

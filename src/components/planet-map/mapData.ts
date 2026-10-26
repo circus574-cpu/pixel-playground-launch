@@ -26,7 +26,7 @@ const layout = ATLAS_V2 ? layoutV2 : layoutV1;
 export const MAP_W = 2000;
 export const MAP_H = 1000;
 /** The high-resolution atlas is 3840 px wide; beyond 4x it would only blur. */
-export const MAX_ZOOM = 4;
+export const MAX_ZOOM = ATLAS_V2 ? 24 : 4;
 
 export type Point = { x: number; y: number };
 export type RegionKind = "continent" | "island";

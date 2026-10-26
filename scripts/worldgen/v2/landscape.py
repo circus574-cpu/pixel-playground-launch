@@ -80,6 +80,30 @@ def read_labels():
         c=read(PROTO/name);a[c['y']:c['y']+c['height'],c['x']:c['x']+c['width']]=decode(c['labels'],c['width'],c['height'])
     return a
 
+def ki_spawns(key,plan,spawns,room,safe_distance,monsters,rng,nav,collider,nav_labels,component,anchor,shape):
+    """Wilderness for levelling: camps of 3-6 monsters and lone ones across the added land; the
+    monster level grows with the distance from the arrival town (1 near it, the bestiary's top far away)."""
+    cells=np.argwhere(room&(safe_distance>1600))
+    if not len(cells):return
+    ay,ax=anchor['y']/32,anchor['x']/32;dist=np.hypot(cells[:,0]-ay,cells[:,1]-ax);far=dist.max()
+    by_level=sorted(monsters,key=lambda m:m['level']);top=by_level[-1]['level']
+    def pick(y,x):
+        want=1+(top-1)*min(1.,np.hypot(y-ay,x-ax)/far*1.15)
+        near=[m for m in by_level if abs(m['level']-want)<=2] or [min(by_level,key=lambda m:abs(m['level']-want))]
+        return near[int(rng.integers(len(near)))]
+    plan['camps']=[];n=0
+    def add(y,x,m,tag):
+        nonlocal n
+        p={'x':int(x*32+16),'y':int(y*32+16)};margin=max(m['traits']['leash'],m['traits'].get('wander',0),m['agro'])+256
+        if not(0<=y<shape[0]and 0<=x<shape[1])or not room[y,x]or safe_distance[y,x]<=margin or not accessible(p,nav,collider,nav_labels,component):return False
+        spawns['overworld'].append({'id':f'{key}-v2-{tag}-{n}','kind':m['id'],**p,'level':m['level'],'respawnMs':m['respawn'],'homeLeash':m['traits']['leash'],'safeExclusion':margin,'streamCell':[p['x']//2048,p['y']//2048],'packSizePolicy':'one authored slot'});n+=1;return True
+    for c in range(min(40,len(cells)//4000)):
+        y,x=cells[int(rng.integers(len(cells)))];m=pick(y,x)
+        placed=sum(add(int(y+rng.integers(-9,10)),int(x+rng.integers(-9,10)),m,'camp') for _ in range(int(rng.integers(3,7))))
+        if placed:plan['camps'].append({'id':f'{key}-camp-{c}','x':int(x*32+16),'y':int(y*32+16),'level':m['level'],'monster':m['id']})
+    for _ in range(min(500,len(cells)//400)):
+        y,x=cells[int(rng.integers(len(cells)))];add(int(y),int(x),pick(y,x),'wild')
+
 def region(key,output,context,labels):
     started=time.perf_counter();old=read(V1/key/'world.json');g=read(PROTO/key/'geometry.json');planet=context['planet'];idx=IDS.index(key)+1;island=key.startswith('island')
     if island:delta={'x':0,'y':0};width=old['geometry']['width'];height=old['geometry']['height'];anchor=old['geometry']['anchor']
@@ -159,6 +183,20 @@ def region(key,output,context,labels):
     # Stream channels crossing the added region terminate at the actual ocean shore.
     if GEOGRAPHY=='ki' and not island:
         rivers,made=ki_rivers(rng,elevation,land,new&~protected&~blocked);water|=rivers
+        # Lakes fill the lowest basins of the added land (each 0.5-2% of it), away from towns and paths.
+        free=new&~protected&~blocked&~ndimage.binary_dilation(roads,iterations=8)&(coast>2500/32)
+        # Depressions relative to their surroundings, so lakes sit in inland hollows rather than on the coast.
+        basin=ndimage.gaussian_filter(elevation,6)-ndimage.gaussian_filter(elevation,60)
+        for _ in range(7):
+            cand=np.argwhere(free&~ndimage.binary_dilation(water,iterations=40))
+            if not len(cand):break
+            y,x=cand[np.argmin(basin[cand[:,0],cand[:,1]])]
+            target=int(new.sum()*rng.uniform(.004,.012));level=basin[y,x];lake=np.zeros(shape,bool)
+            for step in range(60):
+                level+=.004;lab,_=ndimage.label(free&(basin<=level));lake=lab==lab[y,x]
+                if lake.sum()>=target:break
+            lake=ndimage.binary_opening(ndimage.binary_closing(lake,iterations=3),iterations=2)&free
+            water|=lake;free&=~ndimage.binary_dilation(lake,iterations=30)
         near=ndimage.binary_dilation(rivers,iterations=5)&new&~water&(elevation<.7)&(biome!=2);biome[near&(smooth_noise(rng,shape,9)>.45)]=3
     for _ in range(2 if not island and GEOGRAPHY!='ki' else 0):
         candidates=np.argwhere(new&~protected&~blocked&(coast>1200))
@@ -193,7 +231,9 @@ def region(key,output,context,labels):
         assert accessible(s,nav,collider,nav_labels,component),(key,s['id'],'preserved spawn unreachable');s['streamCell']=[int(s['x']//2048),int(s['y']//2048)]
     safe_distance=ndimage.distance_transform_edt(~safe)*32;new_homes=np.argwhere(new&raw&~roads_wide&(safe_distance>1600)&(patch>.6))
     monsters=[m for m in context['bestiary']if m['world']==old['affinity']]
-    for n in range(min(160,len(new_homes)//200)):
+    if GEOGRAPHY=='ki':
+        ki_spawns(key,plan,spawns,new&raw&~roads_wide&~water,safe_distance,monsters,rng,nav,collider,nav_labels,component,anchor,shape)
+    for n in range(min(160,len(new_homes)//200) if GEOGRAPHY!='ki' else 0):
         y,x=new_homes[int(rng.integers(len(new_homes)))];p={'x':int(x*32+16),'y':int(y*32+16)};m=monsters[n%len(monsters)];margin=max(m['traits']['leash'],m['traits'].get('wander',0),m['agro'])+256
         if safe_distance[y,x]<=margin or not accessible(p,nav,collider,nav_labels,component):continue
         spawns['overworld'].append({'id':f'{key}-v2-spawn-{n}','kind':m['id'],**p,'level':m['level'],'respawnMs':m['respawn'],'homeLeash':m['traits']['leash'],'safeExclusion':margin,'streamCell':[p['x']//2048,p['y']//2048],'packSizePolicy':'one authored slot'})

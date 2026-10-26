@@ -1,0 +1,107 @@
+{
+  "pack": "ki-v2-camps",
+  "generator": "DreamShaper XL Turbo v2.1, rembg matting, painted outline",
+  "licenseStatus": "unresolved (docs/LICENCJE.md)",
+  "parts": [
+    {
+      "part": "aether-banner",
+      "source": "aether-banner.png",
+      "sha256": "ff88cc30460ecfd6a2e6d1a5f05b4c9f84d7f17d622c74c39077144d24c572a0"
+    },
+    {
+      "part": "aether-bonfire",
+      "source": "aether-bonfire.png",
+      "sha256": "cc16b69af3edba84c8ee29e30c536193d90205e3ce2542c5d29b4c06aa1a71c3"
+    },
+    {
+      "part": "aether-crates",
+      "source": "aether-crates.png",
+      "sha256": "219880398e156cb74fbfa02ffcd46a0a9e610fb77616c6eafc7480490704fcd3"
+    },
+    {
+      "part": "aether-tent",
+      "source": "aether-tent.png",
+      "sha256": "38f0e2d05704c70cd9fed6ed406340888674cdc256ada492cb123717e5ee5b3e"
+    },
+    {
+      "part": "aether-totem",
+      "source": "aether-totem.png",
+      "sha256": "ad4f8a784b24044a2c0bca9ae118a8bab81435a3135f191fd04fd9c9ff8da945"
+    },
+    {
+      "part": "nexus-banner",
+      "source": "nexus-banner.png",
+      "sha256": "ee4261fe485f23efaa5fabecd64044de0600dddafe6335d339a75c31effe6e1a"
+    },
+    {
+      "part": "nexus-bonfire",
+      "source": "nexus-bonfire.png",
+      "sha256": "6cc83d512d55c1c6682484190ab0e373cbe95fe3812111406294800c5f19e40c"
+    },
+    {
+      "part": "nexus-crates",
+      "source": "nexus-crates.png",
+      "sha256": "44ec39d589773abe369c30446f52eb5edf699003afcfcdf1cf175732713951f3"
+    },
+    {
+      "part": "nexus-tent",
+      "source": "nexus-tent.png",
+      "sha256": "040e5b5586d5581de777c5124903476a6168769c7d3d981d1f827fc17c5285b3"
+    },
+    {
+      "part": "nexus-totem",
+      "source": "nexus-totem.png",
+      "sha256": "6ffbd67e152622958c7c9b4d160efb1844348afd7072c4dfd0f0aba954d2bbcf"
+    },
+    {
+      "part": "pyra-banner",
+      "source": "pyra-banner.png",
+      "sha256": "ab1afe17834814d200139eef3b93dc54bfc511366609c5db99d58b9609ddf914"
+    },
+    {
+      "part": "pyra-bonfire",
+      "source": "pyra-bonfire.png",
+      "sha256": "4668abac77698a4f15dbaa677e56f19d8538cd871c15e9a9ec0efa68f718bfad"
+    },
+    {
+      "part": "pyra-crates",
+      "source": "pyra-crates.png",
+      "sha256": "f4bf3ec86a0cae34fc011fbf26919aa2e25fa325d78618fd40b6e4b52d049e81"
+    },
+    {
+      "part": "pyra-tent",
+      "source": "pyra-tent.png",
+      "sha256": "d46bb40bc95ad21ef492d4ad938413221dece584f54f6bca59255f35e8744ed2"
+    },
+    {
+      "part": "pyra-totem",
+      "source": "pyra-totem.png",
+      "sha256": "f5849160a6325d0861edff6a16952b27cd81a529b26002accd5701bbb7b15ae3"
+    },
+    {
+      "part": "verdant-banner",
+      "source": "verdant-banner.png",
+      "sha256": "abe7582ae2aefa662e96f9c85b622817858596a66b2238b08109d5f575ab65b1"
+    },
+    {
+      "part": "verdant-bonfire",
+      "source": "verdant-bonfire.png",
+      "sha256": "bfdbbec9c51626e85aa63667510e305b0b3b0131aae66ad439a7edfd6bca3942"
+    },
+    {
+      "part": "verdant-crates",
+      "source": "verdant-crates.png",
+      "sha256": "ed958cecda823b403aba7585a5c91224ada2224136b7971d246ef59a11e998a5"
+    },
+    {
+      "part": "verdant-tent",
+      "source": "verdant-tent.png",
+      "sha256": "405e79c7b73f15c3cd9b92bda82f600835e50eb821566a10bd3ac137e5f3f05f"
+    },
+    {
+      "part": "verdant-totem",
+      "source": "verdant-totem.png",
+      "sha256": "4c61582b94685f071f295b12dc2808a4b0363cba5a71a07b809778464a720aa9"
+    }
+  ]
+}

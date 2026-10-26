@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "id": "ki-v2-landmarks",
+  "version": "1.1.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "ki-v2-landmarks-aether-archive",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-aether-archive.webp",
+      "width": 951,
+      "height": 1028
+    },
+    {
+      "id": "ki-v2-landmarks-aether-observatory",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-aether-observatory.webp",
+      "width": 845,
+      "height": 986
+    },
+    {
+      "id": "ki-v2-landmarks-aether-sanctum",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-aether-sanctum.webp",
+      "width": 1015,
+      "height": 974
+    },
+    {
+      "id": "ki-v2-landmarks-aether-spring",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-aether-spring.webp",
+      "width": 930,
+      "height": 1000
+    },
+    {
+      "id": "ki-v2-landmarks-nexus-lab",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-nexus-lab.webp",
+      "width": 987,
+      "height": 1035
+    },
+    {
+      "id": "ki-v2-landmarks-nexus-monolith",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-nexus-monolith.webp",
+      "width": 892,
+      "height": 1020
+    },
+    {
+      "id": "ki-v2-landmarks-nexus-reactor",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-nexus-reactor.webp",
+      "width": 1042,
+      "height": 1006
+    },
+    {
+      "id": "ki-v2-landmarks-nexus-terminal",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-nexus-terminal.webp",
+      "width": 1042,
+      "height": 1018
+    },
+    {
+      "id": "ki-v2-landmarks-pyra-altar",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-pyra-altar.webp",
+      "width": 1022,
+      "height": 1024
+    },
+    {
+      "id": "ki-v2-landmarks-pyra-fortress",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-pyra-fortress.webp",
+      "width": 1042,
+      "height": 1042
+    },
+    {
+      "id": "ki-v2-landmarks-pyra-statue",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-pyra-statue.webp",
+      "width": 627,
+      "height": 1032
+    },
+    {
+      "id": "ki-v2-landmarks-pyra-war-shrine",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-pyra-war-shrine.webp",
+      "width": 1025,
+      "height": 991
+    },
+    {
+      "id": "ki-v2-landmarks-verdant-bridge",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-verdant-bridge.webp",
+      "width": 1006,
+      "height": 1012
+    },
+    {
+      "id": "ki-v2-landmarks-verdant-cottage",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-verdant-cottage.webp",
+      "width": 930,
+      "height": 977
+    },
+    {
+      "id": "ki-v2-landmarks-verdant-forge",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-verdant-forge.webp",
+      "width": 870,
+      "height": 960
+    },
+    {
+      "id": "ki-v2-landmarks-verdant-fountain",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-landmarks/1.1.0-4144516fd079/ki-v2-landmarks-verdant-fountain.webp",
+      "width": 1029,
+      "height": 1019
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.ki-v2-landmarks.aether-archive": {
+      "asset": "ki-v2-landmarks-aether-archive",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.aether-observatory": {
+      "asset": "ki-v2-landmarks-aether-observatory",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.aether-sanctum": {
+      "asset": "ki-v2-landmarks-aether-sanctum",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.aether-spring": {
+      "asset": "ki-v2-landmarks-aether-spring",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.nexus-lab": {
+      "asset": "ki-v2-landmarks-nexus-lab",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.nexus-monolith": {
+      "asset": "ki-v2-landmarks-nexus-monolith",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.nexus-reactor": {
+      "asset": "ki-v2-landmarks-nexus-reactor",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.nexus-terminal": {
+      "asset": "ki-v2-landmarks-nexus-terminal",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.pyra-altar": {
+      "asset": "ki-v2-landmarks-pyra-altar",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.pyra-fortress": {
+      "asset": "ki-v2-landmarks-pyra-fortress",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.pyra-statue": {
+      "asset": "ki-v2-landmarks-pyra-statue",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.pyra-war-shrine": {
+      "asset": "ki-v2-landmarks-pyra-war-shrine",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.verdant-bridge": {
+      "asset": "ki-v2-landmarks-verdant-bridge",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.verdant-cottage": {
+      "asset": "ki-v2-landmarks-verdant-cottage",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.verdant-forge": {
+      "asset": "ki-v2-landmarks-verdant-forge",
+      "fit": "contain"
+    },
+    "object.ki-v2-landmarks.verdant-fountain": {
+      "asset": "ki-v2-landmarks-verdant-fountain",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}
