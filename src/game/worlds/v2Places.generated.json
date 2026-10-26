@@ -55,23 +55,27 @@
   "hidden": {
    "hidden-aether-1": {
     "name": "Drzewo Świetlistych Glifów (Zachodni Gaj)",
-    "x": 34721,
-    "y": 25020
+    "x": 40400,
+    "y": 24624,
+    "source": "aether-hidden-cache-56"
    },
    "hidden-aether-2": {
     "name": "Ołtarz Złotego Skarabeusza",
-    "x": 34591,
-    "y": 24200
+    "x": 29104,
+    "y": 23408,
+    "source": "aether-hidden-cache-49"
    },
    "hidden-aether-3": {
     "name": "Opuszczona Stacja Nadajnika na Szczycie Chmur",
-    "x": 36111,
-    "y": 24120
+    "x": 43376,
+    "y": 32240,
+    "source": "v2-aether-labyrinth-aether"
    },
    "hidden-aether-4": {
     "name": "Zatoka Zapomnianych Kronik (Krypta Podwodna)",
-    "x": 35471,
-    "y": 25230
+    "x": 35184,
+    "y": 36240,
+    "source": "aether-hidden-cache-61"
    }
   }
  },
@@ -131,23 +135,27 @@
   "hidden": {
    "hidden-nexus-1": {
     "name": "Północny Kryształ Rezonansowy",
-    "x": 35660,
-    "y": 22262
+    "x": 35696,
+    "y": 19824,
+    "source": "nexus-hidden-cache-53"
    },
    "hidden-nexus-2": {
     "name": "Miejsce Awaryjnego Lądowania Sondy",
-    "x": 36840,
-    "y": 23372
+    "x": 32528,
+    "y": 30128,
+    "source": "nexus-hidden-cache-56"
    },
    "hidden-nexus-3": {
     "name": "Ukryty Schowek Konserwatorów (Pylon 14)",
-    "x": 37330,
-    "y": 23142
+    "x": 34576,
+    "y": 32816,
+    "source": "nexus-hidden-cache-55"
    },
    "hidden-nexus-4": {
     "name": "Szyb Konserwacyjny do Podziemnej Serwerowni",
-    "x": 36380,
-    "y": 22262
+    "x": 22000,
+    "y": 26800,
+    "source": "nexus-hidden-cache-50"
    }
   }
  },
@@ -207,23 +215,27 @@
   "hidden": {
    "hidden-pyra-1": {
     "name": "Starożytny Ołtarz Pierwszego Żaru",
-    "x": 43880,
-    "y": 12182
+    "x": 42896,
+    "y": 21040,
+    "source": "pyra-hidden-cache-59"
    },
    "hidden-pyra-2": {
     "name": "Opuszczony Obóz Straży Zaporowej",
-    "x": 45510,
-    "y": 12062
+    "x": 33712,
+    "y": 14352,
+    "source": "pyra-hidden-cache-50"
    },
    "hidden-pyra-3": {
     "name": "Skarbiec Popielnych Klanów",
-    "x": 45400,
-    "y": 13172
+    "x": 28528,
+    "y": 11248,
+    "source": "pyra-hidden-cache-49"
    },
    "hidden-pyra-4": {
     "name": "Tunel Lawowy pod Kraterem (Wejście Zamknięte)",
-    "x": 43920,
-    "y": 11932
+    "x": 25488,
+    "y": 16816,
+    "source": "pyra-hidden-cache-54"
    }
   }
  },
@@ -283,28 +295,33 @@
   "hidden": {
    "hidden-verdant-1": {
     "name": "Zapomniana Kapliczka Siewców",
-    "x": 48771,
-    "y": 33879
+    "x": 44592,
+    "y": 38256,
+    "source": "verdant-hidden-cache-53"
    },
    "hidden-verdant-2": {
     "name": "Opuszczony Obóz Mierniczych",
-    "x": 48511,
-    "y": 34970
+    "x": 45840,
+    "y": 29296,
+    "source": "verdant-hidden-cache-48"
    },
    "hidden-verdant-3": {
     "name": "Starożytny Ołtarz Mchu i Rosy",
-    "x": 47909,
-    "y": 35332
+    "x": 42768,
+    "y": 23472,
+    "source": "verdant-hidden-cache-51"
    },
    "hidden-verdant-4": {
     "name": "Ślady Zaginionej Wyprawy Botaników",
-    "x": 50268,
-    "y": 35513
+    "x": 56784,
+    "y": 23600,
+    "source": "verdant-hidden-cache-55"
    },
    "hidden-verdant-5": {
     "name": "Podziemny Kanał Przelewowy pod Rozdzielnią",
-    "x": 48876,
-    "y": 34465
+    "x": 61296,
+    "y": 22896,
+    "source": "v2-verdant-labyrinth-verdant"
    }
   }
  }

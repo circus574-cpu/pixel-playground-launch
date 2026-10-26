@@ -59,8 +59,20 @@ for cid, data in sorted(argon.items()):
             used.add(loc['id']); how = 'v2-' + loc['kind']
             p = {'x': loc['x'], 'y': loc['y']}
         famous[f['id']] = {'name': f['name'], **p, 'source': how}
-    hidden = {h['id']: {'name': h['name'], 'x': round(h['coordinates']['x'] + off['x']),
-                        'y': round(h['coordinates']['y'] + off['y'])} for h in data['hidden']}
+    # Hidden places are the land's real caches (v2 hidden-cache, then caves and mazes), not their
+    # point on the capital's source map: those all sat inside or beside the town (owner 26.10.2026).
+    caches = [l for kind in ('hidden-cache', 'cave', 'maze') for l in w['locations'] if l['kind'] == kind]
+    far = sorted((l for l in caches if math.hypot(l['x'] - capital['x'], l['y'] - capital['y']) > 4000),
+                 key=lambda l: math.hypot(l['x'] - capital['x'], l['y'] - capital['y']))
+    step = max(1, len(far) // max(1, len(data['hidden'])))
+    hidden = {}
+    for i, h in enumerate(data['hidden']):
+        if i * step < len(far):
+            spot = far[i * step]
+            hidden[h['id']] = {'name': h['name'], 'x': spot['x'], 'y': spot['y'], 'source': spot['id']}
+        else:
+            hidden[h['id']] = {'name': h['name'], 'x': round(h['coordinates']['x'] + off['x']),
+                               'y': round(h['coordinates']['y'] + off['y']), 'source': 'map-point'}
     out[cid] = {'cities': cities, 'famous': famous, 'hidden': hidden}
 target = ROOT / 'src/game/worlds/v2Places.generated.json'
 target.write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n')
