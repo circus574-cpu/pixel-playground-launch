@@ -49,11 +49,19 @@ test("Verdantia software WebGL: actual chest interiors release resources on each
     if (i === 0) await page.screenshot({ path: info.outputPath("city-webgl-depot-390.png") });
     await page.getByRole("button", { name: "Wyjdź do miasta", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-interior", "outside");
-    const sample = await metrics(page);
+    // City chunks stream back in after the interior closes, so a sample right after the exit can be
+    // short of the baseline; wait for the scene to settle. A leak stays above it and still fails.
+    let sample = baseline;
+    await expect
+      .poll(
+        async () => {
+          sample = await metrics(page);
+          return [sample.textures, sample.objects, sample.estimatedTextureBytes];
+        },
+        { timeout: 20_000 },
+      )
+      .toEqual([baseline.textures, baseline.objects, baseline.estimatedTextureBytes]);
     samples.push(sample);
-    expect(sample.textures).toBe(baseline.textures);
-    expect(sample.objects).toBe(baseline.objects);
-    expect(sample.estimatedTextureBytes).toBe(baseline.estimatedTextureBytes);
     expect(sample.estimatedTextureBytes).toBeLessThan(128 * 1024 * 1024);
   }
   await page.screenshot({ path: info.outputPath("city-webgl-outside-390.png") });
