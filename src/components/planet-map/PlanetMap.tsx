@@ -10,8 +10,13 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { Button } from "@/components/ui/button";
-import atlasHi from "@/assets/planet-map/atlas-3840.webp";
-import atlasLo from "@/assets/planet-map/atlas-1920.webp";
+import atlasHiV1 from "@/assets/planet-map/atlas-3840.webp";
+import atlasLoV1 from "@/assets/planet-map/atlas-1920.webp";
+import atlasHiV2 from "@/assets/planet-map/atlas-v2-3840.webp";
+import atlasLoV2 from "@/assets/planet-map/atlas-v2-1920.webp";
+import { ATLAS_V2 } from "./mapData";
+const atlasHi = ATLAS_V2 ? atlasHiV2 : atlasHiV1;
+const atlasLo = ATLAS_V2 ? atlasLoV2 : atlasLoV1;
 import {
   CONTINENTS,
   MAP_H,

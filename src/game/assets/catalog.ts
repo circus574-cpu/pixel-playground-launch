@@ -150,7 +150,7 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
-  "ki-world-v2": ["ki-v2-terrain", "ki-v2-objects"],
+  "ki-world-v2": ["ki-v2-terrain", "ki-v2-objects", "ki-v2-city"],
 };
 /** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {

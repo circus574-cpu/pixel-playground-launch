@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "ki-v2-city",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "ki-v2-city-verdant-plaza-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-verdant-plaza-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-verdant-garden-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-verdant-garden-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-pyra-plaza-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-pyra-plaza-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-pyra-garden-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-pyra-garden-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-aether-plaza-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-aether-plaza-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-aether-garden-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-aether-garden-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-nexus-plaza-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-nexus-plaza-0.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "ki-v2-city-nexus-garden-0",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-city/1.0.0-616667d91bd9/ki-v2-city-nexus-garden-0.webp",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.ki-v2-city-verdant-plaza-0": {
+      "asset": "ki-v2-city-verdant-plaza-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-verdant-garden-0": {
+      "asset": "ki-v2-city-verdant-garden-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-pyra-plaza-0": {
+      "asset": "ki-v2-city-pyra-plaza-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-pyra-garden-0": {
+      "asset": "ki-v2-city-pyra-garden-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-aether-plaza-0": {
+      "asset": "ki-v2-city-aether-plaza-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-aether-garden-0": {
+      "asset": "ki-v2-city-aether-garden-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-nexus-plaza-0": {
+      "asset": "ki-v2-city-nexus-plaza-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    },
+    "terrain.ki-v2-city-nexus-garden-0": {
+      "asset": "ki-v2-city-nexus-garden-0",
+      "fit": "stretch",
+      "tileSize": [
+        180,
+        180
+      ]
+    }
+  },
+  "effects": {}
+}

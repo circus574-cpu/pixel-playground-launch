@@ -205,14 +205,18 @@ def build_feature(browser, output, feature, source, art_set='default'):
                           'dungeonEntrances') for d in world['dungeons']]
     terrain = [GROUND[p] for p in BIOMES[affinity]]
     water = 'terrain.nature-water-ocean-deep'
+    extra = {}
     if art_set == 'ki-v2':
         terrain, water = ki_ground, ki_water
-    for key in terrain + [water]:
+        extra = {'road': 'terrain.ki-v2-%s-road-0' % affinity}
+        plaza = 'terrain.ki-v2-city-%s-plaza-0' % affinity
+        extra['plaza'] = plaza if plaza in entries else extra['road']
+    for key in terrain + [water] + list(extra.values()):
         assert key in entries, key
         used.add(key)
     save(output / feature / 'feature.art.json', {'format': 'superior-art-overlay-1', 'feature': feature,
          'sourceWorldSha256': digest(region / 'world.json'), 'sourceManifestSha256': digest(region / 'manifest.json'),
-         'groundByBiome': terrain, 'water': water, 'buildings': building_art,
+         'groundByBiome': terrain, 'water': water, **extra, 'buildings': building_art,
          'acceptedCityBuildings': accepted_art, 'acceptedCityScenery': accepted_scenery, 'resources': resources, 'dungeonEntrances': entrances,
          'chunks': chunk_files, 'geometryChanged': False, 'runtimeInstalled': False})
     # Read back all source checksums after assembly. Input directory is never an output destination.

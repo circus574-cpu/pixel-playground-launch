@@ -10901,8 +10901,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10916,8 +10916,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10931,8 +10931,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10946,8 +10946,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10961,8 +10961,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10976,8 +10976,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -10991,8 +10991,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11006,8 +11006,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11021,8 +11021,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11036,8 +11036,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11051,8 +11051,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11066,8 +11066,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11081,8 +11081,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11096,8 +11096,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11111,8 +11111,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11126,8 +11126,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11141,8 +11141,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11156,8 +11156,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11171,8 +11171,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11186,8 +11186,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11201,8 +11201,128 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-aether-garden-0",
+   "asset": "ki-v2-city-aether-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-aether-plaza-0",
+   "asset": "ki-v2-city-aether-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-nexus-garden-0",
+   "asset": "ki-v2-city-nexus-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-nexus-plaza-0",
+   "asset": "ki-v2-city-nexus-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-pyra-garden-0",
+   "asset": "ki-v2-city-pyra-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-pyra-plaza-0",
+   "asset": "ki-v2-city-pyra-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-verdant-garden-0",
+   "asset": "ki-v2-city-verdant-garden-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
+   ]
+  },
+  {
+   "binding": "terrain.ki-v2-city-verdant-plaza-0",
+   "asset": "ki-v2-city-verdant-plaza-0",
+   "pixels": [
+    512,
+    512
+   ],
+   "frame": null,
+   "fit": "stretch",
+   "layer": null,
+   "tileSize": [
+    180,
+    180
    ]
   },
   {
@@ -11216,8 +11336,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11231,8 +11351,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11246,8 +11366,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11261,8 +11381,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11276,8 +11396,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11291,8 +11411,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11306,8 +11426,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11321,8 +11441,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11336,8 +11456,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11351,8 +11471,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11366,8 +11486,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11381,8 +11501,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11396,8 +11516,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11411,8 +11531,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11426,8 +11546,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11441,8 +11561,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11456,8 +11576,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11471,8 +11591,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11486,8 +11606,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11501,8 +11621,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11516,8 +11636,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11531,8 +11651,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11546,8 +11666,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11561,8 +11681,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11576,8 +11696,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11591,8 +11711,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11606,8 +11726,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11621,8 +11741,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11636,8 +11756,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11651,8 +11771,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11666,8 +11786,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11681,8 +11801,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11696,8 +11816,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11711,8 +11831,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11726,8 +11846,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11741,8 +11861,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11756,8 +11876,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11771,8 +11891,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11786,8 +11906,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11801,8 +11921,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11816,8 +11936,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11831,8 +11951,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11846,8 +11966,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11861,8 +11981,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11876,8 +11996,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11891,8 +12011,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11906,8 +12026,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11921,8 +12041,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11936,8 +12056,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11951,8 +12071,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11966,8 +12086,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -11981,8 +12101,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -11996,8 +12116,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -12011,8 +12131,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    160,
+    160
    ]
   },
   {
@@ -12026,8 +12146,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12041,8 +12161,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12056,8 +12176,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12071,8 +12191,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12086,8 +12206,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12101,8 +12221,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12116,8 +12236,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12131,8 +12251,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12146,8 +12266,8 @@
    "fit": "stretch",
    "layer": null,
    "tileSize": [
-    384,
-    384
+    200,
+    200
    ]
   },
   {
@@ -12954,6 +13074,11 @@
    "id": "ki-v2-terrain",
    "version": "1.0.0",
    "assets": 84
+  },
+  {
+   "id": "ki-v2-city",
+   "version": "1.0.0",
+   "assets": 8
   }
  ],
  "pendingScope": "Not inspected; future GPU deliveries are tracked separately. Empty list is not a completion claim."

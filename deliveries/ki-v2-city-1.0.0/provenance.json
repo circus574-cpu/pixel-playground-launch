@@ -1,0 +1,47 @@
+{
+  "pack": "ki-v2-city",
+  "generator": "DreamShaper XL Turbo, circular padding (tileable)",
+  "licenseStatus": "unresolved (docs/LICENCJE.md)",
+  "parts": [
+    {
+      "part": "ki-v2-city-verdant-plaza-0",
+      "source": "verdant-plaza-0.png",
+      "sha256": "940b5d475418217621d5d6f5363616ae502a2e0123209a0ec28851e997774fb8"
+    },
+    {
+      "part": "ki-v2-city-verdant-garden-0",
+      "source": "verdant-garden-0.png",
+      "sha256": "8a99b058cb4fae31bc9e95b5de73957db501f72534d9008627f386f2652d3a65"
+    },
+    {
+      "part": "ki-v2-city-pyra-plaza-0",
+      "source": "pyra-plaza-0.png",
+      "sha256": "3fc20df2713549f6abaf059f9a5daa1209a96d87f00de23a56016dbc1a8ad5a3"
+    },
+    {
+      "part": "ki-v2-city-pyra-garden-0",
+      "source": "pyra-garden-0.png",
+      "sha256": "1b3e95c5fcdda07228a4d0b8adf4017adb82706a6953c248df8c4b2fb9730947"
+    },
+    {
+      "part": "ki-v2-city-aether-plaza-0",
+      "source": "aether-plaza-0.png",
+      "sha256": "8bb4d54779627a158952e5c9bf2b52deb24b4cd30418bf8240485c90ba717548"
+    },
+    {
+      "part": "ki-v2-city-aether-garden-0",
+      "source": "aether-garden-0.png",
+      "sha256": "f1b1db79ea4ddd991c925ed1e618805412d3ae086e33f8d3011aa7a096a93726"
+    },
+    {
+      "part": "ki-v2-city-nexus-plaza-0",
+      "source": "nexus-plaza-0.png",
+      "sha256": "802215fdcdab29456c88df355f9c9322f126fdae875ca3e13bcc937f5c3e20b4"
+    },
+    {
+      "part": "ki-v2-city-nexus-garden-0",
+      "source": "nexus-garden-0.png",
+      "sha256": "ab5ebcc1b586796fd711f42cd2e49c446a426983639af42cacec915918e85bea"
+    }
+  ]
+}

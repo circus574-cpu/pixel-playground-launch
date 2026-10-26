@@ -24,7 +24,9 @@ from scipy.ndimage import gaussian_filter, gaussian_filter1d
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "src/assets/planet-map"
-OUTLINES = ROOT / "src/components/planet-map/atlasRegions.json"
+# Variant "v2" (world v2 preview): reads atlas-v2-3840.webp + atlasRegions.v2.json, writes v2-prefixed files.
+VARIANT = "v2-" if "--v2" in sys.argv else ""
+OUTLINES = ROOT / f"src/components/planet-map/atlasRegions{'.v2' if VARIANT else ''}.json"
 MAP_W, MAP_H = 2000, 1000
 
 
@@ -67,18 +69,18 @@ def land_mask(w: int, h: int) -> np.ndarray:
 
 def save(arr: np.ndarray, name: str, quality: int = 86) -> None:
     img = Image.fromarray(np.clip(arr * 255 + 0.5, 0, 255).astype(np.uint8))
-    img.save(ASSETS / name, "WEBP", quality=quality, method=6)
-    print(name, img.size, (ASSETS / name).stat().st_size // 1024, "KiB")
+    img.save(ASSETS / (VARIANT + name), "WEBP", quality=quality, method=6)
+    print(name, img.size, (ASSETS / (VARIANT + name)).stat().st_size // 1024, "KiB")
 
 
 def main() -> None:
-    atlas = np.asarray(Image.open(ASSETS / "atlas-3840.webp").convert("RGB"), dtype=np.float32) / 255
+    atlas = np.asarray(Image.open(ASSETS / f"atlas-{VARIANT}3840.webp").convert("RGB"), dtype=np.float32) / 255
     color = pole_blur(seam_match(atlas, 260), 3.0)
     save(color, "globe-color-3840.webp", 88)
     lo = Image.fromarray(np.clip(color * 255 + 0.5, 0, 255).astype(np.uint8)).resize(
         (1920, 960), Image.LANCZOS
     )
-    lo.save(ASSETS / "globe-color-1920.webp", "WEBP", quality=86, method=6)
+    lo.save(ASSETS / f"{VARIANT}globe-color-1920.webp", "WEBP", quality=86, method=6)
     print("globe-color-1920.webp", lo.size)
 
     w, h = 2048, 1024
@@ -110,8 +112,9 @@ def main() -> None:
     lights = np.maximum(lights, gaussian_filter(lights, (5, 5, 0)) * 1.4)
     save(np.clip(lights, 0, 1), "globe-lights-2048.webp", 86)
 
-    if len(sys.argv) > 1:
-        src = Image.open(sys.argv[1]).convert("L").resize((w, h), Image.LANCZOS)
+    args = [a for a in sys.argv[1:] if a != "--v2"]
+    if args:
+        src = Image.open(args[0]).convert("L").resize((w, h), Image.LANCZOS)
         c = np.asarray(src, dtype=np.float32) / 255
         c = np.clip((c - 0.22) / 0.7, 0, 1) ** 1.35
         c = pole_blur(seam_match(c, 160), 2.0)
