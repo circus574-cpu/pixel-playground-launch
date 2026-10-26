@@ -174,13 +174,16 @@ def ki_v2_relief(region, affinity, entries):
     kit = KI_V2_RELIEF.get(affinity, [])
     mount = (biome == 2) & walk & ~safe
     lab, n = ndimage.label(mount); n_obj = 0
+    # Solid summits come from the geometry (landscape.py 'peaks'); the binder only dresses them.
+    for peak in world.get('peaks', []):
+        place(kit[0][0], kit[0][1], peak['y'] // 32, peak['x'] // 32, n_obj); n_obj += 1
     for comp in range(1, n + 1):
         cells = np.argwhere(lab == comp)
         if len(cells) < 300: continue
-        inner = ndimage.distance_transform_edt(lab == comp)
-        cy, cx = np.unravel_index(np.argmax(np.where(lab == comp, inner, 0)), inner.shape)
-        big = kit[0] if len(cells) > 4000 else kit[1]
-        place(big[0], big[1], cy, cx, n_obj); n_obj += 1
+        if len(cells) <= 4000:
+            inner = ndimage.distance_transform_edt(lab == comp)
+            cy, cx = np.unravel_index(np.argmax(np.where(lab == comp, inner, 0)), inner.shape)
+            place(kit[1][0], kit[1][1], cy, cx, n_obj); n_obj += 1
         for _ in range(min(40, len(cells) // 500)):
             y, x = cells[rng.randrange(len(cells))]
             a, w = kit[rng.randrange(2, len(kit))]
