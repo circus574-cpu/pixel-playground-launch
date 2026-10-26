@@ -1,3 +1,6 @@
+import { CombatVisualBudget } from "./combatBudget";
+import { bossPreviewEnabled } from "./bosses/runtime";
+import { createBossPlaytest } from "./bosses/playtest";
 import { INTERACTION_BOUNDS } from "./geometry";
 import Phaser from "phaser";
 import { readUiPreferences } from "./uiPreferences";
@@ -77,8 +80,18 @@ export function mountKileGends(
   } catch {
     /* SaveStore reports unavailable storage. */
   }
+  const bossMode = bossPreviewEnabled(location.pathname, location.search);
+  const runtime = bossMode ? undefined : options?.runtime;
+  // The caller may already have prepared a streamed world; release it before the isolated arena.
+  if (bossMode) options?.runtime?.dispose?.();
   const session =
-    options?.runtime?.session ??
+    (bossMode
+      ? createBossPlaytest(
+          options?.race ?? "planetary",
+          new URLSearchParams(location.search).get("ki-boss") ?? "ygdrasha",
+        )
+      : undefined) ??
+    runtime?.session ??
     new GameSession(
       new SaveStore(storage, options?.saveKey ?? playtestSaveKey(window.location.search)),
       options?.race,
@@ -91,10 +104,15 @@ export function mountKileGends(
     location.pathname === "/scripts/playtest.html" &&
     new URLSearchParams(location.search).get("ki-art") === "technical";
   const visual = actorVisual(RACES[session.player.race].world, "hero", undefined, preview);
-  const assets = options?.runtime?.assets ?? worldAssets(world.id, preview);
+  const assets = runtime?.assets ?? worldAssets(world.id, preview);
   const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
+    private visualBudget = new CombatVisualBudget();
+    private trackEffect(object: Phaser.GameObjects.GameObject, critical = false) {
+      const release = this.visualBudget.add(() => object.destroy(), critical);
+      object.once(Phaser.GameObjects.Events.DESTROY, release);
+    }
     private updateVisibility?: (player: Point) => void;
     private runtimeVisible: ((visible: boolean) => void) | undefined;
     private outsideObjects: (Phaser.GameObjects.GameObject &
@@ -158,6 +176,7 @@ export function mountKileGends(
       loading({ phase: "building", message: "Przywoływanie bohatera…", progress: null });
       try {
         this.initializeWorld();
+        releaseScene.push(() => this.visualBudget.clear());
         // Capture every rendered hero frame independently of the 100 ms HUD
         // snapshot. Brief reactions must not disappear from frame observations.
         const captureFrame = () => {
@@ -188,7 +207,7 @@ export function mountKileGends(
     }
     private initializeWorld() {
       prepareTextures(this, assets);
-      for (const ref of options?.runtime ? [] : worldRenderRefs(world.id))
+      for (const ref of runtime ? [] : worldRenderRefs(world.id))
         if (ref.frame !== undefined && !this.textures.get(ref.asset).has(String(ref.frame)))
           throw new Error("Brak klatki świata: " + ref.asset + "/" + ref.frame);
       for (const [id, effect] of Object.entries(catalog.effects).filter(
@@ -203,10 +222,10 @@ export function mountKileGends(
         .setBackgroundColor(world.background)
         .setBounds(0, 0, world.width, world.height);
       const beforeWorld = new Set(this.children.list);
-      const runtimeRendering = options?.runtime?.render(this);
+      const runtimeRendering = runtime?.render(this);
       const rendering = runtimeRendering ?? renderWorld(this, world);
       this.runtimeVisible = runtimeRendering?.setVisible;
-      if (!options?.runtime) renderCityStreets(this, world);
+      if (!runtime) renderCityStreets(this, world);
       this.outsideObjects = this.children.list.filter(
         (o): o is Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Visible =>
           !beforeWorld.has(o) && "setVisible" in o,
@@ -214,7 +233,7 @@ export function mountKileGends(
       this.updateVisibility = rendering.updateVisibility;
       parent.dataset["terrainMode"] = rendering.terrainMode;
       releaseScene.push(rendering.dispose);
-      if (options?.runtime?.dispose) releaseScene.push(options.runtime.dispose);
+      if (runtime?.dispose) releaseScene.push(runtime.dispose);
       releaseScene.push(() => this.interiorView?.dispose());
       this.hero = this.actor(
         session.player,
@@ -484,7 +503,8 @@ export function mountKileGends(
             e,
             e.m.def.name,
             "enemy",
-            options?.runtime?.enemyVisual?.(e.kind) ?? actorVisual(world.id, "enemy", role),
+            (e.boss ? actorVisual(world.id, "enemy") : runtime?.enemyVisual?.(e.kind)) ??
+              actorVisual(world.id, "enemy", role),
           ),
         );
       }
@@ -503,6 +523,7 @@ export function mountKileGends(
         .ellipse(p.x, p.y, radius * 2, radius * 1.1, color, fill)
         .setStrokeStyle(3, color, 0.8)
         .setDepth(renderDepth("combat", p.y - 1));
+      this.trackEffect(disc, color === 0xff5a4a);
       this.tweens.add({
         targets: disc,
         alpha: 0.2,
@@ -614,6 +635,7 @@ export function mountKileGends(
         })
         .setOrigin(0.5)
         .setDepth(renderDepth("labels") + 2);
+      this.trackEffect(label);
       this.tweens.add({
         targets: label,
         y: label.y - 45,
@@ -637,6 +659,7 @@ export function mountKileGends(
         .sprite(p.x, p.y - 30, spec.asset, spec.frames[0])
         .setDisplaySize(...spec.size)
         .setDepth(renderDepth("combat", p.y));
+      this.trackEffect(sprite);
       if (spec.frames.length > 1) sprite.play(key);
       if (to)
         this.tweens.add({ targets: sprite, x: to.x, y: to.y - 30, duration: spec.durationMs });
@@ -758,6 +781,7 @@ export function mountKileGends(
             .circle(event.x, event.y - 35, 13, 0xb2ffff, 0.9)
             .setStrokeStyle(5, 0x5dd2f1, 0.5)
             .setDepth(renderDepth("combat"));
+          this.trackEffect(orb);
           this.tweens.add({
             targets: orb,
             x: event.to.x,
@@ -768,6 +792,7 @@ export function mountKileGends(
         } else {
           const slash = this.add.graphics().setDepth(renderDepth("combat")),
             angle = Math.atan2(dir.y, dir.x);
+          this.trackEffect(slash);
           slash.lineStyle(
             event.ability && event.ability !== "R" ? 10 : 5,
             event.ability && event.ability !== "R" ? 0xffa45e : 0xf1ffe0,
@@ -824,6 +849,13 @@ export function mountKileGends(
       parent.dataset["enemyVisuals"] = JSON.stringify(
         [...this.enemies.entries()].map(([id, actor]) => ({ id, visual: actor.visual.id })),
       );
+      parent.dataset["combatVisuals"] = String(this.visualBudget.size);
+      parent.dataset["bossRewards"] = JSON.stringify(session.bossRewards);
+      parent.dataset["bosses"] = JSON.stringify(
+        session.enemies
+          .filter((e) => e.boss)
+          .map((e) => ({ id: e.id, kind: e.kind, phase: e.boss!.phase, hp: e.hp })),
+      );
       parent.dataset["enemies"] = JSON.stringify(
         session.enemies.map((e) => ({ id: e.id, x: e.x, y: e.y, hp: e.hp, mode: e.mode })),
       );
@@ -839,9 +871,9 @@ export function mountKileGends(
       if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
       const dt = Math.min(delta, 100);
       if (!session.paused && !session.dialogue) this.animationTime += dt;
-      options?.runtime?.beforeTick?.(dt);
+      runtime?.beforeTick?.(dt);
       session.tick(dt);
-      options?.runtime?.afterTick?.(dt);
+      runtime?.afterTick?.(dt);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();
         this.interiorView = undefined;
@@ -855,7 +887,7 @@ export function mountKileGends(
             this,
             world,
             session.player.interior,
-            options?.runtime?.interiorBindings,
+            runtime?.interiorBindings,
           );
           const room = cityRoom(session.player.interior, world.id);
           this.cameras.main

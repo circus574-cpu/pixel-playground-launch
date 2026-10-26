@@ -1,3 +1,4 @@
+import { bossPreviewEnabled } from "../game/bosses/preview";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GameLoadingScreen } from "../components/game/GameLoadingScreen";
@@ -192,16 +193,18 @@ function GameScreen({
     let cleanup: (() => void) | undefined;
     import("../game/mountGame")
       .then(async ({ mountKileGends }) => {
-        const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
-        prepared = await prepareSuperior({
-          race: slot.player!.race,
-          saveKey: slot.key,
-          signal: abort.signal,
-          onLoading: (next) => {
-            if (!cancelled) setLoading(next);
-          },
-        });
-        if (!cancelled) setWorldRuntime(prepared);
+        if (!bossPreviewEnabled(location.pathname, location.search)) {
+          const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
+          prepared = await prepareSuperior({
+            race: slot.player!.race,
+            saveKey: slot.key,
+            signal: abort.signal,
+            onLoading: (next) => {
+              if (!cancelled) setLoading(next);
+            },
+          });
+          if (!cancelled) setWorldRuntime(prepared);
+        }
         if (!cancelled && container.current)
           cleanup = mountKileGends(
             container.current,
@@ -211,7 +214,7 @@ function GameScreen({
             {
               saveKey: slot.key,
               race: slot.player!.race,
-              runtime: prepared,
+              ...(prepared ? { runtime: prepared } : {}),
               onLoading: (next) => {
                 if (!cancelled) setLoading(next);
               },

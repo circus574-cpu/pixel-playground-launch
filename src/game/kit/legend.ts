@@ -51,7 +51,7 @@ export class LegendKit extends Kit {
   }
   protected override strike(foe: Foe, mult: number, hit: Hit, extra = 0, forceCrit = false) {
     const dealt = super.strike(foe, mult, hit, extra, forceCrit);
-    if (!hit.indirect) {
+    if (!hit.indirect && dealt > 0) {
       this.gainEmber(4);
       const now = this.port.nowMs;
       this.streak = now - this.lastHitAt > 2500 ? 1 : this.streak + 1;

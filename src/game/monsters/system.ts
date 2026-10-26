@@ -1,3 +1,11 @@
+import { inSafeCity } from "../city/types";
+import {
+  bossDefinition,
+  bossMonster,
+  updateBossPhase,
+  bossDamageMultiplier,
+} from "../bosses/runtime";
+import { COMBAT_BUDGET } from "../combatBudget";
 import { distance, type Navigation, type Point } from "../navigation";
 import type { WorldDefinition } from "../world/types";
 import { monsterDef } from "./catalog";
@@ -137,12 +145,24 @@ export class MonsterSystem {
     return this.host.enemyNavigation ?? this.host.nav;
   }
   private get hasCapacity() {
-    return this.host.enemies.length < (this.host.maximumActiveEnemies ?? Infinity);
+    return (
+      this.host.enemies.length < (this.host.maximumActiveEnemies ?? COMBAT_BUDGET.activeEnemies)
+    );
   }
 
   // --- spawning -----------------------------------------------------------------------------
   spawn(kind: string, at: Point, id?: string): Enemy {
-    const def = monsterDef(kind);
+    return this.spawnDefinition(monsterDef(kind), at, id);
+  }
+  spawnBoss(id: string, at: Point): Enemy {
+    const definition = bossDefinition(id);
+    const enemy = this.spawnDefinition(bossMonster(definition), at);
+    enemy.boss = { definition, phase: 0, lootRolled: false };
+    updateBossPhase(enemy);
+    return enemy;
+  }
+  private spawnDefinition(def: MonsterDef, at: Point, id?: string): Enemy {
+    const kind = def.id;
     const home = this.navigation.safe(at);
     const e: Enemy = {
       id: id ?? kind + "#" + this.seq++,
@@ -158,6 +178,7 @@ export class MonsterSystem {
       m: newState(def, this.host.nowMs),
       fx: newFx(),
     };
+    if (!this.allowed(home)) throw Error("Przeciwnik nie może pojawić się w bezpiecznym mieście.");
     this.host.enemies.push(e);
     if (def.traits.webs) this.layWebs(e);
     return e;
@@ -195,7 +216,7 @@ export class MonsterSystem {
   ): number {
     const m = e.m;
     const def = m.def;
-    if (e.mode === "dead" || m.hidden || m.invulnerable) return 0;
+    if (e.mode === "dead" || m.hidden || m.invulnerable || this.host.safe) return 0;
     if (m.phase === "return" && !hit.indirect) {
       this.host.say(def.name + " wraca na swoje terytorium.");
       return 0;
@@ -224,7 +245,7 @@ export class MonsterSystem {
     if (e.fx.mark && e.fx.mark.ms > 0) defense *= 1 - e.fx.mark.def;
     if (m.exposedMs > 0) defense *= 1 - m.exposed;
     // The annex model is fractional: rounding every hit would break its control duels.
-    let dmg = Math.max(1, raw * mult - defense / 2);
+    let dmg = Math.max(1, raw * mult - defense / 2) * bossDamageMultiplier(e);
     if (m.guard > 0) {
       const absorbed = Math.min(m.guard, dmg);
       m.guard -= absorbed;
@@ -235,6 +256,8 @@ export class MonsterSystem {
       }
     }
     e.hp = Math.max(0, e.hp - dmg);
+    if (updateBossPhase(e))
+      this.host.emit({ type: "status", ...e, target: e.id, text: "Faza " + e.boss!.phase });
     m.sinceHit = 0;
     this.host.emit({
       type: "hit",
@@ -411,6 +434,7 @@ export class MonsterSystem {
       fx: spec.fx ?? [],
       fxMs: 0,
     };
+    if (this.zones.length >= COMBAT_BUDGET.zones) return z;
     this.zones.push(z);
     this.host.emit({
       type: "zone",
@@ -474,7 +498,39 @@ export class MonsterSystem {
         this.host.say(a.m.def.name + " łączy się z powrotem.");
       }
     }
-    for (const e of [...this.host.enemies]) this.step(e, dt);
+    const active = new Set(
+      this.host.enemies
+        .filter(
+          (e) =>
+            e.mode !== "dead" &&
+            (distance(e, this.host.player) <= COMBAT_BUDGET.aiRadius || e.m.engaged),
+        )
+        .sort(
+          (a, b) =>
+            distance(a, this.host.player) - distance(b, this.host.player) ||
+            (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+        )
+        .slice(
+          0,
+          Math.min(
+            COMBAT_BUDGET.activeEnemies,
+            this.host.maximumActiveEnemies ?? COMBAT_BUDGET.activeEnemies,
+          ),
+        )
+        .map((e) => e.id),
+    );
+    for (const e of [...this.host.enemies]) {
+      if (e.mode === "dead" || active.has(e.id)) {
+        e.sleeping = false;
+        this.step(e, dt);
+      } else {
+        e.sleeping = true;
+        e.m.cast = undefined;
+        e.m.charge = undefined;
+        e.m.volley = undefined;
+        this.decay(e, dt);
+      }
+    }
     // summons and split parts that died are removed once their death has been reported
     this.host.enemies.splice(
       0,
@@ -524,6 +580,7 @@ export class MonsterSystem {
     const def = m.def;
     const host = this.host;
     const p = host.player;
+    updateBossPhase(e);
     this.decay(e, dt);
     if (e.mode === "dead") {
       e.timer -= dt;
@@ -633,6 +690,12 @@ export class MonsterSystem {
       e.m.engaged = false;
       e.mode = "patrol";
       if (!e.m.def.traits.noRegen) e.hp = e.maxHp;
+      if (e.boss) {
+        e.boss.phase = 0;
+        updateBossPhase(e);
+        e.m.cooldowns = {};
+        e.m.used.clear();
+      }
       e.timer = 1000;
     }
   }
@@ -640,6 +703,10 @@ export class MonsterSystem {
     const m = e.m;
     const t = m.def.traits;
     const p = this.host.player;
+    if (this.host.safe || this.host.player.dead) {
+      m.cast = undefined;
+      return;
+    }
     if (m.cast) {
       m.cast.ms -= dt;
       if (m.cast.ms <= 0) this.resolveCast(e);
@@ -649,7 +716,10 @@ export class MonsterSystem {
       m.phaseMs -= dt;
       return;
     }
-    if (p.dead) return;
+    if (p.dead || this.host.safe) {
+      m.cast = undefined;
+      return;
+    }
     if (t.ambush && d <= t.ambush.reveal && this.navigation.visible(e, p)) {
       m.hidden = false;
       m.phase = "engage";
@@ -739,12 +809,15 @@ export class MonsterSystem {
       s *= t.webSlow;
     return s;
   }
+  private allowed(p: Point) {
+    return !inSafeCity(this.host.world, p, null) && (this.host.enemyPositionAllowed?.(p) ?? true);
+  }
   private clampWorld(p: Point, from?: Point): Point {
-    if (from && this.host.enemyPositionAllowed) {
+    if (from) {
       const steps = Math.max(1, Math.ceil(distance(from, p) / 8));
       for (let i = 1; i <= steps; i++)
         if (
-          !this.host.enemyPositionAllowed({
+          !this.allowed({
             x: from.x + ((p.x - from.x) * i) / steps,
             y: from.y + ((p.y - from.y) * i) / steps,
           })
@@ -782,6 +855,7 @@ export class MonsterSystem {
       Object.assign(e, this.navigation.step(e, next, amount));
       if (distance(e, next) < 5) route.points.shift();
     }
+    if (!this.allowed(e)) Object.assign(e, before);
     const moved = distance(before, e);
     if (moved > 0.01) {
       e.m.facing = unit(before, e);
@@ -1020,7 +1094,7 @@ export class MonsterSystem {
     if (s.once) m.used.add(s.id);
     const p = this.host.player;
     this.face(e, p);
-    if (s.mode === "self") return this.useSelf(e, s);
+    if (s.mode === "self" && !s.telegraph) return this.useSelf(e, s);
     const opener = !!s.opener && m.attackCount === 0;
     const at = s.centred ? { x: e.x, y: e.y } : { x: p.x, y: p.y };
     if (s.mode === "leap") {
@@ -1103,6 +1177,7 @@ export class MonsterSystem {
     const p = this.host.player;
     if (m.phase === "hidden") {
       // surfacing from underground / out of the bushes
+      if (!this.allowed(c.at)) return;
       Object.assign(e, c.at);
       m.hidden = false;
       m.phase = "engage";
@@ -1112,6 +1187,9 @@ export class MonsterSystem {
       m.cooldowns = { [s.id]: s.cd };
     }
     switch (s.mode) {
+      case "self":
+        this.useSelf(e, s);
+        break;
       case "melee":
       case "ranged": {
         const reach = s.mode === "melee" ? s.range + 24 : s.range + 40;

@@ -286,6 +286,9 @@ export type MonsterState = {
 };
 
 export type Enemy = Point & {
+  boss?: import("../bosses/runtime").BossRuntime;
+  /** Outside the deterministic AI budget; no actions are executed. */
+  sleeping?: boolean;
   id: string;
   /** Monster definition id. */
   kind: string;
