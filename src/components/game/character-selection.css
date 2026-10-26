@@ -52,7 +52,8 @@
   display: flex;
   gap: 8px;
 }
-.ki-origins-header nav button {
+.ki-origins-header nav button,
+.ki-origins-header nav .ki-origins-account {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 3px;
@@ -60,6 +61,11 @@
   min-height: 46px;
   color: #b3c3c0;
   font-size: 12px;
+}
+.ki-origins-header nav .ki-origins-account {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 .ki-origins-header nav button[aria-pressed="true"] {
   border-color: #d9bd7f70;

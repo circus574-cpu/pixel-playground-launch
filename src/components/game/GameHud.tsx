@@ -35,6 +35,8 @@ import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
 import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
+import { StaffTools } from "./StaffTools";
+import "./staff-tools.css";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
@@ -42,6 +44,9 @@ import "./manga-hud.css";
 import "./hud-v2-landscape.css";
 
 type Props = {
+  /** Continents a special staff character can travel to directly. */
+  staffDestinations?: { id: string; name: string }[] | undefined;
+  onStaffTravel?: ((id: string) => void) | undefined;
   planetLocation?: string | undefined;
   onPlanetTravel?: ((id: string) => void) | undefined;
   worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
@@ -174,6 +179,8 @@ export function GameHud({
   worldOverride,
   planetLocation,
   onPlanetTravel,
+  staffDestinations,
+  onStaffTravel,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
@@ -476,6 +483,15 @@ export function GameHud({
           </div>
         )}
       </div>
+      {state.staff && onStaffTravel && (
+        <StaffTools
+          state={state}
+          send={onCommand}
+          continents={staffDestinations ?? []}
+          current={planetLocation}
+          onTravel={onStaffTravel}
+        />
+      )}
       <section
         className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
         aria-label="Minimapa"

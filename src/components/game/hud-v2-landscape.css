@@ -164,3 +164,15 @@
     display: none;
   }
 }
+
+/* The special staff character's GM button sits under "Widok", clear of the top menu. */
+@media (max-height: 500px) and (max-width: 1100px) {
+  html[data-ki-world-v2] .ki-staff {
+    top: calc(68px + env(safe-area-inset-top));
+    bottom: auto;
+    right: calc(106px + env(safe-area-inset-right));
+  }
+  html[data-ki-world-v2] .ki-staff-panel {
+    max-height: calc(100vh - 140px);
+  }
+}

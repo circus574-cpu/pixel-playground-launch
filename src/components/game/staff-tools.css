@@ -1,0 +1,83 @@
+/* Special administrator / game-master tools: a small badge button, left of the minimap. */
+.ki-staff {
+  position: absolute;
+  top: 12px;
+  right: 168px;
+  z-index: 40;
+  pointer-events: auto;
+}
+.ki-staff-toggle {
+  min-width: 46px;
+  min-height: 46px;
+  border: 1px solid #ff8a3c;
+  border-radius: 8px;
+  background: #3a1606e6;
+  color: #ffc58f;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.ki-staff-panel {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  width: min(340px, calc(100vw - 32px));
+  max-height: 70vh;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid #ff8a3c;
+  border-radius: 10px;
+  background: #160f0cf2;
+  color: #f6e3c8;
+  font-size: 13px;
+}
+.ki-staff-panel header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.ki-staff-panel h4 {
+  margin: 10px 0 4px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+.ki-staff-row,
+.ki-staff-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ki-staff-list {
+  margin: 6px 0;
+}
+.ki-staff-panel button,
+.ki-staff-panel input {
+  min-height: 34px;
+  padding: 4px 9px;
+  border: 1px solid #6b4a32;
+  border-radius: 6px;
+  background: #2a1a12;
+  color: inherit;
+  font: inherit;
+}
+.ki-staff-panel input {
+  width: 90px;
+}
+.ki-staff-panel button[aria-pressed="true"] {
+  border-color: #ffb36b;
+  color: #ffd29f;
+}
+.ki-staff-panel summary {
+  cursor: pointer;
+  margin-top: 6px;
+}
+@media (max-width: 600px) {
+  .ki-staff {
+    top: auto;
+    bottom: 150px;
+    right: 12px;
+  }
+  .ki-staff-panel {
+    top: auto;
+    bottom: 54px;
+  }
+}

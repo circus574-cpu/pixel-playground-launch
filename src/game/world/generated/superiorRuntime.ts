@@ -69,7 +69,8 @@ export type SuperiorRuntime = GameRuntime & {
   feature: FeatureId;
   featureName: string;
   canTravel: () => boolean;
-  travel: (destination: FeatureId) => boolean;
+  /** `staff`: a special character travels from anywhere outdoors, not only from the harbour. */
+  travel: (destination: FeatureId, staff?: boolean) => boolean;
   save: SuperiorSaveStore;
 };
 
@@ -563,9 +564,12 @@ export async function prepareSuperior(options: {
     featureName: info.name,
     assets: [...initialAssets.values()],
     canTravel,
-    travel(destination) {
+    travel(destination, staff = false) {
       const next = index.features.find((f) => f.id === destination);
-      return !!next && destination !== info.id && canTravel() && save.travel(session.player, next);
+      const allowed = staff
+        ? !!session.staff && !session.player.interior && !session.player.dead
+        : canTravel();
+      return !!next && destination !== info.id && allowed && save.travel(session.player, next);
     },
     enemyVisual,
     interiorBindings,
