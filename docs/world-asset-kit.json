@@ -5404,6 +5404,450 @@
    }
   },
   {
+   "binding": "object.ki-v2-camps.aether-banner",
+   "asset": "ki-v2-camps-aether-banner",
+   "pixels": [
+    338,
+    907
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.aether-banner",
+   "placement": {
+    "width": 130,
+    "height": 349,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.aether-bonfire",
+   "asset": "ki-v2-camps-aether-bonfire",
+   "pixels": [
+    867,
+    722
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.aether-bonfire",
+   "placement": {
+    "width": 130,
+    "height": 108,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.aether-crates",
+   "asset": "ki-v2-camps-aether-crates",
+   "pixels": [
+    733,
+    892
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.aether-crates",
+   "placement": {
+    "width": 130,
+    "height": 158,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.aether-tent",
+   "asset": "ki-v2-camps-aether-tent",
+   "pixels": [
+    964,
+    937
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.aether-tent",
+   "placement": {
+    "width": 320,
+    "height": 311,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 78
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.aether-totem",
+   "asset": "ki-v2-camps-aether-totem",
+   "pixels": [
+    826,
+    958
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.aether-totem",
+   "placement": {
+    "width": 240,
+    "height": 278,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 61
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.nexus-banner",
+   "asset": "ki-v2-camps-nexus-banner",
+   "pixels": [
+    679,
+    983
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.nexus-banner",
+   "placement": {
+    "width": 130,
+    "height": 188,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.nexus-bonfire",
+   "asset": "ki-v2-camps-nexus-bonfire",
+   "pixels": [
+    624,
+    552
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.nexus-bonfire",
+   "placement": {
+    "width": 130,
+    "height": 115,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.nexus-crates",
+   "asset": "ki-v2-camps-nexus-crates",
+   "pixels": [
+    947,
+    979
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.nexus-crates",
+   "placement": {
+    "width": 130,
+    "height": 134,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.nexus-tent",
+   "asset": "ki-v2-camps-nexus-tent",
+   "pixels": [
+    994,
+    967
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.nexus-tent",
+   "placement": {
+    "width": 320,
+    "height": 311,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 78
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.nexus-totem",
+   "asset": "ki-v2-camps-nexus-totem",
+   "pixels": [
+    716,
+    958
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.nexus-totem",
+   "placement": {
+    "width": 240,
+    "height": 321,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 71
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.pyra-banner",
+   "asset": "ki-v2-camps-pyra-banner",
+   "pixels": [
+    383,
+    1002
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.pyra-banner",
+   "placement": {
+    "width": 130,
+    "height": 340,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.pyra-bonfire",
+   "asset": "ki-v2-camps-pyra-bonfire",
+   "pixels": [
+    446,
+    965
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.pyra-bonfire",
+   "placement": {
+    "width": 130,
+    "height": 281,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.pyra-crates",
+   "asset": "ki-v2-camps-pyra-crates",
+   "pixels": [
+    811,
+    729
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.pyra-crates",
+   "placement": {
+    "width": 130,
+    "height": 117,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.pyra-tent",
+   "asset": "ki-v2-camps-pyra-tent",
+   "pixels": [
+    970,
+    942
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.pyra-tent",
+   "placement": {
+    "width": 320,
+    "height": 311,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 78
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.pyra-totem",
+   "asset": "ki-v2-camps-pyra-totem",
+   "pixels": [
+    577,
+    971
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.pyra-totem",
+   "placement": {
+    "width": 240,
+    "height": 404,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 89
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.verdant-banner",
+   "asset": "ki-v2-camps-verdant-banner",
+   "pixels": [
+    424,
+    509
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.verdant-banner",
+   "placement": {
+    "width": 130,
+    "height": 156,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.verdant-bonfire",
+   "asset": "ki-v2-camps-verdant-bonfire",
+   "pixels": [
+    633,
+    509
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.verdant-bonfire",
+   "placement": {
+    "width": 130,
+    "height": 105,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.verdant-crates",
+   "asset": "ki-v2-camps-verdant-crates",
+   "pixels": [
+    742,
+    838
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.verdant-crates",
+   "placement": {
+    "width": 130,
+    "height": 147,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": false,
+    "footprint": null
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.verdant-tent",
+   "asset": "ki-v2-camps-verdant-tent",
+   "pixels": [
+    847,
+    934
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.verdant-tent",
+   "placement": {
+    "width": 320,
+    "height": 353,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 240,
+     "height": 88
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-camps.verdant-totem",
+   "asset": "ki-v2-camps-verdant-totem",
+   "pixels": [
+    479,
+    904
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-camps.verdant-totem",
+   "placement": {
+    "width": 240,
+    "height": 453,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 100
+    }
+   }
+  },
+  {
    "binding": "object.ki-v2-landmarks.aether-archive",
    "asset": "ki-v2-landmarks-aether-archive",
    "pixels": [
@@ -5733,6 +6177,30 @@
     "footprint": {
      "width": 144,
      "height": 55
+    }
+   }
+  },
+  {
+   "binding": "object.ki-v2-landmarks.verdant-forge",
+   "asset": "ki-v2-landmarks-verdant-forge",
+   "pixels": [
+    870,
+    960
+   ],
+   "frame": null,
+   "fit": "contain",
+   "layer": "objects",
+   "tileSize": null,
+   "regionAsset": "ki-v2-landmarks.verdant-forge",
+   "placement": {
+    "width": 240,
+    "height": 265,
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "solid": true,
+    "footprint": {
+     "width": 144,
+     "height": 58
     }
    }
   },
@@ -14297,12 +14765,27 @@
    "assets": 28
   },
   {
-   "id": "ki-v2-landmarks",
+   "id": "enemy-v2-aether-oko-wiedzy",
    "version": "1.0.0",
-   "assets": 15
+   "assets": 2
   },
   {
-   "id": "enemy-v2-aether-oko-wiedzy",
+   "id": "ki-v2-camps",
+   "version": "1.0.0",
+   "assets": 20
+  },
+  {
+   "id": "ki-v2-landmarks",
+   "version": "1.1.0",
+   "assets": 16
+  },
+  {
+   "id": "enemy-v2-verdant-korzeniowy-pelzacz",
+   "version": "1.0.0",
+   "assets": 2
+  },
+  {
+   "id": "enemy-v2-verdant-mchowy-szlamak",
    "version": "1.0.0",
    "assets": 2
   }

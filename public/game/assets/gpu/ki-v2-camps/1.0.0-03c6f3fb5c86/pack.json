@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "id": "ki-v2-camps",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "ki-v2-camps-aether-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-aether-banner.webp",
+      "width": 338,
+      "height": 907
+    },
+    {
+      "id": "ki-v2-camps-aether-bonfire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-aether-bonfire.webp",
+      "width": 867,
+      "height": 722
+    },
+    {
+      "id": "ki-v2-camps-aether-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-aether-crates.webp",
+      "width": 733,
+      "height": 892
+    },
+    {
+      "id": "ki-v2-camps-aether-tent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-aether-tent.webp",
+      "width": 964,
+      "height": 937
+    },
+    {
+      "id": "ki-v2-camps-aether-totem",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-aether-totem.webp",
+      "width": 826,
+      "height": 958
+    },
+    {
+      "id": "ki-v2-camps-nexus-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-nexus-banner.webp",
+      "width": 679,
+      "height": 983
+    },
+    {
+      "id": "ki-v2-camps-nexus-bonfire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-nexus-bonfire.webp",
+      "width": 624,
+      "height": 552
+    },
+    {
+      "id": "ki-v2-camps-nexus-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-nexus-crates.webp",
+      "width": 947,
+      "height": 979
+    },
+    {
+      "id": "ki-v2-camps-nexus-tent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-nexus-tent.webp",
+      "width": 994,
+      "height": 967
+    },
+    {
+      "id": "ki-v2-camps-nexus-totem",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-nexus-totem.webp",
+      "width": 716,
+      "height": 958
+    },
+    {
+      "id": "ki-v2-camps-pyra-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-pyra-banner.webp",
+      "width": 383,
+      "height": 1002
+    },
+    {
+      "id": "ki-v2-camps-pyra-bonfire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-pyra-bonfire.webp",
+      "width": 446,
+      "height": 965
+    },
+    {
+      "id": "ki-v2-camps-pyra-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-pyra-crates.webp",
+      "width": 811,
+      "height": 729
+    },
+    {
+      "id": "ki-v2-camps-pyra-tent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-pyra-tent.webp",
+      "width": 970,
+      "height": 942
+    },
+    {
+      "id": "ki-v2-camps-pyra-totem",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-pyra-totem.webp",
+      "width": 577,
+      "height": 971
+    },
+    {
+      "id": "ki-v2-camps-verdant-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-verdant-banner.webp",
+      "width": 424,
+      "height": 509
+    },
+    {
+      "id": "ki-v2-camps-verdant-bonfire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-verdant-bonfire.webp",
+      "width": 633,
+      "height": 509
+    },
+    {
+      "id": "ki-v2-camps-verdant-crates",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-verdant-crates.webp",
+      "width": 742,
+      "height": 838
+    },
+    {
+      "id": "ki-v2-camps-verdant-tent",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-verdant-tent.webp",
+      "width": 847,
+      "height": 934
+    },
+    {
+      "id": "ki-v2-camps-verdant-totem",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/ki-v2-camps/1.0.0-03c6f3fb5c86/ki-v2-camps-verdant-totem.webp",
+      "width": 479,
+      "height": 904
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.ki-v2-camps.aether-banner": {
+      "asset": "ki-v2-camps-aether-banner",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.aether-bonfire": {
+      "asset": "ki-v2-camps-aether-bonfire",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.aether-crates": {
+      "asset": "ki-v2-camps-aether-crates",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.aether-tent": {
+      "asset": "ki-v2-camps-aether-tent",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.aether-totem": {
+      "asset": "ki-v2-camps-aether-totem",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.nexus-banner": {
+      "asset": "ki-v2-camps-nexus-banner",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.nexus-bonfire": {
+      "asset": "ki-v2-camps-nexus-bonfire",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.nexus-crates": {
+      "asset": "ki-v2-camps-nexus-crates",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.nexus-tent": {
+      "asset": "ki-v2-camps-nexus-tent",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.nexus-totem": {
+      "asset": "ki-v2-camps-nexus-totem",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.pyra-banner": {
+      "asset": "ki-v2-camps-pyra-banner",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.pyra-bonfire": {
+      "asset": "ki-v2-camps-pyra-bonfire",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.pyra-crates": {
+      "asset": "ki-v2-camps-pyra-crates",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.pyra-tent": {
+      "asset": "ki-v2-camps-pyra-tent",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.pyra-totem": {
+      "asset": "ki-v2-camps-pyra-totem",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.verdant-banner": {
+      "asset": "ki-v2-camps-verdant-banner",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.verdant-bonfire": {
+      "asset": "ki-v2-camps-verdant-bonfire",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.verdant-crates": {
+      "asset": "ki-v2-camps-verdant-crates",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.verdant-tent": {
+      "asset": "ki-v2-camps-verdant-tent",
+      "fit": "contain"
+    },
+    "object.ki-v2-camps.verdant-totem": {
+      "asset": "ki-v2-camps-verdant-totem",
+      "fit": "contain"
+    }
+  },
+  "effects": {}
+}

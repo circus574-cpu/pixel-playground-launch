@@ -193,6 +193,25 @@ def ki_v2_relief(region, affinity, entries):
     return out
 
 
+# Monster camps (landscape.py 'camps'): props around each camp centre, offsets in world units.
+KI_V2_CAMP = [('bonfire', 0, 0, 220), ('tent', -320, -180, 420), ('tent', 300, -220, 420), ('totem', -60, -360, 260),
+              ('crates', 180, 140, 260), ('banner', -220, 120, 220)]
+
+
+def ki_v2_camps(region, affinity, entries):
+    world = json.loads((region / 'world.json').read_text()); out = []
+    for camp in world.get('camps', []):
+        for i, (prop, dx, dy, width) in enumerate(KI_V2_CAMP):
+            key = 'object.ki-v2-camps.%s-%s' % (affinity, prop)
+            if key not in entries: continue
+            px = entries[key]['pixels']
+            out.append({'id': '%s-%d' % (camp['id'], i), 'kind': 'camp', 'asset': key[len('object.'):], 'binding': key,
+                        'x': camp['x'] + dx, 'y': camp['y'] + dy, 'width': width, 'height': round(width * px[1] / px[0]),
+                        'anchorX': 0.5, 'anchorY': 0.9, 'layer': 'objects', 'solid': False, 'footprint': None,
+                        'collisionPolicy': 'presentation-only'})
+    return out
+
+
 def build_feature(browser, output, feature, source, art_set='default'):
     region = browser / feature
     manifest = json.loads((region / 'manifest.json').read_text())
@@ -299,7 +318,8 @@ def build_feature(browser, output, feature, source, art_set='default'):
         extra = {'road': 'terrain.ki-v2-%s-road-0' % affinity}
         plaza = 'terrain.ki-v2-city-%s-plaza-0' % affinity
         extra['plaza'] = plaza if plaza in entries else extra['road']
-        marks = ki_v2_landmarks(feature, affinity, entries) + ki_v2_relief(region, affinity, entries)
+        marks = (ki_v2_landmarks(feature, affinity, entries) + ki_v2_relief(region, affinity, entries)
+                 + ki_v2_camps(region, affinity, entries))
         used.update(m['binding'] for m in marks)
     for key in terrain + [water] + [v for v in extra.values() if isinstance(v, str)]:
         assert key in entries, key

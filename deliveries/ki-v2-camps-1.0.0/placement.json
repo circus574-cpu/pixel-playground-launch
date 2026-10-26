@@ -1,0 +1,186 @@
+{
+ "ki-v2-camps.aether-banner": {
+  "width": 130,
+  "height": 349,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.aether-bonfire": {
+  "width": 130,
+  "height": 108,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.aether-crates": {
+  "width": 130,
+  "height": 158,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.aether-tent": {
+  "width": 320,
+  "height": 311,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 78
+  }
+ },
+ "ki-v2-camps.aether-totem": {
+  "width": 240,
+  "height": 278,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 61
+  }
+ },
+ "ki-v2-camps.nexus-banner": {
+  "width": 130,
+  "height": 188,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.nexus-bonfire": {
+  "width": 130,
+  "height": 115,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.nexus-crates": {
+  "width": 130,
+  "height": 134,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.nexus-tent": {
+  "width": 320,
+  "height": 311,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 78
+  }
+ },
+ "ki-v2-camps.nexus-totem": {
+  "width": 240,
+  "height": 321,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 71
+  }
+ },
+ "ki-v2-camps.pyra-banner": {
+  "width": 130,
+  "height": 340,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.pyra-bonfire": {
+  "width": 130,
+  "height": 281,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.pyra-crates": {
+  "width": 130,
+  "height": 117,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.pyra-tent": {
+  "width": 320,
+  "height": 311,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 78
+  }
+ },
+ "ki-v2-camps.pyra-totem": {
+  "width": 240,
+  "height": 404,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 89
+  }
+ },
+ "ki-v2-camps.verdant-banner": {
+  "width": 130,
+  "height": 156,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.verdant-bonfire": {
+  "width": 130,
+  "height": 105,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.verdant-crates": {
+  "width": 130,
+  "height": 147,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-camps.verdant-tent": {
+  "width": 320,
+  "height": 353,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 240,
+   "height": 88
+  }
+ },
+ "ki-v2-camps.verdant-totem": {
+  "width": 240,
+  "height": 453,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 100
+  }
+ }
+}
