@@ -9,10 +9,13 @@ import { SuperiorCharacterStore as CharacterStore } from "../game/world/generate
 import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
+import { syncCloud } from "../components/account/cloudSync";
+import { markStaff, verifiedStaffRole } from "../game/account/staff";
+import { useAccount } from "../components/account/useAccount";
 import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
 import { isPlaytest, STAGE21_BUILD } from "../game/playtest";
-import { initialView, type Command } from "../game/session";
+import { initialView, type Command, type StaffRole } from "../game/session";
 import type { SuperiorRuntime } from "../game/world/generated/superiorRuntime";
 import type { FeatureId } from "../game/world/generated/superiorSave";
 
@@ -37,6 +40,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 export function Index() {
+  const account = useAccount();
   const [store, setStore] = useState<CharacterStore | null>(null);
   const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(
     false,
@@ -47,34 +51,56 @@ export function Index() {
   const [warning, setWarning] = useState("");
   const [startWithOrigins, setStartWithOrigins] = useState(false);
   useEffect(() => {
-    try {
-      const profiles = new CharacterStore(
-        window.localStorage,
-        playtestSaveKey(window.location.search),
-      );
-      setStore(profiles);
-      setSlots(profiles.list());
-      setActive(profiles.active() ?? null);
-      setWarning(profiles.warning);
-    } catch {
-      setWarning(
-        "Pamięć lokalna jest zablokowana. Zezwól na zapis, aby bezpiecznie utworzyć postać.",
-      );
-    }
-    setLoaded(true);
-    // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
-    const params = new URLSearchParams(window.location.search);
-    if (["verdant", "aether", "nexus", "pyra"].includes(params.get("continent") ?? "")) {
-      setMapNotice(params.get("continent") as "verdant" | "aether" | "nexus" | "pyra");
-      setActive(null);
-    }
+    let cancelled = false;
+    // A signed-in player's cloud saves arrive before the slots are read (no-op without an account).
+    void syncCloud(true).then(() => {
+      if (cancelled) return;
+      try {
+        const profiles = new CharacterStore(
+          window.localStorage,
+          playtestSaveKey(window.location.search),
+        );
+        setStore(profiles);
+        setSlots(profiles.list());
+        setActive(profiles.active() ?? null);
+        setWarning(profiles.warning);
+      } catch {
+        setWarning(
+          "Pamięć lokalna jest zablokowana. Zezwól na zapis, aby bezpiecznie utworzyć postać.",
+        );
+      }
+      setLoaded(true);
+      // Explicit continent handoff from /mapa. Never overwrite or auto-create saves.
+      const params = new URLSearchParams(window.location.search);
+      if (["verdant", "aether", "nexus", "pyra"].includes(params.get("continent") ?? "")) {
+        setMapNotice(params.get("continent") as "verdant" | "aether" | "nexus" | "pyra");
+        setActive(null);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
+  // During play only local changes go up; a full sync runs again when the player leaves the game.
+  const playing = Boolean(active?.player);
+  useEffect(() => {
+    if (!playing) return;
+    const push = () => void syncCloud(false);
+    const hidden = () => document.visibilityState === "hidden" && push();
+    const timer = window.setInterval(push, 60_000);
+    document.addEventListener("visibilitychange", hidden);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", hidden);
+    };
+  }, [playing]);
   const open = (slot: CharacterSlot) => {
     store?.select(slot);
     setActive(slot);
   };
-  const create = (race: RaceId, nick = "") => {
+  const create = (race: RaceId, nick = "", special?: StaffRole) => {
     const slot = store?.create(race, nick);
+    if (slot && special && account.roles.length) markStaff(window.localStorage, slot.id, special);
     if (slot) open(slot);
     else setWarning(store?.warning || "Nie można utworzyć zapisu na tym urządzeniu.");
   };
@@ -100,6 +126,10 @@ export function Index() {
           setActive(null);
           setSlots(store?.list() ?? []);
           setWarning(store?.warning ?? "");
+          // The game is unmounted: bring in game-master edits, then refresh the slot list.
+          void syncCloud(true).then((report) => {
+            if (report?.pulled.length) setSlots(store?.list() ?? []);
+          });
         }}
       />
     );
@@ -125,6 +155,7 @@ export function Index() {
         requestedContinent={mapNotice || undefined}
         warning={warning}
         onCreate={create}
+        staffRoles={account.roles}
         onContinue={open}
         onDelete={remove}
         startWithOrigins={startWithOrigins || Boolean(mapNotice)}
@@ -195,14 +226,19 @@ function GameScreen({
       .then(async ({ mountKileGends }) => {
         if (!bossPreviewEnabled(location.pathname, location.search)) {
           const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
-          prepared = await prepareSuperior({
-            race: slot.player!.race,
-            saveKey: slot.key,
-            signal: abort.signal,
-            onLoading: (next) => {
-              if (!cancelled) setLoading(next);
-            },
-          });
+          const [runtime, staff] = await Promise.all([
+            prepareSuperior({
+              race: slot.player!.race,
+              saveKey: slot.key,
+              signal: abort.signal,
+              onLoading: (next) => {
+                if (!cancelled) setLoading(next);
+              },
+            }),
+            verifiedStaffRole(slot.id),
+          ]);
+          prepared = runtime;
+          prepared.session.staff = staff;
           if (!cancelled) setWorldRuntime(prepared);
         }
         if (!cancelled && container.current)
@@ -247,6 +283,11 @@ function GameScreen({
         <GameHud
           worldOverride={worldRuntime?.session.world}
           planetLocation={worldRuntime?.feature}
+          staffDestinations={worldRuntime?.index.features.map((f) => ({ id: f.id, name: f.name }))}
+          onStaffTravel={(id) => {
+            if (worldRuntime?.travel(id as FeatureId, true)) setAttempt((n) => n + 1);
+            else displayMessage("Podróż niemożliwa: wyjdź na otwarty teren.");
+          }}
           onPlanetTravel={(id) => {
             if (worldRuntime?.travel(id as FeatureId)) setAttempt((n) => n + 1);
             else

@@ -150,6 +150,36 @@ Nowe wyniki zapisują się do `docs/zmiany/<data UTC>/qa/benchmark/`;
 `KI_QA_OUTPUT_DIR` pozwala wskazać katalog konkretnego przebiegu.
 Nie nadpisywać historycznego pomiaru `pre-gpu` nową sesją.
 
+## Konta, zapisy w chmurze i panel administracyjny (26.10.2026)
+
+Decyzja właściciela 26.10.2026: konta graczy i panel administratora/game mastera.
+Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce, jak wcześniej.
+
+- Baza: [docs/db/2026-10-26-accounts.sql](db/2026-10-26-accounts.sql), zastosowana w bazie Lovable Cloud.
+  Tabele `profiles`, `user_roles` (`admin`, `gm`), `characters` (kopia kluczy zapisu gry), `admin_audit`.
+  Uprawnienia pilnuje RLS: gracz widzi i zmienia tylko swoje wiersze, game master czyta i edytuje
+  postacie, tylko administrator nadaje role. Dziennik zapisują wyzwalacze, nie klient.
+  Reguły sprawdzono w bazie (transakcja wycofana): cudzy zapis, samonadanie roli i odczyt anonimowy odrzucone.
+- Synchronizacja: `src/game/account/cloudSaves.ts`. Pełna (pobranie i wysłanie) tylko bez uruchomionej
+  gry: na ekranie startowym i po wyjściu z gry. Podczas gry tylko wysyłanie co 60 s i przy ukryciu karty,
+  z kontrolą wersji wiersza. Gdy wersja z chmury wygrywa z lokalną zmianą, lokalny tekst trafia pod
+  `ki-legends:recovery:cloud:<klucz>`. Zapisy testowe (`playtest`), preferencje interfejsu i kopie
+  odzyskiwania nie są wysyłane.
+- Strony: `/konto` (rejestracja z nickiem, logowanie, synchronizacja, wylogowanie) i `/admin`
+  (gracze, postacie, role, dziennik zmian, podgląd zawartości gry tylko do odczytu).
+- Edycja postaci przez game mastera (`src/game/account/gmEdit.ts`) stosuje reguły wczytywania gry:
+  doświadczenie poniżej progu poziomu, poznane umiejętności zgodne z poziomem, przedmioty 0–99,
+  założony sprzęt pozostaje w plecaku. Zmiana dociera do gracza przy następnym wejściu do gry;
+  edycja w trakcie jego gry wygrywa, a jego postęp od ostatniej synchronizacji trafia do kopii odzyskiwania.
+- Pierwszego administratora nadaje się raz poleceniem SQL po rejestracji właściciela.
+- Postacie specjalne (`src/game/account/staff.ts`, `StaffTools.tsx`): zalogowany administrator lub
+  game master może przy tworzeniu oznaczyć postać jako specjalną. Narzędzia (teleport do miast,
+  słynnych i ukrytych miejsc, na współrzędne i do innych krain bez przystani, leczenie,
+  nieśmiertelność, poziom, złoto, mikstury) działają tylko, gdy przy wejściu do gry konto nadal ma
+  rolę w bazie; game master nie użyje postaci administratora. Gra jest lokalnym PvE, więc
+  narzędzia zmieniają wyłącznie zapis tej postaci.
+- Nie dotyczy przestrzeni szkiców `/test` (osobna sesja z hasłem) ani multiplayera (NET-01).
+
 ## Odbiór i dowody
 
 CI: `.github/workflows/ki-legends-playwright.yml` i `sage-planetary-webgl.yml`.
@@ -210,10 +240,10 @@ Instalacja 23.10: pod CPU 8 vCPU / 32 GB RAM, wolumin 500 GB, katalog
 systemu plików; nie są to zasoby przydzielone temu podowi. Pierwsza instalacja
 zajęła 107,49 s. Pomiary po instalacji:
 
-| Przebieg | Wynik | Czas ścienny |
-| --- | --- | --- |
-| 8 wariantów 16 384 × 12 288, 4 workery | 8/8 PASS | 2,263 s |
-| 1 wariant 45 056 × 28 672, 1 worker | PASS | 5,386 s |
+| Przebieg                                                     | Wynik    | Czas ścienny      |
+| ------------------------------------------------------------ | -------- | ----------------- |
+| 8 wariantów 16 384 × 12 288, 4 workery                       | 8/8 PASS | 2,263 s           |
+| 1 wariant 45 056 × 28 672, 1 worker                          | PASS     | 5,386 s           |
 | Testy niezmienności, nawigacji, seedów, chunków i wznowienia | 7/7 PASS | 1,339 s na podzie |
 
 Czasy dotyczą schematów i eksportu danych, nie gotowego artystycznie świata.
@@ -228,7 +258,6 @@ Kopia poza podem: [paczki źródeł i dziewięciu wyników](../deliveries/worldg
 Źródłowy kontekst pierwszych wyników pochodzi z `184a9ec`; manifesty wskazują
 sumy kontekstu i algorytmu. Nie nadpisywać wyników nowym eksportem bez nowego katalogu.
 Odtwarzanie testów: `KI_WORLDGEN_CONTEXT=/tmp/worldgen-context.json python3 scripts/worldgen/test_generator.py`.
-
 
 ## Pełna planeta i osobna generacja spawnów
 
@@ -290,7 +319,6 @@ Nie zmieniono produkcji, map runtime ani zapisów. Podłączenie danych do silni
 jest następnym zakresem implementacyjnym; samo wygenerowanie nie zamyka WORLD-01,
 GAME-03 ani PERF-01 dla gry.
 
-
 ## Domyślny świat Superior
 
 Uruchomienie: `npm run playtest`, następnie `/scripts/playtest.html`.
@@ -320,7 +348,6 @@ rasę, depozyt po przeładowaniu oraz walkę i zapis odrodzenia. Przeciwnicy poz
 mogą być aktywni, gdy gracz jest w mieście; warunek bezpieczeństwa dotyczy ich pozycji,
 nie pustej tablicy wszystkich aktywnych przeciwników na całym lądzie.
 [Dowody i wyniki](zmiany/2026-10-23/qa/superior-runtime/).
-
 
 ## Manga UI/HUD — grafika, implementacja i testy (23.10.2026)
 
@@ -362,11 +389,11 @@ Alpha 0–255, SHA-256:
 `094a183f236c82ab22c1d37af15d0a415874c6d081f811b5e73f8d0107418e0f`.
 Ikony są dekoracją istniejących przycisków HTML; nie zastępują etykiet dostępności.
 
-| Rząd | 1 | 2 | 3 | 4 |
-| --- | --- | --- | --- | --- |
-| 1 | Atak | Cięcie | Energia | Tarcza |
-| 2 | Mikstura | Plecak | Dziennik | Umiejętności |
-| 3 | Ustawienia | Mapa | Rozmowa | Wyjście |
+| Rząd | 1          | 2      | 3        | 4            |
+| ---- | ---------- | ------ | -------- | ------------ |
+| 1    | Atak       | Cięcie | Energia  | Tarcza       |
+| 2    | Mikstura   | Plecak | Dziennik | Umiejętności |
+| 3    | Ustawienia | Mapa   | Rozmowa  | Wyjście      |
 
 #### Pełny prompt generowania
 

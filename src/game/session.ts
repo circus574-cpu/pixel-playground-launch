@@ -189,7 +189,13 @@ export type Command =
   | { type: "storage-close" }
   | { type: "depot"; item: string; quantity: number; withdraw: boolean }
   | { type: "rest" }
-  | { type: "training"; action: "start" | "reset" | "stop" };
+  | { type: "training"; action: "start" | "reset" | "stop" }
+  | StaffCommand;
+/** Tools of a special administrator or game-master character; ignored for everyone else. */
+export type StaffCommand =
+  | { type: "staff"; action: "teleport"; x: number; y: number }
+  | { type: "staff"; action: "heal" | "god" | "level" | "gold" | "potions" };
+export type StaffRole = "admin" | "gm";
 export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 
 const noop = () => {};
@@ -443,6 +449,13 @@ export class GameSession implements MonsterHost {
   }
   enemies: Enemy[] = [];
   /** No combat here: inside a building, on a city-stage map, or within the city bounds. */
+  /**
+   * Set by the game page only for a character marked special whose account currently holds the
+   * role in the database (local PvE: the tools affect this player's own save only).
+   */
+  staff: StaffRole | null = null;
+  /** Staff invulnerability: incoming damage is ignored. */
+  god = false;
   get safe() {
     return inSafeCity(this.world, this.player, this.player.interior);
   }
@@ -576,7 +589,7 @@ export class GameSession implements MonsterHost {
   }
   private damagePlayer(amount: number) {
     const p = this.player;
-    if (this.safe) return;
+    if (this.safe || this.god) return;
     if (p.dead) return;
     p.hp = Math.max(0, p.hp - amount);
     this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "-" + Math.round(amount) });
@@ -879,8 +892,50 @@ export class GameSession implements MonsterHost {
   respecCost() {
     return this.player.respecs === 0 && this.player.level <= 10 ? 0 : 50 * this.player.level;
   }
+  private staffCommand(c: StaffCommand) {
+    const p = this.player;
+    if (!this.staff) return;
+    if (c.action === "teleport") {
+      if (p.interior || p.dead) {
+        this.say("Teleport działa tylko na otwartym terenie.");
+        return;
+      }
+      this.clearDestinations();
+      this.targetId = null;
+      this.autoAttack = false;
+      this.route = [];
+      Object.assign(p, this.nav.safe({ x: c.x, y: c.y }));
+      this.say("Teleport: " + Math.round(p.x) + ", " + Math.round(p.y));
+    } else if (c.action === "heal") {
+      const s = this.kit.stats;
+      p.hp = s.maxHp;
+      p.ki = s.maxKi;
+      this.fx.clear();
+      this.say("Pełne leczenie.");
+    } else if (c.action === "god") {
+      this.god = !this.god;
+      this.say(this.god ? "Nieśmiertelność włączona." : "Nieśmiertelność wyłączona.");
+    } else if (c.action === "level") {
+      if (p.level >= 100) return;
+      p.level += 1;
+      p.xp = 0;
+      p.hp = this.kit.stats.maxHp;
+      this.say("Poziom " + p.level + ".");
+    } else if (c.action === "gold") {
+      p.gold = Math.min(1_000_000, p.gold + 1000);
+      this.say("+1000 monet.");
+    } else if (c.action === "potions") {
+      p.items.potion = Math.min(99, p.items.potion + 10);
+      this.say("+10 mikstur.");
+    }
+    this.flush();
+  }
   command(c: Command) {
     const p = this.player;
+    if (c.type === "staff") {
+      this.staffCommand(c);
+      return;
+    }
     if (c.type === "pause") {
       this.paused = c.value;
       if (c.value) {
@@ -1473,6 +1528,8 @@ export class GameSession implements MonsterHost {
       y: this.player.y,
       /** Within a safe city (or a city-stage map), not out in the wilderness. */
       inCity: this.safe,
+      staff: this.staff,
+      god: this.god,
       player: structuredClone(this.player),
       stats: {
         maxHp: live.maxHp,
@@ -1674,6 +1731,8 @@ export function initialView(player?: Player): GameViewState {
   return {
     ...p,
     inCity: true,
+    staff: null,
+    god: false,
     player: p,
     stats: {
       maxHp: s.maxHp,
