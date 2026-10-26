@@ -49,6 +49,8 @@ const GAP_MS: Partial<Record<string, number>> = {
   "/game/sfx/common/no-energy.mp3": 400,
 };
 const DEFAULT_GAP_MS = 250;
+/** Effects are normalized to -16 LUFS like quiet speech; the music masters are much hotter. */
+const BOOST = 3;
 
 export type SfxSnapshot = {
   potions: number;
@@ -115,7 +117,7 @@ class SfxPlayer {
   setVolume(volume: number, muted: boolean) {
     this.volume = Math.min(1, Math.max(0, volume));
     this.muted = muted;
-    if (this.gain) this.gain.gain.value = this.muted ? 0 : this.volume;
+    if (this.gain) this.gain.gain.value = this.level();
   }
 
   play(file: string) {
@@ -141,6 +143,10 @@ class SfxPlayer {
     });
   }
 
+  private level() {
+    return this.muted ? 0 : this.volume * BOOST;
+  }
+
   unlock() {
     const ctx = this.ensureContext();
     if (ctx?.state === "suspended") void ctx.resume();
@@ -160,8 +166,12 @@ class SfxPlayer {
       return null;
     }
     this.gain = this.context.createGain();
-    this.gain.gain.value = this.muted ? 0 : this.volume;
-    this.gain.connect(this.context.destination);
+    this.gain.gain.value = this.level();
+    // Effects sit above the music (owner: they were too quiet); a limiter keeps the boost clean.
+    const limiter = this.context.createDynamicsCompressor();
+    limiter.threshold.value = -6;
+    limiter.ratio.value = 12;
+    this.gain.connect(limiter).connect(this.context.destination);
     return this.context;
   }
 
