@@ -22,6 +22,8 @@ import type { PlayerSaveV5, QuestDefinition } from "./types";
 const DISCOVER_RADIUS = 450;
 let save: PlayerSaveV5 | undefined;
 const listeners = new Set<() => void>();
+export type QuestReward = { xp: number; gold: number; items: Partial<Record<string, number>> };
+const rewardListeners = new Set<(reward: QuestReward) => void>();
 
 function current() {
   save ??= syncQuestAvailability(loadSaveFromStorage());
@@ -29,7 +31,23 @@ function current() {
 }
 function commit(next: PlayerSaveV5) {
   if (next === save) return;
+  const prev = save;
   save = next;
+  // The engine credits its own save; every increase is handed to the game character as well.
+  if (prev) {
+    const items: Partial<Record<string, number>> = {};
+    for (const [k, n] of Object.entries(next.inventory)) {
+      const gained = n - (prev.inventory[k as keyof typeof prev.inventory] ?? 0);
+      if (gained > 0) items[k] = gained;
+    }
+    const reward = {
+      xp: Math.max(0, next.xp - prev.xp),
+      gold: Math.max(0, next.coins - prev.coins),
+      items,
+    };
+    if (reward.xp || reward.gold || Object.keys(items).length)
+      for (const l of rewardListeners) l(reward);
+  }
   saveToStorage(next);
   for (const l of listeners) l();
 }
@@ -37,6 +55,11 @@ function commit(next: PlayerSaveV5) {
 export const questsV2 = {
   get save() {
     return current();
+  },
+  /** Called with every reward the engine grants (quest completion, discoveries, events). */
+  onReward(listener: (reward: QuestReward) => void) {
+    rewardListeners.add(listener);
+    return () => rewardListeners.delete(listener);
   },
   subscribe(listener: () => void) {
     listeners.add(listener);
