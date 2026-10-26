@@ -14,7 +14,9 @@ from PIL import Image, ImageFilter
 ROOT = Path(__file__).resolve().parents[3]
 WORLD = ROOT / 'public/game/worlds/superior-v2'
 TEX = ROOT / 'deliveries/ki-v2-terrain-1.0.0'
-MAXW = 2048
+import os
+MAXW = int(os.environ.get('MAP_WIDTH', 2048))
+SUFFIX = os.environ.get('MAP_SUFFIX', '')
 
 
 def unrle(runs, w, h):
@@ -66,6 +68,6 @@ for f in index['features']:
     img = np.where(safe[..., None], img * .8 + 255 * .2, img)
     edge = np.asarray(Image.fromarray((land * 255).astype(np.uint8)).filter(ImageFilter.FIND_EDGES)) > 0
     img[edge] = [40, 30, 22]
-    Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).save(WORLD / land_id / 'map.webp', quality=86, method=6)
-    (WORLD / land_id / 'map.json').write_text(json.dumps({'width': w, 'height': h, 'unitsPerPixel': f['width'] / w}) + '\n')
+    Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).save(WORLD / land_id / f'map{SUFFIX}.webp', quality=86, method=6)
+    (WORLD / land_id / f'map{SUFFIX}.json').write_text(json.dumps({'width': w, 'height': h, 'unitsPerPixel': f['width'] / w}) + '\n')
     print(land_id, w, h)
