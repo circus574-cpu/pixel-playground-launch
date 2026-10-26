@@ -10,10 +10,12 @@ import { playtestSaveKey } from "../game/playtest";
 import type { RaceId } from "../game/world/races";
 import { GameHud } from "../components/game/GameHud";
 import { syncCloud } from "../components/account/cloudSync";
+import { markStaff, verifiedStaffRole } from "../game/account/staff";
+import { useAccount } from "../components/account/useAccount";
 import { clampZoom, initialZoom } from "../game/view";
 import type { GameViewState } from "../game/mountGame";
 import { isPlaytest, STAGE21_BUILD } from "../game/playtest";
-import { initialView, type Command } from "../game/session";
+import { initialView, type Command, type StaffRole } from "../game/session";
 import type { SuperiorRuntime } from "../game/world/generated/superiorRuntime";
 import type { FeatureId } from "../game/world/generated/superiorSave";
 
@@ -38,6 +40,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 export function Index() {
+  const account = useAccount();
   const [store, setStore] = useState<CharacterStore | null>(null);
   const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(
     false,
@@ -95,8 +98,9 @@ export function Index() {
     store?.select(slot);
     setActive(slot);
   };
-  const create = (race: RaceId, nick = "") => {
+  const create = (race: RaceId, nick = "", special?: StaffRole) => {
     const slot = store?.create(race, nick);
+    if (slot && special && account.roles.length) markStaff(window.localStorage, slot.id, special);
     if (slot) open(slot);
     else setWarning(store?.warning || "Nie można utworzyć zapisu na tym urządzeniu.");
   };
@@ -151,6 +155,7 @@ export function Index() {
         requestedContinent={mapNotice || undefined}
         warning={warning}
         onCreate={create}
+        staffRoles={account.roles}
         onContinue={open}
         onDelete={remove}
         startWithOrigins={startWithOrigins || Boolean(mapNotice)}
@@ -221,14 +226,19 @@ function GameScreen({
       .then(async ({ mountKileGends }) => {
         if (!bossPreviewEnabled(location.pathname, location.search)) {
           const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
-          prepared = await prepareSuperior({
-            race: slot.player!.race,
-            saveKey: slot.key,
-            signal: abort.signal,
-            onLoading: (next) => {
-              if (!cancelled) setLoading(next);
-            },
-          });
+          const [runtime, staff] = await Promise.all([
+            prepareSuperior({
+              race: slot.player!.race,
+              saveKey: slot.key,
+              signal: abort.signal,
+              onLoading: (next) => {
+                if (!cancelled) setLoading(next);
+              },
+            }),
+            verifiedStaffRole(slot.id),
+          ]);
+          prepared = runtime;
+          prepared.session.staff = staff;
           if (!cancelled) setWorldRuntime(prepared);
         }
         if (!cancelled && container.current)
@@ -273,6 +283,11 @@ function GameScreen({
         <GameHud
           worldOverride={worldRuntime?.session.world}
           planetLocation={worldRuntime?.feature}
+          staffDestinations={worldRuntime?.index.features.map((f) => ({ id: f.id, name: f.name }))}
+          onStaffTravel={(id) => {
+            if (worldRuntime?.travel(id as FeatureId, true)) setAttempt((n) => n + 1);
+            else displayMessage("Podróż niemożliwa: wyjdź na otwarty teren.");
+          }}
           onPlanetTravel={(id) => {
             if (worldRuntime?.travel(id as FeatureId)) setAttempt((n) => n + 1);
             else

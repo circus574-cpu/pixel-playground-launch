@@ -2,6 +2,7 @@ import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react"
 import { RACES, RACE_IDS, type RaceId, type WorldId } from "../../game/world/races";
 import { WORLDS } from "../../game/world/worlds";
 import { slotTitle, type CharacterSlot } from "../../game/characters";
+import type { StaffRole } from "../../game/session";
 import { DEFAULT_NICK, NICK_MAX, nickError, normalizeNick } from "../../game/nickname";
 import { BrandMark } from "./BrandMark";
 import { RaceArtwork } from "./RaceArtwork";
@@ -12,7 +13,9 @@ type Props = {
   startWithOrigins?: boolean;
   requestedContinent?: WorldId | undefined;
   warning: string;
-  onCreate: (race: RaceId, nick?: string) => void;
+  onCreate: (race: RaceId, nick?: string, special?: StaffRole) => void;
+  /** Roles of the signed-in account; non-empty offers a special staff character. */
+  staffRoles?: readonly StaffRole[];
   onContinue: (slot: CharacterSlot) => void;
   onDelete?: (slot: CharacterSlot) => void;
 };
@@ -24,8 +27,10 @@ export function CharacterSelection({
   onDelete,
   startWithOrigins = false,
   requestedContinent,
+  staffRoles = [],
 }: Props) {
   const [nick, setNick] = useState("");
+  const [special, setSpecial] = useState<StaffRole | "">("");
   const nickProblem = nickError(nick);
   const [selected, setSelected] = useState<RaceId>(
     requestedContinent === "aether"
@@ -348,6 +353,21 @@ export function CharacterSelection({
                   {nickProblem || `3–${NICK_MAX} znaków. Zostaw puste, aby użyć „${DEFAULT_NICK}”.`}
                 </small>
               </div>
+              {staffRoles.length > 0 && (
+                <label className="ki-nick ki-special">
+                  Postać specjalna
+                  <select
+                    value={special}
+                    onChange={(event) => setSpecial(event.target.value as StaffRole | "")}
+                  >
+                    <option value="">Zwykła postać</option>
+                    <option value="gm">Game master (teleporty i narzędzia)</option>
+                    {staffRoles.includes("admin") && (
+                      <option value="admin">Administrator (teleporty i narzędzia)</option>
+                    )}
+                  </select>
+                </label>
+              )}
               <button
                 className="ki-origin-primary"
                 disabled={nickProblem !== ""}
@@ -359,7 +379,8 @@ export function CharacterSelection({
                         ? "planetary"
                         : selected;
                   const name = normalizeNick(nick);
-                  if (name) onCreate(chosen, name);
+                  if (special) onCreate(chosen, name, special);
+                  else if (name) onCreate(chosen, name);
                   else onCreate(chosen);
                 }}
               >

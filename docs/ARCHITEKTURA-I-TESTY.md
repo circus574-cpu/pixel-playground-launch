@@ -172,6 +172,12 @@ Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce
   założony sprzęt pozostaje w plecaku. Zmiana dociera do gracza przy następnym wejściu do gry;
   edycja w trakcie jego gry wygrywa, a jego postęp od ostatniej synchronizacji trafia do kopii odzyskiwania.
 - Pierwszego administratora nadaje się raz poleceniem SQL po rejestracji właściciela.
+- Postacie specjalne (`src/game/account/staff.ts`, `StaffTools.tsx`): zalogowany administrator lub
+  game master może przy tworzeniu oznaczyć postać jako specjalną. Narzędzia (teleport do miast,
+  słynnych i ukrytych miejsc, na współrzędne i do innych krain bez przystani, leczenie,
+  nieśmiertelność, poziom, złoto, mikstury) działają tylko, gdy przy wejściu do gry konto nadal ma
+  rolę w bazie; game master nie użyje postaci administratora. Gra jest lokalnym PvE, więc
+  narzędzia zmieniają wyłącznie zapis tej postaci.
 - Nie dotyczy przestrzeni szkiców `/test` (osobna sesja z hasłem) ani multiplayera (NET-01).
 
 ## Odbiór i dowody
