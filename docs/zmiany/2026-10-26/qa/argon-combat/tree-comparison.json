@@ -1,0 +1,38 @@
+[
+  {
+    "race": "planetary",
+    "canonicalNodes": 29,
+    "argonAlternativeNodes": 29,
+    "alternativeIdsOverlap": 0,
+    "canonicalHP": 125,
+    "alternativeHP": 165,
+    "progressionDifferences": []
+  },
+  {
+    "race": "sage",
+    "canonicalNodes": 29,
+    "argonAlternativeNodes": 29,
+    "alternativeIdsOverlap": 0,
+    "canonicalHP": 100,
+    "alternativeHP": 120,
+    "progressionDifferences": []
+  },
+  {
+    "race": "android",
+    "canonicalNodes": 29,
+    "argonAlternativeNodes": 29,
+    "alternativeIdsOverlap": 0,
+    "canonicalHP": 115,
+    "alternativeHP": 150,
+    "progressionDifferences": []
+  },
+  {
+    "race": "legend",
+    "canonicalNodes": 29,
+    "argonAlternativeNodes": 29,
+    "alternativeIdsOverlap": 0,
+    "canonicalHP": 140,
+    "alternativeHP": 145,
+    "progressionDifferences": []
+  }
+]

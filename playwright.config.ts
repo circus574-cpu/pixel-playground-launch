@@ -42,6 +42,7 @@ export default defineConfig({
       name: "software-webgl",
       testMatch: [
         "**/city-webgl.spec.ts",
+        "**/argon-mobile.spec.ts",
         "**/gpu-webgl-smoke.spec.ts",
         "**/hero-lifecycle.spec.ts",
         "**/world-rendering.spec.ts",
