@@ -35,6 +35,7 @@ import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
 import { music, trackFor } from "../../game/music";
+import { sfx } from "../../game/sfx";
 import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
 import "./staff-tools.css";
@@ -241,7 +242,7 @@ export function GameHud({
     );
   }
   function changePreference(
-    key: Exclude<keyof UiPreferences, "controls" | "musicVolume">,
+    key: Exclude<keyof UiPreferences, "controls" | "musicVolume" | "sfxVolume">,
     value: boolean,
   ) {
     setPreferences((current) => {
@@ -252,6 +253,7 @@ export function GameHud({
   useEffect(() => {
     writeUiPreferences(preferences);
     music.setVolume(preferences.musicVolume, preferences.musicMuted);
+    sfx.setVolume(preferences.sfxVolume, preferences.sfxMuted);
   }, [preferences]);
   // The continent's own theme while playing; the loading theme elsewhere (index.tsx).
   useEffect(() => {
@@ -1067,6 +1069,37 @@ export function GameHud({
                     type="checkbox"
                     checked={preferences.musicMuted}
                     onChange={(e) => changePreference("musicMuted", e.target.checked)}
+                  />
+                </label>
+                <label>
+                  <span>
+                    Efekty ·{" "}
+                    {preferences.sfxMuted
+                      ? "wyciszone"
+                      : Math.round(preferences.sfxVolume * 100) + "%"}
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.05}
+                    value={preferences.sfxVolume}
+                    aria-label="Głośność efektów"
+                    onChange={(e) =>
+                      setPreferences((current) => ({
+                        ...current,
+                        sfxVolume: Number(e.target.value),
+                        sfxMuted: false,
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  <span>Wycisz efekty</span>
+                  <input
+                    type="checkbox"
+                    checked={preferences.sfxMuted}
+                    onChange={(e) => changePreference("sfxMuted", e.target.checked)}
                   />
                 </label>
                 <label>

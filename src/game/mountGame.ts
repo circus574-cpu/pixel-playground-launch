@@ -20,6 +20,7 @@ import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
+import { cuesFor, sfx } from "./sfx";
 import {
   GameSession,
   SaveStore,
@@ -109,6 +110,8 @@ export function mountKileGends(
   const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
+    /** Last frame's player snapshot for sound cues (potion used, door, notices). */
+    private sfxSnapshot: Parameters<typeof cuesFor>[2] = null;
     private visualBudget = new CombatVisualBudget();
     private trackEffect(object: Phaser.GameObjects.GameObject, critical = false) {
       const release = this.visualBudget.add(() => object.destroy(), critical);
@@ -990,7 +993,17 @@ export function mountKileGends(
       // Apply this tick's events before selecting frames. Reporting a newly
       // triggered state with the previous sprite frame delayed actions one tick.
       this.syncEnemies();
-      for (const event of session.events.splice(0)) this.effect(event);
+      const events = session.events.splice(0);
+      for (const event of events) this.effect(event);
+      const snapshot = {
+        potions: session.player.items.potion,
+        interior: session.player.interior,
+        noticeId: session.noticeId,
+        notice: session.notice,
+      };
+      for (const file of cuesFor(session.player.race, events, this.sfxSnapshot, snapshot))
+        sfx.play(file);
+      this.sfxSnapshot = snapshot;
       // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
       this.hero.body
         .setPosition(session.player.x, session.player.y)

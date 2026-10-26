@@ -144,6 +144,8 @@ describe("UI preferences survive refresh without touching character saves", () =
       ...value,
       musicVolume: 0.3,
       musicMuted: false,
+      sfxVolume: 0.6,
+      sfxMuted: false,
       controls: DEFAULT_CONTROLS,
     });
     expect(localStorage.getItem(SAVE_KEY)).toBe("preserved");
