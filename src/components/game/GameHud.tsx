@@ -34,6 +34,7 @@ import { Inventory, QuestJournal, NpcDialogue, SkillTree } from "./AdventurePane
 import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
+import { music, trackFor } from "../../game/music";
 import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
 import "./staff-tools.css";
@@ -239,7 +240,10 @@ export function GameHud({
       document.querySelector(".ki-canvas")?.dispatchEvent(new Event("ki:controls")),
     );
   }
-  function changePreference(key: Exclude<keyof UiPreferences, "controls">, value: boolean) {
+  function changePreference(
+    key: Exclude<keyof UiPreferences, "controls" | "musicVolume">,
+    value: boolean,
+  ) {
     setPreferences((current) => {
       const next = { ...current, [key]: value };
       return next;
@@ -247,7 +251,12 @@ export function GameHud({
   }
   useEffect(() => {
     writeUiPreferences(preferences);
+    music.setVolume(preferences.musicVolume, preferences.musicMuted);
   }, [preferences]);
+  // The continent's own theme while playing; the loading theme elsewhere (index.tsx).
+  useEffect(() => {
+    music.play(trackFor(state.player.continent));
+  }, [state.player.continent]);
   useEffect(() => {
     onWorldLabels?.(preferences.worldLabels);
   }, [preferences.worldLabels, onWorldLabels]);
@@ -1029,6 +1038,37 @@ export function GameHud({
                     Przesuń przyciski
                   </button>
                 </fieldset>
+                <label>
+                  <span>
+                    Muzyka ·{" "}
+                    {preferences.musicMuted
+                      ? "wyciszona"
+                      : Math.round(preferences.musicVolume * 100) + "%"}
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.05}
+                    value={preferences.musicVolume}
+                    aria-label="Głośność muzyki"
+                    onChange={(e) =>
+                      setPreferences((current) => ({
+                        ...current,
+                        musicVolume: Number(e.target.value),
+                        musicMuted: false,
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  <span>Wycisz muzykę</span>
+                  <input
+                    type="checkbox"
+                    checked={preferences.musicMuted}
+                    onChange={(e) => changePreference("musicMuted", e.target.checked)}
+                  />
+                </label>
                 <label>
                   <span>Duża minimapa</span>
                   <input

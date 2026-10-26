@@ -140,8 +140,20 @@ describe("UI preferences survive refresh without touching character saves", () =
     localStorage.setItem(SAVE_KEY, "preserved");
     const value = { messages: false, worldLabels: false, largeMinimap: true };
     writeUiPreferences(value);
-    expect(readUiPreferences()).toEqual({ ...value, controls: DEFAULT_CONTROLS });
+    expect(readUiPreferences()).toEqual({
+      ...value,
+      musicVolume: 0.3,
+      musicMuted: false,
+      controls: DEFAULT_CONTROLS,
+    });
     expect(localStorage.getItem(SAVE_KEY)).toBe("preserved");
+  });
+  it("keeps the music level, 30 % by default, within 0–100 %", () => {
+    const base = { messages: true, worldLabels: true, largeMinimap: false };
+    writeUiPreferences({ ...base, musicVolume: 0.65, musicMuted: true });
+    expect(readUiPreferences()).toMatchObject({ musicVolume: 0.65, musicMuted: true });
+    writeUiPreferences({ ...base, musicVolume: 7 });
+    expect(readUiPreferences().musicVolume).toBe(1);
   });
   it("keeps the player's control layout and clamps impossible sizes", () => {
     const controls = {

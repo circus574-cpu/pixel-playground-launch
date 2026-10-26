@@ -1,6 +1,6 @@
 # KI Legends — muzyka (materiały właściciela)
 
-Ten katalog jest przeznaczony na pięć oryginalnych nagrań MP3 przesłanych przez właściciela 26.10.2026. **Same pliki MP3 nie są jeszcze obecne w tym commicie** — obecne narzędzie GitHub nie potrafi przekazać binarnej zawartości lokalnych załączników. Nie traktować tego wykazu jako potwierdzenia importu audio do runtime gry.
+Pięć oryginalnych nagrań MP3 przesłanych przez właściciela 26.10.2026 (commit `7d2ff70`). Sumy SHA-256 poniżej zgadzają się z plikami. Gra odtwarza bajtowo identyczne kopie z `public/game/music/` (test `src/test/music.test.ts`): `loadings.mp3` na ekranie startowym i podczas ładowania, a w grze utwór kontynentu, w pętli, domyślnie 30% głośności (Ustawienia → Muzyka).
 
 | Docelowy plik | Przeznaczenie | Długość | SHA-256 oryginału |
 |---|---|---|---|

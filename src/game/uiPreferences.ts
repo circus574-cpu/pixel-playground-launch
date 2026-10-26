@@ -16,12 +16,17 @@ export type UiPreferences = {
   messages: boolean;
   worldLabels: boolean;
   largeMinimap: boolean;
+  /** Background music level 0–1; 30 % by default (owner decision 26.10.2026). */
+  musicVolume: number;
+  musicMuted: boolean;
   controls: ControlLayout;
 };
 export const DEFAULT_UI_PREFERENCES: UiPreferences = {
   messages: true,
   worldLabels: true,
   largeMinimap: false,
+  musicVolume: 0.3,
+  musicMuted: false,
   controls: DEFAULT_CONTROLS,
 };
 const finite = (v: unknown, min: number, max: number, fallback: number) =>
@@ -52,6 +57,11 @@ export function readUiPreferences(): UiPreferences {
       messages: typeof value["messages"] === "boolean" ? value["messages"] : true,
       worldLabels: typeof value["worldLabels"] === "boolean" ? value["worldLabels"] : true,
       largeMinimap: typeof value["largeMinimap"] === "boolean" ? value["largeMinimap"] : false,
+      musicVolume:
+        typeof value["musicVolume"] === "number" && Number.isFinite(value["musicVolume"])
+          ? Math.min(1, Math.max(0, value["musicVolume"]))
+          : DEFAULT_UI_PREFERENCES.musicVolume,
+      musicMuted: typeof value["musicMuted"] === "boolean" ? value["musicMuted"] : false,
       controls: readControls(value["controls"]),
     };
   } catch {
@@ -59,7 +69,11 @@ export function readUiPreferences(): UiPreferences {
   }
 }
 export function writeUiPreferences(
-  value: Omit<UiPreferences, "controls"> & { controls?: ControlLayout },
+  value: Omit<UiPreferences, "controls" | "musicVolume" | "musicMuted"> & {
+    controls?: ControlLayout;
+    musicVolume?: number;
+    musicMuted?: boolean;
+  },
 ) {
   try {
     window.localStorage.setItem(UI_PREFERENCES_KEY, JSON.stringify({ version: 1, ...value }));
