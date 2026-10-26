@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 
 type Road = { id: string; land: string; kind: string; width: number; points: [number, number][] };
 type Place = { id: string; land: string; kind: string; name: string; x: number; y: number };
-type Overlay = { roads: Road[]; places: Place[] };
+type Tile = { land: string; crop: number[]; m: number[]; size: number[] };
+type Overlay = { roads: Road[]; places: Place[]; tiles: Tile[] };
 
 const GLYPH: Record<string, string> = {
   capital: "♛",
@@ -39,6 +40,30 @@ export function WorldOverlay({ zoom, px }: { zoom: number; px: (screen: number) 
   const detail = zoom >= 4;
   return (
     <g className="pm-world" aria-hidden>
+      {zoom >= 3 &&
+        data.tiles.map((t, i) => (
+          <g
+            key={"t" + i}
+            transform={`matrix(${t.m.join(" ")})`}
+            opacity={Math.min(1, (zoom - 3) / 2)}
+          >
+            <svg
+              x={t.crop[0]}
+              y={t.crop[1]}
+              width={t.crop[2]! + 0.6}
+              height={t.crop[3]! + 0.6}
+              viewBox={`${t.crop[0]} ${t.crop[1]} ${t.crop[2]! + 0.6} ${t.crop[3]! + 0.6}`}
+              overflow="hidden"
+            >
+              <image
+                href={`/game/worlds/superior-v2/${t.land}/map-hi.webp`}
+                width={t.size[0]}
+                height={t.size[1]}
+                preserveAspectRatio="none"
+              />
+            </svg>
+          </g>
+        ))}
       {data.roads.map((r, i) =>
         detail || r.width >= 180 ? (
           <polyline

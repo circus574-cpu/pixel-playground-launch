@@ -221,6 +221,18 @@ def region(key,output,context,labels):
         if binding=='object.biome-forest.tall-pine-tree':binding='object.biome-forest.tall-broadleaf-oak-tree'
         if binding=='object.crystal'and old['affinity']!='nexus':binding='object.dungeon-kit.glowing-crystal-cluster'
         entry=kit[binding];placement=entry['placement'];art_objects.append({**o,'asset':entry['asset'],'binding':binding,**{k:placement[k]for k in ['width','height','anchorX','anchorY']},'layer':entry.get('layer','objects'),'footprint':None,'collisionPolicy':'geometry-owned; swappable appearance'})
+    if GEOGRAPHY=='ki' and not island:
+        # The largest ranges get a solid summit (peak or volcano art from the binder) that paths go around.
+        plan['peaks']=[];free=(biome==2)&new&~protected&~water&~ndimage.binary_dilation(roads_wide,iterations=12)
+        lab,n=ndimage.label(free)
+        for comp in range(1,n+1):
+            m=lab==comp
+            if m.sum()<4000:continue
+            d=ndimage.distance_transform_edt(m);y,x=np.unravel_index(np.argmax(d),d.shape)
+            if d[y,x]<14:continue
+            px,py=int(x*32+16),int(y*32+16);rect={'x':px-280,'y':py-170,'width':560,'height':220}
+            rectangles.append(rect);blocked[int(rect['y']//32):int((rect['y']+rect['height'])//32)+1,int(rect['x']//32):int((rect['x']+rect['width'])//32)+1]=True
+            plan['peaks'].append({'id':f'{key}-peak-{len(plan["peaks"])}','x':px,'y':py})
     arrays={'land':land,'water':water,'roads':roads_wide,'bridges':bridges,'blocked':blocked,'safe':safe,'biome':biome}
     raw,nav,bridges=nav_field(plan,arrays,rectangles);nav_labels,_=ndimage.label(nav);cx,cy=int(anchor['x']//16),int(anchor['y']//16);component=int(nav_labels[cy,cx]);assert component>0
     collider=Collider(raw,rectangles);checks=[]
