@@ -1,0 +1,161 @@
+{
+ "ki-v2-landmarks.aether-archive": {
+  "width": 200,
+  "height": 216,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 48
+  }
+ },
+ "ki-v2-landmarks.aether-observatory": {
+  "width": 240,
+  "height": 280,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 62
+  }
+ },
+ "ki-v2-landmarks.aether-sanctum": {
+  "width": 240,
+  "height": 230,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "ki-v2-landmarks.aether-spring": {
+  "width": 240,
+  "height": 258,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 57
+  }
+ },
+ "ki-v2-landmarks.nexus-lab": {
+  "width": 240,
+  "height": 252,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 55
+  }
+ },
+ "ki-v2-landmarks.nexus-monolith": {
+  "width": 240,
+  "height": 274,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 60
+  }
+ },
+ "ki-v2-landmarks.nexus-reactor": {
+  "width": 240,
+  "height": 232,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "ki-v2-landmarks.nexus-terminal": {
+  "width": 240,
+  "height": 234,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "ki-v2-landmarks.pyra-altar": {
+  "width": 200,
+  "height": 200,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 44
+  }
+ },
+ "ki-v2-landmarks.pyra-fortress": {
+  "width": 520,
+  "height": 520,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 406,
+   "height": 114
+  }
+ },
+ "ki-v2-landmarks.pyra-statue": {
+  "width": 200,
+  "height": 329,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 120,
+   "height": 72
+  }
+ },
+ "ki-v2-landmarks.pyra-war-shrine": {
+  "width": 240,
+  "height": 232,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 51
+  }
+ },
+ "ki-v2-landmarks.verdant-bridge": {
+  "width": 360,
+  "height": 362,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ },
+ "ki-v2-landmarks.verdant-cottage": {
+  "width": 240,
+  "height": 252,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": true,
+  "footprint": {
+   "width": 144,
+   "height": 55
+  }
+ },
+ "ki-v2-landmarks.verdant-fountain": {
+  "width": 130,
+  "height": 129,
+  "anchorX": 0.5,
+  "anchorY": 0.92,
+  "solid": false,
+  "footprint": null
+ }
+}

@@ -22,6 +22,8 @@ export type FeatureArt = {
   buildings: ArtObject[];
   acceptedCityBuildings: ArtObject[];
   acceptedCityScenery?: ArtObject[];
+  /** Famous places standing in the open world (art set ki-v2), presentation only. */
+  landmarks?: ArtObject[];
   resources: ArtObject[];
   dungeonEntrances: ArtObject[];
 };
@@ -91,6 +93,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     ...source.art.buildings,
     ...source.art.acceptedCityBuildings,
     ...(source.art.acceptedCityScenery ?? []),
+    ...(source.art.landmarks ?? []),
     ...source.art.resources,
     ...source.art.dungeonEntrances,
   ];

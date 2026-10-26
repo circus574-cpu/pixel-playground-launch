@@ -154,6 +154,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
     "ki-v2-terrain",
     "ki-v2-objects",
     "ki-v2-city",
+    "ki-v2-buildings",
+    "ki-v2-landmarks",
     // 37 bestiary monsters redrawn from the GPU masters (animate_creature.py, one painted view).
     "enemy-v2-aether-duch-bibliotekarza",
     "enemy-v2-aether-krysztalowy-motyl",

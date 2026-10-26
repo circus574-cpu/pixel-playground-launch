@@ -393,6 +393,7 @@ export async function prepareSuperior(options: {
     ...art.buildings,
     ...art.acceptedCityBuildings,
     ...(art.acceptedCityScenery ?? []),
+    ...(art.landmarks ?? []),
     ...art.resources,
     ...art.dungeonEntrances,
   ])

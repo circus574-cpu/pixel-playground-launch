@@ -6,7 +6,8 @@
 Writes src/game/worlds/v2Places.generated.json. Argon authored everything in the accepted capital's
 source map, so: the capital keeps its v2 capital, the other three cities take the three v2 towns
 by best direction match; famous locations use their map point inside the capital (source + offset),
-falling back to the first object of the same kind, then to a distinct v2 shrine. Do not edit by hand.
+famous locations stand at the four v2 expedition landmarks of the land (fallback: their map point
+inside the capital, the first object of the same kind, then a distinct v2 shrine). Do not edit by hand.
 """
 import itertools, json, math, re, sys
 from pathlib import Path
@@ -36,7 +37,14 @@ for cid, data in sorted(argon.items()):
     objects = {o['id']: o for o in src['objects']}
     shrines = [l for l in w['locations'] if l['kind'] in ('shrine', 'watchtower', 'wilderness')]
     famous, used = {}, set()
-    for f in data['famous']:
+    # Famous places are expedition goals: the i-th one stands at the v2 landmark the generator
+    # reached by a road from the nearest town (<land>-v2-landmark-i).
+    wild = {l['id']: l for l in w['locations'] if '-v2-landmark-' in l['id']}
+    for i, f in enumerate(data['famous']):
+        spot = wild.get('%s-v2-landmark-%d' % (cid, i))
+        if spot:
+            famous[f['id']] = {'name': f['name'], 'x': spot['x'], 'y': spot['y'], 'source': spot['id']}
+            continue
         o = objects.get(f['mapPointId'])
         how = 'map-point'
         if o is None:

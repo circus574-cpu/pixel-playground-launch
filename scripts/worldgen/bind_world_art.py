@@ -109,6 +109,25 @@ def ki_v2_art(affinity, entries):
     return ground, 'terrain.ki-v2-%s-sea-0' % affinity, props
 
 
+KI_V2_LANDMARKS = {'verdant': ['fountain', 'bridge', 'cottage', 'forge'], 'pyra': ['fortress', 'war-shrine', 'altar', 'statue'],
+                   'aether': ['sanctum', 'archive', 'observatory', 'spring'], 'nexus': ['lab', 'reactor', 'terminal', 'monolith']}
+
+
+def ki_v2_landmarks(feature, affinity, entries):
+    """Famous places of Argon's quests as standing landmarks at their v2 spots (presentation only)."""
+    places = json.loads((ROOT / 'src/game/worlds/v2Places.generated.json').read_text()).get(feature)
+    out = []
+    for (fid, f), name in zip((places or {}).get('famous', {}).items(), KI_V2_LANDMARKS.get(affinity, [])):
+        key = 'object.ki-v2-landmarks.%s-%s' % (affinity, name)
+        if key not in entries: continue
+        e = entries[key]
+        out.append({'id': 'landmark-' + fid, 'kind': 'landmark', 'asset': key[len('object.'):], 'binding': key,
+                    'x': f['x'], 'y': f['y'], 'width': 760, 'height': round(760 * e['pixels'][1] / e['pixels'][0]),
+                    'anchorX': 0.5, 'anchorY': 0.9, 'layer': 'objects', 'solid': False, 'footprint': None,
+                    'collisionPolicy': 'presentation-only'})
+    return out
+
+
 def build_feature(browser, output, feature, source, art_set='default'):
     region = browser / feature
     manifest = json.loads((region / 'manifest.json').read_text())
@@ -151,7 +170,11 @@ def build_feature(browser, output, feature, source, art_set='default'):
                 'solid': bool(obj.get('solid')), 'footprint': obj.get('footprint'),
                 'collisionPolicy': 'read-original-world-only'}
 
-    service_asset = lambda service: affinity + '-city.' + (PYRA[SERVICES[service]] if affinity == 'pyra' else SERVICES[service])
+    def service_asset(service):
+        # ki-v2: realistic painted buildings (pack ki-v2-buildings) on the same footprints and doors.
+        if art_set == 'ki-v2' and 'object.ki-v2-buildings.%s-%s' % (affinity, SERVICES[service]) in entries:
+            return 'ki-v2-buildings.%s-%s' % (affinity, SERVICES[service])
+        return affinity + '-city.' + (PYRA[SERVICES[service]] if affinity == 'pyra' else SERVICES[service])
     chunk_files = []
     for path in sorted((region / 'chunks').glob('*.json')):
         chunk = json.loads(path.read_text())
@@ -211,12 +234,14 @@ def build_feature(browser, output, feature, source, art_set='default'):
         extra = {'road': 'terrain.ki-v2-%s-road-0' % affinity}
         plaza = 'terrain.ki-v2-city-%s-plaza-0' % affinity
         extra['plaza'] = plaza if plaza in entries else extra['road']
-    for key in terrain + [water] + list(extra.values()):
+        marks = ki_v2_landmarks(feature, affinity, entries)
+        used.update(m['binding'] for m in marks)
+    for key in terrain + [water] + [v for v in extra.values() if isinstance(v, str)]:
         assert key in entries, key
         used.add(key)
     save(output / feature / 'feature.art.json', {'format': 'superior-art-overlay-1', 'feature': feature,
          'sourceWorldSha256': digest(region / 'world.json'), 'sourceManifestSha256': digest(region / 'manifest.json'),
-         'groundByBiome': terrain, 'water': water, **extra, 'buildings': building_art,
+         'groundByBiome': terrain, 'water': water, **extra, **({'landmarks': marks} if art_set == 'ki-v2' else {}), 'buildings': building_art,
          'acceptedCityBuildings': accepted_art, 'acceptedCityScenery': accepted_scenery, 'resources': resources, 'dungeonEntrances': entrances,
          'chunks': chunk_files, 'geometryChanged': False, 'runtimeInstalled': False})
     # Read back all source checksums after assembly. Input directory is never an output destination.
