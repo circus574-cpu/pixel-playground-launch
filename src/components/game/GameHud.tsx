@@ -971,7 +971,7 @@ export function GameHud({
               ))}
             {panel === "settings" && (
               <div className="ki-settings">
-                {TEST_RACE_SWITCH_ENABLED && onRaceChange && (
+                {TEST_RACE_SWITCH_ENABLED && state.staff && onRaceChange && (
                   <div>
                     <button className="ki-fullscreen-setting ki-race-switch" onClick={onRaceChange}>
                       Zmiana rasy
@@ -986,10 +986,7 @@ export function GameHud({
                     Zapisz i wybierz postać
                   </button>
                 )}
-                <p>
-                  Pochodzenie: {RACES[player.race].name} · tymczasowy ludzki sprite. Lokalna gra
-                  PvE.
-                </p>
+                <p>Pochodzenie: {RACES[player.race].name}</p>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
                   <input

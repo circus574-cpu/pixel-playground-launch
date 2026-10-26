@@ -231,3 +231,28 @@
 html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
   display: none;
 }
+
+/* Landscape phone: the inventory fits the short screen (doll sized by height, wider bag). */
+@media (max-height: 500px) and (max-width: 1100px) {
+  html[data-ki-world-v2] .ki-dinv {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+  html[data-ki-world-v2] .ki-dinv-doll {
+    height: calc(100dvh - 150px);
+    width: auto;
+    aspect-ratio: 3 / 4;
+  }
+  html[data-ki-world-v2] .ki-dinv-bag {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  /* The race resource (Żar, Ładunek) shares the row under the bars instead of hanging below. */
+  html[data-ki-world-v2] .ki-hud .ki-resource {
+    height: 10px;
+    margin-top: 2px;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-resource span {
+    line-height: 10px;
+    font-size: 8px;
+  }
+}
