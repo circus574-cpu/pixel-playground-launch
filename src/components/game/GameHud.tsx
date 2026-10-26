@@ -11,7 +11,7 @@ import {
 import { MangaIcon, type MangaSymbol } from "./MangaIcon";
 import originArt from "../../game/world/origin-art.json";
 import { DiabloInventory } from "./DiabloInventory";
-import { V2WorldMap } from "../planet-map/V2WorldMap";
+import { GraphicSkillTree } from "./GraphicSkillTree";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
@@ -456,7 +456,7 @@ export function GameHud({
         <button
           className="ki-map-image"
           aria-label="Otwórz mapę świata"
-          onClick={() => toggle("map")}
+          onClick={() => toggle(WORLD_V2 ? "planet" : "map")}
         >
           <LocalMinimap
             world={world}
@@ -739,7 +739,7 @@ export function GameHud({
       {!panel && !state.dialogue && !state.depotOpen && !chatOpen && !toolsOpen && !player.dead && (
         <div className="ki-context-actions">
           {world.city && !player.interior && (
-            <button onClick={() => toggle("map")}>Plan miasta</button>
+            <button onClick={() => toggle(WORLD_V2 ? "planet" : "map")}>Plan miasta</button>
           )}
           {state.nearbyBuilding && (
             <button
@@ -801,7 +801,7 @@ export function GameHud({
             <PlanetAtlas
               current={planetLocation ?? state.player.continent}
               onTravel={onPlanetTravel}
-              onClose={() => setPanel("map")}
+              onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
             />
           </Suspense>
         </div>
@@ -857,7 +857,12 @@ export function GameHud({
                 close={closeAndResume}
               />
             )}
-            {panel === "skills" && <SkillTree state={state} send={onCommand} />}
+            {panel === "skills" &&
+              (WORLD_V2 ? (
+                <GraphicSkillTree state={state} send={onCommand} />
+              ) : (
+                <SkillTree state={state} send={onCommand} />
+              ))}
             {panel === "settings" && (
               <div className="ki-settings">
                 {TEST_RACE_SWITCH_ENABLED && onRaceChange && (
@@ -938,14 +943,7 @@ export function GameHud({
                 </details>
               </div>
             )}
-            {panel === "map" && WORLD_V2 && (
-              <V2WorldMap
-                continent={state.player.continent}
-                player={{ x: state.player.x, y: state.player.y }}
-                onClose={closeAndResume}
-              />
-            )}
-            {panel === "map" && !WORLD_V2 && (
+            {panel === "map" && (
               <>
                 {world.city && (
                   <CityDirectory city={world.city} send={onCommand} close={closeAndResume} />

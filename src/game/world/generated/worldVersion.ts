@@ -11,3 +11,6 @@ export const WORLD_V2 =
 export const WORLD_BASE = WORLD_V2 ? "/game/worlds/superior-v2" : "/game/worlds/superior-v1";
 export const WORLD_INDEX = WORLD_V2 ? indexV2 : indexV1;
 export const WORLD_NAMESPACE = WORLD_V2 ? ":superior-world-v2" : ":superior-world-v1";
+
+// Lets stylesheets (map, HUD) switch to the v2 presentation.
+if (WORLD_V2) document.documentElement.dataset["kiWorldV2"] = "1";

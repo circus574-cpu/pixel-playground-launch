@@ -5,7 +5,6 @@
  */
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { V2ContinentMap } from "./V2ContinentMap";
 import { CONTINENTS, QUEST_ISLANDS, ZONE_DIR_NAMES, zonesOf, type MapRegion } from "./mapData";
 
 export type GameLink = {
@@ -60,7 +59,6 @@ export function RegionGameNote(props: GameLink & { region: MapRegion }) {
   return (
     <>
       <RegionGameLink {...props} />
-      <V2ContinentMap regionId={props.region.id} name={props.region.name} />
     </>
   );
 }
