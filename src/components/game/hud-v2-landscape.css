@@ -8,9 +8,12 @@
   html[data-ki-world-v2] .ki-hud .ki-menu {
     top: max(10px, env(safe-area-inset-top));
     bottom: auto;
+    /* Between the portrait and "Widok": both edges are anchored, so a notch inset on either side
+       narrows the menu instead of pushing it under the button. */
     left: calc(250px + env(safe-area-inset-left));
-    right: auto;
-    width: min(400px, calc(100% - 370px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+    right: calc(164px + env(safe-area-inset-right));
+    width: auto;
+    max-width: 400px;
     height: 50px;
     padding: 2px;
     border: 1px solid var(--gold);
