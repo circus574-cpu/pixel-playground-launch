@@ -33,6 +33,8 @@ import {
   type NpcId,
 } from "./session";
 import { distance, type Point } from "./navigation";
+const RACE_VFX = ["impact", "ring"] as const;
+
 export type { GameViewState } from "./session";
 type Actor = {
   npcId?: NpcId;
@@ -166,6 +168,8 @@ export function mountKileGends(
       this.load.on("progress", initialProgress);
       this.load.once("complete", () => this.load.off("progress", initialProgress));
       this.load.on("loaderror", (file: Phaser.Loader.File) => {
+        // Decorative race effects are optional; a missing strip must not block the world.
+        if (file.key.startsWith("vfx3-")) return;
         this.loadFailed = true;
         loading({
           phase: "error",
@@ -177,6 +181,31 @@ export function mountKileGends(
         });
       });
       queueAssets(this, assets);
+      // Painted energy loops (GPU 2026-10-27): 8 × 256 px strips, blended additively.
+      for (const kind of RACE_VFX)
+        this.load.spritesheet(
+          "vfx3-" + kind,
+          "/game/vfx-v3/" + session.player.race + "/" + kind + ".webp",
+          {
+            frameWidth: 256,
+            frameHeight: 256,
+          },
+        );
+    }
+    /** Plays one painted race effect; silently skipped when its strip failed to load. */
+    private raceVfx(kind: (typeof RACE_VFX)[number], p: Point, scale: number) {
+      const key = "vfx3-" + kind;
+      if (!this.textures.exists(key)) return;
+      if (!this.anims.exists(key))
+        this.anims.create({ key, frames: this.anims.generateFrameNumbers(key), frameRate: 20 });
+      const sprite = this.add
+        .sprite(p.x, p.y - 30, key)
+        .setScale(scale)
+        .setBlendMode(Phaser.BlendModes.ADD)
+        .setDepth(renderDepth("combat", p.y + 1));
+      this.trackEffect(sprite);
+      sprite.play(key);
+      sprite.once("animationcomplete", () => sprite.destroy());
     }
     create() {
       if (this.loadFailed) {
@@ -838,6 +867,7 @@ export function mountKileGends(
                 : "#fff0a1",
         );
       if (event.type === "hit" && actor) {
+        if (event.target !== "player") this.raceVfx("impact", event, event.crit ? 0.6 : 0.4);
         actor.animation.trigger("hit", this.animationTime);
         this.texturedEffect("hit", event);
         actor.sprite
@@ -868,6 +898,7 @@ export function mountKileGends(
         body.setAlpha(1).setAngle(0).setVisible(true);
       }
       if (event.type === "attack") {
+        if (event.ability && event.ability !== "R") this.raceVfx("ring", event, 0.55);
         this.hero.animation.trigger(
           event.ability === "R" ? "attack" : "skill",
           this.animationTime,

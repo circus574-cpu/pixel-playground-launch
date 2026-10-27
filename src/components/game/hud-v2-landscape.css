@@ -734,3 +734,22 @@ html[data-ki-world-v2]
   > .ki-manga-icon {
   background-position: 33.333% 0;
 }
+
+/* Painted GPU icons (icons-v3): fill the ability button, small chip glyph for statuses. */
+.ki-gpu-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ki-gpu-status {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+img.ki-gpu-item {
+  background: none;
+  object-fit: contain;
+}
