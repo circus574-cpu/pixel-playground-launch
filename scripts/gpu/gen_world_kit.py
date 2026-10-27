@@ -71,6 +71,17 @@ BIOME.update({
                       "an ice cave entrance", "a snow covered ice ridge", "a cracked frozen lake section", "an ice arch",
                       "a glacier crevasse with a snow bridge", "giant icicles hanging from a rock", "a frozen mammoth skeleton in ice", "an ice crystal formation glowing blue"],
 })
+HUD = {"panel": "an ornate empty rectangular ui panel frame with a hollow plain center",
+       "orb": "an ornate round ui orb frame socket with an empty hollow center",
+       "slot": "an ornate square ui skill slot frame with an empty hollow center",
+       "bar": "a long horizontal ornate ui status bar frame with an empty hollow inside",
+       "button": "an ornate rounded ui button plate without text",
+       "ring": "an ornate circular minimap ring frame with an empty hollow center",
+       "corner": "an ornate ui corner decoration piece",
+       "divider": "an ornate horizontal ui divider ornament"}
+HUDSTYLE = {"neutral": "dark iron and gold filigree", "aether": "white jade and gold with lotus motifs",
+            "nexus": "brushed steel with cyan glowing circuit lines", "pyra": "black iron with red flame motifs and embers",
+            "verdant": "carved wood with green leaves and vines"}
 FURN = ["a long wooden table with benches", "a counter with a shelf", "a bed with blankets", "a tall bookshelf", "a group of barrels", "a stack of crates",
         "a hanging lantern cluster", "a woven rug seen from above", "a cooking pot over a fire", "a weapon stand", "a locked chest", "a potion shelf"]
 FAUNA = ["a red deer", "a field hare", "a mountain goat", "a woolly sheep", "a heavy ox", "a white crane", "a desert gazelle", "a red fox", "a stone tortoise",
@@ -81,7 +92,12 @@ ROOMS = {"hall": "a council hall interior with a raised dais, long carpet and pi
          "arena": "a training hall interior with a sparring floor, weapon racks and practice dummies", "smithy": "a blacksmith workshop interior with an anvil, forge and tools",
          "depot": "a storage warehouse interior with crates, barrels and a deposit chest", "inn": "a tavern interior with tables, a bar counter and a fireplace"}
 W = H = 1024
-if setname.startswith(("houses-", "rooms-")):
+if setname.startswith("hud-"):
+    st = HUDSTYLE[setname.split("-", 1)[1]]
+    items = {k: "%s, %s, fantasy rpg game interface element, flat front view" % (v, st) for k, v in HUD.items()}
+    COMMON = ("game ui asset, hand painted anime fantasy rpg interface art, clean thick dark outline, cel shaded, crisp detail, symmetrical, "
+              "isolated on pure white background, centered, wide white margin, no text, no letters, masterpiece, best quality")
+elif setname.startswith(("houses-", "rooms-")):
     race = setname.split("-", 1)[1]
     style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
     if setname.startswith("houses-"):
