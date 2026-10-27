@@ -151,6 +151,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-smithy-art": ["pyra-smithy"],
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
+  /** Gemini-video walk cycles for Legend and Sage; other states stay unchanged. */
+  "ki-hero-walk": ["hero-legend-walk-v3", "hero-sage-painted-walk-v3"],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
     "ki-v2-terrain",
