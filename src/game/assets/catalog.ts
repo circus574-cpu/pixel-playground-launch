@@ -149,6 +149,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-smithy-art": ["pyra-smithy"],
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
+  /** Gemini-video walk cycles for Legend and Sage; other states stay unchanged. */
+  "ki-hero-walk": ["hero-legend-walk-v3", "hero-sage-painted-walk-v3"],
 };
 /** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {
