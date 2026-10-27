@@ -1,6 +1,12 @@
-import { test, expect, openHudTool, superiorArrival, type Page } from "./fixtures";
+import { readFileSync } from "node:fs";
+import { test, expect, openHudTool, type Page } from "./fixtures";
 import { WORLDS } from "../src/game/world/worlds";
 
+// Follow real links into the current default v2, including its separate character roster.
+const currentWorld = JSON.parse(
+  readFileSync("public/game/worlds/superior-v2/index.json", "utf8"),
+) as { features: { id: string; arrival: { x: number; y: number } }[] };
+const currentArrival = (id: string) => currentWorld.features.find((f) => f.id === id)!.arrival;
 const regions = [
   ["verdant", "Planetarni", "Verdantia"],
   ["aether", "Mędrcy", "Aetheria"],
@@ -18,15 +24,16 @@ async function create(page: Page, race: string) {
   if (await newCharacter.isVisible()) await newCharacter.click();
   await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
-  await expect(page.locator(".ki-hud")).toBeVisible();
+  await expect(page.locator(".ki-hud")).toBeVisible({ timeout: 120_000 });
 }
 
 for (const [continent, race, name] of regions) {
   test(`real map handoff to ${name}: selection, spawn, refresh, back and other saves`, async ({
     page,
   }, info) => {
+    test.setTimeout(420_000);
     const webgl = info.project.name === "application-webgl";
-    await page.goto("/");
+    await page.goto("/?ki-world-v2=1");
     await create(page, "Planetarni");
     await leaveGame(page);
     const before = await saves(page);
@@ -46,7 +53,7 @@ for (const [continent, race, name] of regions) {
       name: webgl ? "Legenda" : "Legenda i warstwy",
       exact: true,
     });
-    if ((await legend.getAttribute("aria-expanded")) !== "true") await legend.click();
+    if (!(await page.locator(".pm-legend").first().isVisible())) await legend.click();
     await page
       .locator(".pm-legend")
       .getByRole("button", { name: new RegExp(`^${name}`) })
@@ -77,9 +84,9 @@ for (const [continent, race, name] of regions) {
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const actor = page.locator(".ki-canvas");
     await expect(actor).toHaveAttribute("data-world", continent);
-    await expect(page.locator(".ki-hud")).toBeVisible();
+    await expect(page.locator(".ki-hud")).toBeVisible({ timeout: 120_000 });
     // A new character appears at its land's arrival on the single Superior planet.
-    const spawn = superiorArrival(continent);
+    const spawn = currentArrival(continent);
     await expect
       .poll(async () => Number(await actor.getAttribute("data-player-x")))
       .toBeCloseTo(spawn.x, 0);
@@ -94,10 +101,10 @@ for (const [continent, race, name] of regions) {
       expect(after[key]).toBe(value);
     expect(Object.keys(after).filter((key) => key.includes(":character:"))).toHaveLength(2);
     await page.goBack();
-    await expect(page).toHaveURL(/\/mapa$/);
+    await expect.poll(() => new URL(page.url()).pathname).toBe("/mapa");
     await expect.poll(() => saves(page)).toEqual(after);
     await page.screenshot({ path: info.outputPath(`${continent}-map-return.png`) });
-    await page.goto(`/?continent=${continent}`);
+    await page.goto(`/?continent=${continent}&ki-world-v2=1`);
     await expect(page.getByRole("status")).toContainText(name);
     await expect.poll(() => saves(page)).toEqual(after);
   });

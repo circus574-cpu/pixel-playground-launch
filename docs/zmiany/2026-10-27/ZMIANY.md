@@ -198,3 +198,36 @@ Stabilność całej długiej regresji nie jest przez to potwierdzona.
 Odczyt GitHub przy SHA `2a5be38b`: PR Draft, `statusCheckRollup=[]`, zero Actions runs dla
 tej gałęzi. Brak automatycznego uruchomienia nie jest zaliczeniem CI. Końcowy stan ręcznej
 próby uruchomienia workflow zostanie wskazany w treści PR; nie scalano zmian.
+
+
+### Pełny wynik GitHub Actions i domknięcie testów mapy
+
+[CI 40518268782](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40518268782)
+na `a8fd1a8425c0bf200e156bdfdffff700413f059f` zakończyło wszystkie 183 testy:
+**175 PASS / 8 FAIL**. TypeScript, jednostkowe, assets, lint i build w tym samym jobie PASS.
+Wszystkie porażki: cztery kontynenty `globe-handoff.spec.ts` w dwóch rendererach aplikacji.
+Surowe trace i screenshoty są w [artefakcie CI](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40518268782/artifacts/12743664875)
+(retencja 7 dni); [trwały indeks wyniku](qa/ci-40518268782.json).
+
+Potwierdzono rozbieżność oracle testowego z aktualnym runtime: np. Pyra oczekiwała
+`x=36698.286027` z v1, podczas gdy gra poprawnie uruchamiała v2 przy `x=45850.286027`.
+Spec mapy teraz od początku korzysta z domyślnego v2 i odczytuje arrival z jego indeksu.
+Nie zmieniono statystyk, checkpointów, geometrii, zapisu ani kodu mapy. Na desktopie
+sprawdza widoczność legendy przed próbą klikania przycisku rozwijania dostępnego w
+układzie kompaktowym. Pozostałe asercje przejść, izolacji zapisów i pozycji pozostają.
+
+
+Końcowa powtórka ośmiu naprawionych przypadków mapy: **8 PASS / 0 FAIL**, 10,2 min,
+Canvas i Software WebGL, [log](qa/e2e-map-complete.log).
+Początek i koniec scenariusza gry jawnie używają v2, zaś kontrola historycznego globusa
+zachowuje wcześniejszy fixture. Asercja powrotu sprawdza dokładną ścieżkę `/mapa`,
+pozostawiając dozwolony parametr QA wersji świata. Pozostałe testy roster/home zachowują
+oryginalny wariant v1; nie rozszerzono tej poprawki na zachowanie gry.
+Nie usunięto żadnej asercji dotyczącej pozycji, liczby postaci lub nienaruszenia zapisów.
+
+Przed commitem: pełny TypeScript PASS, lint PASS (13 dotychczasowych ostrzeżeń),
+86 testów ukierunkowanych PASS; walidacja dokumentacji PASS.
+Poprzedni pełny CI miał 175 PASS i osiem opisanych FAIL; te osiem jest teraz lokalnie
+zaliczone. Nie utożsamiamy tego z jednym zielonym przebiegiem CI na końcowym SHA.
+Pełny workflow zostaje uruchomiony ponownie na końcowej gałęzi; aktualny link i status
+są w PR #45. Brak scalenia, publikacji i czynności na GPU.

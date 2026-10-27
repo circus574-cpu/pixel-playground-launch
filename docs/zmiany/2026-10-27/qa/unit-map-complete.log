@@ -1,0 +1,8 @@
+
+ RUN  v4.1.12 /workspace/ki-combat
+
+
+ Test Files  3 passed (3)
+      Tests  86 passed (86)
+   Start at  19:06:44
+   Duration  9.39s (transform 1.36s, setup 264ms, import 1.94s, tests 4.69s, environment 1.75s)
