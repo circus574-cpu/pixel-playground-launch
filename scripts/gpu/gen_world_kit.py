@@ -1,12 +1,13 @@
 """World kit: city sets for the other three races and object sets for every biome (placeable, isolated on white).
 
   python3 gen_world_kit.py <tag> <dream|anime> <set> [seeds comma list]
-    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral
+    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle|lava|ocean|glacier, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral,
+          houses-<race> (A2: 6 dwelling variants), rooms-<race> (A5: 6 interior room backgrounds, 1536x960), race = pyra|aether|nexus|verdant
     -> /workspace/ki-legends-gpu/renders/kit-<set>-<tag>-<model>/obj-<name>-s<seed>.png (1024) + sheet.jpg + metadata.json
 Same look as the Pyra city parts: high angle three quarter view, thick dark outlines, cel shaded, warm light.
 Samples for owner review and for the matting/packing step, not installed in the game.
 """
-import hashlib, json, shutil, sys, time
+import hashlib, json, os, shutil, sys, time
 from pathlib import Path
 import torch
 from PIL import Image
@@ -57,11 +58,79 @@ BIOME.update({
     "dungeon": ["a cave wall chunk", "a stalagmite cluster", "a glowing crystal cluster", "a stone doorway", "a torch on a stand", "a bone pile", "a treasure chest",
                 "a floor spike trap", "a cracked stone pillar", "a stone sarcophagus", "a rock with glowing lava cracks", "an iron prison cage"],
 })
+BIOME.update({
+    "biome-lava": ["a lava waterfall pouring from a black cliff", "a glowing lava river bend with dark banks", "a lava lake rim with bubbling magma",
+                   "a cooling lava flow with glowing cracks", "an erupting lava vent with sparks", "a black obsidian spire with lava veins",
+                   "a crumbling basalt bridge over lava", "a lava stepping stone path", "a burnt tree trunk glowing with embers",
+                   "a magma geyser erupting", "a lava rock arch", "a volcanic crater rim with smoke"],
+    "biome-ocean": ["a sea rock with crashing waves and foam", "a tall coastal sea stack with birds", "a coral reef cluster in shallow water",
+                    "a sandy islet with two palm trees", "a shipwreck half in the water", "a whirlpool in deep blue water",
+                    "a rocky reef with tide pools", "a floating driftwood raft", "a sea arch rock formation", "a stone lighthouse on a rock",
+                    "a giant clam with a pearl", "a kelp forest patch seen from above"],
+    "biome-glacier": ["a huge glacier ice wall with blue crevasses", "a floating iceberg", "a frozen waterfall", "a tall blue ice spire cluster",
+                      "an ice cave entrance", "a snow covered ice ridge", "a cracked frozen lake section", "an ice arch",
+                      "a glacier crevasse with a snow bridge", "giant icicles hanging from a rock", "a frozen mammoth skeleton in ice", "an ice crystal formation glowing blue"],
+})
+HUD = {"panel": "an ornate empty rectangular ui panel frame with a hollow plain center",
+       "orb": "an ornate round ui orb frame socket with an empty hollow center",
+       "slot": "an ornate square ui skill slot frame with an empty hollow center",
+       "bar": "a long horizontal ornate ui status bar frame with an empty hollow inside",
+       "button": "an ornate rounded ui button plate without text",
+       "ring": "an ornate circular minimap ring frame with an empty hollow center",
+       "corner": "an ornate ui corner decoration piece",
+       "divider": "an ornate horizontal ui divider ornament"}
+HUDSTYLE = {"neutral": "dark iron and gold filigree", "aether": "white jade and gold with lotus motifs",
+            "nexus": "brushed steel with cyan glowing circuit lines", "pyra": "black iron with red flame motifs and embers",
+            "verdant": "carved wood with green leaves and vines"}
+FX = {"orb": "a glowing energy ball projectile with a bright core",
+      "comet": "a glowing energy projectile flying to the right with a long tapering tail",
+      "beam": "a straight horizontal energy beam blast",
+      "impact": "a radial energy impact burst explosion",
+      "ring": "a round expanding energy shockwave ring seen from above",
+      "aura": "a tall vertical flame aura shape rising upward, empty in the middle, no character inside",
+      "sparks": "a burst of small energy sparks and particles",
+      "charge": "swirling energy particles converging into a bright point"}
+FXSTYLE = {"planetary": "green and orange nature energy with leaves", "sage": "golden white holy light energy",
+           "android": "cyan blue plasma electric energy", "legend": "crimson red and orange fire energy"}
 FURN = ["a long wooden table with benches", "a counter with a shelf", "a bed with blankets", "a tall bookshelf", "a group of barrels", "a stack of crates",
         "a hanging lantern cluster", "a woven rug seen from above", "a cooking pot over a fire", "a weapon stand", "a locked chest", "a potion shelf"]
 FAUNA = ["a red deer", "a field hare", "a mountain goat", "a woolly sheep", "a heavy ox", "a white crane", "a desert gazelle", "a red fox", "a stone tortoise",
          "a wild duck", "a sturdy pony", "a wild boar piglet"]
-if setname.startswith("interior-"):
+HOUSES = ["a small one story cottage with a porch", "a two story family house with a balcony", "a narrow tall townhouse",
+          "a house with a small shop front on the ground floor", "a house with a walled garden and a gate", "a long row house with three doors"]
+ROOMS = {"hall": "a council hall interior with a raised dais, long carpet and pillars", "shop": "a shop interior with counters, shelves and goods",
+         "arena": "a training hall interior with a sparring floor, weapon racks and practice dummies", "smithy": "a blacksmith workshop interior with an anvil, forge and tools",
+         "depot": "a storage warehouse interior with crates, barrels and a deposit chest", "inn": "a tavern interior with tables, a bar counter and a fireplace"}
+W = H = 1024
+if setname.startswith("fx-"):
+    st = FXSTYLE[setname.split("-", 1)[1]]
+    items = {k: "%s, %s" % (v, st) for k, v in FX.items()}
+    COMMON = ("game vfx sprite, anime style energy effect, glowing, luminous, high contrast, isolated on pure black background, centered, "
+              "wide black margin, no character, no text, masterpiece, best quality")
+    NEG = "character, person, hand, body, text, watermark, frame, white background, ground, scenery, blurry, low quality"
+elif setname.startswith("hud-"):
+    st = HUDSTYLE[setname.split("-", 1)[1]]
+    items = {k: "%s, %s, fantasy rpg game interface element, flat front view" % (v, st) for k, v in HUD.items()}
+    COMMON = ("game ui asset, hand painted anime fantasy rpg interface art, clean thick dark outline, cel shaded, crisp detail, symmetrical, "
+              "isolated on pure white background, centered, wide white margin, no text, no letters, masterpiece, best quality")
+elif setname.startswith(("houses-", "rooms-")):
+    race = setname.split("-", 1)[1]
+    style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
+    if setname.startswith("houses-"):
+        items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: "%s, %s" % (d, style) for d in HOUSES}
+    else:
+        RSTYLE = {"aether": "white marble walls with jade green and gold trim, paper sliding screens, tatami and polished wood floor, calligraphy scrolls, bonsai pots",
+                  "nexus": "brushed steel walls, cyan glowing light strips, holographic screens, metal floor panels, sleek futuristic furniture",
+                  "pyra": "dark timber beams and grey stone walls, red flame banners, glowing braziers, warm lantern light, iron fittings",
+                  "verdant": "warm timber walls and stone floor, mossy green accents, flower pots, hanging lanterns, cozy forest village furniture"}[race]
+        items = {k: "%s, %s" % (v, RSTYLE) for k, v in ROOMS.items() if k in os.environ.get("ROOMS", ",".join(ROOMS)).split(",")}
+        W, H = 1536, 960
+        COMMON = ("indoors, scenery, no humans, cozy rpg game interior room seen from a high angle three quarter view, the whole room visible, "
+                  "spacious open walkable floor in the middle, large clearly readable furniture along the walls, hand painted anime illustration, "
+                  "clean thick dark outlines, cel shading, vibrant colors, detailed, warm lighting, masterpiece, best quality, very aesthetic")
+        NEG = ("1girl, 1boy, character, person, people, text, letters, watermark, frame, cropped, blurry, low quality, worst quality, photo, photorealistic, 3d render, "
+               "outdoors, sky, tree, trees, cherry blossom, water, close up, fisheye, cluttered, messy, tiny objects")
+elif setname.startswith("interior-"):
     race = setname.split("-", 1)[1]
     style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
     items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: "%s, %s" % (d, style) for d in FURN}
@@ -87,7 +156,7 @@ for name, desc in items.items():
                 Image.open(OUT / fn).load(); shutil.copyfile(OUT / fn, LOCAL / fn); continue
             except OSError:
                 pass
-        img = pipe(prompt=pre + "single " + desc + ", " + COMMON, negative_prompt=NEG, num_inference_steps=steps, guidance_scale=cfg, width=1024, height=1024,
+        img = pipe(prompt=pre + "single " + desc + ", " + COMMON, negative_prompt=NEG, num_inference_steps=steps, guidance_scale=cfg, width=W, height=H,
                    generator=torch.Generator("cuda").manual_seed(seed)).images[0]
         tmp = LOCAL / fn; img.save(tmp)
         for _ in range(5):
@@ -105,7 +174,7 @@ for i, n in enumerate(names):
     for j, sd in enumerate(SEEDS):
         p = LOCAL / ("obj-%s-s%d.png" % (n, sd))
         if p.exists():
-            sh.paste(Image.open(p).resize((c, c), Image.LANCZOS), (j * c, i * c))
+            im = Image.open(p); im.thumbnail((c, c)); sh.paste(im, (j * c, i * c))
 sh.save(OUT / "sheet.jpg", quality=86)
 (OUT / "metadata.json").write_text(json.dumps(meta, indent=1))
 print("GOTOWE:", OUT, round(time.time() - t0), "s", flush=True)
