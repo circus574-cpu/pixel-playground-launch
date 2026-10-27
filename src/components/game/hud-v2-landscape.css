@@ -753,3 +753,55 @@ img.ki-gpu-item {
   background: none;
   object-fit: contain;
 }
+
+/* GPU HUD frames (2026-10-27): painted per-race ornaments over the panels, skills and minimap. */
+.ki-hud[data-hud-style="neutral"] {
+  --ki-hud-panel: url("/game/hud-v3/neutral/panel.webp");
+  --ki-hud-ring: url("/game/hud-v3/neutral/ring.webp");
+  --ki-hud-button: url("/game/hud-v3/neutral/button.webp");
+}
+.ki-hud[data-hud-style="verdant"] {
+  --ki-hud-panel: url("/game/hud-v3/verdant/panel.webp");
+  --ki-hud-ring: url("/game/hud-v3/verdant/ring.webp");
+  --ki-hud-button: url("/game/hud-v3/verdant/button.webp");
+}
+.ki-hud[data-hud-style="aether"] {
+  --ki-hud-panel: url("/game/hud-v3/aether/panel.webp");
+  --ki-hud-ring: url("/game/hud-v3/aether/ring.webp");
+  --ki-hud-button: url("/game/hud-v3/aether/button.webp");
+}
+.ki-hud[data-hud-style="nexus"] {
+  --ki-hud-panel: url("/game/hud-v3/nexus/panel.webp");
+  --ki-hud-ring: url("/game/hud-v3/nexus/ring.webp");
+  --ki-hud-button: url("/game/hud-v3/nexus/button.webp");
+}
+.ki-hud[data-hud-style="pyra"] {
+  --ki-hud-panel: url("/game/hud-v3/pyra/panel.webp");
+  --ki-hud-ring: url("/game/hud-v3/pyra/ring.webp");
+  --ki-hud-button: url("/game/hud-v3/pyra/button.webp");
+}
+.ki-hud[data-hud-style] .ki-player.ki-frame {
+  border-style: solid;
+  border-width: 14px;
+  border-image: var(--ki-hud-panel) 60 / 14px round;
+}
+.ki-hud[data-hud-style] .ki-skill {
+  position: relative;
+}
+.ki-hud[data-hud-style] .ki-skill::after {
+  content: "";
+  position: absolute;
+  inset: -9%;
+  background: var(--ki-hud-ring) center / contain no-repeat;
+  pointer-events: none;
+}
+.ki-hud[data-hud-style] .ki-v2-minimap {
+  border-style: solid;
+  border-width: 12px;
+  border-image: var(--ki-hud-panel) 60 / 12px round;
+}
+.ki-hud[data-hud-style] .ki-skill > kbd,
+.ki-hud[data-hud-style] .ki-skill > .ki-ability-cost {
+  position: relative;
+  z-index: 1;
+}

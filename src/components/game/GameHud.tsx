@@ -190,6 +190,14 @@ function TechniqueBank({
   );
 }
 
+/** GPU HUD frame set per race (public/game/hud-v3/<style>/). */
+const HUD_STYLE: Record<string, string> = {
+  planetary: "verdant",
+  sage: "aether",
+  android: "nexus",
+  legend: "pyra",
+};
+
 export function GameHud({
   state,
   zoom,
@@ -422,6 +430,7 @@ export function GameHud({
   return (
     <div
       className="ki-hud"
+      data-hud-style={HUD_STYLE[player.race]}
       style={
         {
           "--ki-ui-image": `url("${uiTextureUrl()}")`,
