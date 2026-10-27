@@ -1,6 +1,6 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: 23.10.2026. Stan kodu porównany z `origin/main` na `d0bfc2c`.
+Aktualizacja audytowa: 27.10.2026, HEAD main `8e3db1c`. Historyczny checkpoint dokumentów: `d0bfc2c`. Aktualny przegląd PR/CI i decyzji Architekta: [dziennik 27.10](zmiany/2026-10-27/ZMIANY.md).
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
 | Dokument                                        | Co w nim znaleźć                                                           |
