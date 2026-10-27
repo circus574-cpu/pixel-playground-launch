@@ -82,6 +82,16 @@ HUD = {"panel": "an ornate empty rectangular ui panel frame with a hollow plain 
 HUDSTYLE = {"neutral": "dark iron and gold filigree", "aether": "white jade and gold with lotus motifs",
             "nexus": "brushed steel with cyan glowing circuit lines", "pyra": "black iron with red flame motifs and embers",
             "verdant": "carved wood with green leaves and vines"}
+FX = {"orb": "a glowing energy ball projectile with a bright core",
+      "comet": "a glowing energy projectile flying to the right with a long tapering tail",
+      "beam": "a straight horizontal energy beam blast",
+      "impact": "a radial energy impact burst explosion",
+      "ring": "a round expanding energy shockwave ring seen from above",
+      "aura": "a tall vertical flame aura shape rising upward, empty in the middle, no character inside",
+      "sparks": "a burst of small energy sparks and particles",
+      "charge": "swirling energy particles converging into a bright point"}
+FXSTYLE = {"planetary": "green and orange nature energy with leaves", "sage": "golden white holy light energy",
+           "android": "cyan blue plasma electric energy", "legend": "crimson red and orange fire energy"}
 FURN = ["a long wooden table with benches", "a counter with a shelf", "a bed with blankets", "a tall bookshelf", "a group of barrels", "a stack of crates",
         "a hanging lantern cluster", "a woven rug seen from above", "a cooking pot over a fire", "a weapon stand", "a locked chest", "a potion shelf"]
 FAUNA = ["a red deer", "a field hare", "a mountain goat", "a woolly sheep", "a heavy ox", "a white crane", "a desert gazelle", "a red fox", "a stone tortoise",
@@ -92,7 +102,13 @@ ROOMS = {"hall": "a council hall interior with a raised dais, long carpet and pi
          "arena": "a training hall interior with a sparring floor, weapon racks and practice dummies", "smithy": "a blacksmith workshop interior with an anvil, forge and tools",
          "depot": "a storage warehouse interior with crates, barrels and a deposit chest", "inn": "a tavern interior with tables, a bar counter and a fireplace"}
 W = H = 1024
-if setname.startswith("hud-"):
+if setname.startswith("fx-"):
+    st = FXSTYLE[setname.split("-", 1)[1]]
+    items = {k: "%s, %s" % (v, st) for k, v in FX.items()}
+    COMMON = ("game vfx sprite, anime style energy effect, glowing, luminous, high contrast, isolated on pure black background, centered, "
+              "wide black margin, no character, no text, masterpiece, best quality")
+    NEG = "character, person, hand, body, text, watermark, frame, white background, ground, scenery, blurry, low quality"
+elif setname.startswith("hud-"):
     st = HUDSTYLE[setname.split("-", 1)[1]]
     items = {k: "%s, %s, fantasy rpg game interface element, flat front view" % (v, st) for k, v in HUD.items()}
     COMMON = ("game ui asset, hand painted anime fantasy rpg interface art, clean thick dark outline, cel shaded, crisp detail, symmetrical, "
