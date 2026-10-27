@@ -167,3 +167,22 @@ Ostatni wynik powtórki będzie odnotowany w PR/CI. Do tego momentu brak pełneg
 
 Kontrole QA po poprawkach testów: pełny TypeScript PASS, lint 0 błędów / 13 ostrzeżeń,
 ukierunkowane Vitest (`combat-v3`, `session`, `monsters`) **86 PASS / 0 FAIL**.
+
+
+### Końcowy zapis i PR
+
+- Rdzeń: `53ff71842e1d2e68a6df9589dd9bdcd8faf2afd4`.
+- QA i dowody: `892c68bff302d40dfb5dfd8e437cd10966282838`.
+- [Draft PR #45](https://github.com/circus574-cpu/pixel-playground-launch/pull/45),
+  gałąź `feature/combat-diablo-v3`; brak scalenia i publikacji.
+- Na SHA QA wykonano ponownie pełny TypeScript (PASS) oraz 86 testów walki/sesji/potworów
+  (PASS). Produkcyjna logika jest identyczna z rdzeniem, na którym pełny Vitest miał 806 PASS.
+- Ostatni przypadek Mędrca 1920×1080 Software WebGL **PASS**, 4,3 min;
+  [log](qa/e2e-sage-budget.log). Wydłużony budżet był potrzebny do rzeczywistego dojścia,
+  nie do obniżenia warunków trafienia/zabicia/zapisu.
+- **20 nowych scenariuszy ma końcowy wynik PASS w łączonych przebiegach**:
+  [indeks wyników](qa/v3-browser-summary.json). Nie jest to jeden nieprzerwany przebieg
+  pełnego Playwright. Poprzednie porażki pozostają zapisane, a pełna regresja oraz
+  końcowe GitHub Actions wymagają dalszego domknięcia. PR świadomie pozostaje Draft.
+- Wyniki CI: sprawdzić zakładkę Checks PR #45; nie deklarowano PASS przed zakończeniem.
+  Fizyczne telefony, pomiary FPS i odbiór jakości nadal pozostają niewykonane.
