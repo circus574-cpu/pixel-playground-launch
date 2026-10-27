@@ -1,7 +1,7 @@
 """World kit: city sets for the other three races and object sets for every biome (placeable, isolated on white).
 
   python3 gen_world_kit.py <tag> <dream|anime> <set> [seeds comma list]
-    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral,
+    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle|lava|ocean|glacier, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral,
           houses-<race> (A2: 6 dwelling variants), rooms-<race> (A5: 6 interior room backgrounds, 1536x960), race = pyra|aether|nexus|verdant
     -> /workspace/ki-legends-gpu/renders/kit-<set>-<tag>-<model>/obj-<name>-s<seed>.png (1024) + sheet.jpg + metadata.json
 Same look as the Pyra city parts: high angle three quarter view, thick dark outlines, cel shaded, warm light.
@@ -57,6 +57,19 @@ BIOME.update({
                      "a flowering vine bush", "a bamboo cluster", "a rope bridge section", "a treehouse", "a giant leaf plant", "an overgrown stone altar"],
     "dungeon": ["a cave wall chunk", "a stalagmite cluster", "a glowing crystal cluster", "a stone doorway", "a torch on a stand", "a bone pile", "a treasure chest",
                 "a floor spike trap", "a cracked stone pillar", "a stone sarcophagus", "a rock with glowing lava cracks", "an iron prison cage"],
+})
+BIOME.update({
+    "biome-lava": ["a lava waterfall pouring from a black cliff", "a glowing lava river bend with dark banks", "a lava lake rim with bubbling magma",
+                   "a cooling lava flow with glowing cracks", "an erupting lava vent with sparks", "a black obsidian spire with lava veins",
+                   "a crumbling basalt bridge over lava", "a lava stepping stone path", "a burnt tree trunk glowing with embers",
+                   "a magma geyser erupting", "a lava rock arch", "a volcanic crater rim with smoke"],
+    "biome-ocean": ["a sea rock with crashing waves and foam", "a tall coastal sea stack with birds", "a coral reef cluster in shallow water",
+                    "a sandy islet with two palm trees", "a shipwreck half in the water", "a whirlpool in deep blue water",
+                    "a rocky reef with tide pools", "a floating driftwood raft", "a sea arch rock formation", "a stone lighthouse on a rock",
+                    "a giant clam with a pearl", "a kelp forest patch seen from above"],
+    "biome-glacier": ["a huge glacier ice wall with blue crevasses", "a floating iceberg", "a frozen waterfall", "a tall blue ice spire cluster",
+                      "an ice cave entrance", "a snow covered ice ridge", "a cracked frozen lake section", "an ice arch",
+                      "a glacier crevasse with a snow bridge", "giant icicles hanging from a rock", "a frozen mammoth skeleton in ice", "an ice crystal formation glowing blue"],
 })
 FURN = ["a long wooden table with benches", "a counter with a shelf", "a bed with blankets", "a tall bookshelf", "a group of barrels", "a stack of crates",
         "a hanging lantern cluster", "a woven rug seen from above", "a cooking pot over a fire", "a weapon stand", "a locked chest", "a potion shelf"]
