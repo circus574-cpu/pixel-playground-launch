@@ -1,5 +1,8 @@
 # KI Legends — aktualny plan i zadania
 
+> AKTUALIZACJA 27.10.2026: HEAD main `8e3db1c` po integracji zmian #34–#49: świat v2, Combat V3, konta, audio i grafiki. Szczegółowy stan CI oraz nowe P0 (45/55 powierzchni, maks. 20 dużych podziemi i 4–5 labiryntów, migracje zapisów, bezpieczeństwo kont) zapisano w [dzienniku 27.10](zmiany/2026-10-27/ZMIANY.md). Historyczne punkty poniżej nie oznaczają stanu obecnego.
+
+
 ## Checkpoint CPU — zapis wszystkich dotychczasowych prac
 
 Na `feature/cpu-game-content-20261023` zapisano kod, kopie danych oraz
