@@ -41,8 +41,8 @@ for name, (s0, s1) in SEG.items():
         can = Image.new("RGBA", (128, 128)); can.alpha_composite(img, (int(64 - cx * sc), int(124 - by * sc)))
         frames.append(can)
     strip = Image.new("RGBA", (128 * 8, 128)); [strip.paste(f, (i * 128, 0)) for i, f in enumerate(frames)]
-    strip.save(f"co/gv-{name}-sheet.png")
+    strip.save(f"co/{os.environ.get("PREFIX", "gv")}-{name}-sheet.png")
     for i, f in enumerate(frames):
         bg = Image.new("RGBA", (128, 128), (92, 120, 70, 255)); bg.alpha_composite(f); bg.convert("RGB").resize((384, 384), Image.NEAREST).save(f"/tmp/gv_{i:02d}.png")
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "6", "-framerate", "10", "-i", "/tmp/gv_%02d.png", "-c:v", "libx264", "-pix_fmt", "yuv420p", f"co/gv-{name}.mp4"])
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "6", "-framerate", "10", "-i", "/tmp/gv_%02d.png", "-c:v", "libx264", "-pix_fmt", "yuv420p", f"co/{os.environ.get("PREFIX", "gv")}-{name}.mp4"])
     print(name, "loop", a, L, "diff", round(d, 2))
