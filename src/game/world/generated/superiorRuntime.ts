@@ -13,6 +13,12 @@ import { monsterDef } from "../../monsters/catalog";
 import { MONSTER_BASE } from "../../monsters/base.generated";
 
 import { streamSpawns, type AuthoredSpawn } from "./spawnStream";
+import {
+  applyAdminWorldOverridesToRuntime,
+  applyCustomSpawnsForFeature,
+  countActiveOverrides,
+  readAdminWorldOverrides,
+} from "../adminWorldStore";
 import { RACES, type RaceId } from "../races";
 import { WORLDS } from "../worlds";
 import type { CityDefinition, BuildingId } from "../../city/types";
@@ -88,6 +94,8 @@ export async function prepareSuperior(options: {
     return (await response.json()) as T;
   };
   options.onLoading({ phase: "preparing", message: "Otwieranie świata Superior…", progress: null });
+  const adminOverrides = readAdminWorldOverrides();
+  if (countActiveOverrides(adminOverrides) > 0) applyAdminWorldOverridesToRuntime(adminOverrides);
   const index = await fetchJson<SuperiorIndex>("index.json");
   if (
     index.format !== "superior-runtime-1" ||
@@ -237,7 +245,18 @@ export async function prepareSuperior(options: {
     maximumActiveEnemies: 24,
     enemyPositionAllowed: outsideCities,
   });
-  const spawnData = (await loader.loadSpawns()) as { feature: string; overworld: AuthoredSpawn[] };
+  const rawSpawnData = (await loader.loadSpawns()) as {
+    feature: string;
+    overworld: AuthoredSpawn[];
+  };
+  const spawnData = {
+    feature: rawSpawnData.feature,
+    overworld: Object.values(adminOverrides.customSpawns).some((s) => s.feature === info.id)
+      ? applyCustomSpawnsForFeature(info.id, rawSpawnData.overworld ?? [], adminOverrides).filter(
+          (s) => outsideCities(s) && loader.navigation.walkable(s),
+        )
+      : rawSpawnData.overworld,
+  };
   if (
     spawnData.feature !== info.id ||
     !Array.isArray(spawnData.overworld) ||

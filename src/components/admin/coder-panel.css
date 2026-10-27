@@ -1,0 +1,200 @@
+/* Isolated styling from coder; the existing account and admin panel keep their styles. */
+@scope (.ki-coder-panel) {
+  /* Account and staff pages: the game's dark parchment frame, readable on a phone. */
+  .ki-account {
+    min-height: 100dvh;
+    padding: 24px 16px;
+    background: radial-gradient(circle at 50% 0%, #2a2333 0%, #0f0d14 70%);
+    color: #f1e6cc;
+    font-family: system-ui, sans-serif;
+  }
+  .ki-account-card {
+    max-width: 440px;
+    margin: 6vh auto 0;
+    padding: 24px;
+    border: 1px solid #c8a35a;
+    border-radius: 12px;
+    background: #1a1620ee;
+    box-shadow: 0 10px 40px #0008;
+  }
+  .ki-account h1 {
+    margin: 0 0 16px;
+    font-family: Georgia, serif;
+    font-size: 1.6rem;
+    color: #f5d48a;
+  }
+  .ki-account label {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+  .ki-account input,
+  .ki-account select,
+  .ki-account textarea {
+    padding: 8px 10px;
+    border: 1px solid #6b5a3a;
+    border-radius: 6px;
+    background: #0f0d14;
+    color: inherit;
+    font: inherit;
+  }
+  .ki-account button,
+  .ki-account a {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #6b5a3a;
+    border-radius: 6px;
+    background: #2a2333;
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .ki-account button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .ki-account .ki-account-primary {
+    border-color: #c8a35a;
+    background: #8a6a2c;
+    color: #fff8e6;
+    font-weight: 600;
+  }
+  .ki-account-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .ki-account-tabs [aria-selected="true"] {
+    border-color: #c8a35a;
+    color: #f5d48a;
+  }
+  .ki-account-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .ki-account-hint {
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+  .ki-account-ok {
+    color: #9fe0a0;
+  }
+  .ki-account-error {
+    color: #ff9a8a;
+  }
+
+  /* Staff panel */
+  .ki-admin {
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+  .ki-admin h1 {
+    margin-bottom: 8px;
+  }
+  .ki-admin-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 16px;
+  }
+  .ki-admin-tabs [aria-selected="true"] {
+    border-color: #c8a35a;
+    color: #f5d48a;
+  }
+  .ki-admin-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 380px) 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 860px) {
+    .ki-admin-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ki-admin-list {
+    display: grid;
+    gap: 6px;
+    max-height: 70dvh;
+    overflow: auto;
+  }
+  .ki-admin-list button {
+    text-align: left;
+  }
+  .ki-admin-list button[aria-pressed="true"] {
+    border-color: #c8a35a;
+  }
+  .ki-admin-panel {
+    padding: 16px;
+    border: 1px solid #6b5a3a;
+    border-radius: 10px;
+    background: #1a1620;
+    overflow-x: auto;
+  }
+  .ki-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+  .ki-admin-table th,
+  .ki-admin-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #3a3242;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .ki-admin-table input,
+  .ki-admin-table select {
+    padding: 5px 7px;
+    font-size: 0.83rem;
+  }
+  .ki-admin-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  .ki-admin small {
+    opacity: 0.7;
+  }
+  .ki-admin textarea {
+    width: 100%;
+    min-height: 220px;
+    font-family: ui-monospace, monospace;
+    font-size: 0.8rem;
+  }
+
+  /* World Editor */
+  .ki-world-editor-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid #c8a35a;
+    border-radius: 10px;
+    background: #16121d;
+    margin-bottom: 10px;
+  }
+  .ki-world-editor-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .ki-world-editor-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border: 1px solid #59a869;
+    border-radius: 8px;
+    background: #16281c;
+    color: #b7f0c0;
+    font-size: 0.88rem;
+  }
+}

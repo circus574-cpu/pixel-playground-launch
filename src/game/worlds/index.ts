@@ -2,6 +2,7 @@ import {
   ContinentId,
   ContinentWorldData,
   CityDefinition,
+  AdventureRoad,
   FamousLocation,
   HiddenPlace,
   WorldEventDefinition,
@@ -29,6 +30,8 @@ export const ALL_CONTINENTS_LIST: ContinentWorldData[] = [
 ];
 
 export const ALL_CITIES_V2: CityDefinition[] = ALL_CONTINENTS_LIST.flatMap((c) => c.cities);
+
+export const ALL_ROADS_V2: AdventureRoad[] = ALL_CONTINENTS_LIST.flatMap((c) => c.roads);
 
 export const ALL_FAMOUS_LOCATIONS_V2: FamousLocation[] = ALL_CONTINENTS_LIST.flatMap(
   (c) => c.famousLocations,

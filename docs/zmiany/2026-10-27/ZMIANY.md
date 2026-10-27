@@ -231,3 +231,21 @@ Poprzedni pełny CI miał 175 PASS i osiem opisanych FAIL; te osiem jest teraz l
 zaliczone. Nie utożsamiamy tego z jednym zielonym przebiegiem CI na końcowym SHA.
 Pełny workflow zostaje uruchomiony ponownie na końcowej gałęzi; aktualny link i status
 są w PR #45. Brak scalenia, publikacji i czynności na GPU.
+
+## Podpięcie gałęzi coder do głównego panelu
+
+Polecenie właściciela: zweryfikować gałąź coder, podpiąć do main bez zastępowania
+obecnego panelu i bez zmiany logowania; nie uruchamiać testów, wykonać push.
+Baza main: `8e3db1c124888293a4990db9debd37c11d57c6ea`.
+Źródło: `coder@fb2abfa52679ecaa1575b58440e548cf91da0b81` (1 commit do przodu, 2 wstecz
+w chwili porównania). Zintegrowano selektywnie na gałęzi integration/coder-panel-20261027.
+
+Nowa osobna zakładka Coder, lazy loading i izolacja CSS. Stare zakładki /admin,
+account.css, obsługa logowania i stary StaffTools pozostawiono. Rozszerzenia gmEdit oraz
+poleceń staff są addytywne. Nadpisania edytora nie są globalnym serwerowym zapisem świata.
+Zabezpieczono odczyt localStorage przed wyjątkiem przy zablokowanej pamięci; bez zapisanych
+nadpisań runtime nie wykonuje nowego filtrowania oryginalnych spawnów.
+Testy jednostkowe i przeglądarkowe: NIEWYKONANE na polecenie właściciela. Nie uruchamiano
+manualnych workflow CI ani procesu publikacji. Szczegóły integracji w ARCHITEKTURA-I-TESTY.md.
+Kontrola kompilacji `npm run typecheck` (aplikacja, e2e, tools): PASS. To kontrola typów;
+nie wykonywano zestawów testowych ani builda produkcyjnego.

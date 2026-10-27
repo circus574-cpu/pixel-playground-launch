@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount } from "@/components/account/useAccount";
 import {
   accountsDb,
@@ -25,12 +25,14 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
+const CoderAdminPanel = lazy(() => import("@/components/admin/CoderAdminPanel"));
+
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
 
 function AdminPage() {
   const account = useAccount();
-  const [tab, setTab] = useState<"players" | "audit" | "content">("players");
+  const [tab, setTab] = useState<"players" | "audit" | "content" | "coder">("players");
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
   if (!account.session || account.roles.length === 0)
     return (
@@ -57,6 +59,7 @@ function AdminPage() {
               ["players", "Gracze"],
               ["audit", "Dziennik zmian"],
               ["content", "Zawartość gry"],
+              ["coder", "Coder · Edytor świata"],
             ] as const
           ).map(([id, label]) => (
             <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>
@@ -67,6 +70,17 @@ function AdminPage() {
         {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
         {tab === "audit" && <Audit />}
         {tab === "content" && <Content />}
+        {tab === "coder" && (
+          <div className="ki-coder-panel">
+            <p>
+              Edytor Coder. Nadpisania świata są zapisywane na tym urządzeniu; można je eksportować
+              do JSON.
+            </p>
+            <Suspense fallback={<p role="status">Wczytywanie edytora…</p>}>
+              <CoderAdminPanel />
+            </Suspense>
+          </div>
+        )}
       </div>
     </main>
   );

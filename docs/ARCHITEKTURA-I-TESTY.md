@@ -440,3 +440,19 @@ buforowany na 100 ms, niezależnie od liczby podpisów i klatek renderowania.
 
 Po uwzględnieniu rzeczywistych prostokątów HUD ponowiono cztery dotknięte scenariusze
 (komputer i trzy strony technik): 4/4 PASS; pełny TypeScript PASS.
+
+## Oddzielny panel Coder w /admin (27.10.2026)
+
+Integracja źródła `coder@fb2abfa52679ecaa1575b58440e548cf91da0b81` zachowuje dotychczasowy
+`/admin` (Gracze, Dziennik zmian, Zawartość gry, domyślnie Gracze). Nowa zakładka
+`Coder · Edytor świata` ładuje osobny `CoderAdminPanel` przez React.lazy. Współdzieli
+istniejący useAccount, sesję oraz role admin/gm; nie wymaga drugiego logowania.
+Style nowego panelu są zamknięte w `@scope (.ki-coder-panel)`; account.css i stary StaffTools
+pozostały nietknięte. Nie zmieniono klienta Supabase, schematu DB ani RLS.
+
+Edytor świata, rozszerzony edytor postaci lokalnych/chmurowych i narzędzia eksportu/importu
+pochodzą z gałęzi coder. Nadpisania świata są lokalne, pod kluczem
+`ki-legends:admin-world-overrides-v1`; nie oznacza to publikacji zmian dla wszystkich graczy.
+Runtime nakłada je przy przygotowaniu świata, a domyślne spawny pozostają bez zmian,
+gdy nie zapisano własnych spawnów. Nie przeniesiono zastępującego stare UI StaffTools.
+Testy pominięto na wyraźne polecenie właściciela; nie deklarować sprawdzenia przeglądarkowego.
