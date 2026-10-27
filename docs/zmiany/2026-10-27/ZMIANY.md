@@ -249,3 +249,17 @@ Testy jednostkowe i przeglądarkowe: NIEWYKONANE na polecenie właściciela. Nie
 manualnych workflow CI ani procesu publikacji. Szczegóły integracji w ARCHITEKTURA-I-TESTY.md.
 Kontrola kompilacji `npm run typecheck` (aplikacja, e2e, tools): PASS. To kontrola typów;
 nie wykonywano zestawów testowych ani builda produkcyjnego.
+
+## Coder: mapa świata 2D i warstwy
+
+Dodano zakładkę `Mapa świata 2D` w edytorze Coder, obok dotychczasowej mapy/edycji spawnów.
+Cała planeta v2, legenda, zoom/przesuwanie myszą/dotykiem/strzałkami, wybór krainy,
+kliknięcie punktów, wyszukiwanie zadań i podgląd ich celów. Osobne przełączniki:
+drogi/ścieżki, spawny, questy, miasta/lokacje. Źródła: istniejący atlas, 1690 dróg,
+10 plików spawnów (8767 bazowych punktów) i lokalne nadpisania oraz katalog questów.
+Nie zmieniono starego panelu, logowania, geometrii ani danych zapisów. Brak dokładnego
+wiązania NPC jest opisany jako punkt miasta; brakujące cele nie otrzymują zmyślonej pozycji.
+Testów nie uruchamiano zgodnie z poprzednią dyspozycją właściciela; wykonywana jest
+wyłącznie kontrola TypeScript. Nie deklarować przetestowania w przeglądarce ani publikacji.
+Pełne `npm run typecheck` (aplikacja, e2e, tools): PASS. Widok nie był sprawdzany
+przeglądarkowo; nie uruchamiano testów ani ręcznej publikacji produkcyjnej.

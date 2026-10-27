@@ -14,7 +14,7 @@
  * 9. Zadania V2 (106 zadań) i Dialogi NPC
  * 10. Eksport/Import JSON całego świata
  */
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { BOSS_CATALOG } from "@/game/bosses/catalog";
 import { ALL_NPC_DIALOGUES } from "@/game/dialogue";
 import { ITEM_CATALOG } from "@/game/items/catalog";
@@ -47,7 +47,12 @@ import {
   type AdventureRoad,
 } from "@/game/worlds";
 
+const AdminWorldMap = lazy(() =>
+  import("./AdminWorldMap").then((m) => ({ default: m.AdminWorldMap })),
+);
+
 export type WorldEditorTab =
+  | "worldmap"
   | "map"
   | "continents"
   | "cities"
@@ -165,6 +170,7 @@ export function AdminWorldEditor({
       <nav className="ki-admin-tabs" role="tablist" aria-label="Kategorie edytora świata">
         {(
           [
+            ["worldmap", "Mapa świata 2D"],
             ["map", "Mapa i Spawny (10 lądów)"],
             ["continents", "Stolice, Budynki i NPC (4)"],
             ["cities", `Miasta V2 (${ALL_CITIES_V2.length})`],
@@ -189,6 +195,11 @@ export function AdminWorldEditor({
         ))}
       </nav>
 
+      {tab === "worldmap" && (
+        <Suspense fallback={<p role="status">Wczytywanie mapy świata…</p>}>
+          <AdminWorldMap overrides={overrides} />
+        </Suspense>
+      )}
       {tab === "map" && (
         <MapAndSpawnsSection
           feature={feature}

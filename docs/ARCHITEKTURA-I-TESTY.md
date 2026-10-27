@@ -456,3 +456,19 @@ pochodzą z gałęzi coder. Nadpisania świata są lokalne, pod kluczem
 Runtime nakłada je przy przygotowaniu świata, a domyślne spawny pozostają bez zmian,
 gdy nie zapisano własnych spawnów. Nie przeniesiono zastępującego stare UI StaffTools.
 Testy pominięto na wyraźne polecenie właściciela; nie deklarować sprawdzenia przeglądarkowego.
+
+### Mapa świata w edytorze Coder
+
+`AdminWorldMap` jest osobną, leniwie ładowaną zakładką. Korzysta z atlasu v2,
+`worldOverlay.v2.json` i tego samego `worldToAtlas` co mapa gry. Pokazuje wszystkie
+10 lądów, 1690 dróg/ścieżek z overlay, bazowe spawny z publicznych spawns.json oraz
+lokalne nadpisania Coder. Warstwy drogi/spawny/zadania/lokacje mają niezależne checkboxy.
+Spawny są jednym SVG path, a nie tysiącami elementów DOM; pobieranie danych ma trzy
+równoległe workery, anulowanie przy zamknięciu i ponowienie po błędzie.
+
+Questy są czytane z istniejącego katalogu: znacznik zleceniodawcy to centrum przypisanego
+miasta v2 (jawnie opisane), cele lokalizacyjne wykorzystują mapowanie v2Places i runtime
+locations. Po wyborze zadania podświetlane są spawny jego gatunków celów walki.
+Celom bez przypisania nie dopisuje się arbitralnych współrzędnych starego świata.
+Nie jest to śledzenie aktualnych żywych potworów ani postępu questów konta.
+Widok jest tylko odczytem: przełączniki nie usuwają spawnów ani dróg i nie zmieniają gry.
