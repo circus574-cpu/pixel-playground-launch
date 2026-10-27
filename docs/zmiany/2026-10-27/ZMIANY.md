@@ -231,3 +231,37 @@ Poprzedni pełny CI miał 175 PASS i osiem opisanych FAIL; te osiem jest teraz l
 zaliczone. Nie utożsamiamy tego z jednym zielonym przebiegiem CI na końcowym SHA.
 Pełny workflow zostaje uruchomiony ponownie na końcowej gałęzi; aktualny link i status
 są w PR #45. Brak scalenia, publikacji i czynności na GPU.
+
+
+## Audyt stanu po scaleniu PR #49 — 27.10.2026
+
+**Punkt odniesienia:** main 8e3db1c124888293a4990db9debd37c11d57c6ea. Ten suplement aktualizuje historyczne wpisy; nie zastępuje pełnego rejestru commitów. Scalenie, testy i wdrożenie to odrębne stany.
+
+### Zmiany potwierdzone w scalonych PR
+
+- Świat i mapa v2: #34 (obozy na mapie, drogi, miasta), #35 (wysoka rozdzielczość atlasu i góry), #37 (szew globusa), #39 (integracja), #42 (tryb poziomy i sterowanie mobilne), #44 (domyślny świat v2), #49 (teksturowane podłoże Gemini, paczka 1.1.1).
+- Walka: #36 (multitouch i HUD), #38–#39 (umiejętności i AI), #45 (Combat V3: celowanie, pociski, przygotowanie ataku, kolizje, kolejki akcji), #48 (integracja Combat V3).
+- Postacie i interfejs: #46–#47 (chód i idle Legendy/Mędrczyni), #48 (nowe animacje, ikony i efekty).
+- Dźwięk: #43 (muzyka menu i kontynentów), #44 (efekty dźwiękowe).
+- Konta: #40 (konta, zapis w chmurze, panel administracji, role GM/admin); mechanizm i prawa dostępu wymagają niezależnych testów bezpieczeństwa.
+
+### GitHub Actions — stan odczytany podczas audytu
+
+- #40, SHA 10ed98ab: Playwright QA SUCCESS, Four hero WebGL SUCCESS.
+- #43, SHA de933d53: Playwright QA SUCCESS, Four hero WebGL SUCCESS.
+- #44, SHA 76fe8b5f: oba odczytane workflow CANCELLED, nie PASS.
+- #48, SHA 9a6eedfc: Playwright QA IN PROGRESS, Four hero WebGL IN PROGRESS.
+- #49, SHA 7a32ebe3: Playwright QA IN PROGRESS, Four hero WebGL IN PROGRESS.
+- HEAD main 8e3db1c: brak niezależnego potwierdzenia końcowego pełnego CI i tego SHA na produkcji.
+
+### Decyzje Architekta — wymagania dalszej implementacji
+
+1. Docelowa geometria Superior to 45% powierzchni lądu i 55% wody, mierzone na sferze. Cztery kontynenty i sześć wysp pozostają.
+2. Maksymalnie 20 rozległych podziemi, w tym nie więcej niż 4–5 labiryntów. Podziemia mają stanowić również przejścia między kontynentami i obejmować różne biomy, groty i kompleksy wulkaniczne.
+3. 152 historyczne plany z atlasu nie oznaczają 152 gotowych lokacji w grze. Dane zachować jako archiwum przed bezpieczną migracją.
+4. Każda przebudowa mapy wymaga testów kolizji, nawigacji, położeń miast, spawnów, podróży i migracji zapisów. Oddzielić zapisy lokalne od kont chmurowych.
+5. Wymagane są końcowe CI na konkretnym SHA, odbiór wizualny, testy telefonu, audyt uprawnień kont/GM/admin i wyjaśnienie praw do zasobów.
+
+**Ocena:** scalone zmiany potwierdzone przez historię PR — ZALICZONE w zakresie ich obecności w repo; pełne QA najnowszego HEAD, bezpieczeństwo kont, stan wydania i faktyczne 45% powierzchni — NIEZWERYFIKOWANE.
+
+**Zakres kontroli:** odczyt 100 najnowszych wyników wyszukiwania commitów oraz wybranych PR i plików; brak podstaw do twierdzenia, że skontrolowano każdy commit od utworzenia repozytorium.
