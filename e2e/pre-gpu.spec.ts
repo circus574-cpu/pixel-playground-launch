@@ -331,7 +331,8 @@ test("imported eight-direction rig reacts to real movement and KI; corrupt atlas
     .toMatch(/technical\/walk\/right\//);
   await page.keyboard.up("ArrowRight");
   await openHudTool(page, "Ustawienia");
-  await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+  await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
+  await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
   await page.route("**/gpu/technical-rig/**/technical-rig.json", (route) =>
     route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
   );

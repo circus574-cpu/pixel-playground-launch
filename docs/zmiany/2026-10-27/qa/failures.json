@@ -1,0 +1,158 @@
+[
+  {
+    "run": "e2e-full",
+    "scenario": "combat-v3-Legendy-852x393--a0b6a-ut-movement-and-persistence-gameplay",
+    "details": "# Error details\n\n```\nError: expect(received).toBeLessThan(expected)\n\nExpected: < 75\nReceived:   716.9212905240073\n\nCall Log:\n- Timeout 45000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/combat-v3-Legendy-852x393--a0b6a-ut-movement-and-persistence-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "overlay-audit-clear-world--3fd9c--and-persistent-options-852-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/overlay-audit-clear-world--3fd9c--and-persistent-options-852-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-gameplay",
+    "details": "# Error details\n\n```\nError: expect(received).toBeLessThan(expected)\n\nExpected: < 67\nReceived:   67\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay",
+    "details": "# Error details\n\n```\nTimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "combat-v3-Planetarni-1280x-80219-ut-movement-and-persistence-gameplay",
+    "details": "# Error details\n\n```\nError: expect(received).toBeLessThan(expected)\n\nExpected: < 67\nReceived:   67\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/combat-v3-Planetarni-1280x-80219-ut-movement-and-persistence-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "overlay-audit-clear-world--b9acf-and-persistent-options-1280-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/overlay-audit-clear-world--b9acf-and-persistent-options-1280-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "overlay-audit-clear-world--23d54--and-persistent-options-390-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/overlay-audit-clear-world--23d54--and-persistent-options-390-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "combat-v3-Mędrcy-360x640-V-1c763-ut-movement-and-persistence-gameplay",
+    "details": "# Error details\n\n```\nError: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.ki-canvas')\nExpected: \"20\"\nReceived: \"0\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.ki-canvas') with timeout 5000ms\n  - waiting for locator('.ki-canvas')\n    2 × locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-combat-visuals=\"21\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-camera-y=\"13005.93432311765\" data-player-y=\"13341.09839063261\" data-camera-x=\"23624.751517420475\" data…>…</div>\n      - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-combat-visuals=\"21\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-camera-x=\"23624.89677258518\" data-player-y=\"13341.09839063261\" data-camera-y=\"13010.764503215056\" data…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-combat-visuals=\"19\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-player-y=\"13341.09839063261\" data-camera-x=\"23625.043536937035\" data-camera-y=\"13015.644868417749\" dat…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-combat-visuals=\"19\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-player-y=\"13341.09839063261\" data-camera-x=\"23625.120989169758\" data-camera-y=\"13018.220392900848\" dat…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"3\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-camera-x=\"23625.1976868697\" data-player-y=\"13341.09839063261\" data-camera-y=\"13020.770826852793\" data-p…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"0\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-camera-y=\"13021.06110845248\" data-player-y=\"13341.09839063261\" data-camera-x=\"23625.206416337485\" data-…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"0\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-camera-x=\"23625.20750196384\" data-player-y=\"13341.09839063261\" data-camera-y=\"13021.097208861282\" data-…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"0\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-terrain-mode=\"superior\" data-animation-state=\"death\" data-player-y=\"13341.09839063261\" data-camera-x=\"23625.207534370187\" data-camera-y=\"13021.098286471832\" data…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"0\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-terrain-mode=\"superior\" data-player-y=\"14402.014998\" data-animation-state=\"respawn\" data-player-x=\"23807.22667100001\" data-camera-x=\"23625.850687814276\" data-cam…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"1\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-terrain-mode=\"superior\" data-player-y=\"14402.014998\" data-animation-state=\"respawn\" data-player-x=\"23807.22667100001\" data-camera-x=\"23626.929911115953\" data-cam…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"1\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-player-y=\"14402.014998\" data-camera-x=\"23627.20051472087\" data-player-x=\"23807.22667100001\" data-camera-…>…</div>\n    - unexpected value \"0\"\n    - locator resolved to <div data-zoom=\"0.48\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-load-ms=\"715\" data-npc-labels=\"0\" data-world=\"aether\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-combat-visuals=\"2\" data-camera-zoom=\"0.48\" data-world-labels=\"true\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-player-y=\"14402.014998\" data-player-x=\"23807.22667100001\" data-camera-x=\"23627.225288460908\" data-camera…>…</div>\n    - unexpected value \"0\"\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/combat-v3-Mędrcy-360x640-V-1c763-ut-movement-and-persistence-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "overlay-audit-clear-world--16790--and-persistent-options-360-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/overlay-audit-clear-world--16790--and-persistent-options-360-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "planetary-preview-Planetar-0b0a7-egacy-flags-and-other-races-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/planetary-preview-Planetar-0b0a7-egacy-flags-and-other-races-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-full",
+    "scenario": "overlay-audit-clear-world--adaca--and-persistent-options-414-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-full/overlay-audit-clear-world--adaca--and-persistent-options-414-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-v3final",
+    "scenario": "combat-v3-Androidy-390x844-7e874-ut-movement-and-persistence-gameplay",
+    "details": "# Error details\n\n```\nError: expect(received).toBe(expected) // Object.is equality\n\nExpected: 0\nReceived: 67\n\nCall Log:\n- Timeout 45000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-v3final/combat-v3-Androidy-390x844-7e874-ut-movement-and-persistence-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-v3final",
+    "scenario": "combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-gameplay",
+    "details": "# Error details\n\n```\nError: expect(received).toBe(expected) // Object.is equality\n\nExpected: 0\nReceived: 67\n\nCall Log:\n- Timeout 45000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-v3final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-rest2",
+    "scenario": "stage3-E-touch-selection-j-25487-dialogue-and-layout-360x800-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-rest2/stage3-E-touch-selection-j-25487-dialogue-and-layout-360x800-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-rest2",
+    "scenario": "stage3-E-touch-selection-j-0e587-dialogue-and-layout-390x844-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-rest2/stage3-E-touch-selection-j-0e587-dialogue-and-layout-390x844-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-rest2",
+    "scenario": "stage3-E-touch-selection-j-91958-dialogue-and-layout-852x393-gameplay",
+    "details": "# Error details\n\n```\nError: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"ready\"\nReceived: undefined\n\nCall Log:\n- Timeout 120000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-rest2/stage3-E-touch-selection-j-91958-dialogue-and-layout-852x393-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-rest2",
+    "scenario": "stage3-E-touch-selection-j-26149-dialogue-and-layout-414x896-gameplay",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-rest2/stage3-E-touch-selection-j-26149-dialogue-and-layout-414x896-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-baseline",
+    "scenario": "pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay",
+    "details": "# Error details\n\n```\nTimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-baseline/pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas",
+    "details": "# Error details\n\n```\nError: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 23807.22667100001\nReceived: 36511.22667100001\n\nExpected precision:    0\nExpected difference: < 0.5\nReceived difference:   12704\n\nCall Log:\n- Timeout 60000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl",
+    "details": "# Error details\n\n```\nError: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 23807.22667100001\nReceived: 36511.22667100001\n\nExpected precision:    0\nExpected difference: < 0.5\nReceived difference:   12704\n\nCall Log:\n- Test timeout of 180000ms exceeded\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas",
+    "details": "# Error details\n\n```\nError: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 36698.28602700001\nReceived: 45850.28602700001\n\nExpected precision:    0\nExpected difference: < 0.5\nReceived difference:   9152\n\nCall Log:\n- Timeout 60000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl",
+    "details": "# Error details\n\n```\nTest timeout of 180000ms exceeded.\n```\n\n```\nError: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('button', { name: 'Kontynuuj podróż', exact: true })\nExpected: 1\nReceived: 0\n\nCall log:\n  - Expect \"toHaveCount\" getByRole('button', { name: 'Kontynuuj podróż', exact: true }) with timeout 60000ms\n  - waiting for getByRole('button', { name: 'Kontynuuj podróż', exact: true })\n    97 × locator resolved to 0 elements\n       - unexpected value \"0\"\n  - Test timeout of 180000ms exceeded.\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas",
+    "details": "# Error details\n\n```\nError: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('button', { name: 'Kontynuuj podróż', exact: true })\nExpected: 1\nReceived: 0\nTimeout:  60000ms\n\nCall log:\n  - Expect \"toHaveCount\" getByRole('button', { name: 'Kontynuuj podróż', exact: true }) with timeout 60000ms\n  - waiting for getByRole('button', { name: 'Kontynuuj podróż', exact: true })\n    121 × locator resolved to 0 elements\n        - unexpected value \"0\"\n\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl",
+    "details": "# Error details\n\n```\nError: expect(locator).toBeVisible() failed\n\nLocator: locator('.ki-hud')\nExpected: visible\nTimeout: 60000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('.ki-hud') with timeout 60000ms\n  - waiting for locator('.ki-hud')\n\n```\n\n```yaml\n- main:\n  - region \"Postać gracza\":\n    - 'img \"Portret: Planetarni\"'\n    - text: 1 Wędrowiec PLANETARNI\n    - meter \"Zdrowie\": 125 / 125\n    - meter \"Energia KI\": 50 / 50\n  - region \"Minimapa\":\n    - text: Zielona Przystań\n    - button \"Otwórz mapę świata\":\n      - 'img \"Mapa okolicy: Zielona Przystań\"': Sklep Sala Gospoda Kuźnia Depozyt Arena\n  - button \"◆ Pierwsze kroki Porozmawiaj z Airy przy miejscu startowym ›\":\n    - text: ◆\n    - strong: Pierwsze kroki\n    - text: Porozmawiaj z Airy przy miejscu startowym ›\n  - img \"KI LEGENDS\"\n  - strong: Zielona Przystań\n  - text: Verdantia\n  - navigation \"Umiejętności\":\n    - button \"Cios Szlaku\": ␣\n    - button \"Mikstura życia\" [disabled]: Q 3\n  - button \"Menu gry\": Widok\n  - navigation \"Menu gry\":\n    - button \"Ekwipunek\"\n    - button \"Dziennik\": Zadania\n    - button \"Umiejętności\"\n    - button \"Ustawienia\"\n  - button \"Plan miasta\"\n  - button \"Rozmowa · Aira E\"\n```\n\n# Test source\n\n```ts\n  1   | import { test, expect, openHudTool, superiorArrival, type Page } from \"./fixtures\";\n  2   | import { WORLDS } from \"../src/game/world/worlds\";\n  3   | \n  4   | const regions = [\n  5   |   [\"verdant\", \"Planetarni\", \"Verdantia\"],\n  6   |   [\"aether\", \"Mędrcy\", \"Aetheria\"],\n  7   |   [\"nexus\", \"Androidy\", \"Nexus-9\"],\n  8   |   [\"pyra\", \"Legendy\", \"Pyra\"],\n  9   | ] as const;\n  10  | const saves = (page: Page) => page.evaluate(() => Object.fromEntries(Object.entries(localStorage)));\n  11  | async function leaveGame(page: Page) {\n  12  |   await openHudTool(page, \"Ustawienia\");\n  13  |   await page.getByRole(\"button\", { name: \"Zapisz i wybierz postać\", exact: true }).click();\n  14  |   await expect(page.locator(\".ki-canvas\")).toHaveCount(0);\n  15  | }\n  16  | async function create(page: Page, race: string) {\n  17  |   const newCharacter = page.getByRole(\"button\", { name: \"Utwórz nową postać\", exact: true });\n  18  |   if (await newCharacter.isVisible()) await newCharacter.click();\n  19  |   await page.getByRole(\"button\", { name: `Wybierz: ${race}`, exact: true }).click();\n  20  |   await page.getByRole(\"button\", { name: \"Rozpocznij przygodę\", exact: true }).click();\n> 21  |   await expect(page.locator(\".ki-hud\")).toBeVisible();\n      |                                         ^ Error: expect(locator).toBeVisible() failed\n  22  | }\n  23  | \n  24  | for (const [continent, race, name] of regions) {\n  25  |   test(`real map handoff to ${name}: selection, spawn, refresh, back and other saves`, async ({\n  26  |     page,\n  27  |   }, info) => {\n  28  |     const webgl = info.project.name === \"application-webgl\";\n  29  |     await page.goto(\"/\");\n  30  |     await create(page, \"Planetarni\");\n  31  |     await leaveGame(page);\n  32  |     const before = await saves(page);\n  33  |     await page.goto(\"/mapa\");\n  34  |     if (webgl) {\n  35  |       await expect(page.locator(\".planet-globe.is-ready\")).toBeVisible();\n  36  |       await expect(\n  37  |         page.getByRole(\"group\", { name: \"Interaktywny globus planety Superior\", exact: true }),\n  38  |       ).toBeVisible();\n  39  |     } else {\n  40  |       await expect(\n  41  |         page.getByText(\"To urządzenie nie obsługuje WebGL 2\", { exact: false }),\n  42  |       ).toBeVisible();\n  43  |       await expect(page.locator(\".planet-globe\")).toHaveCount(0);\n  44  |     }\n  45  |     const legend = page.getByRole(\"button\", {\n  46  |       name: webgl ? \"Legenda\" : \"Legenda i warstwy\",\n  47  |       exact: true,\n  48  |     });\n  49  |     if ((await legend.getAttribute(\"aria-expanded\")) !== \"true\") await legend.click();\n  50  |     await page\n  51  |       .locator(\".pm-legend\")\n  52  |       .getByRole(\"button\", { name: new RegExp(`^${name}`) })\n  53  |       .click();\n  54  |     const enter = page.getByRole(\"link\", { name: `Wejdź do gry — ${name}`, exact: true });\n  55  |     await expect(enter).toHaveAttribute(\"href\", `/?continent=${continent}`);\n  56  |     await expect.poll(() => saves(page)).toEqual(before);\n  57  |     await enter.click();\n  58  |     await expect(page.getByRole(\"status\")).toContainText(name);\n  59  |     await expect(page.locator(\".ki-origin-detail\")).toHaveAttribute(\n  60  |       \"data-selected-race\",\n  61  |       WORLDS[continent].race,\n  62  |     );\n  63  |     await expect.poll(() => saves(page)).toEqual(before);\n  64  |     await page.reload();\n  65  |     await expect(page.getByRole(\"status\")).toContainText(name);\n  66  |     await expect.poll(() => saves(page)).toEqual(before);\n  67  |     await page.getByRole(\"button\", { name: /Twoje postacie/ }).click();\n  68  |     await expect(page.getByRole(\"button\", { name: \"Kontynuuj podróż\", exact: true })).toHaveCount(\n  69  |       continent === \"verdant\" ? 1 : 0,\n  70  |     );\n  71  |     await page.getByRole(\"button\", { name: \"Utwórz nową postać\", exact: true }).click();\n  72  |     for (const [world, other] of regions) {\n  73  |       const choose = page.getByRole(\"button\", { name: `Wybierz: ${other}`, exact: true });\n  74  |       if (world === continent) await expect(choose).toBeEnabled();\n  75  |       else await expect(choose).toBeDisabled();\n  76  |     }\n  77  |     await page.getByRole(\"button\", { name: \"Rozpocznij przygodę\", exact: true }).click();\n  78  |     const actor = page.locator(\".ki-canvas\");\n  79  |     await expect(actor).toHaveAttribute(\"data-world\", continent);\n  80  |     await expect(page.locator(\".ki-hud\")).toBeVisible();\n  81  |     // A new character appears at its land's arrival on the single Superior planet.\n  82  |     const spawn = superiorArrival(continent);\n  83  |     await expect\n  84  |       .poll(async () => Number(await actor.getAttribute(\"data-player-x\")))\n  85  |       .toBeCloseTo(spawn.x, 0);\n  86  |     await expect\n  87  |       .poll(async () => Number(await actor.getAttribute(\"data-player-y\")))\n  88  |       .toBeCloseTo(spawn.y, 0);\n  89  |     await leaveGame(page);\n  90  |     const after = await saves(page);\n  91  |     for (const [key, value] of Object.entries(before).filter(([key]) =>\n  92  |       key.includes(\":character:\"),\n  93  |     ))\n  94  |       expect(after[key]).toBe(value);\n  95  |     expect(Object.keys(after).filter((key) => key.includes(\":character:\"))).toHaveLength(2);\n  96  |     await page.goBack();\n  97  |     await expect(page).toHaveURL(/\\/mapa$/);\n  98  |     await expect.poll(() => saves(page)).toEqual(after);\n  99  |     await page.screenshot({ path: info.outputPath(`${continent}-map-return.png`) });\n  100 |     await page.goto(`/?continent=${continent}`);\n  101 |     await expect(page.getByRole(\"status\")).toContainText(name);\n  102 |     await expect.poll(() => saves(page)).toEqual(after);\n  103 |   });\n  104 | }\n  105 | \n  106 | test(\"continent roster filters all four origins without changing any slot, including mobile carousel\", async ({\n  107 |   page,\n  108 | }) => {\n  109 |   await page.setViewportSize({ width: 390, height: 844 });\n  110 |   await page.goto(\"/\");\n  111 |   for (const [, race] of regions) {\n  112 |     await create(page, race);\n  113 |     await leaveGame(page);\n  114 |   }\n  115 |   const before = await saves(page);\n  116 |   for (const [continent, race, name] of regions) {\n  117 |     await page.goto(`/?continent=${continent}`);\n  118 |     await expect(page.getByRole(\"status\")).toContainText(name);\n  119 |     await expect(page.getByRole(\"button\", { name: \"Następna rasa\", exact: true })).toBeDisabled();\n  120 |     await page.getByRole(\"region\", { name: \"Cztery rasy\" }).press(\"ArrowRight\");\n  121 |     await expect(page.locator(\".ki-origin-detail\")).toHaveAttribute(\n``",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas",
+    "details": "# Error details\n\n```\nError: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 25385.723735000007\nReceived: 37129.72373500001\n\nExpected precision:    0\nExpected difference: < 0.5\nReceived difference:   11744\n\nCall Log:\n- Timeout 60000ms exceeded while waiting on the predicate\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/trace.zip"
+  },
+  {
+    "run": "e2e-application2",
+    "scenario": "globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl",
+    "details": "# Error details\n\n```\nError: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 36698.28602700001\nReceived: 45850.28602700001\n\nExpected precision:    0\nExpected difference: < 0.5\nReceived difference:   9152\n\nCall Log:\n- Test timeout of 180000ms exceeded\n```\n\n",
+    "localTrace": "/workspace/scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/trace.zip"
+  }
+]

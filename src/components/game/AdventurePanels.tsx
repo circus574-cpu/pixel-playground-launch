@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { gpuIcon } from "./gpuIcons";
 import { isCityStage } from "../../game/city/types";
 import { CityDirectory } from "./CityPanels";
 import { QuestsV2Journal } from "./QuestsV2Journal";
@@ -95,11 +96,20 @@ export function Inventory({ state, send }: { state: GameViewState; send: SendCom
         <div className="ki-item-list" aria-label="Materiały z łupów">
           {Object.entries(p.materials).map(([id, n]) => (
             <article key={id} className="ki-item-row">
-              <span
-                aria-hidden="true"
-                className="ki-icon ki-item-icon"
-                style={{ backgroundPosition: "100% 50%" }}
-              />
+              {gpuIcon("material-" + id) ? (
+                <img
+                  className="ki-icon ki-item-icon ki-gpu-item"
+                  src={gpuIcon("material-" + id)}
+                  alt=""
+                  aria-hidden
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="ki-icon ki-item-icon"
+                  style={{ backgroundPosition: "100% 50%" }}
+                />
+              )}
               <div>
                 <strong>
                   {MATERIALS[id]?.name ?? id} ×{n}
@@ -342,11 +352,20 @@ export function NpcDialogue({
               ))}
               {Object.entries(p.materials).map(([id, n]) => (
                 <article key={id} className="ki-item-row">
-                  <span
-                    aria-hidden="true"
-                    className="ki-icon ki-item-icon"
-                    style={{ backgroundPosition: "100% 50%" }}
-                  />
+                  {gpuIcon("material-" + id) ? (
+                    <img
+                      className="ki-icon ki-item-icon ki-gpu-item"
+                      src={gpuIcon("material-" + id)}
+                      alt=""
+                      aria-hidden
+                    />
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className="ki-icon ki-item-icon"
+                      style={{ backgroundPosition: "100% 50%" }}
+                    />
+                  )}
                   <div>
                     <strong>{MATERIALS[id]?.name ?? id}</strong>
                     <small>Masz: {n}</small>

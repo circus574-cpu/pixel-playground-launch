@@ -1,0 +1,9 @@
+{
+  "numTotalTests": 806,
+  "numPassedTests": 806,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "success": true,
+  "codeSha": "53ff71842e1d2e68a6df9589dd9bdcd8faf2afd4",
+  "command": "npx vitest run --reporter=json --outputFile=/workspace/scratch/combat-v3-audit/unit-core-sha.json"
+}

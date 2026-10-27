@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:22144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/pre-gpu.spec.ts:305:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (36.7s)
+
+
+  1) [gameplay] › e2e/pre-gpu.spec.ts:305:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Zmiana rasy', exact: true })
+
+
+      332 |   await page.keyboard.up("ArrowRight");
+      333 |   await openHudTool(page, "Ustawienia");
+    > 334 |   await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+          |                                                                        ^
+      335 |   await page.route("**/gpu/technical-rig/**/technical-rig.json", (route) =>
+      336 |     route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
+      337 |   );
+        at /workspace/ki-combat-baseline/e2e/pre-gpu.spec.ts:334:72
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-baseline/pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-baseline/pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-baseline/pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-baseline/pre-gpu-imported-eight-dir-cef82-orrupt-atlas-retries-safely-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/pre-gpu.spec.ts:305:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely

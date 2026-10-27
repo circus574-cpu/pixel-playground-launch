@@ -8,7 +8,7 @@ const heroes = [
     race: "Mędrcy",
     world: "aether",
     actor: "hero-sage-painted",
-    texture: "hero-sage-painted-page",
+    texture: "hero-sage-painted-walk-v3-page",
   },
   {
     race: "Planetarni",
@@ -17,7 +17,7 @@ const heroes = [
     texture: "hero-planetary-painted-page",
   },
   { race: "Androidy", world: "nexus", actor: "hero-android", texture: "hero-android-page" },
-  { race: "Legendy", world: "pyra", actor: "hero-legend", texture: "hero-legend-page" },
+  { race: "Legendy", world: "pyra", actor: "hero-legend", texture: "hero-legend-walk-v3-page" },
 ] as const;
 
 async function playerPosition(page: Page) {

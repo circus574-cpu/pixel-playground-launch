@@ -1,0 +1,27 @@
+
+Running 20 tests using 1 worker
+
+(node:29154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Planetarni (36.7s)
+  ✓   2 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Mędrcy (40.3s)
+  ✓   3 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Androidy (23.6s)
+  ✓   4 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Legendy (33.0s)
+  ✓   5 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 320x568 › V3 real combat, rapid input, movement and persistence (29.1s)
+  ✓   6 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 360x640 › V3 real combat, rapid input, movement and persistence (22.2s)
+  ✘   7 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Androidy 390x844 › V3 real combat, rapid input, movement and persistence (1.3m)
+(node:31212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Legendy 852x393 › V3 real combat, rapid input, movement and persistence (26.2s)
+  ✓   9 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (30.2s)
+  ✘  10 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (1.6m)
+(node:31474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Planetarni (1.1m)
+  ✓  12 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Mędrcy (55.0s)
+  ✓  13 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Androidy (37.5s)
+  ✓  14 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Legendy (49.7s)
+  ✓  15 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Planetarni 320x568 › V3 real combat, rapid input, movement and persistence (55.3s)
+  ✓  16 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 360x640 › V3 real combat, rapid input, movement and persistence (1.2m)
+  ✓  17 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Androidy 390x844 › V3 real combat, rapid input, movement and persistence (1.3m)
+  ✓  18 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Legendy 852x393 › V3 real combat, rapid input, movement and persistence (1.2m)

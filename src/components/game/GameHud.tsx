@@ -14,6 +14,7 @@ import {
   type UiPreferences,
 } from "../../game/uiPreferences";
 import { MangaIcon, type MangaSymbol } from "./MangaIcon";
+import { gpuIcon } from "./gpuIcons";
 import originArt from "../../game/world/origin-art.json";
 import { DiabloInventory } from "./DiabloInventory";
 import { GraphicSkillTree } from "./GraphicSkillTree";
@@ -400,7 +401,11 @@ export function GameHud({
           onCommand({ type: "ability", ability: a.id });
         }}
       >
-        <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
+        {gpuIcon(player.race + "-" + a.id) ? (
+          <img className="ki-gpu-icon" src={gpuIcon(player.race + "-" + a.id)} alt="" aria-hidden />
+        ) : (
+          <MangaIcon symbol={abilitySymbol(a.id, player.race)} />
+        )}
         <kbd>
           {a.id === "R"
             ? keyLabel(keys.attack)
@@ -513,6 +518,14 @@ export function GameHud({
                 ))}
               {state.statuses.map((s) => (
                 <span key={s.id + (s.stacks ?? "")} className="ki-status-chip">
+                  {gpuIcon("status-" + s.id) && (
+                    <img
+                      className="ki-gpu-status"
+                      src={gpuIcon("status-" + s.id)}
+                      alt=""
+                      aria-hidden
+                    />
+                  )}
                   {STATUS_NAMES[s.id] ?? s.id}
                   {s.stacks && s.stacks > 1 ? " ×" + s.stacks : ""} · {(s.ms / 1000).toFixed(0)} s
                 </span>

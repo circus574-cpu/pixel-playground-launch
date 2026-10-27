@@ -282,6 +282,9 @@ export type MonsterState = {
   nextWander: number;
   attackCount: number;
   nextAttack: number;
+  /** Basic swing commits aim before contact; cooldown is paid at wind-up start. */
+  basicWindup?: { ms: number; aim: Point; extra: number } | undefined;
+  recoveryMs?: number;
   spawnedAt: number;
 };
 

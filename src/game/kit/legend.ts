@@ -114,7 +114,7 @@ export class LegendKit extends Kit {
     const each = total / count;
     for (let i = 0; i < count; i++)
       this.schedule(i * gap, () => {
-        if (foe.hp <= 0) return;
+        if (foe.hp <= 0 || this.dist(this.port.player, foe) > this.stats.range + 14) return;
         const p = this.port.player;
         this.port.emit({ type: "attack", x: p.x, y: p.y, ability: id, to: { x: foe.x, y: foe.y } });
         this.strike(foe, each, { tags: ["physical", "fire"], melee: true, ability: id });

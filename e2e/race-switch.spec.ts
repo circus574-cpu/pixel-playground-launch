@@ -29,7 +29,8 @@ for (const viewport of [
     ]) {
       await openHudTool(page, "Ustawienia");
       if (name === "Mędrcy") await page.screenshot({ path: info.outputPath("settings.png") });
-      await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+      await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
+      await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
       await expect(page.getByRole("region", { name: "Cztery rasy" })).toBeVisible();
       await expect(page.locator("canvas")).toHaveCount(0);
       await page.getByRole("button", { name: "Wybierz: " + name, exact: true }).click();
@@ -41,7 +42,8 @@ for (const viewport of [
       await expect(page.locator(".ki-canvas")).toHaveAttribute("data-world", world!);
     }
     await openHudTool(page, "Ustawienia");
-    await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+    await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
+    await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
     const old = await page.evaluate(
       ({ base, id }) => JSON.parse(localStorage.getItem(base + ":character:" + id)!),
       { base, id: originalId },

@@ -116,11 +116,13 @@ describe("combat constraints and AI", () => {
     game.targetId = e.id;
     game.command({ type: "ability", ability: "R" });
     expect(e.hp).toBe(66);
-    expect(game.autoAttack).toBe(true);
+    expect(game.autoAttack).toBe(false);
     game.autoAttack = false;
     Object.assign(game.player, game.nav.safe({ x: e.x - 45, y: e.y }));
     game.command({ type: "ability", ability: "R" });
-    expect(e.hp).toBe(66 - stats(game.player).attack); // basic attack against zero-defense boar
+    expect(e.hp).toBe(66); // projectile is launched, damage follows contact
+    game.tick(50);
+    expect(e.hp).toBe(66 - stats(game.player).attack); // same model against zero-defense boar
     expect(game.events.some((event) => event.type === "attack" && event.ability === "R")).toBe(
       true,
     );
@@ -128,6 +130,7 @@ describe("combat constraints and AI", () => {
     expect(e.hp).toBe(66 - stats(game.player).attack); // cooldown is still active
     for (let i = 0; i < Math.ceil(game.kit.stats.attackInterval / 50) + 1; i++) game.tick(50);
     game.command({ type: "ability", ability: "R" });
+    game.tick(50); // wait for the second projectile to reach the same nearby target
     expect(e.hp).toBeLessThan(66 - stats(game.player).attack);
   });
   it("checks KI and cooldown, and blocks ranged attacks through obstacles", () => {
@@ -178,13 +181,15 @@ describe("combat constraints and AI", () => {
     e.mode = "chase";
     e.attackIn = 0;
     game.tick(50);
+    expect(game.player.hp).toBe(game.kit.stats.maxHp); // visible preparation, no early damage
+    for (let i = 0; i < 3; i++) game.tick(50);
     expect(game.player.hp).toBeCloseTo(
       game.kit.stats.maxHp - Math.max(1, 9 - game.kit.stats.defense / 2),
       6,
     );
     game.player.hp = 1;
     e.attackIn = 0;
-    game.tick(50);
+    for (let i = 0; i < 7; i++) game.tick(50); // recovery + wind-up; damage amount is unchanged
     expect(game.player.dead).toBe(true);
     const items = { ...game.player.items };
     run(game, () => !game.player.dead, 5);

@@ -1,0 +1,124 @@
+[WebServer] (node:9608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+[WebServer]   - vite:prepare-out-dir (26%)
+[WebServer]   - vite:asset (20%)
+[WebServer]   - vite:css-post (15%)
+[WebServer]   - vite:css (14%)
+[WebServer] See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+[WebServer]
+[WebServer] [plugin builtin:vite-reporter]
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:9673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 154 tests using 1 worker
+
+(node:9757) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [gameplay] › e2e/aether-art-preview.spec.ts:12:1 › Aetheria painted art is the public default on the Superior land (9.6s)
+  ✓    2 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Planetarni 320x568 (11.8s)
+  ✓    3 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Mędrcy 360x640 (12.9s)
+  ✓    4 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Androidy 390x844 (15.1s)
+  ✓    5 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Legendy 852x393 (15.0s)
+  ✓    6 [gameplay] › e2e/argon-mobile.spec.ts:89:1 › Argon v2 quest summary follows the real journal and survives reload (17.7s)
+  ✓    7 [gameplay] › e2e/city.spec.ts:57:3 › Verdantia city: real entrances, merchant, personal chest reload and training 1280px (45.3s)
+  ✓    8 [gameplay] › e2e/city.spec.ts:57:3 › Verdantia city: real entrances, merchant, personal chest reload and training 390px (38.8s)
+  ✓    9 [gameplay] › e2e/city.spec.ts:57:3 › Verdantia city: real entrances, merchant, personal chest reload and training 852px (46.3s)
+  ✓   10 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (4.6s)
+  ✓   11 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (3.9s)
+  ✓   12 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (3.8s)
+  ✓   13 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (4.0s)
+  ✓   14 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (8.8s)
+  ✓   15 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (7.9s)
+  ✓   16 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (13.0s)
+  ✓   17 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (14.1s)
+  ✓   18 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 320x568 › V3 real combat, rapid input, movement and persistence (22.9s)
+  ✘   19 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 360x640 › V3 real combat, rapid input, movement and persistence (26.8s)
+(node:13169) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   20 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Androidy 390x844 › V3 real combat, rapid input, movement and persistence (37.5s)
+  ✘   21 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Legendy 852x393 › V3 real combat, rapid input, movement and persistence (1.2m)
+(node:14170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   22 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (45.7s)
+(node:14719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   23 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (1.2m)
+(node:15203) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   24 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: planetary (39.7s)
+  ✓   25 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: sage (51.0s)
+  ✓   26 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: android (47.2s)
+  ✓   27 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: legend (29.9s)
+  ✓   28 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-planetary-painted: all seven clips follow real combat, defeat and respawn (53.9s)
+  ✓   29 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (1.0m)
+  ✓   30 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-android: all seven clips follow real combat, defeat and respawn (58.4s)
+  ✓   31 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-legend: all seven clips follow real combat, defeat and respawn (1.0m)
+  ✓   32 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 360x640 › single dock, clear play area and real touch tools (16.6s)
+  ✓   33 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 390x640 › single dock, clear play area and real touch tools (14.4s)
+  ✓   34 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Mędrcy 390x844 › single dock, clear play area and real touch tools (18.9s)
+  ✓   35 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 390x640 › single dock, clear play area and real touch tools (20.3s)
+  ✓   36 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Legendy 414x896 › single dock, clear play area and real touch tools (19.6s)
+  ✓   37 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 852x393 › single dock, clear play area and real touch tools (16.6s)
+  ✓   38 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 1280x900 › single dock, clear play area and real touch tools (21.0s)
+  ✓   39 [gameplay] › e2e/manga-hud.spec.ts:6:3 › manga HUD in Pyra smithy 390 (16.7s)
+  ✓   40 [gameplay] › e2e/manga-hud.spec.ts:6:3 › manga HUD in Pyra smithy 1280 (27.5s)
+  ✓   41 [gameplay] › e2e/manga-hud.spec.ts:41:3 › complete technique buttons and fixed attack 320x568 (23.2s)
+  ✓   42 [gameplay] › e2e/manga-hud.spec.ts:41:3 › complete technique buttons and fixed attack 360x640 (21.8s)
+  ✓   43 [gameplay] › e2e/manga-hud.spec.ts:41:3 › complete technique buttons and fixed attack 852x393 (25.3s)
+  ✘   44 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 1280 (3.2m)
+(node:18190) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   45 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 360 (3.1m)
+(node:18491) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   46 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 390 (3.1m)
+(node:18789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   47 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 414 (3.1m)
+(node:19117) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   48 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 852 (3.1m)
+(node:19341) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   49 [gameplay] › e2e/overlay-audit.spec.ts:192:1 › save failure stays actionable after normal guidance is disabled or dismissed (7.2s)
+  ✓   50 [gameplay] › e2e/overlay-audit.spec.ts:220:1 › death message ends on real respawn and subsequent movement works (29.0s)
+  ✓   51 [gameplay] › e2e/overlay-audit.spec.ts:277:3 › combat messages leave the actual target panel clear at 360px (13.4s)
+  ✓   52 [gameplay] › e2e/overlay-audit.spec.ts:277:3 › combat messages leave the actual target panel clear at 390px (13.7s)
+  ✓   53 [gameplay] › e2e/overlay-audit.spec.ts:277:3 › combat messages leave the actual target panel clear at 414px (13.9s)
+  ✓   54 [gameplay] › e2e/overlay-audit.spec.ts:277:3 › combat messages leave the actual target panel clear at 640px (13.0s)
+  ✓   55 [gameplay] › e2e/overlay-audit.spec.ts:277:3 › combat messages leave the actual target panel clear at 852px (13.2s)
+  ✓   56 [gameplay] › e2e/overlay-audit.spec.ts:277:3 › combat messages leave the actual target panel clear at 1280px (16.5s)
+  ✘   57 [gameplay] › e2e/planetary-preview.spec.ts:17:1 › Planetarni default painted visual preserves the same save across legacy flags and other races (3.1m)
+(node:19850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   58 [gameplay] › e2e/planetary-preview.spec.ts:50:3 › Planetarni has real eight-direction movement and skill animation at 1280px (11.6s)
+  ✓   59 [gameplay] › e2e/planetary-preview.spec.ts:50:3 › Planetarni has real eight-direction movement and skill animation at 390px (8.8s)
+  ✓   60 [gameplay] › e2e/planetary-preview.spec.ts:100:1 › a broken Planetarni atlas retries without losing the character (5.1s)
+  ✓   61 [gameplay] › e2e/planetary-preview.spec.ts:122:3 › Planetarni touch preview › real touch joystick animates all eight directions and a tapped skill (8.3s)
+  ✓   62 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android planetary 390x844 › real Android input in eight directions: planetary 390x844 (21.7s)
+  ✓   63 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 (21.2s)
+  ✓   64 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android sage 390x844 › real Android input in eight directions: sage 390x844 (21.9s)
+  ✓   65 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android sage 852x393 › real Android input in eight directions: sage 852x393 (22.5s)
+  ✓   66 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android android 390x844 › real Android input in eight directions: android 390x844 (21.7s)
+  ✓   67 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android android 852x393 › real Android input in eight directions: android 852x393 (20.5s)
+  ✓   68 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android legend 390x844 › real Android input in eight directions: legend 390x844 (21.1s)
+  ✓   69 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android legend 852x393 › real Android input in eight directions: legend 852x393 (20.6s)
+  ✓   70 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: planetary (28.7s)
+  ✓   71 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: sage (19.0s)
+  ✓   72 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: android (26.8s)
+  ✓   73 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: legend (27.8s)
+  ✘   74 [gameplay] › e2e/pre-gpu.spec.ts:305:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (26.2s)
+(node:20769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   75 [gameplay] › e2e/pre-gpu.spec.ts:351:3 › real pursuit, return, enemy collision and world boundary: planetary (38.1s)
+  ✓   76 [gameplay] › e2e/pre-gpu.spec.ts:351:3 › real pursuit, return, enemy collision and world boundary: sage (40.2s)
+  ✓   77 [gameplay] › e2e/pre-gpu.spec.ts:351:3 › real pursuit, return, enemy collision and world boundary: android (28.1s)
+  ✓   78 [gameplay] › e2e/pre-gpu.spec.ts:351:3 › real pursuit, return, enemy collision and world boundary: legend (31.4s)
+  ✓   79 [gameplay] › e2e/pre-gpu.spec.ts:450:1 › malformed actor atlas fails with a named error and retries without losing the slot (6.0s)
