@@ -7,7 +7,7 @@
 Same look as the Pyra city parts: high angle three quarter view, thick dark outlines, cel shaded, warm light.
 Samples for owner review and for the matting/packing step, not installed in the game.
 """
-import hashlib, json, shutil, sys, time
+import hashlib, json, os, shutil, sys, time
 from pathlib import Path
 import torch
 from PIL import Image
@@ -74,12 +74,17 @@ if setname.startswith(("houses-", "rooms-")):
     if setname.startswith("houses-"):
         items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: "%s, %s" % (d, style) for d in HOUSES}
     else:
-        items = {k: "%s, %s" % (v, style) for k, v in ROOMS.items()}
+        RSTYLE = {"aether": "white marble walls with jade green and gold trim, paper sliding screens, tatami and polished wood floor, calligraphy scrolls, bonsai pots",
+                  "nexus": "brushed steel walls, cyan glowing light strips, holographic screens, metal floor panels, sleek futuristic furniture",
+                  "pyra": "dark timber beams and grey stone walls, red flame banners, glowing braziers, warm lantern light, iron fittings",
+                  "verdant": "warm timber walls and stone floor, mossy green accents, flower pots, hanging lanterns, cozy forest village furniture"}[race]
+        items = {k: "%s, %s" % (v, RSTYLE) for k, v in ROOMS.items() if k in os.environ.get("ROOMS", ",".join(ROOMS)).split(",")}
         W, H = 1536, 960
-        COMMON = ("game interior room background seen from a high angle top down three quarter view, the whole room visible, open empty walkable floor in the middle, "
-                  "furniture along the walls, hand painted anime fantasy game art, thick dark outlines, cel shaded, rich painted detail, warm light, no characters, "
-                  "no text, masterpiece, best quality")
-        NEG = "character, person, people, text, letters, watermark, frame, cropped, blurry, low quality, photo, photorealistic, outdoor, sky, close up, fisheye"
+        COMMON = ("indoors, scenery, no humans, cozy rpg game interior room seen from a high angle three quarter view, the whole room visible, "
+                  "spacious open walkable floor in the middle, large clearly readable furniture along the walls, hand painted anime illustration, "
+                  "clean thick dark outlines, cel shading, vibrant colors, detailed, warm lighting, masterpiece, best quality, very aesthetic")
+        NEG = ("1girl, 1boy, character, person, people, text, letters, watermark, frame, cropped, blurry, low quality, worst quality, photo, photorealistic, 3d render, "
+               "outdoors, sky, tree, trees, cherry blossom, water, close up, fisheye, cluttered, messy, tiny objects")
 elif setname.startswith("interior-"):
     race = setname.split("-", 1)[1]
     style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
