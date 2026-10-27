@@ -154,4 +154,29 @@ describe("game-master edits", () => {
     applyEdit(original, { gold: 1 });
     expect(original.player.gold).toBe(newPlayer("planetary").gold);
   });
+
+  it("supports editing coordinates, equipment, materials, depot, skills and quests", () => {
+    const r = applyEdit(character(), {
+      level: 10,
+      x: 5000,
+      y: 6000,
+      items: { sword: 2, vest: 1 },
+      weapon: "sword",
+      armor: "vest",
+      upgrade: 1,
+      materials: { "mchowa-galaretka": 15 },
+      depotItems: { potion: 20 },
+      skills: ["R", "A1"],
+      quests: { steps: "done", boars: "active" },
+    });
+    expect(r.ok).toBe(true);
+    const s = summarize(r.ok ? r.data : null)!;
+    expect(s.x).toBe(5000);
+    expect(s.y).toBe(6000);
+    expect([s.weapon, s.armor, s.upgrade]).toEqual(["sword", "vest", 1]);
+    expect(s.materials["mchowa-galaretka"]).toBe(15);
+    expect(s.depotItems.potion).toBe(20);
+    expect(s.skills).toEqual(["R", "A1"]);
+    expect([s.quests.steps, s.quests.boars]).toEqual(["done", "active"]);
+  });
 });

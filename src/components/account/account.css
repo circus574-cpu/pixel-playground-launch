@@ -30,7 +30,7 @@
 .ki-account input,
 .ki-account select,
 .ki-account textarea {
-  padding: 10px;
+  padding: 8px 10px;
   border: 1px solid #6b5a3a;
   border-radius: 6px;
   background: #0f0d14;
@@ -40,7 +40,7 @@
 .ki-account button,
 .ki-account a {
   display: inline-block;
-  padding: 9px 14px;
+  padding: 8px 12px;
   border: 1px solid #6b5a3a;
   border-radius: 6px;
   background: #2a2333;
@@ -72,7 +72,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 .ki-account-hint {
   font-size: 0.85rem;
@@ -87,7 +87,7 @@
 
 /* Staff panel */
 .ki-admin {
-  max-width: 1200px;
+  max-width: 1360px;
   margin: 0 auto;
 }
 .ki-admin h1 {
@@ -105,10 +105,10 @@
 }
 .ki-admin-grid {
   display: grid;
-  grid-template-columns: minmax(220px, 320px) 1fr;
+  grid-template-columns: minmax(260px, 380px) 1fr;
   gap: 16px;
 }
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .ki-admin-grid {
     grid-template-columns: 1fr;
   }
@@ -135,18 +135,23 @@
 .ki-admin-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
 }
 .ki-admin-table th,
 .ki-admin-table td {
   padding: 6px 8px;
   border-bottom: 1px solid #3a3242;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
+}
+.ki-admin-table input,
+.ki-admin-table select {
+  padding: 5px 7px;
+  font-size: 0.83rem;
 }
 .ki-admin-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 8px;
 }
 .ki-admin small {
@@ -157,4 +162,36 @@
   min-height: 220px;
   font-family: ui-monospace, monospace;
   font-size: 0.8rem;
+}
+
+/* World Editor */
+.ki-world-editor-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid #c8a35a;
+  border-radius: 10px;
+  background: #16121d;
+  margin-bottom: 10px;
+}
+.ki-world-editor-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ki-world-editor-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #59a869;
+  border-radius: 8px;
+  background: #16281c;
+  color: #b7f0c0;
+  font-size: 0.88rem;
 }

@@ -102,4 +102,36 @@ describe("special staff characters", () => {
     fireEvent.click(getByText("Verdantia"));
     expect(sent).toEqual([{ type: "staff", action: "heal" }, { travel: "verdant" }]);
   });
+
+  it("supports extended staff commands: setLevel, setGold, setItem, setMaterial, setEquipment, setQuest, forceLearn, resetSkills and spawnMonster", () => {
+    const game = outdoors(new GameSession(new SaveStore(null), "planetary"));
+    game.staff = "admin";
+    game.command({ type: "staff", action: "setLevel", level: 15 });
+    expect(game.player.level).toBe(15);
+    game.command({ type: "staff", action: "setGold", gold: 25000 });
+    expect(game.player.gold).toBe(25000);
+    game.command({ type: "staff", action: "setItem", item: "sword", count: 3 });
+    expect(game.player.items.sword).toBe(3);
+    game.command({ type: "staff", action: "setEquipment", weapon: "sword", upgrade: 1 });
+    expect([game.player.weapon, game.player.upgrade]).toEqual(["sword", 1]);
+    game.command({ type: "staff", action: "setQuest", quest: "boars", status: "done" });
+    expect([game.player.quests.steps, game.player.quests.boars]).toEqual(["done", "done"]);
+    game.command({ type: "staff", action: "forceLearn", node: "A1" });
+    expect(game.player.skills).toContain("A1");
+    game.command({ type: "staff", action: "resetSkills" });
+    expect(game.player.skills).toEqual(["R"]);
+    const beforeEnemies = game.enemies.length;
+    game.command({
+      type: "staff",
+      action: "spawnMonster",
+      kind: "verdant-mchowy-szlamak",
+      x: 5200,
+      y: 2600,
+    });
+    expect(game.enemies.length).toBe(beforeEnemies + 1);
+    const spawned = game.enemies[game.enemies.length - 1]!;
+    game.command({ type: "staff", action: "teleport", x: 5200, y: 2600 });
+    game.command({ type: "staff", action: "killAllNearby", radius: 2000 });
+    expect(spawned.mode).toBe("dead");
+  });
 });

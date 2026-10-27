@@ -198,7 +198,32 @@ export type Command =
 /** Tools of a special administrator or game-master character; ignored for everyone else. */
 export type StaffCommand =
   | { type: "staff"; action: "teleport"; x: number; y: number }
-  | { type: "staff"; action: "heal" | "god" | "level" | "gold" | "potions" };
+  | { type: "staff"; action: "heal" | "god" | "level" | "gold" | "potions" }
+  | { type: "staff"; action: "setLevel"; level: number }
+  | { type: "staff"; action: "setGold"; gold: number }
+  | { type: "staff"; action: "setXp"; xp: number }
+  | { type: "staff"; action: "setHpKi"; hp: number; ki: number }
+  | { type: "staff"; action: "setItem"; item: ItemId; count: number; depot?: boolean }
+  | { type: "staff"; action: "setMaterial"; id: string; count: number; depot?: boolean }
+  | {
+      type: "staff";
+      action: "setEquipment";
+      weapon?: "sword" | null;
+      armor?: "vest" | null;
+      upgrade?: number;
+    }
+  | {
+      type: "staff";
+      action: "setQuest";
+      quest: QuestId;
+      status: "locked" | "active" | "ready" | "done";
+    }
+  | { type: "staff"; action: "forceLearn"; node: string }
+  | { type: "staff"; action: "resetSkills" }
+  | { type: "staff"; action: "spawnMonster"; kind: string; x?: number; y?: number }
+  | { type: "staff"; action: "spawnBoss"; bossId: string; x?: number; y?: number }
+  | { type: "staff"; action: "killTarget" }
+  | { type: "staff"; action: "killAllNearby"; radius?: number };
 export type StaffRole = "admin" | "gm";
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
 export const FOE_PANEL_RANGE = 900;
@@ -949,6 +974,133 @@ export class GameSession implements MonsterHost {
     } else if (c.action === "potions") {
       p.items.potion = Math.min(99, p.items.potion + 10);
       this.say("+10 mikstur.");
+    } else if (c.action === "setLevel") {
+      const targetLevel = Math.max(1, Math.min(100, Math.round(c.level)));
+      p.level = targetLevel;
+      p.xp = 0;
+      if (!validLearned(p.race, p.level, p.skills)) {
+        p.skills = ["R"];
+        this.kit.forgetAll(["R"]);
+      }
+      p.hp = this.kit.stats.maxHp;
+      p.ki = this.kit.stats.maxKi;
+      this.say("Poziom ustawiony na " + p.level + ".");
+    } else if (c.action === "setGold") {
+      p.gold = Math.max(0, Math.min(1_000_000, Math.round(c.gold)));
+      this.say("Złoto: " + p.gold + ".");
+    } else if (c.action === "setXp") {
+      p.xp = Math.max(0, Math.min(xpNeeded(p.level) - 1, Math.round(c.xp)));
+      this.say("XP: " + p.xp + ".");
+    } else if (c.action === "setHpKi") {
+      const s = this.kit.stats;
+      p.hp = Math.max(1, Math.min(s.maxHp, Math.round(c.hp)));
+      p.ki = Math.max(0, Math.min(s.maxKi, Math.round(c.ki)));
+      this.say(`HP: ${p.hp}/${s.maxHp}, KI: ${p.ki}/${s.maxKi}`);
+    } else if (c.action === "setItem") {
+      if (!ITEM_IDS.includes(c.item)) return;
+      const count = Math.max(0, Math.min(99, Math.round(c.count)));
+      if (c.depot) {
+        p.depot.items[c.item] = count;
+        if (c.item === "sword" && count === 0) p.depot.upgrade = 0;
+      } else {
+        p.items[c.item] = count;
+        if (c.item === "sword" && count === 0) {
+          p.weapon = null;
+          p.upgrade = 0;
+        }
+        if (c.item === "vest" && count === 0) p.armor = null;
+      }
+      this.say(`${ITEMS[c.item].name}: ${count}`);
+    } else if (c.action === "setMaterial") {
+      if (!isMaterial(c.id)) return;
+      const count = Math.max(0, Math.min(99, Math.round(c.count)));
+      const store = c.depot ? p.depot.materials : p.materials;
+      if (count === 0) {
+        delete store[c.id];
+      } else {
+        if (!store[c.id] && Object.keys(store).length >= MATERIAL_CAPACITY) {
+          this.say("Limit 30 różnych materiałów osiągnięty.");
+          return;
+        }
+        store[c.id] = count;
+      }
+      this.say(`${MATERIALS[c.id]?.name ?? c.id}: ${count}`);
+    } else if (c.action === "setEquipment") {
+      if (c.weapon !== undefined) {
+        if (c.weapon === "sword" && p.items.sword < 1) p.items.sword = 1;
+        p.weapon = c.weapon;
+      }
+      if (c.armor !== undefined) {
+        if (c.armor === "vest" && p.items.vest < 1) p.items.vest = 1;
+        p.armor = c.armor;
+      }
+      if (c.upgrade !== undefined) {
+        const upg = c.upgrade > 0 ? 1 : 0;
+        if (upg > 0 && p.items.sword < 1) p.items.sword = 1;
+        p.upgrade = upg;
+      }
+      p.hp = Math.min(p.hp, this.kit.stats.maxHp);
+      this.say("Zaktualizowano ekwipunek.");
+    } else if (c.action === "setQuest") {
+      p.quests[c.quest] = c.status;
+      if (p.quests.boars !== "locked" && p.quests.steps !== "done") p.quests.steps = "done";
+      if (p.quests.gear !== "locked" && p.quests.boars !== "done") p.quests.boars = "done";
+      this.say(`Zadanie ${QUEST_NAMES[c.quest]}: ${c.status}`);
+    } else if (c.action === "forceLearn") {
+      const check = canLearn(p.race, p.level, p.skills, c.node);
+      if (check.ok) {
+        p.skills = [...p.skills, c.node];
+        this.kit.learn(c.node);
+        const node = KIT_NODES[p.race].find((n) => n.id === c.node);
+        this.say("Poznano: " + (node?.name ?? c.node));
+      } else {
+        this.say(check.reason);
+      }
+    } else if (c.action === "resetSkills") {
+      p.skills = ["R"];
+      this.kit.forgetAll(["R"]);
+      p.hp = Math.min(p.hp, this.kit.stats.maxHp);
+      p.ki = Math.min(p.ki, this.kit.stats.maxKi);
+      this.say("Zresetowano drzewko umiejętności (GM).");
+    } else if (c.action === "spawnMonster") {
+      if (this.safe || p.interior) {
+        this.say("Wyjdź poza bezpieczne miasto, aby przywołać potwora.");
+        return;
+      }
+      try {
+        const at = { x: c.x ?? p.x + 120, y: c.y ?? p.y + 40 };
+        const e = this.monsters.spawn(c.kind, at);
+        this.say(`Przywołano: ${e.m.def.name} (${Math.round(e.x)}, ${Math.round(e.y)})`);
+      } catch (err) {
+        this.say(err instanceof Error ? err.message : "Nie udało się przywołać potwora.");
+      }
+    } else if (c.action === "spawnBoss") {
+      if (this.safe || p.interior) {
+        this.say("Wyjdź poza bezpieczne miasto, aby przywołać bossa.");
+        return;
+      }
+      try {
+        const at = { x: c.x ?? p.x + 160, y: c.y ?? p.y + 40 };
+        const e = this.monsters.spawnBoss(c.bossId, at);
+        this.say(`Przywołano bossa: ${e.m.def.name}!`);
+      } catch (err) {
+        this.say(err instanceof Error ? err.message : "Nie udało się przywołać bossa.");
+      }
+    } else if (c.action === "killTarget") {
+      const t = this.target;
+      if (!t) {
+        this.say("Brak wybranego celu.");
+        return;
+      }
+      this.monsters.damage(t, 999_999_999, { tags: ["ki"], indirect: true });
+      this.say("Zgładzono cel: " + t.m.def.name);
+    } else if (c.action === "killAllNearby") {
+      const r = c.radius ?? 900;
+      const list = this.enemies.filter((e) => e.hp > 0 && e.mode !== "dead" && distance(e, p) <= r);
+      for (const e of list) {
+        this.monsters.damage(e, 999_999_999, { tags: ["ki"], indirect: true });
+      }
+      this.say(`Zgładzono przeciwników w zasięgu: ${list.length}`);
     }
     this.flush();
   }
