@@ -139,7 +139,12 @@ export class AndroidKit extends Kit {
         if (typeof foe === "string") return { ok: false, reason: foe };
         for (let i = 0; i < 3; i++)
           this.schedule(i * 150, () => {
-            if (foe.hp <= 0) return;
+            if (
+              foe.hp <= 0 ||
+              this.dist(this.port.player, foe) > this.stats.range ||
+              !this.port.visible(this.port.player, foe)
+            )
+              return;
             this.port.emit({
               type: "attack",
               x: this.port.player.x,

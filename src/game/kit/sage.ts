@@ -122,6 +122,11 @@ export class SageKit extends Kit {
           breakOnHit: false,
           onTick: () => {
             if (foe.hp <= 0) return this.interruptChannel("other");
+            if (
+              this.dist(this.port.player, foe) > this.stats.range ||
+              !this.port.visible(this.port.player, foe)
+            )
+              return;
             this.port.emit({
               type: "attack",
               x: p.x,

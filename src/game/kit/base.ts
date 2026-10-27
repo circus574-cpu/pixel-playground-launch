@@ -1,3 +1,4 @@
+import { combatTarget } from "../combat/targeting";
 import type { RaceId } from "../world/races";
 import { speedGrowth } from "./balance";
 import { RACE_BASE, KIT_NODES } from "./nodes.generated";
@@ -101,6 +102,8 @@ export abstract class Kit {
   protected timers: { ms: number; fn: () => void }[] = [];
   /** Last time the player made a basic attack (series logic). */
   protected lastBasic = -1e9;
+  private assistedTarget: string | undefined;
+  private actionEpoch = 0;
   protected nextBasicAt = 0;
   abstract readonly defs: Record<string, ActiveDef>;
   protected abstract readonly baseRange: number;
@@ -291,12 +294,25 @@ export abstract class Kit {
   }
   /** The foe to act on: current target or the nearest within `reach` of the player. */
   protected pickFoe(reach: number): Foe | undefined {
-    const p = this.port.player;
-    const t = this.port.target();
-    if (t && Math.hypot(t.x - p.x, t.y - p.y) <= reach + 400) return t;
-    return this.port
-      .foesIn(p, reach + 120)
-      .sort((a, b) => Math.hypot(a.x - p.x, a.y - p.y) - Math.hypot(b.x - p.x, b.y - p.y))[0];
+    const candidates = this.port.foesIn(this.port.player, reach);
+    const explicit = this.port.target();
+    const retained = candidates.find((f) => f.id === this.assistedTarget);
+    // Retain only within the same forward cone; deliberate selection takes precedence.
+    const assisted =
+      retained &&
+      combatTarget(this.port.player, this.port.facing, reach, undefined, [retained], (a, b) =>
+        this.port.visible(a, b),
+      );
+    const picked = combatTarget(
+      this.port.player,
+      this.port.facing,
+      reach,
+      explicit ?? assisted,
+      candidates,
+      (a, b) => this.port.visible(a, b),
+    );
+    this.assistedTarget = picked?.id;
+    return picked;
   }
   protected dist(a: { x: number; y: number }, b: { x: number; y: number }) {
     return Math.hypot(a.x - b.x, a.y - b.y);
@@ -408,6 +424,19 @@ export abstract class Kit {
     this.cooldowns[id] = cooldown;
     return r;
   }
+  /** Runtime actions cannot survive death or a world transition. Cooldowns stay paid. */
+  cancelActions() {
+    this.actionEpoch++;
+    this.assistedTarget = undefined;
+    this.interruptChannel("hit");
+    this.channel = undefined;
+    this.timers = [];
+    this.circles = [];
+    this.lastBasic = -1e9;
+  }
+  remaining(id: string) {
+    return id === "R" ? Math.max(0, this.nextBasicAt - this.port.nowMs) : (this.cooldowns[id] ?? 0);
+  }
   tick(dt: number, moving: boolean) {
     for (const key of Object.keys(this.cooldowns))
       this.cooldowns[key] = Math.max(0, (this.cooldowns[key] ?? 0) - dt);
@@ -417,32 +446,38 @@ export abstract class Kit {
     for (const s of this.shields) s.ms -= dt;
     this.shields = this.shields.filter((s) => s.ms > 0 && s.amount > 0.5);
     for (const c of this.circles) {
+      const elapsed = Math.min(dt, c.ms);
       c.ms -= dt;
       for (const f of this.port.foesIn(c, c.radius)) {
         if (c.slow) this.port.slowFoe(f, c.slow, 300);
         if (c.weaken) this.port.weakenFoe(f, c.weaken, 300);
         if (c.dps)
-          this.port.hurtFoe(f, (this.stats.attack * c.dps * dt) / 1000, {
+          this.port.hurtFoe(f, (this.stats.attack * c.dps * elapsed) / 1000, {
             tags: ["ki"],
             indirect: true,
           });
       }
     }
     this.circles = this.circles.filter((c) => c.ms > 0);
+    const epoch = this.actionEpoch;
     const due: (() => void)[] = [];
     for (const t of this.timers) {
       t.ms -= dt;
       if (t.ms <= 0) due.push(t.fn);
     }
     this.timers = this.timers.filter((t) => t.ms > 0);
-    for (const fn of due) fn();
+    for (const fn of due) {
+      if (epoch !== this.actionEpoch) break;
+      fn();
+    }
     if (this.channel) {
       if (moving) this.interruptChannel("move");
       const c = this.channel;
       if (c) {
+        const elapsed = Math.min(dt, c.ms);
         c.ms -= dt;
-        c.next -= dt;
-        if (c.next <= 0) {
+        c.next -= elapsed;
+        while (c.next <= 0 && this.channel === c) {
           c.next += c.every;
           c.onTick();
         }

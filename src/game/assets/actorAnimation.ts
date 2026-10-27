@@ -17,6 +17,7 @@ const PRIORITY: Record<AnimationState, number> = {
 export class ActorAnimation {
   state: AnimationState = "idle";
   private until = 0;
+  private startedAt = 0;
   private pending: { state: "attack" | "skill"; facing: Point; expires: number } | undefined;
   private lastKey = "";
   private direction: Point = { x: 0, y: 1 };
@@ -48,6 +49,7 @@ export class ActorAnimation {
     }
     if (state === "attack" || state === "skill") this.pending = undefined;
     this.state = state;
+    this.startedAt = now;
     if (facing) this.direction = facing;
     const clip = this.visual.clips[state];
     const frames = clip && Object.values(clip.directions)[0];
@@ -65,6 +67,9 @@ export class ActorAnimation {
     this.sprite.anims.resume();
     if (dead && this.state !== "death") this.trigger("death", now);
     if (!dead && this.state === "death") this.trigger("respawn", now);
+    // Basic contact is resolved by simulation at command acceptance. Only its recovery
+    // presentation yields to movement; this never changes the paid cooldown or applies a hit.
+    if (!dead && moving && this.state === "attack" && now - this.startedAt >= 160) this.until = now;
     if (!dead && now >= this.until) {
       const pending = this.pending;
       this.pending = undefined;

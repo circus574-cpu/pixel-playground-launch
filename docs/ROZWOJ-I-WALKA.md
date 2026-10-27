@@ -835,3 +835,87 @@ Aktualnie questsV2 jest podłączony w superiorRuntime wyłącznie dla
 `?ki-world-v2=1`: rozmowy, odkrycia, wejścia do miast i zabójstwa zasilają tracker,
 a QuestsV2Journal czyta jego oddzielny zapis `ki_legends_save_v5`.
 Nie wszystkie zadania mają wsparcie runtime; oznaczenia ograniczeń są w dzienniku.
+
+## Combat V3 — mapa zależności i granice zmian
+
+Baza audytu: `f2575faa62137fbcb4b842b9d3d56ba53b7be35d`, gałąź
+`feature/combat-diablo-v3`. Polecenia z niezmienionych CombatAction, klawiatury,
+myszy i joysticka → `GameSession.command/use` → kanoniczny `Kit.use` → cztery
+kity → `KitPort` → `MonsterSystem.damage` → pojedyncze `killed`, XP/łup/questy.
+Aktualizacja Phaser → sesja (czas, statusy, ruch) → MonsterSystem (nawigacja,
+AI, trafienia) → zdarzenia → ActorAnimation/efekty. Superior dostarcza nawigację,
+bezpieczne osady i ograniczony streaming przeciwników; zapis pozostaje osobnym
+adapterem. Te same moduły obsługują zwykłą grę i testy.
+
+Dozwolona powierzchnia: interpretacja poleceń walki w sesji/kitach, geometria
+trafień, czas życia akcji/pocisków, AI i prezentacja zdarzeń. Niezmienniki:
+wejście i multitouch, HUD/CSS, generowane liczby, geometria/generatory świata,
+atlasy, formaty zapisów, prywatne `/test`. Kliknięcie celu zachowuje istniejące
+jawne polecenie autoataku; sam przycisk ataku nie powinien uruchamiać chodzenia.
+Jedyny istniejący klip `attack` nie jest trzema różnymi animacjami combo.
+
+Potwierdzone w kodzie przed poprawkami: pickFoe preferuje wybrany cel aż do
+reach+400 i wybiera zastępczy do reach+120; przycisk R poza zasięgiem włącza
+podchodzenie; śmierć nie usuwa timerów i kanału kitu; cast wroga obraca się ku
+bieżącej pozycji podczas ostrzeżenia, szarża ponownie namierza przy końcu
+ostrzeżenia; pociski są natychmiastowymi obrażeniami z późniejszą dekoracją.
+Stan wdrożenia i wykonane testy będą zapisane w dzienniku dnia.
+
+### Combat V3 — wykonanie akcji i geometria (gałąź do audytu, 27.10.2026)
+
+Zmiany pozostają w istniejących `GameSession`, `Kit` i `MonsterSystem`. Moduły
+`combat/targeting.ts`, `projectiles.ts` i `enemyState.ts` są pomocnicze; ostatni tylko
+odczytuje stan dotychczasowego AI. Nie powstał drugi silnik ani nowy format zapisu.
+
+- Wybór celu następuje przy poleceniu. Jawny żywy cel ma pierwszeństwo, jeśli spełnia
+  faktyczny zasięg i widoczność. Asysta zapamiętuje ostatni prawidłowy cel w stożku
+  120°, rozstrzyga remisy przez ID i nie obraca bohatera co klatkę. Usunięto tolerancje
+  `reach + 400` / `reach + 120`. Sam przycisk R nie rozpoczyna podejścia po błędzie
+  zasięgu; zachowano wcześniejsze, jawne polecenie wyboru przeciwnika myszą/dotykiem,
+  które już przed V3 uruchamiało podejście i powtarzanie ataku.
+- Jedno miejsce bufora przyjmuje polecenie najwyżej 160 ms przed końcem cooldownu;
+  wpis wygasa po 180 ms czasu symulacji. Przy wykonaniu ponownie sprawdzane są KI,
+  blokady i dostępność umiejętności. Pauza, anulowanie, utrata fokusu, śmierć i zmiana
+  wnętrza czyszczą oczekujące wejście. Anulowanie nie oddaje KI i cooldownów.
+  Przycisk wyłączony przez obecny HUD nadal nie emituje polecenia — bufor nie zmienia
+  zachowania przycisków ani przypisania klawiszy.
+- Zwykłe pociski Mędrca/Androida, serie Androida A4/A9 oraz pociski przeciwników
+  mają stały kierunek, ograniczony czas lotu i test przecięcia odcinka z hurtboxem
+  (promień 18 jednostek). Przeszkoda kończy lot. Obrażenia są rozliczane raz przy
+  kontakcie, po usunięciu pocisku z aktywnej listy. Cel, który zejdzie z toru, unika
+  trafienia. Pule po 96 pocisków odzyskują obiekty; nie są to pociski samonaprowadzające.
+  Wiązki, pieczęcie, obszary i efekty pośrednie zachowują własny kontrakt. Treningowy
+  manekin nadal rozlicza trafienie bez lotu. Pocisk bada wybrany cel, nie przechwytuje
+  innych jednostek po drodze; to jawne ograniczenie tej implementacji.
+- `foesIn` uwzględnia promień i widoczność od środka efektu. Serie i kanałowanie
+  sprawdzają położenie/życie celu ponownie przy kolejnym trafieniu. Śmierć usuwa
+  opóźnione akcje, obszary i kanały gracza, wrogie ataki oraz pociski. Nie zeruje
+  zapłaconych cooldownów. Nagrody nadal pochodzą z dotychczasowego zdarzenia śmierci.
+- Zwykły atak wroga rezerwuje kanoniczny cooldown na początku przygotowania.
+  Windup to minimum 25% cooldownu i 140 ms (300 ms dla wolnych, ciężkich jednostek).
+  Kierunek jest zapamiętany, trafienie wymaga aktualnej geometrii i LOS, a recovery
+  trwa 120 ms. Szarża/doskok celują w zapowiedziany punkt; szarża sprawdza przecięcie
+  odcinka. Stun/death/return przerywają oczekujący cios. Dotychczasowe gatunki, levele,
+  parametry ataków, nawigacja, ograniczenia miasta i leash pozostają źródłem AI.
+- Sąsiedzi rozdzielają się łagodnie, z kontrolą nawigacji i obszaru dozwolonego.
+  Nie przesuwa to nieruchomych, ogłuszonych ani przygotowujących atak potworów.
+  Istniejący knockback porusza się krokami do 8 jednostek i zatrzymuje na przeszkodzie;
+  nie dodano odrzutu umiejętnościom, które go nie miały, ani nie wymyślono mas potworów.
+- Symulacja nadgania do 1000 ms w krokach maksymalnie 50 ms. Próbki 16/50/100/250 ms
+  sprawdzają czas cooldownu i regenerację KI. Ponadsekundowe zawieszenie jest celowo
+  ograniczone. Dotychczasowy limit kroku wejścia/ruchu Phaser (100 ms) nie jest zmieniony;
+  nie deklarujemy identycznego ręcznego ruchu przy klatkach dłuższych niż 100 ms.
+
+### Prezentacja i ograniczenia odbioru V3
+
+Ruch może przejąć prezentację zwykłego ataku po 160 ms, bez kolejnego trafienia lub
+skrócenia cooldownu. Istniejące klipy `hit`/`death` i dotychczasowe priorytety pozostają.
+Maksymalnie 18 etykiet obrażeń jest jednocześnie widocznych; limit dotyczy wyłącznie
+rysowania. Krytyki mają odrębny kolor. Pociski prezentują zdarzenia rzeczywistego lotu.
+Nie zmieniono assetów, atlasów, joysticka, HUD-u, przypisań ani multitouch.
+
+Bohaterowie mają jeden istniejący klip ataku na kierunek. Nie deklarujemy trzech nowych
+animacji combo; istniejąca kanoniczna seria Planetarnych działa bez zwiększenia DPS.
+Nie dodano globalnego hit-stopu. Ocena odczuwalnej jakości, fizyczny Android/iOS i
+sprzętowe WebGL wymagają osobnego odbioru; headless Chromium tego nie zastępuje.
+Wyniki, SHA i pozostałe problemy: [dziennik 27.10](zmiany/2026-10-27/ZMIANY.md).
