@@ -1,7 +1,8 @@
 """World kit: city sets for the other three races and object sets for every biome (placeable, isolated on white).
 
   python3 gen_world_kit.py <tag> <dream|anime> <set> [seeds comma list]
-    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral
+    sets: city-aether|nexus|verdant, biome-forest|snow|desert|volcanic|coast|swamp|mountain|jungle, ruins-props, dungeon, interior-pyra|aether|nexus|verdant, fauna-neutral,
+          houses-<race> (A2: 6 dwelling variants), rooms-<race> (A5: 6 interior room backgrounds, 1536x960), race = pyra|aether|nexus|verdant
     -> /workspace/ki-legends-gpu/renders/kit-<set>-<tag>-<model>/obj-<name>-s<seed>.png (1024) + sheet.jpg + metadata.json
 Same look as the Pyra city parts: high angle three quarter view, thick dark outlines, cel shaded, warm light.
 Samples for owner review and for the matting/packing step, not installed in the game.
@@ -61,7 +62,25 @@ FURN = ["a long wooden table with benches", "a counter with a shelf", "a bed wit
         "a hanging lantern cluster", "a woven rug seen from above", "a cooking pot over a fire", "a weapon stand", "a locked chest", "a potion shelf"]
 FAUNA = ["a red deer", "a field hare", "a mountain goat", "a woolly sheep", "a heavy ox", "a white crane", "a desert gazelle", "a red fox", "a stone tortoise",
          "a wild duck", "a sturdy pony", "a wild boar piglet"]
-if setname.startswith("interior-"):
+HOUSES = ["a small one story cottage with a porch", "a two story family house with a balcony", "a narrow tall townhouse",
+          "a house with a small shop front on the ground floor", "a house with a walled garden and a gate", "a long row house with three doors"]
+ROOMS = {"hall": "a council hall interior with a raised dais, long carpet and pillars", "shop": "a shop interior with counters, shelves and goods",
+         "arena": "a training hall interior with a sparring floor, weapon racks and practice dummies", "smithy": "a blacksmith workshop interior with an anvil, forge and tools",
+         "depot": "a storage warehouse interior with crates, barrels and a deposit chest", "inn": "a tavern interior with tables, a bar counter and a fireplace"}
+W = H = 1024
+if setname.startswith(("houses-", "rooms-")):
+    race = setname.split("-", 1)[1]
+    style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
+    if setname.startswith("houses-"):
+        items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: "%s, %s" % (d, style) for d in HOUSES}
+    else:
+        items = {k: "%s, %s" % (v, style) for k, v in ROOMS.items()}
+        W, H = 1536, 960
+        COMMON = ("game interior room background seen from a high angle top down three quarter view, the whole room visible, open empty walkable floor in the middle, "
+                  "furniture along the walls, hand painted anime fantasy game art, thick dark outlines, cel shaded, rich painted detail, warm light, no characters, "
+                  "no text, masterpiece, best quality")
+        NEG = "character, person, people, text, letters, watermark, frame, cropped, blurry, low quality, photo, photorealistic, outdoor, sky, close up, fisheye"
+elif setname.startswith("interior-"):
     race = setname.split("-", 1)[1]
     style = dict(CITY, **{"city-pyra": "dark timber and grey stone, red flame banners, warm lantern light"})["city-" + race]
     items = {d.replace("a ", "", 1).replace(" ", "-")[:40]: "%s, %s" % (d, style) for d in FURN}
@@ -87,7 +106,7 @@ for name, desc in items.items():
                 Image.open(OUT / fn).load(); shutil.copyfile(OUT / fn, LOCAL / fn); continue
             except OSError:
                 pass
-        img = pipe(prompt=pre + "single " + desc + ", " + COMMON, negative_prompt=NEG, num_inference_steps=steps, guidance_scale=cfg, width=1024, height=1024,
+        img = pipe(prompt=pre + "single " + desc + ", " + COMMON, negative_prompt=NEG, num_inference_steps=steps, guidance_scale=cfg, width=W, height=H,
                    generator=torch.Generator("cuda").manual_seed(seed)).images[0]
         tmp = LOCAL / fn; img.save(tmp)
         for _ in range(5):
@@ -105,7 +124,7 @@ for i, n in enumerate(names):
     for j, sd in enumerate(SEEDS):
         p = LOCAL / ("obj-%s-s%d.png" % (n, sd))
         if p.exists():
-            sh.paste(Image.open(p).resize((c, c), Image.LANCZOS), (j * c, i * c))
+            im = Image.open(p); im.thumbnail((c, c)); sh.paste(im, (j * c, i * c))
 sh.save(OUT / "sheet.jpg", quality=86)
 (OUT / "metadata.json").write_text(json.dumps(meta, indent=1))
 print("GOTOWE:", OUT, round(time.time() - t0), "s", flush=True)
