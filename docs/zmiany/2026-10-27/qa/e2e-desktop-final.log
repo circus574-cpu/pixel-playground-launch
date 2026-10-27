@@ -1,0 +1,63 @@
+[WebServer] (node:32780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+[WebServer]   - vite:prepare-out-dir (41%)
+[WebServer]   - vite:css (17%)
+[WebServer]   - vite:asset (16%)
+[WebServer]   - vite:css-post (9%)
+[WebServer] See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+[WebServer]
+[WebServer] [plugin builtin:vite-reporter]
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:32802) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:32815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:32834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (21.6s)
+  ✓  2 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (43.0s)
+(node:33142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (1.5m)
+  ✘  4 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (2.1m)
+
+
+  1) [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 421
+    Received:   Infinity
+
+    Call Log:
+    - Timeout 45000ms exceeded while waiting on the predicate
+
+      69 |           { timeout: 45000, intervals: [100] },
+      70 |         )
+    > 71 |         .toBeLessThan(c.world === "aether" ? 421 : c.world === "nexus" ? 361 : 79);
+         |          ^
+      72 |       await canvas.evaluate((el) =>
+      73 |         el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "cancel" } })),
+      74 |       );
+        at /workspace/ki-combat/e2e/combat-v3.spec.ts:71:10
+
+    Error Context: ../scratch/combat-v3-audit/e2e-desktop-final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-software-webgl/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-desktop-final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-desktop-final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence
+  3 passed (5.0m)

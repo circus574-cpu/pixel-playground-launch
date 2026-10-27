@@ -1,0 +1,39 @@
+
+Running 1 test using 1 worker
+
+(node:33855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (1.7m)
+
+
+  1) [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 421
+    Received:   Infinity
+
+    Call Log:
+    - Timeout 45000ms exceeded while waiting on the predicate
+
+      71 |           { timeout: 45000, intervals: [100] },
+      72 |         )
+    > 73 |         .toBeLessThan(c.world === "aether" ? 421 : c.world === "nexus" ? 361 : 79);
+         |          ^
+      74 |       await canvas.evaluate((el) =>
+      75 |         el.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "cancel" } })),
+      76 |       );
+        at /workspace/ki-combat/e2e/combat-v3.spec.ts:73:10
+
+    Error Context: ../scratch/combat-v3-audit/e2e-sage-final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-software-webgl/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-sage-final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-sage-final/combat-v3-Mędrcy-1920x1080-8141e-ut-movement-and-persistence-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence

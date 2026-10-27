@@ -32,9 +32,11 @@ geometrii, generatorów świata, plików graficznych, zapisu, questów, HUD ani 
 
 ## Weryfikacja — kontrola rdzenia i dalsza regresja
 
-Końcowe wyniki i identyfikatory commitów zostaną uzupełnione po zakończeniu bieżących
-kontroli. Wersje robocze testowano jako niezacommitowane zmiany względem powyższej bazy;
-nie są one dowodem PASS na końcowym SHA.
+Rdzeń: `53ff71842e1d2e68a6df9589dd9bdcd8faf2afd4`, wypchnięty na GitHub.
+Powtórzony pełny Vitest na tym SHA: **806 PASS / 0 FAIL / 0 pominiętych**
+([wynik](qa/unit-core-sha.json)). Następny commit zawiera testy i dowody, bez zmian
+logiki gry. Starsze próby dotyczą roboczych zmian względem bazy i nie są dowodem PASS
+na końcowym SHA.
 
 Zachowane informacje o nieudanych próbach:
 - Nowy scenariusz dotykowy błędnie odtwarzał sekwencję kontaktów i czekał na gotowy R
@@ -69,6 +71,99 @@ Rozpoznano wcześniejsze usterki testów: na czystej bazie `f2575faa` test impor
 również nie znajduje `Zmiana rasy` — guzik jest obecnie tylko dla staff. Testy użytkownika
 przechodzą przez dostępne `Zapisz i wybierz postać` → `Nowa podróż`, bez zmiany UI gry.
 Test mapy/globusa tworzył slot v1, a rzeczywisty link mapy wracał do domyślnego v2;
-kontrola zostaje ujednolicona do domyślnego v2, bez migracji danych i bez modyfikacji zapisu.
+próba aktualizacji tego testu ujawniła dalsze różnice UI. Zmiany tego pliku wycofano
+z zakresu V3; problem mapy pozostaje do osobnej naprawy, bez zmian zapisu i nawigacji gry.
 Nowy scenariusz ruchu podczas walki musi prowadzić na zewnątrz miasta (w każdym świecie
 w inną stronę); powrót do bezpiecznej strefy prawidłowo blokował atak i unieważniał próbę.
+
+
+## Wynik dostawy i pozostałe blokady
+
+Nie jest to pełny odbiór wszystkich wymagań V3 ani zgoda na scalanie. Rdzeń jest działającą,
+przetestowaną zmianą, a gałąź ma trafić do **Draft PR do audytu**. Produkcja pozostaje nietknięta.
+
+- Nowe scenariusze sprawdzają wszystkie rasy w rzeczywistym Superior v2 oraz interakcję
+  ruch/atak, serię naciśnięć, pokonanie przeciwnika i XP po reloadzie w sześciu rozdzielczościach.
+  Wersje mobilne używają CDP touch, nie są testem fizycznego Androida/iOS.
+- Przed zrzutem test korzysta ze zwykłego polecenia pauzy, aby czas wykonywania screenshotu
+  nie był bezczynnym staniem pod ostrzałem. Przed walką i w trakcie używa dostępnych mikstur.
+  Nie podnosi HP/levelu/KI, nie dopisuje XP i nie zmienia danych zapisów.
+- Nowe scenariusze korzystają z normalnych poleceń ruchu/wyboru celu (zdarzenie używane przez
+  kliknięcie świata), prawdziwych przycisków, klawiatury i CDP. Scenariusze v1 wykorzystują
+  istniejący playtest-only spawn kanonicznej Salamandry, a scenariusze v2 naturalny streaming.
+  Starsze testy umiejętności używają istniejących fixture zapisów odblokowujących zdolności;
+  nie przedstawiamy ich jako przejścia poziomów od początku.
+- Próba pełnych projektów gameplay/software-webgl zakończyła 79 przypadków przed przerwaniem
+  procesu, bez końcowego podsumowania: nie jest pełnym PASS. Zachowany [log](qa/e2e-full.log).
+- Dalszy przebieg regresji jest również niepełny; [log](qa/e2e-rest2.log). Cztery mobilne
+  przypadki `stage3.spec.ts` tworzyły własny kontekst, pomijając fixture wymuszające v1;
+  dodano jawny parametr v1 do ich startu. Zachowano wszystkie asercje.
+- Starsze testy wyjścia do wyboru postaci kierują się teraz przez publiczne
+  `Zapisz i wybierz postać` → `Nowa podróż`. Roster, brak utraty zapisów i wejście do kolejnej
+  rasy nadal podlegają oryginalnym asercjom. Nie przywrócono staffowego guzika zwykłym graczom.
+- Testy pełnej aplikacji z bazowego zestawu: 7 PASS / 8 FAIL w uruchomieniu po instalacji
+  Chromium ([log](qa/e2e-application2.log)). Są to nieukończone kontrole przekazania z mapy,
+  nie zaliczenie pełnej regresji. `/test` pozostaje niezmienione.
+- Próby korzystające z wyłączonego preview i próby bez zainstalowanej przeglądarki są błędami
+  infrastruktury. Nie zaliczono ich. Nie zmniejszano asercji, nie dodawano skip/expected-fail.
+
+[Rejestr nieudanych prób](qa/failures.json) zawiera dokładne oczekiwania i lokalne ścieżki
+trace. Pełne archiwa Playwright mają setki MB z duplikatami tekstur; nie dodano ich do Git.
+Są w `/workspace/scratch/combat-v3-audit/` tej sesji (nie jest to trwały backup).
+Trwałe screenshoty, logi i podsumowania leżą w tym katalogu `qa/` w Git.
+CI po utworzeniu PR ma zebrać własne trace jako artefakty. Nie twierdzimy, że niewysłane
+archiwa są zabezpieczone poza workspace.
+
+## Pomiary
+
+`npx tsx scripts/combat/benchmark.ts /workspace/scratch/combat-v3-audit/combat-benchmark.json`:
+60 potworów, 1200 kroków po 50 ms, najwyżej 32 aktywne AI i 59 stref.
+p50 kroku **0,192 ms**, p95 **3,821 ms**, maksimum **47,669 ms**, heap Node **18 061 520 B**.
+[Surowy wynik](qa/combat-benchmark.json). Środowisko Node 24, 3 CPU, około 10 GB RAM;
+równolegle działało QA. To pomiar symulacji CPU, **nie FPS gry ani fizycznego telefonu**.
+FPS, sprzętowe WebGL, draw calls i długi profil pamięci: NIEWYKONANE w tej dostawie.
+Nie deklarujemy 60 FPS ani braku długotrwałych wycieków na podstawie tego benchmarku.
+
+## Kontynuacja audytu
+
+1. Odczytać aktualne AGENTS/INDEX oraz kontrakt V3 w ROZWOJ-I-WALKA.
+2. Uruchomić kontrolę CI na końcowym SHA; doprowadzić pełną regresję do końca.
+3. Zweryfikować stare scenariusze mapy i v1/v2 bez migracji zapisów lub zmian map.
+4. Zrobić ręczny odbiór grupowej walki i czytelności na fizycznym telefonie; istniejące
+   drzewa i skały nadal mogą zasłaniać cel — art/geometria nie należały do dozwolonych zmian.
+5. Nie scalać ani publikować bez osobnego zatwierdzenia właściciela.
+
+
+### Powtórki regresji przed commitem QA
+
+- `playwright ... pre-gpu overlay-audit planetary-preview stage3 --project=gameplay
+  --grep 'imported eight-direction|persistent options 1280|default painted visual|layout 390x844'`:
+  **4 PASS / 0 FAIL**. [Log](qa/e2e-harness-final.log). Potwierdzono naprawę selektorów
+  i jawnego wariantu świata w testach; kod HUD/questów nadal nietknięty.
+- Desktop `combat-v3.spec.ts --project=gameplay --project=software-webgl
+  --grep '1280x720|1920x1080'`: **3 PASS / 1 FAIL**; ostatnia próba Mędrca WebGL zatrzymała
+  się przy sprawdzaniu dojścia. [Log](qa/e2e-desktop-final.log).
+  Test wymagał dodatkowego marginesu 16 jednostek od miasta, chociaż runtime blokuje walkę
+  tylko we właściwym prostokącie. Postać zdalnego ataku prawidłowo zatrzymywała się już
+  w zasięgu, przez co asercja pomocnicza oczekiwała ruchu, którego gracz nie zlecał.
+  Dodano opcjonalny `margin` do testowego `outsideTowns`, z zachowaniem domyślnej wartości
+  16 dla istniejących scenariuszy; nowy test używa 0, zgodnie z `inSafeCity`.
+- Naturalne spotkania Superior v2: cztery rasy uzyskały PASS w Canvas i cztery w Software
+  WebGL. Cztery rozdzielczości dotykowe uzyskały PASS w obu rendererach. Dotychczasowy
+  log pełnych nowych przypadków jest przerwany po 18 wynikach, więc nie zastępuje
+  zakończonego przebiegu wszystkich projektów.
+
+
+### Dalsza weryfikacja ostatniego przypadku
+
+Po korekcie marginesu próba Mędrca 1920×1080 Software WebGL nadal zakończyła się FAIL
+przy dojściu, więc sam margines **nie wyjaśnia całej usterki**. Trace pokazuje bohatera
+w stanie `walk`, bez celu, przy `(23800, 14133.93)`, a przeciwnika przy
+`(23747.21, 13288.46)` (67 HP). Nie jest to dowód błędu naliczania obrażeń.
+Zwiększono wyłącznie budżet czasu dojścia dla dużego Software WebGL do 180 s (cały test
+360 s), pozostawiając zasięg, wymagane trafienia, zabicie, XP i reload bez zmian.
+To wolny renderer CPU; nie wolno utożsamiać jego wyniku z wydajnością fizycznego telefonu.
+Ostatni wynik powtórki będzie odnotowany w PR/CI. Do tego momentu brak pełnego odbioru.
+
+Kontrole QA po poprawkach testów: pełny TypeScript PASS, lint 0 błędów / 13 ostrzeżeń,
+ukierunkowane Vitest (`combat-v3`, `session`, `monsters`) **86 PASS / 0 FAIL**.

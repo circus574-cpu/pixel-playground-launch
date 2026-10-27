@@ -892,7 +892,7 @@ odczytuje stan dotychczasowego AI. Nie powstał drugi silnik ani nowy format zap
   opóźnione akcje, obszary i kanały gracza, wrogie ataki oraz pociski. Nie zeruje
   zapłaconych cooldownów. Nagrody nadal pochodzą z dotychczasowego zdarzenia śmierci.
 - Zwykły atak wroga rezerwuje kanoniczny cooldown na początku przygotowania.
-  Windup to minimum 25% cooldownu i 140 ms (300 ms dla wolnych, ciężkich jednostek).
+  Windup to mniejsza z wartości: 25% cooldownu i 140 ms (300 ms dla wolnych, ciężkich jednostek).
   Kierunek jest zapamiętany, trafienie wymaga aktualnej geometrii i LOS, a recovery
   trwa 120 ms. Szarża/doskok celują w zapowiedziany punkt; szarża sprawdza przecięcie
   odcinka. Stun/death/return przerywają oczekujący cios. Dotychczasowe gatunki, levele,

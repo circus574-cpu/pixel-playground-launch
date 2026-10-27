@@ -182,7 +182,8 @@ for (const [width, height] of [
     });
     const page = await context.newPage();
     const errors = collectErrors(page);
-    await page.goto(path);
+    // This manually created context bypasses the automatic legacyWorld page fixture.
+    await page.goto(path + (path.includes("?") ? "&" : "?") + "ki-world-v1=1");
     await expect(
       page.getByRole("button", { name: "Podgląd kontynentu: Planetarni", exact: true }),
     ).toBeVisible();
