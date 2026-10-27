@@ -1,34 +1,34 @@
 {
   "schemaVersion": 1,
   "id": "hero-sage-painted-walk-v3",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "technical": false,
   "previewOnly": true,
   "assets": [
     {
       "id": "hero-sage-painted-walk-v3-page-0",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/1.0.0-85982b9c6ae6/hero-sage-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/1.0.0-85982b9c6ae6/hero-sage-painted-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/1.1.0-b719f47affd0/hero-sage-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/1.1.0-b719f47affd0/hero-sage-painted-walk-v3-page-0.json",
       "width": 1024,
-      "height": 1024
+      "height": 2048
     },
     {
       "id": "hero-sage-painted-walk-v3-old-0",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/1.0.0-85982b9c6ae6/hero-sage-painted-walk-v3-old-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/1.0.0-85982b9c6ae6/hero-sage-painted-walk-v3-old-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/1.1.0-b719f47affd0/hero-sage-painted-walk-v3-old-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/1.1.0-b719f47affd0/hero-sage-painted-walk-v3-old-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-sage-painted-walk-v3-old-1",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/1.0.0-85982b9c6ae6/hero-sage-painted-walk-v3-old-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/1.0.0-85982b9c6ae6/hero-sage-painted-walk-v3-old-1.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/1.1.0-b719f47affd0/hero-sage-painted-walk-v3-old-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/1.1.0-b719f47affd0/hero-sage-painted-walk-v3-old-1.json",
       "width": 2048,
       "height": 1280
     }
@@ -49,89 +49,89 @@
       "tintable": false,
       "clips": {
         "idle": {
-          "asset": "hero-sage-painted-walk-v3-old-0",
+          "asset": "hero-sage-painted-walk-v3-page-0",
           "fps": 6,
           "loop": true,
           "directions": {
             "down": [
-              "hero-sage-painted/idle/down/00",
-              "hero-sage-painted/idle/down/01",
-              "hero-sage-painted/idle/down/02",
-              "hero-sage-painted/idle/down/03",
-              "hero-sage-painted/idle/down/04",
-              "hero-sage-painted/idle/down/05",
-              "hero-sage-painted/idle/down/06",
-              "hero-sage-painted/idle/down/07"
+              "hero-sage-painted/idle3/down/00",
+              "hero-sage-painted/idle3/down/01",
+              "hero-sage-painted/idle3/down/02",
+              "hero-sage-painted/idle3/down/03",
+              "hero-sage-painted/idle3/down/04",
+              "hero-sage-painted/idle3/down/05",
+              "hero-sage-painted/idle3/down/06",
+              "hero-sage-painted/idle3/down/07"
             ],
             "down-left": [
-              "hero-sage-painted/idle/down-left/00",
-              "hero-sage-painted/idle/down-left/01",
-              "hero-sage-painted/idle/down-left/02",
-              "hero-sage-painted/idle/down-left/03",
-              "hero-sage-painted/idle/down-left/04",
-              "hero-sage-painted/idle/down-left/05",
-              "hero-sage-painted/idle/down-left/06",
-              "hero-sage-painted/idle/down-left/07"
+              "hero-sage-painted/idle3/down-left/00",
+              "hero-sage-painted/idle3/down-left/01",
+              "hero-sage-painted/idle3/down-left/02",
+              "hero-sage-painted/idle3/down-left/03",
+              "hero-sage-painted/idle3/down-left/04",
+              "hero-sage-painted/idle3/down-left/05",
+              "hero-sage-painted/idle3/down-left/06",
+              "hero-sage-painted/idle3/down-left/07"
             ],
             "left": [
-              "hero-sage-painted/idle/left/00",
-              "hero-sage-painted/idle/left/01",
-              "hero-sage-painted/idle/left/02",
-              "hero-sage-painted/idle/left/03",
-              "hero-sage-painted/idle/left/04",
-              "hero-sage-painted/idle/left/05",
-              "hero-sage-painted/idle/left/06",
-              "hero-sage-painted/idle/left/07"
+              "hero-sage-painted/idle3/left/00",
+              "hero-sage-painted/idle3/left/01",
+              "hero-sage-painted/idle3/left/02",
+              "hero-sage-painted/idle3/left/03",
+              "hero-sage-painted/idle3/left/04",
+              "hero-sage-painted/idle3/left/05",
+              "hero-sage-painted/idle3/left/06",
+              "hero-sage-painted/idle3/left/07"
             ],
             "up-left": [
-              "hero-sage-painted/idle/up-left/00",
-              "hero-sage-painted/idle/up-left/01",
-              "hero-sage-painted/idle/up-left/02",
-              "hero-sage-painted/idle/up-left/03",
-              "hero-sage-painted/idle/up-left/04",
-              "hero-sage-painted/idle/up-left/05",
-              "hero-sage-painted/idle/up-left/06",
-              "hero-sage-painted/idle/up-left/07"
+              "hero-sage-painted/idle3/up-left/00",
+              "hero-sage-painted/idle3/up-left/01",
+              "hero-sage-painted/idle3/up-left/02",
+              "hero-sage-painted/idle3/up-left/03",
+              "hero-sage-painted/idle3/up-left/04",
+              "hero-sage-painted/idle3/up-left/05",
+              "hero-sage-painted/idle3/up-left/06",
+              "hero-sage-painted/idle3/up-left/07"
             ],
             "up": [
-              "hero-sage-painted/idle/up/00",
-              "hero-sage-painted/idle/up/01",
-              "hero-sage-painted/idle/up/02",
-              "hero-sage-painted/idle/up/03",
-              "hero-sage-painted/idle/up/04",
-              "hero-sage-painted/idle/up/05",
-              "hero-sage-painted/idle/up/06",
-              "hero-sage-painted/idle/up/07"
+              "hero-sage-painted/idle3/up/00",
+              "hero-sage-painted/idle3/up/01",
+              "hero-sage-painted/idle3/up/02",
+              "hero-sage-painted/idle3/up/03",
+              "hero-sage-painted/idle3/up/04",
+              "hero-sage-painted/idle3/up/05",
+              "hero-sage-painted/idle3/up/06",
+              "hero-sage-painted/idle3/up/07"
             ],
             "up-right": [
-              "hero-sage-painted/idle/up-right/00",
-              "hero-sage-painted/idle/up-right/01",
-              "hero-sage-painted/idle/up-right/02",
-              "hero-sage-painted/idle/up-right/03",
-              "hero-sage-painted/idle/up-right/04",
-              "hero-sage-painted/idle/up-right/05",
-              "hero-sage-painted/idle/up-right/06",
-              "hero-sage-painted/idle/up-right/07"
+              "hero-sage-painted/idle3/up-right/00",
+              "hero-sage-painted/idle3/up-right/01",
+              "hero-sage-painted/idle3/up-right/02",
+              "hero-sage-painted/idle3/up-right/03",
+              "hero-sage-painted/idle3/up-right/04",
+              "hero-sage-painted/idle3/up-right/05",
+              "hero-sage-painted/idle3/up-right/06",
+              "hero-sage-painted/idle3/up-right/07"
             ],
             "right": [
-              "hero-sage-painted/idle/right/00",
-              "hero-sage-painted/idle/right/01",
-              "hero-sage-painted/idle/right/02",
-              "hero-sage-painted/idle/right/03",
-              "hero-sage-painted/idle/right/04",
-              "hero-sage-painted/idle/right/05",
-              "hero-sage-painted/idle/right/06",
-              "hero-sage-painted/idle/right/07"
+              "hero-sage-painted/idle3/right/00",
+              "hero-sage-painted/idle3/right/01",
+              "hero-sage-painted/idle3/right/02",
+              "hero-sage-painted/idle3/right/03",
+              "hero-sage-painted/idle3/right/04",
+              "hero-sage-painted/idle3/right/05",
+              "hero-sage-painted/idle3/right/06",
+              "hero-sage-painted/idle3/right/07"
             ],
             "down-right": [
-              "hero-sage-painted/idle/down-right/00",
-              "hero-sage-painted/idle/down-right/01",
-              "hero-sage-painted/idle/down-right/02",
-              "hero-sage-painted/idle/down-right/03",
-              "hero-sage-painted/idle/down-right/04",
-              "hero-sage-painted/idle/down-right/05",
-              "hero-sage-painted/idle/down-right/06",
-              "hero-sage-painted/idle/down-right/07"
+              "hero-sage-painted/idle3/down-right/00",
+              "hero-sage-painted/idle3/down-right/01",
+              "hero-sage-painted/idle3/down-right/02",
+              "hero-sage-painted/idle3/down-right/03",
+              "hero-sage-painted/idle3/down-right/04",
+              "hero-sage-painted/idle3/down-right/05",
+              "hero-sage-painted/idle3/down-right/06",
+              "hero-sage-painted/idle3/down-right/07"
             ]
           }
         },
