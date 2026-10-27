@@ -969,6 +969,8 @@ export function GameHud({
         <div className="ki-modal-backdrop" onClick={() => setPanel(null)}>
           <section
             className="ki-modal ki-frame"
+            data-panel={panel}
+            data-race={player.race}
             role="dialog"
             aria-modal="true"
             aria-label={
@@ -1110,7 +1112,8 @@ export function GameHud({
                   <fieldset className="ki-settings-keys">
                     <legend>Klawisze</legend>
                     {KEY_ACTIONS.map((action) => (
-                      <div className="ki-key-row" key={action}>
+                      <div className="ki-key-row" key={action} data-action={action}>
+                        <i className="ki-manga-icon" aria-hidden />
                         <span>{KEY_ACTION_LABEL[action]}</span>
                         <button
                           type="button"

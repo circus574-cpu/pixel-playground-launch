@@ -593,3 +593,144 @@ html[data-ki-world-v2] .ki-hud .ki-settings-keys .ki-key-bind[aria-pressed="true
     box-shadow: 0 0 12px #ffd36a;
   }
 }
+
+/* Anime look for every panel (owner 27.10.2026: "same kolory, mało wstawek z obrazów"): the
+   player's race art bleeds in from the right under a manga halftone, speed lines behind the title,
+   and the painted HUD icons mark each section and key. */
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race] {
+  --ki-race-art: url("/game/assets/origins-v1/planetary-960.webp");
+  background:
+    radial-gradient(circle, #00000059 0 1.2px, #0000 1.6px) 0 0 / 6px 6px,
+    linear-gradient(90deg, #120d0af5 0 30%, #120d0acc 50%, #120d0a40 85%, #120d0a20),
+    var(--ki-race-art) right -60px top 15% / auto 120% no-repeat,
+    #120d0a;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race="sage"] {
+  --ki-race-art: url("/game/assets/origins-v1/sage-960.webp");
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race="android"] {
+  --ki-race-art: url("/game/assets/origins-v1/android-960.webp");
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race="legend"] {
+  --ki-race-art: url("/game/assets/origins-v1/legend-960.webp");
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race] > header {
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-conic-gradient(from 0deg at 12% 50%, #ffd36a14 0 2deg, #0000 2deg 9deg),
+    linear-gradient(90deg, #3a1a10ee, #1a100bcc 70%, #0000);
+  border-bottom: 2px solid #c8a35a;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race] > header h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff3d6;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-shadow:
+    2px 2px 0 #7a1c10,
+    -1px -1px 0 #000,
+    0 0 14px #ff9a3c88;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-race] > header h2::before {
+  content: "";
+  flex: none;
+  width: 46px;
+  height: 46px;
+  background: url("/game/assets/hud-manga-v1/icons.png") no-repeat 0 0 / 400% 300%;
+  filter: drop-shadow(0 2px 2px #000);
+}
+/* Panel icons: gear, backpack, scroll, flame, compass */
+html[data-ki-world-v2] .ki-hud .ki-modal[data-panel="settings"] > header h2::before {
+  background-position: 0 100%;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-panel="inventory"] > header h2::before {
+  background-position: 33.333% 50%;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-panel="journal"] > header h2::before {
+  background-position: 66.667% 50%;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-panel="skills"] > header h2::before {
+  background-position: 100% 50%;
+}
+html[data-ki-world-v2] .ki-hud .ki-modal[data-panel="map"] > header h2::before {
+  background-position: 33.333% 100%;
+}
+
+/* Tiles: translucent glass over the art, slanted manga accent on the left */
+html[data-ki-world-v2] .ki-hud .ki-settings > label,
+html[data-ki-world-v2] .ki-hud .ki-settings-controls > label {
+  position: relative;
+  background: linear-gradient(110deg, #2a1a10e6, #150e0acc);
+  backdrop-filter: blur(2px);
+  border-left: 4px solid #e8a53a;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+html[data-ki-world-v2] .ki-hud .ki-settings :is(.ki-settings-keys, .ki-settings-controls) {
+  background: #0e0a08d9;
+  backdrop-filter: blur(3px);
+}
+html[data-ki-world-v2] .ki-hud .ki-settings legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-style: italic;
+  text-shadow: 2px 2px 0 #7a1c10;
+}
+html[data-ki-world-v2] .ki-hud .ki-settings .ki-settings-keys legend::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background: url("/game/assets/hud-manga-v1/icons.png") no-repeat 0 0 / 400% 300%;
+}
+html[data-ki-world-v2] .ki-hud .ki-settings > button,
+html[data-ki-world-v2] .ki-hud .ki-settings .ki-fullscreen-setting {
+  font-style: italic;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  text-shadow: 1px 1px 0 #000;
+}
+/* Key rows carry the painted icon of what they do */
+html[data-ki-world-v2] .ki-hud .ki-settings-keys .ki-key-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(110deg, #2a1a10e6, #150e0acc);
+}
+html[data-ki-world-v2] .ki-hud .ki-settings-keys .ki-key-row > span {
+  flex: 1;
+}
+html[data-ki-world-v2] .ki-hud .ki-key-row > .ki-manga-icon {
+  width: 30px;
+  height: 30px;
+  background-position: 100% 50%;
+}
+html[data-ki-world-v2] .ki-hud .ki-key-row[data-action="attack"] > .ki-manga-icon {
+  background-position: 0 0;
+}
+html[data-ki-world-v2] .ki-hud .ki-key-row[data-action="dodge"] > .ki-manga-icon {
+  background-position: 66.667% 0;
+}
+html[data-ki-world-v2] .ki-hud .ki-key-row[data-action="potion"] > .ki-manga-icon {
+  background-position: 0 50%;
+}
+html[data-ki-world-v2] .ki-hud .ki-key-row[data-action="interact"] > .ki-manga-icon {
+  background-position: 66.667% 100%;
+}
+html[data-ki-world-v2] .ki-hud .ki-key-row[data-action="loot"] > .ki-manga-icon {
+  background-position: 33.333% 50%;
+}
+html[data-ki-world-v2]
+  .ki-hud
+  .ki-key-row:is(
+    [data-action="skill2"],
+    [data-action="skill4"],
+    [data-action="skill6"],
+    [data-action="skill8"],
+    [data-action="skill10"]
+  )
+  > .ki-manga-icon {
+  background-position: 33.333% 0;
+}
