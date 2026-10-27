@@ -1,0 +1,132 @@
+{
+  "name": "KI Legends mocap motions CMU",
+  "format": "BVH",
+  "license": "CMU database freely usable; follow original source notes",
+  "source": "https://mocap.cs.cmu.edu/",
+  "bvh_mirror": "https://github.com/una-dinosauria/cmu-mocap",
+  "game_status": "source reference only; NOT imported into Phaser; requires retargeting and QA",
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "front-left",
+    "front-right",
+    "back-left",
+    "back-right"
+  ],
+  "clips": [
+    {
+      "id": "walk_forward",
+      "relative_path": "01_chod/01_walk_forward_07_01.bvh",
+      "cmu_id": "07_01",
+      "category": "walk",
+      "description_pl": "Chód naprzód",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/007/07_01.bvh"
+    },
+    {
+      "id": "walk_backward",
+      "relative_path": "01_chod/02_walk_backward_106_31.bvh",
+      "cmu_id": "106_31",
+      "category": "walk",
+      "description_pl": "Chód wstecz z obrotem",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/106/106_31.bvh"
+    },
+    {
+      "id": "sidestep_a",
+      "relative_path": "01_chod/03_sidestep_106_32.bvh",
+      "cmu_id": "106_32",
+      "category": "walk",
+      "description_pl": "Kroki w bok (wariant A)",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/106/106_32.bvh"
+    },
+    {
+      "id": "sidestep_b",
+      "relative_path": "01_chod/04_sidestep_106_33.bvh",
+      "cmu_id": "106_33",
+      "category": "walk",
+      "description_pl": "Kroki w bok (wariant B)",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/106/106_33.bvh"
+    },
+    {
+      "id": "walk_backward_alt",
+      "relative_path": "01_chod/05_walk_backward_alt_143_39.bvh",
+      "cmu_id": "143_39",
+      "category": "walk",
+      "description_pl": "Alternatywny chód w tył",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/143/143_39.bvh"
+    },
+    {
+      "id": "walk_sideways_alt",
+      "relative_path": "01_chod/06_walk_sideways_alt_143_40.bvh",
+      "cmu_id": "143_40",
+      "category": "walk",
+      "description_pl": "Alternatywny chód bokiem",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/143/143_40.bvh"
+    },
+    {
+      "id": "backstep_punch",
+      "relative_path": "02_ciosy/01_backstep_punch_76_01.bvh",
+      "cmu_id": "76_01",
+      "category": "attack",
+      "description_pl": "Cofnięcie i uderzenie",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/076/76_01.bvh"
+    },
+    {
+      "id": "feint_punch",
+      "relative_path": "02_ciosy/02_feint_punch_76_02.bvh",
+      "cmu_id": "76_02",
+      "category": "attack",
+      "description_pl": "Zwody i uderzenie",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/076/76_02.bvh"
+    },
+    {
+      "id": "punching",
+      "relative_path": "02_ciosy/03_punching_143_23.bvh",
+      "cmu_id": "143_23",
+      "category": "attack",
+      "description_pl": "Uderzanie pięścią",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/143/143_23.bvh"
+    },
+    {
+      "id": "dodge",
+      "relative_path": "03_uniki/01_dodge_76_03.bvh",
+      "cmu_id": "76_03",
+      "category": "dodge",
+      "description_pl": "Unik przed atakującym",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/076/76_03.bvh"
+    },
+    {
+      "id": "backstep",
+      "relative_path": "03_uniki/02_backstep_76_11.bvh",
+      "cmu_id": "76_11",
+      "category": "dodge",
+      "description_pl": "Szybkie cofnięcie",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/076/76_11.bvh"
+    },
+    {
+      "id": "duck",
+      "relative_path": "03_uniki/03_duck_77_09.bvh",
+      "cmu_id": "77_09",
+      "category": "dodge",
+      "description_pl": "Pochylenie pod zagrożeniem",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/077/77_09.bvh"
+    },
+    {
+      "id": "roll",
+      "relative_path": "03_uniki/04_roll_128_09.bvh",
+      "cmu_id": "128_09",
+      "category": "dodge",
+      "description_pl": "Przewrót w ruchu",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/128/128_09.bvh"
+    },
+    {
+      "id": "guard",
+      "relative_path": "03_uniki/05_guard_76_04.bvh",
+      "cmu_id": "76_04",
+      "category": "dodge",
+      "description_pl": "Pozycja obronna",
+      "source_url": "https://github.com/una-dinosauria/cmu-mocap/blob/master/data/076/76_04.bvh"
+    }
+  ]
+}
