@@ -1,0 +1,1063 @@
+[WebServer] (node:40503) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:40516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+[WebServer] 7:05:17 PM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 7:05:17 PM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 7:05:17 PM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 7:05:17 PM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+
+Running 8 tests using 1 worker
+
+(node:40539) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:05:19 PM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 7:05:19 PM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 7:05:19 PM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 7:05:19 PM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:05:25 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:05:26 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:05:44 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:05:48 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:05:48 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:06:04 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:06:04 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  1 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (47.0s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 7:06:09 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:06:09 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:06:24 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:06:27 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:06:27 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:06:45 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:06:45 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  2 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (40.3s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:06:49 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:06:49 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:00 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:02 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:07:02 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:11 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:07:11 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  3 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (26.9s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 7:07:15 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:07:15 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:25 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:27 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:07:27 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:37 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:07:37 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  4 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (25.5s)
+(node:40872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:07:43 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:07:43 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 7:08:21 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:08:24 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:08:39 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:08:39 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:09:22 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:09:22 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  5 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (1.8m)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 7:09:31 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:09:31 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:10:09 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:10:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:10:24 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:10:24 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:11:08 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:11:08 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  6 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (1.8m)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:11:28 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:11:29 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:12:39 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:12:41 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:12:57 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:12:57 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:13:35 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:13:35 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  7 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (2.4m)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:13:43 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:13:43 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:14:27 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:14:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 7:14:44 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:14:44 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 7:15:18 PM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 7:15:18 PM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  8 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (1.7m)
+
+  Slow test file: [application-webgl] › e2e/globe-handoff.spec.ts (7.7m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  8 passed (10.2m)

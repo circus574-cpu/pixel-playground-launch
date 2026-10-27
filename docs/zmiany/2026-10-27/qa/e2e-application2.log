@@ -1,0 +1,1064 @@
+[WebServer] (node:14415) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14429) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+[WebServer] 3:50:17 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 3:50:17 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 3:50:17 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 3:50:17 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+
+Running 15 tests using 1 worker
+
+(node:14588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 3:50:25 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 3:50:25 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 3:50:25 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 3:50:25 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 3:50:34 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:51:04 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:51:14 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 3:51:14 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘   1 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (2.0m)
+(node:15384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:52:37 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:52:59 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 3:53:06 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 3:53:06 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘   2 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (2.3m)
+(node:16054) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:55:16 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:55:38 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:55:44 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 3:55:44 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘   3 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (2.2m)
+(node:16604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:57:51 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:58:11 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 3:58:18 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 3:58:18 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘   4 [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (2.2m)
+(node:17142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:00:20 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:00:58 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:01:02 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:01:05 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:01:08 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+  ✓   5 [application-canvas] › e2e/globe-handoff.spec.ts:106:1 › continent roster filters all four origins without changing any slot, including mobile carousel (55.9s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:01:15 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:01:21 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:01:21 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓   6 [application-canvas] › e2e/globe-handoff.spec.ts:132:1 › home navigation clears continent intent without creating a character (13.8s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:01:29 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:01:44 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split
+[WebServer] 4:01:44 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split
+[WebServer] 4:01:44 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split
+[WebServer] 4:01:44 AM [vite] (ssr) warning: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts?tss-serverfn-split
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 4:01:50 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:01:56 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 4:01:56 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 4:01:56 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] 4:01:56 AM [vite] (client) warning: /workspace/ki-combat/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[WebServer]   Plugin: tanstack-start-core::server-fn:client
+[WebServer]   File: /workspace/ki-combat/src/lib/sketches.functions.ts
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:02:01 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:02:04 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+  ✓   7 [application-canvas] › e2e/private-sketch.spec.ts:3:1 › private /test remains locked and independent from game saves (59.0s)
+(node:17903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 4:02:35 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:04:11 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:04:15 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:04:40 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:04:40 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘   8 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (3.1m)
+(node:18092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:05:38 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:06:56 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:06:59 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:07:23 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:07:23 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘   9 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (3.2m)
+(node:18381) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:08:58 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+  ✘  10 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (1.4m)
+(node:18651) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 4:10:24 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:11:35 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:11:37 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:11:57 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:11:57 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✘  11 [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (3.3m)
+(node:18939) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 4:13:47 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:15:17 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:15:25 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:15:30 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] 4:15:35 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+  ✓  12 [application-webgl] › e2e/globe-handoff.spec.ts:106:1 › continent roster filters all four origins without changing any slot, including mobile carousel (1.9m)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:15:45 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:16:02 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:16:02 AM [vite] (client) [console.error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer]
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer]
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer]
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]
+[WebServer]   <StartClient>
+[WebServer]     <Await promise={Promise}>
+[WebServer]       <AwaitInner promise={Promise}>
+[WebServer]         <RouterProvider router={{...}}>
+[WebServer]           <RouterContextProvider router={{...}}>
+[WebServer]             <Matches>
+[WebServer]               <Transitioner>
+[WebServer]               <MatchesInner>
+[WebServer]                 <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+[WebServer]                   <MatchImpl routeId="__root__">
+[WebServer]                     <MatchView router={{...}} match={{id:"__root__/", ...}}>
+[WebServer]                       <RootShell>
+[WebServer]                         <html
+[WebServer]                           lang="pl"
+[WebServer]                           data-tsd-source="/src/routes/__root.tsx:106:5"
+[WebServer] -                         data-ki-world-v2="1"
+[WebServer]                         >
+[WebServer]
+  ✓  13 [application-webgl] › e2e/globe-handoff.spec.ts:132:1 › home navigation clears continent intent without creating a character (30.8s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:16:19 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:16:22 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] 4:16:31 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] 4:16:38 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+  ✓  14 [application-webgl] › e2e/globe-rendering.spec.ts:3:1 › globe switching disposes contexts and keeps a bounded texture budget (41.4s)
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+[WebServer] Assets in public directory cannot be imported from JavaScript.
+[WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+[WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+[WebServer] 4:16:57 AM [vite] (client) [console.warn] [tanstack-router] These exports from "/workspace/ki-combat/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+[WebServer] - Index
+[WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+[WebServer] 4:16:59 AM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] 4:17:04 AM [vite] (client) [console.warn] THREE.WebGLRenderer: WEBGL_lose_context extension not supported.
+  ✓  15 [application-webgl] › e2e/globe-rendering.spec.ts:42:1 › real WebGL context loss falls back to a working 2D map without saves (20.7s)
+
+
+  1) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('button', { name: 'Kontynuuj podróż', exact: true })
+    Expected: 1
+    Received: 0
+    Timeout:  60000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('button', { name: 'Kontynuuj podróż', exact: true }) with timeout 60000ms
+      - waiting for getByRole('button', { name: 'Kontynuuj podróż', exact: true })
+        121 × locator resolved to 0 elements
+            - unexpected value "0"
+
+
+      66 |     await expect.poll(() => saves(page)).toEqual(before);
+      67 |     await page.getByRole("button", { name: /Twoje postacie/ }).click();
+    > 68 |     await expect(page.getByRole("button", { name: "Kontynuuj podróż", exact: true })).toHaveCount(
+         |                                                                                       ^
+      69 |       continent === "verdant" ? 1 : 0,
+      70 |     );
+      71 |     await page.getByRole("button", { name: "Utwórz nową postać", exact: true }).click();
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:68:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 23807.22667100001
+    Received: 36511.22667100001
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   12704
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      83 |     await expect
+      84 |       .poll(async () => Number(await actor.getAttribute("data-player-x")))
+    > 85 |       .toBeCloseTo(spawn.x, 0);
+         |        ^
+      86 |     await expect
+      87 |       .poll(async () => Number(await actor.getAttribute("data-player-y")))
+      88 |       .toBeCloseTo(spawn.y, 0);
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:85:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 25385.723735000007
+    Received: 37129.72373500001
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   11744
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      83 |     await expect
+      84 |       .poll(async () => Number(await actor.getAttribute("data-player-x")))
+    > 85 |       .toBeCloseTo(spawn.x, 0);
+         |        ^
+      86 |     await expect
+      87 |       .poll(async () => Number(await actor.getAttribute("data-player-y")))
+      88 |       .toBeCloseTo(spawn.y, 0);
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:85:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 36698.28602700001
+    Received: 45850.28602700001
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   9152
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      83 |     await expect
+      84 |       .poll(async () => Number(await actor.getAttribute("data-player-x")))
+    > 85 |       .toBeCloseTo(spawn.x, 0);
+         |        ^
+      86 |     await expect
+      87 |       .poll(async () => Number(await actor.getAttribute("data-player-y")))
+      88 |       .toBeCloseTo(spawn.y, 0);
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:85:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-canvas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves
+
+    Test timeout of 180000ms exceeded.
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('button', { name: 'Kontynuuj podróż', exact: true })
+    Expected: 1
+    Received: 0
+
+    Call log:
+      - Expect "toHaveCount" getByRole('button', { name: 'Kontynuuj podróż', exact: true }) with timeout 60000ms
+      - waiting for getByRole('button', { name: 'Kontynuuj podróż', exact: true })
+        97 × locator resolved to 0 elements
+           - unexpected value "0"
+      - Test timeout of 180000ms exceeded.
+
+
+      66 |     await expect.poll(() => saves(page)).toEqual(before);
+      67 |     await page.getByRole("button", { name: /Twoje postacie/ }).click();
+    > 68 |     await expect(page.getByRole("button", { name: "Kontynuuj podróż", exact: true })).toHaveCount(
+         |                                                                                       ^
+      69 |       continent === "verdant" ? 1 : 0,
+      70 |     );
+      71 |     await page.getByRole("button", { name: "Utwórz nową postać", exact: true }).click();
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:68:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-68999-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 23807.22667100001
+    Received: 36511.22667100001
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   12704
+
+    Call Log:
+    - Test timeout of 180000ms exceeded
+
+      83 |     await expect
+      84 |       .poll(async () => Number(await actor.getAttribute("data-player-x")))
+    > 85 |       .toBeCloseTo(spawn.x, 0);
+         |        ^
+      86 |     await expect
+      87 |       .poll(async () => Number(await actor.getAttribute("data-player-y")))
+      88 |       .toBeCloseTo(spawn.y, 0);
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:85:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-8c5ed-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-hud')
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+      - waiting for locator('.ki-hud')
+
+
+      19 |   await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+      20 |   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+    > 21 |   await expect(page.locator(".ki-hud")).toBeVisible();
+         |                                         ^
+      22 | }
+      23 |
+      24 | for (const [continent, race, name] of regions) {
+        at create (/workspace/ki-combat/e2e/globe-handoff.spec.ts:21:41)
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:30:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-d3879-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 36698.28602700001
+    Received: 45850.28602700001
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   9152
+
+    Call Log:
+    - Test timeout of 180000ms exceeded
+
+      83 |     await expect
+      84 |       .poll(async () => Number(await actor.getAttribute("data-player-x")))
+    > 85 |       .toBeCloseTo(spawn.x, 0);
+         |        ^
+      86 |     await expect
+      87 |       .poll(async () => Number(await actor.getAttribute("data-player-y")))
+      88 |       .toBeCloseTo(spawn.y, 0);
+        at /workspace/ki-combat/e2e/globe-handoff.spec.ts:85:8
+
+    Error Context: ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../scratch/combat-v3-audit/e2e-application2/globe-handoff-real-map-han-79cce-efresh-back-and-other-saves-application-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8 failed
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves
+    [application-canvas] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves
+    [application-webgl] › e2e/globe-handoff.spec.ts:25:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves
+  7 passed (27.5m)

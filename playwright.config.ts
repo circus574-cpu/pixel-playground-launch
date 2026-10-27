@@ -44,6 +44,8 @@ export default defineConfig({
         "**/city-webgl.spec.ts",
         "**/combat-bosses.spec.ts",
         "**/combat-skills.spec.ts",
+        "**/combat-v3.spec.ts",
+        "**/combat-v3-superior.spec.ts",
         "**/argon-mobile.spec.ts",
         "**/gpu-webgl-smoke.spec.ts",
         "**/hero-lifecycle.spec.ts",

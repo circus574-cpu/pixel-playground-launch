@@ -1,0 +1,9 @@
+{
+  "sha": "a8fd1a8425c0bf200e156bdfdffff700413f059f",
+  "run": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40518268782",
+  "passed": 175,
+  "failed": 8,
+  "artifact": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40518268782/artifacts/12743664875",
+  "failureScope": "globe-handoff.spec.ts, 4 continents in application-canvas and application-webgl",
+  "checksBeforeBrowser": "TypeScript, unit tests, assets, lint and build PASS"
+}

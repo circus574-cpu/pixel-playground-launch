@@ -1,0 +1,33 @@
+
+Running 40 tests using 1 worker
+
+(node:26097) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [gameplay] › e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 1280 (1.0m)
+  ✓   2 [gameplay] › e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 390 (48.7s)
+  ✓   3 [gameplay] › e2e/region-start-art.spec.ts:8:3 › nexus art switch preserves the existing character (21.0s)
+  ✓   4 [gameplay] › e2e/region-start-art.spec.ts:8:3 › pyra art switch preserves the existing character (20.2s)
+  ✓   5 [gameplay] › e2e/region-start-art.spec.ts:8:3 › verdant art switch preserves the existing character (22.9s)
+  ✓   6 [gameplay] › e2e/sage-preview.spec.ts:43:1 › Mędrcy default visual preserves the save and stays isolated from other races (44.4s)
+  ✓   7 [gameplay] › e2e/sage-preview.spec.ts:88:3 › Mędrcy has real eight-direction movement and skill animation at 1280px (29.9s)
+  ✓   8 [gameplay] › e2e/sage-preview.spec.ts:88:3 › Mędrcy has real eight-direction movement and skill animation at 390px (16.6s)
+  ✓   9 [gameplay] › e2e/sage-preview.spec.ts:135:1 › a broken Mędrcy atlas retries without losing the character (14.5s)
+  ✓  10 [gameplay] › e2e/sage-preview.spec.ts:157:3 › Mędrcy touch preview › real touch joystick animates all eight directions and a tapped skill (23.0s)
+  ✓  11 [gameplay] › e2e/stage3-migration.spec.ts:5:1 › C: an archival Stage 2 save stays untouched and is never offered in the Superior world (18.3s)
+Verified Planetarni verdant
+Verified Mędrcy aether
+Verified Androidy nexus
+Verified Legendy pyra
+  ✓  12 [gameplay] › e2e/stage3.spec.ts:87:1 › A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching (2.8m)
+  ✘  13 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 360x800 (3.0m)
+(node:31021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 390x844 (3.0m)
+(node:31519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 414x896 (3.0m)
+(node:31858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 852x393 (2.3m)
+(node:32108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

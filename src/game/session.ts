@@ -1,3 +1,4 @@
+import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
 import { isValidNick } from "./nickname";
 import { z } from "zod";
@@ -142,6 +143,8 @@ export type NpcId = NpcRole;
 export const NPCS = WORLDS.verdant.npcs;
 export type Loot = Point & { id: string; item: string; quantity: number; gold: number };
 export type GameEventType =
+  | "projectile"
+  | "projectile-end"
   | "hit"
   | "attack"
   | "death"
@@ -495,7 +498,13 @@ export class GameSession implements MonsterHost {
   combatIn = 0;
   private respawnIn = 0;
   private counter = 0;
+  readonly projectiles = new Projectiles(
+    "hero-shot-",
+    (a, b) => this.nav.visible(a, b),
+    (shot) => this.emit({ type: "projectile-end", x: shot.x, y: shot.y, source: shot.id }),
+  );
   private potionIn = 0;
+  private bufferedAction: { id: Ability; expires: number } | undefined;
   readonly rng: () => number;
   constructor(
     readonly saves?: SaveStore,
@@ -602,6 +611,10 @@ export class GameSession implements MonsterHost {
     if (this.kit.saveFromDeath()) return;
     p.hp = 0;
     p.dead = true;
+    this.bufferedAction = undefined;
+    this.kit.cancelActions();
+    this.projectiles.cancel();
+    this.monsters.cancelCombat();
     this.respawnIn = 3000;
     this.targetId = null;
     this.autoAttack = false;
@@ -612,6 +625,7 @@ export class GameSession implements MonsterHost {
     this.flush();
   }
   applyPlayerFx(spec: FxSpec, from: Enemy) {
+    if (this.player.dead || this.safe) return;
     const s = this.kit.stats;
     if (spec.k === "breakShield") {
       if (this.kit.shieldPoints > 0) this.say(from.m.def.name + " rozbija Twoją osłonę!");
@@ -806,6 +820,10 @@ export class GameSession implements MonsterHost {
     return damage;
   }
   private switchInterior(id: BuildingId | null) {
+    this.bufferedAction = undefined;
+    this.kit.cancelActions();
+    this.projectiles.cancel();
+    this.monsters.cancelCombat();
     const previous = this.building;
     const room = id ? cityRoom(id, this.world.id) : null;
     this.player.interior = id;
@@ -949,6 +967,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "cancel") {
+      this.bufferedAction = undefined;
       this.clearDestinations();
       this.dialogue = null;
       this.pendingNpc = null;
@@ -1309,17 +1328,20 @@ export class GameSession implements MonsterHost {
         .sort((a, b) => a.d - b.d)[0];
       if (nearest) this.targetId = nearest.e.id;
     }
+    const remaining = this.kit.remaining(id);
+    // One short-lived command, never an accumulating attack queue. Revalidate on consumption.
+    if (remaining > 0 && remaining <= 160) {
+      this.bufferedAction = { id, expires: this.nowMs + 180 };
+      return;
+    }
     const r = this.kit.use(id);
     if (!r.ok) {
       if (r.reason) this.say(r.reason);
       if (id === "R" && this.target && !r.reason) return;
-      if (id === "R" && r.reason === "Cel poza zasięgiem." && this.target) {
-        this.autoAttack = true;
-        this.pathIn = 0;
-        this.say("Podchodzisz do celu.");
-      }
+
       return;
     }
+    this.bufferedAction = undefined;
     this.combatIn = 4500;
     if (id !== "R") this.flush();
   }
@@ -1350,11 +1372,28 @@ export class GameSession implements MonsterHost {
       this.facing = { x: (next.x - before.x) / d, y: (next.y - before.y) / d };
     }
   }
+  discardBufferedInput() {
+    this.bufferedAction = undefined;
+  }
   tick(milliseconds: number) {
-    const dt = Math.max(0, Math.min(100, milliseconds));
-    const wasMoving = this.moving;
+    if (!Number.isFinite(milliseconds) || milliseconds <= 0) return;
+    // Bounded catch-up after a slow rendered frame. Input remains owned by Phaser;
+    // combat deadlines and swept contacts advance in steps no larger than 50 ms.
+    const manualMovement = this.moving;
+    let remaining = Math.min(1000, milliseconds);
+    while (remaining > 0) {
+      const dt = Math.min(50, remaining);
+      this.stepSimulation(dt, manualMovement);
+      remaining -= dt;
+    }
+  }
+  private stepSimulation(dt: number, manualMovement: boolean) {
+    const wasMoving = manualMovement || this.moving;
     this.moving = false;
-    if (this.dialogue || this.depotOpen || this.paused) return;
+    if (this.dialogue || this.depotOpen || this.paused) {
+      this.bufferedAction = undefined;
+      return;
+    }
     this.nowMs += dt;
     const p = this.player,
       s = this.kit.stats;
@@ -1375,7 +1414,19 @@ export class GameSession implements MonsterHost {
       }
       return;
     }
+    this.projectiles.tick(dt);
+    if (p.dead) return;
     this.kit.tick(dt, wasMoving);
+    if (p.dead) return;
+    const buffered = this.bufferedAction;
+    if (buffered) {
+      if (this.nowMs > buffered.expires || this.fx.cannotAct || p.dead)
+        this.bufferedAction = undefined;
+      else if (this.kit.remaining(buffered.id) <= 0) {
+        this.bufferedAction = undefined;
+        this.use(buffered.id);
+      }
+    }
     this.syncFxBuffs();
     const dot = this.fx.tick(dt);
     if (dot > 0) {
@@ -1699,11 +1750,55 @@ function makePort(s: GameSession): KitPort {
     say: (t) => s.say(t),
     foesIn: (c, r) =>
       (s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
-        (e) => distance(e, c) <= r,
+        (e) => distance(e, c) <= r && s.nav.visible(c, e),
       ),
     target: () => s.trainingTarget ?? s.target,
     visible: (a, b) => s.nav.visible(a, b),
     hurtFoe: (foe, raw, hit: Hit) => {
+      if (s.player.dead) return 0;
+      // Discrete ranged shots travel; beams, seals, AoE and periodic effects retain their contracts.
+      if (
+        hit.ranged &&
+        !hit.indirect &&
+        !hit.tags.includes("area") &&
+        (hit.ability === "R" ||
+          (s.player.race === "android" && ["A4", "A9"].includes(hit.ability ?? ""))) &&
+        foe.id !== "training-dummy"
+      ) {
+        const target = foe as Enemy;
+        const shot = s.projectiles.launch(
+          s.player,
+          foe,
+          1100,
+          Math.hypot(foe.x - s.player.x, foe.y - s.player.y) + 18,
+          foe,
+          () =>
+            !s.player.dead &&
+            !s.safe &&
+            target.hp > 0 &&
+            !target.m.hidden &&
+            !target.m.invulnerable &&
+            s.enemies.includes(target),
+          () => {
+            if (s.fx.rollMiss())
+              s.emit({ type: "hit", x: foe.x, y: foe.y, target: foe.id, text: "Pudło" });
+            else if (s.monsters.damage(target, raw, hit) > 0) s.combatIn = 4500;
+          },
+        );
+        if (shot)
+          s.emit({
+            type: "projectile",
+            x: shot.x,
+            y: shot.y,
+            source: shot.id,
+            to: {
+              x: shot.x + (shot.vx * shot.remaining) / 1000,
+              y: shot.y + (shot.vy * shot.remaining) / 1000,
+            },
+            ms: shot.remaining,
+          });
+        return 0;
+      }
       if (foe.id === "training-dummy") return s.hitTraining(raw, hit);
       if (!hit.indirect && s.fx.rollMiss()) {
         s.emit({ type: "hit", x: foe.x, y: foe.y, target: foe.id, text: "Pudło" });
@@ -1747,6 +1842,7 @@ function makePort(s: GameSession): KitPort {
       s.emit({ ...e });
     },
     heal: (n) => {
+      if (s.player.dead) return;
       const max = s.kit.stats.maxHp;
       const before = s.player.hp;
       s.player.hp = Math.min(max, s.player.hp + n);

@@ -173,7 +173,8 @@ for (const [width, height] of [
       await expect(
         page.getByRole("checkbox", { name: "Duża minimapa", exact: true }),
       ).toBeChecked();
-      await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+      await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
+      await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
       await expect(page.locator("canvas")).toHaveCount(0);
       await expect.poll(() => listenerCount(cdp)).toBe(baseline);
       await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
@@ -182,7 +183,8 @@ for (const [width, height] of [
       await expect(canvas).toHaveAttribute("data-world-labels", "false");
       await expect(page.locator(".ki-game-feedback")).toHaveCount(0);
       await settings(page);
-      await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+      await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
+      await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
       await expect(page.locator("canvas")).toHaveCount(0);
       await expect.poll(() => listenerCount(cdp)).toBe(baseline);
       expect(errors).toEqual([]);

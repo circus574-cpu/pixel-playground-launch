@@ -1,0 +1,19 @@
+{
+  "runtime": "v24.19.0",
+  "kind": "CPU Node simulation, not browser FPS or physical Android",
+  "monsters": 60,
+  "ticks": 1200,
+  "simulationStepMs": 50,
+  "budget": {
+    "activeEnemies": 32,
+    "aiRadius": 1800,
+    "zones": 64,
+    "visuals": 96
+  },
+  "maxActive": 32,
+  "maxZones": 59,
+  "tickP50Ms": 0.19214400000009846,
+  "tickP95Ms": 3.8214359999997214,
+  "maxTickMs": 47.66898400000014,
+  "heapUsedBytes": 18061520
+}

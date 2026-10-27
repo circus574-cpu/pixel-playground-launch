@@ -384,9 +384,13 @@ describe("monster behaviour", () => {
     crab.mode = "chase";
     ticks(g, 3000);
     expect(g.zones.some((z) => z.kind === "lava") || crab.m.cooldowns["zalew"]! > 0).toBe(true);
-    const sal = put(g, "pyra-ognista-salamandra", 500, 0);
-    ticks(g, 3000);
-    expect(g.zones.some((z) => z.kind === "fire" && z.owner === sal.id)).toBe(true);
+    // Independent encounter: a level-eight crab can kill this level-one hero and
+    // death now correctly clears the previous encounter's actions and zones.
+    const salamandra = arena("legend");
+    const sal = put(salamandra, "pyra-ognista-salamandra", 500, 0);
+    ticks(salamandra, 3000);
+    expect(salamandra.player.dead).toBe(false);
+    expect(salamandra.zones.some((z) => z.kind === "fire" && z.owner === sal.id)).toBe(true);
   });
 });
 

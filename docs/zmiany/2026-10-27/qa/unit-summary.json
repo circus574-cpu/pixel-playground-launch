@@ -1,0 +1,303 @@
+{
+  "numTotalTests": 806,
+  "numPassedTests": 806,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "startTime": 1793072802186,
+  "success": true,
+  "base": "f2575faa62137fbcb4b842b9d3d56ba53b7be35d",
+  "snapshot": "working tree before first V3 commit",
+  "command": "npx vitest run --reporter=json --outputFile=/workspace/scratch/combat-v3-audit/unit8.json",
+  "files": [
+    {
+      "file": "accounts.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "file": "actor-animation.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "file": "adventure-ui.test.tsx",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "file": "aether-art.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "file": "aether-expansion.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "aetheria-city.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "app-routing.test.tsx",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "file": "argon-combat.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "file": "character-delete.test.tsx",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "file": "city.test.ts",
+      "status": "passed",
+      "tests": 18
+    },
+    {
+      "file": "combat-action.test.tsx",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "combat-system.test.ts",
+      "status": "passed",
+      "tests": 103
+    },
+    {
+      "file": "combat-v3.test.ts",
+      "status": "passed",
+      "tests": 33
+    },
+    {
+      "file": "continent-scale.test.ts",
+      "status": "passed",
+      "tests": 20
+    },
+    {
+      "file": "enemy-installation.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "file": "forest.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "game-hud.test.tsx",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "file": "game-messages.test.tsx",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "file": "generated-content.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "file": "gpu-pipeline.test.ts",
+      "status": "passed",
+      "tests": 17
+    },
+    {
+      "file": "kit-nodes-audit.test.ts",
+      "status": "passed",
+      "tests": 239
+    },
+    {
+      "file": "kit.test.ts",
+      "status": "passed",
+      "tests": 26
+    },
+    {
+      "file": "mapa-view.test.tsx",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "file": "monsters.test.ts",
+      "status": "passed",
+      "tests": 36
+    },
+    {
+      "file": "movement.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "file": "music.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "file": "nexus-city.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "nickname.test.tsx",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "file": "open-world.test.ts",
+      "status": "passed",
+      "tests": 31
+    },
+    {
+      "file": "planet-game-link.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "file": "planet-globe.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "file": "planet-map.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "file": "planet.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "pyra-city.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "region-start-art.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "file": "scenery-stream.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "session.test.ts",
+      "status": "passed",
+      "tests": 17
+    },
+    {
+      "file": "sfx.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "file": "sketch-access.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "file": "sketches.preview.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "sketches.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "file": "smithy-room.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "staff.test.tsx",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "file": "stage21.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "stage3.test.ts",
+      "status": "passed",
+      "tests": 13
+    },
+    {
+      "file": "stage31-ui.test.tsx",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "file": "superior-characters.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "file": "superior-save.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "superior-spawns.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "terrain-cache.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "verdant-art.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "view.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "file": "bosses.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "dialogue.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "file": "items.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "file": "quests.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "file": "v2Tracker.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "file": "v2Places.test.ts",
+      "status": "passed",
+      "tests": 4
+    }
+  ]
+}

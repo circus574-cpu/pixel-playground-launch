@@ -180,13 +180,16 @@ export function testCreature(land: string) {
   return { id: land + "-test-spawn", kind, query: "?ki-test-spawn=" + kind };
 }
 /** Whether a point lies beyond every safe settlement of the land (combat is allowed there). */
-export function outsideTowns(land: string, p: { x: number; y: number }) {
+export function outsideTowns(land: string, p: { x: number; y: number }, margin = 16) {
   const { settlements } = JSON.parse(
     readFileSync(`public/game/worlds/superior-v1/${land}/world.json`, "utf8"),
   ) as { settlements: { bounds: { x: number; y: number; width: number; height: number } }[] };
   return settlements.every(
     ({ bounds: b }) =>
-      p.x < b.x - 16 || p.x > b.x + b.width + 16 || p.y < b.y - 16 || p.y > b.y + b.height + 16,
+      p.x < b.x - margin ||
+      p.x > b.x + b.width + margin ||
+      p.y < b.y - margin ||
+      p.y > b.y + b.height + margin,
   );
 }
 /**

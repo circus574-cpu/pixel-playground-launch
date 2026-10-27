@@ -66,7 +66,8 @@ test("Mędrcy default visual preserves the save and stays isolated from other ra
     ["Legendy", "pyra"],
   ]) {
     await openHudTool(page, "Ustawienia");
-    await page.getByRole("button", { name: "Zmiana rasy", exact: true }).click();
+    await page.getByRole("button", { name: "Zapisz i wybierz postać", exact: true }).click();
+    await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
     await page.getByRole("button", { name: "Wybierz: " + race, exact: true }).click();
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-world", world!);

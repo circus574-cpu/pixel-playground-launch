@@ -1,3 +1,4 @@
+import { enemyCombatState } from "./combat/enemyState";
 import { CombatVisualBudget } from "./combatBudget";
 import { bossPreviewEnabled } from "./bosses/runtime";
 import { createBossPlaytest } from "./bosses/playtest";
@@ -128,6 +129,8 @@ export function mountKileGends(
     private hero!: Actor;
     private heroGhost?: Phaser.GameObjects.Image;
     private enemies = new Map<string, Actor>();
+    private floatingTexts: Phaser.GameObjects.Text[] = [];
+    private combatShots = new Map<string, Phaser.GameObjects.Arc>();
     private selection!: Phaser.GameObjects.Ellipse;
     private shield!: Phaser.GameObjects.Ellipse | Phaser.GameObjects.Sprite;
     private loot = new Map<string, Phaser.GameObjects.Container>();
@@ -429,6 +432,7 @@ export function mountKileGends(
       });
       this.input.on("gameout", () => this.resetStick());
       const blur = () => {
+        session.discardBufferedInput();
         this.suspended = true;
         this.resetStick();
         this.input.keyboard?.resetKeys();
@@ -696,8 +700,11 @@ export function mountKileGends(
       return actor;
     }
     private float(p: Point, text: string, color: string) {
+      // Presentation budget only: damage/healing has already been resolved by the session.
+      if (this.floatingTexts.length >= 18) this.floatingTexts[0]?.destroy();
+      const nearby = this.floatingTexts.filter((t) => Math.abs(t.x - p.x) < 70).length;
       const label = this.add
-        .text(p.x, p.y - 105, text, {
+        .text(p.x, p.y - 105 - Math.min(nearby, 3) * 22, text, {
           fontSize: "24px",
           color,
           stroke: "#193443",
@@ -705,6 +712,11 @@ export function mountKileGends(
         })
         .setOrigin(0.5)
         .setDepth(renderDepth("labels") + 2);
+      this.floatingTexts.push(label);
+      label.once("destroy", () => {
+        const i = this.floatingTexts.indexOf(label);
+        if (i >= 0) this.floatingTexts.splice(i, 1);
+      });
       this.trackEffect(label);
       this.tweens.add({
         targets: label,
@@ -742,6 +754,31 @@ export function mountKileGends(
         this.cameras.main.shake(110, 0.006);
       else if (event.type === "hit" && event.crit && event.target !== "player")
         this.cameras.main.shake(70, 0.003);
+      if (event.type === "projectile-end") {
+        const shot = this.combatShots.get(event.source ?? "");
+        if (shot) {
+          this.tweens.killTweensOf(shot);
+          shot.destroy();
+          this.combatShots.delete(event.source!);
+        }
+        return;
+      }
+      if (event.type === "projectile" && event.source && event.to) {
+        const shot = this.add
+          .circle(event.x, event.y - 30, 7, event.kind === "enemy" ? 0xff7a55 : 0x7defff)
+          .setDepth(renderDepth("combat", event.y));
+        this.combatShots.set(event.source, shot);
+        this.trackEffect(shot);
+        shot.once("destroy", () => this.combatShots.delete(event.source!));
+        this.tweens.add({
+          targets: shot,
+          x: event.to.x,
+          y: event.to.y - 30,
+          duration: event.ms,
+          onComplete: () => shot.destroy(),
+        });
+        return;
+      }
       if (event.type === "telegraph") {
         if (event.radius) this.ring(event, event.radius, 0xff5a4a, event.ms ?? 300, 0.18);
         return;
@@ -792,7 +829,13 @@ export function mountKileGends(
         this.float(
           event,
           event.text,
-          event.target === "player" ? "#ffa1a1" : event.type === "heal" ? "#a4ffd6" : "#fff0a1",
+          event.target === "player"
+            ? "#ffa1a1"
+            : event.type === "heal"
+              ? "#a4ffd6"
+              : event.crit
+                ? "#ffad42"
+                : "#fff0a1",
         );
       if (event.type === "hit" && actor) {
         actor.animation.trigger("hit", this.animationTime);
@@ -843,6 +886,13 @@ export function mountKileGends(
             duration: 110,
             yoyo: true,
           });
+        if (
+          event.to &&
+          distance(event, event.to) > 110 &&
+          ((event.ability === "R" && ["sage", "android"].includes(session.player.race)) ||
+            (session.player.race === "android" && ["A4", "A9"].includes(event.ability ?? "")))
+        )
+          return;
         if (
           this.texturedEffect(
             event.ability === "R" || !event.ability ? "attack" : event.ability,
@@ -925,6 +975,9 @@ export function mountKileGends(
         [...this.enemies.entries()].map(([id, actor]) => ({ id, visual: actor.visual.id })),
       );
       parent.dataset["combatVisuals"] = String(this.visualBudget.size);
+      parent.dataset["projectiles"] = String(
+        session.projectiles.active.length + session.monsters.projectiles.active.length,
+      );
       parent.dataset["bossRewards"] = JSON.stringify(session.bossRewards);
       parent.dataset["bosses"] = JSON.stringify(
         session.enemies
@@ -932,7 +985,15 @@ export function mountKileGends(
           .map((e) => ({ id: e.id, kind: e.kind, phase: e.boss!.phase, hp: e.hp })),
       );
       parent.dataset["enemies"] = JSON.stringify(
-        session.enemies.map((e) => ({ id: e.id, x: e.x, y: e.y, hp: e.hp, mode: e.mode })),
+        session.enemies.map((e) => ({
+          id: e.id,
+          x: e.x,
+          y: e.y,
+          hp: e.hp,
+          mode: e.mode,
+          combat: enemyCombatState(e),
+          kind: e.kind,
+        })),
       );
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
@@ -949,7 +1010,7 @@ export function mountKileGends(
       const dt = Math.min(delta, 100);
       if (!session.paused && !session.dialogue) this.animationTime += dt;
       runtime?.beforeTick?.(dt);
-      session.tick(dt);
+      session.tick(Math.min(delta, 1000));
       if (session.paused || session.dialogue || session.depotOpen || session.player.dead)
         this.resetStick();
       runtime?.afterTick?.(dt);
