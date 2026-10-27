@@ -18,4 +18,4 @@ Pełne pliki źródłowe (siatki 1536×1024, klipy 720×1280, modele) zostają n
 - Wan2.2-Animate: poprawny tylko chód przodem; bok i tył rozmyte, ciosy rozmazane.
 - Siatka 8 klatek: ruch spójny we wszystkich kierunkach, ale postacie odbiegają od zaakceptowanych projektów
   (strój Legendy, twarz Androida, Mędrczyni wychodzi poza kadr). Właściciel ocenił wynik negatywnie.
-- Nieprzetestowany pomysł: siatka img2img startująca od wzorca (`STR` w `scripts/gridgen.py`).
+- Nieprzetestowany pomysł (nie wdrożony): siatka img2img startująca od wzorca, żeby trzymać projekt postaci.
