@@ -1,5 +1,8 @@
 # KI Legends — świat, kontynenty i miasta
 
+> DECYZJA ARCHITEKTA 27.10.2026: docelowo **45% lądu i 55% wody** na powierzchni sferycznej Superior; cztery kontynenty i sześć wysp. Aktywnych podziemi maksymalnie 20, z czego maksymalnie 4–5 to labirynty; pozostałe to duże różnorodne lokacje, także przejścia między kontynentami. Zachować stare dane jako archiwum, wymagana bezpieczna migracja geometrii, map i zapisów. **Nie jest to potwierdzenie wdrożenia nowych proporcji**. Świat v2 jest deklarowany domyślnie od PR #44, a nowe tekstury pochodzą z PR #49; pełny odbiór na końcowym main pozostaje otwarty.
+
+
 
 ## Superior — jedyny świat gry
 
