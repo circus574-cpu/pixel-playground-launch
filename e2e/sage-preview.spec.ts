@@ -48,7 +48,7 @@ test("Mędrcy default visual preserves the save and stays isolated from other ra
   await start(page, false);
   const canvas = page.locator(".ki-canvas");
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
-  await expect(canvas).toHaveAttribute("data-texture-ids", /hero-sage-painted-page/);
+  await expect(canvas).toHaveAttribute("data-texture-ids", /hero-sage-painted-walk-v3-page/);
   const id = await activeId(page);
   const saved = await progression(page, id);
   const legacy = await page.evaluate((key) => localStorage.getItem(key), base);
@@ -77,7 +77,7 @@ test("Mędrcy default visual preserves the save and stays isolated from other ra
       pyra: "hero-legend",
     }[world!];
     await expect(canvas).toHaveAttribute("data-actor-visual", expected!);
-    await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-sage-painted-page/);
+    await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-sage-painted-walk-v3-page/);
     expect(await progression(page, id)).toEqual(saved);
   }
   expect(await page.evaluate((key) => localStorage.getItem(key), base)).toBe(legacy);
@@ -133,8 +133,10 @@ for (const width of [1280, 390])
   });
 
 test("a broken Mędrcy atlas retries without losing the character", async ({ page }) => {
-  await page.route("**/hero-sage-painted/**/hero-sage-painted-page-1.json", (route) =>
-    route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
+  await page.route(
+    "**/hero-sage-painted-walk-v3/**/hero-sage-painted-walk-v3-old-1.json",
+    (route) =>
+      route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
   );
   await page.goto(entry + "?ki-sage-art=1");
   await page.getByRole("button", { name: "Wybierz: Mędrcy", exact: true }).click();
@@ -143,7 +145,7 @@ test("a broken Mędrcy atlas retries without losing the character", async ({ pag
   await expect(error).toBeVisible();
   await expect(error).toContainText("Brak klatki");
   const id = await activeId(page);
-  await page.unroute("**/hero-sage-painted/**/hero-sage-painted-page-1.json");
+  await page.unroute("**/hero-sage-painted-walk-v3/**/hero-sage-painted-walk-v3-old-1.json");
   await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
   await expect(page.locator(".ki-canvas")).toHaveAttribute(
     "data-actor-visual",

@@ -36,7 +36,7 @@
     top: max(10px, env(safe-area-inset-top));
     bottom: auto;
     left: auto;
-    right: calc(106px + env(safe-area-inset-right));
+    right: calc(168px + env(safe-area-inset-right));
     width: 48px;
     height: 50px;
   }
@@ -44,7 +44,7 @@
     top: calc(68px + env(safe-area-inset-top));
     bottom: auto;
     left: auto;
-    right: calc(106px + env(safe-area-inset-right));
+    right: calc(168px + env(safe-area-inset-right));
   }
   html[data-ki-world-v2] .ki-hud .ki-actionbar {
     bottom: calc(10px + env(safe-area-inset-bottom));
@@ -752,4 +752,16 @@ html[data-ki-world-v2]
 img.ki-gpu-item {
   background: none;
   object-fit: contain;
+}
+
+/* Landscape phones: the minimap keeps the computer's wide proportions instead of a tall strip. */
+@media (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud .ki-map {
+    width: 150px;
+  }
+  .ki-hud .ki-map .ki-v2-minimap {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
 }
