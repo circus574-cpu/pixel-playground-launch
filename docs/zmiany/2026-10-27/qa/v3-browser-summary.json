@@ -2,8 +2,8 @@
   "runtimeCommit": "53ff71842e1d2e68a6df9589dd9bdcd8faf2afd4",
   "qaCommit": "892c68bff302d40dfb5dfd8e437cd10966282838",
   "note": "Latest outcomes across runs, not one full-suite run; earlier failures remain in logs.",
-  "passed": 19,
-  "failed": 1,
+  "passed": 20,
+  "failed": 0,
   "scenarios": [
     {
       "project": "gameplay",
@@ -44,8 +44,8 @@
     {
       "project": "gameplay",
       "scenario": "Androidy 390x844 › V3 real combat, rapid input, movement and persistence",
-      "result": "FAIL",
-      "run": "e2e-v3final.log"
+      "result": "PASS",
+      "run": "e2e-android-final.log"
     },
     {
       "project": "gameplay",

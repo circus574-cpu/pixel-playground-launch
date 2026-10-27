@@ -186,3 +186,15 @@ ukierunkowane Vitest (`combat-v3`, `session`, `monsters`) **86 PASS / 0 FAIL**.
   końcowe GitHub Actions wymagają dalszego domknięcia. PR świadomie pozostaje Draft.
 - Wyniki CI: sprawdzić zakładkę Checks PR #45; nie deklarowano PASS przed zakończeniem.
   Fizyczne telefony, pomiary FPS i odbiór jakości nadal pozostają niewykonane.
+
+
+Korekta zestawienia końcowego: wcześniejszy przebieg Androida 390×844 Canvas po PASS miał
+późniejszy FAIL (nieukończone zabicie Salamandry). Nie pominięto tej porażki. Powtórka
+na `2a5be38b0bcbe21673cd8b6142828475eb4182ca`: **1 PASS, 17,6 s**,
+[log](qa/e2e-android-final.log). Indeks 20 scenariuszy uwzględnia teraz ostatnie wyniki
+każdego przypadku: **20 PASS / 0 FAIL**, uzyskane w oddzielnych przebiegach.
+Stabilność całej długiej regresji nie jest przez to potwierdzona.
+
+Odczyt GitHub przy SHA `2a5be38b`: PR Draft, `statusCheckRollup=[]`, zero Actions runs dla
+tej gałęzi. Brak automatycznego uruchomienia nie jest zaliczeniem CI. Końcowy stan ręcznej
+próby uruchomienia workflow zostanie wskazany w treści PR; nie scalano zmian.
