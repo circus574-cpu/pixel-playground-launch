@@ -1,5 +1,8 @@
 # KI Legends — rozwój i walka
 
+> AKTUALIZACJA 27.10.2026: PR #45 wprowadził Combat V3 (celowanie, fizyczny lot pocisków, windup/recovery AI, anulowanie akcji, kolizje), PR #48 zintegrował zmiany z animacjami i efektami. Oba PR zostały scalone, ale pełna regresja najnowszego HEAD, odbiór dynamiki przez właściciela i fizyczny telefon są **NIEZWERYFIKOWANE**. Historyczne opisy poniżej należy interpretować z tą aktualizacją.
+
+
 ## Symulacje CPU — checkpoint 23.10.2026
 
 Wstępny przebieg rzeczywistego `GameSession` i AI potworów objął 1392 scenariusze,
