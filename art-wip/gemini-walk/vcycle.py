@@ -1,7 +1,8 @@
 import glob, subprocess, sys, numpy as np, cv2
 from PIL import Image
-fs = sorted(glob.glob("gv/*.png"))
-SEG = {"front": (2, 78), "back": (82, 156), "side": (180, 238)}
+import os, json as _j
+fs = sorted(glob.glob(os.environ.get("SRC", "gv") + "/*.png"))
+SEG = _j.loads(os.environ["SEG"]) if "SEG" in os.environ else {"front": (2, 78), "back": (82, 156), "side": (180, 238)}
 def cutout(rgb):
     f = rgb.astype(np.float32); bgc = (f.min(2) > 225) & ((f.max(2) - f.min(2)) < 25)
     n, lab = cv2.connectedComponents(bgc.astype(np.uint8), connectivity=4)
@@ -25,7 +26,7 @@ for name, (s0, s1) in SEG.items():
         ys, xs = np.nonzero(c[:, :, 3] > 128); sil.append((xs.mean(), ys.max(), ys.min()))
     small = [cv2.resize(c[:, :, 3], (128, 72)).astype(float) for c in cut]
     best = None
-    for L in range(14, min(44, len(cut) - 4)):
+    for L in range(12, min(44, len(cut) - 2)):
         for a in range(0, len(cut) - L):
             d = np.abs(small[a] - small[a + L]).mean()
             if best is None or d < best[0]: best = (d, a, L)
