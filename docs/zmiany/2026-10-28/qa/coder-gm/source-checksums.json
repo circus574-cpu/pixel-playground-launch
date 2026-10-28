@@ -1,0 +1,23 @@
+{
+  "src/components/admin/CoderAdminPanel.tsx": "ff84a5b05b5082ae1e9bd150a157082d4b9e9aae627abaca3e74e5d6a09e0436",
+  "src/components/admin/coder-panel.css": "41bec8f263044f9d8cb98061ab6b229f68c4e8e43e99e403f009152ae38f6f9e",
+  "src/components/game/GameHud.tsx": "1c306feb8c6050fbd4486a072f8bb9a239bb62cefc7be6e616a9e32a95935d0a",
+  "src/components/planet-map/MapChrome.tsx": "8339359f18658b2643b7bd9e79d0fd729a9e210c96425214fcf23b3acd5b78bc",
+  "src/components/planet-map/MapaView.tsx": "eb8c8317a3d9b08bfdfe86a2ff362fb383f927b18adc07ba874b919bcc0e54bb",
+  "src/components/planet-map/PlanetMap.tsx": "ffdf337d77d775d1aee22db055b388245434589a71453e8b356a5e4676a0e82d",
+  "src/components/planet-map/planet-map.css": "c4394aec871764fdb091269cc5f347c78ffa7d78cecda1f1fb6492ff59eeaaa0",
+  "src/components/planet-map/worldToAtlas.ts": "92c214bb7ccc1264afacbce2f094f2ad111d2ed173c3fde6882e7878bf8c120f",
+  "src/game/account/gmEdit.ts": "0824fb2dcc6963284c7fda5f3d01c09794b61998755fca8006663a01b9d0b6d7",
+  "src/game/kit/base.ts": "9cb2fff642e9fedcb023e328475004e7867bb97313c564825b1b40c608483cce",
+  "src/game/kit/types.ts": "53960b4354c86a2ab3f2297e14835691436a76d4bf09c437b3c2ebfde29f531d",
+  "src/game/session.ts": "30048ac7160a76b55b8cd640875a236ff959ba66640075f187b26863362dc52b",
+  "src/game/world/generated/superiorRuntime.ts": "3e102b5a9077b73af9b64febfb48fb6c7defb04cb8dbfd994f1ef1165f8ced73",
+  "src/game/world/generated/superiorSave.ts": "e6a64016ef79387c4f9d35f25eaee97534e3a38f5ced763a9081ee4c46c06409",
+  "src/routes/index.tsx": "eb78da8057351da187e855e25c286c0c8cfe9b3d95ceff1ef8aeb5783aa11b25",
+  "e2e/coder-gm-regression.spec.ts": "b8ed253c561d0a0625643ab5465a196a764364bd84ae2db25f858d02af9442af",
+  "src/game/characterStats.ts": "ec3ec6a91db8d5e81c3b5d2df8d5811e8a46e005ed02846e13fb815b11434003",
+  "src/test/coder-stats-teleport.test.ts": "c0b7528e49466c8c01af7bbbd13ee6e77ca9543a3ba3d095a863e528c77093f2",
+  "src/test/coder-stats-ui.test.tsx": "2c1fe80f2bb3a7c0da2053b4b5929740c63aaf2b65938197d01026a356e71fa6",
+  "src/test/map-teleport-ui.test.tsx": "98099fa232b7ba3f9af1b3a7a08660f9faaaea922859fcd7b5a36ab0e909c5c6",
+  "src/test/staff-map-runtime.test.ts": "e4ef61a9c227d6841957b446c5109800a78c81f53e37fdf1cdeaa4a58db39dc8"
+}

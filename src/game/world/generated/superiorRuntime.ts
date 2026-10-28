@@ -78,6 +78,7 @@ export type SuperiorRuntime = GameRuntime & {
   /** `staff`: a special character travels from anywhere outdoors, not only from the harbour. */
   travel: (destination: FeatureId, staff?: boolean) => boolean;
   save: SuperiorSaveStore;
+  staffTeleport: (destination: FeatureId, point: Point, signal?: AbortSignal) => Promise<boolean>;
 };
 
 export async function prepareSuperior(options: {
@@ -589,6 +590,43 @@ export async function prepareSuperior(options: {
         ? !!session.staff && !session.player.interior && !session.player.dead
         : canTravel();
       return !!next && destination !== info.id && allowed && save.travel(session.player, next);
+    },
+    async staffTeleport(destination, point, signal) {
+      if (
+        signal?.aborted ||
+        !session.staff ||
+        session.player.interior ||
+        session.player.dead ||
+        disposed ||
+        !Number.isFinite(point.x) ||
+        !Number.isFinite(point.y)
+      )
+        return false;
+      const next = index.features.find((f) => f.id === destination);
+      if (!next) return false;
+      try {
+        const nav =
+          destination === info.id
+            ? loader.navigation
+            : (await loadBrowserFeature(BASE, destination, { signal: abort.signal })).navigation;
+        if (
+          signal?.aborted ||
+          disposed ||
+          !session.staff ||
+          session.player.interior ||
+          session.player.dead ||
+          !nav.walkable(point)
+        )
+          return false;
+        if (destination === info.id) {
+          session.command({ type: "staff", action: "teleport", ...point });
+          session.flush();
+          return true;
+        }
+        return save.travel(session.player, next, point);
+      } catch {
+        return false;
+      }
     },
     enemyVisual,
     interiorBindings,

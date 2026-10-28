@@ -198,3 +198,18 @@
     font-size: 0.88rem;
   }
 }
+
+.ki-coder-panel .ki-admin-stat-overrides {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #607b83;
+  border-radius: 10px;
+}
+.ki-coder-panel .ki-admin-stat-overrides > p,
+.ki-coder-panel .ki-admin-stat-overrides > button {
+  grid-column: 1 / -1;
+}

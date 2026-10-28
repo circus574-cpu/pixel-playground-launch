@@ -1,0 +1,14 @@
+
+ RUN  v4.1.12 /workspace/ki-coder-panel
+
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /workspace/ki-coder-panel/src/components/planet-map/WorldOverlay.tsx:101:28 undefined
+
+ Test Files  5 passed (5)
+      Tests  26 passed (26)
+   Start at  09:37:18
+   Duration  6.59s (transform 1.80s, setup 220ms, import 2.87s, tests 1.48s, environment 1.41s)
+

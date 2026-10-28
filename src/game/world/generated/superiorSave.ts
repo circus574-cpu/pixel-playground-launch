@@ -156,7 +156,17 @@ export class SuperiorSaveStore extends SaveStore {
       return false;
     }
   }
-  travel(p: Player, destination: FeatureInfo): boolean {
+  travel(p: Player, destination: FeatureInfo, point?: { x: number; y: number }): boolean {
+    if (
+      point &&
+      (!Number.isFinite(point.x) ||
+        !Number.isFinite(point.y) ||
+        point.x < 0 ||
+        point.y < 0 ||
+        point.x >= destination.width ||
+        point.y >= destination.height)
+    )
+      return false;
     const old = this.feature,
       town = this.town;
     this.feature = destination.id;
@@ -165,8 +175,8 @@ export class SuperiorSaveStore extends SaveStore {
       ...structuredClone(p),
       continent: destination.affinity,
       interior: null,
-      x: destination.arrival.x,
-      y: destination.arrival.y,
+      x: point?.x ?? destination.arrival.x,
+      y: point?.y ?? destination.arrival.y,
     };
     if (!this.save(next)) {
       this.feature = old;

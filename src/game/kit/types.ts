@@ -1,3 +1,4 @@
+import type { CharacterStats } from "../characterStats";
 import type { Point } from "../navigation";
 import type { DamageTag } from "../monsters/types";
 
@@ -119,7 +120,14 @@ export type KitPort = {
   readonly gear: { attack: number; defense: number };
   readonly inCombat: boolean;
   terrain(): "forest" | "rock" | "water" | "open";
-  readonly player: { x: number; y: number; level: number; hp: number; ki: number };
+  readonly player: {
+    x: number;
+    y: number;
+    level: number;
+    hp: number;
+    ki: number;
+    statOverrides?: CharacterStats | undefined;
+  };
   readonly facing: Point;
   random(): number;
   say(text: string): void;

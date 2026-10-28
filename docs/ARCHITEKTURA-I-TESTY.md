@@ -519,3 +519,38 @@ Odczyt GitHub Actions dla `a4ee855e`, PR #52: [WebGL run 40653403301](https://gi
 Oddzielny [Playwright 40595421144](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40595421144) na PR #49: 182 PASS / 1 FAIL w scenariuszu Planetarnego (2 zamiast 3 zabójstw), nie jest dowodem naprawy po PR #52. Mapa produkcyjna ma jedynie ograniczone [2 PASS na viewportcie 390×844](zmiany/2026-10-28/ZMIANY.md), nie zastępujące testu rzeczywistego telefonu ani pełnego PvE.
 
 **Warunek zaliczenia:** wyniki kompletu TS/Vitest/assets/lint/build/Playwright Canvas i WebGL na wskazanym SHA, ślady dla porażek, walidacja uprawnień, zapisów i mapy Coder, bez pomijania asercji. Zewnętrzny dowód produkcyjnego SHA osobno.
+
+## Coder: parametry postaci i teleport GM z atlasu — 28.10.2026
+
+Edytor postaci Coder (Gracze w chmurze i Postacie lokalne) zapisuje opcjonalne
+`player.statOverrides`. Kontrakt/zakresy: `src/game/characterStats.ts`; wspólna
+walidacja obejmuje formularz przez `applyEdit` i odczyt przez `PlayerSchema`.
+Dotychczasowe zapisy bez pola nadal działają. Nie zmieniono wersji zapisu, tabel,
+RLS, logowania, kontroli revision ani audytu. Zapis w chmurze używa tej samej
+ścieżki update co pozostałe pola; zmiany postaci są odczytywane przy kolejnym wejściu.
+
+`Kit.stats` nakłada wyłącznie jawne wartości tej postaci na końcowy wynik obliczeń.
+Nie zmienia to danych generowanych, ras ani bazowego balansu. Statystyka z override
+jest stała (także względem wzrostu poziomu, ekwipunku i modyfikatorów w kicie);
+pozostałe pola działają normalnie. Efekty sesji, np. zewnętrzny mnożnik spowolnienia,
+pozostają aktywne. Puste pole usuwa override; przycisk przywraca wszystkie parametry
+rasy/poziomu/wyposażenia. HP/KI bieżące nadal są osobnymi polami i są ograniczane
+maksimum przy odczycie. To narzędzia lokalnego PvE, nie autorytatywny system MMO.
+
+Mapy 2D otrzymują `onTeleport` wyłącznie dla zweryfikowanej specjalnej postaci
+admin/GM na zewnątrz i przy życiu. `PlanetMap` uzbraja przycisk „Teleportuj”,
+a dopiero tap/klik wybiera punkt; pan, pinch i pointercancel nie teleportują.
+`atlasToWorld` odwraca te same transformacje komórek, które obsługuje `worldToAtlas`.
+Nie zmienia geometrii. Przerwanie/zamknięcie mapy anuluje oczekujący wybór.
+
+`SuperiorRuntime.staffTeleport` ponownie sprawdza rolę sesji, stan postaci,
+sygnał anulowania i rzeczywistą nawigację/kolizje miejsca. Dla innego lądu najpierw
+weryfikuje jego dane i przejezdność, a dopiero potem zapisuje podróż ze wskazanymi
+współrzędnymi. `SuperiorSaveStore.travel` zachowuje dotychczasowy CAS i blokadę
+nadpisania przez outgoing scene. Bezpieczne zwykłe podróże nadal domyślnie używają
+arrival. Rolę sesji ustala istniejące `verifiedStaffRole` przy wejściu; nie dodano
+nowego źródła uprawnień ani obejścia autoryzacji. Wersja v1 zachowuje wcześniejsze
+narzędzia GM, nowy wybór z atlasu dotyczy domyślnej mapy v2.
+
+Wyniki, ograniczenia autoryzacji testowej i instrukcje QA:
+[dziennik](zmiany/2026-10-28/ZMIANY.md#coder--indywidualne-parametry-i-teleport-gm).

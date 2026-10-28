@@ -1,3 +1,4 @@
+import { CharacterStatsSchema } from "./characterStats";
 import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
 import { isValidNick } from "./nickname";
@@ -96,6 +97,7 @@ const emptyDepot = () => ({
   upgrade: 0,
 });
 export const PlayerSchema = z.object({
+  statOverrides: CharacterStatsSchema.optional(),
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
   startContinent: z.enum(WORLD_IDS),
@@ -232,7 +234,9 @@ export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
-function statsPort(p: Pick<Player, "level" | "weapon" | "armor" | "upgrade">): KitPort {
+function statsPort(
+  p: Pick<Player, "level" | "weapon" | "armor" | "upgrade" | "statOverrides">,
+): KitPort {
   return {
     nowMs: 0,
     gear: {
@@ -241,7 +245,14 @@ function statsPort(p: Pick<Player, "level" | "weapon" | "armor" | "upgrade">): K
     },
     inCombat: false,
     terrain: () => "open",
-    player: { x: 0, y: 0, level: p.level, hp: 0, ki: 0 },
+    player: {
+      x: 0,
+      y: 0,
+      level: p.level,
+      hp: 0,
+      ki: 0,
+      ...(p.statOverrides ? { statOverrides: p.statOverrides } : {}),
+    },
     facing: { x: 1, y: 0 },
     random: () => 0.5,
     say: noop,
@@ -267,7 +278,7 @@ function statsPort(p: Pick<Player, "level" | "weapon" | "armor" | "upgrade">): K
   };
 }
 export const stats = (
-  p: Pick<Player, "race" | "level" | "weapon" | "armor" | "upgrade" | "skills">,
+  p: Pick<Player, "race" | "level" | "weapon" | "armor" | "upgrade" | "skills" | "statOverrides">,
 ) => {
   const s = createKit(p.race, statsPort(p), p.skills).stats;
   return {
@@ -943,6 +954,10 @@ export class GameSession implements MonsterHost {
     const p = this.player;
     if (!this.staff) return;
     if (c.action === "teleport") {
+      if (!Number.isFinite(c.x) || !Number.isFinite(c.y)) {
+        this.say("Wybierz dostępne miejsce na lądzie, poza przeszkodami.");
+        return;
+      }
       if (p.interior || p.dead) {
         this.say("Teleport działa tylko na otwartym terenie.");
         return;

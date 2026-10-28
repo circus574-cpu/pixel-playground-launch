@@ -922,3 +922,14 @@ animacji combo; istniejąca kanoniczna seria Planetarnych działa bez zwiększen
 Nie dodano globalnego hit-stopu. Ocena odczuwalnej jakości, fizyczny Android/iOS i
 sprzętowe WebGL wymagają osobnego odbioru; headless Chromium tego nie zastępuje.
 Wyniki, SHA i pozostałe problemy: [dziennik 27.10](zmiany/2026-10-27/ZMIANY.md).
+
+## Indywidualne parametry w Coder — 28.10.2026
+
+Na polecenie właściciela edytor postaci administratora/GM ma indywidualne nadpisania
+maksymalnego HP/KI, ataku, obrony, szybkości ruchu, regeneracji KI, szansy krytycznej,
+odstępu ataków i zasięgu ataku podstawowego. Nie zmienia to kanonicznych statystyk
+ras, drzewek ani wzorów dla pozostałych postaci. Wartości są końcowe i stałe dla
+wskazanych pól; pozostawienie pustego pola lub reset przywraca zwykłe obliczenia.
+Zakresy techniczne są w `src/game/characterStats.ts` (m.in. ruch 1–2000 jednostek/s,
+odstęp ataków 200–10000 ms). Zmiana szybkości nadal respektuje nawigację i kolizje.
+Opis zapisu i uprawnień: [architektura](ARCHITEKTURA-I-TESTY.md#coder-parametry-postaci-i-teleport-gm-z-atlasu--28102026).

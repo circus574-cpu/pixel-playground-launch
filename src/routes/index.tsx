@@ -305,6 +305,12 @@ function GameScreen({
           worldOverride={worldRuntime?.session.world}
           planetLocation={worldRuntime?.feature}
           staffDestinations={worldRuntime?.index.features.map((f) => ({ id: f.id, name: f.name }))}
+          onStaffTeleport={async (land, x, y, signal) => {
+            if (!worldRuntime?.session.staff) return false;
+            const moved = await worldRuntime.staffTeleport(land as FeatureId, { x, y }, signal);
+            if (moved && land !== worldRuntime.feature) setAttempt((n) => n + 1);
+            return moved;
+          }}
           onStaffTravel={(id) => {
             if (worldRuntime?.travel(id as FeatureId, true)) setAttempt((n) => n + 1);
             else displayMessage("Podróż niemożliwa: wyjdź na otwarty teren.");

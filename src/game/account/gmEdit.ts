@@ -1,3 +1,4 @@
+import { CharacterStatsSchema, type CharacterStats } from "../characterStats";
 /**
  * Game-master edits of a saved character. The game rejects a save it finds inconsistent
  * (superiorSave.ts load), so every edit is checked here with the same rules before it is stored.
@@ -12,6 +13,7 @@ import { RACES, WORLD_IDS, type RaceId, type WorldId } from "../world/races";
 export type QuestStatus = "locked" | "active" | "ready" | "done";
 
 export type CharacterSummary = {
+  statOverrides: CharacterStats;
   name?: string;
   race: RaceId;
   continent: string;
@@ -65,6 +67,7 @@ export function summarize(data: unknown): CharacterSummary | null {
   const quests = (p["quests"] ?? {}) as Record<string, string>;
   return {
     ...(typeof p["name"] === "string" ? { name: p["name"] } : {}),
+    statOverrides: CharacterStatsSchema.safeParse(p["statOverrides"] ?? {}).data ?? {},
     race: p["race"] as RaceId,
     continent: String(p["continent"] ?? ""),
     ...(data.feature ? { feature: data.feature } : {}),
@@ -110,6 +113,7 @@ export function summarize(data: unknown): CharacterSummary | null {
 export type CharacterEdit = Partial<
   Pick<
     CharacterSummary,
+    | "statOverrides"
     | "level"
     | "xp"
     | "hp"
@@ -142,6 +146,14 @@ export function applyEdit(
   edit: CharacterEdit,
 ): { ok: true; data: unknown } | { ok: false; reason: string } {
   if (!isCharacterSave(data)) return { ok: false, reason: "To nie jest zapis postaci." };
+  if (
+    edit.statOverrides !== undefined &&
+    !CharacterStatsSchema.safeParse(edit.statOverrides).success
+  )
+    return {
+      ok: false,
+      reason: "Parametry postaci poza dozwolonym zakresem; wpisz skończone liczby.",
+    };
   const next = structuredClone(data);
   const p = next.player;
   const race = p["race"] as RaceId;
@@ -289,6 +301,8 @@ export function applyEdit(
       reason: "Zadanie 'Pierwsze wyposażenie' wymaga ukończenia polowania.",
     };
 
+  if (edit.statOverrides !== undefined)
+    p["statOverrides"] = CharacterStatsSchema.parse(edit.statOverrides);
   p["level"] = level;
   p["xp"] = xp;
   p["skills"] = skills;

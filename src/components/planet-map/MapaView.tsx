@@ -58,6 +58,7 @@ export function MapaView({
   onClose,
   onTravel,
   focus,
+  onTeleport,
 }: GameLink & { probe?: () => boolean }) {
   const [mode, setMode] = useState<Mode>("checking");
   const focused = Boolean(focus);
@@ -85,6 +86,7 @@ export function MapaView({
       <PlanetMap
         current={current}
         focus={focus}
+        onTeleport={onTeleport}
         onClose={onClose}
         onTravel={onTravel}
         notice={notice}

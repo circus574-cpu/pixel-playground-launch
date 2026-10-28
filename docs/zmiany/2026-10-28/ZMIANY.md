@@ -211,3 +211,60 @@ commit dowodów zmienia wyłącznie dokumentację i pliki QA, nie kod aplikacji.
 - **KL-2026-10-28-04, ŚREDNI:** starszy PR #50 może nadpisać równolegle dopisane opisy Coder/QA; porównać z main, nie scalać bez aktualizacji i kontroli konfliktów.
 
 **Werdykt końcowy: NIEZWERYFIKOWANE** dla całego najnowszego wydania; **ODRZUCONE** dla konkretnego przebiegu WebGL i interakcji miejsc w Coder. Zaliczono wyłącznie obecność zmian i wąski test mapy na produkcji. Odczyty GitHub Actions i statyczna inspekcja nie są testem wykonanym przez audytora na fizycznym telefonie. Ten commit dokumentacyjny nie naprawia kodu, nie wznawia CI ani nie publikuje gry.
+
+## Coder — indywidualne parametry i teleport GM
+
+Polecenie: rozszerzyć edytor Coder o parametry postaci, w tym szybkość, i dodać
+wybieranie punktu teleportu palcem na mapie 2D specjalnej postaci GM.
+Baza: aktualny `main@3ffd46c7` (sprawdzony fetch przed pracą).
+Gałąź: `feature/coder-character-stats-gm-map`. Dotychczasowy panel i logowanie zachowano.
+
+### Obsługa
+
+- `/admin` → Coder → „Gracze (Chmura)” lub „Postacie lokalne (Urządzenie)” → edytor
+  wybranej postaci → „Indywidualne parametry postaci”. Po wpisaniu wartości użyć
+  „Zapisz zmiany” i ponownie wejść daną postacią do gry. Puste pole/reset przywraca
+  domyślne obliczenia; nie resetuje poziomu, ekwipunku ani zadań.
+- Specjalna postać admin/GM (rola zweryfikowana istniejącą ścieżką konta), na zewnątrz
+  i żywa → mapa 2D → „Teleportuj” → tap/klik w dostępny punkt. Można wskazać także
+  inny kontynent/wyspę. Ziemia/przeszkody weryfikowane są przez rzeczywistą nawigację.
+  Zwykła postać nie ma przycisku. Przesuwanie i szczypanie nadal obsługują atlas.
+- Zamknięcie mapy podczas sprawdzania anuluje operację; brak roli, zgon, wnętrze,
+  błędna pozycja, przeszkoda, anulowanie lub konflikt zapisu nie wykonują teleportu.
+
+Architektura i semantyka stałych wartości: [opis](../../ARCHITEKTURA-I-TESTY.md#coder-parametry-postaci-i-teleport-gm-z-atlasu--28102026).
+Nie zmieniono tabel/RLS, kanonicznych danych generowanych, sterowania, HUD walki, grafiki ani geometrii.
+Nie używano GPU. Nie modyfikowano istniejących zapisów użytkowników podczas QA.
+
+### Weryfikacja
+
+| Kontrola | Wynik |
+| --- | --- |
+| `npm run typecheck` | PASS, komplet trzech konfiguracji; poprawiono początkowe typy helperów testowych |
+| `npm test` | 837 PASS / 0 FAIL w 65 plikach |
+| `npx vitest run src/test/coder-stats-teleport.test.ts src/test/coder-stats-ui.test.tsx src/test/map-teleport-ui.test.tsx src/test/staff-map-runtime.test.ts src/test/staff.test.tsx` | 26 PASS / 0 FAIL po końcowych zmianach |
+| `npm run build` | PASS, finalny build klienta i Nitro |
+| `npm run lint` | 0 błędów, 14 ostrzeżeń (13 wcześniejszych i ostrzeżenie Fast Refresh fixture QA) |
+| `npx playwright test --config docs/zmiany/2026-10-28/qa/coder-gm/browser.config.ts` | 2 PASS / 0 FAIL, prawdziwe zdarzenia dotykowe Chromium przy 390×844 i 852×393 |
+| `KI_QA_APP_URL=http://127.0.0.1:4176 KI_QA_BASE_URL=http://127.0.0.1:4185 npx playwright test e2e/coder-gm-regression.spec.ts --project=gameplay --output=/tmp/ki-gm-gameplay-results --reporter=list` | 1 PASS / 0 FAIL, prawdziwy Phaser: zwykła postać nie ma teleportu GM, powrót z mapy i ruch joystickiem działają |
+
+Serwer QA: `npx vite --config scripts/playtest.vite.ts --host 127.0.0.1 --port 4185`.
+Test komponentów używa produkcyjnych formularza i mapy, ale podstawionego zapisu
+oraz callbacku teleportu; **nie jest testem zalogowanego GM w Phaser** ani dowodem
+RLS. Fixture nie nadaje uprawnień, nie uruchamia sesji staff i nie jest wejściem
+produkcyjnego buildu. Test runtime uruchamia rzeczywistą nawigację, loader z sumami,
+serializację oraz przejścia między lądami; rola GM jest tam jawną daną testu
+jednostkowego. Sprawdzono także odebranie roli i anulowanie podczas oczekiwania.
+
+Testy pokrywają wszystkie cztery kity, trwałość i reset parametrów, błędne liczby,
+rzeczywistą zmianę prędkości ruchu bez przechodzenia przez przeszkody, odwrócenie
+projekcji wszystkich 10 lądów, uprawnienia, ocean/kolizje, podróż i odczyt zapisu,
+obsługę tap/drag/pinch/cancel. Odczytano changelog i dokumentację update Supabase;
+ścieżka bazy pozostała bez zmian, nie wykonywano zapisu produkcyjnej postaci.
+
+NIEWYKONANE: logowanie rzeczywistym kontem GM w produkcji, test fizycznego telefonu,
+produkcyjny zapis cudzej postaci i pomiary wydajności na sprzęcie docelowym.
+Nie deklarowano takich wyników. Logi i obrazy: [QA](qa/coder-gm/).
+Te nowe funkcje przygotowano na osobnej gałęzi do przeglądu; nie scalono ich i nie
+opublikowano w ramach tego polecenia. Wcześniejsza publikacja PR #52 dotyczyła
+optymalizacji mapy, a nie tych nowych narzędzi.

@@ -1030,3 +1030,29 @@ html[data-ki-world-v2] .pg-zone {
     animation: none;
   }
 }
+
+/* Verified staff characters only; normal atlas/HUD layout is unchanged. */
+.pm-teleport-tools {
+  position: absolute;
+  left: max(14px, env(safe-area-inset-left));
+  z-index: 3;
+  max-width: min(260px, calc(100% - 28px));
+  color: #ffedc6;
+}
+.pm-teleport-tools button {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid #ba9856;
+  border-radius: 10px;
+  background: #172923f2;
+}
+.pm-teleport-tools button[aria-pressed="true"] {
+  background: #644e20;
+}
+.pm-teleport-tools p {
+  margin: 6px 0 0;
+  padding: 8px;
+  border-radius: 8px;
+  background: #101d20ed;
+  font-size: 12px;
+}

@@ -8,6 +8,9 @@ import { ArrowLeft } from "lucide-react";
 import { CONTINENTS, QUEST_ISLANDS, ZONE_DIR_NAMES, zonesOf, type MapRegion } from "./mapData";
 
 export type GameLink = {
+  /** Present only for a verified staff character; the runtime checks its role again. */
+  onTeleport?:
+    ((land: string, x: number, y: number, signal?: AbortSignal) => Promise<boolean>) | undefined;
   onTravel?: ((id: string) => void) | undefined;
   /** Continent of the active character (verdant/aether/nexus/pyra), if any. */
   current?: string | null | undefined;

@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:60617) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 docs/zmiany/2026-10-28/qa/coder-gm/browser.spec.ts:6:3 › real touch Coder fields and map component 390 (3.2s)
+  ✓  2 docs/zmiany/2026-10-28/qa/coder-gm/browser.spec.ts:6:3 › real touch Coder fields and map component 852 (2.4s)
+
+  2 passed (6.4s)
