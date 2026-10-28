@@ -1,0 +1,298 @@
+
+Running 8 tests using 2 workers
+
+(node:109885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:109884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh planetary: walk out and hit an actual streamed creature without save patches (672ms)
+  ✘  2 [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh planetary: walk out and hit an actual streamed creature without save patches (990ms)
+(node:110136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:110145) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh sage: walk out and hit an actual streamed creature without save patches (430ms)
+(node:110268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh sage: walk out and hit an actual streamed creature without save patches (825ms)
+  ✘  5 [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh android: walk out and hit an actual streamed creature without save patches (351ms)
+(node:110446) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:110454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  7 [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh legend: walk out and hit an actual streamed creature without save patches (894ms)
+  ✘  6 [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh android: walk out and hit an actual streamed creature without save patches (1.1s)
+(node:110672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  8 [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh legend: walk out and hit an actual streamed creature without save patches (766ms)
+
+
+  1) [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh planetary: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh sage: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh android: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-gameplay/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh legend: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh planetary: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh sage: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh android: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-47367-eature-without-save-patches-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh legend: walk out and hit an actual streamed creature without save patches
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4190/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-heritage/e2e/fixtures.ts:25:16)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:54:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-close-browsers/development-combat-smoke-f-550d5-eature-without-save-patches-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8 failed
+    [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh planetary: walk out and hit an actual streamed creature without save patches
+    [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh sage: walk out and hit an actual streamed creature without save patches
+    [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh android: walk out and hit an actual streamed creature without save patches
+    [gameplay] › e2e/development-combat-smoke.spec.ts:48:3 › fresh legend: walk out and hit an actual streamed creature without save patches
+    [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh planetary: walk out and hit an actual streamed creature without save patches
+    [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh sage: walk out and hit an actual streamed creature without save patches
+    [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh android: walk out and hit an actual streamed creature without save patches
+    [software-webgl] › e2e/development-combat-smoke.spec.ts:48:3 › fresh legend: walk out and hit an actual streamed creature without save patches

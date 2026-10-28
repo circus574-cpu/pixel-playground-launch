@@ -537,3 +537,83 @@ GitHub Actions na dokładnym `924ff66f`: [run 40750159853](https://github.com/ci
 **10/10 browser smoke PASS (2,4 min)**. [Log odpowiednich etapów](qa/racial-development/ci-924ff66f-smoke.txt).
 Tryb `suite=smoke` celowo nie uruchamiał pełnego Playwright. Nie zastępuje starego
 czerwonego Four hero ani pełnej regresji na nowym main. Nie scalono i nie opublikowano.
+
+
+### Zamknięcie partii — odbiorcy obrażeń i dowody QA
+
+Na prośbę „Kończ” zamknięto bieżącą partię bez rozpoczynania następnych dużych
+kontrolerów. Baza: `1eda73940d8e5cbd7bf8d191b0134ff51ade1c2b`, osobna gałąź
+`feature/racial-development-and-heritage`, [Draft PR #55](https://github.com/circus574-cpu/pixel-playground-launch/pull/55).
+SHA-256 testowanego kandydata (kod, testy i konfiguracja):
+[proweniencja](qa/racial-development/protected-candidate-provenance.json).
+Commit zamykający obejmuje tę dokumentację i wskazane pliki; dokładny SHA widoczny
+w historii PR. Nie przypisujemy nowym zmianom wyników CI starszego commita.
+
+Dodano port odbiorców istniejącego MonsterSystem i `ProtectedActor` z rzeczywistym
+HP/FX. To fundament, **nie ukończone cele ochrony/bojowej eskorty**. Jedenaście
+nowych testów sprawdza kontakt wręcz, windup, pociski i ich unieważnienie, AoE,
+pulsy stref, unikalność odbiorców, geometrię, cleanup, DOT i śmierć.
+Próba zegara na granicy miasta najpierw wykazała oczekiwane 400 ms wobec -100 ms:
+[1 FAIL / 10 odfiltrowanych](qa/racial-development/protected-city-clock-before.txt).
+Poprawiono adapter gracza, przywracając dotychczasową semantykę pulsu; ochronione
+ciała nadal nie mogą być rejestrowane w bezpiecznych miastach.
+
+Końcowe lokalne kontrole tego kandydata:
+
+- `npm run typecheck`: PASS, wszystkie konfiguracje — [log](qa/racial-development/protected-type.txt).
+- `npm test`: **939/939 PASS, 70 plików, 67,90 s** — [log](qa/racial-development/protected-unit.txt).
+- `npm run lint`: 0 błędów / 13 wcześniejszych ostrzeżeń — [log](qa/racial-development/protected-lint.txt).
+- `npm run build`: PASS — [log](qa/racial-development/protected-build.txt).
+- `npm run build:playtest`: PASS — [log](qa/racial-development/protected-playtest-build.txt).
+
+Uzupełniono dowody wcześniej zakończonych przebiegów na dokładnym `1eda7394`:
+
+- Prawdziwa dostawa H-V02 od nowej postaci, checkpoint/reload i broń stopnia 2:
+  **1 PASS Software WebGL / 13,6 min** — [log](qa/racial-development/delivery-1eda7394-webgl.txt).
+  Polecenie: `KI_QA_BASE_URL=http://127.0.0.1:4190 KI_QA_APP_URL=http://127.0.0.1:4190 npx playwright test e2e/heritage-delivery.spec.ts --project=software-webgl --workers=1 --reporter=list --output=/tmp/ki-delivery-1eda7394-webgl`.
+  Zrzuty `1eda7394-webgl-*.png` w katalogu QA.
+- Obsługa dotykowa panelu i ruchu wszystkich ras: **8 PASS Canvas / 2,3 min** —
+  [log](qa/racial-development/mobile-1eda7394.txt). Ta sama konfiguracja adresów,
+  `npx playwright test e2e/development-mobile.spec.ts --project=gameplay --workers=1 --reporter=list --output=/tmp/ki-mobile-1eda7394-canvas`.
+  To emulacja dotyku, nie fizyczny Android/iOS.
+- [GitHub Actions 40753633093](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40753633093):
+  SUCCESS dla core i smoke; [obserwacja JSON](qa/racial-development/ci-1eda7394-observed.json).
+  Pełny Playwright był pominięty przez tryb smoke. `gh run view --log` zwrócił pusty
+  plik, więc nie deklarujemy nieodczytanej liczby przypadków. Nie jest to CI nowego kandydata.
+
+Nowy `e2e/development-combat-smoke.spec.ts` wybiera każdą rasę, idzie prawdziwym
+A* do rzeczywistego spawnu, klika przeciwnika i atak, wymaga spadku jego HP oraz
+obrażeń gracza; brak zapisu/XP/pozycji dopisywanych przez test. Pierwszy driver
+omyłkowo czytał v1 zamiast aktywnego v2 (1 FAIL / 1 przerwany / 6 niewykonanych):
+[log](qa/racial-development/combat-driver-v1-before.txt). Poprawiono tylko źródło
+fixture do rzeczywistych v2 arrival/navigation/spawns. Następnie Node odrzucił
+import JSON bez atrybutu — 0 wykonanych testów:
+[log](qa/racial-development/combat-driver-node-import-before.txt); driver używa
+`readFileSync` i `JSON.parse`. Kolejny przebieg: 8 FAIL przy `goto`, ponieważ po
+odtworzeniu środowiska lokalny preview był wyłączony:
+[log](qa/racial-development/combat-preview-offline-before.txt).
+Po ponownym uruchomieniu preview i odpowiedzi HTTP 200 wykonano nowy przebieg.
+Wynik poniżej. Żadnego z tych niezaliczonych przebiegów nie oznaczono PASS.
+
+Pełne zlecenie pozostaje **NIEUKOŃCZONE**: próby rasowe, bojowe ochrony/eskorty,
+późne starcia, pozostałe rozdziały/projekty, narracja i bilans nadal wymagają pracy.
+Zewnętrzne GPU jest poza zakresem tej partii; nie uruchamiano i nie modyfikowano go.
+PR nadal Draft/CONFLICTING z nowszym main; nie scalono, nie opublikowano.
+
+
+Końcowy przebieg kandydata: **4 PASS Software WebGL / 4 FAIL Canvas / 0 pominiętych,
+9,0 min**, exit 1. [Log](qa/racial-development/protected-real-combat-browsers.txt).
+Komenda: `KI_QA_BASE_URL=http://127.0.0.1:4190 KI_QA_APP_URL=http://127.0.0.1:4190 npx playwright test e2e/development-combat-smoke.spec.ts --workers=2 --reporter=list --output=/tmp/ki-protected-close-live-browsers`.
+Wszystkie cztery rasy przeszły rzeczywiste wyjście z miasta, trafienie i obrażenia
+bohatera w Software WebGL. Canvas zatrzymał się na asercji spadku HP potwora:
+73→73, 43→43, 37→37, 61→61. Na sprawdzonym zrzucie Planetarnych żywy wybrany cel
+jest dalej od postaci, a HUD pokazuje „Podejdź bliżej”. Driver idzie do punktu
+spawnu, który nie musi już odpowiadać pozycji wędrującej jednostki. To obserwacja,
+nie potwierdzenie przyczyny wszystkich czterech niepowodzeń. Nie dodano autochodzenia,
+nie zmieniono zasięgu i nie osłabiono sprawdzenia obrażeń. Diagnostyka Canvas i
+porównanie z bazowym buildem pozostają OTWARTE, nie deklarujemy braku regresji.
+Screenshoty PASS/FAIL i konteksty błędów `protected-*` zapisano w katalogu QA.
+[Indeks lokalnych trace z SHA-256](qa/racial-development/protected-browser-traces.json):
+ZIP-y pozostają wyłącznie w workspace, bez potwierdzonej kopii zewnętrznej.
+Na zamykającym commicie nie uruchomiono ponownie zdalnego CI; ostatni SUCCESS
+odnosi się wyłącznie do `1eda7394`. Warunki odbioru pełnego zlecenia nie są spełnione.

@@ -56,7 +56,7 @@ import {
   type MonsterEvent,
   type MonsterHost,
 } from "./monsters/system";
-import { PlayerFx } from "./monsters/fx";
+import { PlayerFx, statusText } from "./monsters/fx";
 import type { Enemy, FxSpec, ZoneState } from "./monsters/types";
 
 export type { Enemy } from "./monsters/types";
@@ -2224,36 +2224,7 @@ export class GameSession implements MonsterHost {
     return this.monsters.zones;
   }
 }
-const statusText = (fx: FxSpec): string => {
-  switch (fx.k) {
-    case "slow":
-      return "Spowolnienie";
-    case "root":
-      return "Unieruchomienie";
-    case "stun":
-      return "Ogłuszenie";
-    case "fear":
-      return "Strach";
-    case "silence":
-      return "Uciszenie";
-    case "dot":
-      return fx.id === "poison" ? "Trucizna" : fx.id === "burn" ? "Podpalenie" : "Krwawienie";
-    case "blind":
-      return "Oślepienie";
-    case "fog":
-      return "Mgła";
-    case "jam":
-      return "Zakłócenia";
-    case "weaken":
-      return "Osłabienie";
-    case "armorDown":
-      return "Obrona w dół";
-    case "mark":
-      return "Znak";
-    default:
-      return "";
-  }
-};
+
 /** The surface a race kit uses to act on the game; implemented on top of the session. */
 function makePort(s: GameSession): KitPort {
   return {

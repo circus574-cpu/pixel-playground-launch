@@ -1,3 +1,4 @@
+import type { MonsterReceiver } from "./receivers";
 import { Projectiles, segmentContact } from "../combat/projectiles";
 import { inSafeCity } from "../city/types";
 import {
@@ -154,9 +155,102 @@ export class MonsterSystem {
   private zoneSeq = 0;
   private paths = new Map<string, { goal: Point; points: Point[]; remaining: number }>();
   private splits = new Map<string, { cloneId: string; origMax: number; ms: number }>();
-  constructor(private host: MonsterHost) {}
+  private readonly receivers = new Map<string, MonsterReceiver>();
+  private readonly focusedReceivers = new Map<string, string>();
+  private readonly heroReceiver: MonsterReceiver;
+  private recipients: readonly MonsterReceiver[];
+  constructor(private host: MonsterHost) {
+    this.heroReceiver = {
+      id: "player",
+      get body() {
+        return host.player;
+      },
+      get maxHp() {
+        return host.playerMaxHp;
+      },
+      valid: () => !host.player.dead,
+      hurt: (raw, from, kind, fixed) => host.hurtPlayer(raw, from, kind, fixed),
+      applyFx: (fx, from) => host.applyPlayerFx(fx, from),
+    };
+    this.recipients = [this.heroReceiver];
+  }
+  registerCombatTarget(receiver: MonsterReceiver) {
+    if (
+      !receiver.id ||
+      receiver.id === "player" ||
+      receiver.id.length > 160 ||
+      this.receivers.has(receiver.id) ||
+      this.receivers.size >= 8 ||
+      inSafeCity(this.host.world, receiver.body, null) ||
+      receiver.body === this.host.player ||
+      [...this.receivers.values()].some((existing) => existing.body === receiver.body) ||
+      ![receiver.body.x, receiver.body.y, receiver.body.hp, receiver.maxHp].every(
+        Number.isFinite,
+      ) ||
+      receiver.maxHp <= 0 ||
+      receiver.body.hp <= 0 ||
+      receiver.body.hp > receiver.maxHp ||
+      receiver.body.dead ||
+      !receiver.valid()
+    )
+      throw Error("Invalid protected combat target");
+    this.receivers.set(receiver.id, receiver);
+    this.recipients = [this.heroReceiver, ...this.receivers.values()];
+  }
+  unregisterCombatTarget(id: string) {
+    if (!this.receivers.delete(id)) return;
+    for (const [enemyId, targetId] of this.focusedReceivers)
+      if (targetId === id) {
+        this.focusedReceivers.delete(enemyId);
+        const enemy = this.host.enemies.find((e) => e.id === enemyId);
+        if (enemy && enemy.mode !== "dead") this.beginReturn(enemy);
+      }
+    this.recipients = [this.heroReceiver, ...this.receivers.values()];
+  }
+  /** Target switches never redirect an already committed windup, cast, charge or volley. */
+  setCombatTarget(enemy: Enemy, id: string | null): boolean {
+    if (
+      !this.host.enemies.includes(enemy) ||
+      enemy.mode === "dead" ||
+      (id !== null && !this.receivers.has(id))
+    )
+      return false;
+    const current = this.focusedReceivers.get(enemy.id) ?? null;
+    if (current === id) return true;
+    if (enemy.m.basicWindup || enemy.m.cast || enemy.m.charge || enemy.m.volley) return false;
+    if (id === null) this.focusedReceivers.delete(enemy.id);
+    else this.focusedReceivers.set(enemy.id, id);
+    this.paths.delete(enemy.id);
+    return true;
+  }
+  private receiver(e: Enemy) {
+    const id = this.focusedReceivers.get(e.id);
+    return (id && this.receivers.get(id)) || this.heroReceiver;
+  }
+  private body(e: Enemy) {
+    return this.receiver(e).body;
+  }
+  private validReceiver(receiver: MonsterReceiver) {
+    return (
+      (receiver === this.heroReceiver || this.receivers.get(receiver.id) === receiver) &&
+      !receiver.body.dead &&
+      Number.isFinite(receiver.body.hp) &&
+      Number.isFinite(receiver.body.x) &&
+      Number.isFinite(receiver.body.y) &&
+      receiver.body.hp > 0 &&
+      (receiver === this.heroReceiver || !inSafeCity(this.host.world, receiver.body, null)) &&
+      receiver.valid()
+    );
+  }
+  private targetFx(e: Enemy, fx: FxSpec) {
+    const receiver = this.receiver(e);
+    if (this.validReceiver(receiver)) receiver.applyFx(fx, e);
+  }
 
   cancelCombat() {
+    this.focusedReceivers.clear();
+    this.receivers.clear();
+    this.recipients = [this.heroReceiver];
     this.projectiles.cancel();
     this.zones = [];
     for (const e of this.host.enemies) {
@@ -211,6 +305,7 @@ export class MonsterSystem {
   }
   forget(ids: ReadonlySet<string>) {
     for (const id of ids) {
+      this.focusedReceivers.delete(id);
       this.paths.delete(id);
       this.splits.delete(id);
     }
@@ -399,10 +494,11 @@ export class MonsterSystem {
         ms: 0,
         ability: "explode",
       });
-      if (distance(e, this.host.player) <= t.explode.radius && !this.host.player.dead) {
-        const r = this.host.hurtPlayer(def.atk * t.explode.atk, e, "area");
-        if (!r.evaded) for (const fx of t.explode.fx ?? []) this.host.applyPlayerFx(fx, e);
-      }
+      for (const receiver of this.recipients)
+        if (this.validReceiver(receiver) && distance(e, receiver.body) <= t.explode.radius) {
+          const r = receiver.hurt(def.atk * t.explode.atk, e, "area");
+          if (!r.evaded) for (const fx of t.explode.fx ?? []) receiver.applyFx(fx, e);
+        }
     }
     if (t.deathZone) this.addZone(t.deathZone, e, e);
     this.host.killed(e);
@@ -503,18 +599,22 @@ export class MonsterSystem {
     }
   }
   private tickZones(dt: number) {
-    const p = this.host.player;
     for (const z of this.zones) {
       z.ms -= dt;
       z.fxMs -= dt;
-      if (p.dead || distance(z, p) > z.radius) continue;
       const owner = this.host.enemies.find((x) => x.id === z.owner);
       if (!owner) continue;
-      if (z.dps > 0) this.host.hurtPlayer((z.atk * z.dps * dt) / 1000, owner, "dot", true);
-      if (z.fx.length && z.fxMs <= 0) {
-        z.fxMs = 400;
-        for (const fx of z.fx) this.host.applyPlayerFx(fx, owner);
+      const pulse = z.fx.length > 0 && z.fxMs <= 0;
+      let applied = false;
+      for (const receiver of this.recipients) {
+        if (!this.validReceiver(receiver) || distance(z, receiver.body) > z.radius) continue;
+        if (z.dps > 0) receiver.hurt((z.atk * z.dps * dt) / 1000, owner, "dot", true);
+        if (pulse) {
+          for (const fx of z.fx) receiver.applyFx(fx, owner);
+          applied = true;
+        }
       }
+      if (applied) z.fxMs = 400;
     }
     this.zones = this.zones.filter((z) => z.ms > 0);
   }
@@ -658,12 +758,16 @@ export class MonsterSystem {
     const m = e.m;
     const def = m.def;
     const host = this.host;
-    const p = host.player;
+    const p = this.body(e);
     updateBossPhase(e);
     this.decay(e, dt);
     if (e.mode === "dead") {
       e.timer -= dt;
       if (def.respawn > 0 && e.timer <= 0 && distance(p, e.home) > 160) this.reset(e);
+      return;
+    }
+    if (this.receiver(e) !== this.heroReceiver && !this.validReceiver(this.receiver(e))) {
+      this.beginReturn(e);
       return;
     }
     if (m.stunMs > 0 || e.fx.stunMs > 0) {
@@ -704,13 +808,19 @@ export class MonsterSystem {
     // engaged
     // A ranged player may stand far from the monster's home; the leash grows by that reach so the
     // monster can still come to the shooter instead of returning and becoming untouchable.
-    const reachBonus = Math.max(0, host.playerRange - 100);
-    if (p.dead || host.safe || distance(e, e.home) > def.traits.leash + reachBonus + 10) {
+    const targetRange = this.receiver(e) === this.heroReceiver ? host.playerRange : 100;
+    const reachBonus = Math.max(0, targetRange - 100);
+    if (
+      !this.validReceiver(this.receiver(e)) ||
+      p.dead ||
+      host.safe ||
+      distance(e, e.home) > def.traits.leash + reachBonus + 10
+    ) {
       if (def.traits.still && !p.dead && !host.safe) {
         /* turrets and plants never leave their place */
       } else return this.beginReturn(e);
     }
-    if (d > Math.max(def.agro * 2 + 100, host.playerRange + 180) && !def.traits.still)
+    if (d > Math.max(def.agro * 2 + 100, targetRange + 180) && !def.traits.still)
       return this.beginReturn(e);
     if (def.traits.provoked && m.sinceHit > (def.traits.giveUp ?? 6000) && !m.cast)
       return this.beginReturn(e);
@@ -785,8 +895,8 @@ export class MonsterSystem {
   private stepHidden(e: Enemy, dt: number, d: number) {
     const m = e.m;
     const t = m.def.traits;
-    const p = this.host.player;
-    if (this.host.safe || this.host.player.dead) {
+    const p = this.body(e);
+    if (this.host.safe || this.body(e).dead) {
       m.cast = undefined;
       return;
     }
@@ -855,7 +965,7 @@ export class MonsterSystem {
     const m = e.m;
     const t = m.def.traits;
     m.phaseMs -= dt;
-    const p = this.host.player;
+    const p = this.body(e);
     if (!m.hidden && !t.still) {
       const u = unit(p, e);
       const goal = { x: e.x + u.x * 160, y: e.y + u.y * 160 };
@@ -990,20 +1100,32 @@ export class MonsterSystem {
     kind: HurtKind,
     fx: FxSpec[] | undefined,
     extra = 1,
-    aim: Point = this.host.player,
+    aim: Point = this.body(e),
+    receiver = this.receiver(e),
   ) {
     const raw = e.m.def.atk * mult * this.damageMult(e) * extra;
+    return this.hitReceiver(e, raw, kind, fx, aim, receiver);
+  }
+  private hitReceiver(
+    e: Enemy,
+    raw: number,
+    kind: HurtKind,
+    fx: FxSpec[] | undefined,
+    aim: Point,
+    receiver: MonsterReceiver,
+  ) {
+    if (!this.validReceiver(receiver)) return false;
+    const p = receiver.body;
     this.host.emit({
       type: "attack",
       x: e.x,
       y: e.y,
       source: e.id,
-      target: "player",
+      target: receiver.id,
       to: { x: aim.x, y: aim.y },
       kind,
     });
     if (kind === "projectile") {
-      const p = this.host.player;
       const shot = this.projectiles.launch(
         e,
         aim,
@@ -1011,14 +1133,14 @@ export class MonsterSystem {
         distance(e, p) + 18,
         p,
         () =>
-          !p.dead &&
+          this.validReceiver(receiver) &&
           !this.host.safe &&
           e.mode !== "dead" &&
           e.m.phase !== "return" &&
           this.host.enemies.includes(e),
         () => {
-          const r = this.host.hurtPlayer(raw, e, kind);
-          if (!r.evaded && !p.dead) for (const f of fx ?? []) this.host.applyPlayerFx(f, e);
+          const result = receiver.hurt(raw, e, kind);
+          if (!result.evaded && !p.dead) for (const f of fx ?? []) receiver.applyFx(f, e);
         },
       );
       if (shot)
@@ -1036,10 +1158,9 @@ export class MonsterSystem {
         });
       return false;
     }
-    const r = this.host.hurtPlayer(raw, e, kind);
-    if (!r.evaded && !this.host.player.dead)
-      for (const f of fx ?? []) this.host.applyPlayerFx(f, e);
-    return !r.evaded;
+    const result = receiver.hurt(raw, e, kind);
+    if (!result.evaded && !p.dead) for (const f of fx ?? []) receiver.applyFx(f, e);
+    return !result.evaded;
   }
 
   private ready(e: Enemy, s: SkillSpec) {
@@ -1060,7 +1181,7 @@ export class MonsterSystem {
     const m = e.m;
     const def = m.def;
     const t = def.traits;
-    const p = this.host.player;
+    const p = this.body(e);
     e.mode = "chase";
     if (t.burrow) {
       m.phaseMs -= dt;
@@ -1135,7 +1256,7 @@ export class MonsterSystem {
     const medicBusy =
       t.medic !== undefined && this.allies(e, t.medic).some((a) => a.hp < a.maxHp * 0.95);
     const opportunistic =
-      t.opportunist !== undefined && p.hp >= this.host.playerMaxHp * t.opportunist;
+      t.opportunist !== undefined && p.hp >= this.receiver(e).maxHp * t.opportunist;
     if (def.basic !== "none" && def.range > 0 && !medicBusy && !opportunistic) {
       const inReach =
         d <= def.range &&
@@ -1148,7 +1269,7 @@ export class MonsterSystem {
   }
   private aimTurret(e: Enemy, dt: number) {
     const m = e.m;
-    const p = this.host.player;
+    const p = this.body(e);
     const want = Math.atan2(p.y - e.y, p.x - e.x);
     let diff = want - m.aim;
     diff = Math.atan2(Math.sin(diff), Math.cos(diff));
@@ -1157,7 +1278,7 @@ export class MonsterSystem {
     m.facing = { x: Math.cos(m.aim), y: Math.sin(m.aim) };
   }
   private aimed(e: Enemy) {
-    const p = this.host.player;
+    const p = this.body(e);
     const want = Math.atan2(p.y - e.y, p.x - e.x);
     const diff = Math.atan2(Math.sin(want - e.m.aim), Math.cos(want - e.m.aim));
     return Math.abs(diff) < (12 * Math.PI) / 180;
@@ -1165,7 +1286,7 @@ export class MonsterSystem {
   private positioning(e: Enemy, dt: number, d: number, circle: boolean) {
     const m = e.m;
     const t = m.def.traits;
-    const p = this.host.player;
+    const p = this.body(e);
     if (t.still || m.heatMs > 0) return;
     const spd = this.speed(e) * dt;
     const reach = Math.max(30, m.def.range * 0.8);
@@ -1197,7 +1318,7 @@ export class MonsterSystem {
   private pickSkill(e: Enemy, d: number): SkillSpec | undefined {
     const m = e.m;
     const t = m.def.traits;
-    const p = this.host.player;
+    const p = this.body(e);
     for (const s of m.def.skills) {
       if (!this.ready(e, s)) continue;
       if (s.mode === "self") {
@@ -1225,7 +1346,7 @@ export class MonsterSystem {
         }
         continue;
       }
-      if (t.opportunist !== undefined && p.hp >= this.host.playerMaxHp * t.opportunist) continue;
+      if (t.opportunist !== undefined && p.hp >= this.receiver(e).maxHp * t.opportunist) continue;
       if (s.aimed && !this.aimed(e)) continue;
       if (d > s.range) continue;
       if (!(t.fly || t.ghost) && !this.navigation.visible(e, p) && s.mode !== "burst") continue;
@@ -1242,7 +1363,7 @@ export class MonsterSystem {
     let cd = def.attackCd;
     if (t.rage && e.hp / e.maxHp < t.rage.below) cd *= 1 - t.rage.speed;
     e.attackIn = cd;
-    this.face(e, this.host.player);
+    this.face(e, this.body(e));
     let extra = 1;
     if (t.ramp) {
       extra += t.ramp * m.scanStacks;
@@ -1255,7 +1376,7 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       source: e.id,
-      to: { ...this.host.player },
+      to: { ...this.body(e) },
       radius: def.range,
       ms: windup,
       ability: "basic",
@@ -1268,7 +1389,7 @@ export class MonsterSystem {
     if (t.rage && e.hp / e.maxHp < t.rage.below) cd *= 1 - t.rage.speed;
     m.cooldowns[s.id] = cd;
     if (s.once) m.used.add(s.id);
-    const p = this.host.player;
+    const p = this.body(e);
     this.face(e, p);
     if (s.mode === "self" && !s.telegraph) return this.useSelf(e, s);
     const opener = !!s.opener && m.attackCount === 0;
@@ -1350,7 +1471,7 @@ export class MonsterSystem {
     if (!c) return;
     m.cast = undefined;
     const s = c.skill;
-    const p = this.host.player;
+    const p = this.body(e);
     if (m.phase === "hidden") {
       // surfacing from underground / out of the bushes
       if (!this.allowed(c.at)) return;
@@ -1401,12 +1522,18 @@ export class MonsterSystem {
           ms: 0,
           ability: s.id + ":hit",
         });
-        if (!p.dead && distance(c.at, p) <= radius + 12 && this.navigation.visible(c.at, p)) {
-          if ((s.dmg ?? 0) > 0) {
-            const evaded = !this.hitPlayer(e, s.dmg!, "area", s.fx);
-            void evaded;
-          } else for (const f of s.fx ?? []) this.host.applyPlayerFx(f, e);
-        }
+        let raw: number | undefined;
+        for (const receiver of this.recipients)
+          if (
+            this.validReceiver(receiver) &&
+            distance(c.at, receiver.body) <= radius + 12 &&
+            this.navigation.visible(c.at, receiver.body)
+          ) {
+            if ((s.dmg ?? 0) > 0) {
+              raw ??= e.m.def.atk * s.dmg! * this.damageMult(e);
+              this.hitReceiver(e, raw, "area", s.fx, receiver.body, receiver);
+            } else for (const fx of s.fx ?? []) receiver.applyFx(fx, e);
+          }
         if (s.zone) this.addZone(s.zone, c.at, e);
         this.finishAttack(e);
         break;
@@ -1425,7 +1552,7 @@ export class MonsterSystem {
         break;
     }
   }
-  private hitSkill(e: Enemy, s: SkillSpec, opener: boolean, aim: Point = this.host.player) {
+  private hitSkill(e: Enemy, s: SkillSpec, opener: boolean, aim: Point = this.body(e)) {
     const kind: HurtKind = s.mode === "ranged" ? "projectile" : "melee";
     const connected =
       (s.dmg ?? 0) > 0
@@ -1439,11 +1566,11 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       source: e.id,
-      target: "player",
-      to: { x: this.host.player.x, y: this.host.player.y },
+      target: this.receiver(e).id,
+      to: { x: this.body(e).x, y: this.body(e).y },
       kind: "projectile",
     });
-    for (const f of s.fx ?? []) this.host.applyPlayerFx(f, e);
+    for (const f of s.fx ?? []) this.targetFx(e, f);
   }
   private finishAttack(e: Enemy) {
     const m = e.m;
@@ -1467,12 +1594,12 @@ export class MonsterSystem {
     const m = e.m;
     const v = m.volley!;
     v.next -= dt;
-    this.face(e, this.host.player);
+    this.face(e, this.body(e));
     if (v.next > 0) return;
     const s = v.skill;
     v.left--;
     v.next = s.mode === "melee" ? 260 : 220;
-    const p = this.host.player;
+    const p = this.body(e);
     if (!p.dead && distance(e, p) <= s.range + 40 && this.navigation.visible(e, p))
       this.hitSkill(e, s, false);
     if (m.def.traits.turret) {
@@ -1489,7 +1616,7 @@ export class MonsterSystem {
   private runCharge(e: Enemy, dt: number) {
     const m = e.m;
     const c = m.charge!;
-    const p = this.host.player;
+    const p = this.body(e);
     const leap = c.skill.mode === "leap";
     const speed = (leap ? 0.55 : 0.5) * dt;
     const before = { x: e.x, y: e.y };

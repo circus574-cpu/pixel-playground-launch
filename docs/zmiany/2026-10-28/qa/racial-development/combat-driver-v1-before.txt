@@ -1,0 +1,77 @@
+
+Running 8 tests using 1 worker
+
+(node:108060) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/development-combat-smoke.spec.ts:4:3 › fresh planetary: walk out and hit an actual streamed creature without save patches (3.7m)
+(node:108302) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [gameplay] › e2e/development-combat-smoke.spec.ts:4:3 › fresh sage: walk out and hit an actual streamed creature without save patches (2.4m)
+
+
+  1) [gameplay] › e2e/development-combat-smoke.spec.ts:4:3 › fresh planetary: walk out and hit an actual streamed creature without save patches
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 110
+    Received:   19497.439436049117
+
+    Call Log:
+    - Timeout 180000ms exceeded while waiting on the predicate
+
+      35 |         { timeout: 180000 },
+      36 |       )
+    > 37 |       .toBeLessThan(110);
+         |        ^
+      38 |     type Enemy = { id: string; x: number; y: number; hp: number; mode: string };
+      39 |     const enemies = async () =>
+      40 |       JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as Enemy[];
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:37:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-6545b-eature-without-save-patches-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [gameplay] › e2e/development-combat-smoke.spec.ts:4:3 › fresh sage: walk out and hit an actual streamed creature without save patches
+
+    Test was interrupted.
+
+    Error: locator.getAttribute: Target page, context or browser has been closed
+
+      30 |         !traits.ambush &&
+      31 |         !traits.burrow &&
+    > 32 |         !traits.ghost &&
+         |                         ^
+      33 |         !traits.still &&
+      34 |         !traits.dive &&
+      35 |         !traits.fleeAfterHits
+        at expect.poll.timeout (/workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:32:33)
+        at /workspace/ki-heritage/e2e/development-combat-smoke.spec.ts:28:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-protected-default-browsers/development-combat-smoke-f-d662e-eature-without-save-patches-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/development-combat-smoke.spec.ts:4:3 › fresh planetary: walk out and hit an actual streamed creature without save patches
+  1 interrupted
+    [gameplay] › e2e/development-combat-smoke.spec.ts:4:3 › fresh sage: walk out and hit an actual streamed creature without save patches
+  6 did not run

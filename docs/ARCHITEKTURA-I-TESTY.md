@@ -635,3 +635,23 @@ porażka są w dzienniku 28.10; asercji nie osłabiono.
 zamknięciu panelu dla czterech ras. W pionie Superior pokazuje istniejący ekran
 obrotu; test odtwarza obrót, nie obchodzi blokady. Osiem przypadków Canvas przeszło
 na grze `924ff66f`. To nie dowód pracy na fizycznym telefonie.
+
+
+### Odbiorcy obrażeń poza graczem — partia zamykająca 28.10
+
+`monsters/receivers.ts` definiuje `MonsterReceiver`. Istniejący `MonsterSystem`
+obsługuje do ośmiu jawnie zarejestrowanych, żywych odbiorców; odrzuca duplikaty
+identyfikatorów i ciał, alias gracza oraz nieprawidłowe HP/pozycje. Cel wybierany
+jest jawnie, bez zmiany sterowania. Rozpoczęty windup/pocisk zachowuje odbiorcę;
+wyrejestrowanie unieważnia kontakt i odsyła skupionych wrogów. Strefy i AoE
+rozliczają odbiorców raz, zachowując jeden mnożnik ataku. Cleanup usuwa rejestracje.
+
+`development/heritage/protectedActor.ts` to fundament przyjaznego ciała z własnym
+HP, DEF i istniejącym `PlayerFx`, rzeczywistym DOT i ruchem pull przez nawigację.
+Nie pożycza tarcz gracza, nie przyznaje XP i nie resetuje jego zasobów.
+**Runtime zadań jeszcze go nie tworzy: bojowe eskorty i cele ochrony NIE są gotowe.**
+Polskie etykiety statusów przeniesiono bez zmiany znaczenia do `monsters/fx.ts`.
+Zachowano dotychczasowe taktowanie FX na granicy miasta: sprawdzenie bezpieczeństwa
+nie może zatrzymywać zegara pulsu gracza. Odtworzony błąd zegara i jego regresja
+są w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).
+Nie zmieniono HUD, inputu, atlasów, geometrii, kanonicznych statystyk ani formatów zapisu.

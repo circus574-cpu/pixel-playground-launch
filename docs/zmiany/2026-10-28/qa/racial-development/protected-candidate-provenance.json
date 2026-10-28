@@ -1,0 +1,14 @@
+{
+  "baseHead": "1eda73940d8e5cbd7bf8d191b0134ff51ade1c2b",
+  "note": "Uncommitted candidate tested before closing commit; hashes identify exact source. No merge/publication.",
+  "sha256": {
+    "src/game/monsters/system.ts": "d42f7d9c432cecaccc293bdf94d8056aff1b39deafe9294e5d87fcd349a60b06",
+    "src/game/monsters/receivers.ts": "90ce6d265b4ffad82a06f8b163a11e954fd2ac6e6d7e250b9ef2df4f5b53658f",
+    "src/game/monsters/fx.ts": "3b62646f2da329de0836622a64608f9e5aa42cd1dbebd4ca7d5f9a8a07ed7ea7",
+    "src/game/session.ts": "545639306ca926645a7496042d13bdd390ccdb29fc2e61a31570b689d62041d5",
+    "src/game/development/heritage/protectedActor.ts": "45420314ec31ca8ebf780382deb6a43f87eb1aac821562788bcc6924c630d9b7",
+    "src/test/protected-combat.test.ts": "b6b64835f8e8d75cb1d0316368530f81b5ce932a837cf3b7e6ebd828684d2023",
+    "e2e/development-combat-smoke.spec.ts": "e808541b1ac382849aa1f30bcf9c5c5826d90cc577a79283862a5d1f20cc371e",
+    "playwright.config.ts": "7afc20111bf5b95b6665ed4f5bac79518dfb0a50300879768d2588e56402fd4b"
+  }
+}

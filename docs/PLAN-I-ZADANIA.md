@@ -194,3 +194,19 @@ Weryfikacja tego rozdziału w przeglądarce pozostaje do wykonania. Eskorty bojo
 obrona i fale nadal wymagają odbiorcy faktycznych obrażeń w obecnym silniku AI,
 a nie zaliczania ich kontrolerem spokojnej dostawy. Pozostały zakres 48 prób,
 późnych spotkań, biografii, kronik, tytułów i balansu nie jest ukończony.
+
+
+### Stan zamknięcia sesji 28.10 — PR #55 nadal Draft
+
+Partia odbiorców obrażeń przygotowuje ochronę NPC/obiektów, lecz nie implementuje
+kontrolerów fal ani bojowych eskort. Pozostają: 48 prób rasowych i trzy progi
+każdej, 32 późne starcia, pełne funkcjonalne rozdziały/projekty i odbiór broni
+stopni 3–6, odblokowania mistrzostw II, narracja/kroniki i pomiary legalnego balansu.
+Nie należy traktować 24 definicji zadań i 24 projektów jako dowodu ich pełnej grywalności.
+Nowy test rzeczywistej walki Canvas/Software WebGL ma niezakończoną diagnozę;
+nie osłabiać asercji spadku HP ani zastępować zniknięcia potwora dowodem trafienia.
+
+PR #55 ma konflikt z nowszym `main@0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`.
+Przed integracją porównać nowe transformacje, zapis, sterowanie i zmiany GM;
+wyniki tej gałęzi nie dowodzą zgodności z nowym main. Nie scalono i nie opublikowano.
+Szczegóły i dowody w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).
