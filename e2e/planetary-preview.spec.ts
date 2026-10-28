@@ -43,7 +43,10 @@ test("Planetarni default painted visual preserves the same save across legacy fl
   await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
   await expect(canvas).toHaveAttribute("data-world", "aether");
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-sage-painted");
-  await expect(canvas).not.toHaveAttribute("data-texture-ids", /hero-planetary-painted-page/);
+  await expect(canvas).not.toHaveAttribute(
+    "data-texture-ids",
+    /hero-planetary-painted-walk-v3-page/,
+  );
   expect(errors).toEqual([]);
 });
 
@@ -99,8 +102,10 @@ for (const width of [1280, 390])
   });
 
 test("a broken Planetarni atlas retries without losing the character", async ({ page }) => {
-  await page.route("**/hero-planetary-painted/**/hero-planetary-painted-page-1.json", (route) =>
-    route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
+  await page.route(
+    "**/hero-planetary-painted-walk-v3/**/hero-planetary-painted-walk-v3-fight-0.json",
+    (route) =>
+      route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
   );
   await page.goto(entry + "?ki-hero-art=1");
   await page.getByRole("button", { name: "Wybierz: Planetarni", exact: true }).click();
@@ -109,7 +114,9 @@ test("a broken Planetarni atlas retries without losing the character", async ({ 
   await expect(error).toBeVisible();
   await expect(error).toContainText("Brak klatki");
   const id = await activeId(page);
-  await page.unroute("**/hero-planetary-painted/**/hero-planetary-painted-page-1.json");
+  await page.unroute(
+    "**/hero-planetary-painted-walk-v3/**/hero-planetary-painted-walk-v3-fight-0.json",
+  );
   await page.getByRole("button", { name: "Ponów próbę", exact: true }).click();
   await expect(page.locator(".ki-canvas")).toHaveAttribute(
     "data-actor-visual",

@@ -90,3 +90,46 @@ z `focus`. Po przygotowaniu danych wcześniej ta kolejność była powtarzalna
 (192% zamiast zakładanego 600%, bez warstwy szczegółowej). Wyłączono konkurencyjne
 przybliżenie kontynentu, gdy przekazano dokładną pozycję. Dodano też ochronę przed
 spóźnionym wynikiem po demontażu i obsługę błędu danych bez odrzucenia całej mapy.
+
+## Publikacja optymalizacji mapy — polecenie właściciela
+
+Po powyższym checkpointcie właściciel zlecił: „Wprowadź zmiany i publikuj zweryfikuj
+czy działa”. To nowe upoważnienie do scalenia PR #52 i publikacji istniejącego
+projektu Lovable `e81106fd-0dd8-47e7-95cc-df4e97e3d071` na kilegends.pl.
+Przed publikacją sprawdzono aktualny main: `ddd7723bd7db8c037420bf7864577dda47307c64`,
+zawierający scalony PR #51 z nowymi animacjami i zasobami innych wykonawców.
+Uwzględniono main przez zwykłe scalenie historii na gałęzi #52, bez rebase/force-push.
+
+### Regresja wykryta w CI i poprawka
+
+Pierwsze CI na `1cf7ac29` nie było zielone:
+[pełny przebieg 40642904336](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40642904336)
+miał 185 PASS / 2 FAIL, a
+[WebGL 40642904309](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40642904309)
+44 PASS / 1 FAIL. Wszystkie niezaliczone przypadki dotyczyły tego samego scenariusza
+podróży po dziesięciu lądach: w `.ki-canvas` pozostawały dwa płótna Phaser.
+
+Potwierdzona przyczyna w Phaser 4.2.1: `game.destroy(true)` ustawia `pendingDestroy`,
+a właściwe `runDestroy` jest wykonywane na początku kolejnej klatki. Silnik uśpiony
+pod mapą nie wykonywał kolejnej klatki, więc stara scena/Canvas nie były usuwane
+przed utworzeniem następnej. W cleanup po żądaniu `destroy` budzimy wyłącznie
+uśpioną pętlę: jej następny krok wykonuje oczekujące zniszczenie, nie symulację.
+Nie osłabiono testu: dodano jawne wymaganie dokładnie jednego Canvas po każdej
+podróży, zachowując wszystkie wcześniejsze kontrole pozycji, chunków, zapisu i XP.
+
+Wyniki końcowej weryfikacji i publikacji dopisano po wykonaniu poniżej.
+
+Kontrole po dołączeniu main i poprawce teardown: `npm run typecheck` PASS,
+`npm test` 816 PASS / 0 FAIL (61 plików), `npm run build` PASS,
+`npm run lint` 0 błędów / 13 ostrzeżeń, `npm run assets:check` PASS.
+
+Ponowny `e2e/map-performance.spec.ts` na połączonym kodzie: 4 PASS / 0 FAIL,
+Canvas i Software WebGL przy 1280×720 oraz 390×844; WebGL sprawdził także globus
+oraz powrót do ruchu. Testy korzystały z aktualnych zasobów bohaterów z main.
+
+Pierwszy lokalny przebieg podróży po poprawce: Canvas PASS, Software WebGL FAIL
+na zamykaniu kontekstu testowego (`browserContext.close: ENOENT ... .trace`).
+Przyczyną błędu organizacji QA były dwa równoległe uruchomienia Playwright we
+wspólnym domyślnym katalogu `test-results`; start drugiego usunął aktywne pliki
+pierwszego. Nie zaliczano tego przebiegu WebGL. Ponowienie otrzymało osobny katalog
+`/tmp/ki-map-travel-webgl-results` i reporter list, bez współdzielonego JSON.

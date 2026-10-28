@@ -503,3 +503,9 @@ zasad walki, sterowania, zapisu ani danych kontynentów. Geometrie/materialy dr�
 globusa są zwalniane przy demontażu; tablice współrzędnych można wykorzystać ponownie.
 
 Wyniki i ograniczenia w [dzienniku 28.10](zmiany/2026-10-28/ZMIANY.md).
+
+Cleanup uśpionego adaptera musi po `game.destroy(true)` wywołać `loop.wake()`, jeśli
+pętla nie działa. Phaser odkłada faktyczne zniszczenie na początek następnej klatki;
+samo żądanie destroy przy uśpieniu pozostawia Canvas i scenę w pamięci. Wznowienie
+po żądaniu destroy wykonuje zniszczenie, zanim rozpocznie kolejną symulację. Regresję
+kontroluje `e2e/superior-world.spec.ts`: dokładnie jeden Canvas przy każdym z 10 lądów.

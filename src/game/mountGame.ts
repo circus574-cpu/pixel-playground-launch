@@ -1386,5 +1386,8 @@ export function mountKileGends(
     for (const release of releaseScene.splice(0)) release();
     session.flush();
     game.destroy(true);
+    // Phaser defers destruction to its next step. A map may have put that loop to sleep;
+    // wake only after requesting destruction so the pending destroy runs before a new mount.
+    if (!game.loop.running) game.loop.wake();
   };
 }

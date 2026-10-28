@@ -1,0 +1,117 @@
+webgl	Four painted heroes and city interiors in software WebGL	﻿2026-10-28T06:18:16.9227172Z ##[group]Run npx playwright test --project=software-webgl
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:16.9227946Z [36;1mnpx playwright test --project=software-webgl[0m
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:16.9316805Z shell: /usr/bin/bash -e {0}
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:16.9317217Z env:
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:16.9317516Z   CI: true
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:16.9317819Z   KI_QA_WEBGL: 1
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:16.9318145Z ##[endgroup]
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:20.8538460Z GitCommitInfo: timeout of 3000ms exceeded while running "git fetch origin ddd7723bd7db8c037420bf7864577dda47307c64 --no-auto-maintenance --no-auto-gc --no-tags --no-recurse-submodules --depth=1"
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:23.8431652Z [WebServer] [plugin builtin:vite-reporter] 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:23.8432449Z [WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:23.8433151Z [WebServer] - Using dynamic import() to code-split the application
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:23.8434188Z [WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:23.8435334Z [WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:25.8490669Z [WebServer] The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6868481Z [WebServer] 6:18:33 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6870026Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6870950Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6878835Z [WebServer] 6:18:33 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6881214Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6882340Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6884294Z [WebServer] 6:18:33 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6885580Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6887169Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6889848Z [WebServer] 6:18:33 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6891369Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:33.6892212Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:34.3116456Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:34.3137127Z Running 45 tests using 1 worker
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:18:34.3167886Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:19:02.5795151Z   ✓   1 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Planetarni 320x568 (27.2s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:19:34.4318180Z   ✓   2 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Mędrcy 360x640 (31.8s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:20:06.8769121Z   ✓   3 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Androidy 390x844 (32.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:20:38.5606480Z   ✓   4 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Legendy 852x393 (31.7s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:21:10.2956755Z   ✓   5 [software-webgl] › e2e/argon-mobile.spec.ts:89:1 › Argon v2 quest summary follows the real journal and survives reload (31.7s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:21:48.6218111Z   ✓   6 [software-webgl] › e2e/city-webgl.spec.ts:24:1 › Verdantia software WebGL: actual chest interiors release resources on each return (38.3s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:22:06.0868056Z   ✓   7 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (17.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:22:23.2348206Z   ✓   8 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (17.1s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:22:40.6218019Z   ✓   9 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (17.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:22:59.1953467Z   ✓  10 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (18.5s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:23:37.6252072Z   ✓  11 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (38.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:24:21.7178427Z   ✓  12 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (44.1s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:25:04.2627837Z   ✓  13 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (42.5s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:25:47.0687750Z   ✓  14 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (42.7s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:26:24.4733744Z   ✓  15 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Planetarni (37.3s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:27:04.8348365Z   ✓  16 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Mędrcy (40.3s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:27:27.2741898Z   ✓  17 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Androidy (22.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:27:58.7016657Z   ✓  18 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Legendy (31.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:28:27.3722554Z   ✓  19 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Planetarni 320x568 › V3 real combat, rapid input, movement and persistence (28.6s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:29:01.0145455Z   ✓  20 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 360x640 › V3 real combat, rapid input, movement and persistence (33.6s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:29:41.1125515Z   ✓  21 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Androidy 390x844 › V3 real combat, rapid input, movement and persistence (40.0s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:30:19.3708424Z   ✓  22 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Legendy 852x393 › V3 real combat, rapid input, movement and persistence (38.2s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:31:15.8851255Z   ✓  23 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (56.5s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:34:03.4418396Z   ✓  24 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (2.8m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:34:34.9764055Z   ✓  25 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Mędrcy at 1280px (31.5s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:34:49.1219679Z   ✓  26 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Mędrcy at 390px (14.1s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:35:12.4619251Z   ✓  27 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Planetarni at 1280px (23.3s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:35:24.8392225Z   ✓  28 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Planetarni at 390px (12.3s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:35:47.3593150Z   ✓  29 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Androidy at 1280px (22.5s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:36:02.2405731Z   ✓  30 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Androidy at 390px (14.8s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:36:27.4143712Z   ✓  31 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Legendy at 1280px (25.1s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:36:41.8278004Z   ✓  32 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Legendy at 390px (14.4s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:38:01.7627750Z   ✓  33 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-planetary-painted: all seven clips follow real combat, defeat and respawn (1.3m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:40:16.5918546Z   ✓  34 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (2.2m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:41:45.6958223Z   ✓  35 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-android: all seven clips follow real combat, defeat and respawn (1.5m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:43:15.8001969Z   ✓  36 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-legend: all seven clips follow real combat, defeat and respawn (1.5m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:44:36.0344788Z   ✘  37 [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload (48.7s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:45:42.3597871Z   ✓  38 [software-webgl] › e2e/superior-world.spec.ts:83:1 › Superior: real depot entrance and personal chest survive reload (1.1m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:46:22.8710383Z   ✓  39 [software-webgl] › e2e/superior-world.spec.ts:118:1 › Superior: mobile world and real overworld combat (40.5s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:46:56.5753939Z   ✓  40 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: planetary starts on generated land with one character save (33.7s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:47:35.8322804Z   ✓  41 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: sage starts on generated land with one character save (39.2s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:48:13.5357934Z   ✓  42 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: android starts on generated land with one character save (37.7s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:48:48.7328047Z   ✓  43 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: legend starts on generated land with one character save (35.2s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:16.7527031Z   ✓  44 [software-webgl] › e2e/world-rendering.spec.ts:7:3 › aether mobile detail rendering stays within budget and releases each scene (28.0s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.5575650Z   ✓  45 [software-webgl] › e2e/world-rendering.spec.ts:7:3 › nexus mobile detail rendering stays within budget and releases each scene (27.8s)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.7998295Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8005421Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8017670Z   1) [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8018723Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8019594Z     Error: locator.evaluate: Error: strict mode violation: locator('.ki-canvas').locator('canvas') resolved to 2 elements:
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8021363Z         1) <canvas width="1280" height="900" data-superior-chunks="12" data-superior-scenery="111"></canvas> aka locator('canvas').first()
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8023156Z         2) <canvas width="1280" height="900" data-superior-chunks="12" data-superior-scenery="122"></canvas> aka locator('canvas').nth(1)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8024099Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8024278Z     Call log:
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8024831Z       - waiting for locator('.ki-canvas').locator('canvas')
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8025290Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8025301Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8025597Z       53 |       .toBeCloseTo(feature.arrival.y, 0);
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8028610Z       54 |     await expect
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8029543Z     > 55 |       .poll(() => canvas.locator("canvas").evaluate((el) => Number(el.dataset["superiorChunks"])))
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8030454Z          |                                            ^
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8030945Z       56 |       .toBeGreaterThan(0);
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8031430Z       57 |     const chunks = await canvas
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8031901Z       58 |       .locator("canvas")
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8032887Z         at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/superior-world.spec.ts:55:44
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8035182Z         at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/superior-world.spec.ts:54:5
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8036237Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8037177Z     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8038658Z     test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/test-failed-1.png
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8040266Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8040782Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8041692Z     Error Context: test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/error-context.md
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8042653Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8043400Z     attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8044759Z     test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/trace.zip
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8046049Z     Usage:
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8046245Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8047200Z         npx playwright show-trace test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/trace.zip
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8048177Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8048750Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8049176Z 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8049728Z   Slow test file: [software-webgl] › e2e/hero-lifecycle.spec.ts (6.6m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8050638Z   Slow test file: [software-webgl] › e2e/combat-v3.spec.ts (6.1m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8051617Z   Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8052358Z   1 failed
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8053433Z     [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8054397Z   44 passed (31.4m)
+webgl	Four painted heroes and city interiors in software WebGL	2026-10-28T06:49:44.8509582Z ##[error]Process completed with exit code 1.

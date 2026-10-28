@@ -7,6 +7,8 @@ export const GPU_CONTRACT = {
   mechanicalImpactFrame: 0,
   rawFrame: 512,
   deliveryFrame: 128,
+  /** Hero sheets cut from video may use double-resolution frames; one actor uses one side. */
+  heroFrame: 256,
   maxAtlasSide: 2048,
   maxWorldTextureBytes: 128 * 1024 * 1024,
   hero: { size: [96, 96], origin: [0.5, 0.95], footRadius: 12 },

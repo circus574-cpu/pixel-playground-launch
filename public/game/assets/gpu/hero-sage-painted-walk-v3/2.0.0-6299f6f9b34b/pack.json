@@ -1,0 +1,643 @@
+{
+  "schemaVersion": 1,
+  "id": "hero-sage-painted-walk-v3",
+  "version": "2.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "hero-sage-painted-walk-v3-page-0",
+      "version": "2.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-page-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "hero-sage-painted-walk-v3-idle-0",
+      "version": "2.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-idle-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "hero-sage-painted-walk-v3-fight-0",
+      "version": "2.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-0.json",
+      "width": 2048,
+      "height": 1792
+    },
+    {
+      "id": "hero-sage-painted-walk-v3-fight-1",
+      "version": "2.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-1.json",
+      "width": 2048,
+      "height": 512
+    }
+  ],
+  "actors": [
+    {
+      "id": "hero-sage-painted",
+      "profile": "hero",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "hero-sage-painted-walk-v3-idle-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-sage-painted/idle/down/00",
+              "hero-sage-painted/idle/down/01",
+              "hero-sage-painted/idle/down/02",
+              "hero-sage-painted/idle/down/03",
+              "hero-sage-painted/idle/down/04",
+              "hero-sage-painted/idle/down/05",
+              "hero-sage-painted/idle/down/06",
+              "hero-sage-painted/idle/down/07"
+            ],
+            "down-left": [
+              "hero-sage-painted/idle/down-left/00",
+              "hero-sage-painted/idle/down-left/01",
+              "hero-sage-painted/idle/down-left/02",
+              "hero-sage-painted/idle/down-left/03",
+              "hero-sage-painted/idle/down-left/04",
+              "hero-sage-painted/idle/down-left/05",
+              "hero-sage-painted/idle/down-left/06",
+              "hero-sage-painted/idle/down-left/07"
+            ],
+            "left": [
+              "hero-sage-painted/idle/left/00",
+              "hero-sage-painted/idle/left/01",
+              "hero-sage-painted/idle/left/02",
+              "hero-sage-painted/idle/left/03",
+              "hero-sage-painted/idle/left/04",
+              "hero-sage-painted/idle/left/05",
+              "hero-sage-painted/idle/left/06",
+              "hero-sage-painted/idle/left/07"
+            ],
+            "up-left": [
+              "hero-sage-painted/idle/up-left/00",
+              "hero-sage-painted/idle/up-left/01",
+              "hero-sage-painted/idle/up-left/02",
+              "hero-sage-painted/idle/up-left/03",
+              "hero-sage-painted/idle/up-left/04",
+              "hero-sage-painted/idle/up-left/05",
+              "hero-sage-painted/idle/up-left/06",
+              "hero-sage-painted/idle/up-left/07"
+            ],
+            "up": [
+              "hero-sage-painted/idle/up/00",
+              "hero-sage-painted/idle/up/01",
+              "hero-sage-painted/idle/up/02",
+              "hero-sage-painted/idle/up/03",
+              "hero-sage-painted/idle/up/04",
+              "hero-sage-painted/idle/up/05",
+              "hero-sage-painted/idle/up/06",
+              "hero-sage-painted/idle/up/07"
+            ],
+            "up-right": [
+              "hero-sage-painted/idle/up-right/00",
+              "hero-sage-painted/idle/up-right/01",
+              "hero-sage-painted/idle/up-right/02",
+              "hero-sage-painted/idle/up-right/03",
+              "hero-sage-painted/idle/up-right/04",
+              "hero-sage-painted/idle/up-right/05",
+              "hero-sage-painted/idle/up-right/06",
+              "hero-sage-painted/idle/up-right/07"
+            ],
+            "right": [
+              "hero-sage-painted/idle/right/00",
+              "hero-sage-painted/idle/right/01",
+              "hero-sage-painted/idle/right/02",
+              "hero-sage-painted/idle/right/03",
+              "hero-sage-painted/idle/right/04",
+              "hero-sage-painted/idle/right/05",
+              "hero-sage-painted/idle/right/06",
+              "hero-sage-painted/idle/right/07"
+            ],
+            "down-right": [
+              "hero-sage-painted/idle/down-right/00",
+              "hero-sage-painted/idle/down-right/01",
+              "hero-sage-painted/idle/down-right/02",
+              "hero-sage-painted/idle/down-right/03",
+              "hero-sage-painted/idle/down-right/04",
+              "hero-sage-painted/idle/down-right/05",
+              "hero-sage-painted/idle/down-right/06",
+              "hero-sage-painted/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "hero-sage-painted-walk-v3-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-sage-painted/walk/down/00",
+              "hero-sage-painted/walk/down/01",
+              "hero-sage-painted/walk/down/02",
+              "hero-sage-painted/walk/down/03",
+              "hero-sage-painted/walk/down/04",
+              "hero-sage-painted/walk/down/05",
+              "hero-sage-painted/walk/down/06",
+              "hero-sage-painted/walk/down/07"
+            ],
+            "down-left": [
+              "hero-sage-painted/walk/down-left/00",
+              "hero-sage-painted/walk/down-left/01",
+              "hero-sage-painted/walk/down-left/02",
+              "hero-sage-painted/walk/down-left/03",
+              "hero-sage-painted/walk/down-left/04",
+              "hero-sage-painted/walk/down-left/05",
+              "hero-sage-painted/walk/down-left/06",
+              "hero-sage-painted/walk/down-left/07"
+            ],
+            "left": [
+              "hero-sage-painted/walk/left/00",
+              "hero-sage-painted/walk/left/01",
+              "hero-sage-painted/walk/left/02",
+              "hero-sage-painted/walk/left/03",
+              "hero-sage-painted/walk/left/04",
+              "hero-sage-painted/walk/left/05",
+              "hero-sage-painted/walk/left/06",
+              "hero-sage-painted/walk/left/07"
+            ],
+            "up-left": [
+              "hero-sage-painted/walk/up-left/00",
+              "hero-sage-painted/walk/up-left/01",
+              "hero-sage-painted/walk/up-left/02",
+              "hero-sage-painted/walk/up-left/03",
+              "hero-sage-painted/walk/up-left/04",
+              "hero-sage-painted/walk/up-left/05",
+              "hero-sage-painted/walk/up-left/06",
+              "hero-sage-painted/walk/up-left/07"
+            ],
+            "up": [
+              "hero-sage-painted/walk/up/00",
+              "hero-sage-painted/walk/up/01",
+              "hero-sage-painted/walk/up/02",
+              "hero-sage-painted/walk/up/03",
+              "hero-sage-painted/walk/up/04",
+              "hero-sage-painted/walk/up/05",
+              "hero-sage-painted/walk/up/06",
+              "hero-sage-painted/walk/up/07"
+            ],
+            "up-right": [
+              "hero-sage-painted/walk/up-right/00",
+              "hero-sage-painted/walk/up-right/01",
+              "hero-sage-painted/walk/up-right/02",
+              "hero-sage-painted/walk/up-right/03",
+              "hero-sage-painted/walk/up-right/04",
+              "hero-sage-painted/walk/up-right/05",
+              "hero-sage-painted/walk/up-right/06",
+              "hero-sage-painted/walk/up-right/07"
+            ],
+            "right": [
+              "hero-sage-painted/walk/right/00",
+              "hero-sage-painted/walk/right/01",
+              "hero-sage-painted/walk/right/02",
+              "hero-sage-painted/walk/right/03",
+              "hero-sage-painted/walk/right/04",
+              "hero-sage-painted/walk/right/05",
+              "hero-sage-painted/walk/right/06",
+              "hero-sage-painted/walk/right/07"
+            ],
+            "down-right": [
+              "hero-sage-painted/walk/down-right/00",
+              "hero-sage-painted/walk/down-right/01",
+              "hero-sage-painted/walk/down-right/02",
+              "hero-sage-painted/walk/down-right/03",
+              "hero-sage-painted/walk/down-right/04",
+              "hero-sage-painted/walk/down-right/05",
+              "hero-sage-painted/walk/down-right/06",
+              "hero-sage-painted/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "hero-sage-painted-walk-v3-fight-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-sage-painted/attack/right/00",
+              "hero-sage-painted/attack/right/01",
+              "hero-sage-painted/attack/right/02",
+              "hero-sage-painted/attack/right/03",
+              "hero-sage-painted/attack/right/04",
+              "hero-sage-painted/attack/right/05",
+              "hero-sage-painted/attack/right/06",
+              "hero-sage-painted/attack/right/07"
+            ],
+            "down-left": [
+              "hero-sage-painted/attack/left/00",
+              "hero-sage-painted/attack/left/01",
+              "hero-sage-painted/attack/left/02",
+              "hero-sage-painted/attack/left/03",
+              "hero-sage-painted/attack/left/04",
+              "hero-sage-painted/attack/left/05",
+              "hero-sage-painted/attack/left/06",
+              "hero-sage-painted/attack/left/07"
+            ],
+            "left": [
+              "hero-sage-painted/attack/left/00",
+              "hero-sage-painted/attack/left/01",
+              "hero-sage-painted/attack/left/02",
+              "hero-sage-painted/attack/left/03",
+              "hero-sage-painted/attack/left/04",
+              "hero-sage-painted/attack/left/05",
+              "hero-sage-painted/attack/left/06",
+              "hero-sage-painted/attack/left/07"
+            ],
+            "up-left": [
+              "hero-sage-painted/attack/left/00",
+              "hero-sage-painted/attack/left/01",
+              "hero-sage-painted/attack/left/02",
+              "hero-sage-painted/attack/left/03",
+              "hero-sage-painted/attack/left/04",
+              "hero-sage-painted/attack/left/05",
+              "hero-sage-painted/attack/left/06",
+              "hero-sage-painted/attack/left/07"
+            ],
+            "up": [
+              "hero-sage-painted/attack/right/00",
+              "hero-sage-painted/attack/right/01",
+              "hero-sage-painted/attack/right/02",
+              "hero-sage-painted/attack/right/03",
+              "hero-sage-painted/attack/right/04",
+              "hero-sage-painted/attack/right/05",
+              "hero-sage-painted/attack/right/06",
+              "hero-sage-painted/attack/right/07"
+            ],
+            "up-right": [
+              "hero-sage-painted/attack/right/00",
+              "hero-sage-painted/attack/right/01",
+              "hero-sage-painted/attack/right/02",
+              "hero-sage-painted/attack/right/03",
+              "hero-sage-painted/attack/right/04",
+              "hero-sage-painted/attack/right/05",
+              "hero-sage-painted/attack/right/06",
+              "hero-sage-painted/attack/right/07"
+            ],
+            "right": [
+              "hero-sage-painted/attack/right/00",
+              "hero-sage-painted/attack/right/01",
+              "hero-sage-painted/attack/right/02",
+              "hero-sage-painted/attack/right/03",
+              "hero-sage-painted/attack/right/04",
+              "hero-sage-painted/attack/right/05",
+              "hero-sage-painted/attack/right/06",
+              "hero-sage-painted/attack/right/07"
+            ],
+            "down-right": [
+              "hero-sage-painted/attack/right/00",
+              "hero-sage-painted/attack/right/01",
+              "hero-sage-painted/attack/right/02",
+              "hero-sage-painted/attack/right/03",
+              "hero-sage-painted/attack/right/04",
+              "hero-sage-painted/attack/right/05",
+              "hero-sage-painted/attack/right/06",
+              "hero-sage-painted/attack/right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "hero-sage-painted-walk-v3-fight-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-sage-painted/skill/right/00",
+              "hero-sage-painted/skill/right/01",
+              "hero-sage-painted/skill/right/02",
+              "hero-sage-painted/skill/right/03",
+              "hero-sage-painted/skill/right/04",
+              "hero-sage-painted/skill/right/05",
+              "hero-sage-painted/skill/right/06",
+              "hero-sage-painted/skill/right/07"
+            ],
+            "down-left": [
+              "hero-sage-painted/skill/left/00",
+              "hero-sage-painted/skill/left/01",
+              "hero-sage-painted/skill/left/02",
+              "hero-sage-painted/skill/left/03",
+              "hero-sage-painted/skill/left/04",
+              "hero-sage-painted/skill/left/05",
+              "hero-sage-painted/skill/left/06",
+              "hero-sage-painted/skill/left/07"
+            ],
+            "left": [
+              "hero-sage-painted/skill/left/00",
+              "hero-sage-painted/skill/left/01",
+              "hero-sage-painted/skill/left/02",
+              "hero-sage-painted/skill/left/03",
+              "hero-sage-painted/skill/left/04",
+              "hero-sage-painted/skill/left/05",
+              "hero-sage-painted/skill/left/06",
+              "hero-sage-painted/skill/left/07"
+            ],
+            "up-left": [
+              "hero-sage-painted/skill/left/00",
+              "hero-sage-painted/skill/left/01",
+              "hero-sage-painted/skill/left/02",
+              "hero-sage-painted/skill/left/03",
+              "hero-sage-painted/skill/left/04",
+              "hero-sage-painted/skill/left/05",
+              "hero-sage-painted/skill/left/06",
+              "hero-sage-painted/skill/left/07"
+            ],
+            "up": [
+              "hero-sage-painted/skill/right/00",
+              "hero-sage-painted/skill/right/01",
+              "hero-sage-painted/skill/right/02",
+              "hero-sage-painted/skill/right/03",
+              "hero-sage-painted/skill/right/04",
+              "hero-sage-painted/skill/right/05",
+              "hero-sage-painted/skill/right/06",
+              "hero-sage-painted/skill/right/07"
+            ],
+            "up-right": [
+              "hero-sage-painted/skill/right/00",
+              "hero-sage-painted/skill/right/01",
+              "hero-sage-painted/skill/right/02",
+              "hero-sage-painted/skill/right/03",
+              "hero-sage-painted/skill/right/04",
+              "hero-sage-painted/skill/right/05",
+              "hero-sage-painted/skill/right/06",
+              "hero-sage-painted/skill/right/07"
+            ],
+            "right": [
+              "hero-sage-painted/skill/right/00",
+              "hero-sage-painted/skill/right/01",
+              "hero-sage-painted/skill/right/02",
+              "hero-sage-painted/skill/right/03",
+              "hero-sage-painted/skill/right/04",
+              "hero-sage-painted/skill/right/05",
+              "hero-sage-painted/skill/right/06",
+              "hero-sage-painted/skill/right/07"
+            ],
+            "down-right": [
+              "hero-sage-painted/skill/right/00",
+              "hero-sage-painted/skill/right/01",
+              "hero-sage-painted/skill/right/02",
+              "hero-sage-painted/skill/right/03",
+              "hero-sage-painted/skill/right/04",
+              "hero-sage-painted/skill/right/05",
+              "hero-sage-painted/skill/right/06",
+              "hero-sage-painted/skill/right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "hero-sage-painted-walk-v3-fight-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-sage-painted/hit/right/00",
+              "hero-sage-painted/hit/right/01",
+              "hero-sage-painted/hit/right/02",
+              "hero-sage-painted/hit/right/03"
+            ],
+            "down-left": [
+              "hero-sage-painted/hit/left/00",
+              "hero-sage-painted/hit/left/01",
+              "hero-sage-painted/hit/left/02",
+              "hero-sage-painted/hit/left/03"
+            ],
+            "left": [
+              "hero-sage-painted/hit/left/00",
+              "hero-sage-painted/hit/left/01",
+              "hero-sage-painted/hit/left/02",
+              "hero-sage-painted/hit/left/03"
+            ],
+            "up-left": [
+              "hero-sage-painted/hit/left/00",
+              "hero-sage-painted/hit/left/01",
+              "hero-sage-painted/hit/left/02",
+              "hero-sage-painted/hit/left/03"
+            ],
+            "up": [
+              "hero-sage-painted/hit/right/00",
+              "hero-sage-painted/hit/right/01",
+              "hero-sage-painted/hit/right/02",
+              "hero-sage-painted/hit/right/03"
+            ],
+            "up-right": [
+              "hero-sage-painted/hit/right/00",
+              "hero-sage-painted/hit/right/01",
+              "hero-sage-painted/hit/right/02",
+              "hero-sage-painted/hit/right/03"
+            ],
+            "right": [
+              "hero-sage-painted/hit/right/00",
+              "hero-sage-painted/hit/right/01",
+              "hero-sage-painted/hit/right/02",
+              "hero-sage-painted/hit/right/03"
+            ],
+            "down-right": [
+              "hero-sage-painted/hit/right/00",
+              "hero-sage-painted/hit/right/01",
+              "hero-sage-painted/hit/right/02",
+              "hero-sage-painted/hit/right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "hero-sage-painted-walk-v3-fight-0",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-sage-painted/death/right/00",
+              "hero-sage-painted/death/right/01",
+              "hero-sage-painted/death/right/02",
+              "hero-sage-painted/death/right/03",
+              "hero-sage-painted/death/right/04",
+              "hero-sage-painted/death/right/05",
+              "hero-sage-painted/death/right/06",
+              "hero-sage-painted/death/right/07"
+            ],
+            "down-left": [
+              "hero-sage-painted/death/left/00",
+              "hero-sage-painted/death/left/01",
+              "hero-sage-painted/death/left/02",
+              "hero-sage-painted/death/left/03",
+              "hero-sage-painted/death/left/04",
+              "hero-sage-painted/death/left/05",
+              "hero-sage-painted/death/left/06",
+              "hero-sage-painted/death/left/07"
+            ],
+            "left": [
+              "hero-sage-painted/death/left/00",
+              "hero-sage-painted/death/left/01",
+              "hero-sage-painted/death/left/02",
+              "hero-sage-painted/death/left/03",
+              "hero-sage-painted/death/left/04",
+              "hero-sage-painted/death/left/05",
+              "hero-sage-painted/death/left/06",
+              "hero-sage-painted/death/left/07"
+            ],
+            "up-left": [
+              "hero-sage-painted/death/left/00",
+              "hero-sage-painted/death/left/01",
+              "hero-sage-painted/death/left/02",
+              "hero-sage-painted/death/left/03",
+              "hero-sage-painted/death/left/04",
+              "hero-sage-painted/death/left/05",
+              "hero-sage-painted/death/left/06",
+              "hero-sage-painted/death/left/07"
+            ],
+            "up": [
+              "hero-sage-painted/death/right/00",
+              "hero-sage-painted/death/right/01",
+              "hero-sage-painted/death/right/02",
+              "hero-sage-painted/death/right/03",
+              "hero-sage-painted/death/right/04",
+              "hero-sage-painted/death/right/05",
+              "hero-sage-painted/death/right/06",
+              "hero-sage-painted/death/right/07"
+            ],
+            "up-right": [
+              "hero-sage-painted/death/right/00",
+              "hero-sage-painted/death/right/01",
+              "hero-sage-painted/death/right/02",
+              "hero-sage-painted/death/right/03",
+              "hero-sage-painted/death/right/04",
+              "hero-sage-painted/death/right/05",
+              "hero-sage-painted/death/right/06",
+              "hero-sage-painted/death/right/07"
+            ],
+            "right": [
+              "hero-sage-painted/death/right/00",
+              "hero-sage-painted/death/right/01",
+              "hero-sage-painted/death/right/02",
+              "hero-sage-painted/death/right/03",
+              "hero-sage-painted/death/right/04",
+              "hero-sage-painted/death/right/05",
+              "hero-sage-painted/death/right/06",
+              "hero-sage-painted/death/right/07"
+            ],
+            "down-right": [
+              "hero-sage-painted/death/right/00",
+              "hero-sage-painted/death/right/01",
+              "hero-sage-painted/death/right/02",
+              "hero-sage-painted/death/right/03",
+              "hero-sage-painted/death/right/04",
+              "hero-sage-painted/death/right/05",
+              "hero-sage-painted/death/right/06",
+              "hero-sage-painted/death/right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "hero-sage-painted-walk-v3-fight-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-sage-painted/respawn/right/00",
+              "hero-sage-painted/respawn/right/01",
+              "hero-sage-painted/respawn/right/02",
+              "hero-sage-painted/respawn/right/03",
+              "hero-sage-painted/respawn/right/04",
+              "hero-sage-painted/respawn/right/05",
+              "hero-sage-painted/respawn/right/06",
+              "hero-sage-painted/respawn/right/07"
+            ],
+            "down-left": [
+              "hero-sage-painted/respawn/left/00",
+              "hero-sage-painted/respawn/left/01",
+              "hero-sage-painted/respawn/left/02",
+              "hero-sage-painted/respawn/left/03",
+              "hero-sage-painted/respawn/left/04",
+              "hero-sage-painted/respawn/left/05",
+              "hero-sage-painted/respawn/left/06",
+              "hero-sage-painted/respawn/left/07"
+            ],
+            "left": [
+              "hero-sage-painted/respawn/left/00",
+              "hero-sage-painted/respawn/left/01",
+              "hero-sage-painted/respawn/left/02",
+              "hero-sage-painted/respawn/left/03",
+              "hero-sage-painted/respawn/left/04",
+              "hero-sage-painted/respawn/left/05",
+              "hero-sage-painted/respawn/left/06",
+              "hero-sage-painted/respawn/left/07"
+            ],
+            "up-left": [
+              "hero-sage-painted/respawn/left/00",
+              "hero-sage-painted/respawn/left/01",
+              "hero-sage-painted/respawn/left/02",
+              "hero-sage-painted/respawn/left/03",
+              "hero-sage-painted/respawn/left/04",
+              "hero-sage-painted/respawn/left/05",
+              "hero-sage-painted/respawn/left/06",
+              "hero-sage-painted/respawn/left/07"
+            ],
+            "up": [
+              "hero-sage-painted/respawn/right/00",
+              "hero-sage-painted/respawn/right/01",
+              "hero-sage-painted/respawn/right/02",
+              "hero-sage-painted/respawn/right/03",
+              "hero-sage-painted/respawn/right/04",
+              "hero-sage-painted/respawn/right/05",
+              "hero-sage-painted/respawn/right/06",
+              "hero-sage-painted/respawn/right/07"
+            ],
+            "up-right": [
+              "hero-sage-painted/respawn/right/00",
+              "hero-sage-painted/respawn/right/01",
+              "hero-sage-painted/respawn/right/02",
+              "hero-sage-painted/respawn/right/03",
+              "hero-sage-painted/respawn/right/04",
+              "hero-sage-painted/respawn/right/05",
+              "hero-sage-painted/respawn/right/06",
+              "hero-sage-painted/respawn/right/07"
+            ],
+            "right": [
+              "hero-sage-painted/respawn/right/00",
+              "hero-sage-painted/respawn/right/01",
+              "hero-sage-painted/respawn/right/02",
+              "hero-sage-painted/respawn/right/03",
+              "hero-sage-painted/respawn/right/04",
+              "hero-sage-painted/respawn/right/05",
+              "hero-sage-painted/respawn/right/06",
+              "hero-sage-painted/respawn/right/07"
+            ],
+            "down-right": [
+              "hero-sage-painted/respawn/right/00",
+              "hero-sage-painted/respawn/right/01",
+              "hero-sage-painted/respawn/right/02",
+              "hero-sage-painted/respawn/right/03",
+              "hero-sage-painted/respawn/right/04",
+              "hero-sage-painted/respawn/right/05",
+              "hero-sage-painted/respawn/right/06",
+              "hero-sage-painted/respawn/right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {},
+  "renderBindings": {},
+  "effects": {}
+}

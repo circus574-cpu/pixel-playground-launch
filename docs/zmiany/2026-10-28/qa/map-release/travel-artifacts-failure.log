@@ -1,0 +1,52 @@
+[WebServer] (node:52635) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+[WebServer]   - vite:css (27%)
+[WebServer]   - vite:asset (20%)
+[WebServer]   - vite:css-post (19%)
+[WebServer]   - vite:prepare-out-dir (15%)
+[WebServer] See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+[WebServer] 
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:52699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:52712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:52737) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload (1.0m)
+(node:53006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload (9.7m)
+
+
+  1) [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+
+    Error: browserContext.close: ENOENT: no such file or directory, open '/workspace/ki-coder-panel/test-results/.playwright-artifacts-1/traces/a06d8ada439aee3ae713-0e1d8ce1ac96619c03d0.trace'
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: [software-webgl] › e2e/superior-world.spec.ts (9.7m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 failed
+    [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+  1 passed (10.9m)
