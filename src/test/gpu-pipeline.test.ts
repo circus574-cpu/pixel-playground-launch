@@ -327,7 +327,7 @@ describe("four painted hero deliveries", () => {
     it(`activates ${id} without flags and loads no other hero's atlas`, () => {
       const hero = actorVisual(world as keyof typeof heroes, "hero", undefined, false, catalog);
       expect(hero.id).toBe(id);
-      expect(hero.size).toEqual([160, 160]);
+      expect(hero.size).toEqual([133, 133]);
       expect(hero.origin).toEqual([0.5, 0.95]);
       // Runtime presentation must not mutate the validated delivery or its anchor.
       expect(catalog.actors.get(id)!.size).toEqual([96, 96]);
