@@ -211,3 +211,76 @@ commit dowodów zmienia wyłącznie dokumentację i pliki QA, nie kod aplikacji.
 - **KL-2026-10-28-04, ŚREDNI:** starszy PR #50 może nadpisać równolegle dopisane opisy Coder/QA; porównać z main, nie scalać bez aktualizacji i kontroli konfliktów.
 
 **Werdykt końcowy: NIEZWERYFIKOWANE** dla całego najnowszego wydania; **ODRZUCONE** dla konkretnego przebiegu WebGL i interakcji miejsc w Coder. Zaliczono wyłącznie obecność zmian i wąski test mapy na produkcji. Odczyty GitHub Actions i statyczna inspekcja nie są testem wykonanym przez audytora na fizycznym telefonie. Ten commit dokumentacyjny nie naprawia kodu, nie wznawia CI ani nie publikuje gry.
+
+## Rozwój i dziedzictwa czterech ras — etap wspólny, W TRAKCIE
+
+Gałąź `feature/racial-development-and-heritage`, punkt wyjścia `3ffd46c7e993c310a7b507c8b93c3723b91825bd`.
+Nie scalono i nie opublikowano. Wcześniejszy PR #53 Coder/GM pozostał oddzielony;
+panel administratora, hosting, logowanie i GPU nie były częścią tej zmiany.
+
+Zachowano całe nowe zlecenie właściciela w `docs/design/racial-development-owner-2026-10-28.txt`.
+Wdrożony wspólny moduł obejmuje obliczenia pięciu dyscyplin, zakupy/reset u trenera,
+30 parametrów egzaminów, pięć wykonań celów w rzeczywistym Phaser, bezpłatne przygotowanie,
+legalne profile wypożyczone bez portu zapisu, kontrolę i jednokrotny zapis wyniku.
+Właściwy runtime śpi podczas próby; jego HUD/obsługa klawiatury i obrotu nie mogą
+wysyłać poleceń do oryginału. Powrót odtwarza właściwy HUD. Ponowienie porażki tworzy
+nową próbę, zachowując postać. Badanie 40 gatunków ma cztery trwałe poziomy wiedzy
+oraz jednorazową praktykę za zastosowanie wiedzy w prawdziwej walce po badaniu.
+
+Modyfikatory 12 wariantów technik i modułów Androida są podłączone do kitów.
+**Ich pełne odblokowania i ścieżki rasowe nie są jeszcze wdrożone**; skaner pozostaje
+zarezerwowanym identyfikatorem. Nie zaliczać tych kart jako ukończonego mistrzostwa.
+Pozostałe: 24 rozdziały, 24 projekty, 48 prób / 144 stopnie, bronie z depozytem,
+pełne biografie/kroniki, późne spotkania, walidator całego grafu i bilans 17 800 praktyki.
+Przygotowany fundament daje obecnie tylko część zaplanowanych źródeł praktyki.
+
+### Wykonane kontrole wspólnego etapu
+
+- Baza `3ffd46c7`: pełny TypeScript, 816 testów jednostkowych, lint, zasoby,
+  build i kontrola dokumentów PASS. Pełne komendy/czasy: [baseline](qa/racial-development/baseline-checks.json).
+- Po implementacji wspólnego modułu: 857 testów jednostkowych PASS, pełny TypeScript,
+  lint (0 błędów / 13 ostrzeżeń), assets:check, build oraz dokumenty PASS.
+  [Wyniki sprzed poprawki budżetu](qa/racial-development/checkpoint-checks-before-budget-fix.json).
+- [4 rasy × Canvas/Software WebGL: 8 PASS](qa/racial-development/four-races-browser-first-pass.txt).
+  Nowa postać → faktyczne dojście do trenera → cztery punkty trasy → wynik →
+  powrót z bajtowo niezmienionym zapisem właściciela → reload. Bez wstrzykiwania postępu.
+- [Regresja izolacji po Escape: 4 PASS](qa/racial-development/owner-isolation-browser.txt),
+  Planetarni i Androidy, oba renderery. To późniejsza migawka kodu ze strażnikiem właściciela.
+- [Emulowany dotyk Canvas: 1 PASS](qa/racial-development/touch-canvas.txt): wybór Androida
+  w 390 × 844, kontrola obrotu, wejście do trenera w 852 × 393, rzeczywiste dwa
+  jednoczesne kontakty dotykowe (joystick + celny atak), zwolnienie i bezpieczny powrót.
+  To Chromium/CDP, **nie fizyczny Android/iOS**.
+- Nowe testy logiki sprawdzają również prawdziwy obieg kontakt → obserwowany atak →
+  badanie → pokonanie → praktyka, błąd zapisu i ponowienie nagrody egzaminu,
+  brak powielenia, legalne osłony ras i odrzucenie utraty istniejącego rozwoju.
+
+### Błąd bazowego PvE i trwająca regresja poprawki
+
+Na czystej bazie odtworzono [timeout Mędrca](qa/racial-development/baseline-webgl-sage.txt).
+Zachowano [stan tekstur i telemetrię](qa/racial-development/baseline-sage-resident-textures.json).
+Docelowy zestaw v1 wymaga 137,963 MiB wraz z rezerwą i potworem, przekraczając 128 MiB;
+loader odrzucał jego doładowanie. Ujednolicono limit do istniejących 192 MiB świata v2.
+Zmieniono wyłącznie politykę budżetu, nie testy ani definicje przeciwników.
+Pełny lokalny trace ma około 47 MiB i nie trafił do zwykłej historii Git:
+[identyfikacja i ograniczenie trwałości](qa/racial-development/baseline-trace-location.json).
+Kontrola czterech kanonicznych zdolności po poprawce jest ponawiana; nie zaliczać
+jej na podstawie samego testu estymatora. Stan kolejnych kontroli będzie dopisany.
+
+Istotna rozbieżność specyfikacji: trening siły Legendy 20 daje 114 ATK według
+kanonicznej niezaokrąglonej bazy 101,4, choć przykład nowego promptu podaje 113.
+Nie zmieniono aneksu; zachowano regułę obliczeń na bazie przed zaokrągleniem.
+
+Potwierdzenie poprawki budżetu: [cztery kanoniczne zdolności w prawdziwym PvE,
+Software WebGL — 4 PASS](qa/racial-development/canonical-skills-webgl-fixed.txt),
+bez zmian w `e2e/fixtures.ts` ani osłabiania asercji. Rozdzielono też kontroler
+próby od `examRuntime.ts`; czysta sesja nie zależy od katalogu grafiki.
+Sala ładuje tylko bohatera/UI/efekty (<64 MiB zadeklarowanych tekstur każdej rasy),
+nie drugi komplet dekoracji kontynentu. Nowy test zwykłego resetu drzewka potwierdza
+wyłączenie wariantu bez utraty jego odkrycia. Nie zmieniano komend administratora.
+
+Checkpoint wspólnego etapu po wydzieleniu renderera: pełny TypeScript, **864/864
+testów jednostkowych**, lint 0 błędów / 13 istniejących ostrzeżeń, assets:check,
+build produkcyjny, build playtest i kontrola dokumentów PASS.
+[Komendy, statusy i czasy](qa/racial-development/foundation-checks.json).
+Nowa końcowa migawka przeglądarkowa adaptera będzie sprawdzona na zapisanym commicie.
+To checkpoint roboczy, nie ukończenie pełnego zlecenia dziedzictw.

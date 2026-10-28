@@ -140,7 +140,7 @@ export class LegendKit extends Kit {
           "A1",
           foe,
           five ? 5 : 3,
-          five ? 2.6 : 1.8,
+          (five ? 2.6 : 1.8) * (this.variant("mp-cuts") ? 1.1 : 1),
           150,
           this.has("A2") ? [0.3, 3000] : undefined,
         );
@@ -178,8 +178,12 @@ export class LegendKit extends Kit {
           ability: "B1",
           to: { x: foe.x, y: foe.y },
         });
-        this.strike(foe, 1.5, { tags: ["physical", "stun"], melee: true, ability: "B1" });
-        this.port.stunFoe(foe, 1200);
+        this.strike(foe, 1.5 * (this.variant("mp-break") ? 0.9 : 1), {
+          tags: ["physical", "stun"],
+          melee: true,
+          ability: "B1",
+        });
+        this.port.stunFoe(foe, 1200 * (this.variant("mp-break") ? 1.25 : 1));
         this.port.breakFoeShield(foe);
         return { ok: true };
       }
@@ -200,10 +204,15 @@ export class LegendKit extends Kit {
         return { ok: true };
       }
       case "C1": {
-        const foes = this.port.foesIn(p, 150);
-        this.port.emit({ type: "burst", x: p.x, y: p.y, ability: "C1", radius: 150 });
+        const radius = 150 * (this.variant("mp-burst") ? 1.2 : 1);
+        const foes = this.port.foesIn(p, radius);
+        this.port.emit({ type: "burst", x: p.x, y: p.y, ability: "C1", radius });
         for (const f of foes) {
-          this.strike(f, 1.8, { tags: ["fire", "area"], melee: true, ability: "C1" });
+          this.strike(f, 1.8 * (this.variant("mp-burst") ? 0.9 : 1), {
+            tags: ["fire", "area"],
+            melee: true,
+            ability: "C1",
+          });
           if (this.has("C3")) this.ignite(f, 0.4, 4000);
         }
         return { ok: true };

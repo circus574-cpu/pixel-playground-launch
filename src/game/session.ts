@@ -1,3 +1,21 @@
+import { ExamAttempt } from "./development/exams";
+import { VARIANTS } from "./development/modifiers";
+import {
+  DISCIPLINES,
+  examAvailable,
+  examId,
+  rankCost,
+  rankUnavailable,
+  type Discipline,
+} from "./development/training";
+import {
+  emptyDevelopment,
+  MODULE_ENERGY,
+  SPECIES_IDS,
+  type ModuleId,
+  type VariantId,
+} from "./development/state";
+import { DevelopmentSchema, type DevelopmentState } from "./development/state";
 import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
 import { isValidNick } from "./nickname";
@@ -96,6 +114,7 @@ const emptyDepot = () => ({
   upgrade: 0,
 });
 export const PlayerSchema = z.object({
+  development: DevelopmentSchema.optional(),
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
   startContinent: z.enum(WORLD_IDS),
@@ -172,7 +191,14 @@ export type GameEvent = Point & {
   kind?: string;
   crit?: boolean;
 };
+export type DevelopmentCommand =
+  | { type: "development"; action: "train"; discipline: Discipline }
+  | { type: "development"; action: "reset-training" }
+  | { type: "development"; action: "study" | "study-route"; species: string }
+  | { type: "development"; action: "variant"; id: VariantId | null }
+  | { type: "development"; action: "modules"; ids: ModuleId[] };
 export type Command =
+  | DevelopmentCommand
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
   | { type: "ability"; ability: Ability }
@@ -232,9 +258,14 @@ export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
-function statsPort(p: Pick<Player, "level" | "weapon" | "armor" | "upgrade">): KitPort {
+function statsPort(
+  p: Pick<Player, "level" | "weapon" | "armor" | "upgrade"> & {
+    development?: DevelopmentState | undefined;
+  },
+): KitPort {
   return {
     nowMs: 0,
+    development: p.development,
     gear: {
       attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
       defense: p.armor ? ITEMS[p.armor].defense : 0,
@@ -267,7 +298,9 @@ function statsPort(p: Pick<Player, "level" | "weapon" | "armor" | "upgrade">): K
   };
 }
 export const stats = (
-  p: Pick<Player, "race" | "level" | "weapon" | "armor" | "upgrade" | "skills">,
+  p: Pick<Player, "race" | "level" | "weapon" | "armor" | "upgrade" | "skills"> & {
+    development?: DevelopmentState | undefined;
+  },
 ) => {
   const s = createKit(p.race, statsPort(p), p.skills).stats;
   return {
@@ -338,6 +371,13 @@ const SaveSchema = z.discriminatedUnion("version", [
   z.object({ version: z.literal(3), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(4), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(5), revision: z.string(), player: PlayerSchema }),
+  z
+    .object({
+      version: z.literal(6),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema }),
+    })
+    .strict(),
 ]);
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
@@ -413,7 +453,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5]) {
+    for (const target of [4, 5, 6]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -428,9 +468,13 @@ export class SaveStore {
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
         return false;
       }
+      if (this.expected && JSON.parse(this.expected)?.version === 6 && !p.development) {
+        this.warning = "Nie można usunąć istniejącego postępu rozwoju. Oryginał zachowano.";
+        return false;
+      }
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 5,
+        version: p.development ? 6 : 5,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -445,6 +489,8 @@ export class SaveStore {
 }
 
 export type SessionOptions = {
+  /** In-memory development exam only; never restored from a character save. */
+  practiceOnly?: boolean;
   random?: () => number;
   /** Explicit alternate map, used by deterministic CPU simulation and future world loaders. */
   world?: WorldDefinition;
@@ -464,6 +510,12 @@ export const DAY_MS = 480000;
 export const NIGHT_FROM = 300000;
 
 export class GameSession implements MonsterHost {
+  private readonly practiceOnly: boolean;
+  private activeExam: ExamAttempt | undefined;
+  private examRehearsal = false;
+  private knowledgeIn = 0;
+  /** A trace comes from an actually observed live attack, never from map loading. */
+  private readonly researchTraces = new Map<string, Point>();
   player: Player;
   nav: Navigation;
   readonly enemyNavigation: Navigation | undefined;
@@ -536,6 +588,7 @@ export class GameSession implements MonsterHost {
     race: RaceId = "planetary",
     options: SessionOptions = {},
   ) {
+    this.practiceOnly = options.practiceOnly ?? false;
     this.rng = options.random ?? mulberry(Date.now() & 0x7fffffff);
     const restored = saves?.load();
     this.player = restored ?? newPlayer(race);
@@ -705,6 +758,19 @@ export class GameSession implements MonsterHost {
       return;
     }
     const def = e.m.def;
+    if (
+      !this.practiceOnly &&
+      SPECIES_IDS.has(e.kind) &&
+      this.player.development?.knowledge[e.kind] === 3
+    ) {
+      this.commitDevelopment((next) => {
+        const receipt = `bestiary:${e.kind}:complete:v1`;
+        if (next.rewardReceipts[receipt]) return;
+        next.knowledge[e.kind] = 4;
+        next.rewardReceipts[receipt] = { practice: 50 };
+        next.practiceEarned += 50;
+      });
+    }
     this.kit.onKill(e);
     if (this.targetId === e.id) {
       this.targetId = null;
@@ -754,6 +820,17 @@ export class GameSession implements MonsterHost {
     this.saves?.save(this.player);
   }
   emit(event: GameEvent | MonsterEvent) {
+    if (!this.practiceOnly && event.type === "attack" && "source" in event && event.source) {
+      const foe = this.enemies.find((e) => e.id === event.source && e.hp > 0);
+      if (
+        foe &&
+        SPECIES_IDS.has(foe.kind) &&
+        distance(foe, this.player) <= 650 &&
+        this.nav.visible(this.player, foe)
+      ) {
+        this.researchTraces.set(foe.kind, { x: foe.x, y: foe.y });
+      }
+    }
     this.events.push(event as GameEvent);
   }
   /** Rewards from the world-v2 quest engine (Argon's quests): experience, coins and canonical items. */
@@ -828,7 +905,9 @@ export class GameSession implements MonsterHost {
     return this.world.city?.buildings.find((b) => b.id === this.player.interior);
   }
   get trainingTarget(): Foe | undefined {
-    return this.training.active && this.player.interior === "arena" ? this.dummy : undefined;
+    return this.training.active && (this.practiceOnly || this.player.interior === "arena")
+      ? this.dummy
+      : undefined;
   }
   hitTraining(raw: number, hit: Hit): number {
     if (!this.trainingTarget || !Number.isFinite(raw) || raw <= 0) return 0;
@@ -1104,8 +1183,205 @@ export class GameSession implements MonsterHost {
     }
     this.flush();
   }
+  get developmentServiceReady() {
+    return (
+      !this.player.dead &&
+      this.combatIn <= 0 &&
+      this.player.interior === "arena" &&
+      this.npcs.some((n) => n.id === "trainer" && distance(n, this.player) <= 180)
+    );
+  }
+  /** One synchronous whole-character CAS; no reward or snapshot is published on failure. */
+  private commitDevelopment(change: (state: DevelopmentState) => void): boolean {
+    const original = this.player;
+    const candidate = structuredClone(original);
+    candidate.development ??= emptyDevelopment();
+    change(candidate.development);
+    if (!DevelopmentSchema.safeParse(candidate.development).success) {
+      this.say("Nie można zatwierdzić tej zmiany rozwoju.");
+      return false;
+    }
+    // Evaluate the live kit (including temporary buffs), without replacing/resetting the kit.
+    let limits;
+    try {
+      this.player = candidate;
+      limits = this.kit.stats;
+    } finally {
+      this.player = original;
+    }
+    candidate.hp = Math.min(candidate.hp, limits.maxHp);
+    candidate.ki = Math.min(candidate.ki, limits.maxKi);
+    if (!this.saves || !this.saves.save(candidate)) {
+      this.say(
+        this.saves?.warning || "Rozwój wymaga działającego zapisu postaci. Nic nie przyznano.",
+      );
+      return false;
+    }
+    Object.assign(original, candidate);
+    this.player = original;
+    return true;
+  }
+  startDevelopmentExam(
+    discipline: Discipline,
+    tier: number,
+    rehearsal = false,
+  ): ExamAttempt | undefined {
+    if (
+      !this.developmentServiceReady ||
+      this.activeExam ||
+      !DISCIPLINES.includes(discipline) ||
+      !Number.isInteger(tier) ||
+      tier < 1 ||
+      tier > 6
+    )
+      return undefined;
+    const state = this.player.development ?? emptyDevelopment();
+    if (!rehearsal && !examAvailable(state.training, state.passedExamIds, discipline, tier)) {
+      this.say("Najpierw osiągnij wymagany stopień i poprzedni egzamin.");
+      return undefined;
+    }
+    const attempt = new ExamAttempt(this.player.race, discipline, tier, rehearsal);
+    this.activeExam = attempt;
+    this.examRehearsal = rehearsal;
+    return attempt;
+  }
+  finishDevelopmentExam(attempt: ExamAttempt): boolean {
+    if (attempt !== this.activeExam || !attempt.passed) return false;
+    if (this.examRehearsal) {
+      this.activeExam = undefined;
+      this.say("Trening przygotowawczy ukończony. Bez nagrody i bez zmiany stopni.");
+      return true;
+    }
+    const { discipline, tier } = attempt.spec;
+    const id = examId(discipline, tier);
+    const state = this.player.development ?? emptyDevelopment();
+    if (!examAvailable(state.training, state.passedExamIds, discipline, tier)) return false;
+    if (state.rewardReceipts[id + ":v1"]) {
+      this.activeExam = undefined;
+      return true;
+    }
+    const committed = this.commitDevelopment((next) => {
+      next.passedExamIds.push(id);
+      next.rewardReceipts[id + ":v1"] = { practice: 250 };
+      next.practiceEarned += 250;
+    });
+    if (committed) {
+      this.activeExam = undefined;
+      this.say("Egzamin zdany. +250 praktyki; wynik zapisano.");
+    }
+    return committed;
+  }
+  retryDevelopmentExam(attempt: ExamAttempt): ExamAttempt | undefined {
+    if (attempt !== this.activeExam || attempt.snapshot().outcome !== "failed") return undefined;
+    const rehearsal = this.examRehearsal;
+    this.activeExam = undefined;
+    return this.startDevelopmentExam(attempt.spec.discipline, attempt.spec.tier, rehearsal);
+  }
+  leaveDevelopmentExam(attempt: ExamAttempt) {
+    if (attempt !== this.activeExam) return;
+    attempt.abandon();
+    this.activeExam = undefined;
+  }
+  private developmentCommand(c: DevelopmentCommand) {
+    if (c.action === "study" || c.action === "study-route") {
+      if (this.player.dead || this.practiceOnly || this.activeExam || !SPECIES_IDS.has(c.species))
+        return;
+      const point = this.researchTraces.get(c.species);
+      if (!point || (this.player.development?.knowledge[c.species] ?? 0) < 2)
+        return this.say("Najpierw zaobserwuj atak tego gatunku z bliska.");
+      if (c.action === "study-route") {
+        this.go(point);
+        return;
+      }
+      if (distance(this.player, point) > 130 || !this.nav.visible(this.player, point))
+        return this.say("Podejdź do śladu pozostawionego przez obserwowanego przeciwnika.");
+      if (this.player.development?.knowledge[c.species] !== 2) return;
+      if (
+        this.commitDevelopment((next) => {
+          next.knowledge[c.species] = 3;
+        })
+      ) {
+        this.emit({ type: "burst", ...point, radius: 25, ms: 1800 });
+        this.say(
+          "Ślad zbadany. Zastosuj poznaną taktykę: pokonaj ten gatunek w prawdziwej wyprawie. Pierwsze ukończenie: 50 praktyki.",
+        );
+      }
+      return;
+    }
+    if (this.player.dead || this.combatIn > 0 || this.activeExam)
+      return this.say("Zakończ walkę lub próbę przed zmianą rozwoju.");
+    const state = this.player.development ?? emptyDevelopment();
+    if (c.action === "train" || c.action === "reset-training") {
+      if (!this.developmentServiceReady) return this.say("Podejdź do trenera w sali treningowej.");
+      if (c.action === "train") {
+        if (!DISCIPLINES.includes(c.discipline)) return;
+        const reason = rankUnavailable(
+          state.training,
+          state.passedExamIds,
+          state.practiceEarned - state.practiceSpent,
+          c.discipline,
+        );
+        if (reason) return this.say(reason);
+        if (
+          this.commitDevelopment((next) => {
+            next.practiceSpent += rankCost(next.training[c.discipline]);
+            next.training[c.discipline]++;
+          })
+        )
+          this.say("Zapisano nowy stopień treningu. HP i KI nie zostały odnowione.");
+      } else if (
+        this.commitDevelopment((next) => {
+          for (const d of DISCIPLINES) next.training[d] = 0;
+          next.practiceSpent = 0;
+        })
+      )
+        this.say("Trening rozdzielony ponownie. Zwrócono wyłącznie wydaną praktykę.");
+    } else if (c.action === "variant") {
+      const id = c.id;
+      if (
+        id &&
+        (!state.unlockedVariants.includes(id) ||
+          VARIANTS[id].race !== this.player.race ||
+          !this.kit.has(VARIANTS[id].ability))
+      )
+        return this.say("Wariant wymaga odkrycia i poznanej techniki.");
+      if (
+        this.commitDevelopment((next) => {
+          next.activeVariantId = id;
+        })
+      )
+        this.say("Zapisano wariant mistrzowski.");
+    } else if (c.action === "modules") {
+      if (
+        this.player.race !== "android" ||
+        !this.safe ||
+        !["smithy", "arena"].includes(this.player.interior ?? "")
+      )
+        return this.say("Konfiguruj moduły w bezpiecznym warsztacie.");
+      if (
+        c.ids.length > 3 ||
+        new Set(c.ids).size !== c.ids.length ||
+        c.ids.some((id) => !state.unlockedModules.includes(id)) ||
+        c.ids.reduce((n, id) => n + MODULE_ENERGY[id], 0) > 10
+      )
+        return this.say("Wymagane odkryte moduły, najwyżej 3 gniazda i 10 energii.");
+      if (
+        this.commitDevelopment((next) => {
+          next.equippedModuleIds = [...c.ids];
+        })
+      )
+        this.say("Zapisano moduły. Zasoby i cooldowny zachowano.");
+    }
+  }
   command(c: Command) {
     const p = this.player;
+    if (
+      this.practiceOnly &&
+      !["move", "target", "ability", "dodge", "pause", "cancel"].includes(c.type)
+    )
+      return;
+
+    if (c.type === "development") return this.developmentCommand(c);
     if (c.type === "staff") {
       this.staffCommand(c);
       return;
@@ -1219,6 +1495,7 @@ export class GameSession implements MonsterHost {
       p.respecs++;
       p.skills = ["R"];
       this.kit.forgetAll(p.skills);
+      if (p.development) p.development.activeVariantId = null;
       p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       p.ki = Math.min(p.ki, this.kit.stats.maxKi);
       this.say(
@@ -1547,6 +1824,28 @@ export class GameSession implements MonsterHost {
       return;
     }
     this.nowMs += dt;
+    this.knowledgeIn += dt;
+    if (this.knowledgeIn >= 1000 && !this.practiceOnly && this.saves && !this.player.dead) {
+      this.knowledgeIn = 0;
+      const stages = this.player.development?.knowledge ?? {};
+      const seen = this.enemies.filter(
+        (e) =>
+          e.hp > 0 &&
+          !e.m.hidden &&
+          SPECIES_IDS.has(e.kind) &&
+          distance(e, this.player) <= 650 &&
+          this.nav.visible(this.player, e),
+      );
+      if (seen.some((e) => (stages[e.kind] ?? 0) < (this.researchTraces.has(e.kind) ? 2 : 1))) {
+        this.commitDevelopment((next) => {
+          for (const e of seen)
+            next.knowledge[e.kind] = Math.max(
+              next.knowledge[e.kind] ?? 0,
+              this.researchTraces.has(e.kind) ? 2 : 1,
+            );
+        });
+      }
+    }
     const p = this.player,
       s = this.kit.stats;
     this.potionIn = Math.max(0, this.potionIn - dt);
@@ -1878,6 +2177,9 @@ const statusText = (fx: FxSpec): string => {
 /** The surface a race kit uses to act on the game; implemented on top of the session. */
 function makePort(s: GameSession): KitPort {
   return {
+    get development() {
+      return s.player.development;
+    },
     get nowMs() {
       return s.nowMs;
     },

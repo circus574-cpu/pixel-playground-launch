@@ -1,3 +1,5 @@
+import { DevelopmentExam } from "../components/game/DevelopmentExam";
+import type { ExamAttempt } from "../game/development/exams";
 import { bossPreviewEnabled } from "../game/bosses/preview";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -190,11 +192,21 @@ function GameScreen({
   }, []);
   const [loading, setLoading] = useState<GameLoadingState>(preparingWorld);
   const [attempt, setAttempt] = useState(0);
+  const activeDevelopmentExam = useRef<ExamAttempt | null>(null);
+  const [developmentExam, setDevelopmentExam] = useState<ExamAttempt | null>(null);
   const [worldRuntime, setWorldRuntime] = useState<SuperiorRuntime | null>(null);
   const [state, setState] = useState<GameViewState>(() => initialView(slot.player!));
   const sendCommand = useCallback((command: Command) => {
     container.current?.dispatchEvent(new CustomEvent("ki:command", { detail: command }));
   }, []);
+  // The sleeping owner's HUD/rotation listeners may clean up while a loan profile is active.
+  // Their cleanup commands must never wake or advance the owner underneath that profile.
+  const sendOwnerCommand = useCallback(
+    (command: Command) => {
+      if (!activeDevelopmentExam.current) sendCommand(command);
+    },
+    [sendCommand],
+  );
   useEffect(() => {
     setTestMode(isPlaytest(window.location.search));
     const initial = initialZoom(window.innerWidth, window.innerHeight);
@@ -298,10 +310,43 @@ function GameScreen({
   }, [slot.key, slot.player, attempt]);
   return (
     <main ref={stage} className="ki-stage">
+      {developmentExam && (
+        <DevelopmentExam
+          key={developmentExam.instanceId}
+          attempt={developmentExam}
+          retry={() => {
+            const next = worldRuntime?.session.retryDevelopmentExam(developmentExam);
+            if (!next) return;
+            activeDevelopmentExam.current = next;
+            setDevelopmentExam(next);
+          }}
+          accept={() => {
+            if (!worldRuntime?.session.finishDevelopmentExam(developmentExam)) return false;
+            activeDevelopmentExam.current = null;
+            setDevelopmentExam(null);
+            sendCommand({ type: "pause", value: false });
+            return true;
+          }}
+          leave={() => {
+            worldRuntime?.session.leaveDevelopmentExam(developmentExam);
+            activeDevelopmentExam.current = null;
+            setDevelopmentExam(null);
+            sendCommand({ type: "pause", value: false });
+          }}
+        />
+      )}
+
       <div ref={container} className="ki-canvas" aria-label="Ki Legends — ekran gry" />
-      <RotateNotice stage={stage.current} onCommand={sendCommand} />
-      {state.ready && loading.phase === "ready" && (
+      {!developmentExam && <RotateNotice stage={stage.current} onCommand={sendOwnerCommand} />}
+      {!developmentExam && state.ready && loading.phase === "ready" && (
         <GameHud
+          onStartExam={(discipline, tier, rehearsal) => {
+            const exam = worldRuntime?.session.startDevelopmentExam(discipline, tier, rehearsal);
+            if (!exam) return displayMessage("Podejdź do trenera i sprawdź wymagania egzaminu.");
+            activeDevelopmentExam.current = exam;
+            sendCommand({ type: "pause", value: true, suspendRendering: true });
+            setDevelopmentExam(exam);
+          }}
           worldOverride={worldRuntime?.session.world}
           planetLocation={worldRuntime?.feature}
           staffDestinations={worldRuntime?.index.features.map((f) => ({ id: f.id, name: f.name }))}
@@ -323,7 +368,7 @@ function GameScreen({
           onZoom={changeZoom}
           fullscreen={fullscreen}
           onFullscreen={() => void toggleFullscreen()}
-          onCommand={sendCommand}
+          onCommand={sendOwnerCommand}
           onWorldLabels={setWorldLabels}
           systemNotice={displayNotice}
           onRaceChange={() => {

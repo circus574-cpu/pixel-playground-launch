@@ -1,0 +1,19 @@
+
+Running 8 tests using 1 worker
+
+(node:69184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Planetarni (29.0s)
+  ✓  2 [gameplay] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Mędrcy (35.1s)
+  ✓  3 [gameplay] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Androidy (31.0s)
+  ✓  4 [gameplay] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Legendy (31.4s)
+(node:69554) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [software-webgl] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Planetarni (1.9m)
+  ✓  6 [software-webgl] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Mędrcy (2.0m)
+  ✓  7 [software-webgl] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Androidy (1.9m)
+  ✓  8 [software-webgl] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Legendy (1.8m)
+
+  Slow test file: [software-webgl] › e2e/development.spec.ts (7.5m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  8 passed (9.7m)

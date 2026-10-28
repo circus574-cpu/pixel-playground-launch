@@ -160,3 +160,18 @@ tego checkpointu. Nie zmieniono produkcji, GPU, /test ani danych graczy.
 Osobna wcześniejsza praca ARPG: gałąź `feature/action-combat-stage-a`, ostatni
 commit `1b85569`; pozostał czerwony test manualnego ataku touch Software WebGL.
 Nie włączać jej przypadkowo do geometrii.
+
+## Nowe zlecenie rozwoju czterech ras — 28.10.2026, w realizacji
+
+Gałąź `feature/racial-development-and-heritage`, baza `3ffd46c7`.
+Pełne wymagania: [niezmienione źródło właściciela](design/racial-development-owner-2026-10-28.txt).
+Wspólny trening i izolowane egzaminy są podłączone do istniejącego silnika;
+nie oznacza to ukończenia dostawy. Weryfikacja trwa.
+
+Do pełnego odbioru nadal potrzebne są: 24 wieloetapowe rozdziały i ich wybory,
+24 widoczne projekty z lokalnymi skutkami, 48 prób rasowych / 144 stopnie,
+rzeczywiste odblokowania wariantów i modułów, cztery bronie osobiste z 6 etapami
+oraz depozytem, biografie i kroniki, 32 warianty przeciwników 21–40 wraz
+z wyprawami, walidator całego grafu i budżetu 17 800 oraz pełne pomiary balansu.
+Przygotowany kod modyfikatora nie jest dowodem dostępności jego odblokowania.
+Nie scalać ani nie publikować bez osobnej decyzji właściciela.

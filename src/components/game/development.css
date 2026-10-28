@@ -1,0 +1,98 @@
+.ki-development {
+  padding: 0.8rem;
+  overflow-wrap: anywhere;
+}
+.ki-development p {
+  line-height: 1.55;
+}
+.ki-development-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ki-development button {
+  min-height: 44px;
+  margin: 0.25rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #a58e58;
+  border-radius: 0.5rem;
+  background: #15353b;
+  color: #f2e5c5;
+  cursor: pointer;
+}
+.ki-development button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+.ki-development-tabs [aria-selected="true"] {
+  border-color: #f3d782;
+  background: #30515a;
+}
+.ki-development-card {
+  margin: 0.75rem 0;
+  padding: 0.8rem;
+  border: 1px solid #657572;
+  border-radius: 0.6rem;
+  background: #10242bd9;
+}
+.ki-development-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #f4dd9c;
+}
+.ki-development-card h3 span {
+  float: right;
+}
+.ki-development-card small {
+  display: block;
+  line-height: 1.5;
+  margin: 0.3rem 0;
+}
+.ki-exam-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: #10242b;
+}
+.ki-exam-toolbar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0.5rem;
+  z-index: 160;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  background: #10242bea;
+  color: #f5e2b7;
+  border: 1px solid #c3a969;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  max-width: 90vw;
+  font-size: 0.85rem;
+}
+.ki-exam-toolbar button {
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  color: #f5e2b7;
+  background: #25444a;
+  border: 1px solid #c3a969;
+  border-radius: 0.4rem;
+}
+.ki-exam-result {
+  position: absolute;
+  inset: 15% 10%;
+  z-index: 165;
+  background: #10242bf5;
+  border: 1px solid #c3a969;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  overflow: auto;
+}
+@media (max-width: 600px) {
+  .ki-exam-toolbar {
+    top: 5rem;
+    flex-wrap: wrap;
+    width: max-content;
+  }
+}

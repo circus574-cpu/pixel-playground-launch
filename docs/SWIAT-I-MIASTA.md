@@ -309,3 +309,12 @@ zezwala od razu tworzyć krajobraz oraz integrować nowy świat przy użyciu
 istniejących grafik. Testy i ochrona zapisów pozostają wymagane. Nie wolno
 scalać, publikować, usuwać v1 ani zmieniać infrastruktury GPU. Grafiki muszą
 mieć osobne wiązania, aby późniejsze podmiany Claude'a nie zmieniały geometrii.
+
+## Sale prób rozwoju — gałąź robocza 28.10.2026
+
+Egzaminy mają osobną, logiczną salę 960 × 760 z dwiema przeszkodami i punktami
+celów. Wejście prowadzi od istniejącego trenera; oryginalny runtime pozostaje
+w pamięci i śpi. Nie zmienia się atlas, geometria kontynentów, położenie miast,
+wysp ani rejestr podziemi. To nie nowy tunel ani nowy duży loch.
+24 trwałe projekty świata z nowego zlecenia nadal wymagają realizacji i odbioru;
+sama sala egzaminacyjna nie stanowi ich wdrożenia.

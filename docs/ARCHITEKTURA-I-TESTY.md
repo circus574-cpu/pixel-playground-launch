@@ -519,3 +519,47 @@ Odczyt GitHub Actions dla `a4ee855e`, PR #52: [WebGL run 40653403301](https://gi
 Oddzielny [Playwright 40595421144](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40595421144) na PR #49: 182 PASS / 1 FAIL w scenariuszu Planetarnego (2 zamiast 3 zabójstw), nie jest dowodem naprawy po PR #52. Mapa produkcyjna ma jedynie ograniczone [2 PASS na viewportcie 390×844](zmiany/2026-10-28/ZMIANY.md), nie zastępujące testu rzeczywistego telefonu ani pełnego PvE.
 
 **Warunek zaliczenia:** wyniki kompletu TS/Vitest/assets/lint/build/Playwright Canvas i WebGL na wskazanym SHA, ślady dla porażek, walidacja uprawnień, zapisów i mapy Coder, bez pomijania asercji. Zewnętrzny dowód produkcyjnego SHA osobno.
+
+## Adapter rozwoju i próby na wypożyczonym profilu — 28.10.2026
+
+`development/training.ts` zawiera reguły treningu, `state.ts` schemat i spójność
+księgi nagród, `modifiers.ts` efekty kitów, `exams.ts` cele i odizolowany profil.
+`GameSession` jest nadal jedynym silnikiem walki i właścicielem zmiany postaci.
+Próba używa osobnej instancji bez `SaveStore`; właściwa scena śpi, zachowując kita,
+czas i zasoby. `DevelopmentExam` montuje prawdziwy Phaser, zachowuje istniejący HUD
+oraz przywraca właściwą scenę. Pierwszeństwo ma zapis zatwierdzonego wyniku; błąd
+zapisu pozostawia możliwość ponowienia lub wyjścia bez nagrody.
+
+`DevelopmentPanel` otwiera się wewnątrz dotychczasowego okna Umiejętności.
+Przyciski dojścia najpierw zamykają pauzujące okno, potem wydają istniejące
+polecenie interakcji — odwrotna kolejność odrzucałaby nawigację jako akcję w pauzie.
+Próby nie mają własnego dostępu do localStorage i nie importują nagród globalnego
+`questsV2`. Odbiór 24 nowych rozdziałów, 24 projektów i 48 prób rasowych jest osobny.
+
+Scenariusz `e2e/development.spec.ts` zaczyna nową postacią przez zwykłe UI,
+idzie do trenera, przechodzi rzeczywistą trasę wypożyczonego profilu, porównuje
+bajty zapisu właściciela i przeładowuje stronę. Nie wstrzykuje flag postępu.
+Zdefiniowany dla czterech ras, Canvas i Software WebGL. Wyniki nie wynikają z samej
+obecności scenariusza; wykonania i zrzuty znajdują się w dzienniku 28.10.
+
+### Potwierdzony brak miejsca dla potwora w podglądzie v1
+
+Na czystym `3ffd46c7` odtworzono timeout Mędrca w `liveEnemy` bez błędów konsoli.
+Zapisano rzeczywiście rezydentne identyfikatory tekstur i telemetryczny odczyt.
+Dla **katalogu dobranego do zapisanego URL v1**, po dodaniu oczekiwanego potwora
+i rezerwy 20 MiB, estymator wymaga 137,9630126953125 MiB. Stary limit 128 MiB
+odmawiał `canAcquire`, zatem przeciwnik nie powstawał. Wstępne oszacowanie
+150,47 MiB używało katalogu v2 i nie jest właściwą liczbą dla tego podglądu.
+
+`assets/streamBudget.ts` ustala wspólny limit 192 MiB, identyczny z dotychczasowym
+limitem aktualnego świata v2. Nie powiększa limitu v2 i nie zmienia spawnów,
+geometrii ani parametrów przeciwnika. Regresyjny test przelicza rzeczywisty zestaw
+z przechwyconego śladu na bieżących manifestach; nie podmieniono asercji Playwright
+ani nie zmodyfikowano pomocnika `liveEnemy`. To limit szacowanej pamięci tekstur,
+a nie pomiar całego RAM ani gwarancja FPS na telefonie.
+
+`examRuntime.ts` jest osobnym adapterem prezentacji. Czysty `ExamAttempt` i sesja
+nie importują katalogu graficznego. Sala ładuje tylko atlasy aktualnego bohatera,
+UI i właściwe efekty — testy dla każdej rasy sprawdzają pułap poniżej 64 MiB
+zadeklarowanych tekstur i brak kopii miejskich budynków/przyrody. Oryginalna scena
+pozostaje w pamięci; szczytowe zużycie na fizycznym telefonie wymaga osobnego pomiaru.

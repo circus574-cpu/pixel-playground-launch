@@ -922,3 +922,57 @@ animacji combo; istniejąca kanoniczna seria Planetarnych działa bez zwiększen
 Nie dodano globalnego hit-stopu. Ocena odczuwalnej jakości, fizyczny Android/iOS i
 sprzętowe WebGL wymagają osobnego odbioru; headless Chromium tego nie zastępuje.
 Wyniki, SHA i pozostałe problemy: [dziennik 27.10](zmiany/2026-10-27/ZMIANY.md).
+
+## Rozwój ras — gałąź robocza 28.10.2026
+
+Nowe zlecenie właściciela zachowano bez zmian w
+[źródle](design/racial-development-owner-2026-10-28.txt), SHA-256
+`03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed`.
+To specyfikacja docelowa, a nie potwierdzenie dostarczenia całego zakresu.
+
+Pierwszy wspólny moduł `src/game/development/` rozszerza istniejące kity:
+pięć dyscyplin 0–30, łączny limit 90, koszt kolejnego stopnia `50 + 10*r`,
+5850 praktyki za jedną maksymalną dyscyplinę. Premie HP/KI/ATK/DEF dodaje się
+na niezaokrąglonej bazie przed dotychczasowym zaokrągleniem; sprzęt, talenty
+oraz buffy nie mnożą dodatku treningowego. Kontrola KI odejmuje 0,002 za stopień
+od istniejącego mnożnika. Wyświetlany koszt i pobranie korzystają z jednej funkcji.
+Zmiana treningu lub konfiguracji jedynie ogranicza HP/KI w dół; nie leczy,
+nie zmienia ruchu ani odstępu ataków i nie resetuje instancji kita.
+
+**Rozbieżność źródła:** kanoniczna Legenda 20 ma ATK przed zaokrągleniem
+`14 + 19*4,6 = 101,4`. Przy sile 30 poprawne zastosowanie wskazanego wzoru daje
+`roundHalfUp(101,4 + 101,4*0,12) = 114`, nie 113 z przykładu promptu.
+Zachowano kanon i regułę niezaokrąglonej bazy. HP z wytrzymałością 30 daje 1079.
+
+Egzaminy mają 30 definicji parametrów i pięć różnych kontrolerów celów:
+okna trafień, fizyczna trasa z przeszkodami, uporządkowane węzły KI ze źródłem,
+zapowiedzi z ruchem/osłoną i budżet celnych działań. Każda próba tworzy tę samą
+produkcyjną klasę `GameSession`, z legalnym profilem poziomu 20, bez portu zapisu. Obrona używa C4 z legalnymi
+poprzednikami u Planetarnych, B1 u Mędrców/Androidów, a ruchu i uniku u Legend.
+Zmiany ekwipunku i drzewka są w tym profilu blokowane. Próba przygotowawcza
+jest bezpłatna i bez nagrody; egzamin wymaga poprzedniego progu. Zaliczenie
+weryfikuje należącą do sesji instancję próby i wypłaca 250 praktyki tylko raz.
+Cały wynik i księga nagród przechodzą przez jeden zapis CAS przed publikacją stanu.
+Zatwierdzanie nie podmienia tożsamości obiektu gracza używanego przez aktywny tick.
+
+Stan rozwoju jest opcjonalnym polem postaci; brak pola oznacza dokładnie stary
+balans. Pierwszy zapis rozwoju podnosi kopertę Superior z v1 do v2 (koperta
+historycznej mapy: v5 → v6). Przed nim wykonywana jest bajtowa kopia pod kluczem
+`ki-legends:recovery:before-superior-v2:<klucz slotu>` lub dotychczasowym
+`ki-legends:recovery:before-v6:<klucz>`. Brak miejsca na kopię/zapis lub konflikt
+karty nie przyznaje praktyki ani stopnia. Nowszy stan rozwoju i nieznane jego pola
+blokują odczyt/zapis, pozostawiając oryginalne bajty.
+
+Bestiariusz ma osobne etapy dla 40 gatunków: kontakt wzrokowy do 650 j. z LOS,
+obserwowany atak żywego przeciwnika, badanie jego rzeczywistego śladu do 130 j.
+i pokonanie gatunku po badaniu. Pierwsza aplikacja wiedzy daje 50 praktyki poprzez
+stały klucz biznesowy. Jest to wdrożony uproszczony cel wyprawy; specyficzne próby
+zachowania gatunków nadal wymagają rozbudowy. Po przeładowaniu ślad trzeba ponownie
+zaobserwować; poziom wiedzy jest trwały. Atlas nie generuje odkryć.
+
+Przygotowano modyfikatory 12 wariantów kitów i sześciu identyfikatorów modułów.
+Warianty mają koszty i kompromisy w wykonaniu realnych A1/B1/C1; nie zmieniają
+kanonicznych węzłów. **Nie są jeszcze odblokowywane pełną ścieżką 48 prób**.
+Pięć modułów ma efekty statystyczne/bojowe; skaner ma zarezerwowany identyfikator,
+a docelowe badanie instalacji pozostaje otwarte. Nie traktować zamkniętych kart
+w panelu jako ukończonej zawartości rasy. Dokładny zakres i testy: dziennik 28.10.

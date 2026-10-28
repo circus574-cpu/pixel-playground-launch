@@ -39,23 +39,29 @@ export type SuperiorIndex = {
   features: FeatureInfo[];
 };
 const coordinate = z.number().finite().min(0).max(131072);
-const player = PlayerSchema.extend({ x: coordinate, y: coordinate });
+const player = PlayerSchema.strict().extend({ x: coordinate, y: coordinate });
 const spawnRecord = z.object({
   hp: z.number().finite().min(0).max(1000000),
   deadUntil: z.number().finite().min(0),
   kind: z.string().max(120),
   revived: z.boolean().optional(),
 });
-const envelope = z.object({
-  format: z.literal("superior-character"),
-  version: z.literal(1),
-  revision: z.string(),
-  geometry: z.string(),
-  feature: z.enum(FEATURE_IDS),
-  town: z.string().max(120).nullable(),
-  player,
-  spawns: z.record(z.string().max(180), spawnRecord).default({}),
-});
+const envelope = z
+  .object({
+    format: z.literal("superior-character"),
+    version: z.union([z.literal(1), z.literal(2)]),
+    revision: z.string(),
+    geometry: z.string(),
+    feature: z.enum(FEATURE_IDS),
+    town: z.string().max(120).nullable(),
+    player,
+    spawns: z.record(z.string().max(180), spawnRecord).default({}),
+  })
+  .strict()
+  .refine(
+    (value) => value.version !== 2 || value.player.development !== undefined,
+    "Development envelope requires development data",
+  );
 export type SpawnRecord = z.infer<typeof spawnRecord>;
 
 /** Single CAS-protected character save for the generated planet. */
@@ -137,9 +143,19 @@ export class SuperiorSaveStore extends SaveStore {
         this.warning = "Postać zmieniła się w innej karcie. Ta karta nie nadpisze postępu.";
         return false;
       }
+      if (this.previous && JSON.parse(this.previous)?.version === 2 && !p.development) {
+        this.warning = "Nie można usunąć istniejącego postępu rozwoju. Oryginał zachowano.";
+        return false;
+      }
+      if (p.development && this.previous !== null) {
+        const oldVersion = JSON.parse(this.previous)?.version;
+        const key = "ki-legends:recovery:before-superior-v2:" + this.expeditionKey;
+        if (oldVersion === 1 && this.port.getItem(key) === null)
+          this.port.setItem(key, this.previous);
+      }
       const value = envelope.parse({
         format: "superior-character",
-        version: 1,
+        version: p.development ? 2 : 1,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
         feature: this.feature,

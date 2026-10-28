@@ -1,3 +1,4 @@
+import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
 import { CombatAction } from "./CombatAction";
 import { uiTextureUrl } from "../../game/assets/catalog";
@@ -60,6 +61,7 @@ import "./manga-hud.css";
 import "./hud-v2-landscape.css";
 
 type Props = {
+  onStartExam?: StartExam | undefined;
   /** Continents a special staff character can travel to directly. */
   staffDestinations?: { id: string; name: string }[] | undefined;
   onStaffTravel?: ((id: string) => void) | undefined;
@@ -78,7 +80,8 @@ type Props = {
   onWorldLabels?: (visible: boolean) => void;
   systemNotice?: MessageEvent;
 };
-type Panel = "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
+type Panel =
+  "development" | "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
 /** Planet atlas (2D map + 3D globe) loads only when opened from the world map. */
 const PlanetAtlas = lazy(() =>
   import("../planet-map/MapaView").then((m) => ({ default: m.MapaView })),
@@ -191,6 +194,7 @@ function TechniqueBank({
 }
 
 export function GameHud({
+  onStartExam,
   state,
   zoom,
   onZoom,
@@ -988,6 +992,7 @@ export function GameHud({
             aria-modal="true"
             aria-label={
               {
+                development: "Rozwój postaci",
                 inventory: "Ekwipunek",
                 journal: "Dziennik",
                 skills: "Umiejętności",
@@ -1004,6 +1009,7 @@ export function GameHud({
               <h2>
                 {
                   {
+                    development: "Rozwój postaci",
                     inventory: "Ekwipunek",
                     journal: "Dziennik podróży",
                     skills: "Drzewko umiejętności · " + RACES[player.race].name,
@@ -1017,6 +1023,14 @@ export function GameHud({
               </button>
             </header>
             <div className="ki-inline-messages">{feedback}</div>
+            {panel === "development" && (
+              <DevelopmentPanel
+                state={state}
+                send={onCommand}
+                startExam={onStartExam}
+                close={closeAndResume}
+              />
+            )}
             {panel === "inventory" &&
               (WORLD_V2 ? (
                 <DiabloInventory state={state} send={onCommand} />
@@ -1030,6 +1044,11 @@ export function GameHud({
                 send={onCommand}
                 close={closeAndResume}
               />
+            )}
+            {panel === "skills" && (
+              <button className="ki-fullscreen-setting" onClick={() => setPanel("development")}>
+                Rozwój · trening i wiedza
+              </button>
             )}
             {panel === "skills" &&
               (WORLD_V2 ? (
