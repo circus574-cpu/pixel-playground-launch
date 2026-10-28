@@ -34,6 +34,7 @@ import {
 } from "./session";
 import { distance, type Point } from "./navigation";
 const RACE_VFX = ["impact", "ring"] as const;
+const TRANSFORM_URL = (race: string) => "/game/transform/" + race + ".webp";
 
 export type { GameViewState } from "./session";
 type Actor = {
@@ -169,7 +170,7 @@ export function mountKileGends(
       this.load.once("complete", () => this.load.off("progress", initialProgress));
       this.load.on("loaderror", (file: Phaser.Loader.File) => {
         // Decorative race effects are optional; a missing strip must not block the world.
-        if (file.key.startsWith("vfx3-")) return;
+        if (file.key.startsWith("vfx3-") || file.key.startsWith("transform-")) return;
         this.loadFailed = true;
         loading({
           phase: "error",
@@ -181,6 +182,8 @@ export function mountKileGends(
         });
       });
       queueAssets(this, assets);
+      // Download (not decode) the Tryb KI sheet with the world, so pressing T needs no network.
+      void fetch(TRANSFORM_URL(session.player.race)).catch(() => undefined);
       // Painted energy loops (GPU 2026-10-27): 8 × 256 px strips, blended additively.
       for (const kind of RACE_VFX)
         this.load.spritesheet(
@@ -191,6 +194,47 @@ export function mountKileGends(
             frameHeight: 256,
           },
         );
+    }
+    /**
+     * Tryb KI: the race's transformation (owner's Gemini video, 12 frames of 384 px) in place of
+     * the hero for a second. The sheet is downloaded during loading but decoded only now and freed
+     * afterwards, so it never counts against a continent's texture budget.
+     */
+    private transform() {
+      const race = session.player.race,
+        key = "transform-" + race;
+      const play = () => {
+        if (!this.textures.exists(key)) return;
+        if (!this.anims.exists(key))
+          this.anims.create({
+            key,
+            frames: this.anims.generateFrameNumbers(key, { start: 0, end: 11 }),
+            frameRate: 12,
+            repeat: 0,
+          });
+        const p = session.player,
+          hero = this.hero.sprite,
+          size = this.hero.visual.size[1] * 1.5;
+        // Frames keep the hero's feet 72 px above the bottom of the 384 px cell.
+        const sprite = this.add
+          .sprite(p.x, p.y + (size * 72) / 384, key, 0)
+          .setDisplaySize(size, size)
+          .setOrigin(0.5, 1)
+          .setDepth(renderDepth("combat", p.y));
+        this.trackEffect(sprite);
+        hero.setVisible(false);
+        sprite.play(key);
+        sprite.once("animationcomplete", () => {
+          sprite.destroy();
+          hero.setVisible(true);
+          this.anims.remove(key);
+          this.textures.remove(key);
+        });
+      };
+      if (this.textures.exists(key)) return play();
+      this.load.spritesheet(key, TRANSFORM_URL(race), { frameWidth: 384, frameHeight: 384 });
+      this.load.once("complete", play);
+      this.load.start();
     }
     /** Plays one painted race effect; silently skipped when its strip failed to load. */
     private raceVfx(kind: (typeof RACE_VFX)[number], p: Point, scale: number) {
@@ -842,6 +886,7 @@ export function mountKileGends(
         this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
         return;
       }
+      if (event.type === "buff" && event.ability === "T" && !event.source) this.transform();
       if (event.type === "status" || event.type === "buff" || event.type === "channel") {
         if (event.text)
           this.float(event, event.text, event.target === "player" ? "#ffa1a1" : "#c9f0ff");
