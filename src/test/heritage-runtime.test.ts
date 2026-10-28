@@ -573,6 +573,115 @@ describe("first projects of all four cultures through real session actions", () 
       s.command({ type: "heritage", action: "claim", id, choiceId: null });
       expect(s.player.development!.practiceEarned).toBe(350);
       expect(def.reward.practice).toBe(200);
+      // Continue the same legally earned character through its actual second chapter.
+      const second = questId(race, 2),
+        secondDef = HERITAGE_BY_ID.get(second)!;
+      const originalWeapon = structuredClone(s.player.development!.heritage.weapon!);
+      reach(s, second, entry(s, second).targets[0]!.id);
+      s.command({ type: "heritage", action: "start", id: second });
+      for (let action = 0; entry(s, second).status === "active" && action < 80; action++) {
+        const e = entry(s, second),
+          goal = e.goal,
+          progress = e.progress!;
+        if (goal.kind === "projects") {
+          advance(1000);
+          continue;
+        }
+        const target =
+          e.targets.find((t) => !progress.goal.completedTargetIds.includes(t.id)) ?? e.targets[0]!;
+        reach(s, second, target.id);
+        if (goal.kind === "restraint") {
+          s.command({ type: "heritage", action: "activity-start", id: second });
+          advance(500);
+          for (let cycle = 0; cycle < goal.windows; cycle++) {
+            expect(s.heritage.activitySnapshot()?.phase).toBe("strike");
+            s.command({ type: "ability", ability: "R" });
+            for (
+              let ticks = 0;
+              ticks < 100 && s.heritage.activitySnapshot()?.phase === "strike";
+              ticks++
+            )
+              advance(50);
+            expect(s.heritage.activitySnapshot()?.phase).toBe("hold");
+            advance(2000);
+          }
+          advance(2000);
+          expect(s.heritage.activitySnapshot()?.phase).toBe("passed");
+          s.command({ type: "heritage", action: "activity-finish", id: second });
+          advance(5000);
+          continue;
+        }
+        if (goal.kind === "escort" && !goal.combat) {
+          s.command({ type: "heritage", action: "activity-start", id: second });
+          for (
+            let checkpoint = progress.goal.sequence;
+            checkpoint < goal.checkpoints;
+            checkpoint++
+          ) {
+            s.command({
+              type: "heritage",
+              action: "go",
+              id: second,
+              targetId: entry(s, second).targets[0]!.id,
+            });
+            for (
+              let tick = 0;
+              tick < 400 &&
+              entry(s, second).progress!.step === progress.step &&
+              entry(s, second).progress!.goal.sequence === checkpoint;
+              tick++
+            )
+              advance(50);
+            const result = entry(s, second).progress!;
+            expect(
+              result.step !== progress.step || result.goal.sequence === checkpoint + 1,
+              s.notice,
+            ).toBe(true);
+          }
+          continue;
+        }
+        let interaction: HeritageInteraction;
+        if (goal.kind === "talk") interaction = { kind: "talk", responseId: goal.responses[0]!.id };
+        else if (goal.kind === "inspect") interaction = { kind: "inspect" };
+        else if (goal.kind === "solve")
+          interaction = { kind: "solve", answerId: goal.puzzles[progress.goal.sequence]!.answerId };
+        else if (goal.kind === "recover") interaction = { kind: "recover" };
+        else if (goal.kind === "forge")
+          interaction = {
+            kind: "forge",
+            operationId: forgeProcedure(goal, race)[progress.goal.sequence]!.id,
+          };
+        else throw Error("Missing second chapter runtime handler " + goal.kind);
+        s.command({
+          type: "heritage",
+          action: "act",
+          id: second,
+          goalId: goal.id,
+          targetId: target.id,
+          revision: progress.goal.revision,
+          interaction,
+        });
+      }
+      expect(entry(s, second).status, s.notice).toBe("ready");
+      s.command({
+        type: "heritage",
+        action: "claim",
+        id: second,
+        choiceId: secondDef.choices[0]!.id,
+      });
+      expect(entry(s, second).status, s.notice).toBe("done");
+      const weapon = s.player.development!.heritage.weapon!;
+      expect(weapon.instanceId).toBe(originalWeapon.instanceId);
+      expect(weapon.stage).toBe(2);
+      expect(weapon.history).toEqual([chapter, second]);
+      expect(s.player.development!.practiceEarned).toBe(550);
+      expect(s.player.development!.rewardReceipts[`heritage:${second}:v1`]).toEqual({
+        practice: 200,
+        xp: 160,
+        gold: 40,
+      });
+      expect(s.saves!.load()!.development!.heritage.weapon).toEqual(weapon);
+      if (race === "android") expect(s.player.development!.unlockedModules).toContain("mn-cooling");
     },
   );
 });

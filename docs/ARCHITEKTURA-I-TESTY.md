@@ -624,3 +624,14 @@ licznik aktywnej eskorty jest odrzucany bez nadpisywania bajtów.
 P-V1, H-V02, odświeża po pierwszym punkcie dostawy i sprawdza broń drugiego stopnia.
 Odczytuje zapis do asercji, ale nie wpisuje flag, statystyk ani pozycji. Scenariusz
 jest podłączony do obu istniejących rendererów; wynik musi być zapisany po wykonaniu.
+
+
+Regresja dostawy zatrzymuje helper po **jednym** odcinku: wielofazowe dojście do
+budynku mogło automatycznie podążać za kolejnymi zmieniającymi się waypointami i
+skończyć przy następnym zadaniu, fałszywie porównując jego licznik z licznikiem
+eskorty. Test potwierdza numer etapu i punktu przed reloadem. Dowody i wcześniejsza
+porażka są w dzienniku 28.10; asercji nie osłabiono.
+`development-mobile.spec.ts` sprawdza dotykowe zakładki i rzeczywisty ruch po
+zamknięciu panelu dla czterech ras. W pionie Superior pokazuje istniejący ekran
+obrotu; test odtwarza obrót, nie obchodzi blokady. Osiem przypadków Canvas przeszło
+na grze `924ff66f`. To nie dowód pracy na fizycznym telefonie.

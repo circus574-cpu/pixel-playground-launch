@@ -483,3 +483,57 @@ Bieżący, osobny przebieg ośmiu H1/P1 na dokładnym `56a1fb66` nadal trwa. Pot
 cztery Canvas (także skaner Androida) i Planetarny Software WebGL; nie wpisano
 wyniku pozostałych trzech z góry. [Faktyczny ekran odczytu skanera Canvas](qa/racial-development/56a1fb66-canvas-android-real-local-scanner.png).
 Nie przebudowywano artefaktu tego uruchomienia podczas implementowania dostaw.
+
+
+### Zamknięte przebiegi checkpointów `56a1fb66` / `924ff66f`
+
+- Na dokładnym `56a1fb66`: **8/8 PASS**, cztery H1/P1/broń/reload w Canvas i
+  Software WebGL, także podłączenie i fizyczny odczyt skanera Androida.
+  Komenda: `KI_QA_BASE_URL=http://127.0.0.1:4190 KI_QA_APP_URL=http://127.0.0.1:4190 npx playwright test e2e/development-heritage.spec.ts --workers=2 --reporter=list --output=/tmp/ki-heritage-56a1fb66-browsers`.
+  [Log 39,2 min](qa/racial-development/first-projects-both-56a1fb66.txt).
+  Screenshoty `56a1fb66-webgl-*-rebuilt-first-project.png` w tym samym katalogu.
+- Dostawy zapisano w `924ff66f89111e192c0667f9d6a13fb5f421a3f3`.
+  **Pierwszy Canvas: 1 FAIL**. Trace wykazał, że wielofazowy helper nawigacji
+  podążył za zmieniającymi się celami: przeszedł oba checkpointy, a następnie
+  dotarł do kowala. Odczytano `step=5, sequence=0` rozmowy z kowalem, zamiast
+  `step=4, sequence=1` eskorty. Nie była to utrata zapisu i nie zmieniono kodu gry.
+  [Wynik](qa/racial-development/delivery-before-single-leg.txt),
+  [ekran innego etapu](qa/racial-development/delivery-before-single-leg-wrong-objective.png),
+  [proweniencja i SHA-256 lokalnego trace](qa/racial-development/delivery-test-provenance.json).
+  Trace 314 MiB pozostaje tylko lokalny — **nie zabezpieczono go poza workspace**;
+  nie dodano dużego pliku binarnego do zwykłego Git.
+- Helper zatrzymuje się teraz po jednym odcinku; dodano mocniejsze sprawdzenie
+  numeru etapu i checkpointu przed reloadem. Powtórzenie Canvas: **1 PASS / 4,4 min**,
+  [log](qa/racial-development/delivery-single-leg-canvas.txt),
+  [pierwszy punkt](qa/racial-development/924ff66f-canvas-verdantia-delivery-checkpoint-1.png),
+  [drugi punkt](qa/racial-development/924ff66f-canvas-verdantia-delivery-checkpoint-2.png),
+  [odebrany H-V02](qa/racial-development/924ff66f-canvas-verdantia-second-chapter-claimed.png).
+  Kod gry w osobnym statycznym buildzie pochodzi z `924ff66f`; SHA-256 poprawionego
+  drivera w powyższym JSON. Nie przebudowywano aktywnego artefaktu `56a1fb66`.
+  Software WebGL dla dostawy na tym checkpointcie pozostaje NIEWYKONANY.
+- Nowy zestaw dotykowy początkowo nie uwzględnił istniejącej blokady orientacji:
+  1 FAIL / 7 NIEWYKONANYCH; przerwano dalsze przypadki po odczytaniu trace z
+  `ki-rotate` przechwytującym tap. [Log](qa/racial-development/mobile-before-rotation.txt).
+  Poprawiony test najpierw sprawdza ekran „Obróć telefon poziomo”, robi zrzut,
+  obraca viewport i dopiero obsługuje panel. Nie wyłączono tej reguły w grze.
+  Wynik: **8/8 PASS Canvas / 1,8 min**, cztery rasy × start 360×800 z obrotem do
+  800×360 oraz start 852×393. Rzeczywiste tapy w cztery zakładki, brak poziomego
+  overflow, zamknięcie modalu i rzeczywisty ruch CDP joystickiem bez zmiany stanu
+  w JS. [Log](qa/racial-development/mobile-rotation-and-touch.txt).
+  Screenshoty `924ff66f-touch-*` są w katalogu QA. To emulacja, nie fizyczny Android/iOS.
+
+Rozszerzono testy GameSession: po H1/P1 każda rasa przechodzi własny H2, dostaje
+broń stopnia 2 z zachowaniem UUID i księgi; Android odblokowuje cooling. W teście
+wykorzystano istniejące odzyskiwanie części receptury, rzeczywiste ciosy prób i
+ruch, bez dopisywania ukończonych rozdziałów. Pełny zestaw po tych asercjach:
+**928/928 PASS**, [log](qa/racial-development/second-chapters-unit.txt).
+Pełny TypeScript i lint po poprawce drivera i dodaniu testów mobilnych:
+[TypeScript](qa/racial-development/regression-tests-type.txt),
+[lint 0 błędów / 13 wcześniejszych ostrzeżeń](qa/racial-development/regression-tests-lint.txt).
+To kolejna partia testów/dowodów, bez dalszej zmiany kodu gry po `924ff66f`.
+
+GitHub Actions na dokładnym `924ff66f`: [run 40750159853](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40750159853)
+**SUCCESS**, pełny TS + **928 unit PASS** + walidacja zasobów + lint + build oraz
+**10/10 browser smoke PASS (2,4 min)**. [Log odpowiednich etapów](qa/racial-development/ci-924ff66f-smoke.txt).
+Tryb `suite=smoke` celowo nie uruchamiał pełnego Playwright. Nie zastępuje starego
+czerwonego Four hero ani pełnej regresji na nowym main. Nie scalono i nie opublikowano.

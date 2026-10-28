@@ -30,7 +30,7 @@ async function openHeritage(page: Page, selected?: string) {
       .filter({ hasText: selected })
       .click();
 }
-async function approach(page: Page, index: number, selected?: string) {
+async function approach(page: Page, index: number, selected?: string, singleLeg = false) {
   for (let phase = 0; phase < 4; phase++) {
     await openHeritage(page, selected);
     const target = page.locator(".ki-development-target").nth(index);
@@ -60,6 +60,10 @@ async function approach(page: Page, index: number, selected?: string) {
         { timeout: 120000 },
       )
       .toBe(true);
+    if (singleLeg) {
+      await openHeritage(page, selected);
+      return;
+    }
   }
   await openHeritage(page, selected);
   await expect(
@@ -127,7 +131,7 @@ test("real Verdantia delivery checkpoints, reload and second-stage personal weap
           .getByRole("button", { name: "Rozpocznij lub wznów eskortę dostawy", exact: true })
           .click();
         for (let checkpoint = p.goal.sequence; checkpoint < goal.checkpoints; checkpoint++) {
-          await approach(page, 0, def.name);
+          await approach(page, 0, def.name, true);
           await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
           await expect
             .poll(
@@ -142,6 +146,8 @@ test("real Verdantia delivery checkpoints, reload and second-stage personal weap
             path: info.outputPath("verdantia-delivery-checkpoint-" + (checkpoint + 1) + ".png"),
           });
           if (checkpoint === 0) {
+            expect((await progress()).step).toBe(p.step);
+            expect((await progress()).goal.sequence).toBe(1);
             await page.reload();
             await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
             expect((await progress()).goal.sequence).toBe(1);
