@@ -14,9 +14,9 @@ const heroes = [
     race: "Planetarni",
     world: "verdant",
     actor: "hero-planetary-painted",
-    texture: "hero-planetary-painted-page",
+    texture: "hero-planetary-painted-walk-v3-page",
   },
-  { race: "Androidy", world: "nexus", actor: "hero-android", texture: "hero-android-page" },
+  { race: "Androidy", world: "nexus", actor: "hero-android", texture: "hero-android-walk-v3-page" },
   { race: "Legendy", world: "pyra", actor: "hero-legend", texture: "hero-legend-walk-v3-page" },
 ] as const;
 

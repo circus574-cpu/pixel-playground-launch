@@ -1,0 +1,634 @@
+{
+  "schemaVersion": 1,
+  "id": "hero-android-walk-v3",
+  "version": "1.2.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "hero-android-walk-v3-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-android-walk-v3/1.2.0-9421df2085dc/hero-android-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/1.2.0-9421df2085dc/hero-android-walk-v3-page-0.json",
+      "width": 1024,
+      "height": 2048
+    },
+    {
+      "id": "hero-android-walk-v3-old-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-android-walk-v3/1.2.0-9421df2085dc/hero-android-walk-v3-old-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/1.2.0-9421df2085dc/hero-android-walk-v3-old-0.json",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "hero-android-walk-v3-old-1",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-android-walk-v3/1.2.0-9421df2085dc/hero-android-walk-v3-old-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/1.2.0-9421df2085dc/hero-android-walk-v3-old-1.json",
+      "width": 2048,
+      "height": 1280
+    }
+  ],
+  "actors": [
+    {
+      "id": "hero-android",
+      "profile": "hero",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "hero-android-walk-v3-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-android/idle/down/00",
+              "hero-android/idle/down/01",
+              "hero-android/idle/down/02",
+              "hero-android/idle/down/03",
+              "hero-android/idle/down/04",
+              "hero-android/idle/down/05",
+              "hero-android/idle/down/06",
+              "hero-android/idle/down/07"
+            ],
+            "down-left": [
+              "hero-android/idle/down-left/00",
+              "hero-android/idle/down-left/01",
+              "hero-android/idle/down-left/02",
+              "hero-android/idle/down-left/03",
+              "hero-android/idle/down-left/04",
+              "hero-android/idle/down-left/05",
+              "hero-android/idle/down-left/06",
+              "hero-android/idle/down-left/07"
+            ],
+            "left": [
+              "hero-android/idle/left/00",
+              "hero-android/idle/left/01",
+              "hero-android/idle/left/02",
+              "hero-android/idle/left/03",
+              "hero-android/idle/left/04",
+              "hero-android/idle/left/05",
+              "hero-android/idle/left/06",
+              "hero-android/idle/left/07"
+            ],
+            "up-left": [
+              "hero-android/idle/up-left/00",
+              "hero-android/idle/up-left/01",
+              "hero-android/idle/up-left/02",
+              "hero-android/idle/up-left/03",
+              "hero-android/idle/up-left/04",
+              "hero-android/idle/up-left/05",
+              "hero-android/idle/up-left/06",
+              "hero-android/idle/up-left/07"
+            ],
+            "up": [
+              "hero-android/idle/up/00",
+              "hero-android/idle/up/01",
+              "hero-android/idle/up/02",
+              "hero-android/idle/up/03",
+              "hero-android/idle/up/04",
+              "hero-android/idle/up/05",
+              "hero-android/idle/up/06",
+              "hero-android/idle/up/07"
+            ],
+            "up-right": [
+              "hero-android/idle/up-right/00",
+              "hero-android/idle/up-right/01",
+              "hero-android/idle/up-right/02",
+              "hero-android/idle/up-right/03",
+              "hero-android/idle/up-right/04",
+              "hero-android/idle/up-right/05",
+              "hero-android/idle/up-right/06",
+              "hero-android/idle/up-right/07"
+            ],
+            "right": [
+              "hero-android/idle/right/00",
+              "hero-android/idle/right/01",
+              "hero-android/idle/right/02",
+              "hero-android/idle/right/03",
+              "hero-android/idle/right/04",
+              "hero-android/idle/right/05",
+              "hero-android/idle/right/06",
+              "hero-android/idle/right/07"
+            ],
+            "down-right": [
+              "hero-android/idle/down-right/00",
+              "hero-android/idle/down-right/01",
+              "hero-android/idle/down-right/02",
+              "hero-android/idle/down-right/03",
+              "hero-android/idle/down-right/04",
+              "hero-android/idle/down-right/05",
+              "hero-android/idle/down-right/06",
+              "hero-android/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "hero-android-walk-v3-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-android/walk/down/00",
+              "hero-android/walk/down/01",
+              "hero-android/walk/down/02",
+              "hero-android/walk/down/03",
+              "hero-android/walk/down/04",
+              "hero-android/walk/down/05",
+              "hero-android/walk/down/06",
+              "hero-android/walk/down/07"
+            ],
+            "down-left": [
+              "hero-android/walk/down-left/00",
+              "hero-android/walk/down-left/01",
+              "hero-android/walk/down-left/02",
+              "hero-android/walk/down-left/03",
+              "hero-android/walk/down-left/04",
+              "hero-android/walk/down-left/05",
+              "hero-android/walk/down-left/06",
+              "hero-android/walk/down-left/07"
+            ],
+            "left": [
+              "hero-android/walk/left/00",
+              "hero-android/walk/left/01",
+              "hero-android/walk/left/02",
+              "hero-android/walk/left/03",
+              "hero-android/walk/left/04",
+              "hero-android/walk/left/05",
+              "hero-android/walk/left/06",
+              "hero-android/walk/left/07"
+            ],
+            "up-left": [
+              "hero-android/walk/up-left/00",
+              "hero-android/walk/up-left/01",
+              "hero-android/walk/up-left/02",
+              "hero-android/walk/up-left/03",
+              "hero-android/walk/up-left/04",
+              "hero-android/walk/up-left/05",
+              "hero-android/walk/up-left/06",
+              "hero-android/walk/up-left/07"
+            ],
+            "up": [
+              "hero-android/walk/up/00",
+              "hero-android/walk/up/01",
+              "hero-android/walk/up/02",
+              "hero-android/walk/up/03",
+              "hero-android/walk/up/04",
+              "hero-android/walk/up/05",
+              "hero-android/walk/up/06",
+              "hero-android/walk/up/07"
+            ],
+            "up-right": [
+              "hero-android/walk/up-right/00",
+              "hero-android/walk/up-right/01",
+              "hero-android/walk/up-right/02",
+              "hero-android/walk/up-right/03",
+              "hero-android/walk/up-right/04",
+              "hero-android/walk/up-right/05",
+              "hero-android/walk/up-right/06",
+              "hero-android/walk/up-right/07"
+            ],
+            "right": [
+              "hero-android/walk/right/00",
+              "hero-android/walk/right/01",
+              "hero-android/walk/right/02",
+              "hero-android/walk/right/03",
+              "hero-android/walk/right/04",
+              "hero-android/walk/right/05",
+              "hero-android/walk/right/06",
+              "hero-android/walk/right/07"
+            ],
+            "down-right": [
+              "hero-android/walk/down-right/00",
+              "hero-android/walk/down-right/01",
+              "hero-android/walk/down-right/02",
+              "hero-android/walk/down-right/03",
+              "hero-android/walk/down-right/04",
+              "hero-android/walk/down-right/05",
+              "hero-android/walk/down-right/06",
+              "hero-android/walk/down-right/07"
+            ]
+          }
+        },
+        "attack": {
+          "asset": "hero-android-walk-v3-old-0",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/attack/down/00",
+              "hero-android/attack/down/01",
+              "hero-android/attack/down/02",
+              "hero-android/attack/down/03",
+              "hero-android/attack/down/04",
+              "hero-android/attack/down/05",
+              "hero-android/attack/down/06",
+              "hero-android/attack/down/07"
+            ],
+            "down-left": [
+              "hero-android/attack/down-left/00",
+              "hero-android/attack/down-left/01",
+              "hero-android/attack/down-left/02",
+              "hero-android/attack/down-left/03",
+              "hero-android/attack/down-left/04",
+              "hero-android/attack/down-left/05",
+              "hero-android/attack/down-left/06",
+              "hero-android/attack/down-left/07"
+            ],
+            "left": [
+              "hero-android/attack/left/00",
+              "hero-android/attack/left/01",
+              "hero-android/attack/left/02",
+              "hero-android/attack/left/03",
+              "hero-android/attack/left/04",
+              "hero-android/attack/left/05",
+              "hero-android/attack/left/06",
+              "hero-android/attack/left/07"
+            ],
+            "up-left": [
+              "hero-android/attack/up-left/00",
+              "hero-android/attack/up-left/01",
+              "hero-android/attack/up-left/02",
+              "hero-android/attack/up-left/03",
+              "hero-android/attack/up-left/04",
+              "hero-android/attack/up-left/05",
+              "hero-android/attack/up-left/06",
+              "hero-android/attack/up-left/07"
+            ],
+            "up": [
+              "hero-android/attack/up/00",
+              "hero-android/attack/up/01",
+              "hero-android/attack/up/02",
+              "hero-android/attack/up/03",
+              "hero-android/attack/up/04",
+              "hero-android/attack/up/05",
+              "hero-android/attack/up/06",
+              "hero-android/attack/up/07"
+            ],
+            "up-right": [
+              "hero-android/attack/up-right/00",
+              "hero-android/attack/up-right/01",
+              "hero-android/attack/up-right/02",
+              "hero-android/attack/up-right/03",
+              "hero-android/attack/up-right/04",
+              "hero-android/attack/up-right/05",
+              "hero-android/attack/up-right/06",
+              "hero-android/attack/up-right/07"
+            ],
+            "right": [
+              "hero-android/attack/right/00",
+              "hero-android/attack/right/01",
+              "hero-android/attack/right/02",
+              "hero-android/attack/right/03",
+              "hero-android/attack/right/04",
+              "hero-android/attack/right/05",
+              "hero-android/attack/right/06",
+              "hero-android/attack/right/07"
+            ],
+            "down-right": [
+              "hero-android/attack/down-right/00",
+              "hero-android/attack/down-right/01",
+              "hero-android/attack/down-right/02",
+              "hero-android/attack/down-right/03",
+              "hero-android/attack/down-right/04",
+              "hero-android/attack/down-right/05",
+              "hero-android/attack/down-right/06",
+              "hero-android/attack/down-right/07"
+            ]
+          }
+        },
+        "skill": {
+          "asset": "hero-android-walk-v3-old-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/skill/down/00",
+              "hero-android/skill/down/01",
+              "hero-android/skill/down/02",
+              "hero-android/skill/down/03",
+              "hero-android/skill/down/04",
+              "hero-android/skill/down/05",
+              "hero-android/skill/down/06",
+              "hero-android/skill/down/07"
+            ],
+            "down-left": [
+              "hero-android/skill/down-left/00",
+              "hero-android/skill/down-left/01",
+              "hero-android/skill/down-left/02",
+              "hero-android/skill/down-left/03",
+              "hero-android/skill/down-left/04",
+              "hero-android/skill/down-left/05",
+              "hero-android/skill/down-left/06",
+              "hero-android/skill/down-left/07"
+            ],
+            "left": [
+              "hero-android/skill/left/00",
+              "hero-android/skill/left/01",
+              "hero-android/skill/left/02",
+              "hero-android/skill/left/03",
+              "hero-android/skill/left/04",
+              "hero-android/skill/left/05",
+              "hero-android/skill/left/06",
+              "hero-android/skill/left/07"
+            ],
+            "up-left": [
+              "hero-android/skill/up-left/00",
+              "hero-android/skill/up-left/01",
+              "hero-android/skill/up-left/02",
+              "hero-android/skill/up-left/03",
+              "hero-android/skill/up-left/04",
+              "hero-android/skill/up-left/05",
+              "hero-android/skill/up-left/06",
+              "hero-android/skill/up-left/07"
+            ],
+            "up": [
+              "hero-android/skill/up/00",
+              "hero-android/skill/up/01",
+              "hero-android/skill/up/02",
+              "hero-android/skill/up/03",
+              "hero-android/skill/up/04",
+              "hero-android/skill/up/05",
+              "hero-android/skill/up/06",
+              "hero-android/skill/up/07"
+            ],
+            "up-right": [
+              "hero-android/skill/up-right/00",
+              "hero-android/skill/up-right/01",
+              "hero-android/skill/up-right/02",
+              "hero-android/skill/up-right/03",
+              "hero-android/skill/up-right/04",
+              "hero-android/skill/up-right/05",
+              "hero-android/skill/up-right/06",
+              "hero-android/skill/up-right/07"
+            ],
+            "right": [
+              "hero-android/skill/right/00",
+              "hero-android/skill/right/01",
+              "hero-android/skill/right/02",
+              "hero-android/skill/right/03",
+              "hero-android/skill/right/04",
+              "hero-android/skill/right/05",
+              "hero-android/skill/right/06",
+              "hero-android/skill/right/07"
+            ],
+            "down-right": [
+              "hero-android/skill/down-right/00",
+              "hero-android/skill/down-right/01",
+              "hero-android/skill/down-right/02",
+              "hero-android/skill/down-right/03",
+              "hero-android/skill/down-right/04",
+              "hero-android/skill/down-right/05",
+              "hero-android/skill/down-right/06",
+              "hero-android/skill/down-right/07"
+            ]
+          }
+        },
+        "hit": {
+          "asset": "hero-android-walk-v3-old-1",
+          "fps": 16,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/hit/down/00",
+              "hero-android/hit/down/01",
+              "hero-android/hit/down/02",
+              "hero-android/hit/down/03"
+            ],
+            "down-left": [
+              "hero-android/hit/down-left/00",
+              "hero-android/hit/down-left/01",
+              "hero-android/hit/down-left/02",
+              "hero-android/hit/down-left/03"
+            ],
+            "left": [
+              "hero-android/hit/left/00",
+              "hero-android/hit/left/01",
+              "hero-android/hit/left/02",
+              "hero-android/hit/left/03"
+            ],
+            "up-left": [
+              "hero-android/hit/up-left/00",
+              "hero-android/hit/up-left/01",
+              "hero-android/hit/up-left/02",
+              "hero-android/hit/up-left/03"
+            ],
+            "up": [
+              "hero-android/hit/up/00",
+              "hero-android/hit/up/01",
+              "hero-android/hit/up/02",
+              "hero-android/hit/up/03"
+            ],
+            "up-right": [
+              "hero-android/hit/up-right/00",
+              "hero-android/hit/up-right/01",
+              "hero-android/hit/up-right/02",
+              "hero-android/hit/up-right/03"
+            ],
+            "right": [
+              "hero-android/hit/right/00",
+              "hero-android/hit/right/01",
+              "hero-android/hit/right/02",
+              "hero-android/hit/right/03"
+            ],
+            "down-right": [
+              "hero-android/hit/down-right/00",
+              "hero-android/hit/down-right/01",
+              "hero-android/hit/down-right/02",
+              "hero-android/hit/down-right/03"
+            ]
+          }
+        },
+        "death": {
+          "asset": "hero-android-walk-v3-old-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/death/down/00",
+              "hero-android/death/down/01",
+              "hero-android/death/down/02",
+              "hero-android/death/down/03",
+              "hero-android/death/down/04",
+              "hero-android/death/down/05",
+              "hero-android/death/down/06",
+              "hero-android/death/down/07"
+            ],
+            "down-left": [
+              "hero-android/death/down-left/00",
+              "hero-android/death/down-left/01",
+              "hero-android/death/down-left/02",
+              "hero-android/death/down-left/03",
+              "hero-android/death/down-left/04",
+              "hero-android/death/down-left/05",
+              "hero-android/death/down-left/06",
+              "hero-android/death/down-left/07"
+            ],
+            "left": [
+              "hero-android/death/left/00",
+              "hero-android/death/left/01",
+              "hero-android/death/left/02",
+              "hero-android/death/left/03",
+              "hero-android/death/left/04",
+              "hero-android/death/left/05",
+              "hero-android/death/left/06",
+              "hero-android/death/left/07"
+            ],
+            "up-left": [
+              "hero-android/death/up-left/00",
+              "hero-android/death/up-left/01",
+              "hero-android/death/up-left/02",
+              "hero-android/death/up-left/03",
+              "hero-android/death/up-left/04",
+              "hero-android/death/up-left/05",
+              "hero-android/death/up-left/06",
+              "hero-android/death/up-left/07"
+            ],
+            "up": [
+              "hero-android/death/up/00",
+              "hero-android/death/up/01",
+              "hero-android/death/up/02",
+              "hero-android/death/up/03",
+              "hero-android/death/up/04",
+              "hero-android/death/up/05",
+              "hero-android/death/up/06",
+              "hero-android/death/up/07"
+            ],
+            "up-right": [
+              "hero-android/death/up-right/00",
+              "hero-android/death/up-right/01",
+              "hero-android/death/up-right/02",
+              "hero-android/death/up-right/03",
+              "hero-android/death/up-right/04",
+              "hero-android/death/up-right/05",
+              "hero-android/death/up-right/06",
+              "hero-android/death/up-right/07"
+            ],
+            "right": [
+              "hero-android/death/right/00",
+              "hero-android/death/right/01",
+              "hero-android/death/right/02",
+              "hero-android/death/right/03",
+              "hero-android/death/right/04",
+              "hero-android/death/right/05",
+              "hero-android/death/right/06",
+              "hero-android/death/right/07"
+            ],
+            "down-right": [
+              "hero-android/death/down-right/00",
+              "hero-android/death/down-right/01",
+              "hero-android/death/down-right/02",
+              "hero-android/death/down-right/03",
+              "hero-android/death/down-right/04",
+              "hero-android/death/down-right/05",
+              "hero-android/death/down-right/06",
+              "hero-android/death/down-right/07"
+            ]
+          }
+        },
+        "respawn": {
+          "asset": "hero-android-walk-v3-old-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/respawn/down/00",
+              "hero-android/respawn/down/01",
+              "hero-android/respawn/down/02",
+              "hero-android/respawn/down/03",
+              "hero-android/respawn/down/04",
+              "hero-android/respawn/down/05",
+              "hero-android/respawn/down/06",
+              "hero-android/respawn/down/07"
+            ],
+            "down-left": [
+              "hero-android/respawn/down-left/00",
+              "hero-android/respawn/down-left/01",
+              "hero-android/respawn/down-left/02",
+              "hero-android/respawn/down-left/03",
+              "hero-android/respawn/down-left/04",
+              "hero-android/respawn/down-left/05",
+              "hero-android/respawn/down-left/06",
+              "hero-android/respawn/down-left/07"
+            ],
+            "left": [
+              "hero-android/respawn/left/00",
+              "hero-android/respawn/left/01",
+              "hero-android/respawn/left/02",
+              "hero-android/respawn/left/03",
+              "hero-android/respawn/left/04",
+              "hero-android/respawn/left/05",
+              "hero-android/respawn/left/06",
+              "hero-android/respawn/left/07"
+            ],
+            "up-left": [
+              "hero-android/respawn/up-left/00",
+              "hero-android/respawn/up-left/01",
+              "hero-android/respawn/up-left/02",
+              "hero-android/respawn/up-left/03",
+              "hero-android/respawn/up-left/04",
+              "hero-android/respawn/up-left/05",
+              "hero-android/respawn/up-left/06",
+              "hero-android/respawn/up-left/07"
+            ],
+            "up": [
+              "hero-android/respawn/up/00",
+              "hero-android/respawn/up/01",
+              "hero-android/respawn/up/02",
+              "hero-android/respawn/up/03",
+              "hero-android/respawn/up/04",
+              "hero-android/respawn/up/05",
+              "hero-android/respawn/up/06",
+              "hero-android/respawn/up/07"
+            ],
+            "up-right": [
+              "hero-android/respawn/up-right/00",
+              "hero-android/respawn/up-right/01",
+              "hero-android/respawn/up-right/02",
+              "hero-android/respawn/up-right/03",
+              "hero-android/respawn/up-right/04",
+              "hero-android/respawn/up-right/05",
+              "hero-android/respawn/up-right/06",
+              "hero-android/respawn/up-right/07"
+            ],
+            "right": [
+              "hero-android/respawn/right/00",
+              "hero-android/respawn/right/01",
+              "hero-android/respawn/right/02",
+              "hero-android/respawn/right/03",
+              "hero-android/respawn/right/04",
+              "hero-android/respawn/right/05",
+              "hero-android/respawn/right/06",
+              "hero-android/respawn/right/07"
+            ],
+            "down-right": [
+              "hero-android/respawn/down-right/00",
+              "hero-android/respawn/down-right/01",
+              "hero-android/respawn/down-right/02",
+              "hero-android/respawn/down-right/03",
+              "hero-android/respawn/down-right/04",
+              "hero-android/respawn/down-right/05",
+              "hero-android/respawn/down-right/06",
+              "hero-android/respawn/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {},
+  "renderBindings": {},
+  "effects": {}
+}

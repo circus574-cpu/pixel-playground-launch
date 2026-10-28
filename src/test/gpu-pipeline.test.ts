@@ -349,17 +349,13 @@ describe("four painted hero deliveries", () => {
       for (const clip of Object.values(hero.clips))
         expect(Object.keys(clip.directions).sort()).toEqual([...DIRECTIONS].sort());
       const assets = worldAssets(world as keyof typeof heroes, false, catalog).map((a) => a.id);
-      // Legend and Sage play the Gemini walk/idle pack, which carries the delivery's other clips.
-      const walk = id === "hero-legend" || id === "hero-sage-painted" ? id + "-walk-v3" : undefined;
+      // Every hero plays the Gemini walk/idle pack, which carries the delivery's other clips.
+      const walk = id + "-walk-v3";
       expect(assets).toEqual(
-        expect.arrayContaining(
-          walk
-            ? [walk + "-page-0", walk + "-old-0", walk + "-old-1"]
-            : [id + "-page-0", id + "-page-1"],
-        ),
+        expect.arrayContaining([walk + "-page-0", walk + "-old-0", walk + "-old-1"]),
       );
       for (const other of Object.values(heroes))
-        if (other !== id) expect(assets).not.toContain(other + "-page-0");
+        if (other !== id) expect(assets).not.toContain(other + "-walk-v3-page-0");
       expect(assets).not.toContain("hero-sage-page-0");
       expect(assets).not.toContain("hero-planetary-page-0");
       expect(actorVisual(world as keyof typeof heroes, "npc").id).toBe("human-v2");

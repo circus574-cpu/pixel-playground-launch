@@ -452,7 +452,7 @@ test("malformed actor atlas fails with a named error and retries without losing 
   page,
 }) => {
   // Superior scenery is plain images; the hero page atlas is the frame-indexed sheet a world needs.
-  const atlas = "**/hero-planetary-painted/**/hero-planetary-painted-page-0.json";
+  const atlas = "**/hero-planetary-painted-walk-v3/**/hero-planetary-painted-walk-v3-page-0.json";
   await page.route(atlas, (route) =>
     route.fulfill({ contentType: "application/json", body: JSON.stringify({ frames: {} }) }),
   );
