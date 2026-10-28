@@ -28,6 +28,35 @@ export function HeritagePanel({
         Rodzinne świadectwa, praca mieszkańców i własne decyzje. Nagrody są jednorazowe, przypisane
         tej postaci. Poznawanie innych kultur nie powiela ich nagród.
       </p>
+      {state.heritageScanner && (
+        <section className="ki-development-card" aria-label="Skaner lokalnych instalacji">
+          <h3>Skaner · lokalne instalacje</h3>
+          <p>Odczyt wymaga podejścia i interakcji. Bez odkrywania odległych obiektów.</p>
+          {state.heritageScanner.installations.length === 0 && (
+            <p>Brak znanej instalacji w polu widzenia.</p>
+          )}
+          {state.heritageScanner.installations.map((installation) => (
+            <button
+              key={installation.id}
+              disabled={!installation.near}
+              onClick={() => send({ type: "heritage", action: "scan", id: installation.id })}
+            >
+              Zbadaj instalację: {installation.name}
+            </button>
+          ))}
+          {state.heritageScanner.reading && (
+            <div role="status">
+              <h4>{state.heritageScanner.reading.name}</h4>
+              <p>
+                {state.heritageScanner.reading.state}. Etapy prac:{" "}
+                {state.heritageScanner.reading.completedSteps}/
+                {state.heritageScanner.reading.totalSteps}.
+              </p>
+              <p>{state.heritageScanner.reading.description}</p>
+            </div>
+          )}
+        </section>
+      )}
       <div className="ki-development-tabs" aria-label="Rozdziały i projekty">
         {entries.map((e) => (
           <button key={e.id} aria-pressed={entry?.id === e.id} onClick={() => setSelection(e.id)}>

@@ -129,6 +129,65 @@ function finishFirst(s: GameSession) {
 }
 
 describe("heritage session transactions (controlled map fixtures, not browser acceptance)", () => {
+  it("scanner inspects only known local installations after real H-N01/module configuration", () => {
+    const { session: s } = harness("android"),
+      id = finishFirst(s);
+    s.command({
+      type: "heritage",
+      action: "claim",
+      id,
+      choiceId: HERITAGE_BY_ID.get(id)!.choices[0]!.id,
+    });
+    expect(s.player.development!.unlockedModules).toContain("mn-scanner");
+    expect(s.heritage.scanner.snapshot()).toBeNull();
+    s.command({ type: "development", action: "modules", ids: ["mn-scanner"] });
+    expect(s.player.development!.equippedModuleIds).toEqual(["mn-scanner"]);
+    const project = projectId("android", 1);
+    reach(s, project, entry(s, project).targets[0]!.id);
+    s.command({ type: "heritage", action: "start", id: project });
+    const installation = s.heritage.projects.snapshot().find((v) => v.id === project)!;
+    expect(installation).toBeDefined();
+    expect(s.player.interior).toBe(installation.target.interior);
+    s.command({ type: "move", ...installation.target.point });
+    for (let tick = 0; tick < 100 && s.route.length; tick++) s.tick(100);
+    expect(s.heritage.scanner.snapshot()!.installations.find((v) => v.id === project)?.near).toBe(
+      true,
+    );
+    const before = structuredClone(s.player),
+      ki = s.player.ki,
+      hp = s.player.hp;
+    s.command({ type: "heritage", action: "scan", id: project });
+    expect(s.heritage.scanner.snapshot()!.reading).toMatchObject({
+      id: project,
+      state: "Odbudowa w toku",
+      completedSteps: 0,
+    });
+    expect(s.player).toEqual(before);
+    expect({ ki: s.player.ki, hp: s.player.hp }).toEqual({ ki, hp });
+    // Arbitrary/unstarted projects cannot be queried through the command API.
+    s.command({ type: "heritage", action: "scan", id: projectId("android", 6) });
+    expect(s.heritage.scanner.snapshot()!.reading).toBeNull();
+    s.command({ type: "heritage", action: "scan", id: project });
+    const point = installation.target.point;
+    s.nav.setLocalObstacles("scanner-occlusion-test", [
+      { x: point.x - 15, y: point.y + 25, width: 30, height: 18 },
+    ]);
+    s.command({ type: "move", x: point.x, y: point.y + 90 });
+    for (let tick = 0; tick < 100 && s.route.length; tick++) s.tick(100);
+    expect(s.nav.visible(s.player, point)).toBe(false);
+    expect(s.heritage.scanner.snapshot()!.installations).toEqual([]);
+    expect(s.heritage.scanner.snapshot()!.reading).toBeNull();
+    s.nav.setLocalObstacles("scanner-occlusion-test", []);
+    expect(s.heritage.scanner.snapshot()!.reading).toBeNull();
+    s.command({ type: "heritage", action: "scan", id: project });
+    expect(s.heritage.scanner.snapshot()!.reading).not.toBeNull();
+    s.command({ type: "development", action: "modules", ids: [] });
+    expect(s.heritage.scanner.snapshot()).toBeNull();
+    s.command({ type: "development", action: "modules", ids: ["mn-scanner"] });
+    expect(s.heritage.scanner.snapshot()!.reading).toBeNull();
+    const reloaded = new GameSession(s.saves, "android");
+    expect(reloaded.heritage.scanner.snapshot()!.reading).toBeNull();
+  });
   it.each(RACE_IDS)(
     "completes first chapter by physical movement/actions, claims once, equips and reloads: %s",
     (race) => {

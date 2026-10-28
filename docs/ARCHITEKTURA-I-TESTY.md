@@ -590,3 +590,20 @@ musi się wczytywać. Testy obejmują też błędne współrzędne i zachowanie 
 kończy stary prolog przez UI, idzie do kolejnych obiektów, wybiera odpowiedzi,
 wykonuje procedurę, odbiera broń, zakłada ją i odświeża. Wyniki na poszczególnych
 migawkach oraz niezależnie czerwone CI zapisano w dzienniku, bez uśredniania do PASS.
+
+
+### Lokalne pomiary instalacji i zasięg zwykłego ataku (PR #55, 28.10)
+
+`heritage/scanner.ts` jest odczytowym kontrolerem w pamięci sesji. Skaner wymaga
+Androida i faktycznie podłączonego `mn-scanner`, istniejącego rozpoczętego projektu,
+tej samej przestrzeni i LOS. Lista obejmuje wyłącznie znane instalacje do 650 j.,
+odczyt wymaga interakcji do 130 j. Oddalenie, przeszkoda, śmierć, odłączenie modułu,
+zmiana postępu i ponowne uruchomienie unieważniają wynik. Nie zapisuje odkryć,
+nie przyznaje praktyki i nie zwiększa HP/KI. Panel znajduje się wewnątrz istniejącego
+Dziedzictwa, bez zmiany HUD lub sterowania. Test integracyjny najpierw legalnie
+kończy H-N01, odbiera skaner i podłącza go istniejącym poleceniem warsztatu.
+
+`Kit.basicRange` oddziela zasięg zwykłego strzału od `stats.range` stosowanego przez
+pozostałe umiejętności. Ten sam odczyt używają strzał Androida, gotowość celu w HUD,
+rozpoczęcie istniejącego autoataku i podgląd statystyk. Optyka nadal nie wydłuża A1/B1/C1;
+pozostałe rasy mają niezmieniony zasięg. Nie dodano nowego rodzaju autoataku.

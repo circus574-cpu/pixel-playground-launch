@@ -273,6 +273,67 @@ describe("production kit stats and mastery effects", () => {
     expect(a.kit.resource()!.max).toBe(70);
     expect(Object.values(MODULE_ENERGY)).toEqual([4, 4, 4, 3, 2, 3]);
   });
+  it("optics extends only actual basic reach, not marking reach or unrelated races", () => {
+    const optical = harness("android"),
+      plain = harness("android");
+    optical.d.equippedModuleIds = ["mn-optics"];
+    optical.foe.x = plain.foe.x = plain.kit.stats.range * 1.05;
+    expect(optical.kit.stats.range).toBe(plain.kit.stats.range);
+    expect(optical.kit.basicRange).toBeCloseTo(plain.kit.basicRange * 1.1);
+    expect(plain.kit.use("R").ok).toBe(false);
+    expect(optical.kit.use("R").ok).toBe(true);
+    expect(optical.state.raw).toHaveLength(1);
+    expect(optical.kit.use("A1").ok).toBe(false);
+    expect(optical.state.mark).toBe(0);
+    for (const race of RACE_IDS.filter((r) => r !== "android")) {
+      const other = harness(race);
+      other.d.equippedModuleIds = ["mn-optics"];
+      expect(other.kit.basicRange).toBe(other.kit.stats.range);
+    }
+  });
+  it("optics range agrees across retained target, auto-attack, HUD and initial stats", () => {
+    const p = newPlayer("android");
+    p.x = p.y = 1000;
+    p.development = emptyDevelopment();
+    p.development.unlockedModules = ["mn-optics"];
+    p.development.equippedModuleIds = ["mn-optics"];
+    const store = storage(),
+      save = new SaveStore(store, "optical-fixture");
+    save.load();
+    expect(save.save(p)).toBe(true);
+    const world = {
+      ...WORLDS.nexus,
+      width: 4096,
+      height: 4096,
+      spawn: { x: 1000, y: 1000 },
+      npcs: [],
+      enemies: [],
+      monsters: [],
+      objects: [],
+      obstacles: [],
+      safeAreas: [],
+      city: {
+        name: "Fixture",
+        bounds: { x: 100, y: 100, width: 200, height: 200 },
+        buildings: [],
+        roads: [],
+      },
+    };
+    const session = new GameSession(save, "android", { world, random: () => 0.99 });
+    const enemy = session.monsters.spawn("verdant-mchowy-szlamak", {
+      x: 1000 + session.kit.stats.range * 1.05,
+      y: 1000,
+    });
+    session.targetId = enemy.id;
+    session.autoAttack = true;
+    expect(session.snapshot().target!.inRange).toBe(true);
+    expect(session.snapshot().stats.range).toBe(Math.round(session.kit.basicRange));
+    expect(stats(session.player).range).toBe(session.kit.basicRange);
+    session.tick(16);
+    expect(session.kit.abilities().find((a) => a.id === "R")!.remaining).toBeGreaterThan(0);
+    expect(session.route).toEqual([]);
+    expect({ x: session.player.x, y: session.player.y }).toEqual({ x: 1000, y: 1000 });
+  });
   it("Android mastery changes marking, shield and beam geometry without free charge", () => {
     const mark = harness("android", "mn-mark");
     mark.kit.use("A1");

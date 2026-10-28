@@ -313,7 +313,8 @@ export const stats = (
     development?: DevelopmentState | undefined;
   },
 ) => {
-  const s = createKit(p.race, statsPort(p), p.skills).stats;
+  const kit = createKit(p.race, statsPort(p), p.skills);
+  const s = kit.stats;
   return {
     maxHp: s.maxHp,
     maxKi: s.maxKi,
@@ -323,7 +324,7 @@ export const stats = (
     crit: s.crit,
     kiRegen: s.kiRegen,
     attackInterval: s.attackInterval,
-    range: s.range,
+    range: kit.basicRange,
   };
 };
 export function newPlayer(race: RaceId = "planetary"): Player {
@@ -675,7 +676,7 @@ export class GameSession implements MonsterHost {
     return this.kit.stats.maxHp;
   }
   get playerRange() {
-    return this.kit.stats.range;
+    return this.kit.basicRange;
   }
   isNight() {
     return this.nowMs % DAY_MS >= NIGHT_FROM;
@@ -1984,7 +1985,7 @@ export class GameSession implements MonsterHost {
         this.targetId = null;
         this.route = [];
         this.say(target.m.def.name + " wraca na swoje terytorium.");
-      } else if (distance(p, target) <= live.range && this.nav.visible(p, target)) {
+      } else if (distance(p, target) <= this.kit.basicRange && this.nav.visible(p, target)) {
         this.route = [];
         this.use("R");
       } else if (this.pathIn <= 0) {
@@ -2132,7 +2133,7 @@ export class GameSession implements MonsterHost {
         crit: Math.round(live.crit * 10) / 10,
         kiRegen: Math.round(live.kiRegen * 100) / 100,
         attackInterval: Math.round(live.attackInterval),
-        range: Math.round(live.range),
+        range: Math.round(this.kit.basicRange),
       },
       target: target
         ? {
@@ -2141,7 +2142,8 @@ export class GameSession implements MonsterHost {
             hp: target.hp,
             maxHp: target.maxHp,
             inRange:
-              distance(this.player, target) <= live.range && this.nav.visible(this.player, target),
+              distance(this.player, target) <= this.kit.basicRange &&
+              this.nav.visible(this.player, target),
           }
         : null,
       /** Monsters within reach for the Walka panel, nearest first. */
@@ -2170,6 +2172,7 @@ export class GameSession implements MonsterHost {
       activeNpcs: this.npcs,
       heritage: this.practiceOnly ? [] : this.heritage.snapshot(),
       heritageActivity: this.practiceOnly ? null : this.heritage.activitySnapshot(),
+      heritageScanner: this.practiceOnly ? null : this.heritage.scanner.snapshot(),
       heritageProjects: this.practiceOnly
         ? []
         : this.heritage.projects
@@ -2497,6 +2500,7 @@ export function initialView(player?: Player): GameViewState {
     heritage: [],
     heritageProjects: [],
     heritageActivity: null,
+    heritageScanner: null,
     nearbyBuilding: null,
     depotOpen: false,
     training: { active: false, hits: 0, damage: 0 },

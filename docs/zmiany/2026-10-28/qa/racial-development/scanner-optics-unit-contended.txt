@@ -1,0 +1,231 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 /workspace/ki-heritage
+
+ ❯ src/test/gpu-pipeline.test.ts (17 tests | 1 failed) 106312ms
+     × requires a version bump for changed content and keeps the installed registry on failure 5108ms
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+(node:96353) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:47:12)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-heritage/src/game/music.ts:69:29)
+    at MusicPlayer.play (/workspace/ki-heritage/src/game/music.ts:56:10)
+    at Object.play (/workspace/ki-heritage/src/game/music.ts:115:36)
+    at /workspace/ki-heritage/src/components/game/GameHud.tsx:306:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/gpu-pipeline.test.ts > GPU import validates actual pixels, frames and immutable publication > requires a version bump for changed content and keeps the installed registry on failure
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/test/gpu-pipeline.test.ts:69:3
+     67|     expect(await importPackage(f.manifest, { root, install: true })).t…
+     68|   }, 20000);
+     69|   it("requires a version bump for changed content and keeps the instal…
+       |   ^
+     70|     const f = await delivery(),
+     71|       root = await app(f.root);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 67 passed (68)
+      Tests  1 failed | 917 passed (918)
+   Start at  18:28:52
+   Duration  200.61s (transform 12.44s, setup 4.46s, import 28.56s, tests 125.95s, environment 28.52s)

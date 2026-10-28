@@ -87,7 +87,7 @@ export class AndroidKit extends Kit {
     if (this.charge > this.maxCharge) this.charge = this.maxCharge;
   }
   protected override basic(): UseResult {
-    const s = { ...this.stats, range: this.stats.range * this.development.basicRange };
+    const s = { ...this.stats, range: this.basicRange };
     const p = this.port.player;
     const foe = this.pickFoe(s.range);
     if (!foe) return { ok: false, reason: "Wybierz cel." };

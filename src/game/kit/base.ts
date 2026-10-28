@@ -148,6 +148,10 @@ export abstract class Kit {
     this.nodes = KIT_NODES[race];
     this.learned = new Set(learned);
   }
+  /** Basic reach is distinct from skill reach: optics never extends A/B/C. */
+  get basicRange() {
+    return this.stats.range * this.development.basicRange;
+  }
   has(id: string) {
     return this.learned.has(id);
   }

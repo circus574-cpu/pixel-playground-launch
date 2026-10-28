@@ -404,3 +404,47 @@ Zdalny pełny run [40700480719](https://github.com/circus574-cpu/pixel-playgroun
 ma wynik **cancelled**, nie PASS. Wcześniejszy run Four hero nadal ma 49 PASS / 1 FAIL
 z nierozstrzygniętym licznikiem zasobów. Gałąź pozostaje Draft; bez scalenia,
 publikacji, zmian panelu administratora i bez operacji na GPU.
+
+
+### Zapis `a6a68d38` i kolejne rozszerzenie skanera/optyki
+
+Partię pomiarów i pierwszych projektów wypchnięto jako
+`a6a68d3800765f574655b15b044bd94e9daf1ee6`. Rozszerzony scenariusz H1 → broń → P1
+→ odbiór 200 praktyki → reload przeszedł dla **4/4 ras w Canvas (7,5 minuty)**.
+Komenda: `KI_QA_BASE_URL=http://127.0.0.1:4190 KI_QA_APP_URL=http://127.0.0.1:4190 npx playwright test e2e/development-heritage.spec.ts --project=gameplay --workers=1 --reporter=list --output=/tmp/ki-heritage-projects-a6a68d38`.
+Testowano artefakt zbudowany z identycznych źródeł gry tej rewizji, przed jej
+zapisaniem w Git; po zbudowaniu nie zmieniano plików artefaktu. Nie modyfikowano
+stanu postaci w przeglądarce. [Log](qa/racial-development/first-projects-canvas-a6a68d38.txt).
+Zrzuty rezultatu projektu: [Planetarni](qa/racial-development/a6a68d38-canvas-planetary-rebuilt-first-project.png),
+[Mędrcy](qa/racial-development/a6a68d38-canvas-sage-rebuilt-first-project.png),
+[Androidy](qa/racial-development/a6a68d38-canvas-android-rebuilt-first-project.png),
+[Legendy](qa/racial-development/a6a68d38-canvas-legend-rebuilt-first-project.png),
+[rzeczywista próba powstrzymania](qa/racial-development/a6a68d38-canvas-legend-real-restraint-result.png).
+Software WebGL dla rozszerzonego projektu nadal wymaga osobnego przebiegu.
+
+Następna partia dodaje fizyczną inspekcję znanej instalacji skanerem Androida
+oraz naprawia rozbieżność zasięgu optyki pomiędzy strzałem a HUD/rozpoczęciem ataku.
+Testy integracyjne obu poprawek: 60 PASS w 2 plikach. Pełny zestaw uruchomiony
+równolegle z buildem, walidacją zasobów i Canvas zakończył się **917 PASS / 1 FAIL**:
+`gpu-pipeline` przekroczył niezmieniony limit 5000 ms. Wynik pozostaje odnotowany;
+powtórzenie bez równoległych ciężkich kontroli nie zmienia limitu ani asercji.
+
+
+Powtórzenie bez obciążenia buildem/walidacją/Phaserem: `npm test` — **918 PASS / 68
+plików, 76,44 s**. Nie zmieniono timeoutu importera. Kontrole kandydata skanera/optyki,
+rodzic `a6a68d38`: [pełny zestaw PASS](qa/racial-development/scanner-optics-unit.txt),
+[wcześniejsze 917/1](qa/racial-development/scanner-optics-unit-contended.txt),
+[pełny TypeScript po rozszerzeniu e2e](qa/racial-development/scanner-optics-type.txt),
+[lint 0 błędów / 13 ostrzeżeń](qa/racial-development/scanner-optics-lint.txt),
+[build](qa/racial-development/scanner-optics-build.txt),
+[assets:check](qa/racial-development/scanner-optics-assets.txt) — pozostałe PASS.
+Rozszerzono Androidowy scenariusz przeglądarkowy o legalne podłączenie skanera
+odblokowanego H-N01 i odczyt ukończonego P-N1; jego wynik pozostaje do wykonania.
+
+Ponowny odczyt zdalnego `main`: `0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`.
+Doszły PR #53 (GM), #54 (transformacje KI), #56 (sterowanie/muzyka). Wspólne
+pliki obejmują kit/base, session, HUD oraz SuperiorSaveStore; PR #55 ma aktualnie
+`mergeable=CONFLICTING`, `mergeStateStatus=DIRTY`. Nie cofnięto żadnego z tych
+commitów i nie modyfikowano main. Dzisiejsze testy gałęzi nie są dowodem zgodności
+z nowym main; po uzgodnieniu integracji trzeba zachować nowe opcjonalne pola
+statystyk GM, kontrakt transformacji i ponownie sprawdzić migracje oraz regresję.

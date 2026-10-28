@@ -1027,3 +1027,12 @@ Nagroda fabularna na technicznym limicie poziomu 100 ogranicza XP tak samo jak
 istniejąca ścieżka nagradzania. Bez tego przy XP=6039 nagroda 100 dawała XP=6139,
 którego kolejny odczyt odmawiał. Paragon zachowuje nominalną nagrodę 100 XP;
 naprawa nie zmienia krzywej poziomów ani kanonicznych nagród.
+
+
+Skaner Androida ma teraz interaktywny odczyt stanu znanej instalacji projektu w
+bieżącej przestrzeni: widoczność do 650 j., odczyt po podejściu do 130 j. i LOS.
+Pokazuje rzeczywisty postęp/odbiór projektu, bez udawanych parametrów technicznych,
+leczenia, praktyki lub odkrywania mapy. Jest to wdrożony lokalny zakres skanera;
+pozostałe rodzaje instalacji i pełne próby diagnostyczne nadal wymagają pracy.
+Optyka używa wspólnego zasięgu R w kicie, podglądzie i rozpoczęciu ataku; nie
+rozciąga zasięgu aktywnych technik.

@@ -1,3 +1,4 @@
+import { InstallationScanner } from "./scanner";
 import { MeasurementActivity } from "./measurement";
 import { RestraintActivity } from "./restraint";
 import { HeritageProjects } from "./projects";
@@ -35,7 +36,7 @@ export type HeritageInteraction =
   | { kind: "forge"; operationId: string }
   | { kind: "retry" };
 export type HeritageCommand = { type: "heritage" } & (
-  | { action: "start"; id: HeritageContentId }
+  | { action: "start" | "scan"; id: HeritageContentId }
   | { action: "activity-start" | "activity-finish" | "activity-leave"; id: HeritageContentId }
   | { action: "go"; id: HeritageContentId; targetId: string }
   | {
@@ -61,6 +62,7 @@ export const heritageWeaponAttack = (stage: number) => 6 + stage * 2;
 export class HeritageRuntime {
   private readonly bindings: HeritageBindings;
   readonly projects: HeritageProjects;
+  readonly scanner: InstallationScanner;
   private observeIn = 0;
   private measurement: { content: HeritageContentId; attempt: MeasurementActivity } | null = null;
   private activity: { content: HeritageContentId; attempt: RestraintActivity } | null = null;
@@ -125,6 +127,7 @@ export class HeritageRuntime {
     this.bindings = new HeritageBindings(session.world, structuredClone(home), outside);
     this.projects = new HeritageProjects(this.bindings, outside, session.enemyNavigation);
     this.projects.refresh(session.player, feature);
+    this.scanner = new InstallationScanner(session, () => this.projects.snapshot());
   }
   refreshProjects() {
     this.projects.refresh(this.session.player, this.feature);
@@ -188,6 +191,7 @@ export class HeritageRuntime {
   command(c: HeritageCommand) {
     const s = this.session,
       p = s.player;
+    if (c.action === "scan") return this.scanner.inspect(c.id);
     if (c.action === "activity-leave") {
       if (this.activity?.content === c.id || this.measurement?.content === c.id)
         this.cancelActivities(false);

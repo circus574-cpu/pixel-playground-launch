@@ -172,6 +172,17 @@ for (const race of RACE_IDS) {
     expect(restored.weapon).toBe("heritage");
     expect(restored.development!.heritage.weapon).toEqual(w);
     expect(restored.development!.heritage.quests[id]!.status).toBe("done");
+    if (race === "android") {
+      await openHeritage(page);
+      await page.getByRole("tab", { name: "Mistrzostwo", exact: true }).click();
+      const scanner = page
+        .locator(".ki-development-card")
+        .filter({ has: page.getByRole("heading", { name: "Skaner · 2 energii", exact: true }) });
+      await scanner.getByRole("button", { name: "Podłącz", exact: true }).click();
+      await expect
+        .poll(async () => (await saved(page)).development!.equippedModuleIds)
+        .toEqual(["mn-scanner"]);
+    }
     // Continue this legally earned save into its own first rebuilding project.
     const rebuilding = projectId(race, 1),
       project = PROJECT_BY_ID.get(rebuilding)!;
@@ -239,6 +250,17 @@ for (const race of RACE_IDS) {
     await expect
       .poll(async () => (await saved(page)).development!.heritage.projects[rebuilding]!.status)
       .toBe("done");
+    if (race === "android") {
+      const scanner = page.getByRole("region", {
+        name: "Skaner lokalnych instalacji",
+        exact: true,
+      });
+      await scanner
+        .getByRole("button", { name: "Zbadaj instalację: " + project.name, exact: true })
+        .click();
+      await expect(scanner.getByRole("status")).toContainText("Sprawna — projekt odebrany");
+      await page.screenshot({ path: info.outputPath("android-real-local-scanner.png") });
+    }
     const afterProject = await saved(page);
     expect(afterProject.development!.practiceEarned).toBe(350);
     expect({ xp: afterProject.xp, gold: afterProject.gold, level: afterProject.level }).toEqual(
