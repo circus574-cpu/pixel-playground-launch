@@ -625,7 +625,8 @@ export function GameHud({
         {state.heritageActivity ? (
           <div>
             <strong>
-              Próba kontroli · {state.heritageActivity.windows}/{state.heritageActivity.target}
+              {state.heritageActivity.title} · {state.heritageActivity.windows}/
+              {state.heritageActivity.target}
             </strong>
             <span>
               {state.heritageActivity.message} ·{" "}

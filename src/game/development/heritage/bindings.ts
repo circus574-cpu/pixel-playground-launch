@@ -36,6 +36,8 @@ const labelAt = (goal: HeritageGoal, i: number): string => {
       return goal.targets[i]!;
     case "consent":
       return goal.witnesses[i]!;
+    case "measure":
+      return "Cel pomiarowy " + (i + 1);
     default:
       return goal.label;
   }

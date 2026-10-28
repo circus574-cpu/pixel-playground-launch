@@ -1005,3 +1005,25 @@ Eskorty, obrona obiektów/fale, pełny pomiar instalacji, 48 prób i ich odbloko
 nadal wymagają dalszego runtime oraz odbioru. Skaner jest odblokowywany przez H-N01,
 ale jego docelowe sprawdzanie instalacji nadal nie jest ukończone; chłodzenie ma
 warunek H-N02 + P-N1. Nie uznawać tego za całe mistrzostwo Androida.
+
+
+### Pomiary i pierwszy projekt — kolejna partia PR #55
+
+Stanowisko P-N5 rejestruje rzeczywiste trafienia produkcyjnego kita w trzy odrębne
+neutralne cele. Pokazuje obrażenia, bieżące ATK/KI oraz faktyczny zasób rasy; nie
+wymyśla temperatury instalacji. Odczyty dotyczą bieżącej wizyty, a zapis utrwala
+ukończone cele. Nieudany zapis CAS pozostawia cel do ponowienia i nie dopisuje
+odczytu. Nie ma nagród za pojedynczy strzał, leczenia ani resetowania cooldownów.
+To pomiar zestawu, nie ukończony system inspekcji instalacji skanerem.
+
+Pierwsze projekty czterech kultur mają testy integracyjne rzeczywistych poleceń
+GameSession po ukończeniu ich własnego pierwszego rozdziału. Poprawiono utratę
+celu ćwiczebnego po poleceniu ruchu oraz możliwość wyjścia/zapisania zaliczonej
+próby przy resztkowym znaczniku walki i otwartym, pauzującym panelu. Uprawnienie
+wyniku nadal pochodzi wyłącznie z należącego do sesji kontrolera próby.
+Rozszerzony scenariusz przeglądarkowy projektu pozostaje do wykonania.
+
+Nagroda fabularna na technicznym limicie poziomu 100 ogranicza XP tak samo jak
+istniejąca ścieżka nagradzania. Bez tego przy XP=6039 nagroda 100 dawała XP=6139,
+którego kolejny odczyt odmawiał. Paragon zachowuje nominalną nagrodę 100 XP;
+naprawa nie zmienia krzywej poziomów ani kanonicznych nagród.

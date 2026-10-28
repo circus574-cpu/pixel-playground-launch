@@ -1,3 +1,4 @@
+import { MeasurementActivity } from "./measurement";
 import { RestraintActivity } from "./restraint";
 import { HeritageProjects } from "./projects";
 import type { GameSession, Player } from "../../session";
@@ -61,14 +62,17 @@ export class HeritageRuntime {
   private readonly bindings: HeritageBindings;
   readonly projects: HeritageProjects;
   private observeIn = 0;
+  private measurement: { content: HeritageContentId; attempt: MeasurementActivity } | null = null;
   private activity: { content: HeritageContentId; attempt: RestraintActivity } | null = null;
   cancelActivities(cancelRoute = true) {
     this.activity?.attempt.dispose();
     this.activity = null;
+    this.measurement?.attempt.dispose();
+    this.measurement = null;
     if (cancelRoute) this.cancelRoute();
   }
   activitySnapshot() {
-    return this.activity?.attempt.snapshot() ?? null;
+    return this.activity?.attempt.snapshot() ?? this.measurement?.attempt.snapshot() ?? null;
   }
   private pendingRoute: { target: HeritageTarget; phase: "exit" | "entrance" | "enter" } | null =
     null;
@@ -184,7 +188,17 @@ export class HeritageRuntime {
   command(c: HeritageCommand) {
     const s = this.session,
       p = s.player;
-    if (!s.saves || p.dead || s.combatIn > 0 || !heritageDefinition(c.id))
+    if (c.action === "activity-leave") {
+      if (this.activity?.content === c.id || this.measurement?.content === c.id)
+        this.cancelActivities(false);
+      return;
+    }
+    if (
+      !s.saves ||
+      p.dead ||
+      (s.combatIn > 0 && c.action !== "activity-finish") ||
+      !heritageDefinition(c.id)
+    )
       return s.say("Poczekaj na koniec walki. Dziedzictwo wymaga aktywnego zapisu postaci.");
     const reason = this.available(c.id);
     if (reason) return s.say(reason);
@@ -205,24 +219,86 @@ export class HeritageRuntime {
       return;
     }
     const progress = this.progress(c.id);
-    if (c.action === "activity-leave") {
-      this.activity?.attempt.dispose();
-      this.activity = null;
-      return;
-    }
     if (c.action === "activity-start" || c.action === "activity-finish") {
       if (!progress || progress.status !== "active") return;
       const goal = def.goals[progress.step]!;
+      if (goal.kind === "measure" && c.action === "activity-start") {
+        const bindings = this.targets(goal, def.world);
+        if (!bindings.some((target) => this.near(target)))
+          return s.say("Podejdź do stanowiska pomiarowego.");
+        this.cancelActivities(false);
+        const completed = () => this.progress(c.id)?.goal.completedTargetIds ?? [];
+        this.measurement = {
+          content: c.id,
+          attempt: new MeasurementActivity(
+            s,
+            goal,
+            s.saves.identity,
+            bindings,
+            completed,
+            (target, contact) => {
+              const current = this.progress(c.id);
+              if (
+                !current ||
+                current.status !== "active" ||
+                def.goals[current.step]?.id !== goal.id ||
+                contact.at !== s.nowMs
+              )
+                return false;
+              const context = this.goalContext(goal, target),
+                eventId = crypto.randomUUID();
+              context.approvedHits = new Map([
+                [
+                  eventId,
+                  {
+                    owner: s.saves!.identity,
+                    goalId: goal.id,
+                    targetId: target.id,
+                    damage: contact.raw,
+                  },
+                ],
+              ]);
+              this.apply(
+                c.id,
+                goal,
+                current,
+                {
+                  owner: s.saves!.identity,
+                  goalId: goal.id,
+                  eventId,
+                  expectedRevision: current.goal.revision,
+                  targetId: target.id,
+                  kind: "measure",
+                  source: "kit",
+                  damage: contact.raw,
+                },
+                context,
+              );
+              const next = this.progress(c.id);
+              const accepted =
+                !!next &&
+                (next.step !== current.step || next.goal.completedTargetIds.includes(target.id));
+              if (accepted && next?.step !== current.step) {
+                this.measurement?.attempt.dispose();
+              }
+              return accepted;
+            },
+          ),
+        };
+        return;
+      }
       if (goal.kind !== "restraint") return s.say("Ten etap korzysta z innego rodzaju próby.");
       if (c.action === "activity-start") {
         const target = this.targets(goal, def.world)[0];
         if (!this.near(target)) return s.say("Podejdź do wskazanego stanowiska ćwiczebnego.");
-        this.activity?.attempt.dispose();
+        this.cancelActivities(false);
         this.activity = {
           content: c.id,
           attempt: new RestraintActivity(s, goal, s.saves.identity, target!.point),
         };
         s.command({ type: "move", ...s.nav.safe({ x: target!.point.x, y: target!.point.y + 65 }) });
+        // The existing move command clears selection; retain the explicitly chosen practice target.
+        s.targetId = this.activity.attempt.target.id;
         return;
       }
       const activity = this.activity;
@@ -299,6 +375,8 @@ export class HeritageRuntime {
             candidate.xp -= 100 + (candidate.level - 1) * 60;
             candidate.level++;
           }
+          if (candidate.level === 100)
+            candidate.xp = Math.min(candidate.xp, 100 + (candidate.level - 1) * 60 - 1);
         }
         const androidCooling =
           h.quests["H-N02"]?.status === "done" && h.projects["P-N1"]?.status === "done";

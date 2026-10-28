@@ -81,6 +81,7 @@ export class RestraintActivity {
     return {
       id: this.id,
       goalId: this.goal.id,
+      title: "Próba kontroli",
       phase: this.phase,
       windows: this.windows,
       target: this.goal.windows,

@@ -1,11 +1,11 @@
 import { SuperiorSaveStore, type SuperiorIndex } from "../game/world/generated/superiorSave";
 import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
-import { GameSession, SaveStore, newPlayer } from "../game/session";
+import { GameSession, SaveStore, newPlayer, xpNeeded } from "../game/session";
 import { RACE_IDS, type RaceId } from "../game/world/races";
 import { WORLDS } from "../game/world/worlds";
-import { HERITAGE_BY_ID } from "../game/development/heritage/catalog";
-import { questId, type HeritageContentId } from "../game/development/heritage/types";
+import { HERITAGE_BY_ID, PROJECT_BY_ID } from "../game/development/heritage/catalog";
+import { projectId, questId, type HeritageContentId } from "../game/development/heritage/types";
 import { forgeProcedure } from "../game/development/heritage/reducer";
 import { emptyDevelopment, DevelopmentSchema } from "../game/development/state";
 import type { HeritageInteraction } from "../game/development/heritage/runtime";
@@ -28,11 +28,13 @@ function storage() {
     },
   };
 }
-function harness(race: RaceId) {
+function harness(race: RaceId, level = 1) {
   const port = storage(),
     save = new SaveStore(port, "owned-slot"),
     p = newPlayer(race);
   save.load();
+  p.level = level;
+  if (level === 100) p.xp = xpNeeded(level) - 1;
   p.quests.steps = "done";
   p.x = 300;
   p.y = 500;
@@ -164,6 +166,27 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
       expect(new SaveStore(port, "other-slot").load()).toBeUndefined();
     },
   );
+  it("keeps a capped level-100 character readable after a legitimate chapter reward", () => {
+    const { session: s, port } = harness("planetary", 100),
+      id = finishFirst(s);
+    s.command({
+      type: "heritage",
+      action: "claim",
+      id,
+      choiceId: HERITAGE_BY_ID.get(id)!.choices[0]!.id,
+    });
+    expect(entry(s, id).status, s.notice).toBe("done");
+    expect(s.player.level).toBe(100);
+    expect(s.player.xp).toBe(xpNeeded(100) - 1);
+    expect(s.player.development!.rewardReceipts[`heritage:${id}:v1`]).toEqual({
+      practice: 150,
+      xp: 100,
+      gold: 30,
+    });
+    const restored = new SaveStore(port, "owned-slot").load();
+    expect(restored?.level).toBe(100);
+    expect(restored?.development!.heritage.quests[id]!.status).toBe("done");
+  });
   it("failed storage leaves ready chapter, XP, gold, practice and personal item unchanged; retry grants once", () => {
     const { session: s, port } = harness("planetary"),
       id = finishFirst(s),
@@ -299,4 +322,105 @@ describe("interior reload regressions", () => {
       outdoorBefore,
     );
   });
+});
+
+describe("first projects of all four cultures through real session actions", () => {
+  it.each(RACE_IDS)(
+    "finishes the first project after its own chapter, without duplicate XP/gold: %s",
+    (race) => {
+      const { session: s } = harness(race),
+        chapter = finishFirst(s);
+      s.command({
+        type: "heritage",
+        action: "claim",
+        id: chapter,
+        choiceId: HERITAGE_BY_ID.get(chapter)!.choices[0]!.id,
+      });
+      const id = projectId(race, 1),
+        def = PROJECT_BY_ID.get(id)!;
+      const first = entry(s, id).targets[0]!;
+      reach(s, id, first.id);
+      s.command({ type: "heritage", action: "start", id });
+      expect(entry(s, id).status, s.notice).toBe("active");
+      const gold = s.player.gold,
+        xp = s.player.xp,
+        level = s.player.level;
+      const advance = (ms: number) => {
+        for (let n = 0; n < ms; n += 50) s.tick(Math.min(50, ms - n));
+      };
+      let guard = 0;
+      while (entry(s, id).status === "active" && guard++ < 60) {
+        const e = entry(s, id),
+          goal = e.goal,
+          progress = e.progress!;
+        const target = e.targets.find((t) => !progress.goal.completedTargetIds.includes(t.id))!;
+        reach(s, id, target.id);
+        if (goal.kind === "restraint") {
+          s.command({ type: "heritage", action: "activity-start", id });
+          advance(500);
+          expect(s.heritage.activitySnapshot()?.phase).toBe("strike");
+          s.command({ type: "ability", ability: "R" });
+          expect(s.combatIn).toBeGreaterThan(0);
+          s.command({ type: "pause", value: true });
+          s.command({ type: "heritage", action: "activity-leave", id });
+          expect(s.heritage.activitySnapshot()).toBeNull();
+          expect(s.practiceTargets.list(s.player.interior)).toHaveLength(0);
+          expect(s.player.development!.practiceEarned).toBe(150);
+          s.command({ type: "pause", value: false });
+          advance(5000);
+          s.command({ type: "heritage", action: "activity-start", id });
+          advance(500);
+          expect(s.heritage.activitySnapshot()?.phase).toBe("strike");
+          // Actual hit -> remaining strike -> hold, repeated three times. No manufactured proof.
+          for (let cycle = 0; cycle < goal.windows; cycle++) {
+            if (cycle === goal.windows - 1)
+              while ((s.heritage.activitySnapshot()?.remainingMs ?? 0) > 150) advance(50);
+            s.command({ type: "ability", ability: "R" });
+            for (let t = 0; t < 100 && s.heritage.activitySnapshot()?.phase === "strike"; t++)
+              advance(50);
+            expect(s.heritage.activitySnapshot()?.phase, s.notice).toBe("hold");
+            advance(2000);
+          }
+          expect(s.heritage.activitySnapshot()?.phase).toBe("surrender");
+          advance(2000);
+          expect(s.heritage.activitySnapshot()?.phase).toBe("passed");
+          expect(s.combatIn).toBeGreaterThan(0);
+          s.command({ type: "pause", value: true });
+          s.command({ type: "heritage", action: "activity-finish", id });
+          expect(entry(s, id).status, s.notice).toBe("ready");
+          s.command({ type: "pause", value: false });
+          advance(5000);
+          continue;
+        }
+        let interaction: HeritageInteraction;
+        if (goal.kind === "inspect") interaction = { kind: "inspect" };
+        else if (goal.kind === "recover") interaction = { kind: "recover" };
+        else if (goal.kind === "craft") interaction = { kind: "craft" };
+        else if (goal.kind === "solve")
+          interaction = { kind: "solve", answerId: goal.puzzles[progress.goal.sequence]!.answerId };
+        else throw Error("Missing actual first-project handler " + goal.kind);
+        s.command({
+          type: "heritage",
+          action: "act",
+          id,
+          goalId: goal.id,
+          targetId: target.id,
+          revision: progress.goal.revision,
+          interaction,
+        });
+      }
+      expect(entry(s, id).status, s.notice).toBe("ready");
+      s.command({ type: "heritage", action: "claim", id, choiceId: null });
+      expect(entry(s, id).status, s.notice).toBe("done");
+      expect(s.player.development!.practiceEarned).toBe(350);
+      expect(s.player.gold).toBe(gold);
+      expect(s.player.xp).toBe(xp);
+      expect(s.player.level).toBe(level);
+      expect(s.heritage.projects.snapshot().find((p) => p.id === id)?.done).toBe(true);
+      expect(s.snapshot().heritageProjects.some((p) => p.id === id)).toBe(true);
+      s.command({ type: "heritage", action: "claim", id, choiceId: null });
+      expect(s.player.development!.practiceEarned).toBe(350);
+      expect(def.reward.practice).toBe(200);
+    },
+  );
 });

@@ -369,3 +369,38 @@ nadal pozostaje do wykonania. Zachowano joystick, klawisze i położenie HUD.
 
 To checkpoint do kontynuacji i przeglądu w Draft PR #55, nie zamknięcie zlecenia.
 Fizycznego Androida/iOS ani stabilnego 60 FPS nie zweryfikowano.
+
+
+### Kontynuacja PR #55 — pomiary, projekty i weryfikacja Pyry
+
+Poprawka kuźni Pyry została ponownie sprawdzona na dokładnym `c2dc70f0146ae4190682e27e7d15a5fed759c425`:
+**2/2 PASS**, Canvas i Software WebGL, 5,6 minuty. Scenariusz obejmował legalny
+prolog, H-P01, odbiór/założenie osobistej broni i reload; nie obejmował jeszcze
+rozszerzenia o P-P1. Komenda: `KI_QA_BASE_URL=http://127.0.0.1:4190 KI_QA_APP_URL=http://127.0.0.1:4190 npx playwright test e2e/development-heritage.spec.ts --grep 'legend' --workers=1 --reporter=list --output=/tmp/ki-heritage-committed-pyra-browser`.
+[Log](qa/racial-development/pyra-reload-c2dc70f0.txt),
+[zrzut Canvas](qa/racial-development/pyra-c2dc70f0-canvas-legend-equipped-heritage.png),
+[zrzut WebGL](qa/racial-development/pyra-c2dc70f0-webgl-legend-equipped-heritage.png).
+Nie łączymy tych wyników ze starszymi sześcioma PASS w jedną matrycę na wspólnym SHA.
+
+Kolejna partia dodaje rzeczywisty kontroler pomiaru trzech celów, obserwacje bieżącego
+zestawu i testy pierwszego projektu każdej kultury. Test integracyjny wykrył utratę
+wybranego celu po istniejącym poleceniu ruchu; przywrócono jawnie wybrany cel próby,
+bez zmiany sterowania. Wyjście oraz zatwierdzenie naprawdę zaliczonej próby nie
+blokują się przez ostatni znacznik walki podczas pauzy panelu. Dodano regresję
+limitu XP na poziomie 100: [uruchomienie z dawną logiką](qa/racial-development/level100-before-fix.txt)
+ma 1 FAIL / 14 celowo odfiltrowanych przypadków; po eksperymencie przywrócono
+identyczne bajty poprawionej implementacji. Nie jest to pominięcie w pełnej regresji.
+
+Kontrole całego kandydata tej partii (rodzic `c2dc70f0`, przed commitem partii):
+- `npm run typecheck`: PASS, [log](qa/racial-development/measurement-project-type.txt).
+- `npm test`: **915 PASS / 68 plików**, [log](qa/racial-development/measurement-project-unit.txt).
+- `npm run lint`: 0 błędów / 13 wcześniejszych ostrzeżeń, [log](qa/racial-development/measurement-project-lint.txt).
+- `npm run build`: PASS, [log](qa/racial-development/measurement-project-build.txt).
+- Rozszerzony Playwright H1 + P1 + broń + reload: **NIEWYKONANY na tym checkpointcie**,
+  uruchomienie jest następnym krokiem. Testy kontrolowanych map nie dowodzą przejścia
+  późnego P-N5 przez całą fabułę Androida.
+
+Zdalny pełny run [40700480719](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40700480719)
+ma wynik **cancelled**, nie PASS. Wcześniejszy run Four hero nadal ma 49 PASS / 1 FAIL
+z nierozstrzygniętym licznikiem zasobów. Gałąź pozostaje Draft; bez scalenia,
+publikacji, zmian panelu administratora i bez operacji na GPU.

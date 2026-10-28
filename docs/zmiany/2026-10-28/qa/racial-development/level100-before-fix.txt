@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /workspace/ki-heritage
+
+ ❯ src/test/heritage-runtime.test.ts (15 tests | 1 failed | 14 skipped) 48ms
+     × keeps a capped level-100 character readable after a legitimate chapter reward 47ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/heritage-runtime.test.ts > heritage session transactions (controlled map fixtures, not browser acceptance) > keeps a capped level-100 character readable after a legitimate chapter reward
+AssertionError: expected 6139 to be 6039 // Object.is equality
+
+- Expected
++ Received
+
+- 6039
++ 6139
+
+ ❯ src/test/heritage-runtime.test.ts:180:25
+    178|     expect(entry(s, id).status, s.notice).toBe("done");
+    179|     expect(s.player.level).toBe(100);
+    180|     expect(s.player.xp).toBe(xpNeeded(100) - 1);
+       |                         ^
+    181|     expect(s.player.development!.rewardReceipts[`heritage:${id}:v1`]).…
+    182|       practice: 150,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 skipped (15)
+   Start at  18:18:21
+   Duration  1.28s (transform 594ms, setup 68ms, import 713ms, tests 48ms, environment 324ms)
+

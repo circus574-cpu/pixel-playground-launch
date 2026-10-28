@@ -42,6 +42,29 @@ export function HeritagePanel({
           </button>
         ))}
       </div>
+      {entry?.goal.kind !== "measure" &&
+        state.heritageActivity &&
+        "readings" in state.heritageActivity &&
+        state.heritageActivity.readings.length > 0 && (
+          <section className="ki-development-card" aria-label="Odczyty z bieżącej wizyty">
+            <h3>Ostatnie pomiary · ta wizyta</h3>
+            {state.heritageActivity.readings.map((reading) => (
+              <p key={reading.target + ":" + reading.at}>
+                {reading.target}: trafienie {Math.round(reading.damage)}, ATK {reading.attack}, KI{" "}
+                {Math.round(reading.ki)}/{reading.maxKi}
+                {reading.resource
+                  ? ", " +
+                    reading.resource.label +
+                    " " +
+                    Math.round(reading.resource.value) +
+                    "/" +
+                    reading.resource.max
+                  : ""}
+                .
+              </p>
+            ))}
+          </section>
+        )}
       {entry && (
         <HeritageEntry
           key={entry.id + ":" + entry.goal.id}
@@ -149,6 +172,52 @@ function HeritageEntry({
                 Ponów bieżący etap
               </button>
             </>
+          )}
+          {goal.kind === "measure" && entry.status === "active" && (
+            <section>
+              <p>
+                Traf trzy odrębne cele bez obrony istniejącym atakiem lub umiejętnością. Podejdź do
+                każdego stanowiska na odległość badania (130 j.). Pomiar nie odnawia HP/KI, nie
+                skraca odnowienia i nie daje nagrody za strzał.
+              </p>
+              <button
+                disabled={!entry.near}
+                onClick={() => {
+                  close();
+                  send({ type: "heritage", action: "activity-start", id: entry.id });
+                }}
+              >
+                Uruchom stanowisko pomiarowe
+              </button>
+              <p>
+                Bieżący zestaw: ATK {state.stats.attack}, KI {Math.ceil(state.player.ki)}/
+                {state.stats.maxKi}.{" "}
+                {state.resource
+                  ? state.resource.label +
+                    ": " +
+                    Math.round(state.resource.value) +
+                    "/" +
+                    state.resource.max
+                  : "Brak dodatkowego zasobu w zestawie."}
+              </p>
+              {state.heritageActivity &&
+                "readings" in state.heritageActivity &&
+                state.heritageActivity.readings.map((reading) => (
+                  <p key={reading.target + ":" + reading.at}>
+                    {reading.target}: trafienie {Math.round(reading.damage)}, ATK {reading.attack},
+                    KI {Math.round(reading.ki)}/{reading.maxKi}
+                    {reading.resource
+                      ? ", " +
+                        reading.resource.label +
+                        " " +
+                        Math.round(reading.resource.value) +
+                        "/" +
+                        reading.resource.max
+                      : ""}
+                    . Odczyt z tej wizyty.
+                  </p>
+                ))}
+            </section>
           )}
           {goal.kind === "restraint" && entry.status === "active" && (
             <section>
