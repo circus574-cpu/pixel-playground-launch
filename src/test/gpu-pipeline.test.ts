@@ -345,14 +345,21 @@ describe("four painted hero deliveries", () => {
         Object.values(clip.directions).flat(),
       );
       expect(frames).toHaveLength(416);
-      expect(new Set(frames).size).toBe(416);
+      // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
+      if (id !== "hero-legend" && id !== "hero-sage-painted")
+        expect(new Set(frames).size).toBe(416);
       for (const clip of Object.values(hero.clips))
         expect(Object.keys(clip.directions).sort()).toEqual([...DIRECTIONS].sort());
       const assets = worldAssets(world as keyof typeof heroes, false, catalog).map((a) => a.id);
       // Every hero plays the Gemini walk/idle pack, which carries the delivery's other clips.
       const walk = id + "-walk-v3";
+      // Legend's and Sage's combat states come from their Gemini fight videos; other heroes keep the delivery pages.
       expect(assets).toEqual(
-        expect.arrayContaining([walk + "-page-0", walk + "-old-0", walk + "-old-1"]),
+        expect.arrayContaining(
+          id === "hero-legend" || id === "hero-sage-painted"
+            ? [walk + "-page-0", walk + "-fight-0"]
+            : [walk + "-page-0", walk + "-old-0", walk + "-old-1"],
+        ),
       );
       for (const other of Object.values(heroes))
         if (other !== id) expect(assets).not.toContain(other + "-walk-v3-page-0");
