@@ -357,7 +357,7 @@ describe("four painted hero deliveries", () => {
       expect(assets).toEqual(
         expect.arrayContaining(
           id === "hero-legend" || id === "hero-sage-painted"
-            ? [walk + "-page-0", walk + "-fight-0"]
+            ? [walk + "-page-0", walk + "-idle-0", walk + "-fight-0", walk + "-fight-1"]
             : [walk + "-page-0", walk + "-old-0", walk + "-old-1"],
         ),
       );
