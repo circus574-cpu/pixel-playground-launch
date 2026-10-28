@@ -571,6 +571,7 @@ export function GameHud({
           continents={staffDestinations ?? []}
           current={planetLocation}
           onTravel={onStaffTravel}
+          style={buttonStyle(preferences.controls, "gm")}
         />
       )}
       <section

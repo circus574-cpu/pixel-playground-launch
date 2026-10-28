@@ -16,7 +16,10 @@ export function StaffTools({
   continents,
   current,
   onTravel,
+  style,
 }: {
+  /** Player-arranged offset (controls editor, `controls.buttons.gm`). */
+  style?: Record<string, string> | undefined;
   state: GameViewState;
   send: SendCommand;
   continents: Destination[];
@@ -36,7 +39,7 @@ export function StaffTools({
     : [];
   const teleport = (x: number, y: number) => send({ type: "staff", action: "teleport", x, y });
   return (
-    <div className="ki-staff">
+    <div className="ki-staff" data-ability="gm" aria-label="GM" style={style}>
       <button
         className="ki-staff-toggle"
         aria-expanded={open}
