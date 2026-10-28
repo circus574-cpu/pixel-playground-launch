@@ -20,14 +20,14 @@ Wygenerowane 26.10.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `common/quest-complete.mp3` | Short heroic quest complete jingle, bright bells                                  |
 | `common/door.mp3`           | Heavy wooden door opening with a creak, short                                     |
 | `common/boss-warning.mp3`   | Ominous deep rumble with a rising tense swell, boss attack warning                |
-| `planetary/R.mp3`           | Fast martial arts punch whoosh with a solid impact                                |
+| `planetary/R.mp3`           | Owner's Gemini fight video (28.10): punch                                         |
 | `planetary/A1.mp3`          | Quick dash whoosh with light footstep skid on dirt                                |
 | `planetary/A4.mp3`          | Swirling energy vortex spinning whoosh, wind and humming energy                   |
 | `planetary/A9.mp3`          | Powerful storm of rapid wind strikes, gusting whooshes and thunder crack          |
-| `planetary/B1.mp3`          | Earth pulse, low rumble with a stone crack burst                                  |
+| `planetary/B1.mp3`          | Owner's Gemini fight video (28.10): vines bursting from the ground                |
 | `planetary/B4.mp3`          | Heavy ground stomp, deep boom and crumbling rocks                                 |
 | `planetary/B9.mp3`          | Massive valley earthquake slam, deep rumble with breaking boulders                |
-| `planetary/C1.mp3`          | Breath of roots, soft rustling leaves with a warm magical exhale                  |
+| `planetary/C1.mp3`          | Owner's Gemini fight video (28.10): leaf-energy wave                              |
 | `planetary/C4.mp3`          | Shield of leaves forming, rustling foliage swirl with a soft magical chime        |
 | `planetary/C9.mp3`          | Song of roots, deep earthy hum with blooming magical chimes and rustling forest   |
 | `sage/R.mp3`                | Owner's Gemini fight video (28.10): Sage's magic orb shot                         |
@@ -40,11 +40,11 @@ Wygenerowane 26.10.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `sage/C1.mp3`               | Focusing ki energy, rising soft hum with a gentle chime                           |
 | `sage/C4.mp3`               | Battle meditation, calm deep singing bowl tone with soft energy aura              |
 | `sage/C9.mp3`               | Full focus awakened, powerful rising energy surge with resonant bell              |
-| `android/R.mp3`             | Sci-fi impulse blaster shot, short punchy electronic zap                          |
+| `android/R.mp3`             | Owner's Gemini fight video (28.10): mechanical punch                              |
 | `android/A1.mp3`            | Target lock-on beeps, quick electronic targeting sequence                         |
-| `android/A4.mp3`            | Precise burst of three rapid laser shots                                          |
+| `android/A4.mp3`            | Owner's Gemini fight video (28.10): plasma beam                                   |
 | `android/A9.mp3`            | Execution protocol, charging mechanical whine then heavy railgun blast            |
-| `android/B1.mp3`            | Plasma shield powering up, electric hum with a bright zap                         |
+| `android/B1.mp3`            | Owner's Gemini fight video (28.10): energy shield                                 |
 | `android/B4.mp3`            | Repulsor pulse pushback, deep electronic thump with air blast                     |
 | `android/B9.mp3`            | Fortification deploying, heavy mechanical servos locking with metallic clanks     |
 | `android/C1.mp3`            | Core discharge, crackling electric burst                                          |
