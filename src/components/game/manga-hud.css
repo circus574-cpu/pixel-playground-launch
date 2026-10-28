@@ -1140,6 +1140,8 @@
 .ki-control-editor {
   position: fixed;
   inset: 0;
+  user-select: none;
+  -webkit-user-select: none;
   z-index: 900;
   pointer-events: auto;
   background: #0006;

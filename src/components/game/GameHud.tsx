@@ -49,7 +49,7 @@ import {
   type KeyAction,
   type KeyBindings,
 } from "../../game/keyBindings";
-import { CONTROL_LABEL, ControlEditor, controlStyle } from "./ControlEditor";
+import { CONTROL_LABEL, ControlEditor, buttonStyle, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
 import { CombatPanel } from "./CombatPanel";
 import "./staff-tools.css";
@@ -392,6 +392,7 @@ export function GameHud({
         className="ki-skill"
         data-ability={a.id}
         key={a.id}
+        style={a.id === "R" ? undefined : buttonStyle(preferences.controls, a.id)}
         title={
           a.name + (a.id === "R" ? "" : " · " + a.ki + " KI · " + a.cd / 1000 + " s odnowienia")
         }
@@ -570,6 +571,7 @@ export function GameHud({
           continents={staffDestinations ?? []}
           current={planetLocation}
           onTravel={onStaffTravel}
+          style={buttonStyle(preferences.controls, "gm")}
         />
       )}
       <section
@@ -727,6 +729,7 @@ export function GameHud({
             className="ki-skill ki-dodge"
             data-ability="dodge"
             key="dodge"
+            style={buttonStyle(preferences.controls, "dodge")}
             title="Unik · krótki zryw z chwilą nietykalności"
             aria-label="Unik"
             disabled={!state.ready || player.dead || panel !== null || Boolean(state.dialogue)}

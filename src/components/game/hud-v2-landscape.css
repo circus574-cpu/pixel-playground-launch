@@ -168,15 +168,21 @@
   }
 }
 
-/* The special staff character's GM button sits under "Widok", clear of the top menu. */
+/* The special staff character's GM button sits on the free left edge under the actions menu, clear
+   of the minimap and the skill buttons on the right (it can also be moved in the controls editor). */
 @media (max-height: 500px) and (max-width: 1100px) {
   html[data-ki-world-v2] .ki-staff {
-    top: calc(68px + env(safe-area-inset-top));
+    top: calc(212px + env(safe-area-inset-top));
     bottom: auto;
-    right: calc(106px + env(safe-area-inset-right));
+    right: auto;
+    left: calc(12px + env(safe-area-inset-left));
   }
   html[data-ki-world-v2] .ki-staff-panel {
-    max-height: calc(100vh - 140px);
+    top: auto;
+    bottom: 54px;
+    left: 0;
+    right: auto;
+    max-height: calc(100vh - 80px);
   }
 }
 

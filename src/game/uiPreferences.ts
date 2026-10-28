@@ -4,7 +4,10 @@ export const UI_PREFERENCES_KEY = "ki-legends:ui-preferences:v1";
 export type ControlPlacement = { dx: number; dy: number; scale: number };
 export const CONTROL_IDS = ["attack", "potion", "skills", "joystick"] as const;
 export type ControlId = (typeof CONTROL_IDS)[number];
-export type ControlLayout = Record<ControlId, ControlPlacement>;
+/** Fixed controls, plus `buttons`: one offset per skill button (ability id) and the dodge button. */
+export type ControlLayout = Record<ControlId, ControlPlacement> & {
+  buttons?: Record<string, { dx: number; dy: number }>;
+};
 export const CONTROL_SCALE = { min: 0.7, max: 1.6 } as const;
 export const DEFAULT_CONTROLS: ControlLayout = {
   attack: { dx: 0, dy: 0, scale: 1 },
@@ -50,6 +53,16 @@ function readControls(raw: unknown): ControlLayout {
       scale: finite(c["scale"], CONTROL_SCALE.min, CONTROL_SCALE.max, 1),
     };
   }
+  const buttons = (
+    value["buttons"] && typeof value["buttons"] === "object" ? value["buttons"] : {}
+  ) as Record<string, unknown>;
+  const kept: Record<string, { dx: number; dy: number }> = {};
+  for (const [id, raw] of Object.entries(buttons)) {
+    if (!/^[A-Za-z0-9-]{1,12}$/.test(id) || !raw || typeof raw !== "object") continue;
+    const b = raw as Record<string, unknown>;
+    kept[id] = { dx: finite(b["dx"], -2000, 2000, 0), dy: finite(b["dy"], -2000, 2000, 0) };
+  }
+  if (Object.keys(kept).length) out.buttons = kept;
   return out;
 }
 export function readUiPreferences(): UiPreferences {

@@ -14,6 +14,7 @@ const FILES: Record<MusicTrack, string> = {
   pyra: "/game/music/pyra.mp3",
 };
 const FADE_MS = 1200;
+const CONTINENT_GAIN = 0.7;
 
 /** Continent (world affinity) → its track; anything else keeps the loading theme. */
 export function trackFor(continent: string | undefined | null): MusicTrack {
@@ -38,7 +39,11 @@ class MusicPlayer {
   }
 
   private target() {
-    return this.muted ? 0 : this.volume;
+    if (this.muted) return 0;
+    // Continent themes sit under combat and dialogue: 30% quieter than the loading theme (owner).
+    return this.current && this.current.track !== "loading"
+      ? this.volume * CONTINENT_GAIN
+      : this.volume;
   }
 
   play(track: MusicTrack) {
