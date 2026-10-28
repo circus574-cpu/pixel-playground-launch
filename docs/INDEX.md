@@ -1,6 +1,8 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: 23.10.2026. Stan kodu porównany z `origin/main` na `d0bfc2c`.
+Aktualizacja audytowa: **28.10.2026**. Punkt odniesienia kodu: `main@30f7b8d5a7d15ffe73380322ca383c280dacdba8`. Historia 23.10 pozostaje w starszych sekcjach; [bieżący audyt i status CI](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52). Dokumentacyjny PR #50 (Draft, stan na 27.10) jest niescalony i nie jest źródłem bieżącej wersji.
+
+**Weryfikacja ≠ wdrożenie:** PR #51 i #52 są scalone; publikację mapy opisuje dziennik 28.10. Pełna regresja WebGL PR #52 ma czerwony wynik, a fizyczny Android oraz 45/55 aktywnej planety nie mają odbioru.
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
 | Dokument                                        | Co w nim znaleźć                                                           |

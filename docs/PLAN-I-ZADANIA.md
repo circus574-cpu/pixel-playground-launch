@@ -1,5 +1,18 @@
 # KI Legends — aktualny plan i zadania
 
+## Bieżący checkpoint — audyt 28.10.2026 (main `30f7b8d5`)
+
+Ten checkpoint **zastępuje historyczne etykiety stanu z 23–24.10 w poniższych sekcjach**, lecz ich nie usuwa. Szczegóły i dowody: [dziennik 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
+
+- **Scalone do main:** #48 Combat V3 + ikony/VFX, #49 podłoże Gemini 1.1.1, #51 postacie HD (4 rasy, klatki 256 px, wyświetlane w poprzedniej wysokości) i audio, #52 przygotowywanie mapy przed wejściem oraz pojedynczy Canvas terenu. Panel Coder (`8adaac94`) i mapa 2D administratora (`954dd3ee`) również znajdują się w main.
+- **Produkcja:** dziennik 28.10 dokumentuje wdrożenie `9b9649cc` i dwa testy Chromium na domenie (Canvas/WebGL przy 390×844, 2 PASS). To nie jest test sprzętowego telefonu ani pełna regresja; późniejszy `30f7b8d5` dotyczy dokumentacji/artefaktów QA.
+- **Testy:** PR #49: Playwright 182 PASS / 1 FAIL (Planetarny, trzecie zabójstwo); PR #52: na `a4ee855e` workflow WebGL `40653403301` **FAILURE**, 7 scenariuszy bez dostępnego żywego celu (timeout fixture `liveEnemy`). Pełny Playwright `40653403311` był `in_progress` w momencie tego odczytu. Nie przypisywać tym wynikom zielonej regresji końcowego main.
+- **Otwarte P0:** zdiagnozować 7 czerwonych scenariuszy walki/lifecycle i wcześniejszy błąd Planetarnego, powtórzyć komplet testów na dokładnym wydawanym SHA.
+- **Otwarte P1:** mapa Coder wyświetla białe znaczniki `projection.places`, lecz pomija je przy wskazywaniu kursorem w `onPointerUp`; wymaga poprawki i E2E. Niezależnie zbadać role GM/admin, lokalne override'y oraz odczyt/zapis.
+- **Świat i produkcja:** wymagania Architekta to 45% lądu / 55% wody na sferze, cztery kontynenty + sześć wysp, najwyżej 20 rozległych podziemi (4–5 labiryntów). Prototyp nie jest dowodem integracji aktywnego runtime; migracje, trasy i odtwarzanie zapisów wymagają odbioru.
+- **Dokumentacja:** draft PR #50 (checkpoint `8e3db1c`) jest starszy i częściowo pokrywa niniejsze dopiski. Przed scaleniem PR należy porównać dokumenty i nie nadpisywać dzienników Coder ani 28.10.
+
+
 ## Checkpoint CPU — zapis wszystkich dotychczasowych prac
 
 Na `feature/cpu-game-content-20261023` zapisano kod, kopie danych oraz

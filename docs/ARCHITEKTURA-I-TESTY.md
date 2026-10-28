@@ -509,3 +509,13 @@ pętla nie działa. Phaser odkłada faktyczne zniszczenie na początek następne
 samo żądanie destroy przy uśpieniu pozostawia Canvas i scenę w pamięci. Wznowienie
 po żądaniu destroy wykonuje zniszczenie, zanim rozpocznie kolejną symulację. Regresję
 kontroluje `e2e/superior-world.spec.ts`: dokładnie jeden Canvas przy każdym z 10 lądów.
+
+## Niezależny audyt Coder i regresji — 28.10.2026
+
+Stan kodu `main@30f7b8d5`. W `src/components/admin/AdminWorldMap.tsx` białe znaczniki z `projection.places` są renderowane, ale obsługa `onPointerUp` składa `candidates` tylko z `shownMarkers`, `combatPoints` i `spawns`. **ŚREDNI, ODRZUCONE (ścieżka kodu):** nie da się uzyskać szczegółów samodzielnego miasta/lokacji przez kliknięcie po wyłączeniu innych warstw. Wymagana obsługa miejsc w selekcji i test E2E; wniosek statyczny, bez własnego odtworzenia w przeglądarce.
+
+Odczyt GitHub Actions dla `a4ee855e`, PR #52: [WebGL run 40653403301](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403301) — **FAILURE, 7 testów niezaliczonych**, w tym `combat-skills.spec.ts` (Mędrcy, Androidzi), `combat-v3.spec.ts` (Mędrcy, Androidzi) oraz trzy przypadki cyklu życia. Wspólny punkt zatrzymania: `e2e/fixtures.ts:223`, `liveEnemy`, `Expected: true / Received: false`, timeout 60 s. Nie rozstrzyga to, czy błąd pochodzi ze spawnów, AI, inicjalizacji świata czy fixture. [Pełny QA 40653403311](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403311) był w toku w momencie odczytu.
+
+Oddzielny [Playwright 40595421144](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40595421144) na PR #49: 182 PASS / 1 FAIL w scenariuszu Planetarnego (2 zamiast 3 zabójstw), nie jest dowodem naprawy po PR #52. Mapa produkcyjna ma jedynie ograniczone [2 PASS na viewportcie 390×844](zmiany/2026-10-28/ZMIANY.md), nie zastępujące testu rzeczywistego telefonu ani pełnego PvE.
+
+**Warunek zaliczenia:** wyniki kompletu TS/Vitest/assets/lint/build/Playwright Canvas i WebGL na wskazanym SHA, ślady dla porażek, walidacja uprawnień, zapisów i mapy Coder, bez pomijania asercji. Zewnętrzny dowód produkcyjnego SHA osobno.

@@ -263,3 +263,9 @@ Testów nie uruchamiano zgodnie z poprzednią dyspozycją właściciela; wykonyw
 wyłącznie kontrola TypeScript. Nie deklarować przetestowania w przeglądarce ani publikacji.
 Pełne `npm run typecheck` (aplikacja, e2e, tools): PASS. Widok nie był sprawdzany
 przeglądarkowo; nie uruchamiano testów ani ręcznej publikacji produkcyjnej.
+
+## Suplement audytowy 28.10 do historycznych zmian 27.10
+
+Uzgodnienie dokumentacyjne ze starszym [PR #50](https://github.com/circus574-cpu/pixel-playground-launch/pull/50), którego bazą był `main@8e3db1c`: PR #34–#49 są historią integracji świata v2, walki, HUD, kont, audio i grafiki. GitHub Actions przypisuje się wyłącznie do testowanego SHA. **Późniejsze wyniki PR #49**: WebGL [SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40595421191), ale pełny Playwright [182 PASS / 1 FAIL](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40595421144) — Planetarny. Wcześniejsze wpisy „in progress” są stanem z chwili ich zapisu, a nie aktualnym werdyktem.
+
+Kanon Architekta: cztery kontynenty + sześć wysp, docelowo 45/55 powierzchni globu, najwyżej 20 rozległych podziemi (z czego 4–5 labiryntów) i bezpieczna migracja zapisów. Dane z 152 historycznych lokacji zachować jako archiwum. **Bez potwierdzonej implementacji i końcowego QA.** Nowe commity `8adaac94` i `954dd3ee` dodały panel i mapę Coder, opisane wyżej. Draft PR #50 pozostaje do osobnej decyzji; nie scalać starszej wersji dziennika przez zastąpienie bieżącej.

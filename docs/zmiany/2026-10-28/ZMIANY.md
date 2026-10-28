@@ -185,3 +185,29 @@ scenariusza WebGL. To test Chromium na mobilnym viewportcie, nie fizycznego tele
 Pełne CI na a4ee855e pozostawało w toku; nie deklarowano zielonego pełnego CI.
 GPU nie dotykano. Kod produkcyjny pochodzi z merge commita 9b9649cc; późniejszy
 commit dowodów zmienia wyłącznie dokumentację i pliki QA, nie kod aplikacji.
+
+## Audyt niezależny 28.10.2026 — stan po PR #52
+
+**Repo:** `circus574-cpu/pixel-playground-launch`. **Odczytany HEAD main:** `30f7b8d5a7d15ffe73380322ca383c280dacdba8`. Poprzedni audyt bazował na `954dd3ee`; od tamtej chwili scalono [PR #51](https://github.com/circus574-cpu/pixel-playground-launch/pull/51) (postacie HD czterech ras, ich dźwięki i muzyka) oraz [PR #52](https://github.com/circus574-cpu/pixel-playground-launch/pull/52) (przygotowanie mapy, ograniczenie kosztu renderowania, obsługa usypiania scen). Commit `30f7b8d5` dodał dokumentację weryfikacji wydania; nie jest zmianą silnika.
+
+| Kontrolowany element | Status | Dowód / zakres |
+| --- | --- | --- |
+| Scalenie #51 i #52 | **ZALICZONE** jako obecność zmian | SHA merge `ddd7723b`, `9b9649cc`, PR #51/#52 |
+| Produkcyjna mapa po #52 | **ZALICZONE** tylko w wąskim teście | Dziennik wydania: dwa testy Playwright 390×844, Canvas / Software WebGL, 2 PASS; nie jest to test telefonu fizycznego |
+| Pełna regresja Software WebGL #52 | **ODRZUCONE** | [Run 40653403301](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403301), **7 FAIL** — brak znalezionego żywego przeciwnika w 60 s, `e2e/fixtures.ts:223` |
+| Pełny Playwright #52 | **NIEZWERYFIKOWANE** | [Run 40653403311](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403311) w chwili audytu `in_progress`; nie liczyć jako PASS |
+| Pełny Playwright #49 | **ODRZUCONE** | [Run 40595421144](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40595421144): 182 PASS, 1 FAIL Planetarnego (2/3 zabójstw) |
+| Mapa Coder: białe miejsca | **ODRZUCONE** (statyczna ścieżka kodu) | `src/components/admin/AdminWorldMap.tsx` rysuje `projection.places`, lecz nie dodaje ich do kandydatów wyboru `onPointerUp` |
+| RLS/admin/GM i zapisy | **NIEZWERYFIKOWANE** | Brak niezależnego testu end-to-end kont i lokalnych override'ów na bieżącym main |
+| Docelowe 45% ląd / 55% woda i podziemia | **NIEZWERYFIKOWANE** | Parametry kanoniczne, brak końcowego pomiaru i grywalnych przejść |
+| Pełne QA i fizyczny telefon dla HEAD main | **NIEZWERYFIKOWANE** | Częściowe próby na innych SHA nie zastępują końcowej regresji |
+
+### Usterki i działania dla Codexa
+
+- **KL-2026-10-28-05, WYSOKI:** w [WebGL #52](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403301) nie powiodło się siedem przypadków: `combat-skills` (Mędrcy, Androidzi), `combat-v3` (Mędrcy, Androidzi), trzy `hero-lifecycle`. Wspólny błąd: `liveEnemy()` nie znajduje aktywnego przeciwnika przez 60 s. **Odtworzenie:** uruchomić odpowiednie Playwright Software WebGL z artefaktami i sprawdzić spawny, pozycję postaci, nawigację i fixture. **Oczekiwane:** żywy przeciwnik pojawia się w przewidywalnym czasie, a pełny scenariusz kończy się PASS. Przyczyna NIE jest jeszcze udowodniona.
+- **KL-2026-10-28-01, WYSOKI:** test Planetarnego z #49 — 2/3 zabójstw w 60 s. Trace dostępny w artefakcie CI; diagnostyka na finalnym SHA, bez skip/relaksowania asercji.
+- **KL-2026-10-28-02, ŚREDNI:** białe znaczniki lokacji i miast mapy Coder nieobsługiwane przez `onPointerUp` (wykluczone z `candidates`). **Odtworzenie:** `/admin` → Coder → Mapa świata 2D → wyłączyć pozostałe warstwy → kliknąć biały znacznik; brak panelu szczegółów. **Oczekiwane:** nazwa, ID i kraina. Potwierdzenie kodowe, bez wykonania przeglądarkowego.
+- **KL-2026-10-28-03, WYSOKI (bramka wydania):** brak pełnej zielonej regresji dokładnego końcowego SHA i testów realnego Androida/hardware WebGL. **Oczekiwane:** wszystkie wymagane CI, sprawdzony wdrożony SHA i odbiór wizualny.
+- **KL-2026-10-28-04, ŚREDNI:** starszy PR #50 może nadpisać równolegle dopisane opisy Coder/QA; porównać z main, nie scalać bez aktualizacji i kontroli konfliktów.
+
+**Werdykt końcowy: NIEZWERYFIKOWANE** dla całego najnowszego wydania; **ODRZUCONE** dla konkretnego przebiegu WebGL i interakcji miejsc w Coder. Zaliczono wyłącznie obecność zmian i wąski test mapy na produkcji. Odczyty GitHub Actions i statyczna inspekcja nie są testem wykonanym przez audytora na fizycznym telefonie. Ten commit dokumentacyjny nie naprawia kodu, nie wznawia CI ani nie publikuje gry.
