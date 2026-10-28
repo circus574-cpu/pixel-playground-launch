@@ -34,6 +34,7 @@ import {
 } from "./session";
 import { distance, type Point } from "./navigation";
 const RACE_VFX = ["impact", "ring"] as const;
+const TRANSFORM_URL = (race: string) => "/game/transform/" + race + ".webp";
 
 export type { GameViewState } from "./session";
 type Actor = {
@@ -169,7 +170,7 @@ export function mountKileGends(
       this.load.once("complete", () => this.load.off("progress", initialProgress));
       this.load.on("loaderror", (file: Phaser.Loader.File) => {
         // Decorative race effects are optional; a missing strip must not block the world.
-        if (file.key.startsWith("vfx3-")) return;
+        if (file.key.startsWith("vfx3-") || file.key.startsWith("transform-")) return;
         this.loadFailed = true;
         loading({
           phase: "error",
@@ -181,6 +182,8 @@ export function mountKileGends(
         });
       });
       queueAssets(this, assets);
+      // Download (not decode) the Tryb KI sheet with the world, so pressing T needs no network.
+      void fetch(TRANSFORM_URL(session.player.race)).catch(() => undefined);
       // Painted energy loops (GPU 2026-10-27): 8 × 256 px strips, blended additively.
       for (const kind of RACE_VFX)
         this.load.spritesheet(
@@ -192,33 +195,46 @@ export function mountKileGends(
           },
         );
     }
-    /** Tryb KI: the race's transformation clip (owner's Gemini video) in place of the hero for a second. */
+    /**
+     * Tryb KI: the race's transformation (owner's Gemini video, 12 frames of 384 px) in place of
+     * the hero for a second. The sheet is downloaded during loading but decoded only now and freed
+     * afterwards, so it never counts against a continent's texture budget.
+     */
     private transform() {
-      const spec = catalog.effects[RACES[session.player.race].world + ".transform"];
-      if (!spec) return;
-      const key = "transform/" + RACES[session.player.race].world;
-      if (!this.anims.exists(key))
-        this.anims.create({
-          key,
-          frames: spec.frames.map((frame) => ({ key: spec.asset, frame })),
-          frameRate: spec.fps,
-          repeat: 0,
+      const race = session.player.race,
+        key = "transform-" + race;
+      const play = () => {
+        if (!this.textures.exists(key)) return;
+        if (!this.anims.exists(key))
+          this.anims.create({
+            key,
+            frames: this.anims.generateFrameNumbers(key, { start: 0, end: 11 }),
+            frameRate: 12,
+            repeat: 0,
+          });
+        const p = session.player,
+          hero = this.hero.sprite,
+          size = this.hero.visual.size[1] * 1.5;
+        // Frames keep the hero's feet 72 px above the bottom of the 384 px cell.
+        const sprite = this.add
+          .sprite(p.x, p.y + (size * 72) / 384, key, 0)
+          .setDisplaySize(size, size)
+          .setOrigin(0.5, 1)
+          .setDepth(renderDepth("combat", p.y));
+        this.trackEffect(sprite);
+        hero.setVisible(false);
+        sprite.play(key);
+        sprite.once("animationcomplete", () => {
+          sprite.destroy();
+          hero.setVisible(true);
+          this.anims.remove(key);
+          this.textures.remove(key);
         });
-      const p = session.player,
-        hero = this.hero.sprite;
-      // Frames keep the hero's feet 72 px above the bottom of a 384 px cell.
-      const sprite = this.add
-        .sprite(p.x, p.y + (spec.size[1] * 72) / 384, spec.asset, spec.frames[0])
-        .setDisplaySize(...spec.size)
-        .setOrigin(0.5, 1)
-        .setDepth(renderDepth("combat", p.y));
-      this.trackEffect(sprite);
-      hero.setVisible(false);
-      sprite.play(key);
-      this.time.delayedCall(spec.durationMs, () => {
-        sprite.destroy();
-        hero.setVisible(true);
-      });
+      };
+      if (this.textures.exists(key)) return play();
+      this.load.spritesheet(key, TRANSFORM_URL(race), { frameWidth: 384, frameHeight: 384 });
+      this.load.once("complete", play);
+      this.load.start();
     }
     /** Plays one painted race effect; silently skipped when its strip failed to load. */
     private raceVfx(kind: (typeof RACE_VFX)[number], p: Point, scale: number) {
