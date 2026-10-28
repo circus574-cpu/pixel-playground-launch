@@ -120,11 +120,13 @@ export function LocalMinimap({
   world,
   at,
   inside,
+  projects = [],
 }: {
   world: WorldDefinition;
   at: { x: number; y: number };
   /** Standing in a building: the dot sits at its door. */
   inside: boolean;
+  projects?: readonly { id: string; name: string; x: number; y: number }[];
 }) {
   const view = useMemo(() => {
     const b = world.city?.bounds;
@@ -159,6 +161,20 @@ export function LocalMinimap({
         fill={GROUND[world.id] ?? "#2c3a2c"}
       />
       <Static world={world} />
+      {projects.map((p) => (
+        <g key={p.id}>
+          <title>{p.name + " · odbudowano"}</title>
+          <rect
+            x={p.x - 45}
+            y={p.y - 45}
+            width={90}
+            height={90}
+            fill="#f5d18c"
+            stroke="#143130"
+            strokeWidth={12}
+          />
+        </g>
+      ))}
       <g data-testid="ki-map-you" className={inside ? "ki-map-inside" : undefined}>
         <circle
           cx={at.x}

@@ -2965,5 +2965,12 @@ M24. Dziedzictwa są lokalnymi historiami czterech kultur i nie oznaczają
 pokonania Veyra. Przewidziano 2100 XP za sześć rozdziałów jednej rasy, równe
 nagrody za odmienne decyzje, sześć projektów i sześć etapów broni osobistej.
 Ten zapis wymagań **nie jest deklaracją zaimplementowania rozdziałów i broni**.
-Aktualny kod treningu nie dodaje nowych pozycji do starego kontraktu
-`potion/tusk/sword/vest`; integracja unikalnych broni pozostaje osobnym etapem.
+Stosy `potion/tusk/sword/vest` pozostają niezmienione. Nowa osobista broń jest
+unikalnym obiektem `development.heritage.weapon`, a istniejący slot `weapon`
+przyjmuje także `heritage`. Broń ma UUID, właściciela klucza slotu, rasę, stopień,
+nazwę, historię i lokalizację plecak/depozyt. ATK 8/10/12/14/16/18 wchodzi przez
+`gear.attack` tylko po założeniu. Stare `upgrade` działa wyłącznie na `sword`;
+interfejs pokazuje porównanie przed założeniem. Pierwsze rozdziały czterech ras
+wydają własną broń, zaś pełna legalna ścieżka stopni 2–6 nadal wymaga odbioru
+późniejszych etapów. Transfer wymaga własnej otwartej skrzyni i rzeczywistej
+bliskości. Nie wolno wczytać cudzej broni do innego slotu.

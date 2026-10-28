@@ -1,0 +1,98 @@
+
+Running 8 tests using 2 workers
+
+(node:86693) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:86692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [gameplay] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: planetary (1.7m)
+  ✓  3 [gameplay] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: sage (1.2m)
+  ✓  4 [gameplay] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: android (1.7m)
+  ✘  5 [gameplay] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: legend (2.8m)
+  ✓  1 [software-webgl] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: planetary (7.9m)
+  ✓  6 [software-webgl] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: sage (3.9m)
+  ✓  7 [software-webgl] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: android (5.4m)
+  ✘  8 [software-webgl] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: legend (5.8m)
+
+
+  1) [gameplay] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: legend
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.ki-canvas').first()
+    Expected pattern: /^\d/
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.ki-canvas').first() with timeout 60000ms
+      - waiting for locator('.ki-canvas').first()
+
+
+      161 |     await page.screenshot({ path: info.outputPath(race + "-equipped-heritage.png") });
+      162 |     await page.reload();
+    > 163 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+          |                          ^
+      164 |     const restored = await saved(page);
+      165 |     expect(restored.weapon).toBe("heritage");
+      166 |     expect(restored.development!.heritage.weapon).toEqual(w);
+        at /workspace/ki-heritage/e2e/development-heritage.spec.ts:163:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [software-webgl] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: legend
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.ki-canvas').first()
+    Expected pattern: /^\d/
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.ki-canvas').first() with timeout 60000ms
+      - waiting for locator('.ki-canvas').first()
+
+
+      161 |     await page.screenshot({ path: info.outputPath(race + "-equipped-heritage.png") });
+      162 |     await page.reload();
+    > 163 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+          |                          ^
+      164 |     const restored = await saved(page);
+      165 |     expect(restored.weapon).toBe("heritage");
+      166 |     expect(restored.development!.heritage.weapon).toEqual(w);
+        at /workspace/ki-heritage/e2e/development-heritage.spec.ts:163:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: [software-webgl] › e2e/development-heritage.spec.ts (23.0m)
+  Slow test file: [gameplay] › e2e/development-heritage.spec.ts (7.4m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  2 failed
+    [gameplay] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: legend
+    [software-webgl] › e2e/development-heritage.spec.ts:69:3 › actual first heritage chapter, personal weapon and reload: legend
+  6 passed (23.1m)

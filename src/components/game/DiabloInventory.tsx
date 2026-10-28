@@ -1,3 +1,5 @@
+import { equippedName } from "../../game/development/heritage/equipment";
+import { HeritageWeaponCard } from "./HeritageWeaponCard";
 /**
  * Inventory in the classic action-RPG layout (preview switch ?ki-world-v2=1): the hero in the
  * centre with equipment slots around, a bag grid beside. Uses the existing commands only
@@ -67,8 +69,18 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
     ...Object.entries(p.materials).map(([id, count]) => ({ kind: "material" as const, id, count })),
   ];
   const equipped = (slot: string): ItemId | null =>
-    slot === "weapon" ? p.weapon : slot === "armor" ? p.armor : null;
-  const shown = focus ?? (p.weapon ? { kind: "item" as const, id: p.weapon, count: 1 } : null);
+    slot === "weapon"
+      ? p.weapon === "heritage"
+        ? null
+        : p.weapon
+      : slot === "armor"
+        ? p.armor
+        : null;
+  const shown =
+    focus ??
+    (p.weapon && p.weapon !== "heritage"
+      ? { kind: "item" as const, id: p.weapon, count: 1 }
+      : null);
   return (
     <div className="ki-dinv">
       <section className="ki-dinv-doll" aria-label="Postać i wyposażenie">
@@ -81,6 +93,7 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
         />
         {SLOTS.map((slot) => {
           const item = equipped(slot.id);
+          const personal = slot.id === "weapon" && p.weapon === "heritage";
           const locked = slot.id !== "weapon" && slot.id !== "armor";
           return (
             <button
@@ -88,19 +101,32 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
               className={
                 "ki-dinv-slot ki-dinv-" +
                 slot.area +
-                (item ? " is-filled" : "") +
+                (item || personal ? " is-filled" : "") +
                 (locked ? " is-locked" : "")
               }
               aria-label={
                 slot.label +
-                (item ? ": " + ITEMS[item].name + " — zdejmij" : locked ? " (wkrótce)" : ": puste")
+                (personal
+                  ? ": " + equippedName(p) + " — zdejmij"
+                  : item
+                    ? ": " + ITEMS[item].name + " — zdejmij"
+                    : locked
+                      ? " (wkrótce)"
+                      : ": puste")
               }
-              title={slot.label + (item ? " · " + ITEMS[item].name : "")}
-              disabled={!item}
-              onClick={() => item && send({ type: "unequip", slot: slot.id as "weapon" | "armor" })}
+              title={
+                slot.label +
+                (personal ? " · " + equippedName(p) : item ? " · " + ITEMS[item].name : "")
+              }
+              disabled={!item && !personal}
+              onClick={() =>
+                (item || personal) && send({ type: "unequip", slot: slot.id as "weapon" | "armor" })
+              }
               onMouseEnter={() => item && setFocus({ kind: "item", id: item, count: 1 })}
             >
-              {item ? (
+              {personal ? (
+                <ItemIcon item="sword" />
+              ) : item ? (
                 <ItemIcon item={item} />
               ) : (
                 <>
@@ -113,7 +139,7 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
                   <span className="ki-dinv-ghost">{slot.label}</span>
                 </>
               )}
-              {item && slot.id === "weapon" && p.upgrade > 0 && (
+              {item === "sword" && slot.id === "weapon" && p.upgrade > 0 && (
                 <b className="ki-dinv-plus">+{p.upgrade}</b>
               )}
             </button>
@@ -134,7 +160,7 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
           <span>
             HP{" "}
             <b>
-              {p.hp}/{state.stats.maxHp}
+              {Math.ceil(p.hp)}/{state.stats.maxHp}
             </b>
           </span>
           <span className="ki-dinv-xp">
@@ -142,6 +168,7 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
             XP {p.xp}/{xpNeeded(p.level)}
           </span>
         </div>
+        <HeritageWeaponCard state={state} send={send} />
         <div className="ki-dinv-bag" role="grid" aria-label="Torba">
           {Array.from({ length: BAG_CELLS }, (_, i) => {
             const entry = bag[i];

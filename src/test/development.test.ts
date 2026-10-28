@@ -170,7 +170,9 @@ describe("training accounting and schema", () => {
     const d = emptyDevelopment();
     d.practiceEarned = 500;
     expect(DevelopmentSchema.safeParse(d).success).toBe(false);
-    expect(DevelopmentSchema.safeParse({ ...emptyDevelopment(), version: 2 }).success).toBe(false);
+    expect(DevelopmentSchema.safeParse({ ...emptyDevelopment(), version: 999 }).success).toBe(
+      false,
+    );
     expect(DevelopmentSchema.safeParse({ ...emptyDevelopment(), future: true }).success).toBe(
       false,
     );
@@ -431,7 +433,7 @@ describe("atomic character development and exam isolation", () => {
     const old = port.getItem("slot")!;
     p.development = emptyDevelopment();
     expect(save.save(p)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(2);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(3);
     expect(port.getItem("ki-legends:recovery:before-superior-v2:slot")).toBe(old);
     const future = JSON.parse(port.getItem("slot")!);
     future.player.development.futureField = true;

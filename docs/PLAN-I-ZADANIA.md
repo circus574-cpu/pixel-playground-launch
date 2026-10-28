@@ -175,3 +175,14 @@ oraz depozytem, biografie i kroniki, 32 warianty przeciwników 21–40 wraz
 z wyprawami, walidator całego grafu i budżetu 17 800 oraz pełne pomiary balansu.
 Przygotowany kod modyfikatora nie jest dowodem dostępności jego odblokowania.
 Nie scalać ani nie publikować bez osobnej decyzji właściciela.
+
+
+Checkpoint kontynuacji PR #55: istnieje katalog wszystkich rozdziałów/projektów,
+realny obieg interakcji i transakcyjnych nagród, slot i depozyt osobistej broni,
+lokalne nakładki projektów oraz kontroler powstrzymania ciosu. W przeglądarce
+sprawdzono pierwsze rozdziały; wykryto i naprawiono walidację wnętrza Pyry.
+**Nie oznacza to pełnego odbioru 24/24/48.** Najbliższe zależności: dokończyć
+chronione obiekty/eskorty i pomiary w realnym runtime, następnie pełne odblokowania
+144 stopni prób, późne wyprawy, biografie/kroniki i bilans. Nie dodawać przycisków
+zaliczających te cele bez właściwych zdarzeń symulacji. Dokładny status kontroli
+oraz problemy CI: bieżący dziennik. Scalanie i publikacja nadal są oddzielną decyzją.

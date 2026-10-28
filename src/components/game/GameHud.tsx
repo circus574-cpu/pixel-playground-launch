@@ -595,12 +595,17 @@ export function GameHud({
           }}
         >
           {WORLD_V2 && !state.building ? (
-            <V2Minimap land={state.player.continent} at={{ x: state.x, y: state.y }} />
+            <V2Minimap
+              land={state.player.continent}
+              at={{ x: state.x, y: state.y }}
+              projects={state.heritageProjects}
+            />
           ) : (
             <LocalMinimap
               world={world}
               at={state.building?.door ?? { x: state.x, y: state.y }}
               inside={!!state.building}
+              projects={state.heritageProjects}
             />
           )}
           {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
@@ -617,7 +622,18 @@ export function GameHud({
       </section>
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
-        {WORLD_V2 && !tracked ? (
+        {state.heritageActivity ? (
+          <div>
+            <strong>
+              Próba kontroli · {state.heritageActivity.windows}/{state.heritageActivity.target}
+            </strong>
+            <span>
+              {state.heritageActivity.message} ·{" "}
+              {Math.ceil(state.heritageActivity.remainingMs / 1000)} s · błędy{" "}
+              {state.heritageActivity.errors}
+            </span>
+          </div>
+        ) : WORLD_V2 && !tracked ? (
           // Starter quests come first; Argon's adventures show once they are done.
           <CombatQuestSummary continent={player.continent} />
         ) : (

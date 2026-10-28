@@ -96,3 +96,56 @@
     width: max-content;
   }
 }
+
+.ki-heritage-weapon {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem;
+  border: 1px solid #9f8247;
+  border-radius: 0.5rem;
+  background: #192327e8;
+  color: #f3e2bb;
+  flex-wrap: wrap;
+}
+.ki-heritage-weapon small {
+  display: block;
+  line-height: 1.5;
+  max-width: 24rem;
+}
+.ki-heritage-weapon button {
+  min-height: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #a78b4c;
+  border-radius: 0.4rem;
+  color: #f3e2bb;
+  background: #234247;
+  cursor: pointer;
+}
+.ki-heritage-weapon button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ki-development-target {
+  border-top: 1px solid #5b706b;
+  margin-top: 0.65rem;
+  padding-top: 0.6rem;
+}
+.ki-development input {
+  max-width: 100%;
+  padding: 0.5rem;
+  color: #f5e3b7;
+  background: #153038;
+  border: 1px solid #a58e58;
+  border-radius: 0.4rem;
+}
+.ki-v2-minimap-project {
+  position: absolute;
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: #f5d18c;
+  box-shadow: 0 0 0 1px #143130;
+  transform: translate(-50%, -50%) rotate(45deg);
+}

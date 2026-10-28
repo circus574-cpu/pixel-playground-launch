@@ -46,6 +46,7 @@ export default defineConfig({
       name: "software-webgl",
       testMatch: [
         "**/development.spec.ts",
+        "**/development-heritage.spec.ts",
         "**/city-webgl.spec.ts",
         "**/combat-bosses.spec.ts",
         "**/combat-skills.spec.ts",

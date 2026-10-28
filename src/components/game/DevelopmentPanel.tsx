@@ -1,3 +1,4 @@
+import { HeritagePanel } from "./HeritagePanel";
 import { useState } from "react";
 import type { Command, GameViewState } from "../../game/session";
 import { emptyDevelopment, MODULE_ENERGY } from "../../game/development/state";
@@ -29,7 +30,7 @@ export function DevelopmentPanel({
   startExam?: StartExam | undefined;
   close: () => void;
 }) {
-  const [tab, setTab] = useState<"training" | "knowledge" | "mastery">("training");
+  const [tab, setTab] = useState<"training" | "knowledge" | "mastery" | "heritage">("training");
   const [instructions, setInstructions] = useState<{ discipline: Discipline; tier: number } | null>(
     null,
   );
@@ -51,6 +52,7 @@ export function DevelopmentPanel({
             ["training", "Trening"],
             ["knowledge", "Wiedza"],
             ["mastery", "Mistrzostwo"],
+            ["heritage", "Dziedzictwo"],
           ] as const
         ).map(([id, name]) => (
           <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>
@@ -58,6 +60,7 @@ export function DevelopmentPanel({
           </button>
         ))}
       </div>
+      {tab === "heritage" && <HeritagePanel state={state} send={send} close={close} />}
       {tab === "training" && (
         <>
           <p>

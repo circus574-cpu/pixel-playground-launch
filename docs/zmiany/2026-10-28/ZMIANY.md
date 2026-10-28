@@ -300,3 +300,72 @@ To nadal emulacja Chromium/CDP, nie test fizycznego telefonu.
 Pełny `npm run typecheck`, `npx eslint e2e/development.spec.ts` i 48 testów
 `development.test.ts` + `stream-texture-budget.test.ts` przeszły przed commitem korekty.
 Nie oznacza to powtórzenia pełnej macierzy w jednym przebiegu ani ukończenia dziedzictw.
+
+### Kontynuacja dziedzictw — runtime celów i osobiste bronie (PR #55, WIP)
+
+Po `54d6abda746758e6cb4cd678d3852e6a22d2a070` dodano jawne definicje 24 rozdziałów
+i 24 projektów wszystkich kultur, polskie dialogi/dokumenty/wybory, fizyczne
+interakcje i cały transakcyjny kandydat postaci. To nie deklaracja pełnego odbioru:
+eskorty/ochrona/pomiary, 48 prób, część skutków projektów/stacji, biografie, późne
+spotkania, pełny balans i finały pozostają w realizacji. Zmian na tej gałęzi nie
+scalono i nie opublikowano. GPU i panel administratora pozostają nietknięte.
+
+Działające ścieżki kodu: rozmowa z odpowiedzią przy NPC, odrębne ślady, zagadka
+z kontrolą kolejności, odzyskanie gwarantowanej części, receptura z agregacją
+zużycia, zgody i ich historia, nazwa broni oraz kolejna czynność kowalska.
+Polecenie nie może przedstawić wyniku chronionej aktywności zamiast dowodu runtime.
+Próba kontroli ciosu ma rzeczywiste trafienia produkcyjnego kita i pociski,
+przerwy, błędy, osobny stan poddania i bezpieczne ponowienie; 7 testów obejmuje
+cztery rasy, bezczynność, atak po poddaniu, pauzę i usunięcie pocisku/celu.
+Nie jest to komplet wypożyczanych prób rasowych.
+
+Osobista broń ma jeden egzemplarz, właściciela slotu, rasę, stopień, nazwę i historię,
+działa w istniejącym slocie `weapon=heritage` i przez `gear.attack`. Nie dziedziczy
+premii starego miecza `upgrade`. Kowal nie może pobrać za nią opłaty starego ulepszenia.
+Założenie i transfer do/z rzeczywistego depozytu używają zapisu CAS. Zmiana konfiguracji
+nie leczy ani nie odtwarza kita. Domena rozwoju v2 odczytuje fundament v1; koperta
+Superior v3 i historyczny zapis v7 zachowują wcześniejsze kopie i robią nowe kopie
+przed zapisem. Cudza broń, nowsze pola i konflikt kart są odrzucane bez nadpisania.
+
+Cele są osadzone w rzeczywistej stolicy Superior. Dojście używa istniejących drzwi
+oraz nawigacji i poddaje się ruchowi ręcznemu. Lokalna nakładka projektu wpływa na
+A*, LOS i ruch gracza/wrogów, bez mutacji kanonicznej geometrii. Obiekty i zmiany
+prac mają proceduralne, **techniczne** odwzorowanie, culling i sprzątanie sceny;
+ukończone projekty trafiają na dotychczasową minimapę. Pełny odbiór 24 skutków
+nadal pozostaje do wykonania. Zachowano joystick, klawisze i położenie HUD.
+
+#### Faktyczna weryfikacja tego checkpointu
+
+- `npm run typecheck` — PASS, pełne trzy konfiguracje:
+  [log](qa/racial-development/heritage-checkpoint-type.txt).
+- `npm test` — **904 PASS / 67 plików**:
+  [pełny log, także istniejące komunikaty jsdom/audio](qa/racial-development/heritage-checkpoint-unit.txt).
+  Integracyjne fixture'y kontrolowanych map nie są dowodem przejścia całej kampanii.
+- `npm run lint` — 0 błędów, 13 wcześniejszych ostrzeżeń:
+  [log](qa/racial-development/heritage-checkpoint-lint.txt).
+- `npm run build` i `npm run assets:check` — PASS:
+  [build](qa/racial-development/heritage-checkpoint-build.txt),
+  [zasoby](qa/racial-development/heritage-checkpoint-assets.txt).
+- Playwright przed poprawką Pyry: **6 PASS / 2 FAIL** w 23,1 minuty, cztery rasy ×
+  Canvas/Software WebGL; każdy przebieg zaczął nową postacią i ukończył stary prolog
+  przez UI, bez wpisywania flag lub pozycji. Trzy rasy przeszły rozdział, broń i reload
+  w obu rendererach. Oba przebiegi Legendów odrzuciły poprawny zapis po reloadzie.
+  [Wynik](qa/racial-development/first-chapters-before-pyra-fix.txt),
+  [identyfikacja niecommitowanego wówczas artefaktu i dużych lokalnych trace](qa/racial-development/first-chapters-before-pyra-fix.json).
+  Zrzuty wyboru/nagrody i ekwipunku wszystkich czterech ras zapisano w tym katalogu;
+  zrzut Legendów przed reloadem nie oznacza zaliczenia całego testu.
+- Potwierdzona przyczyna Pyry: `SuperiorSaveStore` używał stałego limitu wnętrza
+  960 × 760, choć kuźnia Pyry ma 540 × 1100. Teraz sprawdza `cityRoom` konkretnej rasy.
+  Regresja y=900 oraz zachowanie błędnego zapisu przeszły w testach jednostkowych.
+  Naprawiono też przekazywanie nawigacji zewnętrznej po odczycie postaci we wnętrzu.
+  **Ponowny test przeglądarkowy poprawki będzie wykonany na nowym commicie.**
+- Zdalny [Four hero WebGL run 40700487454](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40700487454)
+  na fundamentowym `5e4faedc` jest czerwony: 49 PASS / 1 FAIL. `city-webgl` po
+  powrocie z depozytu porównał 50 tekstur / 91 obiektów / 96 126 880 bajtów
+  z 72 / 246 / 118 452 000. Przyczyna różnicy nadal wymaga odtworzenia; sam licznik
+  nie dowodzi wycieku. [Log CI](qa/racial-development/ci-four-hero-foundation-failure.txt).
+  Nie osłabiono asercji i nie opisano całego CI jako zielonego.
+  Pełny run 40700480719 pozostaje osobną kontrolą; jego wynik trzeba odczytać.
+
+To checkpoint do kontynuacji i przeglądu w Draft PR #55, nie zamknięcie zlecenia.
+Fizycznego Androida/iOS ani stabilnego 60 FPS nie zweryfikowano.

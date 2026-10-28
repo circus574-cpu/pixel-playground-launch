@@ -239,8 +239,18 @@ export async function prepareSuperior(options: {
         p.y >= s.bounds.y - 12 &&
         p.y <= s.bounds.y + s.bounds.height + 12,
     );
+  const heritageHome = [...cities.entries()].sort(([a], [b]) => {
+    const aa = source.settlements.find((t) => t.id === a)!,
+      bb = source.settlements.find((t) => t.id === b)!;
+    return (
+      Math.hypot(aa.x - info.arrival.x, aa.y - info.arrival.y) -
+      Math.hypot(bb.x - info.arrival.x, bb.y - info.arrival.y)
+    );
+  })[0]![1];
   const session = new GameSession(save, options.race, {
     world,
+    featureId: info.id,
+    heritageHome,
     navigation: loader.navigation,
     enemyNavigation: loader.enemyNavigation(world.safeAreas ?? []),
     maximumActiveEnemies: 24,

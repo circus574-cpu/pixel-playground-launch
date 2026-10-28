@@ -563,3 +563,30 @@ nie importują katalogu graficznego. Sala ładuje tylko atlasy aktualnego bohate
 UI i właściwe efekty — testy dla każdej rasy sprawdzają pułap poniżej 64 MiB
 zadeklarowanych tekstur i brak kopii miejskich budynków/przyrody. Oryginalna scena
 pozostaje w pamięci; szczytowe zużycie na fizycznym telefonie wymaga osobnego pomiaru.
+
+
+### Runtime dziedzictwa — kontrakty kolejnego checkpointu PR #55
+
+- `development/heritage/types.ts`, `goals.ts`, `catalog.ts`: jawny graf 24 rozdziałów
+  i 24 projektów; test sprawdza cykle, przepisy, źródła części i budżet tabel.
+- `state.ts` oraz nadrzędny `development/state.ts`: ścisły stan, migracja v1 → v2,
+  historia celów/zgód, ograniczone 64 surowe zdarzenia i trwałe biznesowe pokwitowania.
+- `reducer.ts`: czysty wynik czynności. UI nie może przesłać „zaliczono eskortę”,
+  „zobaczono potwora” albo „trafiono”; te źródła potrzebują dowodu runtime.
+- `runtime.ts`: fizyczne warunki, routing do stolicy, cały kandydat Player i CAS.
+  `equipment.ts` rozdziela ATK osobistej broni od starego miecza/upgrade.
+- `projects.ts`, `Navigation.setLocalObstacles`: lokalna nakładka kolizji, bez mutacji
+  współdzielonych danych wygenerowanej planety. `render.ts`: culling i zwalnianie
+  markerów/technicznych konstrukcji; minimapy dostają tylko aktualne ukończone projekty.
+- `development/targets.ts`, `heritage/restraint.ts`: cele w pamięci, realny port kita
+  i pociski, okna zatrzymania i poddanie; po śmierci/zmianie wnętrza są czyszczone.
+- `HeritagePanel` i `HeritageWeaponCard`: wewnątrz dotychczasowych okien; brak zmiany
+  joysticka, przypisań, pozycji HUD, kamery, hostingu i prywatnego `/test`.
+
+Regresja Pyry: `SuperiorSaveStore` sprawdza wymiary `cityRoom(interior, affinity)`,
+a nie stałe 960 × 760. Kuźnia Pyry ma 540 × 1100; jej poprawny zapis z y=900
+musi się wczytywać. Testy obejmują też błędne współrzędne i zachowanie oryginału.
+`e2e/development-heritage.spec.ts` nie ustawia flag postępu: zaczyna nową postacią,
+kończy stary prolog przez UI, idzie do kolejnych obiektów, wybiera odpowiedzi,
+wykonuje procedurę, odbiera broń, zakłada ją i odświeża. Wyniki na poszczególnych
+migawkach oraz niezależnie czerwone CI zapisano w dzienniku, bez uśredniania do PASS.

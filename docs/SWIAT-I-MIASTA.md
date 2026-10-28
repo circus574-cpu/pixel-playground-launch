@@ -318,3 +318,21 @@ w pamięci i śpi. Nie zmienia się atlas, geometria kontynentów, położenie m
 wysp ani rejestr podziemi. To nie nowy tunel ani nowy duży loch.
 24 trwałe projekty świata z nowego zlecenia nadal wymagają realizacji i odbioru;
 sama sala egzaminacyjna nie stanowi ich wdrożenia.
+
+
+### Lokalne cele i projekty dziedzictwa — PR #55, w realizacji
+
+`HeritageBindings` wiąże cele z rzeczywistą stolicą najbliższą punktowi przybycia,
+jej usługami i nawigacją Superior. Nie bierze współrzędnych starej wioski ani pokoju
+wczytanego przy odświeżeniu za globalne współrzędne kontynentu. Kolejka dojścia
+korzysta ze zwykłego ruchu, drzwi i wyjścia, a ruch ręczny ją przerywa.
+
+`HeritageProjects` ma stan per postać i nakłada własne, usuwalne przeszkody tylko
+na jej nawigację, także nawigację wrogów. Odczyt kanonicznej kolizji jest oddzielony
+od nakładki. Usuwanie lokalnego rumowiska otwiera przejście, bez zmiany plików planety.
+Ruch ze znacznym krokiem nie przenika przez tę nakładkę. Renderer ogranicza kontakty
+do otoczenia gracza, usuwa stare obiekty i pokazuje proceduralne, **techniczne** skutki
+prac oraz dostępne istniejące sylwetki rozmówców. Nie są to nowe modele/animacje.
+Ukończone projekty dostają znaczniki na istniejącej minimapie; wpisy anonimowe nie
+ujawniają nazwiska na odbudowanej tablicy. Pełne przejście wszystkich 24 projektów,
+funkcje stacji i ich odbiór wizualny nadal są otwarte, zwłaszcza cele ochrony i eskorty.

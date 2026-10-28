@@ -1,3 +1,5 @@
+import { equippedName } from "../../game/development/heritage/equipment";
+import { HeritageWeaponCard } from "./HeritageWeaponCard";
 import type { ReactNode } from "react";
 import { gpuIcon } from "./gpuIcons";
 import { isCityStage } from "../../game/city/types";
@@ -36,9 +38,10 @@ export function Inventory({ state, send }: { state: GameViewState; send: SendCom
       <p>
         Atak {state.stats.attack} · Obrona {state.stats.defense}
       </p>
+      <HeritageWeaponCard state={state} send={send} />
       <div className="ki-equipped">
         <div>
-          Broń: {p.weapon ? ITEMS[p.weapon].name + (p.upgrade ? " +1" : "") : "brak"}
+          Broń: {equippedName(p)}
           {p.weapon && (
             <button onClick={() => send({ type: "unequip", slot: "weapon" })}>Zdejmij broń</button>
           )}
@@ -381,7 +384,7 @@ export function NpcDialogue({
           )}
           {npc.id === "smith" && (
             <button
-              disabled={!p.weapon || Boolean(p.upgrade) || p.gold < 15}
+              disabled={p.weapon !== "sword" || Boolean(p.upgrade) || p.gold < 15}
               onClick={() => send({ type: "dialogue", action: "upgrade" })}
             >
               Ulepsz ostrze · 15 monet {p.upgrade ? "(wykonano)" : ""}

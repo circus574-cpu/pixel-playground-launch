@@ -1,3 +1,8 @@
+import { PracticeTargets, isPracticeId } from "./development/targets";
+import { heritageRaceConsistent } from "./development/heritage/state";
+import { equippedAttack, weaponConsistent } from "./development/heritage/equipment";
+import { HeritageRuntime, type HeritageCommand } from "./development/heritage/runtime";
+import type { HeritageHome } from "./development/heritage/bindings";
 import { ExamAttempt } from "./development/exams";
 import { VARIANTS } from "./development/modifiers";
 import {
@@ -15,7 +20,11 @@ import {
   type ModuleId,
   type VariantId,
 } from "./development/state";
-import { DevelopmentSchema, type DevelopmentState } from "./development/state";
+import {
+  CurrentDevelopmentSchema,
+  DevelopmentSchema,
+  type DevelopmentState,
+} from "./development/state";
 import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
 import { isValidNick } from "./nickname";
@@ -133,7 +142,7 @@ export const PlayerSchema = z.object({
     sword: finite(99).int(),
     vest: finite(99).int(),
   }),
-  weapon: z.literal("sword").nullable(),
+  weapon: z.enum(["sword", "heritage"]).nullable(),
   armor: z.literal("vest").nullable(),
   upgrade: z.number().int().min(0).max(1),
   quests: z.object({ steps: status, boars: status, gear: status }),
@@ -199,6 +208,8 @@ export type DevelopmentCommand =
   | { type: "development"; action: "modules"; ids: ModuleId[] };
 export type Command =
   | DevelopmentCommand
+  | HeritageCommand
+  | { type: "heritage-weapon"; action: "equip" | "deposit" | "withdraw" }
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
   | { type: "ability"; ability: Ability }
@@ -267,7 +278,7 @@ function statsPort(
     nowMs: 0,
     development: p.development,
     gear: {
-      attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
+      attack: equippedAttack(p),
       defense: p.armor ? ITEMS[p.armor].defense : 0,
     },
     inCombat: false,
@@ -373,6 +384,13 @@ const SaveSchema = z.discriminatedUnion("version", [
   z.object({ version: z.literal(5), revision: z.string(), player: PlayerSchema }),
   z
     .object({
+      version: z.literal(7),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema }),
+    })
+    .strict(),
+  z
+    .object({
       version: z.literal(6),
       revision: z.string(),
       player: PlayerSchema.strict().extend({ development: DevelopmentSchema }),
@@ -390,6 +408,9 @@ export class SaveStore {
     private storage: StoragePort | null,
     private key = SAVE_KEY,
   ) {}
+  get identity(): string {
+    return this.key;
+  }
   load(): Player | undefined {
     try {
       if (!this.storage) throw new Error("storage unavailable");
@@ -412,7 +433,8 @@ export class SaveStore {
         p.x > WORLDS[p.continent].width ||
         p.y > WORLDS[p.continent].height ||
         p.xp >= xpNeeded(p.level) ||
-        (p.weapon && !p.items.sword) ||
+        !weaponConsistent(p, this.identity) ||
+        !heritageRaceConsistent(p.development?.heritage, p.race) ||
         (p.armor && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
@@ -453,7 +475,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5, 6]) {
+    for (const target of [4, 5, 6, 7]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -468,13 +490,19 @@ export class SaveStore {
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
         return false;
       }
-      if (this.expected && JSON.parse(this.expected)?.version === 6 && !p.development) {
+      if (this.expected && JSON.parse(this.expected)?.version >= 6 && !p.development) {
         this.warning = "Nie można usunąć istniejącego postępu rozwoju. Oryginał zachowano.";
         return false;
       }
+      if (
+        !weaponConsistent(p, this.identity) ||
+        !heritageRaceConsistent(p.development?.heritage, p.race)
+      )
+        return false;
+      SaveSchema.parse({ version: p.development ? 7 : 5, revision: "validation", player: p });
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: p.development ? 6 : 5,
+        version: p.development ? 7 : 5,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -489,6 +517,8 @@ export class SaveStore {
 }
 
 export type SessionOptions = {
+  featureId?: string;
+  heritageHome?: HeritageHome;
   /** In-memory development exam only; never restored from a character save. */
   practiceOnly?: boolean;
   random?: () => number;
@@ -543,6 +573,8 @@ export class GameSession implements MonsterHost {
   get safe() {
     return inSafeCity(this.world, this.player, this.player.interior);
   }
+  readonly practiceTargets = new PracticeTargets();
+  readonly heritage: HeritageRuntime;
   readonly monsters: MonsterSystem;
   readonly kit: Kit;
   readonly fx = new PlayerFx();
@@ -615,6 +647,13 @@ export class GameSession implements MonsterHost {
       this.player.ki = this.kit.stats.maxKi;
     }
     this.monsters = new MonsterSystem(this);
+    this.heritage = new HeritageRuntime(
+      this,
+      (fn) => this.commitDevelopment(fn),
+      options.featureId ?? this.world.id,
+      options.heritageHome ?? this.world,
+      this.outsideNav,
+    );
     if (!isCityStage(this.world)) {
       this.world.enemies.forEach((p, i) => this.monsters.spawn("boar", p, "boar-" + i));
       for (const sp of this.world.monsters ?? [])
@@ -689,6 +728,8 @@ export class GameSession implements MonsterHost {
     if (this.kit.saveFromDeath()) return;
     p.hp = 0;
     p.dead = true;
+    this.practiceTargets.clear();
+    this.heritage.cancelActivities();
     this.bufferedAction = undefined;
     this.kit.cancelActions();
     this.projectiles.cancel();
@@ -924,6 +965,8 @@ export class GameSession implements MonsterHost {
     return damage;
   }
   private switchInterior(id: BuildingId | null) {
+    this.practiceTargets.clear();
+    this.heritage.cancelActivities(false);
     this.bufferedAction = undefined;
     this.kit.cancelActions();
     this.projectiles.cancel();
@@ -1192,12 +1235,15 @@ export class GameSession implements MonsterHost {
     );
   }
   /** One synchronous whole-character CAS; no reward or snapshot is published on failure. */
-  private commitDevelopment(change: (state: DevelopmentState) => void): boolean {
+  private commitDevelopment(change: (state: DevelopmentState, candidate: Player) => void): boolean {
     const original = this.player;
     const candidate = structuredClone(original);
     candidate.development ??= emptyDevelopment();
-    change(candidate.development);
-    if (!DevelopmentSchema.safeParse(candidate.development).success) {
+    change(candidate.development, candidate);
+    if (
+      !CurrentDevelopmentSchema.safeParse(candidate.development).success ||
+      !PlayerSchema.safeParse(candidate).success
+    ) {
       this.say("Nie można zatwierdzić tej zmiany rozwoju.");
       return false;
     }
@@ -1219,6 +1265,7 @@ export class GameSession implements MonsterHost {
     }
     Object.assign(original, candidate);
     this.player = original;
+    this.heritage?.refreshProjects();
     return true;
   }
   startDevelopmentExam(
@@ -1382,6 +1429,8 @@ export class GameSession implements MonsterHost {
       return;
 
     if (c.type === "development") return this.developmentCommand(c);
+    if (c.type === "heritage") return this.heritage.command(c);
+    if (c.type === "heritage-weapon") return this.heritage.weaponCommand(c.action);
     if (c.type === "staff") {
       this.staffCommand(c);
       return;
@@ -1395,6 +1444,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "cancel") {
+      this.heritage.cancelRoute();
       this.bufferedAction = undefined;
       this.clearDestinations();
       this.dialogue = null;
@@ -1565,7 +1615,10 @@ export class GameSession implements MonsterHost {
         } else this.say("Najpierw wykonaj cele. Odebranej nagrody nie można odebrać ponownie.");
       }
       if (c.action === "upgrade") {
-        if (npc.id !== "smith" || !p.weapon) return this.say("Najpierw załóż ostrze.");
+        if (npc.id !== "smith" || p.weapon !== "sword")
+          return this.say(
+            "To ulepszenie dotyczy założonego Ostrza strażnika. Osobistą broń rozwijasz przez dziedzictwo.",
+          );
         if (p.upgrade) return this.say("Ostrze zostało już ulepszone.");
         if (p.gold < 15) return this.say("Ulepszenie kosztuje 15 monet.");
         p.gold -= 15;
@@ -1616,12 +1669,14 @@ export class GameSession implements MonsterHost {
       if (c.item === "sword") p.weapon = "sword";
       else if (c.item === "vest") p.armor = "vest";
       else return this.say("Ten materiał możesz sprzedać kupcowi.");
-      if (p.quests.gear === "active" && p.weapon) p.quests.gear = "ready";
+      if (p.quests.gear === "active" && p.weapon === "sword") p.quests.gear = "ready";
       this.say("Założono: " + ITEMS[c.item].name);
       this.flush();
       return;
     }
     if (c.type === "unequip") {
+      if (c.slot === "weapon" && p.weapon === "heritage")
+        return this.heritage.weaponCommand("unequip");
       p[c.slot] = null;
       p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       this.say("Zdjęto wyposażenie.");
@@ -1640,6 +1695,7 @@ export class GameSession implements MonsterHost {
     }
     if (this.fx.cannotAct && c.type !== "loot") return this.say("Nie możesz działać.");
     if (c.type === "move") {
+      this.heritage.cancelRoute();
       this.clearDestinations();
       if (!Number.isFinite(c.x) || !Number.isFinite(c.y)) return;
       this.targetId = null;
@@ -1654,6 +1710,17 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "target") {
+      const practice = this.practiceTargets.get(c.id);
+      if (
+        practice &&
+        practice.interior === p.interior &&
+        distance(practice, p) <= AUTO_TARGET_RANGE &&
+        this.nav.visible(p, practice)
+      ) {
+        this.targetId = practice.id;
+        this.autoAttack = false;
+        return;
+      }
       if (this.safe) {
         if (c.id === "training-dummy" && p.interior === "arena")
           this.command({ type: "training", action: "start" });
@@ -1777,6 +1844,7 @@ export class GameSession implements MonsterHost {
   manual(dx: number, dy: number, dt: number) {
     if (this.paused || this.dialogue || this.depotOpen || this.player.dead || this.fx.cannotAct)
       return;
+    this.heritage.cancelRoute();
     this.clearDestinations();
     this.route = [];
     this.pendingNpc = null;
@@ -1824,6 +1892,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     this.nowMs += dt;
+    if (!this.practiceOnly) this.heritage.tick(dt);
     this.knowledgeIn += dt;
     if (this.knowledgeIn >= 1000 && !this.practiceOnly && this.saves && !this.player.dead) {
       this.knowledgeIn = 0;
@@ -2099,6 +2168,14 @@ export class GameSession implements MonsterHost {
       dialogue: this.dialogue,
       building: this.building ?? null,
       activeNpcs: this.npcs,
+      heritage: this.practiceOnly ? [] : this.heritage.snapshot(),
+      heritageActivity: this.practiceOnly ? null : this.heritage.activitySnapshot(),
+      heritageProjects: this.practiceOnly
+        ? []
+        : this.heritage.projects
+            .snapshot()
+            .filter((v) => v.done)
+            .map((v) => ({ id: v.id, name: v.name, ...(v.target.entrance ?? v.target.point) })),
       nearbyBuilding: !this.player.interior
         ? (this.world.city?.buildings.find((b) => distance(b.door, this.player) <= 180) ?? null)
         : null,
@@ -2186,7 +2263,7 @@ function makePort(s: GameSession): KitPort {
     get gear() {
       const p = s.player;
       return {
-        attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
+        attack: equippedAttack(p),
         defense: p.armor ? ITEMS[p.armor].defense : 0,
       };
     },
@@ -2203,13 +2280,54 @@ function makePort(s: GameSession): KitPort {
     random: () => s.rng(),
     say: (t) => s.say(t),
     foesIn: (c, r) =>
-      (s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
-        (e) => distance(e, c) <= r && s.nav.visible(c, e),
-      ),
-    target: () => s.trainingTarget ?? s.target,
+      [
+        ...s.practiceTargets.list(s.player.interior),
+        ...(s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable),
+      ].filter((e) => distance(e, c) <= r && s.nav.visible(c, e)),
+    target: () => s.practiceTargets.get(s.targetId) ?? s.trainingTarget ?? s.target,
     visible: (a, b) => s.nav.visible(a, b),
     hurtFoe: (foe, raw, hit: Hit) => {
       if (s.player.dead) return 0;
+      if (isPracticeId(foe.id)) {
+        if (!s.practiceTargets.has(foe)) return 0;
+        const apply = () => {
+          if (!s.practiceTargets.has(foe) || s.player.dead) return 0;
+          const damage = s.practiceTargets.hit(foe, raw, hit, s.nowMs);
+          if (damage > 0)
+            s.emit({
+              type: "hit",
+              x: foe.x,
+              y: foe.y,
+              target: foe.id,
+              text: "-" + Math.round(damage),
+              crit: !!hit.crit,
+            });
+          return damage;
+        };
+        if (hit.ranged && !hit.indirect && !hit.tags.includes("area") && hit.ability === "R") {
+          const interior = s.player.interior;
+          const shot = s.projectiles.launch(
+            s.player,
+            foe,
+            1100,
+            distance(s.player, foe) + 18,
+            foe,
+            () => !s.player.dead && s.player.interior === interior && s.practiceTargets.has(foe),
+            apply,
+          );
+          if (shot)
+            s.emit({
+              type: "projectile",
+              x: shot.x,
+              y: shot.y,
+              source: shot.id,
+              to: { x: foe.x, y: foe.y },
+              ms: shot.remaining,
+            });
+          return 0;
+        }
+        return apply();
+      }
       // Discrete ranged shots travel; beams, seals, AoE and periodic effects retain their contracts.
       if (
         hit.ranged &&
@@ -2262,23 +2380,56 @@ function makePort(s: GameSession): KitPort {
       if (!hit.indirect && dealt > 0) s.combatIn = 4500;
       return dealt;
     },
-    stunFoe: (f, ms) => (f.id === "training-dummy" ? undefined : s.monsters.stun(f as Enemy, ms)),
+    stunFoe: (f, ms) =>
+      f.id === "training-dummy" || isPracticeId(f.id) ? undefined : s.monsters.stun(f as Enemy, ms),
     slowFoe: (f, pct, ms) =>
-      f.id === "training-dummy" ? undefined : s.monsters.slow(f as Enemy, pct, ms),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.slow(f as Enemy, pct, ms),
     burnFoe: (f, dps, ms) =>
-      f.id === "training-dummy" ? undefined : s.monsters.burn(f as Enemy, dps, ms),
-    sealFoe: (f, ms, bonus) =>
-      f.id === "training-dummy" ? undefined : s.monsters.seal(f as Enemy, ms, bonus),
-    markFoe: (f, ms, crit, def) =>
-      f.id === "training-dummy" ? undefined : s.monsters.mark(f as Enemy, ms, crit, def),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.burn(f as Enemy, dps, ms),
+    sealFoe: (f, ms, bonus) => {
+      const practice = s.practiceTargets.get(f.id);
+      if (practice) {
+        practice.sealedUntil = s.nowMs + ms;
+        return;
+      }
+      return f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.seal(f as Enemy, ms, bonus);
+    },
+    markFoe: (f, ms, crit, def) => {
+      const practice = s.practiceTargets.get(f.id);
+      if (practice) {
+        practice.markedUntil = s.nowMs + ms;
+        return;
+      }
+      return f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.mark(f as Enemy, ms, crit, def);
+    },
     pushFoe: (f, from, d) =>
-      f.id === "training-dummy" ? undefined : s.monsters.push(f as Enemy, from, d),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.push(f as Enemy, from, d),
     weakenFoe: (f, pct, ms) =>
-      f.id === "training-dummy" ? undefined : s.monsters.weaken(f as Enemy, pct, ms),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.weaken(f as Enemy, pct, ms),
     breakFoeShield: (f) =>
-      f.id === "training-dummy" ? undefined : s.monsters.breakShield(f as Enemy),
-    isSealed: (f) => f.id !== "training-dummy" && !!(f as Enemy).fx.seal,
-    isMarked: (f) => f.id !== "training-dummy" && !!(f as Enemy).fx.mark,
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.breakShield(f as Enemy),
+    isSealed: (f) =>
+      isPracticeId(f.id)
+        ? (s.practiceTargets.get(f.id)?.sealedUntil ?? 0) > s.nowMs
+        : f.id !== "training-dummy" && !!(f as Enemy).fx.seal,
+    isMarked: (f) =>
+      isPracticeId(f.id)
+        ? (s.practiceTargets.get(f.id)?.markedUntil ?? 0) > s.nowMs
+        : f.id !== "training-dummy" && !!(f as Enemy).fx.mark,
     foeHpFraction: (f) => f.hp / f.maxHp,
     dash: (to, d) => {
       const next = s.nav.step(s.player, to, d);
@@ -2343,6 +2494,9 @@ export function initialView(player?: Player): GameViewState {
     dialogue: null,
     building: null,
     activeNpcs: WORLDS[p.continent].npcs.filter((n) => !n.building),
+    heritage: [],
+    heritageProjects: [],
+    heritageActivity: null,
     nearbyBuilding: null,
     depotOpen: false,
     training: { active: false, hits: 0, damage: 0 },

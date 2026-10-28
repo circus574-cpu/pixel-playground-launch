@@ -1,0 +1,26 @@
+{
+  "note": "Worktree artifact before Pyra portrait-room fix; NOT final branch SHA. Six PASS, two Pyra reload FAIL.",
+  "baseCommit": "54d6abda",
+  "artifact": {
+    ".playtest-dist/assets/playtest-BNpDUu7F.js": "d33e3f577b440543d4ecc17291dd96d60d3581348ab32db3913235ea92a4c17c",
+    ".playtest-dist/assets/worldVersion-CTGIlZ_Z.js": "13006b67dc809071133827a0c50b2f9b31258006b92c8618e7f08a7a5924afab",
+    ".playtest-dist/assets/playtest-_QTp-t3x.js": "c39fb3ef0d91d8454e4ea9e22f7fa4dd961a2c620bc67a366c50472f3300b77e",
+    ".playtest-dist/assets/playtest-D5XvQbng.css": "ada12e76d0cf75f7ebd69b16bd1e36bf14f2c6f196b3ad2616c6edde337b10b7"
+  },
+  "traces": [
+    {
+      "path": "/tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-software-webgl/trace.zip",
+      "bytes": 85797162,
+      "sha256": "50578657a5bc55d446b3efc45bbd9ef012352b1a49ff5ff6157b3ad293e57278",
+      "durable": false,
+      "reason": "Large trace remains in workspace; screenshots, errors and logs archived in Git."
+    },
+    {
+      "path": "/tmp/ki-heritage-four-chapters-browser/development-heritage-actua-a454e-al-weapon-and-reload-legend-gameplay/trace.zip",
+      "bytes": 131872766,
+      "sha256": "62611bdb22b330f5a1f602d038723e4a3ce1766ef5cb167b7f6903c76e79cbb5",
+      "durable": false,
+      "reason": "Large trace remains in workspace; screenshots, errors and logs archived in Git."
+    }
+  ]
+}

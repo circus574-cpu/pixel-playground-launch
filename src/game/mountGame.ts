@@ -1,3 +1,4 @@
+import { HeritageMarkers } from "./development/heritage/render";
 import { enemyCombatState } from "./combat/enemyState";
 import { CombatVisualBudget } from "./combatBudget";
 import { bossPreviewEnabled } from "./bosses/runtime";
@@ -115,6 +116,7 @@ export function mountKileGends(
   const loadStarted = performance.now();
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
+    private heritageMarkers: HeritageMarkers | undefined;
     /** Last frame's player snapshot for sound cues (potion used, door, notices). */
     private sfxSnapshot: Parameters<typeof cuesFor>[2] = null;
     private visualBudget = new CombatVisualBudget();
@@ -467,6 +469,13 @@ export function mountKileGends(
           if (tap && !pointer.wasCanceled) this.interactAt(tap);
         }
       });
+      this.heritageMarkers = new HeritageMarkers(this, session);
+      const releaseHeritage = () => {
+        this.heritageMarkers?.dispose();
+        this.heritageMarkers = undefined;
+      };
+      releaseScene.push(releaseHeritage);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseHeritage);
       this.input.on("gameout", () => this.resetStick());
       const blur = () => {
         session.discardBufferedInput();
@@ -516,6 +525,14 @@ export function mountKileGends(
     }
     private interactAt(pos: Point) {
       if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
+      const practice = session.practiceTargets
+        .list(session.player.interior)
+        .find((t) => distance(t, pos) < 45);
+      if (practice) {
+        session.command({ type: "target", id: practice.id });
+        this.report();
+        return;
+      }
       const hit = (
         p: Point,
         { width, height, belowFoot }: { width: number; height: number; belowFoot: number },
@@ -1053,6 +1070,7 @@ export function mountKileGends(
       if (session.paused || session.dialogue || session.depotOpen || session.player.dead)
         this.resetStick();
       runtime?.afterTick?.(dt);
+      this.heritageMarkers?.update(time, worldLabels);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();
         this.interiorView = undefined;

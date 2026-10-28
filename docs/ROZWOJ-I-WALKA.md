@@ -956,10 +956,11 @@ Cały wynik i księga nagród przechodzą przez jeden zapis CAS przed publikacj�
 Zatwierdzanie nie podmienia tożsamości obiektu gracza używanego przez aktywny tick.
 
 Stan rozwoju jest opcjonalnym polem postaci; brak pola oznacza dokładnie stary
-balans. Pierwszy zapis rozwoju podnosi kopertę Superior z v1 do v2 (koperta
-historycznej mapy: v5 → v6). Przed nim wykonywana jest bajtowa kopia pod kluczem
-`ki-legends:recovery:before-superior-v2:<klucz slotu>` lub dotychczasowym
-`ki-legends:recovery:before-v6:<klucz>`. Brak miejsca na kopię/zapis lub konflikt
+balans. Aktualny zapis rozwoju ma wersję domenową 2, kopertę Superior v3 i kopertę
+historycznej mapy v7. Fundament PR #55 używał domeny v1 / Superior v2 / mapy v6;
+odczyt zachowuje jego księgę i normalizuje nowe, puste dziedzictwo w pamięci.
+Przed zapisem powstają niezmieniane później kopie `ki-legends:recovery:before-superior-v3:<klucz slotu>`
+i `ki-legends:recovery:before-v7:<klucz>`; zachowano również wcześniejsze bramki kopii v2/v6. Brak miejsca na kopię/zapis lub konflikt
 karty nie przyznaje praktyki ani stopnia. Nowszy stan rozwoju i nieznane jego pola
 blokują odczyt/zapis, pozostawiając oryginalne bajty.
 
@@ -976,3 +977,31 @@ kanonicznych węzłów. **Nie są jeszcze odblokowywane pełną ścieżką 48 pr
 Pięć modułów ma efekty statystyczne/bojowe; skaner ma zarezerwowany identyfikator,
 a docelowe badanie instalacji pozostaje otwarte. Nie traktować zamkniętych kart
 w panelu jako ukończonej zawartości rasy. Dokładny zakres i testy: dziennik 28.10.
+
+
+### Dziedzictwa — kolejny checkpoint roboczy PR #55
+
+`development/heritage/catalog.ts` zawiera 24 rozdziały i 24 projekty, po sześć na
+rasę, z polskimi rozmowami, dokumentami, pytaniami, zgodami i równymi nagrodami wyborów.
+Łączne tabelaryczne nagrody rozdziałów jednej rasy to 2100 XP / 1700 praktyki;
+projekty dają 1200 praktyki, bez XP i monet. Definicja nie oznacza zaliczenia rozdziału
+w grze. Runtime obsługuje fizyczne rozmowy, inspekcje, uporządkowane zagadki,
+odzyskiwanie gwarantowanych części, receptury, zgody, nazwanie broni i procedury
+kowalskie, wymagania ukończenia projektów oraz obserwację rzeczywistego żywego gatunku.
+Każda czynność sprawdza bieżący cel/revision, pozycję, przestrzeń i LOS.
+
+Cały kandydat postaci zawiera równocześnie postęp, zużycie, praktykę, XP, monety,
+wybór i jednorazowy klucz `heritage:<ID>:v1`. Dopiero udany zapis CAS publikuje wynik.
+Historia ukończonych celów zachowuje decyzje o anonimowości. Nowe dane nie pochodzą
+z globalnego `questsV2`. Pierwszy rozdział wymaga faktycznej slotowej flagi ukończenia
+starego prologu, bez ponownego wypłacania jego nagrody i bez wymagania M24.
+
+Próba kontroli ciosu używa rzeczywistych trafień kita w neutralny, tymczasowy cel:
+trzy oddzielone okna, zakaz trafienia podczas zatrzymania i osobny stan poddania.
+Nie zabija rozmówcy, nie daje XP/łupu/praktyki za cios i nie przechodzi przez sam timer.
+Pociski używają produkcyjnego `Projectiles`; usunięty cel unieważnia trafienie w locie.
+To kontroler etapu fabularnego w obecnej sali, nie komplet 48 wypożyczanych prób rasowych.
+Eskorty, obrona obiektów/fale, pełny pomiar instalacji, 48 prób i ich odblokowania
+nadal wymagają dalszego runtime oraz odbioru. Skaner jest odblokowywany przez H-N01,
+ale jego docelowe sprawdzanie instalacji nadal nie jest ukończone; chłodzenie ma
+warunek H-N02 + P-N1. Nie uznawać tego za całe mistrzostwo Androida.
