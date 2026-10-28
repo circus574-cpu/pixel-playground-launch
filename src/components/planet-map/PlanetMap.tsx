@@ -40,7 +40,7 @@ import {
   type View,
 } from "./mapData";
 import { thumbStyle } from "./thumb";
-import { worldToAtlas } from "./worldToAtlas";
+import { atlasToWorld, worldToAtlas } from "./worldToAtlas";
 import "./planet-map.css";
 
 type Size = { w: number; h: number };
@@ -56,6 +56,7 @@ export function PlanetMap({
   onClose,
   onTravel,
   focus,
+  onTeleport,
 }: GameLink & {
   /** Switch back to the 3D globe; omitted when WebGL 2 is unavailable. */
   onShowGlobe?: (() => void) | undefined;
@@ -82,6 +83,11 @@ export function PlanetMap({
   const [playerAt, setPlayerAt] = useState<{ x: number; y: number } | null>(null);
   const [perspective, setPerspective] = useState<string>(current ?? "verdant");
   /** null = layout default (open on desktop, closed on phones). */
+  const [teleportArmed, setTeleportArmed] = useState(false);
+  const [teleportBusy, setTeleportBusy] = useState(false);
+  const [teleportNotice, setTeleportNotice] = useState("");
+  const teleportRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => teleportRequest.current?.abort(), []);
   const [legend, setLegend] = useState<boolean | null>(null);
 
   const selectedRegion = REGIONS.find((r) => r.id === selected) ?? null;
@@ -256,6 +262,41 @@ export function PlanetMap({
       const g = gesture.current;
       gesture.current = null;
       if (e.type === "pointerup" && g && !g.moved) {
+        if (teleportArmed && onTeleport && ATLAS_V2) {
+          if (teleportRequest.current) return;
+          const request = new AbortController();
+          teleportRequest.current = request;
+          setTeleportBusy(true);
+          setTeleportNotice("Sprawdzanie miejsca…");
+          const p = local(e);
+          const at = {
+            x: view.cx + (p.x - size.w / 2) / view.s,
+            y: view.cy + (p.y - size.h / 2) / view.s,
+          };
+          void (async () => {
+            try {
+              const data = await loadWorldOverlay();
+              if (request.signal.aborted) return;
+              const point = atlasToWorld(data, at, g.region ?? undefined);
+              const moved = point
+                ? await onTeleport(point.land, point.x, point.y, request.signal)
+                : false;
+              if (request.signal.aborted) return;
+              if (moved) {
+                setTeleportArmed(false);
+                setTeleportNotice("");
+                onClose?.();
+              } else setTeleportNotice("Miejsce niedostępne. Wskaż ląd poza przeszkodami.");
+            } catch {
+              if (!request.signal.aborted)
+                setTeleportNotice("Nie udało się sprawdzić miejsca. Spróbuj ponownie.");
+            } finally {
+              if (!request.signal.aborted) setTeleportBusy(false);
+              if (teleportRequest.current === request) teleportRequest.current = null;
+            }
+          })();
+          return;
+        }
         setSelected(g.region);
         if (g.region) setLegend((l) => (isNarrow() ? false : l));
       }
@@ -620,6 +661,29 @@ export function PlanetMap({
         </p>
       )}
 
+      {onTeleport && ATLAS_V2 && (
+        <div className="pm-teleport-tools" style={{ top: notice ? 190 : 126 }}>
+          <Button
+            type="button"
+            aria-pressed={teleportArmed}
+            disabled={teleportBusy}
+            onClick={() => {
+              setTeleportArmed(!teleportArmed);
+              setTeleportNotice("");
+              setSelected(null);
+              setLegend(false);
+            }}
+          >
+            {teleportArmed ? "Anuluj teleport" : "Teleportuj"}
+          </Button>
+          {(teleportArmed || teleportNotice) && (
+            <p role="status">
+              {teleportNotice ||
+                "Dotknij miejsca na mapie. Przeciąganie i szczypanie nadal przesuwają mapę."}
+            </p>
+          )}
+        </div>
+      )}
       <PlayerChip current={current} />
 
       <div className="pm-controls" role="toolbar" aria-label="Sterowanie mapą">

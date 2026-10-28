@@ -1,3 +1,4 @@
+import { applyCharacterStats } from "../characterStats";
 import { combatTarget } from "../combat/targeting";
 import type { RaceId } from "../world/races";
 import { speedGrowth } from "./balance";
@@ -215,24 +216,28 @@ export abstract class Kit {
     const gear = this.port.gear;
     const atkPct = (m.atkPct ?? 0) + this.buffSum("atkPct");
     const defPct = (m.defPct ?? 0) + this.buffSum("defPct") + this.circleDefence();
-    return {
-      maxHp: roundHalfUp(v("hp") * (1 + (m.hpPct ?? 0))),
-      maxKi: roundHalfUp(v("ki") * (1 + (m.kiPct ?? 0))),
-      attack: Math.max(1, roundHalfUp((v("attack") + gear.attack) * (1 + atkPct))),
-      defense: Math.max(0, roundHalfUp((v("defense") + gear.defense) * (1 + defPct))),
-      speed: b.base.speed * speedGrowth(level) * (1 + (m.speedPct ?? 0) + this.buffSum("speedPct")),
-      kiRegen: v("kiRegen") * (1 + (m.kiRegenPct ?? 0)),
-      crit: v("criticalChancePercent") + (m.critAdd ?? 0) * 100,
-      attackInterval: Math.max(
-        200,
-        b.base.attackIntervalMs * (1 + (m.intervalPct ?? 0) + this.buffSum("intervalPct")),
-      ),
-      dealt: 1 + (m.dealtPct ?? 0) + this.buffSum("dealtPct"),
-      cooldownMul: Math.max(0.1, 1 + this.buffSum("cooldownPct")),
-      kiCostMul: this.hasBuff("noKi") ? 0 : Math.max(0, 1 + (m.kiCostPct ?? 0)),
-      ccMul: this.hasBuff("ccImmune") ? 0 : Math.max(0, 1 + (m.ccPct ?? 0)),
-      range: this.baseRange * (1 + (m.rangePct ?? 0)),
-    };
+    return applyCharacterStats(
+      {
+        maxHp: roundHalfUp(v("hp") * (1 + (m.hpPct ?? 0))),
+        maxKi: roundHalfUp(v("ki") * (1 + (m.kiPct ?? 0))),
+        attack: Math.max(1, roundHalfUp((v("attack") + gear.attack) * (1 + atkPct))),
+        defense: Math.max(0, roundHalfUp((v("defense") + gear.defense) * (1 + defPct))),
+        speed:
+          b.base.speed * speedGrowth(level) * (1 + (m.speedPct ?? 0) + this.buffSum("speedPct")),
+        kiRegen: v("kiRegen") * (1 + (m.kiRegenPct ?? 0)),
+        crit: v("criticalChancePercent") + (m.critAdd ?? 0) * 100,
+        attackInterval: Math.max(
+          200,
+          b.base.attackIntervalMs * (1 + (m.intervalPct ?? 0) + this.buffSum("intervalPct")),
+        ),
+        dealt: 1 + (m.dealtPct ?? 0) + this.buffSum("dealtPct"),
+        cooldownMul: Math.max(0.1, 1 + this.buffSum("cooldownPct")),
+        kiCostMul: this.hasBuff("noKi") ? 0 : Math.max(0, 1 + (m.kiCostPct ?? 0)),
+        ccMul: this.hasBuff("ccImmune") ? 0 : Math.max(0, 1 + (m.ccPct ?? 0)),
+        range: this.baseRange * (1 + (m.rangePct ?? 0)),
+      },
+      this.port.player.statOverrides,
+    );
   }
   /** Regeneration of HP per second as a fraction of max HP. */
   hpRegen(): number {

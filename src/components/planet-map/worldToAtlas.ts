@@ -34,3 +34,28 @@ export function worldToAtlas(
   const [a, b, c, d, e, f] = best.m as [number, number, number, number, number, number];
   return { x: a * px + c * py + e, y: b * px + d * py + f };
 }
+
+/** Inverse of the authored affine cell transform. Ocean/gaps never snap to a random land. */
+export function atlasToWorld(
+  data: { lands?: OverlayLands; tiles: OverlayTile[] },
+  point: { x: number; y: number },
+  land?: string,
+): { land: string; x: number; y: number } | null {
+  if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return null;
+  for (const tile of data.tiles) {
+    if (land && tile.land !== land) continue;
+    const upp = data.lands?.[tile.land]?.upp;
+    if (!upp) continue;
+    const [a, b, c, d, e, f] = tile.m as [number, number, number, number, number, number];
+    const det = a * d - b * c;
+    if (Math.abs(det) < 1e-10) continue;
+    const dx = point.x - e,
+      dy = point.y - f;
+    const x = (d * dx - c * dy) / det,
+      y = (a * dy - b * dx) / det;
+    const [cx, cy, w, h] = tile.crop as [number, number, number, number];
+    if (x < cx - 1e-6 || y < cy - 1e-6 || x > cx + w + 1e-6 || y > cy + h + 1e-6) continue;
+    return { land: tile.land, x: x * upp, y: y * upp };
+  }
+  return null;
+}

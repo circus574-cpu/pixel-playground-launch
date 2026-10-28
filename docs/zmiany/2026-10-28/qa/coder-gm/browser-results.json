@@ -1,0 +1,25 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T09:39:20.740Z",
+    "duration": 6375.244000000001,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "real touch Coder fields and map component 390",
+      "status": "passed",
+      "duration": 3218,
+      "errors": []
+    },
+    {
+      "title": "real touch Coder fields and map component 852",
+      "status": "passed",
+      "duration": 2442,
+      "errors": []
+    }
+  ],
+  "scope": "Production components with stub save and callback; NOT authenticated GM Phaser or physical phone"
+}

@@ -62,6 +62,8 @@ import "./hud-v2-landscape.css";
 type Props = {
   /** Continents a special staff character can travel to directly. */
   staffDestinations?: { id: string; name: string }[] | undefined;
+  onStaffTeleport?:
+    ((land: string, x: number, y: number, signal?: AbortSignal) => Promise<boolean>) | undefined;
   onStaffTravel?: ((id: string) => void) | undefined;
   planetLocation?: string | undefined;
   onPlanetTravel?: ((id: string) => void) | undefined;
@@ -206,6 +208,7 @@ export function GameHud({
   onPlanetTravel,
   staffDestinations,
   onStaffTravel,
+  onStaffTeleport,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [tab, setTab] = useState("System");
@@ -970,6 +973,11 @@ export function GameHud({
             }
           >
             <PlanetAtlas
+              onTeleport={
+                state.staff && !state.player.interior && !state.player.dead
+                  ? onStaffTeleport
+                  : undefined
+              }
               current={planetLocation ?? state.player.continent}
               focus={mapFocus}
               onTravel={onPlanetTravel}

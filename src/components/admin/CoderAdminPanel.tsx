@@ -1,3 +1,4 @@
+import { CHARACTER_STAT_FIELDS, type CharacterStats } from "@/game/characterStats";
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { AdminWorldEditor } from "@/components/admin/AdminWorldEditor";
@@ -279,7 +280,7 @@ function PlayerDetail({
   );
 }
 
-function CharacterEditor({
+export function CharacterEditor({
   row,
   onSaved,
   onSaveData,
@@ -362,6 +363,39 @@ function CharacterEditor({
             />
           </label>
         ))}
+
+        <fieldset className="ki-admin-stat-overrides">
+          <legend>Indywidualne parametry postaci</legend>
+          <p>
+            Stałe wartości końcowe. Puste pole przywraca statystykę rasy, poziomu i wyposażenia.
+            Zmiany działają po ponownym wejściu do gry.
+          </p>
+          {Object.entries(CHARACTER_STAT_FIELDS).map(([id, field]) => {
+            const key = id as keyof CharacterStats;
+            return (
+              <label key={key}>
+                {field.label}
+                <input
+                  type="number"
+                  min={field.min}
+                  max={field.max}
+                  step="any"
+                  placeholder="Domyślna"
+                  value={(edit.statOverrides ?? summary.statOverrides)[key] ?? ""}
+                  onChange={(event) => {
+                    const values = { ...(edit.statOverrides ?? summary.statOverrides) };
+                    if (event.target.value === "") delete values[key];
+                    else values[key] = Number(event.target.value);
+                    setEdit({ ...edit, statOverrides: values });
+                  }}
+                />
+              </label>
+            );
+          })}
+          <button type="button" onClick={() => setEdit({ ...edit, statOverrides: {} })}>
+            Przywróć parametry domyślne
+          </button>
+        </fieldset>
 
         <label>
           Ląd (Feature)
