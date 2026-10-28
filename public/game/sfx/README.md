@@ -30,11 +30,11 @@ Wygenerowane 26.10.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `planetary/C1.mp3`          | Breath of roots, soft rustling leaves with a warm magical exhale                  |
 | `planetary/C4.mp3`          | Shield of leaves forming, rustling foliage swirl with a soft magical chime        |
 | `planetary/C9.mp3`          | Song of roots, deep earthy hum with blooming magical chimes and rustling forest   |
-| `sage/R.mp3`                | Small magic ki energy bolt firing, bright zap whoosh                              |
+| `sage/R.mp3`                | Owner's Gemini fight video (28.10): Sage's magic orb shot                         |
 | `sage/A1.mp3`               | Energy seal stamping, magical rune activation with a crisp chime                  |
 | `sage/A4.mp3`               | Continuous beam of ki energy, focused humming laser with crackle                  |
 | `sage/A9.mp3`               | Judgment of light, huge holy energy blast from above with a choir-like shimmer    |
-| `sage/B1.mp3`               | Shimmering light barrier forming, glassy magical hum                              |
+| `sage/B1.mp3`               | Owner's Gemini fight video (28.10): Sage's golden barrier                         |
 | `sage/B4.mp3`               | Slowing magic circle, deep warping time-slow whoosh                               |
 | `sage/B9.mp3`               | Temple of light rising, grand resonant bell tones and shimmering energy           |
 | `sage/C1.mp3`               | Focusing ki energy, rising soft hum with a gentle chime                           |
@@ -50,13 +50,13 @@ Wygenerowane 26.10.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `android/C1.mp3`            | Core discharge, crackling electric burst                                          |
 | `android/C4.mp3`            | Emergency discharge, alarm beep then sharp electric explosion                     |
 | `android/C9.mp3`            | System overload, rising electronic whine into a massive electric explosion        |
-| `legend/R.mp3`              | Strike of embers, fiery punch with a crackling flame burst                        |
+| `legend/R.mp3`              | Owner's Gemini fight video (28.10): Legend's punch                                |
 | `legend/A1.mp3`             | Fiery sword slash, sharp whoosh with flame crackle                                |
 | `legend/A4.mp3`             | Flame charge dash, roaring fire whoosh                                            |
 | `legend/A9.mp3`             | Thousand cuts, rapid flurry of fiery sword slashes ending in a fire burst         |
 | `legend/B1.mp3`             | Breaking strike, heavy smash with shattering guard crack and flames               |
 | `legend/B4.mp3`             | Flaming frenzy, roaring fire aura ignition with rising intensity                  |
 | `legend/B9.mp3`             | Last flame, explosive fiery roar with a deep boom                                 |
-| `legend/C1.mp3`             | Ki burst explosion, compact fiery energy blast                                    |
+| `legend/C1.mp3`             | Owner's Gemini fight video (28.10): Legend's fireball blast                       |
 | `legend/C4.mp3`             | Ember explosion, crackling fire blast with flying sparks                          |
 | `legend/C9.mp3`             | Fiery cataclysm, huge volcanic explosion with roaring flames and rumble           |
