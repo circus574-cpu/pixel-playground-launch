@@ -344,6 +344,14 @@ export function mountKileGends(
       const command = (event: Event) => {
         const action = (event as CustomEvent<Command>).detail;
         session.command(action);
+        if (action.type === "pause") {
+          if (action.value && action.suspendRendering) this.game.loop.sleep();
+          else if (!this.game.loop.running) {
+            // Time spent looking at the map is paused time, never a catch-up simulation tick.
+            this.game.loop.resetDelta();
+            this.game.loop.wake();
+          }
+        }
         // A right-thumb action must not release the left-thumb movement pointer.
         if (action.type !== "ability") this.resetStick();
         this.report();
@@ -1378,5 +1386,8 @@ export function mountKileGends(
     for (const release of releaseScene.splice(0)) release();
     session.flush();
     game.destroy(true);
+    // Phaser defers destruction to its next step. A map may have put that loop to sleep;
+    // wake only after requesting destruction so the pending destroy runs before a new mount.
+    if (!game.loop.running) game.loop.wake();
   };
 }

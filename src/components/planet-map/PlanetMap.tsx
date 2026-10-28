@@ -16,6 +16,7 @@ import atlasHiV2 from "@/assets/planet-map/atlas-v2-3840.webp";
 import atlasLoV2 from "@/assets/planet-map/atlas-v2-1920.webp";
 import { ATLAS_V2 } from "./mapData";
 import { WorldOverlay } from "./WorldOverlay";
+import { decodedImage, loadWorldOverlay } from "./preload";
 const atlasHi = ATLAS_V2 ? atlasHiV2 : atlasHiV1;
 const atlasLo = ATLAS_V2 ? atlasLoV2 : atlasLoV1;
 import {
@@ -121,6 +122,7 @@ export function PlanetMap({
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
+    let live = true;
     const apply = () => {
       const w = Math.max(1, el.clientWidth);
       const h = Math.max(1, el.clientHeight);
@@ -131,14 +133,17 @@ export function PlanetMap({
         setView(initialView(w, h));
         setReady(true);
         if (focus)
-          void import("./worldOverlay.v2.json").then((m) => {
-            const at = worldToAtlas(m.default, focus.land, focus.x, focus.y);
-            if (!at) return;
-            setPlayerAt(at);
-            const { w: cw, h: ch } = sizeRef.current;
-            // A continent fills the screen around the player.
-            setView(clampView({ cx: at.x, cy: at.y, s: fitScale(cw, ch) * 6 }, cw, ch));
-          });
+          void loadWorldOverlay()
+            .then((data) => {
+              if (!live) return;
+              const at = worldToAtlas(data, focus.land, focus.x, focus.y);
+              if (!at) return;
+              setPlayerAt(at);
+              const { w: cw, h: ch } = sizeRef.current;
+              // A continent fills the screen around the player.
+              setView(clampView({ cx: at.x, cy: at.y, s: fitScale(cw, ch) * 6 }, cw, ch));
+            })
+            .catch(() => undefined);
       } else {
         setView((v) => clampView(v, w, h));
       }
@@ -147,20 +152,18 @@ export function PlanetMap({
     const ro = new ResizeObserver(apply);
     ro.observe(el);
     return () => {
+      live = false;
       ro.disconnect();
       stopAnimation();
       // StrictMode re-runs effects; let the next run measure afresh.
       measured.current = false;
     };
-  }, []);
+  }, [focus]);
 
   // Load the 3840 px atlas after first paint; the 1920 px one shows meanwhile.
   useEffect(() => {
     let alive = true;
-    const img = new Image();
-    img.src = atlasHi;
-    img
-      .decode()
+    decodedImage(atlasHi)
       .then(() => alive && setHiRes(true))
       .catch(() => undefined);
     return () => {
@@ -279,12 +282,12 @@ export function PlanetMap({
   // Opened with an active character: centre the atlas on that continent once.
   const focusedCurrent = useRef(false);
   useEffect(() => {
-    if (!ready || focusedCurrent.current) return;
+    if (!ready || focusedCurrent.current || focus) return;
     focusedCurrent.current = true;
     const here = CONTINENTS.find((c) => c.id === current);
     if (here) focusRegion(here);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, current]);
+  }, [ready, current, focus]);
   const toggleLegend = () => setLegend((l) => !(l ?? size.w > 1600));
 
   const onMapKey = (e: KeyboardEvent<SVGSVGElement>) => {

@@ -1,0 +1,680 @@
+Browser QA (full)	Run all browser tests	﻿2026-10-28T06:19:33.8700811Z ##[group]Run npx playwright test
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:33.8701122Z [36;1mnpx playwright test[0m
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:33.8735674Z shell: /usr/bin/bash -e {0}
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:33.8735968Z env:
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:33.8736236Z   CI: true
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:33.8736433Z ##[endgroup]
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:37.4449320Z GitCommitInfo: timeout of 3000ms exceeded while running "git fetch origin ddd7723bd7db8c037420bf7864577dda47307c64 --no-auto-maintenance --no-auto-gc --no-tags --no-recurse-submodules --depth=1"
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7410275Z [WebServer] [PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7410918Z [WebServer]   - vite:prepare-out-dir (51%)
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7411369Z [WebServer]   - vite:css (23%)
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7411861Z [WebServer] See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7412324Z [WebServer] 
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7412775Z [WebServer] [plugin builtin:vite-reporter] 
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7413324Z [WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7414053Z [WebServer] - Using dynamic import() to code-split the application
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7414952Z [WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:43.7415946Z [WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:44.8994693Z [WebServer] The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9315544Z [WebServer] 6:19:50 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9316694Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9317585Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9322847Z [WebServer] 6:19:50 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9324318Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9325047Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9326301Z [WebServer] 6:19:50 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9327856Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9328642Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9329600Z [WebServer] 6:19:50 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9330355Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:50.9330872Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:51.6845449Z 
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:51.6846237Z Running 187 tests using 1 worker
+Browser QA (full)	Run all browser tests	2026-10-28T06:19:51.6846552Z 
+Browser QA (full)	Run all browser tests	2026-10-28T06:20:13.0000842Z   ✓    1 [gameplay] › e2e/aether-art-preview.spec.ts:12:1 › Aetheria painted art is the public default on the Superior land (11.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:20:20.6009011Z   ✓    2 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Planetarni 320x568 (7.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:20:30.3555451Z   ✓    3 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Mędrcy 360x640 (9.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:20:39.8033077Z   ✓    4 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Androidy 390x844 (9.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:20:49.5659885Z   ✓    5 [gameplay] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Legendy 852x393 (9.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:20:57.7225170Z   ✓    6 [gameplay] › e2e/argon-mobile.spec.ts:89:1 › Argon v2 quest summary follows the real journal and survives reload (8.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:21:32.8499281Z   ✓    7 [gameplay] › e2e/city.spec.ts:57:3 › Verdantia city: real entrances, merchant, personal chest reload and training 1280px (35.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:22:06.5263511Z   ✓    8 [gameplay] › e2e/city.spec.ts:57:3 › Verdantia city: real entrances, merchant, personal chest reload and training 390px (33.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:22:49.0771214Z   ✓    9 [gameplay] › e2e/city.spec.ts:57:3 › Verdantia city: real entrances, merchant, personal chest reload and training 852px (42.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:22:52.6402763Z   ✓   10 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (3.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:22:55.9088100Z   ✓   11 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (3.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:22:59.0712556Z   ✓   12 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (3.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:23:02.2618632Z   ✓   13 [gameplay] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (3.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:23:09.1519425Z   ✓   14 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (6.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:23:15.7780440Z   ✓   15 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (6.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:23:22.8102962Z   ✓   16 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (7.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:23:29.9001159Z   ✓   17 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (7.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:23:50.2195861Z   ✓   18 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Planetarni (20.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:24:12.9495978Z   ✓   19 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Mędrcy (22.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:24:22.6776058Z   ✓   20 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Androidy (9.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:24:37.8504075Z   ✓   21 [gameplay] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Legendy (15.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:24:54.1115869Z   ✓   22 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 320x568 › V3 real combat, rapid input, movement and persistence (16.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:25:13.8847622Z   ✓   23 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 360x640 › V3 real combat, rapid input, movement and persistence (19.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:25:29.3341424Z   ✓   24 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Androidy 390x844 › V3 real combat, rapid input, movement and persistence (15.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:25:44.0476247Z   ✓   25 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Legendy 852x393 › V3 real combat, rapid input, movement and persistence (14.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:26:00.9884376Z   ✓   26 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (16.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:26:23.5743179Z   ✓   27 [gameplay] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (22.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:26:54.2659822Z   ✓   28 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: planetary (30.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:27:24.1852644Z   ✓   29 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: sage (29.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:27:55.2889960Z   ✓   30 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: android (31.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:28:08.6253320Z   ✓   31 [gameplay] › e2e/continent-scale.spec.ts:18:3 › walks out of the city onto the open continent: legend (13.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:28:39.9633019Z   ✓   32 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-planetary-painted: all seven clips follow real combat, defeat and respawn (31.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:29:23.1884450Z   ✓   33 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (43.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:29:57.8054312Z   ✓   34 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-android: all seven clips follow real combat, defeat and respawn (34.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:21.7944699Z   ✓   35 [gameplay] › e2e/hero-lifecycle.spec.ts:34:3 › hero-legend: all seven clips follow real combat, defeat and respawn (24.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:26.0807081Z   ✓   36 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 360x640 › single dock, clear play area and real touch tools (4.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:30.1323270Z   ✓   37 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 390x640 › single dock, clear play area and real touch tools (4.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:34.6280138Z   ✓   38 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Mędrcy 390x844 › single dock, clear play area and real touch tools (4.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:38.9246748Z   ✓   39 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 390x640 › single dock, clear play area and real touch tools (4.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:43.5312339Z   ✓   40 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Legendy 414x896 › single dock, clear play area and real touch tools (4.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:47.6475606Z   ✓   41 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Androidy 852x393 › single dock, clear play area and real touch tools (4.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:30:52.7206073Z   ✓   42 [gameplay] › e2e/hud-layout.spec.ts:16:5 › tidy HUD Planetarni 1280x900 › single dock, clear play area and real touch tools (5.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:31:00.1572979Z   ✓   43 [gameplay] › e2e/manga-hud.spec.ts:6:3 › manga HUD in Pyra smithy 390 (7.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:31:08.6196348Z   ✓   44 [gameplay] › e2e/manga-hud.spec.ts:6:3 › manga HUD in Pyra smithy 1280 (8.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:31:13.1769922Z   ✓   45 [gameplay] › e2e/manga-hud.spec.ts:41:3 › complete technique buttons and fixed attack 320x568 (4.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:31:18.5450230Z   ✓   46 [gameplay] › e2e/manga-hud.spec.ts:41:3 › complete technique buttons and fixed attack 360x640 (5.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:31:23.4672326Z   ✓   47 [gameplay] › e2e/manga-hud.spec.ts:41:3 › complete technique buttons and fixed attack 852x393 (4.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:31:45.9945227Z   ✓   48 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 1280 (22.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:32:04.2715962Z   ✓   49 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 360 (18.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:32:22.7180949Z   ✓   50 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 390 (18.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:32:41.2951790Z   ✓   51 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 414 (18.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:32:59.1625366Z   ✓   52 [gameplay] › e2e/overlay-audit.spec.ts:46:3 › clear world, dismiss/expire guidance, dialogs and persistent options 852 (17.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:33:05.5923683Z   ✓   53 [gameplay] › e2e/overlay-audit.spec.ts:194:1 › save failure stays actionable after normal guidance is disabled or dismissed (6.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:33:34.3870785Z   ✓   54 [gameplay] › e2e/overlay-audit.spec.ts:222:1 › death message ends on real respawn and subsequent movement works (28.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:33:46.9756746Z   ✓   55 [gameplay] › e2e/overlay-audit.spec.ts:279:3 › combat messages leave the actual target panel clear at 360px (12.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:34:00.7459644Z   ✓   56 [gameplay] › e2e/overlay-audit.spec.ts:279:3 › combat messages leave the actual target panel clear at 390px (13.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:34:14.3649247Z   ✓   57 [gameplay] › e2e/overlay-audit.spec.ts:279:3 › combat messages leave the actual target panel clear at 414px (13.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:34:27.6919860Z   ✓   58 [gameplay] › e2e/overlay-audit.spec.ts:279:3 › combat messages leave the actual target panel clear at 640px (13.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:34:39.9939405Z   ✓   59 [gameplay] › e2e/overlay-audit.spec.ts:279:3 › combat messages leave the actual target panel clear at 852px (12.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:34:54.4038281Z   ✓   60 [gameplay] › e2e/overlay-audit.spec.ts:279:3 › combat messages leave the actual target panel clear at 1280px (14.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:35:06.4983170Z   ✓   61 [gameplay] › e2e/planetary-preview.spec.ts:17:1 › Planetarni default painted visual preserves the same save across legacy flags and other races (12.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:35:15.2249627Z   ✓   62 [gameplay] › e2e/planetary-preview.spec.ts:51:3 › Planetarni has real eight-direction movement and skill animation at 1280px (8.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:35:23.1189033Z   ✓   63 [gameplay] › e2e/planetary-preview.spec.ts:51:3 › Planetarni has real eight-direction movement and skill animation at 390px (7.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:35:27.2083746Z   ✓   64 [gameplay] › e2e/planetary-preview.spec.ts:101:1 › a broken Planetarni atlas retries without losing the character (4.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:35:34.3199964Z   ✓   65 [gameplay] › e2e/planetary-preview.spec.ts:123:3 › Planetarni touch preview › real touch joystick animates all eight directions and a tapped skill (7.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:35:54.6243831Z   ✓   66 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android planetary 390x844 › real Android input in eight directions: planetary 390x844 (20.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:36:14.3818184Z   ✓   67 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android planetary 852x393 › real Android input in eight directions: planetary 852x393 (19.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:36:34.8439146Z   ✓   68 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android sage 390x844 › real Android input in eight directions: sage 390x844 (20.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:36:54.8678799Z   ✓   69 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android sage 852x393 › real Android input in eight directions: sage 852x393 (20.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:37:14.8555438Z   ✓   70 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android android 390x844 › real Android input in eight directions: android 390x844 (20.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:37:33.5001074Z   ✓   71 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android android 852x393 › real Android input in eight directions: android 852x393 (18.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:37:52.6319857Z   ✓   72 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android legend 390x844 › real Android input in eight directions: legend 390x844 (19.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:38:11.3348912Z   ✓   73 [gameplay] › e2e/pre-gpu.spec.ts:86:7 › Android legend 852x393 › real Android input in eight directions: legend 852x393 (18.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:38:39.0500705Z   ✓   74 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: planetary (27.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:39:06.0529331Z   ✓   75 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: sage (27.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:39:31.3541350Z   ✓   76 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: android (25.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:39:56.8500213Z   ✓   77 [gameplay] › e2e/pre-gpu.spec.ts:252:3 › real defeat, respawn and movement: legend (25.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:40:07.0940766Z   ✓   78 [gameplay] › e2e/pre-gpu.spec.ts:305:1 › imported eight-direction rig reacts to real movement and KI; corrupt atlas retries safely (10.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:40:41.6872070Z   ✓   79 [gameplay] › e2e/pre-gpu.spec.ts:352:3 › real pursuit, return, enemy collision and world boundary: planetary (34.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:41:19.4385939Z   ✓   80 [gameplay] › e2e/pre-gpu.spec.ts:352:3 › real pursuit, return, enemy collision and world boundary: sage (37.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:41:45.2183201Z   ✓   81 [gameplay] › e2e/pre-gpu.spec.ts:352:3 › real pursuit, return, enemy collision and world boundary: android (25.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:42:14.7059743Z   ✓   82 [gameplay] › e2e/pre-gpu.spec.ts:352:3 › real pursuit, return, enemy collision and world boundary: legend (29.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:42:19.4259501Z   ✓   83 [gameplay] › e2e/pre-gpu.spec.ts:451:1 › malformed actor atlas fails with a named error and retries without losing the slot (4.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:42:37.3089339Z   ✓   84 [gameplay] › e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 1280 (17.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:42:49.5962948Z   ✓   85 [gameplay] › e2e/race-switch.spec.ts:9:3 › temporary race switch preserves each save 390 (12.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:42:55.3290457Z   ✓   86 [gameplay] › e2e/region-start-art.spec.ts:8:3 › nexus art switch preserves the existing character (5.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:00.8419054Z   ✓   87 [gameplay] › e2e/region-start-art.spec.ts:8:3 › pyra art switch preserves the existing character (5.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:06.0738303Z   ✓   88 [gameplay] › e2e/region-start-art.spec.ts:8:3 › verdant art switch preserves the existing character (5.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:19.9752064Z   ✓   89 [gameplay] › e2e/sage-preview.spec.ts:43:1 › Mędrcy default visual preserves the save and stays isolated from other races (13.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:29.1072211Z   ✓   90 [gameplay] › e2e/sage-preview.spec.ts:88:3 › Mędrcy has real eight-direction movement and skill animation at 1280px (9.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:37.5988055Z   ✓   91 [gameplay] › e2e/sage-preview.spec.ts:88:3 › Mędrcy has real eight-direction movement and skill animation at 390px (8.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:42.6571818Z   ✓   92 [gameplay] › e2e/sage-preview.spec.ts:135:1 › a broken Mędrcy atlas retries without losing the character (5.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:50.5324686Z   ✓   93 [gameplay] › e2e/sage-preview.spec.ts:159:3 › Mędrcy touch preview › real touch joystick animates all eight directions and a tapped skill (7.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:43:56.8588929Z   ✓   94 [gameplay] › e2e/stage3-migration.spec.ts:5:1 › C: an archival Stage 2 save stays untouched and is never offered in the Superior world (6.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:44:08.7974284Z Verified Planetarni verdant
+Browser QA (full)	Run all browser tests	2026-10-28T06:44:20.8407196Z Verified Mędrcy aether
+Browser QA (full)	Run all browser tests	2026-10-28T06:44:40.7699009Z Verified Androidy nexus
+Browser QA (full)	Run all browser tests	2026-10-28T06:44:53.0468926Z Verified Legendy pyra
+Browser QA (full)	Run all browser tests	2026-10-28T06:44:54.8937740Z   ✓   95 [gameplay] › e2e/stage3.spec.ts:87:1 › A/B/C: four previews, four independent slots, exploration, camera, NPC, refresh and switching (58.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:45:08.5223407Z   ✓   96 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 360x800 (13.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:45:22.2259860Z   ✓   97 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 390x844 (13.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:45:36.2494730Z   ✓   98 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 414x896 (14.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:45:48.1914381Z   ✓   99 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 852x393 (11.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:01.4406896Z   ✓  100 [gameplay] › e2e/stage3.spec.ts:175:3 › E: touch selection, joystick, dialogue and layout 640x480 (13.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:07.6509404Z   ✓  101 [gameplay] › e2e/stage31-collision.spec.ts:8:3 › browser collider and camera: planetary (6.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:13.9720467Z   ✓  102 [gameplay] › e2e/stage31-collision.spec.ts:8:3 › browser collider and camera: sage (6.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:22.0866446Z   ✓  103 [gameplay] › e2e/stage31-collision.spec.ts:8:3 › browser collider and camera: android (8.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:28.9020082Z   ✓  104 [gameplay] › e2e/stage31-collision.spec.ts:8:3 › browser collider and camera: legend (6.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:32.7670527Z   ✓  105 [gameplay] › e2e/stage31-ui.spec.ts:14:1 › original complete illustrations, details, accessible enlargement and no save before start (3.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:37.1058314Z   ✓  106 [gameplay] › e2e/stage31-ui.spec.ts:63:1 › real Phaser progress is held by an actual resource request, then opens the correct world (4.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:44.5985778Z   ✓  107 [gameplay] › e2e/stage31-ui.spec.ts:107:1 › failed real resource shows retry and reuses the same saved character (7.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:46:57.4157683Z   ✓  108 [gameplay] › e2e/stage31-ui.spec.ts:169:1 › HP and KI remain separate at low, middle, maximum values and interface scales (12.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:47:05.9464621Z   ✘  109 [gameplay] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload (7.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:47:22.8339970Z   ✓  110 [gameplay] › e2e/superior-world.spec.ts:83:1 › Superior: real depot entrance and personal chest survive reload (12.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:47:40.4517738Z   ✓  111 [gameplay] › e2e/superior-world.spec.ts:118:1 › Superior: mobile world and real overworld combat (17.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:47:45.6215952Z   ✓  112 [gameplay] › e2e/superior-world.spec.ts:186:3 › Superior default: planetary starts on generated land with one character save (5.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:47:51.5571389Z   ✓  113 [gameplay] › e2e/superior-world.spec.ts:186:3 › Superior default: sage starts on generated land with one character save (5.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:47:57.3609330Z   ✓  114 [gameplay] › e2e/superior-world.spec.ts:186:3 › Superior default: android starts on generated land with one character save (5.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:48:02.7859615Z   ✓  115 [gameplay] › e2e/superior-world.spec.ts:186:3 › Superior default: legend starts on generated land with one character save (5.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:49:50.0266461Z   ✓  116 [gameplay] › e2e/three-races-pve.spec.ts:108:3 › real PvE journey: planetary — quests, 3 kills, loot, equipment, merchant and smith (1.8m)
+Browser QA (full)	Run all browser tests	2026-10-28T06:51:18.8662708Z   ✓  117 [gameplay] › e2e/three-races-pve.spec.ts:108:3 › real PvE journey: sage — quests, 3 kills, loot, equipment, merchant and smith (1.5m)
+Browser QA (full)	Run all browser tests	2026-10-28T06:53:28.1112769Z   ✓  118 [gameplay] › e2e/three-races-pve.spec.ts:108:3 › real PvE journey: android — quests, 3 kills, loot, equipment, merchant and smith (2.2m)
+Browser QA (full)	Run all browser tests	2026-10-28T06:55:34.8731102Z   ✓  119 [gameplay] › e2e/three-races-pve.spec.ts:108:3 › real PvE journey: legend — quests, 3 kills, loot, equipment, merchant and smith (2.1m)
+Browser QA (full)	Run all browser tests	2026-10-28T06:55:56.0725981Z   ✓  120 [gameplay] › e2e/v2-player-journey.spec.ts:41:3 › v2 journey 889x400: HUD, panels and fight (21.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:56:23.4359673Z   ✓  121 [gameplay] › e2e/v2-player-journey.spec.ts:41:3 › v2 journey 1920x1080: HUD, panels and fight (27.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:56:31.9748714Z   ✓  122 [gameplay] › e2e/world-rendering.spec.ts:7:3 › aether mobile detail rendering stays within budget and releases each scene (8.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:56:41.0132122Z   ✓  123 [gameplay] › e2e/world-rendering.spec.ts:7:3 › nexus mobile detail rendering stays within budget and releases each scene (9.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:57:00.0291599Z   ✓  124 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Planetarni 320x568 (17.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:57:20.1917686Z   ✓  125 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Mędrcy 360x640 (20.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:57:40.3946422Z   ✓  126 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Androidy 390x844 (20.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:58:00.5953490Z   ✓  127 [software-webgl] › e2e/argon-mobile.spec.ts:11:3 › Argon two thumbs, cancel, menu, saved skills: Legendy 852x393 (20.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:58:18.9419326Z   ✓  128 [software-webgl] › e2e/argon-mobile.spec.ts:89:1 › Argon v2 quest summary follows the real journal and survives reload (18.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:58:42.2264415Z   ✓  129 [software-webgl] › e2e/city-webgl.spec.ts:24:1 › Verdantia software WebGL: actual chest interiors release resources on each return (23.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:58:53.2999429Z   ✓  130 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Planetarni: real Phaser phase/telegraph, isolated save (11.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:59:05.9113848Z   ✓  131 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Mędrcy: real Phaser phase/telegraph, isolated save (12.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:59:17.8469837Z   ✓  132 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Androidy: real Phaser phase/telegraph, isolated save (11.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:59:29.5099135Z   ✓  133 [software-webgl] › e2e/combat-bosses.spec.ts:8:3 › boss preview Legendy: real Phaser phase/telegraph, isolated save (11.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T06:59:52.7249197Z   ✓  134 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (23.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:00:17.8969733Z   ✓  135 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (25.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:00:43.0204116Z   ✓  136 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (25.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:01:09.0498979Z   ✓  137 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (26.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:01:37.2929985Z   ✓  138 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Planetarni (28.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:02:06.7205170Z   ✓  139 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Mędrcy (29.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:02:21.5620372Z   ✓  140 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Androidy (14.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:02:43.6984483Z   ✓  141 [software-webgl] › e2e/combat-v3-superior.spec.ts:5:3 › V3 Superior v2 natural encounter: Legendy (22.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:03:04.9539011Z   ✓  142 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Planetarni 320x568 › V3 real combat, rapid input, movement and persistence (21.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:03:29.9839081Z   ✓  143 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 360x640 › V3 real combat, rapid input, movement and persistence (25.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:03:55.5938440Z   ✓  144 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Androidy 390x844 › V3 real combat, rapid input, movement and persistence (25.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:04:20.3550631Z   ✓  145 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Legendy 852x393 › V3 real combat, rapid input, movement and persistence (24.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:04:55.4319229Z   ✓  146 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Planetarni 1280x720 › V3 real combat, rapid input, movement and persistence (35.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:06:07.3749303Z   ✓  147 [software-webgl] › e2e/combat-v3.spec.ts:19:5 › Mędrcy 1920x1080 › V3 real combat, rapid input, movement and persistence (1.2m)
+Browser QA (full)	Run all browser tests	2026-10-28T07:06:26.0639337Z   ✓  148 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Mędrcy at 1280px (18.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:06:34.9531639Z   ✓  149 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Mędrcy at 390px (8.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:06:48.8056386Z   ✓  150 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Planetarni at 1280px (13.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:06:56.1324579Z   ✓  151 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Planetarni at 390px (7.3s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:07:12.2116269Z   ✓  152 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Androidy at 1280px (16.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:07:21.3870125Z   ✓  153 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Androidy at 390px (9.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:07:36.8485543Z   ✓  154 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Legendy at 1280px (15.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:07:45.7171495Z   ✓  155 [software-webgl] › e2e/gpu-webgl-smoke.spec.ts:35:5 › software WebGL loads and moves Legendy at 390px (8.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:08:42.3893895Z   ✓  156 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-planetary-painted: all seven clips follow real combat, defeat and respawn (56.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:09:51.5259441Z   ✓  157 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-sage-painted: all seven clips follow real combat, defeat and respawn (1.2m)
+Browser QA (full)	Run all browser tests	2026-10-28T07:10:50.5703322Z   ✓  158 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-android: all seven clips follow real combat, defeat and respawn (59.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:11:46.7416818Z   ✓  159 [software-webgl] › e2e/hero-lifecycle.spec.ts:34:3 › hero-legend: all seven clips follow real combat, defeat and respawn (56.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:12:15.9916130Z   ✘  160 [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload (28.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:12:55.9920759Z   ✓  161 [software-webgl] › e2e/superior-world.spec.ts:83:1 › Superior: real depot entrance and personal chest survive reload (39.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:13:23.1278478Z   ✓  162 [software-webgl] › e2e/superior-world.spec.ts:118:1 › Superior: mobile world and real overworld combat (27.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:13:43.2987573Z   ✓  163 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: planetary starts on generated land with one character save (20.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:14:06.7630990Z   ✓  164 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: sage starts on generated land with one character save (23.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:14:29.2680463Z   ✓  165 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: android starts on generated land with one character save (22.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:14:51.0839212Z   ✓  166 [software-webgl] › e2e/superior-world.spec.ts:186:3 › Superior default: legend starts on generated land with one character save (21.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:11.7413928Z   ✓  167 [software-webgl] › e2e/world-rendering.spec.ts:7:3 › aether mobile detail rendering stays within budget and releases each scene (20.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:31.5299942Z   ✓  168 [software-webgl] › e2e/world-rendering.spec.ts:7:3 › nexus mobile detail rendering stays within budget and releases each scene (19.8s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.0382799Z [WebServer] [tanstack-router] These exports from "/home/runner/work/pixel-playground-launch/pixel-playground-launch/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.0384447Z [WebServer] - Index
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.0385314Z [WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4883133Z [WebServer] 7:15:33 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4889170Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4889940Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4891111Z [WebServer] 7:15:33 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4892117Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4893102Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4894322Z [WebServer] 7:15:33 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4895281Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4895894Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4897183Z [WebServer] 7:15:33 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4898364Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:33.4899028Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:34.2911280Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:34.2941252Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:34.2972017Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:34.2998213Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:34.3001153Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:34.3002539Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:43.9576675Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:43.9639885Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:43.9666490Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:43.9669334Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:43.9670580Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:43.9672240Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:45.6260693Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:45.6262547Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:45.6263766Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:45.6264530Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:45.6265738Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:45.6266904Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:51.6941235Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:51.6975389Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:51.7010553Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:51.7059648Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:51.7089027Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:51.7093536Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.4113627Z   ✓  169 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (20.4s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.9207045Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.9208446Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.9209641Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.9237922Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.9260554Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:52.9269479Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:58.6422400Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:58.6443948Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:58.6468531Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:58.6538234Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:58.6568976Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:15:58.6598429Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:00.7169382Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:00.7171655Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:00.7173355Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:00.7174325Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:00.7175567Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:00.7176870Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:05.9760813Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:05.9762761Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:05.9778778Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:05.9779584Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:05.9780599Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:05.9781921Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:06.4948112Z   ✓  170 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (14.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:07.5850109Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:07.5868087Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:07.5935199Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:07.5962503Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:07.5995164Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:07.6001802Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:13.0505025Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:13.0538115Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:13.0539422Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:13.0558604Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:13.0568875Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:13.0601203Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:14.7844852Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:14.7869503Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:14.7873982Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:14.7874879Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:14.7876241Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:14.7877846Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:20.3607473Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:20.3680047Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:20.3755388Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:20.3760013Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:20.3761240Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:20.3762443Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:21.0950920Z   ✓  171 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (14.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:22.0667039Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:22.0700249Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:22.0701459Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:22.0705832Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:22.0740107Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:22.0772023Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:27.6033403Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:27.6036189Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:27.6037858Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:27.6089089Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:27.6120095Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:27.6123561Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:29.3510782Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:29.3512988Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:29.3514222Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:29.3515042Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:29.3516227Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:29.3517593Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:34.5723294Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:34.5758837Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:34.5798846Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:34.5828580Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:34.5852687Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:34.5853820Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:35.2669624Z   ✓  172 [application-canvas] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (14.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:36.0959744Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:36.0968346Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:36.0981454Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:36.1018404Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:36.1048921Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:36.1067278Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:46.6206491Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:46.6208879Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:46.6210053Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:46.6285022Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:46.6296380Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:46.6297978Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.4277588Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.4282443Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.4283589Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.4284322Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.4285550Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.4286631Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.9726222Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.9733092Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.9734772Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.9735595Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.9736422Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:47.9737284Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.4474787Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.4482544Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.4483490Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.4484103Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.4485015Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.4486015Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:48.7710186Z   ✓  173 [application-canvas] › e2e/globe-handoff.spec.ts:113:1 › continent roster filters all four origins without changing any slot, including mobile carousel (13.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:49.7428905Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:49.7482979Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:49.7558823Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:49.7569314Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:49.7570521Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:49.7571545Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:51.2138923Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:51.2166880Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:51.2225727Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:51.2258566Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:51.2280289Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:51.2321380Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:52.2474808Z   ✓  174 [application-canvas] › e2e/globe-handoff.spec.ts:139:1 › home navigation clears continent intent without creating a character (3.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:53.1754160Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:53.1756564Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:53.1757882Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:53.1847973Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:53.1875656Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:16:53.1877120Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:00.7621640Z   ✓  175 [application-canvas] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 1280 (8.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:01.9799165Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:01.9829378Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:01.9858534Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:01.9908567Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:01.9910657Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:01.9938512Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.3255417Z   ✓  176 [application-canvas] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 390 (7.6s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.8106190Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.8114017Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.8115192Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.8116722Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.8118103Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:08.8119293Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7274221Z [WebServer] 7:17:12 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7281994Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7283086Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7288307Z [WebServer] 7:17:12 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7290685Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7291879Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7293969Z [WebServer] 7:17:12 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7295477Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7296569Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7299140Z [WebServer] 7:17:12 AM [vite] (ssr) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7300612Z [WebServer]   Plugin: tanstack-start-core::server-fn:ssr
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:12.7301706Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts?tss-serverfn-split
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:13.7967779Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:13.7970765Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:13.7999533Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:13.8032137Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:13.8067098Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:13.8088715Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.0738766Z [WebServer] [tanstack-router] These exports from "/home/runner/work/pixel-playground-launch/pixel-playground-launch/src/routes/index.tsx" will not be code-split and will increase your bundle size:
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.0739772Z [WebServer] - Index
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.0740673Z [WebServer] For the best optimization, these items should either have their export statements removed, or be imported from another location that is not a route file.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3515090Z [WebServer] 7:17:15 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3518086Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3518705Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3519899Z [WebServer] 7:17:15 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3520904Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3521760Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3523149Z [WebServer] 7:17:15 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3524442Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3525258Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3526664Z [WebServer] 7:17:15 AM [vite] (client) warning: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3527893Z [WebServer]   Plugin: tanstack-start-core::server-fn:client
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.3528546Z [WebServer]   File: /home/runner/work/pixel-playground-launch/pixel-playground-launch/src/lib/sketches.functions.ts
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.5487665Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.5496210Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.5497245Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.5523694Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.5532603Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:15.5533924Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:16.7028658Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:16.7039369Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:16.7040749Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:16.7056145Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:16.7060266Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:16.7079444Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:21.2130043Z   ✓  177 [application-canvas] › e2e/private-sketch.spec.ts:3:1 › private /test remains locked and independent from game saves (12.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:22.9640336Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:22.9657200Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:22.9659017Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:22.9667105Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:22.9668957Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:22.9670376Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:48.2959893Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:48.3005462Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:48.3008891Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:48.3010086Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:48.3014856Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:48.3016290Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:57.5959082Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:57.6049110Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:57.6131274Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:57.6168447Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:57.6228770Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:17:57.6277253Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:19.5112058Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:19.5136284Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:19.5137883Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:19.5303103Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:19.5313887Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:19.5315954Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:21.5025924Z   ✓  178 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Verdantia: selection, spawn, refresh, back and other saves (59.7s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:22.2097028Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:22.2123683Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:22.2178162Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:22.2238186Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:22.2239445Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:22.2268276Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:44.0821741Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:44.0849377Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:44.0909625Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:44.0953270Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:44.0985054Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:44.0986345Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:52.7836434Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:52.7869152Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:52.7896226Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:52.7928297Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:52.7934069Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:18:52.7951095Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:15.8695140Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:15.8719055Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:15.8731477Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:15.8732540Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:15.8733845Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:15.8735485Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:18.0360100Z   ✓  179 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Aetheria: selection, spawn, refresh, back and other saves (56.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:19.6741958Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:19.6744505Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:19.6774076Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:19.6818404Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:19.6898903Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:19.6928396Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:44.9152166Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:44.9208995Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:44.9238480Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:44.9307075Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:44.9393751Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:44.9438397Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:54.5151793Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:54.5174222Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:54.5178261Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:54.5181071Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:54.5185684Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:19:54.5186753Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:13.0829472Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:13.0873827Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:13.0875796Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:13.0914658Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:13.0958696Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:13.0961810Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:16.0419387Z   ✓  180 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Nexus-9: selection, spawn, refresh, back and other saves (58.0s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:17.4454023Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:17.4532173Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:17.4575372Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:17.4619038Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:17.4643805Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:17.4645698Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:41.6814924Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:41.6904635Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:41.6956640Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:41.6962718Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:41.6963974Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:41.6966067Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:50.6032368Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:50.6033733Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:50.6039902Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:50.6047078Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:50.6066810Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:20:50.6070885Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:10.1347709Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:10.1387560Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:10.1389162Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:10.1390104Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:10.1393546Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:10.1394647Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:12.3050895Z   ✓  181 [application-webgl] › e2e/globe-handoff.spec.ts:31:3 › real map handoff to Pyra: selection, spawn, refresh, back and other saves (56.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:13.7435135Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:13.7445823Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:13.7447073Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:13.7448394Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:13.7449449Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:13.7450815Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:44.3829306Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:44.3877983Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:44.3931994Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:44.3985677Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:44.4011794Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:44.4063695Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:45.7798295Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:45.7799692Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:45.7801075Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:45.7906616Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:45.7932489Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:45.7933897Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:46.8522956Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:46.8531545Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:46.8538712Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:46.8539664Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:46.8540880Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:46.8577784Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:47.7704941Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:47.7706354Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:47.7707656Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:47.7708269Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:47.7710237Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:47.7711751Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:48.3810137Z   ✓  182 [application-webgl] › e2e/globe-handoff.spec.ts:113:1 › continent roster filters all four origins without changing any slot, including mobile carousel (36.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:49.7982632Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:49.8020382Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:49.8047691Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:49.8085182Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:49.8104186Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:49.8105676Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:51.5986219Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:51.6005263Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:51.6030485Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:51.6031682Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:51.6034992Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:51.6036240Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.2620769Z   ✓  183 [application-webgl] › e2e/globe-handoff.spec.ts:139:1 › home navigation clears continent intent without creating a character (6.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.8989784Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.9009187Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.9040645Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.9068193Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.9089459Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:21:55.9118410Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:05.5290191Z   ✓  184 [application-webgl] › e2e/globe-rendering.spec.ts:3:1 › globe switching disposes contexts and keeps a bounded texture budget (10.2s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:07.7411231Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:07.7429477Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:07.7430786Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:07.7431564Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:07.7432644Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:07.7433736Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:14.0914247Z   ✓  185 [application-webgl] › e2e/globe-rendering.spec.ts:42:1 › real WebGL context loss falls back to a working 2D map without saves (8.5s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:18.7829189Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:18.7862576Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:18.7889598Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:18.7893630Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:18.7919130Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:18.7983143Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:48.9589432Z   ✓  186 [application-webgl] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 1280 (34.9s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:51.7234259Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:51.7238660Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v1/index.json instead of /public/game/worlds/superior-v1/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:51.7253973Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v1/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:51.7280454Z [WebServer] Assets in public directory cannot be imported from JavaScript.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:51.7284949Z [WebServer] If you intend to import that asset, put the file in the src directory, and use /src/game/worlds/superior-v2/index.json instead of /public/game/worlds/superior-v2/index.json.
+Browser QA (full)	Run all browser tests	2026-10-28T07:22:51.7286335Z [WebServer] If you intend to use the URL of that asset, use /game/worlds/superior-v2/index.json?url.
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.1099385Z   ✓  187 [application-webgl] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 390 (18.1s)
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8491994Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8495409Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8503779Z   1) [gameplay] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8504175Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8504463Z     Error: locator.evaluate: Error: strict mode violation: locator('.ki-canvas').locator('canvas') resolved to 2 elements:
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8505072Z         1) <canvas width="1280" height="900" data-superior-chunks="12" data-superior-scenery="111"></canvas> aka locator('canvas').first()
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8505923Z         2) <canvas dir="ltr" width="1280" height="900" data-superior-chunks="12" data-superior-scenery="122"></canvas> aka locator('canvas').nth(1)
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8506261Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8506655Z     Call log:
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8506877Z       - waiting for locator('.ki-canvas').locator('canvas')
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8507043Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8507049Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8507163Z       53 |       .toBeCloseTo(feature.arrival.y, 0);
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8507588Z       54 |     await expect
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8507921Z     > 55 |       .poll(() => canvas.locator("canvas").evaluate((el) => Number(el.dataset["superiorChunks"])))
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8508304Z          |                                            ^
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8508600Z       56 |       .toBeGreaterThan(0);
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8508832Z       57 |     const chunks = await canvas
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8509045Z       58 |       .locator("canvas")
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8509422Z         at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/superior-world.spec.ts:55:44
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8509930Z         at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/superior-world.spec.ts:54:5
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8510207Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8510510Z     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8511038Z     test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-gameplay/test-failed-1.png
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8511678Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8511863Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8512165Z     Error Context: test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-gameplay/error-context.md
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8512489Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8512739Z     attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8513206Z     test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-gameplay/trace.zip
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8513539Z     Usage:
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8513629Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8513939Z         npx playwright show-trace test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-gameplay/trace.zip
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8514285Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8514505Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8514702Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8515054Z   2) [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8515343Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8515607Z     Error: locator.evaluate: Error: strict mode violation: locator('.ki-canvas').locator('canvas') resolved to 2 elements:
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8516223Z         1) <canvas width="1280" height="900" data-superior-chunks="12" data-superior-scenery="111"></canvas> aka locator('canvas').first()
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8516825Z         2) <canvas width="1280" height="900" data-superior-chunks="12" data-superior-scenery="122"></canvas> aka locator('canvas').nth(1)
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517121Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517185Z     Call log:
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517505Z       - waiting for locator('.ki-canvas').locator('canvas')
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517673Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517677Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517791Z       53 |       .toBeCloseTo(feature.arrival.y, 0);
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8517998Z       54 |     await expect
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8518419Z     > 55 |       .poll(() => canvas.locator("canvas").evaluate((el) => Number(el.dataset["superiorChunks"])))
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8518852Z          |                                            ^
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8519066Z       56 |       .toBeGreaterThan(0);
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8519278Z       57 |     const chunks = await canvas
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8519493Z       58 |       .locator("canvas")
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8519861Z         at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/superior-world.spec.ts:55:44
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8520375Z         at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/superior-world.spec.ts:54:5
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8520649Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8520980Z     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8521495Z     test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/test-failed-1.png
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8522036Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8522218Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8522530Z     Error Context: test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/error-context.md
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8522954Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8523267Z     attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8523850Z     test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/trace.zip
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8524274Z     Usage:
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8524380Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8524788Z         npx playwright show-trace test-results/superior-world-Superior-te-63668-y-survive-travel-and-reload-software-webgl/trace.zip
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8525237Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8525530Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8525756Z 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8526093Z   Slow test file: [gameplay] › e2e/three-races-pve.spec.ts (7.5m)
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8526484Z   Slow test file: [gameplay] › e2e/pre-gpu.spec.ts (6.7m)
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8526937Z   Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8527445Z   2 failed
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8527959Z     [gameplay] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8528691Z     [software-webgl] › e2e/superior-world.spec.ts:8:1 › Superior: ten lands, race and inventory survive travel and reload 
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.8529211Z   185 passed (1.1h)
+Browser QA (full)	Run all browser tests	2026-10-28T07:23:07.9269902Z ##[error]Process completed with exit code 1.

@@ -343,7 +343,7 @@ export function GameHud({
   }
   const player = state.player;
   useEffect(() => {
-    onCommand({ type: "pause", value: panel !== null });
+    onCommand({ type: "pause", value: panel !== null, suspendRendering: panel === "planet" });
     return () => onCommand({ type: "pause", value: false });
   }, [panel, onCommand]);
   useEffect(() => {

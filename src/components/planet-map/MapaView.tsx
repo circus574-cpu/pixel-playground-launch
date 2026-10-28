@@ -11,7 +11,8 @@ import type { GameLink } from "./MapChrome";
 import "./planet-map.css";
 import "./globe.css";
 
-const PlanetGlobe = lazy(() => import("./PlanetGlobe"));
+import { loadPlanetGlobe } from "./preload";
+const PlanetGlobe = lazy(loadPlanetGlobe);
 
 type Mode = "checking" | "globe" | "flat";
 

@@ -248,6 +248,19 @@ function GameScreen({
           prepared.session.staff = staff;
           if (!cancelled) setWorldRuntime(prepared);
         }
+        if (!cancelled) {
+          setLoading({
+            phase: "preparing",
+            message: "Przygotowywanie mapy świata i globusa…",
+            progress: null,
+          });
+          try {
+            const { prepareGameMap } = await import("../components/planet-map/preload");
+            await prepareGameMap(prepared?.feature ?? slot.player!.continent);
+          } catch {
+            /* Optional map preparation must not block the actual game. */
+          }
+        }
         if (!cancelled && container.current)
           cleanup = mountKileGends(
             container.current,

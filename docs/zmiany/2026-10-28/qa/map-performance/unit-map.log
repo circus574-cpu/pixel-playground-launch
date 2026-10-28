@@ -1,0 +1,12 @@
+
+ RUN  v4.1.12 /workspace/ki-coder-panel
+
+(node:50344) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  6 passed (6)
+      Tests  32 passed (32)
+   Start at  06:13:38
+   Duration  11.79s (transform 1.90s, setup 604ms, import 2.20s, tests 3.42s, environment 3.86s)
+

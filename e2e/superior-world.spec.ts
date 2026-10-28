@@ -51,6 +51,8 @@ test("Superior: ten lands, race and inventory survive travel and reload", async 
     await expect
       .poll(async () => Number(await canvas.getAttribute("data-player-y")))
       .toBeCloseTo(feature.arrival.y, 0);
+    // A map-paused engine must release its old Canvas before the new land becomes ready.
+    await expect(canvas.locator("canvas")).toHaveCount(1);
     await expect
       .poll(() => canvas.locator("canvas").evaluate((el) => Number(el.dataset["superiorChunks"])))
       .toBeGreaterThan(0);
