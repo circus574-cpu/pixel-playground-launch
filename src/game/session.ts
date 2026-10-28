@@ -185,7 +185,7 @@ export type Command =
   | { type: "loot"; id: string }
   | { type: "learn"; node: string }
   | { type: "respec" }
-  | { type: "pause"; value: boolean }
+  | { type: "pause"; value: boolean; suspendRendering?: boolean }
   | { type: "cancel" }
   | { type: "enter"; building: BuildingId }
   | { type: "exit" }

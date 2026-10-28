@@ -69,6 +69,57 @@ import { thumbStyle } from "./thumb";
 import { prefersReducedMotion } from "./webgl";
 import "./planet-map.css";
 import "./globe.css";
+import { loadWorldOverlay } from "./preload";
+
+/** Decode in Three's shared loader cache, without creating an extra GPU context. */
+export async function preloadGlobeTextures() {
+  THREE.Cache.enabled = true;
+  const urls = [colorLoUrl, surfaceUrl, lightsUrl, cloudsUrl];
+  const env = globeQuality({
+    devicePixelRatio: window.devicePixelRatio,
+    coarsePointer: window.matchMedia("(pointer: coarse)").matches,
+    width: window.innerWidth,
+    cores: navigator.hardwareConcurrency,
+    deviceMemory: (navigator as Navigator & { deviceMemory?: number }).deviceMemory,
+  });
+  if (env.hiResColor) urls.push(colorHiUrl);
+  await Promise.all([
+    ...urls.map(async (url) => {
+      const image = await new THREE.ImageLoader().loadAsync(url);
+      await image.decode();
+    }),
+    ATLAS_V2 ? prepareGlobeRoads() : Promise.resolve(),
+  ]);
+}
+
+let roadData: Promise<{ segments: Float32Array; towns: Float32Array }> | undefined;
+function prepareGlobeRoads() {
+  return (roadData ??= loadWorldOverlay()
+    .then((data) => {
+      const segments: number[] = [];
+      for (const road of data.roads)
+        for (let i = 1; i < road.points.length; i++) {
+          const a = road.points[i - 1]!,
+            b = road.points[i]!;
+          segments.push(
+            ...mapToSphere({ x: a[0]!, y: a[1]! }, 1.004),
+            ...mapToSphere({ x: b[0]!, y: b[1]! }, 1.004),
+          );
+        }
+      return {
+        segments: new Float32Array(segments),
+        towns: new Float32Array(
+          data.places
+            .filter((p) => p.kind === "capital" || p.kind === "town")
+            .flatMap((p) => mapToSphere({ x: p.x, y: p.y }, 1.006)),
+        ),
+      };
+    })
+    .catch((error) => {
+      roadData = undefined;
+      throw error;
+    }));
+}
 
 /** Sun direction in view space: upper-left, in front — terminator on the right limb. */
 const SUN_VIEW = new THREE.Vector3(-0.62, 0.4, 0.68).normalize();
@@ -490,56 +541,53 @@ function GlobeRoads() {
   const [group, setGroup] = useState<THREE.Group | null>(null);
   useEffect(() => {
     let live = true;
-    void import("./worldOverlay.v2.json").then(({ default: data }) => {
-      if (!live) return;
-      const seg: number[] = [];
-      for (const r of data.roads)
-        for (let i = 1; i < r.points.length; i++) {
-          const a = r.points[i - 1]!,
-            b = r.points[i]!;
-          seg.push(
-            ...mapToSphere({ x: a[0]!, y: a[1]! }, 1.004),
-            ...mapToSphere({ x: b[0]!, y: b[1]! }, 1.004),
-          );
-        }
-      const lines = new THREE.LineSegments(
-        new THREE.BufferGeometry().setAttribute(
-          "position",
-          new THREE.Float32BufferAttribute(seg, 3),
-        ),
-        new THREE.LineBasicMaterial({
-          color: 0xf0d9a4,
-          transparent: true,
-          opacity: 0.85,
-          depthWrite: false,
-        }),
-      );
-      const towns = data.places.filter((p) => p.kind === "capital" || p.kind === "town");
-      const dots = new THREE.Points(
-        new THREE.BufferGeometry().setAttribute(
-          "position",
-          new THREE.Float32BufferAttribute(
-            towns.flatMap((p) => mapToSphere({ x: p.x, y: p.y }, 1.006)),
-            3,
+    let owned: THREE.Group | undefined;
+    void prepareGlobeRoads()
+      .then((data) => {
+        if (!live) return;
+        const lines = new THREE.LineSegments(
+          new THREE.BufferGeometry().setAttribute(
+            "position",
+            new THREE.BufferAttribute(data.segments, 3),
           ),
-        ),
-        new THREE.PointsMaterial({
-          color: 0xffe08a,
-          size: 5,
-          sizeAttenuation: false,
-          depthWrite: false,
-        }),
-      );
-      const g = new THREE.Group();
-      g.add(lines, dots);
-      g.traverse((o) => {
-        o.raycast = noRaycast;
-        o.renderOrder = 3;
-      });
-      setGroup(g);
-    });
+          new THREE.LineBasicMaterial({
+            color: 0xf0d9a4,
+            transparent: true,
+            opacity: 0.85,
+            depthWrite: false,
+          }),
+        );
+        const dots = new THREE.Points(
+          new THREE.BufferGeometry().setAttribute(
+            "position",
+            new THREE.BufferAttribute(data.towns, 3),
+          ),
+          new THREE.PointsMaterial({
+            color: 0xffe08a,
+            size: 5,
+            sizeAttenuation: false,
+            depthWrite: false,
+          }),
+        );
+        const g = new THREE.Group();
+        g.add(lines, dots);
+        g.traverse((o) => {
+          o.raycast = noRaycast;
+          o.renderOrder = 3;
+        });
+        owned = g;
+        setGroup(g);
+      })
+      .catch(() => undefined);
     return () => {
       live = false;
+      owned?.traverse((object) => {
+        if (object instanceof THREE.LineSegments || object instanceof THREE.Points) {
+          object.geometry.dispose();
+          const materials = Array.isArray(object.material) ? object.material : [object.material];
+          materials.forEach((material) => material.dispose());
+        }
+      });
     };
   }, []);
   return group ? <primitive object={group} /> : null;

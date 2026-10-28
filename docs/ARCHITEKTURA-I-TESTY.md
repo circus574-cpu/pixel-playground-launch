@@ -472,3 +472,34 @@ locations. Po wyborze zadania podświetlane są spawny jego gatunków celów wal
 Celom bez przypisania nie dopisuje się arbitralnych współrzędnych starego świata.
 Nie jest to śledzenie aktualnych żywych potworów ani postępu questów konta.
 Widok jest tylko odczytem: przełączniki nie usuwają spawnów ani dróg i nie zmieniają gry.
+
+## Przygotowanie i renderowanie mapy w grze — 28.10.2026
+
+`components/planet-map/preload.ts` przygotowuje mapę podczas rzeczywistego ekranu
+ładowania gry (komunikat „Przygotowywanie mapy świata i globusa…”). Wczytuje moduły
+mapy i globusa, atlas 1920/3840, tło, wspólne dane dróg/lokacji i szczegółowy obraz
+aktualnego lądu. `preloadGlobeTextures` przygotowuje obrazy w cache loadera Three,
+a także tablice pozycji dróg/miast. Nie tworzy dodatkowego kontekstu WebGL i nie
+kompiluje shaderów przed otwarciem globusa. Mapy pozostałych lądów są doczytywane
+na żądanie; cache szczegółowych obrazów utrzymuje najwyżej dwa wpisy.
+
+Koszt pobrania i dekodowania przeniesiono na start zgodnie z decyzją właściciela.
+Awaria opcjonalnej mapy nie blokuje PvE: błędy są izolowane, przygotowanie ma limit
+12 sekund, a nieudane pobrania można ponowić przy otwieraniu mapy. To limit czasu
+oczekiwania, nie sztuczne opóźnienie ani procent całej inicjalizacji.
+
+`WorldOverlay` rysuje widoczne fragmenty szczegółowego terenu na jednym Canvas 2D
+w `foreignObject`, zamiast osobnych zagnieżdżonych SVG/image dla każdego fragmentu.
+Korzysta z oryginalnych obrazów, tych samych transformacji afinicznych i wycinania
+według widoku; nie zmienia geometrii świata. Rozdzielczość bufora zależy od widoku,
+z DPR ograniczonym do 1,5. Nie tworzy ogromnej bitmapy całej planety. Drogi, miejsca,
+napisy i trafianie w regiony nadal pozostają w SVG. Spóźnione wyniki poprzedniego
+przesunięcia/zoomu nie nadpisują aktualnego widoku.
+
+Panel planety wysyła prezentacyjny `suspendRendering` w istniejącym poleceniu pauzy.
+Adapter Phaser usypia pętlę renderowania pod pełnoekranową mapą i budzi ją po
+zamknięciu. Pozostałe panele zachowują dotychczasowe renderowanie. Nie zmieniono
+zasad walki, sterowania, zapisu ani danych kontynentów. Geometrie/materialy dróg
+globusa są zwalniane przy demontażu; tablice współrzędnych można wykorzystać ponownie.
+
+Wyniki i ograniczenia w [dzienniku 28.10](zmiany/2026-10-28/ZMIANY.md).

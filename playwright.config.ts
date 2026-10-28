@@ -7,7 +7,11 @@ const webglArgs = [
   "--use-angle=swiftshader",
   "--enable-unsafe-swiftshader",
 ];
-const appTests = ["**/globe-handoff.spec.ts", "**/private-sketch.spec.ts"];
+const appTests = [
+  "**/globe-handoff.spec.ts",
+  "**/private-sketch.spec.ts",
+  "**/map-performance.spec.ts",
+];
 export default defineConfig({
   testDir: "./e2e",
   timeout: 180_000,
@@ -64,7 +68,11 @@ export default defineConfig({
     },
     {
       name: "application-webgl",
-      testMatch: ["**/globe-handoff.spec.ts", "**/globe-rendering.spec.ts"],
+      testMatch: [
+        "**/globe-handoff.spec.ts",
+        "**/globe-rendering.spec.ts",
+        "**/map-performance.spec.ts",
+      ],
       use: {
         baseURL: process.env["KI_QA_APP_URL"] ?? "http://127.0.0.1:4176",
         launchOptions: { args: webglArgs },

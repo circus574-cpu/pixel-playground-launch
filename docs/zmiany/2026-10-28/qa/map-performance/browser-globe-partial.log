@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+(node:48603) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [application-canvas] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 1280 (13.7s)
+  ✓  2 [application-canvas] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 390 (12.9s)
+(node:48766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [application-webgl] › e2e/globe-rendering.spec.ts:3:1 › globe switching disposes contexts and keeps a bounded texture budget (37.8s)
+  ✓  4 [application-webgl] › e2e/globe-rendering.spec.ts:42:1 › real WebGL context loss falls back to a working 2D map without saves (23.6s)
+  ✓  5 [application-webgl] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 1280 (1.9m)
+Terminated

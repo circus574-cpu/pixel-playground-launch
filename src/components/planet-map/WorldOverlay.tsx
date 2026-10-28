@@ -3,7 +3,8 @@
  * (scripts/worldgen/v2/build_v2_atlas_overlay.py). Everything is shown for now; each road and
  * place keeps its world id so a fog of war can hide undiscovered ones later.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { decodedImage, loadWorldOverlay } from "./preload";
 import type { OverlayLands, OverlayTile } from "./worldToAtlas";
 
 type Road = { id: string; land: string; kind: string; width: number; points: [number, number][] };
@@ -52,6 +53,94 @@ function lineBox(points: [number, number][]): Box {
   return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
 }
 
+/** One viewport-sized backing surface instead of hundreds of clipped SVG images.
+ * Original land pixels are sampled at the current zoom; no low-resolution world bake.
+ */
+function TerrainCanvas({
+  tiles,
+  boxes,
+  bounds,
+  px,
+  zoom,
+}: {
+  tiles: Tile[];
+  boxes: Box[];
+  bounds: Box;
+  px: (screen: number) => number;
+  zoom: number;
+}) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const [x0, y0, x1, y1] = bounds;
+  const unitsPerPixel = px(1);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    let live = true;
+    const frame = requestAnimationFrame(() => {
+      const visible = tiles.filter((_, i) => meets(boxes[i]!, [x0, y0, x1, y1]));
+      const lands = [...new Set(visible.map((tile) => tile.land))];
+      // Draw once the images are decoded, never publish an obsolete pan/zoom result.
+      void Promise.all(
+        lands.map(async (land) => {
+          try {
+            return [
+              land,
+              await decodedImage(`/game/worlds/superior-v2/${land}/map-hi.webp`, true),
+            ] as const;
+          } catch {
+            return null;
+          } // The painted base atlas remains usable on a failed detail fetch.
+        }),
+      ).then((loaded) => {
+        if (!live) return;
+        const images = new Map(loaded.filter((item) => item !== null));
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const scale = dpr / unitsPerPixel;
+        canvas.width = Math.max(1, Math.ceil((x1 - x0) * scale));
+        canvas.height = Math.max(1, Math.ceil((y1 - y0) * scale));
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.imageSmoothingEnabled = true;
+        for (const tile of visible) {
+          const image = images.get(tile.land);
+          if (!image) continue;
+          const [a, b, c, d, e, f] = tile.m as [number, number, number, number, number, number];
+          const [x, y, w, h] = tile.crop as [number, number, number, number];
+          ctx.setTransform(
+            a * scale,
+            b * scale,
+            c * scale,
+            d * scale,
+            (e - x0) * scale,
+            (f - y0) * scale,
+          );
+          ctx.drawImage(image, x, y, w, h, x, y, w + 0.6, h + 0.6);
+        }
+      });
+    });
+    return () => {
+      live = false;
+      cancelAnimationFrame(frame);
+    };
+  }, [tiles, boxes, x0, y0, x1, y1, unitsPerPixel]);
+  return (
+    <foreignObject
+      x={x0}
+      y={y0}
+      width={x1 - x0}
+      height={y1 - y0}
+      pointerEvents="none"
+      opacity={Math.min(1, (zoom - 3) / 2)}
+    >
+      <canvas
+        ref={ref}
+        className="pm-terrain-canvas"
+        style={{ width: "100%", height: "100%", display: "block" }}
+      />
+    </foreignObject>
+  );
+}
+
 /**
  * `bounds` is the visible atlas rectangle: only what meets it is drawn, so panning a zoomed map
  * on a phone does not repaint 1,900 land tiles and 1,700 roads (owner: the 2D view dropped to ~0 fps).
@@ -68,9 +157,7 @@ export function WorldOverlay({
   const [data, setData] = useState<Overlay | null>(null);
   useEffect(() => {
     let live = true;
-    void import("./worldOverlay.v2.json").then(
-      (m) => live && setData(m.default as unknown as Overlay),
-    );
+    void loadWorldOverlay().then((data) => live && setData(data as unknown as Overlay));
     return () => {
       live = false;
     };
@@ -87,32 +174,9 @@ export function WorldOverlay({
   const detail = zoom >= 4;
   return (
     <g className="pm-world" aria-hidden>
-      {zoom >= 3 &&
-        data.tiles.map((t, i) =>
-          !meets(boxes.tiles[i]!, bounds) ? null : (
-            <g
-              key={"t" + i}
-              transform={`matrix(${t.m.join(" ")})`}
-              opacity={Math.min(1, (zoom - 3) / 2)}
-            >
-              <svg
-                x={t.crop[0]}
-                y={t.crop[1]}
-                width={t.crop[2]! + 0.6}
-                height={t.crop[3]! + 0.6}
-                viewBox={`${t.crop[0]} ${t.crop[1]} ${t.crop[2]! + 0.6} ${t.crop[3]! + 0.6}`}
-                overflow="hidden"
-              >
-                <image
-                  href={`/game/worlds/superior-v2/${t.land}/map-hi.webp`}
-                  width={t.size[0]}
-                  height={t.size[1]}
-                  preserveAspectRatio="none"
-                />
-              </svg>
-            </g>
-          ),
-        )}
+      {zoom >= 3 && (
+        <TerrainCanvas tiles={data.tiles} boxes={boxes.tiles} bounds={bounds} px={px} zoom={zoom} />
+      )}
       {data.roads.map((r, i) =>
         (detail || r.width >= 180) && meets(boxes.roads[i]!, bounds) ? (
           <polyline

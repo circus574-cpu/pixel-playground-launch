@@ -1,0 +1,18 @@
+{
+  "base": "954dd3ee8b2fcb4ee255dad892e92a53dac7d775",
+  "sha256": {
+    "playwright.config.ts": "4b9e12d15bdea261afccd2830ce390bf2250edf123af49362a2d2425c6f2dcb2",
+    "src/components/game/GameHud.tsx": "b40b5d1a4397561d6c5b1cd26f0c7cc0799cafe52c5e8c5a9fb4574567eaecdf",
+    "src/components/planet-map/MapaView.tsx": "dcd270938ed04b9d1ee2d1894ffeb093edbc7dd728988bacceeeec2cabdd84ac",
+    "src/components/planet-map/PlanetGlobe.tsx": "c4d590f27037cae6cd6b27a9a69fec6363e18ca1ab65c60c54476ebf6e707487",
+    "src/components/planet-map/PlanetMap.tsx": "04b5350cbea8aba236d9148ca787cda4a166e120e2c32ae46828373ac755eb2a",
+    "src/components/planet-map/WorldOverlay.tsx": "90586862bf478e4271f358741fef496a54f12acb08836e8ce063a1b606e198b4",
+    "src/game/mountGame.ts": "43d810e023943408369d819f0aa543205a6c0d2d80fdbb05cb83aee115aeb61f",
+    "src/game/session.ts": "db5182944bc5ea96af8071772aabd41ad30cea7fab7c53df2569c4909ae1ca30",
+    "src/routes/index.tsx": "2c29dd451cbfc27d20f806a7e3ae549d4ac51bb1c5e91b09baea32c0bf82acbe",
+    "e2e/map-performance.spec.ts": "ad7fe5f6b36691f9916d1acc6ab221062fe746543e09e93c47093860b4fce33c",
+    "src/components/planet-map/preload.ts": "4173769ce1f73f1e60e8a9f9acc790e9945ec73d02ce39bf667434f88418a021",
+    "src/test/map-preload.test.ts": "ae750ced442b6b8b77cae4da2f5a58487b82b57487b12bf14e61354b00564edf",
+    "src/test/map-terrain-canvas.test.tsx": "11d15e9c23ba47c35bd1e5e7745e7a2f3ce3163ff2f9e1ba2920ee60f0ff15bb"
+  }
+}
