@@ -327,7 +327,7 @@ describe("four painted hero deliveries", () => {
     it(`activates ${id} without flags and loads no other hero's atlas`, () => {
       const hero = actorVisual(world as keyof typeof heroes, "hero", undefined, false, catalog);
       expect(hero.id).toBe(id);
-      expect(hero.size).toEqual([160, 160]);
+      expect(hero.size).toEqual([133, 133]);
       expect(hero.origin).toEqual([0.5, 0.95]);
       // Runtime presentation must not mutate the validated delivery or its anchor.
       expect(catalog.actors.get(id)!.size).toEqual([96, 96]);
@@ -345,21 +345,24 @@ describe("four painted hero deliveries", () => {
         Object.values(clip.directions).flat(),
       );
       expect(frames).toHaveLength(416);
-      expect(new Set(frames).size).toBe(416);
+      // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
+
       for (const clip of Object.values(hero.clips))
         expect(Object.keys(clip.directions).sort()).toEqual([...DIRECTIONS].sort());
       const assets = worldAssets(world as keyof typeof heroes, false, catalog).map((a) => a.id);
-      // Legend and Sage play the Gemini walk/idle pack, which carries the delivery's other clips.
-      const walk = id === "hero-legend" || id === "hero-sage-painted" ? id + "-walk-v3" : undefined;
+      // Every hero plays the Gemini walk/idle pack, which carries the delivery's other clips.
+      const walk = id + "-walk-v3";
+      // Every hero's states come from its Gemini walk and fight videos (256 px HD pack).
       expect(assets).toEqual(
-        expect.arrayContaining(
-          walk
-            ? [walk + "-page-0", walk + "-old-0", walk + "-old-1"]
-            : [id + "-page-0", id + "-page-1"],
-        ),
+        expect.arrayContaining([
+          walk + "-page-0",
+          walk + "-idle-0",
+          walk + "-fight-0",
+          walk + "-fight-1",
+        ]),
       );
       for (const other of Object.values(heroes))
-        if (other !== id) expect(assets).not.toContain(other + "-page-0");
+        if (other !== id) expect(assets).not.toContain(other + "-walk-v3-page-0");
       expect(assets).not.toContain("hero-sage-page-0");
       expect(assets).not.toContain("hero-planetary-page-0");
       expect(actorVisual(world as keyof typeof heroes, "npc").id).toBe("human-v2");

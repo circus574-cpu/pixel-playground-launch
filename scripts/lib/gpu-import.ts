@@ -232,6 +232,7 @@ export async function validatePackage(manifest: string) {
       for (const state of required)
         requireThat(actor.clips[state], "Missing production state: " + actor.id + "/" + state);
     }
+    let side: number | undefined;
     for (const [state, clip] of Object.entries(actor.clips)) {
       const spec =
         GPU_CONTRACT.animations[state as keyof typeof GPU_CONTRACT.animations] ??
@@ -257,12 +258,17 @@ export async function validatePackage(manifest: string) {
         for (const name of names) {
           const { info, frame } = frameInfo({ asset: clip.asset, frame: name }, infos);
           requireThat(info.alpha, "Actor image needs transparency: " + actor.id);
-          if (!pack.technical)
+          if (!pack.technical) {
+            const sizes: number[] =
+              actor.profile === "hero"
+                ? [GPU_CONTRACT.deliveryFrame, GPU_CONTRACT.heroFrame]
+                : [GPU_CONTRACT.deliveryFrame];
+            side ??= frame.width;
             requireThat(
-              frame.width === GPU_CONTRACT.deliveryFrame &&
-                frame.height === GPU_CONTRACT.deliveryFrame,
-              "Actor sourceSize must be 128x128: " + actor.id,
+              sizes.includes(frame.width) && frame.height === frame.width && frame.width === side,
+              "Actor sourceSize must be 128x128 (heroes: one of 128/256): " + actor.id,
             );
+          }
         }
       }
     }

@@ -240,7 +240,9 @@ export function actorVisual(
     bindings[kind === "hero" ? "hero." + RACES[WORLDS[world].race].visual : kind];
   const actor = id && source.actors.get(id);
   if (!actor) throw new Error("Brak definicji wyglądu: " + world + "/" + kind);
-  if (kind === "hero" && enlargedHeroes.has(actor.id)) return { ...actor, size: [160, 160] };
+  // The Gemini-video heroes fill more of their frame than the old painted sheets; 133 keeps the
+  // figure at the height the 160 px painted heroes had, so monsters keep their relative size.
+  if (kind === "hero" && enlargedHeroes.has(actor.id)) return { ...actor, size: [133, 133] };
   return actor;
 }
 export function textureBinding(
