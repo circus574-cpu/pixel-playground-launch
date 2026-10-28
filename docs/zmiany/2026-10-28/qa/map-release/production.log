@@ -1,0 +1,11 @@
+
+Running 2 tests using 1 worker
+
+(node:56218) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [application-canvas] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 390 (20.4s)
+(node:56317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [application-webgl] › e2e/map-performance.spec.ts:7:3 › in-game v2 map preloads, pans and returns to movement 390 (38.1s)
+
+  2 passed (1.0m)

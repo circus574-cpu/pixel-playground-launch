@@ -133,3 +133,55 @@ Przyczyną błędu organizacji QA były dwa równoległe uruchomienia Playwright
 wspólnym domyślnym katalogu `test-results`; start drugiego usunął aktywne pliki
 pierwszego. Nie zaliczano tego przebiegu WebGL. Ponowienie otrzymało osobny katalog
 `/tmp/ki-map-travel-webgl-results` i reporter list, bez współdzielonego JSON.
+
+Odizolowane ponowienie WebGL zakończone: `KI_QA_APP_URL=http://127.0.0.1:4176
+KI_QA_BASE_URL=http://127.0.0.1:4174 npx playwright test e2e/superior-world.spec.ts
+--grep 'Superior: ten lands, race and inventory survive travel and reload'
+--project=software-webgl --output=/tmp/ki-map-travel-webgl-results --reporter=list`:
+1 PASS / 0 FAIL, pełne 10 lądów, kontrola jednego Canvas, zapis i odświeżenie.
+Wcześniejszy Canvas tego samego scenariusza również PASS.
+
+Commit poprawki i połączenia aktualnego main: `a4ee855e191be4154ab0b832b4da0af282fb9a5d`.
+PR #52 scalono 28.10.2026 o 08:03:40 UTC jako
+`9b9649cc5321263e7cf23f2141bbac96b2abf932`, zgodnie z nowym poleceniem właściciela.
+Nowe pełne CI na a4ee855e: przebiegi
+[40653403311](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403311)
+i [40653403301](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403301),
+w chwili scalania nadal w toku; nie deklarowano ich zaliczenia.
+
+### Potwierdzona publikacja i testy domeny produkcyjnej
+
+Lovable zsynchronizowało commit `9b9649cc5321263e7cf23f2141bbac96b2abf932`.
+Wywołano `Lovable.deploy_project` dla istniejącego projektu, bez zmiany domen,
+widoczności, bazy ani konfiguracji hostingu. API przyjęło wdrożenie
+`2274aa97-26c2-4230-b006-7449cf7f4c0b` jako `pending`; nie utożsamiano tego
+komunikatu z ukończeniem publikacji. Następnie sprawdzono faktyczne publiczne pliki.
+
+Nowy plik aplikacji: `/assets/index-Cm77U70d.js`; zawiera przygotowanie mapy przy
+starcie. Publiczny `/assets/mountGame-kDsHhFD7.js` zawiera także poprawkę
+`destroy` → `loop.wake`. SHA-256 i metadane zapisano w
+[deployment.json](qa/map-release/deployment.json). Stary plik wejściowy miał nazwę
+`index-0Vp63pgD.js`. Początkowo część odpowiedzi `/` pozostawała starsza, podczas
+gdy unikalny parametr i `?ki-world-v2=1` zwracały już nowy build. Nie ustalono
+warstwy cache. O 08:16:23 UTC także zwykły adres `/` zwrócił nowy plik aplikacji.
+
+Rzeczywista produkcja `https://kilegends.pl/`, po publikacji:
+
+```sh
+npx playwright test --config docs/zmiany/2026-10-28/qa/map-release/production.config.ts --grep '390'
+```
+
+**2 PASS / 0 FAIL / 0 SKIP** — 390×844, Canvas i Software WebGL. Przejście przez
+wybór Planetarnych i start gry, pobranie danych mapy przed jej otwarciem, mapa 2D,
+przesuwanie, globus w WebGL, powrót do 2D, zamknięcie i rzeczywisty ruch postaci.
+Brak nieobsłużonych błędów JS w tych scenariuszach. Nie wstrzykiwano stanu gry,
+nie zmieniano zapisów innych graczy i nie używano kont administracyjnych.
+
+[Wyniki produkcyjne](qa/map-release/production-results.json),
+[screenshot Canvas](qa/map-release/application-canvas-production-390.png),
+[screenshot WebGL](qa/map-release/application-webgl-production-390.png).
+Oba screenshoty przedstawiają mapę 2D; przełączenie globusa jest osobną asercją
+scenariusza WebGL. To test Chromium na mobilnym viewportcie, nie fizycznego telefonu.
+Pełne CI na a4ee855e pozostawało w toku; nie deklarowano zielonego pełnego CI.
+GPU nie dotykano. Kod produkcyjny pochodzi z merge commita 9b9649cc; późniejszy
+commit dowodów zmienia wyłącznie dokumentację i pliki QA, nie kod aplikacji.

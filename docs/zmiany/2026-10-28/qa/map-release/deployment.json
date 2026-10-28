@@ -1,0 +1,19 @@
+{
+  "project_id": "e81106fd-0dd8-47e7-95cc-df4e97e3d071",
+  "source_commit": "9b9649cc5321263e7cf23f2141bbac96b2abf932",
+  "deployment_id": "2274aa97-26c2-4230-b006-7449cf7f4c0b",
+  "status_from_publish_tool": "pending",
+  "production_url": "https://kilegends.pl/",
+  "lovable_url": "https://pixel-playground-launch.lovable.app",
+  "previous_entry_asset": "/assets/index-0Vp63pgD.js",
+  "production_verified": true,
+  "public_entry_asset": "/assets/index-Cm77U70d.js",
+  "public_mount_asset": "/mountGame-kDsHhFD7.js",
+  "public_entry_sha256": "f174c631dfc80dcc3323f9a10f367458ce6518a51464bcdfbf133b9a0e78b0b9",
+  "public_mount_sha256": "7b90c4fae2d5321016336ef6d47922c361198b4f47ac7aa28c6b7eed2fce8209",
+  "public_loading_code_present": true,
+  "public_teardown_fix_present": true,
+  "public_root_new_build_observed_at_utc": "2026-10-28T08:16:23Z",
+  "verified_at_utc": "2026-10-28T08:18:13.574114+00:00",
+  "verification": "Public 390x844 Canvas + Software WebGL, actual character selection, 2D map, globe, return to movement; no game-state injection"
+}
