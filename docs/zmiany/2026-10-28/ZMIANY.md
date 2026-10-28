@@ -284,3 +284,19 @@ build produkcyjny, build playtest i kontrola dokumentów PASS.
 [Komendy, statusy i czasy](qa/racial-development/foundation-checks.json).
 Nowa końcowa migawka przeglądarkowa adaptera będzie sprawdzona na zapisanym commicie.
 To checkpoint roboczy, nie ukończenie pełnego zlecenia dziedzictw.
+
+### Korekta scenariusza multitouch, kontynuacja PR #55
+
+Na końcowym kodzie fundamentu `5e4faedc67bccb81142a4ca8deb209ac08b47bc4`
+pełny lokalny przebieg nowego scenariusza dał 9 PASS / 1 FAIL: cztery rasy i trasy
+w obu rendererach przeszły, zawiódł Software WebGL w teście dotyku.
+Przyczyną tego niepowodzenia był gest testowy: CDP `touchEnd` zwalnia wskazany
+kontakt, więc scenariusz zwalniał joystick zamiast palca ataku. Poprawiono test,
+bez zmiany sterowania gry. Dodano mocniejszą asercję rzeczywistej zmiany pozycji
+po zwolnieniu ataku. Kierunek joysticka zmieniono na skośny, ponieważ poprzedni
+prowadził w rzeczywistą przeszkodę sali przy (700, 360), która poprawnie blokowała ruch.
+[Korekta: 2 PASS, Canvas i Software WebGL](qa/racial-development/touch-corrected-two-renderers.txt).
+To nadal emulacja Chromium/CDP, nie test fizycznego telefonu.
+Pełny `npm run typecheck`, `npx eslint e2e/development.spec.ts` i 48 testów
+`development.test.ts` + `stream-texture-budget.test.ts` przeszły przed commitem korekty.
+Nie oznacza to powtórzenia pełnej macierzy w jednym przebiegu ani ukończenia dziedzictw.

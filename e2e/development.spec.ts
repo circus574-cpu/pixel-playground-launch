@@ -134,7 +134,8 @@ test.describe("touch development", () => {
     await expect(trial.getByText("Atakuj", { exact: true })).toBeVisible();
     const cdp = await page.context().newCDPSession(page);
     const stick = { id: 11, x: 85, y: 270 },
-      moved = { id: 11, x: 120, y: 270 };
+      // Diagonal input stays clear of the real right-hand obstacle at (700, 360).
+      moved = { id: 11, x: 120, y: 250 };
     await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [stick] });
     await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [moved] });
     await expect
@@ -147,11 +148,17 @@ test.describe("touch development", () => {
       type: "touchStart",
       touchPoints: [moved, finger],
     });
-    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [moved] });
+    // Chromium CDP releases the listed changed contact. Release the attack finger;
+    // listing `moved` would release the joystick and could pass on a stale Canvas frame.
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [finger] });
     await expect
       .poll(async () => Number(await canvas.getAttribute("data-joystick-x")))
       .toBeGreaterThan(10);
     await expect(trial.locator(".ki-exam-toolbar")).toContainText("1/3");
+    const afterAttack = Number(await canvas.getAttribute("data-player-x"));
+    await expect
+      .poll(async () => Number(await canvas.getAttribute("data-player-x")))
+      .toBeGreaterThan(afterAttack + 12);
     await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     await cdp.detach();
     await expect.poll(async () => Number(await canvas.getAttribute("data-joystick-x"))).toBe(0);
