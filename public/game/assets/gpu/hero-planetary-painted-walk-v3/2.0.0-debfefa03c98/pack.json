@@ -1,36 +1,45 @@
 {
   "schemaVersion": 1,
   "id": "hero-planetary-painted-walk-v3",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-planetary-painted-walk-v3-page-0",
-      "version": "1.2.0",
+      "version": "2.0.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/1.2.0-a01a8e1c2c45/hero-planetary-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/1.2.0-a01a8e1c2c45/hero-planetary-painted-walk-v3-page-0.json",
-      "width": 1024,
-      "height": 2048
-    },
-    {
-      "id": "hero-planetary-painted-walk-v3-old-0",
-      "version": "1.2.0",
-      "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/1.2.0-a01a8e1c2c45/hero-planetary-painted-walk-v3-old-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/1.2.0-a01a8e1c2c45/hero-planetary-painted-walk-v3-old-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
-      "id": "hero-planetary-painted-walk-v3-old-1",
-      "version": "1.2.0",
+      "id": "hero-planetary-painted-walk-v3-idle-0",
+      "version": "2.0.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/1.2.0-a01a8e1c2c45/hero-planetary-painted-walk-v3-old-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/1.2.0-a01a8e1c2c45/hero-planetary-painted-walk-v3-old-1.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-idle-0.json",
       "width": 2048,
-      "height": 1280
+      "height": 2048
+    },
+    {
+      "id": "hero-planetary-painted-walk-v3-fight-0",
+      "version": "2.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-fight-0.json",
+      "width": 2048,
+      "height": 1792
+    },
+    {
+      "id": "hero-planetary-painted-walk-v3-fight-1",
+      "version": "2.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-fight-1.json",
+      "width": 2048,
+      "height": 512
     }
   ],
   "actors": [
@@ -49,7 +58,7 @@
       "tintable": false,
       "clips": {
         "idle": {
-          "asset": "hero-planetary-painted-walk-v3-page-0",
+          "asset": "hero-planetary-painted-walk-v3-idle-0",
           "fps": 6,
           "loop": true,
           "directions": {
@@ -223,29 +232,29 @@
           }
         },
         "attack": {
-          "asset": "hero-planetary-painted-walk-v3-old-0",
+          "asset": "hero-planetary-painted-walk-v3-fight-0",
           "fps": 16,
           "loop": false,
           "directions": {
             "down": [
-              "hero-planetary-painted/attack/down/00",
-              "hero-planetary-painted/attack/down/01",
-              "hero-planetary-painted/attack/down/02",
-              "hero-planetary-painted/attack/down/03",
-              "hero-planetary-painted/attack/down/04",
-              "hero-planetary-painted/attack/down/05",
-              "hero-planetary-painted/attack/down/06",
-              "hero-planetary-painted/attack/down/07"
+              "hero-planetary-painted/attack/right/00",
+              "hero-planetary-painted/attack/right/01",
+              "hero-planetary-painted/attack/right/02",
+              "hero-planetary-painted/attack/right/03",
+              "hero-planetary-painted/attack/right/04",
+              "hero-planetary-painted/attack/right/05",
+              "hero-planetary-painted/attack/right/06",
+              "hero-planetary-painted/attack/right/07"
             ],
             "down-left": [
-              "hero-planetary-painted/attack/down-left/00",
-              "hero-planetary-painted/attack/down-left/01",
-              "hero-planetary-painted/attack/down-left/02",
-              "hero-planetary-painted/attack/down-left/03",
-              "hero-planetary-painted/attack/down-left/04",
-              "hero-planetary-painted/attack/down-left/05",
-              "hero-planetary-painted/attack/down-left/06",
-              "hero-planetary-painted/attack/down-left/07"
+              "hero-planetary-painted/attack/left/00",
+              "hero-planetary-painted/attack/left/01",
+              "hero-planetary-painted/attack/left/02",
+              "hero-planetary-painted/attack/left/03",
+              "hero-planetary-painted/attack/left/04",
+              "hero-planetary-painted/attack/left/05",
+              "hero-planetary-painted/attack/left/06",
+              "hero-planetary-painted/attack/left/07"
             ],
             "left": [
               "hero-planetary-painted/attack/left/00",
@@ -258,34 +267,34 @@
               "hero-planetary-painted/attack/left/07"
             ],
             "up-left": [
-              "hero-planetary-painted/attack/up-left/00",
-              "hero-planetary-painted/attack/up-left/01",
-              "hero-planetary-painted/attack/up-left/02",
-              "hero-planetary-painted/attack/up-left/03",
-              "hero-planetary-painted/attack/up-left/04",
-              "hero-planetary-painted/attack/up-left/05",
-              "hero-planetary-painted/attack/up-left/06",
-              "hero-planetary-painted/attack/up-left/07"
+              "hero-planetary-painted/attack/left/00",
+              "hero-planetary-painted/attack/left/01",
+              "hero-planetary-painted/attack/left/02",
+              "hero-planetary-painted/attack/left/03",
+              "hero-planetary-painted/attack/left/04",
+              "hero-planetary-painted/attack/left/05",
+              "hero-planetary-painted/attack/left/06",
+              "hero-planetary-painted/attack/left/07"
             ],
             "up": [
-              "hero-planetary-painted/attack/up/00",
-              "hero-planetary-painted/attack/up/01",
-              "hero-planetary-painted/attack/up/02",
-              "hero-planetary-painted/attack/up/03",
-              "hero-planetary-painted/attack/up/04",
-              "hero-planetary-painted/attack/up/05",
-              "hero-planetary-painted/attack/up/06",
-              "hero-planetary-painted/attack/up/07"
+              "hero-planetary-painted/attack/right/00",
+              "hero-planetary-painted/attack/right/01",
+              "hero-planetary-painted/attack/right/02",
+              "hero-planetary-painted/attack/right/03",
+              "hero-planetary-painted/attack/right/04",
+              "hero-planetary-painted/attack/right/05",
+              "hero-planetary-painted/attack/right/06",
+              "hero-planetary-painted/attack/right/07"
             ],
             "up-right": [
-              "hero-planetary-painted/attack/up-right/00",
-              "hero-planetary-painted/attack/up-right/01",
-              "hero-planetary-painted/attack/up-right/02",
-              "hero-planetary-painted/attack/up-right/03",
-              "hero-planetary-painted/attack/up-right/04",
-              "hero-planetary-painted/attack/up-right/05",
-              "hero-planetary-painted/attack/up-right/06",
-              "hero-planetary-painted/attack/up-right/07"
+              "hero-planetary-painted/attack/right/00",
+              "hero-planetary-painted/attack/right/01",
+              "hero-planetary-painted/attack/right/02",
+              "hero-planetary-painted/attack/right/03",
+              "hero-planetary-painted/attack/right/04",
+              "hero-planetary-painted/attack/right/05",
+              "hero-planetary-painted/attack/right/06",
+              "hero-planetary-painted/attack/right/07"
             ],
             "right": [
               "hero-planetary-painted/attack/right/00",
@@ -298,41 +307,41 @@
               "hero-planetary-painted/attack/right/07"
             ],
             "down-right": [
-              "hero-planetary-painted/attack/down-right/00",
-              "hero-planetary-painted/attack/down-right/01",
-              "hero-planetary-painted/attack/down-right/02",
-              "hero-planetary-painted/attack/down-right/03",
-              "hero-planetary-painted/attack/down-right/04",
-              "hero-planetary-painted/attack/down-right/05",
-              "hero-planetary-painted/attack/down-right/06",
-              "hero-planetary-painted/attack/down-right/07"
+              "hero-planetary-painted/attack/right/00",
+              "hero-planetary-painted/attack/right/01",
+              "hero-planetary-painted/attack/right/02",
+              "hero-planetary-painted/attack/right/03",
+              "hero-planetary-painted/attack/right/04",
+              "hero-planetary-painted/attack/right/05",
+              "hero-planetary-painted/attack/right/06",
+              "hero-planetary-painted/attack/right/07"
             ]
           }
         },
         "skill": {
-          "asset": "hero-planetary-painted-walk-v3-old-0",
+          "asset": "hero-planetary-painted-walk-v3-fight-0",
           "fps": 12,
           "loop": false,
           "directions": {
             "down": [
-              "hero-planetary-painted/skill/down/00",
-              "hero-planetary-painted/skill/down/01",
-              "hero-planetary-painted/skill/down/02",
-              "hero-planetary-painted/skill/down/03",
-              "hero-planetary-painted/skill/down/04",
-              "hero-planetary-painted/skill/down/05",
-              "hero-planetary-painted/skill/down/06",
-              "hero-planetary-painted/skill/down/07"
+              "hero-planetary-painted/skill/right/00",
+              "hero-planetary-painted/skill/right/01",
+              "hero-planetary-painted/skill/right/02",
+              "hero-planetary-painted/skill/right/03",
+              "hero-planetary-painted/skill/right/04",
+              "hero-planetary-painted/skill/right/05",
+              "hero-planetary-painted/skill/right/06",
+              "hero-planetary-painted/skill/right/07"
             ],
             "down-left": [
-              "hero-planetary-painted/skill/down-left/00",
-              "hero-planetary-painted/skill/down-left/01",
-              "hero-planetary-painted/skill/down-left/02",
-              "hero-planetary-painted/skill/down-left/03",
-              "hero-planetary-painted/skill/down-left/04",
-              "hero-planetary-painted/skill/down-left/05",
-              "hero-planetary-painted/skill/down-left/06",
-              "hero-planetary-painted/skill/down-left/07"
+              "hero-planetary-painted/skill/left/00",
+              "hero-planetary-painted/skill/left/01",
+              "hero-planetary-painted/skill/left/02",
+              "hero-planetary-painted/skill/left/03",
+              "hero-planetary-painted/skill/left/04",
+              "hero-planetary-painted/skill/left/05",
+              "hero-planetary-painted/skill/left/06",
+              "hero-planetary-painted/skill/left/07"
             ],
             "left": [
               "hero-planetary-painted/skill/left/00",
@@ -345,34 +354,34 @@
               "hero-planetary-painted/skill/left/07"
             ],
             "up-left": [
-              "hero-planetary-painted/skill/up-left/00",
-              "hero-planetary-painted/skill/up-left/01",
-              "hero-planetary-painted/skill/up-left/02",
-              "hero-planetary-painted/skill/up-left/03",
-              "hero-planetary-painted/skill/up-left/04",
-              "hero-planetary-painted/skill/up-left/05",
-              "hero-planetary-painted/skill/up-left/06",
-              "hero-planetary-painted/skill/up-left/07"
+              "hero-planetary-painted/skill/left/00",
+              "hero-planetary-painted/skill/left/01",
+              "hero-planetary-painted/skill/left/02",
+              "hero-planetary-painted/skill/left/03",
+              "hero-planetary-painted/skill/left/04",
+              "hero-planetary-painted/skill/left/05",
+              "hero-planetary-painted/skill/left/06",
+              "hero-planetary-painted/skill/left/07"
             ],
             "up": [
-              "hero-planetary-painted/skill/up/00",
-              "hero-planetary-painted/skill/up/01",
-              "hero-planetary-painted/skill/up/02",
-              "hero-planetary-painted/skill/up/03",
-              "hero-planetary-painted/skill/up/04",
-              "hero-planetary-painted/skill/up/05",
-              "hero-planetary-painted/skill/up/06",
-              "hero-planetary-painted/skill/up/07"
+              "hero-planetary-painted/skill/right/00",
+              "hero-planetary-painted/skill/right/01",
+              "hero-planetary-painted/skill/right/02",
+              "hero-planetary-painted/skill/right/03",
+              "hero-planetary-painted/skill/right/04",
+              "hero-planetary-painted/skill/right/05",
+              "hero-planetary-painted/skill/right/06",
+              "hero-planetary-painted/skill/right/07"
             ],
             "up-right": [
-              "hero-planetary-painted/skill/up-right/00",
-              "hero-planetary-painted/skill/up-right/01",
-              "hero-planetary-painted/skill/up-right/02",
-              "hero-planetary-painted/skill/up-right/03",
-              "hero-planetary-painted/skill/up-right/04",
-              "hero-planetary-painted/skill/up-right/05",
-              "hero-planetary-painted/skill/up-right/06",
-              "hero-planetary-painted/skill/up-right/07"
+              "hero-planetary-painted/skill/right/00",
+              "hero-planetary-painted/skill/right/01",
+              "hero-planetary-painted/skill/right/02",
+              "hero-planetary-painted/skill/right/03",
+              "hero-planetary-painted/skill/right/04",
+              "hero-planetary-painted/skill/right/05",
+              "hero-planetary-painted/skill/right/06",
+              "hero-planetary-painted/skill/right/07"
             ],
             "right": [
               "hero-planetary-painted/skill/right/00",
@@ -385,33 +394,33 @@
               "hero-planetary-painted/skill/right/07"
             ],
             "down-right": [
-              "hero-planetary-painted/skill/down-right/00",
-              "hero-planetary-painted/skill/down-right/01",
-              "hero-planetary-painted/skill/down-right/02",
-              "hero-planetary-painted/skill/down-right/03",
-              "hero-planetary-painted/skill/down-right/04",
-              "hero-planetary-painted/skill/down-right/05",
-              "hero-planetary-painted/skill/down-right/06",
-              "hero-planetary-painted/skill/down-right/07"
+              "hero-planetary-painted/skill/right/00",
+              "hero-planetary-painted/skill/right/01",
+              "hero-planetary-painted/skill/right/02",
+              "hero-planetary-painted/skill/right/03",
+              "hero-planetary-painted/skill/right/04",
+              "hero-planetary-painted/skill/right/05",
+              "hero-planetary-painted/skill/right/06",
+              "hero-planetary-painted/skill/right/07"
             ]
           }
         },
         "hit": {
-          "asset": "hero-planetary-painted-walk-v3-old-1",
+          "asset": "hero-planetary-painted-walk-v3-fight-0",
           "fps": 16,
           "loop": false,
           "directions": {
             "down": [
-              "hero-planetary-painted/hit/down/00",
-              "hero-planetary-painted/hit/down/01",
-              "hero-planetary-painted/hit/down/02",
-              "hero-planetary-painted/hit/down/03"
+              "hero-planetary-painted/hit/right/00",
+              "hero-planetary-painted/hit/right/01",
+              "hero-planetary-painted/hit/right/02",
+              "hero-planetary-painted/hit/right/03"
             ],
             "down-left": [
-              "hero-planetary-painted/hit/down-left/00",
-              "hero-planetary-painted/hit/down-left/01",
-              "hero-planetary-painted/hit/down-left/02",
-              "hero-planetary-painted/hit/down-left/03"
+              "hero-planetary-painted/hit/left/00",
+              "hero-planetary-painted/hit/left/01",
+              "hero-planetary-painted/hit/left/02",
+              "hero-planetary-painted/hit/left/03"
             ],
             "left": [
               "hero-planetary-painted/hit/left/00",
@@ -420,22 +429,22 @@
               "hero-planetary-painted/hit/left/03"
             ],
             "up-left": [
-              "hero-planetary-painted/hit/up-left/00",
-              "hero-planetary-painted/hit/up-left/01",
-              "hero-planetary-painted/hit/up-left/02",
-              "hero-planetary-painted/hit/up-left/03"
+              "hero-planetary-painted/hit/left/00",
+              "hero-planetary-painted/hit/left/01",
+              "hero-planetary-painted/hit/left/02",
+              "hero-planetary-painted/hit/left/03"
             ],
             "up": [
-              "hero-planetary-painted/hit/up/00",
-              "hero-planetary-painted/hit/up/01",
-              "hero-planetary-painted/hit/up/02",
-              "hero-planetary-painted/hit/up/03"
+              "hero-planetary-painted/hit/right/00",
+              "hero-planetary-painted/hit/right/01",
+              "hero-planetary-painted/hit/right/02",
+              "hero-planetary-painted/hit/right/03"
             ],
             "up-right": [
-              "hero-planetary-painted/hit/up-right/00",
-              "hero-planetary-painted/hit/up-right/01",
-              "hero-planetary-painted/hit/up-right/02",
-              "hero-planetary-painted/hit/up-right/03"
+              "hero-planetary-painted/hit/right/00",
+              "hero-planetary-painted/hit/right/01",
+              "hero-planetary-painted/hit/right/02",
+              "hero-planetary-painted/hit/right/03"
             ],
             "right": [
               "hero-planetary-painted/hit/right/00",
@@ -444,37 +453,37 @@
               "hero-planetary-painted/hit/right/03"
             ],
             "down-right": [
-              "hero-planetary-painted/hit/down-right/00",
-              "hero-planetary-painted/hit/down-right/01",
-              "hero-planetary-painted/hit/down-right/02",
-              "hero-planetary-painted/hit/down-right/03"
+              "hero-planetary-painted/hit/right/00",
+              "hero-planetary-painted/hit/right/01",
+              "hero-planetary-painted/hit/right/02",
+              "hero-planetary-painted/hit/right/03"
             ]
           }
         },
         "death": {
-          "asset": "hero-planetary-painted-walk-v3-old-1",
+          "asset": "hero-planetary-painted-walk-v3-fight-0",
           "fps": 10,
           "loop": false,
           "directions": {
             "down": [
-              "hero-planetary-painted/death/down/00",
-              "hero-planetary-painted/death/down/01",
-              "hero-planetary-painted/death/down/02",
-              "hero-planetary-painted/death/down/03",
-              "hero-planetary-painted/death/down/04",
-              "hero-planetary-painted/death/down/05",
-              "hero-planetary-painted/death/down/06",
-              "hero-planetary-painted/death/down/07"
+              "hero-planetary-painted/death/right/00",
+              "hero-planetary-painted/death/right/01",
+              "hero-planetary-painted/death/right/02",
+              "hero-planetary-painted/death/right/03",
+              "hero-planetary-painted/death/right/04",
+              "hero-planetary-painted/death/right/05",
+              "hero-planetary-painted/death/right/06",
+              "hero-planetary-painted/death/right/07"
             ],
             "down-left": [
-              "hero-planetary-painted/death/down-left/00",
-              "hero-planetary-painted/death/down-left/01",
-              "hero-planetary-painted/death/down-left/02",
-              "hero-planetary-painted/death/down-left/03",
-              "hero-planetary-painted/death/down-left/04",
-              "hero-planetary-painted/death/down-left/05",
-              "hero-planetary-painted/death/down-left/06",
-              "hero-planetary-painted/death/down-left/07"
+              "hero-planetary-painted/death/left/00",
+              "hero-planetary-painted/death/left/01",
+              "hero-planetary-painted/death/left/02",
+              "hero-planetary-painted/death/left/03",
+              "hero-planetary-painted/death/left/04",
+              "hero-planetary-painted/death/left/05",
+              "hero-planetary-painted/death/left/06",
+              "hero-planetary-painted/death/left/07"
             ],
             "left": [
               "hero-planetary-painted/death/left/00",
@@ -487,34 +496,34 @@
               "hero-planetary-painted/death/left/07"
             ],
             "up-left": [
-              "hero-planetary-painted/death/up-left/00",
-              "hero-planetary-painted/death/up-left/01",
-              "hero-planetary-painted/death/up-left/02",
-              "hero-planetary-painted/death/up-left/03",
-              "hero-planetary-painted/death/up-left/04",
-              "hero-planetary-painted/death/up-left/05",
-              "hero-planetary-painted/death/up-left/06",
-              "hero-planetary-painted/death/up-left/07"
+              "hero-planetary-painted/death/left/00",
+              "hero-planetary-painted/death/left/01",
+              "hero-planetary-painted/death/left/02",
+              "hero-planetary-painted/death/left/03",
+              "hero-planetary-painted/death/left/04",
+              "hero-planetary-painted/death/left/05",
+              "hero-planetary-painted/death/left/06",
+              "hero-planetary-painted/death/left/07"
             ],
             "up": [
-              "hero-planetary-painted/death/up/00",
-              "hero-planetary-painted/death/up/01",
-              "hero-planetary-painted/death/up/02",
-              "hero-planetary-painted/death/up/03",
-              "hero-planetary-painted/death/up/04",
-              "hero-planetary-painted/death/up/05",
-              "hero-planetary-painted/death/up/06",
-              "hero-planetary-painted/death/up/07"
+              "hero-planetary-painted/death/right/00",
+              "hero-planetary-painted/death/right/01",
+              "hero-planetary-painted/death/right/02",
+              "hero-planetary-painted/death/right/03",
+              "hero-planetary-painted/death/right/04",
+              "hero-planetary-painted/death/right/05",
+              "hero-planetary-painted/death/right/06",
+              "hero-planetary-painted/death/right/07"
             ],
             "up-right": [
-              "hero-planetary-painted/death/up-right/00",
-              "hero-planetary-painted/death/up-right/01",
-              "hero-planetary-painted/death/up-right/02",
-              "hero-planetary-painted/death/up-right/03",
-              "hero-planetary-painted/death/up-right/04",
-              "hero-planetary-painted/death/up-right/05",
-              "hero-planetary-painted/death/up-right/06",
-              "hero-planetary-painted/death/up-right/07"
+              "hero-planetary-painted/death/right/00",
+              "hero-planetary-painted/death/right/01",
+              "hero-planetary-painted/death/right/02",
+              "hero-planetary-painted/death/right/03",
+              "hero-planetary-painted/death/right/04",
+              "hero-planetary-painted/death/right/05",
+              "hero-planetary-painted/death/right/06",
+              "hero-planetary-painted/death/right/07"
             ],
             "right": [
               "hero-planetary-painted/death/right/00",
@@ -527,41 +536,41 @@
               "hero-planetary-painted/death/right/07"
             ],
             "down-right": [
-              "hero-planetary-painted/death/down-right/00",
-              "hero-planetary-painted/death/down-right/01",
-              "hero-planetary-painted/death/down-right/02",
-              "hero-planetary-painted/death/down-right/03",
-              "hero-planetary-painted/death/down-right/04",
-              "hero-planetary-painted/death/down-right/05",
-              "hero-planetary-painted/death/down-right/06",
-              "hero-planetary-painted/death/down-right/07"
+              "hero-planetary-painted/death/right/00",
+              "hero-planetary-painted/death/right/01",
+              "hero-planetary-painted/death/right/02",
+              "hero-planetary-painted/death/right/03",
+              "hero-planetary-painted/death/right/04",
+              "hero-planetary-painted/death/right/05",
+              "hero-planetary-painted/death/right/06",
+              "hero-planetary-painted/death/right/07"
             ]
           }
         },
         "respawn": {
-          "asset": "hero-planetary-painted-walk-v3-old-1",
+          "asset": "hero-planetary-painted-walk-v3-fight-1",
           "fps": 12,
           "loop": false,
           "directions": {
             "down": [
-              "hero-planetary-painted/respawn/down/00",
-              "hero-planetary-painted/respawn/down/01",
-              "hero-planetary-painted/respawn/down/02",
-              "hero-planetary-painted/respawn/down/03",
-              "hero-planetary-painted/respawn/down/04",
-              "hero-planetary-painted/respawn/down/05",
-              "hero-planetary-painted/respawn/down/06",
-              "hero-planetary-painted/respawn/down/07"
+              "hero-planetary-painted/respawn/right/00",
+              "hero-planetary-painted/respawn/right/01",
+              "hero-planetary-painted/respawn/right/02",
+              "hero-planetary-painted/respawn/right/03",
+              "hero-planetary-painted/respawn/right/04",
+              "hero-planetary-painted/respawn/right/05",
+              "hero-planetary-painted/respawn/right/06",
+              "hero-planetary-painted/respawn/right/07"
             ],
             "down-left": [
-              "hero-planetary-painted/respawn/down-left/00",
-              "hero-planetary-painted/respawn/down-left/01",
-              "hero-planetary-painted/respawn/down-left/02",
-              "hero-planetary-painted/respawn/down-left/03",
-              "hero-planetary-painted/respawn/down-left/04",
-              "hero-planetary-painted/respawn/down-left/05",
-              "hero-planetary-painted/respawn/down-left/06",
-              "hero-planetary-painted/respawn/down-left/07"
+              "hero-planetary-painted/respawn/left/00",
+              "hero-planetary-painted/respawn/left/01",
+              "hero-planetary-painted/respawn/left/02",
+              "hero-planetary-painted/respawn/left/03",
+              "hero-planetary-painted/respawn/left/04",
+              "hero-planetary-painted/respawn/left/05",
+              "hero-planetary-painted/respawn/left/06",
+              "hero-planetary-painted/respawn/left/07"
             ],
             "left": [
               "hero-planetary-painted/respawn/left/00",
@@ -574,34 +583,34 @@
               "hero-planetary-painted/respawn/left/07"
             ],
             "up-left": [
-              "hero-planetary-painted/respawn/up-left/00",
-              "hero-planetary-painted/respawn/up-left/01",
-              "hero-planetary-painted/respawn/up-left/02",
-              "hero-planetary-painted/respawn/up-left/03",
-              "hero-planetary-painted/respawn/up-left/04",
-              "hero-planetary-painted/respawn/up-left/05",
-              "hero-planetary-painted/respawn/up-left/06",
-              "hero-planetary-painted/respawn/up-left/07"
+              "hero-planetary-painted/respawn/left/00",
+              "hero-planetary-painted/respawn/left/01",
+              "hero-planetary-painted/respawn/left/02",
+              "hero-planetary-painted/respawn/left/03",
+              "hero-planetary-painted/respawn/left/04",
+              "hero-planetary-painted/respawn/left/05",
+              "hero-planetary-painted/respawn/left/06",
+              "hero-planetary-painted/respawn/left/07"
             ],
             "up": [
-              "hero-planetary-painted/respawn/up/00",
-              "hero-planetary-painted/respawn/up/01",
-              "hero-planetary-painted/respawn/up/02",
-              "hero-planetary-painted/respawn/up/03",
-              "hero-planetary-painted/respawn/up/04",
-              "hero-planetary-painted/respawn/up/05",
-              "hero-planetary-painted/respawn/up/06",
-              "hero-planetary-painted/respawn/up/07"
+              "hero-planetary-painted/respawn/right/00",
+              "hero-planetary-painted/respawn/right/01",
+              "hero-planetary-painted/respawn/right/02",
+              "hero-planetary-painted/respawn/right/03",
+              "hero-planetary-painted/respawn/right/04",
+              "hero-planetary-painted/respawn/right/05",
+              "hero-planetary-painted/respawn/right/06",
+              "hero-planetary-painted/respawn/right/07"
             ],
             "up-right": [
-              "hero-planetary-painted/respawn/up-right/00",
-              "hero-planetary-painted/respawn/up-right/01",
-              "hero-planetary-painted/respawn/up-right/02",
-              "hero-planetary-painted/respawn/up-right/03",
-              "hero-planetary-painted/respawn/up-right/04",
-              "hero-planetary-painted/respawn/up-right/05",
-              "hero-planetary-painted/respawn/up-right/06",
-              "hero-planetary-painted/respawn/up-right/07"
+              "hero-planetary-painted/respawn/right/00",
+              "hero-planetary-painted/respawn/right/01",
+              "hero-planetary-painted/respawn/right/02",
+              "hero-planetary-painted/respawn/right/03",
+              "hero-planetary-painted/respawn/right/04",
+              "hero-planetary-painted/respawn/right/05",
+              "hero-planetary-painted/respawn/right/06",
+              "hero-planetary-painted/respawn/right/07"
             ],
             "right": [
               "hero-planetary-painted/respawn/right/00",
@@ -614,14 +623,14 @@
               "hero-planetary-painted/respawn/right/07"
             ],
             "down-right": [
-              "hero-planetary-painted/respawn/down-right/00",
-              "hero-planetary-painted/respawn/down-right/01",
-              "hero-planetary-painted/respawn/down-right/02",
-              "hero-planetary-painted/respawn/down-right/03",
-              "hero-planetary-painted/respawn/down-right/04",
-              "hero-planetary-painted/respawn/down-right/05",
-              "hero-planetary-painted/respawn/down-right/06",
-              "hero-planetary-painted/respawn/down-right/07"
+              "hero-planetary-painted/respawn/right/00",
+              "hero-planetary-painted/respawn/right/01",
+              "hero-planetary-painted/respawn/right/02",
+              "hero-planetary-painted/respawn/right/03",
+              "hero-planetary-painted/respawn/right/04",
+              "hero-planetary-painted/respawn/right/05",
+              "hero-planetary-painted/respawn/right/06",
+              "hero-planetary-painted/respawn/right/07"
             ]
           }
         }
