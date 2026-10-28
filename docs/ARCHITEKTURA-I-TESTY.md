@@ -607,3 +607,20 @@ kończy H-N01, odbiera skaner i podłącza go istniejącym poleceniem warsztatu.
 pozostałe umiejętności. Ten sam odczyt używają strzał Androida, gotowość celu w HUD,
 rozpoczęcie istniejącego autoataku i podgląd statystyk. Optyka nadal nie wydłuża A1/B1/C1;
 pozostałe rasy mają niezmieniony zasięg. Nie dodano nowego rodzaju autoataku.
+
+
+`heritage/escort.ts`: stabilne krótkie odcinki przez istniejące `Navigation.path/step`,
+sprawdzenie osiągalności, cache tras per sesja, prędkość spokojnej dostawy 100 j./s
+(bohater bazowo szybszy), krok najwyżej 100 ms jak istniejący ruch. Aktor ma
+oddzielną prezentację w `HeritageMarkers`, istniejące idle/walk NPC, culling i
+sprzątanie. Nie jest wrogim `Foe`, nie uczestniczy w nagradzanych zabójstwach.
+Punkt kontrolny pochodzi z należącego do runtime kontrolera, wymaga kolejnego numeru,
+właściciela, aktualnej pozycji i LOS. Udany CAS dopiero podnosi licznik; nieudany
+zostawia NPC przy punkcie do ponowienia. Zapis używa istniejącego pola celu
+`sequence` i nie dodaje nowej wersji koperty ani osobnego storage. Nieprawidłowy
+licznik aktywnej eskorty jest odrzucany bez nadpisywania bajtów.
+
+`e2e/heritage-delivery.spec.ts` zaczyna nowym Planetarnym, wykonuje prolog, H-V01,
+P-V1, H-V02, odświeża po pierwszym punkcie dostawy i sprawdza broń drugiego stopnia.
+Odczytuje zapis do asercji, ale nie wpisuje flag, statystyk ani pozycji. Scenariusz
+jest podłączony do obu istniejących rendererów; wynik musi być zapisany po wykonaniu.

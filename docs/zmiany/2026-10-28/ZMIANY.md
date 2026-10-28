@@ -448,3 +448,38 @@ pliki obejmują kit/base, session, HUD oraz SuperiorSaveStore; PR #55 ma aktualn
 commitów i nie modyfikowano main. Dzisiejsze testy gałęzi nie są dowodem zgodności
 z nowym main; po uzgodnieniu integracji trzeba zachować nowe opcjonalne pola
 statystyk GM, kontrakt transformacji i ponownie sprawdzić migracje oraz regresję.
+
+
+### Spokojne dostawy — rzeczywisty ruch i trwałe punkty, PR #55
+
+Rodzic partii `56a1fb66`. Dodano kontroler `combat=false`: NPC porusza się po
+sprawdzonych ścieżkach istniejącej nawigacji, czeka na gracza, zapisuje kolejny
+wspólnie osiągnięty punkt jednym CAS i wznawia od niego po reloadzie. Odcinek
+przerwany śmiercią/opuszczeniem/porzuceniem nie usuwa zatwierdzonych punktów.
+Źródło wyniku jest prywatne dla runtime; UI nie może dostarczyć własnego dowodu.
+Nie udajemy w tym kontrolerze obrażeń eskort bojowych ani fal ochrony.
+
+Kontrole kandydata:
+- `npm test`: **928 PASS / 69 plików**, [log](qa/racial-development/delivery-unit.txt).
+- `npx vitest run src/test/heritage-escort.test.ts src/test/heritage-content.test.ts src/test/heritage-runtime.test.ts src/test/heritage-restraint.test.ts src/test/heritage-measurement.test.ts`:
+  **58 PASS / 5 plików** przed samą optymalizacją cache trasy;
+  [log](qa/racial-development/delivery-targeted.txt). Pełne 928 PASS obejmuje cache.
+- `npm run typecheck` po dodaniu scenariusza e2e: PASS,
+  [log](qa/racial-development/delivery-type.txt).
+- `npm run lint`: 0 błędów / 13 wcześniejszych ostrzeżeń,
+  [log](qa/racial-development/delivery-lint.txt).
+- `npm run build`: PASS, [log](qa/racial-development/delivery-build.txt).
+- Brak zmian plików zasobów; ostatnia walidacja zasobów jest w partii `56a1fb66`.
+
+Test kontrolera obejmuje wszystkie cztery rasy, rzeczywisty ruch przy przeszkodzie,
+pauzę, porzucenie, brak nagród za punkty i odrzucenie prób bojowych. Integracja
+H-V02 wykonuje faktyczne H-V01/P-V1 i dalsze czynności, brak miejsca na zapis
+punktu → ponowienie → reload przy punkcie 1 → dalsza dostawa → osobista broń
+stopnia 2 i odczyt. Kontrolowane fixture'y nie są dowodem pełnej rozgrywki Superior.
+Nowy Playwright `heritage-delivery.spec.ts` na tym checkpointcie **NIEWYKONANY**;
+ma przejść tę samą drogę przez UI od nowej postaci, z reloadem w połowie dostawy.
+
+Bieżący, osobny przebieg ośmiu H1/P1 na dokładnym `56a1fb66` nadal trwa. Potwierdzone
+cztery Canvas (także skaner Androida) i Planetarny Software WebGL; nie wpisano
+wyniku pozostałych trzech z góry. [Faktyczny ekran odczytu skanera Canvas](qa/racial-development/56a1fb66-canvas-android-real-local-scanner.png).
+Nie przebudowywano artefaktu tego uruchomienia podczas implementowania dostaw.

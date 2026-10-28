@@ -68,6 +68,13 @@ export const HeritageStateSchema = z
         (progress.status === "active") !== progress.step < def.goals.length
       )
         fail("Invalid heritage progress");
+      const goal = def?.goals[progress.step];
+      if (
+        goal?.kind === "escort" &&
+        progress.status === "active" &&
+        progress.goal.sequence >= goal.checkpoints
+      )
+        fail("Invalid escort checkpoint");
       if (def && "choices" in def) {
         if (
           progress.status === "done"

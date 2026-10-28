@@ -1,4 +1,5 @@
-import type { Point } from "../../navigation";
+import type { EscortCheckpoint } from "./escort";
+import { distance, type Point } from "../../navigation";
 import type { RaceId, WorldId } from "../../world/races";
 import {
   emptyGoalProgress,
@@ -28,6 +29,7 @@ export type GoalCommand = {
   | { kind: "measure"; source: "kit"; damage: number }
   | { kind: "observe"; source: "monster-runtime"; species: string }
   | { kind: "activity"; source: "activity-runtime"; attemptId: string }
+  | { kind: "escort-checkpoint"; source: "activity-runtime"; attemptId: string }
   | { kind: "projects"; source: "committed-state" }
 );
 export type ApprovedActivity = {
@@ -63,6 +65,7 @@ export type GoalContext = {
   kiCostMultiplier: number;
   completedProjects: ReadonlySet<WorldProjectId>;
   approvedActivities: ReadonlyMap<string, ApprovedActivity>;
+  approvedEscortCheckpoints?: ReadonlyMap<string, EscortCheckpoint>;
   approvedObservations: ReadonlyMap<string, ApprovedObservation>;
   approvedHits: ReadonlyMap<string, ApprovedHit>;
   weaponOwned: boolean;
@@ -224,6 +227,7 @@ export function reduceGoal(
     event.kind === "projects" ||
     event.kind === "observe" ||
     event.kind === "activity" ||
+    event.kind === "escort-checkpoint" ||
     event.kind === "measure";
   if (!automatic && !physical(goal, event, context))
     return reject("Podejdź do właściwego miejsca i sprawdź, czy nic nie zasłania interakcji.");
@@ -418,7 +422,54 @@ export function reduceGoal(
       }
       break;
     }
-    case "escort":
+    case "escort": {
+      if (event.kind !== "escort-checkpoint") {
+        // Combat escorts still require the separate, final protected-actor proof below.
+        if (!goal.combat) return result;
+        if (event.kind !== "activity" || event.source !== "activity-runtime") return result;
+        const proof = context.approvedActivities.get(event.attemptId);
+        if (
+          !proof ||
+          proof.owner !== context.owner ||
+          proof.goalId !== goal.id ||
+          proof.outcome !== "passed" ||
+          proof.checkpoints < goal.checkpoints ||
+          proof.healthFraction < goal.minHealthFraction
+        )
+          return reject("Brakuje rzeczywistego wyniku eskorty bojowej.");
+        next.sequence = goal.checkpoints;
+        next.outcome = "done";
+        break;
+      }
+      const proof = context.approvedEscortCheckpoints?.get(event.attemptId);
+      if (
+        goal.combat ||
+        !proof ||
+        proof.owner !== context.owner ||
+        proof.goalId !== goal.id ||
+        ![
+          proof.actor.x,
+          proof.actor.y,
+          proof.player.x,
+          proof.player.y,
+          proof.healthFraction,
+          proof.checkpoint,
+        ].every(Number.isFinite) ||
+        !Number.isInteger(proof.checkpoint) ||
+        proof.healthFraction > 1 ||
+        distance(proof.player, context.player) > 1 ||
+        proof.checkpoint !== previous.sequence + 1 ||
+        proof.checkpoint > goal.checkpoints ||
+        proof.healthFraction < goal.minHealthFraction ||
+        distance(proof.actor, proof.player) > 150 ||
+        !context.visible(proof.actor, proof.player)
+      )
+        return reject("Niepotwierdzony punkt eskorty.");
+      next.sequence = proof.checkpoint;
+      if (next.sequence === goal.checkpoints) next.outcome = "done";
+      result.reason = "Punkt eskorty zapisany: " + next.sequence + "/" + goal.checkpoints;
+      break;
+    }
     case "protect":
     case "restraint": {
       if (event.kind !== "activity" || event.source !== "activity-runtime") return result;
@@ -431,13 +482,11 @@ export function reduceGoal(
       )
         return reject("Brakuje zatwierdzonego wyniku bieżącej próby.");
       const valid =
-        goal.kind === "escort"
-          ? proof.checkpoints >= goal.checkpoints && proof.healthFraction >= goal.minHealthFraction
-          : goal.kind === "protect"
-            ? proof.protectedPoints >= goal.points && proof.healthFraction >= goal.minHealthFraction
-            : proof.windows >= goal.windows &&
-              proof.errors <= goal.maxErrors &&
-              (!goal.surrender || proof.surrendered);
+        goal.kind === "protect"
+          ? proof.protectedPoints >= goal.points && proof.healthFraction >= goal.minHealthFraction
+          : proof.windows >= goal.windows &&
+            proof.errors <= goal.maxErrors &&
+            (!goal.surrender || proof.surrendered);
       if (!valid) return reject("Wynik nie spełnia warunków tego etapu.");
       next.outcome = "done";
       next.sequence = 1;

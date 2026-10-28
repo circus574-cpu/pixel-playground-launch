@@ -1,3 +1,4 @@
+import { EscortActivity, escortRoute } from "./escort";
 import { InstallationScanner } from "./scanner";
 import { MeasurementActivity } from "./measurement";
 import { RestraintActivity } from "./restraint";
@@ -5,7 +6,7 @@ import { HeritageProjects } from "./projects";
 import type { GameSession, Player } from "../../session";
 import type { DevelopmentState } from "../state";
 import { type WorldId } from "../../world/races";
-import { distance, type Navigation } from "../../navigation";
+import { distance, type Navigation, type Point } from "../../navigation";
 import { cityRoom } from "../../city/room";
 import { HeritageBindings, type HeritageHome, type HeritageTarget } from "./bindings";
 import { HERITAGE_QUESTS, WORLD_PROJECTS } from "./catalog";
@@ -64,8 +65,20 @@ export class HeritageRuntime {
   readonly projects: HeritageProjects;
   readonly scanner: InstallationScanner;
   private observeIn = 0;
+  private readonly escortRoutes = new Map<string, Point[]>();
+  private deliveryRoute(goal: Extract<HeritageGoal, { kind: "escort" }>, start: Point) {
+    let route = this.escortRoutes.get(goal.id);
+    if (!route) {
+      route = escortRoute(this.outside, start, goal.checkpoints, goal.id);
+      this.escortRoutes.set(goal.id, route);
+    }
+    return route;
+  }
   private measurement: { content: HeritageContentId; attempt: MeasurementActivity } | null = null;
-  private activity: { content: HeritageContentId; attempt: RestraintActivity } | null = null;
+  private activity: {
+    content: HeritageContentId;
+    attempt: RestraintActivity | EscortActivity;
+  } | null = null;
   cancelActivities(cancelRoute = true) {
     this.activity?.attempt.dispose();
     this.activity = null;
@@ -122,7 +135,7 @@ export class HeritageRuntime {
     private readonly commit: Commit,
     readonly feature: string,
     home: HeritageHome,
-    outside: Navigation,
+    private readonly outside: Navigation,
   ) {
     this.bindings = new HeritageBindings(session.world, structuredClone(home), outside);
     this.projects = new HeritageProjects(this.bindings, outside, session.enemyNavigation);
@@ -151,7 +164,31 @@ export class HeritageRuntime {
     return "";
   }
   private targets(goal: HeritageGoal, world: WorldId) {
-    return this.bindings.resolve(goal, goal.world ?? world);
+    const bindings = this.bindings.resolve(goal, goal.world ?? world);
+    if (goal.kind !== "escort" || goal.combat || !bindings[0]) return bindings;
+    if (
+      this.activity?.attempt instanceof EscortActivity &&
+      this.activity.attempt.goal.id === goal.id
+    )
+      return [this.activity.attempt.nextTarget()];
+    const id = goal.id.split(":")[0] as HeritageContentId;
+    const progress = this.progress(id);
+    const def = heritageDefinition(id);
+    if (progress && def?.goals[progress.step]?.id === goal.id && progress.goal.sequence > 0) {
+      try {
+        const points = this.deliveryRoute(goal, bindings[0].point);
+        return [
+          {
+            ...bindings[0],
+            point: points[progress.goal.sequence - 1]!,
+            label: goal.actor + " · punkt wznowienia",
+          },
+        ];
+      } catch {
+        return bindings;
+      }
+    }
+    return bindings;
   }
   private near(target: HeritageTarget | null | undefined) {
     const s = this.session;
@@ -291,22 +328,76 @@ export class HeritageRuntime {
         };
         return;
       }
+      if (goal.kind === "escort" && !goal.combat && c.action === "activity-start") {
+        const target = this.targets(goal, def.world)[0];
+        if (!this.near(target))
+          return s.say("Podejdź do towarzysza lub ostatniego punktu eskorty.");
+        const base = this.bindings.resolve(goal, def.world)[0]!;
+        let route;
+        try {
+          route = this.deliveryRoute(goal, base.point);
+        } catch {
+          return s.say("Nie udało się wyznaczyć bezpiecznej trasy. Postęp zachowano.");
+        }
+        this.cancelActivities(false);
+        const attempt = new EscortActivity(
+          s,
+          goal,
+          s.saves.identity,
+          base,
+          route,
+          progress.goal.sequence,
+          (proof) => {
+            const current = this.progress(c.id);
+            if (!current || current.status !== "active" || def.goals[current.step]?.id !== goal.id)
+              return false;
+            const context = this.goalContext(goal, null);
+            context.approvedEscortCheckpoints = new Map([[attempt.id, proof]]);
+            this.apply(
+              c.id,
+              goal,
+              current,
+              {
+                owner: s.saves!.identity,
+                goalId: goal.id,
+                eventId: crypto.randomUUID(),
+                expectedRevision: current.goal.revision,
+                targetId: "",
+                kind: "escort-checkpoint",
+                source: "activity-runtime",
+                attemptId: attempt.id,
+              },
+              context,
+            );
+            const next = this.progress(c.id);
+            return (
+              !!next && (next.step !== current.step || next.goal.sequence === proof.checkpoint)
+            );
+          },
+        );
+        this.activity = { content: c.id, attempt };
+        return;
+      }
       if (goal.kind !== "restraint") return s.say("Ten etap korzysta z innego rodzaju próby.");
       if (c.action === "activity-start") {
         const target = this.targets(goal, def.world)[0];
         if (!this.near(target)) return s.say("Podejdź do wskazanego stanowiska ćwiczebnego.");
         this.cancelActivities(false);
-        this.activity = {
-          content: c.id,
-          attempt: new RestraintActivity(s, goal, s.saves.identity, target!.point),
-        };
+        const attempt = new RestraintActivity(s, goal, s.saves.identity, target!.point);
+        this.activity = { content: c.id, attempt };
         s.command({ type: "move", ...s.nav.safe({ x: target!.point.x, y: target!.point.y + 65 }) });
         // The existing move command clears selection; retain the explicitly chosen practice target.
-        s.targetId = this.activity.attempt.target.id;
+        s.targetId = attempt.target.id;
         return;
       }
       const activity = this.activity;
-      if (!activity || activity.content !== c.id || activity.attempt.goal.id !== goal.id) return;
+      if (
+        !activity ||
+        !(activity.attempt instanceof RestraintActivity) ||
+        activity.content !== c.id ||
+        activity.attempt.goal.id !== goal.id
+      )
+        return;
       const proof = activity.attempt.proof();
       if (!proof) return s.say("Próba nie jest jeszcze ukończona.");
       const context = this.goalContext(goal, null);

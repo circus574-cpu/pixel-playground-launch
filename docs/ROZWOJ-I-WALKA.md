@@ -1036,3 +1036,21 @@ leczenia, praktyki lub odkrywania mapy. Jest to wdrożony lokalny zakres skanera
 pozostałe rodzaje instalacji i pełne próby diagnostyczne nadal wymagają pracy.
 Optyka używa wspólnego zasięgu R w kicie, podglądzie i rozpoczęciu ataku; nie
 rozciąga zasięgu aktywnych technik.
+
+
+### Spokojne dostawy z punktami wznowienia — następna partia PR #55
+
+Cele `escort` z `combat=false` mają faktycznie poruszającego się towarzysza,
+sprawdzoną lokalną trasę i zapis CAS każdego punktu. Obie jednostki muszą dotrzeć
+w pobliże punktu i mieć LOS; sam upływ czasu nie wystarcza. NPC czeka po oddaleniu
+gracza, a opuszczenie przestrzeni/porzucenie przerywa wizytę. Po reloadzie cel
+wskazuje ostatni zatwierdzony punkt, z którego można wznowić dostawę. Nie ma
+praktyki, XP, monet ani leczenia za punkty; działa dotychczasowa nagroda rozdziału.
+Nie ma nowego przycisku HUD, zmiany joysticka ani teleportowania bohatera.
+
+`combat=true` nie korzysta z tego kontrolera: jednostka dostawy nie jest odbiorcą
+obrażeń i nie udajemy w ten sposób eskorty bojowej. Obrona obiektów, fale i pełne
+chronione jednostki wciąż są otwarte. Test integracyjny H-V02 legalnie kończy H-V01
+i P-V1, sprawdza błąd zapisu punktu, reload w połowie trasy i odbiera broń stopnia 2.
+To test GameSession na kontrolowanej mapie, nie zaliczony jeszcze scenariusz
+przeglądarkowy późnego rozdziału.

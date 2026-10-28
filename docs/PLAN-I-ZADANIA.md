@@ -186,3 +186,11 @@ chronione obiekty/eskorty i pomiary w realnym runtime, następnie pełne odbloko
 144 stopni prób, późne wyprawy, biografie/kroniki i bilans. Nie dodawać przycisków
 zaliczających te cele bez właściwych zdarzeń symulacji. Dokładny status kontroli
 oraz problemy CI: bieżący dziennik. Scalanie i publikacja nadal są oddzielną decyzją.
+
+
+Dalsza aktualizacja PR #55 (28.10): spokojne dostawy mają rzeczywisty ruch NPC i
+trwałe punkty wznowienia; H-V02 z bronią stopnia 2 przeszedł integrację GameSession.
+Weryfikacja tego rozdziału w przeglądarce pozostaje do wykonania. Eskorty bojowe,
+obrona i fale nadal wymagają odbiorcy faktycznych obrażeń w obecnym silniku AI,
+a nie zaliczania ich kontrolerem spokojnej dostawy. Pozostały zakres 48 prób,
+późnych spotkań, biografii, kronik, tytułów i balansu nie jest ukończony.

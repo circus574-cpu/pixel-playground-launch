@@ -10,6 +10,8 @@ import { distance } from "../../navigation";
 export class HeritageMarkers {
   private readonly markers = new Map<string, Phaser.GameObjects.Container>();
   private nextUpdate = 0;
+  private escortObject: Phaser.GameObjects.Container | null = null;
+  private escortAnimation: ActorAnimation | null = null;
   private readonly practiceObjects = new Map<string, Phaser.GameObjects.Container>();
   private readonly animations = new Map<string, ActorAnimation>();
   private readonly projectObjects = new Map<
@@ -21,6 +23,7 @@ export class HeritageMarkers {
     private readonly session: GameSession,
   ) {}
   update(now: number, labels: boolean) {
+    this.updateEscort(now);
     if (now < this.nextUpdate) return;
     this.nextUpdate = now + 250;
     const live = new Set<string>(),
@@ -127,6 +130,47 @@ export class HeritageMarkers {
         this.projectObjects.delete(id);
       }
   }
+  private updateEscort(now: number) {
+    const s = this.session,
+      activity = s.heritage.activitySnapshot();
+    const actor =
+      activity && "actor" in activity && activity.phase === "escort" ? activity.actor : null;
+    if (!actor || distance(actor, s.player) > 900) {
+      this.escortObject?.destroy();
+      this.escortObject = null;
+      this.escortAnimation = null;
+      return;
+    }
+    if (!this.escortObject) {
+      const ring = this.scene.add.ellipse(0, 0, 30, 16, 0x7fdbc5, 0.35).setStrokeStyle(2, 0x7fdbc5);
+      const object = this.scene.add.container(actor.x, actor.y, [ring]);
+      const config = actorVisual(s.world.id, "npc", "hunter"),
+        clip = config.clips.idle!;
+      if (this.scene.textures.exists(clip.asset)) {
+        registerActorAnimations(this.scene, config);
+        const sprite = this.scene.add
+          .sprite(0, 0, clip.asset, Object.values(clip.directions)[0]![0]!)
+          .setDisplaySize(...config.size)
+          .setOrigin(...config.origin);
+        object.add(sprite);
+        this.escortAnimation = new ActorAnimation(sprite, config);
+      } else {
+        object.add(
+          this.scene.add
+            .graphics()
+            .lineStyle(3, 0x9ae9d5)
+            .strokeCircle(0, -34, 9)
+            .lineBetween(0, -25, 0, -5)
+            .lineBetween(-12, -19, 12, -19)
+            .lineBetween(0, -5, -9, 0)
+            .lineBetween(0, -5, 9, 0),
+        );
+      }
+      this.escortObject = object;
+    }
+    this.escortObject.setPosition(actor.x, actor.y).setDepth(actor.y);
+    this.escortAnimation?.update(now, actor.moving, false, actor.facing, s.paused || !!s.dialogue);
+  }
   private projectObject(view: ProjectView) {
     const g = this.scene.add.graphics();
     const { x, y } = view.target.point,
@@ -202,6 +246,9 @@ export class HeritageMarkers {
     return object;
   }
   dispose() {
+    this.escortObject?.destroy();
+    this.escortObject = null;
+    this.escortAnimation = null;
     for (const object of this.markers.values()) object.destroy();
     this.markers.clear();
     this.animations.clear();

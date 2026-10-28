@@ -241,6 +241,44 @@ describe("physical heritage goals and trust boundaries", () => {
       }).next.outcome,
     ).toBe("done");
   });
+  it("accepts only the next owned escort checkpoint with live nearby participants", () => {
+    const goal = HERITAGE_BY_ID.get("H-V02")!.goals.find((g) => g.kind === "escort")!;
+    const ctx = context(goal),
+      state = emptyGoalProgress();
+    const event = {
+      ...command(goal, "escort-checkpoint"),
+      kind: "escort-checkpoint" as const,
+      source: "activity-runtime" as const,
+      attemptId: "owned",
+    };
+    const proof = {
+      owner: ctx.owner,
+      goalId: goal.id,
+      checkpoint: 1,
+      actor: { x: 110, y: 100 },
+      player: ctx.player,
+      healthFraction: 1,
+    };
+    expect(reduceGoal(goal, state, event, ctx).changed).toBe(false);
+    ctx.approvedEscortCheckpoints = new Map([["owned", proof]]);
+    const first = reduceGoal(goal, state, event, ctx);
+    expect(first.changed).toBe(true);
+    expect(first.next.sequence).toBe(1);
+    expect(first.next.outcome).toBe("active");
+    for (const invalid of [
+      { ...proof, owner: "other" },
+      { ...proof, checkpoint: 2 },
+      { ...proof, healthFraction: NaN },
+      { ...proof, actor: { x: NaN, y: 100 } },
+      { ...proof, player: { x: 600, y: 100 } },
+    ]) {
+      ctx.approvedEscortCheckpoints = new Map([["owned", invalid]]);
+      expect(reduceGoal(goal, state, event, ctx).changed).toBe(false);
+    }
+    ctx.approvedEscortCheckpoints = new Map([["owned", proof]]);
+    ctx.visible = () => false;
+    expect(reduceGoal(goal, state, event, ctx).changed).toBe(false);
+  });
   it("never accepts an invented activity result or observation source string", () => {
     const goal = HERITAGE_BY_ID.get("H-P05")!.goals.find((g) => g.kind === "restraint")!;
     const event = {
