@@ -1,45 +1,54 @@
 {
   "schemaVersion": 1,
   "id": "hero-sage-painted-walk-v3",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-sage-painted-walk-v3-page-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-sage-painted-walk-v3-idle-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-idle-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-sage-painted-walk-v3-fight-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-fight-0.json",
       "width": 2048,
       "height": 1792
     },
     {
       "id": "hero-sage-painted-walk-v3-fight-1",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.0.0-6299f6f9b34b/hero-sage-painted-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-fight-1.json",
       "width": 2048,
       "height": 512
+    },
+    {
+      "id": "hero-sage-painted-walk-v3-transform-0",
+      "version": "2.1.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-transform-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-a76b954c0b7a/hero-sage-painted-walk-v3-transform-0.json",
+      "width": 1024,
+      "height": 768
     }
   ],
   "actors": [
@@ -639,5 +648,29 @@
   ],
   "actorBindings": {},
   "renderBindings": {},
-  "effects": {}
+  "effects": {
+    "aether.transform": {
+      "asset": "hero-sage-painted-walk-v3-transform-0",
+      "frames": [
+        "hero-sage-painted-walk-v3/transform/00",
+        "hero-sage-painted-walk-v3/transform/01",
+        "hero-sage-painted-walk-v3/transform/02",
+        "hero-sage-painted-walk-v3/transform/03",
+        "hero-sage-painted-walk-v3/transform/04",
+        "hero-sage-painted-walk-v3/transform/05",
+        "hero-sage-painted-walk-v3/transform/06",
+        "hero-sage-painted-walk-v3/transform/07",
+        "hero-sage-painted-walk-v3/transform/08",
+        "hero-sage-painted-walk-v3/transform/09",
+        "hero-sage-painted-walk-v3/transform/10",
+        "hero-sage-painted-walk-v3/transform/11"
+      ],
+      "fps": 12,
+      "size": [
+        133,
+        133
+      ],
+      "durationMs": 1000
+    }
+  }
 }

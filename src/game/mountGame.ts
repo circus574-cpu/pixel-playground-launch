@@ -192,6 +192,34 @@ export function mountKileGends(
           },
         );
     }
+    /** Tryb KI: the race's transformation clip (owner's Gemini video) in place of the hero for a second. */
+    private transform() {
+      const spec = catalog.effects[RACES[session.player.race].world + ".transform"];
+      if (!spec) return;
+      const key = "transform/" + RACES[session.player.race].world;
+      if (!this.anims.exists(key))
+        this.anims.create({
+          key,
+          frames: spec.frames.map((frame) => ({ key: spec.asset, frame })),
+          frameRate: spec.fps,
+          repeat: 0,
+        });
+      const p = session.player,
+        hero = this.hero.sprite;
+      // Frames keep the hero's feet 72 px above the bottom of a 384 px cell.
+      const sprite = this.add
+        .sprite(p.x, p.y + (spec.size[1] * 72) / 384, spec.asset, spec.frames[0])
+        .setDisplaySize(...spec.size)
+        .setOrigin(0.5, 1)
+        .setDepth(renderDepth("combat", p.y));
+      this.trackEffect(sprite);
+      hero.setVisible(false);
+      sprite.play(key);
+      this.time.delayedCall(spec.durationMs, () => {
+        sprite.destroy();
+        hero.setVisible(true);
+      });
+    }
     /** Plays one painted race effect; silently skipped when its strip failed to load. */
     private raceVfx(kind: (typeof RACE_VFX)[number], p: Point, scale: number) {
       const key = "vfx3-" + kind;
@@ -834,6 +862,7 @@ export function mountKileGends(
         this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
         return;
       }
+      if (event.type === "buff" && event.ability === "T" && !event.source) this.transform();
       if (event.type === "status" || event.type === "buff" || event.type === "channel") {
         if (event.text)
           this.float(event, event.text, event.target === "player" ? "#ffa1a1" : "#c9f0ff");
