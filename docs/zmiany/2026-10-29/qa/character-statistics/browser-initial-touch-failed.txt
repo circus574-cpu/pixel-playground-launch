@@ -1,0 +1,136 @@
+
+Running 4 tests using 1 worker
+
+(node:132146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Planetarni: portrait opens current statistics 1280 (27.2s)
+  ✘  2 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390 (1.1m)
+(node:132777) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360 (9.1s)
+(node:133009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852 (16.5s)
+
+
+  1) [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390
+
+    Error: locator.tap: Target crashed
+    Call log:
+      - waiting for getByRole('button', { name: 'Pokaż statystyki postaci', exact: true })
+        - locator resolved to <button type="button" data-race="sage" class="ki-portrait" aria-label="Pokaż statystyki postaci">…</button>
+      - attempting tap action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div role="alert" class="ki-rotate">…</div> intercepts pointer events
+        - retrying tap action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div role="alert" class="ki-rotate">…</div> intercepts pointer events
+        - retrying tap action
+          - waiting 100ms
+        80 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <div role="alert" class="ki-rotate">…</div> intercepts pointer events
+         - retrying tap action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      16 |     const portrait = page.getByRole("button", { name: "Pokaż statystyki postaci", exact: true });
+      17 |     await expect(portrait).toBeVisible();
+    > 18 |     await (width < 600 ? portrait.tap() : portrait.click());
+         |                                   ^
+      19 |     const panel = page.getByRole("dialog", { name: "Statystyki postaci", exact: true });
+      20 |     await expect(panel).toBeVisible();
+      21 |     await expect(panel.getByText("Technika", { exact: true })).toBeVisible();
+        at /workspace/ki-aruba/e2e/character-statistics.spec.ts:18:35
+
+    Error Context: test-results/character-statistics-Mędrc-2437f-pens-current-statistics-390-gameplay/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/character-statistics-Mędrc-2437f-pens-current-statistics-390-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/character-statistics-Mędrc-2437f-pens-current-statistics-390-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Pokaż statystyki postaci', exact: true })
+    Expected: visible
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Pokaż statystyki postaci', exact: true }) with timeout 60000ms
+      - waiting for getByRole('button', { name: 'Pokaż statystyki postaci', exact: true })
+      - Target crashed
+
+
+      15 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+      16 |     const portrait = page.getByRole("button", { name: "Pokaż statystyki postaci", exact: true });
+    > 17 |     await expect(portrait).toBeVisible();
+         |                            ^
+      18 |     await (width < 600 ? portrait.tap() : portrait.click());
+      19 |     const panel = page.getByRole("dialog", { name: "Statystyki postaci", exact: true });
+      20 |     await expect(panel).toBeVisible();
+        at /workspace/ki-aruba/e2e/character-statistics.spec.ts:17:28
+
+    Error Context: test-results/character-statistics-Andro-9c79e-pens-current-statistics-360-gameplay/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/character-statistics-Andro-9c79e-pens-current-statistics-360-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/character-statistics-Andro-9c79e-pens-current-statistics-360-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Pokaż statystyki postaci', exact: true })
+    Expected: visible
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Pokaż statystyki postaci', exact: true }) with timeout 60000ms
+      - waiting for getByRole('button', { name: 'Pokaż statystyki postaci', exact: true })
+      - Target crashed
+
+
+      15 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+      16 |     const portrait = page.getByRole("button", { name: "Pokaż statystyki postaci", exact: true });
+    > 17 |     await expect(portrait).toBeVisible();
+         |                            ^
+      18 |     await (width < 600 ? portrait.tap() : portrait.click());
+      19 |     const panel = page.getByRole("dialog", { name: "Statystyki postaci", exact: true });
+      20 |     await expect(panel).toBeVisible();
+        at /workspace/ki-aruba/e2e/character-statistics.spec.ts:17:28
+
+    Error Context: test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390
+    [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360
+    [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852
+  1 passed (2.2m)

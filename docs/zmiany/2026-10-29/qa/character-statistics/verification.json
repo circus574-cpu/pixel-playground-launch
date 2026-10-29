@@ -51,5 +51,6 @@
     "src/test/monsters.test.ts": "08508cc1b1481bbe09b4e938990eb662ab8707fabf34fb54f8d68920354cf1d5",
     "src/test/session.test.ts": "7f3cc1dbf1cd7828aa3ceffcb7e97552db981ebafbad43e4281c6b25535bfa57",
     "src/test/superior-save.test.ts": "c7477b01a1d6559c4d7d3021d0999cbee7deb1dcbcf034e47bdb438d03627673"
-  }
+  },
+  "implementationCommit": "c93604837f064dae0433f052540c8009354e3b1b"
 }

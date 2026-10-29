@@ -193,3 +193,14 @@ Logi, raporty JSON i8 zrzutów są obok. Testy przeglądarkowe to nowa funkcja
 statystyk, nie deklaracja wykonania całej istniejącej macierzy E2E gry. Testy walki,
 questów, ekonomii i zapisów objęto zestawem jednostkowym/integracyjnym GameSession.
 Ostrzeżenia JSDOM o audio/canvas pozostają w logach; testy nie zostały pominięte.
+
+Implementacja: `c9360483` · [PR61](https://github.com/circus574-cpu/pixel-playground-launch/pull/61).
+Dodatkowy commit dowodowy zapisuje logi jako `.txt`, ponieważ `.gitignore` pomija
+`.log`. SHA-256 plików w `verification.json` pozwala potwierdzić identyczność
+przetestowanych źródeł z commitem implementacji. PR pozostaje do przeglądu;
+`main` i produkcja niezmienione przez tę gałąź.
+
+GitHub uruchomił pełne kontrole PR: [Browser QA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896479)
+i [WebGL](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896427).
+Na moment zapisu dowodów są w toku, nie oznaczono ich jako PASS. Logi tekstowe mają
+usunięte końcowe białe znaki; treść komunikatów zachowana.
