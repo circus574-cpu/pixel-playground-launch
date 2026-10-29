@@ -1,5 +1,13 @@
 # KI Legends — architektura i testy
 
+## Aktualny stan techniczny — 29.10.2026
+
+Punkt odniesienia: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`, opublikowany na Aruba przez [run 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683). Phaser pozostaje lokalną symulacją PvE, React/TanStack obsługuje aplikację i HUD. Supabase zapewnia dotychczasowe konto/zapisy; nowy projekt właściciela nie jest jeszcze aktywnym backendem gry. Prywatny PostgreSQL VPS nie oznacza uruchomionego multiplayera.
+
+`GameSession`, kity ras, `development/` i `combatTraining.ts` współpracują w jednym silniku. Klasyczny zapis **9** oraz Superior **5** zachowują oba systemy rozwoju i GM; szczegóły migracji są [poniżej](#integracja-rozwoju-i-treningu--29102026). Portret otwiera `CharacterStatsPanel`; okno Rozwój obsługuje `DevelopmentPanel`. Nie zmieniono klawiszy, joysticka ani pozycji HUD-u przy tej integracji.
+
+Rozróżniać cztery kontrole: lokalne 985 testów, 12 wąskich scenariuszy przeglądarkowych, pełne CI oraz test publikacji. Lokalny zestaw jednostkowy, wąskie scenariusze i test publikacji są zaliczone; pełna regresja CI nie ma zielonego odbioru. [Aktualny plan i ograniczenia](PLAN-I-ZADANIA.md#bieżący-checkpoint--29102026-po-integracji), [dowody publikacji](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji). Datowane checkpointy CPU i starsze formaty w dalszych sekcjach pozostają historią, nie bieżącą konfiguracją.
+
 ## Odtworzenie po wyłączeniu poda CPU
 
 [Końcowa kopia](../deliveries/cpu-shutdown-20261023/) zawiera 8 części archiwum,
@@ -74,7 +82,7 @@ Nie importować GameSession do lekkiej strony `/mapa`; komunikacja idzie przez p
 
 ## Zapis, wnętrza i cykl sceny
 
-Zapis v5, odczyt v1/v3/v4, kopie migracyjne i konflikt kart opisuje
+Zapis klasyczny v9 (odczyt v1/v3/v4/v5/v6/v7/v8/v9), Superior v5 (odczyt v1–v5), kopie migracyjne i konflikt kart opisuje
 [rozwój](ROZWOJ-I-WALKA.md). Scena nie jest źródłem własności przedmiotu:
 reguły ekonomii i przejścia kontroluje sesja. Wnętrze używa lokalnej nawigacji;
 kamera przestaje śledzić i centruje pomieszczenie, po wyjściu wraca do świata.

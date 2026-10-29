@@ -1,5 +1,7 @@
 # KI Legends — rozwój i walka
 
+> **Stan po integracji 29.10.2026, `main@5cea48da`:** PR #55 i #61 są scalone przez #62 i opublikowane. Działają wspólny trening/egzaminy, częściowe dziedzictwa oraz nowe parametry Unik, szybkość ataku i Technika bez wzrostu za poziom. Portret otwiera rzeczywiste statystyki z rozbiciem premii. Obowiązują formaty klasyczny9 i Superior5, opisane [w sekcji integracji](#integracja-oczekujących-gałęzi--29102026). Późne rozdziały i próby nie są ukończone, a pełna regresja walki nie ma zielonego odbioru. [Wyniki i publikacja](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
+
 > **Audyt 28.10.2026, `main@30f7b8d5`:** Combat V3 scalono przez #48; w #51 scalono animacje HD czterech ras (klatki 256 px, skala wyświetlania zachowuje poprzednie proporcje). Nie jest to potwierdzenie płynnej, bezbłędnej walki. W pełnym Playwright PR #49 scenariusz Planetarnego w `e2e/three-races-pve.spec.ts:176` uzyskał 2 zamiast 3 zabójstw w 60 sekund (1 FAIL / 182 PASS). W nowszym WebGL #52 na `a4ee855e` stwierdzono 7 FAIL, wszystkie z timeoutem poszukiwania żywego przeciwnika przez `liveEnemy` w `e2e/fixtures.ts:223`; problem dotyczy m.in. Mędrców i Androidów. Przyczyny technicznej nie potwierdzono. **Nie zaliczać całego Combat V3; nie usuwać ani nie rozluźniać testów.** Dowody: [28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
 
 
@@ -50,9 +52,7 @@ Obecne ulepszenie miecza: jednorazowo +4 ATK za 15 monet. Sloty: broń i pancerz
 Nie zastępować tych liczb propozycjami z księgi przygody bez osobnego wdrożenia.
 XP do następnego poziomu: `100 + 60 × (L−1)`; dojście do 20: 12 160 XP.
 
-Zapis v5 obejmuje umiejętności, materiały, resety, wnętrze i osobisty depozyt.
-Wczytuje v1/v3/v4; surowy wcześniejszy zapis otrzymuje kopię `before-v5`, historyczne
-kopie `before-v4` pozostają. Walidacja chroni nieznane/nowsze dane i konflikt kart.
+Klasyczny zapis v9 obejmuje umiejętności, materiały, resety, wnętrze, osobisty depozyt, rozwój ras, nowy trening i nadpisania GM. Wczytuje v1/v3/v4/v5/v6/v7/v8/v9; Superior zapisuje v5 i czyta v1–v5. Surowe kopie wcześniejszych zapisów pozostają zachowane, a walidacja chroni nieznane/nowsze dane, konflikt kart oraz przed usunięciem istniejącego rozwoju lub treningu. Szczegóły kluczy i testów: [integracja](#integracja-oczekujących-gałęzi--29102026).
 Depozyt jest prywatny dla lokalnego slotu na danej domenie, nie serwerowy.
 Przeniesienie ostatniego miecza przenosi również ulepszenie; wyposażona ostatnia
 sztuka nie opuszcza plecaka. Limity i ilości sprawdzane przed mutacją.
@@ -1097,8 +1097,7 @@ Kanon bazowych ras, drzewek, kosztów i odnowień pozostaje bez zmian.
 
 Zapis klasyczny8 czyta1/3/4/5/8, Superior4 czyta1/4. Zachowuje surowy poprzedni
 payload przed migracją; starszy runtime odrzuci nowszy format, zamiast usunąć
-trening. Niescalony PR55 ma osobny rozwój ras i własne wersje zapisu — wymaga
-świadomej integracji, nie automatycznej zamiany tych plików.
+trening. Był to stan oddzielnych gałęzi przed scaleniem; PR55 jest już zintegrowany z nowym treningiem. Bieżące formaty to klasyczny9 i Superior5, opisane poniżej. Nie przywracać wcześniejszych writerów.
 
 ## Integracja oczekujących gałęzi — 29.10.2026
 

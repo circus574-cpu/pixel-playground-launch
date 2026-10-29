@@ -1,0 +1,50 @@
+{
+  "observedAt": "2026-10-29T12:41:05.713923+00:00",
+  "deployedCommit": "5cea48dae81171b5e3bea1eeff124a0d8857ad76",
+  "evidence": "Copied from the actual preceding production smoke; not a new browser run during this documentation update.",
+  "productionSmokeUrl": "https://kilegends.pl/",
+  "files": [
+    {
+      "file": "production-smoke.mjs.txt",
+      "sha256": "25cfcf4ba7f646679111f1a6f86caffa730654f3afd942baa4e2d93bea8aac29"
+    },
+    {
+      "file": "production-smoke.txt",
+      "sha256": "37968724aa7731aff25b2775287e83d51611a01f48fc876932942d2ae6c258c2"
+    },
+    {
+      "file": "production-statistics.png",
+      "sha256": "fe6eb762a4d2061386f569e1d55066c35821f5acd470952e5bb09d93ebe6b6e6"
+    }
+  ],
+  "originalBranchesAudited": 96,
+  "tipsAlreadyInMainBefore": 57,
+  "tipsInMainAfter": 63,
+  "integratedPRs": [
+    55,
+    59,
+    60,
+    61
+  ],
+  "integrationPR": 62,
+  "obsoletePRsClosed": [
+    3,
+    8,
+    10,
+    12,
+    13,
+    14,
+    18,
+    19,
+    20,
+    21,
+    22,
+    27,
+    50
+  ],
+  "remainingDrafts": [
+    4,
+    6,
+    11
+  ]
+}

@@ -1,19 +1,33 @@
 # KI Legends — aktualny plan i zadania
 
-## Bieżący checkpoint — audyt 28.10.2026 (main `30f7b8d5`)
+## Bieżący checkpoint — 29.10.2026 po integracji
 
-Ten checkpoint **zastępuje historyczne etykiety stanu z 23–24.10 w poniższych sekcjach**, lecz ich nie usuwa. Szczegóły i dowody: [dziennik 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
+Kod i potwierdzona publikacja: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`.
+Ten checkpoint zastępuje wcześniejsze etykiety stanu; zachowuje historyczne wyniki i nierozwiązane błędy.
+Dowody i dokładne polecenia: [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
 
-- **Scalone do main:** #48 Combat V3 + ikony/VFX, #49 podłoże Gemini 1.1.1, #51 postacie HD (4 rasy, klatki 256 px, wyświetlane w poprzedniej wysokości) i audio, #52 przygotowywanie mapy przed wejściem oraz pojedynczy Canvas terenu. Panel Coder (`8adaac94`) i mapa 2D administratora (`954dd3ee`) również znajdują się w main.
-- **Produkcja:** dziennik 28.10 dokumentuje wdrożenie `9b9649cc` i dwa testy Chromium na domenie (Canvas/WebGL przy 390×844, 2 PASS). To nie jest test sprzętowego telefonu ani pełna regresja; późniejszy `30f7b8d5` dotyczy dokumentacji/artefaktów QA.
-- **Testy:** PR #49: Playwright 182 PASS / 1 FAIL (Planetarny, trzecie zabójstwo); PR #52: na `a4ee855e` workflow WebGL `40653403301` **FAILURE**, 7 scenariuszy bez dostępnego żywego celu (timeout fixture `liveEnemy`). Pełny Playwright `40653403311` był `in_progress` w momencie tego odczytu. Nie przypisywać tym wynikom zielonej regresji końcowego main.
-- **Otwarte P0:** zdiagnozować 7 czerwonych scenariuszy walki/lifecycle i wcześniejszy błąd Planetarnego, powtórzyć komplet testów na dokładnym wydawanym SHA.
-- **Otwarte P1:** mapa Coder wyświetla białe znaczniki `projection.places`, lecz pomija je przy wskazywaniu kursorem w `onPointerUp`; wymaga poprawki i E2E. Niezależnie zbadać role GM/admin, lokalne override'y oraz odczyt/zapis.
-- **Świat i produkcja:** wymagania Architekta to 45% lądu / 55% wody na sferze, cztery kontynenty + sześć wysp, najwyżej 20 rozległych podziemi (4–5 labiryntów). Prototyp nie jest dowodem integracji aktywnego runtime; migracje, trasy i odtwarzanie zapisów wymagają odbioru.
-- **Dokumentacja:** draft PR #50 (checkpoint `8e3db1c`) jest starszy i częściowo pokrywa niniejsze dopiski. Przed scaleniem PR należy porównać dokumenty i nie nadpisywać dzienników Coder ani 28.10.
+- **Scalone:** #55 rozwój/dziedzictwa (częściowy zakres), #61 Unik/szybkość ataku/Technika i statystyki po kliknięciu portretu, #59 narzędzia niezależnego Supabase, #60 prywatny PostgreSQL pod przyszły multiplayer. #55/#59/#61 zintegrowano przez #62, rozwiązując konflikty, bez podmiany nowszego sterowania, grafik i świata.
+- **Zapis:** klasyczny writer **9**, czyta 1/3/4/5/6/7/8/9; Superior writer **5**, czyta 1/2/3/4/5. Jednocześnie zachowuje rozwój ras, trening, ekwipunek/bronie dziedzictwa i nadpisania GM. Nie obniżać numeru formatu ani usuwać kopii migracyjnych.
+- **Produkcja:** [deployment 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683) SUCCESS, marker zweryfikowanego wydania wskazuje powyższy SHA. Przeszły testy HTTP kandydata i po promocji. Publiczne `kilegends.pl`, `/healthz`, `/mapa` i staging odpowiadały 200. W Chromium uruchomiono grę Planetarnych oraz nowe statystyki, bez `pageerror`.
+- **Testy integracji:** 985/985 w 76 plikach, pełny TypeScript, lint 0 błędów/15 istniejących ostrzeżeń, build i kontrola dokumentacji PASS. Canvas: statystyki czterech ras i pierwsze rozdziały/projekty/bronie/reload czterech ras; Software WebGL: statystyki czterech ras. Jedna próba Mędrców przerwana przez brak miejsca na screenshot; powtórka PASS. To 12 unikalnych zaliczonych scenariuszy, nie pełny Playwright.
+- **Pełne CI:** wcześniejsze PR #61 WebGL ma 38 PASS/7 FAIL (`liveEnemy`), analogiczny problem opisano przed nim w audycie PR #52. Przyczyna nadal wymaga diagnozy. Pełne kontrole #62 były w toku przy odczycie zapisanym w QA; nie przypisywać im PASS z testów lokalnych lub wdrożenia.
+- **Backend:** obecna gra nie została przełączona z dotychczasowego Supabase. Osobny projekt właściciela ma odtworzone konto i 22 zapisy, lecz czeka na binarne pliki Storage, bezpieczną konfigurację serwerową i odbiór Auth/SMTP/cutoveru. Prywatny PostgreSQL VPS jest fundamentem trwałości, nie działającym serwerem multiplayer.
+- **Gałęzie:** audyt objął 96 końcówek; 57 było już w main, po integracji 63 jest jego przodkami. Zamknięto 13 starych PR-ów bez kasowania gałęzi. Otwarte są tylko Draft #4 i #11 (stare prace graficzne) oraz #6 Architekta; nie nakładać ich automatycznie na obecną wersję.
 
+### Najbliższe zadania
 
-## Checkpoint CPU — zapis wszystkich dotychczasowych prac
+| Priorytet | Zadanie | Warunek zamknięcia |
+| --- | --- | --- |
+| P0 | Zdiagnozować dostępność celu w czerwonych testach walki/lifecycle i wcześniejsze 2/3 zabójstw Planetarnego | Pełna zielona regresja wskazanego SHA bez pomijania testów i osłabiania asercji |
+| P0 | Dokończyć niezależny backend Supabase | Odczyt zweryfikowanej kopii Storage, klucze wyłącznie po stronie serwera, Auth/SMTP, końcowe porównanie danych i jawny cutover; bez nadpisywania źródła |
+| P1 | Dokończyć rozwój ras | Pozostałe próby i ich progi, późne rozdziały/projekty, bronie stopni 3–6, ochrony/eskorty bojowe, mistrzostwa i narracja; katalog nie zastępuje grywalności |
+| P1 | Odbiór mobilny i wydajności | Fizyczny Android/iOS, pomiary FPS/pamięci i rzeczywiste interakcje; emulacja Chromium nie zastępuje urządzenia |
+| P1 | Domknąć wcześniejsze uwagi Coder i geometrii świata | Odtworzenie aktualnego zachowania wyboru miejsc, 45/55, nawigacji i granic; wcześniejszych uwag nie uznano tu za naprawione |
+| P2 | Projekt autorytatywnego multiplayera | Osobny serwer, walidacja poleceń, synchronizacja, uprawnienia i test obciążenia; sama baza nie zamyka zadania |
+
+Historyczny [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52) nadal opisuje niezamknięte uwagi techniczne. Starsza lista poniżej jest materiałem planistycznym; w razie rozbieżności bieżący checkpoint i kod mają pierwszeństwo w określaniu stanu wdrożenia.
+
+## Historyczny checkpoint CPU — 23.10.2026
 
 Na `feature/cpu-game-content-20261023` zapisano kod, kopie danych oraz
 [raporty](zmiany/2026-10-23/qa/cpu-game-content/). Zakończone obliczenia obejmują
@@ -43,7 +57,7 @@ Nie wyciągać stanu produkcji ze starego PR ani statusu „niescalone” sprzed
 Cztery malowane rasy, drzewka 4×29, statystyki i zasoby rasowe; silnik 40 potworów.
 Globus/atlas i cztery kontynenty, tekstury i część przyrody. Cztery miasta z sześcioma
 usługami, wspólne wnętrza, handel/kowal, osobista skrzynia, manekin i odpoczynek.
-Zapis v5 z wcześniejszymi migracjami. Verdantia jest etapem miejskim;
+Zapis klasyczny v9 i Superior v5 z wcześniejszymi migracjami oraz wspólnym rozwojem/treningiem. Verdantia jest etapem miejskim;
 pozostałe miasta mają `city.bounds` i zachowaną walkę poza granicą.
 Nie są ukończone wszystkie kontynenty, nowe spawny, grafiki mieszkańców ani pełna kampania.
 
@@ -163,7 +177,7 @@ Nie włączać jej przypadkowo do geometrii.
 
 ## Nowe zlecenie rozwoju czterech ras — 28.10.2026, w realizacji
 
-Gałąź `feature/racial-development-and-heritage`, baza `3ffd46c7`.
+Stan na 29.10: gałąź `feature/racial-development-and-heritage` została scalona przez PR #62. Poniższe checkpointy 28.10 opisują historię prac i nadal nieukończony zakres; wcześniejsza baza to `3ffd46c7`.
 Pełne wymagania: [niezmienione źródło właściciela](design/racial-development-owner-2026-10-28.txt).
 Wspólny trening i izolowane egzaminy są podłączone do istniejącego silnika;
 nie oznacza to ukończenia dostawy. Weryfikacja trwa.
@@ -196,7 +210,7 @@ a nie zaliczania ich kontrolerem spokojnej dostawy. Pozostały zakres 48 prób,
 późnych spotkań, biografii, kronik, tytułów i balansu nie jest ukończony.
 
 
-### Stan zamknięcia sesji 28.10 — PR #55 nadal Draft
+### Historyczny stan zamknięcia sesji 28.10 — wówczas PR #55 Draft
 
 Partia odbiorców obrażeń przygotowuje ochronę NPC/obiektów, lecz nie implementuje
 kontrolerów fal ani bojowych eskort. Pozostają: 48 prób rasowych i trzy progi
@@ -206,7 +220,7 @@ Nie należy traktować 24 definicji zadań i 24 projektów jako dowodu ich pełn
 Nowy test rzeczywistej walki Canvas/Software WebGL ma niezakończoną diagnozę;
 nie osłabiać asercji spadku HP ani zastępować zniknięcia potwora dowodem trafienia.
 
-PR #55 ma konflikt z nowszym `main@0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`.
+Stan historyczny 28.10: PR #55 miał konflikt z `main@0b5ae9486914962626d8b7bbe5ce09fccbeb35ab` (rozwiązany przy integracji 29.10).
 Przed integracją porównać nowe transformacje, zapis, sterowanie i zmiany GM;
 wyniki tej gałęzi nie dowodzą zgodności z nowym main. Nie scalono i nie opublikowano.
 Szczegóły i dowody w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).

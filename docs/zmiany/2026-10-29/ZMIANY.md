@@ -402,3 +402,93 @@ Suma zgadza się z metadanymi aktualnego kanonicznego JSON; źródło zachowano 
 zmiany bajtów w `docs/design/source-annexes/`, poprawiając nieaktualny komunikat INDEX.
 Nie przywrócono starego JSON/CSV ani listy20 potworów — obowiązuje bestiariusz40.
 PR20 i gałąź historyczna zachowane do porównania pozostałych historycznych różnic.
+
+## Stan po scaleniu i publikacji — aktualizacja dokumentacji
+
+Bieżący punkt odniesienia kodu: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`.
+To potwierdzone wydanie, a nie tylko wypchnięta gałąź. [PR #62](https://github.com/circus574-cpu/pixel-playground-launch/pull/62)
+połączył #55 (częściowy rozwój ras), #59 (narzędzia migracji Supabase) i #61
+(nowe parametry treningu/statystyki). #60 (prywatna baza multiplayer VPS) scalono
+wcześniej. Wszystkie cztery źródłowe PR-y mają stan MERGED; aktualne drzewo kodu
+wydania było identyczne z lokalnie sprawdzoną integracją.
+
+### Gałęzie i pozostałe PR-y
+
+Audyt objął 96 pierwotnych końcówek gałęzi: 57 było już przodkami main, po
+integracji jest ich 63. Pozostałe 33 rozbieżne gałęzie nie zostały automatycznie
+nałożone na nowszy kod. Nie usuwano gałęzi i nie przepisywano opublikowanej historii.
+
+Zamknięte jako historyczne, zastąpione lub patch-equivalent:
+#3, #8, #10, #12, #13, #14, #18, #19, #20, #21, #22, #27 i #50.
+Zamknięcie nie oznacza scalenia wszystkich ich dawnych plików; oryginały
+pozostają dostępne w gałęziach. Z #20 odzyskano zweryfikowany aneks ras/drzewek,
+bez przywracania starego bestiariusza 20 potworów. Otwarte pozostały tylko:
+
+| PR | Stan | Powód pozostawienia |
+| --- | --- | --- |
+| #4 | Draft | Historyczny checkpoint produkcji Planetarnych; wymaga odbioru zamiast podmiany aktualnej grafiki |
+| #6 | Draft | Dokumentacja Architekta do zatwierdzenia; nie została nadpisana ani scalona |
+| #11 | Draft | Historyczna integracja Mędrca z konfliktami/odbiorem; nie zastępuje obecnych paczek HD |
+
+[Snapshot stanów PR](qa/post-integration-documentation/pull-requests.json),
+[pełny audyt gałęzi sprzed integracji](qa/branch-integration/branches-before.json).
+
+### Publikacja zweryfikowana
+
+[Aruba deployment 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683)
+zakończył się **SUCCESS** dla `5cea48da`. Log potwierdził pełne kontrole kandydata,
+kontrole po promocji i `COOLIFY RELEASE VERIFIED` z pełnym SHA. Publiczne `/`,
+`/healthz`, `/mapa` oraz staging odpowiadały HTTP 200 po zakończeniu promocji.
+Wcześniejszy rollback po #60 i bramka gotowości HTTP są opisane wyżej;
+nie uznano tamtej nieudanej próby za publikację.
+
+W rzeczywistym Chromium na `https://kilegends.pl/` wykonano:
+wybór Planetarnych → rozpoczęcie przygody → wejście do świata → kliknięcie portretu
+→ odczyt Techniki, Uniku i szybkości ataku → zamknięcie okna. Wynik PASS,
+zero zdarzeń `pageerror`. Jest to wąski test produkcji, bez logowania na konto
+właściciela i bez zmiany prywatnych danych.
+
+Dowody utrwalone z wykonanego wcześniej testu, bez ponownego deklarowania jego
+wykonania podczas tej aktualizacji:
+[log](qa/post-integration-documentation/production-smoke.txt),
+[źródło skryptu](qa/post-integration-documentation/production-smoke.mjs.txt),
+[zrzut produkcji](qa/post-integration-documentation/production-statistics.png),
+[status wdrożenia](qa/post-integration-documentation/deployment.json),
+[proweniencja i SHA-256](qa/post-integration-documentation/provenance.json).
+Skrypt dowodowy zawiera ścieżki ówczesnego workspace; nie jest nowym narzędziem
+instalacyjnym ani gotową uniwersalną komendą dla innego środowiska.
+
+### Wyniki a ograniczenia
+
+| Zakres | Rzeczywisty wynik | Punkt odniesienia |
+| --- | --- | --- |
+| Integracja lokalna | 985/985 testów, 76 plików, TypeScript PASS, lint 0 błędów / 15 ostrzeżeń, build PASS | Kod integracji prowadzący do `5cea48da`; logi i sumy źródeł w `qa/branch-integration/` |
+| Wąskie scenariusze przeglądarkowe | 12 unikalnych przypadków zaliczonych: Canvas 8 i Software WebGL 4 | Jedna powtórka Mędrców po ENOSPC podczas zapisu screenshotu; pierwotna próba zachowana |
+| Pełne CI PR #61 | WebGL 38 PASS / 7 FAIL | Run 40861053178; problem `liveEnemy`, analogiczny do wcześniejszego audytu #52, przyczyna niezamknięta |
+| Pełne CI PR #62 | W toku w utrwalonym odczycie | [Snapshot](qa/post-integration-documentation/ci-observed.json); nie przypisano mu lokalnego PASS |
+| Publikacja | SUCCESS i wąski smoke Chromium PASS | Wdrożony `5cea48da`, run 40871582683 |
+| Fizyczny Android/iOS, pomiary FPS i pamięci urządzeń | NIEWYKONANE w tej integracji | Emulacja Chromium nie stanowi takiego odbioru |
+
+Rozwój #55 jest scalony, lecz **nie ukończony w pełnym zakresie właściciela**.
+Pozostają późne rozdziały/projekty, bronie 3–6, próby/progi, ochrony i eskorty
+bojowe, mistrzostwa, narracja i odbiór balansu. Samo istnienie definicji nie zamyka
+tych zadań. Nie włączono walki zwykłych NPC ani serwera autorytatywnego.
+
+Scalenie #59 nie przełączyło aktywnego backendu: pliki Storage, bezpieczny klucz
+serwerowy, Auth/SMTP, końcowa zgodność danych i cutover pozostają do wykonania.
+Prywatny PostgreSQL z #60 jest oddzielnym fundamentem pod przyszły serwer,
+a nie działającym multiplayerem. W tej aktualizacji dokumentacji nie wykonywano
+zapytań do bazy, migracji danych, operacji Storage ani działań na GPU.
+
+### Zakres tej aktualizacji dokumentacji
+
+Uaktualniono INDEX, plan, architekturę, rozwój/walkę i rasy. Bieżące formaty
+klasyczny 9 / Superior 5 zastępują stare aktywne opisy v5. Datowane checkpointy
+zachowano jako historię. Z kodu/manifestu sprawdzono aktualne paczki bohaterów
+`*-walk-v3` w wersji 2.0.0, klatki 256 px i prezentację 133×133 zamiast dawnego
+opisu 128 px / 160×160. Nie zmieniono samych grafik ani ustawień renderowania.
+
+Nie uruchamiano ponownie gry, pełnego Vitest, Playwright ani buildu wyłącznie dla
+zmian tekstowych. Wyniki 985/12 odnoszą się do wcześniejszej integracji i jej
+zachowanych dowodów. Kontrole tej partii obejmują pełny TypeScript, walidację
+struktury dokumentacji/odnośników, sumy zapisanych dowodów i brak zmian runtime.
