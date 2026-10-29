@@ -492,3 +492,22 @@ Nie uruchamiano ponownie gry, pełnego Vitest, Playwright ani buildu wyłącznie
 zmian tekstowych. Wyniki 985/12 odnoszą się do wcześniejszej integracji i jej
 zachowanych dowodów. Kontrole tej partii obejmują pełny TypeScript, walidację
 struktury dokumentacji/odnośników, sumy zapisanych dowodów i brak zmian runtime.
+
+## Korekta czytelności statystyk postaci
+
+Właściciel doprecyzował format: `Atak: X`, a przy przedmiocie czerwone `+ Y`.
+Zmieniono wyłącznie prezentację `CharacterStatsPanel`: jedna linia, bez „Baza”
+i widocznych warstw treningu/zdolności/buffów/GM, premia wyposażenia tylko niezerowa.
+Wartość główna nie zawiera drugi raz osobno pokazywanej premii; nadpisanie GM
+pozostaje końcową liczbą. Nie zmieniono walki, statystyk, treningu ani formatu zapisu.
+
+Regresja UI sprawdza brak dodatkowej etykiety, czerwone +8 z rzeczywistego ostrza,
+brak podwójnego zliczenia, parametr wytrenowany i końcową wartość GM.
+Polecenie `npx vitest run src/test/character-statistics-ui.test.tsx src/test/combat-training.test.ts src/test/game-hud.test.tsx src/test/kit.test.ts src/test/branch-integration.test.ts`:
+54/54 PASS w 5 plikach. Pełny TypeScript PASS, lint 0 błędów / 15 wcześniejszych
+ostrzeżeń. To kontrole tej korekty, nie ponowna pełna regresja 985 testów.
+
+Lokalny build playtestu PASS. W rzeczywistym Phaser/Chromium: otwarcie okna,
+wyświetlenie statystyk, zamknięcie i reload wszystkich czterech ras — 4/4 PASS.
+Dowody: [qa/compact-statistics](qa/compact-statistics/), w tym desktop i emulowany
+telefon po wymaganym obrocie. Nie wykonano nowego testu fizycznego telefonu.

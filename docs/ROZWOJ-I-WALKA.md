@@ -1,6 +1,6 @@
 # KI Legends — rozwój i walka
 
-> **Stan po integracji 29.10.2026, `main@5cea48da`:** PR #55 i #61 są scalone przez #62 i opublikowane. Działają wspólny trening/egzaminy, częściowe dziedzictwa oraz nowe parametry Unik, szybkość ataku i Technika bez wzrostu za poziom. Portret otwiera rzeczywiste statystyki z rozbiciem premii. Obowiązują formaty klasyczny9 i Superior5, opisane [w sekcji integracji](#integracja-oczekujących-gałęzi--29102026). Późne rozdziały i próby nie są ukończone, a pełna regresja walki nie ma zielonego odbioru. [Wyniki i publikacja](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
+> **Stan po integracji 29.10.2026, `main@5cea48da`:** PR #55 i #61 są scalone przez #62 i opublikowane. Działają wspólny trening/egzaminy, częściowe dziedzictwa oraz nowe parametry Unik, szybkość ataku i Technika bez wzrostu za poziom. Portret otwiera rzeczywiste statystyki z prezentacją wartości i premii. Obowiązują formaty klasyczny9 i Superior5, opisane [w sekcji integracji](#integracja-oczekujących-gałęzi--29102026). Późne rozdziały i próby nie są ukończone, a pełna regresja walki nie ma zielonego odbioru. [Wyniki i publikacja](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
 
 > **Audyt 28.10.2026, `main@30f7b8d5`:** Combat V3 scalono przez #48; w #51 scalono animacje HD czterech ras (klatki 256 px, skala wyświetlania zachowuje poprzednie proporcje). Nie jest to potwierdzenie płynnej, bezbłędnej walki. W pełnym Playwright PR #49 scenariusz Planetarnego w `e2e/three-races-pve.spec.ts:176` uzyskał 2 zamiast 3 zabójstw w 60 sekund (1 FAIL / 182 PASS). W nowszym WebGL #52 na `a4ee855e` stwierdzono 7 FAIL, wszystkie z timeoutem poszukiwania żywego przeciwnika przez `liveEnemy` w `e2e/fixtures.ts:223`; problem dotyczy m.in. Mędrców i Androidów. Przyczyny technicznej nie potwierdzono. **Nie zaliczać całego Combat V3; nie usuwać ani nie rozluźniać testów.** Dowody: [28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
 
@@ -1115,3 +1115,16 @@ na końcu. Dodano osiem przypadków migracji obu systemów i zachowania ustawie�
 PR55 pozostaje **częściowym zakresem funkcjonalnym**, nawet po technicznej integracji:
 brakuje późnych prób, rozdziałów i ochron/eskort bojowych wyszczególnionych w planie.
 Nie deklarujemy pełnej kampanii ani włączenia ataków na zwykłych NPC.
+
+
+## Zwięzłe statystyki — korekta właściciela 29.10.2026
+
+W oknie postaci parametr ma jedną linię: `Atak: X`. Tylko przy niezerowej premii
+wyposażenia pojawia się obok czerwone `+ Y` (dla kary znak minus). Nie wyświetla
+się etykiety „Baza” ani osobnych składników treningu, zdolności, efektów i GM.
+
+`X` uwzględnia bieżący rozwój oraz pozostałe efekty bez osobno pokazanego wkładu
+wyposażenia; `X + Y` równa się rzeczywistej wartości końcowej. Dzięki temu premia
+nie jest liczona wizualnie drugi raz. Końcowe nadpisanie GM wyświetla jedną
+ustaloną wartość, bez fikcyjnej premii przedmiotu. Wewnętrzne obliczenia i
+`statBreakdown` pozostają dostępne dla silnika; nie zmieniono balansu ani zapisów.
