@@ -1,4 +1,4 @@
-name: Aruba server inspection
+name: Aruba staging deployment
 on:
   workflow_dispatch:
   push:
@@ -9,9 +9,10 @@ permissions:
 jobs:
   ssh-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 30
     steps:
-      - name: Check SSH access and local Coolify response
+      - uses: actions/checkout@v4
+      - name: Deploy and verify isolated staging over authorized SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
         shell: bash
@@ -29,4 +30,4 @@ jobs:
             -o StrictHostKeyChecking=accept-new \
             -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
             -p 22 codex@85.235.150.189 \
-            'id; df -h /; docker version --format {{.Server.Version}}; docker ps --format "{{.Names}} {{.Ports}}"; sudo -n docker ps --format "{{.Names}} {{.Ports}}"; ls -ld /home/gh-runner/migracja-archiwa/verified-cdbd495f/KI-LEGENDS-VPS-MIGRACJA /opt/ki-legends 2>/dev/null || true'
+            "bash -s -- '${{ github.sha }}'" < deploy/scripts/start-aruba-staging.sh
