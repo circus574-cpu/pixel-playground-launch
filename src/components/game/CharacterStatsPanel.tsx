@@ -34,41 +34,46 @@ export function CharacterStatsPanel({
   const effects = techniqueEffects(state.stats.technique);
   return (
     <div style={{ padding: "12px", overflowY: "auto", maxHeight: "65dvh" }}>
-      <p>
-        Poziom {state.player.level}. Unik, szybkość ataku i Technika rosną przez trening oraz premie
-        — nigdy automatycznie z poziomem.
-      </p>
+      <p>Poziom {state.player.level}</p>
       <dl>
         {Object.entries(state.statBreakdown)
           .filter(([key]) => labels[key])
-          .map(([key, row]) => (
-            <div key={key} style={{ padding: "8px 0", borderBottom: "1px solid #ffffff20" }}>
-              <dt>{labels[key]}</dt>
-              <dd style={{ margin: 0 }}>
-                <strong>{number(row.total)}</strong>
-                <small style={{ display: "block", opacity: 0.8 }}>
-                  Baza {number(row.base)}
-                  {(
-                    [
-                      ["training", "trening"],
-                      ["items", "przedmioty"],
-                      ["skills", "zdolności"],
-                      ["effects", "efekty"],
-                      ["gm", "GM"],
-                    ] as const
-                  )
-                    .filter(([k]) => row[k] !== 0)
-                    .map(([k, label]) => (
-                      <span key={k}>
-                        {" "}
-                        · {row[k] > 0 ? "+" : ""}
-                        {number(row[k])} {label}
-                      </span>
-                    ))}
-                </small>
-              </dd>
-            </div>
-          ))}
+          .map(([key, row]) => {
+            const overridden =
+              state.player.statOverrides?.[
+                key as keyof NonNullable<typeof state.player.statOverrides>
+              ] !== undefined;
+            const itemBonus = overridden ? 0 : row.items;
+            return (
+              <div
+                key={key}
+                data-stat={key}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 8,
+                  padding: "8px 0",
+                  borderBottom: "1px solid #ffffff20",
+                }}
+              >
+                <dt>
+                  <span>{labels[key]}</span>:
+                </dt>
+                <dd style={{ margin: 0 }}>
+                  <strong>{number(row.total - itemBonus)}</strong>
+                  {itemBonus !== 0 && (
+                    <span
+                      className="ki-item-stat-bonus"
+                      style={{ color: "#ff6262", marginLeft: 6 }}
+                    >
+                      {itemBonus > 0 ? "+ " : "− "}
+                      {number(Math.abs(itemBonus))}
+                    </span>
+                  )}
+                </dd>
+              </div>
+            );
+          })}
       </dl>
       <p>Tempo ataku: {number(1000 / state.stats.attackInterval)} / s.</p>
       <p>
