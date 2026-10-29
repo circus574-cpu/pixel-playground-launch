@@ -53,8 +53,7 @@ Nie kopiujemy ich w całości do wielu plików opisowych i nie usuwamy dowodów 
   SHA-256: `be58d9df4fb49d19b11a66d47a1a3fc3fbbf5acc9c11ddc5cf76213f6be15734`.
   Kopia binarna w `design/original-pdf-parts/`; odtworzenie:
   `python3 docs/design/original-pdf-parts/restore.py`.
-- Aneks statystyk i drzewek: zachowano źródłowy JSON poniżej; binarnego PDF aneksu
-  nie ma w tym checkoutcie. Nie mylić go z obecnym oryginalnym PDF 12-stronicowym.
+- [Oryginalny aneks statystyk i drzewek](design/source-annexes/Ki_Legends_Aneks_Rasy_i_Drzewka_Umiejetnosci.pdf): odzyskany z gałęzi PR20 podczas audytu29.10, 103455bajtów, SHA-256 `0358053e7e467bffd41055f50f765d0f33cbf15c6b0176266c866d493dda5cff`, zgodny z metadanymi kanonicznego JSON. Nie mylić z oryginalnym PDF12-stronicowym. Nie przywrócono starego bestiariusza20 — obowiązuje HTML40 potworów.
 - [Dane aneksu](design/data/character-progression-1-20.json),
   [bestiariusz właściciela](design/BESTIARY-OWNER-2026-10-22.html),
   [pomocnicza transkrypcja oryginału](design/source-transcript.txt).

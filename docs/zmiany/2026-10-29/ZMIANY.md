@@ -395,3 +395,10 @@ scenariuszy zaliczonych po jednej powtórce środowiskowej. Logi i screenshoty:
 [qa/branch-integration](qa/branch-integration/); manifest poleceń/wyników i sum
 źródeł: [verification.json](qa/branch-integration/verification.json).
 Pełna macierz E2E nadal nie ma zielonego odbioru; nie zaliczono fizycznych telefonów.
+
+Audyt PR20 odzyskał rzeczywiście brakujący oryginalny PDF aneksu ras i drzewek
+(103455 bajtów, SHA `0358053e7e467bffd41055f50f765d0f33cbf15c6b0176266c866d493dda5cff`).
+Suma zgadza się z metadanymi aktualnego kanonicznego JSON; źródło zachowano bez
+zmiany bajtów w `docs/design/source-annexes/`, poprawiając nieaktualny komunikat INDEX.
+Nie przywrócono starego JSON/CSV ani listy20 potworów — obowiązuje bestiariusz40.
+PR20 i gałąź historyczna zachowane do porównania pozostałych historycznych różnic.
