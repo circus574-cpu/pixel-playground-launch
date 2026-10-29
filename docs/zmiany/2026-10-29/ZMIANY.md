@@ -511,3 +511,17 @@ Lokalny build playtestu PASS. W rzeczywistym Phaser/Chromium: otwarcie okna,
 wyświetlenie statystyk, zamknięcie i reload wszystkich czterech ras — 4/4 PASS.
 Dowody: [qa/compact-statistics](qa/compact-statistics/), w tym desktop i emulowany
 telefon po wymaganym obrocie. Nie wykonano nowego testu fizycznego telefonu.
+
+
+## Selekcja grafik KI Combat VFX z Gemini
+
+29.10.2026: udokumentowano przegląd sześciu plansz VFX (36 kafli) z publicznego
+udostępnienia Gemini. **20 kandydatów, 4 rezerwy, 12 duplikatów**, bez wdrażania
+i bez zmian w rozgrywce. Najbardziej przydatne: unikatowe efekty Planetarnych
+i Mędrców. Oryginalne pliki z publicznej strony nie są dostępne do bezpośredniego
+pobrania; udokumentowano odrębnie 6 lokalnych roboczych wycinków JPEG→RGBA.
+
+- [Szczegółowa ocena, ograniczenia i mapowanie umiejętności](GEMINI-VFX-SELEKCJA.md)
+- [Katalog 36 decyzji](qa/gemini-vfx-selekcja.csv)
+- Status: **dokumentacja w repozytorium**, brak importu binariów i brak certyfikacji
+  licencji/alpha/animacji; środowiska produkcyjne pozostawione bez zmian.
