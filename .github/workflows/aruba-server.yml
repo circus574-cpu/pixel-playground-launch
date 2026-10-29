@@ -1,0 +1,33 @@
+name: Aruba staging deployment
+on:
+  workflow_dispatch:
+  push:
+    branches: [migration/aruba-staging-2026-10-28]
+    paths: [.github/workflows/aruba-server.yml]
+permissions:
+  contents: read
+jobs:
+  ssh-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy and verify isolated staging over authorized SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo '::error::Add repository Actions secret COOLIFY_SSH_KEY, then rerun this job.'
+            exit 1
+          fi
+          umask 077
+          key_file="$RUNNER_TEMP/coolify_ssh_key"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"
+          ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 \
+            -o StrictHostKeyChecking=accept-new \
+            -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
+            -p 22 codex@85.235.150.189 \
+            "bash -s -- '${{ github.sha }}'" < deploy/scripts/start-aruba-staging.sh

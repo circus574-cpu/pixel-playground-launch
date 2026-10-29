@@ -1,0 +1,75 @@
+# KI LEGENDS — produkcja na VPS (Coolify: „Docker Compose” build pack, plik docker-compose.yml).
+# W Coolify przypisz domenę do usługi "web" (port 80). Usługa "app" nie potrzebuje domeny.
+# Zmienne ustaw w Coolify → Environment Variables (lista i opis: ZMIENNE-SRODOWISKOWE.md / .env.example).
+# Bez Coolify: cp .env.example .env, uzupełnij, potem: docker compose up -d --build
+
+x-build-args: &build-args
+  VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:?Ustaw VITE_SUPABASE_URL}
+  VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY:?Ustaw VITE_SUPABASE_PUBLISHABLE_KEY}
+  VITE_SUPABASE_PROJECT_ID: ${VITE_SUPABASE_PROJECT_ID:-}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+      args: *build-args
+    image: ki-legends-app:${KI_RELEASE:-latest}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      SUPABASE_URL: ${SUPABASE_URL:?Ustaw SUPABASE_URL}
+      SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:?Ustaw SUPABASE_PUBLISHABLE_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:?Ustaw SUPABASE_SERVICE_ROLE_KEY}
+      SESSION_SECRET: ${SESSION_SECRET:?Ustaw SESSION_SECRET (min. 32 znaki)}
+      SITE_PASSWORD: ${SITE_PASSWORD:?Ustaw SITE_PASSWORD (hasło strony /test)}
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/robots.txt').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    logging:
+      driver: json-file
+      options: { max-size: "20m", max-file: "5" }
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+      args: *build-args
+    image: ki-legends-web:${KI_RELEASE:-latest}
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      APP_UPSTREAM: app:3000
+    expose:
+      - "80"
+    # Tylko bez Coolify (Coolify/Traefik sam kieruje ruch z domeny):
+    # ports:
+    #   - "${KI_HTTP_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/healthz >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    logging:
+      driver: json-file
+      options: { max-size: "20m", max-file: "5" }

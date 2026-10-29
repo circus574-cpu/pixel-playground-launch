@@ -1,0 +1,722 @@
+ssh-check	Set up job	﻿2026-10-29T05:48:04.1826169Z Current runner version: '2.338.0'
+ssh-check	Set up job	2026-10-29T05:48:04.1856386Z ##[group]Runner Image Provisioner
+ssh-check	Set up job	2026-10-29T05:48:04.1857509Z Hosted Compute Agent
+ssh-check	Set up job	2026-10-29T05:48:04.1858732Z Version: 20261021.618
+ssh-check	Set up job	2026-10-29T05:48:04.1859641Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+ssh-check	Set up job	2026-10-29T05:48:04.1860579Z Build Date: 2026-10-21T00:45:21Z
+ssh-check	Set up job	2026-10-29T05:48:04.1861857Z Worker ID: {4af3ac13-d26b-47ad-9d7e-af1664e77185}
+ssh-check	Set up job	2026-10-29T05:48:04.1862904Z Region: eastus
+ssh-check	Set up job	2026-10-29T05:48:04.1863695Z Cloud: Azure
+ssh-check	Set up job	2026-10-29T05:48:04.1864490Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T05:48:04.1866186Z ##[group]Operating System
+ssh-check	Set up job	2026-10-29T05:48:04.1867125Z Ubuntu
+ssh-check	Set up job	2026-10-29T05:48:04.1868133Z 24.04.5
+ssh-check	Set up job	2026-10-29T05:48:04.1868954Z LTS
+ssh-check	Set up job	2026-10-29T05:48:04.1869640Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T05:48:04.1870384Z ##[group]Runner Image
+ssh-check	Set up job	2026-10-29T05:48:04.1871129Z Image: ubuntu-24.04
+ssh-check	Set up job	2026-10-29T05:48:04.1871886Z Version: 20261025.353.1
+ssh-check	Set up job	2026-10-29T05:48:04.1873207Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+ssh-check	Set up job	2026-10-29T05:48:04.1875276Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+ssh-check	Set up job	2026-10-29T05:48:04.1876500Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T05:48:04.1878041Z ##[group]GITHUB_TOKEN Permissions
+ssh-check	Set up job	2026-10-29T05:48:04.1880386Z Contents: read
+ssh-check	Set up job	2026-10-29T05:48:04.1881141Z Metadata: read
+ssh-check	Set up job	2026-10-29T05:48:04.1881892Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T05:48:04.1884130Z Secret source: Actions
+ssh-check	Set up job	2026-10-29T05:48:04.1885432Z Cache mode: write
+ssh-check	Set up job	2026-10-29T05:48:04.1886269Z Prepare workflow directory
+ssh-check	Set up job	2026-10-29T05:48:04.2226121Z Prepare all required actions
+ssh-check	Set up job	2026-10-29T05:48:04.2276024Z Getting action download info
+ssh-check	Set up job	2026-10-29T05:48:04.4482033Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+ssh-check	Set up job	2026-10-29T05:48:04.6759499Z Complete job name: ssh-check
+ssh-check	Run actions/checkout@v4	﻿2026-10-29T05:48:04.7724045Z ##[group]Run actions/checkout@v4
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7725021Z with:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7725658Z   repository: circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7729915Z   token: ***
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7730430Z   ssh-strict: true
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7730940Z   ssh-user: git
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7731451Z   persist-credentials: true
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7732006Z   clean: true
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7732510Z   sparse-checkout-cone-mode: true
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7733107Z   fetch-depth: 1
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7733599Z   fetch-tags: false
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7734104Z   show-progress: true
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7734622Z   lfs: false
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7735100Z   submodules: false
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7735615Z   set-safe-directory: true
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7736191Z   allow-unsafe-pr-checkout: false
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:04.7737046Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.0460572Z Syncing repository: circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.0464999Z ##[group]Getting Git version info
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.0467673Z Working directory is '/home/runner/work/pixel-playground-launch/pixel-playground-launch'
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.0471902Z [command]/usr/bin/git version
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1750462Z git version 2.56.0
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1781120Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1799411Z Temporarily overriding HOME='/home/runner/work/_temp/6c5096bb-a506-49ec-b140-5149c8ffe8c1' before making global git config changes
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1805164Z Adding repository directory to the temporary git global config as a safe directory
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1810903Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1872272Z Deleting the contents of '/home/runner/work/pixel-playground-launch/pixel-playground-launch'
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1878290Z ##[group]Initializing the repository
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.1885843Z [command]/usr/bin/git init /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2031761Z hint: Using 'master' as the name for the initial branch. This default branch name
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2035917Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2040533Z hint: to use in all of your new repositories, which will suppress this warning,
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2044137Z hint: call:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2054309Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2057458Z hint: 	git config --global init.defaultBranch <name>
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2061265Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2065954Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2070365Z hint: 'development'. The just-created branch can be renamed via this command:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2073972Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2076061Z hint: 	git branch -m <name>
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2078420Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2081091Z hint: Disable this message with "git config set advice.defaultBranchName false"
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2086385Z Initialized empty Git repository in /home/runner/work/pixel-playground-launch/pixel-playground-launch/.git/
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2094793Z [command]/usr/bin/git remote add origin https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2142269Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2145140Z ##[group]Disabling automatic garbage collection
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2149947Z [command]/usr/bin/git config --local gc.auto 0
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2198751Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2202212Z ##[group]Setting up auth
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2210348Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2263209Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2703792Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.2756615Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.3027103Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.3079530Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.3337534Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.3390332Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.3392303Z ##[group]Fetching the repository
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:05.3405126Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +3b595be562bb63f772ea200e2c6df480e2d596ec:refs/remotes/origin/migration/aruba-staging-2026-10-28
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.6971392Z From https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.6972758Z  * [new ref]           3b595be562bb63f772ea200e2c6df480e2d596ec -> origin/migration/aruba-staging-2026-10-28
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.6976774Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.6981370Z ##[group]Determining the checkout info
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.6982161Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.6990322Z [command]/usr/bin/git sparse-checkout disable
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.7065196Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.7113044Z ##[group]Checking out the ref
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:19.7132497Z [command]/usr/bin/git checkout --progress --force -B migration/aruba-staging-2026-10-28 refs/remotes/origin/migration/aruba-staging-2026-10-28
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:21.8663014Z Updating files:   0% (161/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:21.8959038Z Updating files:   1% (170/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:21.9172168Z Updating files:   2% (339/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:21.9401538Z Updating files:   3% (508/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:21.9609897Z Updating files:   4% (677/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:21.9859454Z Updating files:   5% (846/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.0796284Z Updating files:   6% (1015/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.3822000Z Updating files:   7% (1184/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.5025878Z Updating files:   8% (1353/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.5283986Z Updating files:   9% (1522/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.5640372Z Updating files:  10% (1692/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.5813516Z Updating files:  11% (1861/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.6129607Z Updating files:  12% (2030/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.6790767Z Updating files:  13% (2199/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.7339470Z Updating files:  14% (2368/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.8058983Z Updating files:  14% (2480/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.8356575Z Updating files:  15% (2537/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.8558060Z Updating files:  16% (2706/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.9543446Z Updating files:  17% (2875/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.9640787Z Updating files:  18% (3044/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:22.9785362Z Updating files:  19% (3214/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.0986298Z Updating files:  20% (3383/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.1402802Z Updating files:  21% (3552/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.1782192Z Updating files:  22% (3721/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.3039349Z Updating files:  23% (3890/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.3867423Z Updating files:  24% (4059/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.4498154Z Updating files:  25% (4228/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.5502817Z Updating files:  26% (4397/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.5833418Z Updating files:  27% (4566/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.6065171Z Updating files:  28% (4736/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.6530856Z Updating files:  29% (4905/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.6891331Z Updating files:  30% (5074/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.6975148Z Updating files:  31% (5243/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.7361042Z Updating files:  32% (5412/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.7928716Z Updating files:  32% (5449/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.8114462Z Updating files:  33% (5581/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.8392478Z Updating files:  34% (5750/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.8693297Z Updating files:  35% (5919/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.8915900Z Updating files:  36% (6088/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.9086634Z Updating files:  37% (6258/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.9342196Z Updating files:  38% (6427/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.9520817Z Updating files:  39% (6596/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.9701268Z Updating files:  40% (6765/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:23.9905393Z Updating files:  41% (6934/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.0075128Z Updating files:  42% (7103/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.0294648Z Updating files:  43% (7272/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.0449016Z Updating files:  44% (7441/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.0638356Z Updating files:  45% (7610/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.0828042Z Updating files:  46% (7780/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.0990897Z Updating files:  47% (7949/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.1184509Z Updating files:  48% (8118/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.1351677Z Updating files:  49% (8287/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.1736404Z Updating files:  50% (8456/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.1855524Z Updating files:  51% (8625/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.2075193Z Updating files:  52% (8794/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.2238875Z Updating files:  53% (8963/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.2358944Z Updating files:  54% (9132/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.2452702Z Updating files:  55% (9302/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.2543512Z Updating files:  56% (9471/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.2812553Z Updating files:  57% (9640/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3070745Z Updating files:  58% (9809/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3231823Z Updating files:  59% (9978/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3353217Z Updating files:  60% (10147/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3439337Z Updating files:  61% (10316/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3538605Z Updating files:  62% (10485/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3770918Z Updating files:  63% (10654/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.3972138Z Updating files:  64% (10824/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.4199126Z Updating files:  65% (10993/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.4356661Z Updating files:  66% (11162/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.4458484Z Updating files:  67% (11331/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.4556526Z Updating files:  68% (11500/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.4739961Z Updating files:  69% (11669/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.4911444Z Updating files:  70% (11838/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5023180Z Updating files:  71% (12007/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5124245Z Updating files:  72% (12176/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5269463Z Updating files:  73% (12346/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5462471Z Updating files:  74% (12515/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5621507Z Updating files:  75% (12684/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5766630Z Updating files:  76% (12853/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5859046Z Updating files:  77% (13022/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.5939918Z Updating files:  78% (13191/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6074308Z Updating files:  79% (13360/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6240563Z Updating files:  80% (13529/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6363699Z Updating files:  81% (13698/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6525689Z Updating files:  82% (13868/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6680300Z Updating files:  83% (14037/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6773588Z Updating files:  84% (14206/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.6867202Z Updating files:  85% (14375/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7081364Z Updating files:  86% (14544/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7234142Z Updating files:  87% (14713/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7302588Z Updating files:  88% (14882/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7345677Z Updating files:  88% (14980/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7434735Z Updating files:  89% (15051/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7605645Z Updating files:  90% (15220/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7752744Z Updating files:  91% (15390/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.7879385Z Updating files:  92% (15559/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8013462Z Updating files:  93% (15728/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8111340Z Updating files:  94% (15897/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8193960Z Updating files:  95% (16066/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8327209Z Updating files:  96% (16235/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8484072Z Updating files:  97% (16404/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8659133Z Updating files:  98% (16573/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8780794Z Updating files:  99% (16742/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8781835Z Updating files: 100% (16911/16911)
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8782396Z Updating files: 100% (16911/16911), done.
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8943479Z Switched to a new branch 'migration/aruba-staging-2026-10-28'
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:24.8949891Z branch 'migration/aruba-staging-2026-10-28' set up to track 'origin/migration/aruba-staging-2026-10-28'.
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:25.0079064Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:25.0147534Z [command]/usr/bin/git log -1 --format=%H
+ssh-check	Run actions/checkout@v4	2026-10-29T05:48:25.0188103Z 3b595be562bb63f772ea200e2c6df480e2d596ec
+ssh-check	Prepare deployment bundle	﻿2026-10-29T05:48:25.0520813Z ##[group]Run tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/scripts start-aruba-staging.sh promote-coolify-release.sh
+ssh-check	Prepare deployment bundle	2026-10-29T05:48:25.0521845Z [36;1mtar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/scripts start-aruba-staging.sh promote-coolify-release.sh[0m
+ssh-check	Prepare deployment bundle	2026-10-29T05:48:25.0546019Z shell: /usr/bin/bash -e {0}
+ssh-check	Prepare deployment bundle	2026-10-29T05:48:25.0546335Z ##[endgroup]
+ssh-check	Deploy tested candidate and update existing Coolify service	﻿2026-10-29T05:48:25.0726802Z ##[group]Run set -euo pipefail
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0727289Z [36;1mset -euo pipefail[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0727606Z [36;1mif [ -z "$SSH_PRIVATE_KEY" ]; then[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0728596Z [36;1m  echo '::error::Add repository Actions secret COOLIFY_SSH_KEY, then rerun this job.'[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0729100Z [36;1m  exit 1[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0729328Z [36;1mfi[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0729543Z [36;1mumask 077[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0729826Z [36;1mkey_file="$RUNNER_TEMP/coolify_ssh_key"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0730184Z [36;1mtrap 'rm -f "$key_file"' EXIT[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0730549Z [36;1mprintf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0731345Z [36;1mssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0733093Z [36;1mssh "${ssh_opts[@]}" codex@85.235.150.189 'mkdir -p "$HOME/ki-legends-aruba-staging/automation"; tar -xzf - -C "$HOME/ki-legends-aruba-staging/automation"; cp "$HOME/ki-legends-aruba-staging/automation/start-aruba-staging.sh" "$HOME/ki-legends-aruba-staging/deploy-candidate.sh"' < /tmp/ki-deploy-scripts.tar.gz[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0734873Z [36;1mssh "${ssh_opts[@]}" codex@85.235.150.189 "bash ki-legends-aruba-staging/automation/promote-coolify-release.sh '3b595be562bb63f772ea200e2c6df480e2d596ec'"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0758132Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0758564Z env:
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0760766Z   SSH_PRIVATE_KEY: ***
+ssh-check	Deploy tested candidate and update existing Coolify service
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.0761040Z ##[endgroup]
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:25.6800576Z Warning: Permanently added '85.235.150.189' (ED25519) to the list of known hosts.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:29.2875292Z Cloning into '/home/codex/ki-legends-aruba-staging/releases/3b595be562bb63f772ea200e2c6df480e2d596ec'...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.1345170Z From https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.1346359Z  * branch            3b595be562bb63f772ea200e2c6df480e2d596ec -> FETCH_HEAD
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.4637408Z HEAD is now at 3b595be deploy: verify production automation before main activation
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.4843607Z __l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png: OK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.4948057Z __l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png: OK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.9690375Z  Image ki-legends-app:staging-3b595be562bb63f772ea200e2c6df480e2d596ec Building
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:52.9691825Z  Image ki-legends-web:staging-3b595be562bb63f772ea200e2c6df480e2d596ec Building
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.1013791Z #1 [internal] load local bake definitions
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.2521513Z #1 reading from stdin 1.82kB done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.2522245Z #1 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.5360586Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.5361311Z #2 [web internal] load build definition from Dockerfile
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.5362162Z #2 transferring dockerfile: 3.38kB done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.5362818Z #2 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.5363094Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:53.5363634Z #3 [app] resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.1946785Z #3 DONE 0.6s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.1947167Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.1948592Z #4 [app] docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.1950732Z #4 resolve docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.1952069Z #4 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4072623Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4073664Z #5 [app internal] load build definition from Dockerfile
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4074683Z #5 transferring dockerfile: 3.38kB done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4075584Z #5 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4076160Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4076849Z #6 [web internal] load build definition from Dockerfile
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4078893Z #6 transferring dockerfile: 3.38kB done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4080149Z #6 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4080492Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.4080878Z #7 [web internal] load metadata for docker.io/library/node:22-bookworm-slim
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.8168427Z #7 ...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.8168983Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.8169742Z #8 [web internal] load metadata for docker.io/library/caddy:2-alpine
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:54.8170653Z #8 DONE 0.6s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0238340Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0239501Z #7 [app internal] load metadata for docker.io/library/node:22-bookworm-slim
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0240852Z #7 DONE 0.6s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0241141Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0241388Z #9 [web internal] load .dockerignore
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0241915Z #9 transferring context: 340B done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0242400Z #9 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0242618Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0242819Z #10 [app internal] load .dockerignore
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0243362Z #10 transferring context: 340B done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.0243846Z #10 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8694906Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8696856Z #11 [web deps 1/4] FROM docker.io/library/node:22-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8699167Z #11 resolve docker.io/library/node:22-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8700315Z #11 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8700979Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8701715Z #12 [web web 1/3] FROM docker.io/library/caddy:2-alpine@sha256:eb4d35b7452d1ab6171fbdbe8d9275b2301dad6dad92115d91e19fb9b24d510f
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8703399Z #12 resolve docker.io/library/caddy:2-alpine@sha256:eb4d35b7452d1ab6171fbdbe8d9275b2301dad6dad92115d91e19fb9b24d510f 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8704514Z #12 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8704740Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:55.8704942Z #13 [app internal] load build context
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:48:59.8807597Z #13 transferring context: 304.51MB 4.1s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:04.9310396Z #13 transferring context: 522.71MB 9.2s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:05.8306971Z #13 ...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:05.8307410Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:05.8308052Z #14 [web internal] load build context
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:05.9342936Z #14 ...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:05.9343456Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:05.9343822Z #13 [app internal] load build context
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.0505188Z #13 transferring context: 577.88MB 10.2s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.0506240Z #13 DONE 10.3s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.0506526Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.0506750Z #14 [web internal] load build context
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1629684Z #14 ...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1630142Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1630445Z #15 [app deps 2/4] WORKDIR /app
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1631092Z #15 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1631338Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1631648Z #16 [app deps 3/4] COPY package.json package-lock.json ./
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1632200Z #16 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1632393Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1632618Z #17 [app deps 4/4] RUN npm ci --no-audit --no-fund
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1633131Z #17 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1633315Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.1633491Z #14 [web internal] load build context
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.5998448Z #14 transferring context: 577.88MB 10.7s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.5999095Z #14 DONE 10.8s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.5999362Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.5999668Z #17 [web deps 4/4] RUN npm ci --no-audit --no-fund
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.6000167Z #17 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.6000332Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:06.6000477Z #18 [web build 1/5] COPY . .
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.5032353Z #18 DONE 5.2s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.5032689Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.5038696Z #19 [app build 2/5] RUN cd deploy/overlay/public 2>/dev/null && sha256sum -c ../SHA256SUMS     || (echo "BŁĄD: brak lub zła suma obrazów w deploy/overlay/public (cover.png, test-background.png)." >&2;         echo "Skopiuj je z pakietu: ki-legends-source/deploy/overlay/public/ (lista: deploy/overlay/SHA256SUMS)." >&2; exit 1)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.7769649Z #19 0.426 __l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png: OK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.9705677Z #19 0.446 __l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png: OK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.9706947Z #19 DONE 0.5s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.9707202Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:11.9707568Z #20 [web build 3/5] RUN cp -r deploy/overlay/public/. public/
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:12.2644759Z #20 DONE 0.3s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:12.2645186Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:12.2647559Z #21 [web build 4/5] RUN test -n "https://istakaetceprpnbafdgu.supabase.co" && test -n "sb_publishable_0qwu5heRq2thIF_g2wSFqA_HU8vQN1f"     || (echo "BŁĄD: ustaw build args VITE_SUPABASE_URL i VITE_SUPABASE_PUBLISHABLE_KEY" >&2; exit 1)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:12.5497327Z #21 DONE 0.3s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:12.5498057Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:12.5501663Z #22 [web build 5/5] RUN npx vite build  && node -e "const p=require('./.output/nitro.json').preset; if(p!=='node-server'){console.error('Zły preset: '+p);process.exit(1)}"  && test -f .output/public/__l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png  && test -f .output/public/__l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:16.6755884Z #22 4.276 [33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:17.0764525Z #22 4.677 [36mvite v8.1.5 [32mbuilding client environment for production...[36m[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:17.2678065Z #22 4.718 [2K
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:18.1923358Z transforming...[33m[plugin tanstack-start-core::server-fn:client] /app/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:18.3466150Z #22 5.796 [33m[plugin tanstack-start-core::server-fn:client] /app/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:18.3470026Z #22 5.796 [33m[plugin tanstack-start-core::server-fn:client] /app/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:18.3472785Z #22 5.797 [33m[plugin tanstack-start-core::server-fn:client] /app/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:20.1443156Z #22 7.595 ✓ 2233 modules transformed.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:20.6300392Z #22 8.231 rendering chunks...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5116304Z #22 9.005 computing gzip size...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5117488Z #22 9.075 .output/public/assets/v2-globe-lights-2048-BQpLZfpS.webp      10.32 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5118915Z #22 9.075 .output/public/assets/globe-lights-2048-GxlCLdQI.webp         14.46 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5119857Z #22 9.075 .output/public/assets/globe-surface-2048-DgErZuqt.webp        69.67 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5120788Z #22 9.075 .output/public/assets/v2-globe-surface-2048-BkB9iogr.webp     81.00 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5121706Z #22 9.075 .output/public/assets/v2-globe-color-1920-Cefw5Iwr.webp      105.94 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5122556Z #22 9.075 .output/public/assets/atlas-v2-1920-qBGcbq4M.webp            129.65 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5123406Z #22 9.075 .output/public/assets/globe-clouds-2048-D4kKIQXb.webp        188.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5124279Z #22 9.075 .output/public/assets/space-HEvV20ml.jpg                     198.76 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5125135Z #22 9.075 .output/public/assets/globe-color-1920-Ch9gVdr6.webp         230.17 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5126048Z #22 9.075 .output/public/assets/v2-globe-color-3840-D-WQjFcA.webp      286.36 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5126893Z #22 9.075 .output/public/assets/atlas-1920-Dl3d8o1-.webp               298.50 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5127871Z #22 9.075 .output/public/assets/atlas-v2-3840-DaiEGaNp.webp            375.37 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5128726Z #22 9.075 .output/public/assets/globe-color-3840-HOUfVboF.webp         729.71 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5129562Z #22 9.075 .output/public/assets/atlas-3840-BF0NjDLS.webp               960.98 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5130847Z #22 9.075 .output/public/assets/AdminWorldMap-BmqbHNpd.css               0.91 kB │ gzip:   0.42 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5131898Z #22 9.075 .output/public/assets/CoderAdminPanel-DzPm2jaS.css             3.28 kB │ gzip:   1.13 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5133241Z #22 9.075 .output/public/assets/globe-CNTXdU4C.css                      19.12 kB │ gzip:   4.95 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5134041Z #22 9.075 .output/public/assets/styles-Dl0QAK4t.css                     75.23 kB │ gzip:  12.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5134858Z #22 9.075 .output/public/assets/index-hMJUDbiu.css                     104.71 kB │ gzip:  22.58 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5135667Z #22 9.075 .output/public/assets/atlas-v2-3840-BAgtKxuW.js                0.05 kB │ gzip:   0.07 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5136491Z #22 9.075 .output/public/assets/mapa-C-JaCYVr.js                         0.50 kB │ gzip:   0.34 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5137303Z #22 9.075 .output/public/assets/worldToAtlas-CypEBMI_.js                 0.72 kB │ gzip:   0.43 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5138299Z #22 9.075 .output/public/assets/visibility-BXlag-Q2.js                   2.23 kB │ gzip:   1.10 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5139101Z #22 9.075 .output/public/assets/globe-CJdoTAet.js                        3.93 kB │ gzip:   1.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5139887Z #22 9.075 .output/public/assets/konto-Ds-B-jri.js                        4.36 kB │ gzip:   1.80 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5140670Z #22 9.075 .output/public/assets/gmEdit-BHTOlbKm.js                       5.80 kB │ gzip:   2.17 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5141644Z #22 9.075 .output/public/assets/keyBindings-CZGuwA8a.js                  6.92 kB │ gzip:   2.85 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5142417Z #22 9.075 .output/public/assets/AdminWorldMap-CwAo-E4z.js                8.49 kB │ gzip:   3.61 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5143166Z #22 9.075 .output/public/assets/admin-CmaJk-2v.js                       10.49 kB │ gzip:   3.79 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5143895Z #22 9.075 .output/public/assets/MapaView-Dlsc8wjB.js                    21.59 kB │ gzip:   7.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5144639Z #22 9.075 .output/public/assets/superiorRuntime-DfXmibNp.js             26.98 kB │ gzip:  10.98 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5145368Z #22 9.075 .output/public/assets/button-CcbANXeK.js                      33.82 kB │ gzip:  11.28 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5146318Z #22 9.075 .output/public/assets/preload-C2bQ85M3.js                     35.11 kB │ gzip:  14.77 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5147095Z #22 9.075 .output/public/assets/test-CqAin8rO.js                        48.36 kB │ gzip:  16.97 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5147978Z #22 9.075 .output/public/assets/adminWorldStore-DlvRLluo.js             55.99 kB │ gzip:  14.08 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5148712Z #22 9.075 .output/public/assets/types-CJfvN4v9.js                       56.39 kB │ gzip:  12.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5149444Z #22 9.075 .output/public/assets/CoderAdminPanel-C7wKfoxc.js             65.47 kB │ gzip:  13.59 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5150171Z #22 9.075 .output/public/assets/session-D46tUwgj.js                    373.17 kB │ gzip:  78.78 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5150900Z #22 9.075 .output/public/assets/worldOverlay.v2-CARV5RXb.js            528.45 kB │ gzip: 110.00 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5151634Z #22 9.075 .output/public/assets/PlanetGlobe-DtIJGzL8.js                969.90 kB │ gzip: 258.53 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5152357Z #22 9.075 .output/public/assets/mountGame-YbzahaQ-.js                1,436.81 kB │ gzip: 379.77 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5153052Z #22 9.075 .output/public/assets/index-C5KKcm14.js                    3,123.15 kB │ gzip: 426.72 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5153499Z #22 9.075
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5153790Z #22 9.078 [32m✓ built in 4.40s[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5154159Z #22 9.080 [33m[plugin builtin:vite-reporter]
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5154585Z #22 9.080 (!) Some chunks are larger than 500 kB after minification. Consider:
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5155070Z #22 9.080 - Using dynamic import() to code-split the application
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5155835Z #22 9.080 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5156715Z #22 9.080 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.5157352Z #22 9.081 [36mvite v8.1.5 [32mbuilding ssr environment for production...[36m[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.6122592Z #22 9.113 [2K
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.6124982Z transforming...[33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.6128197Z #22 9.212 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts?tss-serverfn-split:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.7640418Z #22 9.213 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts?tss-serverfn-split:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:21.7643935Z #22 9.214 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts?tss-serverfn-split:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:22.1469080Z #22 9.748 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:22.2982868Z #22 9.749 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:22.2985925Z #22 9.749 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:22.2988543Z #22 9.749 [33m[plugin tanstack-start-core::server-fn:ssr] /app/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:22.9201493Z #22 10.52 ✓ 281 modules transformed.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.0929958Z #22 10.69 rendering chunks...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.2185991Z #22 10.82 computing gzip size...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4445259Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/v2-globe-lights-2048-BQpLZfpS.webp                    10.32 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4447111Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-lights-2048-GxlCLdQI.webp                       14.46 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4449070Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-surface-2048-DgErZuqt.webp                      69.67 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4450563Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/v2-globe-surface-2048-BkB9iogr.webp                   81.00 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4452029Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/v2-globe-color-1920-Cefw5Iwr.webp                    105.94 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4453483Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/atlas-v2-1920-qBGcbq4M.webp                          129.65 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4454946Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-clouds-2048-D4kKIQXb.webp                      188.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4456383Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/space-HEvV20ml.jpg                                   198.76 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4457955Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-color-1920-Ch9gVdr6.webp                       230.17 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4459054Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/v2-globe-color-3840-D-WQjFcA.webp                    286.36 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4460083Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/atlas-1920-Dl3d8o1-.webp                             298.50 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4461096Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/atlas-v2-3840-DaiEGaNp.webp                          375.37 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4462120Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-color-3840-HOUfVboF.webp                       729.71 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4463517Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/atlas-3840-BF0NjDLS.webp                             960.98 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4464949Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/AdminWorldMap-BmqbHNpd.css                             0.91 kB │ gzip:   0.42 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4466318Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/CoderAdminPanel-DzPm2jaS.css                           3.28 kB │ gzip:   1.13 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4467609Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-CNTXdU4C.css                                    19.12 kB │ gzip:   4.95 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4468847Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/styles-Dl0QAK4t.css                                   75.23 kB │ gzip:  12.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4469909Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/router-hMJUDbiu.css                                  104.71 kB │ gzip:  22.58 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4470991Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/atlas-v2-3840-Coph-46x.js                              0.17 kB │ gzip:   0.14 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4472126Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-D9UWiqvJ.js                      0.22 kB │ gzip:   0.16 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4473420Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/sketches.validation-Cl_UhvEd.js                        0.45 kB │ gzip:   0.31 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4474515Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/playtest-Disf3CYl.js                                   0.61 kB │ gzip:   0.36 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4475566Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/mapa-C95BHmpE.js                                       0.77 kB │ gzip:   0.44 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4476759Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-SzLWtK-f.js                 1.20 kB │ gzip:   0.52 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4478034Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/worldToAtlas-CSmLFOxe.js                               1.51 kB │ gzip:   0.72 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4479064Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/client.server-KzwUIAkW.js                              1.73 kB │ gzip:   0.78 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4480102Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-ikaF6ohc.js      1.75 kB │ gzip:   0.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4481098Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/button-DRsC1qZi.js                                     1.78 kB │ gzip:   0.82 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4482029Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/start-12sh2UV7.js                                      2.00 kB │ gzip:   0.88 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4482967Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/useAccount-BLOnj8yP.js                                 2.48 kB │ gzip:   0.98 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4483913Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/test-IXfl7z43.js                                       2.91 kB │ gzip:   1.27 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4484892Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/createCsrfMiddleware-B2To0gPJ.js                       3.19 kB │ gzip:   1.01 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4485912Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/request-response-BS_ZJg8Q.js                           3.58 kB │ gzip:   1.20 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4486881Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/v2Tracker-Cc01TxZy.js                                  4.19 kB │ gzip:   1.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4487964Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/visibility-DN22dnnu.js                                 4.43 kB │ gzip:   1.75 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4488851Z #22 10.89 node_modules/.nitro/vite/services/ssr/index.js                                                      4.61 kB │ gzip:   1.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4489728Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/superiorSave-BoOjzZd6.js                               4.75 kB │ gzip:   1.89 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4490811Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/zoneMap-BzCVaRAR.js                                    4.97 kB │ gzip:   1.74 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4491758Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/superiorCharacters-BM7May6N.js                         5.20 kB │ gzip:   1.80 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4492712Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/cloudSaves-DIH67dSD.js                                 5.43 kB │ gzip:   1.97 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4493620Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/globe-DrBWdbQS.js                                      6.09 kB │ gzip:   2.34 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4495078Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/worldVersion-BMoLC-Zm.js                               6.68 kB │ gzip:   2.08 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4496152Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/konto-n-fhHPym.js                                      7.03 kB │ gzip:   2.28 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4497070Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/client-kO3p5ZcL.js                                     7.95 kB │ gzip:   2.66 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4498283Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/sketches.functions-b-q04HF6.js                         8.65 kB │ gzip:   2.63 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4499408Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/gmEdit-BuV8WAVF.js                                     9.44 kB │ gzip:   2.89 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4500333Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/createServerFn-DDDJMFWM.js                             9.90 kB │ gzip:   3.00 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4501279Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/keyBindings-D7G8F-L3.js                               13.01 kB │ gzip:   4.67 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4502214Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/AdminWorldMap-MVgYfGJb.js                             14.28 kB │ gzip:   4.69 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4503139Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/admin-DL9I2KBf.js                                     16.00 kB │ gzip:   4.74 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4504040Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/test-DG9FAz1-.js                                      19.69 kB │ gzip:   5.82 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4504954Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/MapaView-3HNiSd9u.js                                  37.78 kB │ gzip:  10.67 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4505874Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/PlanetGlobe-C-m6j2D7.js                               38.71 kB │ gzip:  11.68 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4506816Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/superiorRuntime-BXTMtHWK.js                           47.73 kB │ gzip:  15.15 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4507880Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/preload-CuATvyry.js                                   50.63 kB │ gzip:  17.38 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4508797Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/server-qI6VsvPw.js                                    60.33 kB │ gzip:  15.52 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4509743Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/adminWorldStore-D3ofPfIA.js                           75.44 kB │ gzip:  16.26 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4510694Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/v2Places-CRFFvMQd.js                                  78.39 kB │ gzip:  28.56 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4511609Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/mountGame-BkVLEiIk.js                                104.99 kB │ gzip:  30.81 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4512551Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/CoderAdminPanel-h47z_Frc.js                          114.00 kB │ gzip:  18.80 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4513481Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/router-CTeAe5Un.js                                   157.43 kB │ gzip:  40.59 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4514381Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/engine-D4t4Bbjc.js                                   260.06 kB │ gzip:  53.43 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4515428Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/session-ClZ01cU6.js                                  679.81 kB │ gzip:  99.29 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4516355Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/worldOverlay.v2-CeccQO_E.js                          849.93 kB │ gzip: 118.85 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4517303Z #22 10.89 node_modules/.nitro/vite/services/ssr/assets/catalog-BXi7nxIM.js                                2,278.67 kB │ gzip: 142.69 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4518042Z #22 10.89
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4518349Z #22 10.89 [32m✓ built in 1.81s[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:23.4518822Z #22 10.89 [start] [nitro] Building [Nitro] (preset: `node-server`, compatibility: `2026-10-29`)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:28.7644378Z #22 16.19 [success] [nitro] Generated public .output/public
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:28.7646152Z #22 16.19 [36mvite v8.1.5 [32mbuilding nitro environment for production...[36m[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:28.7647055Z #22 16.22 [2K
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:33.4390781Z transforming...✓ 2119 modules transformed.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:33.9122090Z #22 21.36 [info] Tracing dependencies:
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:33.9123083Z #22 21.36 - `tslib` (2.8.1)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:33.9124586Z #22 21.36 [success] Traced 1 dependencies (4 files) in 122ms.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:33.9126475Z #22 21.36 [info] Ensure your production environment matches the builder OS and architecture (`linux-x64`) to avoid native module issues.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:34.7882022Z #22 22.39 rendering chunks...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.3717480Z #22 22.97 computing gzip size...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7452846Z #22 23.18 .output/server/_ssr/atlas-v2-3840-Coph-46x.mjs                         0.20 kB │ gzip:     0.15 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7455652Z #22 23.18 .output/server/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs                 0.23 kB │ gzip:     0.16 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7458584Z #22 23.18 .output/server/_chunks/ssr-renderer.mjs                                0.60 kB │ gzip:     0.36 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7460138Z #22 23.18 .output/server/_ssr/sketches.validation-Cl_UhvEd.mjs                   0.61 kB │ gzip:     0.40 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7461435Z #22 23.18 .output/server/_ssr/playtest-Disf3CYl.mjs                              0.66 kB │ gzip:     0.40 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7462648Z #22 23.18 .output/server/_ssr/mapa-C95BHmpE.mjs                                  1.14 kB │ gzip:     0.57 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7463880Z #22 23.18 .output/server/_tanstack-start-manifest_v-SzLWtK-f.mjs                 1.25 kB │ gzip:     0.56 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7465153Z #22 23.18 .output/server/_ssr/worldToAtlas-CSmLFOxe.mjs                          1.54 kB │ gzip:     0.74 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7466296Z #22 23.18 .output/server/_runtime.mjs                                            1.58 kB │ gzip:     0.74 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7467450Z #22 23.18 .output/server/_libs/tanstack__react-query.mjs                         1.68 kB │ gzip:     0.77 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7468985Z #22 23.18 .output/server/_ssr/client.server-KzwUIAkW.mjs                         1.77 kB │ gzip:     0.82 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7470160Z #22 23.18 .output/server/_libs/radix-ui__primitive.mjs                           1.83 kB │ gzip:     0.72 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7471114Z #22 23.18 .output/server/__23tanstack-start-server-fn-resolver-ikaF6ohc.mjs      1.85 kB │ gzip:     0.74 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7472067Z #22 23.18 .output/server/_ssr/start-12sh2UV7.mjs                                 1.90 kB │ gzip:     0.86 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7472937Z #22 23.18 .output/server/_ssr/button-DRsC1qZi.mjs                                2.12 kB │ gzip:     0.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7473774Z #22 23.18 .output/server/_libs/ufo.mjs                                           2.21 kB │ gzip:     0.72 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7474598Z #22 23.18 .output/server/_ssr/test-IXfl7z43.mjs                                  2.89 kB │ gzip:     1.28 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7475534Z #22 23.18 .output/server/_ssr/createCsrfMiddleware-B2To0gPJ.mjs                  3.11 kB │ gzip:     1.01 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7476965Z #22 23.18 .output/server/_libs/class-variance-authority+clsx.mjs                 3.17 kB │ gzip:     1.24 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7478206Z #22 23.18 .output/server/_ssr/request-response-BS_ZJg8Q.mjs                      3.62 kB │ gzip:     1.24 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7479157Z #22 23.18 .output/server/_ssr/v2Tracker-Cc01TxZy.mjs                             4.19 kB │ gzip:     1.72 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7480057Z #22 23.18 .output/server/_ssr/visibility-DN22dnnu.mjs                            4.32 kB │ gzip:     1.75 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7480855Z #22 23.18 .output/server/_ssr/ssr.mjs                                            4.55 kB │ gzip:     1.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7481660Z #22 23.18 .output/server/_ssr/superiorSave-BoOjzZd6.mjs                          4.95 kB │ gzip:     1.98 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7482500Z #22 23.18 .output/server/_ssr/zoneMap-BzCVaRAR.mjs                               5.00 kB │ gzip:     1.76 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7483386Z #22 23.18 .output/server/_libs/radix-ui__react-context+react.mjs                 5.74 kB │ gzip:     1.67 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7484253Z #22 23.18 .output/server/_ssr/globe-DrBWdbQS.mjs                                 6.84 kB │ gzip:     2.41 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7485301Z #22 23.18 .output/server/_ssr/superiorCharacters-BM7May6N.mjs                    7.79 kB │ gzip:     2.73 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7486202Z #22 23.18 .output/server/_ssr/client-kO3p5ZcL.mjs                                7.92 kB │ gzip:     2.69 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7487022Z #22 23.18 .output/server/_ssr/konto-n-fhHPym.mjs                                 8.23 kB │ gzip:     2.40 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7488002Z #22 23.18 .output/server/_ssr/sketches.functions-b-q04HF6.mjs                    8.60 kB │ gzip:     2.63 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7488908Z #22 23.18 .output/server/_ssr/gmEdit-BuV8WAVF.mjs                                9.44 kB │ gzip:     2.91 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7489786Z #22 23.18 .output/server/_ssr/createServerFn-DDDJMFWM.mjs                        9.47 kB │ gzip:     3.01 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7490587Z #22 23.18 .output/server/_libs/lucide-react.mjs                                 11.47 kB │ gzip:     2.65 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7491338Z #22 23.18 .output/server/_libs/tanstack__history.mjs                            12.50 kB │ gzip:     3.70 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7492106Z #22 23.18 .output/server/_libs/supabase__functions-js.mjs                       12.51 kB │ gzip:     3.45 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7492867Z #22 23.18 .output/server/_ssr/keyBindings-D7G8F-L3.mjs                          12.88 kB │ gzip:     4.68 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7493625Z #22 23.18 .output/server/_ssr/AdminWorldMap-MVgYfGJb.mjs                        15.90 kB │ gzip:     4.80 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7494405Z #22 23.18 .output/server/_libs/@radix-ui/react-compose-refs+[...].mjs           17.61 kB │ gzip:     4.83 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7495150Z #22 23.18 .output/server/_ssr/admin-DL9I2KBf.mjs                                19.07 kB │ gzip:     4.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7495865Z #22 23.18 .output/server/_ssr/test-DG9FAz1-.mjs                                 21.77 kB │ gzip:     5.96 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7496588Z #22 23.18 .output/server/_libs/h3+rou3+srvx.mjs                                 27.33 kB │ gzip:     7.19 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7497322Z #22 23.18 .output/server/_libs/@tanstack/router-core+[...].mjs                  29.60 kB │ gzip:     7.99 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7498205Z #22 23.18 .output/server/_libs/supabase__supabase-js.mjs                        37.86 kB │ gzip:    11.17 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7498963Z #22 23.18 .output/server/_ssr/PlanetGlobe-C-m6j2D7.mjs                          41.35 kB │ gzip:    11.84 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7499715Z #22 23.18 .output/server/_ssr/MapaView-3HNiSd9u.mjs                             42.10 kB │ gzip:    10.88 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7500474Z #22 23.18 .output/server/_ssr/superiorRuntime-BXTMtHWK.mjs                      47.41 kB │ gzip:    15.13 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7501216Z #22 23.18 .output/server/_libs/supabase__phoenix.mjs                            50.54 kB │ gzip:    12.76 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7502084Z #22 23.18 .output/server/_ssr/preload-CuATvyry.mjs                              51.03 kB │ gzip:    17.71 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7502818Z #22 23.18 .output/server/_ssr/server-qI6VsvPw.mjs                               59.27 kB │ gzip:    15.43 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7503536Z #22 23.18 .output/server/_libs/three.mjs                                        65.63 kB │ gzip:    14.95 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7504244Z #22 23.18 .output/server/_libs/h3-v2+rou3+srvx.mjs                              66.32 kB │ gzip:    17.66 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7504991Z #22 23.18 .output/server/_ssr/adminWorldStore-D3ofPfIA.mjs                      75.31 kB │ gzip:    16.23 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7505765Z #22 23.18 .output/server/_libs/supabase__realtime-js.mjs                        81.77 kB │ gzip:    20.89 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7506490Z #22 23.18 .output/server/_libs/tailwind-merge.mjs                               88.92 kB │ gzip:    15.71 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7507238Z #22 23.18 .output/server/_libs/@radix-ui/react-dialog+[...].mjs                 89.83 kB │ gzip:    21.13 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7508075Z #22 23.18 .output/server/_libs/zod.mjs                                         100.18 kB │ gzip:    17.35 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7508911Z #22 23.18 .output/server/_ssr/mountGame-BkVLEiIk.mjs                           104.58 kB │ gzip:    30.75 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7509653Z #22 23.18 .output/server/_libs/supabase__postgrest-js.mjs                      110.46 kB │ gzip:    23.20 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7510391Z #22 23.18 .output/server/_libs/tanstack__query-core.mjs                        113.21 kB │ gzip:    26.68 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7511125Z #22 23.18 .output/server/_libs/@supabase/storage-js+[...].mjs                  127.48 kB │ gzip:    23.92 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7511867Z #22 23.18 .output/server/_ssr/CoderAdminPanel-h47z_Frc.mjs                     133.82 kB │ gzip:    19.31 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7512606Z #22 23.18 .output/server/_ssr/router-CTeAe5Un.mjs                              179.43 kB │ gzip:    42.74 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7513333Z #22 23.18 .output/server/_libs/supabase__auth-js.mjs                           319.47 kB │ gzip:    64.73 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7514057Z #22 23.18 .output/server/_ssr/v2Places-CRFFvMQd.mjs                            337.85 kB │ gzip:    81.78 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7514791Z #22 23.18 .output/server/_ssr/worldVersion-BMoLC-Zm.mjs                        685.36 kB │ gzip:   101.53 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7515542Z #22 23.18 .output/server/_libs/@tanstack/react-router+[...].mjs                786.70 kB │ gzip:   165.39 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7516299Z #22 23.18 .output/server/_ssr/worldOverlay.v2-CeccQO_E.mjs                     850.01 kB │ gzip:   118.95 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7517042Z #22 23.18 .output/server/_libs/@react-three/fiber+[...].mjs                  2,189.76 kB │ gzip:   445.51 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7517987Z #22 23.18 .output/server/_ssr/catalog-BXi7nxIM.mjs                           2,278.79 kB │ gzip:   142.84 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7518697Z #22 23.18 .output/server/index.mjs                                           3,471.68 kB │ gzip:   479.07 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7519348Z #22 23.18 .output/server/_libs/phaser.mjs                                    7,080.82 kB │ gzip: 1,231.87 kB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7519790Z #22 23.18
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7520299Z #22 23.18 [33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7520817Z #22 23.18   - vite-tsconfig-paths (64%)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7521124Z #22 23.18   - replace (30%)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7521605Z #22 23.18 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7522115Z #22 23.18 [39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7522411Z #22 23.19 [32m✓ built in 7.00s[39m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7522728Z #22 23.19 [info] Generated .output/nitro.json
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:35.7523154Z #22 23.20 [success] [nitro] You can preview this build using `npx vite preview`
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:36.4350649Z #22 DONE 23.9s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9694098Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9695176Z #23 [web web 2/3] COPY deploy/Caddyfile /etc/caddy/Caddyfile
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9695828Z #23 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9696045Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9698575Z #24 [web build 4/5] RUN test -n "https://istakaetceprpnbafdgu.supabase.co" && test -n "sb_publishable_0qwu5heRq2thIF_g2wSFqA_HU8vQN1f"     || (echo "BŁĄD: ustaw build args VITE_SUPABASE_URL i VITE_SUPABASE_PUBLISHABLE_KEY" >&2; exit 1)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9700275Z #24 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9700465Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9700722Z #25 [web deps 3/4] COPY package.json package-lock.json ./
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9701261Z #25 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9701450Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9703762Z #26 [web build 5/5] RUN npx vite build  && node -e "const p=require('./.output/nitro.json').preset; if(p!=='node-server'){console.error('Zły preset: '+p);process.exit(1)}"  && test -f .output/public/__l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png  && test -f .output/public/__l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9705714Z #26 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9705854Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9705976Z #15 [web deps 2/4] WORKDIR /app
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9706290Z #15 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9706790Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9706955Z #27 [web deps 4/4] RUN npm ci --no-audit --no-fund
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9707336Z #27 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9707473Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9707594Z #28 [web build 1/5] COPY . .
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9708200Z #28 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9708341Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9708540Z #29 [web build 3/5] RUN cp -r deploy/overlay/public/. public/
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9708953Z #29 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9709093Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9710630Z #30 [web build 2/5] RUN cd deploy/overlay/public 2>/dev/null && sha256sum -c ../SHA256SUMS     || (echo "BŁĄD: brak lub zła suma obrazów w deploy/overlay/public (cover.png, test-background.png)." >&2;         echo "Skopiuj je z pakietu: ki-legends-source/deploy/overlay/public/ (lista: deploy/overlay/SHA256SUMS)." >&2; exit 1)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9712184Z #30 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9712323Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9712535Z #31 [web web 3/3] COPY --from=build /app/.output/public /srv/public
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:43.9712995Z #31 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1036943Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1037493Z #15 [app deps 2/4] WORKDIR /app
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1038467Z #15 CACHED
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1038713Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1038913Z #32 [web] exporting to image
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1039495Z #32 exporting layers 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1040492Z #32 exporting manifest sha256:add6ab2c02b4c6fa1bb4833d68dda8828b1d7fb3795d338d8e1d535053defecf done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1041958Z #32 exporting config sha256:780ea464cbdcd23324ef6d785e525eed210181f27824e2bb2481f09e4e1ce0e9 done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1043506Z #32 exporting attestation manifest sha256:d908b5934c094b4e776a3598e4e00e19247a507616f55708a461f9244c23c527 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1045162Z #32 exporting manifest list sha256:dc7142a83222f0bade9e989868efd802d63d9b3dfde29ed1fe8db507f522fe5b 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1046734Z #32 naming to docker.io/library/ki-legends-web:staging-3b595be562bb63f772ea200e2c6df480e2d596ec done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1048158Z #32 unpacking to docker.io/library/ki-legends-web:staging-3b595be562bb63f772ea200e2c6df480e2d596ec 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1049015Z #32 DONE 0.1s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1049215Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.1049553Z #33 [app app 3/3] COPY --from=build --chown=node:node /app/.output ./.output
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.2120775Z #33 ...
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.2121278Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.2121731Z #34 [web] resolving provenance for metadata file
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.2122461Z #34 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.3623510Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:44.3624716Z #33 [app app 3/3] COPY --from=build --chown=node:node /app/.output ./.output
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:47.6586561Z #33 DONE 3.6s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:49:47.8186162Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.0307074Z #35 [app] exporting to image
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.0308172Z #35 exporting layers 37.4s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.2734434Z #35 exporting manifest sha256:a07d98f347e6ac92a20136506964f5c0420d37a93023d69ba2cd938ce4836210 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.2735802Z #35 exporting config sha256:e9fd296cbf2d6b481c28b5ec676eec7ba562c90ce1e9c71a89df4ad52c229775 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.2737147Z #35 exporting attestation manifest sha256:ac6c59610573e4763c54aa2af22649e126e2e432d30acd2d96c3e9eed58182a9 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.2738878Z #35 exporting manifest list sha256:7999acf32e3e16297f31b1b16c79bb59d4074b791f71f7014121c74eacac3e36 0.0s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.2740124Z #35 naming to docker.io/library/ki-legends-app:staging-3b595be562bb63f772ea200e2c6df480e2d596ec done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:25.2741286Z #35 unpacking to docker.io/library/ki-legends-app:staging-3b595be562bb63f772ea200e2c6df480e2d596ec
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:34.5491793Z #35 unpacking to docker.io/library/ki-legends-app:staging-3b595be562bb63f772ea200e2c6df480e2d596ec 9.4s done
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:34.7705901Z #35 DONE 47.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:34.9843819Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:34.9846409Z #36 [app] resolving provenance for metadata file
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:35.0360378Z #36 DONE 0.0s
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:35.1118392Z  Image ki-legends-app:staging-3b595be562bb63f772ea200e2c6df480e2d596ec Built
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:35.1836506Z  Image ki-legends-web:staging-3b595be562bb63f772ea200e2c6df480e2d596ec Built
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:35.2107164Z  Container ki-legends-aruba-staging-app-1 Recreate
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:37.0821093Z  Container ki-legends-aruba-staging-app-1 Recreated
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:37.0822439Z  Container ki-legends-aruba-staging-web-1 Recreate
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:37.4232260Z  Container ki-legends-aruba-staging-web-1 Recreated
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:37.4443011Z  Container ki-legends-aruba-staging-app-1 Starting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:37.6727263Z  Container ki-legends-aruba-staging-app-1 Started
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:37.6728586Z  Container ki-legends-aruba-staging-app-1 Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:43.1756556Z  Container ki-legends-aruba-staging-app-1 Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:43.1758254Z  Container ki-legends-aruba-staging-web-1 Starting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:43.5120707Z  Container ki-legends-aruba-staging-web-1 Started
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:43.5121515Z  Container ki-legends-aruba-staging-app-1 Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:43.5122227Z  Container ki-legends-aruba-staging-web-1 Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:44.0152735Z  Container ki-legends-aruba-staging-app-1 Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.0146943Z  Container ki-legends-aruba-staging-web-1 Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.0569803Z OK   /healthz → 200 text/plain; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.6771894Z OK   / → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.7374160Z OK   /mapa → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.7702618Z OK   /konto → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.8034913Z OK   /admin → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.8263968Z OK   /test → 503 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.8499461Z OK   /robots.txt → 200 text/plain; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.8654479Z OK   /ki-assets-sw.js → 200 text/javascript; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.8940198Z OK   /__l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png → 200 image/png
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.9189886Z OK   /__l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png → 200 image/png
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.9352245Z OK   /game/assets/stage3/aether-atlas.webp → 200 image/webp
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.9492296Z OK   /game/sfx/android/A1.mp3 → 200 audio/mpeg
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.9773310Z OK   /strona-ktorej-nie-ma → 404 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:49.9962206Z OK   Range muzyki → 206
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.0525860Z OK   /assets/index-C5KKcm14.js → public, max-age=31536000, immutable
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.0878170Z OK   / → no-cache, must-revalidate, max-age=0
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.1218751Z OK   / → X-Robots-Tag: noindex, nofollow
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.1436400Z OK   /game/music/pyra.mp3 → X-Robots-Tag: noindex, nofollow
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.1670428Z OK   /test → X-Robots-Tag: noindex, nofollow
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.1671251Z WYNIK: wszystkie kontrole OK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:50.1680036Z STAGING VERIFIED: 3b595be562bb63f772ea200e2c6df480e2d596ec, localhost:18085; production/DNS unchanged
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:55.3095418Z  Container app-xh4qbckykxsq1iofxdoe5t3h Recreate
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:56.6298931Z  Container app-xh4qbckykxsq1iofxdoe5t3h Recreated
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:56.6300034Z  Container web-xh4qbckykxsq1iofxdoe5t3h Recreate
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:56.9237322Z  Container web-xh4qbckykxsq1iofxdoe5t3h Recreated
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:56.9745816Z  Container app-xh4qbckykxsq1iofxdoe5t3h Starting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:57.2354636Z  Container app-xh4qbckykxsq1iofxdoe5t3h Started
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:50:57.2355584Z  Container app-xh4qbckykxsq1iofxdoe5t3h Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:02.7363210Z  Container app-xh4qbckykxsq1iofxdoe5t3h Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:02.7364165Z  Container web-xh4qbckykxsq1iofxdoe5t3h Starting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:02.9870468Z  Container web-xh4qbckykxsq1iofxdoe5t3h Started
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:02.9871447Z  Container web-xh4qbckykxsq1iofxdoe5t3h Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:02.9872283Z  Container app-xh4qbckykxsq1iofxdoe5t3h Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:03.4899572Z  Container app-xh4qbckykxsq1iofxdoe5t3h Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:08.4909778Z  Container web-xh4qbckykxsq1iofxdoe5t3h Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:08.8415868Z OK   /healthz → 200 text/plain; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:09.5066590Z OK   / → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:09.6340429Z OK   /mapa → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:09.7343814Z OK   /konto → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:09.8494205Z OK   /admin → 200 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:09.9272962Z OK   /test → 503 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.0088737Z OK   /robots.txt → 200 text/plain; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.1075598Z OK   /ki-assets-sw.js → 200 text/javascript; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.2274875Z OK   /__l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png → 200 image/png
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.3453217Z OK   /__l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png → 200 image/png
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.4404246Z OK   /game/assets/stage3/aether-atlas.webp → 200 image/webp
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.5438609Z OK   /game/sfx/android/A1.mp3 → 200 audio/mpeg
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.6733083Z OK   /strona-ktorej-nie-ma → 404 text/html; charset=utf-8
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.7668694Z OK   Range muzyki → 206
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:10.9724866Z OK   /assets/index-C5KKcm14.js → public, max-age=31536000, immutable
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:11.0808522Z OK   / → no-cache, must-revalidate, max-age=0
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:11.1879971Z OK   / → X-Robots-Tag: noindex, nofollow
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:11.2874581Z OK   /game/music/pyra.mp3 → X-Robots-Tag: noindex, nofollow
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:11.3911435Z OK   /test → X-Robots-Tag: noindex, nofollow
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:11.3912239Z WYNIK: wszystkie kontrole OK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T05:51:11.3923645Z COOLIFY RELEASE VERIFIED 3b595be562bb63f772ea200e2c6df480e2d596ec
+ssh-check	Post Run actions/checkout@v4	﻿2026-10-29T05:51:11.4089884Z Post job cleanup.
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5005726Z [command]/usr/bin/git version
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5057012Z git version 2.56.0
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5105824Z Temporarily overriding HOME='/home/runner/work/_temp/81704b40-2177-4a74-9eb2-f67d6e3c4a05' before making global git config changes
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5108469Z Adding repository directory to the temporary git global config as a safe directory
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5112542Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5159417Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5201709Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5501818Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5534418Z http.https://github.com/.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5548704Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5589680Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5936558Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ssh-check	Post Run actions/checkout@v4	2026-10-29T05:51:11.5992512Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ssh-check	Complete job	﻿2026-10-29T05:51:11.6483672Z Cleaning up orphan processes
+ssh-check	Complete job	2026-10-29T05:51:11.6856061Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

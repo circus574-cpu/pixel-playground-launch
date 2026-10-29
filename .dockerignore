@@ -1,0 +1,23 @@
+node_modules
+.git
+.github
+.output
+.nitro
+.tanstack
+dist
+test-results
+playwright-report
+tsconfig.tsbuildinfo
+.env
+.env.*
+!.env.example
+# Materiały źródłowe niepotrzebne do działania gry (zostają w repozytorium i w paczce ZIP):
+art/*
+!art/pipeline
+art-wip
+deliveries
+docs
+gify
+muzyka
+e2e
+*.pdf

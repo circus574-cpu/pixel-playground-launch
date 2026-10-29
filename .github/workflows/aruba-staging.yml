@@ -1,0 +1,41 @@
+name: Aruba staging container verification
+
+on:
+  push:
+    branches: [migration/aruba-staging-2026-10-28]
+    paths:
+      - Dockerfile
+      - docker-compose.staging.yml
+      - deploy/**
+      - .github/workflows/aruba-staging.yml
+
+permissions:
+  contents: read
+
+jobs:
+  containers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original overlay files
+        run: cd deploy/overlay/public && sha256sum -c ../SHA256SUMS
+      - name: Build and run isolated Node 22 and Caddy staging
+        run: |
+          printf 'services:\n  web:\n    ports:\n      - "127.0.0.1:8080:80"\n' > /tmp/ki-staging-ports.yml
+          docker compose --env-file .env.staging.example -p ki-staging-qa -f docker-compose.staging.yml -f /tmp/ki-staging-ports.yml up --build -d --wait --wait-timeout 180
+      - name: Verify HTTP, assets, audio ranges and disabled private page
+        run: bash deploy/scripts/smoke-test.sh http://127.0.0.1:8080 --staging
+      - name: Collect logs and remove only this isolated stack
+        if: always()
+        run: |
+          if [ -f /tmp/ki-staging-ports.yml ]; then
+            docker compose --env-file .env.staging.example -p ki-staging-qa -f docker-compose.staging.yml -f /tmp/ki-staging-ports.yml logs --no-color > /tmp/ki-staging-containers.log 2>&1
+            docker compose --env-file .env.staging.example -p ki-staging-qa -f docker-compose.staging.yml -f /tmp/ki-staging-ports.yml down
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aruba-container-logs-${{ github.sha }}
+          path: /tmp/ki-staging-containers.log
+          retention-days: 7
