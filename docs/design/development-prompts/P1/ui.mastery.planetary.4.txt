@@ -1,0 +1,10 @@
+Pamięć — Verdantia
+ID: ui.mastery.planetary.4
+Narzędzie: Gemini
+Priorytet: P1
+Status: NOWY
+Zależność: Brak
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. tree rings and a preserved leaf World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding. Transparent background, no frame, no label. Use material color and silhouette rather than small decorative details. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.

@@ -1,0 +1,10 @@
+Świadek / mieszkaniec — Aetheria — walk / down
+ID: npc.pool.sage.witness.walk.down
+Narzędzie: Gemini — sekwencja referencyjna, wymaga walidacji
+Priorytet: ANIM
+Status: PO AKCEPTACJI BAZY; NIE JEST GOTOWYM ATLASEM
+Zależność: npc.pool.sage.witness
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create one coherent 8-frame walk animation sequence for the attached APPROVED KI LEGENDS actor reference. Direction: down, where down means facing screen south, up means away from viewer, left and right refer to screen coordinates. Preserve exact identity, anatomy, costume, tools, proportions, material colors and light throughout all eight frames. Painted anime fantasy 2D game sprite, orthographic camera elevation 60 degrees, roll zero, northwest light. Each frame is 512x512 RGBA, foot ground anchor at x256 y486.4; do not independently center or scale frames. Complete alternating left/right step cycle, in-place locomotion with a fixed ground anchor and no forward translation; intended playback 16 FPS, feet remain grounded during contact. Output eight separate ordered images named npc/pool/sage/witness/walk/down/{00..07}.png if supported. If only one output is supported, report that limitation and provide a sequence preview for review, not a claimed finished clip. No sprite-sheet grid, text, ground plane, checkerboard, camera movement, morphing face, changing equipment, extra limbs or cropped silhouette. True alpha preferred; if unavailable use a uniform removable matte and report it. This is an animation production request; a static pose repeated eight times is not an acceptable animation.

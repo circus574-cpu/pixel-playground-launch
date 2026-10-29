@@ -1,0 +1,10 @@
+Błąd próby
+ID: effect.training.mistake
+Narzędzie: Gemini
+Priorytet: P0
+Status: NOWY
+Zależność: Brak
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a brief muted orange broken arc without flashing screen overlay Produce ONE isolated reference keyframe for a game VFX, 512x512 RGBA master, transparent background, generous safe padding, no baked ground or scenery. Orthographic top-down game view, elevation 60 degrees. This is a single animation reference, NOT a finished animated sprite sheet. Keep geometry and boundaries legible and use restrained bloom. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.

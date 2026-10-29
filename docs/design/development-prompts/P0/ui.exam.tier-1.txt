@@ -1,0 +1,10 @@
+Stopień próby 1
+ID: ui.exam.tier-1
+Narzędzie: Gemini
+Priorytet: P0
+Status: NOWY
+Zależność: Brak
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 1 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text. Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding. Transparent background, no frame, no label. Use material color and silhouette rather than small decorative details. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.

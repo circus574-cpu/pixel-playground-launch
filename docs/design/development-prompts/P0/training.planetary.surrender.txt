@@ -1,0 +1,10 @@
+Znacznik poddania — Verdantia
+ID: training.planetary.surrender
+Narzędzie: Gemini
+Priorytet: P0
+Status: NOWY
+Zależność: Brak
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master (large structure 2048x2048 if supported), transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest. Flat camera, no horizon, no lens perspective. Keep base and ground-contact footprint clearly visible. Separate decorative shadow from the object when possible; no opaque ground patch. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.

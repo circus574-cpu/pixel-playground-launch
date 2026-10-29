@@ -1,0 +1,151 @@
+KI LEGENDS — GEMINI + ELEVENLABS: PRODUKCJA ZASOBÓW ROZWOJU
+Data: 29.10.2026. Audyt lokalnego kodu: 2906505a7b79220f018177c95bc929b52f0c42fc.
+
+ZAKRES
+To katalog zleceń produkcyjnych, nie deklaracja wygenerowania, zaakceptowania lub
+wdrożenia zasobów. Nie uruchomiono API, GPU, płatnych generacji ani publikacji.
+Dotyczy rozwoju postaci i dziedzictw, nie całej oprawy gry. Nie przerabiać bohaterów,
+przycisków, joysticka, HUD ani kanonicznego balansu. Nie kończymy mechanik czekając
+na grafiki: istniejące efekty proceduralne i wspólni NPC nadal mogą działać.
+
+665 PROMPTÓW NIE OZNACZA 665 PILNYCH GENERACJI
+241 podstawowych zleceń graficznych/dźwiękowych, 24 warunkowe ikony broni oraz
+400 kierunkowych klipów NPC. Te ostatnie powstają wyłącznie po akceptacji baz.
+25 baz NPC = 9 nazwanych mentorów/kowali/Kenza + 16 współdzielonych mieszkańców.
+Każdy ma idle/walk x 8 kierunków = 16 klipów po 8 klatek = 128 klatek/aktor.
+To docelowo 3200 klatek NPC, nie 400 pojedynczych obrazków. Nie produkować całej
+serii przed kontrolą jednego kompletnego aktora w działającej grze.
+
+JAK UŻYWAĆ
+1. manifest.csv: lista i filtry priorytetu/narzędzia/rasy/zależności.
+2. W folderze priorytetu otwórz plik zasobu. Wklej do generatora wyłącznie treść
+   po „WKLEJ TYLKO PONIŻSZY PROMPT”. Każdy prompt jest samodzielny, po angielsku,
+   bez obowiązku dopisywania wspólnego prefiksu. Opisy i kolejność są po polsku.
+3. Gemini: tryb generowania/edycji obrazów obsługiwany przez wybrany model.
+   Dołącz referencję istniejącego miasta i postaci z gry. Nie zdjęcie całej planszy
+   z przypadkowymi ludźmi jako wzór twarzy. Zachowaj zaakceptowane tożsamości.
+4. ElevenLabs: generator Sound Effects. To nie prompty do syntezatora mowy.
+   Wybierz czas zgodny z plikiem; dla ambience i wózka włącz pętlę, jeśli dostępna.
+   Rzeczywiste możliwości modelu/wersji/API trzeba sprawdzić przed automatyzacją.
+   Katalog nie zakłada nazw modeli, cen ani niezweryfikowanych pól API.
+5. Zapisuj oryginał odpowiedzi, nazwę i wersję modelu, pełny prompt, datę,
+   referencje, ustawienia dostępne w interfejsie/API, request ID i seed jeśli
+   dostawca go rzeczywiście udostępnia. Nie wymyślać brakujących parametrów.
+6. Zapisuj wynik pod identyfikatorem z manifestu i osobną wersją v001/v002.
+   Nie nadpisuj zaakceptowanej wersji. Zmieniaj status: kandydat / do poprawy /
+   zaakceptowany przez właściciela / zwalidowany / zaimportowany / opublikowany.
+   Ostatnie cztery stany są niezależne. Nie zapisywać kluczy API w repo ani paczce.
+
+KOLEJNOŚĆ FAKTYCZNYCH PARTII
+PARTIA 1 — TEST STYLU, TYLKO 6 WYNIKÓW:
+  training.planetary.dummy
+  training.planetary.target
+  training.planetary.ki-node
+  audio.development.dummy-hit
+  audio.development.exam-success
+  audio.development.ki-charge
+Najpierw sprawdzić w miniaturze i przy obecnej skali. Po akceptacji i dopasowaniu
+do footprintów dopiero reszta. Nie generować od razu wszystkich 665 pozycji.
+
+PARTIA 2 — P0 (58):
+  32 obiekty treningowe: 8 obiektów x 4 światy.
+  8 ikon statystyk, 6 stopni prób, 5 klatek referencyjnych oznaczeń, 7 dźwięków.
+  Minimalna próbka ringów: safe-window/danger/goal; jeśli istniejąca proceduralna
+  prezentacja jest czytelniejsza, zachować ją i nie importować tych obrazów.
+
+PARTIA 3 — P1 (80):
+  12 ikon praktyki/stanów/wiedzy/kroniki/zgody/dziedzictwa;
+  16 mistrzostw, 12 wariantów zdolności, 6 modułów;
+  9 portretów + 9 baz aktorów: Aira, Taro, Sora, Enso, LYRA-7, HEF-4,
+  Kaena, Goro, Kenz; 8 projektów V1/V2/A1/A2/N1/N2/P1/P2 x przed/po.
+  Imię nie jest dowodem płci lub wyglądu. Bazy bez zatwierdzonej referencji są
+  propozycjami do akceptacji. Obecny human-v2 pozostaje fallbackiem.
+
+PARTIA 4 — ANIM (400 klipów, dopiero po akceptacji aktorów):
+  Najpierw jeden NPC: idle down, walk down, potem pozostałe 7 kierunków.
+  Dla każdego klipu osobny prompt, komplet 8 klatek. Gemini nie gwarantuje
+  stabilnej anatomii ani wieloplikowego eksportu. Nie uznawać planszy/filmu za atlas.
+  Przy niespójności wrócić do zatwierdzonej bazy i kontrolowanego riga/animatora;
+  nie powielać jednej klatki jako rzekomego chodu. Nie uruchamiać GPU bez decyzji
+  właściciela. Obróbka, rig i pakowanie to osobny etap, nie „magiczna” funkcja API.
+
+PARTIA 5 — P2 (99):
+  16 późniejszych projektów x przed/po = 32 obiekty;
+  16 współdzielonych baz mieszkańców; 6 rekwizytów i 3 stany obiektu chronionego;
+  12 klatek referencyjnych VFX; 30 dalszych dźwięków.
+  Normalni mieszkańcy NIE wymagają animacji ataków i śmierci ani nie stają się
+  celami potworów. Tylko jawnie zaprojektowana misja może mieć chroniony obiekt.
+  Animacja pracy kowala może pozostać spokojnym idle przy stanowisku. Jeśli
+  powstanie dedykowany klip pracy, potrzebuje nowego uzgodnionego bindingu;
+  nie jest wymagany przez obecny profil idle/walk i nie zlecam go jako gotowej luki.
+
+PARTIA 6 — P3 (4):
+  Cztery pętle otoczenia, tylko gdy odsłuch potwierdzi potrzebę. Nie nowa muzyka.
+
+COORD (24):
+  Cztery bronie dziedzictwa x sześć etapów. Osoba od przedmiotów robi już własną
+  dostawę. Najpierw uzgodnić pokrycie, nie generować duplikatów. To ikony, NIE
+  broń automatycznie podmieniana w dłoniach istniejących animacji bohatera.
+
+CO JUŻ JEST — NAJPIERW REUSE
+1. Cztery aktywne paczki bohaterów, każda 416 klatek/7 stanów/8 kierunków.
+   Nie potrzebujemy nowych baz bohaterów do dokończenia rozwoju.
+2. Obecne sylwetki przeciwników. Plan późnego rozwoju: 8 archetypów na poziomach
+   22/28/34/40, czyli 32 warianty parametrów, a nie 32 nowe gatunki do generowania:
+   Strażnik Ruin, Leśny Pająk, Lew Świątyni, Marionetka Rytuału, Strażnik Rdzenia,
+   Pies Łowca, Golem Ruin, Byk Areny. Jeżeli docelowe etapy potrzebują odmiennej
+   prezentacji, najpierw audyt ich bindingów; nie wymyślam brakujących modeli.
+3. public/game/sfx: 56 MP3: 40 rasowych zdolności i 16 wspólnych cue.
+   Reuse do odsłuchu: level-up dla awansu, quest-complete dla egzaminu/projektu,
+   hit/hit-armor dla manekina/celu, door dla wejścia. Brak podpięcia wydarzenia
+   w sfx.cuesFor nie oznacza konieczności nagrania nowego pliku.
+4. Pięć istniejących utworów: cztery krainy i loading. Bez nowej ścieżki muzycznej.
+5. Istniejące ikony umiejętności/statusów/materiałów. Ikony wariantów i treningu
+   są dedykowanym ujednoliceniem, nie wymogiem zastąpienia całego UI.
+6. Istniejące miasta i geometria. Projekty są modularnymi dodatkami/wariantami
+   obiektów, nie całostronicowymi pejzażami ani nowymi kontynentami.
+7. Brak zleceń lektorskich: dialogi tekstowe mogą działać bez dubbingu. Nie
+   klonować głosów realnych osób. Ewentualny dubbing dopiero po zamknięciu dialogów.
+
+PARAMETRY OBRÓBKI — NIE GWARANCJE GENERATORA
+Ikony: master 512², klient 128², kontrola przy 32², 12% bezpiecznego marginesu.
+Portrety: master 1024²; klient 256/512 po porównaniu jakości i budżetu.
+Obiekty: master 1024², większe konstrukcje 2048² tylko w razie potrzeby; 60°
+elewacji, ortografia, NW light. Rozmiary docelowe i collider z danych lokalizacji,
+nie z promptu. Dwie wersje projektu muszą mieć ten sam footprint i pivot.
+NPC: master 512² RGBA, anchor (256,486.4), idle 8 klatek/6 FPS, walk 8/16 FPS,
+8 kierunków; profil 128 klatek. Kontrakt importu aktora 96x96 jednostek,
+origin (0.5,0.95). Aktualni bohaterowie mają prezentację 133x133 i klatki256;
+nie stosować tego rozmiaru automatycznie do nowych NPC ani nie zmieniać ich fizyki.
+PNG z prawdziwą alfą; kliencki bezstratny WebP i atlas po walidacji. Jeśli
+Gemini zwróci JPEG lub nieprzezroczysty obraz, trzeba wykonać matting/krawędzie;
+instrukcja „transparent” nie stanowi dowodu. Nie wysyłać do klienta masterów512.
+VFX: pojedyncza referencja nie jest klipem. Ringi mogą pozostać proceduralne.
+Animowane światło/bloom składa silnik, nie stała wypalona plama na mapie.
+Audio: oryginalny format dostawcy zachować; jeśli dostępny WAV, master PCM
+44.1/48kHz, nie upsampling udający jakość. Runtime MP3 zgodnie z istniejącym
+loaderem, krótki SFX mono, otoczenie stereo. Bez clippingu; wyrównać odczuwaną
+głośność względem obecnych plików, np. true peak maks. -1 dBTP jako limit eksportu.
+Nie narzucać LUFS identycznego dla 0.2s kliknięcia i pętli środowiska.
+Propozycja budżetu, do pomiaru: krótki SFX ok.20–100KB; jedna pętla do ok.1MB.
+Nie gwarantujemy tych wag przed eksportem; ładować tylko potrzebny zestaw krainy.
+
+ODBIÓR KAŻDEGO PLIKU
+- nazwa/ID, wymiar, faktyczny format, niepuste alpha i brak szachownicy;
+- brak ucięcia postaci, jednakowy anchor, twarz/strój bez zmiany między klatkami;
+- spójność par przed/po, czytelność przy obecnym zoomie i na telefonie;
+- audio bez przesteru, szumu, mowy, końcowego ucięcia; pętla bez kliku;
+- model/wersja/proweniencja i warunki planu/licencji Gemini/ElevenLabs do
+  komercyjnej gry sprawdzone dla faktycznej usługi w momencie produkcji;
+- oryginały + zaakceptowane wyniki + SHA-256 w trwałej kopii poza generatorem;
+- walidowany importer repo, osobna paczka/wersja, najpierw opt-in i odbiór w grze;
+- brak zmiany obrażeń, kolizji, questów, zapisów lub HUD dla dopasowania grafiki.
+
+ŹRÓDŁA
+src/game/development/{training,exams,modifiers,state}.ts
+src/game/development/heritage/{catalog,projects,render}.ts
+src/components/game/{DevelopmentPanel,HeritagePanel,HeritageWeaponCard}.tsx
+src/game/{sfx,music}.ts; public/game/sfx/README.md
+docs/design/racial-development-owner-2026-10-28.txt
+docs/RASY-I-POSTACIE.md; docs/GPU-I-ZASOBY.md; docs/ROZWOJ-I-WALKA.md
+Zawartość katalogów projektów nie oznacza ukończenia wszystkich ich misji.

@@ -511,3 +511,17 @@ Lokalny build playtestu PASS. W rzeczywistym Phaser/Chromium: otwarcie okna,
 wyświetlenie statystyk, zamknięcie i reload wszystkich czterech ras — 4/4 PASS.
 Dowody: [qa/compact-statistics](qa/compact-statistics/), w tym desktop i emulowany
 telefon po wymaganym obrocie. Nie wykonano nowego testu fizycznego telefonu.
+
+## Katalog promptów rozwoju — Gemini i ElevenLabs
+
+Na prośbę właściciela przygotowano produkcyjne zlecenia zamiast uruchamiania API:
+665 samodzielnych promptów, manifest CSV/JSON, pełny tekst, SHA-256 i instrukcja
+kolejności. Źródło audytu: kod `2906505a7b79220f018177c95bc929b52f0c42fc`.
+[Katalog](../../design/development-prompts/START-TUTAJ.txt) rozróżnia 241 podstawowych
+zleceń, 24 warunkowe ikony broni oraz 400 kierunkowych klipów dla 25 baz NPC.
+Pierwsza partia to sześć próbek; animacje dopiero po akceptacji baz. Uwzględniono
+reuse istniejących bohaterów, potworów i audio oraz równoległą produkcję przedmiotów.
+Kontrola lokalna: 665 unikalnych identyfikatorów, obecność wszystkich plików,
+kompletność promptów i integralność ZIP PASS. Nie wykonano generowania, odsłuchu
+ani odbioru artystycznego. Brak zmian runtime; testy gry/build niewykonywane dla
+tej dostawy danych i dokumentacji. Nie scalono ani nie opublikowano gry.

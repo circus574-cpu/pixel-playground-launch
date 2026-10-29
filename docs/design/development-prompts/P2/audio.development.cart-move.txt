@@ -1,0 +1,10 @@
+Wózek w ruchu
+ID: audio.development.cart-move
+Narzędzie: ElevenLabs Sound Effects
+Priorytet: P2
+Status: NOWY LUB REUSE PO ODSŁUCHU
+Zależność: Odsłuch istniejących SFX przed generowaniem
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create ONE original sound effect for KI LEGENDS, a polished anime fantasy 2D action RPG. Slow small wooden cart wheel creaks and light axle rattle. Target duration 4–6 s. A seamless ambient loop with matching start/end energy, no obvious opening or ending, no isolated loud foreground events. No spoken words, singing, copyrighted melodies, trailer music, UI voiceover, clipping or harsh sustained high frequencies. Clear on a small phone speaker at low volume, restrained dynamics, no excessive sub-bass. Do not combine unrelated events into one clip. Deliver the highest quality available audio; WAV master preferred, mono for positional short SFX, stereo for ambience. Format and exact duration will be validated after export; do not simulate a file format by naming it.

@@ -502,3 +502,19 @@ Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (br
 2. Gęstość świata: pełne pokrycie całego kontynentu od razu czy najpierw pas wokół miasta o promieniu ok. 15 000 j.
 3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
 4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).
+
+## Prompty rozwoju postaci — Gemini i ElevenLabs, 29.10.2026
+
+[Katalog produkcyjny i kolejność partii](design/development-prompts/START-TUTAJ.txt)
+wiąże zlecenia z treningiem, egzaminami, mentorami, dziedzictwami i projektami
+obecnego kodu. [Manifest CSV](design/development-prompts/manifest.csv) zawiera
+priorytet, narzędzie, status i zależności. [Pełne prompty](design/development-prompts/WSZYSTKIE-PROMPTY.txt)
+są samodzielne; [JSON](design/development-prompts/prompts.json) służy dalszej automatyzacji.
+
+665 zleceń: P0 58, P1 80, P2 99, P3 4, warunkowe bronie 24 i 400 klipów
+idle/walk NPC. Nie generować całej listy naraz: najpierw sześć próbek z instrukcji,
+odbiór stylu i jednego aktora. Istniejących bohaterów, przeciwników, muzyki i
+przydatnych SFX nie zlecamy ponownie. Broń wymaga uzgodnienia z wykonawcą przedmiotów.
+Gemini nie gwarantuje spójnych klipów ani alfa; pojedynczy obraz VFX nie jest
+animacją. Katalog odróżnia referencje od gotowych paczek importu. Nie uruchomiono
+API, GPU ani generowania, nie zmieniono gry i nie opublikowano zasobów.

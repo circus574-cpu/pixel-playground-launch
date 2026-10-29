@@ -1,0 +1,10 @@
+HEF-4 — portret
+ID: npc.hef-4.portrait
+Narzędzie: Gemini
+Priorytet: P1
+Status: NOWY
+Zależność: Referencja zaakceptowanego NPC; bez niej tylko projekt do akceptacji
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. A dialogue portrait of HEF-4, a respected smith. Preserve the attached existing approved face, gender, clothing and silhouette; do not infer a new identity from the name. World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE dialogue portrait, 1024x1024 master, head and upper torso fully inside canvas with 10% padding, restrained neutral expression, three-quarter view. Plain transparent background. Match the attached approved identity reference exactly; without that reference this is a candidate design requiring owner approval, not an established canonical appearance. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.

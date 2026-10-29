@@ -1,0 +1,10 @@
+Przepust Doliny — before
+ID: project.P-V1.before
+Narzędzie: Gemini
+Priorytet: P1
+Status: NOWY
+Zależność: Zrzut konkretnej lokalizacji i drugi stan obiektu; renderer nie jest potwierdzeniem pełnej fabuły
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. A modular scene prop or compact structure for the project "Przepust Doliny". Functional brief: Woda wraca do bocznego kanału; lokalna zapora znika. State: unrestored, inactive, worn but salvageable; preserve the exact base silhouette and footprint of the restored reference. Generate only architecture and props, no people, no embedded portraits, no readable names or writing. All plaques and signs are blank so the game can render localized text. Do not draw a whole city or change a river or route. Use attached site screenshot for the footprint; if absent this is an unscaled candidate requiring fitting. World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master (large structure 2048x2048 if supported), transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest. Flat camera, no horizon, no lens perspective. Keep base and ground-contact footprint clearly visible. Separate decorative shadow from the object when possible; no opaque ground patch. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.

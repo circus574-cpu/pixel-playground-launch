@@ -1,0 +1,10 @@
+Przewodnik / posłaniec — Nexus-9
+ID: npc.pool.android.guide
+Narzędzie: Gemini
+Priorytet: P2
+Status: NOWY
+Zależność: Akceptacja bazy; role wspólne, nie osobny sprite na każdą nazwę dialogową
+
+WKLEJ TYLKO PONIŻSZY PROMPT:
+
+Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a practical traveling guide, light pack, no weapon drawn. Full-body neutral standing actor facing screen south, 512x512 canvas, feet x50% y95%, no cropped hair or tools. This is a reusable supporting actor proposal, not a redesign of a named canonical NPC. World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master (large structure 2048x2048 if supported), transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest. Flat camera, no horizon, no lens perspective. Keep base and ground-contact footprint clearly visible. Separate decorative shadow from the object when possible; no opaque ground patch. Match the attached current in-game hero and city reference for scale, line treatment, materials and palette. Do not copy reference characters or redesign existing heroes. No text, letters, numbers, logos, watermarks, UI mockup, contact sheet, multiple unrelated objects, photorealism or pixel art. Preserve all extremities and important details. If true alpha output is unavailable, use a flat high-contrast matte color absent from the object and report it; never paint a checkerboard or claim a matte is transparency. Output one image only.
