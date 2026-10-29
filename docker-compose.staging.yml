@@ -1,0 +1,82 @@
+# KI LEGENDS — STAGING na VPS (Aruba, Coolify „Docker Compose”, plik: docker-compose.staging.yml).
+# Hosting gry na VPS, backend BEZ ZMIAN: konta, postacie i zapisy zostają w obecnym Lovable Cloud.
+# Te same obrazy co produkcja (Dockerfile, targety "app" i "web"); różnice tylko w zmiennych:
+#   - serwer Node.js NIE dostaje klucza service_role, SESSION_SECRET ani SITE_PASSWORD (celowo puste),
+#     więc funkcje /test odmawiają dostępu (fail-closed: „Brak konfiguracji dostępu.”),
+#   - Caddy zwraca 503 dla /test i dodaje X-Robots-Tag: noindex.
+# Domenę testową przypisz w Coolify do usługi "web" (port 80). kilegends.pl zostaje bez zmian.
+# Wartości: .env.staging.example (same publiczne dane; sekretów tu nie ma i nie są potrzebne).
+
+x-build-args: &build-args
+  VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:?Ustaw VITE_SUPABASE_URL}
+  VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY:?Ustaw VITE_SUPABASE_PUBLISHABLE_KEY}
+  VITE_SUPABASE_PROJECT_ID: ${VITE_SUPABASE_PROJECT_ID:-}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+      args: *build-args
+    image: ki-legends-app:staging-${KI_RELEASE:-latest}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      SUPABASE_URL: ${SUPABASE_URL:?Ustaw SUPABASE_URL (ten sam adres co VITE_SUPABASE_URL)}
+      SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:?Ustaw SUPABASE_PUBLISHABLE_KEY (ten sam klucz co VITE_SUPABASE_PUBLISHABLE_KEY)}
+      # Celowo puste — staging nie ma klucza service_role Lovable Cloud. Nie wpisuj tu zastępczych wartości.
+      SUPABASE_SERVICE_ROLE_KEY: ""
+      SESSION_SECRET: ""
+      SITE_PASSWORD: ""
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/robots.txt').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    logging:
+      driver: json-file
+      options: { max-size: "20m", max-file: "5" }
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+      args: *build-args
+    image: ki-legends-web:staging-${KI_RELEASE:-latest}
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      APP_UPSTREAM: app:3000
+      KI_TEST_PAGE: disabled
+      KI_INDEXING: noindex
+    expose:
+      - "80"
+    # Tylko bez Coolify (Coolify/Traefik sam kieruje ruch z domeny):
+    # ports:
+    #   - "${KI_HTTP_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/healthz >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    logging:
+      driver: json-file
+      options: { max-size: "20m", max-file: "5" }

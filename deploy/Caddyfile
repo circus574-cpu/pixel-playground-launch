@@ -1,0 +1,82 @@
+# KI LEGENDS — wewnętrzny serwer plików statycznych przed serwerem Node.js.
+# Coolify (Traefik) kończy HTTPS i przekazuje ruch na port 80 tego kontenera.
+# Caddy podaje grafiki, dźwięki i paczki gry z obsługą Range (206), ETag i kompresją,
+# czyli tak jak obecny hosting; wszystko inne (strony, funkcje serwera) trafia do Node.js.
+{
+	admin off
+	auto_https off
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+# Przełączniki środowiska (zmienne kontenera "web", czytane przy starcie Caddy):
+#   KI_TEST_PAGE = enabled | disabled  — disabled: /test zwraca 503 (staging bez klucza service_role)
+#   KI_INDEXING  = allow | noindex     — noindex: nagłówek X-Robots-Tag, żeby staging nie trafił do wyszukiwarek
+# Inna wartość = błąd startu Caddy (kontener nie wstanie), więc literówka nie otworzy /test.
+(test-enabled) {
+	reverse_proxy {$APP_UPSTREAM:app:3000}
+}
+(test-disabled) {
+	header Cache-Control "no-store"
+	header Content-Type "text/html; charset=utf-8"
+	respond `<!doctype html><html lang="pl"><meta charset="utf-8"><title>Ki Legends — niedostępne</title><body style="background:#0d0f1a;color:#f5f5f5;font-family:sans-serif;display:grid;place-items:center;min-height:100vh;margin:0"><p>Ta strona jest wyłączona w środowisku testowym.</p></body></html>` 503
+}
+(indexing-allow) {
+}
+(indexing-noindex) {
+	header X-Robots-Tag "noindex, nofollow"
+}
+
+:80 {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	import indexing-{$KI_INDEXING:allow}
+
+	handle /healthz {
+		respond "ok" 200
+	}
+
+	@testpage path /test /test/*
+	handle @testpage {
+		import test-{$KI_TEST_PAGE:enabled}
+	}
+
+	# Pliki zbudowane przez Vite mają hash w nazwie — wolno je trzymać w pamięci podręcznej na zawsze.
+	@hashed {
+		path /assets/*
+		file {
+			root /srv/public
+		}
+	}
+	handle @hashed {
+		root * /srv/public
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	# Zasoby gry (/game/*), okładki, service worker, favicon, robots.txt — bez nagłówka
+	# Cache-Control, jak w obecnej produkcji; gra sama buforuje je przez ki-assets-sw.js.
+	@static {
+		not path */
+		file {
+			root /srv/public
+		}
+	}
+	handle @static {
+		root * /srv/public
+		file_server
+	}
+
+	handle {
+		# Strony HTML zawsze świeże (jak w obecnej produkcji), chyba że serwer ustawi inaczej.
+		header ?Cache-Control "no-cache, must-revalidate, max-age=0"
+		reverse_proxy {$APP_UPSTREAM:app:3000}
+	}
+}
