@@ -1,5 +1,10 @@
 # Zmiany — 29.10.2026
 
+## KI Legends — druga dostawa efektów VFX od właściciela
+
+Oceniono 6 plansz JPG (1536×1030), 36 pól graficznych, w tym pierwsze kompletne zestawy koncepcyjne Androidów i Legend. Werdykt: 25 kandydatów do obróbki, 9 rezerwowych, 2 do poprawy (artefakty napisów/UI). Wraz z wcześniejszym zestawem Gemini pokryto koncepcyjnie 44/44 główne zdolności czterech ras. Przygotowano pomocniczą paczkę QA w roboczym środowisku; **binariów grafik nie importowano na GitHub ani do gry**, mechanika i hosting bez zmian. [Ocena 36 pól](GEMINI-VFX-DOSTAWA-2.md), [CSV](qa/gemini-vfx-dostawa-2.csv).
+
+
 ## Migracja hostingu Aruba — uzupełnienie gałęzi wdrożeniowej
 
 Właściciel polecił dokończyć migrację; po wskazaniu gałęzi Aruba odpowiedział
