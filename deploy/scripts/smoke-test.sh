@@ -3,6 +3,8 @@
 # --staging: /test ma zwracać 503, a każda odpowiedź nagłówek X-Robots-Tag: noindex (docker-compose.staging.yml).
 # Sprawdza strony, okładki, zasoby gry, Range dla muzyki (wymagane przez Safari/iOS) i nagłówki pamięci podręcznej.
 set -u
+# Bound each request so an unreachable upstream cannot hang the deployment check.
+curl() { command curl --connect-timeout 5 --max-time 20 "$@"; }
 BASE="${1:?Podaj adres, np. https://staging.kilegends.pl}"
 FAIL=0
 STAGING=0; [ "${2:-}" = "--staging" ] && STAGING=1
@@ -30,7 +32,7 @@ range=$(curl -s -o /dev/null -w "%{http_code}" -r 0-99 "$BASE/game/music/pyra.mp
 if [ "$range" = 206 ]; then echo "OK   Range muzyki → 206"; else echo "BŁĄD Range muzyki → $range (oczekiwano 206)"; FAIL=1; fi
 
 asset=$(curl -s "$BASE/" | grep -ao '/assets/[^"]*\.js' | head -1)
-[ -z "$asset" ] && echo "INFO nie znaleziono pliku /assets/*.js w HTML — pomijam test Cache-Control"
+[ -z "$asset" ] && { echo "BŁĄD nie znaleziono pliku /assets/*.js w HTML"; FAIL=1; }
 if [ -n "$asset" ]; then
   cc=$(curl -sI "$BASE$asset" | tr -d '\r' | grep -i '^cache-control:' | cut -d' ' -f2-)
   [[ "$cc" == *immutable* ]] && echo "OK   $asset → $cc" || { echo "BŁĄD $asset → Cache-Control: '$cc'"; FAIL=1; }

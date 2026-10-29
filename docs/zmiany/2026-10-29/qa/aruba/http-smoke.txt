@@ -1,0 +1,20 @@
+OK   /healthz → 200 text/plain; charset=utf-8
+OK   / → 200 text/html; charset=utf-8
+OK   /mapa → 200 text/html; charset=utf-8
+OK   /konto → 200 text/html; charset=utf-8
+OK   /admin → 200 text/html; charset=utf-8
+OK   /test → 503 text/html; charset=utf-8
+OK   /robots.txt → 200 text/plain; charset=utf-8
+OK   /ki-assets-sw.js → 200 text/javascript; charset=utf-8
+OK   /__l5e/assets-v1/025eb219-7762-413d-996d-135177dfb346/cover.png → 200 image/png
+OK   /__l5e/assets-v1/f594fa76-0e3c-43c4-8313-b7b7ccf85a4c/test-background.png → 200 image/png
+OK   /game/assets/stage3/aether-atlas.webp → 200 image/webp
+OK   /game/sfx/android/A1.mp3 → 200 audio/mpeg
+OK   /strona-ktorej-nie-ma → 404 text/html; charset=utf-8
+OK   Range muzyki → 206
+OK   /assets/index-C5KKcm14.js → public, max-age=31536000, immutable
+OK   / → no-cache, must-revalidate, max-age=0
+OK   / → X-Robots-Tag: noindex, nofollow
+OK   /game/music/pyra.mp3 → X-Robots-Tag: noindex, nofollow
+OK   /test → X-Robots-Tag: noindex, nofollow
+WYNIK: wszystkie kontrole OK

@@ -1,0 +1,6 @@
+{"route":"/","status":200,"title":"Ki Legends — Superior","text":"KI LEGENDS\nCZTERY ŚWIATY. JEDNA LEGENDA.\nNowa podróż\nTwoje postacie 0\nKonto\n\nWYBIERZ SWOJE POCHODZENIE\n\nCztery drogi do "}
+{"route":"/mapa","status":200,"title":"Planeta Superior — globus 3D · Ki Legends","text":"VERDANTIA\nPLANETARNI\nAETHERIA\nMĘDRCY\nNEXUS-9\nANDROIDY\nPYRA\nLEGENDY\nI\nII\nIII\nIV\nV\nVI\nGra\n\nKI LEGENDS · ATLAS\n\nPlaneta Sup"}
+{"route":"/konto","status":200,"title":"Konto · Ki Legends","text":"Zaloguj się\nLogowanie\nRejestracja\nE-mail\nHasło\nZaloguj\n\nKonto jest opcjonalne: bez niego gra zapisuje postacie tylko w t"}
+{"route":"/admin","status":200,"title":"Panel administracyjny · Ki Legends","text":"Brak dostępu\n\nPanel jest dostępny tylko dla administratorów i game masterów.\n\nPrzejdź do konta"}
+{"route":"/test","status":503,"title":"Ki Legends — niedostępne","text":"Ta strona jest wyłączona w środowisku testowym."}
+{"pageErrors":[]}

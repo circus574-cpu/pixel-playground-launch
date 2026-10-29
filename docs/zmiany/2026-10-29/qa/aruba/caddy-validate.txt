@@ -1,0 +1,7 @@
+{"level":"info","ts":1793249388.4645104,"msg":"using config from file","file":"/etc/caddy/Caddyfile"}
+{"level":"info","ts":1793249388.4733274,"msg":"adapted config to JSON","adapter":"caddyfile"}
+{"level":"info","ts":1793249388.474056,"logger":"tls.cache.maintenance","msg":"started background certificate maintenance","cache":"0x1bffe9236600"}
+{"level":"info","ts":1793249388.476241,"logger":"http.auto_https","msg":"automatic HTTPS is completely disabled for server","server_name":"srv0"}
+{"level":"info","ts":1793249388.476671,"logger":"http","msg":"servers shutting down with eternal grace period"}
+{"level":"info","ts":1793249388.4767175,"logger":"tls.cache.maintenance","msg":"stopped background certificate maintenance","cache":"0x1bffe9236600"}
+Valid configuration

@@ -554,3 +554,22 @@ narzędzia GM, nowy wybór z atlasu dotyczy domyślnej mapy v2.
 
 Wyniki, ograniczenia autoryzacji testowej i instrukcje QA:
 [dziennik](zmiany/2026-10-28/ZMIANY.md#coder--indywidualne-parametry-i-teleport-gm).
+
+
+## Staging hostingu Aruba — 29.10.2026
+
+Gałąź `migration/aruba-staging-2026-10-28` opiera się na produkcyjnym kodzie
+`main@0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`, bez niescalonego PR #55.
+Dockerfile buduje `NITRO_PRESET=node-server`: `app` to Node 22, `web` to Caddy
+podający statyczne pliki i proxy SSR. `docker-compose.staging.yml` zachowuje obecny
+backend kont/zapisów, nie zawiera klucza service_role i blokuje `/test` (503).
+Przed migracją domeny należy osobno sprawdzić logowanie, allowlist redirect URL
+na backendzie, zapis kont i lokalne dane przeglądarki dla nowej domeny.
+Brak dostępu do backendu nie uprawnia do osłabienia RLS ani odtworzenia pustej bazy.
+
+Dwa obrazy overlay mają zweryfikowane oryginalne SHA-256 i są w repozytorium;
+Dockerfile odmawia budowy przy ich braku/uszkodzeniu. Workflow `aruba-staging.yml`
+buduje prawdziwe obrazy i wykonuje HTTP smoke w izolowanym stosie GitHub Actions,
+a nie wdrożenie na VPS. Skrypt smoke ma ograniczenia czasu połączenia/odpowiedzi
+oraz zgłasza błąd przy braku skryptu aplikacji w HTML. Wyniki konkretnego SHA:
+[dziennik 29.10](zmiany/2026-10-29/ZMIANY.md).
