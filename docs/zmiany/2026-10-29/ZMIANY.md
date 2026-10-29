@@ -175,3 +175,70 @@ Baza ma 7 tabel (w tym schema_version), ale nie ma procesu serwera gry, sieciowe
 walki ani synchronizacji graczy. Nie wgrywano danych kont/postaci ze starej gry.
 Nie kopiowano klucza service_role Supabase i nie uruchamiano GPU. Kopia lokalna
 nie zastępuje przyszłego backupu zewnętrznego. Nie scalono gałęzi do main.
+## Parametry trenowane i statystyki gracza
+
+Polecenie właściciela: Unik, szybkość ataku i Technika wyłącznie przez trening lub
+premie, bez przyrostu za poziom. Doprecyzowanie: Technika zwiększa krytyk, obrażenia
+KI i szansę ponowienia zdolności bez cooldownu. Baza implementacji:
+`main@ba73d0780a8432aa7f6e92ed8b884f0c3ac45db3`, gałąź
+`feature/character-statistics-training`. Bez scalenia i publikacji.
+
+- `combatTraining.ts`: walidowany postęp trzech dyscyplin, limity i współczynniki.
+- `kit/base.ts`: wspólne obliczenia treningu/przedmiotów/buffów, rozbicie wartości,
+  obrażenia KI i kontrolowany jednorazowy reset. Nie zmieniono kanonicznych danych.
+- `session.ts`: pasywny unik, trening przez rzeczywiste akcje w sali, zatwierdzanie
+  dopiero po kosztach zdolności. Konflikt zapisu lub brak miejsca nie przyznaje rangi.
+- `CharacterStatsPanel.tsx`, `GameHud.tsx`: kliknięcie/tapnięcie portretu otwiera
+  statystyki, baza + trening + przedmioty + zdolności + efekty + GM. Okno zamykane,
+  przewijane; bez zmiany joysticka, klawiszy czy pozycji HUD-u.
+- Klasyczny zapis8 i Superior4: czytniki wcześniejszych formatów oraz kopia surowego
+  payloadu przed migracją. Stary runtime nie usuwa nowych parametrów po downgrade.
+- Współczynniki i ograniczenia: [rozwój i walka](../../ROZWOJ-I-WALKA.md#parametry-trenowane-i-podgląd-postaci--29102026).
+
+Dowody: katalog [qa/character-statistics](qa/character-statistics/).
+Pierwszy zestaw przeglądarkowy bez emulacji touch:4/4. Próba touch w pionie została
+zatrzymana przez istniejący obowiązkowy ekran obrotu, a kolejne próby przez zabite
+procesy Chromium/Vite (cgroup `oom_kill=9`, `Target crashed`, następnie połączenie
+odrzucone). Nie jest to dowód błędu nowych statystyk. Zachowano logi niepowodzeń.
+Scenariusz dotykowy następnie obraca viewport jak gracz, bez ukrywania nakładek lub
+manipulacji stanem. Po przejściu na statyczny build lokalnego playtestu Canvas4/4,
+bez błędów JavaScript, z ponownym wczytaniem każdej rasy.
+
+Pierwszy build aplikacji przerwany: `No space left on device`. Usunięto wyłącznie
+lokalne własne katalogi buildów `.playtest-dist`/`.output`, nie assety źródłowe;
+powtórzenie `npm run build` zakończone sukcesem. Zmniejszony techniczny build
+playtestu bez kopiowania `public`, z symlinkami do tych samych źródeł, ograniczył
+powielanie plików i zużycie pamięci serwera dev. Tymczasowa konfiguracja usunięta.
+
+Pozostaje odbiór na fizycznym Androidzie/iOS i ocena tempa treningu przez właściciela.
+Współczynniki nowych statystyk to decyzja implementacyjna, nie wartości z aneksu.
+Nie podłączono niescalonego rozwoju ras PR55 ani niezależnego backendu PR59.
+
+Końcowa kontrola identycznego drzewa źródeł przed commitem:
+
+| Komenda | Wynik |
+| --- | --- |
+| `npm run typecheck` | PASS, wszystkie3 konfiguracje |
+| `npm run lint` | PASS, 0błędów, 15 istniejących ostrzeżeń |
+| `npm run build` | PASS, pełny build produkcyjny |
+| `npm test` | PASS, 854/854, 66 plików, 0pominiętych |
+| Playwright `character-statistics.spec.ts --project=gameplay` Canvas | 4/4 PASS |
+| Ta sama specyfikacja z `KI_QA_WEBGL=1` | 4/4 PASS, Software WebGL |
+| `python3 scripts/docs/check_documentation.py` | PASS po odtworzeniu5 pominiętych przez sparse checkout, śledzonych referencji |
+
+Komplet poleceń i SHA-256 testowanych źródeł: [verification.json](qa/character-statistics/verification.json).
+Logi, raporty JSON i8 zrzutów są obok. Testy przeglądarkowe to nowa funkcja
+statystyk, nie deklaracja wykonania całej istniejącej macierzy E2E gry. Testy walki,
+questów, ekonomii i zapisów objęto zestawem jednostkowym/integracyjnym GameSession.
+Ostrzeżenia JSDOM o audio/canvas pozostają w logach; testy nie zostały pominięte.
+
+Implementacja: `c9360483` · [PR61](https://github.com/circus574-cpu/pixel-playground-launch/pull/61).
+Dodatkowy commit dowodowy zapisuje logi jako `.txt`, ponieważ `.gitignore` pomija
+`.log`. SHA-256 plików w `verification.json` pozwala potwierdzić identyczność
+przetestowanych źródeł z commitem implementacji. PR pozostaje do przeglądu;
+`main` i produkcja niezmienione przez tę gałąź.
+
+GitHub uruchomił pełne kontrole PR: [Browser QA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896479)
+i [WebGL](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896427).
+Na moment zapisu dowodów są w toku, nie oznaczono ich jako PASS. Logi tekstowe mają
+usunięte końcowe białe znaki; treść komunikatów zachowana.

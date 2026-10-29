@@ -549,3 +549,70 @@ describe("Legendy", () => {
     expect(k.kit.stats.defense).toBe(kb.defense);
   });
 });
+
+describe("Technique execution guards", () => {
+  it("allows one paid skill repeat, never an endless reset chain", () => {
+    const h = harness("planetary", 7, ["R", "A1", "A3", "A7"], [foe("g", 30, 0)]);
+    h.port.player.combatTraining = {
+      dodge: { rank: 0, progress: 0 },
+      attackSpeed: { rank: 0, progress: 0 },
+      technique: { rank: 100, progress: 0 },
+    };
+    h.state.seq = 0;
+    const before = h.state.player.ki;
+    expect(h.kit.use("A1").ok).toBe(true);
+    const cost = before - h.state.player.ki;
+    expect(cost).toBeGreaterThan(0);
+    expect(h.kit.use("A1").ok).toBe(true);
+    expect(h.state.player.ki).toBe(before - 2 * cost);
+    expect(h.kit.use("A1").ok).toBe(false);
+    expect(h.state.player.ki).toBe(before - 2 * cost);
+  });
+  it("does not bypass KI or learned-skill requirements", () => {
+    const h = harness("planetary", 7, ["R", "A1", "A3", "A7"]);
+    h.port.player.combatTraining = {
+      dodge: { rank: 0, progress: 0 },
+      attackSpeed: { rank: 0, progress: 0 },
+      technique: { rank: 100, progress: 0 },
+    };
+    h.state.seq = 0;
+    h.state.player.ki = 0;
+    expect(h.kit.use("A1").ok).toBe(false);
+    expect(h.kit.use("B7").ok).toBe(false);
+  });
+});
+
+it("Technique increases KI damage without amplifying physical attacks", () => {
+  for (const race of ["sage", "planetary"] as const) {
+    const a = harness(race, 1, ["R"], [foe("a", 30, 0)]),
+      b = harness(race, 1, ["R"], [foe("b", 30, 0)]);
+    b.port.player.combatTraining = {
+      dodge: { rank: 0, progress: 0 },
+      attackSpeed: { rank: 0, progress: 0 },
+      technique: { rank: 100, progress: 0 },
+    };
+    expect(a.kit.use("R").ok).toBe(true);
+    expect(b.kit.use("R").ok).toBe(true);
+    expect(b.state.hits[0]!.raw / a.state.hits[0]!.raw).toBeCloseTo(race === "sage" ? 1.25 : 1, 5);
+  }
+});
+
+it("keeps equipment, training and temporary bonuses separate and expires buffs", () => {
+  const h = harness("planetary", 1, ["R"]);
+  Object.assign(h.port.gear, {
+    attack: 8,
+    defense: 3,
+    dodgeChance: 2,
+    technique: 10,
+    attackSpeedPct: 5,
+  });
+  h.kit.addBuff({ id: "stat-test", ms: 1000, dodgeAdd: 3, techniqueAdd: 5, attackSpeedPct: 4 });
+  expect(h.kit.stats.dodgeChance).toBe(5);
+  expect(h.kit.stats.technique).toBe(15);
+  expect(h.kit.stats.attackSpeedPct).toBe(9);
+  expect(h.kit.statBreakdown.technique.items).toBe(10);
+  expect(h.kit.statBreakdown.technique.effects).toBe(5);
+  h.step(1100);
+  expect(h.kit.stats.technique).toBe(10);
+  expect(h.kit.stats.dodgeChance).toBe(2);
+});

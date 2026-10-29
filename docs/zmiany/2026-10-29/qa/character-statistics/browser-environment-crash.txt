@@ -1,0 +1,93 @@
+
+Running 4 tests using 1 worker
+
+(node:133534) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Planetarni: portrait opens current statistics 1280 (21.6s)
+  ✘  2 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390 (5.6s)
+(node:133898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360 (853ms)
+(node:134027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852 (1.7s)
+
+
+  1) [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390
+
+    Error: locator.click: Target crashed
+    Call log:
+      - waiting for getByRole('button', { name: 'Rozpocznij przygodę', exact: true })
+
+
+      13 |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+      14 |     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+    > 15 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+         |                                                                                  ^
+      16 |     if (width < height) {
+      17 |       await expect(
+      18 |         page.getByRole("alert").filter({ hasText: "Obróć telefon poziomo" }),
+        at /workspace/ki-aruba/e2e/character-statistics.spec.ts:15:82
+
+    Error Context: test-results/character-statistics-Mędrc-2437f-pens-current-statistics-390-gameplay/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/character-statistics-Mędrc-2437f-pens-current-statistics-390-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/character-statistics-Mędrc-2437f-pens-current-statistics-390-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360
+
+    Error: browserContext.newPage: Target crashed
+
+    Error Context: test-results/character-statistics-Andro-9c79e-pens-current-statistics-360-gameplay/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/character-statistics-Andro-9c79e-pens-current-statistics-360-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/character-statistics-Andro-9c79e-pens-current-statistics-360-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-aruba/e2e/fixtures.ts:25:16)
+        at /workspace/ki-aruba/e2e/character-statistics.spec.ts:13:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/character-statistics-Legen-14996-pens-current-statistics-852-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390
+    [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360
+    [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852
+  1 passed (37.1s)

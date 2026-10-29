@@ -395,7 +395,7 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
     expect(loaded.development!.version).toBe(2);
     expect(port.getItem("slot")).toBe(bytes);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(7);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(9);
     expect(port.getItem("ki-legends:recovery:before-v7:slot")).toBe(bytes);
     const raw = JSON.parse(port.getItem("slot")!);
     raw.player.development.heritage.future = 1;

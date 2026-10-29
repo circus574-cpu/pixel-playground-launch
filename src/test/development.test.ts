@@ -491,10 +491,15 @@ describe("atomic character development and exam isolation", () => {
     save.load();
     const p = newPlayer();
     expect(save.save(p)).toBe(true);
-    const old = port.getItem("slot")!;
+    const legacy = JSON.parse(port.getItem("slot")!);
+    legacy.version = 1;
+    const old = JSON.stringify(legacy);
+    port.data.set("slot", old);
+    const migrated = new SuperiorSaveStore(port, "slot", index, "verdant");
+    expect(migrated.load()).toBeDefined();
     p.development = emptyDevelopment();
-    expect(save.save(p)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(3);
+    expect(migrated.save(p)).toBe(true);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(5);
     expect(port.getItem("ki-legends:recovery:before-superior-v2:slot")).toBe(old);
     const future = JSON.parse(port.getItem("slot")!);
     future.player.development.futureField = true;

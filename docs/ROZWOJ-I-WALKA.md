@@ -1064,3 +1064,38 @@ chronione jednostki wciąż są otwarte. Test integracyjny H-V02 legalnie kończ
 i P-V1, sprawdza błąd zapisu punktu, reload w połowie trasy i odbiera broń stopnia 2.
 To test GameSession na kontrolowanej mapie, nie zaliczony jeszcze scenariusz
 przeglądarkowy późnego rozdziału.
+
+## Parametry trenowane i podgląd postaci — 29.10.2026
+
+Gałąź `feature/character-statistics-training` (bez publikacji): portret otwiera okno
+rzeczywistych parametrów. Rozbicie: baza rasowa/poziom, trening, zdolności,
+wyposażenie, efekty czasowe i końcowe nadpisanie GM. Suma składników odpowiada
+runtime, np. zwykłe ostrze wnosi +8 ataku, ulepszenie kolejne +4.
+
+Nowe parametry **nie rosną przy awansie poziomu**. Trening w Domu Treningu:
+Unik przez skuteczne przemieszczenie unikiem, szybkość ataku przez trafienia R w
+manekin, Technika przez trafienia poznanymi zdolnościami. Maksymalnie jeden punkt
+ćwiczenia na sekundę; wymagane `20 + 5 × ranga` punktów do następnej rangi, limit100.
+Postęp zatwierdzany jest po ticku, po koszcie KI, i tylko po udanym zapisie, gdy
+sesja ma storage. Zatrzymanie/wyjście/śmierć odrzucają oczekujące ćwiczenie.
+Nie ma XP, monet, leczenia ani resetu cooldownu za samo rozpoczęcie treningu.
+
+Współczynniki implementacyjne nowych parametrów (nie liczby z aneksu właściciela):
+jedna ranga Uniku daje 0,1 pkt proc., szybkości ataku +0,25%, Techniki +1 punkt.
+Przedmioty mogą dodatkowo określać `statBonuses`; nie zmieniono premii istniejących
+przedmiotów. Buff runtime może określać `dodgeAdd`, `attackSpeedPct`, `techniqueAdd`.
+Łączny pasywny Unik ma techniczny limit50%; dotyczy zwykłych ciosów/pocisków,
+nie stałych obrażeń i obrażeń okresowych. Odstęp ataków zachowuje minimum200ms.
+
+Punkt Techniki: +0,05 pkt proc. krytyka (maks.+5), +0,25% obrażeń oznaczonych tagiem
+`ki` (maks.+25%), +0,05 pkt proc. szansy ponowienia (maks.5%). Brak dodatkowego
+mnożnika dla ataków czysto fizycznych, ognistych lub elektrycznych. Ponowienie
+zeruje odnowienie po poprawnym użyciu zdolności; następne użycie znów płaci KI,
+wymaga odblokowania i normalnej walidacji. Transformacje i kanałowanie są
+wyłączone; jedna premia ponowienia na pierwotne okno cooldownu danej zdolności.
+Kanon bazowych ras, drzewek, kosztów i odnowień pozostaje bez zmian.
+
+Zapis klasyczny8 czyta1/3/4/5/8, Superior4 czyta1/4. Zachowuje surowy poprzedni
+payload przed migracją; starszy runtime odrzuci nowszy format, zamiast usunąć
+trening. Niescalony PR55 ma osobny rozwój ras i własne wersje zapisu — wymaga
+świadomej integracji, nie automatycznej zamiany tych plików.

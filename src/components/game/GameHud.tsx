@@ -1,4 +1,5 @@
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
+import { CharacterStatsPanel } from "./CharacterStatsPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
 import { CombatAction } from "./CombatAction";
 import { uiTextureUrl } from "../../game/assets/catalog";
@@ -83,7 +84,15 @@ type Props = {
   systemNotice?: MessageEvent;
 };
 type Panel =
-  "development" | "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
+  | "development"
+  | "character"
+  | "inventory"
+  | "journal"
+  | "skills"
+  | "settings"
+  | "map"
+  | "planet"
+  | null;
 /** Planet atlas (2D map + 3D globe) loads only when opened from the world map. */
 const PlanetAtlas = lazy(() =>
   import("../planet-map/MapaView").then((m) => ({ default: m.MapaView })),
@@ -447,7 +456,14 @@ export function GameHud({
         />
       )}
       <section className="ki-player ki-frame" aria-label="Postać gracza">
-        <div className="ki-portrait" data-race={player.race}>
+        <button
+          type="button"
+          className="ki-portrait"
+          data-race={player.race}
+          aria-label="Pokaż statystyki postaci"
+          onClick={() => toggle("character")}
+          style={{ padding: 0, cursor: "pointer" }}
+        >
           <span className="ki-portrait-art">
             <img
               src={originArt[player.race].card}
@@ -457,7 +473,7 @@ export function GameHud({
             />
           </span>
           <span className="ki-level">{player.level}</span>
-        </div>
+        </button>
         <div className="ki-player-info">
           <div className="ki-player-name">
             {state.player.name ?? "Wędrowiec"} <span>{RACES[player.race].name.toUpperCase()}</span>
@@ -1021,6 +1037,7 @@ export function GameHud({
             aria-label={
               {
                 development: "Rozwój postaci",
+                character: "Statystyki postaci",
                 inventory: "Ekwipunek",
                 journal: "Dziennik",
                 skills: "Umiejętności",
@@ -1038,6 +1055,7 @@ export function GameHud({
                 {
                   {
                     development: "Rozwój postaci",
+                    character: "Statystyki postaci",
                     inventory: "Ekwipunek",
                     journal: "Dziennik podróży",
                     skills: "Drzewko umiejętności · " + RACES[player.race].name,
@@ -1057,6 +1075,15 @@ export function GameHud({
                 send={onCommand}
                 startExam={onStartExam}
                 close={closeAndResume}
+              />
+            )}
+            {panel === "character" && (
+              <CharacterStatsPanel
+                state={state}
+                train={(discipline) => {
+                  onCommand({ type: "training", action: "start", discipline });
+                  closeAndResume();
+                }}
               />
             )}
             {panel === "inventory" &&

@@ -52,7 +52,7 @@ const spawnRecord = z.object({
 const envelope = z
   .object({
     format: z.literal("superior-character"),
-    version: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+    version: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     revision: z.string(),
     geometry: z.string(),
     feature: z.enum(FEATURE_IDS),
@@ -63,7 +63,7 @@ const envelope = z
   .strict()
   .refine(
     (value) =>
-      (value.version < 2 || value.player.development !== undefined) &&
+      (![2, 3].includes(value.version) || value.player.development !== undefined) &&
       (value.version !== 3 || value.player.development?.version === 2),
     "Development envelope requires development data",
   );
@@ -155,13 +155,13 @@ export class SuperiorSaveStore extends SaveStore {
         this.warning = "Postać zmieniła się w innej karcie. Ta karta nie nadpisze postępu.";
         return false;
       }
-      if (this.previous && JSON.parse(this.previous)?.version >= 2 && !p.development) {
+      if (this.previous && JSON.parse(this.previous)?.player?.development && !p.development) {
         this.warning = "Nie można usunąć istniejącego postępu rozwoju. Oryginał zachowano.";
         return false;
       }
-      if (p.development && this.previous !== null) {
+      if (this.previous !== null) {
         const oldVersion = JSON.parse(this.previous)?.version;
-        for (const target of [2, 3]) {
+        for (const target of [2, 3, 4, 5]) {
           const key = "ki-legends:recovery:before-superior-v" + target + ":" + this.expeditionKey;
           if (oldVersion < target && this.port.getItem(key) === null)
             this.port.setItem(key, this.previous);
@@ -172,9 +172,15 @@ export class SuperiorSaveStore extends SaveStore {
         !heritageRaceConsistent(p.development?.heritage, p.race)
       )
         return false;
+      if (this.previous && JSON.parse(this.previous)?.player?.combatTraining && !p.combatTraining)
+        return false;
+      if (this.previous !== null && JSON.parse(this.previous).version === 1) {
+        const key = this.expeditionKey + ":before-stat-training-v4";
+        if (this.port.getItem(key) === null) this.port.setItem(key, this.previous);
+      }
       const value = envelope.parse({
         format: "superior-character",
-        version: p.development ? 3 : 1,
+        version: 5,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
         feature: this.feature,

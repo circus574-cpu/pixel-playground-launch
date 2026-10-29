@@ -1,3 +1,4 @@
+import type { CombatTraining } from "../combatTraining";
 import type { CharacterStats } from "../characterStats";
 import type { DevelopmentState } from "../development/state";
 import type { Point } from "../navigation";
@@ -43,6 +44,9 @@ export type AbilityInfo = {
 };
 
 export type FinalStats = {
+  dodgeChance: number;
+  technique: number;
+  attackSpeedPct: number;
   maxHp: number;
   maxKi: number;
   attack: number;
@@ -73,6 +77,9 @@ export type ResourceInfo = {
 export type Timed<T> = T & { ms: number };
 export type Buff = Timed<{
   id: string;
+  dodgeAdd?: number | undefined;
+  techniqueAdd?: number | undefined;
+  attackSpeedPct?: number | undefined;
   atkPct?: number | undefined;
   defPct?: number | undefined;
   speedPct?: number | undefined;
@@ -119,7 +126,13 @@ export type KitPort = {
   readonly nowMs: number;
   readonly development?: DevelopmentState | undefined;
   /** Equipment bonuses (weapon ATK incl. upgrade, armor DEF). */
-  readonly gear: { attack: number; defense: number };
+  readonly gear: {
+    attack: number;
+    defense: number;
+    dodgeChance?: number;
+    technique?: number;
+    attackSpeedPct?: number;
+  };
   readonly inCombat: boolean;
   terrain(): "forest" | "rock" | "water" | "open";
   readonly player: {
@@ -129,6 +142,7 @@ export type KitPort = {
     hp: number;
     ki: number;
     statOverrides?: CharacterStats | undefined;
+    combatTraining?: CombatTraining | undefined;
   };
   readonly facing: Point;
   random(): number;
