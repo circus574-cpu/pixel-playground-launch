@@ -23,7 +23,7 @@
 - [Pełny pakiet ZIP](KI_LEGENDS_PAKIET_366_PASYWNE_ARTEFAKTY_V2.zip) — 366 przedmiotów, 140 receptur, PDF, zasady balansu, skrypt walidacji i 15 oryginalnych plansz.
 - [15 oryginalnych plansz JPG](plansze/) — oddzielne grafiki źródłowe.
 
-GitHub Actions [przebieg 40937429473](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40937429473) **SUCCESS**, potwierdzono SHA-256 ZIP (\`2bd02649bc873001b24c655fe5023940e660bec6ae7187a1e87add10dd389852\`), PDF i 15 grafik. Samo umieszczenie danych w repozytorium **nie oznacza wdrożenia ekwipunku do gry**.
+GitHub Actions [przebieg 40937429473](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40937429473) **SUCCESS**, potwierdzono SHA-256 ZIP (`2bd02649bc873001b24c655fe5023940e660bec6ae7187a1e87add10dd389852`), PDF i 15 grafik. Samo umieszczenie danych w repozytorium **nie oznacza wdrożenia ekwipunku do gry**.
 
 Szczegółowe sumy kontrolne i nazwy: [MANIFEST_BINARNY.md](MANIFEST_BINARNY.md).
 
