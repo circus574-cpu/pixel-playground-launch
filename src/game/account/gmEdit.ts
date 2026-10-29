@@ -4,7 +4,16 @@ import { CharacterStatsSchema, type CharacterStats } from "../characterStats";
  * (superiorSave.ts load), so every edit is checked here with the same rules before it is stored.
  */
 import { isMaterial, MATERIAL_IDS } from "../monsters/materials";
-import { ITEM_IDS, MATERIAL_CAPACITY, xpNeeded, type ItemId, type QuestId } from "../session";
+import {
+  ITEM_IDS,
+  MATERIAL_CAPACITY,
+  PlayerSchema,
+  stats,
+  xpNeeded,
+  type ItemId,
+  type Player,
+  type QuestId,
+} from "../session";
 import { validLearned } from "../kit/progression";
 import { FEATURE_IDS, type FeatureId } from "../world/generated/superiorSave";
 import { WORLD_INDEX } from "../world/generated/worldVersion";
@@ -14,6 +23,7 @@ export type QuestStatus = "locked" | "active" | "ready" | "done";
 
 export type CharacterSummary = {
   statOverrides: CharacterStats;
+  currentStats: ReturnType<typeof stats> | null;
   name?: string;
   race: RaceId;
   continent: string;
@@ -26,7 +36,7 @@ export type CharacterSummary = {
   hp: number;
   ki: number;
   gold: number;
-  weapon: "sword" | null;
+  weapon: Player["weapon"];
   armor: "vest" | null;
   upgrade: number;
   items: Record<ItemId, number>;
@@ -38,6 +48,20 @@ export type CharacterSummary = {
   respecs: number;
   quests: Record<QuestId, QuestStatus>;
 };
+
+// Same saved-player calculation as the game; never invent zero/default values for corrupt data.
+// Position is intentionally excluded: Superior coordinates have a larger valid range.
+const statPlayer = PlayerSchema.pick({
+  race: true,
+  level: true,
+  weapon: true,
+  armor: true,
+  upgrade: true,
+  skills: true,
+  statOverrides: true,
+  combatTraining: true,
+  development: true,
+});
 
 type Envelope = {
   format?: string;
@@ -65,9 +89,11 @@ export function summarize(data: unknown): CharacterSummary | null {
     upgrade?: number;
   };
   const quests = (p["quests"] ?? {}) as Record<string, string>;
+  const parsed = statPlayer.safeParse(p);
   return {
     ...(typeof p["name"] === "string" ? { name: p["name"] } : {}),
     statOverrides: CharacterStatsSchema.safeParse(p["statOverrides"] ?? {}).data ?? {},
+    currentStats: parsed.success ? stats(parsed.data) : null,
     race: p["race"] as RaceId,
     continent: String(p["continent"] ?? ""),
     ...(data.feature ? { feature: data.feature } : {}),
@@ -79,7 +105,7 @@ export function summarize(data: unknown): CharacterSummary | null {
     hp: Number(p["hp"] ?? 1),
     ki: Number(p["ki"] ?? 0),
     gold: Number(p["gold"] ?? 0),
-    weapon: p["weapon"] === "sword" ? "sword" : null,
+    weapon: p["weapon"] === "sword" || p["weapon"] === "heritage" ? p["weapon"] : null,
     armor: p["armor"] === "vest" ? "vest" : null,
     upgrade: Number(p["upgrade"] ?? 0),
     items: Object.fromEntries(ITEM_IDS.map((id) => [id, Number(items[id] ?? 0)])) as Record<
@@ -224,12 +250,17 @@ export function applyEdit(
     items[id] = n;
   }
 
-  const weapon = edit.weapon !== undefined ? edit.weapon : (p["weapon"] as "sword" | null);
+  const weapon = edit.weapon !== undefined ? edit.weapon : (p["weapon"] as Player["weapon"]);
   const armor = edit.armor !== undefined ? edit.armor : (p["armor"] as "vest" | null);
   const upgrade = edit.upgrade !== undefined ? edit.upgrade : Number(p["upgrade"] ?? 0);
   if (!whole(upgrade, 0, 1)) return { ok: false, reason: "Ulepszenie miecza: 0 lub 1." };
-  if (weapon && !items["sword"])
+  if (weapon === "sword" && !items["sword"])
     return { ok: false, reason: "Postać ma założony miecz: zostaw co najmniej 1." };
+  if (
+    weapon === "heritage" &&
+    statPlayer.safeParse(p).data?.development?.heritage.weapon?.location !== "bag"
+  )
+    return { ok: false, reason: "Broń dziedzictwa musi znajdować się w plecaku postaci." };
   if (armor && !items["vest"])
     return { ok: false, reason: "Postać ma założony pancerz: zostaw co najmniej 1." };
 

@@ -1128,3 +1128,13 @@ wyposażenia; `X + Y` równa się rzeczywistej wartości końcowej. Dzięki temu
 nie jest liczona wizualnie drugi raz. Końcowe nadpisanie GM wyświetla jedną
 ustaloną wartość, bez fikcyjnej premii przedmiotu. Wewnętrzne obliczenia i
 `statBreakdown` pozostają dostępne dla silnika; nie zmieniono balansu ani zapisów.
+
+### Parametry w edytorze GM — 29.10.2026
+
+Coder wyświetla teraz wyliczone parametry ostatniego zapisu postaci, a nie puste
+pola dla braku nadpisań GM. Uwzględnia oba treningi, pasywy, sprzęt i moduły.
+Niezmienione wartości nie są zapisywane jako stałe GM. Unik, premia szybkości
+ataku i Technika mają odczyt informacyjny; ich zasady treningu pozostają bez zmian.
+Nowszy zapis blokuje zapis nieaktualnego draftu. Broń dziedzictwa jest rozpoznawana
+i nie wymaga już posiadania zwykłego miecza do edycji innych pól.
+[Szczegóły i granice odczytu](ARCHITEKTURA-I-TESTY.md#odczyt-bieżących-parametrów-w-coder--poprawka-29102026).
