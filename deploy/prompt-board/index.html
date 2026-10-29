@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Ki Legends — produkcja zasobów</title>
+    <link rel="stylesheet" href="/prompty/style.css" />
+    <script type="module" src="/prompty/app.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <span class="eyebrow">KI LEGENDS · WARSZTAT</span>
+          <h1>Prompty i gotowe zasoby</h1>
+          <p>Skopiuj prompt → wygeneruj → wgraj wynik. Postęp zapisuje się na serwerze.</p>
+        </div>
+        <button id="logout" hidden>Wyloguj</button>
+      </header>
+      <section id="login">
+        <h2>Otwórz warsztat</h2>
+        <p>Użyj e-maila i hasła dotychczasowego konta administratora Ki Legends.</p>
+        <form id="login-form">
+          <label>E-mail<input id="email" type="email" autocomplete="username" required /></label
+          ><label
+            >Hasło<input
+              id="password"
+              type="password"
+              autocomplete="current-password"
+              required /></label
+          ><button type="submit">Wejdź</button>
+        </form>
+      </section>
+      <section id="board" hidden>
+        <details class="notice">
+          <summary>Najpierw sześć próbek · zasady warsztatu</summary>
+          <p>
+            Lista „Start — 6 próbek” prowadzi przez pierwszą partię. „Zaliczony” oznacza zapis
+            wyniku, nie akceptację artystyczną ani import do gry. Animacje i bronie wykonuj dopiero
+            po spełnieniu ich zależności.
+          </p>
+        </details>
+        <section class="progress-box">
+          <div id="progress-label"></div>
+          <progress id="progress" max="665" value="0"></progress
+          ><button id="export">Pobierz postęp JSON</button>
+        </section>
+        <nav class="filters" aria-label="Filtry promptów">
+          <label>Szukaj<input id="search" type="search" placeholder="Nazwa, ID lub rasa…" /></label>
+          <label
+            >Partia<select id="priority">
+              <option value="START">Start — 6 próbek</option>
+              <option value="ALL">Wszystkie partie</option>
+              <option>P0</option>
+              <option>P1</option>
+              <option>P2</option>
+              <option>P3</option>
+              <option>ANIM</option>
+              <option>COORD</option>
+            </select></label
+          >
+          <label
+            >Narzędzie<select id="tool">
+              <option value="ALL">Wszystkie</option>
+              <option value="Gemini">Gemini — grafika</option>
+              <option value="ElevenLabs">ElevenLabs — dźwięk</option>
+            </select></label
+          >
+          <label
+            >Świat<select id="race">
+              <option value="ALL">Wszystkie</option>
+              <option value="shared">Wspólne</option>
+              <option value="planetary">Verdantia</option>
+              <option value="sage">Aetheria</option>
+              <option value="android">Nexus-9</option>
+              <option value="legend">Pyra</option>
+            </select></label
+          >
+          <label
+            >Status<select id="status">
+              <option value="ALL">Wszystkie</option>
+              <option value="pending">Do zrobienia</option>
+              <option value="done">Zaliczone</option>
+              <option value="revision">Do poprawy</option>
+            </select></label
+          >
+        </nav>
+        <div class="list-header">
+          <h2 id="list-count">Prompty</h2>
+          <div>
+            <button id="previous">← Poprzednie</button><span id="page-label"></span
+            ><button id="next">Następne →</button>
+          </div>
+        </div>
+        <div id="list"></div>
+        <p id="empty" hidden>Brak promptów pasujących do filtrów.</p>
+      </section>
+      <p id="message" role="status" aria-live="polite"></p>
+      <footer>
+        Pliki zapisujemy na dysku VPS, poza katalogiem wdrożenia. Zachowaj także własne oryginały.
+        Warsztat nie zmienia gry i nie uruchamia płatnych generatorów.
+      </footer>
+    </main>
+  </body>
+</html>

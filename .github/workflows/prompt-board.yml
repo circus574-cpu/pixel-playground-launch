@@ -15,7 +15,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect staging routing without exposing secrets
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test actual HTTP, persistence and authorization
+        run: node --test deploy/prompt-board/server.test.mjs
+      - name: Prepare isolated board bundle
+        run: |
+          test -s docs/design/development-prompts/prompts.json
+          tar -czf /tmp/ki-prompt-board.tar.gz -C deploy/prompt-board . -C "$GITHUB_WORKSPACE/docs/design/development-prompts" prompts.json
+      - name: Deploy only prompt board on staging
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
         run: |
@@ -24,15 +33,6 @@ jobs:
           key="$RUNNER_TEMP/board-key"
           trap 'rm -f "$key"' EXIT
           printf '%s\n' "$SSH_PRIVATE_KEY" > "$key"
-          ssh -i "$key" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" codex@85.235.150.189 'python3 -' <<'PY'
-          import subprocess,json
-          all=json.loads(subprocess.check_output(['docker','inspect',*subprocess.check_output(['docker','ps','-q'],text=True).split()]))
-          for c in all:
-            labels=c['Config'].get('Labels') or {}
-            routes={k:v for k,v in labels.items() if 'traefik' in k and ('rule' in k or 'entrypoint' in k or 'certresolver' in k or 'port' in k)}
-            if any('kilegends.pl' in v for v in routes.values()) or 'coolify-proxy' in c['Name']:
-              print(c['Name'], c['Config']['Image'], list(c['NetworkSettings']['Networks']), routes)
-            if c['Name'].startswith('/app-xh4'):
-              env=dict(s.split('=',1) for s in c['Config']['Env'] if '=' in s)
-              print('existing-private-page-password-configured',bool(env.get('SITE_PASSWORD')))
-          PY
+          ssh_args=(-i "$key" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts")
+          ssh "${ssh_args[@]}" codex@85.235.150.189 'mkdir -p "$HOME/ki-prompt-board/releases/${{ github.sha }}"; tar -xzf - -C "$HOME/ki-prompt-board/releases/${{ github.sha }}"' < /tmp/ki-prompt-board.tar.gz
+          ssh "${ssh_args[@]}" codex@85.235.150.189 'bash "$HOME/ki-prompt-board/releases/${{ github.sha }}/deploy.sh" "${{ github.sha }}"'

@@ -525,3 +525,35 @@ Kontrola lokalna: 665 unikalnych identyfikatorów, obecność wszystkich plików
 kompletność promptów i integralność ZIP PASS. Nie wykonano generowania, odsłuchu
 ani odbioru artystycznego. Brak zmian runtime; testy gry/build niewykonywane dla
 tej dostawy danych i dokumentacji. Nie scalono ani nie opublikowano gry.
+
+## Warsztat promptów i uploadu — staging
+
+Gałąź `feature/prompt-production-board`, baza katalogu promptów `514eead8`.
+Dodano izolowaną usługę `deploy/prompt-board/` i workflow stagingu. Podgląd 665
+promptów, kopiowanie, upload wersji, zapis na VPS, postęp, filtry, podglądy obrazu
+oraz audio. Zaliczenie następuje po skutecznym zapisie; animacje wymagają 8 klatek
+lub ZIP, którego zawartość nie jest oceniana. Nie zmieniono gry, HUD ani generatorów.
+
+Odczyt infrastruktury run `40909083351` potwierdził wspólne hostowanie stagingu i
+produkcji; wybrano osobny kontener/router tylko dla stagingu. Bieżąca aplikacja nie
+ma skonfigurowanego SITE_PASSWORD, dlatego warsztat używa istniejącego konta
+administratora i zdalnie sprawdzanej roli, bez obejścia uprawnień i bez zmian bazy.
+Zastosowano instrukcje skill Supabase, zweryfikowano dokumentację sesji serwerowych
+oraz istniejącą politykę odczytu własnej roli. Nie skopiowano kluczy service_role.
+
+Kontrole lokalne faktycznie wykonane na roboczym drzewie przed commitem:
+- `node --test deploy/prompt-board/server.test.mjs`: 12/12 PASS.
+- `node deploy/prompt-board/browser-qa.mjs`: 11 scenariuszy PASS, zero pageerror;
+  upload PNG/WAV, kopiowanie, 8 klatek, restart, eksport, poprawki, wylogowanie.
+- Viewporty 360x800, 390x844, 414x896, 852x393, 1280x720: brak overflow.
+- Emulowany dotyk: login, filtr i kopiowanie; fizyczny Android/iOS NIEWYKONANE.
+- `npm run typecheck`: wszystkie trzy konfiguracje PASS.
+- `npm run lint`: 0 błędów, 15 istniejących ostrzeżeń.
+- `node --check` server/app i `bash -n deploy/prompt-board/deploy.sh`: PASS.
+- Pełny build/regresja gry NIEWYKONANE: dostawa jest osobną usługą Node bez zmian
+  aplikacji. Logowanie faktycznego właściciela wymaga jego danych, niedostępnych w sesji.
+
+[Wyniki i screenshoty](qa/prompt-board/results.json), [telefon](qa/prompt-board/board-390x844.png),
+[desktop](qa/prompt-board/board-1280x720.png), [trace](qa/prompt-board/trace.zip).
+Status publicznego wdrożenia zostanie dopisany po zakończeniu workflow; nie deklarujemy
+opublikowania gry. Szczegóły storage/bezpieczeństwa: [GPU i zasoby](../../GPU-I-ZASOBY.md#warsztat-promptów-na-stagingu).

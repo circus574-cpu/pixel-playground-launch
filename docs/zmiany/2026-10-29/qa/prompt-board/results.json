@@ -1,0 +1,18 @@
+{
+  "results": [
+    "Login + actual 665-prompt catalogue, initial six-item batch",
+    "Copy prompt through browser clipboard",
+    "Real upload + completion badge + image preview + persistence after reload",
+    "Persistent progress after actual server restart",
+    "Revision status preserves the original asset",
+    "Animation: one frame stays pending, eight actual uploaded frames complete clip",
+    "Wrong media rejected; real WAV upload, completion and audio control",
+    "Progress export downloaded through browser",
+    "No horizontal overflow at 360/390/414 portrait, 852 landscape and 1280 desktop",
+    "Emulated touch: login tap, filter change, copy tap (not physical Android proof)",
+    "Logout revokes browser access"
+  ],
+  "pageErrors": [],
+  "physicalPhone": "NOT TESTED",
+  "source": "local actual server and browser"
+}

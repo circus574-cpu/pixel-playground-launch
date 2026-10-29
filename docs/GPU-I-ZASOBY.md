@@ -518,3 +518,47 @@ przydatnych SFX nie zlecamy ponownie. Broń wymaga uzgodnienia z wykonawcą prze
 Gemini nie gwarantuje spójnych klipów ani alfa; pojedynczy obraz VFX nie jest
 animacją. Katalog odróżnia referencje od gotowych paczek importu. Nie uruchomiono
 API, GPU ani generowania, nie zmieniono gry i nie opublikowano zasobów.
+
+### Warsztat promptów na stagingu
+
+`deploy/prompt-board/` to samodzielny Node 22 + HTML/JS, bez przebudowy gry.
+Warsztat docelowo zajmuje `https://staging.kilegends.pl/prompty/`, a wejście na
+sam korzeń stagingu przekierowuje tam. Router obejmuje tylko host stagingu oraz
+`/` i `/prompty`; pozostałe ścieżki i domeny produkcyjne nie są zmieniane.
+
+Katalog 665 promptów ma kopiowanie, upload, filtry, paginację, prywatne podglądy,
+odsłuch i eksport metadanych postępu. Po zapisie wyniku prompt jest zaliczony;
+klip NPC wymaga 8 plików lub ZIP. ZIP nie jest rozpakowywany ani oceniany.
+„Do poprawy” zachowuje poprzednie pliki, a nowa wersja nie nadpisuje oryginału.
+Zaliczenie uploadu nie oznacza odbioru artystycznego, importu ani publikacji.
+
+Autoryzacja: to samo konto e-mail/hasło co w grze, wymagane `user_roles.admin`.
+Serwer używa bieżącego publicznego adresu/klucza API kont, `/auth/v1/user` oraz
+odczytu własnej roli przez RLS; bez service_role i zmian bazy. Token sesji znajduje
+się w szyfrowanym AES-GCM cookie HttpOnly/Secure/SameSite=Strict, ważnym najwyżej
+przez czas tokenu Auth. Rola jest ponownie weryfikowana z cache maks. 5 s.
+Sesji nie odświeżamy automatycznie: po wygaśnięciu należy zalogować się ponownie.
+To osobna sesja warsztatu; nie zmienia logowania do gry ani prywatnego `/test`.
+
+Pliki i `state.json` leżą na VPS w `~/ki-prompt-board/data`, poza wersjonowanymi
+release. `auth.json` (0600) zawiera sekret szyfrowania cookie — nie umieszczać go
+w Git. Dane przetrwają restart i aktualizację kontenera. Kopia `state.json.previous`
+i kopia metadanych przed deployem są na tym samym VPS; NIE jest to backup offsite.
+Właściciel powinien zachować własne oryginały, pobierać wyniki i eksport postępu.
+Limity: 48 MiB/pliki, 4 GiB całego indeksowanego magazynu; bezpieczny zapas dysku,
+kontrola rozszerzeń i nagłówków, brak SVG/HTML. Nie jest to pełny dekoder/walidator
+animacji. Nieindeksowany plik po błędzie zapisu wymaga przeglądu administratora;
+nie zaliczamy go i nie usuwamy zaakceptowanych danych automatycznie.
+
+Wdrożenie: `.github/workflows/prompt-board.yml`, tylko dedykowana gałąź lub ręczne
+uruchomienie. Kontener `ki-prompt-board`, sieć `coolify`, limit 192 MiB/0.5 CPU,
+bez publikowanych portów i bez uprawnień roota. Rollback: poprzedni katalog release
+przez `deploy.sh <SHA>`; dane pozostają poza release. Awaryjne zatrzymanie wyłącznie
+`ki-prompt-board` usuwa jego routery i przywraca dotychczasowy routing stagingu.
+Nie zatrzymywać proxy ani kontenerów gry. Skrypt ma rollback nieudanego wdrożenia.
+
+Kontrole: `node --test deploy/prompt-board/server.test.mjs` (12 testów HTTP),
+`node deploy/prompt-board/browser-qa.mjs` (11 scenariuszy przez prawdziwy serwer
+lokalny, 5 rozmiarów, emulowany dotyk), pełny TS i lint. Testy UI używają lokalnej
+sesji testowej; sprawdzanie roli obejmuje kontrolowany serwer Auth. Nie traktować
+tego jako zaliczonego logowania prawdziwego administratora ani fizycznego Androida.
