@@ -9,3 +9,5 @@ docker exec coolify-db psql -U coolify -d coolify -At -c "select column_name fro
 
 docker exec coolify sh -c 'grep -R -n "function generate_github_installation_token" /var/www/html/bootstrap/helpers; grep -n -A45 "function.*[Tt]oken" /var/www/html/app/Models/GithubApp.php' || true
 docker exec coolify-db psql -U coolify -d coolify -At -c "select name,source_type,source_id,private_key_id from applications where deleted_at is null;"
+docker logs --tail 15 ki-project-auto-deploy
+docker exec coolify-db psql -U coolify -d coolify -At -c "select name,status from applications where deleted_at is null;"

@@ -112,3 +112,27 @@ mają osobne prywatne repozytoria; PHU Krenc i Balustrador.pl korzystają z jedn
 prywatnego repozytorium na różnych gałęziach migracyjnych — nie zmieniać ich
 obu bezmyślnie na main. API GitHub webhooks zwraca 403 dla integracji tej sesji;
 nie deklarować skonfigurowanych hooków dla tych repozytoriów.
+
+### Ikona i automatyzacja pozostałych czterech stron
+
+Właściciel wskazał starą ikonę Lovable w karcie. Jawny favicon wskazuje teraz nowy
+`/ki-favicon.svg?v=20261029` (własny znak KI); zastąpiono również ICO awaryjne.
+Nowy adres ogranicza wpływ starej pamięci przeglądarki, ale otwarta karta telefonu
+może wymagać zamknięcia/ponownego otwarcia. Nie zmieniano grafiki ani mechanik gry.
+
+Zainstalowano `ki-project-auto-deploy` na Aruba (restart unless-stopped, 64 MiB).
+Co 120 s odczytuje HEAD właściwych czterech prywatnych repozytoriów/gałęzi przez
+istniejącą integrację GitHub App Coolify. Nie eksportuje tokenów. Nowy commit
+kieruje do natywnej kolejki Coolify; maksymalnie jeden nowy build w przebiegu,
+bez ponawiania tej samej nieudanej rewizji w nieskończoność. Obecne gałęzie:
+PHU `migration/phu-krenc-aruba-2026-10-29`, Tigmig i AI
+`migration/aruba-staging-2026-10-28`, Balustrador.pl `migration/coolify-vps-2026-10-28`.
+Nie deklarować, że push do main tych czterech repozytoriów wdraża stronę: śledzone
+są wskazane gałęzie wdrożeniowe. Ki Legends ma osobny workflow push main.
+Instalacja i odczyt repozytoriów: Actions **40826181680 SUCCESS**. Pierwsze trzy
+rewizje miały już zakończone deploymenty; nowszy Balustrador.pl wymaga kolejki.
+To nie dowód testowego nowego pushu i pełnej funkcjonalności każdej strony.
+
+Lint początkowo wykazał 15 błędów formatowania starego drivera QA dodanego podczas
+migracji; poprawiono format tego jednego pliku. Powtórzenie: 0 błędów/15 ostrzeżeń.
+Nie osłabiono kontroli i nie zmieniono asercji.
