@@ -12,6 +12,8 @@ jobs:
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: deploy/scripts
       - name: Check SSH access and local Coolify response
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
