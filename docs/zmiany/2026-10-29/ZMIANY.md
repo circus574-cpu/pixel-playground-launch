@@ -136,3 +136,32 @@ To nie dowód testowego nowego pushu i pełnej funkcjonalności każdej strony.
 Lint początkowo wykazał 15 błędów formatowania starego drivera QA dodanego podczas
 migracji; poprawiono format tego jednego pliku. Powtórzenie: 0 błędów/15 ostrzeżeń.
 Nie osłabiono kontroli i nie zmieniono asercji.
+
+## Pełne odcięcie od Lovable — nowy backend Ki Legends
+
+Właściciel wyraźnie wybrał osobny projekt na własnym Supabase, bez Lovable Cloud.
+Potwierdzono organizację `circus574-cpu's Org`, plan Free; utworzono aktywny projekt
+`ki-legends`, ref `ekqljyldtzbpytqrtaer`, region `eu-central-1`. Nie zmieniono planu.
+**Projekt nie ma jeszcze odtworzonych danych; aplikacja NIE została przełączona.**
+Dotychczasowy backend Ki Legends: `istakaetceprpnbafdgu.supabase.co`.
+Własny backend Tigmig i Balustrador.pl: `drpesmyumjhncnleiity.supabase.co`, widoczny
+na połączonym koncie właściciela. Nie nadpisywać jego tabel ani kont migracją gry.
+Dla PHU/AI w sprawdzonych zasobach nie wykryto hosta Supabase; nie jest to dowód
+braku innych zależności serwerowych od Lovable.
+
+Na Aruba istnieje kopia eksportu: `/home/gh-runner/migracja-archiwa/verified-cdbd495f/KI-LEGENDS-VPS-MIGRACJA/database/schema.sql`.
+Potwierdzono lokalizację, nie potwierdzono kompletności auth.users/auth.identities.
+Workflow `migration-transfer.yml` w gałęzi `fix/tigmig-domain-routing` tworzy
+szyfrowaną CMS kopię katalogu database i BRAKI-I-OGRANICZENIA.md. Actions
+40830244873 SUCCESS. W Git jest WYŁĄCZNIE publiczny certyfikat odbiorcy, nigdy
+prywatny klucz ani odszyfrowany eksport. Prywatny klucz sesji pozostaje lokalnie
+`/workspace/.ki-migration-private/key.pem` (nie zabezpieczono go poza workspace).
+Oryginalne dane VPS są niezmienione. Artefakt zaszyfrowany ma retencję jeden dzień.
+
+Pobranie artefaktu do tej sesji dwukrotnie zwróciło Forbidden z magazynu Actions.
+Nie odszyfrowano ani nie importowano bazy. Nie deklarować migracji kont, haseł,
+Storage, polityk czy danych jako ukończonej. Dalsze kroki: przywrócić bezpieczny
+dostęp do eksportu, zweryfikować auth i metadane prywatnych plików, odtworzyć
+nowy projekt, sprawdzić RLS i logowanie oraz dopiero wtedy przełączyć konfigurację
+serwera/przeglądarki. Nie wpisywać nowych URL/kluczy przed odtworzeniem danych.
+Brak kluczy źródłowego Lovable Cloud nie uzasadnia publicznych bucketów ani resetu kont.
