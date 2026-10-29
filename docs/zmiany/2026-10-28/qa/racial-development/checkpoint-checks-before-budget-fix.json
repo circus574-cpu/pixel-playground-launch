@@ -1,0 +1,44 @@
+[
+  {
+    "name": "typecheck",
+    "command": "npm run typecheck",
+    "exit_code": 0,
+    "seconds": 25.41
+  },
+  {
+    "name": "unit",
+    "command": "npm test",
+    "exit_code": 0,
+    "seconds": 77.56
+  },
+  {
+    "name": "lint",
+    "command": "npm run lint",
+    "exit_code": 0,
+    "seconds": 17.59
+  },
+  {
+    "name": "assets",
+    "command": "npm run assets:check",
+    "exit_code": 0,
+    "seconds": 27.75
+  },
+  {
+    "name": "build",
+    "command": "npm run build",
+    "exit_code": 0,
+    "seconds": 13.91
+  },
+  {
+    "name": "docs",
+    "command": "python3 scripts/docs/check_documentation.py",
+    "exit_code": 0,
+    "seconds": 1.92
+  },
+  {
+    "name": "playtest-build",
+    "command": "npm run build:playtest",
+    "exit_code": 0,
+    "seconds": 3.08
+  }
+]

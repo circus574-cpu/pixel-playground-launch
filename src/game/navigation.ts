@@ -22,6 +22,29 @@ const MAX_EXPANSIONS = 120000;
 const HEURISTIC_WEIGHT = 1.4;
 export class Navigation {
   readonly cell: number;
+  private readonly localOwners = new Map<string, readonly Obstacle[]>();
+  private localObstacles: readonly Obstacle[] = [];
+  /** Character-local construction only. Never mutate generated grids or canonical colliders. */
+  setLocalObstacles(owner: string, obstacles: readonly Obstacle[]) {
+    if (
+      !owner ||
+      owner.length > 160 ||
+      obstacles.length > 64 ||
+      obstacles.some(
+        (o) =>
+          ![o.x, o.y, o.width, o.height].every(Number.isFinite) || o.width <= 0 || o.height <= 0,
+      )
+    )
+      throw Error("Invalid local obstacle overlay");
+    if (obstacles.length)
+      this.localOwners.set(
+        owner,
+        obstacles.map((o) => ({ ...o })),
+      );
+    else this.localOwners.delete(owner);
+    this.localObstacles = [...this.localOwners.values()].flat();
+    this.grid.fill(0);
+  }
   private cols: number;
   private rows: number;
   /** 0 = not evaluated yet, 1 = free, 2 = blocked. */
@@ -47,6 +70,10 @@ export class Navigation {
     this.grid = new Uint8Array(this.cols * this.rows);
   }
   private isBlocked(i: number): boolean {
+    if (this.localObstacles.length) {
+      const point = this.point(i);
+      if (blockedAt(point.x, point.y, this.localObstacles, FOOT_RADIUS)) return true;
+    }
     if (this.blocked) return this.blocked[i] === 1;
     let v = this.grid[i]!;
     if (!v) {
@@ -56,6 +83,11 @@ export class Navigation {
     return v === 2;
   }
   walkable(p: Point): boolean {
+    if (this.localObstacles.length && blockedAt(p.x, p.y, this.localObstacles, FOOT_RADIUS))
+      return false;
+    return this.canonicalWalkable(p);
+  }
+  canonicalWalkable(p: Point): boolean {
     if (this.field)
       return (
         Number.isFinite(p.x) &&
@@ -75,6 +107,8 @@ export class Navigation {
     );
   }
   visible(a: Point, b: Point): boolean {
+    if (this.localObstacles.length && !clearSight(a.x, a.y, b.x, b.y, this.localObstacles))
+      return false;
     return this.field ? this.segment(a, b) : clearSight(a.x, a.y, b.x, b.y, this.obstacles);
   }
   private segment(a: Point, b: Point): boolean {
@@ -283,14 +317,14 @@ export class Navigation {
             ny < 0 ||
             nx >= this.cols ||
             ny >= this.rows ||
-            this.blocked?.[next] ||
+            this.isBlocked(next) ||
             closed.has(next)
           )
             continue;
           if (
             dx &&
             dy &&
-            (this.blocked?.[y * this.cols + nx] || this.blocked?.[ny * this.cols + x])
+            (this.isBlocked(y * this.cols + nx) || this.isBlocked(ny * this.cols + x))
           )
             continue;
           const cost = current.cost + Math.hypot(dx, dy) * this.cell;
@@ -307,15 +341,19 @@ export class Navigation {
     if (d < 0.01) return p;
     const step = Math.min(amount, d);
     const next = { x: p.x + ((to.x - p.x) / d) * step, y: p.y + ((to.y - p.y) / d) * step };
-    if (this.walkable(next) && (!this.field || this.segment(p, next))) return next;
+    if (
+      this.walkable(next) &&
+      (!(this.field || this.localObstacles.length) || this.segment(p, next))
+    )
+      return next;
     if (
       this.walkable({ x: next.x, y: p.y }) &&
-      (!this.field || this.segment(p, { x: next.x, y: p.y }))
+      (!(this.field || this.localObstacles.length) || this.segment(p, { x: next.x, y: p.y }))
     )
       return { x: next.x, y: p.y };
     if (
       this.walkable({ x: p.x, y: next.y }) &&
-      (!this.field || this.segment(p, { x: p.x, y: next.y }))
+      (!(this.field || this.localObstacles.length) || this.segment(p, { x: p.x, y: next.y }))
     )
       return { x: p.x, y: next.y };
     return p;

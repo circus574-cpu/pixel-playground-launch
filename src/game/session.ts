@@ -1,4 +1,38 @@
+import {
+  CombatTrainingSchema,
+  advanceCombatTraining,
+  emptyCombatTraining,
+  TRAINABLE_NAMES,
+  type TrainableStat,
+} from "./combatTraining";
 import { CharacterStatsSchema } from "./characterStats";
+import { PracticeTargets, isPracticeId } from "./development/targets";
+import { heritageRaceConsistent } from "./development/heritage/state";
+import { equippedAttack, weaponConsistent } from "./development/heritage/equipment";
+import { HeritageRuntime, type HeritageCommand } from "./development/heritage/runtime";
+import type { HeritageHome } from "./development/heritage/bindings";
+import { ExamAttempt } from "./development/exams";
+import { VARIANTS } from "./development/modifiers";
+import {
+  DISCIPLINES,
+  examAvailable,
+  examId,
+  rankCost,
+  rankUnavailable,
+  type Discipline,
+} from "./development/training";
+import {
+  emptyDevelopment,
+  MODULE_ENERGY,
+  SPECIES_IDS,
+  type ModuleId,
+  type VariantId,
+} from "./development/state";
+import {
+  CurrentDevelopmentSchema,
+  DevelopmentSchema,
+  type DevelopmentState,
+} from "./development/state";
 import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
 import { isValidNick } from "./nickname";
@@ -30,13 +64,23 @@ import {
   type MonsterEvent,
   type MonsterHost,
 } from "./monsters/system";
-import { PlayerFx } from "./monsters/fx";
+import { PlayerFx, statusText } from "./monsters/fx";
 import type { Enemy, FxSpec, ZoneState } from "./monsters/types";
 
 export type { Enemy } from "./monsters/types";
 export { MATERIALS, MATERIAL_IDS } from "./monsters/materials";
 
-export const ITEMS = {
+export type ItemDefinition = {
+  name: string;
+  type: "consumable" | "material" | "weapon" | "armor";
+  icon: number;
+  attack: number;
+  defense: number;
+  price: number;
+  sell: number;
+  statBonuses?: { dodgeChance?: number; attackSpeedPct?: number; technique?: number };
+};
+export const ITEMS: Record<"potion" | "tusk" | "sword" | "vest", ItemDefinition> = {
   potion: {
     name: "Mikstura życia",
     type: "consumable",
@@ -65,7 +109,7 @@ export const ITEMS = {
     price: 25,
     sell: 10,
   },
-} as const;
+};
 export type ItemId = keyof typeof ITEMS;
 export const ITEM_IDS = Object.keys(ITEMS) as ItemId[];
 export const BAG_CAPACITY = 12;
@@ -97,7 +141,9 @@ const emptyDepot = () => ({
   upgrade: 0,
 });
 export const PlayerSchema = z.object({
+  combatTraining: CombatTrainingSchema.optional(),
   statOverrides: CharacterStatsSchema.optional(),
+  development: DevelopmentSchema.optional(),
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
   startContinent: z.enum(WORLD_IDS),
@@ -116,7 +162,7 @@ export const PlayerSchema = z.object({
     sword: finite(99).int(),
     vest: finite(99).int(),
   }),
-  weapon: z.literal("sword").nullable(),
+  weapon: z.enum(["sword", "heritage"]).nullable(),
   armor: z.literal("vest").nullable(),
   upgrade: z.number().int().min(0).max(1),
   quests: z.object({ steps: status, boars: status, gear: status }),
@@ -174,7 +220,16 @@ export type GameEvent = Point & {
   kind?: string;
   crit?: boolean;
 };
+export type DevelopmentCommand =
+  | { type: "development"; action: "train"; discipline: Discipline }
+  | { type: "development"; action: "reset-training" }
+  | { type: "development"; action: "study" | "study-route"; species: string }
+  | { type: "development"; action: "variant"; id: VariantId | null }
+  | { type: "development"; action: "modules"; ids: ModuleId[] };
 export type Command =
+  | DevelopmentCommand
+  | HeritageCommand
+  | { type: "heritage-weapon"; action: "equip" | "deposit" | "withdraw" }
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
   | { type: "ability"; ability: Ability }
@@ -195,7 +250,7 @@ export type Command =
   | { type: "storage-close" }
   | { type: "depot"; item: string; quantity: number; withdraw: boolean }
   | { type: "rest" }
-  | { type: "training"; action: "start" | "reset" | "stop" }
+  | { type: "training"; action: "start" | "reset" | "stop"; discipline?: TrainableStat }
   | StaffCommand;
 /** Tools of a special administrator or game-master character; ignored for everyone else. */
 export type StaffCommand =
@@ -227,6 +282,20 @@ export type StaffCommand =
   | { type: "staff"; action: "killTarget" }
   | { type: "staff"; action: "killAllNearby"; radius?: number };
 export type StaffRole = "admin" | "gm";
+export function equipmentStats(p: Pick<Player, "weapon" | "armor" | "upgrade" | "development">) {
+  const gear = {
+    attack: equippedAttack(p),
+    defense: p.armor ? ITEMS[p.armor].defense : 0,
+    dodgeChance: 0,
+    technique: 0,
+    attackSpeedPct: 0,
+  };
+  for (const id of [p.weapon, p.armor])
+    if (id && id !== "heritage")
+      for (const key of ["dodgeChance", "technique", "attackSpeedPct"] as const)
+        gear[key] += ITEMS[id].statBonuses?.[key] ?? 0;
+  return gear;
+}
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
@@ -235,14 +304,15 @@ export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
 function statsPort(
-  p: Pick<Player, "level" | "weapon" | "armor" | "upgrade" | "statOverrides">,
+  p: Pick<
+    Player,
+    "level" | "weapon" | "armor" | "upgrade" | "statOverrides" | "combatTraining" | "development"
+  >,
 ): KitPort {
   return {
     nowMs: 0,
-    gear: {
-      attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
-      defense: p.armor ? ITEMS[p.armor].defense : 0,
-    },
+    development: p.development,
+    gear: equipmentStats(p),
     inCombat: false,
     terrain: () => "open",
     player: {
@@ -251,6 +321,7 @@ function statsPort(
       level: p.level,
       hp: 0,
       ki: 0,
+      ...(p.combatTraining ? { combatTraining: p.combatTraining } : {}),
       ...(p.statOverrides ? { statOverrides: p.statOverrides } : {}),
     },
     facing: { x: 1, y: 0 },
@@ -278,10 +349,25 @@ function statsPort(
   };
 }
 export const stats = (
-  p: Pick<Player, "race" | "level" | "weapon" | "armor" | "upgrade" | "skills" | "statOverrides">,
+  p: Pick<
+    Player,
+    | "race"
+    | "level"
+    | "weapon"
+    | "armor"
+    | "upgrade"
+    | "skills"
+    | "statOverrides"
+    | "combatTraining"
+    | "development"
+  >,
 ) => {
-  const s = createKit(p.race, statsPort(p), p.skills).stats;
+  const kit = createKit(p.race, statsPort(p), p.skills);
+  const s = kit.stats;
   return {
+    dodgeChance: s.dodgeChance,
+    technique: s.technique,
+    attackSpeedPct: s.attackSpeedPct,
     maxHp: s.maxHp,
     maxKi: s.maxKi,
     attack: s.attack,
@@ -290,7 +376,7 @@ export const stats = (
     crit: s.crit,
     kiRegen: s.kiRegen,
     attackInterval: s.attackInterval,
-    range: s.range,
+    range: kit.basicRange,
   };
 };
 export function newPlayer(race: RaceId = "planetary"): Player {
@@ -349,6 +435,28 @@ const SaveSchema = z.discriminatedUnion("version", [
   z.object({ version: z.literal(3), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(4), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(5), revision: z.string(), player: PlayerSchema }),
+  z
+    .object({
+      version: z.literal(7),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema }),
+    })
+    .strict(),
+  z
+    .object({
+      version: z.literal(6),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema }),
+    })
+    .strict(),
+  z.object({ version: z.literal(8), revision: z.string(), player: PlayerSchema }),
+  z
+    .object({
+      version: z.literal(9),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema.optional() }),
+    })
+    .strict(),
 ]);
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
@@ -361,6 +469,9 @@ export class SaveStore {
     private storage: StoragePort | null,
     private key = SAVE_KEY,
   ) {}
+  get identity(): string {
+    return this.key;
+  }
   load(): Player | undefined {
     try {
       if (!this.storage) throw new Error("storage unavailable");
@@ -383,7 +494,8 @@ export class SaveStore {
         p.x > WORLDS[p.continent].width ||
         p.y > WORLDS[p.continent].height ||
         p.xp >= xpNeeded(p.level) ||
-        (p.weapon && !p.items.sword) ||
+        !weaponConsistent(p, this.identity) ||
+        !heritageRaceConsistent(p.development?.heritage, p.race) ||
         (p.armor && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
@@ -424,7 +536,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5]) {
+    for (const target of [4, 5, 6, 7, 8, 9]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -439,9 +551,21 @@ export class SaveStore {
           "Zapis zmienił się w innej karcie. Odśwież grę; ta karta nie nadpisze postępu.";
         return false;
       }
+      if (this.expected && JSON.parse(this.expected)?.player?.development && !p.development) {
+        this.warning = "Nie można usunąć istniejącego postępu rozwoju. Oryginał zachowano.";
+        return false;
+      }
+      if (
+        !weaponConsistent(p, this.identity) ||
+        !heritageRaceConsistent(p.development?.heritage, p.race)
+      )
+        return false;
+      SaveSchema.parse({ version: 9, revision: "validation", player: p });
+      if (this.expected && JSON.parse(this.expected)?.player?.combatTraining && !p.combatTraining)
+        return false;
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 5,
+        version: 9,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -456,6 +580,10 @@ export class SaveStore {
 }
 
 export type SessionOptions = {
+  featureId?: string;
+  heritageHome?: HeritageHome;
+  /** In-memory development exam only; never restored from a character save. */
+  practiceOnly?: boolean;
   random?: () => number;
   /** Explicit alternate map, used by deterministic CPU simulation and future world loaders. */
   world?: WorldDefinition;
@@ -475,6 +603,12 @@ export const DAY_MS = 480000;
 export const NIGHT_FROM = 300000;
 
 export class GameSession implements MonsterHost {
+  private readonly practiceOnly: boolean;
+  private activeExam: ExamAttempt | undefined;
+  private examRehearsal = false;
+  private knowledgeIn = 0;
+  /** A trace comes from an actually observed live attack, never from map loading. */
+  private readonly researchTraces = new Map<string, Point>();
   player: Player;
   nav: Navigation;
   readonly enemyNavigation: Navigation | undefined;
@@ -502,6 +636,8 @@ export class GameSession implements MonsterHost {
   get safe() {
     return inSafeCity(this.world, this.player, this.player.interior);
   }
+  readonly practiceTargets = new PracticeTargets();
+  readonly heritage: HeritageRuntime;
   readonly monsters: MonsterSystem;
   readonly kit: Kit;
   readonly fx = new PlayerFx();
@@ -528,6 +664,9 @@ export class GameSession implements MonsterHost {
   private afterExit: BuildingId | null = null;
   depotOpen = false;
   training = { active: false, hits: 0, damage: 0 };
+  private trainingDiscipline: TrainableStat | undefined;
+  private lastTrainingCredit = -Infinity;
+  private pendingTraining: TrainableStat | undefined;
   private dummy: Foe = { id: "training-dummy", x: 600, y: 300, hp: 1000000000, maxHp: 1000000000 };
   private pathIn = 0;
   private saveIn = 0;
@@ -547,6 +686,7 @@ export class GameSession implements MonsterHost {
     race: RaceId = "planetary",
     options: SessionOptions = {},
   ) {
+    this.practiceOnly = options.practiceOnly ?? false;
     this.rng = options.random ?? mulberry(Date.now() & 0x7fffffff);
     const restored = saves?.load();
     this.player = restored ?? newPlayer(race);
@@ -573,6 +713,13 @@ export class GameSession implements MonsterHost {
       this.player.ki = this.kit.stats.maxKi;
     }
     this.monsters = new MonsterSystem(this);
+    this.heritage = new HeritageRuntime(
+      this,
+      (fn) => this.commitDevelopment(fn),
+      options.featureId ?? this.world.id,
+      options.heritageHome ?? this.world,
+      this.outsideNav,
+    );
     if (!isCityStage(this.world)) {
       this.world.enemies.forEach((p, i) => this.monsters.spawn("boar", p, "boar-" + i));
       for (const sp of this.world.monsters ?? [])
@@ -594,7 +741,7 @@ export class GameSession implements MonsterHost {
     return this.kit.stats.maxHp;
   }
   get playerRange() {
-    return this.kit.stats.range;
+    return this.kit.basicRange;
   }
   isNight() {
     return this.nowMs % DAY_MS >= NIGHT_FROM;
@@ -612,6 +759,16 @@ export class GameSession implements MonsterHost {
     if (this.safe) return { dealt: 0, evaded: true };
     if (p.dead) return { dealt: 0, evaded: true };
     if (this.kit.hasBuff("invulnerable")) {
+      this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Unik" });
+      return { dealt: 0, evaded: true };
+    }
+    const evade = this.kit.stats.dodgeChance;
+    if (
+      !fixed &&
+      (kind === "melee" || kind === "projectile") &&
+      evade > 0 &&
+      this.random() * 100 < evade
+    ) {
       this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Unik" });
       return { dealt: 0, evaded: true };
     }
@@ -647,6 +804,9 @@ export class GameSession implements MonsterHost {
     if (this.kit.saveFromDeath()) return;
     p.hp = 0;
     p.dead = true;
+    this.practiceTargets.clear();
+    this.heritage.cancelActivities();
+    this.pendingTraining = undefined;
     this.bufferedAction = undefined;
     this.kit.cancelActions();
     this.projectiles.cancel();
@@ -716,6 +876,19 @@ export class GameSession implements MonsterHost {
       return;
     }
     const def = e.m.def;
+    if (
+      !this.practiceOnly &&
+      SPECIES_IDS.has(e.kind) &&
+      this.player.development?.knowledge[e.kind] === 3
+    ) {
+      this.commitDevelopment((next) => {
+        const receipt = `bestiary:${e.kind}:complete:v1`;
+        if (next.rewardReceipts[receipt]) return;
+        next.knowledge[e.kind] = 4;
+        next.rewardReceipts[receipt] = { practice: 50 };
+        next.practiceEarned += 50;
+      });
+    }
     this.kit.onKill(e);
     if (this.targetId === e.id) {
       this.targetId = null;
@@ -765,6 +938,17 @@ export class GameSession implements MonsterHost {
     this.saves?.save(this.player);
   }
   emit(event: GameEvent | MonsterEvent) {
+    if (!this.practiceOnly && event.type === "attack" && "source" in event && event.source) {
+      const foe = this.enemies.find((e) => e.id === event.source && e.hp > 0);
+      if (
+        foe &&
+        SPECIES_IDS.has(foe.kind) &&
+        distance(foe, this.player) <= 650 &&
+        this.nav.visible(this.player, foe)
+      ) {
+        this.researchTraces.set(foe.kind, { x: foe.x, y: foe.y });
+      }
+    }
     this.events.push(event as GameEvent);
   }
   /** Rewards from the world-v2 quest engine (Argon's quests): experience, coins and canonical items. */
@@ -839,13 +1023,17 @@ export class GameSession implements MonsterHost {
     return this.world.city?.buildings.find((b) => b.id === this.player.interior);
   }
   get trainingTarget(): Foe | undefined {
-    return this.training.active && this.player.interior === "arena" ? this.dummy : undefined;
+    return this.training.active && (this.practiceOnly || this.player.interior === "arena")
+      ? this.dummy
+      : undefined;
   }
   hitTraining(raw: number, hit: Hit): number {
     if (!this.trainingTarget || !Number.isFinite(raw) || raw <= 0) return 0;
     const damage = Math.max(1, raw);
     this.training.hits++;
     this.training.damage += damage;
+    if (hit.ability === "R") this.train("attackSpeed");
+    else if (hit.ability) this.train("technique");
     this.emit({
       type: "hit",
       ...this.dummy,
@@ -855,7 +1043,46 @@ export class GameSession implements MonsterHost {
     });
     return damage;
   }
+  private train(stat: TrainableStat) {
+    if (
+      !this.training.active ||
+      this.trainingDiscipline !== stat ||
+      this.player.interior !== "arena" ||
+      this.player.dead ||
+      this.paused ||
+      this.nowMs - this.lastTrainingCredit < 1000
+    )
+      return;
+    this.pendingTraining = stat;
+  }
+  private commitTraining() {
+    const stat = this.pendingTraining;
+    this.pendingTraining = undefined;
+    if (
+      !stat ||
+      !this.training.active ||
+      this.trainingDiscipline !== stat ||
+      this.player.interior !== "arena" ||
+      this.player.dead ||
+      this.paused
+    )
+      return;
+    const before = this.player.combatTraining ?? emptyCombatTraining();
+    if (before[stat].rank >= 100) return;
+    const next = advanceCombatTraining(before, stat);
+    const candidate = { ...this.player, combatTraining: next };
+    if (this.saves && !this.saves.save(candidate)) {
+      this.say(this.saves.warning);
+      return;
+    }
+    this.player.combatTraining = next;
+    this.lastTrainingCredit = this.nowMs;
+    if (next[stat].rank > before[stat].rank)
+      this.say(TRAINABLE_NAMES[stat] + " · trening " + next[stat].rank);
+  }
   private switchInterior(id: BuildingId | null) {
+    this.practiceTargets.clear();
+    this.heritage.cancelActivities(false);
     this.bufferedAction = undefined;
     this.kit.cancelActions();
     this.projectiles.cancel();
@@ -868,6 +1095,8 @@ export class GameSession implements MonsterHost {
     this.dialogue = null;
     this.depotOpen = false;
     this.training.active = false;
+    this.pendingTraining = undefined;
+    this.trainingDiscipline = undefined;
     this.route = [];
     this.pendingNpc = null;
     this.pendingLoot = null;
@@ -1119,8 +1348,211 @@ export class GameSession implements MonsterHost {
     }
     this.flush();
   }
+  get developmentServiceReady() {
+    return (
+      !this.player.dead &&
+      this.combatIn <= 0 &&
+      this.player.interior === "arena" &&
+      this.npcs.some((n) => n.id === "trainer" && distance(n, this.player) <= 180)
+    );
+  }
+  /** One synchronous whole-character CAS; no reward or snapshot is published on failure. */
+  private commitDevelopment(change: (state: DevelopmentState, candidate: Player) => void): boolean {
+    const original = this.player;
+    const candidate = structuredClone(original);
+    candidate.development ??= emptyDevelopment();
+    change(candidate.development, candidate);
+    if (
+      !CurrentDevelopmentSchema.safeParse(candidate.development).success ||
+      !PlayerSchema.safeParse(candidate).success
+    ) {
+      this.say("Nie można zatwierdzić tej zmiany rozwoju.");
+      return false;
+    }
+    // Evaluate the live kit (including temporary buffs), without replacing/resetting the kit.
+    let limits;
+    try {
+      this.player = candidate;
+      limits = this.kit.stats;
+    } finally {
+      this.player = original;
+    }
+    candidate.hp = Math.min(candidate.hp, limits.maxHp);
+    candidate.ki = Math.min(candidate.ki, limits.maxKi);
+    if (!this.saves || !this.saves.save(candidate)) {
+      this.say(
+        this.saves?.warning || "Rozwój wymaga działającego zapisu postaci. Nic nie przyznano.",
+      );
+      return false;
+    }
+    Object.assign(original, candidate);
+    this.player = original;
+    this.heritage?.refreshProjects();
+    return true;
+  }
+  startDevelopmentExam(
+    discipline: Discipline,
+    tier: number,
+    rehearsal = false,
+  ): ExamAttempt | undefined {
+    if (
+      !this.developmentServiceReady ||
+      this.activeExam ||
+      !DISCIPLINES.includes(discipline) ||
+      !Number.isInteger(tier) ||
+      tier < 1 ||
+      tier > 6
+    )
+      return undefined;
+    const state = this.player.development ?? emptyDevelopment();
+    if (!rehearsal && !examAvailable(state.training, state.passedExamIds, discipline, tier)) {
+      this.say("Najpierw osiągnij wymagany stopień i poprzedni egzamin.");
+      return undefined;
+    }
+    const attempt = new ExamAttempt(this.player.race, discipline, tier, rehearsal);
+    this.activeExam = attempt;
+    this.examRehearsal = rehearsal;
+    return attempt;
+  }
+  finishDevelopmentExam(attempt: ExamAttempt): boolean {
+    if (attempt !== this.activeExam || !attempt.passed) return false;
+    if (this.examRehearsal) {
+      this.activeExam = undefined;
+      this.say("Trening przygotowawczy ukończony. Bez nagrody i bez zmiany stopni.");
+      return true;
+    }
+    const { discipline, tier } = attempt.spec;
+    const id = examId(discipline, tier);
+    const state = this.player.development ?? emptyDevelopment();
+    if (!examAvailable(state.training, state.passedExamIds, discipline, tier)) return false;
+    if (state.rewardReceipts[id + ":v1"]) {
+      this.activeExam = undefined;
+      return true;
+    }
+    const committed = this.commitDevelopment((next) => {
+      next.passedExamIds.push(id);
+      next.rewardReceipts[id + ":v1"] = { practice: 250 };
+      next.practiceEarned += 250;
+    });
+    if (committed) {
+      this.activeExam = undefined;
+      this.say("Egzamin zdany. +250 praktyki; wynik zapisano.");
+    }
+    return committed;
+  }
+  retryDevelopmentExam(attempt: ExamAttempt): ExamAttempt | undefined {
+    if (attempt !== this.activeExam || attempt.snapshot().outcome !== "failed") return undefined;
+    const rehearsal = this.examRehearsal;
+    this.activeExam = undefined;
+    return this.startDevelopmentExam(attempt.spec.discipline, attempt.spec.tier, rehearsal);
+  }
+  leaveDevelopmentExam(attempt: ExamAttempt) {
+    if (attempt !== this.activeExam) return;
+    attempt.abandon();
+    this.activeExam = undefined;
+  }
+  private developmentCommand(c: DevelopmentCommand) {
+    if (c.action === "study" || c.action === "study-route") {
+      if (this.player.dead || this.practiceOnly || this.activeExam || !SPECIES_IDS.has(c.species))
+        return;
+      const point = this.researchTraces.get(c.species);
+      if (!point || (this.player.development?.knowledge[c.species] ?? 0) < 2)
+        return this.say("Najpierw zaobserwuj atak tego gatunku z bliska.");
+      if (c.action === "study-route") {
+        this.go(point);
+        return;
+      }
+      if (distance(this.player, point) > 130 || !this.nav.visible(this.player, point))
+        return this.say("Podejdź do śladu pozostawionego przez obserwowanego przeciwnika.");
+      if (this.player.development?.knowledge[c.species] !== 2) return;
+      if (
+        this.commitDevelopment((next) => {
+          next.knowledge[c.species] = 3;
+        })
+      ) {
+        this.emit({ type: "burst", ...point, radius: 25, ms: 1800 });
+        this.say(
+          "Ślad zbadany. Zastosuj poznaną taktykę: pokonaj ten gatunek w prawdziwej wyprawie. Pierwsze ukończenie: 50 praktyki.",
+        );
+      }
+      return;
+    }
+    if (this.player.dead || this.combatIn > 0 || this.activeExam)
+      return this.say("Zakończ walkę lub próbę przed zmianą rozwoju.");
+    const state = this.player.development ?? emptyDevelopment();
+    if (c.action === "train" || c.action === "reset-training") {
+      if (!this.developmentServiceReady) return this.say("Podejdź do trenera w sali treningowej.");
+      if (c.action === "train") {
+        if (!DISCIPLINES.includes(c.discipline)) return;
+        const reason = rankUnavailable(
+          state.training,
+          state.passedExamIds,
+          state.practiceEarned - state.practiceSpent,
+          c.discipline,
+        );
+        if (reason) return this.say(reason);
+        if (
+          this.commitDevelopment((next) => {
+            next.practiceSpent += rankCost(next.training[c.discipline]);
+            next.training[c.discipline]++;
+          })
+        )
+          this.say("Zapisano nowy stopień treningu. HP i KI nie zostały odnowione.");
+      } else if (
+        this.commitDevelopment((next) => {
+          for (const d of DISCIPLINES) next.training[d] = 0;
+          next.practiceSpent = 0;
+        })
+      )
+        this.say("Trening rozdzielony ponownie. Zwrócono wyłącznie wydaną praktykę.");
+    } else if (c.action === "variant") {
+      const id = c.id;
+      if (
+        id &&
+        (!state.unlockedVariants.includes(id) ||
+          VARIANTS[id].race !== this.player.race ||
+          !this.kit.has(VARIANTS[id].ability))
+      )
+        return this.say("Wariant wymaga odkrycia i poznanej techniki.");
+      if (
+        this.commitDevelopment((next) => {
+          next.activeVariantId = id;
+        })
+      )
+        this.say("Zapisano wariant mistrzowski.");
+    } else if (c.action === "modules") {
+      if (
+        this.player.race !== "android" ||
+        !this.safe ||
+        !["smithy", "arena"].includes(this.player.interior ?? "")
+      )
+        return this.say("Konfiguruj moduły w bezpiecznym warsztacie.");
+      if (
+        c.ids.length > 3 ||
+        new Set(c.ids).size !== c.ids.length ||
+        c.ids.some((id) => !state.unlockedModules.includes(id)) ||
+        c.ids.reduce((n, id) => n + MODULE_ENERGY[id], 0) > 10
+      )
+        return this.say("Wymagane odkryte moduły, najwyżej 3 gniazda i 10 energii.");
+      if (
+        this.commitDevelopment((next) => {
+          next.equippedModuleIds = [...c.ids];
+        })
+      )
+        this.say("Zapisano moduły. Zasoby i cooldowny zachowano.");
+    }
+  }
   command(c: Command) {
     const p = this.player;
+    if (
+      this.practiceOnly &&
+      !["move", "target", "ability", "dodge", "pause", "cancel"].includes(c.type)
+    )
+      return;
+
+    if (c.type === "development") return this.developmentCommand(c);
+    if (c.type === "heritage") return this.heritage.command(c);
+    if (c.type === "heritage-weapon") return this.heritage.weaponCommand(c.action);
     if (c.type === "staff") {
       this.staffCommand(c);
       return;
@@ -1134,6 +1566,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "cancel") {
+      this.heritage.cancelRoute();
       this.bufferedAction = undefined;
       this.clearDestinations();
       this.dialogue = null;
@@ -1205,6 +1638,7 @@ export class GameSession implements MonsterHost {
     if (c.type === "training") {
       if (p.interior !== "arena") return this.say("Trening jest dostępny w Domu Treningu.");
       this.clearDestinations();
+      this.pendingTraining = undefined;
       this.dialogue = null;
       if (c.action === "stop") {
         this.route = [];
@@ -1212,8 +1646,15 @@ export class GameSession implements MonsterHost {
         return;
       }
       this.training = { active: true, hits: 0, damage: 0 };
+      this.trainingDiscipline = c.discipline;
       this.go({ x: this.dummy.x + 55, y: this.dummy.y + 25 });
-      this.say("Trening: używaj ataku i poznanych zdolności. Manekin ma 0 obrony; brak nagród.");
+      this.say(
+        c.discipline
+          ? "Trening: " +
+              TRAINABLE_NAMES[c.discipline] +
+              ". Wykonuj właściwe akcje; bez XP i monet."
+          : "Trening: używaj ataku i poznanych zdolności. Manekin ma 0 obrony; brak nagród.",
+      );
       return;
     }
     if (c.type === "learn") {
@@ -1234,6 +1675,7 @@ export class GameSession implements MonsterHost {
       p.respecs++;
       p.skills = ["R"];
       this.kit.forgetAll(p.skills);
+      if (p.development) p.development.activeVariantId = null;
       p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       p.ki = Math.min(p.ki, this.kit.stats.maxKi);
       this.say(
@@ -1303,7 +1745,10 @@ export class GameSession implements MonsterHost {
         } else this.say("Najpierw wykonaj cele. Odebranej nagrody nie można odebrać ponownie.");
       }
       if (c.action === "upgrade") {
-        if (npc.id !== "smith" || !p.weapon) return this.say("Najpierw załóż ostrze.");
+        if (npc.id !== "smith" || p.weapon !== "sword")
+          return this.say(
+            "To ulepszenie dotyczy założonego Ostrza strażnika. Osobistą broń rozwijasz przez dziedzictwo.",
+          );
         if (p.upgrade) return this.say("Ostrze zostało już ulepszone.");
         if (p.gold < 15) return this.say("Ulepszenie kosztuje 15 monet.");
         p.gold -= 15;
@@ -1354,12 +1799,14 @@ export class GameSession implements MonsterHost {
       if (c.item === "sword") p.weapon = "sword";
       else if (c.item === "vest") p.armor = "vest";
       else return this.say("Ten materiał możesz sprzedać kupcowi.");
-      if (p.quests.gear === "active" && p.weapon) p.quests.gear = "ready";
+      if (p.quests.gear === "active" && p.weapon === "sword") p.quests.gear = "ready";
       this.say("Założono: " + ITEMS[c.item].name);
       this.flush();
       return;
     }
     if (c.type === "unequip") {
+      if (c.slot === "weapon" && p.weapon === "heritage")
+        return this.heritage.weaponCommand("unequip");
       p[c.slot] = null;
       p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       this.say("Zdjęto wyposażenie.");
@@ -1372,12 +1819,15 @@ export class GameSession implements MonsterHost {
     if (c.type === "dodge") {
       if (this.fx.cannotAct || p.dead) return;
       this.route = [];
+      const beforeDodge = { x: p.x, y: p.y };
       const r = this.kit.dodge(this.facing);
       if (!r.ok && r.reason) this.say(r.reason);
+      if (r.ok && distance(beforeDodge, p) > 1) this.train("dodge");
       return;
     }
     if (this.fx.cannotAct && c.type !== "loot") return this.say("Nie możesz działać.");
     if (c.type === "move") {
+      this.heritage.cancelRoute();
       this.clearDestinations();
       if (!Number.isFinite(c.x) || !Number.isFinite(c.y)) return;
       this.targetId = null;
@@ -1392,6 +1842,17 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "target") {
+      const practice = this.practiceTargets.get(c.id);
+      if (
+        practice &&
+        practice.interior === p.interior &&
+        distance(practice, p) <= AUTO_TARGET_RANGE &&
+        this.nav.visible(p, practice)
+      ) {
+        this.targetId = practice.id;
+        this.autoAttack = false;
+        return;
+      }
       if (this.safe) {
         if (c.id === "training-dummy" && p.interior === "arena")
           this.command({ type: "training", action: "start" });
@@ -1515,6 +1976,7 @@ export class GameSession implements MonsterHost {
   manual(dx: number, dy: number, dt: number) {
     if (this.paused || this.dialogue || this.depotOpen || this.player.dead || this.fx.cannotAct)
       return;
+    this.heritage.cancelRoute();
     this.clearDestinations();
     this.route = [];
     this.pendingNpc = null;
@@ -1562,6 +2024,29 @@ export class GameSession implements MonsterHost {
       return;
     }
     this.nowMs += dt;
+    if (!this.practiceOnly) this.heritage.tick(dt);
+    this.knowledgeIn += dt;
+    if (this.knowledgeIn >= 1000 && !this.practiceOnly && this.saves && !this.player.dead) {
+      this.knowledgeIn = 0;
+      const stages = this.player.development?.knowledge ?? {};
+      const seen = this.enemies.filter(
+        (e) =>
+          e.hp > 0 &&
+          !e.m.hidden &&
+          SPECIES_IDS.has(e.kind) &&
+          distance(e, this.player) <= 650 &&
+          this.nav.visible(this.player, e),
+      );
+      if (seen.some((e) => (stages[e.kind] ?? 0) < (this.researchTraces.has(e.kind) ? 2 : 1))) {
+        this.commitDevelopment((next) => {
+          for (const e of seen)
+            next.knowledge[e.kind] = Math.max(
+              next.knowledge[e.kind] ?? 0,
+              this.researchTraces.has(e.kind) ? 2 : 1,
+            );
+        });
+      }
+    }
     const p = this.player,
       s = this.kit.stats;
     this.potionIn = Math.max(0, this.potionIn - dt);
@@ -1631,7 +2116,7 @@ export class GameSession implements MonsterHost {
         this.targetId = null;
         this.route = [];
         this.say(target.m.def.name + " wraca na swoje terytorium.");
-      } else if (distance(p, target) <= live.range && this.nav.visible(p, target)) {
+      } else if (distance(p, target) <= this.kit.basicRange && this.nav.visible(p, target)) {
         this.route = [];
         this.use("R");
       } else if (this.pathIn <= 0) {
@@ -1710,6 +2195,7 @@ export class GameSession implements MonsterHost {
       this.flush();
     }
     if (!isCityStage(this.world) && !p.interior) this.monsters.tick(dt);
+    this.commitTraining();
     this.saveIn += dt;
     if (this.saveIn >= 2000) {
       this.saveIn = 0;
@@ -1770,7 +2256,12 @@ export class GameSession implements MonsterHost {
       staff: this.staff,
       god: this.god,
       player: structuredClone(this.player),
+      statBreakdown: this.kit.statBreakdown,
+      trainingDiscipline: this.trainingDiscipline ?? null,
       stats: {
+        dodgeChance: live.dodgeChance,
+        technique: live.technique,
+        attackSpeedPct: live.attackSpeedPct,
         maxHp: live.maxHp,
         maxKi: live.maxKi,
         attack: live.attack,
@@ -1779,7 +2270,7 @@ export class GameSession implements MonsterHost {
         crit: Math.round(live.crit * 10) / 10,
         kiRegen: Math.round(live.kiRegen * 100) / 100,
         attackInterval: Math.round(live.attackInterval),
-        range: Math.round(live.range),
+        range: Math.round(this.kit.basicRange),
       },
       target: target
         ? {
@@ -1788,7 +2279,8 @@ export class GameSession implements MonsterHost {
             hp: target.hp,
             maxHp: target.maxHp,
             inRange:
-              distance(this.player, target) <= live.range && this.nav.visible(this.player, target),
+              distance(this.player, target) <= this.kit.basicRange &&
+              this.nav.visible(this.player, target),
           }
         : null,
       /** Monsters within reach for the Walka panel, nearest first. */
@@ -1815,6 +2307,15 @@ export class GameSession implements MonsterHost {
       dialogue: this.dialogue,
       building: this.building ?? null,
       activeNpcs: this.npcs,
+      heritage: this.practiceOnly ? [] : this.heritage.snapshot(),
+      heritageActivity: this.practiceOnly ? null : this.heritage.activitySnapshot(),
+      heritageScanner: this.practiceOnly ? null : this.heritage.scanner.snapshot(),
+      heritageProjects: this.practiceOnly
+        ? []
+        : this.heritage.projects
+            .snapshot()
+            .filter((v) => v.done)
+            .map((v) => ({ id: v.id, name: v.name, ...(v.target.entrance ?? v.target.point) })),
       nearbyBuilding: !this.player.interior
         ? (this.world.city?.buildings.find((b) => distance(b.door, this.player) <= 180) ?? null)
         : null,
@@ -1860,48 +2361,19 @@ export class GameSession implements MonsterHost {
     return this.monsters.zones;
   }
 }
-const statusText = (fx: FxSpec): string => {
-  switch (fx.k) {
-    case "slow":
-      return "Spowolnienie";
-    case "root":
-      return "Unieruchomienie";
-    case "stun":
-      return "Ogłuszenie";
-    case "fear":
-      return "Strach";
-    case "silence":
-      return "Uciszenie";
-    case "dot":
-      return fx.id === "poison" ? "Trucizna" : fx.id === "burn" ? "Podpalenie" : "Krwawienie";
-    case "blind":
-      return "Oślepienie";
-    case "fog":
-      return "Mgła";
-    case "jam":
-      return "Zakłócenia";
-    case "weaken":
-      return "Osłabienie";
-    case "armorDown":
-      return "Obrona w dół";
-    case "mark":
-      return "Znak";
-    default:
-      return "";
-  }
-};
+
 /** The surface a race kit uses to act on the game; implemented on top of the session. */
 function makePort(s: GameSession): KitPort {
   return {
+    get development() {
+      return s.player.development;
+    },
     get nowMs() {
       return s.nowMs;
     },
     get gear() {
       const p = s.player;
-      return {
-        attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
-        defense: p.armor ? ITEMS[p.armor].defense : 0,
-      };
+      return equipmentStats(p);
     },
     get inCombat() {
       return s.combatIn > 0;
@@ -1916,13 +2388,54 @@ function makePort(s: GameSession): KitPort {
     random: () => s.rng(),
     say: (t) => s.say(t),
     foesIn: (c, r) =>
-      (s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable).filter(
-        (e) => distance(e, c) <= r && s.nav.visible(c, e),
-      ),
-    target: () => s.trainingTarget ?? s.target,
+      [
+        ...s.practiceTargets.list(s.player.interior),
+        ...(s.safe ? (s.trainingTarget ? [s.trainingTarget] : []) : s.monsters.targetable),
+      ].filter((e) => distance(e, c) <= r && s.nav.visible(c, e)),
+    target: () => s.practiceTargets.get(s.targetId) ?? s.trainingTarget ?? s.target,
     visible: (a, b) => s.nav.visible(a, b),
     hurtFoe: (foe, raw, hit: Hit) => {
       if (s.player.dead) return 0;
+      if (isPracticeId(foe.id)) {
+        if (!s.practiceTargets.has(foe)) return 0;
+        const apply = () => {
+          if (!s.practiceTargets.has(foe) || s.player.dead) return 0;
+          const damage = s.practiceTargets.hit(foe, raw, hit, s.nowMs);
+          if (damage > 0)
+            s.emit({
+              type: "hit",
+              x: foe.x,
+              y: foe.y,
+              target: foe.id,
+              text: "-" + Math.round(damage),
+              crit: !!hit.crit,
+            });
+          return damage;
+        };
+        if (hit.ranged && !hit.indirect && !hit.tags.includes("area") && hit.ability === "R") {
+          const interior = s.player.interior;
+          const shot = s.projectiles.launch(
+            s.player,
+            foe,
+            1100,
+            distance(s.player, foe) + 18,
+            foe,
+            () => !s.player.dead && s.player.interior === interior && s.practiceTargets.has(foe),
+            apply,
+          );
+          if (shot)
+            s.emit({
+              type: "projectile",
+              x: shot.x,
+              y: shot.y,
+              source: shot.id,
+              to: { x: foe.x, y: foe.y },
+              ms: shot.remaining,
+            });
+          return 0;
+        }
+        return apply();
+      }
       // Discrete ranged shots travel; beams, seals, AoE and periodic effects retain their contracts.
       if (
         hit.ranged &&
@@ -1975,23 +2488,56 @@ function makePort(s: GameSession): KitPort {
       if (!hit.indirect && dealt > 0) s.combatIn = 4500;
       return dealt;
     },
-    stunFoe: (f, ms) => (f.id === "training-dummy" ? undefined : s.monsters.stun(f as Enemy, ms)),
+    stunFoe: (f, ms) =>
+      f.id === "training-dummy" || isPracticeId(f.id) ? undefined : s.monsters.stun(f as Enemy, ms),
     slowFoe: (f, pct, ms) =>
-      f.id === "training-dummy" ? undefined : s.monsters.slow(f as Enemy, pct, ms),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.slow(f as Enemy, pct, ms),
     burnFoe: (f, dps, ms) =>
-      f.id === "training-dummy" ? undefined : s.monsters.burn(f as Enemy, dps, ms),
-    sealFoe: (f, ms, bonus) =>
-      f.id === "training-dummy" ? undefined : s.monsters.seal(f as Enemy, ms, bonus),
-    markFoe: (f, ms, crit, def) =>
-      f.id === "training-dummy" ? undefined : s.monsters.mark(f as Enemy, ms, crit, def),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.burn(f as Enemy, dps, ms),
+    sealFoe: (f, ms, bonus) => {
+      const practice = s.practiceTargets.get(f.id);
+      if (practice) {
+        practice.sealedUntil = s.nowMs + ms;
+        return;
+      }
+      return f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.seal(f as Enemy, ms, bonus);
+    },
+    markFoe: (f, ms, crit, def) => {
+      const practice = s.practiceTargets.get(f.id);
+      if (practice) {
+        practice.markedUntil = s.nowMs + ms;
+        return;
+      }
+      return f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.mark(f as Enemy, ms, crit, def);
+    },
     pushFoe: (f, from, d) =>
-      f.id === "training-dummy" ? undefined : s.monsters.push(f as Enemy, from, d),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.push(f as Enemy, from, d),
     weakenFoe: (f, pct, ms) =>
-      f.id === "training-dummy" ? undefined : s.monsters.weaken(f as Enemy, pct, ms),
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.weaken(f as Enemy, pct, ms),
     breakFoeShield: (f) =>
-      f.id === "training-dummy" ? undefined : s.monsters.breakShield(f as Enemy),
-    isSealed: (f) => f.id !== "training-dummy" && !!(f as Enemy).fx.seal,
-    isMarked: (f) => f.id !== "training-dummy" && !!(f as Enemy).fx.mark,
+      f.id === "training-dummy" || isPracticeId(f.id)
+        ? undefined
+        : s.monsters.breakShield(f as Enemy),
+    isSealed: (f) =>
+      isPracticeId(f.id)
+        ? (s.practiceTargets.get(f.id)?.sealedUntil ?? 0) > s.nowMs
+        : f.id !== "training-dummy" && !!(f as Enemy).fx.seal,
+    isMarked: (f) =>
+      isPracticeId(f.id)
+        ? (s.practiceTargets.get(f.id)?.markedUntil ?? 0) > s.nowMs
+        : f.id !== "training-dummy" && !!(f as Enemy).fx.mark,
     foeHpFraction: (f) => f.hp / f.maxHp,
     dash: (to, d) => {
       const next = s.nav.step(s.player, to, d);
@@ -2039,7 +2585,12 @@ export function initialView(player?: Player): GameViewState {
     foes: [],
     targetId: null,
     player: p,
+    statBreakdown: createKit(p.race, statsPort(p), p.skills).statBreakdown,
+    trainingDiscipline: null as TrainableStat | null,
     stats: {
+      dodgeChance: s.dodgeChance,
+      technique: s.technique,
+      attackSpeedPct: s.attackSpeedPct,
       maxHp: s.maxHp,
       maxKi: s.maxKi,
       attack: s.attack,
@@ -2056,6 +2607,10 @@ export function initialView(player?: Player): GameViewState {
     dialogue: null,
     building: null,
     activeNpcs: WORLDS[p.continent].npcs.filter((n) => !n.building),
+    heritage: [],
+    heritageProjects: [],
+    heritageActivity: null,
+    heritageScanner: null,
     nearbyBuilding: null,
     depotOpen: false,
     training: { active: false, hits: 0, damage: 0 },

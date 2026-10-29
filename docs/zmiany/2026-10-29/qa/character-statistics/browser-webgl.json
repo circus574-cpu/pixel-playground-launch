@@ -1,0 +1,361 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/ki-aruba/node_modules/.bin/playwright",
+      "test",
+      "e2e/character-statistics.spec.ts",
+      "--project=gameplay"
+    ],
+    "configFile": "/workspace/ki-aruba/playwright.config.ts",
+    "rootDir": "/workspace/ki-aruba/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "gameplay",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "snapshotDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4174",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--use-gl=angle",
+              "--use-angle=swiftshader",
+              "--enable-unsafe-swiftshader"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "gameplay"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "character-statistics.spec.ts",
+      "file": "character-statistics.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Planetarni: portrait opens current statistics 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 35720,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:46:42.552Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "stats-webgl-0.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-7f0a84a41b67e3cf2603",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: portrait opens current statistics 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 33066,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:47:18.556Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "stats-webgl-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-17028ef737155827f001",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "Androidy: portrait opens current statistics 360",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 36113,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:47:51.670Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "stats-webgl-2.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-4e8b15ae9bf62e83f978",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "Legendy: portrait opens current statistics 852",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 31915,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:48:27.857Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "stats-webgl-3.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-3aac53a478362555b377",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T10:46:42.117Z",
+    "duration": 138003.366,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

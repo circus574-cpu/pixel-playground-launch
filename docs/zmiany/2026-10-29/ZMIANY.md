@@ -175,3 +175,230 @@ Baza ma 7 tabel (w tym schema_version), ale nie ma procesu serwera gry, sieciowe
 walki ani synchronizacji graczy. Nie wgrywano danych kont/postaci ze starej gry.
 Nie kopiowano klucza service_role Supabase i nie uruchamiano GPU. Kopia lokalna
 nie zastępuje przyszłego backupu zewnętrznego. Nie scalono gałęzi do main.
+## Parametry trenowane i statystyki gracza
+
+Polecenie właściciela: Unik, szybkość ataku i Technika wyłącznie przez trening lub
+premie, bez przyrostu za poziom. Doprecyzowanie: Technika zwiększa krytyk, obrażenia
+KI i szansę ponowienia zdolności bez cooldownu. Baza implementacji:
+`main@ba73d0780a8432aa7f6e92ed8b884f0c3ac45db3`, gałąź
+`feature/character-statistics-training`. Bez scalenia i publikacji.
+
+- `combatTraining.ts`: walidowany postęp trzech dyscyplin, limity i współczynniki.
+- `kit/base.ts`: wspólne obliczenia treningu/przedmiotów/buffów, rozbicie wartości,
+  obrażenia KI i kontrolowany jednorazowy reset. Nie zmieniono kanonicznych danych.
+- `session.ts`: pasywny unik, trening przez rzeczywiste akcje w sali, zatwierdzanie
+  dopiero po kosztach zdolności. Konflikt zapisu lub brak miejsca nie przyznaje rangi.
+- `CharacterStatsPanel.tsx`, `GameHud.tsx`: kliknięcie/tapnięcie portretu otwiera
+  statystyki, baza + trening + przedmioty + zdolności + efekty + GM. Okno zamykane,
+  przewijane; bez zmiany joysticka, klawiszy czy pozycji HUD-u.
+- Klasyczny zapis8 i Superior4: czytniki wcześniejszych formatów oraz kopia surowego
+  payloadu przed migracją. Stary runtime nie usuwa nowych parametrów po downgrade.
+- Współczynniki i ograniczenia: [rozwój i walka](../../ROZWOJ-I-WALKA.md#parametry-trenowane-i-podgląd-postaci--29102026).
+
+Dowody: katalog [qa/character-statistics](qa/character-statistics/).
+Pierwszy zestaw przeglądarkowy bez emulacji touch:4/4. Próba touch w pionie została
+zatrzymana przez istniejący obowiązkowy ekran obrotu, a kolejne próby przez zabite
+procesy Chromium/Vite (cgroup `oom_kill=9`, `Target crashed`, następnie połączenie
+odrzucone). Nie jest to dowód błędu nowych statystyk. Zachowano logi niepowodzeń.
+Scenariusz dotykowy następnie obraca viewport jak gracz, bez ukrywania nakładek lub
+manipulacji stanem. Po przejściu na statyczny build lokalnego playtestu Canvas4/4,
+bez błędów JavaScript, z ponownym wczytaniem każdej rasy.
+
+Pierwszy build aplikacji przerwany: `No space left on device`. Usunięto wyłącznie
+lokalne własne katalogi buildów `.playtest-dist`/`.output`, nie assety źródłowe;
+powtórzenie `npm run build` zakończone sukcesem. Zmniejszony techniczny build
+playtestu bez kopiowania `public`, z symlinkami do tych samych źródeł, ograniczył
+powielanie plików i zużycie pamięci serwera dev. Tymczasowa konfiguracja usunięta.
+
+Pozostaje odbiór na fizycznym Androidzie/iOS i ocena tempa treningu przez właściciela.
+Współczynniki nowych statystyk to decyzja implementacyjna, nie wartości z aneksu.
+Nie podłączono niescalonego rozwoju ras PR55 ani niezależnego backendu PR59.
+
+Końcowa kontrola identycznego drzewa źródeł przed commitem:
+
+| Komenda | Wynik |
+| --- | --- |
+| `npm run typecheck` | PASS, wszystkie3 konfiguracje |
+| `npm run lint` | PASS, 0błędów, 15 istniejących ostrzeżeń |
+| `npm run build` | PASS, pełny build produkcyjny |
+| `npm test` | PASS, 854/854, 66 plików, 0pominiętych |
+| Playwright `character-statistics.spec.ts --project=gameplay` Canvas | 4/4 PASS |
+| Ta sama specyfikacja z `KI_QA_WEBGL=1` | 4/4 PASS, Software WebGL |
+| `python3 scripts/docs/check_documentation.py` | PASS po odtworzeniu5 pominiętych przez sparse checkout, śledzonych referencji |
+
+Komplet poleceń i SHA-256 testowanych źródeł: [verification.json](qa/character-statistics/verification.json).
+Logi, raporty JSON i8 zrzutów są obok. Testy przeglądarkowe to nowa funkcja
+statystyk, nie deklaracja wykonania całej istniejącej macierzy E2E gry. Testy walki,
+questów, ekonomii i zapisów objęto zestawem jednostkowym/integracyjnym GameSession.
+Ostrzeżenia JSDOM o audio/canvas pozostają w logach; testy nie zostały pominięte.
+
+Implementacja: `c9360483` · [PR61](https://github.com/circus574-cpu/pixel-playground-launch/pull/61).
+Dodatkowy commit dowodowy zapisuje logi jako `.txt`, ponieważ `.gitignore` pomija
+`.log`. SHA-256 plików w `verification.json` pozwala potwierdzić identyczność
+przetestowanych źródeł z commitem implementacji. PR pozostaje do przeglądu;
+`main` i produkcja niezmienione przez tę gałąź.
+
+GitHub uruchomił pełne kontrole PR: [Browser QA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896479)
+i [WebGL](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896427).
+Na moment zapisu dowodów są w toku, nie oznaczono ich jako PASS. Logi tekstowe mają
+usunięte końcowe białe znaki; treść komunikatów zachowana.
+## Pełne odcięcie od Lovable — nowy backend Ki Legends
+
+Właściciel wyraźnie wybrał osobny projekt na własnym Supabase, bez Lovable Cloud.
+Potwierdzono organizację `circus574-cpu's Org`, plan Free; utworzono aktywny projekt
+`ki-legends`, ref `ekqljyldtzbpytqrtaer`, region `eu-central-1`. Nie zmieniono planu.
+**Projekt nie ma jeszcze odtworzonych danych; aplikacja NIE została przełączona.**
+Dotychczasowy backend Ki Legends: `istakaetceprpnbafdgu.supabase.co`.
+Własny backend Tigmig i Balustrador.pl: `drpesmyumjhncnleiity.supabase.co`, widoczny
+na połączonym koncie właściciela. Nie nadpisywać jego tabel ani kont migracją gry.
+Dla PHU/AI w sprawdzonych zasobach nie wykryto hosta Supabase; nie jest to dowód
+braku innych zależności serwerowych od Lovable.
+
+Na Aruba istnieje kopia eksportu: `/home/gh-runner/migracja-archiwa/verified-cdbd495f/KI-LEGENDS-VPS-MIGRACJA/database/schema.sql`.
+Potwierdzono lokalizację, nie potwierdzono kompletności auth.users/auth.identities.
+Workflow `migration-transfer.yml` w gałęzi `fix/tigmig-domain-routing` tworzy
+szyfrowaną CMS kopię katalogu database i BRAKI-I-OGRANICZENIA.md. Actions
+40830244873 SUCCESS. W Git jest WYŁĄCZNIE publiczny certyfikat odbiorcy, nigdy
+prywatny klucz ani odszyfrowany eksport. Prywatny klucz sesji pozostaje lokalnie
+`/workspace/.ki-migration-private/key.pem` (nie zabezpieczono go poza workspace).
+Oryginalne dane VPS są niezmienione. Artefakt zaszyfrowany ma retencję jeden dzień.
+
+Pobranie artefaktu do tej sesji dwukrotnie zwróciło Forbidden z magazynu Actions.
+Nie odszyfrowano ani nie importowano bazy. Nie deklarować migracji kont, haseł,
+Storage, polityk czy danych jako ukończonej. Dalsze kroki: przywrócić bezpieczny
+dostęp do eksportu, zweryfikować auth i metadane prywatnych plików, odtworzyć
+nowy projekt, sprawdzić RLS i logowanie oraz dopiero wtedy przełączyć konfigurację
+serwera/przeglądarki. Nie wpisywać nowych URL/kluczy przed odtworzeniem danych.
+Brak kluczy źródłowego Lovable Cloud nie uzasadnia publicznych bucketów ani resetu kont.
+
+### Odszyfrowany eksport i odtworzona struktura nowego Supabase
+
+Właściciel przesłał zaszyfrowany artefakt ZIP; lokalnie odszyfrowano go istniejącym
+kluczem sesji. Prywatne pliki są pod `/workspace/.ki-migration-private/export`,
+poza Git, z prawami 0600. Paczka zawiera schema.sql, restore.sh, sześć CSV oraz
+README/braki. Liczby: characters 22, profiles 1, user_roles 1, admin_audit 1,
+sketch_api_log 34, unieważnione sketch_api_tokens bez hashy 3.
+**Brak auth.users, auth.identities i hashy haseł, brak zawartości Storage w tej paczce.**
+Nie importowano osieroconych zapisów z pominięciem kluczy obcych i nie resetowano kont.
+Eksport jest snapshotem 28.10 — przed cutoverem potrzebny aktualny pełny eksport.
+
+Potwierdzono pusty schemat public nowego `ekqljyldtzbpytqrtaer`; zastosowano migracje:
+`restore_ki_legends_structure_with_restricted_client_grants` i
+`restrict_sketch_token_rpcs_to_server_role`. Wersje SQL bez danych użytkowników
+zapisano pod `deploy/database/`. Źródłowy eksport dawał authenticated TRUNCATE
+(omija RLS), więc w nowym projekcie ograniczono granty do wymaganych operacji
+SELECT/INSERT/UPDATE/DELETE i UPDATE(nick). Nie zmieniano źródłowej produkcji.
+Domyślne granty funkcji Supabase wymagały osobnego odebrania uprawnień anon i
+client do consume/rotate tokenów, mimo wcześniejszego REVOKE PUBLIC.
+
+Test SQL po poprawkach: sześć tabel z RLS=true, 10 polityk, anon SELECT=false,
+authenticated TRUNCATE=false na wszystkich sześciu; prywatny bucket project-sketches;
+rotate RPC anon=false, authenticated=false, service_role=true. Auth users=0,
+character saves=0 — dane czekają na pełny eksport kont. Doradca bezpieczeństwa
+przed poprawką wykrył nadmierne uprawnienia RPC; po poprawce należy ponowić audit.
+Role helpers has_role/is_staff są celowo SECURITY DEFINER dla polityk bez
+rekurencji; dostęp anon/Public cofnięto. Tabele tokenów/logów nie mają polityk
+klienta celowo: dostęp tylko serwerowy.
+Aplikacja nadal używa starego backendu; nie deklarować ukończonego odcięcia Lovable.
+
+### Pełny backup z kontem — import danych wykonany
+
+Właściciel dostarczył `pixel-playground-launch_261029.backup.zip`. W środku jest
+PGDMP 1.16 (zstd), 411948 B, SHA-256
+`53bd271b526a0a4d1e7aae0c45198347dbf9378fce99f0b61d369b0079b57d9b`.
+TOC podaje źródło PostgreSQL 17.11, pg_dump 18.6; pg_restore 17-alpine poprawnie
+odczytał format. Dane pozostają poza Git w `/workspace/.ki-migration-private/`.
+Do zwolnienia miejsca usunięto wyłącznie własne odtwarzalne buildy .output i
+.playtest-dist; nie usuwano źródeł, backupów, danych VPS ani GPU.
+
+Import w transakcji do własnego `ekqljyldtzbpytqrtaer` zakończył się sukcesem:
+1 auth.users z zachowanym hashem hasła i potwierdzonym e-mailem, 1 identity,
+1 profil, 1 rola, 22 characters, 1 admin_audit, 34 sketch_api_log i 3 historyczne
+unieważnione tokeny. Brak osieroconych zapisów. Nie resetowano hasła/UUID.
+Nie przeniesiono starych sesji, refresh tokenów ani wewnętrznych migracji providera;
+po przełączeniu będzie wymagane ponowne zalogowanie.
+Przed importem kontrola odmawiała wykonania na niepustym celu. Rzeczywisty import
+najpierw został zatrzymany przez kontrolę kompletności lokalnego tekstu (brak
+końcowego newline); poprawiono kontrolę końca, nie dane. SQL nie opublikowano.
+
+Test pod rolą authenticated: właściciel widzi 22 zapisy i profil; TRUNCATE oraz
+RPC rotacji tokenów odmówione. Wszystkie wyłączone na czas odtwarzania wyzwalacze
+ponownie aktywne; active_tokens=0. Dane źródłowe i docelowe liczbowo zgodne.
+[Manifest bez danych osobowych](qa/independent-supabase/source-counts.json).
+Skrypt przygotowania prywatnego importu w deploy/database nie zawiera rekordów
+ani hashy; generowane import.sql pozostaje prywatne i nie wolno go commitować.
+
+Backup zawiera metadane 19 storage.objects i 2 bucketów, ale nie binarne pliki.
+Nowy Storage pozostaje pusty (project-sketches jest prywatny). Przed cutoverem
+potrzebne są binarne obiekty z archiwum VPS oraz serwerowy klucz nowego projektu
+w bezpiecznej konfiguracji. MCP udostępnia wyłącznie klucze publiczne, nie
+service_role. Nie wyciągać sekretów z bazy i nie publikować bucketu jako obejścia.
+Aplikacja nadal korzysta ze źródłowego backendu — nie deklarować pełnej migracji.
+
+## Integracja oczekujących gałęzi na polecenie właściciela
+
+Odczytano96 gałęzi remote i20 otwartych PR. Stan bazowy main:
+`ba73d0780a8432aa7f6e92ed8b884f0c3ac45db3`. 57 końcówek gałęzi było już przodkami
+main. Pełny wykaz SHA, liczników rozbieżności, zmienionych plików i decyzji:
+[branches-before.json](qa/branch-integration/branches-before.json).
+
+PR60 scalony przez GitHub do `0234c2ca3661e09f7a1e8f94082c8cf71c4188d4`.
+Na `integration/pending-branches-20261029` połączono następnie PR55,61,59 oraz
+ręczny workflow diagnostyczny `ops/coolify-ssh-access`. Gałąź migracji59 zawiera
+również wcześniejsze komendy diagnostyczne `fix/tigmig-domain-routing`.
+
+Konflikty rozwiązano łącząc obie implementacje, nie przez nadpisanie całych plików:
+- rozwój/trening/broń dziedzictwa i indywidualne statystyki GM;
+- rozdzielone okna Rozwój oraz Statystyki, bez zmiany sterowania;
+- wspólny zapis9/Superior5, czytniki obu gałęzi i blokada utraty istniejących danych;
+- zachowane obie historie dzienników i aktualnych dokumentów.
+
+Pierwsza integracja PR55:960/960 testów. Integracja PR55+61 po poprawieniu historycznej
+fixture migracyjnej:985/985 testów w76 plikach. Fixture tworzy teraz jawnie zapis
+Superior1, ponieważ nowy writer tworzy już5; zachowano asercję kopii bajtowej i
+odrzucania nieznanych pól. Dodatkowe testy migracji obejmują klasyczne5–8 iSuperior1–4.
+
+PR10/12/14 mają `git cherry` bez unikalnych patchy względem main. Zamknięto stare PR,
+zachowując gałęzie. Pozostałych prototypów i starych grafik nie nałożono na nowszą
+grafikę, atlas i kanon. Brak scalania nie jest równoznaczny z usunięciem ich pracy.
+W szczególności Draft6 Architekta pozostaje nienadpisany.
+
+Wynik pełnego CI PR61: Software WebGL38 PASS/7 FAIL, run40861053178. Main już przed
+PR61 dokumentował analogiczny problem `liveEnemy` w CI52: run40653403301,
+KL-2026-10-28-05. Przyczyna nie została tu dowiedziona i nie ogłaszamy pełnej zielonej
+regresji. Kontrole tej integracji i rzeczywiste wąskie scenariusze mają osobne logi.
+
+Scalenie narzędzi Supabase nie przełącza klienta na nową bazę i nie wykonuje importu
+prywatnych danych. Zachowano status brakujących plików Storage i klucza serwerowego.
+Korzystano z instrukcji skill Supabase do oceny granic tej zmiany; bez nowej migracji
+wykonywanej na zewnętrznej bazie. GPU nie dotykano.
+
+Końcowe kontrole integracji:
+- pełny TypeScript (3konfiguracje):PASS;
+- lint:0błędów/15 istniejących ostrzeżeń;
+- jednostkowe/integracyjne:985/985,76 plików;
+- build produkcyjny:PASS;
+- Canvas: statystyki4/4 i dziedzictwo Planetarnych/Androidów/Legend3/3 w pierwszej
+  partii. Mędrcy dotarli do gotowego rozdziału, lecz screenshot przerwał `ENOSPC`.
+  Po usunięciu lokalnego buildu `.output` powtórka Mędrców1/1 PASS. Nie zmieniano
+  asercji ani kodu gry dla obejścia tego problemu.
+
+Autodeploy po PR60 (run40868266802) przeszedł build i wszystkie testy kandydata,
+lecz po zamianie kontenerów pierwsze żądania `/healthz` i `/` zwróciły503, a kolejne
+trasy200. Nastąpił istniejący rollback. Dodano ograniczoną do30 prób bramkę rzeczywistej
+gotowości HTTP przed pełnym, niezmienionym smoke testem; trwały błąd nadal powoduje
+rollback. Mock wykonujący tę samą funkcję shell: przejściowe503→200 PASS oraz
+stałe503→odmowa po30 próbach PASS. Nie ogłaszamy nowego wdrożenia na podstawie push.
+
+Software WebGL statystyk po integracji:4/4 PASS. Łącznie12 unikalnych wąskich
+scenariuszy zaliczonych po jednej powtórce środowiskowej. Logi i screenshoty:
+[qa/branch-integration](qa/branch-integration/); manifest poleceń/wyników i sum
+źródeł: [verification.json](qa/branch-integration/verification.json).
+Pełna macierz E2E nadal nie ma zielonego odbioru; nie zaliczono fizycznych telefonów.
+
+Audyt PR20 odzyskał rzeczywiście brakujący oryginalny PDF aneksu ras i drzewek
+(103455 bajtów, SHA `0358053e7e467bffd41055f50f765d0f33cbf15c6b0176266c866d493dda5cff`).
+Suma zgadza się z metadanymi aktualnego kanonicznego JSON; źródło zachowano bez
+zmiany bajtów w `docs/design/source-annexes/`, poprawiając nieaktualny komunikat INDEX.
+Nie przywrócono starego JSON/CSV ani listy20 potworów — obowiązuje bestiariusz40.
+PR20 i gałąź historyczna zachowane do porównania pozostałych historycznych różnic.

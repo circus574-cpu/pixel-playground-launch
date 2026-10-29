@@ -1,0 +1,70 @@
+
+Running 8 tests using 1 worker
+
+(node:103673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: planetary 360x800 (3.2m)
+
+
+  1) [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: planetary 360x800
+
+    Test timeout of 180000ms exceeded.
+
+    Error: locator.tap: Test timeout of 180000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Umiejętności', exact: true })
+        - locator resolved to <button title="Umiejętności" aria-pressed="false" aria-label="Umiejętności" class="ki-menu-button ki-frame ">…</button>
+      - attempting tap action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div role="alert" class="ki-rotate">…</div> intercepts pointer events
+        - retrying tap action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div role="alert" class="ki-rotate">…</div> intercepts pointer events
+        - retrying tap action
+          - waiting 100ms
+        294 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <div role="alert" class="ki-rotate">…</div> intercepts pointer events
+          - retrying tap action
+            - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+       at fixtures.ts:88
+
+      86 |     else await menu.click();
+      87 |   }
+    > 88 |   if (input === "touch") await button.tap();
+         |                                       ^
+      89 |   else await button.click();
+      90 |   const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+      91 |   if (
+        at openHudTool (/workspace/ki-heritage/e2e/fixtures.ts:88:39)
+        at /workspace/ki-heritage/e2e/development-mobile.spec.ts:24:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-development-mobile-924ff66f/development-mobile-develop-1375a-r-closing-planetary-360x800-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-development-mobile-924ff66f/development-mobile-develop-1375a-r-closing-planetary-360x800-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-development-mobile-924ff66f/development-mobile-develop-1375a-r-closing-planetary-360x800-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-development-mobile-924ff66f/development-mobile-develop-1375a-r-closing-planetary-360x800-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: planetary 360x800
+  7 did not run

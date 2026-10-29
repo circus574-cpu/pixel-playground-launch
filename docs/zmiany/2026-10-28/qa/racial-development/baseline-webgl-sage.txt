@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+(node:66332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (1.3m)
+
+
+  1) [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy ───────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+       at fixtures.ts:223
+
+      221 |       return Boolean(found);
+      222 |     })
+    > 223 |     .toBe(true);
+          |      ^
+      224 |   return found!;
+      225 | }
+      226 | /** The nearest creature that notices and chases a hero on its own (not a provoked-only slime). */
+        at liveEnemy (/workspace/ki-heritage-baseline/e2e/fixtures.ts:223:6)
+        at /workspace/ki-heritage-baseline/e2e/combat-skills.spec.ts:27:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-pristine-webgl-confirmation/combat-skills-canonical-skill-in-real-PvE-Mędrcy-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-heritage-pristine-webgl-confirmation/combat-skills-canonical-skill-in-real-PvE-Mędrcy-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-pristine-webgl-confirmation/combat-skills-canonical-skill-in-real-PvE-Mędrcy-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-heritage-pristine-webgl-confirmation/combat-skills-canonical-skill-in-real-PvE-Mędrcy-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy ────────

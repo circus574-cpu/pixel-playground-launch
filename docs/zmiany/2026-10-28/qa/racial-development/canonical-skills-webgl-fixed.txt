@@ -1,0 +1,11 @@
+
+Running 4 tests using 1 worker
+
+(node:76118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (55.7s)
+  ✓  2 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (58.8s)
+  ✓  3 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (58.1s)
+  ✓  4 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (1.0m)
+
+  4 passed (4.0m)

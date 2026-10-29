@@ -1,0 +1,218 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 /workspace/ki-aruba
+
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+(node:143146) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /workspace/ki-aruba/src/components/planet-map/WorldOverlay.tsx:101:28 undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/ki-combat/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-aruba/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-aruba/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-aruba/src/game/music.ts:120:36)
+    at /workspace/ki-aruba/src/components/game/GameHud.tsx:318:11
+    at Object.react_stack_bottom_frame (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/ki-combat/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+
+ Test Files  76 passed (76)
+      Tests  985 passed (985)
+   Start at  11:57:12
+   Duration  114.08s (transform 4.67s, setup 5.37s, import 21.70s, tests 29.35s, environment 40.33s)

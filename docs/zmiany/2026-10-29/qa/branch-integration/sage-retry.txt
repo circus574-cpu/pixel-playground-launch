@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:146129) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: sage (1.5m)
+
+  1 passed (1.6m)

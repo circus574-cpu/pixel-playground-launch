@@ -1,0 +1,11 @@
+
+Running 2 tests using 1 worker
+
+(node:83732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development.spec.ts:105:3 › touch development › portrait selection, landscape training and simultaneous joystick + attack (23.1s)
+(node:83931) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [software-webgl] › e2e/development.spec.ts:105:3 › touch development › portrait selection, landscape training and simultaneous joystick + attack (48.1s)
+
+  2 passed (1.2m)

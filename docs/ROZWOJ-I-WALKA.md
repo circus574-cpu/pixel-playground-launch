@@ -933,3 +933,186 @@ wskazanych pól; pozostawienie pustego pola lub reset przywraca zwykłe obliczen
 Zakresy techniczne są w `src/game/characterStats.ts` (m.in. ruch 1–2000 jednostek/s,
 odstęp ataków 200–10000 ms). Zmiana szybkości nadal respektuje nawigację i kolizje.
 Opis zapisu i uprawnień: [architektura](ARCHITEKTURA-I-TESTY.md#coder-parametry-postaci-i-teleport-gm-z-atlasu--28102026).
+## Rozwój ras — gałąź robocza 28.10.2026
+
+Nowe zlecenie właściciela zachowano bez zmian w
+[źródle](design/racial-development-owner-2026-10-28.txt), SHA-256
+`03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed`.
+To specyfikacja docelowa, a nie potwierdzenie dostarczenia całego zakresu.
+
+Pierwszy wspólny moduł `src/game/development/` rozszerza istniejące kity:
+pięć dyscyplin 0–30, łączny limit 90, koszt kolejnego stopnia `50 + 10*r`,
+5850 praktyki za jedną maksymalną dyscyplinę. Premie HP/KI/ATK/DEF dodaje się
+na niezaokrąglonej bazie przed dotychczasowym zaokrągleniem; sprzęt, talenty
+oraz buffy nie mnożą dodatku treningowego. Kontrola KI odejmuje 0,002 za stopień
+od istniejącego mnożnika. Wyświetlany koszt i pobranie korzystają z jednej funkcji.
+Zmiana treningu lub konfiguracji jedynie ogranicza HP/KI w dół; nie leczy,
+nie zmienia ruchu ani odstępu ataków i nie resetuje instancji kita.
+
+**Rozbieżność źródła:** kanoniczna Legenda 20 ma ATK przed zaokrągleniem
+`14 + 19*4,6 = 101,4`. Przy sile 30 poprawne zastosowanie wskazanego wzoru daje
+`roundHalfUp(101,4 + 101,4*0,12) = 114`, nie 113 z przykładu promptu.
+Zachowano kanon i regułę niezaokrąglonej bazy. HP z wytrzymałością 30 daje 1079.
+
+Egzaminy mają 30 definicji parametrów i pięć różnych kontrolerów celów:
+okna trafień, fizyczna trasa z przeszkodami, uporządkowane węzły KI ze źródłem,
+zapowiedzi z ruchem/osłoną i budżet celnych działań. Każda próba tworzy tę samą
+produkcyjną klasę `GameSession`, z legalnym profilem poziomu 20, bez portu zapisu. Obrona używa C4 z legalnymi
+poprzednikami u Planetarnych, B1 u Mędrców/Androidów, a ruchu i uniku u Legend.
+Zmiany ekwipunku i drzewka są w tym profilu blokowane. Próba przygotowawcza
+jest bezpłatna i bez nagrody; egzamin wymaga poprzedniego progu. Zaliczenie
+weryfikuje należącą do sesji instancję próby i wypłaca 250 praktyki tylko raz.
+Cały wynik i księga nagród przechodzą przez jeden zapis CAS przed publikacją stanu.
+Zatwierdzanie nie podmienia tożsamości obiektu gracza używanego przez aktywny tick.
+
+Stan rozwoju jest opcjonalnym polem postaci; brak pola oznacza dokładnie stary
+balans. Aktualny zapis rozwoju ma wersję domenową 2, kopertę Superior v3 i kopertę
+historycznej mapy v7. Fundament PR #55 używał domeny v1 / Superior v2 / mapy v6;
+odczyt zachowuje jego księgę i normalizuje nowe, puste dziedzictwo w pamięci.
+Przed zapisem powstają niezmieniane później kopie `ki-legends:recovery:before-superior-v3:<klucz slotu>`
+i `ki-legends:recovery:before-v7:<klucz>`; zachowano również wcześniejsze bramki kopii v2/v6. Brak miejsca na kopię/zapis lub konflikt
+karty nie przyznaje praktyki ani stopnia. Nowszy stan rozwoju i nieznane jego pola
+blokują odczyt/zapis, pozostawiając oryginalne bajty.
+
+Bestiariusz ma osobne etapy dla 40 gatunków: kontakt wzrokowy do 650 j. z LOS,
+obserwowany atak żywego przeciwnika, badanie jego rzeczywistego śladu do 130 j.
+i pokonanie gatunku po badaniu. Pierwsza aplikacja wiedzy daje 50 praktyki poprzez
+stały klucz biznesowy. Jest to wdrożony uproszczony cel wyprawy; specyficzne próby
+zachowania gatunków nadal wymagają rozbudowy. Po przeładowaniu ślad trzeba ponownie
+zaobserwować; poziom wiedzy jest trwały. Atlas nie generuje odkryć.
+
+Przygotowano modyfikatory 12 wariantów kitów i sześciu identyfikatorów modułów.
+Warianty mają koszty i kompromisy w wykonaniu realnych A1/B1/C1; nie zmieniają
+kanonicznych węzłów. **Nie są jeszcze odblokowywane pełną ścieżką 48 prób**.
+Pięć modułów ma efekty statystyczne/bojowe; skaner ma zarezerwowany identyfikator,
+a docelowe badanie instalacji pozostaje otwarte. Nie traktować zamkniętych kart
+w panelu jako ukończonej zawartości rasy. Dokładny zakres i testy: dziennik 28.10.
+
+
+### Dziedzictwa — kolejny checkpoint roboczy PR #55
+
+`development/heritage/catalog.ts` zawiera 24 rozdziały i 24 projekty, po sześć na
+rasę, z polskimi rozmowami, dokumentami, pytaniami, zgodami i równymi nagrodami wyborów.
+Łączne tabelaryczne nagrody rozdziałów jednej rasy to 2100 XP / 1700 praktyki;
+projekty dają 1200 praktyki, bez XP i monet. Definicja nie oznacza zaliczenia rozdziału
+w grze. Runtime obsługuje fizyczne rozmowy, inspekcje, uporządkowane zagadki,
+odzyskiwanie gwarantowanych części, receptury, zgody, nazwanie broni i procedury
+kowalskie, wymagania ukończenia projektów oraz obserwację rzeczywistego żywego gatunku.
+Każda czynność sprawdza bieżący cel/revision, pozycję, przestrzeń i LOS.
+
+Cały kandydat postaci zawiera równocześnie postęp, zużycie, praktykę, XP, monety,
+wybór i jednorazowy klucz `heritage:<ID>:v1`. Dopiero udany zapis CAS publikuje wynik.
+Historia ukończonych celów zachowuje decyzje o anonimowości. Nowe dane nie pochodzą
+z globalnego `questsV2`. Pierwszy rozdział wymaga faktycznej slotowej flagi ukończenia
+starego prologu, bez ponownego wypłacania jego nagrody i bez wymagania M24.
+
+Próba kontroli ciosu używa rzeczywistych trafień kita w neutralny, tymczasowy cel:
+trzy oddzielone okna, zakaz trafienia podczas zatrzymania i osobny stan poddania.
+Nie zabija rozmówcy, nie daje XP/łupu/praktyki za cios i nie przechodzi przez sam timer.
+Pociski używają produkcyjnego `Projectiles`; usunięty cel unieważnia trafienie w locie.
+To kontroler etapu fabularnego w obecnej sali, nie komplet 48 wypożyczanych prób rasowych.
+Eskorty, obrona obiektów/fale, pełny pomiar instalacji, 48 prób i ich odblokowania
+nadal wymagają dalszego runtime oraz odbioru. Skaner jest odblokowywany przez H-N01,
+ale jego docelowe sprawdzanie instalacji nadal nie jest ukończone; chłodzenie ma
+warunek H-N02 + P-N1. Nie uznawać tego za całe mistrzostwo Androida.
+
+
+### Pomiary i pierwszy projekt — kolejna partia PR #55
+
+Stanowisko P-N5 rejestruje rzeczywiste trafienia produkcyjnego kita w trzy odrębne
+neutralne cele. Pokazuje obrażenia, bieżące ATK/KI oraz faktyczny zasób rasy; nie
+wymyśla temperatury instalacji. Odczyty dotyczą bieżącej wizyty, a zapis utrwala
+ukończone cele. Nieudany zapis CAS pozostawia cel do ponowienia i nie dopisuje
+odczytu. Nie ma nagród za pojedynczy strzał, leczenia ani resetowania cooldownów.
+To pomiar zestawu, nie ukończony system inspekcji instalacji skanerem.
+
+Pierwsze projekty czterech kultur mają testy integracyjne rzeczywistych poleceń
+GameSession po ukończeniu ich własnego pierwszego rozdziału. Poprawiono utratę
+celu ćwiczebnego po poleceniu ruchu oraz możliwość wyjścia/zapisania zaliczonej
+próby przy resztkowym znaczniku walki i otwartym, pauzującym panelu. Uprawnienie
+wyniku nadal pochodzi wyłącznie z należącego do sesji kontrolera próby.
+Rozszerzony scenariusz przeglądarkowy projektu pozostaje do wykonania.
+
+Nagroda fabularna na technicznym limicie poziomu 100 ogranicza XP tak samo jak
+istniejąca ścieżka nagradzania. Bez tego przy XP=6039 nagroda 100 dawała XP=6139,
+którego kolejny odczyt odmawiał. Paragon zachowuje nominalną nagrodę 100 XP;
+naprawa nie zmienia krzywej poziomów ani kanonicznych nagród.
+
+
+Skaner Androida ma teraz interaktywny odczyt stanu znanej instalacji projektu w
+bieżącej przestrzeni: widoczność do 650 j., odczyt po podejściu do 130 j. i LOS.
+Pokazuje rzeczywisty postęp/odbiór projektu, bez udawanych parametrów technicznych,
+leczenia, praktyki lub odkrywania mapy. Jest to wdrożony lokalny zakres skanera;
+pozostałe rodzaje instalacji i pełne próby diagnostyczne nadal wymagają pracy.
+Optyka używa wspólnego zasięgu R w kicie, podglądzie i rozpoczęciu ataku; nie
+rozciąga zasięgu aktywnych technik.
+
+
+### Spokojne dostawy z punktami wznowienia — następna partia PR #55
+
+Cele `escort` z `combat=false` mają faktycznie poruszającego się towarzysza,
+sprawdzoną lokalną trasę i zapis CAS każdego punktu. Obie jednostki muszą dotrzeć
+w pobliże punktu i mieć LOS; sam upływ czasu nie wystarcza. NPC czeka po oddaleniu
+gracza, a opuszczenie przestrzeni/porzucenie przerywa wizytę. Po reloadzie cel
+wskazuje ostatni zatwierdzony punkt, z którego można wznowić dostawę. Nie ma
+praktyki, XP, monet ani leczenia za punkty; działa dotychczasowa nagroda rozdziału.
+Nie ma nowego przycisku HUD, zmiany joysticka ani teleportowania bohatera.
+
+`combat=true` nie korzysta z tego kontrolera: jednostka dostawy nie jest odbiorcą
+obrażeń i nie udajemy w ten sposób eskorty bojowej. Obrona obiektów, fale i pełne
+chronione jednostki wciąż są otwarte. Test integracyjny H-V02 legalnie kończy H-V01
+i P-V1, sprawdza błąd zapisu punktu, reload w połowie trasy i odbiera broń stopnia 2.
+To test GameSession na kontrolowanej mapie, nie zaliczony jeszcze scenariusz
+przeglądarkowy późnego rozdziału.
+
+## Parametry trenowane i podgląd postaci — 29.10.2026
+
+Gałąź `feature/character-statistics-training` (bez publikacji): portret otwiera okno
+rzeczywistych parametrów. Rozbicie: baza rasowa/poziom, trening, zdolności,
+wyposażenie, efekty czasowe i końcowe nadpisanie GM. Suma składników odpowiada
+runtime, np. zwykłe ostrze wnosi +8 ataku, ulepszenie kolejne +4.
+
+Nowe parametry **nie rosną przy awansie poziomu**. Trening w Domu Treningu:
+Unik przez skuteczne przemieszczenie unikiem, szybkość ataku przez trafienia R w
+manekin, Technika przez trafienia poznanymi zdolnościami. Maksymalnie jeden punkt
+ćwiczenia na sekundę; wymagane `20 + 5 × ranga` punktów do następnej rangi, limit100.
+Postęp zatwierdzany jest po ticku, po koszcie KI, i tylko po udanym zapisie, gdy
+sesja ma storage. Zatrzymanie/wyjście/śmierć odrzucają oczekujące ćwiczenie.
+Nie ma XP, monet, leczenia ani resetu cooldownu za samo rozpoczęcie treningu.
+
+Współczynniki implementacyjne nowych parametrów (nie liczby z aneksu właściciela):
+jedna ranga Uniku daje 0,1 pkt proc., szybkości ataku +0,25%, Techniki +1 punkt.
+Przedmioty mogą dodatkowo określać `statBonuses`; nie zmieniono premii istniejących
+przedmiotów. Buff runtime może określać `dodgeAdd`, `attackSpeedPct`, `techniqueAdd`.
+Łączny pasywny Unik ma techniczny limit50%; dotyczy zwykłych ciosów/pocisków,
+nie stałych obrażeń i obrażeń okresowych. Odstęp ataków zachowuje minimum200ms.
+
+Punkt Techniki: +0,05 pkt proc. krytyka (maks.+5), +0,25% obrażeń oznaczonych tagiem
+`ki` (maks.+25%), +0,05 pkt proc. szansy ponowienia (maks.5%). Brak dodatkowego
+mnożnika dla ataków czysto fizycznych, ognistych lub elektrycznych. Ponowienie
+zeruje odnowienie po poprawnym użyciu zdolności; następne użycie znów płaci KI,
+wymaga odblokowania i normalnej walidacji. Transformacje i kanałowanie są
+wyłączone; jedna premia ponowienia na pierwotne okno cooldownu danej zdolności.
+Kanon bazowych ras, drzewek, kosztów i odnowień pozostaje bez zmian.
+
+Zapis klasyczny8 czyta1/3/4/5/8, Superior4 czyta1/4. Zachowuje surowy poprzedni
+payload przed migracją; starszy runtime odrzuci nowszy format, zamiast usunąć
+trening. Niescalony PR55 ma osobny rozwój ras i własne wersje zapisu — wymaga
+świadomej integracji, nie automatycznej zamiany tych plików.
+
+## Integracja oczekujących gałęzi — 29.10.2026
+
+Na polecenie właściciela połączono kandydatów PR55 i61, zachowując rozwój ras,
+trening, bronie dziedzictwa, warianty i moduły, GM oraz nowe trzy parametry.
+Autorytatywny format po integracji: **klasyczny9** (czyta1/3/4/5/6/7/8/9),
+**Superior5** (czyta1/2/3/4/5). Starsze numery w sekcjach historycznych dotyczą
+oddzielnych gałęzi przed integracją. Wersję podniesiono, aby starszy runtime nie
+zapisał z powrotem postaci po cichym usunięciu jednego z systemów rozwoju.
+Zabezpieczono również jawne usunięcie istniejącego treningu/rozwoju przy zapisie.
+
+Nowe rozbicie statystyk włącza wcześniejsze dyscypliny i moduły rozwoju do warstwy
+treningu, zachowuje premię faktycznie wyposażonej broni dziedzictwa i nakłada GM
+na końcu. Dodano osiem przypadków migracji obu systemów i zachowania ustawień GM.
+PR55 pozostaje **częściowym zakresem funkcjonalnym**, nawet po technicznej integracji:
+brakuje późnych prób, rozdziałów i ochron/eskort bojowych wyszczególnionych w planie.
+Nie deklarujemy pełnej kampanii ani włączenia ataków na zwykłych NPC.

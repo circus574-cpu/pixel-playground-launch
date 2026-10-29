@@ -583,7 +583,7 @@ describe("saves: version 5 with skills, materials and depot, older saves intact"
     g.player.materials["wegiel"] = 3;
     g.player.respecs = 2;
     g.flush();
-    expect(JSON.parse(store.getItem(SAVE_KEY)!).version).toBe(5);
+    expect(JSON.parse(store.getItem(SAVE_KEY)!).version).toBe(9);
     const again = new GameSession(new SaveStore(store));
     expect(again.player.skills).toEqual(["R", "A1"]);
     expect(again.kit.has("A1")).toBe(true);
@@ -624,4 +624,20 @@ describe("saves: version 5 with skills, materials and depot, older saves intact"
       expect(g.player.skills).toEqual(["R"]);
     }
   });
+});
+
+it("trained passive dodge evades melee and projectiles but not fixed or periodic damage", () => {
+  const g = arena("sage", () => 0),
+    enemy = put(g, "boar", 40, 0);
+  g.player.combatTraining = {
+    dodge: { rank: 100, progress: 0 },
+    attackSpeed: { rank: 0, progress: 0 },
+    technique: { rank: 0, progress: 0 },
+  };
+  const hp = g.player.hp;
+  expect(g.hurtPlayer(10, enemy, "melee")).toEqual({ dealt: 0, evaded: true });
+  expect(g.hurtPlayer(10, enemy, "projectile")).toEqual({ dealt: 0, evaded: true });
+  expect(g.player.hp).toBe(hp);
+  expect(g.hurtPlayer(10, enemy, "dot").dealt).toBeGreaterThan(0);
+  expect(g.hurtPlayer(10, enemy, "melee", true)).toEqual({ dealt: 10, evaded: false });
 });

@@ -1,3 +1,6 @@
+import { cityRoom } from "../../city/room";
+import { heritageRaceConsistent } from "../../development/heritage/state";
+import { weaponConsistent } from "../../development/heritage/equipment";
 import { z } from "zod";
 import {
   PlayerSchema,
@@ -39,23 +42,31 @@ export type SuperiorIndex = {
   features: FeatureInfo[];
 };
 const coordinate = z.number().finite().min(0).max(131072);
-const player = PlayerSchema.extend({ x: coordinate, y: coordinate });
+const player = PlayerSchema.strict().extend({ x: coordinate, y: coordinate });
 const spawnRecord = z.object({
   hp: z.number().finite().min(0).max(1000000),
   deadUntil: z.number().finite().min(0),
   kind: z.string().max(120),
   revived: z.boolean().optional(),
 });
-const envelope = z.object({
-  format: z.literal("superior-character"),
-  version: z.literal(1),
-  revision: z.string(),
-  geometry: z.string(),
-  feature: z.enum(FEATURE_IDS),
-  town: z.string().max(120).nullable(),
-  player,
-  spawns: z.record(z.string().max(180), spawnRecord).default({}),
-});
+const envelope = z
+  .object({
+    format: z.literal("superior-character"),
+    version: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    revision: z.string(),
+    geometry: z.string(),
+    feature: z.enum(FEATURE_IDS),
+    town: z.string().max(120).nullable(),
+    player,
+    spawns: z.record(z.string().max(180), spawnRecord).default({}),
+  })
+  .strict()
+  .refine(
+    (value) =>
+      (![2, 3].includes(value.version) || value.player.development !== undefined) &&
+      (value.version !== 3 || value.player.development?.version === 2),
+    "Development envelope requires development data",
+  );
 export type SpawnRecord = z.infer<typeof spawnRecord>;
 
 /** Single CAS-protected character save for the generated planet. */
@@ -78,6 +89,9 @@ export class SuperiorSaveStore extends SaveStore {
     super(null);
     this.feature = initial;
   }
+  override get identity(): string {
+    return this.expeditionKey;
+  }
   override load(): Player | undefined {
     if (this.loaded) return this.initial ? structuredClone(this.initial) : undefined;
     this.loaded = true;
@@ -99,7 +113,8 @@ export class SuperiorSaveStore extends SaveStore {
         p.x > info.width ||
         p.y > info.height ||
         p.xp >= xpNeeded(p.level) ||
-        (p.weapon && !p.items.sword) ||
+        !weaponConsistent(p, this.identity) ||
+        !heritageRaceConsistent(p.development?.heritage, p.race) ||
         (p.armor && !p.items.vest) ||
         !validLearned(p.race, p.level, p.skills) ||
         !p.skills.includes("R") ||
@@ -108,7 +123,10 @@ export class SuperiorSaveStore extends SaveStore {
         Object.keys(p.materials).length > 30 ||
         Object.keys(p.depot.materials).length > 30 ||
         (p.depot.upgrade > 0 && !p.depot.items.sword) ||
-        (p.interior && (p.x > 960 || p.y > 760 || !value.town)) ||
+        (p.interior &&
+          (p.x > cityRoom(p.interior, info.affinity).width ||
+            p.y > cityRoom(p.interior, info.affinity).height ||
+            !value.town)) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         (p.quests.gear !== "locked" && p.quests.boars !== "done")
       )
@@ -137,9 +155,32 @@ export class SuperiorSaveStore extends SaveStore {
         this.warning = "Postać zmieniła się w innej karcie. Ta karta nie nadpisze postępu.";
         return false;
       }
+      if (this.previous && JSON.parse(this.previous)?.player?.development && !p.development) {
+        this.warning = "Nie można usunąć istniejącego postępu rozwoju. Oryginał zachowano.";
+        return false;
+      }
+      if (this.previous !== null) {
+        const oldVersion = JSON.parse(this.previous)?.version;
+        for (const target of [2, 3, 4, 5]) {
+          const key = "ki-legends:recovery:before-superior-v" + target + ":" + this.expeditionKey;
+          if (oldVersion < target && this.port.getItem(key) === null)
+            this.port.setItem(key, this.previous);
+        }
+      }
+      if (
+        !weaponConsistent(p, this.identity) ||
+        !heritageRaceConsistent(p.development?.heritage, p.race)
+      )
+        return false;
+      if (this.previous && JSON.parse(this.previous)?.player?.combatTraining && !p.combatTraining)
+        return false;
+      if (this.previous !== null && JSON.parse(this.previous).version === 1) {
+        const key = this.expeditionKey + ":before-stat-training-v4";
+        if (this.port.getItem(key) === null) this.port.setItem(key, this.previous);
+      }
       const value = envelope.parse({
         format: "superior-character",
-        version: 1,
+        version: 5,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
         feature: this.feature,

@@ -1,4 +1,6 @@
+import { trainedBonuses, techniqueEffects } from "../combatTraining";
 import { applyCharacterStats } from "../characterStats";
+import { activeVariant, developmentModifiers } from "../development/modifiers";
 import { combatTarget } from "../combat/targeting";
 import type { RaceId } from "../world/races";
 import { speedGrowth } from "./balance";
@@ -148,6 +150,10 @@ export abstract class Kit {
     this.nodes = KIT_NODES[race];
     this.learned = new Set(learned);
   }
+  /** Basic reach is distinct from skill reach: optics never extends A/B/C. */
+  get basicRange() {
+    return this.stats.range * this.development.basicRange;
+  }
   has(id: string) {
     return this.learned.has(id);
   }
@@ -161,6 +167,7 @@ export abstract class Kit {
     this.learned.clear();
     for (const id of ids) this.learned.add(id);
     this.cooldowns = {};
+    this.techniqueRepeatUntil.clear();
     this.buffs = [];
     this.shields = [];
     this.circles = [];
@@ -172,6 +179,7 @@ export abstract class Kit {
   resource(): ResourceInfo | undefined {
     return undefined;
   }
+  private techniqueRepeatUntil = new Map<string, number>();
   node(id: string) {
     return this.nodes.find((n) => n.id === id);
   }
@@ -208,36 +216,119 @@ export abstract class Kit {
   hasBuff(flag: "noKi" | "ccImmune" | "stunImmune" | "invulnerable") {
     return this.buffs.some((b) => b[flag]);
   }
-  get stats(): FinalStats {
+  protected get development() {
+    return developmentModifiers(this.port.development, this.race);
+  }
+  protected variant(id: string) {
+    return activeVariant(this.port.development, this.race, this.learned) === id;
+  }
+  private deriveStats(layer = 5): FinalStats {
     const b: { base: RaceBase; perLevel: RaceBase } = RACE_BASE[this.race];
     const level = this.port.player.level;
     const v = (k: keyof RaceBase) => b.base[k] + b.perLevel[k] * (level - 1);
-    const m = this.mods();
-    const gear = this.port.gear;
-    const atkPct = (m.atkPct ?? 0) + this.buffSum("atkPct");
-    const defPct = (m.defPct ?? 0) + this.buffSum("defPct") + this.circleDefence();
+    const m = layer >= 2 ? this.mods() : {};
+    const dev = developmentModifiers(layer >= 1 ? this.port.development : undefined, this.race);
+    const t = dev.training;
+    const trained = trainedBonuses(layer >= 1 ? this.port.player.combatTraining : undefined);
+    const gear = layer >= 3 ? this.port.gear : { attack: 0, defense: 0 };
+    const buffs = layer >= 4 ? this.buffs : [];
+    const sum = (field: (typeof BONUS_FIELDS)[number]) => (layer >= 4 ? this.buffSum(field) : 0);
+    const technique = Math.max(
+      0,
+      trained.technique +
+        (gear.technique ?? 0) +
+        buffs.reduce((n, b) => n + (b.techniqueAdd ?? 0), 0),
+    );
+    const speedBonus = Math.max(
+      0,
+      trained.attackSpeedPct +
+        (gear.attackSpeedPct ?? 0) +
+        buffs.reduce((n, b) => n + (b.attackSpeedPct ?? 0), 0),
+    );
+    const atkPct = (m.atkPct ?? 0) + sum("atkPct");
+    const defPct = (m.defPct ?? 0) + sum("defPct") + (layer >= 4 ? this.circleDefence() : 0);
     return applyCharacterStats(
       {
-        maxHp: roundHalfUp(v("hp") * (1 + (m.hpPct ?? 0))),
-        maxKi: roundHalfUp(v("ki") * (1 + (m.kiPct ?? 0))),
-        attack: Math.max(1, roundHalfUp((v("attack") + gear.attack) * (1 + atkPct))),
-        defense: Math.max(0, roundHalfUp((v("defense") + gear.defense) * (1 + defPct))),
-        speed:
-          b.base.speed * speedGrowth(level) * (1 + (m.speedPct ?? 0) + this.buffSum("speedPct")),
+        technique,
+        attackSpeedPct: speedBonus,
+        dodgeChance: Math.min(
+          50,
+          Math.max(
+            0,
+            trained.dodgeChance +
+              (gear.dodgeChance ?? 0) +
+              buffs.reduce((n, b) => n + (b.dodgeAdd ?? 0), 0),
+          ),
+        ),
+        maxHp: roundHalfUp(v("hp") * (1 + (m.hpPct ?? 0)) + v("hp") * 0.005 * t.endurance),
+        maxKi: roundHalfUp(
+          (v("ki") * (1 + (m.kiPct ?? 0)) + v("ki") * 0.005 * t.kiCapacity) * dev.maxKi,
+        ),
+        attack: Math.max(
+          1,
+          roundHalfUp(
+            ((v("attack") + gear.attack) * (1 + atkPct) + v("attack") * 0.004 * t.strength) *
+              dev.attack,
+          ),
+        ),
+        defense: Math.max(
+          0,
+          roundHalfUp(
+            (v("defense") + gear.defense) * (1 + defPct) + v("defense") * 0.004 * t.defense,
+          ),
+        ),
+        speed: b.base.speed * speedGrowth(level) * (1 + (m.speedPct ?? 0) + sum("speedPct")),
         kiRegen: v("kiRegen") * (1 + (m.kiRegenPct ?? 0)),
-        crit: v("criticalChancePercent") + (m.critAdd ?? 0) * 100,
+        crit:
+          v("criticalChancePercent") +
+          (m.critAdd ?? 0) * 100 +
+          dev.crit +
+          techniqueEffects(technique).crit,
         attackInterval: Math.max(
           200,
-          b.base.attackIntervalMs * (1 + (m.intervalPct ?? 0) + this.buffSum("intervalPct")),
+          (b.base.attackIntervalMs * (1 + (m.intervalPct ?? 0) + sum("intervalPct"))) /
+            (1 + speedBonus / 100),
         ),
-        dealt: 1 + (m.dealtPct ?? 0) + this.buffSum("dealtPct"),
-        cooldownMul: Math.max(0.1, 1 + this.buffSum("cooldownPct")),
-        kiCostMul: this.hasBuff("noKi") ? 0 : Math.max(0, 1 + (m.kiCostPct ?? 0)),
-        ccMul: this.hasBuff("ccImmune") ? 0 : Math.max(0, 1 + (m.ccPct ?? 0)),
+        dealt: 1 + (m.dealtPct ?? 0) + sum("dealtPct"),
+        cooldownMul: Math.max(0.1, 1 + sum("cooldownPct")),
+        kiCostMul:
+          layer >= 4 && this.hasBuff("noKi")
+            ? 0
+            : Math.max(0, 1 + (m.kiCostPct ?? 0) - 0.002 * t.kiControl - dev.kiReduction),
+        ccMul: layer >= 4 && this.hasBuff("ccImmune") ? 0 : Math.max(0, 1 + (m.ccPct ?? 0)),
         range: this.baseRange * (1 + (m.rangePct ?? 0)),
       },
-      this.port.player.statOverrides,
+      layer >= 5 ? this.port.player.statOverrides : undefined,
     );
+  }
+  get stats(): FinalStats {
+    return this.deriveStats();
+  }
+  get statBreakdown() {
+    const layers = [0, 1, 2, 3, 4, 5].map((layer) => this.deriveStats(layer));
+    const result = {} as Record<
+      keyof FinalStats,
+      {
+        base: number;
+        training: number;
+        skills: number;
+        items: number;
+        effects: number;
+        gm: number;
+        total: number;
+      }
+    >;
+    for (const key of Object.keys(layers[0]!) as (keyof FinalStats)[])
+      result[key] = {
+        base: layers[0]![key],
+        training: layers[1]![key] - layers[0]![key],
+        skills: layers[2]![key] - layers[1]![key],
+        items: layers[3]![key] - layers[2]![key],
+        effects: layers[4]![key] - layers[3]![key],
+        gm: layers[5]![key] - layers[4]![key],
+        total: layers[5]![key],
+      };
+    return result;
   }
   /** Regeneration of HP per second as a fraction of max HP. */
   hpRegen(): number {
@@ -314,6 +405,7 @@ export abstract class Kit {
     let raw = s.attack * mult * s.dealt * (1 + extra + this.dealtVs(foe));
     const chance = s.crit + this.critVs(foe);
     const crit = forceCrit || this.port.random() * 100 < chance;
+    if (hit.tags.includes("ki")) raw *= 1 + techniqueEffects(s.technique).kiDamage;
     if (crit) raw *= CRIT_MULT;
     return this.port.hurtFoe(foe, raw, { ...hit, crit });
   }
@@ -413,8 +505,8 @@ export abstract class Kit {
         id: node.id,
         name: node.name,
         type: node.type,
-        ki: Math.round(def.ki * this.stats.kiCostMul),
-        cd: Math.round(this.cooldownOf(node.id) * this.stats.cooldownMul),
+        ki: this.abilityCost(node.id),
+        cd: this.abilityCooldown(node.id),
         remaining,
         channel: !!def.channel,
         key: n <= 9 ? String(n) : n === 10 ? "0" : "",
@@ -424,6 +516,21 @@ export abstract class Kit {
       n++;
     }
     return out;
+  }
+  private abilityCost(id: string) {
+    const variant = activeVariant(this.port.development, this.race, this.learned);
+    const surcharge =
+      variant && ["mv-trail", "ma-seal", "mn-mark", "mp-cuts"].includes(variant) && id === "A1"
+        ? 1.25
+        : 1;
+    return Math.round((this.defs[id]?.ki ?? 0) * this.stats.kiCostMul * surcharge);
+  }
+  private abilityCooldown(id: string) {
+    return Math.round(
+      this.cooldownOf(id) *
+        this.stats.cooldownMul *
+        (id === "T" ? 1 : this.development.activeCooldown),
+    );
   }
   use(id: string): UseResult {
     if (id === "T" && (this.port.player.level < 20 || !["A9", "B9", "C9"].some((n) => this.has(n))))
@@ -461,7 +568,7 @@ export abstract class Kit {
     if (!def || !this.has(id)) return { ok: false, reason: "Nie znasz tej zdolności." };
     const left = this.cooldowns[id] ?? 0;
     if (left > 0) return { ok: false, reason: "Odnowienie: " + Math.ceil(left / 1000) + " s." };
-    const cost = Math.round(def.ki * this.stats.kiCostMul);
+    const cost = this.abilityCost(id);
     if (this.port.player.ki < cost) return { ok: false, reason: "Za mało KI (" + cost + ")." };
     if (this.channel) return { ok: false, reason: "Trwa kanałowanie." };
     if (def.needsFoe) {
@@ -470,11 +577,27 @@ export abstract class Kit {
         return { ok: false, reason: "Przeszkoda zasłania cel." };
     }
     // Snapshot before cast: the KI form must not shorten its own stated cooldown.
-    const cooldown = Math.round(this.cooldownOf(id) * this.stats.cooldownMul);
+    const cooldown = this.abilityCooldown(id);
     const r = this.cast(id);
     if (!r.ok) return r;
     this.port.addKi(-cost);
-    this.cooldowns[id] = cooldown;
+    const reset = techniqueEffects(this.stats.technique).resetChance;
+    const canRepeat =
+      cooldown > 0 &&
+      id !== "T" &&
+      !this.defs[id]?.channel &&
+      (this.techniqueRepeatUntil.get(id) ?? 0) <= this.port.nowMs;
+    if (canRepeat && reset > 0 && this.port.random() * 100 < reset) {
+      this.techniqueRepeatUntil.set(id, this.port.nowMs + cooldown);
+      this.cooldowns[id] = 0;
+      this.port.emit({
+        type: "buff",
+        x: this.port.player.x,
+        y: this.port.player.y,
+        ability: id,
+        text: "Technika · ponowienie",
+      });
+    } else this.cooldowns[id] = cooldown;
     return r;
   }
   /** Runtime actions cannot survive death or a world transition. Cooldowns stay paid. */

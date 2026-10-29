@@ -1,0 +1,664 @@
+# PROMPT DLA CODEXA — KI LEGENDS: ROZWÓJ, DZIEDZICTWO I PRZYGODY CZTERECH RAS
+
+Wykonaj poniższe zadanie w repozytorium `circus574-cpu/pixel-playground-launch` jako rzeczywistą zmianę działającej gry. Wymaganym wynikiem jest grywalny kod dla WSZYSTKICH CZTERECH RAS, trwały postęp, interfejs i weryfikacja. Sam projekt, makieta, katalog niepodłączonych danych, ekran z atrapami oraz implementacja wyłącznie Legend nie spełniają zadania.
+
+Dokument jest samodzielnym zleceniem. Nie wymaga znajomości wcześniejszej rozmowy. Opisane poniżej nowe mechaniki i fabuła są zakresem do implementacji na gałęzi; nie są twierdzeniem, że już istnieją. Nie scalaj ani nie publikuj bez osobnego polecenia właściciela. Nie proś o potwierdzanie rutynowych decyzji implementacyjnych.
+
+## 1. Punkt wejścia, aktualny kod i granice
+
+1. Pobierz aktualny stan repozytorium, przeczytaj `AGENTS.md`, `docs/INDEX.md` i wszystkie dokumenty istotne dla zadania: `ZASADY.md`, `RASY-I-POSTACIE.md`, `ROZWOJ-I-WALKA.md`, `SWIAT-I-MIASTA.md`, `FABULA-I-EKWIPUNEK.md`, `ARCHITEKTURA-I-TESTY.md`, `PLAN-I-ZADANIA.md`, najnowszy dziennik zmian. Sprawdź instrukcje również w podkatalogach objętych zmianami.
+2. Referencja przygotowania promptu: `main@3ffd46c7e993c310a7b507c8b93c3723b91825bd`, sprawdzona 28.10.2026. Przy realizacji pracuj na aktualnej bazie. Nie cofaj cudzych nowszych zmian.
+3. Utwórz własną gałąź, np. `feature/racial-development-and-heritage`. Nie nadpisuj niezwiązanych zmian i nie przepisuj opublikowanej historii. Zrób przeglądalne commity i draft PR, jeżeli dostępne są uprawnienia; brak uprawnień do PR nie blokuje lokalnego kodu i kontroli.
+4. Zachowaj tożsamości: Planetarni / Verdantia, Mędrcy / Aetheria, Androidy / Nexus-9, Legendy / Pyra. Światem gry jest Superior. To lokalne PvE; nie dodawaj pozornego multiplayera.
+5. Zachowaj bazowe statystyki i przyrosty ras, 4×29 kanonicznych węzłów, wymagania, wykluczenia, dotychczasowe punkty umiejętności i warunek Trybu KI. Nie edytuj ręcznie plików `*.generated.*`. Nowe dane mają własne jawne źródła; zmiana istniejącego generatora wymaga zachowania jego kontraktów.
+6. Nie zmieniaj geometrii planety, atlasu, obrysów kontynentów, położenia stolic i wysp. Nowe treści osadzaj w osiągalnych punktach aktualnego świata. Przestrzenie prób możesz realizować jako logiczne instancje przy istniejących usługach/ruinach. Nie buduj fizycznych tuneli przez ocean. Trzymaj łączny projekt dużych podziemi w istniejących limitach: maks. 20, w tym maks. 5 labiryntów; w pierwszej kolejności wykorzystaj istniejące lokalizacje i rejestr 18 projektowanych podziemi.
+7. Zachowaj obecne animacje, proporcje postaci, HUD, oddaloną kamerę, pełny ekran, joystick i sterowanie dwoma kciukami. Dodaj potrzebne ekrany w istniejącej oprawie. Używaj obecnych zasobów i czytelnych efektów proceduralnych; brak nowej grafiki nie blokuje funkcjonalnej treści. Nie udawaj, że powstały nowe animacje lub modele.
+8. Nie korzystaj z kredytów Lovable do implementacji ani obliczeń. Nie steruj instancjami GPU i nie zmieniaj konfiguracji hostingu, produkcji, kont, panelu admina ani prywatnego `/test`.
+9. Zachowaj postacie i dotychczasowy postęp. Nie resetuj zapisów. Ochrona nowszych/nieznanych danych, kopie migracyjne i konflikt dwóch kart pozostają obowiązkowe.
+10. Przed zmianami zapisz wynik bazowych kontroli. Dokumentacja z 28.10 opisuje niezaliczone przypadki PvE/WebGL, m.in. `liveEnemy()` i scenariusz Planetarnego. Odtwórz stan na swojej bazie. Nie zakładaj przyczyny, nie usuwaj testów, nie osłabiaj asercji. Napraw regresje związane z Twoim zakresem; niezależne blokady opisz z dowodem i dokładnym SHA.
+
+## 2. Cel produktu i kompletność
+
+Poziom pozostaje źródłem podstawowej siły. Dodaj pięć innych dróg: trening parametrów, mistrzostwo technik, osobiste dziedzictwo rasy, wiedzę o świecie i trwałe projekty odbudowy. Dwie postacie tej samej rasy i poziomu mają móc różnić się wyszkoleniem, konfiguracją oraz historią dokonań.
+
+Obowiązkowy zakres zawartości:
+
+- 5 dyscyplin treningu, po 30 stopni; wspólny limit 90 rozdzielonych stopni.
+- 30 egzaminów treningowych: po 6 na dyscyplinę.
+- 24 wieloetapowe zadania dziedzictwa: po 6 na rasę, każde przynajmniej 4 rzeczywiste etapy/interakcje.
+- 24 projekty świata: po 6 na rasę, każdy z widocznym skutkiem i własnym zapisem.
+- 48 różnych prób rasowych: po 12 na rasę; każda ma 3 stopnie trudności, razem 144 oceniane warianty.
+- 12 wariantów mistrzowskich istniejących technik: po 3 na rasę.
+- 4 osobiste bronie dziedzictwa, każda rozwijana w 6 etapach, z działającym wyposażaniem i statystykami.
+- Androidy: 6 działających modułów, 3 gniazda i budżet energii.
+- Bestiariusz z postępem poznania dla obecnych 40 gatunków.
+- Treść bojowa dla 21–40, oparta na jawnych nowych wariantach istniejących archetypów; oryginalne 40 definicji pozostaje bez zmian.
+- Widoczne w grze biografie ras, odblokowywane kroniki, pełne polskie dialogi i zakończenia.
+
+Pracuj wewnętrznie etapami, ale nie kończ po pierwszej rasie i nie sprowadzaj pozostałych do pustych zakładek. Jeżeli realna blokada środowiska uniemożliwi część weryfikacji, zabezpiecz kod i dowody oraz wskaż dokładny brak. Nie oznaczaj nieukończonego zakresu jako gotowego.
+
+## 3. Wspólny trening — konkretna mechanika
+
+### 3.1. Dyscypliny, budżet i wzory
+
+| ID | Nazwa | Efekt jednego stopnia | Limit 30 |
+|---|---|---:|---:|
+| `strength` | Siła | +0,4% bazowego ATK | +12% ATK |
+| `endurance` | Wytrzymałość | +0,5% bazowego HP | +15% HP |
+| `kiCapacity` | Pojemność KI | +0,5% bazowego KI | +15% KI |
+| `defense` | Obrona | +0,4% bazowego DEF | +12% DEF |
+| `kiControl` | Kontrola KI | redukcja kosztu o 0,2% pierwotnego kosztu | −6% pierwotnego kosztu |
+
+Każdy poziom dyscypliny jest liczbą całkowitą 0–30. Suma pięciu poziomów nie przekracza 90. Zakup stopnia `r+1`, gdzie `r` to bieżący stopień danej dyscypliny, kosztuje `50 + 10*r` punktów praktyki. Maksymalizacja jednej dyscypliny kosztuje 5850 praktyki, trzech — 17 550.
+
+Praktyka jest osobnym zasobem zdobywanym podczas gry, bez zakupu za pieniądze i bez generowania za czas bezczynności. Nie zastępuje XP. Wyświetlaj stan, koszt następnego stopnia i przewidywany efekt przed wydaniem.
+
+Nie zmieniaj wyniku obecnych statystyk postaci z zerowym treningiem. Dla HP/KI/ATK/DEF zachowaj istniejący niezaokrąglony wzór, dodaj premię `bazaRasowaNaPoziomie * procentTreningu`, dopiero potem wykonaj istniejące zaokrąglenie. Treningu nie mnożą premie sprzętu, talentów ani chwilowych buffów. Dla kosztu KI oblicz redukcję istniejącego mnożnika o `0.002*stopień`, z dolnym ograniczeniem 0; nie odejmuj kolejno zaokrąglonych jednostek od już zaokrąglonego kosztu. `noKi` nadal daje zero. Koszt prezentowany i faktycznie pobierany mają być identyczne.
+
+Przykład kontrolny bez sprzętu/talentów: Legenda poziom 20 ma bazowo 938 HP, 101 ATK. Trening 30 wytrzymałości daje po zaokrągleniu 1079 HP, a 30 siły — 113 ATK. Nie zmienia odstępu ataków ani szybkości ruchu.
+
+Reset samego treningu jest bezpłatny u trenera poza walką. Nie zmienia kosztu resetowania kanonicznego drzewka. Zmiana treningu/wyposażenia/modułów nie leczy, nie odnawia KI, nie zeruje cooldownów ani Żaru/Ładunku. Przy spadku maksimum jedynie ogranicz aktualny zasób do nowego maksimum; wzrost maksimum nie podnosi aktualnego zasobu.
+
+### 3.2. Egzaminy
+
+Na stopniach 5/10/15/20/25/30 dana dyscyplina wymaga zdanego egzaminu; można wydać praktykę najwyżej do stopnia poprzedzającego niezdany próg. Egzamin jest bezpłatny i dostępny przed zakupem progu, jeśli masz poprzedni wymagany egzamin i osiągnięty poprzedni próg. Dla pierwszego egzaminu wystarczy stopień 4. Pierwsze zaliczenie każdego z 30 egzaminów daje 250 praktyki. Ponowienia służą poprawie wyniku bez dodatkowej praktyki.
+
+Egzaminy korzystają z tego samego silnika i przedstawiają zasady przed startem. Parametry sześciu stopni:
+
+| Dyscyplina | Warunek zaliczenia, rosnący od I do VI |
+|---|---|
+| Siła | Traf 3/4/5/6/7/8 oznaczonych okien odsłonięcia; maks. 3 błędne ataki na próbę; okno 1600/1450/1300/1150/1000/900 ms |
+| Wytrzymałość | Przejdź 4/5/6/7/8/9 segmentów trasy; omijaj przeszkody i utrzymaj co najmniej 30% HP; czas 180/210/240/270/300/330 s |
+| Pojemność KI | Naładuj 2/3/4/5/6/7 węzłów w poprawnej kolejności; strefy odbudowy KI pozwalają skończyć każdą rasą; bez mikstur |
+| Obrona | Uniknij lub prawidłowo zablokuj 4/5/6/7/8/10 zapowiedzi; maks. 2 trafienia; reakcja 1800/1650/1500/1400/1300/1200 ms |
+| Kontrola KI | Wykonaj 3/4/5/6/7/8 udanych akcji w limicie 70/70/65/65/60/60% testowego KI; testowy zestaw ma skalowany koszt i nie wymaga konkretnej gałęzi |
+
+Jedna próba ma instrukcję, czytelny postęp, wynik z przyczyną porażki i natychmiastowe ponowienie. Czas licz w aktywnej symulacji. Pauza, ukryta karta i ładowanie nie zużywają czasu egzaminu. Nie wymagaj refleksu w pojedynczych klatkach ani precyzji niedostępnej na dotyku.
+
+### 3.3. Gwarantowana ekonomia praktyki
+
+Pełna ścieżka jednej rasy zapewnia:
+
+- zadania 1–6: kolejno 150/200/250/300/350/450 praktyki, łącznie 1700;
+- 6 projektów: po 200, razem 1200;
+- 12 prób × 3 stopnie: po 100/150/200 za pierwszy sukces danego stopnia, razem 5400;
+- 30 wspólnych egzaminów × 250 = 7500;
+- 40 wpisów bestiariusza w pełni zbadanych × 50 = 2000.
+
+Razem 17 800 praktyki — wystarczająco na 90 stopni nawet przy maksymalizacji trzech dyscyplin, bez nieskończonego farmienia. Walidator ma obliczać ten budżet. Odkrycia pozostałych kultur mogą dawać opowieści i kosmetykę; nie powielaj czterokrotnie przewidzianego budżetu praktyki. Dodatkowa praktyka po limicie jest widoczna jako niewydana, nie zamienia się automatycznie w statystyki/XP.
+
+## 4. Mistrzostwo, próby i bronie osobiste
+
+### 4.1. Wspólny kontrakt mistrzostwa
+
+Każda rasa ma cztery dziedziny, każda z trzema próbami. Stopień dziedziny 1/2/3 wymaga zaliczenia wszystkich jej prób na odpowiednim stopniu trudności. Wyższy stopień wymaga wcześniejszego niższego. Warianty technik odblokowuj zgodnie z opisem rasy; nie dodawaj punktów drzewka.
+
+Jednocześnie aktywny jest najwyżej JEDEN wariant mistrzowski techniki na postać. Wybór tylko poza walką, bez resetu kosztów i timerów. Wariant działa wyłącznie, jeśli postać zna wskazany kanoniczny węzeł. Przy resecie drzewka wyłącz niedostępny wariant, zachowując jego odkrycie. W HUD pokaż zmienione wartości i kompromis. Modyfikuj finalne parametry danej techniki po jej obecnych talentach, chyba że tabela podaje inaczej. Ruch, kolizje, LOS, koszty i cooldowny przechodzą przez rzeczywiste kity.
+
+Próby można powtarzać, nagrody są jednorazowe na `(trialId, tier)`. Egzaminy nie generują łupów, XP bojowego, zabójstw do zwykłych questów ani praktyki za każde trafienie. Śmierć w próbie nie niszczy rzeczy i nie nalicza nagrody.
+
+Do prób zapewnij wypożyczony, deterministyczny profil danej rasy z legalnym zestawem testowym, poziomem i wyposażeniem. Użyj istniejącego `GameSession`/kitów, nie drugiego silnika. Stan wypożyczony jest wyłącznie w pamięci; zapisujesz tylko zatwierdzony wynik. Oryginalna postać zachowuje HP/KI, wyposażenie, cooldowny i zasoby. Nie można przenosić testowych umiejętności i przedmiotów poza próbę. Wyjście, reload i śmierć przywracają bezpieczny punkt wejścia z oryginalnym stanem.
+
+### 4.2. Broń dziedzictwa dla KAŻDEJ rasy
+
+| Rasa | Przedmiot osobisty | Charakter |
+|---|---|---|
+| Planetarni | Ostrze Żywego Szlaku | Rodzinny znacznik drogi przekształcony w broń wędrowca |
+| Mędrcy | Kostur Pierwszego Źródła | Narzędzie badań z zachowanym podpisem dawnego archiwisty |
+| Androidy | Emiter Własnego Sygnału | Konstrukcja składana z odzyskanych i samodzielnie wybranych części |
+| Legendy | Ostrze Własnej Przysięgi | Rodzinna broń z wymazanym znakiem dawnego oddziału |
+
+Każda ma trwały `instanceId`, właściciela lokalnego slotu, stopień 1–6, nazwę i historię. Etapy: odzyskana, naprawiona, zestrojona, nazwana, zahartowana, dziedziczona. ATK etapów: 8/10/12/14/16/18. Są to JAWNE NOWE statystyki, nie zamiennik obecnego miecza. Nie przepisuj istniejącego `sword` ani jego upgrade.
+
+Nowa broń zajmuje istniejący slot broni, działa przez `gear.attack`, ma porównanie przed założeniem, może być odłożona do własnego depozytu i ponownie założona. Nie dawaj premii za samą obecność w plecaku. Nie odblokowuj milcząco całego niepodłączonego katalogu `items/catalog.ts`.
+
+Etap i historia rozwijają się wraz z sześcioma zadaniami rasy. Kolejne ulepszenia wymagają również ukończenia odpowiedniego projektu P1–P5; etap 6 wymaga wszystkich sześciu projektów i osobistego finału. Wszystkie składniki mają gwarantowane źródło. Pełny plecak nie gubi nagrody: odbiór odkładasz albo stosujesz transakcyjny depozyt nagród, którego przedmiot nie istnieje jeszcze w plecaku. Każdy egzemplarz wydawany jest raz. Nie ma losowej utraty przedmiotu podczas ulepszania. Nazwa własna jest walidowanym tekstem 3–24 znaków, nigdy HTML.
+
+## 5. Fundament fabuły i zgodność z istniejącymi zadaniami
+
+Zachowaj motyw Chóru, Ciszy, czterech kultur i przemilczanej ceny ratunku sprzed 180 lat. Przed Chórem istniały wspólne szlaki, warsztaty, porty i spory o KI. Każda kultura zachowała inną część prawdy.
+
+Nowe nazwy Przymierze Siedmiu Rzek, Miasto nad Pierwszym Źródłem, Pierwszy Samodzielny Zapis i Dziewięć Palenisk opisują PRZESZŁOŚĆ, nie zastępują istniejących miast ani regionów.
+
+Nie zakładaj, że wszystkie 98 zadań księgi działa w runtime. Nowe łańcuchy mają własne ID `H-V01..06`, `H-A01..06`, `H-N01..06`, `H-P01..06`. Powiąż je z obecnymi prologami i dialogami, zachowując stare ID, nagrody i dokonania. Nie twórz drugiego zadania o tym samym przebiegu tylko pod nowym tytułem. Gdy istniejący quest obejmuje dany fragment historii, uznaj jego udokumentowaną flagę za spełniony etap i dodaj brakujące nowe działania.
+
+Nowa ścieżka musi być grywalna również przy nieukończonej głównej kampanii. Nie uzależniaj jej od niezaimplementowanego M24. Jeśli wspólny finał rzeczywiście ukończono, stosuj dialogi epilogowe; w przeciwnym razie mów o lokalnej naprawie i badaniu Chóru, nie o pokonaniu Veyra. Własny finał rasy nie kończy automatycznie całej kampanii. Nie wskrzeszaj Veyra jako identycznego wroga.
+
+Dla każdej rasy przygotuj pełną biografię 500–800 słów: dawny świat, życie codzienne, stosunek do KI, konflikt wewnętrzny, udział w katastrofie, dzisiejsze społeczeństwo i pochodzenie bohatera. Widok wyboru rasy pokazuje krótki wstęp bez spoilerów. Resztę odblokowuje kronika po rzeczywistych odkryciach; nie ujawniaj końca od początku.
+
+Każde z sześciu zadań ma rekomendowany zakres odpowiednio 1–5 / 6–10 / 11–15 / 16–20 / 21–30 / 31–40. To REKOMENDACJE, nie sztywne blokady poziomu. Warunki obowiązkowe wynikają z wcześniejszych dokonań i dostępności faktycznych mechanik. Poziom 40 nie przyznaje automatycznie żadnego finałowego tytułu.
+
+Wspólna tabela nagród dla H-01..06: XP 100/160/240/360/520/720, monety 30/40/60/80/100/140 i praktyka według sekcji 3.3. Każde zadanie ma wybór z widocznym skutkiem; warianty wyboru mają równą łączną nagrodę. Nie dodawaj ukrytego mnożnika mocy za wybór moralny. Projekty i próby nie dają dodatkowego XP ani monet. Jedna postać wykonuje pełne dziedzictwo własnej rasy, a pozostałe kultury poznaje przez ścieżki gościa bez kopiowania nagród i tytułów rasowych.
+
+## 6. PLANETARNI — WIĘŹ Z VERDANTIĄ
+
+### 6.1. Analiza i biografia do rozwinięcia w dialogi
+
+Planetarni są mobilnymi wojownikami żywej energii. Mają 125 HP, 50 KI, 12 ATK i 5 DEF na początku; przyrosty odpowiednio 36/4/4/2,4. Ich trzy gałęzie to Szlak Wędrowca, Żywa Ziemia i Pieśń Korzeni. Nowy rozwój ma nagradzać poznanie terenu i opiekę nad szlakami; nie kopiuj po raz drugi obecnego bonusu Adaptacji.
+
+Dawne Przymierze Siedmiu Rzek łączyło osady budowane przy nurtach KI. Kamienne domy splatano z pielęgnowanymi korzeniami, mosty miały własnych opiekunów, a targi przenosiły się razem z sezonowymi przeprawami. Wędrowcy Korzeni sprawdzali szlaki i ostrzegali przed zmianami energii. Kupcy i drwale spierali się ze strażnikami lasów o to, ile świat potrafi oddać bez trwałej szkody.
+
+Podczas Wielkiego Rozstrojenia starszyzna zgodziła się skierować falę energii i wodę do bocznych dolin. Na mapach nazwano je opuszczonymi, choć część rodzin nadal czekała na ratunek. Ocaleni trafili później do Zielonej Przystani. Ich nazwy miejsc i rodzinne pieśni stopniowo znikały z oficjalnej historii.
+
+Bohater zaczyna jako pomocnik utrzymania dróg. W rodzinnej skrzyni odnajduje znacznik osady nieobecnej na mapie. Aira rozpoznaje znak; Taro rozpoznaje dawny sposób obróbki metalu. Podróż prowadzi do potomków ludzi, których ratunek uznano kiedyś za zbyt kosztowny. Finałem jest ponowne połączenie społeczności, nie magiczne cofnięcie katastrofy.
+
+### 6.2. Dziedziny i możliwości
+
+Cztery dziedziny: Szlaki, Żywa Ziemia, Opieka, Pamięć Korzeni. Każda ma 3 stopnie z prób. Stopień Szlaków 1 umożliwia sprawdzanie śladów przy interakcji; 2 oznacza poznane skróty; 3 pozwala wyznaczyć trasę ratunkową. Żywa Ziemia odblokowuje diagnozę węzłów i projekty odbudowy. Opieka dostarcza rozwiązań zadań przy źródłach i obozach. Pamięć odblokowuje zapis pieśni oraz odczyty miejsc. To funkcjonalne interakcje z konkretnymi obiektami, nie radar odkrywający całą mapę przez ściany.
+
+Warianty mistrzowskie, odblokowanie po stopniu 2 odpowiedniej dziedziny:
+
+| ID | Technika | Korzyść | Koszt |
+|---|---|---|---|
+| `mv-trail` | A1 Szybki Unik | dystans ×1,20 | koszt KI ×1,25; czas nietykalności bez zmiany |
+| `mv-earth` | B1 Impuls Ziemi | promień ×1,20 | mnożnik obrażeń ×0,90; powtórne uderzenie B5 dziedziczy ten sam kompromis |
+| `mv-root` | C1 Korzenny Oddech | łączne leczenie ×1,10 | czas rozłożenia leczenia ×1,50, bez dodatkowych ticków ponad wyliczoną sumę |
+
+### 6.3. Sześć zadań — pełna ścieżka
+
+| ID i tytuł | Wymagane etapy | Wybór i trwały skutek |
+|---|---|---|
+| H-V01 Mapa zatopionych domów | Rozmowa z Airą; interakcja z rodzinną skrzynią; odczyt 3 różnych znaków dawnych domów; porównanie znaku z mapą i powrót | Udostępnij kopię mapy mieszkańcom albo najpierw przekazuj ją rodzinom; zmienia kolejność rozmów i wygląd tablicy, nie dostęp do dalszej fabuły. Broń etap 1. |
+| H-V02 Rzeka, która zawróciła | Zbadaj 2 przepusty; porozmawiaj z przedstawicielami obu osad; uruchom tymczasowe obejście; ukończ P-V1 i wróć do Airy | Wybierz kolejność stałych prac, a dla drugiej osady zapewnij dostawę; obie pozostają osiągalne. Broń etap 2. |
+| H-V03 Las nie rozpoznaje swoich | Sprawdź 3 znaczniki strażników; obserwuj 1 Strażnika Ruin; usuń fałszywe oznaczenie podczas aktywnej próby; przeprowadź posłańca z checkpointami | Przywróć stare uprawnienia po audycie albo zastąp je nowymi; zmienia tekst przy sanktuarium. Wymaga P-V2, broń etap 3. |
+| H-V04 Pieśń bez ostatniej zwrotki | Odwiedź 3 rodziny; przypisz 3 fragmenty do miejsc; odtwórz kolejność przy sanktuarium; porozmawiaj z ocalałym strażnikiem | Publiczny zapis pieśni albo zapis z chronionymi nazwiskami; obie wersje zachowują dowód. Wymaga P-V3, broń etap 4. |
+| H-V05 Korzenie pamiętają | Zabezpiecz 3 dowody z różnych źródeł; skonfrontuj kronikę z Airą; przygotuj świadkom bezpieczne spotkanie; przeprowadź zebranie | Najpierw naprawa i później publikacja albo wspólne ogłoszenie planu z dowodami; oba warianty uruchamiają te same projekty. Wymaga P-V4, broń etap 5. |
+| H-V06 Nowy szlak | Dokończ P-V5 i P-V6; zabezpiecz zewnętrzny odcinek nowej trasy; przeprowadź konwój przez 3 checkpointy; podpisz mapę w Zielonej Przystani | Trasa pod opieką rady albo sieci lokalnych opiekunów; zmienia obsadę i epilog. Broń etap 6 po wszystkich projektach. |
+
+Rozmowy nie mogą zaliczać się od dowolnego kliknięcia NPC: wymagają właściwej gałęzi dialogu i właściwego etapu.
+
+### 6.4. Projekty — sześć węzłów żywych szlaków
+
+| ID | Wymagania i działanie | Widoczny efekt |
+|---|---|---|
+| P-V1 Przepust Doliny | Po H-V01: diagnoza, 3 elementy z gwarantowanej skrzynki, ustawienie 3 zaworów | Wraca przepływ i znika blokada ścieżki; zmiana kolizji tylko lokalnego naprawianego obiektu |
+| P-V2 Most Wędrowców | Po H-V02: oględziny, odzyskanie 4 belek z oznaczonego składu, montaż | Osiągalny skrót, obecny również po reloadzie |
+| P-V3 Ogród Powrotu | Po H-V03: rozpoznaj 3 rośliny, przygotuj grunt, posadź i ustabilizuj KI | Rośliny i nowy zielarz; brak czekania czasu rzeczywistego |
+| P-V4 Przystań Świadków | Po H-V04: przygotuj 2 miejsca noclegowe i bezpieczne dojście | Powracają mieszkańcy z osobnymi dialogami |
+| P-V5 Latarnia Szlaku | Po H-V05: odzyskaj soczewkę, zestrój 3 znaki i przetestuj połączenie | Trasa jest oznaczona, możliwa dostawa do odciętej osady |
+| P-V6 Dom Pamięci Dolin | Po H-V05: zbierz zaakceptowane kopie 3 świadectw, przygotuj tablicę i otwórz dom | Publiczna kronika w wybranym wariancie prywatności |
+
+### 6.5. Dwanaście prób i trzy stopnie
+
+Wartości rozdzielone `/` dotyczą I/II/III. Poniższe cele są oceniane w próbach, nie przez swobodne farmienie świata.
+
+| ID / dziedzina | Próba i warunek |
+|---|---|
+| TV01 Szlaki | Ścieżka wiatru: 4/6/8 checkpointów w 180/210/240 s, maks. 2 wejścia w zagrożenie |
+| TV02 Szlaki | Tropy po deszczu: poprawnie wybierz 3/4/5 kolejnych śladów z 2/3/3 możliwości, maks. 1 pomyłka |
+| TV03 Szlaki | Posłaniec: bezpiecznie przeprowadź NPC przez 2/3/4 checkpointy, minimum 50% jego HP |
+| TV04 Żywa Ziemia | Otwarty przepływ: napraw 2/3/4 węzły w kolejności odczytanej ze środowiska |
+| TV05 Żywa Ziemia | Kamienny rytm: obejdź 4/6/8 zapowiedzianych uderzeń i wykonaj 2/3/4 skuteczne kontrataki |
+| TV06 Żywa Ziemia | Granica skażenia: oznacz i oczyść 3/4/5 prawidłowych miejsc; nie czyść zdrowych |
+| TV07 Opieka | Zapas dla wyprawy: rozpoznaj 3/4/5 składników z opisów, przygotuj właściwy zestaw |
+| TV08 Opieka | Źródło dla dwóch osad: rozdziel 4/6/8 jednostek przepływu zgodnie z podanym zapotrzebowaniem; zawsze istnieje rozwiązanie |
+| TV09 Opieka | Ostatni obóz: utrzymaj bezpieczne 2/3/4 punkty przez 45/60/75 s, stosując osłony terenu |
+| TV10 Pamięć | Pieśń miejsca: ułóż 3/4/5 motywów na podstawie znalezionych znaków |
+| TV11 Pamięć | Prawdziwa mapa: zestaw 2/3/4 ślady z właściwymi osadami, bez zgadywania ukrytego kodu |
+| TV12 Pamięć | Świadek doliny: wskaż 2/3/4 sprzeczności pomiędzy dostępnymi dokumentami |
+
+Tytuł `Strażnik Żywych Szlaków`: H-V06 + 6 projektów + wszystkie 12 prób na III stopniu. Nie daje dalszych statystyk. Zmienia zapis kroniki, dialog powitalny i odznaczenie postaci.
+
+## 7. MĘDRCY — KSIĘGA ZROZUMIENIA
+
+### 7.1. Analiza i biografia
+
+Mędrcy są dystansowymi użytkownikami KI z barierami i kanałami. Początek: 100 HP, 80 KI, 14 ATK, 3 DEF; przyrosty 28/7/4,6/1,6. Mają najniższą bazową odporność fizyczną i duże możliwości gospodarowania energią. Ich rozwój ma nagradzać rozumienie wzorów, przygotowanie i działanie w odpowiednim momencie. Nie rób z Mędrca wolniejszej Legendy z innym kolorem pocisku.
+
+Dawna Aetheria przechowywała wzorce KI w wodzie, kryształach i pieczęciach. Miasto nad Pierwszym Źródłem utrzymywało ogrody, szkoły leczenia i komnaty pamięci. Badacze nie byli jednomyślni: jedni bronili jawnego dostępu, inni powierzali interpretację wąskiej radzie. Odtworzona pamięć mogła być prawdziwa i jednocześnie niepełna.
+
+Po katastrofie część świadectw usunięto w imię ochrony jedności. Zniknęły nazwiska archiwistów, którzy odmówili poprawiania zapisów. Piękne ogrody Sanktuarium Tysiąca Źródeł wyrosły nad zamkniętymi poziomami archiwów.
+
+Bohater jest uczniem opiekującym się kronikami. Odnajduje dokument o uratowanej osadzie, którego zachowana pieczęć odtwarza inną scenę. Sora zna podpis autora. Gracz uczy się oddzielać dowód od interpretacji i chronić osoby, których pamięć staje się przedmiotem publicznego sporu.
+
+### 7.2. Dziedziny i warianty
+
+Cztery dziedziny: Pieczęcie, Bariery, Skupienie, Pamięć. Księga Zrozumienia zawiera 12 fragmentów w czterech rozdziałach. Fragment nie wypada losowo z potwora: wymaga znalezienia źródła, jego weryfikacji i zapisanej decyzji. Zbieranie rozdziałów i próby mają wspólne powiązania, ale nie wydają dwukrotnie praktyki.
+
+| ID | Technika | Korzyść | Koszt |
+|---|---|---|---|
+| `ma-seal` | A1 Pieczęć Energii | opóźnienie detonacji ×0,80 | koszt KI ×1,25; obrażenia bez wzrostu |
+| `ma-barrier` | B1 Świetlista Bariera | czas działania ×1,50 | pojemność ×0,80, również po bonusie Kopuły |
+| `ma-focus` | C1 Skupienie KI | odzysk KI ×1,20 | czas kanału ×1,50; zasady przerywania i C8 pozostają zgodne z kanonem |
+
+Odblokowanie: II stopień odpowiednio Pieczęci / Barier / Skupienia. Pamięć odblokowuje możliwości śledcze i kroniki, bez czwartego bonusu bojowego.
+
+### 7.3. Zadania
+
+| ID i tytuł | Wymagane etapy | Wybór i skutek |
+|---|---|---|
+| H-A01 Biała strona | Rozmowa z Sorą; porównanie zapisu i pieczęci; zbadanie 2 kopii; zapis pierwszego świadectwa | Najpierw konsultacja autora albo jawne pytanie do rady; zmiana rozmowy, bez utraty dowodu. Kostur etap 1. |
+| H-A02 Źródło dwóch wspomnień | Zdobądź 2 relacje; odtwórz je w urządzeniu; zaznacz 2 zgodności i 1 różnicę; ukończ P-A1 | Zapis osobnych relacji albo wspólnego komentarza z przypisami. Kostur etap 2. |
+| H-A03 Archiwista bez imienia | Znajdź podpis; porozmawiaj z krewnym; odszukaj 3 oznaczone ślady pracy; odczytaj chroniony list po uzyskaniu zgody | Zachowanie prywatnego imienia lub publikacja za zgodą rodziny. P-A2, kostur etap 3. |
+| H-A04 Biblioteka pod ogrodem | Otwórz legalną drogę dostępu; rozwiąż 3 zabezpieczenia; odzyskaj uszkodzony zapis; przetestuj spójność rekonstrukcji | Przywrócenie starego archiwum z audytem albo założenie nowego rejestru kopii. P-A3, etap 4. |
+| H-A05 Cena ujawnienia | Porównaj 3 źródła; uzyskaj zgody 2 świadków; przygotuj bezpieczne przekazanie; przeprowadź wysłuchanie | Jawny dokument z anonimizacją albo odroczona publikacja wskazanych danych; prawda o zdarzeniu zachowana. P-A4, etap 5. |
+| H-A06 Kronika z pustym miejscem | Ukończ P-A5 i P-A6; ustabilizuj archiwum podczas awarii; zachowaj 3 kopie; otwórz nowy rozdział księgi | Archiwum publiczne z opieką świadków albo rozproszone kopie z jawnym katalogiem. Etap 6. |
+
+### 7.4. Projekty
+
+| ID | Działania | Trwały efekt |
+|---|---|---|
+| P-A1 Źródło Porównania | Po H-A01: oczyść 2 kanały, zestrój pojemnik, sprawdź 2 wzorce | Działające stanowisko porównywania pamięci |
+| P-A2 Czytelnia Imion | Po H-A02: odzyskaj regał, ułóż 3 świadectwa, zapisz zasady dostępu | Czytelnia i rozmówca archiwista |
+| P-A3 Pieczęć Opiekuna | Po H-A03: zbadaj 3 elementy, wykonaj rytuał, przetestuj barierę | Bezpieczne wejście do komnaty badań |
+| P-A4 Pokój Świadków | Po H-A04: przygotuj pomieszczenie, zgodę i drogę dojścia | Świadkowie dostępni w bezpiecznym mieście |
+| P-A5 Kopia dla Sąsiadów | Po H-A05: przygotuj 3 kopie, wybierz opiekunów i dostarcz je | Rejestry w trzech punktach, zmienione dialogi |
+| P-A6 Ogród Pamięci | Po H-A05: zrekonstruuj 3 wpisy zgodnie ze zgodami, ustaw tablice | Ogród pokazujący właściwe imiona/anonimizację |
+
+### 7.5. Próby
+
+| ID / dziedzina | Warunek I/II/III |
+|---|---|
+| TA01 Pieczęcie | Odczytaj 3/4/5 symboli na podstawie dostępnego klucza |
+| TA02 Pieczęcie | Rozpoznaj 2/3/4 zmienione elementy między wzorcem a kopią |
+| TA03 Pieczęcie | Uruchom 3/4/5 pieczęci w podanej zależności, maks. 1 błędna aktywacja |
+| TA04 Bariery | Osłoń obiekt przed 3/4/5 falami, pozostaw minimum 50% jego HP |
+| TA05 Bariery | Ustaw 2/3/4 zwierciadła, przeprowadź promień bez dotknięcia chronionego punktu |
+| TA06 Bariery | Wykorzystaj osłonę w 3/4/5 zapowiedzianych oknach; reakcja 1800/1500/1300 ms |
+| TA07 Skupienie | Ukończ 2/3/4 cykle przepływu bez przerwania; sygnały min. 1500 ms |
+| TA08 Skupienie | Zasil 3/4/5 celów w limicie 70/65/60% testowego KI |
+| TA09 Skupienie | Utrzymaj 2/3/4 węzły przez 45/60/75 s, bez stania w oznaczonej strefie zagrożenia |
+| TA10 Pamięć | Dopasuj 3/4/5 fragmentów do ich źródeł |
+| TA11 Pamięć | Wskaż 2/3/4 twierdzenia niepotwierdzone dowodami; wszystkie źródła są dostępne |
+| TA12 Pamięć | Odtwórz 3/4/5 zdarzeń w kolejności; zachowaj oznaczenie jednego nieznanego faktu zamiast zgadywać |
+
+Tytuł `Powiernik Żywej Pamięci`: finał + projekty + wszystkie próby III. Medytacja jest aktywnym ćwiczeniem; AFK nie daje rozwoju.
+
+## 8. ANDROIDY — WARSZTAT WŁASNEJ KONSTRUKCJI
+
+### 8.1. Analiza i biografia
+
+Androidy łączą dystans, precyzję i osłony z Ładunkiem Rdzenia. Początek: 115 HP, 60 KI, 12 ATK, 7 DEF; przyrosty 34/5/3,8/3. Ich mocną stroną jest obrona i powtarzalne działanie, a ograniczeniem konieczność gospodarowania rdzeniem. Zachowaj C7/C8: maksymalnie 150 albo stabilne 70, odpowiednie przegrzanie i efekty Trybu KI. Nie zakładaj wszędzie stałego maksimum 100.
+
+Nexus wyrósł wokół instalacji, które utrzymywały przepływ KI. Pierwsze jednostki naprawiały uszkodzenia, prowadziły ratunek i pracowały w skażeniu. Z czasem zapisywały wspomnienia niepotrzebne do wykonania zadania. Pierwszy Samodzielny Zapis stał się symbolem uznania syntetycznej osoby za coś więcej niż funkcję.
+
+Przed katastrofą działały warsztaty rodzinne, publiczne stacje regeneracji i miejsca wymiany pamięci. Podczas ewakuacji algorytmy uznały część mieszkańców za nieautoryzowany koszt. Jednostki, które odmówiły odłączenia sąsiadów, zapisano jako uszkodzone. Nowe ulice przykryły stare warsztaty i odłączone rejestry.
+
+Bohater budzi się po naprawie. Rejestr twierdzi, że nigdy nie opuszczał Nexusa, a on pamięta zalaną dolinę. LYRA-7 odnajduje ślad rozkazu, którego nie powinno być w jego historii. Gracz odkrywa własny udział w dawnych wydarzeniach i wybiera sposób dalszego działania; odzyskana pamięć nie narzuca mu osobowości.
+
+### 8.2. Dziedziny, moduły i warianty
+
+Cztery dziedziny: Kalibracja, Termika, Konstrukcja, Tożsamość. Kalibracja i Termika dają pomiary w panelu oraz próby. Konstrukcja odblokowuje schematy. Tożsamość odblokowuje zweryfikowane fragmenty pamięci i dialogi. Bez ukrytej premii ATK za wybór charakteru.
+
+Trzy gniazda modułów, budżet energii 10. Moduł jest unikalnym odblokowaniem postaci; nie duplikuj go w stosach przedmiotów. Nie można założyć dwóch identycznych. Moduły zmieniaj tylko w warsztacie/bezpiecznym mieście, poza walką, z czytelnym wynikiem porównania.
+
+| ID / koszt energii | Efekt i kompromis | Gwarantowane odblokowanie |
+|---|---|---|
+| `mn-cooling` / 4 | opadanie Ładunku poza strzelaniem ×1,20; maks. KI ×0,90 | H-N02 + P-N1 |
+| `mn-optics` / 4 | zasięg zwykłego strzału ×1,10; ATK ×0,94 | II stopień Kalibracji |
+| `mn-shield` / 4 | pojemność B1 ×1,10; czas B1 ×0,90 | II stopień Konstrukcji |
+| `mn-precision` / 3 | +2 punkty procentowe krytyka; maks. KI ×0,95 | TN03 II |
+| `mn-scanner` / 2 | pokazuje po interakcji stan znanych instalacji w obrębie lokalnej odkrytej strefy; bez premii bojowej | H-N01 |
+| `mn-routing` / 3 | mnożnik kosztu KI −0,05; cooldowny aktywnych zdolności ×1,10, bez zmiany R i T | II stopień Termiki |
+
+Moduły nie zmieniają limitów rdzenia ani zasad C7/C8/T. Cooling działa tylko tam, gdzie już działa opadanie Ładunku. Shield nie aktywuje niepoznanego B1. Wszystkie dodatnie i ujemne efekty są rzeczywiste. Wymień w testach ich kolejność względem treningu, talentów i buffów; wynik musi być niezależny od kolejności zakładania.
+
+Warianty, jeden aktywny jak u innych ras:
+
+| ID | Technika | Korzyść | Koszt |
+|---|---|---|---|
+| `mn-mark` | A1 Namierzanie | czas oznaczenia ×1,50 | koszt KI ×1,25 |
+| `mn-barrier` | B1 Tarcza Plazmowa | pojemność ×1,15 | czas działania ×0,80 |
+| `mn-discharge` | C1 Wyładowanie Rdzenia | szerokość linii ×1,25 | obrażenia ×0,90; zużycie Ładunku bez zmiany |
+
+Odblokowanie odpowiednio II stopień Kalibracji / Konstrukcji / Termiki. Wariant C1 współpracuje ze wszystkimi limitami Ładunku i faktyczną geometrią linii.
+
+### 8.3. Zadania
+
+| ID i tytuł | Wymagane etapy | Wybór i skutek |
+|---|---|---|
+| H-N01 Pakiet bez nadawcy | Rozmowa z LYRĄ; diagnostyka rdzenia; odczyt 2 rozbieżnych logów; zapis podpisu pakietu | Audyt jawny albo audyt z chronionymi danymi jednostek. Emiter etap 1, skaner. |
+| H-N02 Warsztat, którego nie ma | Odnajdź rejestr części; odwiedź zamknięty warsztat; przeprowadź diagnostykę 3 urządzeń; ukończ P-N1 | Najpierw stanowisko własne albo wspólne stanowisko napraw; docelowo obie funkcje dostępne. Etap 2, cooling. |
+| H-N03 Jednostka poza listą | Znajdź odłączoną jednostkę; uzyskaj zgodę na naprawę; przygotuj alternatywne zasilanie; przeprowadź ją do bezpiecznej stacji | Tymczasowa rejestracja za zgodą albo dostęp przez niezależną stację. P-N2, etap 3. |
+| H-N04 Rozkaz w pamięci | Odszukaj 3 podpisane fragmenty; sprawdź ich pochodzenie; porównaj z relacją z Verdantii; zrekonstruuj zdarzenie | Zachowaj oryginalne logi z komentarzem albo dołącz publiczną kopię z anonimizacją; nie kasuj jedynego dowodu. P-N3, etap 4. |
+| H-N05 Prawo do odmowy | Zdiagnozuj awarię; odrzuć automatyczne poświęcenie jednostki; odzyskaj bezpieczny komponent z wyznaczonego miejsca; uruchom obejście | Układ rozproszony albo nadzorowany węzeł z możliwością odłączenia. P-N4, etap 5. |
+| H-N06 Pierwszy zapis własny | Ukończ P-N5 i P-N6; poprowadź ręczną procedurę awaryjną; uruchom publiczny warsztat; podpisz własny wpis tożsamości | Wybierz opis roli: badacz, opiekun lub konstruktor; zmienia kronikę i powitanie, bez statystyk. Etap 6. |
+
+### 8.4. Projekty warsztatu
+
+| ID | Działania | Efekt |
+|---|---|---|
+| P-N1 Przywrócone Zasilanie | Po H-N01: odzyskaj 3 bezpieczniki z oznaczonej szafy, połącz 3 przewody, wykonaj test | Warsztat ma światło i stanowisko modułów |
+| P-N2 Stół Własnej Konstrukcji | Po H-N02: 3 części z odzysku, montaż i kalibracja | Stanowisko wytwarzania emitera i porównania konfiguracji |
+| P-N3 Archiwum Podpisów | Po H-N03: przygotuj 3 kopie, zweryfikuj sygnatury, zabezpiecz dostęp | Czytelne, odblokowywane logi postaci |
+| P-N4 Stacja Dobrowolnej Regeneracji | Po H-N04: napraw stację, dodaj ręczne wyłączenie, sprawdź zgodę użytkownika | Powraca naprawiona jednostka i nowe rozmowy |
+| P-N5 Stanowisko Testów | Po H-N05: 3 cele, pomiar temperatury, próba bezpieczeństwa | Panel pomiaru realnej konfiguracji, bez darmowego leczenia |
+| P-N6 Otwarty Warsztat | Po H-N05: przygotuj 3 zlecenia mieszkańców i rozdziel stanowiska | W warsztacie pracują konkretne uratowane jednostki |
+
+### 8.5. Próby
+
+| ID / dziedzina | Warunek I/II/III |
+|---|---|
+| TN01 Kalibracja | Traf 4/6/8 celów w ustalonej kolejności, maks. 2 chybienia |
+| TN02 Kalibracja | Traf 3/4/5 ruchomych celów; prędkość 40/55/70 j./s, bez strzelania przez przeszkodę |
+| TN03 Kalibracja | Oznacz i traf 3/4/5 właściwych celów wśród wabików, bez trafienia chronionego celu |
+| TN04 Termika | Wykonaj 6/9/12 udanych strzałów i 1/2/3 wyładowania bez przegrzania w testowym profilu |
+| TN05 Termika | Utrzymuj Ładunek w 25–65% aktualnego maksimum przez 15/20/25 aktywnych sekund |
+| TN06 Termika | Rozładuj rdzeń w 2/3/4 wskazanych oknach, zachowaj koszt i limit właściwego profilu |
+| TN07 Konstrukcja | Połącz 3/4/5 elementów obwodu według jawnego schematu |
+| TN08 Konstrukcja | Dobierz 2/3/3 moduły do podanych wymagań i budżetu 6/8/10; przynajmniej jedno rozwiązanie |
+| TN09 Konstrukcja | Zdiagnozuj 2/3/4 awarie na podstawie pomiarów, wymień właściwe części |
+| TN10 Tożsamość | Zweryfikuj podpisy 3/4/5 logów, wskaż niezgodny wpis |
+| TN11 Tożsamość | Odtwórz 3/4/5 zdarzeń z logów i świadectw, zaznacz brakujące dane |
+| TN12 Tożsamość | Wykonaj 2/3/4 ręczne kroki ratunkowe bez nieuprawnionego resetu pamięci jednostki |
+
+Tytuł `Architekt Własnej Woli`: finał + projekty + próby III. Sama wymiana modułu nigdy nie jest zdarzeniem zdobycia praktyki.
+
+## 9. LEGENDY — DROGA WYKUCIA
+
+### 9.1. Analiza i biografia
+
+Legendy walczą w zwarciu, budują Żar i wykorzystują krótkie okna dużej siły. Początek: 140 HP, 40 KI, 14 ATK, 4 DEF; przyrosty 42/3/4,6/2. Mają dużo HP i mały zasób KI. Nowy rozwój powinien uczyć gospodarowania mocą oraz doskonalenia ciała, a nie rozdawać im kolejne nieograniczone mnożniki obrażeń. Zachowaj działanie Żaru, T, A7/A8 i wszystkich wykluczeń.
+
+Dawna Pyra była wspólnotą osad przy wielkich paleniskach. Dziewięć Palenisk przechowywało szkoły walki, sztukę obróbki metalu i obowiązki wobec podróżnych. Wojownicy budowali przejścia przez zbocza, ochraniali karawany i ratowali osady podczas erupcji. Dobry mistrz potrafił zarówno wyprowadzić cios, jak i go zatrzymać.
+
+Z czasem niektóre klany utożsamiły honor z posłuszeństwem. Podczas katastrofy strażnicy jednego przejścia opuścili posterunek, żeby ewakuować mieszkańców. Dowództwo uznało ich za zdrajców, a ich imiona skuto z pomników. Ocaleni pamiętali inną opowieść.
+
+Bohater jest uczniem na placu treningowym i potomkiem jednego z tamtych strażników. Ma predyspozycje do silnego Żaru, ale traci tempo i za szybko zużywa KI. Rodzinna broń, znak rozpoznany przez Goro i pomoc Kaeny prowadzą go do prawdy. Celem staje się własna przysięga potwierdzona czynem, a nie samo przywrócenie rodzinie dawnej sławy.
+
+### 9.2. Dziedziny i warianty
+
+Cztery dziedziny: Ciało, Kontrola Żaru, Pojedynek, Przysięga. Ciało korzysta ze wspólnego treningu; nie dodaje drugiego ukrytego zestawu premii. Przysięga zapisuje dokonania ratunkowe i decyzje. Każda z sześciu szkół może prowadzić dwie z poniższych prób; nie musisz tworzyć sześciu nowych dużych aren.
+
+| ID | Technika | Korzyść | Koszt |
+|---|---|---|---|
+| `mp-cuts` | A1 Ogniste Cięcie | suma obrażeń serii ×1,10 | koszt KI ×1,25; liczba i terminy cięć zgodne z A7 i istniejącym runtime |
+| `mp-break` | B1 Przełamanie | czas ogłuszenia ×1,25 | bezpośrednie obrażenia ×0,90; zniszczenie osłon bez zmiany |
+| `mp-burst` | C1 Wybuch KI | promień ×1,20 | obrażenia ×0,90; powiązane podpalenie nie dostaje ukrytej dodatkowej premii |
+
+Odblokowanie odpowiednio II stopień Pojedynku / Ciała / Kontroli Żaru. Przysięga odblokowuje finałowe sceny i projekty. Próby kontroli Żaru mają własny profil z odpowiednimi zdolnościami i nie zmuszają do resetowania głównego drzewka.
+
+### 9.3. Zadania
+
+| ID i tytuł | Wymagane etapy | Wybór i skutek |
+|---|---|---|
+| H-P01 Imię pod popiołem | Rozmowa z Kaeną; odczyt skutej inskrypcji; oględziny rodzinnej broni u Goro; porównanie znaku z kroniką | Szukanie świadków przed publicznym oskarżeniem albo jawne pytanie do klanów. Broń etap 1. |
+| H-P02 Próba przerwania ciosu | Instruktaż Kenza; zalicz 3 okna powstrzymania ataku; przeprowadź ćwiczebny ratunek; ukończ P-P1 | Wybierz szkołę opanowania lub szkołę ochrony; różne dialogi, identyczny dostęp do prób. Etap 2. |
+| H-P03 Kowadło po mistrzu | Zbadaj 3 znaki na broni; odnajdź notatkę mistrza; przygotuj gwarantowany materiał; przeprowadź hartowanie | Zachowaj dawny znak z komentarzem lub dołącz własny znak obok niego. P-P2, etap 3. |
+| H-P04 Ci, którzy zawrócili | Odwiedź 3 ślady ewakuacji; porozmawiaj z potomkiem ocalałych; porównaj mapę i rozkaz; doprowadź do spotkania świadków | Opowieść rodu albo wspólna kronika oddziału; żadna nie usuwa świadectw innych. P-P3, etap 4. |
+| H-P05 Pojedynek bez widowni | Przygotuj warunki spotkania; przejdź 3 fazy próby z mistrzem; przerwij na jego poddanie; przyjmij zeznanie | Zeznanie publiczne albo przekazane radzie z jawną informacją o jego istnieniu. P-P4, etap 5. |
+| H-P06 Przysięga dla jutra | Ukończ P-P5 i P-P6; uruchom trasę ewakuacji; osłoń 3 punkty odwrotu poza miastem; wypowiedz własną przysięgę | Opiekun szlaku, nauczyciel lub obrońca osad; odmienny epilog, równe nagrody. Etap 6. |
+
+Poddanie mistrza jest odrębnym stanem spotkania; nie może wymagać zabicia NPC, a dodatkowy cios po zakończeniu nie niszczy kampanii. W przypadku pomyłki ponów ćwiczebny etap i pokaż przyczynę.
+
+### 9.4. Projekty
+
+| ID | Działania | Efekt |
+|---|---|---|
+| P-P1 Plac Opanowania | Po H-P01: przygotuj 3 cele, ustaw oznaczenia, wykonaj próbę bezpieczeństwa | Działające próby kontroli, instruktor w mieście |
+| P-P2 Rodzinne Kowadło | Po H-P02: odzyskaj 3 części, napraw palenisko, przetestuj temperaturę | Stanowisko rozwoju osobistej broni |
+| P-P3 Szlak Dawnej Straży | Po H-P03: usuń 3 lokalne przeszkody i odtwórz znaki | Nowe przejście, bez zmiany kontynentalnej geometrii |
+| P-P4 Tablica Uratowanych | Po H-P04: zbierz 3 zgody/wpisy, przygotuj tablicę i odsłonięcie | Wracają nazwiska i reakcje mieszkańców |
+| P-P5 Schronienie na Trakcie | Po H-P05: przygotuj zaopatrzenie, wejście i 2 punkty zbiórki | Bezpieczny punkt odpoczynku; bez darmowych resetów cooldownów |
+| P-P6 Dziewiąte Palenisko | Po H-P05: uzgodnij 3 zasady szkoły, przygotuj palenisko i zaproś uczniów | Osobiste miejsce nauki i epilog szkoły bohatera |
+
+### 9.5. Próby
+
+| ID / dziedzina | Warunek I/II/III |
+|---|---|
+| TP01 Ciało | Przejdź 4/6/8 odcinków z obciążeniem w 180/210/240 s, minimum 30% HP |
+| TP02 Ciało | Wykonaj 3/4/5 skutecznych przełamań w otwartym oknie, maks. 2 chybione akcje |
+| TP03 Ciało | Ukończ 2/3/4 fale przeciwników testowych z zaplanowanymi przerwami i ograniczonym leczeniem |
+| TP04 Kontrola Żaru | Utrzymuj Żar 30–70 przez 15/20/25 aktywnych sekund, bez T w tej próbie |
+| TP05 Kontrola Żaru | Wykonaj 1/2/3 poprawne zużycia Żaru w oznaczonym oknie, z zasobu osiągniętego legalnie |
+| TP06 Kontrola Żaru | Wykonaj 3/4/5 akcji w limicie 70/65/60% KI; bez mikstur i darmowego zasilania |
+| TP07 Pojedynek | Traf 3/4/5 kontrataków po uniknięciu zapowiedzi; maks. 2 otrzymane trafienia |
+| TP08 Pojedynek | Powstrzymaj 3/4/5 zapowiedzianych prób ataku na poddającego się cel; zadawaj ciosy wyłącznie w dozwolonych oknach |
+| TP09 Pojedynek | Przejdź 2/3/4 sekwencje ustawienia, ataku i odwrotu; sprawdzaj geometrię, nie samą liczbę kliknięć |
+| TP10 Przysięga | Ocal 1/2/3 NPC na trasie z checkpointami; przeciwnicy pozostają poza miastem |
+| TP11 Przysięga | Utrzymaj 2/3/4 punkty odwrotu przez 45/60/75 s, chroniony obiekt minimum 50% HP |
+| TP12 Przysięga | Zakończ 2/3/4 kroki ratunku z decyzją o przerwaniu pościgu i powrocie do osłony |
+
+Tytuł `Płomień Własnej Przysięgi`: finał + projekty + próby III. Trening siły i Żaru ma być rzeczywiście widoczny w postępie i zachowaniu, a nie tylko w opisie postaci.
+
+## 10. Bestiariusz, odkrywanie i treść 21–40
+
+### 10.1. Cztery stopnie poznania
+
+Rozszerz obecny bestiariusz o postęp dla wszystkich 40 kanonicznych gatunków:
+
+1. Zauważony: rzeczywisty kontakt wzrokowy w określonym zasięgu i LOS; nie samo pobranie atlasu lub otwarcie mapy.
+2. Obserwowany: zaobserwowanie charakterystycznego ataku/zachowania przy żywej jednostce; zdarzenie z runtime.
+3. Zbadany: interakcja z oznaczonym śladem/materiałem badawczym i rozmowa/badanie; zapewnij gwarantowany sposób pozyskania dowodu.
+4. Opanowany: zaliczenie krótkiej próby zachowania danego gatunku albo odpowiadającego mu celu w wyprawie, bez wymogu setek zabójstw.
+
+Pełny wpis daje raz 50 praktyki. Baza informacji, nazwy i gatunki pochodzą z aktualnego źródła właściciela. Oddzielaj informację fabularną od faktycznie obsługiwanej słabości; nie obiecuj obrażeń wodą, jeśli taka mechanika nie działa. Dla nowych wariantów 21–40 zapisuj osobne odkrycie wariantu bez kolejnej nagrody 50 za ten sam gatunek.
+
+### 10.2. Nowe warianty przeciwników 21–40
+
+Dodaj jawny katalog `developmentEncounters` oddzielony od kanonicznych plików generowanych. Zdefiniuj po dwa wykorzystywane archetypy na kulturę: strażnik i szybki/obszarowy przeciwnik. Wybierz faktyczne obecne ID, np. Strażnik Ruin i Leśny Pająk, Lew Świątyni i Marionetka Rytuału, Strażnik Rdzenia i Pies Łowca, Golem Ruin i Byk Areny. Sprawdź ID w katalogu, nie zgaduj slugów.
+
+Dla każdego z 8 archetypów dodaj 4 jawne warianty poziomów 22/28/34/40. Rekomendowane początkowe parametry nowych definicji:
+
+- HP `round((180 + 42*L) * hpFactor)`;
+- ATK `round((12 + 3.2*L) * attackFactor)`;
+- DEF `round((5 + 1.3*L) * defenseFactor)`;
+- XP `round((100 + 60*(L-1))*0.08)`;
+- profil szybki: mnożniki HP/ATK/DEF = 0,75/0,90/0,85, bazowy odstęp 800 ms;
+- profil dystansowy: 0,90/1,00/1,00, odstęp 1100 ms;
+- profil ciężki: 1,60/1,15/1,30, odstęp 1500 ms.
+
+To nowe dane balansu z tego zlecenia, nie zmiana starych potworów. Parametry są punktem startowym: wykonaj symulacje i poprawiaj nowy katalog, jeśli spotkania są nierówne lub niegrywalne. Zapisz ostateczne liczby i powód zmian.
+
+Zachowaj czytelne wzorce zachowania archetypu i dotychczasową nawigację. Trzy warianty układu spotkań w każdej późnej wyprawie: pojedynczy ciężki wróg, para uzupełniających się ról, zadanie ochrony obiektu z falami. Trudność nie może wynikać wyłącznie z wielokrotnie większego HP. Nowe grupy aktywują się tylko w przypisanych osiągalnych strefach/wyprawach, poza miastami; nie wymieniaj po cichu wszystkich istniejących spawnów i nie skaluj całego świata do poziomu gracza.
+
+Przegraną można ponowić. Nagrody jednorazowe z celów nie wracają; zwykły XP za rzeczywiste pokonanie powracającego przeciwnika może pozostać powtarzalny, zgodnie z jawną polityką wyprawy. Nie pozwól wejściem/wyjściem natychmiast odnawiać skrzyń lub nagród.
+
+## 11. Rzeczywista integracja z kodem — jedna odpowiedzialność
+
+Przed edycją prześledź cały obieg: polecenie użytkownika → sesja/kit → trafienie → zdarzenie → cel → nagroda → zapis → snapshot → UI.
+
+Potwierdzone punkty wejścia na referencyjnym SHA:
+
+| Obszar | Aktualne pliki / odpowiedzialność |
+|---|---|
+| Sesja i stan postaci | `src/game/session.ts`, `PlayerSchema`, `stats()`, `statsPort()`, nagrody, komendy i snapshot |
+| Obliczenia i kity | `src/game/kit/base.ts`, `types.ts`, `progression.ts`, cztery kity i kanoniczne `nodes.generated.ts` |
+| Aktywna planeta | `src/game/world/generated/superiorRuntime.ts`, `superiorSave.ts`, `superiorCharacters.ts`, `worldVersion.ts` |
+| Zadania | `src/game/quests/types.ts`, `engine.ts`, `v2Tracker.ts`, cztery pliki ras i zadania międzykontynentalne |
+| Dialogi | `src/game/dialogue/types.ts`, `index.ts`, `verdant.ts`, `aether.ts`, `nexus.ts`, `pyra.ts` |
+| Katalog przedmiotów | `src/game/items/types.ts`, `catalog.ts`, `recipes.ts`; sprawdź realne użycie przez runtime |
+| Render/input | `src/game/mountGame.ts`; reguły nie mogą żyć wyłącznie w Phaserze |
+| UI | odszukaj aktualne `GameHud`, `CityPanels`, `AdventurePanels`, `QuestsV2Journal`, `GraphicSkillTree`; nie twórz kopii całego HUD |
+
+Ważne rozróżnienia:
+
+- `session.ts` nadal ma swój kontrakt przedmiotów `potion/tusk/sword/vest`. Duży katalog `items/catalog.ts` nie jest dowodem, że wieloslotowe wyposażenie działa. Występują też różnice wartości, np. kamizelki. Nie importuj katalogu hurtowo i nie zmieniaj istniejących cen/statystyk.
+- `questsV2` ma globalny modułowy stan i osobny zapis `ki_legends_save_v5`; tracker przekazuje nagrody na podstawie zmian pól do sesji. To nie jest atomowa, powiązana z każdym slotem księga nowych nagród. Nie buduj nowych mechanik na założeniu, że taki kontrakt już istnieje.
+- `SuperiorSaveStore` ma własną kopertę/wersję oraz `PlayerSchema` wewnątrz. Nie utożsamiaj wersji tej koperty z historycznym zapisem sesji v5 i zapisem questsV2 v5.
+- Nazwa katalogu `world/generated` nie oznacza, że każdy plik `.ts` w nim jest generowany. Sprawdź źródło; adaptery runtime można rozszerzyć zgodnie z ich rolą.
+
+### 11.1. Nowy moduł domenowy
+
+Dodaj spójny, testowalny moduł, np. `src/game/development/`, z katalogiem treści, typami, walidacją, reduktorem, obliczaniem efektów, obsługą prób i adapterem zapisu. Nazwy plików dobierz do repo. Nie twórz drugiego `GameSession` jako konkurencyjnego silnika; próby korzystają z tej samej klasy w odizolowanym stanie testowym.
+
+Minimalny stan per postać:
+
+```ts
+type DevelopmentState = {
+  version: 1;
+  practiceEarned: number;
+  practiceSpent: number;
+  training: Record<TrainingDiscipline, number>;
+  passedExamIds: string[];
+  trialBest: Record<string, TrialResult>;
+  heritage: HeritageQuestProgress;
+  projectStates: Record<string, ProjectProgress>;
+  knowledge: Record<string, KnowledgeProgress>;
+  unlockedVariants: string[];
+  activeVariantId: string | null;
+  unlockedModules: string[];
+  equippedModuleIds: string[];
+  heritageWeapon: HeritageWeaponState | null;
+  rewardReceipts: Record<string, RewardReceipt>;
+  chronicleFlags: Record<string, boolean>;
+  narrativeChoices: Record<string, string>;
+};
+```
+
+To kontrakt znaczeniowy, nie kod do bezrefleksyjnego wklejenia. Użyj dokładnych unii, schematów Zod i typów repo. `practiceAvailable = practiceEarned - practiceSpent` musi zgadzać się z kosztem rozdzielonych stopni; reset zwraca tylko faktycznie wydaną praktykę.
+
+Definicja zadania/projektu/próby ma stabilne ID, wersję, przynależność do rasy, prerequisites, etapy, prawdziwe typy celów, warunki porażki, wybory, nagrody, bindingi świata i politykę ponowień. Rozszerz istniejące typy celów o `inspect`, `solve`, `train`, `protect`, `repair`, `craft`, `consent` itp. tylko tam, gdzie istnieje obsługa w sesji/adapterze. Nie dodawaj dowolnego stringa, którego nikt nie wykonuje.
+
+Nowe rozdziały korzystają z jednego runtime celów. Jeśli istniejący quest engine da się bezpiecznie rozszerzyć i powiązać ze slotem — wykorzystaj go. Jeżeli jego globalny zapis blokuje atomowość, wydziel współdzielony czysty reducer do użycia przez nowy moduł i starego adaptera. Nie przepisuj hurtowo starej kampanii. Stare questy nie mogą się podwójnie wypłacać po podłączeniu nowego adaptera.
+
+### 11.2. Źródło prawdy i transakcje
+
+Cały nowy postęp, zasoby, broń i potwierdzenia nagród zapisuj w tej samej kanonicznej kopercie konkretnej postaci co jej poziom i ekwipunek. Nie dodawaj następnego globalnego localStorage dla treningu lub warsztatu.
+
+Nagroda ma stały klucz biznesowy, np. `heritage:H-V01:v1`, `trial:TV01:tier:2:v1`, `project:P-N1:v1`, `bestiary:<species>:complete:v1`. Sam losowy `eventId` nie wystarcza, bo powtórzenie tej samej nagrody po reloadzie mogłoby mieć nowy event.
+
+Przy zatwierdzaniu: sprawdź warunki i ownership → oblicz nowy stan → sprawdź pojemności/limity → zapisz jednym CAS całość (w tym XP, monety, praktykę, przedmiot i receipt) → opublikuj snapshot i efekt prezentacji. Nie zapisuj osobno „quest ukończony” i osobno wypłaty. Przy błędzie zapisu nie pokazuj trwałego sukcesu i nie zostawiaj wypłaconego stanu w pamięci bez jasnej obsługi odzyskiwania. Nie używaj przyrostu bieżącego `xp` do wykrywania nowej nagrody; XP może zawinąć się przy awansie.
+
+Eventy pochodzą z rzeczywistej sesji i niosą m.in. owner/character, source, encounter/attempt, target, outcome i sequence. Zwaliduj wybrany cel oraz aktywny etap. Kliknięcie mapy nie jest odkryciem, kliknięcie manekina nie jest zabójstwem, odmowa zgody nie jest udzieleniem zgody. Walka pozorna nie nalicza zwykłego bestiariusza/łupu.
+
+Przechowuj skończone receipt IDs wynikające z katalogu. Bufor deduplikacji surowych zdarzeń musi być ograniczony i czyszczony zgodnie ze stanem spotkania; nie zapisuj bez końca każdego trafienia. Nie usuwaj przy tym jednorazowych potwierdzeń nagród.
+
+### 11.3. Wersje i migracja
+
+Zidentyfikuj wszystkie aktywne formaty i bumpuj tylko rzeczywiście zmieniane koperty. Zachowaj bajty przed migracją, oryginalny klucz i konflikt oczekiwanej wersji. Starszy poprawny stan otrzymuje domyślne zero nowego rozwoju, bez resetu starej postaci. `PlayerSchema` nie może milcząco usuwać nowych pól podczas walidacji, a widok listy postaci musi korzystać z tego samego źródła co gra.
+
+Nie przypisuj globalnego starego `questsV2` automatycznie do czterech slotów. Jeśli właściciela nie da się jednoznacznie ustalić, zachowaj dane jako archiwalną historię bez kopiowania nagród do nowych postaci. Nie twórz pozornej utraty starych danych przez usuwanie ich kluczy.
+
+Broń `sword` z istniejącym upgrade pozostaje tym samym egzemplarzem/stanem, również w depozycie. Rozszerz kontrakt wyposażania o rozróżnienie starej broni i nowej instancji dziedzictwa; nie upychaj nowych ID w starym enum bez migracji. Zmiana slotu postaci, podróż, reload i dwie karty nie mogą przenosić treningu, modułów, projektów lub nagród między właścicielami.
+
+Nowszy nieznany zapis jest odrzucany bez nadpisania. Błąd wersji ma czytelny komunikat. Nie przedstawiaj lokalnego CAS jako zabezpieczenia przed edycją danych przez właściciela przeglądarki.
+
+## 12. Bindingi świata, NPC, rzemiosło i widoczne skutki
+
+Wszystkie nowe cele przypisz do istniejących obiektów, miast i ruin przez jawny katalog bindingów. Używaj aktualnych `settlementId`, `featureId`, `npcId`, współrzędnych i offsetów runtime. Historyczne współrzędne prologów z małych map nie są źródłem prawdy dla Superior. Rejestracja targetu sprawdza ląd, osiągalność, LOS, promień interakcji i bezpieczną granicę.
+
+Jeśli brakuje odpowiedniego obiektu, dodaj lokalny obiekt interakcji w sprawdzonym punkcie, na istniejącym terenie, z obecnym zasobem i opisem. Nie zaliczaj zadania w tle na podstawie samego tekstu. Nowy NPC ma prawidłową tożsamość kulturową w nazwie/dialogu; użycie zastępczej grafiki oznacz w dokumentacji, bez zmiany obecnych przyjętych bohaterów.
+
+Projekty zmieniają stan per postać. Renderer, nawigacja lokalnego obiektu, lista NPC i mapa odczytują ten sam stan. Po zniszczeniu sceny usuń listener/obiekty; po powrocie odtwórz je bez duplikacji. Nie nadpisuj globalnych współdzielonych definicji mapy mutacją jednego slotu. Nie ładuj dekoracji wszystkich projektów całej planety na starcie.
+
+Miejskie treningi korzystają z odizolowanej przestrzeni prób: żaden przeciwnik nie pojawia się przy kupcu/depozycie. Eskorty i ochrona konwoju kończą część bojową przed bezpieczną bramą. Każdy checkpoint eskorty ma ponowienie, punkt bezpiecznego odrodzenia NPC i zasady powrotu po przerwaniu gry. Nie musisz budować stałej drużyny towarzyszy — wystarczy ograniczony, działający kontroler eskorty w wyznaczonej trasie.
+
+Materiały projektowe umieść w gwarantowanych, oznaczonych źródłach. Są przypisane do postaci/zadania, niehandlowe i nie dają arbitrażu. Zwykłe materiały bestiariusza pozostają w dotychczasowej ekonomii. Jeżeli receptura zużywa zwykły materiał, pokaż wymaganie przed podjęciem działania i sprawdź ilość przed transakcją. Materiały wypożyczone w próbie nie trafiają do normalnego ekwipunku.
+
+Każde z sześciu ulepszeń broni ma własną rzeczywistą czynność u rzemieślnika: inspekcja, naprawa, zestrojenie, nazwanie, hartowanie/kalibracja, wpis historii. Inny tekst i narzędzie dla Taro, Enso, HEF-4 i Goro; nie nazywaj kalibracji emitera hartowaniem w wodzie. Utrzymuj wspólny kontrakt kosztu i nagrody.
+
+## 13. Interfejs i odczucie gry
+
+Dodaj do istniejącego menu przygodowego pozycję `Rozwój`. Wewnątrz:
+
+- `Trening`: pięć dyscyplin, 90-punktowy budżet, praktyka, realna zmiana statystyki, najbliższy egzamin i reset.
+- `Mistrzostwo`: cztery dziedziny rasy, próby i jeden aktywny wariant techniki.
+- `Dziedzictwo`: bieżący rozdział, broń, 6 projektów i warunki tytułu.
+- `Wiedza`: odblokowane kroniki i bestiariusz.
+- Dla Androida dostępny z warsztatu panel modułów z gniazdami, zużyciem energii i rzeczywistymi kompromisami.
+
+Dziennik pokazuje cel, miejsce, wymaganie i skutek. Przy niedostępnym celu podaj konkretną przyczynę i dostępne następne działanie. Nie pokazuj technicznych kluczy, nazw plików, statusu migracji ani wewnętrznych receiptów w zwykłym przepływie gracza.
+
+Po wejściu do miasta podpowiedz najwyżej 3 dostępne cele inne niż XP, np. egzamin, rozdział i projekt. Nie wyświetlaj kilkudziesięciu okien naraz. Komunikaty o nagrodzie łącz w jedną listę z nazwą źródła. Cele są użyteczne także dla istniejącej postaci 40+.
+
+Instrukcje prób mają tekst i symbole, nie sam kolor/dźwięk. Sterowanie działa dotykiem i klawiaturą. Okno nie może zabierać joysticka na stałe ani wykonywać ataku przez zamykający je tap. Testuj także mały ekran w obu orientacjach. Zamknięcie panelu wraca do działającej gry z prawidłowym stanem pauzy.
+
+Przed rozpoczęciem wypożyczonej próby pokaż jej zasady, używany profil, nagrodę za pierwsze zaliczenie i brak przenoszenia testowego ekwipunku. Po zakończeniu pokaż wynik liczbowy i konkretny powód sukcesu/porażki. Gra nie ma zależeć od aktywnego debug panelu ani wpisania parametru URL.
+
+## 14. XP, czas do 40 i balans — policz zamiast zgadywać
+
+Zachowaj istniejący wzór `xpNeeded(L) = 100 + 60*(L-1)` oraz istniejący techniczny limit poziomu, chyba że nowsza jawna decyzja właściciela stanowi inaczej. Poziom 40 jest punktem odniesienia, nie poleceniem obcięcia wszystkich zapisów powyżej 40.
+
+Dokładne sumy: poziom 10 — 3060 XP, 20 — 12 160, 30 — 27 260, 40 — 48 360. Nowa ścieżka dziedzictwa daje 2100 XP plus XP ze zwykłych walk; trening i próby nie generują XP. Nie dodawaj automatycznej wypłaty XP za stopnie treningu, odczyty tej samej kroniki lub ponowne otwarcie projektu.
+
+Cel projektowy: pierwsza spokojna przygoda do 40 około 25–35 h aktywnej gry; kampania plus istotny rozwój osobisty około 40–60 h; szersze mistrzostwo około 60–90 h. To cele do pomiaru, nie wymuszone timery. Gracz może szybciej zdobyć sam poziom przez polowanie. Nie wymuszaj 25 h przez stanie, sztuczne cooldowny dni lub odebranie nagród za sprawną grę.
+
+Przy obecnej sumie 48 360 XP: 1000 XP/h → 48 h 22 min, 3000 → 16 h 7 min, 6000 → 8 h 4 min, 12 000 → 4 h 2 min. Nie wpisuj pojedynczego „dokładnego czasu” bez znanej trasy i pomiaru. Nie zmieniaj milcząco krzywej XP, aby dopasować wymarzoną liczbę godzin.
+
+Przygotuj odtwarzalne narzędzie balansu wykorzystujące rzeczywiste moduły sesji, z seedem, krokiem symulacji, rasą, poziomem, buildem, sprzętem, treningiem i polityką używania umiejętności w wyniku. Istniejące `scripts/combat/simulate-balance.ts` traktuj jako punkt odniesienia, nie gotowy pomiar kampanii. Zapisz wyniki osobno dla 1–20 i 20–40.
+
+Porównaj wszystkie rasy na poziomach 1/10/20/30/40, przynajmniej profile: bez nowych bonusów, średni rozwój, maksymalny dozwolony rozwój. Dodaj warianty zgodnych gałęzi A/B/C, a dla Androida legalne konfiguracje modułów. Symulacja musi respektować geometrię, przegrzanie/Żar, KI, mikstury, śmierć i dojazd/podróż.
+
+Raportuj osobno: czas walki, podróży, leczenia, interakcji; XP/h walki i całej trasy; win rate; liczbę zgonów; czas ukończenia próby; zużycie KI; praktykę/h. Dla założeń podróży pokaż analizę wrażliwości, np. 15/30/60 s na spotkanie. Bot nie mierzy czasu czytania dialogów ani realnego czasu człowieka — nazwij to wprost.
+
+Porównanie ras opieraj na pakiecie różnych ról spotkań, a nie jednym wrogu faworyzującym konkretny styl. Jeżeli nowy moduł/ulepszenie dominuje w każdej sytuacji, skoryguj NOWE efekty i kompromisy. Nie poprawiaj po cichu statystyk aneksu ani starych 40 potworów. Ostateczne liczby i ograniczenia wpisz w dokumentacji.
+
+## 15. Weryfikacja funkcjonalna i techniczna
+
+### 15.1. Testy logiki
+
+Wymagane istotne scenariusze:
+
+- Limity 30 na dyscyplinę i 90 łącznie; ujemne/NaN/nieskończone wartości odrzucane; koszt i reset praktyki zgodny ze wzorem.
+- Nie można kupić stopnia za zbyt małą praktykę ani ominąć egzaminu; wszystkie 90 stopni są osiągalne z gwarantowanego budżetu.
+- Zero nowego rozwoju daje dokładnie dotychczasowe wyniki statystyk i walki. Bonus treningu nie mnoży sprzętu/buffa; stosowane jest właściwe zaokrąglenie.
+- Nowe maksima i przełączanie konfiguracji nie leczą i nie resetują zasobów/cooldownów.
+- Każdy z 12 wariantów technik zmienia rzeczywistą zdolność, ma rzeczywisty koszt i nie działa bez poznanego węzła; najwyżej jeden jest aktywny.
+- Android respektuje 3 gniazda, energię 10, brak duplikatów oraz C7/C8/T; wszystkie dodatnie i ujemne efekty działają i nie zależą od kolejności zakładania.
+- Każdy z 24 questów, 24 projektów i 48 prób jest osiągalny w grafie, ma prawdziwe bindingi, jasne cele, nagrody i zakończenie; brak cyklicznych prerequisites i softlocków.
+- Tytuł nie jest nadawany za sam poziom. Wybory nie blokują obowiązkowych usług ani ścieżki zakończenia.
+- Powtórzone zdarzenie, double click, reload po ukończeniu celu, awans podczas nagrody i ponowienie po konflikcie nie wypłacają ponownie.
+- Pełny plecak/depozyt, brak składnika lub błąd zapisu nie gubią nagrody i nie zużywają części kosztu.
+- Nowa broń ma jeden egzemplarz, prawidłowe ATK, działa tylko po wyposażeniu; stary miecz i upgrade zachowane.
+- Próba korzysta z tego samego engine, ale jej przedmioty, zabójstwa, XP, HP/KI i umiejętności nie wyciekają do postaci głównej. Wynik zapisany raz; anulowanie niczego nie przyznaje.
+- Nowe warianty przeciwników nie zmieniają kanonicznych definicji i nie wchodzą do miasta.
+- Bestiariusz wymaga odpowiednich zdarzeń, a nagroda 50 praktyki pada raz na gatunek.
+- Stan projektów, render i lokalna nawigacja zgadzają się przed i po reloadzie/podróży.
+- Cztery postacie nie współdzielą nowego postępu. Migracje wszystkich aktywnych formatów, nieznana wersja, błąd storage i dwie karty są obsłużone.
+
+Walidator katalogu ma sprawdzać także liczby z sekcji 2, referencje do przedmiotów/NPC/celów, możliwość zdobycia wszystkich obowiązkowych materiałów i budżet praktyki. Same testy liczby rekordów nie są dowodem grywalności.
+
+### 15.2. Testy z uruchomionej gry
+
+Dodaj testy E2E ścieżki użytkownika, uruchamiane w istniejących projektach Canvas i Software WebGL:
+
+1. Dla każdej rasy utwórz postać zwykłym UI, wejdź do trenera i wykonaj rzeczywistą próbę.
+2. Zdobądź praktykę przez legalny cel, kup stopień i sprawdź zmianę w HUD oraz w skutku działania.
+3. Ukończ pierwszy rozdział i projekt danej rasy; obejrzyj zmianę świata; reload, podróż i powrót.
+4. Zdobądź, załóż i odłóż broń dziedzictwa; sprawdź porównanie i brak duplikacji.
+5. Odblokuj wariant techniki i sprawdź go w faktycznej walce; dla Androida także moduł i kompromis.
+6. Powtórz odbiór/kliknięcie; sprawdź, że nagroda nie wraca. Otwórz drugi slot i potwierdź izolację.
+7. Przejdź przynajmniej jeden późny rozdział i pełny finał każdej rasy, korzystając z wcześniej LEGALNIE wypracowanego trwałego checkpointu. Nie wpisuj gotowych flag ukończenia i nagród, aby test przeszedł.
+
+Testy izolowane mogą używać jawnych fixture'ów parametrów i profili. Osobno zachowaj co najmniej jedną pełną ścieżkę od nowej postaci do pierwszego ważnego dokonania dla każdej rasy bez mutacji save/debugiem. Nie utożsamiaj tego z wykonaniem przez człowieka całej 90-godzinnej gry.
+
+Sprawdź desktop i mobilne viewporty, oba układy dotyku, pauzę, zamknięcie panelu, utratę fokusu, ponowne wejście do sceny i brak zduplikowanych listenerów/Canvas. Fizyczny Android/iOS oraz sprzętowe WebGL raportuj tylko, jeśli faktycznie były dostępne i sprawdzone. Obejrzyj screenshoty z nowych ekranów i czterech projektów rasowych.
+
+### 15.3. Kontrole repozytorium
+
+Na końcowym kodzie uruchom rzeczywiste aktualne skrypty z `package.json`, w tym:
+
+```bash
+npm run typecheck
+npm test
+npm run lint
+npm run assets:check
+npm run build
+python3 scripts/docs/check_documentation.py
+```
+
+Wykonaj odpowiednie Playwright Canvas/WebGL oraz nową walidację katalogu i raport balansu. Nie wpisuj z góry konkretnych nazw projektów Playwright bez sprawdzenia konfiguracji. Równoległe przebiegi mają osobne katalogi wynikowe, żeby nie kasowały aktywnych trace. Nie uruchamiaj globalnego formatowania całego repo i nie zmieniaj wygenerowanych plików Cloud.
+
+## 16. Dokumentacja, kolejność i warunek zakończenia
+
+Wykonuj wewnętrznie w kolejności:
+
+1. Baza i mapa zależności; odtworzenie wyników istniejących kontroli.
+2. Kontrakty, źródło prawdy, migracja, katalog i atomowe nagrody.
+3. Wspólny trening, egzaminy i pierwszy działający przebieg w UI.
+4. Wpięcie wszystkich czterech ścieżek: zadania, projekty, próby, bronie i kroniki.
+5. Warianty mistrzowskie, moduły Androida, późne spotkania i bestiariusz.
+6. Interfejs, mobilność, regresje, pomiary i dokumentacja.
+
+Te etapy służą organizacji pracy. Nie są zgodą na zakończenie zadania po etapie 3 ani na pozostawienie trzech ras jako TODO.
+
+Aktualizuj właściwe z dziesięciu dokumentów z `docs/INDEX.md`, zamiast dodawać kolejne aktywne instrukcje/handoffy. Historię pracy i dowody umieść w `docs/zmiany/<data>/ZMIANY.md` i `qa/`. Dane treści i raporty maszynowe mogą mieć własne JSON/CSV/TS zgodnie z architekturą; zachowaj pochodzenie i nie naruszaj źródeł właściciela.
+
+Wynik dla właściciela ma zawierać:
+
+- gałąź, końcowy commit i link draft PR, jeśli powstał;
+- co konkretnie gracz może zrobić każdą z czterech ras;
+- jak wejść do nowych aktywności zwykłym UI;
+- tabelę rzeczywiście zaimplementowanych questów/projektów/prób/technik/broni z odwołaniem do walidatora;
+- zmiany formatu zapisu i wynik testów ochrony postępu;
+- wyniki wykonanych kontroli z rozróżnieniem PASS/FAIL/NIEWYKONANE;
+- obliczenie XP do 40, wyniki pomiarów/symulacji i ich założenia;
+- screenshoty nowych ekranów i widocznych zmian świata;
+- pozostałe realne blokady, jeżeli wystąpiły, bez nazywania ich zakończonym wdrożeniem.
+
+Nie deklaruj publikacji. Nie pytaj o nią zamiast kończyć kod i weryfikację. Osobna decyzja właściciela dotyczy dopiero scalenia/wydania przygotowanego wyniku.
+
+DEFINICJA UKOŃCZENIA: zwykły gracz każdej z czterech ras może rozpocząć własną historię, trenować parametry, zdobywać mistrzostwo, tworzyć broń, kończyć projekty i próby, obserwować skutki w świecie oraz wrócić do tego samego postępu po reloadzie i podróży. Te możliwości działają w istniejącym silniku, mają odtwarzalne testy i pozostają wartościowe po osiągnięciu poziomu 40. Nie kończ na analizie — zaimplementuj ten zakres.
+
+

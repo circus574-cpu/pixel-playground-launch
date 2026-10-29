@@ -1,0 +1,130 @@
+[
+  {
+    "headRefName": "feature/character-statistics-training",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 61,
+    "title": "Parametry trenowane i podgląd statystyk postaci",
+    "decision": "integration-candidate"
+  },
+  {
+    "headRefName": "migration/ki-independent-supabase-20261029",
+    "isDraft": false,
+    "mergeable": "CONFLICTING",
+    "number": 59,
+    "title": "migration: niezależny Supabase Ki Legends — struktura i import konta oraz zapisów",
+    "decision": "integration-candidate"
+  },
+  {
+    "headRefName": "feature/racial-development-and-heritage",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 55,
+    "title": "WIP: rozwój i dziedzictwa czterech ras — częściowy runtime i QA",
+    "decision": "integration-candidate"
+  },
+  {
+    "headRefName": "docs/audyt-2026-10-27-aktualizacja",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 50,
+    "title": "docs: audyt zmian do PR #49 i aktualizacja wymagań Superior",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "docs/current-state-20261024-audit",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 27,
+    "title": "docs: aktualizacja KI Legends po przeglądzie commitów 24.10",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "docs/audit-sync-20261022",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 22,
+    "title": "docs: synchronize Ki Legends audit and project state (2026-10-22)",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "fix/planetary-default-20261022",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 21,
+    "title": "fix: Planetarni use production 416-frame hero by default",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "docs/owner-annex-skills-bestiary-20261022",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 20,
+    "title": "docs: załączniki właściciela — drzewka rozwoju ras i bestiariusz 1–20",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "feat/live-globe-planetary-20261022",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 19,
+    "title": "feat: globus 3D bezpośrednio w grze + aktywny Planetarny",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "feat/globe-in-game-planetary-live-20261022",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 18,
+    "title": "feat: active Planetary art and Superior globe inside live gameplay",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "docs/architecture-status-multiplayer-20261021",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 13,
+    "title": "docs: aktualny stan KI Legends i warunki rozpoczęcia multiplayer",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "sage/aetheria-20261021",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 11,
+    "title": "feat(sage): 416-frame Aetheria hero integration — pending CI and conflict resolution",
+    "decision": "old art WIP superseded by later accepted hero packs; no automatic rollback"
+  },
+  {
+    "headRefName": "docs/codex-cloud-handoff-20261021",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 8,
+    "title": "docs: kompletne przekazanie Codex Cloud i checkpoint GPU",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  },
+  {
+    "headRefName": "docs/ki-legends-knowledge-reconstruction-20261021",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 6,
+    "title": "docs: rekonstrukcja wiedzy i kanonu KI Legends (do zatwierdzenia)",
+    "decision": "architect-draft-preserved; requires owner/canonical review, not overwritten"
+  },
+  {
+    "headRefName": "feat/gpu-hero-approval-20261020",
+    "isDraft": true,
+    "mergeable": "UNKNOWN",
+    "number": 4,
+    "title": "WIP: Planetarni hero rig and 179-frame production checkpoint",
+    "decision": "old art WIP superseded by later accepted hero packs; no automatic rollback"
+  },
+  {
+    "headRefName": "docs/runpod-gpu-setup-20261020",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "number": 3,
+    "title": "Document repaired RunPod GPU runtime and verified asset workflow",
+    "decision": "historical diverged PR; no current regression validation; retained for explicit review"
+  }
+]

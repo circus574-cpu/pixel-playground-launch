@@ -1,0 +1,15 @@
+
+Running 8 tests using 1 worker
+
+(node:104013) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: planetary 360x800 (14.3s)
+  ✓  2 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: planetary 852x393 (13.1s)
+  ✓  3 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: sage 360x800 (16.0s)
+  ✓  4 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: sage 852x393 (15.2s)
+  ✓  5 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: android 360x800 (14.3s)
+  ✓  6 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: android 852x393 (12.8s)
+  ✓  7 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: legend 360x800 (11.4s)
+  ✓  8 [gameplay] › e2e/development-mobile.spec.ts:12:5 › development tabs, touch and movement after closing: legend 852x393 (9.3s)
+
+  8 passed (1.8m)

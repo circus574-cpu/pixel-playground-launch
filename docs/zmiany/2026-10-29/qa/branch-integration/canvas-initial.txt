@@ -1,0 +1,50 @@
+
+Running 8 tests using 1 worker
+
+(node:143455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Planetarni: portrait opens current statistics 1280 (16.5s)
+  ✓  2 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390 (13.9s)
+  ✓  3 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360 (14.1s)
+  ✓  4 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852 (14.3s)
+  ✓  5 [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: planetary (1.8m)
+  ✘  6 [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: sage (45.4s)
+(node:144853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: android (1.1m)
+  ✓  8 [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: legend (1.8m)
+
+
+  1) [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: sage
+
+    Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'
+
+      153 |     expect((await saved(page)).development!.heritage.quests[id]!.status).toBe("ready");
+      154 |     await openHeritage(page);
+    > 155 |     await page.screenshot({ path: info.outputPath(race + "-heritage-choice.png") });
+          |                                        ^
+      156 |     await page.getByRole("button", { name: definition.choices[0]!.label, exact: true }).click();
+      157 |     await expect
+      158 |       .poll(async () => (await saved(page)).development!.heritage.quests[id]!.status)
+        at /workspace/ki-aruba/e2e/development-heritage.spec.ts:155:40
+
+    Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'
+
+       at fixtures.ts:50
+
+      48 |           })
+      49 |           .catch(() => null);
+    > 50 |         await info.attach("game-failure-context", {
+         |                    ^
+      51 |           body: JSON.stringify(
+      52 |             {
+      53 |               test: info.title,
+        at Object.base.extend.diagnostics.auto (/workspace/ki-aruba/e2e/fixtures.ts:50:20)
+
+    Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'
+
+    Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'
+
+  1 failed
+    [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: sage
+  7 passed (6.5m)

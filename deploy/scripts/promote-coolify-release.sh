@@ -17,6 +17,20 @@ OLD_APP=$(docker inspect -f '{{.Image}}' "$APP")
 compose_up() {
  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "/data/coolify/services/$UUID:/data/coolify/services/$UUID:ro" -w "/data/coolify/services/$UUID" docker:cli compose -p "$PROJECT" -f "$CONFIG" up -d --no-build --wait --wait-timeout 180
 }
+wait_for_proxy() {
+ # Docker health does not imply that Traefik has loaded the replacement routes.
+ # Keep the full smoke suite and rollback; only wait for actual HTTP readiness.
+ local attempt
+ for ((attempt=1; attempt<=30; attempt++)); do
+  if curl --fail --silent --show-error --max-time 3 --output /dev/null https://staging.kilegends.pl/healthz &&
+     curl --fail --silent --show-error --max-time 3 --output /dev/null https://staging.kilegends.pl/; then
+   return 0
+  fi
+  sleep 2
+ done
+ echo "Proxy did not become ready; refusing promotion" >&2
+ return 1
+}
 rollback() {
  echo 'Restoring previous images'
  docker tag "$OLD_WEB" "$WEB_TAG"
@@ -28,6 +42,7 @@ trap 'rollback' ERR
 docker tag "ki-legends-web:staging-$SHA" "$WEB_TAG"
 docker tag "ki-legends-app:staging-$SHA" "$APP_TAG"
 compose_up
+wait_for_proxy
 bash "$BASE/releases/$SHA/deploy/scripts/smoke-test.sh" https://staging.kilegends.pl --staging
 trap - ERR
 printf '%s\n' "$SHA" > "$BASE/coolify-live-release"

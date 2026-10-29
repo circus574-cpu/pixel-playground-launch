@@ -1,3 +1,4 @@
+import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
 import type Phaser from "phaser";
 import { GameSession } from "../../session";
 import type { GameRuntime } from "../../mountGame";
@@ -239,8 +240,18 @@ export async function prepareSuperior(options: {
         p.y >= s.bounds.y - 12 &&
         p.y <= s.bounds.y + s.bounds.height + 12,
     );
+  const heritageHome = [...cities.entries()].sort(([a], [b]) => {
+    const aa = source.settlements.find((t) => t.id === a)!,
+      bb = source.settlements.find((t) => t.id === b)!;
+    return (
+      Math.hypot(aa.x - info.arrival.x, aa.y - info.arrival.y) -
+      Math.hypot(bb.x - info.arrival.x, bb.y - info.arrival.y)
+    );
+  })[0]![1];
   const session = new GameSession(save, options.race, {
     world,
+    featureId: info.id,
+    heritageHome,
     navigation: loader.navigation,
     enemyNavigation: loader.enemyNavigation(world.safeAreas ?? []),
     maximumActiveEnemies: 24,
@@ -547,14 +558,9 @@ export async function prepareSuperior(options: {
       // Reserve twelve ground canvases plus 8 MiB for an incoming scenery chunk.
       const ids = new Set([...protectedAssets, ...owned, ...neededByMonster(slot.kind)]);
       for (const keys of owners.values()) for (const id of keys) ids.add(id);
-      let bytes = 20 * 1024 * 1024;
-      for (const id of ids) {
-        const asset = catalog.assets.get(id);
-        bytes += (asset?.width ?? 512) * (asset?.height ?? 512) * 4;
-      }
-      // World v2 art (~55 MiB near a camp) plus 2048² monster atlases (~26 MiB per kind) does not
-      // fit the v1 budget, which then refused every spawn; v2 keeps room for about four kinds.
-      return !!activeScene && bytes <= (WORLD_V2 ? 192 : 128) * 1024 * 1024;
+      return (
+        !!activeScene && streamTextureBytes(ids, catalog.assets) <= STREAM_TEXTURE_BUDGET_BYTES
+      );
     },
     async acquire(slot) {
       if (!activeScene || disposed) throw Error("World is not mounted");

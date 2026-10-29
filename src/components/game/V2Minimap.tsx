@@ -8,7 +8,15 @@ import { v2Places } from "../../game/worlds/v2Places";
 
 const VIEW = 9000; // world units shown across the minimap
 
-export function V2Minimap({ land, at }: { land: string; at: { x: number; y: number } }) {
+export function V2Minimap({
+  land,
+  at,
+  projects = [],
+}: {
+  land: string;
+  at: { x: number; y: number };
+  projects?: readonly { id: string; name: string; x: number; y: number }[];
+}) {
   const feature = index.features.find((f) => f.id === land);
   if (!feature) return null;
   const scale = feature.width / VIEW; // map width in minimap widths
@@ -31,6 +39,14 @@ export function V2Minimap({ land, at }: { land: string; at: { x: number; y: numb
       />
       {towns.map((t) => (
         <i key={t.settlement} className="ki-v2-minimap-town" style={pos(t.x, t.y)} title={t.name} />
+      ))}
+      {projects.map((p) => (
+        <i
+          key={p.id}
+          className="ki-v2-minimap-project"
+          style={pos(p.x, p.y)}
+          title={p.name + " · odbudowano"}
+        />
       ))}
       <i className="ki-v2-minimap-me" style={{ left: "50%", top: "50%" }} />
     </span>

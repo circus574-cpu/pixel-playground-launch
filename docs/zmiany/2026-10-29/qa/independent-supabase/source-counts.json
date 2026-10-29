@@ -1,0 +1,15 @@
+{
+  "source_sha256": "53bd271b526a0a4d1e7aae0c45198347dbf9378fce99f0b61d369b0079b57d9b",
+  "counts": {
+    "auth.users": 1,
+    "auth.identities": 1,
+    "public.profiles": 1,
+    "public.sketch_api_tokens": 3,
+    "public.sketch_api_log": 34,
+    "public.characters": 22,
+    "public.user_roles": 1,
+    "public.admin_audit": 1
+  },
+  "bytes": 47283,
+  "excluded": "Sessions/refresh tokens and provider-internal migration history are not imported. Storage objects require separate binary transfer."
+}

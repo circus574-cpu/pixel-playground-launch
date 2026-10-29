@@ -1,0 +1,202 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: development-combat-smoke.spec.ts >> fresh legend: walk out and hit an actual streamed creature without save patches
+- Location: e2e/development-combat-smoke.spec.ts:48:3
+
+# Error details
+
+```
+Error: expect(received).toBeLessThan(expected)
+
+Expected: < 61
+Received:   61
+
+Call Log:
+- Timeout 60000ms exceeded while waiting on the predicate
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic "Ki Legends — ekran gry" [ref=e4]
+  - generic:
+    - region "Postać gracza":
+      - generic:
+        - generic:
+          - 'img "Portret: Legendy"'
+        - generic: "1"
+      - generic:
+        - generic:
+          - text: Wędrowiec
+          - generic: LEGENDY
+        - meter "Zdrowie":
+          - generic: 140 / 140
+        - meter "Energia KI":
+          - generic: 40 / 40
+        - generic "Doświadczenie 16/100"
+        - meter "Żar":
+          - generic: Żar 0
+    - generic:
+      - generic "Powiadomienia gry"
+    - region "Minimapa":
+      - generic "Twierdza Popiołu"
+      - button "Otwórz mapę świata" [ref=e6] [cursor=pointer]:
+        - generic [ref=e7]:
+          - generic "Twierdza Popiołu" [ref=e9]
+          - generic "Żarowy Trakt" [ref=e10]
+          - generic "Cytadela Kowadeł" [ref=e11]
+          - generic "Port Czerwonych Żagli" [ref=e12]
+    - button "◆ Pierwsze kroki Porozmawiaj z Kaena przy miejscu startowym ›" [ref=e14] [cursor=pointer]:
+      - generic [ref=e15]: ◆
+      - generic [ref=e16]:
+        - strong [ref=e17]: Pierwsze kroki
+        - generic [ref=e18]: Porozmawiaj z Kaena przy miejscu startowym
+      - generic [ref=e19]: ›
+    - generic:
+      - img "KI LEGENDS":
+        - generic [aria-hidden]:
+          - strong: KI LEGENDS
+      - strong: Twierdza Popiołu
+      - text: Pyra
+    - text: ☷
+    - navigation "Umiejętności":
+      - button "Uderzenie Żaru" [ref=e20] [cursor=pointer]:
+        - generic [ref=e21]: Spacja
+      - button "Unik" [ref=e22] [cursor=pointer]:
+        - generic [ref=e23]: Shift
+      - button "Mikstura życia" [disabled] [ref=e24]:
+        - generic [ref=e25]: Q
+        - generic [ref=e26]: "3"
+    - button "Menu gry" [ref=e27] [cursor=pointer]:
+      - generic [ref=e28]: Widok
+    - navigation "Menu gry":
+      - button "Ekwipunek" [ref=e29] [cursor=pointer]
+      - button "Dziennik" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: Zadania
+      - button "Umiejętności" [ref=e33] [cursor=pointer]
+      - button "Ustawienia" [ref=e35] [cursor=pointer]
+    - generic "Akcje":
+      - button "Plan miasta" [ref=e37] [cursor=pointer]
+      - button "Rozmowa · Kaena E" [ref=e38] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  27  |     .filter((s) => {
+  28  |       const traits = monsterDef(s.kind).traits;
+  29  |       return (
+  30  |         levels.get(s.kind) === 1 &&
+  31  |         !traits.pack &&
+  32  |         !traits.ambush &&
+  33  |         !traits.burrow &&
+  34  |         !traits.ghost &&
+  35  |         !traits.still &&
+  36  |         !traits.dive &&
+  37  |         !traits.fleeAfterHits
+  38  |       );
+  39  |     })
+  40  |     .sort(
+  41  |       (a, b) =>
+  42  |         Math.hypot(a.x - arrival.x, a.y - arrival.y) - Math.hypot(b.x - arrival.x, b.y - arrival.y),
+  43  |     );
+  44  |   return { nav, arrival, slot: candidates[0]! };
+  45  | }
+  46  | import { RACES, RACE_IDS } from "../src/game/world/races";
+  47  | for (const race of RACE_IDS)
+  48  |   test(`fresh ${race}: walk out and hit an actual streamed creature without save patches`, async ({
+  49  |     page,
+  50  |   }, info) => {
+  51  |     test.setTimeout(360000);
+  52  |     const errors: string[] = [];
+  53  |     page.on("pageerror", (e) => errors.push(e.message));
+  54  |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+  55  |     await page.getByRole("button", { name: "Wybierz: " + RACES[race].name, exact: true }).click();
+  56  |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  57  |     const canvas = page.locator(".ki-canvas");
+  58  |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+  59  |     const health = page.getByRole("meter", { name: "Zdrowie", exact: true });
+  60  |     const maximumHp = Number(await health.getAttribute("aria-valuemax"));
+  61  |
+  62  |     await expect(page.locator("html")).toHaveAttribute("data-ki-world-v2", "1");
+  63  |     const { nav, arrival, slot } = currentLand(RACES[race].world);
+  64  |     expect(slot).toBeDefined();
+  65  |     expect(
+  66  |       Math.hypot(
+  67  |         Number(await canvas.getAttribute("data-player-x")) - arrival.x,
+  68  |         Number(await canvas.getAttribute("data-player-y")) - arrival.y,
+  69  |       ),
+  70  |     ).toBeLessThan(30);
+  71  |     const destination = nav.safe({ x: slot.x + 35, y: slot.y });
+  72  |     expect(
+  73  |       nav.path(arrival, destination).length,
+  74  |       "actual v2 route to the authored creature",
+  75  |     ).toBeGreaterThan(0);
+  76  |     // This is the same production command emitted by a world click. It walks with A*, never teleports.
+  77  |     await canvas.evaluate(
+  78  |       (node, point) =>
+  79  |         node.dispatchEvent(new CustomEvent("ki:command", { detail: { type: "move", ...point } })),
+  80  |       destination,
+  81  |     );
+  82  |     await expect
+  83  |       .poll(
+  84  |         async () =>
+  85  |           Math.hypot(
+  86  |             Number(await canvas.getAttribute("data-player-x")) - destination.x,
+  87  |             Number(await canvas.getAttribute("data-player-y")) - destination.y,
+  88  |           ),
+  89  |         { timeout: 180000 },
+  90  |       )
+  91  |       .toBeLessThan(110);
+  92  |     type Enemy = { id: string; x: number; y: number; hp: number; mode: string };
+  93  |     const enemies = async () =>
+  94  |       JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as Enemy[];
+  95  |     await expect
+  96  |       .poll(async () => (await enemies()).some((e) => e.id === slot.id && e.hp > 0), {
+  97  |         timeout: 60000,
+  98  |       })
+  99  |       .toBe(true);
+  100 |     const before = (await enemies()).find((e) => e.id === slot.id)!;
+  101 |     for (const offset of [-25, -8, 8]) {
+  102 |       const list = await enemies(),
+  103 |         enemy = list.find((e) => e.id === slot.id && e.hp > 0);
+  104 |       if (!enemy) break;
+  105 |       const box = (await canvas.boundingBox())!,
+  106 |         zoom = Number(await canvas.getAttribute("data-camera-zoom"));
+  107 |       const sx = Number(await canvas.getAttribute("data-camera-x")),
+  108 |         sy = Number(await canvas.getAttribute("data-camera-y"));
+  109 |       const x = (enemy.x - sx - box.width / 2) * zoom + box.width / 2;
+  110 |       const y = (enemy.y + offset - sy - box.height / 2) * zoom + box.height / 2;
+  111 |       expect(x).toBeGreaterThan(0);
+  112 |       expect(x).toBeLessThan(box.width);
+  113 |       expect(y).toBeGreaterThan(0);
+  114 |       expect(y).toBeLessThan(box.height);
+  115 |       await page.mouse.click(box.x + x, box.y + y);
+  116 |       if ((await canvas.getAttribute("data-target-id")) === slot.id) break;
+  117 |     }
+  118 |     await basicAttack(page).click();
+  119 |     await expect
+  120 |       .poll(
+  121 |         async () => {
+  122 |           const enemy = (await enemies()).find((e) => e.id === slot.id);
+  123 |           return enemy ? enemy.hp : before.hp; // Disappearing is not proof of damage.
+  124 |         },
+  125 |         { timeout: 60000 },
+  126 |       )
+> 127 |       .toBeLessThan(before.hp);
+      |        ^ Error: expect(received).toBeLessThan(expected)
+  128 |     await expect
+  129 |       .poll(async () => Number(await health.getAttribute("aria-valuenow")), { timeout: 60000 })
+  130 |       .toBeLessThan(maximumHp);
+  131 |     await page.screenshot({ path: info.outputPath(`${race}-fresh-real-combat.png`) });
+  132 |     expect(errors).toEqual([]);
+  133 |   });
+  134 |
+```
