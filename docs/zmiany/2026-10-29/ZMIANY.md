@@ -165,3 +165,33 @@ dostęp do eksportu, zweryfikować auth i metadane prywatnych plików, odtworzy�
 nowy projekt, sprawdzić RLS i logowanie oraz dopiero wtedy przełączyć konfigurację
 serwera/przeglądarki. Nie wpisywać nowych URL/kluczy przed odtworzeniem danych.
 Brak kluczy źródłowego Lovable Cloud nie uzasadnia publicznych bucketów ani resetu kont.
+
+### Odszyfrowany eksport i odtworzona struktura nowego Supabase
+
+Właściciel przesłał zaszyfrowany artefakt ZIP; lokalnie odszyfrowano go istniejącym
+kluczem sesji. Prywatne pliki są pod `/workspace/.ki-migration-private/export`,
+poza Git, z prawami 0600. Paczka zawiera schema.sql, restore.sh, sześć CSV oraz
+README/braki. Liczby: characters 22, profiles 1, user_roles 1, admin_audit 1,
+sketch_api_log 34, unieważnione sketch_api_tokens bez hashy 3.
+**Brak auth.users, auth.identities i hashy haseł, brak zawartości Storage w tej paczce.**
+Nie importowano osieroconych zapisów z pominięciem kluczy obcych i nie resetowano kont.
+Eksport jest snapshotem 28.10 — przed cutoverem potrzebny aktualny pełny eksport.
+
+Potwierdzono pusty schemat public nowego `ekqljyldtzbpytqrtaer`; zastosowano migracje:
+`restore_ki_legends_structure_with_restricted_client_grants` i
+`restrict_sketch_token_rpcs_to_server_role`. Wersje SQL bez danych użytkowników
+zapisano pod `deploy/database/`. Źródłowy eksport dawał authenticated TRUNCATE
+(omija RLS), więc w nowym projekcie ograniczono granty do wymaganych operacji
+SELECT/INSERT/UPDATE/DELETE i UPDATE(nick). Nie zmieniano źródłowej produkcji.
+Domyślne granty funkcji Supabase wymagały osobnego odebrania uprawnień anon i
+client do consume/rotate tokenów, mimo wcześniejszego REVOKE PUBLIC.
+
+Test SQL po poprawkach: sześć tabel z RLS=true, 10 polityk, anon SELECT=false,
+authenticated TRUNCATE=false na wszystkich sześciu; prywatny bucket project-sketches;
+rotate RPC anon=false, authenticated=false, service_role=true. Auth users=0,
+character saves=0 — dane czekają na pełny eksport kont. Doradca bezpieczeństwa
+przed poprawką wykrył nadmierne uprawnienia RPC; po poprawce należy ponowić audit.
+Role helpers has_role/is_staff są celowo SECURITY DEFINER dla polityk bez
+rekurencji; dostęp anon/Public cofnięto. Tabele tokenów/logów nie mają polityk
+klienta celowo: dostęp tylko serwerowy.
+Aplikacja nadal używa starego backendu; nie deklarować ukończonego odcięcia Lovable.
