@@ -1,3 +1,4 @@
+import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
 import { CombatAction } from "./CombatAction";
 import { uiTextureUrl } from "../../game/assets/catalog";
@@ -60,6 +61,7 @@ import "./manga-hud.css";
 import "./hud-v2-landscape.css";
 
 type Props = {
+  onStartExam?: StartExam | undefined;
   /** Continents a special staff character can travel to directly. */
   staffDestinations?: { id: string; name: string }[] | undefined;
   onStaffTeleport?:
@@ -80,7 +82,8 @@ type Props = {
   onWorldLabels?: (visible: boolean) => void;
   systemNotice?: MessageEvent;
 };
-type Panel = "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
+type Panel =
+  "development" | "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
 /** Planet atlas (2D map + 3D globe) loads only when opened from the world map. */
 const PlanetAtlas = lazy(() =>
   import("../planet-map/MapaView").then((m) => ({ default: m.MapaView })),
@@ -193,6 +196,7 @@ function TechniqueBank({
 }
 
 export function GameHud({
+  onStartExam,
   state,
   zoom,
   onZoom,
@@ -596,12 +600,17 @@ export function GameHud({
           }}
         >
           {WORLD_V2 && !state.building ? (
-            <V2Minimap land={state.player.continent} at={{ x: state.x, y: state.y }} />
+            <V2Minimap
+              land={state.player.continent}
+              at={{ x: state.x, y: state.y }}
+              projects={state.heritageProjects}
+            />
           ) : (
             <LocalMinimap
               world={world}
               at={state.building?.door ?? { x: state.x, y: state.y }}
               inside={!!state.building}
+              projects={state.heritageProjects}
             />
           )}
           {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
@@ -618,7 +627,19 @@ export function GameHud({
       </section>
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
-        {WORLD_V2 && !tracked ? (
+        {state.heritageActivity ? (
+          <div>
+            <strong>
+              {state.heritageActivity.title} · {state.heritageActivity.windows}/
+              {state.heritageActivity.target}
+            </strong>
+            <span>
+              {state.heritageActivity.message} ·{" "}
+              {Math.ceil(state.heritageActivity.remainingMs / 1000)} s · błędy{" "}
+              {state.heritageActivity.errors}
+            </span>
+          </div>
+        ) : WORLD_V2 && !tracked ? (
           // Starter quests come first; Argon's adventures show once they are done.
           <CombatQuestSummary continent={player.continent} />
         ) : (
@@ -999,6 +1020,7 @@ export function GameHud({
             aria-modal="true"
             aria-label={
               {
+                development: "Rozwój postaci",
                 inventory: "Ekwipunek",
                 journal: "Dziennik",
                 skills: "Umiejętności",
@@ -1015,6 +1037,7 @@ export function GameHud({
               <h2>
                 {
                   {
+                    development: "Rozwój postaci",
                     inventory: "Ekwipunek",
                     journal: "Dziennik podróży",
                     skills: "Drzewko umiejętności · " + RACES[player.race].name,
@@ -1028,6 +1051,14 @@ export function GameHud({
               </button>
             </header>
             <div className="ki-inline-messages">{feedback}</div>
+            {panel === "development" && (
+              <DevelopmentPanel
+                state={state}
+                send={onCommand}
+                startExam={onStartExam}
+                close={closeAndResume}
+              />
+            )}
             {panel === "inventory" &&
               (WORLD_V2 ? (
                 <DiabloInventory state={state} send={onCommand} />
@@ -1041,6 +1072,11 @@ export function GameHud({
                 send={onCommand}
                 close={closeAndResume}
               />
+            )}
+            {panel === "skills" && (
+              <button className="ki-fullscreen-setting" onClick={() => setPanel("development")}>
+                Rozwój · trening i wiedza
+              </button>
             )}
             {panel === "skills" &&
               (WORLD_V2 ? (

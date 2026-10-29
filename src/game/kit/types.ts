@@ -1,4 +1,5 @@
 import type { CharacterStats } from "../characterStats";
+import type { DevelopmentState } from "../development/state";
 import type { Point } from "../navigation";
 import type { DamageTag } from "../monsters/types";
 
@@ -116,6 +117,7 @@ export type Foe = Point & {
 };
 export type KitPort = {
   readonly nowMs: number;
+  readonly development?: DevelopmentState | undefined;
   /** Equipment bonuses (weapon ATK incl. upgrade, armor DEF). */
   readonly gear: { attack: number; defense: number };
   readonly inCombat: boolean;

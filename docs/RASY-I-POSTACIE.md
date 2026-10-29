@@ -84,3 +84,11 @@ Trafienie zachowuje pierwszeństwo. Zablokowana nim animacja ataku/zdolności mo
 poczekać do 500 ms na koniec reakcji. Kolejka mieści jedną akcję, preferuje skill
 przed podstawowym atakiem i odrzuca stare wpisy. Śmierć/odrodzenie ją czyszczą.
 To wyłącznie prezentacja: nie opóźnia ani nie powtarza obrażeń, leczenia lub kosztu KI.
+
+## Rozwój mechaniczny — prace 28.10.2026
+
+Nowy wspólny trening i wypożyczone profile egzaminów używają istniejących kitów
+wszystkich czterech ras. Nie podmieniono ilustracji, atlasów ani proporcji.
+Próba obrony dobiera legalne zdolności: Planetarni C1 → C2 → C4, Mędrcy/Androidy
+B1, Legendy ruch i istniejący unik. B1 Legend nie jest udawane jako tarcza.
+Dalsze osobiste ścieżki i odbiór ich kompletności: [plan](PLAN-I-ZADANIA.md#nowe-zlecenie-rozwoju-czterech-ras--28102026-w-realizacji).

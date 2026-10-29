@@ -97,7 +97,8 @@ export class SageKit extends Kit {
         const foe = this.pickFoe(s.range);
         if (!foe) return { ok: false, reason: "Wybierz cel." };
         if (this.dist(p, foe) > s.range) return { ok: false, reason: "Cel poza zasięgiem." };
-        this.port.sealFoe(foe, 3000, this.has("A2") ? 0.1 : 0);
+        const delay = 3000 * (this.variant("ma-seal") ? 0.8 : 1);
+        this.port.sealFoe(foe, delay, this.has("A2") ? 0.1 : 0);
         this.port.emit({
           type: "attack",
           x: p.x,
@@ -106,7 +107,7 @@ export class SageKit extends Kit {
           to: { x: foe.x, y: foe.y },
         });
         const bonus = this.abilityBonus();
-        this.schedule(3000, () => this.explodeSeal(foe, "A1", bonus));
+        this.schedule(delay, () => this.explodeSeal(foe, "A1", bonus));
         return { ok: true };
       }
       case "A4": {
@@ -154,10 +155,11 @@ export class SageKit extends Kit {
         return { ok: true };
       }
       case "B1": {
-        const amount = s.maxHp * 0.15 * (this.has("B7") ? 1.3 : 1);
+        const amount =
+          s.maxHp * 0.15 * (this.has("B7") ? 1.3 : 1) * (this.variant("ma-barrier") ? 0.8 : 1);
         this.addShield({
           id: "B1",
-          ms: 4000 + (this.has("B3") ? 2000 : 0),
+          ms: (4000 + (this.has("B3") ? 2000 : 0)) * (this.variant("ma-barrier") ? 1.5 : 1),
           amount,
           max: amount,
           reflectProjectile: this.has("B5") ? 0.15 : undefined,
@@ -196,13 +198,14 @@ export class SageKit extends Kit {
         return { ok: true };
       }
       case "C1": {
+        const focus = this.variant("ma-focus");
         this.startChannel({
           id: "C1",
-          ms: 3000,
-          every: 500,
+          ms: focus ? 4500 : 3000,
+          every: focus ? 750 : 500,
           breakOnMove: !this.has("C8"),
           breakOnHit: true,
-          onTick: () => this.port.addKi(this.stats.maxKi * 0.05),
+          onTick: () => this.port.addKi(this.stats.maxKi * 0.05 * (focus ? 1.2 : 1)),
           onEnd: (done) => {
             if (done && this.has("C6")) this.addBuff({ id: "C6", ms: 6000 });
           },

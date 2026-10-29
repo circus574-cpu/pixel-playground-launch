@@ -61,3 +61,8 @@ Nie kopiujemy ich w całości do wielu plików opisowych i nie usuwamy dowodów 
 
 Wyraźne decyzje właściciela mają pierwszeństwo. Koncepcja, kod, zaliczony test,
 scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym SHA.
+
+- [Zlecenie właściciela — rozwój i dziedzictwa czterech ras, 28.10.2026](design/racial-development-owner-2026-10-28.txt).
+  Niezmienione źródło wymagań, SHA-256 `03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed`.
+  Obecność źródła nie stanowi potwierdzenia pełnego wdrożenia; realizację rozróżnia
+  [aktualny plan](PLAN-I-ZADANIA.md#nowe-zlecenie-rozwoju-czterech-ras--28102026-w-realizacji).

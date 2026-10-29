@@ -606,3 +606,138 @@ odtwarza go w osobnej bazie kontrolnej i usuwa wyłącznie tę bazę kontrolną.
 Nie usuwać wolumenu komendą compose down -v. Kopie są na tym samym VPS: nie jest
 to potwierdzenie kopii zewnętrznej ani harmonogramu backupów. Wyniki konkretnego
 commita i wcześniejsze niepowodzenia: [dziennik](zmiany/2026-10-29/ZMIANY.md#prywatna-baza-postgresql-pod-multiplayer).
+## Adapter rozwoju i próby na wypożyczonym profilu — 28.10.2026
+
+`development/training.ts` zawiera reguły treningu, `state.ts` schemat i spójność
+księgi nagród, `modifiers.ts` efekty kitów, `exams.ts` cele i odizolowany profil.
+`GameSession` jest nadal jedynym silnikiem walki i właścicielem zmiany postaci.
+Próba używa osobnej instancji bez `SaveStore`; właściwa scena śpi, zachowując kita,
+czas i zasoby. `DevelopmentExam` montuje prawdziwy Phaser, zachowuje istniejący HUD
+oraz przywraca właściwą scenę. Pierwszeństwo ma zapis zatwierdzonego wyniku; błąd
+zapisu pozostawia możliwość ponowienia lub wyjścia bez nagrody.
+
+`DevelopmentPanel` otwiera się wewnątrz dotychczasowego okna Umiejętności.
+Przyciski dojścia najpierw zamykają pauzujące okno, potem wydają istniejące
+polecenie interakcji — odwrotna kolejność odrzucałaby nawigację jako akcję w pauzie.
+Próby nie mają własnego dostępu do localStorage i nie importują nagród globalnego
+`questsV2`. Odbiór 24 nowych rozdziałów, 24 projektów i 48 prób rasowych jest osobny.
+
+Scenariusz `e2e/development.spec.ts` zaczyna nową postacią przez zwykłe UI,
+idzie do trenera, przechodzi rzeczywistą trasę wypożyczonego profilu, porównuje
+bajty zapisu właściciela i przeładowuje stronę. Nie wstrzykuje flag postępu.
+Zdefiniowany dla czterech ras, Canvas i Software WebGL. Wyniki nie wynikają z samej
+obecności scenariusza; wykonania i zrzuty znajdują się w dzienniku 28.10.
+
+### Potwierdzony brak miejsca dla potwora w podglądzie v1
+
+Na czystym `3ffd46c7` odtworzono timeout Mędrca w `liveEnemy` bez błędów konsoli.
+Zapisano rzeczywiście rezydentne identyfikatory tekstur i telemetryczny odczyt.
+Dla **katalogu dobranego do zapisanego URL v1**, po dodaniu oczekiwanego potwora
+i rezerwy 20 MiB, estymator wymaga 137,9630126953125 MiB. Stary limit 128 MiB
+odmawiał `canAcquire`, zatem przeciwnik nie powstawał. Wstępne oszacowanie
+150,47 MiB używało katalogu v2 i nie jest właściwą liczbą dla tego podglądu.
+
+`assets/streamBudget.ts` ustala wspólny limit 192 MiB, identyczny z dotychczasowym
+limitem aktualnego świata v2. Nie powiększa limitu v2 i nie zmienia spawnów,
+geometrii ani parametrów przeciwnika. Regresyjny test przelicza rzeczywisty zestaw
+z przechwyconego śladu na bieżących manifestach; nie podmieniono asercji Playwright
+ani nie zmodyfikowano pomocnika `liveEnemy`. To limit szacowanej pamięci tekstur,
+a nie pomiar całego RAM ani gwarancja FPS na telefonie.
+
+`examRuntime.ts` jest osobnym adapterem prezentacji. Czysty `ExamAttempt` i sesja
+nie importują katalogu graficznego. Sala ładuje tylko atlasy aktualnego bohatera,
+UI i właściwe efekty — testy dla każdej rasy sprawdzają pułap poniżej 64 MiB
+zadeklarowanych tekstur i brak kopii miejskich budynków/przyrody. Oryginalna scena
+pozostaje w pamięci; szczytowe zużycie na fizycznym telefonie wymaga osobnego pomiaru.
+
+
+### Runtime dziedzictwa — kontrakty kolejnego checkpointu PR #55
+
+- `development/heritage/types.ts`, `goals.ts`, `catalog.ts`: jawny graf 24 rozdziałów
+  i 24 projektów; test sprawdza cykle, przepisy, źródła części i budżet tabel.
+- `state.ts` oraz nadrzędny `development/state.ts`: ścisły stan, migracja v1 → v2,
+  historia celów/zgód, ograniczone 64 surowe zdarzenia i trwałe biznesowe pokwitowania.
+- `reducer.ts`: czysty wynik czynności. UI nie może przesłać „zaliczono eskortę”,
+  „zobaczono potwora” albo „trafiono”; te źródła potrzebują dowodu runtime.
+- `runtime.ts`: fizyczne warunki, routing do stolicy, cały kandydat Player i CAS.
+  `equipment.ts` rozdziela ATK osobistej broni od starego miecza/upgrade.
+- `projects.ts`, `Navigation.setLocalObstacles`: lokalna nakładka kolizji, bez mutacji
+  współdzielonych danych wygenerowanej planety. `render.ts`: culling i zwalnianie
+  markerów/technicznych konstrukcji; minimapy dostają tylko aktualne ukończone projekty.
+- `development/targets.ts`, `heritage/restraint.ts`: cele w pamięci, realny port kita
+  i pociski, okna zatrzymania i poddanie; po śmierci/zmianie wnętrza są czyszczone.
+- `HeritagePanel` i `HeritageWeaponCard`: wewnątrz dotychczasowych okien; brak zmiany
+  joysticka, przypisań, pozycji HUD, kamery, hostingu i prywatnego `/test`.
+
+Regresja Pyry: `SuperiorSaveStore` sprawdza wymiary `cityRoom(interior, affinity)`,
+a nie stałe 960 × 760. Kuźnia Pyry ma 540 × 1100; jej poprawny zapis z y=900
+musi się wczytywać. Testy obejmują też błędne współrzędne i zachowanie oryginału.
+`e2e/development-heritage.spec.ts` nie ustawia flag postępu: zaczyna nową postacią,
+kończy stary prolog przez UI, idzie do kolejnych obiektów, wybiera odpowiedzi,
+wykonuje procedurę, odbiera broń, zakłada ją i odświeża. Wyniki na poszczególnych
+migawkach oraz niezależnie czerwone CI zapisano w dzienniku, bez uśredniania do PASS.
+
+
+### Lokalne pomiary instalacji i zasięg zwykłego ataku (PR #55, 28.10)
+
+`heritage/scanner.ts` jest odczytowym kontrolerem w pamięci sesji. Skaner wymaga
+Androida i faktycznie podłączonego `mn-scanner`, istniejącego rozpoczętego projektu,
+tej samej przestrzeni i LOS. Lista obejmuje wyłącznie znane instalacje do 650 j.,
+odczyt wymaga interakcji do 130 j. Oddalenie, przeszkoda, śmierć, odłączenie modułu,
+zmiana postępu i ponowne uruchomienie unieważniają wynik. Nie zapisuje odkryć,
+nie przyznaje praktyki i nie zwiększa HP/KI. Panel znajduje się wewnątrz istniejącego
+Dziedzictwa, bez zmiany HUD lub sterowania. Test integracyjny najpierw legalnie
+kończy H-N01, odbiera skaner i podłącza go istniejącym poleceniem warsztatu.
+
+`Kit.basicRange` oddziela zasięg zwykłego strzału od `stats.range` stosowanego przez
+pozostałe umiejętności. Ten sam odczyt używają strzał Androida, gotowość celu w HUD,
+rozpoczęcie istniejącego autoataku i podgląd statystyk. Optyka nadal nie wydłuża A1/B1/C1;
+pozostałe rasy mają niezmieniony zasięg. Nie dodano nowego rodzaju autoataku.
+
+
+`heritage/escort.ts`: stabilne krótkie odcinki przez istniejące `Navigation.path/step`,
+sprawdzenie osiągalności, cache tras per sesja, prędkość spokojnej dostawy 100 j./s
+(bohater bazowo szybszy), krok najwyżej 100 ms jak istniejący ruch. Aktor ma
+oddzielną prezentację w `HeritageMarkers`, istniejące idle/walk NPC, culling i
+sprzątanie. Nie jest wrogim `Foe`, nie uczestniczy w nagradzanych zabójstwach.
+Punkt kontrolny pochodzi z należącego do runtime kontrolera, wymaga kolejnego numeru,
+właściciela, aktualnej pozycji i LOS. Udany CAS dopiero podnosi licznik; nieudany
+zostawia NPC przy punkcie do ponowienia. Zapis używa istniejącego pola celu
+`sequence` i nie dodaje nowej wersji koperty ani osobnego storage. Nieprawidłowy
+licznik aktywnej eskorty jest odrzucany bez nadpisywania bajtów.
+
+`e2e/heritage-delivery.spec.ts` zaczyna nowym Planetarnym, wykonuje prolog, H-V01,
+P-V1, H-V02, odświeża po pierwszym punkcie dostawy i sprawdza broń drugiego stopnia.
+Odczytuje zapis do asercji, ale nie wpisuje flag, statystyk ani pozycji. Scenariusz
+jest podłączony do obu istniejących rendererów; wynik musi być zapisany po wykonaniu.
+
+
+Regresja dostawy zatrzymuje helper po **jednym** odcinku: wielofazowe dojście do
+budynku mogło automatycznie podążać za kolejnymi zmieniającymi się waypointami i
+skończyć przy następnym zadaniu, fałszywie porównując jego licznik z licznikiem
+eskorty. Test potwierdza numer etapu i punktu przed reloadem. Dowody i wcześniejsza
+porażka są w dzienniku 28.10; asercji nie osłabiono.
+`development-mobile.spec.ts` sprawdza dotykowe zakładki i rzeczywisty ruch po
+zamknięciu panelu dla czterech ras. W pionie Superior pokazuje istniejący ekran
+obrotu; test odtwarza obrót, nie obchodzi blokady. Osiem przypadków Canvas przeszło
+na grze `924ff66f`. To nie dowód pracy na fizycznym telefonie.
+
+
+### Odbiorcy obrażeń poza graczem — partia zamykająca 28.10
+
+`monsters/receivers.ts` definiuje `MonsterReceiver`. Istniejący `MonsterSystem`
+obsługuje do ośmiu jawnie zarejestrowanych, żywych odbiorców; odrzuca duplikaty
+identyfikatorów i ciał, alias gracza oraz nieprawidłowe HP/pozycje. Cel wybierany
+jest jawnie, bez zmiany sterowania. Rozpoczęty windup/pocisk zachowuje odbiorcę;
+wyrejestrowanie unieważnia kontakt i odsyła skupionych wrogów. Strefy i AoE
+rozliczają odbiorców raz, zachowując jeden mnożnik ataku. Cleanup usuwa rejestracje.
+
+`development/heritage/protectedActor.ts` to fundament przyjaznego ciała z własnym
+HP, DEF i istniejącym `PlayerFx`, rzeczywistym DOT i ruchem pull przez nawigację.
+Nie pożycza tarcz gracza, nie przyznaje XP i nie resetuje jego zasobów.
+**Runtime zadań jeszcze go nie tworzy: bojowe eskorty i cele ochrony NIE są gotowe.**
+Polskie etykiety statusów przeniesiono bez zmiany znaczenia do `monsters/fx.ts`.
+Zachowano dotychczasowe taktowanie FX na granicy miasta: sprawdzenie bezpieczeństwa
+nie może zatrzymywać zegara pulsu gracza. Odtworzony błąd zegara i jego regresja
+są w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).
+Nie zmieniono HUD, inputu, atlasów, geometrii, kanonicznych statystyk ani formatów zapisu.

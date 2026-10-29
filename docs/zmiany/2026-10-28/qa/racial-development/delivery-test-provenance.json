@@ -1,0 +1,13 @@
+{
+  "productionCodeCommit": "924ff66f89111e192c0667f9d6a13fb5f421a3f3",
+  "correctedDriverSha256": "0cab0fe6e14d56899db84b90476871cd580a1bb72b5cea206e0c2b9d26512160",
+  "failedTrace": {
+    "localPath": "/tmp/ki-delivery-924ff66f-canvas/heritage-delivery-real-Ver-344b2-econd-stage-personal-weapon-gameplay/trace.zip",
+    "bytes": 329207526,
+    "sha256": "7991efa061ad5921f6f080c32ee89dbbef6cad431fa739a303a42e29f03cd499",
+    "backedUpOutsideWorkspace": false
+  },
+  "failureExplanation": "The multi-phase navigation helper followed both successive escort markers and the next smithy objective. The asserted sequence 0 belonged to step 5, not the escort at step 4. Corrected helper stops after one leg; stronger assertions verify both step and checkpoint before reload.",
+  "correctedCanvasResult": "1 PASS in 4.4m; real prologue/H-V01/P-V1/H-V02, checkpoint reload, stage-2 weapon; no save/state patches",
+  "softwareWebGLDeliveryResult": "not yet executed"
+}

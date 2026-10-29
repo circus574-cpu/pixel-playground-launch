@@ -1,0 +1,44 @@
+[
+  {
+    "name": "typecheck",
+    "cmd": "npm run typecheck",
+    "exit_code": 0,
+    "seconds": 23.14,
+    "sha": "3ffd46c7e993c310a7b507c8b93c3723b91825bd"
+  },
+  {
+    "name": "unit",
+    "cmd": "npm test",
+    "exit_code": 0,
+    "seconds": 63.75,
+    "sha": "3ffd46c7e993c310a7b507c8b93c3723b91825bd"
+  },
+  {
+    "name": "lint",
+    "cmd": "npm run lint",
+    "exit_code": 0,
+    "seconds": 12.2,
+    "sha": "3ffd46c7e993c310a7b507c8b93c3723b91825bd"
+  },
+  {
+    "name": "assets",
+    "cmd": "npm run assets:check",
+    "exit_code": 0,
+    "seconds": 24.36,
+    "sha": "3ffd46c7e993c310a7b507c8b93c3723b91825bd"
+  },
+  {
+    "name": "build",
+    "cmd": "npm run build",
+    "exit_code": 0,
+    "seconds": 11.09,
+    "sha": "3ffd46c7e993c310a7b507c8b93c3723b91825bd"
+  },
+  {
+    "name": "docs",
+    "cmd": "python3 scripts/docs/check_documentation.py",
+    "exit_code": 0,
+    "seconds": 2.02,
+    "sha": "3ffd46c7e993c310a7b507c8b93c3723b91825bd"
+  }
+]

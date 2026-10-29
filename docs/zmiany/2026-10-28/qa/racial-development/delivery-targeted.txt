@@ -1,0 +1,8 @@
+
+ RUN  v4.1.12 /workspace/ki-heritage
+
+
+ Test Files  5 passed (5)
+      Tests  58 passed (58)
+   Start at  18:45:07
+   Duration  12.39s (transform 2.27s, setup 624ms, import 4.21s, tests 1.93s, environment 3.69s)

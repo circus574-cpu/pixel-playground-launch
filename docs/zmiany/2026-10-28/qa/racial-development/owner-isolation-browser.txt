@@ -1,0 +1,13 @@
+
+Running 4 tests using 1 worker
+
+(node:72293) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Planetarni (21.3s)
+  ✓  2 [gameplay] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Androidy (25.1s)
+(node:72508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [software-webgl] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Planetarni (1.5m)
+  ✓  4 [software-webgl] › e2e/development.spec.ts:28:3 › new character, trainer and real isolated endurance route: Androidy (1.6m)
+
+  4 passed (3.9m)

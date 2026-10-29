@@ -1,0 +1,163 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: development-heritage.spec.ts >> actual first heritage chapter, personal weapon and reload: legend
+- Location: e2e/development-heritage.spec.ts:69:3
+
+# Error details
+
+```
+Error: expect(locator).toHaveAttribute(expected) failed
+
+Locator: locator('.ki-canvas').first()
+Expected pattern: /^\d/
+Timeout: 60000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toHaveAttribute" locator('.ki-canvas').first() with timeout 60000ms
+  - waiting for locator('.ki-canvas').first()
+
+```
+
+```yaml
+- main:
+  - link "Ki Legends — początek":
+    - /url: /
+    - img "KI LEGENDS"
+  - navigation "Postacie":
+    - button "Nowa podróż"
+    - button "Twoje postacie 1" [pressed]
+    - link "Konto":
+      - /url: /konto
+  - region "Zapisane postacie":
+    - paragraph: TWOJE HISTORIE
+    - heading "Wróć na swój szlak." [level=1]
+    - paragraph: Każda postać ma własną historię zapisaną na tym urządzeniu.
+    - article:
+      - text: POSTAĆ 47efa539
+      - heading "Zapis wymagający odzyskania" [level=2]
+      - paragraph: Nie można odczytać zapisu postaci. Oryginał zachowano; zapisywanie tej sesji jest wyłączone.
+      - button "Kontynuuj podróż" [disabled]
+    - button "Utwórz nową postać"
+```
+
+# Test source
+
+```ts
+  63  |       .locator(".ki-development-target")
+  64  |       .nth(index)
+  65  |       .getByRole("button", { name: /^Podejdź:/ }),
+  66  |   ).toBeDisabled();
+  67  | }
+  68  | for (const race of RACE_IDS) {
+  69  |   test(`actual first heritage chapter, personal weapon and reload: ${race}`, async ({
+  70  |     page,
+  71  |   }, info) => {
+  72  |     test.setTimeout(900000);
+  73  |     const errors: string[] = [];
+  74  |     page.on("pageerror", (e) => errors.push(e.message));
+  75  |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+  76  |     await page.getByRole("button", { name: "Wybierz: " + RACES[race].name, exact: true }).click();
+  77  |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  78  |     const canvas = page.locator(".ki-canvas").first();
+  79  |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+  80  |     // The real old prologue is completed through its own UI; no progress/position patching.
+  81  |     await page.getByRole("button", { name: /^Rozmowa ·/ }).click();
+  82  |     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
+  83  |     const market = page.getByRole("dialog").getByRole("button", { name: /^Podejdź/ });
+  84  |     await expect(market).toBeVisible();
+  85  |     await market.click();
+  86  |     await expect
+  87  |       .poll(async () => (await saved(page)).quests.steps, { timeout: 120000 })
+  88  |       .toBe("ready");
+  89  |     await openHudTool(page, "Dziennik");
+  90  |     await page
+  91  |       .locator(".ki-adventure-panel")
+  92  |       .getByRole("button", { name: /^Idź do/ })
+  93  |       .first()
+  94  |       .click();
+  95  |     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
+  96  |     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  97  |     expect((await saved(page)).quests.steps).toBe("done");
+  98  |     const id = questId(race, 1),
+  99  |       definition = HERITAGE_BY_ID.get(id)!;
+  100 |     await openHeritage(page);
+  101 |     await approach(page, 0);
+  102 |     await page.getByRole("button", { name: "Przyjmij zlecenie", exact: true }).click();
+  103 |     await expect
+  104 |       .poll(async () => (await saved(page)).development?.heritage.quests[id]?.status)
+  105 |       .toBe("active");
+  106 |     for (let guard = 0; guard < 60; guard++) {
+  107 |       const p = await saved(page),
+  108 |         progress = p.development!.heritage.quests[id]!;
+  109 |       if (progress.status === "ready") break;
+  110 |       expect(progress.status).toBe("active");
+  111 |       const goal = definition.goals[progress.step]!;
+  112 |       const index = goal.kind === "forge" ? 0 : progress.goal.sequence;
+  113 |       await approach(page, index);
+  114 |       const target = page.locator(".ki-development-target").nth(index);
+  115 |       const old = JSON.stringify(progress);
+  116 |       if (goal.kind === "talk")
+  117 |         await target.getByRole("button", { name: goal.responses[0]!.label, exact: true }).click();
+  118 |       else if (goal.kind === "inspect")
+  119 |         await target
+  120 |           .getByRole("button", { name: "Zbadaj znak lub przedmiot", exact: true })
+  121 |           .click();
+  122 |       else if (goal.kind === "consent")
+  123 |         await target
+  124 |           .getByRole("button", { name: "Uzyskaj zgodę na zapis anonimowy", exact: true })
+  125 |           .click();
+  126 |       else if (goal.kind === "solve") {
+  127 |         const puzzle = goal.puzzles[index]!;
+  128 |         await target
+  129 |           .getByRole("button", {
+  130 |             name: puzzle.options.find((a) => a.id === puzzle.answerId)!.label,
+  131 |             exact: true,
+  132 |           })
+  133 |           .click();
+  134 |       } else if (goal.kind === "forge")
+  135 |         await target
+  136 |           .getByRole("button", {
+  137 |             name: forgeProcedure(goal, race)[progress.goal.sequence]!.label,
+  138 |             exact: true,
+  139 |           })
+  140 |           .click();
+  141 |       else throw Error("Missing physical UI handler: " + goal.kind);
+  142 |       await expect
+  143 |         .poll(async () => JSON.stringify((await saved(page)).development!.heritage.quests[id]))
+  144 |         .not.toBe(old);
+  145 |     }
+  146 |     expect((await saved(page)).development!.heritage.quests[id]!.status).toBe("ready");
+  147 |     await openHeritage(page);
+  148 |     await page.screenshot({ path: info.outputPath(race + "-heritage-choice.png") });
+  149 |     await page.getByRole("button", { name: definition.choices[0]!.label, exact: true }).click();
+  150 |     await expect
+  151 |       .poll(async () => (await saved(page)).development!.heritage.quests[id]!.status)
+  152 |       .toBe("done");
+  153 |     const w = (await saved(page)).development!.heritage.weapon!;
+  154 |     expect(w.stage).toBe(1);
+  155 |     expect(w.history).toEqual([id]);
+  156 |     expect((await saved(page)).development!.practiceEarned).toBe(150);
+  157 |     await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+  158 |     await openHudTool(page, "Ekwipunek");
+  159 |     await page.getByRole("button", { name: "Załóż osobistą broń", exact: true }).click();
+  160 |     await expect.poll(async () => (await saved(page)).weapon).toBe("heritage");
+  161 |     await page.screenshot({ path: info.outputPath(race + "-equipped-heritage.png") });
+  162 |     await page.reload();
+> 163 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+      |                          ^ Error: expect(locator).toHaveAttribute(expected) failed
+  164 |     const restored = await saved(page);
+  165 |     expect(restored.weapon).toBe("heritage");
+  166 |     expect(restored.development!.heritage.weapon).toEqual(w);
+  167 |     expect(restored.development!.heritage.quests[id]!.status).toBe("done");
+  168 |     expect(errors).toEqual([]);
+  169 |   });
+  170 | }
+  171 |
+```

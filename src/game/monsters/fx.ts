@@ -181,3 +181,34 @@ export class PlayerFx {
     return false;
   }
 }
+
+export const statusText = (fx: FxSpec): string => {
+  switch (fx.k) {
+    case "slow":
+      return "Spowolnienie";
+    case "root":
+      return "Unieruchomienie";
+    case "stun":
+      return "Ogłuszenie";
+    case "fear":
+      return "Strach";
+    case "silence":
+      return "Uciszenie";
+    case "dot":
+      return fx.id === "poison" ? "Trucizna" : fx.id === "burn" ? "Podpalenie" : "Krwawienie";
+    case "blind":
+      return "Oślepienie";
+    case "fog":
+      return "Mgła";
+    case "jam":
+      return "Zakłócenia";
+    case "weaken":
+      return "Osłabienie";
+    case "armorDown":
+      return "Obrona w dół";
+    case "mark":
+      return "Znak";
+    default:
+      return "";
+  }
+};

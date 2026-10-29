@@ -81,13 +81,13 @@ export class AndroidKit extends Kit {
       if (this.overheatMs === 0) this.charge = Math.min(this.charge, this.maxCharge * 0.5);
     }
     if (this.port.nowMs - this.lastShot > 1000 && this.charge > 0) {
-      const rate = 6 * (this.has("C2") ? 1.5 : 1);
+      const rate = 6 * (this.has("C2") ? 1.5 : 1) * this.development.cooling;
       this.charge = Math.max(0, this.charge - (rate * dt) / 1000);
     }
     if (this.charge > this.maxCharge) this.charge = this.maxCharge;
   }
   protected override basic(): UseResult {
-    const s = this.stats;
+    const s = { ...this.stats, range: this.basicRange };
     const p = this.port.player;
     const foe = this.pickFoe(s.range);
     if (!foe) return { ok: false, reason: "Wybierz cel." };
@@ -124,7 +124,12 @@ export class AndroidKit extends Kit {
         const foe = this.pickFoe(s.range);
         if (!foe) return { ok: false, reason: "Wybierz cel." };
         if (this.dist(p, foe) > s.range) return { ok: false, reason: "Cel poza zasięgiem." };
-        this.port.markFoe(foe, 6000, 15, this.has("A5") ? 0.1 : 0);
+        this.port.markFoe(
+          foe,
+          6000 * (this.variant("mn-mark") ? 1.5 : 1),
+          15,
+          this.has("A5") ? 0.1 : 0,
+        );
         this.port.emit({
           type: "attack",
           x: p.x,
@@ -171,10 +176,15 @@ export class AndroidKit extends Kit {
         return { ok: true };
       }
       case "B1": {
-        const amount = s.maxHp * 0.18 * (this.has("B3") ? 1.25 : 1);
+        const amount =
+          s.maxHp *
+          0.18 *
+          (this.has("B3") ? 1.25 : 1) *
+          this.development.shieldCapacity *
+          (this.variant("mn-barrier") ? 1.15 : 1);
         this.addShield({
           id: "B1",
-          ms: 5000,
+          ms: 5000 * this.development.shieldDuration * (this.variant("mn-barrier") ? 0.8 : 1),
           amount,
           max: amount,
           reflectProjectile: this.has("B5") ? 0.25 : undefined,
@@ -206,7 +216,9 @@ export class AndroidKit extends Kit {
           const dy = foe.y - p.y;
           const along = dx * f.x + dy * f.y;
           const across = Math.abs(dx * f.y - dy * f.x);
-          return along > 0 && along <= 360 && across <= 50;
+          return (
+            along > 0 && along <= 360 && across <= 50 * (this.variant("mn-discharge") ? 1.25 : 1)
+          );
         });
         this.port.emit({
           type: "attack",
@@ -216,7 +228,11 @@ export class AndroidKit extends Kit {
           to: { x: p.x + f.x * 360, y: p.y + f.y * 360 },
         });
         for (const foe of foes)
-          this.strike(foe, mult, { tags: ["electric", "area"], ranged: true, ability: "C1" });
+          this.strike(foe, mult * (this.variant("mn-discharge") ? 0.9 : 1), {
+            tags: ["electric", "area"],
+            ranged: true,
+            ability: "C1",
+          });
         this.charge = 0;
         return { ok: true };
       }

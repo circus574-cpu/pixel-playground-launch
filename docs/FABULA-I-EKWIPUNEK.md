@@ -2955,3 +2955,22 @@ Sezon II — Morze między głosami: Liga odkrywa osady, które nie należały d
 Sezon III — Dziedzice decyzji: skutki wybranego modelu sieci stają się widoczne podczas lokalnych sporów. Wariant rozproszony mierzy się z brakiem koordynacji, Pakt z przewlekłością narad, Cichy Strażnik z pokusą ponownego przyznania uprawnień doradcy. Każda wersja ma własne trudności, lecz żadna nie okazuje się z definicji fałszywym zakończeniem.
 
 Wspólny kierunek: świat pamięta decyzje bohatera poprzez ludzi, budynki, listy i trasy. Następny rozdział nie resetuje miast do katastrofy tylko po to, aby stworzyć nową listę przeciwników.
+
+## Nowe dziedzictwa ras — zlecenie 28.10.2026
+
+[Pełne źródło właściciela](design/racial-development-owner-2026-10-28.txt)
+wprowadza osobne identyfikatory H-V01–06, H-A01–06, H-N01–06 i H-P01–06.
+Nie utożsamiać ich z samymi projektowymi nazwami O-V/O-A/O-N/O-P ani z zakończeniem
+M24. Dziedzictwa są lokalnymi historiami czterech kultur i nie oznaczają
+pokonania Veyra. Przewidziano 2100 XP za sześć rozdziałów jednej rasy, równe
+nagrody za odmienne decyzje, sześć projektów i sześć etapów broni osobistej.
+Ten zapis wymagań **nie jest deklaracją zaimplementowania rozdziałów i broni**.
+Stosy `potion/tusk/sword/vest` pozostają niezmienione. Nowa osobista broń jest
+unikalnym obiektem `development.heritage.weapon`, a istniejący slot `weapon`
+przyjmuje także `heritage`. Broń ma UUID, właściciela klucza slotu, rasę, stopień,
+nazwę, historię i lokalizację plecak/depozyt. ATK 8/10/12/14/16/18 wchodzi przez
+`gear.attack` tylko po założeniu. Stare `upgrade` działa wyłącznie na `sword`;
+interfejs pokazuje porównanie przed założeniem. Pierwsze rozdziały czterech ras
+wydają własną broń, zaś pełna legalna ścieżka stopni 2–6 nadal wymaga odbioru
+późniejszych etapów. Transfer wymaga własnej otwartej skrzyni i rzeczywistej
+bliskości. Nie wolno wczytać cudzej broni do innego slotu.

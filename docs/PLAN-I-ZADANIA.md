@@ -160,3 +160,53 @@ tego checkpointu. Nie zmieniono produkcji, GPU, /test ani danych graczy.
 Osobna wcześniejsza praca ARPG: gałąź `feature/action-combat-stage-a`, ostatni
 commit `1b85569`; pozostał czerwony test manualnego ataku touch Software WebGL.
 Nie włączać jej przypadkowo do geometrii.
+
+## Nowe zlecenie rozwoju czterech ras — 28.10.2026, w realizacji
+
+Gałąź `feature/racial-development-and-heritage`, baza `3ffd46c7`.
+Pełne wymagania: [niezmienione źródło właściciela](design/racial-development-owner-2026-10-28.txt).
+Wspólny trening i izolowane egzaminy są podłączone do istniejącego silnika;
+nie oznacza to ukończenia dostawy. Weryfikacja trwa.
+
+Do pełnego odbioru nadal potrzebne są: 24 wieloetapowe rozdziały i ich wybory,
+24 widoczne projekty z lokalnymi skutkami, 48 prób rasowych / 144 stopnie,
+rzeczywiste odblokowania wariantów i modułów, cztery bronie osobiste z 6 etapami
+oraz depozytem, biografie i kroniki, 32 warianty przeciwników 21–40 wraz
+z wyprawami, walidator całego grafu i budżetu 17 800 oraz pełne pomiary balansu.
+Przygotowany kod modyfikatora nie jest dowodem dostępności jego odblokowania.
+Nie scalać ani nie publikować bez osobnej decyzji właściciela.
+
+
+Checkpoint kontynuacji PR #55: istnieje katalog wszystkich rozdziałów/projektów,
+realny obieg interakcji i transakcyjnych nagród, slot i depozyt osobistej broni,
+lokalne nakładki projektów oraz kontroler powstrzymania ciosu. W przeglądarce
+sprawdzono pierwsze rozdziały; wykryto i naprawiono walidację wnętrza Pyry.
+**Nie oznacza to pełnego odbioru 24/24/48.** Najbliższe zależności: dokończyć
+chronione obiekty/eskorty i pomiary w realnym runtime, następnie pełne odblokowania
+144 stopni prób, późne wyprawy, biografie/kroniki i bilans. Nie dodawać przycisków
+zaliczających te cele bez właściwych zdarzeń symulacji. Dokładny status kontroli
+oraz problemy CI: bieżący dziennik. Scalanie i publikacja nadal są oddzielną decyzją.
+
+
+Dalsza aktualizacja PR #55 (28.10): spokojne dostawy mają rzeczywisty ruch NPC i
+trwałe punkty wznowienia; H-V02 z bronią stopnia 2 przeszedł integrację GameSession.
+Weryfikacja tego rozdziału w przeglądarce pozostaje do wykonania. Eskorty bojowe,
+obrona i fale nadal wymagają odbiorcy faktycznych obrażeń w obecnym silniku AI,
+a nie zaliczania ich kontrolerem spokojnej dostawy. Pozostały zakres 48 prób,
+późnych spotkań, biografii, kronik, tytułów i balansu nie jest ukończony.
+
+
+### Stan zamknięcia sesji 28.10 — PR #55 nadal Draft
+
+Partia odbiorców obrażeń przygotowuje ochronę NPC/obiektów, lecz nie implementuje
+kontrolerów fal ani bojowych eskort. Pozostają: 48 prób rasowych i trzy progi
+każdej, 32 późne starcia, pełne funkcjonalne rozdziały/projekty i odbiór broni
+stopni 3–6, odblokowania mistrzostw II, narracja/kroniki i pomiary legalnego balansu.
+Nie należy traktować 24 definicji zadań i 24 projektów jako dowodu ich pełnej grywalności.
+Nowy test rzeczywistej walki Canvas/Software WebGL ma niezakończoną diagnozę;
+nie osłabiać asercji spadku HP ani zastępować zniknięcia potwora dowodem trafienia.
+
+PR #55 ma konflikt z nowszym `main@0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`.
+Przed integracją porównać nowe transformacje, zapis, sterowanie i zmiany GM;
+wyniki tej gałęzi nie dowodzą zgodności z nowym main. Nie scalono i nie opublikowano.
+Szczegóły i dowody w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).

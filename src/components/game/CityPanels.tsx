@@ -1,3 +1,4 @@
+import { HeritageWeaponCard } from "./HeritageWeaponCard";
 import { useState, type ReactNode } from "react";
 import { ITEMS, ITEM_IDS, MATERIALS, type GameViewState, type Command } from "../../game/session";
 import { WORLDS } from "../../game/world/worlds";
@@ -105,6 +106,7 @@ export function DepotPanel({
         </header>
         {feedback}
         <div className="ki-adventure-panel">
+          <HeritageWeaponCard state={state} send={send} depot />
           <p>
             Depozyt tej postaci w {WORLDS[p.continent].settlement}. Przedmioty pozostają tutaj po
             odświeżeniu gry.

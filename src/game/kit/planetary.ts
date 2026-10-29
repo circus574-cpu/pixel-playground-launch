@@ -92,7 +92,8 @@ export class PlanetaryKit extends Kit {
     const f = this.port.facing;
     switch (id) {
       case "A1": {
-        this.port.dash({ x: p.x + f.x * 160, y: p.y + f.y * 160 }, 160);
+        const distance = 160 * (this.variant("mv-trail") ? 1.2 : 1);
+        this.port.dash({ x: p.x + f.x * distance, y: p.y + f.y * distance }, distance);
         this.addBuff({ id: "dodge", ms: 400, invulnerable: true });
         if (this.has("A3")) this.addBuff({ id: "A3", ms: 5000, nextHitPct: 0.25 });
         if (this.has("A7")) this.addBuff({ id: "A7", ms: 5000, guaranteedCrit: true });
@@ -117,7 +118,8 @@ export class PlanetaryKit extends Kit {
         return { ok: true };
       }
       case "B1": {
-        const radius = 120 * (this.has("B8") ? 1.4 : 1);
+        const radius = 120 * (this.has("B8") ? 1.4 : 1) * (this.variant("mv-earth") ? 1.2 : 1);
+        const damageFactor = this.variant("mv-earth") ? 0.9 : 1;
         let got = 0;
         const hitAll = (mult: number, first: boolean) => {
           const foes = this.port.foesIn(this.port.player, radius);
@@ -129,7 +131,11 @@ export class PlanetaryKit extends Kit {
             radius,
           });
           for (const foe of foes) {
-            this.strike(foe, mult, { tags: ["physical", "area"], melee: true, ability: "B1" });
+            this.strike(foe, mult * damageFactor, {
+              tags: ["physical", "area"],
+              melee: true,
+              ability: "B1",
+            });
             if (first) {
               this.port.slowFoe(foe, 0.3, 2000);
               if (this.has("B8")) this.port.stunFoe(foe, 500);
@@ -170,7 +176,10 @@ export class PlanetaryKit extends Kit {
       }
       case "C1": {
         const total = this.stats.maxHp * 0.12 * (this.has("C6") ? 1.3 : 1);
-        this.hot(total, 4000);
+        this.hot(
+          total * (this.variant("mv-root") ? 1.1 : 1),
+          4000 * (this.variant("mv-root") ? 1.5 : 1),
+        );
         if (this.has("C8")) this.port.addKi(15);
         this.port.emit({ type: "heal", x: p.x, y: p.y, ability: "C1", text: "Oddech" });
         return { ok: true };
