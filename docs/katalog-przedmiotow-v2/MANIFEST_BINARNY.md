@@ -1,10 +1,10 @@
 # Manifest binariów katalogu KI Legends V2
 
-Ten manifest **nie oznacza, że niżej wymienione pliki znajdują się na GitHubie**. Pozwala zweryfikować przesłanie oryginalnych grafik i plików PDF/ZIP bez podmiany na podobnie nazwane obrazy.
+Wszystkie pliki wymienione poniżej są opublikowane w tym katalogu repozytorium na gałęzi `main`. Zostały odczytane z oryginalnego ZIP-a V2 i zweryfikowane w [GitHub Actions #40937429473](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40937429473).
 
-| Plik (poza repozytorium) | Bajty | SHA-256 |
+| Plik na GitHubie | Bajty | SHA-256 |
 |---|---:|---|
-| KI_LEGENDS_KATALOG_366_PASYWNE_BUFFY_V2.pdf | 8882593 | `3a6b0207560f90745950ac661e5a5a07f5ca31d07de36952592ab0d81c456d7d` |
+| KI_LEGENDS_KATALOG_366_PASYWNE_BUFFY_V2.pdf | 8857607 | `6908648750fa4526526b22a2dfc2ad53c51d8a00fa75efdf8bc51350b6a084b1` |
 | KI_LEGENDS_PAKIET_366_PASYWNE_ARTEFAKTY_V2.zip | 12138736 | `2bd02649bc873001b24c655fe5023940e660bec6ae7187a1e87add10dd389852` |
 | plansze/1793193909901.jpg | 276577 | `db25d3da2f8222fb9d7d38e998ac1d6d044e37792b8756135f81322c3c1ca2fb` |
 | plansze/1793196850383.jpg | 297043 | `6e9934a202919effb67657603f040e0416686d5d37f8dd8921ada689763f0b77` |
