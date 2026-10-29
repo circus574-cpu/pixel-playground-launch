@@ -8,9 +8,15 @@ if [ ! -s "$BASE/secrets/owner_password" ]; then
  umask 077
  openssl rand -hex 32 > "$BASE/secrets/owner_password"
 fi
+# SQL is non-secret and must be readable by the unprivileged PostgreSQL UID.
+chmod 755 "$BASE/init"
+chmod 644 "$BASE/init/"*.sql
 cd "$BASE"
 docker compose -p ki-multiplayer-db -f compose.yml config --quiet
-docker compose -p ki-multiplayer-db -f compose.yml up -d --wait --wait-timeout 180
+if ! docker compose -p ki-multiplayer-db -f compose.yml up -d --wait --wait-timeout 180; then
+ docker compose -p ki-multiplayer-db -f compose.yml logs --tail 80 db
+ exit 1
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"
