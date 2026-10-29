@@ -77,3 +77,28 @@ bazie `5c2e83e3` z dodanymi oryginalnymi overlayami i poprawionym skryptem smoke
 Node lokalny 24; pełny Docker/Node 22 sprawdza osobny CI po pushu, wynik musi być
 odczytany osobno. Wdrożenie na Aruba, certyfikat domeny testowej, logowanie na
 prawdziwe konto, zapis oraz akceptacja rozgrywki pozostają NIEWYKONANE bez dostępu.
+
+## Automatyczne wydania istniejącej usługi Coolify
+
+Właściciel upoważnił bezpośrednią konfigurację produkcji i automatycznych wydań
+z main. SSH przez sekret Actions `COOLIFY_SSH_KEY` działa; po dodaniu użytkownika
+codex do grupy docker potwierdzono Docker 29.9.2. Nie ma potrzeby przekazywania
+prywatnego klucza do tego środowiska ani używania tokenu API po HTTP.
+
+Odczyt serwera wykazał istniejący stos `xh4qbckykxsq1iofxdoe5t3h`, kontenery
+`web-...` i `app-...`, konfigurację `/data/coolify/services/<UUID>/docker-compose.yml`
+oraz domeny web: `ki-staging.85.235.150.189.sslip.io`, `staging.kilegends.pl`.
+Usługa jest ręcznym Compose, bez Git Source. Automatyzacja działa przez Actions,
+nie przez nieistniejący przełącznik Auto Deploy w jej panelu.
+
+`aruba-production.yml` serializuje wydania, dostarcza dwa skrypty przez SSH,
+buduje dokładny SHA w oddzielnym stosie loopback i wykonuje smoke. Dopiero potem
+`promote-coolify-release.sh` zachowuje identyfikatory starych obrazów, podmienia
+lokalne tagi używane przez obecną usługę i odtwarza kontenery z jej istniejącym
+Compose. Zachowuje routing i środowisko Coolify. Błąd uruchomienia lub smoke
+uruchamia przywrócenie starych obrazów. Nie usuwa innych aplikacji i nie dotyka bazy.
+Weryfikacja po aktualizacji używa prawdziwego HTTPS `staging.kilegends.pl`.
+Przełączenie DNS głównej domeny nie zostało przez te skrypty wykonane.
+
+Pierwszy przebieg automatyzacji: Actions 40825461459 na `3b595be5`.
+Wynik wymaga odczytania; sam zapis workflow nie jest zaliczonym wdrożeniem.
