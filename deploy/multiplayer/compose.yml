@@ -11,7 +11,6 @@ services:
     secrets: [owner_password]
     volumes:
       - database:/var/lib/postgresql/data
-      - ./init:/docker-entrypoint-initdb.d:ro
     networks: [private]
     shm_size: 128m
     mem_limit: 512m

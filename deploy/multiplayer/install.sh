@@ -8,14 +8,20 @@ if [ ! -s "$BASE/secrets/owner_password" ]; then
  umask 077
  openssl rand -hex 32 > "$BASE/secrets/owner_password"
 fi
-# SQL is non-secret and must be readable by the unprivileged PostgreSQL UID.
-chmod 755 "$BASE/init"
-chmod 644 "$BASE/init/"*.sql
+# The host directory is 0700; the mounted secret must be readable by the DB process.
+# Some Docker user namespaces cannot read a host-owned 0600 file inside a container.
+chmod 444 "$BASE/secrets/owner_password"
 cd "$BASE"
 docker compose -p ki-multiplayer-db -f compose.yml config --quiet
 if ! docker compose -p ki-multiplayer-db -f compose.yml up -d --wait --wait-timeout 180; then
  docker compose -p ki-multiplayer-db -f compose.yml logs --tail 80 db
  exit 1
+fi
+present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select to_regclass('game.schema_version') is not null")
+if [ "$present" != t ]; then
+ existing=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select count(*) from pg_namespace where nspname='game'")
+ [ "$existing" = 0 ] || { echo 'Unknown existing game schema: refused'; exit 1; }
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/001-foundation.sql
 fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
