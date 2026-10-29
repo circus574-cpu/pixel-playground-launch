@@ -1,0 +1,163 @@
+ssh-check	Set up job	﻿2026-10-29T09:34:56.6290044Z Current runner version: '2.338.0'
+ssh-check	Set up job	2026-10-29T09:34:56.6312628Z ##[group]Runner Image Provisioner
+ssh-check	Set up job	2026-10-29T09:34:56.6313520Z Hosted Compute Agent
+ssh-check	Set up job	2026-10-29T09:34:56.6314189Z Version: 20261021.618
+ssh-check	Set up job	2026-10-29T09:34:56.6314863Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+ssh-check	Set up job	2026-10-29T09:34:56.6315581Z Build Date: 2026-10-21T00:45:21Z
+ssh-check	Set up job	2026-10-29T09:34:56.6316291Z Worker ID: {724a94e9-5e00-44d7-b34e-1c0eec9b8a90}
+ssh-check	Set up job	2026-10-29T09:34:56.6317059Z Region: westus3
+ssh-check	Set up job	2026-10-29T09:34:56.6317791Z Cloud: Azure
+ssh-check	Set up job	2026-10-29T09:34:56.6318343Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:34:56.6319622Z ##[group]Operating System
+ssh-check	Set up job	2026-10-29T09:34:56.6320295Z Ubuntu
+ssh-check	Set up job	2026-10-29T09:34:56.6320855Z 24.04.5
+ssh-check	Set up job	2026-10-29T09:34:56.6321757Z LTS
+ssh-check	Set up job	2026-10-29T09:34:56.6322254Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:34:56.6322852Z ##[group]Runner Image
+ssh-check	Set up job	2026-10-29T09:34:56.6323484Z Image: ubuntu-24.04
+ssh-check	Set up job	2026-10-29T09:34:56.6324102Z Version: 20261025.353.1
+ssh-check	Set up job	2026-10-29T09:34:56.6325065Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+ssh-check	Set up job	2026-10-29T09:34:56.6326684Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+ssh-check	Set up job	2026-10-29T09:34:56.6327831Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:34:56.6328982Z ##[group]GITHUB_TOKEN Permissions
+ssh-check	Set up job	2026-10-29T09:34:56.6330921Z Contents: read
+ssh-check	Set up job	2026-10-29T09:34:56.6331564Z Metadata: read
+ssh-check	Set up job	2026-10-29T09:34:56.6332175Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:34:56.6333950Z Secret source: Actions
+ssh-check	Set up job	2026-10-29T09:34:56.6334935Z Cache mode: write
+ssh-check	Set up job	2026-10-29T09:34:56.6335672Z Prepare workflow directory
+ssh-check	Set up job	2026-10-29T09:34:56.6639256Z Prepare all required actions
+ssh-check	Set up job	2026-10-29T09:34:56.6677571Z Getting action download info
+ssh-check	Set up job	2026-10-29T09:34:56.9412817Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+ssh-check	Set up job	2026-10-29T09:34:57.1479529Z Complete job name: ssh-check
+ssh-check	Run actions/checkout@v4	﻿2026-10-29T09:34:57.2155507Z ##[group]Run actions/checkout@v4
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2156234Z with:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2156668Z   sparse-checkout: deploy/multiplayer
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2157393Z   repository: circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2160467Z   token: ***
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2160868Z   ssh-strict: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2161287Z   ssh-user: git
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2161704Z   persist-credentials: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2162143Z   clean: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2162562Z   sparse-checkout-cone-mode: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2163027Z   fetch-depth: 1
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2163417Z   fetch-tags: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2163825Z   show-progress: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2164225Z   lfs: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2164602Z   submodules: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2165010Z   set-safe-directory: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2165462Z   allow-unsafe-pr-checkout: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.2166077Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4565491Z Syncing repository: circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4567183Z ##[group]Getting Git version info
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4568540Z Working directory is '/home/runner/work/pixel-playground-launch/pixel-playground-launch'
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4569661Z [command]/usr/bin/git version
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4649596Z git version 2.56.0
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4665796Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4678674Z Temporarily overriding HOME='/home/runner/work/_temp/501d3c1c-9134-43e5-9e3e-655e4ba8feff' before making global git config changes
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4680889Z Adding repository directory to the temporary git global config as a safe directory
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4683142Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4741726Z Deleting the contents of '/home/runner/work/pixel-playground-launch/pixel-playground-launch'
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4746103Z ##[group]Initializing the repository
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4750725Z [command]/usr/bin/git init /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4838023Z hint: Using 'master' as the name for the initial branch. This default branch name
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4839331Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4840120Z hint: to use in all of your new repositories, which will suppress this warning,
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4840733Z hint: call:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4841109Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4841571Z hint: 	git config --global init.defaultBranch <name>
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4842122Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4842628Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4843419Z hint: 'development'. The just-created branch can be renamed via this command:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4844039Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4844407Z hint: 	git branch -m <name>
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4844843Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4845382Z hint: Disable this message with "git config set advice.defaultBranchName false"
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4858239Z Initialized empty Git repository in /home/runner/work/pixel-playground-launch/pixel-playground-launch/.git/
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4876563Z [command]/usr/bin/git remote add origin https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4911727Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4912652Z ##[group]Disabling automatic garbage collection
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4915334Z [command]/usr/bin/git config --local gc.auto 0
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4946182Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4947221Z ##[group]Setting up auth
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4951986Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.4985120Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5327184Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5364528Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5568397Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5605229Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5803294Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5843889Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5844674Z ##[group]Fetching the repository
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:57.5854878Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +19ad2c2ec4b985c15c4e6b710f83d2ba43046a53:refs/remotes/origin/infra/multiplayer-db-vps
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2161914Z From https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2163231Z  * [new ref]         19ad2c2ec4b985c15c4e6b710f83d2ba43046a53 -> origin/infra/multiplayer-db-vps
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2165412Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2166225Z ##[group]Determining the checkout info
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2168553Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2169616Z ##[group]Setting up sparse checkout
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2174164Z [command]/usr/bin/git sparse-checkout set deploy/multiplayer
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2229076Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2230261Z ##[group]Checking out the ref
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.2234348Z [command]/usr/bin/git checkout --progress --force -B infra/multiplayer-db-vps refs/remotes/origin/infra/multiplayer-db-vps
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.8525135Z Switched to a new branch 'infra/multiplayer-db-vps'
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.8528585Z branch 'infra/multiplayer-db-vps' set up to track 'origin/infra/multiplayer-db-vps'.
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.8536287Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.8590482Z [command]/usr/bin/git log -1 --format=%H
+ssh-check	Run actions/checkout@v4	2026-10-29T09:34:58.8620485Z 19ad2c2ec4b985c15c4e6b710f83d2ba43046a53
+ssh-check	Prepare deployment bundle	﻿2026-10-29T09:34:58.8808688Z ##[group]Run tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/multiplayer compose.yml init verify.sql install.sh
+ssh-check	Prepare deployment bundle	2026-10-29T09:34:58.8809739Z [36;1mtar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/multiplayer compose.yml init verify.sql install.sh[0m
+ssh-check	Prepare deployment bundle	2026-10-29T09:34:58.8830471Z shell: /usr/bin/bash -e {0}
+ssh-check	Prepare deployment bundle	2026-10-29T09:34:58.8830817Z ##[endgroup]
+ssh-check	Deploy tested candidate and update existing Coolify service	﻿2026-10-29T09:34:58.8952700Z ##[group]Run set -euo pipefail
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8953097Z [36;1mset -euo pipefail[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8953427Z [36;1mif [ -z "$SSH_PRIVATE_KEY" ]; then[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8953931Z [36;1m  echo '::error::Add repository Actions secret COOLIFY_SSH_KEY, then rerun this job.'[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8954407Z [36;1m  exit 1[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8954666Z [36;1mfi[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8954915Z [36;1mumask 077[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8955222Z [36;1mkey_file="$RUNNER_TEMP/coolify_ssh_key"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8955590Z [36;1mtrap 'rm -f "$key_file"' EXIT[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8955971Z [36;1mprintf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8956810Z [36;1mssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8958282Z [36;1mssh "${ssh_opts[@]}" codex@85.235.150.189 'umask 077; mkdir -p "$HOME/ki-multiplayer-db"; tar -xzf - -C "$HOME/ki-multiplayer-db"; bash "$HOME/ki-multiplayer-db/install.sh"' < /tmp/ki-deploy-scripts.tar.gz[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8976309Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8976709Z env:
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8978928Z   SSH_PRIVATE_KEY: ***
+ssh-check	Deploy tested candidate and update existing Coolify service
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:58.8979223Z ##[endgroup]
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:34:59.6307134Z Warning: Permanently added '85.235.150.189' (ED25519) to the list of known hosts.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:02.4532842Z  Container ki-multiplayer-db-db-1 Recreate
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:02.9549279Z  Container ki-multiplayer-db-db-1 Recreated
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:03.0075234Z  Container ki-multiplayer-db-db-1 Starting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:03.2438409Z  Container ki-multiplayer-db-db-1 Started
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:03.2438990Z  Container ki-multiplayer-db-db-1 Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:13.7466887Z  Container ki-multiplayer-db-db-1 Healthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.2825338Z BEGIN
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.2826262Z SET
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3075602Z DO
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3079257Z RESET
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3083851Z ROLLBACK
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3084329Z                                       verification
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3084941Z ----------------------------------------------------------------------------------------
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3085505Z  PASS: CAS, duplicate rejection, constraints and least privileges; fixtures rolled back
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3085875Z (1 row)
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:14.3086018Z
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:15.7789127Z DO
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:35:16.3890502Z VERIFIED: database healthy, SQL checks PASS, backup restore PASS, no published ports
+ssh-check	Post Run actions/checkout@v4	﻿2026-10-29T09:35:16.4020212Z Post job cleanup.
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4739904Z [command]/usr/bin/git version
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4777656Z git version 2.56.0
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4809838Z Temporarily overriding HOME='/home/runner/work/_temp/3bc1ecfe-717d-4510-b2ff-692c0f4400fc' before making global git config changes
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4810863Z Adding repository directory to the temporary git global config as a safe directory
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4814814Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4848697Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.4880699Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.5126871Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.5153941Z http.https://github.com/.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.5164736Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.5220217Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.5444867Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:35:16.5482985Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ssh-check	Complete job	﻿2026-10-29T09:35:16.5846375Z Cleaning up orphan processes
+ssh-check	Complete job	2026-10-29T09:35:16.6173159Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
