@@ -530,3 +530,53 @@ pobrania; udokumentowano odrębnie 6 lokalnych roboczych wycinków JPEG→RGBA.
 - [Katalog 36 decyzji](qa/gemini-vfx-selekcja.csv)
 - Status: **dokumentacja w repozytorium**, brak importu binariów i brak certyfikacji
   licencji/alpha/animacji; środowiska produkcyjne pozostawione bez zmian.
+
+## GM/Coder — rzeczywiste parametry zamiast pustych nadpisań
+
+Gałąź `fix/gm-current-character-statistics` od aktualnego
+`main@9bce1a5c9c836e831493757bde987d1d7e7fb790`.
+Potwierdzony błąd: wartości inputów pochodziły wyłącznie z `statOverrides`, a nie
+z wyliczenia statystyk postaci. Dodano `summarize().currentStats` z tym samym
+`stats()` co silnik, walidacją parametrów i bez zmiany kanonicznych wzorów.
+Formularz pokazuje wszystkie9 istniejących parametrów; Unik/szybkość/Technika
+mają dodatkowy odczyt. Niezmienione pola nie są utrwalane jako GM override.
+Poziom, sprzęt i reset odświeżają podgląd; wyświetlenie float ograniczono do6 miejsc.
+
+Naprawiono też potwierdzony problem `heritage`: podsumowanie udawało brak broni,
+a `applyEdit` błędnie wymagał zwykłego miecza nawet przy edycji złota/parametrów.
+Regresje pierwszego rozdziału wszystkich4ras sprawdzają prawidłowy odczyt ataku
+oraz zachowanie osobistej broni podczas edycji GM.
+
+Nowe dane chmurowe są odświeżane na focus, przyciskiem i co30s przy widocznym
+panelu; starsze odpowiedzi są ignorowane. Lokalnie: focus/storage/przycisk,
+porównanie bajtów przed zapisem. Nowszy zapis blokuje brudny formularz, dopóki
+operator jawnie nie wczyta nowych danych. Zachowano cloud CAS i uprawnienia.
+Nie zmieniono rytmu synchronizacji gry do chmury (m.in.60s) ani modelu lokalnego PvE.
+
+Weryfikacja na końcowym roboczym drzewie przed commitem:
+- `npx vitest run src/test/coder-stats-ui.test.tsx src/test/coder-stats-teleport.test.ts src/test/accounts.test.ts src/test/heritage-runtime.test.ts src/test/combat-training.test.ts`:59/59 PASS.
+- `npm test`:997/997 PASS,77 plików. Znane komunikaty jsdom o niezaimplementowanym
+  HTMLMediaElement.play pozostają w pełnym logu; nie są zaliczone jako test audio.
+- `npm run typecheck`:3konfiguracje PASS; `npm run lint`:0błędów/15wcześniejszych ostrzeżeń.
+- `npm run build`:PASS, powtórzony po końcowej zmianie kodu.
+- `node docs/zmiany/2026-10-29/qa/gm-statistics/browser.mjs`:8scenariuszy PASS,
+  rzeczywisty formularz React w Chromium,4rasy, zapis/reset/konflikt i390px,
+  zero pageerror. Fixture zawiera kontrolowane dane, nie zapis realnego konta.
+  Przy zmianie formatu float początkowe asercje porównywały niezaokrąglony wynik
+  z wyświetleniem; finalne asercje wymagają dokładnie wyniku toFixed(6), zgodnie
+  z jawnym kontraktem prezentacji. Nie zmieniono mechaniki ani liczb w zapisie.
+- Fizyczny telefon i zapis jako rzeczywisty administrator chmury:NIEWYKONANE,
+  brak urządzenia/danych właściciela. Pełny Playwright gry:NIEWYKONANY w tej dostawie;
+  wcześniejsze błędy pełnej regresji nadal opisane w dokumencie rozwoju.
+
+[Wyniki przeglądarki](qa/gm-statistics/browser-results.json),
+[telefon](qa/gm-statistics/mobile-390.png),[desktop](qa/gm-statistics/desktop.png),
+[997testów](qa/gm-statistics/all-unit.txt),[build](qa/gm-statistics/build.txt).
+Nie scalono ani nie opublikowano tej poprawki; main i produkcja pozostają bez zmian.
+
+Kontrola dokumentacji nie przechodzi na bieżącej bazie main: checker odrzuca
+istniejący `docs/katalog-przedmiotow-v2/README.md` dodany w PR65. Nie jest to plik
+tej poprawki. Nie usunięto ani nie nadpisano pracy drugiego wykonawcy i nie
+osłabiono checkera. [Pełny błąd](qa/gm-statistics/documentation-check.txt).
+Wcześniej odtworzono pięć brakujących lokalnie, śledzonych referencji z HEAD po
+sparse checkout; bajty dokumentów źródłowych nie zostały zmienione.

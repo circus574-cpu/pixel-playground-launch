@@ -1,0 +1,15 @@
+{
+  "passed": 8,
+  "results": [
+    "planetary: nine current fields match actual saved-player calculation including gear/training/skills",
+    "sage: nine current fields match actual saved-player calculation including gear/training/skills",
+    "android: nine current fields match actual saved-player calculation including gear/training/skills",
+    "legend: nine current fields match actual saved-player calculation including gear/training/skills",
+    "Save through actual editor callback refreshes parent row and displays stored override",
+    "Newer row blocks stale write; explicit reload replaces draft with latest computed values",
+    "Reset restores derived stats rather than blank fields",
+    "390px form has no horizontal overflow"
+  ],
+  "pageErrors": [],
+  "scope": "Actual CharacterEditor in isolated React fixture; no real account or cloud write; not physical phone"
+}

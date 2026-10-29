@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/ki-aruba/scripts/docs/check_documentation.py", line 23, in <module>
+    assert re.fullmatch(r'zmiany/\d{4}-\d{2}-\d{2}/ZMIANY\.md', str(rel)), rel
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: katalog-przedmiotow-v2/README.md

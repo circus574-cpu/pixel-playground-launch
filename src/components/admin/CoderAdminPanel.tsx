@@ -1,6 +1,6 @@
 import { CHARACTER_STAT_FIELDS, type CharacterStats } from "@/game/characterStats";
 import { Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AdminWorldEditor } from "@/components/admin/AdminWorldEditor";
 import { useAccount } from "@/components/account/useAccount";
 import {
@@ -71,7 +71,7 @@ export default function CoderAdminPanel() {
 }
 
 function LocalCharactersPanel() {
-  const [keys, setKeys] = useState<{ key: string; raw: unknown }[]>([]);
+  const [keys, setKeys] = useState<{ key: string; raw: unknown; text: string }[]>([]);
   const [message, setMessage] = useState("");
 
   const reload = useCallback(() => {
@@ -81,12 +81,12 @@ function LocalCharactersPanel() {
         playtestSaveKey(window.location.search),
       );
       const list = store.list();
-      const found: { key: string; raw: unknown }[] = [];
+      const found: { key: string; raw: unknown; text: string }[] = [];
       for (const slot of list) {
         const text = window.localStorage.getItem(slot.key);
         if (!text) continue;
         try {
-          found.push({ key: slot.key, raw: JSON.parse(text) });
+          found.push({ key: slot.key, raw: JSON.parse(text), text });
         } catch {
           /* ignore malformed */
         }
@@ -99,11 +99,20 @@ function LocalCharactersPanel() {
 
   useEffect(() => {
     reload();
+    window.addEventListener("focus", reload);
+    window.addEventListener("storage", reload);
+    return () => {
+      window.removeEventListener("focus", reload);
+      window.removeEventListener("storage", reload);
+    };
   }, [reload]);
 
   return (
     <section className="ki-admin-panel">
       <h2>Postacie zapisane lokalnie na tym urządzeniu ({keys.length})</h2>
+      <button type="button" onClick={reload}>
+        Odśwież postacie lokalne
+      </button>
       {message && <p className="ki-account-ok">{message}</p>}
       {keys.length === 0 && (
         <p>
@@ -122,6 +131,10 @@ function LocalCharactersPanel() {
             updated_by: null,
           }}
           onSaveData={async (nextData) => {
+            if (window.localStorage.getItem(entry.key) !== entry.text) {
+              reload();
+              throw new Error("Zapis postaci zmienił się. Wczytaj aktualne dane i ponów edycję.");
+            }
             window.localStorage.setItem(entry.key, JSON.stringify(nextData));
             setMessage(`Zapisano postać lokalną (${entry.key}).`);
             reload();
@@ -210,16 +223,37 @@ function PlayerDetail({
 }) {
   const [rows, setRows] = useState<CharacterRow[]>([]);
   const [message, setMessage] = useState("");
+  const loadSequence = useRef(0);
+  const invalidateLoads = useCallback(() => {
+    loadSequence.current++;
+  }, []);
   const load = useCallback(async () => {
+    const sequence = ++loadSequence.current;
     const { data, error } = await accountsDb
       .from("characters")
       .select("*")
       .eq("user_id", player.id)
       .order("save_key");
-    if (error) setMessage(error.message);
+    if (sequence !== loadSequence.current) return;
+    if (error) {
+      setMessage("Nie udało się odświeżyć postaci: " + error.message);
+      return;
+    }
     setRows(data ?? []);
   }, [player.id]);
-  useEffect(() => void load(), [load]);
+  useEffect(() => {
+    void load();
+    const refresh = () => {
+      if (!document.hidden) void load();
+    };
+    window.addEventListener("focus", refresh);
+    const timer = window.setInterval(refresh, 30_000);
+    return () => {
+      invalidateLoads();
+      window.removeEventListener("focus", refresh);
+      window.clearInterval(timer);
+    };
+  }, [load, invalidateLoads]);
 
   const setRole = async (role: AppRole, grant: boolean) => {
     const { error } = grant
@@ -256,6 +290,9 @@ function PlayerDetail({
       )}
       {message && <p className="ki-account-ok">{message}</p>}
       <h3>Postacie ({characters.length})</h3>
+      <button type="button" onClick={() => void load()}>
+        Odśwież postacie z chmury
+      </button>
       {characters.length === 0 && (
         <p>
           <small>Gracz nie ma jeszcze postaci w chmurze.</small>
@@ -289,8 +326,26 @@ export function CharacterEditor({
   onSaved?: () => Promise<void>;
   onSaveData?: (data: unknown) => Promise<void>;
 }) {
-  const summary = summarize(row.data)!;
-  const [edit, setEdit] = useState<CharacterEdit>({});
+  const summary = useMemo(() => summarize(row.data)!, [row.data]);
+  const [edit, setEditState] = useState<CharacterEdit>({});
+  const [editBase, setEditBase] = useState<string | null>(null);
+  const [statInputs, setStatInputs] = useState<Partial<Record<keyof CharacterStats, string>>>({});
+  const source = useMemo(
+    () => JSON.stringify([row.user_id, row.save_key, row.revision, row.data]),
+    [row.user_id, row.save_key, row.revision, row.data],
+  );
+  const stale = editBase !== null && editBase !== source;
+  const [saving, setSaving] = useState(false);
+  const setEdit = (next: CharacterEdit) => {
+    setEditState(next);
+    setEditBase(Object.keys(next).length ? (editBase ?? source) : null);
+    if (!Object.keys(next).length) setStatInputs({});
+  };
+  const previewStats = useMemo(() => {
+    if (!Object.keys(edit).length) return summary.currentStats;
+    const result = applyEdit(row.data, edit);
+    return result.ok ? (summarize(result.data)?.currentStats ?? null) : summary.currentStats;
+  }, [row.data, summary.currentStats, edit]);
   const [status, setStatus] = useState("");
   const [matToAdd, setMatToAdd] = useState(MATERIAL_IDS[0] ?? "");
   const [matQty, setMatQty] = useState(5);
@@ -303,31 +358,40 @@ export function CharacterEditor({
   const materials = { ...summary.materials, ...(edit.materials ?? {}) };
 
   const save = async () => {
-    const result = applyEdit(row.data, edit);
-    if (!result.ok) {
-      setStatus(result.reason);
-      return;
-    }
-    if (onSaveData) {
-      await onSaveData(result.data);
-      setStatus("Zapisano postać na urządzeniu.");
-      setEdit({});
-      return;
-    }
-    const { data, error } = await accountsDb
-      .from("characters")
-      .update({ data: result.data })
-      .eq("user_id", row.user_id)
-      .eq("save_key", row.save_key)
-      .eq("revision", row.revision)
-      .select("revision");
-    if (error) setStatus(error.message);
-    else if (!data.length)
-      setStatus("Gracz zapisał postęp w międzyczasie. Odśwież i spróbuj ponownie.");
-    else {
-      setStatus("Zapisano. Gracz dostanie zmianę przy następnym wejściu do gry.");
-      setEdit({});
-      await onSaved?.();
+    if (saving || stale) return;
+    setSaving(true);
+    try {
+      const result = applyEdit(row.data, edit);
+      if (!result.ok) {
+        setStatus(result.reason);
+        return;
+      }
+      if (onSaveData) {
+        await onSaveData(result.data);
+        setStatus("Zapisano postać na urządzeniu.");
+        setEdit({});
+        return;
+      }
+      const { data, error } = await accountsDb
+        .from("characters")
+        .update({ data: result.data })
+        .eq("user_id", row.user_id)
+        .eq("save_key", row.save_key)
+        .eq("revision", row.revision)
+        .select("revision");
+      if (error) setStatus(error.message);
+      else if (!data.length) {
+        setStatus("Gracz zapisał postęp w międzyczasie. Wczytaj aktualne dane i spróbuj ponownie.");
+        await onSaved?.();
+      } else {
+        setStatus("Zapisano. Gracz dostanie zmianę przy następnym wejściu do gry.");
+        setEdit({});
+        await onSaved?.();
+      }
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Nie udało się zapisać postaci.");
+    } finally {
+      setSaving(false);
     }
   };
   const num = (raw: string) => (raw === "" ? NaN : Number(raw));
@@ -341,7 +405,25 @@ export function CharacterEditor({
         {summary.feature ?? summary.continent} · ({Math.round(summary.x)}, {Math.round(summary.y)})
         · wersja {row.revision} · zmiana {when(row.updated_at)}
       </small>
-      <div className="ki-admin-fields" style={{ marginTop: 8 }}>
+      {stale && (
+        <p role="alert">
+          Zapis postaci zmienił się podczas edycji. Zapis zablokowany, aby nie nadpisać postępu.{" "}
+          <button
+            type="button"
+            onClick={() => {
+              setEdit({});
+              setStatus("");
+            }}
+          >
+            Wczytaj aktualne dane
+          </button>
+        </p>
+      )}
+      <fieldset
+        className="ki-admin-fields"
+        disabled={saving || stale}
+        style={{ marginTop: 8, border: 0, padding: 0, minWidth: 0 }}
+      >
         {(
           [
             ["level", "Poziom (1–100)"],
@@ -367,9 +449,17 @@ export function CharacterEditor({
         <fieldset className="ki-admin-stat-overrides">
           <legend>Indywidualne parametry postaci</legend>
           <p>
-            Stałe wartości końcowe. Puste pole przywraca statystykę rasy, poziomu i wyposażenia.
-            Zmiany działają po ponownym wejściu do gry.
+            Aktualne wartości z ostatniego zapisu, obliczane tak samo jak w grze: rasa, poziom,
+            trening, umiejętności, wyposażenie i nadpisania GM. Zmiana pola ustawia stałą wartość
+            końcową; wyczyszczenie usuwa nadpisanie. Tymczasowe efekty aktywnej sesji nie są
+            zapisywane. Zmiany działają po ponownym wejściu do gry.
           </p>
+          {!previewStats && (
+            <p role="alert">
+              Nie można obliczyć statystyk tego zapisu. Nie pokazujemy wartości domyślnych zamiast
+              danych postaci.
+            </p>
+          )}
           {Object.entries(CHARACTER_STAT_FIELDS).map(([id, field]) => {
             const key = id as keyof CharacterStats;
             return (
@@ -380,9 +470,27 @@ export function CharacterEditor({
                   min={field.min}
                   max={field.max}
                   step="any"
-                  placeholder="Domyślna"
-                  value={(edit.statOverrides ?? summary.statOverrides)[key] ?? ""}
+                  placeholder={
+                    previewStats
+                      ? String(Number(previewStats[key].toFixed(6)))
+                      : "Brak poprawnych danych"
+                  }
+                  value={
+                    statInputs[key] ??
+                    (previewStats
+                      ? Number(previewStats[key].toFixed(6))
+                      : ((edit.statOverrides ?? summary.statOverrides)[key] ?? ""))
+                  }
+                  onBlur={() => {
+                    if (statInputs[key] === "")
+                      setStatInputs((previous) => {
+                        const next = { ...previous };
+                        delete next[key];
+                        return next;
+                      });
+                  }}
                   onChange={(event) => {
+                    setStatInputs({ ...statInputs, [key]: event.target.value });
                     const values = { ...(edit.statOverrides ?? summary.statOverrides) };
                     if (event.target.value === "") delete values[key];
                     else values[key] = Number(event.target.value);
@@ -392,9 +500,21 @@ export function CharacterEditor({
               </label>
             );
           })}
-          <button type="button" onClick={() => setEdit({ ...edit, statOverrides: {} })}>
+          <button
+            type="button"
+            onClick={() => {
+              setStatInputs({});
+              setEdit({ ...edit, statOverrides: {} });
+            }}
+          >
             Przywróć parametry domyślne
           </button>
+          {previewStats && (
+            <p>
+              Unik: {previewStats.dodgeChance}% · Premia szybkości ataku:{" "}
+              {previewStats.attackSpeedPct}% · Technika: {previewStats.technique}
+            </p>
+          )}
         </fieldset>
 
         <label>
@@ -416,11 +536,20 @@ export function CharacterEditor({
           <select
             value={(edit.weapon !== undefined ? edit.weapon : summary.weapon) ?? ""}
             onChange={(e) =>
-              setEdit({ ...edit, weapon: e.target.value === "sword" ? "sword" : null })
+              setEdit({
+                ...edit,
+                weapon:
+                  e.target.value === "heritage"
+                    ? "heritage"
+                    : e.target.value === "sword"
+                      ? "sword"
+                      : null,
+              })
             }
           >
             <option value="">Brak</option>
             <option value="sword">Ostrze strażnika</option>
+            {summary.weapon === "heritage" && <option value="heritage">Broń dziedzictwa</option>}
           </select>
         </label>
 
@@ -458,7 +587,7 @@ export function CharacterEditor({
             />
           </label>
         ))}
-      </div>
+      </fieldset>
       <details style={{ marginTop: 8 }}>
         <summary>
           <small>
@@ -466,7 +595,11 @@ export function CharacterEditor({
             {skills.length}) i Zadania
           </small>
         </summary>
-        <div className="ki-admin-fields" style={{ marginTop: 8 }}>
+        <fieldset
+          className="ki-admin-fields"
+          disabled={saving || stale}
+          style={{ marginTop: 8, border: 0, padding: 0, minWidth: 0 }}
+        >
           {ITEM_IDS.map((id) => (
             <label key={"depot-" + id}>
               Depozyt: {ITEMS[id].name}
@@ -501,7 +634,7 @@ export function CharacterEditor({
               </select>
             </label>
           ))}
-        </div>
+        </fieldset>
 
         <h4 style={{ margin: "10px 0 6px" }}>Materiały w plecaku</h4>
         <div className="ki-account-actions" style={{ marginTop: 4 }}>
@@ -579,7 +712,7 @@ export function CharacterEditor({
       <div className="ki-account-actions">
         <button
           className="ki-account-primary"
-          disabled={Object.keys(edit).length === 0}
+          disabled={saving || stale || Object.keys(edit).length === 0}
           onClick={() => void save()}
         >
           Zapisz zmiany

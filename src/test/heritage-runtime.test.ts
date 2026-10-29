@@ -12,6 +12,7 @@ import type { HeritageInteraction } from "../game/development/heritage/runtime";
 import { equippedAttack } from "../game/development/heritage/equipment";
 import { BUILDING_IDS } from "../game/city/types";
 import { cityRoom } from "../game/city/room";
+import { applyEdit, summarize } from "../game/account/gmEdit";
 
 function storage() {
   const data = new Map<string, string>();
@@ -307,6 +308,13 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
       s.command({ type: "heritage-weapon", action: "equip" });
       expect(s.player.weapon, s.notice).toBe("heritage");
       expect(equippedAttack(s.player)).toBe(8);
+      // GM editing must read the equipped personal weapon and not demand an unrelated sword.
+      const gmData = { player: structuredClone(s.player) };
+      expect(summarize(gmData)!.weapon).toBe("heritage");
+      expect(summarize(gmData)!.currentStats!.attack).toBe(s.kit.stats.attack);
+      const gmEdit = applyEdit(gmData, { gold: 77 });
+      expect(gmEdit.ok).toBe(true);
+      expect(summarize(gmEdit.ok ? gmEdit.data : null)!.weapon).toBe("heritage");
       expect(s.player.hp).toBe(hp);
       const bytes = port.getItem("owned-slot");
       s.command({ type: "heritage", action: "claim", id, choiceId: def.choices[1]!.id });

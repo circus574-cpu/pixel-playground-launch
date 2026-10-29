@@ -763,3 +763,34 @@ Nowy test `branch-integration.test.ts` obejmuje tę integrację i oba powtórne 
 
 Dokładne rozbieżności gałęzi i zakres integracji: [dziennik29.10](zmiany/2026-10-29/ZMIANY.md#integracja-oczekujących-gałęzi-na-polecenie-właściciela).
 Nie jest to ukończenie zaległych późnych rozdziałów ani wykonanie migracji backendu.
+
+### Odczyt bieżących parametrów w Coder — poprawka 29.10.2026
+
+Potwierdzono: formularz pokazywał wyłącznie `statOverrides`, więc normalna postać
+miała puste pola mimo rzeczywistych statystyk w grze. `summarize().currentStats`
+wylicza teraz wartości z walidowanego podzbioru PlayerSchema przez ten sam `stats()`
+co silnik: rasa, poziom, pasywy, oba treningi, wyposażenie, moduły i istniejące GM.
+Brak poprawnych danych daje ostrzeżenie, nie wymyślone zera. Pozycja Superior nie
+jest walidowana starą granicą klasycznej mapy przy samym odczycie statystyk.
+
+Formularz pokazuje wartości wyliczone, w tym skuteczny zasięg z optyką Androida,
+zamiast samych override. Wyświetlenie ogranicza szum float do sześciu miejsc;
+nie zaokrągla zapisu ani symulacji. Surowy wpis pozostaje w osobnym draftcie.
+Wyłącznie zmienione pola stają się GM override — samo otwarcie lub zmiana złota
+nie zamraża wzrostu poziomu. Poziom, sprzęt i reset aktualizują podgląd bez zapisu.
+Obecne działanie modyfikatorów zasięgu pozostaje bez zmian; wpisanie GM range
+nadpisuje bazowy parametr, a optyka nadal zmienia skuteczny zasięg.
+
+Chmura jest odświeżana przy otwarciu, powrocie fokusu, przyciskiem i co30s na
+widocznym panelu; odpowiedzi starszych żądań są ignorowane. Lokalne sloty reagują
+na focus/storage i ręczne odświeżenie. Brudny draft jest blokowany po zmianie
+źródła; „Wczytaj aktualne dane” jawnie go odrzuca. Cloud zachowuje CAS revision,
+a zapis lokalny porównuje oryginalne bajty przed zapisem. Błąd zapisu zostawia
+edycję i komunikat błędu, bez fałszywego potwierdzenia sukcesu.
+
+To odczyt **ostatniego zapisu**, nie telemetria działającej gry innego użytkownika.
+Przesyłanie gry do chmury pozostaje dotychczasowe (m.in. interwał60s w index);
+nie zapisuje tymczasowych buffów i nie tworzy autorytatywnego serwera MMO.
+Przy okazji naprawiono rozpoznawanie broni `heritage` oraz błędny wymóg posiadania
+zwykłego miecza przy edycji takiej postaci. Nie zmieniono ras, balansu ani zapisów.
+Dowody i wyniki: [dziennik29.10](zmiany/2026-10-29/ZMIANY.md).
