@@ -69,3 +69,7 @@ scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym
   Niezmienione źródło wymagań, SHA-256 `03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed`.
   Obecność źródła nie stanowi potwierdzenia pełnego wdrożenia; realizację rozróżnia
   [aktualny plan](PLAN-I-ZADANIA.md#nowe-zlecenie-rozwoju-czterech-ras--28102026-w-realizacji).
+
+## Katalog przedmiotów KI Legends V2 (projekt, 29.10.2026)
+
+- [Katalog 366 przedmiotów, 140 receptur i pasywnych buffów artefaktów](katalog-przedmiotow-v2/README.md) — źródłowe pliki JSON, CSV i zasady balansu. **Specyfikacja, nie wdrożenie do silnika**. PDF i 15 JPG pozostają poza repo do odrębnego przesłania; zob. manifest w podkatalogu.
