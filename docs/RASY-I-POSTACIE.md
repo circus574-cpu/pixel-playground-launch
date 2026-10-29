@@ -1,6 +1,6 @@
 # KI Legends — rasy i postacie
 
-Stan kodu: 23.10.2026, `d0bfc2c`. Liczby rozwoju: [rozwój i walka](ROZWOJ-I-WALKA.md).
+Stan bieżący: 29.10.2026, `main@5cea48da`. Integracja nie zmienia zatwierdzonych tożsamości, nazw kontynentów ani obecnych paczek bohaterów HD. Rozwój ras i nowe parametry treningu są w main, lecz dalsze rozdziały i próby pozostają nieukończone. Liczby, wyposażenie i zasady wzrostu: [rozwój i walka](ROZWOJ-I-WALKA.md). Historyczne checkpointy grafik poniżej zachowują własne daty i wersje.
 
 ## Cztery tożsamości
 
@@ -15,25 +15,33 @@ Oryginał właściciela: PDF w `docs/design/`, strony 4/5/6/7 odpowiednio dla ra
 strona 8 dla skali/świata. Ilustracje są referencjami, nie gotowymi animacjami ani
 potwierdzeniem komercyjnych praw. Szczegóły: [licencje](LICENCJE.md).
 
-## Aktualni bohaterowie runtime
+## Aktualni bohaterowie runtime — 29.10.2026
 
-| Rasa       | Aktor                    | Paczka                                     |
-| ---------- | ------------------------ | ------------------------------------------ |
-| Planetarni | `hero-planetary-painted` | `deliveries/hero-planetary-painted-1.0.0/` |
-| Mędrcy     | `hero-sage-painted`      | `deliveries/hero-sage-painted-1.0.0/`      |
-| Androidy   | `hero-android`           | `deliveries/hero-android-1.0.0/`           |
-| Legendy    | `hero-legend`            | `deliveries/hero-legend-1.0.0/`            |
+| Rasa | Aktor | Aktywna paczka / wersja |
+| --- | --- | --- |
+| Planetarni | `hero-planetary-painted` | `hero-planetary-painted-walk-v3` / `2.0.0` |
+| Mędrcy | `hero-sage-painted` | `hero-sage-painted-walk-v3` / `2.0.0` |
+| Androidy | `hero-android` | `hero-android-walk-v3` / `2.0.0` |
+| Legendy | `hero-legend` | `hero-legend-walk-v3` / `2.0.0` |
 
-Każdy: 416 klatek, 56 klipów (7 stanów × 8 kierunków), dwa atlasy,
-klatka klienta 128×128. Dokładne wersje/digesty są w `src/game/assets/imported.json`.
-Wszystkie cztery nowe postacie są domyślne. Stare flagi bohaterów nie tworzą
-oddzielnych slotów ani nie przywracają poprzednich aktorów. Mieszkańcy nadal
-korzystają ze wspólnego `human-v2`; to grafika zastępcza, nie cztery gotowe zestawy NPC.
+Źródłem bieżących definicji jest `src/game/assets/imported.json`; `makeCatalog()`
+nakłada późniejsze aktywne definicje na te same identyfikatory aktorów.
+Każda z powyższych paczek ma 416 klatek w siedmiu stanach i ośmiu kierunkach,
+cztery zasoby atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
+hit, death i respawn. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
 
-Prezentacja bohatera w `actorVisual()` to **160×160 jednostek świata**, po zgłoszeniu
-„Postacie są za małe!”. Kontrakt importowanego źródła zachowuje 96×96, kotwicę
-stóp `(0.5, 0.95)`. Collider stóp pozostaje 12, a kamera bez zmiany. Nie powiększać
-NPC i potworów przez globalną zamianę tej wartości.
+`actorVisual()` skaluje prezentację tych bohaterów do **133×133 jednostek świata**,
+aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejszymi
+malowanymi aktorami 160×160. Kontrakt importu ma nadal 96×96 i kotwicę stóp
+`(0.5, 0.95)`, fizyka pozostaje niezależna od tekstury. Nie stosować starszego
+rozmiaru 160 globalnie do bieżących bohaterów ani do wszystkich NPC/potworów.
+Mieszkańcy nadal korzystają ze wspólnego `human-v2`; to grafika zastępcza.
+
+Historyczne dostawy z 22–23.10 (`hero-planetary-painted-1.0.0`,
+`hero-sage-painted-1.0.0`, `hero-android-1.0.0`, `hero-legend-1.0.0`)
+używały 128×128 i dwóch atlasów. Nie są bieżącymi paczkami HD; ich pliki i
+proweniencja pozostają materiałem archiwalnym. Integracja #62 nie generowała
+nowych grafik, nie wymieniała atlasów i nie uruchamiała GPU.
 
 ## Źródła tożsamości i animacji
 
@@ -46,8 +54,7 @@ NPC i potworów przez globalną zamianę tej wartości.
 
 Kandydaci, contact sheets i `metadata.json` pozostają w `docs/design/identity/`.
 Szczegółowe historyczne decyzje i hashe: [22.10](zmiany/2026-10-22/ZMIANY.md).
-Porzucono rigi 3D składane z prymitywów; obecnie używane są malowane widoki
-animowane deformacją siatki 2D. Nie są to 416 niezależnie generowane ilustracje.
+Porzucono rigi 3D składane z prymitywów. Historyczna partia 22.10 używała malowanych widoków animowanych deformacją siatki 2D; obecne klipy HD pochodzą z późniejszych materiałów Gemini. Nie są to 416 niezależnie generowane ilustracje.
 Pipeline i polecenia: [GPU](GPU-I-ZASOBY.md).
 
 ## Znane wady i sposób pracy

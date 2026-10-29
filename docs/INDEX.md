@@ -1,8 +1,12 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja audytowa: **28.10.2026**. Punkt odniesienia kodu: `main@30f7b8d5a7d15ffe73380322ca383c280dacdba8`. Historia 23.10 pozostaje w starszych sekcjach; [bieżący audyt i status CI](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52). Dokumentacyjny PR #50 (Draft, stan na 27.10) jest niescalony i nie jest źródłem bieżącej wersji.
+Aktualizacja: **29.10.2026, po scaleniu i wdrożeniu**. Punkt odniesienia kodu i potwierdzonej produkcji: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`.
+[PR #62](https://github.com/circus574-cpu/pixel-playground-launch/pull/62) połączył #55, #59 i #61; #60 scalono wcześniej. Rozwój ras jest częściowo wdrożony, nowe parametry treningu i okno statystyk są w grze, a skrypty migracji backendu nie oznaczają przełączenia bazy.
 
-**Weryfikacja ≠ wdrożenie:** PR #51 i #52 są scalone; publikację mapy opisuje dziennik 28.10. Pełna regresja WebGL PR #52 ma czerwony wynik, a fizyczny Android oraz 45/55 aktywnej planety nie mają odbioru.
+**Publikacja potwierdzona:** [Aruba deployment 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683) zakończył się sukcesem dla tego SHA. Sprawdzono publiczny HTTP i w Chromium wybór Planetarnych, wejście do świata oraz nowe statystyki. Lokalna integracja: **985 testów i 12 wąskich scenariuszy przeglądarkowych zaliczonych**. Nie oznacza to zielonej pełnej regresji: wcześniejsze CI WebGL ma 7 błędów, kontrole PR #62 nadal trwały przy aktualizacji dokumentów; fizyczny Android/iOS i docelowa geometria 45/55 pozostają bez pełnego odbioru.
+
+Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--29102026-po-integracji) oraz [zamknięcie integracji](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji). Historyczne audyty 23–28.10 zachowano z ich datami. PR #50 jest zamknięty jako zastąpiony; nie jest oczekującym źródłem bieżącej wersji.
+
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
 | Dokument                                        | Co w nim znaleźć                                                           |
