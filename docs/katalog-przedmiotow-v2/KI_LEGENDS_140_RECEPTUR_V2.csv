@@ -1,0 +1,141 @@
+﻿id,nazwa,stanowisko,poziom,koszt_monet,wynik_id,ilosc,skladniki_id:ilosc
+rec-potion-basic,Warzenie Mikstury Życia,alchemy,1,5,potion,2,"zielone-ziele:2,mchowa-galaretka:1"
+rec-potion-ki,Destylacja Esencji KI,alchemy,3,10,P-KI-01,2,"pyl-swiatla:2,nic-eteru:1"
+rec-def-brew,Ekstrakcja Żelaznego Wywaru,alchemy,4,15,P-BUFF-DEF,1,"skalna-skora:1,zywy-korzen:1"
+rec-elixir-verdant,Eliksir Żywotności Korzenia,alchemy,8,30,P-ELX-V,1,"zywy-korzen:3,bursztyn:2,zielona-esencja:1"
+rec-elixir-pyra,Warzenie Ognistego Szału,alchemy,8,35,P-ELX-P,1,"esencja-plomienia:3,luska-salamandry:2,plomien-duch:1"
+rec-elixir-aether,Napar Spokoju Siódmej Oktawy,alchemy,8,40,P-ELX-A,1,"eter-bibliotekarza:2,pioro-mgly:2,soczewka-wiedzy:1"
+rec-elixir-nexus,Synteza Zastrzyku Plazmowego,alchemy,8,35,P-ELX-N,1,"nanopyl:3,rdzen-plazmy:1,elektroda:2"
+rec-sword-basic,Kucie Żelaznego Miecza,forge,1,20,sword,1,"tusk:2,fragment-ruin:1"
+rec-w-v1,Wykucie Sztyletu Mchowego Zwiadowcy,forge,2,30,W-V1,1,"zielone-ostrze:2,ciern-wilka:2"
+rec-w-v2,Kucie Ostrza Prastarego Dębu,forge,5,60,W-V2,1,"zywy-korzen:3,bursztyn:2,kamien-runiczny:1"
+rec-w-v4,Topór Strażnika Puszczy,forge,10,120,W-V4,1,"poroze:3,skalna-skora:2,kamien-runiczny:2"
+rec-w-v5,Pazury Leśnego Berserkera,forge,14,160,W-V5,1,"kiel-alfy:2,pazury-alfy:1,skora-thorgara:1"
+rec-w-v6,Wykucie Szmaragdowego Włócznika,forge,18,300,W-V6,1,"serce-puszczy:1,kwiat-ygdrashy:1,zywy-korzen:5"
+rec-w-p1,Ognisty Puginał Kalderonu,forge,2,30,W-P1,1,"wegiel:3,esencja-plomienia:1"
+rec-w-p2,Kucie Topora Bazaltowego,forge,5,65,W-P2,1,"szklo-obsydianowe:3,magmowy-pancerz:2"
+rec-w-p3,Kucie Miecza Magmowego Żaru,forge,8,90,W-P3,1,"obsydian:3,esencja-plomienia:2,skrzydlo-zaru:2"
+rec-w-p4,Młot Przełamania,forge,12,140,W-P4,1,"golem-ruin:2,rog-areny:2,obsydian:4"
+rec-w-p5,Ostrze Kharzula,forge,15,180,W-P5,1,"pancerz-kharzula:1,plomien-areny:1,obsydian:3"
+rec-w-p6,Smoczy Kieł Pyrrhaxa,forge,19,320,W-P6,1,"serce-wulkanu:1,luska-pyrrhaxa:2,obsydian:5"
+rec-a-v1,Plecenie Kamizelki Leśnego Pąka,forge,2,25,A-V1,1,"skora-wilcza:2,jedwab-pajaka:2"
+rec-a-v2,Pancerz z Kory Pradrzewa,forge,6,60,A-V2,1,"skalna-skora:2,zywy-korzen:2,bursztyn:1"
+rec-a-v5,Pancerz Thorgara Alfy,forge,17,280,A-V5,1,"skora-thorgara:2,kiel-alfy:2,skalna-skora:4"
+rec-a-p2,Kolczuga Kalderonu,forge,5,55,A-P2,1,"popielne-futro:3,luska-salamandry:3"
+rec-a-p3,Zbroja Płytowa z Obsydianu,forge,8,85,A-P3,1,"obsydian:4,magmowy-pancerz:2"
+rec-a-p5,Pancerz Płomiennego Czempiona,forge,18,290,A-P5,1,"luska-pyrrhaxa:2,pancerz-kharzula:1,plomien-areny:2"
+rec-w-a1,Runiczny Kostur Ciszy,runic,2,30,W-A1,1,"kamien-swiatynny:2,pyl-swiatla:3"
+rec-w-a2,Ostrze Mistrza Oddechu,runic,5,65,W-A2,1,"nic-eteru:3,pioro-mgly:2"
+rec-w-a3,Laska Złotego Eteru,runic,8,95,W-A3,1,"skarabeusz:2,eter-bibliotekarza:2,soczewka-wiedzy:1"
+rec-w-a5,Klinga Tysiąca Źródeł,runic,14,170,W-A5,1,"szmaragdowa-luska:3,eter-pustki:1,maska-rytualu:1"
+rec-w-a6,Promień Aurelitha,runic,19,320,W-A6,1,"serce-sanktuarium:1,luska-aurelitha:2,pieczec-arcykaplana:1"
+rec-a-a2,Toga Mistrza Zwojów,runic,5,55,A-A2,1,"karta-pergaminu:4,nic-eteru:3"
+rec-a-a5,Święte Szaty Sanktuarium,runic,18,300,A-A5,1,"szaty-arcykaplana:1,luska-aurelitha:2,serce-sanktuarium:1"
+rec-w-n1,Emiter Wiązki Plazmowej,cyber_fabricator,2,30,W-N1,1,"zlom:3,cewka:2"
+rec-w-n2,Wibro-Ostrze Nanitowe,cyber_fabricator,5,65,W-N2,1,"nanopyl:3,silownik:2,elektroda:1"
+rec-w-n3,Karabinek Łukowy V-2,cyber_fabricator,8,95,W-N3,1,"lufa:1,modul-optyczny:1,rdzen-energii:1"
+rec-w-n5,Kosa Arbitra Zero,cyber_fabricator,15,190,W-N5,1,"kod-arbitra:1,plyta-egzekutora:2,rdzen-plazmy:2"
+rec-w-n6,Rozpruwacz Hydry-Rdzenia,cyber_fabricator,19,330,W-N6,1,"rdzen-hydry:1,modul-prime:1,lufa:3"
+rec-a-n2,Pancerz Kompozytowy Sektora,cyber_fabricator,5,60,A-N2,1,"plyta-pancerna:2,silownik:2"
+rec-a-n3,Płyta Grafenowa V-2,cyber_fabricator,8,90,A-N3,1,"plyta-pancerna:3,nanopyl:3,czujnik:1"
+rec-a-n5,Pancerz Rdzenia Prime,cyber_fabricator,18,310,A-N5,1,"modul-prime:1,plyta-egzekutora:2,rdzen-energii:3"
+rec-u-w01,Splatanie Amuletu Pierwszego Drzewa,alchemy,10,150,U-W01,1,"zywy-korzen:4,bursztyn:3,zielona-esencja:1"
+rec-u-w02,Rzeźbienie Totemu Matki Ygdrashy,runic,16,350,U-W02,1,"serce-puszczy:1,kwiat-ygdrashy:1,kamien-runiczny:4"
+rec-u-w03,Szlifowanie Pryzmatu Archiwum Wiatru,runic,11,160,U-W03,1,"soczewka-wiedzy:2,eter-bibliotekarza:3,pyl-swiatla:5"
+rec-u-w04,Kompilacja Rdzenia Arbitrażu Danych,cyber_fabricator,12,170,U-W04,1,"kod-arbitra:1,pamiec-danych:2,kruk-danych:1"
+rec-u-w07,Pieczęć Siedmiu Oktaw Przymierza,runic,18,400,U-W07,1,"pieczec-arcykaplana:1,serce-sanktuarium:1,kamien-swiatynny:5"
+rec-u-w08,Wykuwanie Korony Gwiazd Oceanu,forge,20,500,U-W08,1,"serce-wulkanu:1,serce-sanktuarium:1,serce-puszczy:1,rdzen-hydry:1"
+RC-WV1,Receptura RC-WV1 → W-V1,projekt_ksiegi,1,0,KS-W-V1,1,mchowa-galaretka:1
+RC-WV2,Receptura RC-WV2 → W-V2,projekt_ksiegi,4,20,KS-W-V2,1,ciern-wilka:2
+RC-WV3,Receptura RC-WV3 → W-V3,projekt_ksiegi,7,45,KS-W-V3,1,zielone-ostrze:3
+RC-WV4,Receptura RC-WV4 → W-V4,projekt_ksiegi,10,80,KS-W-V4,1,"zarodniki:4,R-04:1"
+RC-WV5,Receptura RC-WV5 → W-V5,projekt_ksiegi,14,130,KS-W-V5,1,"poroze:4,R-04:1"
+RC-WV6,Receptura RC-WV6 → W-V6,projekt_ksiegi,18,200,KS-W-V6,1,"pioro-puchacza:5,R-04:1"
+RC-WA1,Receptura RC-WA1 → W-A1,projekt_ksiegi,1,0,KS-W-A1,1,pyl-swiatla:1
+RC-WA2,Receptura RC-WA2 → W-A2,projekt_ksiegi,4,20,KS-W-A2,1,karta-pergaminu:2
+RC-WA3,Receptura RC-WA3 → W-A3,projekt_ksiegi,7,45,KS-W-A3,1,skrzydlo-krysztalowe:3
+RC-WA4,Receptura RC-WA4 → W-A4,projekt_ksiegi,10,80,KS-W-A4,1,"eter-bibliotekarza:4,R-04:1"
+RC-WA5,Receptura RC-WA5 → W-A5,projekt_ksiegi,14,130,KS-W-A5,1,"kamien-swiatynny:4,R-04:1"
+RC-WA6,Receptura RC-WA6 → W-A6,projekt_ksiegi,18,200,KS-W-A6,1,"nic-eteru:5,R-04:1"
+RC-WN1,Receptura RC-WN1 → W-N1,projekt_ksiegi,1,0,KS-W-N1,1,zlom:1
+RC-WN2,Receptura RC-WN2 → W-N2,projekt_ksiegi,4,20,KS-W-N2,1,zestaw-naprawczy:2
+RC-WN3,Receptura RC-WN3 → W-N3,projekt_ksiegi,7,45,KS-W-N3,1,gasienica:3
+RC-WN4,Receptura RC-WN4 → W-N4,projekt_ksiegi,10,80,KS-W-N4,1,"cewka:4,R-04:1"
+RC-WN5,Receptura RC-WN5 → W-N5,projekt_ksiegi,14,130,KS-W-N5,1,"silownik:4,R-04:1"
+RC-WN6,Receptura RC-WN6 → W-N6,projekt_ksiegi,18,200,KS-W-N6,1,"rdzen-plazmy:5,R-04:1"
+RC-WP1,Receptura RC-WP1 → W-P1,projekt_ksiegi,1,0,KS-W-P1,1,wegiel:1
+RC-WP2,Receptura RC-WP2 → W-P2,projekt_ksiegi,4,20,KS-W-P2,1,luska-salamandry:2
+RC-WP3,Receptura RC-WP3 → W-P3,projekt_ksiegi,7,45,KS-W-P3,1,popielne-futro:3
+RC-WP4,Receptura RC-WP4 → W-P4,projekt_ksiegi,10,80,KS-W-P4,1,"magmowy-pancerz:4,R-04:1"
+RC-WP5,Receptura RC-WP5 → W-P5,projekt_ksiegi,14,130,KS-W-P5,1,"obsydian:4,R-04:1"
+RC-WP6,Receptura RC-WP6 → W-P6,projekt_ksiegi,18,200,KS-W-P6,1,"rog-areny:5,R-04:1"
+RC-AH1,Receptura RC-AH1 → A-H1,projekt_ksiegi,1,0,A-H1,1,mchowa-galaretka:1
+RC-AH2,Receptura RC-AH2 → A-H2,projekt_ksiegi,4,6,A-H2,1,ciern-wilka:2
+RC-AH3,Receptura RC-AH3 → A-H3,projekt_ksiegi,7,12,A-H3,1,zielone-ostrze:2
+RC-AH4,Receptura RC-AH4 → A-H4,projekt_ksiegi,10,20,A-H4,1,zarodniki:3
+RC-AH5,Receptura RC-AH5 → A-H5,projekt_ksiegi,14,30,A-H5,1,"poroze:3,R-05:1"
+RC-AH6,Receptura RC-AH6 → A-H6,projekt_ksiegi,18,44,A-H6,1,"pioro-puchacza:4,R-05:1"
+RC-AC1,Receptura RC-AC1 → A-C1,projekt_ksiegi,1,0,A-C1,1,mchowa-galaretka:1
+RC-AC2,Receptura RC-AC2 → A-C2,projekt_ksiegi,4,12,A-C2,1,ciern-wilka:2
+RC-AC3,Receptura RC-AC3 → A-C3,projekt_ksiegi,7,24,A-C3,1,zielone-ostrze:2
+RC-AC4,Receptura RC-AC4 → A-C4,projekt_ksiegi,10,40,A-C4,1,zarodniki:3
+RC-AC5,Receptura RC-AC5 → A-C5,projekt_ksiegi,14,60,A-C5,1,"poroze:3,R-05:1"
+RC-AC6,Receptura RC-AC6 → A-C6,projekt_ksiegi,18,96,A-C6,1,"pioro-puchacza:4,R-05:1"
+RC-AG1,Receptura RC-AG1 → A-G1,projekt_ksiegi,1,0,A-G1,1,mchowa-galaretka:1
+RC-AG2,Receptura RC-AG2 → A-G2,projekt_ksiegi,4,5,A-G2,1,ciern-wilka:2
+RC-AG3,Receptura RC-AG3 → A-G3,projekt_ksiegi,7,10,A-G3,1,zielone-ostrze:2
+RC-AG4,Receptura RC-AG4 → A-G4,projekt_ksiegi,10,16,A-G4,1,zarodniki:3
+RC-AG5,Receptura RC-AG5 → A-G5,projekt_ksiegi,14,24,A-G5,1,"poroze:3,R-05:1"
+RC-AG6,Receptura RC-AG6 → A-G6,projekt_ksiegi,18,36,A-G6,1,"pioro-puchacza:4,R-05:1"
+RC-AL1,Receptura RC-AL1 → A-L1,projekt_ksiegi,1,0,A-L1,1,mchowa-galaretka:1
+RC-AL2,Receptura RC-AL2 → A-L2,projekt_ksiegi,4,8,A-L2,1,ciern-wilka:2
+RC-AL3,Receptura RC-AL3 → A-L3,projekt_ksiegi,7,16,A-L3,1,zielone-ostrze:2
+RC-AL4,Receptura RC-AL4 → A-L4,projekt_ksiegi,10,26,A-L4,1,zarodniki:3
+RC-AL5,Receptura RC-AL5 → A-L5,projekt_ksiegi,14,40,A-L5,1,"poroze:3,R-05:1"
+RC-AL6,Receptura RC-AL6 → A-L6,projekt_ksiegi,18,60,A-L6,1,"pioro-puchacza:4,R-05:1"
+RC-AB1,Receptura RC-AB1 → A-B1,projekt_ksiegi,1,0,A-B1,1,mchowa-galaretka:1
+RC-AB2,Receptura RC-AB2 → A-B2,projekt_ksiegi,4,5,A-B2,1,ciern-wilka:2
+RC-AB3,Receptura RC-AB3 → A-B3,projekt_ksiegi,7,10,A-B3,1,zielone-ostrze:2
+RC-AB4,Receptura RC-AB4 → A-B4,projekt_ksiegi,10,16,A-B4,1,zarodniki:3
+RC-AB5,Receptura RC-AB5 → A-B5,projekt_ksiegi,14,24,A-B5,1,"poroze:3,R-05:1"
+RC-AB6,Receptura RC-AB6 → A-B6,projekt_ksiegi,18,36,A-B6,1,"pioro-puchacza:4,R-05:1"
+RC-J01,Receptura RC-J01 → J-01,projekt_ksiegi,4,18,J-01,1,"R-03:1,pyl-swiatla:2"
+RC-J02,Receptura RC-J02 → J-02,projekt_ksiegi,4,18,J-02,1,"R-03:1,karta-pergaminu:2"
+RC-J03,Receptura RC-J03 → J-03,projekt_ksiegi,7,36,J-03,1,"R-03:1,skrzydlo-krysztalowe:2"
+RC-J04,Receptura RC-J04 → J-04,projekt_ksiegi,7,36,J-04,1,"R-03:2,szmaragdowa-luska:2"
+RC-J05,Receptura RC-J05 → J-05,projekt_ksiegi,10,60,J-05,1,"R-03:2,eter-bibliotekarza:2"
+RC-J06,Receptura RC-J06 → J-06,projekt_ksiegi,10,60,J-06,1,"R-03:2,zloty-pancerz:2"
+RC-J07,Receptura RC-J07 → J-07,projekt_ksiegi,14,90,J-07,1,"R-03:2,kamien-swiatynny:2"
+RC-J08,Receptura RC-J08 → J-08,projekt_ksiegi,14,90,J-08,1,"R-03:3,soczewka-wiedzy:2"
+RC-J09,Receptura RC-J09 → J-09,projekt_ksiegi,18,120,J-09,1,"R-03:3,nic-eteru:2"
+RC-J10,Receptura RC-J10 → J-10,projekt_ksiegi,18,120,J-10,1,"R-03:3,pioro-mgly:2"
+RC-J11,Receptura RC-J11 → J-11,projekt_ksiegi,20,140,J-11,1,"R-03:3,pioro-mgly:2"
+RC-T01,Receptura RC-T01 → T-01,projekt_ksiegi,1,0,T-01,1,
+RC-T02,Receptura RC-T02 → T-02,projekt_ksiegi,4,10,T-02,1,R-01:1
+RC-T03,Receptura RC-T03 → T-03,projekt_ksiegi,4,10,T-03,1,R-02:1
+RC-T04,Receptura RC-T04 → T-04,projekt_ksiegi,7,20,T-04,1,R-01:2
+RC-T05,Receptura RC-T05 → T-05,projekt_ksiegi,7,15,T-05,1,R-03:1
+RC-T06,Receptura RC-T06 → T-06,projekt_ksiegi,10,30,T-06,1,"R-01:2,R-02:1"
+RC-T07,Receptura RC-T07 → T-07,projekt_ksiegi,14,50,T-07,1,"R-03:2,R-04:1"
+RC-T08,Receptura RC-T08 → R-01,projekt_ksiegi,4,5,R-01,1,zlom:1
+RC-T09,Receptura RC-T09 → R-02,projekt_ksiegi,4,5,R-02,1,mchowa-galaretka:1
+RC-T10,Receptura RC-T10 → R-03,projekt_ksiegi,7,8,R-03,1,karta-pergaminu:1
+RC-T11,Receptura RC-T11 → R-04,projekt_ksiegi,10,12,R-04,1,gasienica:1
+RC-T12,Receptura RC-T12 → R-05,projekt_ksiegi,14,15,R-05,1,magmowy-pancerz:1
+RC-T13,Receptura RC-T13 → R-06,projekt_ksiegi,18,20,R-06,1,"R-02:1,R-03:1,R-04:1"
+RC-U01,Receptura RC-U01 → U-01,projekt_ksiegi,1,1,U-01,1,mchowa-galaretka:1
+RC-U02,Receptura RC-U02 → U-02,projekt_ksiegi,4,2,U-02,1,mchowa-galaretka:1
+RC-U03,Receptura RC-U03 → U-03,projekt_ksiegi,10,6,U-03,1,zielone-ostrze:2
+RC-U04,Receptura RC-U04 → U-04,projekt_ksiegi,18,12,U-04,1,zarodniki:2
+RC-U05,Receptura RC-U05 → U-05,projekt_ksiegi,10,4,U-05,1,zielone-ostrze:2
+RC-U06,Receptura RC-U06 → U-06,projekt_ksiegi,18,10,U-06,1,zarodniki:2
+RC-U07,Receptura RC-U07 → U-07,projekt_ksiegi,1,1,U-07,1,mchowa-galaretka:1
+RC-U08,Receptura RC-U08 → U-08,projekt_ksiegi,7,3,U-08,1,zielone-ostrze:1
+RC-U09,Receptura RC-U09 → U-09,projekt_ksiegi,14,7,U-09,1,zarodniki:2
+RC-U10,Receptura RC-U10 → U-10,projekt_ksiegi,7,3,U-10,1,zielone-ostrze:1
+RC-U11,Receptura RC-U11 → U-11,projekt_ksiegi,14,7,U-11,1,zarodniki:2
+RC-U12,Receptura RC-U12 → U-12,projekt_ksiegi,10,5,U-12,1,zielone-ostrze:2
+RC-U13,Receptura RC-U13 → U-13,projekt_ksiegi,10,5,U-13,1,zielone-ostrze:2
+RC-U14,Receptura RC-U14 → U-14,projekt_ksiegi,4,3,U-14,1,mchowa-galaretka:1
+RC-U15,Receptura RC-U15 → U-15,projekt_ksiegi,7,4,U-15,1,zielone-ostrze:1
+RC-U16,Receptura RC-U16 → U-16,projekt_ksiegi,4,2,U-16,1,mchowa-galaretka:1
