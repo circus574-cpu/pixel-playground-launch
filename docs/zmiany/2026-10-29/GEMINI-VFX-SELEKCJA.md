@@ -1,5 +1,7 @@
 # KI Legends — selekcja efektów VFX z udostępnionej rozmowy Gemini (29.10.2026)
 
+> **Nowsza dostawa (29.10.2026):** [ocena kolejnych 36 pól, Androidzi i Legendy oraz brakujące zdolności](GEMINI-VFX-DOSTAWA-2.md). Wspólnie istnieją projekty efektów dla 44/44 głównych umiejętności; **nie są to kompletne animacje ani zasoby produkcyjne**.
+
 **Status:** PRZEGLĄD KONCEPCYJNY / NIEZAIMPORTOWANE DO GRY. Nie oznaczać jako ukończone assety produkcyjne.
 
 ## Źródła i zakres
