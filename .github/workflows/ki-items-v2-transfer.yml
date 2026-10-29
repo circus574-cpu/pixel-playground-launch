@@ -30,12 +30,12 @@ jobs:
           printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"
           trap 'rm -f "$key_file"' EXIT
           opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/ki_known_hosts" -p 22)
-          source_path=$(ssh "${opts[@]}" codex@85.235.150.189 "find /home/gh-runner -maxdepth 8 -type f -name KI_LEGENDS_PAKIET_366_PASYWNE_ARTEFAKTY_V2.zip -print -quit" | tr -d '\r')
+          source_path=$(ssh "${opts[@]}" codex@85.235.150.189 "docker run --rm -v /home/gh-runner:/source:ro alpine:3.22 sh -c 'find /source -maxdepth 8 -type f -name KI_LEGENDS_PAKIET_366_PASYWNE_ARTEFAKTY_V2.zip -print -quit'" | tr -d '\r')
           if [ -z "$source_path" ]; then
             echo "::error::Exact archive not found on the VPS. GitHub Actions cannot read files stored only in ChatGPT sandbox. Upload original archive to VPS, then re-run manually."
             exit 1
           fi
-          ssh "${opts[@]}" codex@85.235.150.189 "cat \"$source_path\"" > "$RUNNER_TEMP/ki-items-v2.zip"
+          ssh "${opts[@]}" codex@85.235.150.189 "docker run --rm -v /home/gh-runner:/source:ro alpine:3.22 cat \"$source_path\"" > "$RUNNER_TEMP/ki-items-v2.zip"
           echo "2bd02649bc873001b24c655fe5023940e660bec6ae7187a1e87add10dd389852  $RUNNER_TEMP/ki-items-v2.zip" | sha256sum --check --status
           unzip -tq "$RUNNER_TEMP/ki-items-v2.zip"
           echo "Validated original V2 archive by SHA-256"
