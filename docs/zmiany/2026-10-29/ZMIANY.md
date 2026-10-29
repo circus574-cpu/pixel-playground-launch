@@ -195,3 +195,37 @@ Role helpers has_role/is_staff są celowo SECURITY DEFINER dla polityk bez
 rekurencji; dostęp anon/Public cofnięto. Tabele tokenów/logów nie mają polityk
 klienta celowo: dostęp tylko serwerowy.
 Aplikacja nadal używa starego backendu; nie deklarować ukończonego odcięcia Lovable.
+
+### Pełny backup z kontem — import danych wykonany
+
+Właściciel dostarczył `pixel-playground-launch_261029.backup.zip`. W środku jest
+PGDMP 1.16 (zstd), 411948 B, SHA-256
+`53bd271b526a0a4d1e7aae0c45198347dbf9378fce99f0b61d369b0079b57d9b`.
+TOC podaje źródło PostgreSQL 17.11, pg_dump 18.6; pg_restore 17-alpine poprawnie
+odczytał format. Dane pozostają poza Git w `/workspace/.ki-migration-private/`.
+Do zwolnienia miejsca usunięto wyłącznie własne odtwarzalne buildy .output i
+.playtest-dist; nie usuwano źródeł, backupów, danych VPS ani GPU.
+
+Import w transakcji do własnego `ekqljyldtzbpytqrtaer` zakończył się sukcesem:
+1 auth.users z zachowanym hashem hasła i potwierdzonym e-mailem, 1 identity,
+1 profil, 1 rola, 22 characters, 1 admin_audit, 34 sketch_api_log i 3 historyczne
+unieważnione tokeny. Brak osieroconych zapisów. Nie resetowano hasła/UUID.
+Nie przeniesiono starych sesji, refresh tokenów ani wewnętrznych migracji providera;
+po przełączeniu będzie wymagane ponowne zalogowanie.
+Przed importem kontrola odmawiała wykonania na niepustym celu. Rzeczywisty import
+najpierw został zatrzymany przez kontrolę kompletności lokalnego tekstu (brak
+końcowego newline); poprawiono kontrolę końca, nie dane. SQL nie opublikowano.
+
+Test pod rolą authenticated: właściciel widzi 22 zapisy i profil; TRUNCATE oraz
+RPC rotacji tokenów odmówione. Wszystkie wyłączone na czas odtwarzania wyzwalacze
+ponownie aktywne; active_tokens=0. Dane źródłowe i docelowe liczbowo zgodne.
+[Manifest bez danych osobowych](qa/independent-supabase/source-counts.json).
+Skrypt przygotowania prywatnego importu w deploy/database nie zawiera rekordów
+ani hashy; generowane import.sql pozostaje prywatne i nie wolno go commitować.
+
+Backup zawiera metadane 19 storage.objects i 2 bucketów, ale nie binarne pliki.
+Nowy Storage pozostaje pusty (project-sketches jest prywatny). Przed cutoverem
+potrzebne są binarne obiekty z archiwum VPS oraz serwerowy klucz nowego projektu
+w bezpiecznej konfiguracji. MCP udostępnia wyłącznie klucze publiczne, nie
+service_role. Nie wyciągać sekretów z bazy i nie publikować bucketu jako obejścia.
+Aplikacja nadal korzysta ze źródłowego backendu — nie deklarować pełnej migracji.
