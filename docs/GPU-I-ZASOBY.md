@@ -557,7 +557,7 @@ przez `deploy.sh <SHA>`; dane pozostają poza release. Awaryjne zatrzymanie wył
 `ki-prompt-board` usuwa jego routery i przywraca dotychczasowy routing stagingu.
 Nie zatrzymywać proxy ani kontenerów gry. Skrypt ma rollback nieudanego wdrożenia.
 
-Kontrole: `node --test deploy/prompt-board/server.test.mjs` (12 testów HTTP),
+Kontrole: `node --test deploy/prompt-board/server.test.mjs` (13 testów HTTP),
 `node deploy/prompt-board/browser-qa.mjs` (11 scenariuszy przez prawdziwy serwer
 lokalny, 5 rozmiarów, emulowany dotyk), pełny TS i lint. Testy UI używają lokalnej
 sesji testowej; sprawdzanie roli obejmuje kontrolowany serwer Auth. Nie traktować

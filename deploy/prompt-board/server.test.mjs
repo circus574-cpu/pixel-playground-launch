@@ -230,3 +230,13 @@ test("production admin authorization is verified remotely; ordinary users denied
   isAdmin = false;
   assert.equal((await f.request("prompts", { headers: { Cookie: cookie } })).status, 401);
 });
+
+test("HEAD supports staging redirect, page and health checks", async (t) => {
+  const f = await fixture(t);
+  const base = (await f.request("prompts")).url.replace("/prompty/api/prompts", "");
+  const root = await fetch(base + "/", { method: "HEAD", redirect: "manual" });
+  assert.equal(root.status, 302);
+  assert.equal(root.headers.get("location"), "/prompty/");
+  assert.equal((await fetch(base + "/prompty/", { method: "HEAD" })).status, 200);
+  assert.equal((await fetch(base + "/healthz", { method: "HEAD" })).status, 200);
+});

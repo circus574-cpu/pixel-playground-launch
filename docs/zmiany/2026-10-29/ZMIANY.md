@@ -557,3 +557,22 @@ Kontrole lokalne faktycznie wykonane na roboczym drzewie przed commitem:
 [desktop](qa/prompt-board/board-1280x720.png), [trace](qa/prompt-board/trace.zip).
 Status publicznego wdrożenia zostanie dopisany po zakończeniu workflow; nie deklarujemy
 opublikowania gry. Szczegóły storage/bezpieczeństwa: [GPU i zasoby](../../GPU-I-ZASOBY.md#warsztat-promptów-na-stagingu).
+
+### Potwierdzenie wdrożenia warsztatu
+
+[PR #66](https://github.com/circus574-cpu/pixel-playground-launch/pull/66),
+implementacja `7b33982658a9554b5b98dd38696aebbb38beacaf`.
+[Run 40910598224](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40910598224)
+SUCCESS: serwer Node22, 12 testów PASS, wdrożenie i healthcheck oraz odrzucenie
+anonimowego odczytu. Publiczny Chromium: root stagingu przekierowuje na `/prompty/`,
+formularz działa, katalog bez sesji 401, błędne konto 401, brak pageerror i overflow
+390px. `kilegends.pl` HTTP200 oraz identyczna lista JS/CSS przed i po wdrożeniu.
+[Dowód](qa/prompt-board/board-live-result.json), [publiczny ekran](qa/prompt-board/board-live-390.png).
+Pierwszy smoke przez Playwright APIRequestContext miał ECONNREFUSED do bezpośredniego
+IP z lokalnego środowiska; powtórzono żądania przez fetch w faktycznej przeglądarce,
+zgodnie z jej działającym routingiem sieciowym. Nie był to potwierdzony błąd usługi.
+
+Po smoke dodano obsługę HEAD dla strony, przekierowania i healthchecku oraz test
+regresyjny; końcowy zestaw HTTP zawiera 13 testów. Dane i logowanie rzeczywistego
+właściciela pozostają bez odbioru, ponieważ agent nie posiada jego hasła.
+Nie scalono PR, nie publikowano gry, nie zmieniano Supabase ani danych graczy.

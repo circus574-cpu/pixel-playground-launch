@@ -1,0 +1,12 @@
+{
+  "url": "https://staging.kilegends.pl/prompty/",
+  "stagingLogin": 200,
+  "anonymousCatalogue": 401,
+  "invalidAccountLogin": 401,
+  "overflow": false,
+  "productionGame": 200,
+  "gameAssetsUnchanged": true,
+  "pageErrors": [],
+  "actualOwnerLogin": "NOT TESTED: owner credentials not available",
+  "actualOwnerUpload": "NOT TESTED on live; local HTTP/browser upload covered"
+}

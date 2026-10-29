@@ -204,14 +204,14 @@ export async function makeBoard({
     try {
       const url = new URL(req.url, "http://local");
       const route = url.pathname;
-      if (req.method === "GET" && route === "/healthz")
+      if (["GET", "HEAD"].includes(req.method) && route === "/healthz")
         return json(res, 200, { ok: true, release: process.env.BOARD_RELEASE || "local" });
-      if (req.method === "GET" && route === "/") {
+      if (["GET", "HEAD"].includes(req.method) && route === "/") {
         res.writeHead(302, { Location: "/prompty/" });
         return res.end();
       }
       if (
-        req.method === "GET" &&
+        ["GET", "HEAD"].includes(req.method) &&
         ["/prompty", "/prompty/", "/prompty/app.js", "/prompty/style.css"].includes(route)
       ) {
         const name = route.endsWith("app.js")
