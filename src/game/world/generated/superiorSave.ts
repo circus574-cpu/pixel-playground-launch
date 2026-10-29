@@ -48,7 +48,7 @@ const spawnRecord = z.object({
 });
 const envelope = z.object({
   format: z.literal("superior-character"),
-  version: z.literal(1),
+  version: z.union([z.literal(1), z.literal(4)]),
   revision: z.string(),
   geometry: z.string(),
   feature: z.enum(FEATURE_IDS),
@@ -137,9 +137,13 @@ export class SuperiorSaveStore extends SaveStore {
         this.warning = "Postać zmieniła się w innej karcie. Ta karta nie nadpisze postępu.";
         return false;
       }
+      if (this.previous !== null && JSON.parse(this.previous).version === 1) {
+        const key = this.expeditionKey + ":before-stat-training-v4";
+        if (this.port.getItem(key) === null) this.port.setItem(key, this.previous);
+      }
       const value = envelope.parse({
         format: "superior-character",
-        version: 1,
+        version: 4,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
         feature: this.feature,

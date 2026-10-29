@@ -1,3 +1,10 @@
+import {
+  CombatTrainingSchema,
+  advanceCombatTraining,
+  emptyCombatTraining,
+  TRAINABLE_NAMES,
+  type TrainableStat,
+} from "./combatTraining";
 import { CharacterStatsSchema } from "./characterStats";
 import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
@@ -36,7 +43,17 @@ import type { Enemy, FxSpec, ZoneState } from "./monsters/types";
 export type { Enemy } from "./monsters/types";
 export { MATERIALS, MATERIAL_IDS } from "./monsters/materials";
 
-export const ITEMS = {
+export type ItemDefinition = {
+  name: string;
+  type: "consumable" | "material" | "weapon" | "armor";
+  icon: number;
+  attack: number;
+  defense: number;
+  price: number;
+  sell: number;
+  statBonuses?: { dodgeChance?: number; attackSpeedPct?: number; technique?: number };
+};
+export const ITEMS: Record<"potion" | "tusk" | "sword" | "vest", ItemDefinition> = {
   potion: {
     name: "Mikstura życia",
     type: "consumable",
@@ -65,7 +82,7 @@ export const ITEMS = {
     price: 25,
     sell: 10,
   },
-} as const;
+};
 export type ItemId = keyof typeof ITEMS;
 export const ITEM_IDS = Object.keys(ITEMS) as ItemId[];
 export const BAG_CAPACITY = 12;
@@ -97,6 +114,7 @@ const emptyDepot = () => ({
   upgrade: 0,
 });
 export const PlayerSchema = z.object({
+  combatTraining: CombatTrainingSchema.optional(),
   statOverrides: CharacterStatsSchema.optional(),
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
@@ -195,7 +213,7 @@ export type Command =
   | { type: "storage-close" }
   | { type: "depot"; item: string; quantity: number; withdraw: boolean }
   | { type: "rest" }
-  | { type: "training"; action: "start" | "reset" | "stop" }
+  | { type: "training"; action: "start" | "reset" | "stop"; discipline?: TrainableStat }
   | StaffCommand;
 /** Tools of a special administrator or game-master character; ignored for everyone else. */
 export type StaffCommand =
@@ -227,6 +245,20 @@ export type StaffCommand =
   | { type: "staff"; action: "killTarget" }
   | { type: "staff"; action: "killAllNearby"; radius?: number };
 export type StaffRole = "admin" | "gm";
+export function equipmentStats(p: Pick<Player, "weapon" | "armor" | "upgrade">) {
+  const gear = {
+    attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
+    defense: p.armor ? ITEMS[p.armor].defense : 0,
+    dodgeChance: 0,
+    technique: 0,
+    attackSpeedPct: 0,
+  };
+  for (const id of [p.weapon, p.armor])
+    if (id)
+      for (const key of ["dodgeChance", "technique", "attackSpeedPct"] as const)
+        gear[key] += ITEMS[id].statBonuses?.[key] ?? 0;
+  return gear;
+}
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
@@ -235,14 +267,11 @@ export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
 function statsPort(
-  p: Pick<Player, "level" | "weapon" | "armor" | "upgrade" | "statOverrides">,
+  p: Pick<Player, "level" | "weapon" | "armor" | "upgrade" | "statOverrides" | "combatTraining">,
 ): KitPort {
   return {
     nowMs: 0,
-    gear: {
-      attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
-      defense: p.armor ? ITEMS[p.armor].defense : 0,
-    },
+    gear: equipmentStats(p),
     inCombat: false,
     terrain: () => "open",
     player: {
@@ -251,6 +280,7 @@ function statsPort(
       level: p.level,
       hp: 0,
       ki: 0,
+      ...(p.combatTraining ? { combatTraining: p.combatTraining } : {}),
       ...(p.statOverrides ? { statOverrides: p.statOverrides } : {}),
     },
     facing: { x: 1, y: 0 },
@@ -278,10 +308,23 @@ function statsPort(
   };
 }
 export const stats = (
-  p: Pick<Player, "race" | "level" | "weapon" | "armor" | "upgrade" | "skills" | "statOverrides">,
+  p: Pick<
+    Player,
+    | "race"
+    | "level"
+    | "weapon"
+    | "armor"
+    | "upgrade"
+    | "skills"
+    | "statOverrides"
+    | "combatTraining"
+  >,
 ) => {
   const s = createKit(p.race, statsPort(p), p.skills).stats;
   return {
+    dodgeChance: s.dodgeChance,
+    technique: s.technique,
+    attackSpeedPct: s.attackSpeedPct,
     maxHp: s.maxHp,
     maxKi: s.maxKi,
     attack: s.attack,
@@ -349,6 +392,7 @@ const SaveSchema = z.discriminatedUnion("version", [
   z.object({ version: z.literal(3), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(4), revision: z.string(), player: PlayerSchema }),
   z.object({ version: z.literal(5), revision: z.string(), player: PlayerSchema }),
+  z.object({ version: z.literal(8), revision: z.string(), player: PlayerSchema }),
 ]);
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
@@ -424,7 +468,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5]) {
+    for (const target of [4, 5, 8]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -441,7 +485,7 @@ export class SaveStore {
       }
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 5,
+        version: 8,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -528,6 +572,9 @@ export class GameSession implements MonsterHost {
   private afterExit: BuildingId | null = null;
   depotOpen = false;
   training = { active: false, hits: 0, damage: 0 };
+  private trainingDiscipline: TrainableStat | undefined;
+  private lastTrainingCredit = -Infinity;
+  private pendingTraining: TrainableStat | undefined;
   private dummy: Foe = { id: "training-dummy", x: 600, y: 300, hp: 1000000000, maxHp: 1000000000 };
   private pathIn = 0;
   private saveIn = 0;
@@ -615,6 +662,16 @@ export class GameSession implements MonsterHost {
       this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Unik" });
       return { dealt: 0, evaded: true };
     }
+    const evade = this.kit.stats.dodgeChance;
+    if (
+      !fixed &&
+      (kind === "melee" || kind === "projectile") &&
+      evade > 0 &&
+      this.random() * 100 < evade
+    ) {
+      this.emit({ type: "hit", x: p.x, y: p.y, target: "player", text: "Unik" });
+      return { dealt: 0, evaded: true };
+    }
     let amount = raw;
     if (from.fx.weaken.ms > 0) amount *= 1 - from.fx.weaken.pct;
     let dmg: number;
@@ -647,6 +704,7 @@ export class GameSession implements MonsterHost {
     if (this.kit.saveFromDeath()) return;
     p.hp = 0;
     p.dead = true;
+    this.pendingTraining = undefined;
     this.bufferedAction = undefined;
     this.kit.cancelActions();
     this.projectiles.cancel();
@@ -846,6 +904,8 @@ export class GameSession implements MonsterHost {
     const damage = Math.max(1, raw);
     this.training.hits++;
     this.training.damage += damage;
+    if (hit.ability === "R") this.train("attackSpeed");
+    else if (hit.ability) this.train("technique");
     this.emit({
       type: "hit",
       ...this.dummy,
@@ -854,6 +914,43 @@ export class GameSession implements MonsterHost {
       crit: !!hit.crit,
     });
     return damage;
+  }
+  private train(stat: TrainableStat) {
+    if (
+      !this.training.active ||
+      this.trainingDiscipline !== stat ||
+      this.player.interior !== "arena" ||
+      this.player.dead ||
+      this.paused ||
+      this.nowMs - this.lastTrainingCredit < 1000
+    )
+      return;
+    this.pendingTraining = stat;
+  }
+  private commitTraining() {
+    const stat = this.pendingTraining;
+    this.pendingTraining = undefined;
+    if (
+      !stat ||
+      !this.training.active ||
+      this.trainingDiscipline !== stat ||
+      this.player.interior !== "arena" ||
+      this.player.dead ||
+      this.paused
+    )
+      return;
+    const before = this.player.combatTraining ?? emptyCombatTraining();
+    if (before[stat].rank >= 100) return;
+    const next = advanceCombatTraining(before, stat);
+    const candidate = { ...this.player, combatTraining: next };
+    if (this.saves && !this.saves.save(candidate)) {
+      this.say(this.saves.warning);
+      return;
+    }
+    this.player.combatTraining = next;
+    this.lastTrainingCredit = this.nowMs;
+    if (next[stat].rank > before[stat].rank)
+      this.say(TRAINABLE_NAMES[stat] + " · trening " + next[stat].rank);
   }
   private switchInterior(id: BuildingId | null) {
     this.bufferedAction = undefined;
@@ -868,6 +965,8 @@ export class GameSession implements MonsterHost {
     this.dialogue = null;
     this.depotOpen = false;
     this.training.active = false;
+    this.pendingTraining = undefined;
+    this.trainingDiscipline = undefined;
     this.route = [];
     this.pendingNpc = null;
     this.pendingLoot = null;
@@ -1205,6 +1304,7 @@ export class GameSession implements MonsterHost {
     if (c.type === "training") {
       if (p.interior !== "arena") return this.say("Trening jest dostępny w Domu Treningu.");
       this.clearDestinations();
+      this.pendingTraining = undefined;
       this.dialogue = null;
       if (c.action === "stop") {
         this.route = [];
@@ -1212,8 +1312,15 @@ export class GameSession implements MonsterHost {
         return;
       }
       this.training = { active: true, hits: 0, damage: 0 };
+      this.trainingDiscipline = c.discipline;
       this.go({ x: this.dummy.x + 55, y: this.dummy.y + 25 });
-      this.say("Trening: używaj ataku i poznanych zdolności. Manekin ma 0 obrony; brak nagród.");
+      this.say(
+        c.discipline
+          ? "Trening: " +
+              TRAINABLE_NAMES[c.discipline] +
+              ". Wykonuj właściwe akcje; bez XP i monet."
+          : "Trening: używaj ataku i poznanych zdolności. Manekin ma 0 obrony; brak nagród.",
+      );
       return;
     }
     if (c.type === "learn") {
@@ -1372,8 +1479,10 @@ export class GameSession implements MonsterHost {
     if (c.type === "dodge") {
       if (this.fx.cannotAct || p.dead) return;
       this.route = [];
+      const beforeDodge = { x: p.x, y: p.y };
       const r = this.kit.dodge(this.facing);
       if (!r.ok && r.reason) this.say(r.reason);
+      if (r.ok && distance(beforeDodge, p) > 1) this.train("dodge");
       return;
     }
     if (this.fx.cannotAct && c.type !== "loot") return this.say("Nie możesz działać.");
@@ -1710,6 +1819,7 @@ export class GameSession implements MonsterHost {
       this.flush();
     }
     if (!isCityStage(this.world) && !p.interior) this.monsters.tick(dt);
+    this.commitTraining();
     this.saveIn += dt;
     if (this.saveIn >= 2000) {
       this.saveIn = 0;
@@ -1770,7 +1880,12 @@ export class GameSession implements MonsterHost {
       staff: this.staff,
       god: this.god,
       player: structuredClone(this.player),
+      statBreakdown: this.kit.statBreakdown,
+      trainingDiscipline: this.trainingDiscipline ?? null,
       stats: {
+        dodgeChance: live.dodgeChance,
+        technique: live.technique,
+        attackSpeedPct: live.attackSpeedPct,
         maxHp: live.maxHp,
         maxKi: live.maxKi,
         attack: live.attack,
@@ -1898,10 +2013,7 @@ function makePort(s: GameSession): KitPort {
     },
     get gear() {
       const p = s.player;
-      return {
-        attack: p.weapon ? ITEMS[p.weapon].attack + p.upgrade * 4 : 0,
-        defense: p.armor ? ITEMS[p.armor].defense : 0,
-      };
+      return equipmentStats(p);
     },
     get inCombat() {
       return s.combatIn > 0;
@@ -2039,7 +2151,12 @@ export function initialView(player?: Player): GameViewState {
     foes: [],
     targetId: null,
     player: p,
+    statBreakdown: createKit(p.race, statsPort(p), p.skills).statBreakdown,
+    trainingDiscipline: null as TrainableStat | null,
     stats: {
+      dodgeChance: s.dodgeChance,
+      technique: s.technique,
+      attackSpeedPct: s.attackSpeedPct,
       maxHp: s.maxHp,
       maxKi: s.maxKi,
       attack: s.attack,

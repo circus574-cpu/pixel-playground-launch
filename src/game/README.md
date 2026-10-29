@@ -2,7 +2,7 @@
 
 Phaser 4.2.1 renders a local PvE game. React/TanStack mounts it dynamically and renders a HUD driven by typed `GameSession` snapshots/commands. There is no authoritative multiplayer or account backend.
 
-- `session.ts`: movement, quests, loot, equipment, economy and browser saves (version 5: city interiors and character depot; versions 1, 3 and 4 still load). It owns one race `kit` and the `MonsterSystem`. `characters.ts`: independent character slots and legacy migration.
+- `session.ts`: movement, quests, loot, equipment, economy and browser saves (version 8: train-only combat parameters, city interiors and character depot; versions 1, 3, 4 and 5 still load). It owns one race `kit` and the `MonsterSystem`. `characters.ts`: independent character slots and legacy migration.
 - `kit/`: race statistics and the four skill trees (29 nodes each) from the owner annex of 22.10.2026; `base.ts` is the shared core (stats, cooldowns, Ki, buffs, shields, channels) and `planetary|sage|android|legend.ts` implement every node. `nodes.generated.ts` is generated from `docs/design/data/character-progression-1-20.json`.
 - `monsters/`: the 40 bestiary monsters (`catalog.ts`, numbers from `base.generated.ts`), AI/skills/zones/loot (`system.ts`), status effects on the player (`fx.ts`) and loot materials. Spawns in regions are intentionally empty until the continents are complete. Rules and assumptions: [ROZWOJ-I-WALKA.md](../../docs/ROZWOJ-I-WALKA.md).
 - `movement.ts`, `navigation.ts`, `geometry.ts`: shared clearance, attack line of sight, A*, movement and input bounds; artwork cannot change them.

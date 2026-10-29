@@ -283,7 +283,7 @@ describe("personal depot, conservation and guarded saves", () => {
     expect(loaded.interior).toBeNull();
     expect(storage.getItem("slot")).toBe(raw);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(storage.getItem("slot")!).version).toBe(5);
+    expect(JSON.parse(storage.getItem("slot")!).version).toBe(8);
   });
   it.each(["future", "unknown-material", "foreign-interior", "invalid-upgrade"])(
     "preserves the original %s save",
@@ -308,4 +308,62 @@ describe("personal depot, conservation and guarded saves", () => {
       expect(storage.getItem("slot")).toBe(raw);
     },
   );
+});
+
+describe("train-only progression in real session", () => {
+  it("credits real dummy attacks after the tick, preserves XP and caps credit frequency", () => {
+    const g = new GameSession(undefined, "planetary", { random: () => 0.99 });
+    enter(g, "arena");
+    g.command({ type: "training", action: "start", discipline: "attackSpeed" });
+    run(g, () => distance(g.player, cityRoom("arena").dummy) <= 62);
+    const xp = g.player.xp,
+      gold = g.player.gold;
+    g.command({ type: "ability", ability: "R" });
+    expect(g.player.combatTraining).toBeUndefined();
+    g.tick(50);
+    expect(g.player.combatTraining?.attackSpeed.progress).toBe(1);
+    g.command({ type: "ability", ability: "R" });
+    g.tick(50);
+    expect(g.player.combatTraining?.attackSpeed.progress).toBe(1);
+    expect(g.player.xp).toBe(xp);
+    expect(g.player.gold).toBe(gold);
+    g.command({ type: "training", action: "stop" });
+    g.tick(1500);
+    g.command({ type: "ability", ability: "R" });
+    g.tick(50);
+    expect(g.player.combatTraining?.attackSpeed.progress).toBe(1);
+  });
+});
+
+it("persists training only after paying the skill KI cost, and rejects quota failures", () => {
+  for (const quota of [false, true]) {
+    const backing = memory();
+    let fail = false;
+    const port: StoragePort = {
+      getItem: (k) => backing.getItem(k),
+      setItem: (k, v) => {
+        if (fail) throw Error("quota");
+        backing.setItem(k, v);
+      },
+    };
+    const saves = new SaveStore(port),
+      g = new GameSession(saves, "planetary", { random: () => 0.99 });
+    g.player.level = 4;
+    g.player.skills = ["R", "B1"];
+    g.kit.learn("B1");
+    enter(g, "arena");
+    g.command({ type: "training", action: "start", discipline: "technique" });
+    run(g, () => distance(g.player, cityRoom("arena").dummy) <= 62);
+    g.player.ki = 40;
+    fail = quota;
+    g.command({ type: "ability", ability: "B1" });
+    expect(g.player.ki).toBe(30);
+    g.tick(50);
+    if (quota) expect(g.player.combatTraining).toBeUndefined();
+    else {
+      const restored = new SaveStore(port).load()!;
+      expect(restored.combatTraining?.technique.progress).toBe(1);
+      expect(restored.ki).toBeLessThan(31);
+    }
+  }
 });

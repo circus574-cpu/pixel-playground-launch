@@ -101,3 +101,26 @@ describe("Superior expedition ownership and travel", () => {
     expect(values.get("expedition")).toBe(original);
   });
 });
+
+it("migrates a v1 expedition with exact recovery bytes and trained parameters", () => {
+  const { port, values } = storage();
+  const initial = new SuperiorSaveStore(port, "expedition", index, "verdant");
+  initial.load();
+  expect(initial.save(newPlayer())).toBe(true);
+  const legacy = JSON.parse(values.get("expedition")!);
+  legacy.version = 1;
+  const raw = JSON.stringify(legacy);
+  values.set("expedition", raw);
+  const next = new SuperiorSaveStore(port, "expedition", index, "verdant");
+  const p = next.load()!;
+  p.combatTraining = {
+    dodge: { rank: 3, progress: 2 },
+    attackSpeed: { rank: 4, progress: 1 },
+    technique: { rank: 6, progress: 0 },
+  };
+  expect(next.save(p)).toBe(true);
+  expect(values.get("expedition:before-stat-training-v4")).toBe(raw);
+  expect(
+    new SuperiorSaveStore(port, "expedition", index, "verdant").load()?.combatTraining,
+  ).toEqual(p.combatTraining);
+});

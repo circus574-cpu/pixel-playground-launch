@@ -1,3 +1,4 @@
+import { CharacterStatsPanel } from "./CharacterStatsPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
 import { CombatAction } from "./CombatAction";
 import { uiTextureUrl } from "../../game/assets/catalog";
@@ -80,7 +81,8 @@ type Props = {
   onWorldLabels?: (visible: boolean) => void;
   systemNotice?: MessageEvent;
 };
-type Panel = "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
+type Panel =
+  "character" | "inventory" | "journal" | "skills" | "settings" | "map" | "planet" | null;
 /** Planet atlas (2D map + 3D globe) loads only when opened from the world map. */
 const PlanetAtlas = lazy(() =>
   import("../planet-map/MapaView").then((m) => ({ default: m.MapaView })),
@@ -443,7 +445,14 @@ export function GameHud({
         />
       )}
       <section className="ki-player ki-frame" aria-label="Postać gracza">
-        <div className="ki-portrait" data-race={player.race}>
+        <button
+          type="button"
+          className="ki-portrait"
+          data-race={player.race}
+          aria-label="Pokaż statystyki postaci"
+          onClick={() => toggle("character")}
+          style={{ padding: 0, cursor: "pointer" }}
+        >
           <span className="ki-portrait-art">
             <img
               src={originArt[player.race].card}
@@ -453,7 +462,7 @@ export function GameHud({
             />
           </span>
           <span className="ki-level">{player.level}</span>
-        </div>
+        </button>
         <div className="ki-player-info">
           <div className="ki-player-name">
             {state.player.name ?? "Wędrowiec"} <span>{RACES[player.race].name.toUpperCase()}</span>
@@ -999,6 +1008,7 @@ export function GameHud({
             aria-modal="true"
             aria-label={
               {
+                character: "Statystyki postaci",
                 inventory: "Ekwipunek",
                 journal: "Dziennik",
                 skills: "Umiejętności",
@@ -1015,6 +1025,7 @@ export function GameHud({
               <h2>
                 {
                   {
+                    character: "Statystyki postaci",
                     inventory: "Ekwipunek",
                     journal: "Dziennik podróży",
                     skills: "Drzewko umiejętności · " + RACES[player.race].name,
@@ -1028,6 +1039,15 @@ export function GameHud({
               </button>
             </header>
             <div className="ki-inline-messages">{feedback}</div>
+            {panel === "character" && (
+              <CharacterStatsPanel
+                state={state}
+                train={(discipline) => {
+                  onCommand({ type: "training", action: "start", discipline });
+                  closeAndResume();
+                }}
+              />
+            )}
             {panel === "inventory" &&
               (WORLD_V2 ? (
                 <DiabloInventory state={state} send={onCommand} />

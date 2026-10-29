@@ -1,0 +1,55 @@
+{
+  "baseCommit": "ba73d0780a8432aa7f6e92ed8b884f0c3ac45db3",
+  "branch": "feature/character-statistics-training",
+  "tested": "final working tree before commit; file SHA-256 recorded below",
+  "commands": {
+    "npm run typecheck": {
+      "exitCode": 0,
+      "configs": 3
+    },
+    "npm run lint": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 15
+    },
+    "npm run build": {
+      "exitCode": 0
+    },
+    "npm test": {
+      "exitCode": 0,
+      "filesPassed": 66,
+      "passed": 854,
+      "failed": 0,
+      "skipped": 0
+    },
+    "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/character-statistics.spec.ts --project=gameplay": {
+      "exitCode": 0,
+      "passed": 4,
+      "failed": 0
+    },
+    "KI_QA_WEBGL=1 KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/character-statistics.spec.ts --project=gameplay": {
+      "exitCode": 0,
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "physicalDevices": "NOT TESTED",
+  "publication": "NOT PUBLISHED",
+  "sourceSha256": {
+    "e2e/character-statistics.spec.ts": "682d924490c29ae8843c9ca1820b9465c36dcebbd6dee98c6d0dbe1b77eaab25",
+    "src/components/game/CharacterStatsPanel.tsx": "cb07eade212a1a2155304560ba5d4cac201e994e0bab6b87ccfb6845e78fddac",
+    "src/components/game/GameHud.tsx": "00ca0a97aae582c375e58ff02f0eb0e04ee425ec7df6f6ac985904c54a417e49",
+    "src/game/README.md": "6cda04c65b231b0258969e3c79848262ca12642eeb05cb2c11348e73d00208ed",
+    "src/game/combatTraining.ts": "4a48c3fce1f3639aff2dd7e7f9a7048b99c86995efebb1e7078f44a371b278b7",
+    "src/game/kit/base.ts": "c871ff90d7e16a0d9086fb7262e2e2d5234023604cdcb7b3acb37afe44f2cf21",
+    "src/game/kit/types.ts": "de0c7edf1c7bc427dafa5ab0d30b7b0f55143eb74f060671f49dcfb7bab43d9d",
+    "src/game/session.ts": "bc912a9afce35d98e6b8be0fb11c7b27fcd845386375829964552a7b5140aee9",
+    "src/game/world/generated/superiorSave.ts": "87db3cc78d1e9d2343249f57cb8a2e913ce77d5485d3f4034e475818c16f5410",
+    "src/test/city.test.ts": "bbf077a7f214b9bbb0917d1f51100336db1c9ee4d22690bfa869452d92caeeb6",
+    "src/test/combat-training.test.ts": "268c5867adfdb032ed1872c615b2c72fb149498901b64865ef7c447318294aa0",
+    "src/test/kit.test.ts": "b0ada5d71b102222af474c3f1d0c0f52eca315359e2606d0200c885becc85bc8",
+    "src/test/monsters.test.ts": "08508cc1b1481bbe09b4e938990eb662ab8707fabf34fb54f8d68920354cf1d5",
+    "src/test/session.test.ts": "7f3cc1dbf1cd7828aa3ceffcb7e97552db981ebafbad43e4281c6b25535bfa57",
+    "src/test/superior-save.test.ts": "c7477b01a1d6559c4d7d3021d0999cbee7deb1dcbcf034e47bdb438d03627673"
+  }
+}
