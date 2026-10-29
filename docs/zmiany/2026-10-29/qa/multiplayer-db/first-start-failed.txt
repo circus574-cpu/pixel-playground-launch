@@ -1,0 +1,244 @@
+ssh-check	Set up job	﻿2026-10-29T09:31:42.5024961Z Current runner version: '2.338.0'
+ssh-check	Set up job	2026-10-29T09:31:42.5045271Z ##[group]Runner Image Provisioner
+ssh-check	Set up job	2026-10-29T09:31:42.5045978Z Hosted Compute Agent
+ssh-check	Set up job	2026-10-29T09:31:42.5046413Z Version: 20261021.618
+ssh-check	Set up job	2026-10-29T09:31:42.5046899Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+ssh-check	Set up job	2026-10-29T09:31:42.5047450Z Build Date: 2026-10-21T00:45:21Z
+ssh-check	Set up job	2026-10-29T09:31:42.5047988Z Worker ID: {ab7680ed-bb6f-42e6-93d5-bfcac0d662d2}
+ssh-check	Set up job	2026-10-29T09:31:42.5048471Z Region: centralus
+ssh-check	Set up job	2026-10-29T09:31:42.5049190Z Cloud: Azure
+ssh-check	Set up job	2026-10-29T09:31:42.5049629Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:31:42.5050703Z ##[group]Operating System
+ssh-check	Set up job	2026-10-29T09:31:42.5051128Z Ubuntu
+ssh-check	Set up job	2026-10-29T09:31:42.5051545Z 24.04.5
+ssh-check	Set up job	2026-10-29T09:31:42.5052023Z LTS
+ssh-check	Set up job	2026-10-29T09:31:42.5052429Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:31:42.5053022Z ##[group]Runner Image
+ssh-check	Set up job	2026-10-29T09:31:42.5053484Z Image: ubuntu-24.04
+ssh-check	Set up job	2026-10-29T09:31:42.5053980Z Version: 20261025.353.1
+ssh-check	Set up job	2026-10-29T09:31:42.5054654Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+ssh-check	Set up job	2026-10-29T09:31:42.5055786Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+ssh-check	Set up job	2026-10-29T09:31:42.5056516Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:31:42.5057251Z ##[group]GITHUB_TOKEN Permissions
+ssh-check	Set up job	2026-10-29T09:31:42.5058767Z Contents: read
+ssh-check	Set up job	2026-10-29T09:31:42.5059191Z Metadata: read
+ssh-check	Set up job	2026-10-29T09:31:42.5059695Z ##[endgroup]
+ssh-check	Set up job	2026-10-29T09:31:42.5061109Z Secret source: Actions
+ssh-check	Set up job	2026-10-29T09:31:42.5061819Z Cache mode: write
+ssh-check	Set up job	2026-10-29T09:31:42.5062374Z Prepare workflow directory
+ssh-check	Set up job	2026-10-29T09:31:42.5283472Z Prepare all required actions
+ssh-check	Set up job	2026-10-29T09:31:42.5316557Z Getting action download info
+ssh-check	Set up job	2026-10-29T09:31:42.7802498Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+ssh-check	Set up job	2026-10-29T09:31:42.9221506Z Complete job name: ssh-check
+ssh-check	Run actions/checkout@v4	﻿2026-10-29T09:31:42.9767186Z ##[group]Run actions/checkout@v4
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9767672Z with:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9767961Z   sparse-checkout: deploy/multiplayer
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9768364Z   repository: circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9770575Z   token: ***
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9770845Z   ssh-strict: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9771118Z   ssh-user: git
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9771402Z   persist-credentials: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9771704Z   clean: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9771983Z   sparse-checkout-cone-mode: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9772300Z   fetch-depth: 1
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9772573Z   fetch-tags: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9772982Z   show-progress: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9773261Z   lfs: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9773527Z   submodules: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9773808Z   set-safe-directory: true
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9774123Z   allow-unsafe-pr-checkout: false
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:42.9774513Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1581707Z Syncing repository: circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1583578Z ##[group]Getting Git version info
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1584346Z Working directory is '/home/runner/work/pixel-playground-launch/pixel-playground-launch'
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1585308Z [command]/usr/bin/git version
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1639801Z git version 2.56.0
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1661551Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1667546Z Temporarily overriding HOME='/home/runner/work/_temp/fdb9ea58-d3a7-46a7-9249-528860c055e9' before making global git config changes
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1668680Z Adding repository directory to the temporary git global config as a safe directory
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1671603Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1717633Z Deleting the contents of '/home/runner/work/pixel-playground-launch/pixel-playground-launch'
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1727467Z ##[group]Initializing the repository
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1732896Z [command]/usr/bin/git init /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1818476Z hint: Using 'master' as the name for the initial branch. This default branch name
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1819763Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1820450Z hint: to use in all of your new repositories, which will suppress this warning,
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1820983Z hint: call:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1821354Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1821795Z hint: 	git config --global init.defaultBranch <name>
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1822261Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1822713Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1823738Z hint: 'development'. The just-created branch can be renamed via this command:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1824369Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1824658Z hint: 	git branch -m <name>
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1824939Z hint:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1825308Z hint: Disable this message with "git config set advice.defaultBranchName false"
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1828374Z Initialized empty Git repository in /home/runner/work/pixel-playground-launch/pixel-playground-launch/.git/
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1837989Z [command]/usr/bin/git remote add origin https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1886050Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1886578Z ##[group]Disabling automatic garbage collection
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1889639Z [command]/usr/bin/git config --local gc.auto 0
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1919660Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1920115Z ##[group]Setting up auth
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1925670Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.1958725Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2272101Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2314413Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2517671Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2555758Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2756531Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2803414Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2804248Z ##[group]Fetching the repository
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.2813960Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +484984024ba62dc9ee71e181464c80d73ae6cc61:refs/remotes/origin/infra/multiplayer-db-vps
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8069754Z From https://github.com/circus574-cpu/pixel-playground-launch
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8071512Z  * [new ref]         484984024ba62dc9ee71e181464c80d73ae6cc61 -> origin/infra/multiplayer-db-vps
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8074964Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8076204Z ##[group]Determining the checkout info
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8077629Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8078764Z ##[group]Setting up sparse checkout
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8080043Z [command]/usr/bin/git sparse-checkout set deploy/multiplayer
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8133552Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8134995Z ##[group]Checking out the ref
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:43.8136890Z [command]/usr/bin/git checkout --progress --force -B infra/multiplayer-db-vps refs/remotes/origin/infra/multiplayer-db-vps
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:44.2959997Z Switched to a new branch 'infra/multiplayer-db-vps'
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:44.2961941Z branch 'infra/multiplayer-db-vps' set up to track 'origin/infra/multiplayer-db-vps'.
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:44.2970068Z ##[endgroup]
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:44.3023610Z [command]/usr/bin/git log -1 --format=%H
+ssh-check	Run actions/checkout@v4	2026-10-29T09:31:44.3055604Z 484984024ba62dc9ee71e181464c80d73ae6cc61
+ssh-check	Prepare deployment bundle	﻿2026-10-29T09:31:44.3223355Z ##[group]Run tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/multiplayer compose.yml init verify.sql install.sh
+ssh-check	Prepare deployment bundle	2026-10-29T09:31:44.3224084Z [36;1mtar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/multiplayer compose.yml init verify.sql install.sh[0m
+ssh-check	Prepare deployment bundle	2026-10-29T09:31:44.3242639Z shell: /usr/bin/bash -e {0}
+ssh-check	Prepare deployment bundle	2026-10-29T09:31:44.3243042Z ##[endgroup]
+ssh-check	Deploy tested candidate and update existing Coolify service	﻿2026-10-29T09:31:44.3356826Z ##[group]Run set -euo pipefail
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3357104Z [36;1mset -euo pipefail[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3357311Z [36;1mif [ -z "$SSH_PRIVATE_KEY" ]; then[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3357627Z [36;1m  echo '::error::Add repository Actions secret COOLIFY_SSH_KEY, then rerun this job.'[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3357914Z [36;1m  exit 1[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3358074Z [36;1mfi[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3358232Z [36;1mumask 077[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3358421Z [36;1mkey_file="$RUNNER_TEMP/coolify_ssh_key"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3358648Z [36;1mtrap 'rm -f "$key_file"' EXIT[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3358877Z [36;1mprintf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3359349Z [36;1mssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3360110Z [36;1mssh "${ssh_opts[@]}" codex@85.235.150.189 'umask 077; mkdir -p "$HOME/ki-multiplayer-db"; tar -xzf - -C "$HOME/ki-multiplayer-db"; bash "$HOME/ki-multiplayer-db/install.sh"' < /tmp/ki-deploy-scripts.tar.gz[0m
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3377102Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3377356Z env:
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3378640Z   SSH_PRIVATE_KEY: ***
+ssh-check	Deploy tested candidate and update existing Coolify service
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.3378853Z ##[endgroup]
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:44.9399830Z Warning: Permanently added '85.235.150.189' (ED25519) to the list of known hosts.
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:47.6100114Z  Image postgres:17-alpine@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b Pulling
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9359330Z  d5bf1ad711f7 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9376411Z  694a01b64034 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9376749Z  7b229517ed22 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9377082Z  9098654d3377 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9377336Z  dddde5442af4 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9377585Z  fa5e490e3893 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9377840Z  d6e09b1bfe5f Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9378085Z  7a82a00c713d Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9378559Z  e018eb860c5e Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:48.9379158Z  f5e975d661d7 Pulling fs layer 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.0191819Z  7b229517ed22 Already exists 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.2209040Z  d5bf1ad711f7 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.3194586Z  694a01b64034 Downloading 3.146MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.3195200Z  9098654d3377 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.3196584Z  dddde5442af4 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.3430114Z  9098654d3377 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.4179320Z  7a82a00c713d Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.4179661Z  694a01b64034 Downloading 10.49MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.4371865Z  9098654d3377 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.5178277Z  694a01b64034 Downloading 18.87MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.5185214Z  fa5e490e3893 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.5193310Z  d6e09b1bfe5f Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.5378058Z  9098654d3377 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.6173149Z  694a01b64034 Downloading 28.3MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.6175162Z  e018eb860c5e Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.6181979Z  f5e975d661d7 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.6333300Z  9098654d3377 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.7208748Z  694a01b64034 Downloading 36.7MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.7383342Z  9098654d3377 Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.8177479Z  694a01b64034 Downloading 46.14MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.8279368Z  dddde5442af4 Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.8377975Z  fa5e490e3893 Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.9171832Z  694a01b64034 Downloading 55.57MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:49.9174541Z  112f26c8faed Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.0172334Z  694a01b64034 Downloading 66.06MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.0176112Z  e22336567ca8 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.1172134Z  694a01b64034 Downloading 76.55MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.2173386Z  694a01b64034 Downloading 83.89MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.3171420Z  694a01b64034 Downloading 92.27MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.4177472Z  694a01b64034 Downloading 100.7MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.5168479Z  694a01b64034 Downloading 110.1MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.6177964Z  694a01b64034 Downloading 112.4MB
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.7183386Z  694a01b64034 Download complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.7579974Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.8489215Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:50.9465205Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.0511458Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.1438967Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.2505320Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.3623360Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.4448687Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.5476104Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.6437591Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.7505017Z  694a01b64034 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.8460371Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:51.9556864Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.0503058Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.1522679Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.2446028Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.3485787Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.4457897Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.5518650Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.6499186Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.7491169Z  694a01b64034 Extracting 2B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.8511964Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:52.9471097Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.0522754Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.1439143Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.2567242Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.3453086Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.4472217Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.5415711Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.6512177Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.7432104Z  694a01b64034 Extracting 3B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.8462454Z  694a01b64034 Extracting 4B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.9357370Z  7a82a00c713d Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.9409218Z  d6e09b1bfe5f Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.9457498Z  e018eb860c5e Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.9501684Z  f5e975d661d7 Extracting 1B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:53.9604637Z  694a01b64034 Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.0287478Z  d5bf1ad711f7 Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.0329308Z  f5e975d661d7 Pull complete 0B
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.0351524Z  Image postgres:17-alpine@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b Pulled
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1210585Z  Network ki-multiplayer-db_private Creating
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1210909Z  Volume ki-multiplayer-db_database Creating
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1211110Z  Volume ki-multiplayer-db_database Creating
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1211336Z  Network ki-multiplayer-db_private Creating
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1252895Z  Volume ki-multiplayer-db_database Created
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1253561Z  Volume ki-multiplayer-db_database Created
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1526416Z  Network ki-multiplayer-db_private Created
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1526719Z  Network ki-multiplayer-db_private Created
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.1526914Z  Container ki-multiplayer-db-db-1 Creating
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.5380516Z  Container ki-multiplayer-db-db-1 Created
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.5728278Z  Container ki-multiplayer-db-db-1 Starting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.8603081Z  Container ki-multiplayer-db-db-1 Started
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:54.8603481Z  Container ki-multiplayer-db-db-1 Waiting
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:55.4088777Z container ki-multiplayer-db-db-1 is unhealthy
+ssh-check	Deploy tested candidate and update existing Coolify service	2026-10-29T09:31:55.4176183Z ##[error]Process completed with exit code 1.
+ssh-check	Post Run actions/checkout@v4	﻿2026-10-29T09:31:55.4262371Z Post job cleanup.
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4844763Z [command]/usr/bin/git version
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4877795Z git version 2.56.0
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4901642Z Temporarily overriding HOME='/home/runner/work/_temp/bfc6a6bc-6a34-4eb2-bbac-814bac6b1919' before making global git config changes
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4902928Z Adding repository directory to the temporary git global config as a safe directory
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4905915Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pixel-playground-launch/pixel-playground-launch
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4943015Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.4974686Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.5215058Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.5240355Z http.https://github.com/.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.5250462Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.5292524Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.5528313Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ssh-check	Post Run actions/checkout@v4	2026-10-29T09:31:55.5568034Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ssh-check	Complete job	﻿2026-10-29T09:31:55.5916793Z Cleaning up orphan processes
+ssh-check	Complete job	2026-10-29T09:31:55.6195217Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

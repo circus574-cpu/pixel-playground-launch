@@ -573,3 +573,36 @@ buduje prawdziwe obrazy i wykonuje HTTP smoke w izolowanym stosie GitHub Actions
 a nie wdrożenie na VPS. Skrypt smoke ma ograniczenia czasu połączenia/odpowiedzi
 oraz zgłasza błąd przy braku skryptu aplikacji w HTML. Wyniki konkretnego SHA:
 [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md).
+
+
+## Prywatna baza pod przyszły multiplayer — 29.10.2026
+
+Na Aruba działa oddzielny stos `ki-multiplayer-db`, PostgreSQL 17, baza
+`ki_multiplayer`, trwały wolumen `ki-multiplayer-db_database`, wewnętrzna sieć
+`ki-multiplayer-db_private`. Nie publikuje portu 5432. Pliki operacyjne są w
+`$HOME/ki-multiplayer-db` użytkownika codex; źródło `deploy/multiplayer/`.
+Sekret administratora generowany jest wyłącznie na VPS. Katalog secrets jest
+0700, plik bind-secret czytelny w kontenerze; nie przechowywać go w Git ani logach.
+Limit pamięci kontenera 512 MiB, 40 połączeń; nie wykonano benchmarku obciążenia MMO.
+
+Schemat `game`: wersja schematu, zewnętrzne powiązania kont (projekt Auth + UUID),
+postacie czterech ras, wersjonowane snapshoty czterech kontynentów, instancje
+przedmiotów, klucze operacji i outbox zdarzeń. Definicje przedmiotów/statystyk
+pozostają w grze, nie są kopiowane z wygenerowanego kanonu do nowej bazy.
+Role `ki_game_server` i `ki_game_readonly` są grupami NOLOGIN z ograniczonymi
+uprawnieniami. Późniejszy serwer wymaga osobnego użytkownika/sekretu i walidacji
+JWT własnego Supabase przed przypisaniem auth_subject. Nie używać właściciela
+ki_owner w kodzie serwera ani udostępniać połączenia przeglądarce.
+
+To fundament trwałości dla przyszłego serwera autorytatywnego, a nie działający
+multiplayer. Nie podłączono klienta, nie przeniesiono obecnych zapisów i nie
+zmieniono backendów działających stron. Nie zainstalowano VPN: prywatna sieć
+Dockera nie jest VPN; zdalny dostęp administracyjny nadal wymaga SSH lub osobnej
+konfiguracji VPN. Obecny model testuje rewizję CAS i unikalny identyfikator operacji;
+serwer musi wykorzystywać je w transakcjach swoich reguł gry.
+
+Instalator wykonuje testy w transakcji zakończonej ROLLBACK, tworzy lokalny pg_dump,
+odtwarza go w osobnej bazie kontrolnej i usuwa wyłącznie tę bazę kontrolną.
+Nie usuwać wolumenu komendą compose down -v. Kopie są na tym samym VPS: nie jest
+to potwierdzenie kopii zewnętrznej ani harmonogramu backupów. Wyniki konkretnego
+commita i wcześniejsze niepowodzenia: [dziennik](zmiany/2026-10-29/ZMIANY.md#prywatna-baza-postgresql-pod-multiplayer).

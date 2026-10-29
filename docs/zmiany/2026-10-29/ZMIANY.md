@@ -136,3 +136,42 @@ To nie dowód testowego nowego pushu i pełnej funkcjonalności każdej strony.
 Lint początkowo wykazał 15 błędów formatowania starego drivera QA dodanego podczas
 migracji; poprawiono format tego jednego pliku. Powtórzenie: 0 błędów/15 ostrzeżeń.
 Nie osłabiono kontroli i nie zmieniono asercji.
+
+
+## Prywatna baza PostgreSQL pod multiplayer
+
+Właściciel zlecił bazę „na VPN”. Zadano pytanie VPS/VPN; do czasu zamknięcia tej
+partii nie uzyskano odpowiedzi. Na podstawie kontekstu jawnie przyjęto VPS Aruba,
+z najbardziej restrykcyjnym dostępem: wyłącznie wewnętrzna sieć Docker, żadnego
+portu publicznego. Nie skonfigurowano ani nie deklarujemy istniejącego VPN.
+
+Oddzielna gałąź `infra/multiplayer-db-vps` od main
+`ba73d0780a8432aa7f6e92ed8b884f0c3ac45db3`. Istniejące aplikacje i Supabase są
+nietknięte. Nowe pliki: compose.yml, init/001-foundation.sql, verify.sql, install.sh
+w deploy/multiplayer oraz workflow multiplayer-database.yml. Obraz przypięty do
+zweryfikowanego digestu PostgreSQL 17; sekret wygenerowany na VPS bez logowania.
+
+- `48498402`: pierwszy start, Actions 40850326654 FAIL. Kontener niegotowy.
+  [Log](qa/multiplayer-db/first-start-failed.txt).
+- `cf36a478`: uprawnienia SQL i diagnostyka, Actions 40850502824 FAIL.
+  Odczyt logów potwierdził `ls: can't open /docker-entrypoint-initdb.d/: Permission denied`.
+  [Log](qa/multiplayer-db/init-permissions-failed.txt).
+- `19ad2c2e`: usunięto zależność od hostowego mountu init; schemat podawany przez
+  stdin po starcie i tylko przy braku schematu game. Nieznany schemat powoduje
+  odmowę, nie nadpisanie. Sekret pozostaje w katalogu hosta 0700, a plik montowany
+  jest czytelny dla procesu DB. Wolumenu nie kasowano.
+
+Końcowy [Actions 40850750063](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40850750063)
+**SUCCESS** na `19ad2c2e`; [log](qa/multiplayer-db/private-db-verified.txt).
+Kontener healthy; rzeczywiste SQL: zapis warunkowy rewizji przyjęty raz, zapis
+przeterminowany odrzucony, duplikat operation UUID odrzucony, ilość 0 i NaN
+odrzucone, brak CREATE/TRUNCATE roli runtime. Fixture'y cofnięte ROLLBACK.
+pg_dump oraz pg_restore do oddzielnej bazy kontrolnej PASS, wersja schematu=1.
+PortBindings=null lub {}, potwierdzony brak wystawienia DB na hosta/internet.
+`bash -n deploy/multiplayer/install.sh` PASS; źródła TS i klient niezmienione,
+pełnych testów gry/Playwright nie wykonywano dla tej zmiany infrastruktury.
+
+Baza ma 7 tabel (w tym schema_version), ale nie ma procesu serwera gry, sieciowej
+walki ani synchronizacji graczy. Nie wgrywano danych kont/postaci ze starej gry.
+Nie kopiowano klucza service_role Supabase i nie uruchamiano GPU. Kopia lokalna
+nie zastępuje przyszłego backupu zewnętrznego. Nie scalono gałęzi do main.
