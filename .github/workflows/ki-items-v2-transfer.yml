@@ -1,9 +1,6 @@
 name: Upload KI Legends V2 archive from existing VPS
 on:
   workflow_dispatch:
-  push:
-    branches: [ops/ki-item-archive-v2-github-action-20261029]
-    paths: [.github/workflows/ki-items-v2-transfer.yml]
 permissions:
   contents: write
 concurrency:
