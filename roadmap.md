@@ -16,5 +16,5 @@
 - [x] New Aetheria districts, object kinds and 8 enemies (aether-expansion pack).
 - [x] Make the accepted anime art packs default in the game (all four lands).
 - [x] Aetheria minimap, tests, screenshots; publish on owner request.
-- [ ] Aruba staging: deploy files on branch migration/aruba-staging-2026-10-28 (no secrets/data in Git).
-- [ ] Owner asked for the whole database in one file (official Lovable export; app data already in the VPS package).
+- [x] Aruba staging deploy files delivered as ZIP in Files (GitHub branch write declined by owner).
+- [x] Whole-database file: official Lovable export path given; app data + accounts already exported.
