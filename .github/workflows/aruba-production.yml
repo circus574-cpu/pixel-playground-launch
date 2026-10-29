@@ -2,7 +2,7 @@ name: Ki Legends automatic Aruba deployment
 on:
   workflow_dispatch:
   push:
-    branches: [main, migration/aruba-staging-2026-10-28]
+    branches: [main]
     paths:
       - src/**
       - public/**

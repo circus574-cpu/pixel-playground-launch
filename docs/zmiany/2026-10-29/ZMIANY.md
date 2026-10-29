@@ -102,3 +102,13 @@ Przełączenie DNS głównej domeny nie zostało przez te skrypty wykonane.
 
 Pierwszy przebieg automatyzacji: Actions 40825461459 na `3b595be5`.
 Wynik wymaga odczytania; sam zapis workflow nie jest zaliczonym wdrożeniem.
+
+Pierwsza promocja istniejącej usługi Coolify: **SUCCESS** na `3b595be5`,
+Actions 40825461459. Dwa obrazy odtworzone, 19/19 kontroli HTTPS PASS,
+`COOLIFY RELEASE VERIFIED`. [Log](qa/aruba/first-automatic-deployment.txt).
+Docelowy trigger ograniczono do main. Głównego DNS nadal nie zmieniano.
+Właściciel rozszerzył automatyzację na wszystkie projekty. Tigmig i Balustrador AI
+mają osobne prywatne repozytoria; PHU Krenc i Balustrador.pl korzystają z jednego
+prywatnego repozytorium na różnych gałęziach migracyjnych — nie zmieniać ich
+obu bezmyślnie na main. API GitHub webhooks zwraca 403 dla integracji tej sesji;
+nie deklarować skonfigurowanych hooków dla tych repozytoriów.
