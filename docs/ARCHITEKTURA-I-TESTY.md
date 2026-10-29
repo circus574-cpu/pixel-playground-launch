@@ -741,3 +741,17 @@ Zachowano dotychczasowe taktowanie FX na granicy miasta: sprawdzenie bezpieczeń
 nie może zatrzymywać zegara pulsu gracza. Odtworzony błąd zegara i jego regresja
 są w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).
 Nie zmieniono HUD, inputu, atlasów, geometrii, kanonicznych statystyk ani formatów zapisu.
+
+## Integracja rozwoju i treningu — 29.10.2026
+
+Połączenie PR55/61 na polecenie właściciela zachowuje `player.development`,
+`player.combatTraining` i `player.statOverrides` jednocześnie. Wspólny writer
+klasyczny9 oraz Superior5 czytają wszystkie wcześniejsze formaty obu gałęzi,
+wykonują kopie źródła i odrzucają zapis usuwający istniejący rozwój lub trening.
+Klasyczny9 waliduje aktualny schemat rozwoju, jeśli występuje; nie wymaga go od
+postaci, która jeszcze nie rozpoczęła rozwoju. Tym samym drugi zapis zwykłej nowej
+postaci nie jest mylnie blokowany na podstawie samego numeru wersji koperty.
+Nowy test `branch-integration.test.ts` obejmuje tę integrację i oba powtórne zapisy.
+
+Dokładne rozbieżności gałęzi i zakres integracji: [dziennik29.10](zmiany/2026-10-29/ZMIANY.md#integracja-oczekujących-gałęzi-na-polecenie-właściciela).
+Nie jest to ukończenie zaległych późnych rozdziałów ani wykonanie migracji backendu.

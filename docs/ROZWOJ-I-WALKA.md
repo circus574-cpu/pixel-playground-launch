@@ -1099,3 +1099,20 @@ Zapis klasyczny8 czyta1/3/4/5/8, Superior4 czyta1/4. Zachowuje surowy poprzedni
 payload przed migracją; starszy runtime odrzuci nowszy format, zamiast usunąć
 trening. Niescalony PR55 ma osobny rozwój ras i własne wersje zapisu — wymaga
 świadomej integracji, nie automatycznej zamiany tych plików.
+
+## Integracja oczekujących gałęzi — 29.10.2026
+
+Na polecenie właściciela połączono kandydatów PR55 i61, zachowując rozwój ras,
+trening, bronie dziedzictwa, warianty i moduły, GM oraz nowe trzy parametry.
+Autorytatywny format po integracji: **klasyczny9** (czyta1/3/4/5/6/7/8/9),
+**Superior5** (czyta1/2/3/4/5). Starsze numery w sekcjach historycznych dotyczą
+oddzielnych gałęzi przed integracją. Wersję podniesiono, aby starszy runtime nie
+zapisał z powrotem postaci po cichym usunięciu jednego z systemów rozwoju.
+Zabezpieczono również jawne usunięcie istniejącego treningu/rozwoju przy zapisie.
+
+Nowe rozbicie statystyk włącza wcześniejsze dyscypliny i moduły rozwoju do warstwy
+treningu, zachowuje premię faktycznie wyposażonej broni dziedzictwa i nakłada GM
+na końcu. Dodano osiem przypadków migracji obu systemów i zachowania ustawień GM.
+PR55 pozostaje **częściowym zakresem funkcjonalnym**, nawet po technicznej integracji:
+brakuje późnych prób, rozdziałów i ochron/eskort bojowych wyszczególnionych w planie.
+Nie deklarujemy pełnej kampanii ani włączenia ataków na zwykłych NPC.

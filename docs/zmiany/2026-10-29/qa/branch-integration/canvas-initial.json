@@ -1,0 +1,546 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/ki-aruba/node_modules/.bin/playwright",
+      "test",
+      "e2e/character-statistics.spec.ts",
+      "e2e/development-heritage.spec.ts",
+      "--project=gameplay"
+    ],
+    "configFile": "/workspace/ki-aruba/playwright.config.ts",
+    "rootDir": "/workspace/ki-aruba/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/development.spec.ts",
+          "**/development-heritage.spec.ts",
+          "**/heritage-delivery.spec.ts",
+          "**/development-combat-smoke.spec.ts",
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/ki-aruba/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "gameplay",
+        "testDir": "/workspace/ki-aruba/e2e",
+        "snapshotDir": "/workspace/ki-aruba/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4174",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-webgl"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "gameplay"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "character-statistics.spec.ts",
+      "file": "character-statistics.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Planetarni: portrait opens current statistics 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16486,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:58:00.193Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "canvas-character-statistics.spec-0.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-7f0a84a41b67e3cf2603",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: portrait opens current statistics 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13923,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:58:17.104Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "canvas-character-statistics.spec-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-17028ef737155827f001",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "Androidy: portrait opens current statistics 360",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14072,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:58:31.088Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "canvas-character-statistics.spec-2.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-4e8b15ae9bf62e83f978",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "Legendy: portrait opens current statistics 852",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14313,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:58:45.197Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "character-statistics",
+                      "contentType": "image/png",
+                      "path": "canvas-character-statistics.spec-3.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d22f0d844a7aba9109b0-3aac53a478362555b377",
+          "file": "character-statistics.spec.ts",
+          "line": 9,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "development-heritage.spec.ts",
+      "file": "development-heritage.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "actual first heritage chapter, project, personal weapon and reload: planetary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 106813,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:58:59.644Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c29f9f349f2dbf25727b-26100c588c8e763b3857",
+          "file": "development-heritage.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "actual first heritage chapter, project, personal weapon and reload: sage",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 45358,
+                  "error": {
+                    "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'",
+                    "stack": "Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'\n    at /workspace/ki-aruba/e2e/development-heritage.spec.ts:155:40",
+                    "location": {
+                      "file": "/workspace/ki-aruba/e2e/development-heritage.spec.ts",
+                      "column": 40,
+                      "line": 155
+                    },
+                    "snippet": "  153 |     expect((await saved(page)).development!.heritage.quests[id]!.status).toBe(\"ready\");\n  154 |     await openHeritage(page);\n> 155 |     await page.screenshot({ path: info.outputPath(race + \"-heritage-choice.png\") });\n      |                                        ^\n  156 |     await page.getByRole(\"button\", { name: definition.choices[0]!.label, exact: true }).click();\n  157 |     await expect\n  158 |       .poll(async () => (await saved(page)).development!.heritage.quests[id]!.status)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/ki-aruba/e2e/development-heritage.spec.ts",
+                        "column": 40,
+                        "line": 155
+                      },
+                      "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'\n\n  153 |     expect((await saved(page)).development!.heritage.quests[id]!.status).toBe(\"ready\");\n  154 |     await openHeritage(page);\n> 155 |     await page.screenshot({ path: info.outputPath(race + \"-heritage-choice.png\") });\n      |                                        ^\n  156 |     await page.getByRole(\"button\", { name: definition.choices[0]!.label, exact: true }).click();\n  157 |     await expect\n  158 |       .poll(async () => (await saved(page)).development!.heritage.quests[id]!.status)\n    at /workspace/ki-aruba/e2e/development-heritage.spec.ts:155:40"
+                    },
+                    {
+                      "location": {
+                        "file": "/workspace/ki-aruba/e2e/fixtures.ts",
+                        "column": 20,
+                        "line": 50
+                      },
+                      "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'\n\n   at fixtures.ts:50\n\n  48 |           })\n  49 |           .catch(() => null);\n> 50 |         await info.attach(\"game-failure-context\", {\n     |                    ^\n  51 |           body: JSON.stringify(\n  52 |             {\n  53 |               test: info.title,\n    at Object.base.extend.diagnostics.auto (/workspace/ki-aruba/e2e/fixtures.ts:50:20)"
+                    },
+                    {
+                      "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'"
+                    },
+                    {
+                      "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/ki-aruba/test-results/development-heritage-actua-d78a6-onal-weapon-and-reload-sage-gameplay'"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:00:46.471Z",
+                  "annotations": [],
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/workspace/ki-aruba/e2e/development-heritage.spec.ts",
+                    "column": 40,
+                    "line": 155
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c29f9f349f2dbf25727b-5358bcf0c75123fa7192",
+          "file": "development-heritage.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "actual first heritage chapter, project, personal weapon and reload: android",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67477,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:01:32.505Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c29f9f349f2dbf25727b-7fc2c6bbe46181c930b2",
+          "file": "development-heritage.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "actual first heritage chapter, project, personal weapon and reload: legend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 107714,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:02:40.218Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c29f9f349f2dbf25727b-a8062110abdbea870432",
+          "file": "development-heritage.spec.ts",
+          "line": 76,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T11:57:59.007Z",
+    "duration": 389366.54,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

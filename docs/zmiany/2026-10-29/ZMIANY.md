@@ -334,3 +334,64 @@ potrzebne są binarne obiekty z archiwum VPS oraz serwerowy klucz nowego projekt
 w bezpiecznej konfiguracji. MCP udostępnia wyłącznie klucze publiczne, nie
 service_role. Nie wyciągać sekretów z bazy i nie publikować bucketu jako obejścia.
 Aplikacja nadal korzysta ze źródłowego backendu — nie deklarować pełnej migracji.
+
+## Integracja oczekujących gałęzi na polecenie właściciela
+
+Odczytano96 gałęzi remote i20 otwartych PR. Stan bazowy main:
+`ba73d0780a8432aa7f6e92ed8b884f0c3ac45db3`. 57 końcówek gałęzi było już przodkami
+main. Pełny wykaz SHA, liczników rozbieżności, zmienionych plików i decyzji:
+[branches-before.json](qa/branch-integration/branches-before.json).
+
+PR60 scalony przez GitHub do `0234c2ca3661e09f7a1e8f94082c8cf71c4188d4`.
+Na `integration/pending-branches-20261029` połączono następnie PR55,61,59 oraz
+ręczny workflow diagnostyczny `ops/coolify-ssh-access`. Gałąź migracji59 zawiera
+również wcześniejsze komendy diagnostyczne `fix/tigmig-domain-routing`.
+
+Konflikty rozwiązano łącząc obie implementacje, nie przez nadpisanie całych plików:
+- rozwój/trening/broń dziedzictwa i indywidualne statystyki GM;
+- rozdzielone okna Rozwój oraz Statystyki, bez zmiany sterowania;
+- wspólny zapis9/Superior5, czytniki obu gałęzi i blokada utraty istniejących danych;
+- zachowane obie historie dzienników i aktualnych dokumentów.
+
+Pierwsza integracja PR55:960/960 testów. Integracja PR55+61 po poprawieniu historycznej
+fixture migracyjnej:985/985 testów w76 plikach. Fixture tworzy teraz jawnie zapis
+Superior1, ponieważ nowy writer tworzy już5; zachowano asercję kopii bajtowej i
+odrzucania nieznanych pól. Dodatkowe testy migracji obejmują klasyczne5–8 iSuperior1–4.
+
+PR10/12/14 mają `git cherry` bez unikalnych patchy względem main. Zamknięto stare PR,
+zachowując gałęzie. Pozostałych prototypów i starych grafik nie nałożono na nowszą
+grafikę, atlas i kanon. Brak scalania nie jest równoznaczny z usunięciem ich pracy.
+W szczególności Draft6 Architekta pozostaje nienadpisany.
+
+Wynik pełnego CI PR61: Software WebGL38 PASS/7 FAIL, run40861053178. Main już przed
+PR61 dokumentował analogiczny problem `liveEnemy` w CI52: run40653403301,
+KL-2026-10-28-05. Przyczyna nie została tu dowiedziona i nie ogłaszamy pełnej zielonej
+regresji. Kontrole tej integracji i rzeczywiste wąskie scenariusze mają osobne logi.
+
+Scalenie narzędzi Supabase nie przełącza klienta na nową bazę i nie wykonuje importu
+prywatnych danych. Zachowano status brakujących plików Storage i klucza serwerowego.
+Korzystano z instrukcji skill Supabase do oceny granic tej zmiany; bez nowej migracji
+wykonywanej na zewnętrznej bazie. GPU nie dotykano.
+
+Końcowe kontrole integracji:
+- pełny TypeScript (3konfiguracje):PASS;
+- lint:0błędów/15 istniejących ostrzeżeń;
+- jednostkowe/integracyjne:985/985,76 plików;
+- build produkcyjny:PASS;
+- Canvas: statystyki4/4 i dziedzictwo Planetarnych/Androidów/Legend3/3 w pierwszej
+  partii. Mędrcy dotarli do gotowego rozdziału, lecz screenshot przerwał `ENOSPC`.
+  Po usunięciu lokalnego buildu `.output` powtórka Mędrców1/1 PASS. Nie zmieniano
+  asercji ani kodu gry dla obejścia tego problemu.
+
+Autodeploy po PR60 (run40868266802) przeszedł build i wszystkie testy kandydata,
+lecz po zamianie kontenerów pierwsze żądania `/healthz` i `/` zwróciły503, a kolejne
+trasy200. Nastąpił istniejący rollback. Dodano ograniczoną do30 prób bramkę rzeczywistej
+gotowości HTTP przed pełnym, niezmienionym smoke testem; trwały błąd nadal powoduje
+rollback. Mock wykonujący tę samą funkcję shell: przejściowe503→200 PASS oraz
+stałe503→odmowa po30 próbach PASS. Nie ogłaszamy nowego wdrożenia na podstawie push.
+
+Software WebGL statystyk po integracji:4/4 PASS. Łącznie12 unikalnych wąskich
+scenariuszy zaliczonych po jednej powtórce środowiskowej. Logi i screenshoty:
+[qa/branch-integration](qa/branch-integration/); manifest poleceń/wyników i sum
+źródeł: [verification.json](qa/branch-integration/verification.json).
+Pełna macierz E2E nadal nie ma zielonego odbioru; nie zaliczono fizycznych telefonów.
