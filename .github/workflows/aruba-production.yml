@@ -1,0 +1,35 @@
+name: Ki Legends automatic Aruba deployment
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: ki-legends-aruba-live
+  cancel-in-progress: false
+jobs:
+  ssh-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare deployment bundle
+        run: tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/scripts start-aruba-staging.sh promote-coolify-release.sh
+      - name: Deploy tested candidate and update existing Coolify service
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo '::error::Add repository Actions secret COOLIFY_SSH_KEY, then rerun this job.'
+            exit 1
+          fi
+          umask 077
+          key_file="$RUNNER_TEMP/coolify_ssh_key"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"
+          ssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")
+          ssh "${ssh_opts[@]}" codex@85.235.150.189 'mkdir -p "$HOME/ki-legends-aruba-staging/automation"; tar -xzf - -C "$HOME/ki-legends-aruba-staging/automation"; cp "$HOME/ki-legends-aruba-staging/automation/start-aruba-staging.sh" "$HOME/ki-legends-aruba-staging/deploy-candidate.sh"' < /tmp/ki-deploy-scripts.tar.gz
+          ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash ki-legends-aruba-staging/automation/promote-coolify-release.sh '${{ github.sha }}'"
