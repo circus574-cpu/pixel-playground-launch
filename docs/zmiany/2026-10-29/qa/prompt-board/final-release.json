@@ -1,0 +1,20 @@
+{
+  "deployedCommit": "9d8a0a0107a60acdaaad18958811ea940cdc220e",
+  "workflow": 40911270674,
+  "conclusion": "success",
+  "httpTests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "productionAssetsUnchanged": true,
+  "assetsBeforeAndAfter": [
+    "/assets/index-BdvBYrGq.css",
+    "/assets/index-CYJUl_vJ.js",
+    "/assets/keyBindings-CZGuwA8a.js",
+    "/assets/session-giKCGH_g.js",
+    "/assets/styles-Bz_YIK4Y.css",
+    "/assets/types-BnRpOL1v.js"
+  ],
+  "ownerLogin": "NOT TESTED: no owner credentials",
+  "physicalPhone": "NOT TESTED"
+}

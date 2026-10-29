@@ -1,0 +1,6 @@
+board	Test actual HTTP, persistence and authorization	2026-10-29T16:25:11.4526523Z # tests 13
+board	Test actual HTTP, persistence and authorization	2026-10-29T16:25:11.4526829Z # pass 13
+board	Test actual HTTP, persistence and authorization	2026-10-29T16:25:11.4526954Z # fail 0
+board	Deploy only prompt board on staging	2026-10-29T16:25:16.4959911Z Account API configured; no database changes, credentials or tokens printed
+board	Deploy only prompt board on staging	2026-10-29T16:25:34.5843793Z Anonymous catalogue denied: PASS
+board	Deploy only prompt board on staging	2026-10-29T16:25:34.8917045Z PROMPT BOARD VERIFIED 9d8a0a0107a60acdaaad18958811ea940cdc220e https://staging.kilegends.pl/prompty/; private files in ~/ki-prompt-board/data

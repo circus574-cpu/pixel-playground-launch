@@ -43,4 +43,3 @@
   310:6  warning  React Hook useEffect has a missing dependency: 'slot.id'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
 
 ✖ 15 problems (0 errors, 15 warnings)
-

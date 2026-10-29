@@ -576,3 +576,12 @@ Po smoke dodano obsługę HEAD dla strony, przekierowania i healthchecku oraz te
 regresyjny; końcowy zestaw HTTP zawiera 13 testów. Dane i logowanie rzeczywistego
 właściciela pozostają bez odbioru, ponieważ agent nie posiada jego hasła.
 Nie scalono PR, nie publikowano gry, nie zmieniano Supabase ani danych graczy.
+
+Końcowe wdrożenie: `9d8a0a0107a60acdaaad18958811ea940cdc220e`,
+[run40911270674](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40911270674)
+SUCCESS, 13/13 testów HTTP w Node22 na tym SHA oraz ponowny deployment/healthcheck.
+Publiczny HEAD root stagingu ma teraz 302, strona `/prompty/` jest dostępna.
+Lista assetów JS/CSS głównej gry ponownie identyczna z baseline sprzed wdrożenia.
+[Końcowy release](qa/prompt-board/final-release.json),
+[wyciąg logu CI](qa/prompt-board/deployment-final.txt).
+PR66 pozostaje otwarty; gra i main nie były publikowane ani scalane.
