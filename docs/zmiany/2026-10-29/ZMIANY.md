@@ -242,3 +242,95 @@ GitHub uruchomił pełne kontrole PR: [Browser QA](https://github.com/circus574-
 i [WebGL](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40860896427).
 Na moment zapisu dowodów są w toku, nie oznaczono ich jako PASS. Logi tekstowe mają
 usunięte końcowe białe znaki; treść komunikatów zachowana.
+## Pełne odcięcie od Lovable — nowy backend Ki Legends
+
+Właściciel wyraźnie wybrał osobny projekt na własnym Supabase, bez Lovable Cloud.
+Potwierdzono organizację `circus574-cpu's Org`, plan Free; utworzono aktywny projekt
+`ki-legends`, ref `ekqljyldtzbpytqrtaer`, region `eu-central-1`. Nie zmieniono planu.
+**Projekt nie ma jeszcze odtworzonych danych; aplikacja NIE została przełączona.**
+Dotychczasowy backend Ki Legends: `istakaetceprpnbafdgu.supabase.co`.
+Własny backend Tigmig i Balustrador.pl: `drpesmyumjhncnleiity.supabase.co`, widoczny
+na połączonym koncie właściciela. Nie nadpisywać jego tabel ani kont migracją gry.
+Dla PHU/AI w sprawdzonych zasobach nie wykryto hosta Supabase; nie jest to dowód
+braku innych zależności serwerowych od Lovable.
+
+Na Aruba istnieje kopia eksportu: `/home/gh-runner/migracja-archiwa/verified-cdbd495f/KI-LEGENDS-VPS-MIGRACJA/database/schema.sql`.
+Potwierdzono lokalizację, nie potwierdzono kompletności auth.users/auth.identities.
+Workflow `migration-transfer.yml` w gałęzi `fix/tigmig-domain-routing` tworzy
+szyfrowaną CMS kopię katalogu database i BRAKI-I-OGRANICZENIA.md. Actions
+40830244873 SUCCESS. W Git jest WYŁĄCZNIE publiczny certyfikat odbiorcy, nigdy
+prywatny klucz ani odszyfrowany eksport. Prywatny klucz sesji pozostaje lokalnie
+`/workspace/.ki-migration-private/key.pem` (nie zabezpieczono go poza workspace).
+Oryginalne dane VPS są niezmienione. Artefakt zaszyfrowany ma retencję jeden dzień.
+
+Pobranie artefaktu do tej sesji dwukrotnie zwróciło Forbidden z magazynu Actions.
+Nie odszyfrowano ani nie importowano bazy. Nie deklarować migracji kont, haseł,
+Storage, polityk czy danych jako ukończonej. Dalsze kroki: przywrócić bezpieczny
+dostęp do eksportu, zweryfikować auth i metadane prywatnych plików, odtworzyć
+nowy projekt, sprawdzić RLS i logowanie oraz dopiero wtedy przełączyć konfigurację
+serwera/przeglądarki. Nie wpisywać nowych URL/kluczy przed odtworzeniem danych.
+Brak kluczy źródłowego Lovable Cloud nie uzasadnia publicznych bucketów ani resetu kont.
+
+### Odszyfrowany eksport i odtworzona struktura nowego Supabase
+
+Właściciel przesłał zaszyfrowany artefakt ZIP; lokalnie odszyfrowano go istniejącym
+kluczem sesji. Prywatne pliki są pod `/workspace/.ki-migration-private/export`,
+poza Git, z prawami 0600. Paczka zawiera schema.sql, restore.sh, sześć CSV oraz
+README/braki. Liczby: characters 22, profiles 1, user_roles 1, admin_audit 1,
+sketch_api_log 34, unieważnione sketch_api_tokens bez hashy 3.
+**Brak auth.users, auth.identities i hashy haseł, brak zawartości Storage w tej paczce.**
+Nie importowano osieroconych zapisów z pominięciem kluczy obcych i nie resetowano kont.
+Eksport jest snapshotem 28.10 — przed cutoverem potrzebny aktualny pełny eksport.
+
+Potwierdzono pusty schemat public nowego `ekqljyldtzbpytqrtaer`; zastosowano migracje:
+`restore_ki_legends_structure_with_restricted_client_grants` i
+`restrict_sketch_token_rpcs_to_server_role`. Wersje SQL bez danych użytkowników
+zapisano pod `deploy/database/`. Źródłowy eksport dawał authenticated TRUNCATE
+(omija RLS), więc w nowym projekcie ograniczono granty do wymaganych operacji
+SELECT/INSERT/UPDATE/DELETE i UPDATE(nick). Nie zmieniano źródłowej produkcji.
+Domyślne granty funkcji Supabase wymagały osobnego odebrania uprawnień anon i
+client do consume/rotate tokenów, mimo wcześniejszego REVOKE PUBLIC.
+
+Test SQL po poprawkach: sześć tabel z RLS=true, 10 polityk, anon SELECT=false,
+authenticated TRUNCATE=false na wszystkich sześciu; prywatny bucket project-sketches;
+rotate RPC anon=false, authenticated=false, service_role=true. Auth users=0,
+character saves=0 — dane czekają na pełny eksport kont. Doradca bezpieczeństwa
+przed poprawką wykrył nadmierne uprawnienia RPC; po poprawce należy ponowić audit.
+Role helpers has_role/is_staff są celowo SECURITY DEFINER dla polityk bez
+rekurencji; dostęp anon/Public cofnięto. Tabele tokenów/logów nie mają polityk
+klienta celowo: dostęp tylko serwerowy.
+Aplikacja nadal używa starego backendu; nie deklarować ukończonego odcięcia Lovable.
+
+### Pełny backup z kontem — import danych wykonany
+
+Właściciel dostarczył `pixel-playground-launch_261029.backup.zip`. W środku jest
+PGDMP 1.16 (zstd), 411948 B, SHA-256
+`53bd271b526a0a4d1e7aae0c45198347dbf9378fce99f0b61d369b0079b57d9b`.
+TOC podaje źródło PostgreSQL 17.11, pg_dump 18.6; pg_restore 17-alpine poprawnie
+odczytał format. Dane pozostają poza Git w `/workspace/.ki-migration-private/`.
+Do zwolnienia miejsca usunięto wyłącznie własne odtwarzalne buildy .output i
+.playtest-dist; nie usuwano źródeł, backupów, danych VPS ani GPU.
+
+Import w transakcji do własnego `ekqljyldtzbpytqrtaer` zakończył się sukcesem:
+1 auth.users z zachowanym hashem hasła i potwierdzonym e-mailem, 1 identity,
+1 profil, 1 rola, 22 characters, 1 admin_audit, 34 sketch_api_log i 3 historyczne
+unieważnione tokeny. Brak osieroconych zapisów. Nie resetowano hasła/UUID.
+Nie przeniesiono starych sesji, refresh tokenów ani wewnętrznych migracji providera;
+po przełączeniu będzie wymagane ponowne zalogowanie.
+Przed importem kontrola odmawiała wykonania na niepustym celu. Rzeczywisty import
+najpierw został zatrzymany przez kontrolę kompletności lokalnego tekstu (brak
+końcowego newline); poprawiono kontrolę końca, nie dane. SQL nie opublikowano.
+
+Test pod rolą authenticated: właściciel widzi 22 zapisy i profil; TRUNCATE oraz
+RPC rotacji tokenów odmówione. Wszystkie wyłączone na czas odtwarzania wyzwalacze
+ponownie aktywne; active_tokens=0. Dane źródłowe i docelowe liczbowo zgodne.
+[Manifest bez danych osobowych](qa/independent-supabase/source-counts.json).
+Skrypt przygotowania prywatnego importu w deploy/database nie zawiera rekordów
+ani hashy; generowane import.sql pozostaje prywatne i nie wolno go commitować.
+
+Backup zawiera metadane 19 storage.objects i 2 bucketów, ale nie binarne pliki.
+Nowy Storage pozostaje pusty (project-sketches jest prywatny). Przed cutoverem
+potrzebne są binarne obiekty z archiwum VPS oraz serwerowy klucz nowego projektu
+w bezpiecznej konfiguracji. MCP udostępnia wyłącznie klucze publiczne, nie
+service_role. Nie wyciągać sekretów z bazy i nie publikować bucketu jako obejścia.
+Aplikacja nadal korzysta ze źródłowego backendu — nie deklarować pełnej migracji.
