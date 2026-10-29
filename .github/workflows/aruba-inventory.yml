@@ -1,0 +1,32 @@
+name: Aruba project inventory
+on:
+  workflow_dispatch:
+  push:
+    branches: [migration/aruba-staging-2026-10-28]
+    paths: [.github/workflows/aruba-inventory.yml]
+permissions:
+  contents: read
+jobs:
+  ssh-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check SSH access and local Coolify response
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo '::error::Add repository Actions secret COOLIFY_SSH_KEY, then rerun this job.'
+            exit 1
+          fi
+          umask 077
+          key_file="$RUNNER_TEMP/coolify_ssh_key"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"
+          ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 \
+            -o StrictHostKeyChecking=accept-new \
+            -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
+            -p 22 codex@85.235.150.189 \
+            'docker exec coolify-db psql -U coolify -d coolify -At -c "select name, uuid, status, fqdn from applications;"; docker exec coolify-db psql -U coolify -d coolify -At -c "select name, uuid from services;"; docker ps --format "{{.Names}} {{.Status}}"'
