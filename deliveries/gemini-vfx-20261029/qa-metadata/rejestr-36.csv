@@ -1,0 +1,37 @@
+﻿sheet,filename,cell,grid,race,skill_id,skill_name,phase,status,issue,qa_png,source_sha256
+P07,11442.jpg,P01,3x2,planetary,A9,Burza Wędrowca,pięć smug ciosów,KANDYDAT,Sprawdzić czy czytelne jest pięć uderzeń,P07-P01-planetary-A9.png,8d6a5f7046eeeaf88b6f2de768b0b93b5c69468a88313390b58a2c9deff52773
+P07,11442.jpg,P02,3x2,planetary,A9,Burza Wędrowca,finał serii,KANDYDAT,Finał obrażeń; nie nowa umiejętność,P07-P02-planetary-A9.png,8d6a5f7046eeeaf88b6f2de768b0b93b5c69468a88313390b58a2c9deff52773
+P07,11442.jpg,P03,3x2,planetary,B4,Kruszący Stąp,cios pionowy,REZERWA,Pionowy słup dochodzi do górnej granicy kafla,,8d6a5f7046eeeaf88b6f2de768b0b93b5c69468a88313390b58a2c9deff52773
+P07,11442.jpg,P04,3x2,planetary,B4,Kruszący Stąp,uderzenie ziemi,KANDYDAT,Dopasować do promienia i czasu ogłuszenia,P07-P04-planetary-B4.png,8d6a5f7046eeeaf88b6f2de768b0b93b5c69468a88313390b58a2c9deff52773
+P07,11442.jpg,P05,3x2,planetary,T,Forma Rezonansu Świata,zapłon formy,KANDYDAT,Efekt wejścia w formę; bez postaci,P07-P05-planetary-T.png,8d6a5f7046eeeaf88b6f2de768b0b93b5c69468a88313390b58a2c9deff52773
+P07,11442.jpg,P06,3x2,planetary,T,Forma Rezonansu Świata,trwała aura,KANDYDAT,Animować jako niezależną warstwę aury,P07-P06-planetary-T.png,8d6a5f7046eeeaf88b6f2de768b0b93b5c69468a88313390b58a2c9deff52773
+S08,11443.jpg,P01,3x2,sage,B4,Krąg Spowolnienia,krąg spowolnienia,KANDYDAT,Płaski rzut na ziemię,S08-P01-sage-B4.png,9b3d46df34d4b63905e6a825cc1c9ba0e6c5b2691c7c517d0b0ac2e6a09a63ce
+S08,11443.jpg,P02,3x2,sage,B9,Świątynia Światła,strefa obronna,KANDYDAT,W odróżnieniu od B4 większa i geometrycznie bardziej złożona,S08-P02-sage-B9.png,9b3d46df34d4b63905e6a825cc1c9ba0e6c5b2691c7c517d0b0ac2e6a09a63ce
+S08,11443.jpg,P03,3x2,sage,C1,Skupienie KI,napływ energii,KANDYDAT,"Strumienie poruszają się do środka, nie na zewnątrz",S08-P03-sage-C1.png,9b3d46df34d4b63905e6a825cc1c9ba0e6c5b2691c7c517d0b0ac2e6a09a63ce
+S08,11443.jpg,P04,3x2,sage,C9,Pełnia Skupienia,rozbłysk skupienia,KANDYDAT,"Krótki rozbłysk buffa, nie atak",S08-P04-sage-C9.png,9b3d46df34d4b63905e6a825cc1c9ba0e6c5b2691c7c517d0b0ac2e6a09a63ce
+S08,11443.jpg,P05,3x2,sage,T,Forma Oświecenia,lotus zapłon,REZERWA,W kadrze ciemna sylwetka; sprawdzić przezroczysty środek,,9b3d46df34d4b63905e6a825cc1c9ba0e6c5b2691c7c517d0b0ac2e6a09a63ce
+S08,11443.jpg,P06,3x2,sage,T,Forma Oświecenia,aura stabilna,REZERWA,W kadrze sylwetka; usunąć przed importem,,9b3d46df34d4b63905e6a825cc1c9ba0e6c5b2691c7c517d0b0ac2e6a09a63ce
+A09,11444.jpg,P01,3x2,android,R,Strzał Impulsowy,pocisk podstawowy,KANDYDAT,Wektor wystrzału w prawo,A09-P01-android-R.png,c6803b90ae5aa577b11122c6231d314618137a9b56ba03912b2ae9a072ad5681
+A09,11444.jpg,P02,3x2,android,A1,Namierzanie,celownik,KANDYDAT,"UI-podobny efekt na wrogu, bez tekstu",A09-P02-android-A1.png,c6803b90ae5aa577b11122c6231d314618137a9b56ba03912b2ae9a072ad5681
+A09,11444.jpg,P03,3x2,android,A4,Salwa Precyzyjna,trzy strzały,KANDYDAT,Trzy osobne projektyle zgodne z mechaniką,A09-P03-android-A4.png,c6803b90ae5aa577b11122c6231d314618137a9b56ba03912b2ae9a072ad5681
+A09,11444.jpg,P04,3x2,android,A9,Protokół Egzekucji,mocny strzał,REZERWA,Pocisk po lewej obcięty przez krawędź pola; poprawić margines,,c6803b90ae5aa577b11122c6231d314618137a9b56ba03912b2ae9a072ad5681
+A09,11444.jpg,P05,3x2,android,B1,Tarcza Plazmowa,kopuła osłony,KANDYDAT,Przezroczystość szkła/plazmy wymaga QA,A09-P05-android-B1.png,c6803b90ae5aa577b11122c6231d314618137a9b56ba03912b2ae9a072ad5681
+A09,11444.jpg,P06,3x2,android,B4,Impuls Odpychający,fala odpychająca,KANDYDAT,Rozchodzi się wokół postaci; bez dodatkowych obrażeń poza kanonem,A09-P06-android-B4.png,c6803b90ae5aa577b11122c6231d314618137a9b56ba03912b2ae9a072ad5681
+A10,11445.jpg,P01,3x2,android,B9,Fortyfikacja,segmenty pancerza,KANDYDAT,Pancerz bez sprite postaci; odrębna warstwa,A10-P01-android-B9.png,fca400d6999988441b30dff6316ab89759c2893adb7fe5c3837437ec9db41a1e
+A10,11445.jpg,P02,3x2,android,C1,Wyładowanie Rdzenia,liniowy wyładowanie,REZERWA,Mocne ucięcie wiązki przy prawej krawędzi pola,,fca400d6999988441b30dff6316ab89759c2893adb7fe5c3837437ec9db41a1e
+A10,11445.jpg,P03,3x2,android,C4,Rozładowanie Awaryjne,chłodzenie/odzysk,KANDYDAT,Chłodzenie nie powinno wyglądać jak wybuch,A10-P03-android-C4.png,fca400d6999988441b30dff6316ab89759c2893adb7fe5c3837437ec9db41a1e
+A10,11445.jpg,P04,3x2,android,C9,Przeciążenie Systemu,przeciążenie,POPRAWKA,Generator narysował nieczytelne fałszywe napisy,,fca400d6999988441b30dff6316ab89759c2893adb7fe5c3837437ec9db41a1e
+A10,11445.jpg,P05,3x2,android,C9,Przeciążenie Systemu,wygaszenie,REZERWA,Drobne fragmenty mało widoczne w skali gry,,fca400d6999988441b30dff6316ab89759c2893adb7fe5c3837437ec9db41a1e
+A10,11445.jpg,P06,3x2,android,T,Forma Pełnego Rdzenia,aura pełnego rdzenia,POPRAWKA,Zawiera sylwetkę i sztuczne elementy interfejsu/nadruki,,fca400d6999988441b30dff6316ab89759c2893adb7fe5c3837437ec9db41a1e
+L11,11446.jpg,P01,3x2,legend,R,Uderzenie Żaru,podstawowe uderzenie,KANDYDAT,"Odciąć skalę, to cios wręcz, nie pocisk",L11-P01-legend-R.png,35ab69c52402de69e64e4213c66389df57fd83052f2a6dd8970263edbe4048b8
+L11,11446.jpg,P02,3x2,legend,B4,Płomienny Szał,płomienna aura,KANDYDAT,Środek ciemnej sylwetki powinien pozostać pusty po wycięciu tła,L11-P02-legend-B4.png,35ab69c52402de69e64e4213c66389df57fd83052f2a6dd8970263edbe4048b8
+L11,11446.jpg,P03,3x2,legend,B9,Ostatni Płomień,płomień w sercu,REZERWA,Zbyt dosłowny symbol serca; lepszy jako ikona niż VFX świata,,35ab69c52402de69e64e4213c66389df57fd83052f2a6dd8970263edbe4048b8
+L11,11446.jpg,P04,3x2,legend,B9,Ostatni Płomień,ratunek przed śmiercią,KANDYDAT,"Wiązać ze zdarzeniem ratunku, nie cyklicznym leczeniem",L11-P04-legend-B9.png,35ab69c52402de69e64e4213c66389df57fd83052f2a6dd8970263edbe4048b8
+L11,11446.jpg,P05,3x2,legend,C4,Eksplozja Żaru,wybuch żaru,KANDYDAT,"Obszarowy, zależny od zasobu Żaru",L11-P05-legend-C4.png,35ab69c52402de69e64e4213c66389df57fd83052f2a6dd8970263edbe4048b8
+L11,11446.jpg,P06,3x2,legend,T,Forma Płomiennego Legendy,stabilna płomienna aura,REZERWA,"Ciemna sylwetka; usunąć, zachować obwód płomieni",,35ab69c52402de69e64e4213c66389df57fd83052f2a6dd8970263edbe4048b8
+L12,11439.jpg,P01,2x3,legend,A1,Ogniste Cięcie,potrójne cięcie,KANDYDAT,"Kreski ukośne, 3 cięcia",L12-P01-legend-A1.png,245db2f4ede77d1d570e4c0907890d89f9e1ee909407535b7b9c9afee693c7c8
+L12,11439.jpg,P02,2x3,legend,A4,Szarża Płomienia,smuga szarży,REZERWA,Wygląda jak wystrzelony pocisk zamiast doskoku,,245db2f4ede77d1d570e4c0907890d89f9e1ee909407535b7b9c9afee693c7c8
+L12,11439.jpg,P03,2x3,legend,A9,Tysiąc Cięć,osiem cięć,KANDYDAT,Siatka cięć do zestawu wielu trafień,L12-P03-legend-A9.png,245db2f4ede77d1d570e4c0907890d89f9e1ee909407535b7b9c9afee693c7c8
+L12,11439.jpg,P04,2x3,legend,B1,Przełamanie,złamanie osłony,KANDYDAT,Kierunkowe uderzenie w tarczę,L12-P04-legend-B1.png,245db2f4ede77d1d570e4c0907890d89f9e1ee909407535b7b9c9afee693c7c8
+L12,11439.jpg,P05,2x3,legend,C1,Wybuch Ki,fala wokół postaci,KANDYDAT,Pusta centralna przestrzeń dla postaci,L12-P05-legend-C1.png,245db2f4ede77d1d570e4c0907890d89f9e1ee909407535b7b9c9afee693c7c8
+L12,11439.jpg,P06,2x3,legend,C9,Ognisty Kataklizm,pionowy pożar,KANDYDAT,Płomień w obszarze + podpalenie; bez zmiany balansowania,L12-P06-legend-C9.png,245db2f4ede77d1d570e4c0907890d89f9e1ee909407535b7b9c9afee693c7c8

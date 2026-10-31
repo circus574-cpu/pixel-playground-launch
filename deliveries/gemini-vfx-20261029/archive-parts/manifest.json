@@ -1,0 +1,17 @@
+{
+  "original_zip": "ki-legends-vfx-dostawa-2-qa.zip",
+  "bytes": 8076195,
+  "sha256": "336fb35a8e13e28a705eaac26ba6479ec62ec625f26e48d957808e917d40d421",
+  "parts": [
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-000",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-001",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-002",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-003",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-004",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-005",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-006",
+    "deliveries/gemini-vfx-20261029/archive-parts/ki-legends-vfx-dostawa-2-qa.zip.part-007"
+  ],
+  "reassemble": "cat ki-legends-vfx-dostawa-2-qa.zip.part-* > ki-legends-vfx-dostawa-2-qa.zip",
+  "note": "These pieces are consecutive original byte ranges. No re-encoding, recompression, or modification of artwork. Each is an exact byte segment of the original ZIP."
+}
