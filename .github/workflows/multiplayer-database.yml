@@ -2,8 +2,10 @@ name: Private multiplayer PostgreSQL database
 on:
   workflow_dispatch:
   push:
-    branches: [infra/multiplayer-db-vps]
-    paths: [.github/workflows/multiplayer-database.yml]
+    branches: [main, infra/multiplayer-db-vps]
+    paths:
+      - deploy/multiplayer/**
+      - .github/workflows/multiplayer-database.yml
 permissions:
   contents: read
 concurrency:
