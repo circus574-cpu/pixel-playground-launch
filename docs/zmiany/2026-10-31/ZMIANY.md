@@ -76,3 +76,25 @@
   - Utworzono procedury składowane `game.configure_server_node` oraz `game.set_server_node_status`.
 - **Testy jednostkowe i integracyjne (`src/test/admin-monitoring.test.tsx`):**
   - Dodano testy jednostkowe pokrywające tworzenie węzła, edycję parametrów, aktualizację limitu slotów, startowanie/wyłączanie, usuwanie oraz pełną ścieżkę interakcji UI przez formularze w `AdminMonitoringCenter`.
+
+### 7. Wdrożenie autorytatywnego serwera gry czasu rzeczywistego (Game Server Daemon 20 Hz, WebSocket, siatka AOI 512×512 i nakładka graczy)
+
+- **Silnik Serwera Gry (`src/server/gameServer.ts`, `src/server/ws.d.ts`):**
+  - Zaimplementowano klasę `GameServer` nasłuchującą na porcie WebSocket/HTTP (domyślnie `7420` lub zmienna `GAME_SERVER_PORT`).
+  - Wprowadzono pętlę symulacji 20 Hz (`tickRateHz = 20.0`, krok 50 ms) z dynamicznym obliczaniem opóźnień `p50/p95` oraz zliczaniem pakietów/przepustowości.
+  - Wdrożono siatkę przestrzenną AOI (Area of Interest 512×512): gracze otrzymują pakiety pozycji `snapshot` wyłącznie dla innych graczy znajdujących się w sąsiednich komórkach (promień 1, siatka 3×3 komórki = 1536×1536 jednostek), co drastycznie oszczędza pasmo sieciowe i czas CPU.
+  - Zaimplementowano dwutorową synchronizację danych (Dual-Mode):
+    - W przypadku podania adresu bazy PostgreSQL (`DATABASE_URL`), serwer asynchronicznie (2 Hz) wykonuje procedurę `game.batch_sync_positions` i rejestruje heartbeat węzła.
+    - Jeśli baza danych nie jest skonfigurowana, serwer automatycznie działa w autonomicznym trybie pamięci RAM (zero błędów, pełna grywalność).
+  - Dodano endpoint diagnostyczny HTTP `GET /health` zwracający JSON ze statusem węzła, liczbą aktywnych graczy, tickrate i czasami p50/p95.
+- **Protokół sieciowy i Klient Gry (`src/game/multiplayer/protocol.ts`, `src/game/multiplayer/MultiplayerClient.ts`):**
+  - Zdefiniowano komunikaty klienta (`auth`, `position`, `action`, `chat`, `ping`) i serwera (`welcome`, `snapshot`, `player_joined`, `player_left`, `player_action`, `chat`, `pong`, `error`).
+  - Utworzono singleton `multiplayerClient` z automatycznym łączeniem w tle, obsługą zdarzeń i buforowaniem pozycji.
+- **Nakładka HUD i integracja z grą (`src/components/game/MultiplayerWorldOverlay.tsx`, `src/components/game/GameHud.tsx`):**
+  - W `GameHud` podłączono bezinwazyjną synchronizację pozycji i stanu gracza w tle do `multiplayerClient`.
+  - Wdrożono komponent `MultiplayerWorldOverlay` wyświetlający status serwera (np. `Multiplayer: EU-Central #1 (21 ms)`), liczbę graczy obok oraz rozwijany panel z listą pobliskich graczy, ich rasą, poziomem, współrzędnymi i stanem HP.
+- **Konteneryzacja i skrypty (`package.json`, `deploy/multiplayer/compose.yml`):**
+  - Dodano skrypty `"server": "tsx src/server/gameServer.ts"` oraz `"multiplayer:start": "tsx src/server/gameServer.ts"`.
+  - W `deploy/multiplayer/compose.yml` dodano usługę `game-server` (`node:22-alpine`) na porcie `7420`, połączoną z bazą `db` w sieci `private` oraz udostępniającą port w `public_net`.
+- **Testy jednostkowe i integracyjne (`src/test/multiplayer-server.test.ts`):**
+  - Dodano testy pokrywające start serwera, zapytanie HTTP `/health`, handshake WebSocket, autoryzację, ping/pong, filtrację przestrzenną AOI 512×512 oraz rozgłaszanie czatu w świecie (wszystkie 3 testy zaliczone).

@@ -54,6 +54,9 @@ import {
 import { CONTROL_LABEL, ControlEditor, buttonStyle, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
 import { CombatPanel } from "./CombatPanel";
+import { MultiplayerWorldOverlay } from "./MultiplayerWorldOverlay";
+import { multiplayerClient } from "../../game/multiplayer/MultiplayerClient";
+import type { FeatureId } from "../../game/world/generated/superiorSave";
 import "./staff-tools.css";
 import "./adventure.css";
 import "./game-messages.css";
@@ -259,6 +262,36 @@ export function GameHud({
   useEffect(() => {
     if (messageLog.current) messageLog.current.scrollTop = messageLog.current.scrollHeight;
   }, [state.noticeId, tab, chatOpen, messages]);
+  // Non-intrusive multiplayer background sync (Dual-Mode)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const cid = state.player.name ? `char-${state.player.name}` : `char-${state.player.race}`;
+    multiplayerClient.auth({
+      characterId: cid,
+      accountId: "local-user",
+      nick: state.player.name || RACES[state.player.race].name,
+      race: state.player.race,
+      level: state.player.level,
+      worldId: (planetLocation || state.player.continent || "verdant") as FeatureId,
+      x: state.x,
+      y: state.y,
+    });
+  }, [state.player.race, state.player.level, state.player.name, state.player.continent, planetLocation, state.x, state.y]);
+
+  useEffect(() => {
+    if (!multiplayerClient.isConnected()) return;
+    multiplayerClient.sendPosition({
+      x: state.x,
+      y: state.y,
+      vx: 0,
+      vy: 0,
+      activity: state.inCity ? "safe" : state.target ? "combat" : "exploring",
+      worldId: (planetLocation || state.player.continent || "verdant") as FeatureId,
+      hp: state.player.hp,
+      ki: state.player.ki,
+    });
+  }, [state.x, state.y, state.inCity, state.target, state.player.hp, state.player.ki, state.player.continent, planetLocation]);
+
   const [preferences, setPreferences] = useState(readUiPreferences);
   const [hiddenSaveWarning, setHiddenSaveWarning] = useState("");
   const scope = panel
@@ -453,6 +486,7 @@ export function GameHud({
       }
     >
       {WORLD_V2 && panel === null && <CombatPanel state={state} send={onCommand} />}
+      <MultiplayerWorldOverlay localX={state.x} localY={state.y} worldId={state.player.continent} />
       {arranging && (
         <ControlEditor
           controls={preferences.controls}
