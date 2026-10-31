@@ -7,6 +7,11 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  getGameServerStatusFn,
+  startGameServerFn,
+  stopGameServerFn,
+} from "@/lib/serverControl.functions";
+import {
   collectAdminTelemetrySnapshot,
   createServerNode,
   deleteServerNode,
@@ -127,6 +132,10 @@ export function AdminMonitoringCenter() {
     text: string;
   } | null>(null);
 
+  const [daemonRunning, setDaemonRunning] = useState(false);
+  const [daemonUptime, setDaemonUptime] = useState(0);
+  const [daemonLoading, setDaemonLoading] = useState(false);
+
   const fpsFramesRef = useRef(0);
   const fpsLastTimeRef = useRef(typeof performance !== "undefined" ? performance.now() : 0);
 
@@ -182,6 +191,57 @@ export function AdminMonitoringCenter() {
     }, 3500);
     return () => clearInterval(timer);
   }, [autoRefresh, refresh]);
+
+  // Check physical game server daemon status
+  useEffect(() => {
+    let cancelled = false;
+    const checkDaemon = async () => {
+      try {
+        const res = await getGameServerStatusFn();
+        if (!cancelled && res) {
+          setDaemonRunning(res.running);
+          setDaemonUptime(res.uptimeSeconds);
+        }
+      } catch {
+        /* ignore */
+      }
+    };
+    void checkDaemon();
+    const interval = setInterval(checkDaemon, 5000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  const handleTogglePhysicalDaemon = async () => {
+    setDaemonLoading(true);
+    try {
+      if (daemonRunning) {
+        const res = await stopGameServerFn();
+        setDaemonRunning(false);
+        setServerActionMsg({
+          type: res.ok ? "success" : "error",
+          text: res.message,
+        });
+      } else {
+        const res = await startGameServerFn({ data: { port: 7420 } });
+        setDaemonRunning(res.ok);
+        setServerActionMsg({
+          type: res.ok ? "success" : "error",
+          text: res.message,
+        });
+      }
+      void refresh();
+    } catch (err) {
+      setServerActionMsg({
+        type: "error",
+        text: err instanceof Error ? err.message : "Błąd komunikacji z serwerem",
+      });
+    } finally {
+      setDaemonLoading(false);
+    }
+  };
 
   const handleCreateServer = async () => {
     try {
@@ -256,12 +316,20 @@ export function AdminMonitoringCenter() {
     }
   };
 
-  const handleStartServer = (nodeId: string) => {
+  const handleStartServer = async (nodeId: string) => {
     try {
       setServerNodeStatus(nodeId, "online");
+      if (nodeId === "eu-central-1" || nodeId.includes("local") || !daemonRunning) {
+        try {
+          const res = await startGameServerFn({ data: { port: 7420, nodeId } });
+          setDaemonRunning(res.ok);
+        } catch {
+          /* ignore */
+        }
+      }
       setServerActionMsg({
         type: "success",
-        text: `Serwer [${nodeId}] został uruchomiony (status: ONLINE).`,
+        text: `Serwer [${nodeId}] został pomyślnie uruchomiony (status: ONLINE).`,
       });
       void refresh();
     } catch (err) {
@@ -272,9 +340,17 @@ export function AdminMonitoringCenter() {
     }
   };
 
-  const handleStopServer = (nodeId: string) => {
+  const handleStopServer = async (nodeId: string) => {
     try {
       setServerNodeStatus(nodeId, "offline");
+      if (nodeId === "eu-central-1" && daemonRunning) {
+        try {
+          await stopGameServerFn();
+          setDaemonRunning(false);
+        } catch {
+          /* ignore */
+        }
+      }
       setServerActionMsg({
         type: "success",
         text: `Serwer [${nodeId}] został zatrzymany i wyłączony (status: OFFLINE).`,
@@ -1546,6 +1622,69 @@ export function AdminMonitoringCenter() {
               </div>
             </section>
           )}
+
+          {/* Szybkie sterowanie fizycznym procesem serwera (bez terminala) */}
+          <section
+            className="ki-admin-panel"
+            style={{
+              background: daemonRunning ? "linear-gradient(135deg, #132b1d 0%, #173824 100%)" : "#1a202c",
+              border: `1px solid ${daemonRunning ? "#5cd68d" : "#4a5568"}`,
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
+              padding: "14px 18px",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: daemonRunning ? "#5cd68d" : "#9aa0a6",
+                    boxShadow: daemonRunning ? "0 0 8px #5cd68d" : "none",
+                  }}
+                />
+                <h3 style={{ margin: 0, fontSize: "1.05rem" }}>
+                  Fizyczny Serwer Gry (Sterowanie Bez Terminala):{" "}
+                  <span style={{ color: daemonRunning ? "#5cd68d" : "#9aa0a6" }}>
+                    {daemonRunning ? "URUCHOMIONY I AKTYWNY" : "ZATRZYMANY"}
+                  </span>
+                </h3>
+              </div>
+              <small style={{ color: "#cbd5e1" }}>
+                {daemonRunning
+                  ? `Proces serwera nasłuchuje na porcie 7420 (WebSocket/HTTP). Uptime: ${daemonUptime}s. Gracze w przeglądarkach łączą się automatycznie.`
+                  : "Serwer gry jest wyłączony. Kliknij przycisk obok, aby uruchomić go 1 kliknięciem bez użycia konsoli ani SSH."}
+              </small>
+            </div>
+
+            <button
+              type="button"
+              className="ki-admin-btn"
+              disabled={daemonLoading}
+              onClick={handleTogglePhysicalDaemon}
+              style={{
+                background: daemonRunning ? "#c53030" : "#2e7d32",
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "0.92rem",
+                padding: "8px 16px",
+                cursor: daemonLoading ? "wait" : "pointer",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+              }}
+            >
+              {daemonLoading
+                ? "Przetwarzanie..."
+                : daemonRunning
+                  ? "🛑 Wyłącz Serwer Gry"
+                  : "🚀 Uruchom Serwer Gry (1 kliknięcie)"}
+            </button>
+          </section>
 
           {/* Główna tabela serwerów z akcjami start/stop/edycja */}
           <section className="ki-admin-panel">

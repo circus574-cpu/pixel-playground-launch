@@ -562,6 +562,14 @@ export class GameServer {
   public getSessionCount(): number {
     return this.sessions.size;
   }
+
+  public getNodeId(): string {
+    return this.config.nodeId;
+  }
+
+  public getPort(): number {
+    return this.config.port;
+  }
 }
 
 // Uruchomienie z linii poleceń jeśli plik jest wywoływany bezpośrednio

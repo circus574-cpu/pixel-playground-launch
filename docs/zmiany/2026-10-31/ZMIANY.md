@@ -98,3 +98,15 @@
   - W `deploy/multiplayer/compose.yml` dodano usługę `game-server` (`node:22-alpine`) na porcie `7420`, połączoną z bazą `db` w sieci `private` oraz udostępniającą port w `public_net`.
 - **Testy jednostkowe i integracyjne (`src/test/multiplayer-server.test.ts`):**
   - Dodano testy pokrywające start serwera, zapytanie HTTP `/health`, handshake WebSocket, autoryzację, ping/pong, filtrację przestrzenną AOI 512×512 oraz rozgłaszanie czatu w świecie (wszystkie 3 testy zaliczone).
+
+### 8. Sterowanie fizycznym procesem serwera gry z Panelu Administratora bez terminala (Zero-Terminal Server Control)
+
+- **Moduł zarządzania procesem (`src/server/managedServer.ts`):**
+  - Wprowadzono funkcje `startServerFromAdmin`, `stopServerFromAdmin` oraz `getServerStatusFromAdmin`, które umożliwiają startowanie i zatrzymywanie instancji `GameServer` bezpośrednio w procesie Node.js w tle.
+- **Funkcje serwerowe TanStack Start (`src/lib/serverControl.functions.ts`):**
+  - Utworzono procedury `startGameServerFn`, `stopGameServerFn` i `getGameServerStatusFn` (`createServerFn`), dzięki czemu przeglądarka administratora komunikuje się z backendem Node.js bez ujawniania powłoki systemowej.
+- **Interfejs Administratora (`src/components/admin/AdminMonitoringCenter.tsx`):**
+  - W zakładce „Węzły Serwera, CPU/RAM i Baza” dodano wyróżniony panel: **„Fizyczny Serwer Gry (Sterowanie Bez Terminala)”** ze wskaźnikiem stanu procesu (`URUCHOMIONY I AKTYWNY` / `ZATRZYMANY`), czasem działania (uptime) oraz przyciskiem **„🚀 Uruchom Serwer Gry (1 kliknięcie)”** / **„🛑 Wyłącz Serwer Gry”**.
+  - Przyciski „▶ Uruchom” i „⏹ Wyłącz” w głównej tabeli węzłów automatycznie zarządzają fizycznym procesem w tle.
+- **Testy jednostkowe (`src/test/admin-server-control.test.ts`):**
+  - Dodano testy weryfikujące pełny cykl życia serwera uruchamianego bez terminala (start na porcie 7435, odczyt statusu i zatrzymanie).
