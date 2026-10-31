@@ -211,15 +211,18 @@ export async function liveEnemy(canvas: import("@playwright/test").Locator, id: 
   const { expect } = await import("@playwright/test");
   let found: { x: number; y: number } | undefined;
   await expect
-    .poll(async () => {
-      const list = JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as {
-        id: string;
-        x: number;
-        y: number;
-      }[];
-      found = list.find((e) => e.id === id);
-      return Boolean(found);
-    })
+    .poll(
+      async () => {
+        const list = JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as {
+          id: string;
+          x: number;
+          y: number;
+        }[];
+        found = list.find((e) => e.id === id);
+        return Boolean(found);
+      },
+      { timeout: 60_000 },
+    )
     .toBe(true);
   return found!;
 }

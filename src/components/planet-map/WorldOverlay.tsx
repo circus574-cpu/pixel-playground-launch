@@ -30,6 +30,9 @@ const GLYPH: Record<string, string> = {
 const NAME_ZOOM: Record<string, number> = { capital: 0, town: 2.5, famous: 3, village: 6, camp: 5 };
 
 type Box = [number, number, number, number];
+type PreparedOverlay = { tiles: Box[]; roads: Box[]; roadPoints: string[] };
+const preparedOverlayCache = new WeakMap<Overlay, PreparedOverlay>();
+
 const meets = (a: Box, b: Box) => a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
 function tileBox(t: Tile): Box {
   const [a = 1, b = 0, c = 0, d = 1, e = 0, f = 0] = t.m;
@@ -51,6 +54,17 @@ function lineBox(points: [number, number][]): Box {
   const xs = points.map((p) => p[0]),
     ys = points.map((p) => p[1]);
   return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+}
+function prepareOverlay(data: Overlay): PreparedOverlay {
+  const cached = preparedOverlayCache.get(data);
+  if (cached) return cached;
+  const prepared: PreparedOverlay = {
+    tiles: data.tiles.map(tileBox),
+    roads: data.roads.map((r) => lineBox(r.points)),
+    roadPoints: data.roads.map((r) => r.points.map((p) => p.join(",")).join(" ")),
+  };
+  preparedOverlayCache.set(data, prepared);
+  return prepared;
 }
 
 /** One viewport-sized backing surface instead of hundreds of clipped SVG images.
@@ -79,26 +93,20 @@ function TerrainCanvas({
     const frame = requestAnimationFrame(() => {
       const visible = tiles.filter((_, i) => meets(boxes[i]!, [x0, y0, x1, y1]));
       const lands = [...new Set(visible.map((tile) => tile.land))];
-      // Draw once the images are decoded, never publish an obsolete pan/zoom result.
-      void Promise.all(
-        lands.map(async (land) => {
-          try {
-            return [
-              land,
-              await decodedImage(`/game/worlds/superior-v2/${land}/map-hi.webp`, true),
-            ] as const;
-          } catch {
-            return null;
-          } // The painted base atlas remains usable on a failed detail fetch.
-        }),
-      ).then((loaded) => {
+      const draw = (images: Map<string, HTMLImageElement>) => {
         if (!live) return;
-        const images = new Map(loaded.filter((item) => item !== null));
         const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         const scale = dpr / unitsPerPixel;
-        canvas.width = Math.max(1, Math.ceil((x1 - x0) * scale));
-        canvas.height = Math.max(1, Math.ceil((y1 - y0) * scale));
+        const nextW = Math.max(1, Math.ceil((x1 - x0) * scale));
+        const nextH = Math.max(1, Math.ceil((y1 - y0) * scale));
         const ctx = canvas.getContext("2d");
+        if (canvas.width !== nextW || canvas.height !== nextH) {
+          canvas.width = nextW;
+          canvas.height = nextH;
+        } else if (ctx) {
+          ctx.setTransform?.(1, 0, 0, 1, 0, 0);
+          ctx.clearRect?.(0, 0, nextW, nextH);
+        }
         if (!ctx) return;
         ctx.imageSmoothingEnabled = true;
         for (const tile of visible) {
@@ -116,6 +124,38 @@ function TerrainCanvas({
           );
           ctx.drawImage(image, x, y, w, h, x, y, w + 0.6, h + 0.6);
         }
+      };
+      if (decodedImage.cached) {
+        const syncImages = new Map<string, HTMLImageElement>();
+        let allCached = true;
+        for (const land of lands) {
+          const img = decodedImage.cached(`/game/worlds/superior-v2/${land}/map-hi.webp`, true);
+          if (img) syncImages.set(land, img);
+          else {
+            allCached = false;
+            break;
+          }
+        }
+        if (allCached) {
+          draw(syncImages);
+          return;
+        }
+      }
+      // Draw once the images are decoded, never publish an obsolete pan/zoom result.
+      void Promise.all(
+        lands.map(async (land) => {
+          try {
+            return [
+              land,
+              await decodedImage(`/game/worlds/superior-v2/${land}/map-hi.webp`, true),
+            ] as const;
+          } catch {
+            return null;
+          } // The painted base atlas remains usable on a failed detail fetch.
+        }),
+      ).then((loaded) => {
+        if (!live) return;
+        draw(new Map(loaded.filter((item) => item !== null)));
       });
     });
     return () => {
@@ -154,22 +194,18 @@ export function WorldOverlay({
   px: (screen: number) => number;
   bounds: Box;
 }) {
-  const [data, setData] = useState<Overlay | null>(null);
+  const [data, setData] = useState<Overlay | null>(
+    () => (loadWorldOverlay.cached?.() as unknown as Overlay) ?? null,
+  );
   useEffect(() => {
+    if (data) return;
     let live = true;
-    void loadWorldOverlay().then((data) => live && setData(data as unknown as Overlay));
+    void loadWorldOverlay().then((loaded) => live && setData(loaded as unknown as Overlay));
     return () => {
       live = false;
     };
-  }, []);
-  const boxes = useMemo(
-    () =>
-      data && {
-        tiles: data.tiles.map(tileBox),
-        roads: data.roads.map((r) => lineBox(r.points)),
-      },
-    [data],
-  );
+  }, [data]);
+  const boxes = useMemo(() => data && prepareOverlay(data), [data]);
   if (!data || !boxes) return null;
   const detail = zoom >= 4;
   return (
@@ -182,7 +218,7 @@ export function WorldOverlay({
           <polyline
             key={i}
             className={"pm-world-road pm-world-" + r.kind}
-            points={r.points.map((p) => p.join(",")).join(" ")}
+            points={boxes.roadPoints[i]}
             strokeWidth={px(Math.max(1.2, Math.min(5, (r.width / 160) * zoom * 0.35)))}
           />
         ) : null,

@@ -60,8 +60,8 @@ export function MapaView({
   focus,
   onTeleport,
 }: GameLink & { probe?: () => boolean }) {
-  const [mode, setMode] = useState<Mode>("checking");
   const focused = Boolean(focus);
+  const [mode, setMode] = useState<Mode>(() => (focused ? "flat" : "checking"));
   const [canGlobe, setCanGlobe] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);

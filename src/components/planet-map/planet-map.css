@@ -103,7 +103,6 @@
 .pm-hit.is-selected {
   stroke: var(--pm-gold-hi);
   stroke-width: 2;
-  filter: drop-shadow(0 0 5px rgb(240 215 154 / 0.7));
 }
 
 .pm-labels,
@@ -967,7 +966,6 @@ html[data-ki-world-v2] .pg-zone {
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: 0.85;
-  filter: drop-shadow(0 0 1px rgba(40, 25, 10, 0.9));
 }
 .pm-world-trail {
   stroke-dasharray: 3 2;

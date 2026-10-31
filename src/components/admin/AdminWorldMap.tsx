@@ -173,6 +173,18 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
     ) ?? [],
   );
   const combatPoints = spawns.filter((s) => combatKinds.has(s.kind ?? ""));
+  const placeMarkers = useMemo<Marker[]>(
+    () =>
+      projection.places.map((p) => ({
+        x: p.x,
+        y: p.y,
+        id: p.id,
+        kind: p.kind,
+        land: p.land,
+        name: `${p.name || p.id} (${p.kind})`,
+      })),
+    [],
+  );
   const width = 2000 / view.zoom,
     height = 1000 / view.zoom;
   const focus = (p: Point) => setView({ cx: p.x, cy: p.y, zoom: 8 });
@@ -180,7 +192,10 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
     setView((v) => ({ ...v, zoom: Math.max(1, Math.min(40, v.zoom * factor)) }));
   const at = (x: number, y: number) => {
     const m = svg.current?.getScreenCTM();
-    return m ? new DOMPoint(x, y).matrixTransform(m.inverse()) : null;
+    if (!m) return null;
+    if (typeof DOMPoint !== "undefined") return new DOMPoint(x, y).matrixTransform(m.inverse());
+    const inv = m.inverse();
+    return { x: inv.a * x + inv.c * y + inv.e, y: inv.b * x + inv.d * y + inv.f };
   };
   return (
     <section className="ki-admin-world-map" aria-label="Mapa świata administratora">
@@ -264,7 +279,7 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
           }}
           onPointerDown={(e) => {
             if (e.button !== 0) return;
-            svg.current?.setPointerCapture(e.pointerId);
+            svg.current?.setPointerCapture?.(e.pointerId);
             drag.current = { x: e.clientX, y: e.clientY, cx: view.cx, cy: view.cy, moved: false };
           }}
           onPointerMove={(e) => {
@@ -289,6 +304,7 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
             const candidates = [
               ...(layers.quests ? [...shownMarkers, ...combatPoints] : []),
               ...(layers.spawns ? spawns : []),
+              ...(layers.places ? placeMarkers : []),
             ];
             let best: Marker | null = null,
               dist =

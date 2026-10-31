@@ -355,7 +355,13 @@ export function GameHud({
     setChatOpen(false);
     if (state.dialogue) onCommand({ type: "dialogue", action: "close" });
     if (state.depotOpen) onCommand({ type: "storage-close" });
-    setPanel((p) => (p === next ? null : next));
+    const nextPanel = panel === next ? null : next;
+    onCommand({
+      type: "pause",
+      value: nextPanel !== null,
+      suspendRendering: nextPanel === "planet",
+    });
+    setPanel(nextPanel);
   }
   const player = state.player;
   useEffect(() => {
@@ -953,7 +959,18 @@ export function GameHud({
             </button>
           )}
           {world.city && !player.interior && (!WORLD_V2 || state.inCity) && (
-            <button onClick={() => toggle(WORLD_V2 ? "planet" : "map")}>Plan miasta</button>
+            <button
+              onClick={() => {
+                setMapFocus(
+                  WORLD_V2 && !state.building && !player.interior
+                    ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
+                    : undefined,
+                );
+                toggle(WORLD_V2 ? "planet" : "map");
+              }}
+            >
+              Plan miasta
+            </button>
           )}
           {state.nearbyBuilding && (
             <button

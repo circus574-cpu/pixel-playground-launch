@@ -401,8 +401,12 @@ export async function prepareSuperior(options: {
       const response = await fetch(BASE + "/art/" + path, { signal: abort.signal });
       if (!response.ok) throw Error("Nie można pobrać dekoracji");
       const buffer = await response.arrayBuffer();
-      if ((await bytesHash(buffer)) !== artManifest[path]) throw Error("Błędna suma dekoracji");
-      const text = new TextDecoder().decode(buffer);
+      const text = new TextDecoder().decode(buffer).replace(/\r\n/g, "\n");
+      if (
+        (await bytesHash(buffer)) !== artManifest[path] &&
+        (await bytesHash(new TextEncoder().encode(text).buffer)) !== artManifest[path]
+      )
+        throw Error("Błędna suma dekoracji");
       const value = JSON.parse(text) as { format: string; objects: ArtObject[] };
       if (value.format !== "superior-art-overlay-1" || !Array.isArray(value.objects))
         throw Error("Błędne dekoracje");
@@ -442,7 +446,7 @@ export async function prepareSuperior(options: {
     ...art.resources,
     ...art.dungeonEntrances,
   ])
-    if (Math.abs(obj.x - session.player.x) < 4096 && Math.abs(obj.y - session.player.y) < 4096)
+    if (Math.abs(obj.x - session.player.x) < 2048 && Math.abs(obj.y - session.player.y) < 2048)
       addBinding(obj.binding);
   for (let y = Math.max(0, cy - 1); y <= Math.min(Math.ceil(info.height / 2048) - 1, cy + 1); y++)
     for (let x = Math.max(0, cx - 1); x <= Math.min(Math.ceil(info.width / 2048) - 1, cx + 1); x++)
@@ -514,7 +518,8 @@ export async function prepareSuperior(options: {
   const release = (scene: Phaser.Scene, owner: string) => {
     const ids = owners.get(owner);
     owners.delete(owner);
-    for (const id of ids ?? [])
+    const candidates = owners.size > 0 ? new Set([...(ids ?? []), ...owned]) : (ids ?? []);
+    for (const id of candidates)
       if (owned.has(id) && ![...owners.values()].some((keys) => keys.has(id))) {
         if (scene.textures.exists(id)) {
           for (const visual of catalog.actors.values())

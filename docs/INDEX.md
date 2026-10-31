@@ -23,6 +23,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-10-31](zmiany/2026-10-31/ZMIANY.md)
 - [2026-10-29](zmiany/2026-10-29/ZMIANY.md)
 
 - [2026-10-28](zmiany/2026-10-28/ZMIANY.md)
@@ -70,6 +71,6 @@ scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym
   Obecność źródła nie stanowi potwierdzenia pełnego wdrożenia; realizację rozróżnia
   [aktualny plan](PLAN-I-ZADANIA.md#nowe-zlecenie-rozwoju-czterech-ras--28102026-w-realizacji).
 
-## Katalog przedmiotów KI Legends V2 (projekt, 29.10.2026)
+## Katalog przedmiotów KI Legends V2 (projekt 29.10.2026, wdrożenie do `src/game/items` 31.10.2026)
 
-- [Katalog 366 przedmiotów, 140 receptur i pasywnych buffów artefaktów](katalog-przedmiotow-v2/README.md) — źródłowe pliki JSON, CSV i zasady balansu. **Specyfikacja, nie wdrożenie do silnika**. PDF i 15 JPG pozostają poza repo do odrębnego przesłania; zob. manifest w podkatalogu.
+- [Katalog 366 przedmiotów, 140 receptur i pasywnych buffów artefaktów](katalog-przedmiotow-v2/README.md) — źródłowe pliki JSON, CSV, PDF, 15 plansz JPG i zasady balansu. Dane katalogowe, receptury i kalkulator pasywnych zestawów (`computePassiveEquipmentBonuses`) wdrożono do `src/game/items/*` (zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md)).

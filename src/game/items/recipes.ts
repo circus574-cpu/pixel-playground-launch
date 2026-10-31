@@ -1,7 +1,6 @@
 import { CraftingRecipe } from "./types";
 
 export const CRAFTING_RECIPES: CraftingRecipe[] = [
-  // --- ALCHEMY (ZIELARSTWO I ALCHEMIA) ---
   {
     id: "rec-potion-basic",
     name: "Warzenie Mikstury Życia",
@@ -10,11 +9,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 5,
     crafterNpcId: "npc-mio",
     ingredients: [
-      { itemId: "zielone-ziele", count: 2 },
-      { itemId: "mchowa-galaretka", count: 1 },
+      {
+        itemId: "zielone-ziele",
+        count: 2,
+      },
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
     ],
     resultItemId: "potion",
     resultCount: 2,
+    source: "repo",
   },
   {
     id: "rec-potion-ki",
@@ -24,11 +30,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 10,
     crafterNpcId: "npc-mei",
     ingredients: [
-      { itemId: "pyl-swiatla", count: 2 },
-      { itemId: "nic-eteru", count: 1 },
+      {
+        itemId: "pyl-swiatla",
+        count: 2,
+      },
+      {
+        itemId: "nic-eteru",
+        count: 1,
+      },
     ],
     resultItemId: "P-KI-01",
     resultCount: 2,
+    source: "repo",
   },
   {
     id: "rec-def-brew",
@@ -38,11 +51,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 15,
     crafterNpcId: "npc-mio",
     ingredients: [
-      { itemId: "skalna-skora", count: 1 },
-      { itemId: "zywy-korzen", count: 1 },
+      {
+        itemId: "skalna-skora",
+        count: 1,
+      },
+      {
+        itemId: "zywy-korzen",
+        count: 1,
+      },
     ],
     resultItemId: "P-BUFF-DEF",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-elixir-verdant",
@@ -52,12 +72,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 30,
     crafterNpcId: "npc-mio",
     ingredients: [
-      { itemId: "zywy-korzen", count: 3 },
-      { itemId: "bursztyn", count: 2 },
-      { itemId: "zielona-esencja", count: 1 },
+      {
+        itemId: "zywy-korzen",
+        count: 3,
+      },
+      {
+        itemId: "bursztyn",
+        count: 2,
+      },
+      {
+        itemId: "zielona-esencja",
+        count: 1,
+      },
     ],
     resultItemId: "P-ELX-V",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-elixir-pyra",
@@ -67,12 +97,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 35,
     crafterNpcId: "npc-yumi",
     ingredients: [
-      { itemId: "esencja-plomienia", count: 3 },
-      { itemId: "luska-salamandry", count: 2 },
-      { itemId: "plomien-duch", count: 1 },
+      {
+        itemId: "esencja-plomienia",
+        count: 3,
+      },
+      {
+        itemId: "luska-salamandry",
+        count: 2,
+      },
+      {
+        itemId: "plomien-duch",
+        count: 1,
+      },
     ],
     resultItemId: "P-ELX-P",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-elixir-aether",
@@ -82,12 +122,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 40,
     crafterNpcId: "npc-mei",
     ingredients: [
-      { itemId: "eter-bibliotekarza", count: 2 },
-      { itemId: "pioro-mgly", count: 2 },
-      { itemId: "soczewka-wiedzy", count: 1 },
+      {
+        itemId: "eter-bibliotekarza",
+        count: 2,
+      },
+      {
+        itemId: "pioro-mgly",
+        count: 2,
+      },
+      {
+        itemId: "soczewka-wiedzy",
+        count: 1,
+      },
     ],
     resultItemId: "P-ELX-A",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-elixir-nexus",
@@ -97,15 +147,23 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 35,
     crafterNpcId: "npc-eko0",
     ingredients: [
-      { itemId: "nanopyl", count: 3 },
-      { itemId: "rdzen-plazmy", count: 1 },
-      { itemId: "elektroda", count: 2 },
+      {
+        itemId: "nanopyl",
+        count: 3,
+      },
+      {
+        itemId: "rdzen-plazmy",
+        count: 1,
+      },
+      {
+        itemId: "elektroda",
+        count: 2,
+      },
     ],
     resultItemId: "P-ELX-N",
     resultCount: 1,
+    source: "repo",
   },
-
-  // --- FORGE (KUŹNIA TRADYCYJNA I LAWOWA) ---
   {
     id: "rec-sword-basic",
     name: "Kucie Żelaznego Miecza",
@@ -114,11 +172,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 20,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "tusk", count: 2 },
-      { itemId: "fragment-ruin", count: 1 },
+      {
+        itemId: "tusk",
+        count: 2,
+      },
+      {
+        itemId: "fragment-ruin",
+        count: 1,
+      },
     ],
     resultItemId: "sword",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-v1",
@@ -128,11 +193,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 30,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "zielone-ostrze", count: 2 },
-      { itemId: "ciern-wilka", count: 2 },
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
     ],
     resultItemId: "W-V1",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-v2",
@@ -142,12 +214,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 60,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "zywy-korzen", count: 3 },
-      { itemId: "bursztyn", count: 2 },
-      { itemId: "kamien-runiczny", count: 1 },
+      {
+        itemId: "zywy-korzen",
+        count: 3,
+      },
+      {
+        itemId: "bursztyn",
+        count: 2,
+      },
+      {
+        itemId: "kamien-runiczny",
+        count: 1,
+      },
     ],
     resultItemId: "W-V2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-v4",
@@ -157,12 +239,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 120,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "poroze", count: 3 },
-      { itemId: "skalna-skora", count: 2 },
-      { itemId: "kamien-runiczny", count: 2 },
+      {
+        itemId: "poroze",
+        count: 3,
+      },
+      {
+        itemId: "skalna-skora",
+        count: 2,
+      },
+      {
+        itemId: "kamien-runiczny",
+        count: 2,
+      },
     ],
     resultItemId: "W-V4",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-v5",
@@ -172,12 +264,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 160,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "kiel-alfy", count: 2 },
-      { itemId: "pazury-alfy", count: 1 },
-      { itemId: "skora-thorgara", count: 1 },
+      {
+        itemId: "kiel-alfy",
+        count: 2,
+      },
+      {
+        itemId: "pazury-alfy",
+        count: 1,
+      },
+      {
+        itemId: "skora-thorgara",
+        count: 1,
+      },
     ],
     resultItemId: "W-V5",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-v6",
@@ -187,14 +289,23 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 300,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "serce-puszczy", count: 1 },
-      { itemId: "kwiat-ygdrashy", count: 1 },
-      { itemId: "zywy-korzen", count: 5 },
+      {
+        itemId: "serce-puszczy",
+        count: 1,
+      },
+      {
+        itemId: "kwiat-ygdrashy",
+        count: 1,
+      },
+      {
+        itemId: "zywy-korzen",
+        count: 5,
+      },
     ],
     resultItemId: "W-V6",
     resultCount: 1,
+    source: "repo",
   },
-  // Pyra Forge:
   {
     id: "rec-w-p1",
     name: "Ognisty Puginał Kalderonu",
@@ -203,11 +314,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 30,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "wegiel", count: 3 },
-      { itemId: "esencja-plomienia", count: 1 },
+      {
+        itemId: "wegiel",
+        count: 3,
+      },
+      {
+        itemId: "esencja-plomienia",
+        count: 1,
+      },
     ],
     resultItemId: "W-P1",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-p2",
@@ -217,11 +335,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 65,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "szklo-obsydianowe", count: 3 },
-      { itemId: "magmowy-pancerz", count: 2 },
+      {
+        itemId: "szklo-obsydianowe",
+        count: 3,
+      },
+      {
+        itemId: "magmowy-pancerz",
+        count: 2,
+      },
     ],
     resultItemId: "W-P2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-p3",
@@ -231,12 +356,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 90,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "obsydian", count: 3 },
-      { itemId: "esencja-plomienia", count: 2 },
-      { itemId: "skrzydlo-zaru", count: 2 },
+      {
+        itemId: "obsydian",
+        count: 3,
+      },
+      {
+        itemId: "esencja-plomienia",
+        count: 2,
+      },
+      {
+        itemId: "skrzydlo-zaru",
+        count: 2,
+      },
     ],
     resultItemId: "W-P3",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-p4",
@@ -246,12 +381,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 140,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "golem-ruin", count: 2 },
-      { itemId: "rog-areny", count: 2 },
-      { itemId: "obsydian", count: 4 },
+      {
+        itemId: "golem-ruin",
+        count: 2,
+      },
+      {
+        itemId: "rog-areny",
+        count: 2,
+      },
+      {
+        itemId: "obsydian",
+        count: 4,
+      },
     ],
     resultItemId: "W-P4",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-p5",
@@ -261,12 +406,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 180,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "pancerz-kharzula", count: 1 },
-      { itemId: "plomien-areny", count: 1 },
-      { itemId: "obsydian", count: 3 },
+      {
+        itemId: "pancerz-kharzula",
+        count: 1,
+      },
+      {
+        itemId: "plomien-areny",
+        count: 1,
+      },
+      {
+        itemId: "obsydian",
+        count: 3,
+      },
     ],
     resultItemId: "W-P5",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-p6",
@@ -276,15 +431,23 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 320,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "serce-wulkanu", count: 1 },
-      { itemId: "luska-pyrrhaxa", count: 2 },
-      { itemId: "obsydian", count: 5 },
+      {
+        itemId: "serce-wulkanu",
+        count: 1,
+      },
+      {
+        itemId: "luska-pyrrhaxa",
+        count: 2,
+      },
+      {
+        itemId: "obsydian",
+        count: 5,
+      },
     ],
     resultItemId: "W-P6",
     resultCount: 1,
+    source: "repo",
   },
-
-  // --- ARMORS & GARMENTS (PANCERZE) ---
   {
     id: "rec-a-v1",
     name: "Plecenie Kamizelki Leśnego Pąka",
@@ -293,11 +456,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 25,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "skora-wilcza", count: 2 },
-      { itemId: "jedwab-pajaka", count: 2 },
+      {
+        itemId: "skora-wilcza",
+        count: 2,
+      },
+      {
+        itemId: "jedwab-pajaka",
+        count: 2,
+      },
     ],
     resultItemId: "A-V1",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-v2",
@@ -307,12 +477,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 60,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "skalna-skora", count: 2 },
-      { itemId: "zywy-korzen", count: 2 },
-      { itemId: "bursztyn", count: 1 },
+      {
+        itemId: "skalna-skora",
+        count: 2,
+      },
+      {
+        itemId: "zywy-korzen",
+        count: 2,
+      },
+      {
+        itemId: "bursztyn",
+        count: 1,
+      },
     ],
     resultItemId: "A-V2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-v5",
@@ -322,12 +502,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 280,
     crafterNpcId: "npc-taro",
     ingredients: [
-      { itemId: "skora-thorgara", count: 2 },
-      { itemId: "kiel-alfy", count: 2 },
-      { itemId: "skalna-skora", count: 4 },
+      {
+        itemId: "skora-thorgara",
+        count: 2,
+      },
+      {
+        itemId: "kiel-alfy",
+        count: 2,
+      },
+      {
+        itemId: "skalna-skora",
+        count: 4,
+      },
     ],
     resultItemId: "A-V5",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-p2",
@@ -337,11 +527,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 55,
     crafterNpcId: "npc-pyra-smith-east",
     ingredients: [
-      { itemId: "popielne-futro", count: 3 },
-      { itemId: "luska-salamandry", count: 3 },
+      {
+        itemId: "popielne-futro",
+        count: 3,
+      },
+      {
+        itemId: "luska-salamandry",
+        count: 3,
+      },
     ],
     resultItemId: "A-P2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-p3",
@@ -351,11 +548,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 85,
     crafterNpcId: "npc-pyra-smith-east",
     ingredients: [
-      { itemId: "obsydian", count: 4 },
-      { itemId: "magmowy-pancerz", count: 2 },
+      {
+        itemId: "obsydian",
+        count: 4,
+      },
+      {
+        itemId: "magmowy-pancerz",
+        count: 2,
+      },
     ],
     resultItemId: "A-P3",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-p5",
@@ -365,15 +569,23 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 290,
     crafterNpcId: "npc-pyra-smith-east",
     ingredients: [
-      { itemId: "luska-pyrrhaxa", count: 2 },
-      { itemId: "pancerz-kharzula", count: 1 },
-      { itemId: "plomien-areny", count: 2 },
+      {
+        itemId: "luska-pyrrhaxa",
+        count: 2,
+      },
+      {
+        itemId: "pancerz-kharzula",
+        count: 1,
+      },
+      {
+        itemId: "plomien-areny",
+        count: 2,
+      },
     ],
     resultItemId: "A-P5",
     resultCount: 1,
+    source: "repo",
   },
-
-  // --- RUNIC WORKBENCH (AETHER) ---
   {
     id: "rec-w-a1",
     name: "Runiczny Kostur Ciszy",
@@ -382,11 +594,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 30,
     crafterNpcId: "npc-enso",
     ingredients: [
-      { itemId: "kamien-swiatynny", count: 2 },
-      { itemId: "pyl-swiatla", count: 3 },
+      {
+        itemId: "kamien-swiatynny",
+        count: 2,
+      },
+      {
+        itemId: "pyl-swiatla",
+        count: 3,
+      },
     ],
     resultItemId: "W-A1",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-a2",
@@ -396,11 +615,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 65,
     crafterNpcId: "npc-enso",
     ingredients: [
-      { itemId: "nic-eteru", count: 3 },
-      { itemId: "pioro-mgly", count: 2 },
+      {
+        itemId: "nic-eteru",
+        count: 3,
+      },
+      {
+        itemId: "pioro-mgly",
+        count: 2,
+      },
     ],
     resultItemId: "W-A2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-a3",
@@ -410,12 +636,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 95,
     crafterNpcId: "npc-enso",
     ingredients: [
-      { itemId: "skarabeusz", count: 2 },
-      { itemId: "eter-bibliotekarza", count: 2 },
-      { itemId: "soczewka-wiedzy", count: 1 },
+      {
+        itemId: "skarabeusz",
+        count: 2,
+      },
+      {
+        itemId: "eter-bibliotekarza",
+        count: 2,
+      },
+      {
+        itemId: "soczewka-wiedzy",
+        count: 1,
+      },
     ],
     resultItemId: "W-A3",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-a5",
@@ -425,12 +661,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 170,
     crafterNpcId: "npc-enso",
     ingredients: [
-      { itemId: "szmaragdowa-luska", count: 3 },
-      { itemId: "eter-pustki", count: 1 },
-      { itemId: "maska-rytualu", count: 1 },
+      {
+        itemId: "szmaragdowa-luska",
+        count: 3,
+      },
+      {
+        itemId: "eter-pustki",
+        count: 1,
+      },
+      {
+        itemId: "maska-rytualu",
+        count: 1,
+      },
     ],
     resultItemId: "W-A5",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-a6",
@@ -440,12 +686,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 320,
     crafterNpcId: "npc-enso",
     ingredients: [
-      { itemId: "serce-sanktuarium", count: 1 },
-      { itemId: "luska-aurelitha", count: 2 },
-      { itemId: "pieczec-arcykaplana", count: 1 },
+      {
+        itemId: "serce-sanktuarium",
+        count: 1,
+      },
+      {
+        itemId: "luska-aurelitha",
+        count: 2,
+      },
+      {
+        itemId: "pieczec-arcykaplana",
+        count: 1,
+      },
     ],
     resultItemId: "W-A6",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-a2",
@@ -455,11 +711,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 55,
     crafterNpcId: "npc-nari",
     ingredients: [
-      { itemId: "karta-pergaminu", count: 4 },
-      { itemId: "nic-eteru", count: 3 },
+      {
+        itemId: "karta-pergaminu",
+        count: 4,
+      },
+      {
+        itemId: "nic-eteru",
+        count: 3,
+      },
     ],
     resultItemId: "A-A2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-a5",
@@ -469,15 +732,23 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 300,
     crafterNpcId: "npc-sora",
     ingredients: [
-      { itemId: "szaty-arcykaplana", count: 1 },
-      { itemId: "luska-aurelitha", count: 2 },
-      { itemId: "serce-sanktuarium", count: 1 },
+      {
+        itemId: "szaty-arcykaplana",
+        count: 1,
+      },
+      {
+        itemId: "luska-aurelitha",
+        count: 2,
+      },
+      {
+        itemId: "serce-sanktuarium",
+        count: 1,
+      },
     ],
     resultItemId: "A-A5",
     resultCount: 1,
+    source: "repo",
   },
-
-  // --- CYBER FABRICATOR (NEXUS-9) ---
   {
     id: "rec-w-n1",
     name: "Emiter Wiązki Plazmowej",
@@ -486,11 +757,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 30,
     crafterNpcId: "npc-hef4",
     ingredients: [
-      { itemId: "zlom", count: 3 },
-      { itemId: "cewka", count: 2 },
+      {
+        itemId: "zlom",
+        count: 3,
+      },
+      {
+        itemId: "cewka",
+        count: 2,
+      },
     ],
     resultItemId: "W-N1",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-n2",
@@ -500,12 +778,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 65,
     crafterNpcId: "npc-hef4",
     ingredients: [
-      { itemId: "nanopyl", count: 3 },
-      { itemId: "silownik", count: 2 },
-      { itemId: "elektroda", count: 1 },
+      {
+        itemId: "nanopyl",
+        count: 3,
+      },
+      {
+        itemId: "silownik",
+        count: 2,
+      },
+      {
+        itemId: "elektroda",
+        count: 1,
+      },
     ],
     resultItemId: "W-N2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-n3",
@@ -515,12 +803,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 95,
     crafterNpcId: "npc-hef4",
     ingredients: [
-      { itemId: "lufa", count: 1 },
-      { itemId: "modul-optyczny", count: 1 },
-      { itemId: "rdzen-energii", count: 1 },
+      {
+        itemId: "lufa",
+        count: 1,
+      },
+      {
+        itemId: "modul-optyczny",
+        count: 1,
+      },
+      {
+        itemId: "rdzen-energii",
+        count: 1,
+      },
     ],
     resultItemId: "W-N3",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-n5",
@@ -530,12 +828,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 190,
     crafterNpcId: "npc-hef4",
     ingredients: [
-      { itemId: "kod-arbitra", count: 1 },
-      { itemId: "plyta-egzekutora", count: 2 },
-      { itemId: "rdzen-plazmy", count: 2 },
+      {
+        itemId: "kod-arbitra",
+        count: 1,
+      },
+      {
+        itemId: "plyta-egzekutora",
+        count: 2,
+      },
+      {
+        itemId: "rdzen-plazmy",
+        count: 2,
+      },
     ],
     resultItemId: "W-N5",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-w-n6",
@@ -545,12 +853,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 330,
     crafterNpcId: "npc-hef4",
     ingredients: [
-      { itemId: "rdzen-hydry", count: 1 },
-      { itemId: "modul-prime", count: 1 },
-      { itemId: "lufa", count: 3 },
+      {
+        itemId: "rdzen-hydry",
+        count: 1,
+      },
+      {
+        itemId: "modul-prime",
+        count: 1,
+      },
+      {
+        itemId: "lufa",
+        count: 3,
+      },
     ],
     resultItemId: "W-N6",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-n2",
@@ -560,11 +878,18 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 60,
     crafterNpcId: "npc-nexus-welder",
     ingredients: [
-      { itemId: "plyta-pancerna", count: 2 },
-      { itemId: "silownik", count: 2 },
+      {
+        itemId: "plyta-pancerna",
+        count: 2,
+      },
+      {
+        itemId: "silownik",
+        count: 2,
+      },
     ],
     resultItemId: "A-N2",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-n3",
@@ -574,12 +899,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 90,
     crafterNpcId: "npc-nexus-welder",
     ingredients: [
-      { itemId: "plyta-pancerna", count: 3 },
-      { itemId: "nanopyl", count: 3 },
-      { itemId: "czujnik", count: 1 },
+      {
+        itemId: "plyta-pancerna",
+        count: 3,
+      },
+      {
+        itemId: "nanopyl",
+        count: 3,
+      },
+      {
+        itemId: "czujnik",
+        count: 1,
+      },
     ],
     resultItemId: "A-N3",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-a-n5",
@@ -589,15 +924,23 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 310,
     crafterNpcId: "npc-nexus-welder",
     ingredients: [
-      { itemId: "modul-prime", count: 1 },
-      { itemId: "plyta-egzekutora", count: 2 },
-      { itemId: "rdzen-energii", count: 3 },
+      {
+        itemId: "modul-prime",
+        count: 1,
+      },
+      {
+        itemId: "plyta-egzekutora",
+        count: 2,
+      },
+      {
+        itemId: "rdzen-energii",
+        count: 3,
+      },
     ],
     resultItemId: "A-N5",
     resultCount: 1,
+    source: "repo",
   },
-
-  // --- UNIKATOWE ARTEFAKTY MIĘDZYKONTYNENTALNE (ARTIFACTS) ---
   {
     id: "rec-u-w01",
     name: "Splatanie Amuletu Pierwszego Drzewa",
@@ -606,12 +949,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 150,
     crafterNpcId: "npc-aira",
     ingredients: [
-      { itemId: "zywy-korzen", count: 4 },
-      { itemId: "bursztyn", count: 3 },
-      { itemId: "zielona-esencja", count: 1 },
+      {
+        itemId: "zywy-korzen",
+        count: 4,
+      },
+      {
+        itemId: "bursztyn",
+        count: 3,
+      },
+      {
+        itemId: "zielona-esencja",
+        count: 1,
+      },
     ],
     resultItemId: "U-W01",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-u-w02",
@@ -621,12 +974,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 350,
     crafterNpcId: "npc-aira",
     ingredients: [
-      { itemId: "serce-puszczy", count: 1 },
-      { itemId: "kwiat-ygdrashy", count: 1 },
-      { itemId: "kamien-runiczny", count: 4 },
+      {
+        itemId: "serce-puszczy",
+        count: 1,
+      },
+      {
+        itemId: "kwiat-ygdrashy",
+        count: 1,
+      },
+      {
+        itemId: "kamien-runiczny",
+        count: 4,
+      },
     ],
     resultItemId: "U-W02",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-u-w03",
@@ -636,12 +999,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 160,
     crafterNpcId: "npc-enso",
     ingredients: [
-      { itemId: "soczewka-wiedzy", count: 2 },
-      { itemId: "eter-bibliotekarza", count: 3 },
-      { itemId: "pyl-swiatla", count: 5 },
+      {
+        itemId: "soczewka-wiedzy",
+        count: 2,
+      },
+      {
+        itemId: "eter-bibliotekarza",
+        count: 3,
+      },
+      {
+        itemId: "pyl-swiatla",
+        count: 5,
+      },
     ],
     resultItemId: "U-W03",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-u-w04",
@@ -651,12 +1024,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 170,
     crafterNpcId: "npc-hef4",
     ingredients: [
-      { itemId: "kod-arbitra", count: 1 },
-      { itemId: "pamiec-danych", count: 2 },
-      { itemId: "kruk-danych", count: 1 },
+      {
+        itemId: "kod-arbitra",
+        count: 1,
+      },
+      {
+        itemId: "pamiec-danych",
+        count: 2,
+      },
+      {
+        itemId: "kruk-danych",
+        count: 1,
+      },
     ],
     resultItemId: "U-W04",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-u-w07",
@@ -666,12 +1049,22 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 400,
     crafterNpcId: "npc-sora",
     ingredients: [
-      { itemId: "pieczec-arcykaplana", count: 1 },
-      { itemId: "serce-sanktuarium", count: 1 },
-      { itemId: "kamien-swiatynny", count: 5 },
+      {
+        itemId: "pieczec-arcykaplana",
+        count: 1,
+      },
+      {
+        itemId: "serce-sanktuarium",
+        count: 1,
+      },
+      {
+        itemId: "kamien-swiatynny",
+        count: 5,
+      },
     ],
     resultItemId: "U-W07",
     resultCount: 1,
+    source: "repo",
   },
   {
     id: "rec-u-w08",
@@ -681,13 +1074,1673 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     craftingCostCoins: 500,
     crafterNpcId: "npc-goro",
     ingredients: [
-      { itemId: "serce-wulkanu", count: 1 },
-      { itemId: "serce-sanktuarium", count: 1 },
-      { itemId: "serce-puszczy", count: 1 },
-      { itemId: "rdzen-hydry", count: 1 },
+      {
+        itemId: "serce-wulkanu",
+        count: 1,
+      },
+      {
+        itemId: "serce-sanktuarium",
+        count: 1,
+      },
+      {
+        itemId: "serce-puszczy",
+        count: 1,
+      },
+      {
+        itemId: "rdzen-hydry",
+        count: 1,
+      },
     ],
     resultItemId: "U-W08",
     resultCount: 1,
+    source: "repo",
+  },
+  {
+    id: "RC-WV1",
+    name: "Receptura RC-WV1 → W-V1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-V1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WV2",
+    name: "Receptura RC-WV2 → W-V2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
+    ],
+    resultItemId: "KS-W-V2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WV3",
+    name: "Receptura RC-WV3 → W-V3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 45,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 3,
+      },
+    ],
+    resultItemId: "KS-W-V3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WV4",
+    name: "Receptura RC-WV4 → W-V4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 80,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-V4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WV5",
+    name: "Receptura RC-WV5 → W-V5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 130,
+    ingredients: [
+      {
+        itemId: "poroze",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-V5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WV6",
+    name: "Receptura RC-WV6 → W-V6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 200,
+    ingredients: [
+      {
+        itemId: "pioro-puchacza",
+        count: 5,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-V6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WA1",
+    name: "Receptura RC-WA1 → W-A1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "pyl-swiatla",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-A1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WA2",
+    name: "Receptura RC-WA2 → W-A2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "karta-pergaminu",
+        count: 2,
+      },
+    ],
+    resultItemId: "KS-W-A2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WA3",
+    name: "Receptura RC-WA3 → W-A3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 45,
+    ingredients: [
+      {
+        itemId: "skrzydlo-krysztalowe",
+        count: 3,
+      },
+    ],
+    resultItemId: "KS-W-A3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WA4",
+    name: "Receptura RC-WA4 → W-A4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 80,
+    ingredients: [
+      {
+        itemId: "eter-bibliotekarza",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-A4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WA5",
+    name: "Receptura RC-WA5 → W-A5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 130,
+    ingredients: [
+      {
+        itemId: "kamien-swiatynny",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-A5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WA6",
+    name: "Receptura RC-WA6 → W-A6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 200,
+    ingredients: [
+      {
+        itemId: "nic-eteru",
+        count: 5,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-A6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WN1",
+    name: "Receptura RC-WN1 → W-N1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "zlom",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-N1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WN2",
+    name: "Receptura RC-WN2 → W-N2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "zestaw-naprawczy",
+        count: 2,
+      },
+    ],
+    resultItemId: "KS-W-N2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WN3",
+    name: "Receptura RC-WN3 → W-N3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 45,
+    ingredients: [
+      {
+        itemId: "gasienica",
+        count: 3,
+      },
+    ],
+    resultItemId: "KS-W-N3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WN4",
+    name: "Receptura RC-WN4 → W-N4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 80,
+    ingredients: [
+      {
+        itemId: "cewka",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-N4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WN5",
+    name: "Receptura RC-WN5 → W-N5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 130,
+    ingredients: [
+      {
+        itemId: "silownik",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-N5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WN6",
+    name: "Receptura RC-WN6 → W-N6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 200,
+    ingredients: [
+      {
+        itemId: "rdzen-plazmy",
+        count: 5,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-N6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WP1",
+    name: "Receptura RC-WP1 → W-P1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "wegiel",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-P1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WP2",
+    name: "Receptura RC-WP2 → W-P2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "luska-salamandry",
+        count: 2,
+      },
+    ],
+    resultItemId: "KS-W-P2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WP3",
+    name: "Receptura RC-WP3 → W-P3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 45,
+    ingredients: [
+      {
+        itemId: "popielne-futro",
+        count: 3,
+      },
+    ],
+    resultItemId: "KS-W-P3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WP4",
+    name: "Receptura RC-WP4 → W-P4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 80,
+    ingredients: [
+      {
+        itemId: "magmowy-pancerz",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-P4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WP5",
+    name: "Receptura RC-WP5 → W-P5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 130,
+    ingredients: [
+      {
+        itemId: "obsydian",
+        count: 4,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-P5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-WP6",
+    name: "Receptura RC-WP6 → W-P6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 200,
+    ingredients: [
+      {
+        itemId: "rog-areny",
+        count: 5,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "KS-W-P6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AH1",
+    name: "Receptura RC-AH1 → A-H1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-H1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AH2",
+    name: "Receptura RC-AH2 → A-H2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 6,
+    ingredients: [
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-H2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AH3",
+    name: "Receptura RC-AH3 → A-H3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 12,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-H3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AH4",
+    name: "Receptura RC-AH4 → A-H4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 3,
+      },
+    ],
+    resultItemId: "A-H4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AH5",
+    name: "Receptura RC-AH5 → A-H5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 30,
+    ingredients: [
+      {
+        itemId: "poroze",
+        count: 3,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-H5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AH6",
+    name: "Receptura RC-AH6 → A-H6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 44,
+    ingredients: [
+      {
+        itemId: "pioro-puchacza",
+        count: 4,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-H6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AC1",
+    name: "Receptura RC-AC1 → A-C1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-C1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AC2",
+    name: "Receptura RC-AC2 → A-C2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 12,
+    ingredients: [
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-C2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AC3",
+    name: "Receptura RC-AC3 → A-C3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 24,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-C3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AC4",
+    name: "Receptura RC-AC4 → A-C4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 40,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 3,
+      },
+    ],
+    resultItemId: "A-C4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AC5",
+    name: "Receptura RC-AC5 → A-C5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 60,
+    ingredients: [
+      {
+        itemId: "poroze",
+        count: 3,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-C5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AC6",
+    name: "Receptura RC-AC6 → A-C6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 96,
+    ingredients: [
+      {
+        itemId: "pioro-puchacza",
+        count: 4,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-C6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AG1",
+    name: "Receptura RC-AG1 → A-G1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-G1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AG2",
+    name: "Receptura RC-AG2 → A-G2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 5,
+    ingredients: [
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-G2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AG3",
+    name: "Receptura RC-AG3 → A-G3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 10,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-G3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AG4",
+    name: "Receptura RC-AG4 → A-G4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 16,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 3,
+      },
+    ],
+    resultItemId: "A-G4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AG5",
+    name: "Receptura RC-AG5 → A-G5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 24,
+    ingredients: [
+      {
+        itemId: "poroze",
+        count: 3,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-G5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AG6",
+    name: "Receptura RC-AG6 → A-G6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 36,
+    ingredients: [
+      {
+        itemId: "pioro-puchacza",
+        count: 4,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-G6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AL1",
+    name: "Receptura RC-AL1 → A-L1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-L1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AL2",
+    name: "Receptura RC-AL2 → A-L2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 8,
+    ingredients: [
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-L2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AL3",
+    name: "Receptura RC-AL3 → A-L3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 16,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-L3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AL4",
+    name: "Receptura RC-AL4 → A-L4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 26,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 3,
+      },
+    ],
+    resultItemId: "A-L4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AL5",
+    name: "Receptura RC-AL5 → A-L5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 40,
+    ingredients: [
+      {
+        itemId: "poroze",
+        count: 3,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-L5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AL6",
+    name: "Receptura RC-AL6 → A-L6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 60,
+    ingredients: [
+      {
+        itemId: "pioro-puchacza",
+        count: 4,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-L6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AB1",
+    name: "Receptura RC-AB1 → A-B1",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-B1",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AB2",
+    name: "Receptura RC-AB2 → A-B2",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 5,
+    ingredients: [
+      {
+        itemId: "ciern-wilka",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-B2",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AB3",
+    name: "Receptura RC-AB3 → A-B3",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 10,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "A-B3",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AB4",
+    name: "Receptura RC-AB4 → A-B4",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 16,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 3,
+      },
+    ],
+    resultItemId: "A-B4",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AB5",
+    name: "Receptura RC-AB5 → A-B5",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 24,
+    ingredients: [
+      {
+        itemId: "poroze",
+        count: 3,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-B5",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-AB6",
+    name: "Receptura RC-AB6 → A-B6",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 36,
+    ingredients: [
+      {
+        itemId: "pioro-puchacza",
+        count: 4,
+      },
+      {
+        itemId: "R-05",
+        count: 1,
+      },
+    ],
+    resultItemId: "A-B6",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J01",
+    name: "Receptura RC-J01 → J-01",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 18,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 1,
+      },
+      {
+        itemId: "pyl-swiatla",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-01",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J02",
+    name: "Receptura RC-J02 → J-02",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 18,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 1,
+      },
+      {
+        itemId: "karta-pergaminu",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-02",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J03",
+    name: "Receptura RC-J03 → J-03",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 36,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 1,
+      },
+      {
+        itemId: "skrzydlo-krysztalowe",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-03",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J04",
+    name: "Receptura RC-J04 → J-04",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 36,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 2,
+      },
+      {
+        itemId: "szmaragdowa-luska",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-04",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J05",
+    name: "Receptura RC-J05 → J-05",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 60,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 2,
+      },
+      {
+        itemId: "eter-bibliotekarza",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-05",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J06",
+    name: "Receptura RC-J06 → J-06",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 60,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 2,
+      },
+      {
+        itemId: "zloty-pancerz",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-06",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J07",
+    name: "Receptura RC-J07 → J-07",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 90,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 2,
+      },
+      {
+        itemId: "kamien-swiatynny",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-07",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J08",
+    name: "Receptura RC-J08 → J-08",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 90,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 3,
+      },
+      {
+        itemId: "soczewka-wiedzy",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-08",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J09",
+    name: "Receptura RC-J09 → J-09",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 120,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 3,
+      },
+      {
+        itemId: "nic-eteru",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-09",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J10",
+    name: "Receptura RC-J10 → J-10",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 120,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 3,
+      },
+      {
+        itemId: "pioro-mgly",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-10",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-J11",
+    name: "Receptura RC-J11 → J-11",
+    station: "projekt_ksiegi",
+    requiredLevel: 20,
+    craftingCostCoins: 140,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 3,
+      },
+      {
+        itemId: "pioro-mgly",
+        count: 2,
+      },
+    ],
+    resultItemId: "J-11",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T01",
+    name: "Receptura RC-T01 → T-01",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 0,
+    ingredients: [],
+    resultItemId: "T-01",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T02",
+    name: "Receptura RC-T02 → T-02",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 10,
+    ingredients: [
+      {
+        itemId: "R-01",
+        count: 1,
+      },
+    ],
+    resultItemId: "T-02",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T03",
+    name: "Receptura RC-T03 → T-03",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 10,
+    ingredients: [
+      {
+        itemId: "R-02",
+        count: 1,
+      },
+    ],
+    resultItemId: "T-03",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T04",
+    name: "Receptura RC-T04 → T-04",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "R-01",
+        count: 2,
+      },
+    ],
+    resultItemId: "T-04",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T05",
+    name: "Receptura RC-T05 → T-05",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 15,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 1,
+      },
+    ],
+    resultItemId: "T-05",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T06",
+    name: "Receptura RC-T06 → T-06",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 30,
+    ingredients: [
+      {
+        itemId: "R-01",
+        count: 2,
+      },
+      {
+        itemId: "R-02",
+        count: 1,
+      },
+    ],
+    resultItemId: "T-06",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T07",
+    name: "Receptura RC-T07 → T-07",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 50,
+    ingredients: [
+      {
+        itemId: "R-03",
+        count: 2,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "T-07",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T08",
+    name: "Receptura RC-T08 → R-01",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 5,
+    ingredients: [
+      {
+        itemId: "zlom",
+        count: 1,
+      },
+    ],
+    resultItemId: "R-01",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T09",
+    name: "Receptura RC-T09 → R-02",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 5,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "R-02",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T10",
+    name: "Receptura RC-T10 → R-03",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 8,
+    ingredients: [
+      {
+        itemId: "karta-pergaminu",
+        count: 1,
+      },
+    ],
+    resultItemId: "R-03",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T11",
+    name: "Receptura RC-T11 → R-04",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 12,
+    ingredients: [
+      {
+        itemId: "gasienica",
+        count: 1,
+      },
+    ],
+    resultItemId: "R-04",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T12",
+    name: "Receptura RC-T12 → R-05",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 15,
+    ingredients: [
+      {
+        itemId: "magmowy-pancerz",
+        count: 1,
+      },
+    ],
+    resultItemId: "R-05",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-T13",
+    name: "Receptura RC-T13 → R-06",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 20,
+    ingredients: [
+      {
+        itemId: "R-02",
+        count: 1,
+      },
+      {
+        itemId: "R-03",
+        count: 1,
+      },
+      {
+        itemId: "R-04",
+        count: 1,
+      },
+    ],
+    resultItemId: "R-06",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U01",
+    name: "Receptura RC-U01 → U-01",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 1,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-01",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U02",
+    name: "Receptura RC-U02 → U-02",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 2,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-02",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U03",
+    name: "Receptura RC-U03 → U-03",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 6,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-03",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U04",
+    name: "Receptura RC-U04 → U-04",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 12,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-04",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U05",
+    name: "Receptura RC-U05 → U-05",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 4,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-05",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U06",
+    name: "Receptura RC-U06 → U-06",
+    station: "projekt_ksiegi",
+    requiredLevel: 18,
+    craftingCostCoins: 10,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-06",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U07",
+    name: "Receptura RC-U07 → U-07",
+    station: "projekt_ksiegi",
+    requiredLevel: 1,
+    craftingCostCoins: 1,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-07",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U08",
+    name: "Receptura RC-U08 → U-08",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 3,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-08",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U09",
+    name: "Receptura RC-U09 → U-09",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 7,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-09",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U10",
+    name: "Receptura RC-U10 → U-10",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 3,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-10",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U11",
+    name: "Receptura RC-U11 → U-11",
+    station: "projekt_ksiegi",
+    requiredLevel: 14,
+    craftingCostCoins: 7,
+    ingredients: [
+      {
+        itemId: "zarodniki",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-11",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U12",
+    name: "Receptura RC-U12 → U-12",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 5,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-12",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U13",
+    name: "Receptura RC-U13 → U-13",
+    station: "projekt_ksiegi",
+    requiredLevel: 10,
+    craftingCostCoins: 5,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 2,
+      },
+    ],
+    resultItemId: "U-13",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U14",
+    name: "Receptura RC-U14 → U-14",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 3,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-14",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U15",
+    name: "Receptura RC-U15 → U-15",
+    station: "projekt_ksiegi",
+    requiredLevel: 7,
+    craftingCostCoins: 4,
+    ingredients: [
+      {
+        itemId: "zielone-ostrze",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-15",
+    resultCount: 1,
+    source: "book",
+  },
+  {
+    id: "RC-U16",
+    name: "Receptura RC-U16 → U-16",
+    station: "projekt_ksiegi",
+    requiredLevel: 4,
+    craftingCostCoins: 2,
+    ingredients: [
+      {
+        itemId: "mchowa-galaretka",
+        count: 1,
+      },
+    ],
+    resultItemId: "U-16",
+    resultCount: 1,
+    source: "book",
   },
 ];
 

@@ -3,6 +3,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { GameSession, SaveStore } from "../game/session";
 import { grants, markStaff, staffMark, STAFF_KEY } from "../game/account/staff";
 import { StaffTools } from "../components/game/StaffTools";
+import { AdminWorldMap } from "../components/admin/AdminWorldMap";
+import { readAdminWorldOverrides } from "../game/world/adminWorldStore";
+import projection from "../components/planet-map/worldOverlay.v2.json";
 
 afterEach(cleanup);
 
@@ -101,5 +104,38 @@ describe("special staff characters", () => {
     fireEvent.click(getByText("Lecz"));
     fireEvent.click(getByText("Verdantia"));
     expect(sent).toEqual([{ type: "staff", action: "heal" }, { travel: "verdant" }]);
+  });
+
+  it("allows selecting a place marker on AdminWorldMap when only the places layer is enabled", () => {
+    const OrigPointerEvent = globalThis.PointerEvent;
+    globalThis.PointerEvent = class extends MouseEvent {
+      pointerId: number;
+      constructor(type: string, options: PointerEventInit = {}) {
+        super(type, options);
+        this.pointerId = options.pointerId ?? 1;
+      }
+    } as unknown as typeof PointerEvent;
+    try {
+      const place = projection.places[0]!;
+      const { getByLabelText, getAllByRole } = render(
+        <AdminWorldMap overrides={readAdminWorldOverrides()} />,
+      );
+      fireEvent.click(getByLabelText("Spawny potworów"));
+      fireEvent.click(getByLabelText("Zadania"));
+      const mapSvg = getByLabelText("Pełna mapa 2D Superior z warstwami");
+      Object.defineProperty(mapSvg, "getScreenCTM", {
+        value: () => ({
+          a: 1,
+          b: 0,
+          inverse: () => ({ a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }),
+        }),
+      });
+      fireEvent.pointerDown(mapSvg, { button: 0, clientX: place.x, clientY: place.y });
+      fireEvent.pointerUp(mapSvg, { button: 0, clientX: place.x, clientY: place.y });
+      const statuses = getAllByRole("status").map((el) => el.textContent ?? "");
+      expect(statuses.some((t) => t.includes(place.land))).toBe(true);
+    } finally {
+      globalThis.PointerEvent = OrigPointerEvent;
+    }
   });
 });

@@ -520,7 +520,7 @@ kontroluje `e2e/superior-world.spec.ts`: dokładnie jeden Canvas przy każdym z 
 
 ## Niezależny audyt Coder i regresji — 28.10.2026
 
-Stan kodu `main@30f7b8d5`. W `src/components/admin/AdminWorldMap.tsx` białe znaczniki z `projection.places` są renderowane, ale obsługa `onPointerUp` składa `candidates` tylko z `shownMarkers`, `combatPoints` i `spawns`. **ŚREDNI, ODRZUCONE (ścieżka kodu):** nie da się uzyskać szczegółów samodzielnego miasta/lokacji przez kliknięcie po wyłączeniu innych warstw. Wymagana obsługa miejsc w selekcji i test E2E; wniosek statyczny, bez własnego odtworzenia w przeglądarce.
+Stan kodu `main@30f7b8d5`. W `src/components/admin/AdminWorldMap.tsx` białe znaczniki z `projection.places` są renderowane, ale obsługa `onPointerUp` składa `candidates` tylko z `shownMarkers`, `combatPoints` i `spawns`. **ŚREDNI, ODRZUCONE (ścieżka kodu):** nie da się uzyskać szczegółów samodzielnego miasta/lokacji przez kliknięcie po wyłączeniu innych warstw. Wymagana obsługa miejsc w selekcji i test E2E; wniosek statyczny, bez własnego odtworzenia w przeglądarce. _(Aktualizacja 31.10.2026: w `AdminWorldMap.tsx` dodano `projection.places` do `candidates` przy aktywnej warstwie `layers.places` oraz test w `src/test/staff.test.tsx`; zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md))._
 
 Odczyt GitHub Actions dla `a4ee855e`, PR #52: [WebGL run 40653403301](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403301) — **FAILURE, 7 testów niezaliczonych**, w tym `combat-skills.spec.ts` (Mędrcy, Androidzi), `combat-v3.spec.ts` (Mędrcy, Androidzi) oraz trzy przypadki cyklu życia. Wspólny punkt zatrzymania: `e2e/fixtures.ts:223`, `liveEnemy`, `Expected: true / Received: false`, timeout 60 s. Nie rozstrzyga to, czy błąd pochodzi ze spawnów, AI, inicjalizacji świata czy fixture. [Pełny QA 40653403311](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40653403311) był w toku w momencie odczytu.
 
@@ -563,7 +563,6 @@ narzędzia GM, nowy wybór z atlasu dotyczy domyślnej mapy v2.
 Wyniki, ograniczenia autoryzacji testowej i instrukcje QA:
 [dziennik](zmiany/2026-10-28/ZMIANY.md#coder--indywidualne-parametry-i-teleport-gm).
 
-
 ## Staging hostingu Aruba — 29.10.2026
 
 Gałąź `migration/aruba-staging-2026-10-28` opiera się na produkcyjnym kodzie
@@ -581,7 +580,6 @@ buduje prawdziwe obrazy i wykonuje HTTP smoke w izolowanym stosie GitHub Actions
 a nie wdrożenie na VPS. Skrypt smoke ma ograniczenia czasu połączenia/odpowiedzi
 oraz zgłasza błąd przy braku skryptu aplikacji w HTML. Wyniki konkretnego SHA:
 [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md).
-
 
 ## Prywatna baza pod przyszły multiplayer — 29.10.2026
 
@@ -614,6 +612,7 @@ odtwarza go w osobnej bazie kontrolnej i usuwa wyłącznie tę bazę kontrolną.
 Nie usuwać wolumenu komendą compose down -v. Kopie są na tym samym VPS: nie jest
 to potwierdzenie kopii zewnętrznej ani harmonogramu backupów. Wyniki konkretnego
 commita i wcześniejsze niepowodzenia: [dziennik](zmiany/2026-10-29/ZMIANY.md#prywatna-baza-postgresql-pod-multiplayer).
+
 ## Adapter rozwoju i próby na wypożyczonym profilu — 28.10.2026
 
 `development/training.ts` zawiera reguły treningu, `state.ts` schemat i spójność
@@ -658,7 +657,6 @@ UI i właściwe efekty — testy dla każdej rasy sprawdzają pułap poniżej 64
 zadeklarowanych tekstur i brak kopii miejskich budynków/przyrody. Oryginalna scena
 pozostaje w pamięci; szczytowe zużycie na fizycznym telefonie wymaga osobnego pomiaru.
 
-
 ### Runtime dziedzictwa — kontrakty kolejnego checkpointu PR #55
 
 - `development/heritage/types.ts`, `goals.ts`, `catalog.ts`: jawny graf 24 rozdziałów
@@ -685,7 +683,6 @@ kończy stary prolog przez UI, idzie do kolejnych obiektów, wybiera odpowiedzi,
 wykonuje procedurę, odbiera broń, zakłada ją i odświeża. Wyniki na poszczególnych
 migawkach oraz niezależnie czerwone CI zapisano w dzienniku, bez uśredniania do PASS.
 
-
 ### Lokalne pomiary instalacji i zasięg zwykłego ataku (PR #55, 28.10)
 
 `heritage/scanner.ts` jest odczytowym kontrolerem w pamięci sesji. Skaner wymaga
@@ -701,7 +698,6 @@ kończy H-N01, odbiera skaner i podłącza go istniejącym poleceniem warsztatu.
 pozostałe umiejętności. Ten sam odczyt używają strzał Androida, gotowość celu w HUD,
 rozpoczęcie istniejącego autoataku i podgląd statystyk. Optyka nadal nie wydłuża A1/B1/C1;
 pozostałe rasy mają niezmieniony zasięg. Nie dodano nowego rodzaju autoataku.
-
 
 `heritage/escort.ts`: stabilne krótkie odcinki przez istniejące `Navigation.path/step`,
 sprawdzenie osiągalności, cache tras per sesja, prędkość spokojnej dostawy 100 j./s
@@ -719,7 +715,6 @@ P-V1, H-V02, odświeża po pierwszym punkcie dostawy i sprawdza broń drugiego s
 Odczytuje zapis do asercji, ale nie wpisuje flag, statystyk ani pozycji. Scenariusz
 jest podłączony do obu istniejących rendererów; wynik musi być zapisany po wykonaniu.
 
-
 Regresja dostawy zatrzymuje helper po **jednym** odcinku: wielofazowe dojście do
 budynku mogło automatycznie podążać za kolejnymi zmieniającymi się waypointami i
 skończyć przy następnym zadaniu, fałszywie porównując jego licznik z licznikiem
@@ -729,7 +724,6 @@ porażka są w dzienniku 28.10; asercji nie osłabiono.
 zamknięciu panelu dla czterech ras. W pionie Superior pokazuje istniejący ekran
 obrotu; test odtwarza obrót, nie obchodzi blokady. Osiem przypadków Canvas przeszło
 na grze `924ff66f`. To nie dowód pracy na fizycznym telefonie.
-
 
 ### Odbiorcy obrażeń poza graczem — partia zamykająca 28.10
 

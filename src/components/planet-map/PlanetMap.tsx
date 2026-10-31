@@ -73,14 +73,31 @@ export function PlanetMap({
   const anim = useRef<number | null>(null);
 
   const [size, setSize] = useState<Size>(FALLBACK);
-  const [view, setView] = useState<View>(() => initialView(FALLBACK.w, FALLBACK.h));
+  const [view, setView] = useState<View>(() => {
+    if (focus) {
+      const cached = loadWorldOverlay.cached?.();
+      const at = cached ? worldToAtlas(cached, focus.land, focus.x, focus.y) : null;
+      if (at) {
+        return clampView(
+          { cx: at.x, cy: at.y, s: fitScale(FALLBACK.w, FALLBACK.h) * 6 },
+          FALLBACK.w,
+          FALLBACK.h,
+        );
+      }
+    }
+    return initialView(FALLBACK.w, FALLBACK.h);
+  });
   const [ready, setReady] = useState(false);
-  const [hiRes, setHiRes] = useState(false);
+  const [hiRes, setHiRes] = useState(() => Boolean(decodedImage.cached?.(atlasHi)));
   const [selected, setSelected] = useState<string | null>(current ?? null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [fog, setFog] = useState(false);
   /** Atlas point of the player when the map was opened from the game (world v2). */
-  const [playerAt, setPlayerAt] = useState<{ x: number; y: number } | null>(null);
+  const [playerAt, setPlayerAt] = useState<{ x: number; y: number } | null>(() => {
+    if (!focus) return null;
+    const cached = loadWorldOverlay.cached?.();
+    return cached ? worldToAtlas(cached, focus.land, focus.x, focus.y) : null;
+  });
   const [perspective, setPerspective] = useState<string>(current ?? "verdant");
   /** null = layout default (open on desktop, closed on phones). */
   const [teleportArmed, setTeleportArmed] = useState(false);
@@ -136,20 +153,30 @@ export function PlanetMap({
       setSize({ w, h });
       if (!measured.current) {
         measured.current = true;
-        setView(initialView(w, h));
         setReady(true);
-        if (focus)
+        if (focus) {
+          const cached = loadWorldOverlay.cached?.();
+          const at = cached ? worldToAtlas(cached, focus.land, focus.x, focus.y) : null;
+          if (at) {
+            setPlayerAt(at);
+            setView(clampView({ cx: at.x, cy: at.y, s: fitScale(w, h) * 6 }, w, h));
+            return;
+          }
+          setView(initialView(w, h));
           void loadWorldOverlay()
             .then((data) => {
               if (!live) return;
-              const at = worldToAtlas(data, focus.land, focus.x, focus.y);
-              if (!at) return;
-              setPlayerAt(at);
+              const nextAt = worldToAtlas(data, focus.land, focus.x, focus.y);
+              if (!nextAt) return;
+              setPlayerAt(nextAt);
               const { w: cw, h: ch } = sizeRef.current;
               // A continent fills the screen around the player.
-              setView(clampView({ cx: at.x, cy: at.y, s: fitScale(cw, ch) * 6 }, cw, ch));
+              setView(clampView({ cx: nextAt.x, cy: nextAt.y, s: fitScale(cw, ch) * 6 }, cw, ch));
             })
             .catch(() => undefined);
+        } else {
+          setView(initialView(w, h));
+        }
       } else {
         setView((v) => clampView(v, w, h));
       }
@@ -372,26 +399,17 @@ export function PlanetMap({
   const legendOpen = legend ?? size.w > 1600;
   const legendClass = legendOpen ? " is-open" : " is-closed";
 
+  const showSpot = Boolean(selectedRegion && (!ATLAS_V2 || zoom < 2.5));
+
   const atlasImage = useMemo(
     () => (
-      <>
-        <image
-          href={atlasLo}
-          width={MAP_W}
-          height={MAP_H}
-          preserveAspectRatio="none"
-          className="pm-atlas"
-        />
-        {hiRes && (
-          <image
-            href={atlasHi}
-            width={MAP_W}
-            height={MAP_H}
-            preserveAspectRatio="none"
-            className="pm-atlas pm-atlas-hi"
-          />
-        )}
-      </>
+      <image
+        href={hiRes ? atlasHi : atlasLo}
+        width={MAP_W}
+        height={MAP_H}
+        preserveAspectRatio="none"
+        className="pm-atlas"
+      />
     ),
     [hiRes],
   );
@@ -455,7 +473,7 @@ export function PlanetMap({
                 filter="url(#pm-soft)"
               />
             </mask>
-            {selectedRegion && (
+            {showSpot && selectedRegion && (
               <mask
                 id="pm-spot-mask"
                 maskUnits="userSpaceOnUse"
@@ -469,9 +487,8 @@ export function PlanetMap({
                   d={PATHS[selectedRegion.id]}
                   fill="black"
                   stroke="black"
-                  strokeWidth={30}
+                  strokeWidth={24}
                   strokeLinejoin="round"
-                  filter="url(#pm-soft)"
                 />
               </mask>
             )}
@@ -492,7 +509,7 @@ export function PlanetMap({
             </g>
           )}
 
-          {selectedRegion && (
+          {showSpot && (
             <rect
               width={MAP_W}
               height={MAP_H}

@@ -1,8 +1,8 @@
 # KI Legends — aktualny plan i zadania
 
-## Bieżący checkpoint — 29.10.2026 po integracji
+## Bieżący checkpoint — 29.10.2026 po integracji (aktualizacja 31.10.2026)
 
-Kod i potwierdzona publikacja: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`.
+Kod i potwierdzona publikacja: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`. Aktualizacje na gałęzi roboczej z 31.10 (optymalizacja mapy 2D/3D w grze, wdrożenie katalogu 366 przedmiotów i 140 receptur V2, naprawa selekcji miejsc w `AdminWorldMap` oraz budżetu tekstur streamingu): zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md).
 Ten checkpoint zastępuje wcześniejsze etykiety stanu; zachowuje historyczne wyniki i nierozwiązane błędy.
 Dowody i dokładne polecenia: [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
 
@@ -16,14 +16,14 @@ Dowody i dokładne polecenia: [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md#stan-
 
 ### Najbliższe zadania
 
-| Priorytet | Zadanie | Warunek zamknięcia |
-| --- | --- | --- |
-| P0 | Zdiagnozować dostępność celu w czerwonych testach walki/lifecycle i wcześniejsze 2/3 zabójstw Planetarnego | Pełna zielona regresja wskazanego SHA bez pomijania testów i osłabiania asercji |
-| P0 | Dokończyć niezależny backend Supabase | Odczyt zweryfikowanej kopii Storage, klucze wyłącznie po stronie serwera, Auth/SMTP, końcowe porównanie danych i jawny cutover; bez nadpisywania źródła |
-| P1 | Dokończyć rozwój ras | Pozostałe próby i ich progi, późne rozdziały/projekty, bronie stopni 3–6, ochrony/eskorty bojowe, mistrzostwa i narracja; katalog nie zastępuje grywalności |
-| P1 | Odbiór mobilny i wydajności | Fizyczny Android/iOS, pomiary FPS/pamięci i rzeczywiste interakcje; emulacja Chromium nie zastępuje urządzenia |
-| P1 | Domknąć wcześniejsze uwagi Coder i geometrii świata | Odtworzenie aktualnego zachowania wyboru miejsc, 45/55, nawigacji i granic; wcześniejszych uwag nie uznano tu za naprawione |
-| P2 | Projekt autorytatywnego multiplayera | Osobny serwer, walidacja poleceń, synchronizacja, uprawnienia i test obciążenia; sama baza nie zamyka zadania |
+| Priorytet | Zadanie                                                                                                    | Warunek zamknięcia                                                                                                                                          |
+| --------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P0        | Zdiagnozować dostępność celu w czerwonych testach walki/lifecycle i wcześniejsze 2/3 zabójstw Planetarnego | Pełna zielona regresja wskazanego SHA bez pomijania testów i osłabiania asercji                                                                             |
+| P0        | Dokończyć niezależny backend Supabase                                                                      | Odczyt zweryfikowanej kopii Storage, klucze wyłącznie po stronie serwera, Auth/SMTP, końcowe porównanie danych i jawny cutover; bez nadpisywania źródła     |
+| P1        | Dokończyć rozwój ras                                                                                       | Pozostałe próby i ich progi, późne rozdziały/projekty, bronie stopni 3–6, ochrony/eskorty bojowe, mistrzostwa i narracja; katalog nie zastępuje grywalności |
+| P1        | Odbiór mobilny i wydajności                                                                                | Fizyczny Android/iOS, pomiary FPS/pamięci i rzeczywiste interakcje; emulacja Chromium nie zastępuje urządzenia                                              |
+| P1        | Domknąć wcześniejsze uwagi Coder i geometrii świata                                                        | Odtworzenie aktualnego zachowania wyboru miejsc, 45/55, nawigacji i granic; wcześniejszych uwag nie uznano tu za naprawione                                 |
+| P2        | Projekt autorytatywnego multiplayera                                                                       | Osobny serwer, walidacja poleceń, synchronizacja, uprawnienia i test obciążenia; sama baza nie zamyka zadania                                               |
 
 Historyczny [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52) nadal opisuje niezamknięte uwagi techniczne. Starsza lista poniżej jest materiałem planistycznym; w razie rozbieżności bieżący checkpoint i kod mają pierwszeństwo w określaniu stanu wdrożenia.
 
@@ -90,7 +90,6 @@ GAME-01/GAME-06. Historyczny błąd PR #15 90/91 nie jest bieżącą blokadą be
 ponownego wyniku na aktualnym SHA; jego przyczyna i naprawa są w dzienniku 21.10.
 Stan wdrożonej domeny wymaga osobnego odczytu narzędzia hostingu; nie badano go
 przy porządkowaniu dokumentacji. Scalenia i publikacja według [zasad](ZASADY.md).
-
 
 ## Zlecenie CPU — pełna planeta, aktualizacja 23.10
 
@@ -190,7 +189,6 @@ z wyprawami, walidator całego grafu i budżetu 17 800 oraz pełne pomiary balan
 Przygotowany kod modyfikatora nie jest dowodem dostępności jego odblokowania.
 Nie scalać ani nie publikować bez osobnej decyzji właściciela.
 
-
 Checkpoint kontynuacji PR #55: istnieje katalog wszystkich rozdziałów/projektów,
 realny obieg interakcji i transakcyjnych nagród, slot i depozyt osobistej broni,
 lokalne nakładki projektów oraz kontroler powstrzymania ciosu. W przeglądarce
@@ -201,14 +199,12 @@ chronione obiekty/eskorty i pomiary w realnym runtime, następnie pełne odbloko
 zaliczających te cele bez właściwych zdarzeń symulacji. Dokładny status kontroli
 oraz problemy CI: bieżący dziennik. Scalanie i publikacja nadal są oddzielną decyzją.
 
-
 Dalsza aktualizacja PR #55 (28.10): spokojne dostawy mają rzeczywisty ruch NPC i
 trwałe punkty wznowienia; H-V02 z bronią stopnia 2 przeszedł integrację GameSession.
 Weryfikacja tego rozdziału w przeglądarce pozostaje do wykonania. Eskorty bojowe,
 obrona i fale nadal wymagają odbiorcy faktycznych obrażeń w obecnym silniku AI,
 a nie zaliczania ich kontrolerem spokojnej dostawy. Pozostały zakres 48 prób,
 późnych spotkań, biografii, kronik, tytułów i balansu nie jest ukończony.
-
 
 ### Historyczny stan zamknięcia sesji 28.10 — wówczas PR #55 Draft
 

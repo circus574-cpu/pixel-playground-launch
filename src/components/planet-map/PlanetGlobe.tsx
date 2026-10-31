@@ -473,17 +473,21 @@ function Planet({
     if (!quality.hiResColor) return;
     let alive = true;
     let hi: THREE.Texture | null = null;
-    new THREE.TextureLoader()
-      .loadAsync(colorHiUrl)
-      .then((tex) => {
-        if (!alive) return tex.dispose();
-        hi = configure(tex, gl, true);
-        material.map = hi;
-        invalidate();
-      })
-      .catch(() => undefined);
+    const timer = setTimeout(() => {
+      if (!alive) return;
+      new THREE.TextureLoader()
+        .loadAsync(colorHiUrl)
+        .then((tex) => {
+          if (!alive) return tex.dispose();
+          hi = configure(tex, gl, true);
+          material.map = hi;
+          invalidate();
+        })
+        .catch(() => undefined);
+    }, 350);
     return () => {
       alive = false;
+      clearTimeout(timer);
       hi?.dispose();
     };
   }, [gl, invalidate, material, quality.hiResColor]);
@@ -597,6 +601,31 @@ function GlobeRoads() {
 /* Region outline (fat line hugging the sphere)                        */
 /* ------------------------------------------------------------------ */
 
+const outlinePositionsCache = new Map<string, number[]>();
+function getRegionOutlinePositions(region: MapRegion): number[] {
+  const cached = outlinePositionsCache.get(region.id);
+  if (cached) return cached;
+  const pts = region.outline;
+  // Pairs of points (segments). Edges running along the atlas seam (x = 0 / MAP_W) are not
+  // borders: land continuing across the seam would get a false line through it on the globe.
+  const out: number[] = [];
+  const onSeam = (p: Point) => p.x <= 0.5 || p.x >= MAP_W - 0.5;
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i]!;
+    const q = pts[(i + 1) % pts.length]!;
+    if (onSeam(p) && onSeam(q)) continue;
+    const steps = Math.max(1, Math.ceil(Math.hypot(q.x - p.x, q.y - p.y) / 5));
+    for (let s = 0; s < steps; s++) {
+      const a = s / steps;
+      const b = (s + 1) / steps;
+      out.push(...mapToSphere({ x: p.x + (q.x - p.x) * a, y: p.y + (q.y - p.y) * a }, 1.014));
+      out.push(...mapToSphere({ x: p.x + (q.x - p.x) * b, y: p.y + (q.y - p.y) * b }, 1.014));
+    }
+  }
+  outlinePositionsCache.set(region.id, out);
+  return out;
+}
+
 function RegionOutline({
   region,
   color,
@@ -610,25 +639,8 @@ function RegionOutline({
 }) {
   const size = useThree((s) => s.size);
   const line = useMemo(() => {
-    const pts = region.outline;
-    // Pairs of points (segments). Edges running along the atlas seam (x = 0 / MAP_W) are not
-    // borders: land continuing across the seam would get a false line through it on the globe.
-    const out: number[] = [];
-    const onSeam = (p: Point) => p.x <= 0.5 || p.x >= MAP_W - 0.5;
-    for (let i = 0; i < pts.length; i++) {
-      const p = pts[i]!;
-      const q = pts[(i + 1) % pts.length]!;
-      if (onSeam(p) && onSeam(q)) continue;
-      const steps = Math.max(1, Math.ceil(Math.hypot(q.x - p.x, q.y - p.y) / 5));
-      for (let s = 0; s < steps; s++) {
-        const a = s / steps;
-        const b = (s + 1) / steps;
-        out.push(...mapToSphere({ x: p.x + (q.x - p.x) * a, y: p.y + (q.y - p.y) * a }, 1.014));
-        out.push(...mapToSphere({ x: p.x + (q.x - p.x) * b, y: p.y + (q.y - p.y) * b }, 1.014));
-      }
-    }
     const geometry = new LineSegmentsGeometry();
-    geometry.setPositions(out);
+    geometry.setPositions(getRegionOutlinePositions(region));
     const mat = new LineMaterial({
       color,
       linewidth: width,
