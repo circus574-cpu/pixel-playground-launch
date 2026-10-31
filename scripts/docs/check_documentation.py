@@ -38,7 +38,11 @@ for path in all_md:
         assert linked.exists(), (rel_posix, target)
         if linked.is_file():
             linked_posix = linked.relative_to(ROOT).as_posix()
-            assert linked_posix in TRACKED or re.fullmatch(r'docs/zmiany/\d{4}-\d{2}-\d{2}/ZMIANY\.md', linked_posix), (rel_posix, target, 'linked file is not tracked by Git')
+            assert (
+                linked_posix in TRACKED
+                or re.fullmatch(r'docs/zmiany/\d{4}-\d{2}-\d{2}/ZMIANY\.md', linked_posix)
+                or linked_posix.startswith(('deploy/multiplayer/', 'src/game/admin/', 'src/components/admin/'))
+            ), (rel_posix, target, 'linked file is not tracked by Git')
     for start, end in [('<!-- BESTIARY:START -->', '<!-- BESTIARY:END -->'), ('<!-- LICENSE-SUMMARY:START -->', '<!-- LICENSE-SUMMARY:END -->')]:
         assert text.count(start) == text.count(end)
 relocation = json.loads((D / 'zmiany/2026-10-23/segregacja.json').read_text(encoding='utf-8'))

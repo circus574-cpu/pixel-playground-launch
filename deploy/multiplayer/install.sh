@@ -23,6 +23,10 @@ if [ "$present" != t ]; then
  [ "$existing" = 0 ] || { echo 'Unknown existing game schema: refused'; exit 1; }
  docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/001-foundation.sql
 fi
+v2_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select exists(select 1 from game.schema_version where version=2)")
+if [ "$v2_present" != t ]; then
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/002-global-multiplayer-optimization.sql
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"
@@ -33,7 +37,7 @@ check="ki_restore_$stamp"
 check=${check,,}
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db createdb -U ki_owner "$check"
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db pg_restore -U ki_owner -d "$check" --exit-on-error < "$backup"
-docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d "$check" -v ON_ERROR_STOP=1 -c "DO \$\$ BEGIN IF (SELECT version FROM game.schema_version)<>1 THEN RAISE EXCEPTION 'Restore version mismatch'; END IF; END \$\$;"
+docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d "$check" -v ON_ERROR_STOP=1 -c "DO \$\$ BEGIN IF (SELECT max(version) FROM game.schema_version)<>2 THEN RAISE EXCEPTION 'Restore version mismatch'; END IF; END \$\$;"
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db dropdb -U ki_owner "$check"
 container=$(docker compose -p ki-multiplayer-db -f compose.yml ps -q db)
 ports=$(docker inspect --format '{{json .HostConfig.PortBindings}}' "$container")

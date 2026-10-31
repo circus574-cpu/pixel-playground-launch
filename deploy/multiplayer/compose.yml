@@ -12,18 +12,39 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
     networks: [private]
-    shm_size: 128m
-    mem_limit: 512m
-    cpus: 1.0
-    command: [postgres, -c, shared_buffers=128MB, -c, max_connections=40, -c, work_mem=4MB]
+    shm_size: 256m
+    mem_limit: 1024m
+    cpus: 2.0
+    command:
+      - postgres
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - effective_cache_size=768MB
+      - -c
+      - max_connections=120
+      - -c
+      - work_mem=8MB
+      - -c
+      - maintenance_work_mem=64MB
+      - -c
+      - wal_compression=lz4
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=200
+      - -c
+      - jit=off
+      - -c
+      - track_io_timing=on
     healthcheck:
-      test: [CMD-SHELL, 'pg_isready -U ki_owner -d ki_multiplayer']
+      test: [CMD-SHELL, "pg_isready -U ki_owner -d ki_multiplayer"]
       interval: 10s
       timeout: 5s
       retries: 10
     logging:
       driver: json-file
-      options: {max-size: 10m, max-file: '3'}
+      options: { max-size: 10m, max-file: "3" }
 secrets:
   owner_password:
     file: ./secrets/owner_password

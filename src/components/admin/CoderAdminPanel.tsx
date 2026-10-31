@@ -1,6 +1,7 @@
 import { CHARACTER_STAT_FIELDS, type CharacterStats } from "@/game/characterStats";
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
+import { AdminMonitoringCenter } from "@/components/admin/AdminMonitoringCenter";
 import { AdminWorldEditor } from "@/components/admin/AdminWorldEditor";
 import { useAccount } from "@/components/account/useAccount";
 import {
@@ -26,7 +27,7 @@ const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL"
 
 export default function CoderAdminPanel() {
   const account = useAccount();
-  const [tab, setTab] = useState<"world" | "players" | "local" | "audit">("world");
+  const [tab, setTab] = useState<"world" | "monitoring" | "players" | "local" | "audit">("world");
   if (!account.ready) return <section className="ki-account">Wczytywanie…</section>;
   if (!account.session || account.roles.length === 0)
     return (
@@ -51,6 +52,7 @@ export default function CoderAdminPanel() {
           {(
             [
               ["world", "Panel Świata (Edytuj wszystko)"],
+              ["monitoring", "Monitoring Serwera i Graczy Live"],
               ["players", "Gracze (Chmura)"],
               ["local", "Postacie lokalne (Urządzenie)"],
               ["audit", "Dziennik zmian"],
@@ -62,6 +64,7 @@ export default function CoderAdminPanel() {
           ))}
         </div>
         {tab === "world" && <AdminWorldEditor />}
+        {tab === "monitoring" && <AdminMonitoringCenter />}
         {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
         {tab === "local" && <LocalCharactersPanel />}
         {tab === "audit" && <Audit />}

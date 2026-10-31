@@ -757,3 +757,104 @@ Nowy test `branch-integration.test.ts` obejmuje tę integrację i oba powtórne 
 
 Dokładne rozbieżności gałęzi i zakres integracji: [dziennik29.10](zmiany/2026-10-29/ZMIANY.md#integracja-oczekujących-gałęzi-na-polecenie-właściciela).
 Nie jest to ukończenie zaległych późnych rozdziałów ani wykonanie migracji backendu.
+
+## Architektura i wdrożenie globalnego serwera multiplayer oraz Centrum Monitoringu — 31.10.2026
+
+Przygotowano pełną specyfikację wdrożeniową autorytatywnego serwera multiplayer,
+zoptymalizowany schemat bazy danych PostgreSQL 17 (`Schema v2`) oraz rozbudowane
+**Centrum Monitoringu Serwera, Zasobów i Graczy na Świecie** w panelu `/admin`
+bez żadnej ingerencji w działające systemy obecnej gry lokalnej/chmurowej.
+
+### 1. Zasada bezinwazyjności wobec bieżącej gry (Dual-Mode Architecture)
+
+- Obecna pętla gry (`src/game/session.ts`, `src/game/world/generated/superiorRuntime.ts`,
+  zapisy klasyczne v9 i Superior v5 oraz synchronizacja `accountsDb`) pozostaje w 100%
+  nienaruszona.
+- Warstwa multiplayer jest projektowana jako opcjonalny adapter transportowy uruchamiany
+  wyłącznie po jawnym włączeniu flagi serwera; przy jej braku klient działa identycznie
+  jak dotychczas, bez dodatkowych połączeń sieciowych i bez obciążania klatek renderowania.
+
+### 2. Optymalizacja bazy danych pod brak spadków FPS i niski ping (`deploy/multiplayer/`)
+
+Pliki wdrożeniowe bazy znajdują się w `deploy/multiplayer/`:
+
+- [compose.yml](../deploy/multiplayer/compose.yml) — kontener `postgres:17-alpine` w izolowanej
+  sieci prywatnej (`internal: true`, brak otwartych portów publicznych), z parametrami niskiej
+  latencji:
+  - `jit=off` — wyłącza kompilację JIT w PostgreSQL, eliminując skoki opóźnień 50–150 ms na
+    krótkich zapytaniach OLTP pętli serwera,
+  - `shared_buffers=256MB`, `effective_cache_size=768MB`, `work_mem=8MB`, `maintenance_work_mem=64MB`,
+  - `wal_compression=lz4`, `random_page_cost=1.1`, `effective_io_concurrency=200`, `track_io_timing=on`.
+- [001-foundation.sql](../deploy/multiplayer/init/001-foundation.sql) — tabele trwałe ACID (`WAL`):
+  `game.accounts`, `game.characters`, `game.character_snapshots` (z optymistyczną blokadą CAS
+  `revision = revision + 1`), `game.inventory_instances`, `game.operations` (idempotentny klucz
+  operacji) oraz `game.outbox`.
+- [002-global-multiplayer-optimization.sql](../deploy/multiplayer/init/002-global-multiplayer-optimization.sql) —
+  rozszerzenie `Schema v2` dla globalnej rozgrywki czasu rzeczywistego:
+  - **Tabele ścieżki gorącej (`UNLOGGED` + `fillfactor = 70`):**
+    - `game.active_sessions` — przechowuje bieżące pozycje `(x, y)`, wektory prędkości `(vx, vy)`,
+      wyliczaną komórkę siatki przestrzennej `cell_x = floor(x / 512)`, `cell_y = floor(y / 512)`,
+      HP/KI, stan walki (`safe`, `combat`, `exploring`, `interior`), ping (`ping_ms`) oraz `fps`
+      dla wszystkich 10 lądów Superior (`verdant`, `aether`, `nexus`, `pyra`, `island-1`..`island-6`).
+      Dzięki `UNLOGGED` PostgreSQL pomija zapis WAL na dysk przy aktualizacjach pozycji 10–20 Hz,
+      a `fillfactor = 70` zapewnia aktualizacje `HOT` (_Heap-Only Tuple_) w obrębie tej samej strony
+      pamięci RAM.
+    - `game.server_nodes` — bieżąca telemetria węzłów serwera (`cpu_percent`, `mem_used_mb`,
+      `tick_p50_ms`, `tick_p95_ms`, `tick_p99_ms`, `avg_ping_ms`, `p95_ping_ms`, `packets_in_sec`,
+      `packets_out_sec`, `db_pool_active`, `db_pool_idle`).
+  - **Indeks pokrywający AOI (`Index-Only Scan`):**
+    - `active_sessions_aoi_idx ON game.active_sessions (world_id, cell_x, cell_y) INCLUDE (...)` —
+      zapytania o graczy w sąsiedztwie (`game.query_aoi`) są obsługiwane wyłącznie z pamięci
+      indeksu bez sięgania do tabeli.
+  - **Procedury składowane pojedynczego przebiegu (`Single-Roundtrip RPC`):**
+    - `game.batch_sync_positions(p_node_id, p_region, p_rows jsonb)` — aktualizuje do 500 pozycji
+      graczy w jednym wywołaniu SQL (eliminacja problemu N+1 zapytań w pętli ticku 20 Hz),
+    - `game.query_aoi(p_world_id, p_cell_x, p_cell_y, p_radius)` — zwraca graczy w promieniu
+      $(2R+1)\times(2R+1)$ komórek 512×512,
+    - `game.record_node_heartbeat(...)` oraz `game.append_server_log(...)`.
+  - **Historia metryk i logi z indeksami `BRIN`:**
+    - `game.server_metrics_history` oraz `game.server_logs` korzystają z indeksów `USING brin(recorded_at)`,
+      co minimalizuje narzut zapisu przy ciągłym strumieniu logów i metryk.
+
+### 3. Procedura wdrożenia serwera i bazy danych multiplayer krok po kroku
+
+1. **Weryfikacja i instalacja bazy na prywatnym VPS:**
+   - Skrypt [install.sh](../deploy/multiplayer/install.sh) tworzy katalogi z uprawnieniami `0700`,
+     generuje klucz `secrets/owner_password` (jeśli nie istnieje), uruchamia `compose.yml`,
+     aplikuje migracje `001-foundation.sql` oraz `002-global-multiplayer-optimization.sql`,
+     wykonuje test transakcyjny [verify.sql](../deploy/multiplayer/verify.sql) (sprawdzający CAS,
+     odrzucenie duplikatów, `batch_sync_positions`, `query_aoi`, `record_node_heartbeat` i brak
+     nadmiernych uprawnień `ki_game_server`), a następnie wykonuje kopię `pg_dump` i próbne
+     odtworzenie `pg_restore` na bazie tymczasowej.
+   - Zdalne uruchomienie przez GitHub Actions opisuje workflow
+     `multiplayer-database.yml`.
+2. **Architektura pętli autorytatywnego węzła gry (Game Node 20 Hz):**
+   - **Pętla symulacji (20 Hz / budżet 50 ms):** węzeł przyjmuje wejścia ruchu/akcji graczy przez
+     WebSocket, waliduje kolizje na tym samym siatkowym modelu nawigacji (`browserNavigation`),
+     rozlicza walkę w pamięci RAM i rozsyła delty stanu wyłącznie do subskrybentów sąsiednich
+     komórek AOI 512×512.
+   - **Ścieżka gorąca (co 500 ms / 2 Hz):** węzeł wywołuje asynchronicznie (poza wątkiem klatki)
+     `SELECT game.batch_sync_positions(...)` oraz `SELECT game.record_node_heartbeat(...)`.
+   - **Ścieżka zimna ACID (co 15–30 s oraz przy zmianie krainy/handlu/wylogowaniu):** węzeł zapisuje
+     trwałą migawkę `UPDATE game.character_snapshots SET revision = revision + 1, ... WHERE character_id = $1 AND revision = $2`.
+   - Dzięki całkowitemu rozdzieleniu renderowania klienta (60 FPS z interpolacją pozycji) od
+     asymchronicznego zapisu wsadowego do tabel `UNLOGGED`, baza danych nigdy nie blokuje klatki
+     animacji ani pętli ticku serwera.
+
+### 4. Centrum Monitoringu w Panelu Administratora (`AdminMonitoringCenter`)
+
+Moduły [adminTelemetry.ts](../src/game/admin/adminTelemetry.ts) oraz
+[AdminMonitoringCenter.tsx](../src/components/admin/AdminMonitoringCenter.tsx) udostępniają w `/admin`
+(zakładka **„Monitoring i Serwer Live”**) oraz w `CoderAdminPanel` (zakładka **„Monitoring Serwera i Graczy Live”**):
+
+- **Karty zasobów w czasie rzeczywistym:** obciążenie CPU węzłów (`%` i `loadAvg1m`), zużycie RAM
+  klastra (`MB`) oraz `JS Heap` przeglądarki, rzeczywisty pomiar RTT bazy danych (`dbLatencyMs`),
+  czasy pętli ticku (`p50 / p95 / p99 ms`), FPS klienta oraz przepustowość sieci (`pkt/s`, `KB/s`).
+- **Radar Świata 2D i szczegółowy monitoring graczy na 10 lądach Superior:**
+  interaktywna mapa wybranego lądu z siatką sektorów AOI 512×512, bezpiecznymi granicami miast
+  (`city.bounds`), punktami przybycia i pozycjami graczy `(x, y)` (z chmury Supabase, zapisów
+  lokalnych urządzenia oraz symulacji węzłów globalnych), wraz z pełnym inspektorem postaci po
+  kliknięciu i warstwą „Gracze na świecie” w [AdminWorldMap.tsx](../src/components/admin/AdminWorldMap.tsx).
+- **Konsola logów serwera, sieci, anti-cheat i audytu:** filtrowanie po poziomie (`INFO`, `WARN`,
+  `ERROR`, `CRITICAL`), kategorii (`tick`, `network`, `db`, `anticheat`, `combat`, `world`, `auth`,
+  `admin`) i węźle, sonda diagnostyczna oraz eksport pełnego raportu JSON.

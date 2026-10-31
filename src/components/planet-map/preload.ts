@@ -46,7 +46,7 @@ export function decodedImage(url: string, detail = false): Promise<HTMLImageElem
     const image = new Image();
     image.src = url;
     await image.decode();
-    if (cache.get(url) === promise) resolved.set(url, image);
+    if (cache.has(url)) resolved.set(url, image);
     return image;
   })();
   cache.set(url, promise);

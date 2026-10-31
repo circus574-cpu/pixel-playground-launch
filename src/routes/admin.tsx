@@ -26,13 +26,20 @@ export const Route = createFileRoute("/admin")({
 });
 
 const CoderAdminPanel = lazy(() => import("@/components/admin/CoderAdminPanel"));
+const AdminMonitoringCenter = lazy(() =>
+  import("@/components/admin/AdminMonitoringCenter").then((m) => ({
+    default: m.AdminMonitoringCenter,
+  })),
+);
 
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
 
 function AdminPage() {
   const account = useAccount();
-  const [tab, setTab] = useState<"players" | "audit" | "content" | "coder">("players");
+  const [tab, setTab] = useState<"players" | "monitoring" | "audit" | "content" | "coder">(
+    "players",
+  );
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
   if (!account.session || account.roles.length === 0)
     return (
@@ -57,6 +64,7 @@ function AdminPage() {
           {(
             [
               ["players", "Gracze"],
+              ["monitoring", "Monitoring i Serwer Live"],
               ["audit", "Dziennik zmian"],
               ["content", "Zawartość gry"],
               ["coder", "Coder · Edytor świata"],
@@ -68,6 +76,11 @@ function AdminPage() {
           ))}
         </div>
         {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
+        {tab === "monitoring" && (
+          <Suspense fallback={<p role="status">Wczytywanie telemetrii i monitoringu…</p>}>
+            <AdminMonitoringCenter />
+          </Suspense>
+        )}
         {tab === "audit" && <Audit />}
         {tab === "content" && <Content />}
         {tab === "coder" && (

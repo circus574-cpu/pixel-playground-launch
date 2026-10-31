@@ -3,6 +3,10 @@ import atlas from "@/assets/planet-map/atlas-v2-3840.webp";
 import projection from "@/components/planet-map/worldOverlay.v2.json";
 import { worldToAtlas } from "@/components/planet-map/worldToAtlas";
 import { ALL_QUESTS_V2 } from "@/game/quests/engine";
+import {
+  buildSimulatedClusterPresence,
+  collectLocalCharactersPresence,
+} from "@/game/admin/adminTelemetry";
 import { MONSTER_BASE } from "@/game/monsters/base.generated";
 import {
   applyCustomSpawnsForFeature,
@@ -27,6 +31,7 @@ const layerNames = {
   spawns: "Spawny potworów",
   quests: "Zadania",
   places: "Miasta i lokacje",
+  players: "Gracze na świecie",
 };
 const project = (land: string, p: Point) => worldToAtlas(projection, land, p.x, p.y);
 const questPlaces = bindings as Record<
@@ -43,7 +48,13 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
-  const [layers, setLayers] = useState({ roads: true, spawns: true, quests: true, places: true });
+  const [layers, setLayers] = useState({
+    roads: true,
+    spawns: true,
+    quests: true,
+    places: true,
+    players: false,
+  });
   const [view, setView] = useState({ cx: 1000, cy: 500, zoom: 1 });
   const [selection, setSelection] = useState<Marker | null>(null);
   const [query, setQuery] = useState("");
@@ -185,6 +196,27 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
       })),
     [],
   );
+  const playerMarkers = useMemo<Marker[]>(() => {
+    if (!layers.players) return [];
+    const list = [
+      ...collectLocalCharactersPresence(60),
+      ...buildSimulatedClusterPresence(1).players,
+    ];
+    return list.flatMap((pl) => {
+      const p = project(pl.worldId, { x: pl.x, y: pl.y });
+      return p
+        ? [
+            {
+              ...p,
+              id: `player:${pl.id}`,
+              kind: "player",
+              land: pl.worldId,
+              name: `Gracz ${pl.nick} · poz. ${pl.level} (${pl.race}) · ${pl.nearestPlace} · (${pl.x}, ${pl.y}) · ping ${pl.pingMs} ms`,
+            },
+          ]
+        : [];
+    });
+  }, [layers.players]);
   const width = 2000 / view.zoom,
     height = 1000 / view.zoom;
   const focus = (p: Point) => setView({ cx: p.x, cy: p.y, zoom: 8 });
@@ -305,6 +337,7 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
               ...(layers.quests ? [...shownMarkers, ...combatPoints] : []),
               ...(layers.spawns ? spawns : []),
               ...(layers.places ? placeMarkers : []),
+              ...(layers.players ? playerMarkers : []),
             ];
             let best: Marker | null = null,
               dist =
@@ -383,6 +416,20 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
                 <title>{m.name}</title>
               </circle>
             ))}
+          {layers.players &&
+            playerMarkers.map((m) => (
+              <circle
+                key={m.id}
+                cx={m.x}
+                cy={m.y}
+                r={5 / view.zoom}
+                fill="#4de6ff"
+                stroke="#0b1f29"
+                strokeWidth={1.2 / view.zoom}
+              >
+                <title>{m.name}</title>
+              </circle>
+            ))}
           {selection && (
             <circle
               cx={selection.x}
@@ -401,6 +448,7 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
         <span>● czerwone: spawny</span>
         <span>● fioletowe: punkty zadań i cele walki wybranego zadania</span>
         <span>● białe: miasta i lokacje</span>
+        <span>● błękitne: gracze na świecie</span>
       </p>
       <p>
         Przeciągnij mapę lub użyj strzałek; powiększ przyciskami +/−. Kliknij punkt, aby zobaczyć

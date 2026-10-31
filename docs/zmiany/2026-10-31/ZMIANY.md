@@ -43,3 +43,36 @@
   - Ograniczono wstępne dogrzewanie obiektów statycznych na starcie do promienia `< 2048` (zgodnie z oknem 3×3 chunków) oraz dodano zwalnianie nieużywanych tekstur z `owned` w `release(scene, owner)` po przejęciu śledzenia przez `owners`.
 - **`e2e/fixtures.ts`**:
   - Przekazano `{ timeout: 60_000 }` do `expect.poll` w `liveEnemy`, aby wyeliminować przedwczesne 5-sekundowe przerwania podczas inicjalizacji spawnu pod obciążeniem WebGL.
+
+### 5. Dokumentacja wdrożenia serwera multiplayer, optymalizacja bazy PostgreSQL Schema v2 i Centrum Monitoringu w Panelu Administratora
+
+- **Optymalizacja bazy danych multiplayer (`deploy/multiplayer/`):**
+  - Dodano migrację `deploy/multiplayer/init/002-global-multiplayer-optimization.sql` (`Schema v2`): tabele `UNLOGGED` z `fillfactor = 70` (`game.active_sessions`, `game.server_nodes`) eliminujące narzut fsync WAL dla aktualizacji pozycji 10–20 Hz, indeks pokrywający AOI 512×512 (`active_sessions_aoi_idx INCLUDE (...)`), procedury wsadowe `game.batch_sync_positions`, `game.query_aoi`, `game.record_node_heartbeat`, `game.append_server_log`, widoki `game.world_population_stats` i `game.aoi_hotspot_cells` oraz tabele `game.server_metrics_history` i `game.server_logs` z indeksami `BRIN`.
+  - Dostrojono `deploy/multiplayer/compose.yml` (`jit=off`, `wal_compression=lz4`, `shared_buffers=256MB`, `effective_io_concurrency=200`), `deploy/multiplayer/install.sh` oraz `deploy/multiplayer/verify.sql`.
+- **Centrum Monitoringu w Panelu Administratora (`src/game/admin/adminTelemetry.ts`, `src/components/admin/AdminMonitoringCenter.tsx`, `src/routes/admin.tsx`, `src/components/admin/CoderAdminPanel.tsx`, `src/components/admin/AdminWorldMap.tsx`):**
+  - Dodano zakładkę **„Monitoring i Serwer Live”** w `/admin` oraz w `CoderAdminPanel`, prezentującą na żywo zużycie CPU, RAM, JS Heap, Ping RTT, czasy ticku `p50/p95/p99`, FPS klienta, przepustowość sieci, interaktywny Radar Świata 2D z siatką AOI 512×512, szczegółowy inspektor każdego gracza na świecie, tabelę hotspotów AOI oraz konsolę logów serwera/anti-cheat/audytu.
+  - W `AdminWorldMap.tsx` dodano opcjonalną warstwę `Gracze na świecie`.
+  - Dodano testy jednostkowe w `src/test/admin-monitoring.test.tsx`.
+- **Dokumentacja wdrożenia (`docs/ARCHITEKTURA-I-TESTY.md`, `docs/PLAN-I-ZADANIA.md`):**
+  - Opisano bezinwazyjną architekturę Dual-Mode, separację ścieżki gorącej (`UNLOGGED` HOT) i zimnej (`ACID WAL`) oraz procedurę instalacji i weryfikacji serwera.
+
+### 6. Zarządzanie węzłami serwerów gry w Panelu Administratora (tworzenie, edycja, limity graczy, startowanie i wyłączanie)
+
+- **Modele i logika węzłów (`src/game/admin/adminTelemetry.ts`):**
+  - Rozszerzono `ServerNodeMetric` oraz wprowadzono `ServerNodeConfig` z polami `name`, `port`, `maxPlayers` oraz stanami cyklu życia `ServerNodeStatus` (`"online" | "degraded" | "draining" | "offline" | "starting" | "stopping"`).
+  - Wprowadzono funkcje zarządzania konfiguracją z trwałością w `localStorage` (`ki_admin_server_nodes_v2`) oraz pamięci: `getServerNodeConfigs()`, `saveServerNodeConfigs()`, `createServerNode()`, `updateServerNode()`, `setServerNodeStatus()`, `deleteServerNode()`, `resetServerNodesToDefault()`.
+  - Powiązano telemetrię węzła ze stanem: po zatrzymaniu serwera (`offline`/`stopping`) metryki natychmiast wskazują 0% CPU, 0 aktywnych graczy, 0 encji i 0 pakietów; po uruchomieniu serwer płynnie wznawia przetwarzanie ticku i sesji graczy.
+  - Dodano automatyczną rejestrację zdarzeń administracyjnych w dzienniku logów serwera (`recordServerActionLog`).
+- **Interfejs Administratora (`src/components/admin/AdminMonitoringCenter.tsx`):**
+  - W zakładce „Węzły Serwera, CPU/RAM i Baza” dodano:
+    - Przycisk **„➕ Nowy serwer gry”** otwierający formularz tworzenia węzła klastra (unikalne ID, nazwa, region, host/IP, port sieciowy, maksymalny limit graczy, częstotliwość pętli tick).
+    - Przycisk **„✏ Edytuj”** dla każdego węzła umożliwiający edycję nazwy, maksymalnego limitu slotów graczy (`maxPlayers`), hosta, portu, regionu i częstotliwości ticku.
+    - Przyciski kontroli cyklu życia serwera: **„▶ Uruchom”** (dla serwerów offline/stopping), **„⏹ Wyłącz”** (dla serwerów aktywnych) oraz **„⏳ Drenuj”** (tryb opróżniania z graczy).
+    - Przycisk **„🗑”** do bezpiecznego usuwania węzłów z klastra oraz **„↺ Przywróć domyślne”**.
+    - Pasek wykorzystania slotów dla każdego węzła (`activePlayers / maxPlayers`) z procentowym i kolorystycznym wskaźnikiem nasycenia.
+    - Kafelki podsumowujące klastra: liczba aktywnych instancji serwerów, całkowita pojemność slotów (suma `maxPlayers`), liczba graczy i globalne zapełnienie klastra.
+- **Baza danych multiplayer (`deploy/multiplayer/init/002-global-multiplayer-optimization.sql`):**
+  - Dodano kolumny `name TEXT`, `port INT`, `max_players INT` oraz rozszerzono warunek sprawdzający `status` o `starting` i `stopping`.
+  - Utworzono procedury składowane `game.configure_server_node` oraz `game.set_server_node_status`.
+- **Testy jednostkowe i integracyjne (`src/test/admin-monitoring.test.tsx`):**
+  - Dodano testy jednostkowe pokrywające tworzenie węzła, edycję parametrów, aktualizację limitu slotów, startowanie/wyłączanie, usuwanie oraz pełną ścieżkę interakcji UI przez formularze w `AdminMonitoringCenter`.
