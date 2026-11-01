@@ -7,10 +7,12 @@ const output = process.env.KI_QA_OUTPUT;
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const results = [];
+let currentPage;
 try {
  for (const mobile of [false, true]) {
   const context = await browser.newContext({ viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 720 }, hasTouch: mobile, isMobile: mobile });
   const page = await context.newPage();
+  currentPage = page;
   const errors = [], missing = [], packets = [];
   page.on('pageerror', e => errors.push(e.message));
   page.on('response', r => { if (r.status() >= 400 && new URL(r.url()).pathname.startsWith('/game/')) missing.push(new URL(r.url()).pathname); });
@@ -70,4 +72,11 @@ try {
  }
  await writeFile(`${output}/results.json`, JSON.stringify({ passed: results.length, results, physicalPhone: false }, null, 2));
  console.log(JSON.stringify({ passed: results.length, failed: 0, actualLogin: true, actualKeyboardAndTouch: true, physicalPhone: false }));
+} catch (error) {
+ if (currentPage && await currentPage.locator('.ki-canvas').count()) {
+  await currentPage.screenshot({ path: `${output}/failure-game.png` }).catch(() => {});
+ }
+ const message = String(error.message).replaceAll(credentials.password, '[redacted]').replaceAll(credentials.email, '[QA account]');
+ await writeFile(`${output}/failure.json`, JSON.stringify({ passed: results.length, message, results }, null, 2));
+ console.error(message); process.exitCode = 1;
 } finally { await browser.close(); }

@@ -4,8 +4,8 @@ on:
     inputs:
       phase:
         type: choice
-        default: prepare
-        options: [prepare, verify-live, restart-verify, stop-old, rollback]
+        default: inspect
+        options: [inspect, prepare, verify-live, restart-verify, stop-old, rollback]
 permissions:
   contents: read
   actions: read
@@ -23,7 +23,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
           GH_TOKEN: ${{ github.token }}
-          CUTOVER_PHASE: ${{ inputs.phase || 'prepare' }}
+          CUTOVER_PHASE: ${{ inputs.phase || 'inspect' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -48,11 +48,11 @@ jobs:
             -o StrictHostKeyChecking=accept-new \
             -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
             -p 22 codex@85.235.150.189 'docker exec -i coolify php /dev/stdin plan' < deploy/scripts/configure-online-coolify.php
-          case "$CUTOVER_PHASE" in prepare|verify-live|restart-verify|stop-old|rollback) ;; *) exit 2;; esac
+          case "$CUTOVER_PHASE" in inspect|prepare|verify-live|restart-verify|stop-old|rollback) ;; *) exit 2;; esac
           tested_sha=c3839cc52897f532cf78f49ffaa86309c2143709
           actual=$(gh api repos/circus574-cpu/pixel-playground-launch/actions/runs/41323498115 --jq '[.head_sha,.conclusion]|join(" ")')
           [ "$actual" = "$tested_sha success" ] || { echo 'Required online QA is not successful on the approved SHA'; exit 1; }
-          tar -czf "$RUNNER_TEMP/ki-online-ops.tar.gz" deploy/scripts/approved-online-config.sh deploy/scripts/configure-online-coolify.php deploy/multiplayer/prepare-online.sh deploy/multiplayer/003-online-character-state.sql deploy/multiplayer/004-online-session-leases.sql deploy/scripts/verify-online-backup.sh deploy/scripts/verify-live-online.mjs deploy/scripts/operate-online-cutover.sh deploy/scripts/verify-live-browser.mjs deploy/scripts/restore-online-coolify.php
+          tar -czf "$RUNNER_TEMP/ki-online-ops.tar.gz" deploy/scripts/online-server-preflight.sh deploy/scripts/approved-online-config.sh deploy/scripts/configure-online-coolify.php deploy/multiplayer/prepare-online.sh deploy/multiplayer/003-online-character-state.sql deploy/multiplayer/004-online-session-leases.sql deploy/scripts/verify-online-backup.sh deploy/scripts/verify-live-online.mjs deploy/scripts/operate-online-cutover.sh deploy/scripts/verify-live-browser.mjs deploy/scripts/restore-online-coolify.php
           ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 'umask 077; mkdir -p "$HOME/ki-legends-online-ops"; tar -xzf - -C "$HOME/ki-legends-online-ops"' < "$RUNNER_TEMP/ki-online-ops.tar.gz"
           ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 "KI_ONLINE_CUTOVER_APPROVED=1 bash ki-legends-online-ops/deploy/scripts/operate-online-cutover.sh '$CUTOVER_PHASE'"
           if [ "$CUTOVER_PHASE" = verify-live ]; then

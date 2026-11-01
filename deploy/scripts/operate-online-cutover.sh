@@ -8,6 +8,9 @@ base="$HOME/ki-multiplayer-db"
 qa_file=/tmp/ki-online-qa-production.json
 umask 077
 case "$phase" in
+ inspect)
+  bash "$root/deploy/scripts/online-server-preflight.sh"
+  exit 0;;
  prepare)
   # Tagged rollback images survive the normal deployment's dangling-image cleanup.
   for service in app web; do
