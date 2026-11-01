@@ -84,6 +84,69 @@ const ENTRIES: readonly RawEntry[] = [
       "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a firmly clenched fist with a simple bronze bracer Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
   },
   {
+    id: "ui.training.endurance",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Wytrzymałość",
+    sourceFile: ".user_uploaded/media_1793534158949_9bc9743b.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy heart enclosed by a durable woven band Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
+    id: "ui.training.ki-capacity",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Pojemność KI",
+    sourceFile: ".user_uploaded/media_1793534158969_fa60d4dd.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a luminous blue energy vessel filled to its rim Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
+    id: "ui.training.defense",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Obrona",
+    sourceFile: ".user_uploaded/media_1793534120932_276e058c.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a solid shield receiving a single glancing impact Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
+    id: "ui.training.ki-control",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Kontrola KI",
+    sourceFile: ".user_uploaded/media_1793534120924_c24ef10a.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. two calm hands shaping a small precisely bounded energy sphere Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
+    id: "ui.training.dodge",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Unik",
+    sourceFile: ".user_uploaded/media_1793534120917_da25f12c.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a side-stepping boot and one clean curved motion trail Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
+    id: "ui.training.attack-speed",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Szybkość ataku",
+    sourceFile: ".user_uploaded/media_1793534120914_3ebd3988.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. one blade with two restrained directional motion trails Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
+    id: "ui.training.technique",
+    batch: "PARTIA_2_P0",
+    kind: "icon",
+    titlePl: "Technika",
+    sourceFile: ".user_uploaded/media_1793534120907_37c17a75.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a precisely focused energy point at the intersection of three controlled arcs Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+  },
+  {
     id: "ui.exam.tier-1",
     batch: "PARTIA_2_P0",
     kind: "icon",
@@ -164,15 +227,30 @@ async function matteAndFrame(
   const visited = new Uint8Array(w * h);
   const bgMask = new Uint8Array(w * h);
 
+  // Detect corner background matte color (white or high-contrast magenta)
+  const cornerR = Math.round(
+    (data[0]! + data[(w - 1) * 4]! + data[(h - 1) * w * 4]! + data[((h - 1) * w + (w - 1)) * 4]!) / 4,
+  );
+  const cornerG = Math.round(
+    (data[1]! + data[(w - 1) * 4 + 1]! + data[(h - 1) * w * 4 + 1]! + data[((h - 1) * w + (w - 1)) * 4 + 1]!) / 4,
+  );
+  const cornerB = Math.round(
+    (data[2]! + data[(w - 1) * 4 + 2]! + data[(h - 1) * w * 4 + 2]! + data[((h - 1) * w + (w - 1)) * 4 + 2]!) / 4,
+  );
+  const isMagentaMatte = cornerR >= 200 && cornerB >= 200 && cornerG <= 80;
+
   const isBgCandidate = (idx: number) => {
     const r = data[idx * 4]!;
     const g = data[idx * 4 + 1]!;
     const b = data[idx * 4 + 2]!;
+    if (isMagentaMatte) {
+      // Magenta chroma key: high R, high B, low G (or close Euclidean distance to corner magenta)
+      const dist = Math.hypot(r - cornerR, g - cornerG, b - cornerB);
+      return dist <= 95 || (r >= 180 && b >= 180 && g <= Math.min(r, b) - 90);
+    }
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     // Pure white or soft neutral studio drop-shadow on white backdrop.
-    // The object's outer edge is a dark ink outline (luma < 85), so neutral grey shadows
-    // outside the ink outline (luma >= 175, sat <= 22) can be safely flood-filled.
     const luma = 0.299 * r + 0.587 * g + 0.114 * b;
     const sat = max - min;
     return luma >= 175 && sat <= 22;
@@ -211,7 +289,7 @@ async function matteAndFrame(
     push(cx, cy + 1);
   }
 
-  // Also clear pure-white enclosed cutouts in outer rings (e.g. hollow notch cutouts in tier-6)
+  // Also clear pure-white or magenta enclosed cutouts (e.g. hollow loops in technique arcs or tier-6 notches)
   // while keeping central gem specular highlights intact.
   const centerX = w / 2;
   const centerY = h / 2;
@@ -220,17 +298,22 @@ async function matteAndFrame(
     for (let x = 0; x < w; x++) {
       const i = y * w + x;
       if (bgMask[i]) continue;
-      if (Math.hypot(x - centerX, y - centerY) < minCutoutRadius) continue;
       const r = data[i * 4]!;
       const g = data[i * 4 + 1]!;
       const b = data[i * 4 + 2]!;
+      if (isMagentaMatte) {
+        const dist = Math.hypot(r - cornerR, g - cornerG, b - cornerB);
+        if (dist <= 85 || (r >= 200 && b >= 200 && g <= 65)) bgMask[i] = 1;
+        continue;
+      }
+      if (Math.hypot(x - centerX, y - centerY) < minCutoutRadius) continue;
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
       const sat = Math.max(r, g, b) - Math.min(r, g, b);
       if (luma >= 244 && sat <= 10) bgMask[i] = 1;
     }
   }
 
-  // Expand bgMask by 2px into neutral grey shadow fringe outside the dark ink outline
+  // Expand bgMask by 2px into neutral grey shadow or magenta anti-alias fringe outside the dark ink outline
   for (let pass = 0; pass < 2; pass++) {
     const nextBg = new Uint8Array(bgMask);
     for (let y = 1; y < h - 1; y++) {
@@ -246,16 +329,20 @@ async function matteAndFrame(
           const r = data[i * 4]!;
           const g = data[i * 4 + 1]!;
           const b = data[i * 4 + 2]!;
-          const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-          const sat = Math.max(r, g, b) - Math.min(r, g, b);
-          if (luma >= 135 && sat <= 24) nextBg[i] = 1;
+          if (isMagentaMatte) {
+            if (r >= 150 && b >= 150 && g <= Math.min(r, b) - 70) nextBg[i] = 1;
+          } else {
+            const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+            const sat = Math.max(r, g, b) - Math.min(r, g, b);
+            if (luma >= 135 && sat <= 24) nextBg[i] = 1;
+          }
         }
       }
     }
     bgMask.set(nextBg);
   }
 
-  // Apply alpha and feather 1px border touching background to eliminate white fringe
+  // Apply alpha and feather 1px border touching background to eliminate white/magenta fringe
   let minX = w,
     minY = h,
     maxX = 0,
@@ -282,15 +369,32 @@ async function matteAndFrame(
         const r = rgba[i * 4]!;
         const g = rgba[i * 4 + 1]!;
         const b = rgba[i * 4 + 2]!;
-        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-        const sat = Math.max(r, g, b) - Math.min(r, g, b);
-        if (luma > 120 && sat <= 28) {
-          const alpha = Math.max(0, Math.min(255, Math.round(((180 - luma) / 60) * 255)));
-          rgba[i * 4 + 3] = alpha;
-          if (alpha < 16) {
-            rgba[i * 4 + 3] = 0;
-            transparentPixels++;
-            continue;
+        if (isMagentaMatte) {
+          // Despill magenta fringe on edge pixels
+          const magentaExcess = Math.min(r, b) - g;
+          if (magentaExcess > 35) {
+            const clampRB = Math.min(r, b, g + 25);
+            rgba[i * 4] = clampRB;
+            rgba[i * 4 + 2] = clampRB;
+            const alpha = Math.max(0, Math.min(255, Math.round(255 - (magentaExcess - 35) * 1.6)));
+            rgba[i * 4 + 3] = alpha;
+            if (alpha < 16) {
+              rgba[i * 4 + 3] = 0;
+              transparentPixels++;
+              continue;
+            }
+          }
+        } else {
+          const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+          const sat = Math.max(r, g, b) - Math.min(r, g, b);
+          if (luma > 120 && sat <= 28) {
+            const alpha = Math.max(0, Math.min(255, Math.round(((180 - luma) / 60) * 255)));
+            rgba[i * 4 + 3] = alpha;
+            if (alpha < 16) {
+              rgba[i * 4 + 3] = 0;
+              transparentPixels++;
+              continue;
+            }
           }
         }
       }
@@ -519,13 +623,13 @@ async function main() {
       },
       uiTrainingIconsReuseFallback: {
         "ui.training.strength": "/game/development-v1/icons/ui.training.strength.webp (v001 new)",
-        "ui.training.endurance": "/game/icons-v3/legend-B5.webp (reuse fallback until quota reset)",
-        "ui.training.ki-capacity": "/game/icons-v3/material-rdzen-energii.webp (reuse fallback until quota reset)",
-        "ui.training.defense": "/game/icons-v3/status-armor.webp (reuse fallback until quota reset)",
-        "ui.training.ki-control": "/game/icons-v3/sage-C8.webp (reuse fallback until quota reset)",
-        "ui.training.dodge": "/game/icons-v3/planetary-A2.webp (reuse fallback until quota reset)",
-        "ui.training.attack-speed": "/game/icons-v3/legend-A3.webp (reuse fallback until quota reset)",
-        "ui.training.technique": "/game/icons-v3/sage-A6.webp (reuse fallback until quota reset)",
+        "ui.training.endurance": "/game/development-v1/icons/ui.training.endurance.webp (v001 new)",
+        "ui.training.ki-capacity": "/game/development-v1/icons/ui.training.ki-capacity.webp (v001 new)",
+        "ui.training.defense": "/game/development-v1/icons/ui.training.defense.webp (v001 new)",
+        "ui.training.ki-control": "/game/development-v1/icons/ui.training.ki-control.webp (v001 new)",
+        "ui.training.dodge": "/game/development-v1/icons/ui.training.dodge.webp (v001 new)",
+        "ui.training.attack-speed": "/game/development-v1/icons/ui.training.attack-speed.webp (v001 new)",
+        "ui.training.technique": "/game/development-v1/icons/ui.training.technique.webp (v001 new)",
       },
       trainingEffectsDecision:
         "Zachowano proceduralne oznaczenia kręgów (safe-window, danger, goal) w examRuntime.ts zgodnie z zasadą katalogu: proceduralne ringi są w pełni czytelne w skali sali egzaminacyjnej i nie wypalają stałych plam na mapie.",

@@ -15,13 +15,13 @@ export function devArtEnabled(
 
 export const TRAINING_DISCIPLINE_ICONS: Record<Discipline | TrainableStat, string> = {
   strength: "/game/development-v1/icons/ui.training.strength.webp",
-  endurance: "/game/icons-v3/legend-B5.webp",
-  kiCapacity: "/game/icons-v3/material-rdzen-energii.webp",
-  defense: "/game/icons-v3/status-armor.webp",
-  kiControl: "/game/icons-v3/sage-C8.webp",
-  dodge: "/game/icons-v3/planetary-A2.webp",
-  attackSpeed: "/game/icons-v3/legend-A3.webp",
-  technique: "/game/icons-v3/sage-A6.webp",
+  endurance: "/game/development-v1/icons/ui.training.endurance.webp",
+  kiCapacity: "/game/development-v1/icons/ui.training.ki-capacity.webp",
+  defense: "/game/development-v1/icons/ui.training.defense.webp",
+  kiControl: "/game/development-v1/icons/ui.training.ki-control.webp",
+  dodge: "/game/development-v1/icons/ui.training.dodge.webp",
+  attackSpeed: "/game/development-v1/icons/ui.training.attack-speed.webp",
+  technique: "/game/development-v1/icons/ui.training.technique.webp",
 };
 
 export function examTierIconUrl(tier: number): string | undefined {

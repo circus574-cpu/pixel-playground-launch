@@ -40,7 +40,7 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
     expect(existsSync(manifestPath)).toBe(true);
     const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
     expect(manifest.optInSwitch).toBe("ki-dev-art");
-    expect(manifest.assets.length).toBe(11);
+    expect(manifest.assets.length).toBe(18);
 
     for (const asset of manifest.assets) {
       const origPath = `art/production/development/v001/originals/${asset.id}.v001.orig.jpg`;

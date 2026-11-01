@@ -43,13 +43,13 @@
     },
     "uiTrainingIconsReuseFallback": {
       "ui.training.strength": "/game/development-v1/icons/ui.training.strength.webp (v001 new)",
-      "ui.training.endurance": "/game/icons-v3/legend-B5.webp (reuse fallback until quota reset)",
-      "ui.training.ki-capacity": "/game/icons-v3/material-rdzen-energii.webp (reuse fallback until quota reset)",
-      "ui.training.defense": "/game/icons-v3/status-armor.webp (reuse fallback until quota reset)",
-      "ui.training.ki-control": "/game/icons-v3/sage-C8.webp (reuse fallback until quota reset)",
-      "ui.training.dodge": "/game/icons-v3/planetary-A2.webp (reuse fallback until quota reset)",
-      "ui.training.attack-speed": "/game/icons-v3/legend-A3.webp (reuse fallback until quota reset)",
-      "ui.training.technique": "/game/icons-v3/sage-A6.webp (reuse fallback until quota reset)"
+      "ui.training.endurance": "/game/development-v1/icons/ui.training.endurance.webp (v001 new)",
+      "ui.training.ki-capacity": "/game/development-v1/icons/ui.training.ki-capacity.webp (v001 new)",
+      "ui.training.defense": "/game/development-v1/icons/ui.training.defense.webp (v001 new)",
+      "ui.training.ki-control": "/game/development-v1/icons/ui.training.ki-control.webp (v001 new)",
+      "ui.training.dodge": "/game/development-v1/icons/ui.training.dodge.webp (v001 new)",
+      "ui.training.attack-speed": "/game/development-v1/icons/ui.training.attack-speed.webp (v001 new)",
+      "ui.training.technique": "/game/development-v1/icons/ui.training.technique.webp (v001 new)"
     },
     "trainingEffectsDecision": "Zachowano proceduralne oznaczenia kręgów (safe-window, danger, goal) w examRuntime.ts zgodnie z zasadą katalogu: proceduralne ringi są w pełni czytelne w skali sali egzaminacyjnej i nie wypalają stałych plam na mapie."
   },
@@ -367,6 +367,447 @@
         ],
         "sha256": "798f8641e9f668cc4a05e330dff1dd7629d9f01caf653508445bb0b801d4e887",
         "bytes": 12004
+      }
+    },
+    {
+      "id": "ui.training.endurance",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Wytrzymałość",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy heart enclosed by a durable woven band Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "768a02b0bf5457bb79e44f17aec8feadfdd1191e971bbc26b7e6f0ccfe598a26",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.endurance.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "09032e915de9631a681a6de2922c7748dbdab559da6fe0ed0d7c2761616d5f67",
+        "bytes": 300562,
+        "bounds": {
+          "minX": 61,
+          "minY": 66,
+          "maxX": 450,
+          "maxY": 445
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.endurance.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "7bb3e684c6cf88db05c22d8f7805648e7e9abb517d7b8c43f0f61a938f5c2977",
+        "bytes": 14792
+      }
+    },
+    {
+      "id": "ui.training.ki-capacity",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Pojemność KI",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a luminous blue energy vessel filled to its rim Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "b58e2ad22e5317e2155e5a609f993bb4a20217d89124ef1cbfa41c2d48d1676a",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.ki-capacity.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "c9c5b2bed9343df80c9070c7a37fc5df62db9af70f3c9d8d8534167475ead132",
+        "bytes": 261402,
+        "bounds": {
+          "minX": 109,
+          "minY": 61,
+          "maxX": 402,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.ki-capacity.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "ab38d7d1c88f10af7461cfef91a836cea98e07797fe8e49e72e83b207398867a",
+        "bytes": 14038
+      }
+    },
+    {
+      "id": "ui.training.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Obrona",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a solid shield receiving a single glancing impact Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "2e86ec5baf7b822da0d46604ff3b751aef98da64384b3e470216c76b1e1d3635",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "476c89a88a00c91842fb451738ab9f22db632c9b1dedb09d22d1d331a1c3a894",
+        "bytes": 272372,
+        "bounds": {
+          "minX": 70,
+          "minY": 61,
+          "maxX": 441,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "978d5719ed81c754dcf06cb8b812082bceb57b5a64f2ce8a5da024dcaabec67a",
+        "bytes": 13600
+      }
+    },
+    {
+      "id": "ui.training.ki-control",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Kontrola KI",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. two calm hands shaping a small precisely bounded energy sphere Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "388ef2ce2aac7be35d59c42f9770ee474b85a030b08576219df05a578ccc72cd",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.ki-control.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "b1755e387ccafb229f5c886657c7230893a59c94b791764d0f6a8592d89cbf0d",
+        "bytes": 188868,
+        "bounds": {
+          "minX": 61,
+          "minY": 109,
+          "maxX": 450,
+          "maxY": 402
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.ki-control.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "e9ac7ca4ef59d15c5136b633d5495e87a82c610d9b6ebca9af7fc5b4b4573257",
+        "bytes": 11056
+      }
+    },
+    {
+      "id": "ui.training.dodge",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Unik",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a side-stepping boot and one clean curved motion trail Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "c5447c14679e5b8284b8d360d2b57e0e0271dba3307538f4b77c4733bcd00fce",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.dodge.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "e43b3d3e6e90eec6d68e4eb2f93756797d7f12067b6f90623bca9eaef77abf3d",
+        "bytes": 207256,
+        "bounds": {
+          "minX": 61,
+          "minY": 75,
+          "maxX": 450,
+          "maxY": 436
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.dodge.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "04585aeb0874d8c3c2d36a039a5274391b8d51ec7325a72b35f36be35e04ee19",
+        "bytes": 11928
+      }
+    },
+    {
+      "id": "ui.training.attack-speed",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Szybkość ataku",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. one blade with two restrained directional motion trails Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "43a2cc87bd4324270151bea547268e893c57ff042c49a53faee25723fb0d4842",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.attack-speed.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "bb8c18213a32e18896497b5003ff32776fd5c50adf88e23567f03123d71848c0",
+        "bytes": 205835,
+        "bounds": {
+          "minX": 72,
+          "minY": 61,
+          "maxX": 439,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.attack-speed.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "87f6ec69fa0591ba9d0b6222ff48caa4318328b6bbae056dcc404582d40e92ed",
+        "bytes": 15098
+      }
+    },
+    {
+      "id": "ui.training.technique",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Technika",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a precisely focused energy point at the intersection of three controlled arcs Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "d40fd12d2180bee8c3749dbef0a4b5712c7766d228f6e5359dcdedf86ed2bfe0",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.technique.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "b0807f16ba31891ee5c19771c2407432520945bb4c5f034b9fb834ee6ec393cf",
+        "bytes": 192936,
+        "bounds": {
+          "minX": 61,
+          "minY": 63,
+          "maxX": 450,
+          "maxY": 448
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.technique.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "4ff3fb86ad205a62d0e0d513c5ac2cf12722a5e21f32e0984f0431d40bca2cdb",
+        "bytes": 15038
       }
     },
     {
