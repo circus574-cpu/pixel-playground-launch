@@ -190,7 +190,12 @@ Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce
 
 ## Odbiór i dowody
 
-CI: `.github/workflows/ki-legends-playwright.yml` i `sage-planetary-webgl.yml`.
+CI: bramka jakości `verify` (pełny `npm run typecheck`, `npm run test`, `npm run lint`,
+`npm run assets:check`, `scripts/docs/check_documentation.py`, `npm run build`) działa
+w `.github/workflows/pr-quality-gate.yml` dla każdego PR do `main` oraz w
+`.github/workflows/aruba-production.yml` jako warunek (`needs: verify`) wdrożenia
+na VPS Aruba — czerwona bramka blokuje publikację. Przeglądarkowe testy
+uruchamia się ręcznie: `.github/workflows/ki-legends-playwright.yml` i `sage-planetary-webgl.yml`.
 Zapisywać dokładny SHA, URL przebiegu, projekt, liczbę testów, artefakty i ograniczenia.
 Scenariusze: cztery rasy, ruch/kierunki, walka poza miastem, wejścia/usługi,
 depozyt i reload, sloty/migracje, uszkodzony atlas i retry, mapa/globus, zamknięte `/test`.
@@ -973,8 +978,10 @@ PASS. Nie wykonano jeszcze E2E nowego przepływu online — nie ma podłączoneg
 
 ### Kandydat serwerowej rozgrywki PvE — trzecia partia 01.11, PR #69
 
-Ta sekcja opisuje dalszy kod gałęzi `feature/server-owned-characters`, **nie stan
-wdrożony na main/produkcji**. Poprzednie dwie sekcje pozostają historią ich dostaw.
+Status 01.11: PR #69 jest **scalony do `main` i działa na produkcji Aruba**
+(`/ws/online` wymaga tokenu konta; stary `/ws` zamyka połączenie kodem 1008).
+Sekcja powstała jako opis gałęzi `feature/server-owned-characters`; poprzednie dwie
+sekcje pozostają historią ich dostaw.
 
 - Produkcyjny `Index` wymaga konta i pobiera listę/tworzy postacie przez
   `/ws/characters`; połączenie `/ws/online` otwiera wybraną postać. Brak bazy,

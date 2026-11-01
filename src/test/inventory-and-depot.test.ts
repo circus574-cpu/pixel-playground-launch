@@ -45,7 +45,7 @@ describe("Inventory, Equipment & City Depot System", () => {
     p.gold = 100;
     p.depot.gold = 0;
     p.interior = "depot";
-    (session as any).depotOpen = true;
+    (session as unknown as { depotOpen: boolean }).depotOpen = true;
 
     const chest = cityRoom("depot", p.continent).chest;
     p.x = chest.x;
@@ -68,7 +68,7 @@ describe("Inventory, Equipment & City Depot System", () => {
     ensurePlayerEquipment(p);
 
     p.interior = "depot";
-    (session as any).depotOpen = true;
+    (session as unknown as { depotOpen: boolean }).depotOpen = true;
 
     const chest = cityRoom("depot", p.continent).chest;
     p.x = chest.x;

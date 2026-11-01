@@ -785,7 +785,10 @@ export class GameServer {
     return legacy ? this.toNetworkState(legacy) : undefined;
   }
 
-  public kickOnlinePlayer(characterId: string, reason = 'Rozłączono przez administratora'): boolean {
+  public kickOnlinePlayer(
+    characterId: string,
+    reason = "Rozłączono przez administratora",
+  ): boolean {
     for (const [ws, player] of this.onlinePlayers.entries()) {
       if (player.characterId === characterId) {
         const closer = this.onlineClosers.get(ws);
@@ -795,7 +798,9 @@ export class GameServer {
         this.onlineSockets.delete(ws);
         try {
           ws.close(1008, reason);
-        } catch {}
+        } catch {
+          /* socket already closed */
+        }
         return true;
       }
     }
@@ -803,7 +808,9 @@ export class GameServer {
     if (legacy) {
       try {
         legacy.socket.close(1008, reason);
-      } catch {}
+      } catch {
+        /* socket already closed */
+      }
       this.sessions.delete(characterId);
       this.socketToCharacterId.delete(legacy.socket);
       return true;

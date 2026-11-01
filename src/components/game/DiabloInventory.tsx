@@ -211,20 +211,12 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
             <button
               key={slot.id}
               className={
-                "ki-dinv-slot ki-dinv-" +
-                slot.area +
-                (item || personal ? " is-filled" : "")
+                "ki-dinv-slot ki-dinv-" + slot.area + (item || personal ? " is-filled" : "")
               }
               aria-label={
-                slot.label +
-                (desc
-                  ? ": " + desc.name + " — kliknij, aby zdjąć"
-                  : ": puste")
+                slot.label + (desc ? ": " + desc.name + " — kliknij, aby zdjąć" : ": puste")
               }
-              title={
-                slot.label +
-                (desc ? " · " + desc.name : ": puste")
-              }
+              title={slot.label + (desc ? " · " + desc.name : ": puste")}
               disabled={!item && !personal}
               onClick={() =>
                 (item || personal) && send({ type: "unequip", slot: slot.id as EquipmentSlot })

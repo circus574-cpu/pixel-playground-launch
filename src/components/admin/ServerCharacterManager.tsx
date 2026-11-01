@@ -16,8 +16,18 @@ import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
 import { ITEM_CATALOG } from "@/game/items/catalog";
 import { getItemById } from "@/game/items";
-import { ITEMS, ITEM_IDS, type ItemId, characterFullStats, type CharacterFullStatsResult } from "@/game/session";
-import { emptyCombatTraining, trainingRequirement, type CombatTraining } from "@/game/combatTraining";
+import {
+  ITEMS,
+  ITEM_IDS,
+  type ItemId,
+  characterFullStats,
+  type CharacterFullStatsResult,
+} from "@/game/session";
+import {
+  emptyCombatTraining,
+  trainingRequirement,
+  type CombatTraining,
+} from "@/game/combatTraining";
 import { CHARACTER_STAT_FIELDS } from "@/game/characterStats";
 import { useAccount } from "@/components/account/useAccount";
 
@@ -246,13 +256,15 @@ export function ServerCharacterManager() {
     const cleanOverrides = form.statOverrides
       ? (Object.fromEntries(
           Object.entries(form.statOverrides).filter(
-            ([_, v]) => v !== undefined && v !== null && !isNaN(Number(v))
-          )
+            ([_, v]) => v !== undefined && v !== null && !isNaN(Number(v)),
+          ),
         ) as Record<string, number>)
       : undefined;
 
     const normalizedCt =
-      form.combatTraining?.dodge && form.combatTraining?.attackSpeed && form.combatTraining?.technique
+      form.combatTraining?.dodge &&
+      form.combatTraining?.attackSpeed &&
+      form.combatTraining?.technique
         ? {
             dodge: {
               rank: form.combatTraining.dodge.rank ?? 0,
@@ -396,9 +408,7 @@ export function ServerCharacterManager() {
                     borderLeft: `4px solid ${c.isOnline ? "#46d369" : c.retired ? "#777" : "#c8a35a"}`,
                   }}
                 >
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between", width: "100%" }}
-                  >
+                  <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                     <b style={{ color: "#f5d48a" }}>{c.characterName}</b>
                     <span style={{ fontSize: "0.75rem", opacity: 0.9 }}>
                       {c.isOnline ? (
@@ -733,7 +743,9 @@ export function ServerCharacterManager() {
                         border: "1px solid #3d3252",
                       }}
                     >
-                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>❤️ Punkty życia (HP):</div>
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>
+                        ❤️ Punkty życia (HP):
+                      </div>
                       <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ff6677" }}>
                         {form.hp ?? detail.player.hp} / {liveStats.stats.maxHp.toFixed(0)}
                       </div>
@@ -806,7 +818,9 @@ export function ServerCharacterManager() {
                         border: "1px solid #3d3252",
                       }}
                     >
-                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>⚡ Trafienie krytyczne:</div>
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>
+                        ⚡ Trafienie krytyczne:
+                      </div>
                       <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffb454" }}>
                         {liveStats.stats.crit.toFixed(2)}%
                       </div>
@@ -828,7 +842,9 @@ export function ServerCharacterManager() {
                         <span style={{ fontSize: "0.75rem", fontWeight: 400 }}>j.</span>
                       </div>
                       <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
-                        {form.statOverrides?.range !== undefined ? "⚠️ Nadpisany" : "Zasięg podstawowy"}
+                        {form.statOverrides?.range !== undefined
+                          ? "⚠️ Nadpisany"
+                          : "Zasięg podstawowy"}
                       </div>
                     </div>
                   </div>
@@ -989,9 +1005,7 @@ export function ServerCharacterManager() {
                       Kontynent / Świat:
                       <select
                         value={form.continent || "verdant"}
-                        onChange={(e) =>
-                          setForm({ ...form, continent: e.target.value as WorldId })
-                        }
+                        onChange={(e) => setForm({ ...form, continent: e.target.value as WorldId })}
                       >
                         {CONTINENT_OPTIONS.map((c) => (
                           <option key={c.id} value={c.id}>
@@ -1025,7 +1039,12 @@ export function ServerCharacterManager() {
                         value={form.interior || ""}
                         placeholder="null (na zewnątrz)"
                         onChange={(e) =>
-                          setForm({ ...form, interior: (e.target.value.trim() as any) || null })
+                          setForm({
+                            ...form,
+                            interior:
+                              (e.target.value.trim() as ServerCharacterUpdatePatch["interior"]) ||
+                              null,
+                          })
                         }
                       />
                     </label>
@@ -1045,14 +1064,26 @@ export function ServerCharacterManager() {
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                       <button
                         onClick={() =>
-                          setForm({ ...form, continent: "verdant", x: 4200, y: 2500, interior: null })
+                          setForm({
+                            ...form,
+                            continent: "verdant",
+                            x: 4200,
+                            y: 2500,
+                            interior: null,
+                          })
                         }
                       >
                         🏰 Miasto Verdantia (4200, 2500)
                       </button>
                       <button
                         onClick={() =>
-                          setForm({ ...form, continent: "aether", x: 4200, y: 2500, interior: null })
+                          setForm({
+                            ...form,
+                            continent: "aether",
+                            x: 4200,
+                            y: 2500,
+                            interior: null,
+                          })
                         }
                       >
                         ☁️ Miasto Aetheria (4200, 2500)
@@ -1109,7 +1140,11 @@ export function ServerCharacterManager() {
                         {[
                           { key: "speed", label: "🏃 Szybkość ruchu (j./s)", unit: "j./s" },
                           { key: "attackInterval", label: "⚔️ Odstęp ataku (ms)", unit: "ms" },
-                          { key: "attackSpeedPct", label: "💨 Premia szybkości ataku (%)", unit: "%" },
+                          {
+                            key: "attackSpeedPct",
+                            label: "💨 Premia szybkości ataku (%)",
+                            unit: "%",
+                          },
                           { key: "attack", label: "💥 Atak", unit: "" },
                           { key: "defense", label: "🛡️ Obrona", unit: "" },
                           { key: "maxHp", label: "❤️ Maksymalne HP", unit: "" },
@@ -1125,7 +1160,9 @@ export function ServerCharacterManager() {
                           { key: "ccMul", label: "⛓️ Mnożnik podatności na CC", unit: "×" },
                         ].map(({ key, label, unit }) => {
                           const row = liveStats.breakdown[key as keyof typeof liveStats.breakdown];
-                          const hasGm = form.statOverrides?.[key as keyof typeof form.statOverrides] !== undefined;
+                          const hasGm =
+                            form.statOverrides?.[key as keyof typeof form.statOverrides] !==
+                            undefined;
                           return (
                             <tr
                               key={key}
@@ -1139,21 +1176,46 @@ export function ServerCharacterManager() {
                                 {row ? row.base.toFixed(1) : "-"} {unit}
                               </td>
                               <td style={{ padding: "8px 10px", opacity: 0.8 }}>
-                                {row && row.training !== 0 ? (row.training > 0 ? `+${row.training.toFixed(1)}` : row.training.toFixed(1)) : "-"}
+                                {row && row.training !== 0
+                                  ? row.training > 0
+                                    ? `+${row.training.toFixed(1)}`
+                                    : row.training.toFixed(1)
+                                  : "-"}
                               </td>
                               <td style={{ padding: "8px 10px", opacity: 0.8 }}>
-                                {row && row.skills !== 0 ? (row.skills > 0 ? `+${row.skills.toFixed(1)}` : row.skills.toFixed(1)) : "-"}
+                                {row && row.skills !== 0
+                                  ? row.skills > 0
+                                    ? `+${row.skills.toFixed(1)}`
+                                    : row.skills.toFixed(1)
+                                  : "-"}
                               </td>
                               <td style={{ padding: "8px 10px", opacity: 0.8 }}>
-                                {row && row.items !== 0 ? (row.items > 0 ? `+${row.items.toFixed(1)}` : row.items.toFixed(1)) : "-"}
+                                {row && row.items !== 0
+                                  ? row.items > 0
+                                    ? `+${row.items.toFixed(1)}`
+                                    : row.items.toFixed(1)
+                                  : "-"}
                               </td>
                               <td style={{ padding: "8px 10px", opacity: 0.8 }}>
-                                {row && row.effects !== 0 ? (row.effects > 0 ? `+${row.effects.toFixed(1)}` : row.effects.toFixed(1)) : "-"}
+                                {row && row.effects !== 0
+                                  ? row.effects > 0
+                                    ? `+${row.effects.toFixed(1)}`
+                                    : row.effects.toFixed(1)
+                                  : "-"}
                               </td>
-                              <td style={{ padding: "8px 10px", color: hasGm ? "#ff7080" : "inherit" }}>
-                                {hasGm ? `${form.statOverrides?.[key as keyof typeof form.statOverrides]} ${unit}` : "-"}
+                              <td
+                                style={{
+                                  padding: "8px 10px",
+                                  color: hasGm ? "#ff7080" : "inherit",
+                                }}
+                              >
+                                {hasGm
+                                  ? `${form.statOverrides?.[key as keyof typeof form.statOverrides]} ${unit}`
+                                  : "-"}
                               </td>
-                              <td style={{ padding: "8px 10px", fontWeight: 700, color: "#f5d48a" }}>
+                              <td
+                                style={{ padding: "8px 10px", fontWeight: 700, color: "#f5d48a" }}
+                              >
                                 {row ? row.total.toFixed(2) : "-"} {unit}
                               </td>
                             </tr>
@@ -1177,7 +1239,14 @@ export function ServerCharacterManager() {
                       border: "1px solid #4a3d5e",
                     }}
                   >
-                    <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "#f5d48a", marginBottom: 8 }}>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        fontSize: "0.85rem",
+                        color: "#f5d48a",
+                        marginBottom: 8,
+                      }}
+                    >
                       ⚡ SZYBKIE PRESETY ADMINISTRACYJNE (GM PRESETS):
                     </div>
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -1245,8 +1314,9 @@ export function ServerCharacterManager() {
                       🛠️ Bezpośrednie Nadpisania Statystyk Bojowych:
                     </h3>
                     <p style={{ fontSize: "0.8rem", opacity: 0.8, margin: "0 0 12px" }}>
-                      Wpisz dowolną wartość, aby natychmiast nadpisać statystykę w pamięci serwera i bazie.
-                      Pozostawienie pustego pola przywraca naturalną wartość wynikającą z rasy, poziomu i ekwipunku.
+                      Wpisz dowolną wartość, aby natychmiast nadpisać statystykę w pamięci serwera i
+                      bazie. Pozostawienie pustego pola przywraca naturalną wartość wynikającą z
+                      rasy, poziomu i ekwipunku.
                     </p>
 
                     <div
@@ -1256,64 +1326,75 @@ export function ServerCharacterManager() {
                         gap: 12,
                       }}
                     >
-                      {(Object.entries(CHARACTER_STAT_FIELDS) as [keyof typeof CHARACTER_STAT_FIELDS, { label: string; min: number; max: number }][]).map(
-                        ([statKey, fieldInfo]) => {
-                          const val = form.statOverrides?.[statKey];
-                          const naturalVal = liveStats?.breakdown[statKey as keyof typeof liveStats.breakdown]?.base ?? "-";
-                          return (
+                      {(
+                        Object.entries(CHARACTER_STAT_FIELDS) as [
+                          keyof typeof CHARACTER_STAT_FIELDS,
+                          { label: string; min: number; max: number },
+                        ][]
+                      ).map(([statKey, fieldInfo]) => {
+                        const val = form.statOverrides?.[statKey];
+                        const naturalVal =
+                          liveStats?.breakdown[statKey as keyof typeof liveStats.breakdown]?.base ??
+                          "-";
+                        return (
+                          <div
+                            key={statKey}
+                            style={{
+                              background: val !== undefined ? "#301d24" : "#1a1624",
+                              padding: "10px",
+                              borderRadius: 6,
+                              border: `1px solid ${val !== undefined ? "#8a3542" : "#382e47"}`,
+                            }}
+                          >
                             <div
-                              key={statKey}
                               style={{
-                                background: val !== undefined ? "#301d24" : "#1a1624",
-                                padding: "10px",
-                                borderRadius: 6,
-                                border: `1px solid ${val !== undefined ? "#8a3542" : "#382e47"}`,
+                                display: "flex",
+                                justifyContent: "space-between",
+                                marginBottom: 4,
                               }}
                             >
-                              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                                <label style={{ fontWeight: 600, fontSize: "0.85rem", margin: 0 }}>
-                                  {fieldInfo.label}:
-                                </label>
-                                {val !== undefined && (
-                                  <button
-                                    onClick={() => {
-                                      const next = { ...form.statOverrides };
-                                      delete next[statKey];
-                                      setForm({ ...form, statOverrides: next });
-                                    }}
-                                    style={{ fontSize: "0.7rem", padding: "1px 6px" }}
-                                    title="Usuń to nadpisanie"
-                                  >
-                                    ✕ Usuń
-                                  </button>
-                                )}
-                              </div>
-
-                              <input
-                                type="number"
-                                min={fieldInfo.min}
-                                max={fieldInfo.max}
-                                placeholder={`Naturalna: ${naturalVal}`}
-                                value={val !== undefined && val !== null ? val : ""}
-                                onChange={(e) => {
-                                  const raw = e.target.value.trim();
-                                  const next = { ...form.statOverrides };
-                                  if (raw === "") {
+                              <label style={{ fontWeight: 600, fontSize: "0.85rem", margin: 0 }}>
+                                {fieldInfo.label}:
+                              </label>
+                              {val !== undefined && (
+                                <button
+                                  onClick={() => {
+                                    const next = { ...form.statOverrides };
                                     delete next[statKey];
-                                  } else {
-                                    next[statKey] = Number(raw);
-                                  }
-                                  setForm({ ...form, statOverrides: next });
-                                }}
-                                style={{ width: "100%", marginTop: 4 }}
-                              />
-                              <div style={{ fontSize: "0.7rem", opacity: 0.6, marginTop: 4 }}>
-                                Zakres: {fieldInfo.min} – {fieldInfo.max}
-                              </div>
+                                    setForm({ ...form, statOverrides: next });
+                                  }}
+                                  style={{ fontSize: "0.7rem", padding: "1px 6px" }}
+                                  title="Usuń to nadpisanie"
+                                >
+                                  ✕ Usuń
+                                </button>
+                              )}
                             </div>
-                          );
-                        },
-                      )}
+
+                            <input
+                              type="number"
+                              min={fieldInfo.min}
+                              max={fieldInfo.max}
+                              placeholder={`Naturalna: ${naturalVal}`}
+                              value={val !== undefined && val !== null ? val : ""}
+                              onChange={(e) => {
+                                const raw = e.target.value.trim();
+                                const next = { ...form.statOverrides };
+                                if (raw === "") {
+                                  delete next[statKey];
+                                } else {
+                                  next[statKey] = Number(raw);
+                                }
+                                setForm({ ...form, statOverrides: next });
+                              }}
+                              style={{ width: "100%", marginTop: 4 }}
+                            />
+                            <div style={{ fontSize: "0.7rem", opacity: 0.6, marginTop: 4 }}>
+                              Zakres: {fieldInfo.min} – {fieldInfo.max}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -1326,7 +1407,14 @@ export function ServerCharacterManager() {
                       border: "1px solid #4a3d5e",
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 10,
+                      }}
+                    >
                       <div>
                         <h3 style={{ margin: "0 0 4px", fontSize: "0.95rem", color: "#f5d48a" }}>
                           🥊 Trening Bojowy Postaci (Combat Training):
@@ -1375,7 +1463,14 @@ export function ServerCharacterManager() {
                       }}
                     >
                       {/* Unik */}
-                      <div style={{ background: "#261e33", padding: "10px", borderRadius: 6, border: "1px solid #3c3050" }}>
+                      <div
+                        style={{
+                          background: "#261e33",
+                          padding: "10px",
+                          borderRadius: 6,
+                          border: "1px solid #3c3050",
+                        }}
+                      >
                         <div style={{ fontWeight: 600, color: "#a5ff94", marginBottom: 6 }}>
                           💨 Unik (Dodge):
                         </div>
@@ -1391,9 +1486,24 @@ export function ServerCharacterManager() {
                               setForm({
                                 ...form,
                                 combatTraining: {
-                                  dodge: { rank: r, progress: r === 100 ? 0 : Math.min(form.combatTraining?.dodge?.progress ?? 0, trainingRequirement(r) - 1) },
-                                  attackSpeed: form.combatTraining?.attackSpeed ?? { rank: 0, progress: 0 },
-                                  technique: form.combatTraining?.technique ?? { rank: 0, progress: 0 },
+                                  dodge: {
+                                    rank: r,
+                                    progress:
+                                      r === 100
+                                        ? 0
+                                        : Math.min(
+                                            form.combatTraining?.dodge?.progress ?? 0,
+                                            trainingRequirement(r) - 1,
+                                          ),
+                                  },
+                                  attackSpeed: form.combatTraining?.attackSpeed ?? {
+                                    rank: 0,
+                                    progress: 0,
+                                  },
+                                  technique: form.combatTraining?.technique ?? {
+                                    rank: 0,
+                                    progress: 0,
+                                  },
                                 },
                               });
                             }}
@@ -1401,12 +1511,20 @@ export function ServerCharacterManager() {
                           />
                         </label>
                         <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>
-                          Bonus do uniku: +{((form.combatTraining?.dodge?.rank ?? 0) * 0.1).toFixed(1)}%
+                          Bonus do uniku: +
+                          {((form.combatTraining?.dodge?.rank ?? 0) * 0.1).toFixed(1)}%
                         </div>
                       </div>
 
                       {/* Szybkość Ataku */}
-                      <div style={{ background: "#261e33", padding: "10px", borderRadius: 6, border: "1px solid #3c3050" }}>
+                      <div
+                        style={{
+                          background: "#261e33",
+                          padding: "10px",
+                          borderRadius: 6,
+                          border: "1px solid #3c3050",
+                        }}
+                      >
                         <div style={{ fontWeight: 600, color: "#f7ca65", marginBottom: 6 }}>
                           ⚔️ Szybkość Ataku:
                         </div>
@@ -1423,8 +1541,20 @@ export function ServerCharacterManager() {
                                 ...form,
                                 combatTraining: {
                                   dodge: form.combatTraining?.dodge ?? { rank: 0, progress: 0 },
-                                  attackSpeed: { rank: r, progress: r === 100 ? 0 : Math.min(form.combatTraining?.attackSpeed?.progress ?? 0, trainingRequirement(r) - 1) },
-                                  technique: form.combatTraining?.technique ?? { rank: 0, progress: 0 },
+                                  attackSpeed: {
+                                    rank: r,
+                                    progress:
+                                      r === 100
+                                        ? 0
+                                        : Math.min(
+                                            form.combatTraining?.attackSpeed?.progress ?? 0,
+                                            trainingRequirement(r) - 1,
+                                          ),
+                                  },
+                                  technique: form.combatTraining?.technique ?? {
+                                    rank: 0,
+                                    progress: 0,
+                                  },
                                 },
                               });
                             }}
@@ -1432,12 +1562,20 @@ export function ServerCharacterManager() {
                           />
                         </label>
                         <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>
-                          Bonus szybkości ataku: +{((form.combatTraining?.attackSpeed?.rank ?? 0) * 0.25).toFixed(1)}%
+                          Bonus szybkości ataku: +
+                          {((form.combatTraining?.attackSpeed?.rank ?? 0) * 0.25).toFixed(1)}%
                         </div>
                       </div>
 
                       {/* Technika */}
-                      <div style={{ background: "#261e33", padding: "10px", borderRadius: 6, border: "1px solid #3c3050" }}>
+                      <div
+                        style={{
+                          background: "#261e33",
+                          padding: "10px",
+                          borderRadius: 6,
+                          border: "1px solid #3c3050",
+                        }}
+                      >
                         <div style={{ fontWeight: 600, color: "#e090ff", marginBottom: 6 }}>
                           🎯 Technika:
                         </div>
@@ -1454,8 +1592,20 @@ export function ServerCharacterManager() {
                                 ...form,
                                 combatTraining: {
                                   dodge: form.combatTraining?.dodge ?? { rank: 0, progress: 0 },
-                                  attackSpeed: form.combatTraining?.attackSpeed ?? { rank: 0, progress: 0 },
-                                  technique: { rank: r, progress: r === 100 ? 0 : Math.min(form.combatTraining?.technique?.progress ?? 0, trainingRequirement(r) - 1) },
+                                  attackSpeed: form.combatTraining?.attackSpeed ?? {
+                                    rank: 0,
+                                    progress: 0,
+                                  },
+                                  technique: {
+                                    rank: r,
+                                    progress:
+                                      r === 100
+                                        ? 0
+                                        : Math.min(
+                                            form.combatTraining?.technique?.progress ?? 0,
+                                            trainingRequirement(r) - 1,
+                                          ),
+                                  },
                                 },
                               });
                             }}
@@ -1547,11 +1697,24 @@ export function ServerCharacterManager() {
                               />
                             )}
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: currentItem ? "#f5d48a" : "inherit", wordBreak: "break-all" }}>
-                                {currentItem ? (getItemById(currentItem)?.name || currentItem) : <span style={{ opacity: 0.5 }}>(Pusty slot)</span>}
+                              <div
+                                style={{
+                                  fontSize: "0.85rem",
+                                  fontWeight: 600,
+                                  color: currentItem ? "#f5d48a" : "inherit",
+                                  wordBreak: "break-all",
+                                }}
+                              >
+                                {currentItem ? (
+                                  getItemById(currentItem)?.name || currentItem
+                                ) : (
+                                  <span style={{ opacity: 0.5 }}>(Pusty slot)</span>
+                                )}
                               </div>
                               {currentItem && (
-                                <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>{currentItem}</div>
+                                <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>
+                                  {currentItem}
+                                </div>
                               )}
                             </div>
                             {currentItem && (
@@ -1744,7 +1907,16 @@ export function ServerCharacterManager() {
                               alignItems: "center",
                             }}
                           >
-                            <div style={{ display: "flex", alignItems: "center", gap: 8, overflow: "hidden", flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                overflow: "hidden",
+                                flex: 1,
+                                minWidth: 0,
+                              }}
+                            >
                               <img
                                 src={`/game/items/${itemId}.webp`}
                                 alt=""
@@ -1762,26 +1934,35 @@ export function ServerCharacterManager() {
                                 }}
                               />
                               <div style={{ overflow: "hidden" }}>
-                                <b style={{ fontSize: "0.85rem", color: "#f5d48a", display: "block", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                <b
+                                  style={{
+                                    fontSize: "0.85rem",
+                                    color: "#f5d48a",
+                                    display: "block",
+                                    textOverflow: "ellipsis",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
                                   {getItemById(itemId)?.name || itemId}
                                 </b>
                                 <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>{itemId}</div>
                                 <div style={{ fontSize: "0.75rem", opacity: 0.8 }}>
                                   Ilość:{" "}
-                                <input
-                                  type="number"
-                                  min={1}
-                                  max={999}
-                                  value={qty}
-                                  onChange={(e) => {
-                                    const next = { ...form.bagItems };
-                                    next[itemId] = Number(e.target.value);
-                                    setForm({ ...form, bagItems: next });
-                                  }}
-                                  style={{ width: 55, padding: "2px 4px", fontSize: "0.8rem" }}
-                                />
+                                  <input
+                                    type="number"
+                                    min={1}
+                                    max={999}
+                                    value={qty}
+                                    onChange={(e) => {
+                                      const next = { ...form.bagItems };
+                                      next[itemId] = Number(e.target.value);
+                                      setForm({ ...form, bagItems: next });
+                                    }}
+                                    style={{ width: 55, padding: "2px 4px", fontSize: "0.8rem" }}
+                                  />
+                                </div>
                               </div>
-                            </div>
                             </div>
                             <button
                               onClick={() => {
@@ -1829,7 +2010,16 @@ export function ServerCharacterManager() {
                               alignItems: "center",
                             }}
                           >
-                            <div style={{ display: "flex", alignItems: "center", gap: 8, overflow: "hidden", flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                overflow: "hidden",
+                                flex: 1,
+                                minWidth: 0,
+                              }}
+                            >
                               <img
                                 src={`/game/items/${itemId}.webp`}
                                 alt=""
@@ -1847,31 +2037,40 @@ export function ServerCharacterManager() {
                                 }}
                               />
                               <div style={{ overflow: "hidden" }}>
-                                <b style={{ fontSize: "0.85rem", color: "#f5d48a", display: "block", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                <b
+                                  style={{
+                                    fontSize: "0.85rem",
+                                    color: "#f5d48a",
+                                    display: "block",
+                                    textOverflow: "ellipsis",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
                                   {getItemById(itemId)?.name || itemId}
                                 </b>
                                 <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>{itemId}</div>
                                 <div style={{ fontSize: "0.75rem", opacity: 0.8 }}>
                                   Ilość:{" "}
-                                <input
-                                  type="number"
-                                  min={1}
-                                  max={999}
-                                  value={qty}
-                                  onChange={(e) => {
-                                    const next = {
-                                      ...form.depotItems,
-                                      bagItems: {
-                                        ...form.depotItems?.bagItems,
-                                        [itemId]: Number(e.target.value),
-                                      },
-                                    };
-                                    setForm({ ...form, depotItems: next });
-                                  }}
-                                  style={{ width: 55, padding: "2px 4px", fontSize: "0.8rem" }}
-                                />
+                                  <input
+                                    type="number"
+                                    min={1}
+                                    max={999}
+                                    value={qty}
+                                    onChange={(e) => {
+                                      const next = {
+                                        ...form.depotItems,
+                                        bagItems: {
+                                          ...form.depotItems?.bagItems,
+                                          [itemId]: Number(e.target.value),
+                                        },
+                                      };
+                                      setForm({ ...form, depotItems: next });
+                                    }}
+                                    style={{ width: 55, padding: "2px 4px", fontSize: "0.8rem" }}
+                                  />
+                                </div>
                               </div>
-                            </div>
                             </div>
                             <button
                               onClick={() => {
@@ -1913,7 +2112,11 @@ export function ServerCharacterManager() {
                           setForm({
                             ...form,
                             quests: {
-                              ...(form.quests || { steps: "locked", boars: "locked", gear: "locked" }),
+                              ...(form.quests || {
+                                steps: "locked",
+                                boars: "locked",
+                                gear: "locked",
+                              }),
                               steps: e.target.value as QuestStatus,
                             },
                           })
@@ -1935,7 +2138,11 @@ export function ServerCharacterManager() {
                           setForm({
                             ...form,
                             quests: {
-                              ...(form.quests || { steps: "locked", boars: "locked", gear: "locked" }),
+                              ...(form.quests || {
+                                steps: "locked",
+                                boars: "locked",
+                                gear: "locked",
+                              }),
                               boars: e.target.value as QuestStatus,
                             },
                           })
@@ -1957,7 +2164,11 @@ export function ServerCharacterManager() {
                           setForm({
                             ...form,
                             quests: {
-                              ...(form.quests || { steps: "locked", boars: "locked", gear: "locked" }),
+                              ...(form.quests || {
+                                steps: "locked",
+                                boars: "locked",
+                                gear: "locked",
+                              }),
                               gear: e.target.value as QuestStatus,
                             },
                           })

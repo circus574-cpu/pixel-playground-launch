@@ -74,9 +74,7 @@ export function DepotPanel({
         ? (p.depot.materials[id] ?? 0)
         : (p.depot.bagItems?.[id] ?? 0);
     const isEquipped =
-      p.weapon === id ||
-      p.armor === id ||
-      Object.values(p.equipment ?? {}).includes(id);
+      p.weapon === id || p.armor === id || Object.values(p.equipment ?? {}).includes(id);
     const reserved = item && (p.weapon === id || p.armor === id) ? 1 : 0;
     const name = item?.name ?? catItem?.name ?? MATERIALS[id]?.name ?? id;
 
@@ -92,11 +90,7 @@ export function DepotPanel({
     }
 
     return (
-      <article
-        className="ki-city-depot-row"
-        key={id}
-        aria-label={name}
-      >
+      <article className="ki-city-depot-row" key={id} aria-label={name}>
         <div>
           <strong>{name}</strong>
           <small>{subtext}</small>
@@ -265,8 +259,8 @@ export function DepotPanel({
           {customItems.map(row)}
           {materials.map(row)}
           <p className="ki-panel-caption">
-            Stos do 99. Założone wyposażenie należy najpierw zdjąć. Skrzynia i skarbiec są przypisane
-            do tej postaci w bieżącej osadzie.
+            Stos do 99. Założone wyposażenie należy najpierw zdjąć. Skrzynia i skarbiec są
+            przypisane do tej postaci w bieżącej osadzie.
           </p>
         </div>
       </section>

@@ -6,7 +6,9 @@ import type { NetworkPlayerState } from "@/game/multiplayer/protocol";
 import { GameServer } from "@/server/gameServer";
 
 let activeServerInstance: GameServer | null = null;
-export function getActiveGameServer(): GameServer | null { return activeServerInstance; }
+export function getActiveGameServer(): GameServer | null {
+  return activeServerInstance;
+}
 let serverStartedAt: number | null = null;
 
 export interface ManagedServerStatus {

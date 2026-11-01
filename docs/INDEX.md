@@ -1,6 +1,6 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **01.11.2026, po wdrożeniu pełnego panelu postaci serwerowych, ekwipunku/torby/depozytu i publikacji main**. Punkt odniesienia kodu i głównej gałęzi: `main`.
+Aktualizacja: **01.11.2026, po PR #70 (`main@2026c18`) i dodaniu bramki jakości CI przed wdrożeniem**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 Wdrożono pełny panel administracyjny postaci serwerowych (`ServerCharacterManager` w `/admin` z podglądem i edycją bazy PostgreSQL, statystyk, 8 slotów ekwipunku, torby 40 slotów, depozytu, zadań i drzewka skilli oraz akcjami live), wdrożono 8-slotowy ekwipunek, 40-slotową torbę i miejski depozyt na złoto i przedmioty, włączono 46/46 zasobów Etapu 1 oraz opublikowano gałąź `main` z automatycznym deploymentem na serwerze Aruba.
 
 **Wdrożenie i produkcja:** Rozwój ras jest częściowo wdrożony, parametry treningu i okno statystyk są w grze, a serwer multiplayer dysponuje dedykowanym silnikiem orkiestracji procesów Node.js (`multiplayerServer.ts`). Lokalne testy integracji, pełny TypeScript i testy jednostkowe monitoringu/sterowania serwerem zakończone sukcesem.

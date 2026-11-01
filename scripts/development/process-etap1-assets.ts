@@ -18,8 +18,7 @@ import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const BRAIN_DIR =
-  "C:/Users/maki5/.gemini/antigravity/brain/d8f62331-f91e-4606-965b-c7c104fec35b";
+const BRAIN_DIR = "C:/Users/maki5/.gemini/antigravity/brain/d8f62331-f91e-4606-965b-c7c104fec35b";
 const ROOT_DIR = process.cwd();
 const V001_DIR = path.join(ROOT_DIR, "art/production/development/v001");
 const ORIGINALS_DIR = path.join(V001_DIR, "originals");
@@ -473,7 +472,10 @@ async function matteAndFrame(
   transparentPixels: number;
   opaquePixels: number;
 }> {
-  const { data, info } = await sharp(inputPath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { data, info } = await sharp(inputPath)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
   const w = info.width;
   const h = info.height;
   const visited = new Uint8Array(w * h);
@@ -481,13 +483,22 @@ async function matteAndFrame(
 
   // Detect corner background matte color (white or high-contrast magenta)
   const cornerR = Math.round(
-    (data[0]! + data[(w - 1) * 4]! + data[(h - 1) * w * 4]! + data[((h - 1) * w + (w - 1)) * 4]!) / 4,
+    (data[0]! + data[(w - 1) * 4]! + data[(h - 1) * w * 4]! + data[((h - 1) * w + (w - 1)) * 4]!) /
+      4,
   );
   const cornerG = Math.round(
-    (data[1]! + data[(w - 1) * 4 + 1]! + data[(h - 1) * w * 4 + 1]! + data[((h - 1) * w + (w - 1)) * 4 + 1]!) / 4,
+    (data[1]! +
+      data[(w - 1) * 4 + 1]! +
+      data[(h - 1) * w * 4 + 1]! +
+      data[((h - 1) * w + (w - 1)) * 4 + 1]!) /
+      4,
   );
   const cornerB = Math.round(
-    (data[2]! + data[(w - 1) * 4 + 2]! + data[(h - 1) * w * 4 + 2]! + data[((h - 1) * w + (w - 1)) * 4 + 2]!) / 4,
+    (data[2]! +
+      data[(w - 1) * 4 + 2]! +
+      data[(h - 1) * w * 4 + 2]! +
+      data[((h - 1) * w + (w - 1)) * 4 + 2]!) /
+      4,
   );
   const isMagentaMatte = cornerR >= 200 && cornerB >= 200 && cornerG <= 80;
 
@@ -574,12 +585,7 @@ async function matteAndFrame(
       for (let x = 1; x < w - 1; x++) {
         const i = y * w + x;
         if (bgMask[i]) continue;
-        if (
-          bgMask[i - 1] ||
-          bgMask[i + 1] ||
-          bgMask[i - w] ||
-          bgMask[i + w]
-        ) {
+        if (bgMask[i - 1] || bgMask[i + 1] || bgMask[i - w] || bgMask[i + w]) {
           const r = data[i * 4]!;
           const g = data[i * 4 + 1]!;
           const b = data[i * 4 + 2]!;
@@ -880,11 +886,14 @@ async function main() {
       uiTrainingIconsReuseFallback: {
         "ui.training.strength": "/game/development-v1/icons/ui.training.strength.webp (v001 new)",
         "ui.training.endurance": "/game/development-v1/icons/ui.training.endurance.webp (v001 new)",
-        "ui.training.ki-capacity": "/game/development-v1/icons/ui.training.ki-capacity.webp (v001 new)",
+        "ui.training.ki-capacity":
+          "/game/development-v1/icons/ui.training.ki-capacity.webp (v001 new)",
         "ui.training.defense": "/game/development-v1/icons/ui.training.defense.webp (v001 new)",
-        "ui.training.ki-control": "/game/development-v1/icons/ui.training.ki-control.webp (v001 new)",
+        "ui.training.ki-control":
+          "/game/development-v1/icons/ui.training.ki-control.webp (v001 new)",
         "ui.training.dodge": "/game/development-v1/icons/ui.training.dodge.webp (v001 new)",
-        "ui.training.attack-speed": "/game/development-v1/icons/ui.training.attack-speed.webp (v001 new)",
+        "ui.training.attack-speed":
+          "/game/development-v1/icons/ui.training.attack-speed.webp (v001 new)",
         "ui.training.technique": "/game/development-v1/icons/ui.training.technique.webp (v001 new)",
       },
       trainingEffectsDecision:

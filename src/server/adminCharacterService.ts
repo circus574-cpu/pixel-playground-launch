@@ -7,22 +7,27 @@ import { z } from "zod";
 import { getGameDb } from "./db";
 import { getActiveGameServer } from "./managedServer";
 import { StoredCharacter, type CharacterState } from "./characters/repository";
-import { stats, characterFullStats, type CharacterFullStatsResult, type Player } from "../game/session";
-import { emptyCombatTraining, trainingRequirement, type CombatTraining } from "../game/combatTraining";
+import {
+  stats,
+  characterFullStats,
+  type CharacterFullStatsResult,
+  type Player,
+} from "../game/session";
+import {
+  emptyCombatTraining,
+  trainingRequirement,
+  type CombatTraining,
+} from "../game/combatTraining";
 import { BUILDING_IDS, type BuildingId } from "../game/city/types";
 import type { CharacterStats } from "../game/characterStats";
 import type { RaceId, WorldId } from "../game/world/races";
 import { supabase } from "../integrations/supabase/client";
+import type { Json } from "../integrations/supabase/types";
 
 export type QuestStatus = "locked" | "active" | "ready" | "done";
 
 export type JsonSerializable =
-  | null
-  | boolean
-  | number
-  | string
-  | JsonSerializable[]
-  | { [key: string]: JsonSerializable };
+  null | boolean | number | string | JsonSerializable[] | { [key: string]: JsonSerializable };
 
 export interface ServerCharacterSummary {
   characterId: string;
@@ -83,63 +88,77 @@ export interface ServerCharacterUpdatePatch {
   y?: number | undefined;
   interior?: BuildingId | null | undefined;
 
-  statOverrides?: {
-    maxHp?: number | null | undefined;
-    maxKi?: number | null | undefined;
-    attack?: number | null | undefined;
-    defense?: number | null | undefined;
-    speed?: number | null | undefined;
-    kiRegen?: number | null | undefined;
-    crit?: number | null | undefined;
-    attackInterval?: number | null | undefined;
-    range?: number | null | undefined;
-  } | undefined;
+  statOverrides?:
+    | {
+        maxHp?: number | null | undefined;
+        maxKi?: number | null | undefined;
+        attack?: number | null | undefined;
+        defense?: number | null | undefined;
+        speed?: number | null | undefined;
+        kiRegen?: number | null | undefined;
+        crit?: number | null | undefined;
+        attackInterval?: number | null | undefined;
+        range?: number | null | undefined;
+      }
+    | undefined;
 
-  equipment?: {
-    head?: string | null | undefined;
-    weapon?: string | null | undefined;
-    armor?: string | null | undefined;
-    offhand?: string | null | undefined;
-    hands?: string | null | undefined;
-    ring?: string | null | undefined;
-    amulet?: string | null | undefined;
-    feet?: string | null | undefined;
-    weaponUpgradeTier?: number | undefined;
-  } | undefined;
+  equipment?:
+    | {
+        head?: string | null | undefined;
+        weapon?: string | null | undefined;
+        armor?: string | null | undefined;
+        offhand?: string | null | undefined;
+        hands?: string | null | undefined;
+        ring?: string | null | undefined;
+        amulet?: string | null | undefined;
+        feet?: string | null | undefined;
+        weaponUpgradeTier?: number | undefined;
+      }
+    | undefined;
 
   bagItems?: Record<string, number> | undefined;
 
-  items?: {
-    potion?: number | undefined;
-    tusk?: number | undefined;
-    sword?: number | undefined;
-    vest?: number | undefined;
-  } | undefined;
+  items?:
+    | {
+        potion?: number | undefined;
+        tusk?: number | undefined;
+        sword?: number | undefined;
+        vest?: number | undefined;
+      }
+    | undefined;
 
-  depotItems?: {
-    items?: {
-      potion?: number | undefined;
-      tusk?: number | undefined;
-      sword?: number | undefined;
-      vest?: number | undefined;
-    } | undefined;
-    materials?: Record<string, number> | undefined;
-    bagItems?: Record<string, number> | undefined;
-  } | undefined;
+  depotItems?:
+    | {
+        items?:
+          | {
+              potion?: number | undefined;
+              tusk?: number | undefined;
+              sword?: number | undefined;
+              vest?: number | undefined;
+            }
+          | undefined;
+        materials?: Record<string, number> | undefined;
+        bagItems?: Record<string, number> | undefined;
+      }
+    | undefined;
 
-  quests?: {
-    steps?: QuestStatus | undefined;
-    boars?: QuestStatus | undefined;
-    gear?: QuestStatus | undefined;
-  } | undefined;
+  quests?:
+    | {
+        steps?: QuestStatus | undefined;
+        boars?: QuestStatus | undefined;
+        gear?: QuestStatus | undefined;
+      }
+    | undefined;
 
   skills?: string[] | undefined;
 
-  combatTraining?: {
-    dodge?: { rank?: number | undefined; progress?: number | undefined } | undefined;
-    attackSpeed?: { rank?: number | undefined; progress?: number | undefined } | undefined;
-    technique?: { rank?: number | undefined; progress?: number | undefined } | undefined;
-  } | undefined;
+  combatTraining?:
+    | {
+        dodge?: { rank?: number | undefined; progress?: number | undefined } | undefined;
+        attackSpeed?: { rank?: number | undefined; progress?: number | undefined } | undefined;
+        technique?: { rank?: number | undefined; progress?: number | undefined } | undefined;
+      }
+    | undefined;
 }
 
 export type LiveAdminAction =
@@ -378,7 +397,8 @@ export async function updateServerCharacter(
 
     // Aplikacja zmian z patcha
     if (patch.name !== undefined) player.name = patch.name.trim();
-    if (patch.level !== undefined) player.level = Math.max(1, Math.min(20, Math.floor(patch.level)));
+    if (patch.level !== undefined)
+      player.level = Math.max(1, Math.min(20, Math.floor(patch.level)));
     if (patch.xp !== undefined) player.xp = Math.max(0, Math.floor(patch.xp));
     if (patch.hp !== undefined) player.hp = Math.max(0, Math.round(patch.hp));
     if (patch.ki !== undefined) player.ki = Math.max(0, Math.round(patch.ki));
@@ -526,11 +546,11 @@ export async function updateServerCharacter(
 
     // Zapis do logu audytu (jeśli istnieje tabela admin_audit)
     try {
-      await (supabase.from("admin_audit") as any).insert({
-        admin_id: adminUserId,
+      await supabase.from("admin_audit").insert({
+        actor: adminUserId,
         action: "UPDATE_SERVER_CHARACTER",
-        target_id: characterId,
-        details: patch,
+        target_key: characterId,
+        after: patch as unknown as Json,
       });
     } catch {
       // Ignoruj błąd audytu
@@ -552,8 +572,16 @@ export async function executeLiveAdminAction(
 
   if (action.type === "kick") {
     if (gameServer && gameServer.isCharacterOnline(characterId)) {
-      const kicked = gameServer.kickOnlinePlayer(characterId, action.reason || "Wyrzucono przez administratora");
-      return { ok: kicked, message: kicked ? "Gracz został pomyślnie rozłączony z serwera gry." : "Gracz nie jest online." };
+      const kicked = gameServer.kickOnlinePlayer(
+        characterId,
+        action.reason || "Wyrzucono przez administratora",
+      );
+      return {
+        ok: kicked,
+        message: kicked
+          ? "Gracz został pomyślnie rozłączony z serwera gry."
+          : "Gracz nie jest online.",
+      };
     }
     return { ok: true, message: "Gracz nie był połączony z serwerem." };
   }
@@ -578,7 +606,9 @@ export async function executeLiveAdminAction(
     }
     return {
       ok: true,
-      message: action.retired ? "Postać została wycofana (soft-delete)." : "Postać została przywrcona.",
+      message: action.retired
+        ? "Postać została wycofana (soft-delete)."
+        : "Postać została przywrcona.",
     };
   }
 

@@ -82,10 +82,7 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
             .setDepth(315),
         );
       }
-      if (
-        attempt.spec.discipline === "kiCapacity" &&
-        scene.textures.exists(keyFor("ki-node"))
-      ) {
+      if (attempt.spec.discipline === "kiCapacity" && scene.textures.exists(keyFor("ki-node"))) {
         for (const pt of attempt.points)
           props.push(
             scene.add
@@ -103,10 +100,7 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
               .setDepth(370),
           );
       }
-      if (
-        attempt.spec.discipline === "endurance" &&
-        scene.textures.exists(keyFor("checkpoint"))
-      ) {
+      if (attempt.spec.discipline === "endurance" && scene.textures.exists(keyFor("checkpoint"))) {
         for (const pt of attempt.points)
           props.push(
             scene.add
@@ -116,10 +110,7 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
               .setDepth(pt.y),
           );
       }
-      if (
-        attempt.spec.discipline === "defense" &&
-        scene.textures.exists(keyFor("defense"))
-      ) {
+      if (attempt.spec.discipline === "defense" && scene.textures.exists(keyFor("defense"))) {
         props.push(
           scene.add
             .image(480, 175, keyFor("defense"))

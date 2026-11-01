@@ -510,9 +510,7 @@ export function fitElevenLabsText(catalogPrompt: string): string {
   }
 
   if (text.length > ELEVENLABS_MAX_CHARS) {
-    throw new Error(
-      `Prompt still exceeds ${ELEVENLABS_MAX_CHARS} chars (${text.length}): ${text}`,
-    );
+    throw new Error(`Prompt still exceeds ${ELEVENLABS_MAX_CHARS} chars (${text.length}): ${text}`);
   }
   return text;
 }
@@ -669,14 +667,20 @@ async function main() {
       existsSync(join(rootDir, existing.clientPath)) &&
       process.env.FORCE_REGEN !== "1"
     ) {
-      console.log(`[SKIP] ${spec.id} already generated (${existing.bytes} B, req=${existing.requestId})`);
+      console.log(
+        `[SKIP] ${spec.id} already generated (${existing.bytes} B, req=${existing.requestId})`,
+      );
       continue;
     }
 
-    process.stdout.write(`[GEN] ${spec.priority} ${spec.id} (${spec.durationSeconds}s, loop=${spec.loop}) ... `);
+    process.stdout.write(
+      `[GEN] ${spec.priority} ${spec.id} (${spec.durationSeconds}s, loop=${spec.loop}) ... `,
+    );
     const entry = await generateOne(spec, apiKey, rootDir);
     existingEntries[spec.id] = entry;
-    console.log(`OK (${entry.bytes} B, req=${entry.requestId ?? "n/a"}, sha256=${entry.sha256.slice(0, 12)})`);
+    console.log(
+      `OK (${entry.bytes} B, req=${entry.requestId ?? "n/a"}, sha256=${entry.sha256.slice(0, 12)})`,
+    );
 
     // Persist manifest incrementally after each item so progress is never lost
     const orderedItems = AUDIO_PROMPTS.map((p) => existingEntries[p.id]).filter(
@@ -704,7 +708,9 @@ async function main() {
     );
   }
 
-  console.log(`Finished. Total recorded in audio-manifest.json: ${Object.keys(existingEntries).length}/${AUDIO_PROMPTS.length}`);
+  console.log(
+    `Finished. Total recorded in audio-manifest.json: ${Object.keys(existingEntries).length}/${AUDIO_PROMPTS.length}`,
+  );
 }
 
 main().catch((err) => {
