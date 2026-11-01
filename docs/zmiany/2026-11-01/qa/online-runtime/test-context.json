@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-01",
+  "scope": "isolated local PostgreSQL17; actual GameServer, Phaser, fake account authority; no production deployment",
+  "base_commit": "2cd9560dc94a0fa9b63bb6abbaa3ec002882db74",
+  "unit": {
+    "files": 85,
+    "passed": 1023,
+    "failed": 0
+  },
+  "postgres_checks": 25,
+  "game_server_checks": 6,
+  "browser_race_scenarios": 4,
+  "mobile": "Chromium CDP touch, 852x393; not a physical phone",
+  "not_verified": [
+    "production Auth/cutover",
+    "physical Android/iOS",
+    "load capacity",
+    "shared-world monsters/PvP",
+    "full advancement of all development content"
+  ],
+  "traces": "local /tmp/ki-online-final; final CI uploads artifacts with 14-day retention; not committed as large binaries"
+}

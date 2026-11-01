@@ -53,6 +53,7 @@ export function DevelopmentExam({
       <div ref={container} className="ki-canvas" aria-label="Ki Legends — próba treningowa" />
       {state.ready && loading?.phase === "ready" && (
         <GameHud
+          authoritative={attempt.authoritative}
           state={state}
           error={null}
           worldOverride={attempt.session.world}

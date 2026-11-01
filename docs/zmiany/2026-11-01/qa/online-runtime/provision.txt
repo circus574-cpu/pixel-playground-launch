@@ -1,0 +1,59 @@
+BEGIN
+CREATE TABLE
+CREATE TABLE
+REVOKE
+GRANT
+GRANT
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+COMMIT
+CREATE ROLE
+GRANT ROLE
+ALTER ROLE
+ALTER ROLE
+SET
+ character_id | lease_id | lease_until 
+--------------+----------+-------------
+(0 rows)
+
+ operation_id 
+--------------
+(0 rows)
+
+Database upgrade prepared; backup: /tmp/ki-online-provision-test/backups/before-online-20261101T142914-12082.dump; private runtime file: /tmp/ki-online-provision-test/secrets/game-server.env
+Application configuration and publication have NOT been changed.
+BEGIN
+CREATE TABLE
+NOTICE:  relation "online_character_state" already exists, skipping
+NOTICE:  relation "online_character_operations" already exists, skipping
+CREATE TABLE
+REVOKE
+GRANT
+GRANT
+GRANT
+COMMIT
+BEGIN
+NOTICE:  column "lease_id" of relation "online_character_state" already exists, skipping
+ALTER TABLE
+NOTICE:  column "lease_until" of relation "online_character_state" already exists, skipping
+ALTER TABLE
+COMMIT
+GRANT ROLE
+NOTICE:  role "ki_runtime" has already been granted membership in role "ki_game_server" by role "postgres"
+ALTER ROLE
+ALTER ROLE
+SET
+ character_id | lease_id | lease_until 
+--------------+----------+-------------
+(0 rows)
+
+ operation_id 
+--------------
+(0 rows)
+
+Database upgrade prepared; backup: /tmp/ki-online-provision-test/backups/before-online-20261101T142914-12249.dump; private runtime file: /tmp/ki-online-provision-test/secrets/game-server.env
+Application configuration and publication have NOT been changed.
+ki_runtime

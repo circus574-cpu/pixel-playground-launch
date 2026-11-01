@@ -47,13 +47,15 @@ services:
       options: { max-size: 10m, max-file: "3" }
 
   game-server:
+    # Managed app owns the live daemon. Never start a second daemon during a DB-only upgrade.
+    profiles: [standalone-game]
     image: node:22-alpine
     restart: unless-stopped
     working_dir: /app
     volumes:
       - ../..:/app:ro
     ports:
-      - "7420:7420"
+      - "127.0.0.1:7420:7420"
     environment:
       NODE_ENV: production
       GAME_SERVER_PORT: "7420"
@@ -62,7 +64,11 @@ services:
       GAME_SERVER_REGION: "eu-central (Frankfurt)"
       GAME_SERVER_MAX_PLAYERS: "250"
       GAME_SERVER_TICK_RATE: "20"
-      DATABASE_URL: "postgres://ki_owner:${OWNER_PASSWORD:-secret}@db:5432/ki_multiplayer"
+      DATABASE_URL: "${GAME_DATABASE_URL:-}"
+      SUPABASE_URL: "${SUPABASE_URL:-}"
+      SUPABASE_PUBLISHABLE_KEY: "${SUPABASE_PUBLISHABLE_KEY:-}"
+      GAME_WORLD_PUBLIC_ROOT: /app/public
+      GAME_ONLINE_REQUIRED: "1"
     networks:
       - private
       - public_net
@@ -71,7 +77,13 @@ services:
         condition: service_healthy
     command: ["npx", "tsx", "src/server/gameServer.ts"]
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7420/health', r => process.exit(r.statusCode===200?0:1)).on('error', () => process.exit(1))"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:7420/health', r => process.exit(r.statusCode===200?0:1)).on('error', () => process.exit(1))",
+        ]
       interval: 10s
       timeout: 3s
       retries: 5

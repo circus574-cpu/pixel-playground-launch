@@ -1,0 +1,4 @@
+[GameServer] Połączenie PostgreSQL zweryfikowane.
+[GameServer] Serwer gry 'Węzeł Gry EU-Central #1' (eu-central-1) nasłuchuje na porcie 7448 (20 Hz tick, max 250 graczy).
+{"passed":6,"failed":0,"scope":"production GameServer wrapper, required PostgreSQL, verified fixture identities, two players/AOI peers, staff denied, legacy relay disabled"}
+[GameServer] Serwer gry (eu-central-1) został pomyślnie wyłączony.

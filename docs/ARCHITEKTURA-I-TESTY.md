@@ -875,3 +875,188 @@ Wdrożono kompleksowy mechanizm uruchamiania, zatrzymywania, restartowania i par
   - Zakładka zarządzania serwerem: wizualny wskaźnik stanu serwera (Online, Offline, Uruchamianie, Zatrzymywanie), kontrolki sterujące (Start, Stop, Restart), formularz edycji parametrów w locie (port, max graczy, tick rate, aoi limit) oraz interaktywny terminal logów procesowych.
 - **Oczyszczenie kodu z metadanych i komentarzy:**
   - Usunięcie wszystkich odwołań, telemetrii edytora, tokenów środowiskowych i komentarzy powiązanych z zewnętrznym edytorem Lovable w całej aplikacji.
+
+## Trwała postać serwera — pierwsza partia, 01.11.2026
+
+Gałąź `feature/server-owned-characters` od `main@2e1f5438`. To fundament,
+**nie ukończony autorytatywny runtime i nie przełączenie klienta na online**.
+`src/server/characters/repository.ts` zapisuje nowe postacie i checkpointy w
+prywatnym PostgreSQL. Tożsamość pochodzi z `accountVerifier` (`/auth/v1/user`),
+nie z accountId dostarczonego przez klienta. API `/ws/characters` przyjmuje przy
+POST wyłącznie race/name; GET listuje własne postacie lub czyta jedną po UUID.
+Nie ma publicznego endpointu zapisu złota, XP, przedmiotów lub checkpointu.
+
+`003-online-character-state.sql` to jawna aktualizacja istniejącej bazy, NIE
+kolejny init ignorowany na istniejącym wolumenie. Zachowuje stare tabele i dane.
+Nowe `online_character_state`/`online_character_operations` mają FK, indeksy PK,
+rewizję, limit JSON i przywileje wyłącznie dla grup serwerowych/read-only. Brak
+publicznego portu bazy lub nadawania uprawnień kontom przeglądarkowym.
+`repository.commit` jest wewnętrznym interfejsem zaufanej symulacji. Atomowo
+zapisuje stan i wynik operacji. Blokada wiersza + expectedRevision chronią konflikt;
+ID operacji + digest chronią przed ponownym wykonaniem, a inna treść pod starym
+ID jest odrzucana. Kontrola właściciela poprzedza nawet odczyt wcześniejszego ACK.
+Tworzenie konta nie wymaga UPDATE przywileju nad game.accounts.
+
+Envelope `server-character-1` zawiera walidowany Player i JSON runtime. Runtime
+musi później przechować stan przeciwników/respawnu, cooldowny i kontekst świata;
+sam Player nie wystarcza. Obecne tworzenie używa `newPlayer`, bez importu lokalnych
+postaci. Przed włączeniem klienta konieczne jest utworzenie w prawidłowym punkcie
+Superior przez adapter symulacji. Nie włączać tej partii jako pełnego multiplayera.
+
+GameServer sprawdza prawdziwe SELECT1 przed stwierdzeniem połączenia DB i nie
+wypisuje URL bazy ani surowych błędów połączenia. API trwałych postaci oddaje503,
+jeśli brakuje bazy, schematu lub konfiguracji kont; brak fallbacku RAM w tym API.
+Health zawiera characterPersistenceReady, opisujący inicjalizację tego modułu;
+każdy odczyt/zapis nadal musi obsłużyć utratę bazy. Istniejący protokół WS i jego
+klient pozostają starym trybem pozycyjnym, nadal wymagającym zabezpieczenia.
+
+### Kontynuacja — wymagane przed przełączeniem graczy
+
+1. Zweryfikować wspólnie z Argonem aktualny main i jego zmiany zarządzania procesem.
+2. Adapter GameSession dla świata Superior: identyczna geometria/nawigacja, miasta,
+   spawn ledger i serwerowy zegar. Nie uruchamiać graczy na uproszczonej starej mapie.
+3. Wpiąć zweryfikowany token i własność postaci do WS. Usunąć zaufanie do accountId,
+   level, HP/KI i współrzędnych z klienta; zweryfikować także istniejące funkcje admina.
+4. Serwer wykonuje walidowane polecenia ruchu/walki/interakcji/treningu/handlu;
+   klient nie wysyła gotowych nagród. Dołączyć lease aktywnej postaci między węzłami,
+   reconnect, snapshoty pełnego runtime, serializację komend i ACK po commicie.
+5. Nowy selektor postaci czyta API serwera; sesja gry renderuje zatwierdzony stan.
+   Nie używać localStorage jako źródła postępu. Przy braku sieci zatrzymać rozgrywkę
+   i pokazać reconnect; nie zamieniać awarii na dalszą lokalną grę.
+6. Dopiero po pełnym przepływie: migracja003 na VPS, prywatny runtime DB login,
+   trwały wolumen/kopie i konfiguracja Auth, kontrolowane włączenie trybu online.
+   Nie usuwać starych testowych danych — zgoda właściciela na nowe postacie nie
+   wymusza kasowania istniejących bajtów.
+7. Testy restartu procesu/bazy, dwóch klientów, przerwanego commitu, utraty sieci,
+   manipulacji XP/przedmiotami i powtórzeń nagród; realne cztery rasy i mobile.
+
+Polecenie testu repozytorium: `KI_ONLINE_TEST_DATABASE_URL=<izolowana-baza> npx tsx
+scripts/qa-online-characters.ts`. Wymaga istniejących schema001 +003, NIE produkcji.
+Skrypt używa roli ki_game_server, nie przywilejów postgres przy operacjach repo.
+Faktyczny test:16/16 na PostgreSQL17 (Docker/tmpfs);3 testy weryfikatora kont i9
+istniejących testów multiplayer/processów. Pełny stan i status: dziennik01.11.
+
+### Wspólna geometria i adapter serwera Superior — druga partia 01.11
+
+`simulationWorld.ts` wydziela istniejącą konstrukcję world/cities/heritageHome
+z superiorRuntime. Browser korzysta z tej samej funkcji; nie tworzono drugiej,
+uproszczonej mapy. `src/server/characters/superiorSimulation.ts` wczytuje pliki
+z public/game/worlds/superior-v2 przez ten sam loadBrowserFeature (manifesty,
+SHA i browserNavigation). Świat v2 wybiera jawnie, bez Node fallbacku WORLD_V2.
+Fetcher nie przyjmuje zewnętrznych adresów ani ścieżek spoza katalogu świata.
+
+GameSession działa na serwerze bez Phaser/DOM/localStorage. Prywatny port RAM
+jest buforem symulacji, nie trwałym repozytorium i nie zastępuje commit PostgreSQL.
+SuperiorSaveStore zachowuje format5, identyfikator właściciela broni i spawny;
+streamSpawns pracuje bez ładowania tekstur. Serwerowy zegar jest w checkpointcie,
+a tabela snapshotów dopuszcza współrzędne Superior do131072 zamiast starego65536.
+Podstawowe intencje mają ścisły OnlineCommandSchema: brak dowolnych pól statystyk,
+komend staff i nieskończonych współrzędnych. Walidacja schematu nie zastępuje
+kontroli zasięgu/kosztów w GameSession.
+
+Ta partia **nie jest jeszcze kompletną trwałą sesją online**. Adapter nie został
+podłączony do socketów/klienta ani produkcyjnego tworzenia postaci. Brakuje:
+- trwałego checkpointu cooldownów i efektów oraz bezpiecznej polityki przerwanych
+  kanałów; obecny capture nie gwarantuje odtworzenia pełnego stanu walki;
+- lease pojedynczej aktywnej postaci, kolejki poleceń, atomowych ACK po commicie,
+  zatrzymania na błędzie DB i bezpiecznego reconnectu;
+- pełnego zestawu intencji rozwoju/heritage, zadań V2 oraz podróży między lądami;
+- uwierzytelnionego protokołu online i zastąpienia lokalnej symulacji klienta
+  renderingiem/predykcją zatwierdzanego stanu; blokady fallbacku offline;
+- migracji i konfiguracji VPS oraz testów dwóch przeglądarek i awarii procesu.
+Nie aktywować adaptera jako produkcyjnego serwera walki przed tymi kontrolami.
+
+Regresja:31testów w6plikach PASS, w tym4rasy na realnych danych Superior v2,
+rzeczywisty ruch przez GameSession i odtworzenie checkpointu, odrzucenie manipulacji
+oraz dotychczasowe zapisy/spawny/postacie. TS3konfiguracje, celowany lint i build
+PASS. Nie wykonano jeszcze E2E nowego przepływu online — nie ma podłączonego UI.
+
+### Kandydat serwerowej rozgrywki PvE — trzecia partia 01.11, PR #69
+
+Ta sekcja opisuje dalszy kod gałęzi `feature/server-owned-characters`, **nie stan
+wdrożony na main/produkcji**. Poprzednie dwie sekcje pozostają historią ich dostaw.
+
+- Produkcyjny `Index` wymaga konta i pobiera listę/tworzy postacie przez
+  `/ws/characters`; połączenie `/ws/online` otwiera wybraną postać. Brak bazy,
+  uwierzytelnienia, odpowiedzi lub utrata socketu pokazuje błąd z ponowieniem.
+  Nie uruchamia lokalnego GameSession ani synchronizacji lokalnego zapisu do chmury.
+  Starsze zapisy pozostają nietknięte. `LegacyIndex` służy wyłącznie oddzielnemu
+  dokumentowi `scripts/playtest.html`, który nie jest trasą publikowanej gry.
+- `OnlineSession` ma kolejkę z limitem32, lease UUID na15s odnawiany w commicie,
+  kontrolę rewizji oraz trwałe potwierdzenia operationId/digest. ACK i frame
+  powstają po transakcji PostgreSQL; błąd zapisu zamyka symulację bez publikowania
+  niezatwierdzonego stanu. Powtórzenie polecenia także po reconnect sprawdza receipt
+  przed jego wykonaniem. Ticki nie tworzą osobnych wierszy receipts.
+- Klient wysyła kierunek/polecenie, nigdy HP, KI, XP, złoto, gotowy ekwipunek,
+  pozycję jako potwierdzony stan ani upływ czasu. Ruch manualny ma limit odświeżania
+  20Hz i wygaszenie wejścia po200ms czasu symulacji. Zegar pochodzi z procesu
+  serwera; skok pojedynczego kroku jest ograniczony do250ms. Koszty, kolizje,
+  AI, walka, łupy, XP, zadania i usługi nadal przechodzą przez istniejący GameSession.
+- Phaser jest adapterem prezentacji/wejścia: prywatny RAM seed z checkpointu
+  przygotowuje tę samą mapę i assety. Nie odczytuje lokalnej postaci i nie wykonuje
+  drugiej symulacji. Lokalne override'y świata nie są autorytetem online.
+  Zwykły HUD/joystick/klawisze pozostają; dwa wcześniejsze relay clients są wyłączone
+  w tym runtime. Blur anuluje intencje ruchu; watchdog6s blokuje grę bez nowych ramek.
+- `createQuestTracker` izoluje zadania V2 na postać; serwer zapisuje je razem
+  z postacią i przyznaje nagrody. Browser ma tylko mirror i wysyła intencję startu.
+  Rozwój/dziedzictwa oraz podróże mają ścisłe schematy. Egzamin jest serwerową
+  sesją pożyczoną: ruch/ciosy/ładowanie węzła i wynik oblicza serwer; browser
+  nie przesyła zaliczenia ani liczby sukcesów. Zerwanie/proces restart przerywa
+  niezapisany egzamin bez przyznania nagrody.
+- Snapshot obejmuje cooldowny, buffy, tarcze, zasoby rasowe, efekty kontroli i DOT,
+  cooldown mikstury/ataku/uniku, zegar oraz ledger spawnów. Wykonywalne callbacki
+  i kanały nie są serializowane. Restart przerywa kanał/zaplanowany callback,
+  zachowując zapłacony koszt i cooldown. Nie deklarujemy odtworzenia klatka w klatkę
+  aktywnego pocisku/kanału po awarii procesu.
+- Auth jest sprawdzany przez skonfigurowane `/auth/v1/user`; odnowienie tokenu
+  i ponowna weryfikacja działają podczas sesji. Staff pochodzi z chronionych
+  `user_roles`, nie z metadanych użytkownika. RPC Start/Stop/status wymaga admina
+  również na serwerze. Właściciel postaci nie otrzymuje dostępu do edycji surowego JSON.
+- Obecność pobliskich graczy (maks.16 w promieniu1800 na tym samym lądzie) pochodzi
+  z serwerowych pozycji. Adminowy radar/licznik otrzymuje rzeczywiste sesje online.
+  **Walki/ledger potworów są obecnie osobną instancją PvE każdej postaci.** Nie jest
+  to wspólna symulacja potworów/PvP/party ani pełne MMORPG. Wprowadzenie wspólnych
+  potworów wymaga osobnego właściciela świata, odbiorców obrażeń i podziału nagród;
+  nie wolno po prostu połączyć tablic enemies ani naliczać AI raz na każdego gracza.
+- Bezpieczne wycofanie postaci to `retired_at`, bez kasowania checkpointów.
+  Aktywna postać nie może być wycofana; lease/retire są serializowane. Limit12
+  aktywnych postaci na konto jest egzekwowany transakcyjnie. Pakiety mają limit16KiB,
+  kolejka32 i120 wiadomości/s; zbyt wolny odbiorca ma limit4MB zaległych danych.
+  WebSocket negocjuje kompresję pakietów powyżej1KiB (poziom3, bez zachowywania
+  kontekstu, współbieżność2); nie zastępuje to pomiaru pasma i load testu.
+
+#### Uruchomienie i cutover — wymaga oddzielnego zatwierdzenia
+
+1. Odczytać świeży main/SHA, otwarty PR #69 i wynik CI. Zweryfikować bieżące kontenery
+   read-only workflow `Coolify SSH access check` (brak sekretów w logu).
+2. Mieć kopię DB i operatora odpowiedzialnego za przywrócenie. Jawnie zastosować
+   schema003 i004, **nie polegać na init dla istniejącego wolumenu**.
+   `deploy/multiplayer/prepare-online.sh` tworzy dump/checksum, zachowuje istniejące
+   sekrety, tworzy LOGIN `ki_runtime` z członkostwem `ki_game_server` i prywatny
+   `game-server.env`. Nie uruchamia aplikacji, nie publikuje portu i nie usuwa danych.
+   Istniejący login bez zachowanego sekretu powoduje odmowę, nie automatyczny reset.
+3. Aplikacja potrzebuje prywatnego połączenia z siecią DB i DATABASE_URL roli runtime,
+   nigdy ki_owner/service_role. Przykładowy opt-in overlay to
+   `docker-compose.online.yml`: `GAME_SERVER_AUTOSTART=1`, `GAME_ONLINE_REQUIRED=1`,
+   public root `/app/.output/public`. Coolify używa własnego Compose — overlay nie
+   zmienia go automatycznie. Zachować wszystkie ustawienia `/test`, klucze, domeny
+   i konfiguracje innych aplikacji. Web nie dostaje dostępu do sieci DB.
+4. Supabase Auth nadal używa bieżącego konta/projektu; nie jest to zgoda na osobny
+   cutover Supabase/Storage. Backend bazowy Auth i nowe rekordy postaci w PostgreSQL
+   są różnymi systemami. Stary edytor kopii cloud w GM nie edytuje tych nowych
+   rekordów; komendy GM w aktywnej grze przechodzą przez serwer. Adapter administracji
+   do nowych rekordów wymaga osobnego odbioru i nie może pisać do żywej sesji bokiem.
+5. Demon uruchamia się raz przy pierwszym żądaniu aplikacji; Start/Stop jest
+   serializowany. Admin Stop zostaje zatrzymany do jawnego Start/restartu procesu.
+   Nieudany bootstrap pozostawia panel dostępny. Tryb wymagający online odmawia
+   startu bez trwałego repozytorium; legacy relay jest zablokowany.
+6. Po zatwierdzonym wdrożeniu sprawdzić `characterPersistenceReady`, faktyczne Auth,
+   login runtime, dwie przeglądarki, cztery rasy, zmianę pozycji i odczyt po restarcie
+   procesu aplikacji. Nie utożsamiać push/obrazu/green health frontendu z odbiorem gry.
+
+Kontrole i screenshoty tej partii: [dziennik01.11](zmiany/2026-11-01/ZMIANY.md).
+Workflow `Server-owned gameplay QA` uruchamia PostgreSQL17, pełny TS/unit/build,
+kontrole repo/leases, produkcyjny GameServer i scenariusze Phaser; uploaduje logi,
+trace i zrzuty na14dni. Autorytet kont jest w QA jawnie zastąpiony izolowanym
+fixture; nie jest to test produkcyjnego logowania/SMTP ani fizycznego telefonu.
+Nie wykonywano load testu250 graczy; maxPlayers to limit konfiguracji, nie pomiar.

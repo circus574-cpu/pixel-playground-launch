@@ -1,0 +1,78 @@
+name: Server-owned gameplay QA
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: online-server-qa-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  online:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      database:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: local-fixture-only
+          POSTGRES_DB: ki_multiplayer
+        ports: ["55439:5432"]
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      KI_ONLINE_TEST_DATABASE_URL: postgres://postgres:local-fixture-only@127.0.0.1:55439/ki_multiplayer
+      KI_QA_OUTPUT: test-results/online
+      NITRO_PRESET: node-server
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Prepare isolated test schema (never production)
+        env:
+          PGPASSWORD: local-fixture-only
+        run: |
+          psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/init/001-foundation.sql
+          psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/003-online-character-state.sql
+          psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/004-online-session-leases.sql
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npx tsx scripts/qa-online-characters.ts
+      - run: npx tsx scripts/qa-online-game-server.ts
+      - run: npx playwright install --with-deps chromium
+      - name: Build deterministic browser harness
+        run: |
+          mkdir -p test-results/online
+          npx vite build --config scripts/online-playtest.vite.ts > test-results/online/harness-build.log 2>&1
+      - name: Actual server, PostgreSQL and Phaser browser scenarios
+        run: |
+          git rev-parse HEAD > test-results/online/tested-sha.txt
+          npx tsx scripts/qa-online-runtime.ts > test-results/online/server.log 2>&1 &
+          server_pid=$!
+          npx vite preview --config scripts/online-playtest.vite.ts > test-results/online/vite.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$server_pid" "$preview_pid" 2>/dev/null || true' EXIT
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:5188/scripts/online-playtest.html >/dev/null && curl -fsS -H 'Authorization: Bearer online-fixture-token-only' http://127.0.0.1:7449/ws/characters >/dev/null; then ready=true; break; fi
+            sleep 1
+          done
+          if [ "$ready" != true ]; then echo 'Online QA services did not become ready'; exit 1; fi
+          node scripts/qa-online-browser.mjs
+      - name: Print service diagnostics on failure
+        if: failure()
+        run: |
+          for file in test-results/online/server.log test-results/online/vite.log test-results/online/harness-build.log; do
+            if [ -f "$file" ]; then echo "$file"; tail -n 100 "$file"; fi
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: online-server-${{ github.event.pull_request.head.sha || github.sha }}
+          path: test-results/online
+          retention-days: 14

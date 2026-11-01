@@ -8,6 +8,15 @@ import type { RaceId, WorldId } from "@/game/world/races";
 
 export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "error";
 
+type Events = Omit<
+  { [M in ServerMessage as M["type"]]: M },
+  "pong" | "player_joined" | "player_left"
+> & {
+  status: ConnectionStatus;
+  pong: number;
+  player_joined: NetworkPlayerState;
+  player_left: string;
+};
 export class MultiplayerClient {
   private socket: WebSocket | null = null;
   private url: string = "";
@@ -55,7 +64,10 @@ export class MultiplayerClient {
   public connect(customUrl?: string): void {
     if (typeof window === "undefined" || typeof WebSocket === "undefined") return;
     if (customUrl) this.url = customUrl;
-    if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
+    if (
+      this.socket &&
+      (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)
+    ) {
       return;
     }
 
@@ -146,7 +158,10 @@ export class MultiplayerClient {
     });
   }
 
-  public sendAction(action: "attack" | "cast" | "interact" | "emote", extra?: { targetId?: string; skillId?: string; x?: number; y?: number }): void {
+  public sendAction(
+    action: "attack" | "cast" | "interact" | "emote",
+    extra?: { targetId?: string; skillId?: string; x?: number; y?: number },
+  ): void {
     if (!this.isConnected()) return;
     this.send({
       type: "action",
@@ -179,7 +194,7 @@ export class MultiplayerClient {
         this.emit("welcome", msg);
         break;
 
-      case "snapshot":
+      case "snapshot": {
         for (const p of msg.players) {
           if (this.localPlayerCache && p.characterId === this.localPlayerCache.characterId) {
             continue; // Skip echo of self
@@ -195,9 +210,13 @@ export class MultiplayerClient {
         }
         this.emit("snapshot", msg);
         break;
+      }
 
       case "player_joined":
-        if (!this.localPlayerCache || msg.player.characterId !== this.localPlayerCache.characterId) {
+        if (
+          !this.localPlayerCache ||
+          msg.player.characterId !== this.localPlayerCache.characterId
+        ) {
           this.remotePlayers.set(msg.player.characterId, msg.player);
           this.emit("player_joined", msg.player);
         }
@@ -252,16 +271,17 @@ export class MultiplayerClient {
     this.emit("status", status);
   }
 
-  public on(event: string, callback: (data: any) => void): () => void {
+  public on<E extends keyof Events>(event: E, callback: (data: Events[E]) => void): () => void {
+    const listener = (data: unknown) => callback(data as Events[E]);
     const set = this.listeners.get(event) ?? new Set();
-    set.add(callback);
+    set.add(listener);
     this.listeners.set(event, set);
     return () => {
-      set.delete(callback);
+      set.delete(listener);
     };
   }
 
-  private emit(event: string, data: unknown): void {
+  private emit<E extends keyof Events>(event: E, data: Events[E]): void {
     const set = this.listeners.get(event);
     if (!set) return;
     for (const cb of set) {

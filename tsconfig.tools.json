@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "include": [
+    "src/server/ws.d.ts",
+    "scripts/qa-online-characters.ts",
+    "scripts/qa-online-runtime.ts",
+    "scripts/qa-online-game-server.ts",
     "scripts/import-game-assets.ts",
     "scripts/check-game-assets.ts",
     "scripts/create-technical-art.ts",
@@ -14,6 +18,6 @@
     "scripts/worldgen/**/*.ts"
   ],
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   }
 }

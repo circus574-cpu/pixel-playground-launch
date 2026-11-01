@@ -1,3 +1,6 @@
+import { remoteExam } from "../game/online/exam";
+import { OnlineClient } from "../game/online/client";
+import { supabase } from "../integrations/supabase/client";
 import { DevelopmentExam } from "../components/game/DevelopmentExam";
 import type { ExamAttempt } from "../game/development/exams";
 import { bossPreviewEnabled } from "../game/bosses/preview";
@@ -32,19 +35,115 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Ki Legends — Superior" },
       {
         property: "og:description",
-        content: "Cztery pochodzenia, cztery krainy. Rozpocznij lokalną przygodę PvE w Ki Legends.",
+        content:
+          "Cztery pochodzenia, cztery krainy. Dołącz do serwerowej przygody PvE w Ki Legends.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "description",
-        content: "Cztery pochodzenia, cztery krainy. Rozpocznij lokalną przygodę PvE w Ki Legends.",
+        content:
+          "Cztery pochodzenia, cztery krainy. Dołącz do serwerowej przygody PvE w Ki Legends.",
       },
     ],
   }),
   component: Index,
 });
+/** Production entry: no offline/local character fallback. Old saves remain untouched. */
 export function Index() {
+  const account = useAccount();
+  const [slots, setSlots] = useState<CharacterSlot[]>([]);
+  const [active, setActive] = useState<CharacterSlot | null>(null);
+  const [warning, setWarning] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [refresh, setRefresh] = useState(0);
+  const token = useCallback(async () => {
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) throw Error("Zaloguj się, aby wejść na serwer gry.");
+    return data.session.access_token;
+  }, []);
+  const [client] = useState(() => new OnlineClient(token, setWarning));
+  useEffect(() => {
+    if (!account.ready || !account.session || active) return;
+    let cancelled = false;
+    setBusy(true);
+    void client
+      .characters()
+      .then((records) => {
+        if (!cancelled) {
+          setSlots(
+            records.map((r) => ({ id: r.id, key: r.id, player: r.state.player, warning: "" })),
+          );
+          setWarning("");
+        }
+      })
+      .catch((e: Error) => {
+        if (!cancelled) setWarning(e.message);
+      })
+      .finally(() => {
+        if (!cancelled) setBusy(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [account.ready, account.session, active, refresh, client]);
+  if (!account.ready) return <GameLoadingScreen state={preparingWorld()} />;
+  if (!account.session)
+    return (
+      <main className="ki-bootstrap">
+        <h1>KI LEGENDS</h1>
+        <p>Rozgrywka i zapis postaci działają na serwerze.</p>
+        <a href="/konto">Zaloguj się / utwórz konto</a>
+      </main>
+    );
+  if (active)
+    return (
+      <GameScreen
+        key={active.id}
+        slot={active}
+        online
+        onExit={() => {
+          setActive(null);
+          setRefresh((n) => n + 1);
+        }}
+      />
+    );
+  return (
+    <>
+      <CharacterSelection
+        online
+        slots={slots}
+        warning={busy ? "Łączenie z bazą postaci…" : warning}
+        onContinue={(slot) => {
+          if (!busy) setActive(slot);
+        }}
+        onDelete={(slot) => {
+          if (busy) return;
+          setBusy(true);
+          void client
+            .remove(slot.id)
+            .then(() => {
+              setWarning("");
+              setRefresh((n) => n + 1);
+            })
+            .catch((e: Error) => setWarning(e.message))
+            .finally(() => setBusy(false));
+        }}
+        onCreate={(race, name = "") => {
+          if (busy) return;
+          setBusy(true);
+          void client
+            .create(race, name)
+            .then((r) => setActive({ id: r.id, key: r.id, player: r.state.player, warning: "" }))
+            .catch((e: Error) => setWarning(e.message))
+            .finally(() => setBusy(false));
+        }}
+      />
+      {warning && <button onClick={() => setRefresh((n) => n + 1)}>Ponów połączenie</button>}
+    </>
+  );
+}
+export function LegacyIndex() {
   const account = useAccount();
   const [store, setStore] = useState<CharacterStore | null>(null);
   const [mapNotice, setMapNotice] = useState<"verdant" | "aether" | "nexus" | "pyra" | false>(
@@ -172,13 +271,28 @@ export function Index() {
     </>
   );
 }
-function GameScreen({
+export function GameScreen({
   slot,
   onExit,
+  online = false,
+  tokenProvider,
 }: {
+  online?: boolean;
+  tokenProvider?: () => Promise<string>;
   slot: CharacterSlot;
   onExit: (origins?: boolean) => void;
 }) {
+  const mirroredExam = useRef<ReturnType<typeof remoteExam> | undefined>(undefined);
+  const onlineConnection = useRef<OnlineClient | undefined>(undefined);
+  const onlineAbort = useRef(new AbortController());
+  useEffect(() => {
+    onlineAbort.current = new AbortController();
+    return () => {
+      onlineAbort.current.abort();
+      onlineConnection.current?.close();
+      onlineConnection.current = undefined;
+    };
+  }, []);
   const container = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLElement>(null);
   const [testMode, setTestMode] = useState(false);
@@ -239,25 +353,96 @@ function GameScreen({
     let cancelled = false;
     const abort = new AbortController();
     let prepared: SuperiorRuntime | undefined;
+    let connection: OnlineClient | undefined;
+    let stopFeature = () => {};
+    let stopExam = () => {};
     setWorldRuntime(null);
     let cleanup: (() => void) | undefined;
     import("../game/mountGame")
       .then(async ({ mountKileGends }) => {
+        if (cancelled) return;
         if (!bossPreviewEnabled(location.pathname, location.search)) {
           const { prepareSuperior } = await import("../game/world/generated/superiorRuntime");
+          let storage: import("../game/session").StoragePort | undefined;
+          if (online) {
+            connection =
+              onlineConnection.current ??
+              new OnlineClient(
+                tokenProvider ??
+                  (async () => {
+                    const { data } = await supabase.auth.getSession();
+                    if (!data.session) throw Error("Zaloguj się ponownie.");
+                    return data.session.access_token;
+                  }),
+                (message) => {
+                  onlineConnection.current = undefined;
+                  if (!cancelled) {
+                    if (prepared) prepared.session.paused = true;
+                    setLoading({ phase: "error", message, progress: null });
+                  }
+                },
+              );
+            connection.setFailureHandler((message) => {
+              onlineConnection.current = undefined;
+              if (!cancelled) {
+                if (prepared) prepared.session.paused = true;
+                setLoading({ phase: "error", message, progress: null });
+              }
+            });
+            onlineConnection.current = connection;
+            const frame =
+              connection.frame ?? (await connection.connect(slot.id, onlineAbort.current.signal));
+            stopFeature = connection.subscribe((next) => {
+              if (next.feature !== frame.feature && !cancelled) setAttempt((n) => n + 1);
+            });
+            const applyExam = (next: import("../game/online/client").OnlineFrame) => {
+              if (next.exam) {
+                if (mirroredExam.current?.attempt.instanceId !== next.exam.instanceId) {
+                  mirroredExam.current = remoteExam(connection!, next.exam);
+                  activeDevelopmentExam.current = mirroredExam.current.attempt;
+                  setDevelopmentExam(mirroredExam.current.attempt);
+                  container.current?.dispatchEvent(
+                    new CustomEvent("ki:command", {
+                      detail: { type: "pause", value: true, suspendRendering: true },
+                    }),
+                  );
+                } else mirroredExam.current.apply(next.exam);
+              } else if (mirroredExam.current) {
+                mirroredExam.current = undefined;
+                activeDevelopmentExam.current = null;
+                setDevelopmentExam(null);
+                container.current?.dispatchEvent(
+                  new CustomEvent("ki:command", { detail: { type: "pause", value: false } }),
+                );
+              }
+            };
+            applyExam(frame);
+            stopExam = connection.subscribe(applyExam);
+            const values = new Map([
+              [slot.key, JSON.stringify(frame.checkpoint.runtime["superior"])],
+            ]);
+            storage = {
+              getItem: (key) => values.get(key) ?? null,
+              setItem: (key, value) => {
+                values.set(key, value);
+              },
+            };
+          }
           const [runtime, staff] = await Promise.all([
             prepareSuperior({
               race: slot.player!.race,
+              ...(connection ? { online: connection } : {}),
+              ...(storage ? { storage } : {}),
               saveKey: slot.key,
               signal: abort.signal,
               onLoading: (next) => {
                 if (!cancelled) setLoading(next);
               },
             }),
-            verifiedStaffRole(slot.id),
+            online ? Promise.resolve(undefined) : verifiedStaffRole(slot.id),
           ]);
           prepared = runtime;
-          prepared.session.staff = staff;
+          if (!online) prepared.session.staff = staff ?? null;
           if (!cancelled) setWorldRuntime(prepared);
         }
         if (!cancelled) {
@@ -305,9 +490,11 @@ function GameScreen({
       cancelled = true;
       cleanup?.();
       prepared?.dispose?.();
+      stopFeature();
+      stopExam();
       abort.abort();
     };
-  }, [slot.key, slot.player, attempt]);
+  }, [slot.id, slot.key, slot.player, attempt, online, tokenProvider]);
   return (
     <main ref={stage} className="ki-stage">
       {developmentExam && (
@@ -315,12 +502,20 @@ function GameScreen({
           key={developmentExam.instanceId}
           attempt={developmentExam}
           retry={() => {
+            if (online) {
+              onlineConnection.current?.intent({ type: "exam-action", action: "retry" });
+              return;
+            }
             const next = worldRuntime?.session.retryDevelopmentExam(developmentExam);
             if (!next) return;
             activeDevelopmentExam.current = next;
             setDevelopmentExam(next);
           }}
           accept={() => {
+            if (online) {
+              onlineConnection.current?.intent({ type: "exam-action", action: "accept" });
+              return true;
+            }
             if (!worldRuntime?.session.finishDevelopmentExam(developmentExam)) return false;
             activeDevelopmentExam.current = null;
             setDevelopmentExam(null);
@@ -328,6 +523,10 @@ function GameScreen({
             return true;
           }}
           leave={() => {
+            if (online) {
+              onlineConnection.current?.intent({ type: "exam-action", action: "leave" });
+              return;
+            }
             worldRuntime?.session.leaveDevelopmentExam(developmentExam);
             activeDevelopmentExam.current = null;
             setDevelopmentExam(null);
@@ -340,7 +539,17 @@ function GameScreen({
       {!developmentExam && <RotateNotice stage={stage.current} onCommand={sendOwnerCommand} />}
       {!developmentExam && state.ready && loading.phase === "ready" && (
         <GameHud
+          authoritative={online}
           onStartExam={(discipline, tier, rehearsal) => {
+            if (online) {
+              onlineConnection.current?.intent({
+                type: "exam-start",
+                discipline,
+                tier,
+                rehearsal: !!rehearsal,
+              });
+              return;
+            }
             const exam = worldRuntime?.session.startDevelopmentExam(discipline, tier, rehearsal);
             if (!exam) return displayMessage("Podejdź do trenera i sprawdź wymagania egzaminu.");
             activeDevelopmentExam.current = exam;
@@ -353,14 +562,22 @@ function GameScreen({
           onStaffTeleport={async (land, x, y, signal) => {
             if (!worldRuntime?.session.staff) return false;
             const moved = await worldRuntime.staffTeleport(land as FeatureId, { x, y }, signal);
-            if (moved && land !== worldRuntime.feature) setAttempt((n) => n + 1);
+            if (!online && moved && land !== worldRuntime.feature) setAttempt((n) => n + 1);
             return moved;
           }}
           onStaffTravel={(id) => {
+            if (online) {
+              onlineConnection.current?.intent({ type: "staff-travel", destination: id });
+              return;
+            }
             if (worldRuntime?.travel(id as FeatureId, true)) setAttempt((n) => n + 1);
             else displayMessage("Podróż niemożliwa: wyjdź na otwarty teren.");
           }}
           onPlanetTravel={(id) => {
+            if (online && worldRuntime?.canTravel()) {
+              onlineConnection.current?.intent({ type: "travel", destination: id });
+              return;
+            }
             if (worldRuntime?.travel(id as FeatureId)) setAttempt((n) => n + 1);
             else
               displayMessage(

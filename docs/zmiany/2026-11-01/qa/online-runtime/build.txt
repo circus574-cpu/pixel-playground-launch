@@ -1,0 +1,257 @@
+
+> build
+> vite build
+
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+vite v8.1.5 building client environment for production...
+[2Ktransforming...[plugin tanstack-start-core::server-fn:client] /workspace/ki-aruba/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-aruba/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-aruba/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-aruba/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] /workspace/ki-aruba/src/lib/serverControl.functions.ts:22:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 2269 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/public/assets/v2-globe-lights-2048-BQpLZfpS.webp      10.32 kB
+.output/public/assets/globe-lights-2048-GxlCLdQI.webp         14.46 kB
+.output/public/assets/globe-surface-2048-DgErZuqt.webp        69.67 kB
+.output/public/assets/v2-globe-surface-2048-BkB9iogr.webp     81.00 kB
+.output/public/assets/v2-globe-color-1920-Cefw5Iwr.webp      105.94 kB
+.output/public/assets/atlas-v2-1920-qBGcbq4M.webp            129.65 kB
+.output/public/assets/globe-clouds-2048-D4kKIQXb.webp        188.70 kB
+.output/public/assets/space-HEvV20ml.jpg                     198.76 kB
+.output/public/assets/globe-color-1920-Ch9gVdr6.webp         230.17 kB
+.output/public/assets/v2-globe-color-3840-D-WQjFcA.webp      286.36 kB
+.output/public/assets/atlas-1920-Dl3d8o1-.webp               298.50 kB
+.output/public/assets/atlas-v2-3840-DaiEGaNp.webp            375.37 kB
+.output/public/assets/globe-color-3840-HOUfVboF.webp         729.71 kB
+.output/public/assets/atlas-3840-BF0NjDLS.webp               960.98 kB
+.output/public/assets/AdminWorldMap-BmqbHNpd.css               0.91 kB │ gzip:   0.42 kB
+.output/public/assets/CoderAdminPanel-DzPm2jaS.css             3.28 kB │ gzip:   1.13 kB
+.output/public/assets/globe-CtS_R0Ji.css                      19.04 kB │ gzip:   4.91 kB
+.output/public/assets/styles-CPWfkvNh.css                     75.42 kB │ gzip:  12.76 kB
+.output/public/assets/index-BdvBYrGq.css                     107.04 kB │ gzip:  23.10 kB
+.output/public/assets/atlas-v2-3840-BAgtKxuW.js                0.05 kB │ gzip:   0.07 kB
+.output/public/assets/playtest-CDD955LB.js                     0.23 kB │ gzip:   0.19 kB
+.output/public/assets/mapa-Cl458b3O.js                         0.54 kB │ gzip:   0.37 kB
+.output/public/assets/rolldown-runtime-hePW80VL.js             0.71 kB │ gzip:   0.42 kB
+.output/public/assets/worldToAtlas-CypEBMI_.js                 0.72 kB │ gzip:   0.43 kB
+.output/public/assets/cloudPort-BrDDWcX9.js                    0.77 kB │ gzip:   0.39 kB
+.output/public/assets/characters-fF3bmIFg.js                   2.10 kB │ gzip:   0.96 kB
+.output/public/assets/visibility-BXlag-Q2.js                   2.23 kB │ gzip:   1.10 kB
+.output/public/assets/globe-fR05HqpK.js                        3.98 kB │ gzip:   1.73 kB
+.output/public/assets/superiorSave-DCUXDCUc.js                 4.37 kB │ gzip:   1.87 kB
+.output/public/assets/worldVersion-G4wAFpxV.js                 4.51 kB │ gzip:   1.68 kB
+.output/public/assets/gmEdit-DC8tRiJ6.js                       5.84 kB │ gzip:   2.19 kB
+.output/public/assets/konto-ClLMWMlj.js                        6.03 kB │ gzip:   2.52 kB
+.output/public/assets/keyBindings-CZGuwA8a.js                  6.92 kB │ gzip:   2.85 kB
+.output/public/assets/AdminWorldMap--8Vaj5I3.js                9.47 kB │ gzip:   3.95 kB
+.output/public/assets/admin-DjPxkFBD.js                       11.44 kB │ gzip:   4.17 kB
+.output/public/assets/adminTelemetry-qjD2hriu.js              19.72 kB │ gzip:   7.41 kB
+.output/public/assets/MapaView--lR7dwxq.js                    22.27 kB │ gzip:   8.23 kB
+.output/public/assets/superiorRuntime-CE4m61rb.js             30.40 kB │ gzip:  12.12 kB
+.output/public/assets/button-CJ_SvTMT.js                      33.87 kB │ gzip:  11.30 kB
+.output/public/assets/preload-SOcrBOoz.js                     35.88 kB │ gzip:  15.07 kB
+.output/public/assets/test-YlHEmvIo.js                        48.41 kB │ gzip:  16.99 kB
+.output/public/assets/AdminMonitoringCenter-1BvmRdBM.js       56.06 kB │ gzip:  14.48 kB
+.output/public/assets/types-BnRpOL1v.js                       56.40 kB │ gzip:  12.93 kB
+.output/public/assets/CoderAdminPanel-Donu7jc4.js             66.25 kB │ gzip:  13.89 kB
+.output/public/assets/worlds-D5Xw91uK.js                      78.61 kB │ gzip:  24.59 kB
+.output/public/assets/adminWorldStore-DvAgo2yo.js            168.81 kB │ gzip:  25.21 kB
+.output/public/assets/client-LZUcbpVF.js                     217.20 kB │ gzip:  56.03 kB
+.output/public/assets/exams-DfiNa1rM.js                      511.32 kB │ gzip: 127.98 kB
+.output/public/assets/worldOverlay.v2-Chq4zTPA.js            528.59 kB │ gzip: 110.19 kB
+.output/public/assets/PlanetGlobe-DN9nBl7b.js                970.08 kB │ gzip: 258.61 kB
+.output/public/assets/mountGame-DUOJKzsR.js                1,452.47 kB │ gzip: 384.78 kB
+.output/public/assets/index-BeKAHOVW.js                    2,849.45 kB │ gzip: 354.73 kB
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+  - vite-tsconfig-paths (84%)
+  - tanstack-start-core:import-protection (8%)
+  - tanstack-start-core:import-protection-transform-cache (6%)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.52s
+vite v8.1.5 building ssr environment for production...
+[2Ktransforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts?tss-serverfn-split:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts?tss-serverfn-split:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts?tss-serverfn-split:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts?tss-serverfn-split:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/serverControl.functions.ts?tss-serverfn-split:22:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts:11:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts:52:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts:66:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/sketches.functions.ts:84:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/ki-aruba/src/lib/serverControl.functions.ts:22:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 329 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/assets/v2-globe-lights-2048-BQpLZfpS.webp                    10.32 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-lights-2048-GxlCLdQI.webp                       14.46 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-surface-2048-DgErZuqt.webp                      69.67 kB
+node_modules/.nitro/vite/services/ssr/assets/v2-globe-surface-2048-BkB9iogr.webp                   81.00 kB
+node_modules/.nitro/vite/services/ssr/assets/v2-globe-color-1920-Cefw5Iwr.webp                    105.94 kB
+node_modules/.nitro/vite/services/ssr/assets/atlas-v2-1920-qBGcbq4M.webp                          129.65 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-clouds-2048-D4kKIQXb.webp                      188.70 kB
+node_modules/.nitro/vite/services/ssr/assets/space-HEvV20ml.jpg                                   198.76 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-color-1920-Ch9gVdr6.webp                       230.17 kB
+node_modules/.nitro/vite/services/ssr/assets/v2-globe-color-3840-D-WQjFcA.webp                    286.36 kB
+node_modules/.nitro/vite/services/ssr/assets/atlas-1920-Dl3d8o1-.webp                             298.50 kB
+node_modules/.nitro/vite/services/ssr/assets/atlas-v2-3840-DaiEGaNp.webp                          375.37 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-color-3840-HOUfVboF.webp                       729.71 kB
+node_modules/.nitro/vite/services/ssr/assets/atlas-3840-BF0NjDLS.webp                             960.98 kB
+node_modules/.nitro/vite/services/ssr/assets/AdminWorldMap-BmqbHNpd.css                             0.91 kB │ gzip:   0.42 kB
+node_modules/.nitro/vite/services/ssr/assets/CoderAdminPanel-DzPm2jaS.css                           3.28 kB │ gzip:   1.13 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-CtS_R0Ji.css                                    19.04 kB │ gzip:   4.91 kB
+node_modules/.nitro/vite/services/ssr/assets/styles-CPWfkvNh.css                                   75.42 kB │ gzip:  12.76 kB
+node_modules/.nitro/vite/services/ssr/assets/router-BdvBYrGq.css                                  107.04 kB │ gzip:  23.10 kB
+node_modules/.nitro/vite/services/ssr/assets/atlas-v2-3840-Coph-46x.js                              0.17 kB │ gzip:   0.14 kB
+node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-i5-m-9B4.js                      0.23 kB │ gzip:   0.17 kB
+node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-D7D4PA-g.js                           0.36 kB │ gzip:   0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/createServerRpc-DmR0kmXu.js                            0.41 kB │ gzip:   0.28 kB
+node_modules/.nitro/vite/services/ssr/assets/sketches.validation-Cl_UhvEd.js                        0.45 kB │ gzip:   0.31 kB
+node_modules/.nitro/vite/services/ssr/assets/playtest-BCvgUyBf.js                                   0.60 kB │ gzip:   0.35 kB
+node_modules/.nitro/vite/services/ssr/assets/createSsrRpc-DPA1gLl4.js                               0.62 kB │ gzip:   0.38 kB
+node_modules/.nitro/vite/services/ssr/assets/mapa-DJC_aFsd.js                                       0.77 kB │ gzip:   0.44 kB
+node_modules/.nitro/vite/services/ssr/assets/useAccount-B-iFThPy.js                                 1.28 kB │ gzip:   0.63 kB
+node_modules/.nitro/vite/services/ssr/assets/cloudPort-DGhQ3buM.js                                  1.33 kB │ gzip:   0.56 kB
+node_modules/.nitro/vite/services/ssr/assets/worldToAtlas-CSmLFOxe.js                               1.51 kB │ gzip:   0.72 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CCnHfRhk.js                 1.53 kB │ gzip:   0.65 kB
+node_modules/.nitro/vite/services/ssr/assets/client.server-BmG29cfu.js                              1.73 kB │ gzip:   0.79 kB
+node_modules/.nitro/vite/services/ssr/assets/button-DRsC1qZi.js                                     1.78 kB │ gzip:   0.82 kB
+node_modules/.nitro/vite/services/ssr/assets/start-D80qVud3.js                                      2.02 kB │ gzip:   0.89 kB
+node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-CT6pco2W.js      2.36 kB │ gzip:   0.87 kB
+node_modules/.nitro/vite/services/ssr/assets/test-B32YiOph.js                                       2.44 kB │ gzip:   1.04 kB
+node_modules/.nitro/vite/services/ssr/assets/serverControl.functions-BPjkqEHK.js                    2.99 kB │ gzip:   1.17 kB
+node_modules/.nitro/vite/services/ssr/assets/createCsrfMiddleware-BA7QlOzt.js                       3.22 kB │ gzip:   1.02 kB
+node_modules/.nitro/vite/services/ssr/assets/characters-BU9gzoMh.js                                 3.35 kB │ gzip:   1.40 kB
+node_modules/.nitro/vite/services/ssr/assets/request-response-DgFbOjvm.js                           3.59 kB │ gzip:   1.21 kB
+node_modules/.nitro/vite/services/ssr/assets/client-Bj-oUAg8.js                                     3.95 kB │ gzip:   1.34 kB
+node_modules/.nitro/vite/services/ssr/assets/visibility-DN22dnnu.js                                 4.43 kB │ gzip:   1.75 kB
+node_modules/.nitro/vite/services/ssr/assets/zoneMap-BzCVaRAR.js                                    4.97 kB │ gzip:   1.74 kB
+node_modules/.nitro/vite/services/ssr/assets/globe-8gMW4tmI.js                                      6.24 kB │ gzip:   2.38 kB
+node_modules/.nitro/vite/services/ssr/assets/worldVersion-BMoLC-Zm.js                               6.68 kB │ gzip:   2.08 kB
+node_modules/.nitro/vite/services/ssr/assets/sketches.functions-m5ok194_.js                         8.40 kB │ gzip:   2.51 kB
+node_modules/.nitro/vite/services/ssr/assets/gmEdit-V6Qi1RDI.js                                     9.39 kB │ gzip:   2.87 kB
+node_modules/.nitro/vite/services/ssr/assets/createServerFn-BkJ7SoTK.js                             9.98 kB │ gzip:   3.02 kB
+node_modules/.nitro/vite/services/ssr/assets/konto-DNzMXe0f.js                                     11.36 kB │ gzip:   3.89 kB
+node_modules/.nitro/vite/services/ssr/assets/keyBindings-D7G8F-L3.js                               13.01 kB │ gzip:   4.67 kB
+node_modules/.nitro/vite/services/ssr/assets/AdminWorldMap-BWbdLB7N.js                             15.77 kB │ gzip:   5.11 kB
+node_modules/.nitro/vite/services/ssr/assets/admin-BJw_-s6t.js                                     16.44 kB │ gzip:   4.86 kB
+node_modules/.nitro/vite/services/ssr/assets/test-CI1nbMu4.js                                      19.70 kB │ gzip:   5.83 kB
+node_modules/.nitro/vite/services/ssr/assets/superiorRuntime-C9EkHdqE.js                           37.95 kB │ gzip:  12.31 kB
+node_modules/.nitro/vite/services/ssr/assets/PlanetGlobe-DhBglIu1.js                               39.06 kB │ gzip:  11.77 kB
+node_modules/.nitro/vite/services/ssr/assets/MapaView--5zwx-jP.js                                  39.60 kB │ gzip:  11.09 kB
+node_modules/.nitro/vite/services/ssr/assets/preload-CIt6xn-c.js                                   51.51 kB │ gzip:  17.42 kB
+node_modules/.nitro/vite/services/ssr/assets/server-DdnlazgJ.js                                    60.49 kB │ gzip:  15.53 kB
+node_modules/.nitro/vite/services/ssr/assets/dialogue-D7k9-kfh.js                                  70.04 kB │ gzip:  26.26 kB
+node_modules/.nitro/vite/services/ssr/assets/worlds-B6SAdOQv.js                                    95.99 kB │ gzip:  26.11 kB
+node_modules/.nitro/vite/services/ssr/assets/CoderAdminPanel-CQ80UMuS.js                          114.15 kB │ gzip:  18.85 kB
+node_modules/.nitro/vite/services/ssr/assets/mountGame-BaHJP9r1.js                                128.81 kB │ gzip:  37.00 kB
+node_modules/.nitro/vite/services/ssr/assets/AdminMonitoringCenter-B3JA0_6D.js                    137.79 kB │ gzip:  29.46 kB
+node_modules/.nitro/vite/services/ssr/assets/adminWorldStore-5KbAyh-1.js                          212.96 kB │ gzip:  27.52 kB
+node_modules/.nitro/vite/services/ssr/assets/router-DYpaCTEY.js                                   219.19 kB │ gzip:  56.38 kB
+node_modules/.nitro/vite/services/ssr/assets/worldOverlay.v2-DT3U09ZW.js                          791.41 kB │ gzip: 118.63 kB
+node_modules/.nitro/vite/services/ssr/index.js                                                  1,133.52 kB │ gzip: 214.65 kB
+node_modules/.nitro/vite/services/ssr/assets/catalog-B-lo_nm_.js                                2,278.67 kB │ gzip: 142.69 kB
+
+✓ built in 1.50s
+
+[nitro] ◐ Building [Nitro] (preset: node-server, compatibility: 2026-11-01)
+[nitro] ✔ Generated public .output/public
+vite v8.1.5 building nitro environment for production...
+[2Ktransforming...✓ 2147 modules transformed.
+ℹ Tracing dependencies:
+- tslib (2.8.1)
+✔ Traced 1 dependencies (4 files) in 53ms.
+ℹ Ensure your production environment matches the builder OS and architecture (linux-x64) to avoid native module issues.
+rendering chunks...
+computing gzip size...
+.output/server/_ssr/atlas-v2-3840-Coph-46x.mjs                         0.21 kB │ gzip:     0.16 kB
+.output/server/_ssr/empty-plugin-adapters-i5-m-9B4.mjs                 0.24 kB │ gzip:     0.17 kB
+.output/server/_ssr/createServerRpc-DmR0kmXu.mjs                       0.41 kB │ gzip:     0.28 kB
+.output/server/_ssr/rolldown-runtime-D7D4PA-g.mjs                      0.42 kB │ gzip:     0.30 kB
+.output/server/_ssr/sketches.validation-Cl_UhvEd.mjs                   0.62 kB │ gzip:     0.41 kB
+.output/server/_ssr/createSsrRpc-DPA1gLl4.mjs                          0.62 kB │ gzip:     0.39 kB
+.output/server/_chunks/ssr-renderer.mjs                                0.62 kB │ gzip:     0.37 kB
+.output/server/_ssr/playtest-BCvgUyBf.mjs                              0.65 kB │ gzip:     0.39 kB
+.output/server/_ssr/mapa-DJC_aFsd.mjs                                  1.16 kB │ gzip:     0.57 kB
+.output/server/_ssr/useAccount-B-iFThPy.mjs                            1.51 kB │ gzip:     0.76 kB
+.output/server/_ssr/worldToAtlas-CSmLFOxe.mjs                          1.55 kB │ gzip:     0.75 kB
+.output/server/_tanstack-start-manifest_v-CCnHfRhk.mjs                 1.59 kB │ gzip:     0.69 kB
+.output/server/_libs/tanstack__react-query.mjs                         1.69 kB │ gzip:     0.78 kB
+.output/server/_ssr/client.server-BmG29cfu.mjs                         1.79 kB │ gzip:     0.84 kB
+.output/server/_libs/radix-ui__primitive.mjs                           1.84 kB │ gzip:     0.73 kB
+.output/server/_ssr/start-D80qVud3.mjs                                 1.91 kB │ gzip:     0.87 kB
+.output/server/_runtime.mjs                                            1.92 kB │ gzip:     0.87 kB
+.output/server/_ssr/button-DRsC1qZi.mjs                                2.13 kB │ gzip:     0.93 kB
+.output/server/_libs/ufo.mjs                                           2.21 kB │ gzip:     0.72 kB
+.output/server/__23tanstack-start-server-fn-resolver-CT6pco2W.mjs      2.48 kB │ gzip:     0.92 kB
+.output/server/_ssr/test-B32YiOph.mjs                                  2.53 kB │ gzip:     1.09 kB
+.output/server/_ssr/serverControl.functions-BPjkqEHK.mjs               3.05 kB │ gzip:     1.21 kB
+.output/server/_ssr/createCsrfMiddleware-BA7QlOzt.mjs                  3.12 kB │ gzip:     1.02 kB
+.output/server/_libs/class-variance-authority+clsx.mjs                 3.19 kB │ gzip:     1.25 kB
+.output/server/_ssr/request-response-DgFbOjvm.mjs                      3.63 kB │ gzip:     1.25 kB
+.output/server/_ssr/client-Bj-oUAg8.mjs                                3.94 kB │ gzip:     1.37 kB
+.output/server/_ssr/visibility-DN22dnnu.mjs                            4.33 kB │ gzip:     1.76 kB
+.output/server/_ssr/characters-BU9gzoMh.mjs                            4.79 kB │ gzip:     1.89 kB
+.output/server/_ssr/zoneMap-BzCVaRAR.mjs                               5.01 kB │ gzip:     1.77 kB
+.output/server/_libs/radix-ui__react-context+react.mjs                 5.78 kB │ gzip:     1.68 kB
+.output/server/_ssr/worldVersion-BMoLC-Zm.mjs                          6.71 kB │ gzip:     2.13 kB
+.output/server/_ssr/globe-8gMW4tmI.mjs                                 7.01 kB │ gzip:     2.46 kB
+.output/server/_ssr/sketches.functions-m5ok194_.mjs                    8.45 kB │ gzip:     2.57 kB
+.output/server/_ssr/gmEdit-V6Qi1RDI.mjs                                9.44 kB │ gzip:     2.91 kB
+.output/server/_ssr/createServerFn-BkJ7SoTK.mjs                        9.49 kB │ gzip:     3.02 kB
+.output/server/_libs/lucide-react.mjs                                 11.58 kB │ gzip:     2.66 kB
+.output/server/_libs/tanstack__history.mjs                            12.51 kB │ gzip:     3.72 kB
+.output/server/_ssr/konto-DNzMXe0f.mjs                                12.54 kB │ gzip:     4.02 kB
+.output/server/_libs/supabase__functions-js.mjs                       12.55 kB │ gzip:     3.46 kB
+.output/server/_ssr/keyBindings-D7G8F-L3.mjs                          12.89 kB │ gzip:     4.69 kB
+.output/server/_ssr/AdminWorldMap-BWbdLB7N.mjs                        17.59 kB │ gzip:     5.26 kB
+.output/server/_libs/@radix-ui/react-compose-refs+[...].mjs           17.65 kB │ gzip:     4.84 kB
+.output/server/_ssr/admin-BJw_-s6t.mjs                                19.61 kB │ gzip:     5.03 kB
+.output/server/_ssr/test-CI1nbMu4.mjs                                 21.79 kB │ gzip:     5.96 kB
+.output/server/_libs/h3+rou3+srvx.mjs                                 27.41 kB │ gzip:     7.20 kB
+.output/server/_libs/@tanstack/router-core+[...].mjs                  29.80 kB │ gzip:     8.00 kB
+.output/server/_ssr/superiorRuntime-C9EkHdqE.mjs                      37.86 kB │ gzip:    12.34 kB
+.output/server/_libs/supabase__supabase-js.mjs                        37.88 kB │ gzip:    11.18 kB
+.output/server/_ssr/PlanetGlobe-DhBglIu1.mjs                          41.71 kB │ gzip:    11.94 kB
+.output/server/_ssr/MapaView--5zwx-jP.mjs                             43.86 kB │ gzip:    11.31 kB
+.output/server/_libs/supabase__phoenix.mjs                            50.55 kB │ gzip:    12.78 kB
+.output/server/_ssr/preload-CIt6xn-c.mjs                              51.99 kB │ gzip:    17.80 kB
+.output/server/_ssr/server-DdnlazgJ.mjs                               59.27 kB │ gzip:    15.42 kB
+.output/server/_libs/postgres.mjs                                     64.22 kB │ gzip:    18.12 kB
+.output/server/_libs/three.mjs                                        65.68 kB │ gzip:    14.97 kB
+.output/server/_libs/h3-v2+rou3+srvx.mjs                              66.44 kB │ gzip:    17.67 kB
+.output/server/_ssr/dialogue-D7k9-kfh.mjs                             69.94 kB │ gzip:    26.28 kB
+.output/server/_libs/supabase__realtime-js.mjs                        81.92 kB │ gzip:    20.91 kB
+.output/server/_libs/tailwind-merge.mjs                               88.93 kB │ gzip:    15.71 kB
+.output/server/_libs/@radix-ui/react-dialog+[...].mjs                 90.29 kB │ gzip:    21.15 kB
+.output/server/_libs/zod.mjs                                         100.38 kB │ gzip:    17.40 kB
+.output/server/_libs/supabase__postgrest-js.mjs                      110.47 kB │ gzip:    23.21 kB
+.output/server/_libs/tanstack__query-core.mjs                        113.40 kB │ gzip:    26.69 kB
+.output/server/_libs/ws.mjs                                          115.99 kB │ gzip:    24.26 kB
+.output/server/_libs/@supabase/storage-js+[...].mjs                  127.50 kB │ gzip:    23.93 kB
+.output/server/_ssr/mountGame-BaHJP9r1.mjs                           128.37 kB │ gzip:    36.94 kB
+.output/server/_ssr/CoderAdminPanel-CQ80UMuS.mjs                     134.09 kB │ gzip:    19.40 kB
+.output/server/_ssr/AdminMonitoringCenter-B3JA0_6D.mjs               151.57 kB │ gzip:    29.85 kB
+.output/server/_ssr/adminWorldStore-5KbAyh-1.mjs                     212.88 kB │ gzip:    27.49 kB
+.output/server/_ssr/router-DYpaCTEY.mjs                              241.25 kB │ gzip:    57.36 kB
+.output/server/_libs/supabase__auth-js.mjs                           319.67 kB │ gzip:    64.77 kB
+.output/server/_libs/@tanstack/react-router+[...].mjs                787.53 kB │ gzip:   166.41 kB
+.output/server/_ssr/worldOverlay.v2-DT3U09ZW.mjs                     791.66 kB │ gzip:   118.74 kB
+.output/server/_ssr/ssr.mjs                                        1,228.62 kB │ gzip:   240.54 kB
+.output/server/_libs/@react-three/fiber+[...].mjs                  2,189.93 kB │ gzip:   445.55 kB
+.output/server/_ssr/catalog-B-lo_nm_.mjs                           2,278.79 kB │ gzip:   142.83 kB
+.output/server/index.mjs                                           3,473.81 kB │ gzip:   482.94 kB
+.output/server/_libs/phaser.mjs                                    7,080.83 kB │ gzip: 1,231.88 kB
+
+✓ built in 4.47s
+ℹ Generated .output/nitro.json
+
+[nitro] ✔ You can preview this build using npx vite preview
