@@ -34,11 +34,24 @@ export const VERDANTIA_TRAINING_OBJECTS = {
   "training.planetary.target": "/game/development-v1/objects/training.planetary.target.webp",
   "training.planetary.ki-node": "/game/development-v1/objects/training.planetary.ki-node.webp",
   "training.planetary.defense": "/game/development-v1/objects/training.planetary.defense.webp",
+  "training.planetary.ki-source": "/game/development-v1/objects/training.planetary.ki-source.webp",
+  "training.planetary.checkpoint": "/game/development-v1/objects/training.planetary.checkpoint.webp",
+  "training.planetary.obstacle": "/game/development-v1/objects/training.planetary.obstacle.webp",
+  "training.planetary.surrender": "/game/development-v1/objects/training.planetary.surrender.webp",
 } as const;
+export type TrainingObjectKind =
+  | "dummy"
+  | "target"
+  | "ki-node"
+  | "defense"
+  | "ki-source"
+  | "checkpoint"
+  | "obstacle"
+  | "surrender";
 
 export function trainingObjectUrl(
   world: WorldId,
-  kind: "dummy" | "target" | "ki-node" | "defense",
+  kind: TrainingObjectKind,
 ): string | undefined {
   if (world !== "verdant") return undefined;
   return VERDANTIA_TRAINING_OBJECTS[`training.planetary.${kind}`];

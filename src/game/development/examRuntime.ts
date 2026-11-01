@@ -9,8 +9,13 @@ import type { ExamAttempt } from "./exams";
 
 const DEV_OBJECT_KEYS = {
   dummy: "dev-training-planetary-dummy",
+  target: "dev-training-planetary-target",
   "ki-node": "dev-training-planetary-ki-node",
   defense: "dev-training-planetary-defense",
+  "ki-source": "dev-training-planetary-ki-source",
+  checkpoint: "dev-training-planetary-checkpoint",
+  obstacle: "dev-training-planetary-obstacle",
+  surrender: "dev-training-planetary-surrender",
 } as const;
 
 /** The loan room has no city/landscape/NPCs: load only the current hero, UI and relevant effects. */
@@ -28,7 +33,7 @@ export function examAssets(race: RaceId): AssetDefinition[] {
     return asset;
   });
   if (devArtEnabled() && world === "verdant") {
-    for (const kind of ["dummy", "ki-node", "defense"] as const) {
+    for (const kind of Object.keys(DEV_OBJECT_KEYS) as (keyof typeof DEV_OBJECT_KEYS)[]) {
       const url = trainingObjectUrl(world, kind);
       if (url)
         base.push({
@@ -81,6 +86,27 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
               .setOrigin(0.5, 0.88)
               .setDepth(pt.y),
           );
+        if (scene.textures.exists(DEV_OBJECT_KEYS["ki-source"]))
+          props.push(
+            scene.add
+              .image(480, 382, DEV_OBJECT_KEYS["ki-source"])
+              .setDisplaySize(104, 104)
+              .setOrigin(0.5, 0.88)
+              .setDepth(370),
+          );
+      }
+      if (
+        attempt.spec.discipline === "endurance" &&
+        scene.textures.exists(DEV_OBJECT_KEYS.checkpoint)
+      ) {
+        for (const pt of attempt.points)
+          props.push(
+            scene.add
+              .image(pt.x, pt.y + 10, DEV_OBJECT_KEYS.checkpoint)
+              .setDisplaySize(88, 88)
+              .setOrigin(0.5, 0.88)
+              .setDepth(pt.y),
+          );
       }
       if (
         attempt.spec.discipline === "defense" &&
@@ -92,6 +118,25 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
             .setDisplaySize(96, 96)
             .setOrigin(0.5, 0.88)
             .setDepth(175),
+        );
+      }
+      if (scene.textures.exists(DEV_OBJECT_KEYS.obstacle)) {
+        for (const b of attempt.session.world.obstacles)
+          props.push(
+            scene.add
+              .image(b.x + b.width / 2, b.y + b.height, DEV_OBJECT_KEYS.obstacle)
+              .setDisplaySize(Math.max(72, b.width + 16), Math.max(72, b.height + 24))
+              .setOrigin(0.5, 0.88)
+              .setDepth(b.y + b.height),
+          );
+      }
+      if (scene.textures.exists(DEV_OBJECT_KEYS.surrender)) {
+        props.push(
+          scene.add
+            .image(140, 680, DEV_OBJECT_KEYS.surrender)
+            .setDisplaySize(96, 96)
+            .setOrigin(0.5, 0.88)
+            .setDepth(680),
         );
       }
       const text = scene.add

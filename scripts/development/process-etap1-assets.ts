@@ -75,6 +75,42 @@ const ENTRIES: readonly RawEntry[] = [
       "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
   },
   {
+    id: "training.planetary.ki-source",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Źródło testowego KI — Verdantia",
+    sourceFile: ".user_uploaded/media_1793534796448_c40c437f.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.planetary.checkpoint",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Punkt trasy — Verdantia",
+    sourceFile: ".user_uploaded/media_1793534796465_fa0f5e48.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.planetary.obstacle",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Przeszkoda treningowa — Verdantia",
+    sourceFile: ".user_uploaded/media_1793534796440_e9b6cd0c.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.planetary.surrender",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Znacznik poddania — Verdantia",
+    sourceFile: ".user_uploaded/media_1793534796429_4733c57c.jpg",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
     id: "ui.training.strength",
     batch: "PARTIA_2_P0",
     kind: "icon",

@@ -28,7 +28,16 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
       expect(url).toBeDefined();
       expect(existsSync("public" + url!), `tier ${tier}: ${url}`).toBe(true);
     }
-    for (const kind of ["dummy", "target", "ki-node", "defense"] as const) {
+    for (const kind of [
+      "dummy",
+      "target",
+      "ki-node",
+      "defense",
+      "ki-source",
+      "checkpoint",
+      "obstacle",
+      "surrender",
+    ] as const) {
       const url = trainingObjectUrl("verdant", kind);
       expect(url).toBeDefined();
       expect(existsSync("public" + url!), `verdant.${kind}: ${url}`).toBe(true);
@@ -40,7 +49,7 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
     expect(existsSync(manifestPath)).toBe(true);
     const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
     expect(manifest.optInSwitch).toBe("ki-dev-art");
-    expect(manifest.assets.length).toBe(18);
+    expect(manifest.assets.length).toBe(22);
 
     for (const asset of manifest.assets) {
       const origPath = `art/production/development/v001/originals/${asset.id}.v001.orig.jpg`;
