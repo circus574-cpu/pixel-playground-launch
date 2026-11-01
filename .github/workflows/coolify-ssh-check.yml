@@ -36,4 +36,4 @@ jobs:
           ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 \
             -o StrictHostKeyChecking=accept-new \
             -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
-            -p 22 codex@85.235.150.189 'bash -s' < deploy/scripts/online-server-preflight.sh
+            -p 22 codex@85.235.150.189 'bash -s' < deploy/scripts/inspect-online-cutover.sh
