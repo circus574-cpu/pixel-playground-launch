@@ -18,7 +18,7 @@ export interface NetworkPlayerState {
   y: number;
   vx: number;
   vy: number;
-  facing?: "left" | "right" | "up" | "down";
+  facing?: ("left" | "right" | "up" | "down") | undefined;
   activity: PlayerActivityState;
   hp: number;
   maxHp: number;
@@ -38,7 +38,7 @@ export type ClientMessage =
       race: RaceId;
       level: number;
       worldId: FeatureId;
-      continent?: WorldId;
+      continent?: WorldId | undefined;
       x: number;
       y: number;
     }
@@ -48,19 +48,19 @@ export type ClientMessage =
       y: number;
       vx: number;
       vy: number;
-      facing?: "left" | "right" | "up" | "down";
-      activity?: PlayerActivityState;
-      worldId?: FeatureId;
-      hp?: number;
-      ki?: number;
+      facing?: ("left" | "right" | "up" | "down") | undefined;
+      activity?: PlayerActivityState | undefined;
+      worldId?: FeatureId | undefined;
+      hp?: number | undefined;
+      ki?: number | undefined;
     }
   | {
       type: "action";
       action: "attack" | "cast" | "interact" | "emote";
-      targetId?: string;
-      skillId?: string;
-      x?: number;
-      y?: number;
+      targetId?: string | undefined;
+      skillId?: string | undefined;
+      x?: number | undefined;
+      y?: number | undefined;
     }
   | {
       type: "chat";
@@ -93,16 +93,16 @@ export type ServerMessage =
   | {
       type: "player_left";
       characterId: string;
-      reason?: string;
+      reason?: string | undefined;
     }
   | {
       type: "player_action";
       characterId: string;
       action: string;
-      targetId?: string;
-      skillId?: string;
-      x?: number;
-      y?: number;
+      targetId?: string | undefined;
+      skillId?: string | undefined;
+      x?: number | undefined;
+      y?: number | undefined;
     }
   | {
       type: "chat";

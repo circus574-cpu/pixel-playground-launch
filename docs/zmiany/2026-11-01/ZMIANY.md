@@ -1,6 +1,6 @@
 # Zmiany — 2026-11-01
 
-## Audyt kodu i dokumentacji: całkowita eliminacja adnotacji oraz komentarzy powiązanych z Lovable; bezterminalowe sterowanie serwerem gier z panelu admina
+## Audyt kodu i dokumentacji: całkowita eliminacja adnotacji oraz komentarzy powiązanych z Lovable; bezterminalowe sterowanie serwerem gier z panelu admina; integracja klienta Phaser z WebSocket i stabilizacja testów E2E
 
 ### 1. Eliminacja odniesień i komentarzy powiązanych z platformą Lovable
 
@@ -39,3 +39,34 @@
   - Zabezpieczone endpointy API `/api/admin/server-control` z weryfikacją roli administratora (`role === "admin"`).
 - **`src/components/admin/AdminMonitoringCenter.tsx`**:
   - Kompletny interfejs graficzny w panelu administratora: wskaźnik statusu serwera (Online/Offline/Uruchamianie/Zatrzymywanie), przełączniki start/stop/restart, edycja parametrów w czasie rzeczywistym oraz zintegrowany terminal logów procesowych.
+
+### 3. Integracja klienta Phaser z pętlą WebSocket serwera gry (Multiplayer Live)
+
+- **`src/game/multiplayer/networkClient.ts`**:
+  - Implementacja klienta sieciowego WebSocket z throttlingiem aktualizacji pozycji (10 Hz), mechanizmem heartbeat (ping co 15s), graceful offline fail-safe oraz buforowaniem i powiadamianiem o zdarzeniach (`onSnapshot`, `onPlayerJoined`, `onPlayerLeft`, `onPlayerAction`, `onChat`).
+  - Metoda `isMultiplayerEnabled()` określająca aktywność trybu wieloosobowego (w playteście aktywowana jawnie parametrem `?ki-multiplayer=1`, co chroni testy PvE przed błędami sieciowymi).
+- **`src/game/mountGame.ts`**:
+  - Połączenie klienta `NetworkClient` w scenie Phaser (`initializeWorld`): rejestracja aktora i wysyłanie pakietu autoryzacyjnego gracza.
+  - Rejestracja i renderowanie pozostałych graczy na serwerze za pomocą `this.actor(p, visual, label, "hero")` z atrybutem dataset `parent.dataset["networkPlayers"]`.
+  - Płynna interpolacja pozycji (`lerp`) i synchronizacja animacji kierunkowej w pętli `update()` sceny gry.
+  - Czyszczenie zasobów multiplayerowych w procedurze `releaseScene` i zdarzeniu wyłączenia sceny.
+- **`src/game/multiplayer/protocol.ts`**:
+  - Zapewnienie pełnej zgodności z regułą `exactOptionalPropertyTypes: true` w `tsconfig.json` poprzez jawne typowanie opcjonalnych pól uniami `| undefined`.
+- **`src/server/gameServer.ts`**:
+  - Poprawka mechanizmu reconnectu — serwer zamyka stare połączenie danego `characterId` tylko wtedy, gdy nowe żądanie autoryzacji pochodzi z innego gniazda socket (`old.socket !== socket`).
+- **`src/test/multiplayer-network-client.test.ts`**:
+  - Pakiet testów jednostkowych weryfikujący: tryb offline/fail-safe bez rzucania błędów, poprawny handshake uwierzytelniania z serwerem oraz wzajemną synchronizację pozycji i snapshotów AOI dwóch graczy (3/3 PASS).
+
+### 4. Ustabilizowanie testów Playwright i pełna zielona regresja CI walki oraz cyklu życia (P0)
+
+- **`playwright.config.ts`**:
+  - Dodano automatyczne wykrywanie przeglądarki `msedge.exe` na systemach Windows w przypadku braku pobranych binarek Chromium w AppData.
+  - Zwiększono timeout webserwerów do 180s.
+- **Diagnoza i rozwiązanie błędu timeoutu `liveEnemy` i asercji konsoli**:
+  - Główną przyczyną przerywania testów `e2e/combat-skills.spec.ts` i `e2e/hero-lifecycle.spec.ts` było zgłaszanie przez przeglądarkę błędu `net::ERR_CONNECTION_REFUSED` do konsoli (`page.on("console", (e) => errors.push(e.text()))`), wywoływane przez próbę nawiązania połączenia WebSocket pod nieuruchomiony serwer gry podczas ładowania `/scripts/playtest.html`.
+  - Dzięki zabezpieczeniu `NetworkClient.isMultiplayerEnabled()` playtesty ładują się w czystym środowisku offline bez generowania błędów w konsoli.
+- **Wyniki weryfikacji Playwright (silnik Chromium / Edge, port 4174)**:
+  - **`e2e/combat-skills.spec.ts`**: 4/4 PASS (Planetarni: 28.6s, Mędrcy: 22.7s, Androidy: 22.0s, Legendy: 28.2s).
+  - **`e2e/combat-v3.spec.ts`**: 6/6 PASS (Planetarni 320x568: 27.0s, Mędrcy 360x640: 26.1s, Androidy 390x844: 23.5s, Legendy 852x393: 19.6s, Planetarni 1280x720: 24.7s, Mędrcy 1920x1080: 38.6s).
+  - **`e2e/hero-lifecycle.spec.ts`**: 4/4 PASS (wszystkie cztery rasy, pełne animacje, walka, śmierć i respawn w bezpiecznym mieście).
+  - **`npm run typecheck`**: 0 błędów w `tsconfig.json`, `tsconfig.e2e.json` oraz `tsconfig.tools.json`.

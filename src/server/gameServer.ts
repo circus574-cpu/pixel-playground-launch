@@ -163,9 +163,9 @@ export class GameServer {
         const cid = msg.characterId.trim();
         if (!cid) return;
 
-        // Disconnect old session if reconnecting
+        // Disconnect old session if reconnecting from a different socket
         const old = this.sessions.get(cid);
-        if (old) {
+        if (old && old.socket !== socket) {
           try {
             old.socket.close();
           } catch {

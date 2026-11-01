@@ -34,6 +34,10 @@ import {
   type NpcId,
 } from "./session";
 import { distance, type Point } from "./navigation";
+import { NetworkClient } from "./multiplayer/networkClient";
+import type { NetworkPlayerState } from "./multiplayer/protocol";
+import type { FeatureId } from "./world/generated/superiorSave";
+import type { WorldId } from "./world/races";
 const RACE_VFX = ["impact", "ring"] as const;
 const TRANSFORM_URL = (race: string) => "/game/transform/" + race + ".webp";
 
@@ -134,6 +138,18 @@ export function mountKileGends(
     private hero!: Actor;
     private heroGhost?: Phaser.GameObjects.Image;
     private enemies = new Map<string, Actor>();
+    private networkClient: NetworkClient | undefined;
+    private networkPlayers = new Map<
+      string,
+      {
+        actor: Actor;
+        targetX: number;
+        targetY: number;
+        vx: number;
+        vy: number;
+        lastSeen: number;
+      }
+    >();
     private floatingTexts: Phaser.GameObjects.Text[] = [];
     private combatShots = new Map<string, Phaser.GameObjects.Arc>();
     private selection!: Phaser.GameObjects.Ellipse;
@@ -338,6 +354,46 @@ export function mountKileGends(
         ? this.add.sprite(0, 0, shieldArt.asset, shieldArt.frame).setDisplaySize(100, 112)
         : this.add.ellipse(0, 0, 100, 112, 0x85dfe8, 0.13).setStrokeStyle(3, 0xaffff4);
       this.shield.setVisible(false);
+      if (NetworkClient.isMultiplayerEnabled()) {
+        const client = new NetworkClient();
+        this.networkClient = client;
+
+        const authPayload = {
+          accountId: options?.saveKey ?? "pve-player",
+          characterId: session.player.name ?? ("hero-" + session.player.race),
+          nick: session.player.name || ("Gracz " + RACES[session.player.race].name),
+          race: session.player.race,
+          level: session.player.level,
+          worldId: (world.id as FeatureId) || "verdant",
+          continent: (world.id as WorldId) || "verdant",
+          x: Math.round(session.player.x),
+          y: Math.round(session.player.y),
+        };
+        client.connect(authPayload);
+
+        client.onSnapshot((players) => {
+          for (const p of players) this.syncNetworkPlayer(p);
+        });
+
+        client.onPlayerJoined((player) => {
+          this.syncNetworkPlayer(player);
+        });
+
+        client.onPlayerLeft((cid) => {
+          this.removeNetworkPlayer(cid);
+        });
+
+        const releaseMultiplayer = () => {
+          client.disconnect();
+          this.networkClient = undefined;
+          for (const cid of [...this.networkPlayers.keys()]) {
+            this.removeNetworkPlayer(cid);
+          }
+        };
+        releaseScene.push(releaseMultiplayer);
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseMultiplayer);
+        this.events.once(Phaser.Scenes.Events.DESTROY, releaseMultiplayer);
+      }
       const beacon = this.add
         .ellipse(world.market.x, world.market.y, 66, 28)
         .setStrokeStyle(3, 0xfff0a1)
@@ -797,6 +853,59 @@ export function mountKileGends(
       this.actors.push(actor);
       return actor;
     }
+    private syncNetworkPlayer(p: NetworkPlayerState) {
+      if (p.worldId !== world.id) {
+        this.removeNetworkPlayer(p.characterId);
+        return;
+      }
+
+      const existing = this.networkPlayers.get(p.characterId);
+      if (existing) {
+        existing.targetX = p.x;
+        existing.targetY = p.y;
+        existing.vx = p.vx;
+        existing.vy = p.vy;
+        existing.lastSeen = Date.now();
+        existing.actor.name.setText(p.nick + " [Lvl " + p.level + "]");
+        existing.actor.bar.width = (64 * Math.max(0, p.hp)) / Math.max(1, p.maxHp);
+        return;
+      }
+
+      const playerVisual = actorVisual(RACES[p.race]?.world ?? "verdant", "hero", undefined, preview);
+      const actor = this.actor(
+        { x: p.x, y: p.y },
+        p.nick + " [Lvl " + p.level + "]",
+        "hero",
+        playerVisual,
+      );
+      actor.name.setColor("#a8e3ff");
+      actor.track.setVisible(true);
+      actor.bar.setVisible(true);
+      actor.bar.width = (64 * Math.max(0, p.hp)) / Math.max(1, p.maxHp);
+
+      this.networkPlayers.set(p.characterId, {
+        actor,
+        targetX: p.x,
+        targetY: p.y,
+        vx: p.vx,
+        vy: p.vy,
+        lastSeen: Date.now(),
+      });
+    }
+
+    private removeNetworkPlayer(characterId: string) {
+      const entry = this.networkPlayers.get(characterId);
+      if (!entry) return;
+
+      entry.actor.body.destroy();
+      entry.actor.name.destroy();
+      entry.actor.track.destroy();
+      entry.actor.bar.destroy();
+      const idx = this.actors.indexOf(entry.actor);
+      if (idx >= 0) this.actors.splice(idx, 1);
+      this.networkPlayers.delete(characterId);
+    }
+
     private float(p: Point, text: string, color: string) {
       // Presentation budget only: damage/healing has already been resolved by the session.
       if (this.floatingTexts.length >= 18) this.floatingTexts[0]?.destroy();
@@ -1085,6 +1194,7 @@ export function mountKileGends(
           .filter((e) => e.boss)
           .map((e) => ({ id: e.id, kind: e.kind, phase: e.boss!.phase, hp: e.hp })),
       );
+      parent.dataset["networkPlayers"] = String(this.networkPlayers.size);
       parent.dataset["enemies"] = JSON.stringify(
         session.enemies.map((e) => ({
           id: e.id,
@@ -1115,6 +1225,53 @@ export function mountKileGends(
       if (session.paused || session.dialogue || session.depotOpen || session.player.dead)
         this.resetStick();
       runtime?.afterTick?.(dt);
+      if (this.networkClient) {
+        const facingDir =
+          Math.abs(session.facing.x) > Math.abs(session.facing.y)
+            ? session.facing.x < 0
+              ? "left"
+              : "right"
+            : session.facing.y < 0
+              ? "up"
+              : "down";
+
+        this.networkClient.sendPosition({
+          x: session.player.x,
+          y: session.player.y,
+          vx: session.moving ? session.facing.x : 0,
+          vy: session.moving ? session.facing.y : 0,
+          facing: facingDir,
+          activity: session.player.interior ? "interior" : session.targetId ? "combat" : "exploring",
+          worldId: world.id as FeatureId,
+          hp: session.player.hp,
+          ki: session.player.ki,
+        });
+      }
+      const lerpFactor = Math.min(1, (dt / 1000) * 12);
+      for (const entry of this.networkPlayers.values()) {
+        const a = entry.actor;
+        a.body.setVisible(!session.player.interior);
+        if (!a.body.visible) continue;
+
+        const curX = a.body.x;
+        const curY = a.body.y;
+        const newX = curX + (entry.targetX - curX) * lerpFactor;
+        const newY = curY + (entry.targetY - curY) * lerpFactor;
+        a.body.setPosition(newX, newY).setDepth(newY);
+
+        const moving = Math.hypot(entry.targetX - curX, entry.targetY - curY) > 2;
+        if (moving) {
+          a.facing.x = entry.targetX - curX;
+          a.facing.y = entry.targetY - curY;
+        }
+        a.animation.update(
+          this.animationTime,
+          moving,
+          false,
+          a.facing,
+          session.paused || !!session.dialogue,
+        );
+      }
       this.heritageMarkers?.update(time, worldLabels);
       if (this.lastInterior !== session.player.interior) {
         this.interiorView?.dispose();

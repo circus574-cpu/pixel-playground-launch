@@ -28,7 +28,11 @@ export default defineConfig({
         ? { executablePath: process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"] }
         : existsSync("/usr/bin/chromium")
           ? { executablePath: "/usr/bin/chromium" }
-          : {}),
+          : existsSync("C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe")
+            ? { executablePath: "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" }
+            : existsSync("C:/Program Files/Microsoft/Edge/Application/msedge.exe")
+              ? { executablePath: "C:/Program Files/Microsoft/Edge/Application/msedge.exe" }
+              : {}),
       args: process.env["KI_QA_WEBGL"] ? webglArgs : canvasArgs,
     },
   },
@@ -92,6 +96,7 @@ export default defineConfig({
               "npm run build:playtest && npx vite preview --config scripts/playtest.vite.ts --host 127.0.0.1 --port 4174",
             url: "http://127.0.0.1:4174/scripts/playtest.html",
             reuseExistingServer: !process.env["CI"],
+            timeout: 180_000,
           },
         ]),
     ...(process.env["KI_QA_APP_URL"]
@@ -106,6 +111,7 @@ export default defineConfig({
               SITE_PASSWORD: "ki-legends-local-qa-only",
             },
             reuseExistingServer: !process.env["CI"],
+            timeout: 180_000,
           },
         ]),
   ],
