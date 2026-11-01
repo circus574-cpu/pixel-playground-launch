@@ -762,6 +762,55 @@ export class GameServer {
     ];
   }
 
+  public getDb(): ReturnType<typeof postgres> | null {
+    return this.db;
+  }
+
+  public getCharacterRepository(): PgCharacterRepository | null {
+    return this.characterRepository;
+  }
+
+  public isCharacterOnline(characterId: string): boolean {
+    for (const p of this.onlinePlayers.values()) {
+      if (p.characterId === characterId) return true;
+    }
+    return this.sessions.has(characterId);
+  }
+
+  public getOnlinePlayerInfo(characterId: string): NetworkPlayerState | undefined {
+    for (const p of this.onlinePlayers.values()) {
+      if (p.characterId === characterId) return p;
+    }
+    const legacy = this.sessions.get(characterId);
+    return legacy ? this.toNetworkState(legacy) : undefined;
+  }
+
+  public kickOnlinePlayer(characterId: string, reason = 'Rozłączono przez administratora'): boolean {
+    for (const [ws, player] of this.onlinePlayers.entries()) {
+      if (player.characterId === characterId) {
+        const closer = this.onlineClosers.get(ws);
+        if (closer) void closer().catch(() => {});
+        this.onlinePlayers.delete(ws);
+        this.onlineClosers.delete(ws);
+        this.onlineSockets.delete(ws);
+        try {
+          ws.close(1008, reason);
+        } catch {}
+        return true;
+      }
+    }
+    const legacy = this.sessions.get(characterId);
+    if (legacy) {
+      try {
+        legacy.socket.close(1008, reason);
+      } catch {}
+      this.sessions.delete(characterId);
+      this.socketToCharacterId.delete(legacy.socket);
+      return true;
+    }
+    return false;
+  }
+
   public getMetrics(): {
     tickP50Ms: number;
     tickP95Ms: number;

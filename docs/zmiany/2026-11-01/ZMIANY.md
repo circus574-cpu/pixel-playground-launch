@@ -339,3 +339,42 @@ Zakres zaakceptowany: osobne instancje PvE postaci, nie wspólne potwory/PvP.
   - Test jednostkowy `src/test/inventory-and-depot.test.ts` (4/4 PASS).
   - Test katalogu `src/game/items/__tests__/items.test.ts` (8/8 PASS).
   - Pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.
+
+### 9. Pełen Panel Administracyjny Postaci Serwera Dedykowanego i Sterowanie Live (gałąź `main`)
+
+Zgodnie ze zleceniem właściciela wdrożono kompletny, bezkompromisowy moduł administracyjny zarządzający wszystkimi postaciami na dedykowanym serwerze gry (`game.characters`, `game.online_character_state` w PostgreSQL 17) oraz połączonymi graczami w czasie rzeczywistym:
+
+- **Moduł bazy danych i integracja serwera (`src/server/db.ts`, `src/server/gameServer.ts`, `src/server/managedServer.ts`)**:
+  - `src/server/db.ts`: pula połączeń PostgreSQL z obsługą `DATABASE_URL` i `KI_ONLINE_TEST_DATABASE_URL` dla operacji administracyjnych.
+  - `src/server/gameServer.ts`: publiczne metody inspekcji stanu gniazd online (`isCharacterOnline`, `getOnlinePlayerInfo`, `kickOnlinePlayer`, dostęp do instancji repozytorium i bazy).
+  - `src/server/managedServer.ts`: eksport `getActiveGameServer()` umożliwiający bezpośrednie sterowanie żywymi sesjami bez restartu demona.
+- **Backend serwisu administracyjnego (`src/server/adminCharacterService.ts`)**:
+  - `listAllServerCharacters`: pobieranie wszystkich rekordów z bazy PostgreSQL połączonych z kontami `game.accounts` i profilami Supabase oraz wykrywaniem rzeczywistego statusu Online na żywym serwerze.
+  - `getServerCharacterDetails`: pełny odczyt rekordu postaci, rewizji, lease oraz runtime.
+  - `updateServerCharacter`: atomowy zapis zmodyfikowanego stanu postaci do `game.online_character_state` z inkrementacją rewizji, walidacją schematu `StoredCharacter` oraz wymuszeniem natychmiastowej synchronizacji gracza na serwerze.
+  - `executeLiveAdminAction`: szybkie akcje administracyjne na żywo:
+    - `heal`: pełne przywrócenie HP i Ki do 100% wartości maksymalnej.
+    - `revive`: ożywienie poległej postaci (`dead: false`) i uleczenie.
+    - `teleport` / `teleport_city`: natychmiastowy skok do stolic kontynentów (Verdantia, Aetheria, Nexus-9, Pyra) lub na dowolne koordynaty (X, Y).
+    - `giveGold`: zasilenie sakiewki wybraną kwotą monet (np. +10 000 / +100 000).
+    - `setLevel`: natychmiastowy awans na wybrany poziom (1–20).
+    - `kick`: bezpieczne rozłączenie gniazda WebSocket gracza z powodem administracyjnym.
+    - `retire`: wycofanie lub przywrócenie postaci (soft-delete).
+- **Zabezpieczone API TanStack Start (`src/lib/serverCharacters.functions.ts`)**:
+  - Endpointy `listServerCharactersFn`, `getServerCharacterFn`, `updateServerCharacterFn` oraz `executeLiveAdminActionFn` zabezpieczone strażnikiem uprawnień `requireServerAdmin`.
+- **Kompletny Interfejs Graficzny Administratora (`src/components/admin/ServerCharacterManager.tsx`)**:
+  - Lista wszystkich postaci serwerowych z wyszukiwarką, filtrami ras, wskaźnikiem Online 🟢 i liczbą połączonych graczy.
+  - Karta wybranego bohatera z paskiem natychmiastowych akcji live.
+  - Zakładki edycyjne dla każdego aspektu postaci:
+    1. **Podstawowe & Postęp**: Imię, poziom (1–20), XP, HP, Ki, złoto w sakiewce, złoto w depozycie miejskim, resety statystyk, status zgonu.
+    2. **Pozycja & Świat**: Kontynent, koordynaty X/Y, wnętrze budynku oraz przyciski skoku do miast.
+    3. **Nadpisania Walki**: Bezpośrednia edycja atrybutów bojowych `CharacterStats` (maksymalne HP/Ki, atak, obrona, szybkość, regeneracja Ki, krytyk, odstęp ataków, zasięg).
+    4. **Ekwipunek (8 slotów)**: Pełny podgląd i edycja slotów (głowa, broń, pancerz, tarcza, rękawice, pierścień, amulet, buty) z wyborem z katalogu 366 przedmiotów V2 oraz klasycznych, plus ulepszenie broni.
+    5. **Torba & Depozyt**: Zarządzanie 40-slotową torbą postaci, dodawanie dowolnych przedmiotów z katalogu z ilością (1–99), edycja skrzyni depozytowej w mieście.
+    6. **Zadania (Quests)**: Podgląd i przełączanie stanów zadań (locked, active, ready, done) oraz przycisk szybkiego zaliczenia.
+    7. **Drzewko Umiejętności**: Podgląd 29 węzłów danej rasy (z `KIT_NODES`), odblokowywanie poszczególnych zdolności lub całego drzewka jednym kliknięciem.
+- **Wpięcie do trasy `/admin` (`src/routes/admin.tsx`)**:
+  - Utworzono główną zakładkę `🎮 Postacie Serwera (Live)` jako domyślny widok panelu administratora.
+- **Weryfikacja**:
+  - Test jednostkowy `src/test/server-character-admin.test.ts` (5/5 PASS).
+  - Pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.

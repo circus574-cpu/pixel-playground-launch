@@ -31,15 +31,16 @@ const AdminMonitoringCenter = lazy(() =>
     default: m.AdminMonitoringCenter,
   })),
 );
+const ServerCharacterManager = lazy(() => import("@/components/admin/ServerCharacterManager"));
 
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
 
 function AdminPage() {
   const account = useAccount();
-  const [tab, setTab] = useState<"players" | "monitoring" | "audit" | "content" | "coder">(
-    "players",
-  );
+  const [tab, setTab] = useState<
+    "server-chars" | "players" | "monitoring" | "audit" | "content" | "coder"
+  >("server-chars");
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
   if (!account.session || account.roles.length === 0)
     return (
@@ -63,8 +64,9 @@ function AdminPage() {
         <div className="ki-admin-tabs" role="tablist">
           {(
             [
-              ["players", "Gracze"],
-              ["monitoring", "Monitoring i Serwer Live"],
+              ["server-chars", "🎮 Postacie Serwera (Live)"],
+              ["players", "👥 Konta Graczy i Role"],
+              ["monitoring", "🖥️ Monitoring i Serwer Live"],
               ["audit", "Dziennik zmian"],
               ["content", "Zawartość gry"],
               ["coder", "Coder · Edytor świata"],
@@ -75,6 +77,11 @@ function AdminPage() {
             </button>
           ))}
         </div>
+        {tab === "server-chars" && (
+          <Suspense fallback={<p role="status">Wczytywanie menedżera postaci serwerowych…</p>}>
+            <ServerCharacterManager />
+          </Suspense>
+        )}
         {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
         {tab === "monitoring" && (
           <Suspense fallback={<p role="status">Wczytywanie telemetrii i monitoringu…</p>}>
