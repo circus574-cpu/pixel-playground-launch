@@ -554,3 +554,34 @@ W odpowiedzi na zapytanie właściciela o próbne przygotowanie animowanego boss
   - `public/game/bosses/boss_celestial_char.png` i `boss_celestial_shadow.png`: czyste wycięte tekstury.
 - **Interaktywny widget podglądu na żywo (`boss_preview.html`)**:
   - Interaktywny widget HTML5 Canvas 60 FPS z możliwością zmiany stanów (Lewitacja, Puls rdzenia, Supernova), suwakiem prędkości, przełącznikami warstw i dynamiczną reakcją na ruch kursora myszy.
+
+
+### 16. Kompletna produkcja 8 unikalnych Bossów Świata (4 Kontynenty, 60 FPS Animacje, Lore i Bestiariusz)
+
+W odpowiedzi na dyspozycję właściciela dotyczącą przygotowania reszty bossów świata na podstawie paczki `boss.zip` oraz kanonicznego bestiariusza Ki Legends (`src/game/bosses/catalog.ts`), zrealizowano kompletny panteon wszystkich 8 bossów gry:
+
+- **Analiza paczki `boss.zip` i wyodrębnienie Arcykapłana Pustki (`scripts/boss/process_arcykaplan.py`)**:
+  - Przeanalizowano zawartość archiwum `boss.zip` zawierającego 7 wariantów wygenerowanych w OpenAI Playground przedstawiających eterycznego kapłana z lewitującą sferą.
+  - Wybrano najwyższej jakości wariant w szatach z kapturem (`OpenAI Playground 2026-11-01 at 20.04.40 (5).png`) i przypisano go do tożsamości **Arcykapłana Pustki** (Aether, Lv 15, Kustosz Zgasłej Gwiazdy).
+  - Przeprowadzono bezstratną separację chroma-key i redukcję zanieczyszczeń barwnych krawędzi (*de-spill*), uzyskując czystą przezroczystą teksturę `public/game/bosses/arcykaplan-pustki_char.png` oraz dedykowany cień podłoża `arcykaplan-pustki_shadow.png`.
+- **Malarska synteza proceduralna pozostałych 6 Bossów (`scripts/boss/synthesize_painterly_boss_masters.py`)**:
+  - Dla zachowania ciągłości estetycznej z Aurelithem i Arcykapłanem Pustki, zaimplementowano zaawansowany silnik malarski generujący mistrzowskie tekstury RGBA o wysokiej rozdzielczości z cieniowaniem wolumetrycznym, ścięciami krawędzi (*bevels*), teksturami powierzchni (kora, futro, kompozyt tytanowy, bazalt wulkaniczny) oraz emisją światła:
+    1. **Ygdrasha, Matka Puszczy** (Verdant, Lv 15): prastary pień z żelaznego drewna, korona z liści, lewitujące pnącza oraz pulsujące Serce Puszczy.
+    2. **Thorgar, Alfa Kłów** (Verdant, Lv 20): drapieżny wilk alfa z kościanymi wyrostkami ciernistymi, zielonymi płomieniami z oczu i kłami ociekającymi jadem.
+    3. **Arcykapłan Pustki** (Aether, Lv 15): eteryczny kapłan w szatach naczynia próżni z lewitującą sferą osobliwości i świetlikami pieczęci.
+    4. **Aurelith, Smok Sanktuarium** (Aether, Lv 20): astralny archon w kryształowej zbroi z 3D pierścieniem sigili i pulsującym gwiezdnym sercem.
+    5. **Arbiter Zero** (Nexus, Lv 15): dwunożny tytan mecha z kobaltowo-tytanowym pancerzem, obrotowym działkiem plazmowym, reaktorem Arc-Core i laserowym skanerem.
+    6. **Hydra-Rdzeń** (Nexus, Lv 20): trójgłowy lewiatan obliczeniowy (Głowica Alfa plazmowa, Beta laserowa, Gamma taranująca) z kablem światłowodowym i pierścieniem antygrawitacyjnym.
+    7. **Kharzul, Mistrz Areny** (Pyra, Lv 15): gladiator w zbroi z pękniętego obsydianu z płonącym dwuręcznym mieczem katowskim i powiewającym poszarpanym płaszczem.
+    8. **Pyrrhax, Smok Wulkanu** (Pyra, Lv 20): tytaniczny smok lawowy z bazaltowymi skrzydłami, klatką piersiową kalderową i ognistym oddechem.
+- **Renderowanie animacji 60 FPS dla całego panteonu (`scripts/boss/render_all_boss_animations.py`)**:
+  - Wygenerowano 32-klatkowe pętle animacji z dedykowanymi efektami dla każdego bossa:
+    - `public/game/bosses/<id>_idle.webp` — bezstratne pętle 60 FPS z kanałem alfa.
+    - `public/game/bosses/<id>_idle.gif` — zoptymalizowane gify podglądu.
+    - `art/production/bosses/<id>_spritesheet.png` — arkusze klatek (siatka 8×4).
+    - Zbiorczy arkusz przeglądowy: `art/production/bosses/review_all_8_bosses.png`.
+- **Integracja z silnikiem gry (`src/game/bosses/types.ts`, `src/game/bosses/catalog.ts`)**:
+  - Rozszerzono interfejs `BossDefinition` o pola `animWebpUrl`, `animGifUrl` oraz `spriteSheetUrl`.
+  - Przypisano adresy zasobów produkcyjnych do wszystkich 8 wpisów katalogu.
+- **Interaktywny widget Generative UI (`all_bosses_showcase.html`)**:
+  - Utworzono aplikację pokazową prezentującą wszystkich 8 bossów z podziałem na kontynenty, przełączaniem animacji WebP/GIF w czasie rzeczywistym, wskaźnikami faz (1/2/3), czasem ostrzeżenia ataków (telegraphing), parametrami bojowymi oraz tabelami łupów.

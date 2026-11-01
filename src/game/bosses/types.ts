@@ -63,4 +63,7 @@ export interface BossDefinition {
   phases: BossPhase[];
   attacks: BossAttack[];
   lootTable: BossLootDrop[];
+  animWebpUrl?: string;
+  animGifUrl?: string;
+  spriteSheetUrl?: string;
 }
