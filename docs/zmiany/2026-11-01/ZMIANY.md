@@ -530,3 +530,27 @@ W odpowiedzi na dyspozycję właściciela („Jestes w stanie je wygenerowac bez
   - Testy jednostkowe katalogu: `src/game/items/__tests__/items.test.ts` (8/8 PASS).
   - Pełny typecheck TypeScript (`npm run typecheck`): 0 błędów w 3 konfiguracjach.
   - Weryfikacja dokumentacji: `scripts/docs/check_documentation.py` — PASS.
+
+### 15. Próba implementacji i animacji pierwszego bossa (Astralny Władca Siedmiu Oktaw) na podstawie grafiki koncepcyjnej
+
+W odpowiedzi na zapytanie właściciela o próbne przygotowanie animowanego bossa na podstawie dostarczonej grafiki koncepcyjnej, przeprowadzono pełny proces obróbki i animacji:
+
+- **Zaawansowany chroma key i de-spill tła magenta (`scripts/boss/inspect_boss_image.py`)**:
+  - Zdjęcie źródłowe posiadało jednolite tło magenta (`#FF00FF`, RGB ~[252, 1, 249]).
+  - Zastosowano algorytm separacji kanałów z płynnym maskowaniem krawędzi oraz redukcją przesycenia magenta (*chroma de-spill*), co wyeliminowało wszelkie różowe obwódki na krawędziach przy zachowaniu półprzezroczystych kosmicznych poświat, kryształów i aury.
+  - Wyodrębniono ciało bossa (399 × 452 px) oraz oddzielono reaktywny cień podłoża (214 × 13 px).
+- **Potok renderowania animacji wielowarstwowej (`scripts/boss/render_boss_animation.py`)**:
+  - Wygenerowano 32-klatkową płynną pętlę animacji (60 FPS):
+    - *Lewitacja (Hover)*: sinusoidalne unoszenie i opadanie postaci w przestrzeni.
+    - *Oddech i dynamika sylwetki*: subtelne skalowanie klatki piersiowej i ramion.
+    - *Dynamiczny rdzeń gwiezdny (Star Core)*: pulsujący blask supernowej na piersi z obracającymi się promieniami światła.
+    - *Trójwymiarowy pierścień orbitalny (3D Sigil Ring)*: pierścień z runami i węzłami energetycznymi obracający się wokół talii (część tylna pod postacią, część przednia nad postacią).
+    - *Reaktywny cień podłoża*: powiększający i rozmywający się cień w zależności od wysokości lewitacji.
+    - *Cząsteczki kosmicznego pyłu*: unoszące się iskry i gwiezdne zarodniki.
+- **Wygenerowane zasoby produkcyjne**:
+  - `public/game/bosses/boss_astral_idle.webp`: bezstratny animowany WebP 60 FPS z przezroczystością alfa.
+  - `public/game/bosses/boss_astral_idle.gif`: animowany GIF do uniwersalnego podglądu.
+  - `art/production/bosses/boss_astral_spritesheet.png`: poziomy arkusz próbek klatek animacji.
+  - `public/game/bosses/boss_celestial_char.png` i `boss_celestial_shadow.png`: czyste wycięte tekstury.
+- **Interaktywny widget podglądu na żywo (`boss_preview.html`)**:
+  - Interaktywny widget HTML5 Canvas 60 FPS z możliwością zmiany stanów (Lewitacja, Puls rdzenia, Supernova), suwakiem prędkości, przełącznikami warstw i dynamiczną reakcją na ruch kursora myszy.
