@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: deploy/scripts
+          sparse-checkout: |
+            deploy/scripts
+            deploy/multiplayer
       - name: Check SSH access and local Coolify response
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
