@@ -48,10 +48,20 @@ for (const [race, label] of [
     await page.getByRole("button", { name: /^Rozmowa ·/ }).click();
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await page
+      .getByRole("dialog", { name: /^Rozmowa:/ })
+      .waitFor({ state: "hidden", timeout: 15000 });
     const start = Number(await host.getAttribute("data-player-x"));
     await page.keyboard.down("d");
-    await page.waitForTimeout(900);
-    await page.keyboard.up("d");
+    try {
+      await page.waitForFunction(
+        (x) => Number(document.querySelector(".ki-canvas")?.getAttribute("data-player-x")) > x + 5,
+        start,
+        { timeout: 8000 },
+      );
+    } finally {
+      await page.keyboard.up("d");
+    }
     await page.waitForTimeout(700);
     const moved = Number(await host.getAttribute("data-player-x"));
     assert.ok(moved > start + 5, `Movement did not reach renderer: ${start} -> ${moved}`);

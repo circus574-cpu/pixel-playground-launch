@@ -6,9 +6,6 @@ on:
         type: choice
         default: prepare
         options: [prepare, verify-live, restart-verify, stop-old]
-  push:
-    branches: [ops/coolify-ssh-access]
-    paths: [.github/workflows/coolify-ssh-check.yml]
 permissions:
   contents: read
   actions: read

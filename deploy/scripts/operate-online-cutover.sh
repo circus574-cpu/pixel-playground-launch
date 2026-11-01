@@ -9,8 +9,17 @@ qa_file=/tmp/ki-online-qa-production.json
 umask 077
 case "$phase" in
  prepare)
+  # Tagged rollback images survive the normal deployment's dangling-image cleanup.
+  for service in app web; do
+   tag="ki-legends-$service:before-online-20261101"
+   if ! docker image inspect "$tag" >/dev/null 2>&1; then
+    image=$(docker inspect --format '{{.Image}}' "$service-xh4qbckykxsq1iofxdoe5t3h")
+    docker tag "$image" "$tag"
+   fi
+  done
   bash "$root/deploy/scripts/approved-online-config.sh" a32ba3ed68a2164c43965dd7b969678df988173c
   bash "$root/deploy/scripts/verify-online-backup.sh"
+  cat "$base/secrets/game_runtime_password" | docker exec -i ki-multiplayer-db-db-1 sh -c 'IFS= read -r PGPASSWORD; export PGPASSWORD; psql -X -h 127.0.0.1 -U ki_runtime -d ki_multiplayer -v ON_ERROR_STOP=1 -c "SELECT current_user; SELECT character_id,lease_id FROM game.online_character_state LIMIT 0;"'
   exit 0;;
  verify-live|restart-verify|stop-old) ;;
  *) echo 'Unknown operation'; exit 2;;
@@ -21,7 +30,12 @@ if [ "$phase" = restart-verify ]; then
  sleep 17
 fi
 curl --fail --silent --show-error --max-time 30 --output /dev/null https://kilegends.pl/
-docker exec "$app" node -e 'fetch("http://127.0.0.1:7420/health").then(async r=>{const h=await r.json();if(!r.ok||!h.characterPersistenceReady)process.exit(1);console.log(JSON.stringify({characterPersistenceReady:h.characterPersistenceReady,dbConnected:h.dbConnected}))}).catch(()=>process.exit(1))'
+healthy=false
+for attempt in $(seq 1 30); do
+ if docker exec "$app" node -e 'fetch("http://127.0.0.1:7420/health").then(async r=>{const h=await r.json();if(!r.ok||!h.characterPersistenceReady)process.exit(1);console.log(JSON.stringify({characterPersistenceReady:h.characterPersistenceReady,dbConnected:h.dbConnected}))}).catch(()=>process.exit(1))'; then healthy=true; break; fi
+ sleep 1
+done
+[[ "$healthy" = true ]] || { echo 'Authoritative server is not ready'; exit 1; }
 if [ -s "$base/secrets/live-qa.json" ]; then
  docker cp "$base/secrets/live-qa.json" "$app:$qa_file" >/dev/null
  docker exec -u 0 "$app" chown node:node "$qa_file"

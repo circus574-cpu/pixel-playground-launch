@@ -243,3 +243,38 @@ rozgrywki nie zostały osłabione. Build harnessu i podgląd wyboru ras lokalnie
 przeszły ([build](qa/online-runtime/harness-build.txt),
 [podgląd](qa/online-runtime/preview-selector.txt)); to nie zastępuje ponownego E2E
 z bazą w CI. Checkout wskazuje teraz dokładny head PR zamiast merge-ref.
+
+### Druga próba online CI — a0971d48
+
+[Actions41319447687](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41319447687)
+przeszedł TS, unit, build, SQL i wrapper oraz3/4 ras. Planetarni nie wykonali ruchu
+w oknie900ms po kliknięciu zamknięcia dialogu; pozostałe kontynenty przeszły pełny
+scenariusz. Nie oznaczono tego jako PASS. Kod wejścia świadomie ignoruje klawisze,
+gdy fokus nadal jest na przycisku/modalnym dialogu. Test nie czekał na jego
+potwierdzone zniknięcie po odpowiedzi serwera. Dodano oczekiwanie na zamknięcie
+modalu, a klawisz jest teraz przytrzymywany do rzeczywistej zmiany pozycji z limitem8s.
+Wymagany ruch, zapis SQL i odczyt nie zostały zmienione. Do porażek dochodzi
+rejestr fokusu i typów pakietów. Przyczyny tej pojedynczej próby nie wolno uznawać
+za ostatecznie rozstrzygniętą wyłącznie na podstawie tego opisu — wynik ponownego
+CI pozostaje rozstrzygający.
+
+Właściciel zatwierdził konfigurację, kopię/migrację, wyłączenie starego demona,
+scalenie i publikację **po zaliczeniu testów**. Zgoda nie oznacza, że cutover już
+wykonano. Do bezpiecznego przygotowania używana jest osobna gałąź
+`ops/online-cutover-20261101`; commit `35a191d9` sprawdza strukturę Coolify bez
+modyfikowania konfiguracji lub wypisywania wartości sekretów. Potwierdzony bieżący
+release VPS to `2e1f54383ba8298060fbabc0c4e12cc8e0047fe3`.
+
+### Zatwierdzone przygotowanie przełączenia na serwerowe PvE
+
+Właściciel zatwierdził kopię i migrację PostgreSQL, prywatne połączenie aplikacji,
+wyłączenie starego relay po weryfikacji, scalenie PR69 i publikację po testach.
+Zakres zaakceptowany: osobne instancje PvE postaci, nie wspólne potwory/PvP.
+
+- Kod `a32ba3ed68a2164c43965dd7b969678df988173c`: [Server-owned gameplay QA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41320574187) PASS:1023 testy,25 kontroli repozytorium,6 GameServer,4 rasy Phaser.
+- Operacje oddzielnej gałęzi `ops/online-cutover-20261101`: migracje003/004, LOGIN ki_runtime, zachowane prywatne hasło, konfiguracja ORM Coolify i prywatna sieć DB wyłącznie aplikacji. Bez restartu aplikacji.
+- [Konfiguracja](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41322583649) PASS; [odtworzenie kopii](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41322763195) PASS do nowej tymczasowej bazy, bez nadpisywania produkcji.
+- Kopie na VPS: `/home/codex/ki-multiplayer-db/backups/`; wskaźnik poprzedniej konfiguracji `/home/codex/ki-multiplayer-db/last-online-config-backup`. Sekrety w `secrets/`, tryb0600, nie w Git ani logach.
+- Pierwsza próba workflow nie miała plików migracji w sparse checkout: przerwana przed zmianą bazy. Druga wykonała kopię/migracje, lecz PHP nie mogło odczytać pliku skopiowanego jako root: konfiguracja jeszcze nie zmieniona. Poprawiono checkout i własność prywatnych plików; kolejna próba zakończona sukcesem.
+- Uwzględniono nowy main `2bca62ab522976ffbb3ec15c33085e9b62fd27e7`: zachowana pauza automatycznych Actions; nowy workflow serwera również wyłącznie ręczny. Publikacja wymaga ręcznego uruchomienia, zgoda na nią została udzielona.
+- Status w tym checkpointcie: konfiguracja i kopia gotowe; scalenie i produkcyjna weryfikacja pozostają do wykonania. Szersze stare regresje przeglądarkowe jeszcze trwają, nie wpisano PASS.

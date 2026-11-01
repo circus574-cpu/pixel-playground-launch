@@ -1,19 +1,6 @@
 name: Four hero WebGL regressions
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/sage-planetary-webgl.yml"
-      - "playwright.config.ts"
-      - "src/game/mountGame.ts"
-      - "src/game/session.ts"
-      - "src/game/city/**"
-      - "src/components/game/**"
-      - "src/game/world/**"
-      - "src/game/assets/**"
-      - "src/test/**"
-      - "e2e/**"
-      - "public/game/assets/gpu/**"
   workflow_dispatch:
 
 permissions:
