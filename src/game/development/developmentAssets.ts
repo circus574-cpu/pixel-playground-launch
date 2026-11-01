@@ -64,11 +64,23 @@ export const AETHERIA_TRAINING_OBJECTS: Record<`training.sage.${TrainingObjectKi
   "training.sage.surrender": "/game/development-v1/objects/training.sage.surrender.webp",
 };
 
+export const NEXUS_TRAINING_OBJECTS: Record<`training.android.${TrainingObjectKind}`, string> = {
+  "training.android.dummy": "/game/development-v1/objects/training.android.dummy.webp",
+  "training.android.target": "/game/development-v1/objects/training.android.target.webp",
+  "training.android.ki-node": "/game/development-v1/objects/training.android.ki-node.webp",
+  "training.android.defense": "/game/development-v1/objects/training.android.defense.webp",
+  "training.android.ki-source": "/game/development-v1/objects/training.android.ki-source.webp",
+  "training.android.checkpoint": "/game/development-v1/objects/training.android.checkpoint.webp",
+  "training.android.obstacle": "/game/development-v1/objects/training.android.obstacle.webp",
+  "training.android.surrender": "/game/development-v1/objects/training.android.surrender.webp",
+};
+
 export function trainingObjectUrl(
   world: WorldId,
   kind: TrainingObjectKind,
 ): string | undefined {
   if (world === "verdant") return VERDANTIA_TRAINING_OBJECTS[`training.planetary.${kind}`];
   if (world === "aether") return AETHERIA_TRAINING_OBJECTS[`training.sage.${kind}`];
+  if (world === "nexus") return NEXUS_TRAINING_OBJECTS[`training.android.${kind}`];
   return undefined;
 }

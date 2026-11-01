@@ -1079,6 +1079,518 @@
       }
     },
     {
+      "id": "training.android.dummy",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Manekin — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.dummy.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "27d408574ccb6353be8d51fdf9421b2e0c5660510f4464ab3c5b6f0afb57ab57",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.dummy.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "3092c22ce7a63fef79a99f48e86438ba6a2c2a632090e42be143a4f245154ce0",
+        "bytes": 679974,
+        "bounds": {
+          "minX": 239,
+          "minY": 123,
+          "maxX": 784,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.dummy.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "e5ae375bb15b7b6b9c97a3078928e808d6304c4bd4cbcec4b96685b62f284b4e",
+        "bytes": 102676
+      }
+    },
+    {
+      "id": "training.android.target",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Cel pomiarowy — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.target.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "6fb2443c34b64966e15cf0d6834b09467acba06e47e08452228e950fe47dddf3",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.target.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "360dfdc5b81d7b7c7fb6d84262da25adcb0b2c51129d6b3118b7b5e571f5e7be",
+        "bytes": 601397,
+        "bounds": {
+          "minX": 265,
+          "minY": 123,
+          "maxX": 759,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.target.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "3af3c612770e1d877ee26d5f66a0d4b20de761686f950eb7de510a2fa9a53bd7",
+        "bytes": 91484
+      }
+    },
+    {
+      "id": "training.android.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Stanowisko obrony — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.defense.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "c74422f7afe4f4a6f0dc849f4b6816b28124a5a3198e6dc53cfad9336d6d26b7",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "599d9292d9f88eae77491f0b2af4fd1303e3ab7791ff0d97fa7efcba8a87f723",
+        "bytes": 453228,
+        "bounds": {
+          "minX": 327,
+          "minY": 123,
+          "maxX": 696,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "5c91d4b2a65a6015185496b4cf4f98b49afb5f76b6ac42c7c638bd9a39ca0892",
+        "bytes": 65590
+      }
+    },
+    {
+      "id": "training.android.ki-node",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Węzeł KI — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.ki-node.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "1962b523dec96f5b965f9097fed80e548f8a499feb6a2f3f9462431bb55b5125",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.ki-node.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "72277b73380c82e5cc21da3c3024d56a89a8b971ab14d648412d39d8d3de17ae",
+        "bytes": 791700,
+        "bounds": {
+          "minX": 194,
+          "minY": 123,
+          "maxX": 830,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.ki-node.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "372896152468b9f08c665e15fd7d9fb699e339d44fcff2cc8fd498a72c47e493",
+        "bytes": 110944
+      }
+    },
+    {
+      "id": "training.android.ki-source",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Źródło testowego KI — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.ki-source.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "4357e40b14734e1d0ebf729a80489318376cdb8cf621cc422d4c19ec3408705a",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.ki-source.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "34b6a571fc5c5046156d5f859a155627a2fb19378643a08ef908cd9364d6a371",
+        "bytes": 855871,
+        "bounds": {
+          "minX": 170,
+          "minY": 123,
+          "maxX": 854,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.ki-source.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "53fe5afaf1ec122b967d78b813b95a9c66ae9e50bd6f4a81c4e4756e9aadfc86",
+        "bytes": 124170
+      }
+    },
+    {
+      "id": "training.android.checkpoint",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Punkt trasy — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.checkpoint.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "e0cc3eff1eb7de7f7a8b51ae463142f2f278d6cfa21ff548c66723e654415c37",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.checkpoint.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "e920c2a87d1ff3d3caff88e9171766ebd14ec2eb33725da98431f87229b693f0",
+        "bytes": 795705,
+        "bounds": {
+          "minX": 233,
+          "minY": 123,
+          "maxX": 790,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.checkpoint.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "64ebb4148202555ad16941fcbf54c78eb19ba6ce543a93690eaf398677186f89",
+        "bytes": 113224
+      }
+    },
+    {
+      "id": "training.android.obstacle",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Przeszkoda treningowa — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.obstacle.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "90a3aaa7ee2264d25f2d9cd748e0a2b079ba9c19faa39570556d0a29b9394815",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.obstacle.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "f4d80d61f8bf1734b6f3131ca251270e916232dc94f57e2c234b61f4d87dce3f",
+        "bytes": 692221,
+        "bounds": {
+          "minX": 240,
+          "minY": 123,
+          "maxX": 784,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.obstacle.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "5d6216e211aeb4a8cc34690c6250595aadb8beefb5cb294e3d96a1c5901bc5b2",
+        "bytes": 102354
+      }
+    },
+    {
+      "id": "training.android.surrender",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Znacznik poddania — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.surrender.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "9faeb72ec744904cd900ee0b4066a29a6093514cc18139062b7d025339e04882",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.surrender.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "1b00a3ff3e434ff47ef9a8c7ccfa66fe9104251ee212cd293541bb50f8c283e4",
+        "bytes": 541042,
+        "bounds": {
+          "minX": 287,
+          "minY": 123,
+          "maxX": 737,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.surrender.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "ad35a4be3905f12dd18de96e9f2993f2e42d4e3fb894ddc8196de7e37acdb6f4",
+        "bytes": 79440
+      }
+    },
+    {
       "id": "ui.training.strength",
       "version": "v001",
       "batch": "PARTIA_2_P0",

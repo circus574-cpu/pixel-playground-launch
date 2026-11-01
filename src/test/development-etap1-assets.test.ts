@@ -28,7 +28,7 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
       expect(url).toBeDefined();
       expect(existsSync("public" + url!), `tier ${tier}: ${url}`).toBe(true);
     }
-    for (const world of ["verdant", "aether"] as const) {
+    for (const world of ["verdant", "aether", "nexus"] as const) {
       for (const kind of [
         "dummy",
         "target",
@@ -51,7 +51,7 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
     expect(existsSync(manifestPath)).toBe(true);
     const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
     expect(manifest.optInSwitch).toBe("ki-dev-art");
-    expect(manifest.assets.length).toBe(30);
+    expect(manifest.assets.length).toBe(38);
 
     for (const asset of manifest.assets) {
       const origPath =
