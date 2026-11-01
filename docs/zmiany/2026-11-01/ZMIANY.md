@@ -107,3 +107,45 @@
   - Pozostałe pozycje Partii 2 wstrzymano po osiągnięciu limitu okna modelu `gemini-3.1-flash-image` (`429 RESOURCE_EXHAUSTED`, reset po ~4h 57m) — zgodnie z regułą katalogu oczekują na odbiór właściciela dla Partii 1.
 - **Bezpieczna integracja opt-in (`?ki-dev-art=1`)**:
   - Nowe zasoby są zgrupowane w `src/game/development/developmentAssets.ts` i zarejestrowane pod przełącznikiem `PREVIEW_SWITCHES["ki-dev-art"]` w `src/game/assets/catalog.ts`, dzięki czemu domyślna gra zachowuje dotychczasową prezentację do czasu akceptacji właściciela.
+
+
+### 7. Dokończenie pełnej puli assetów Etapu 1 (P0 Development, commit `f8dff1d8`, gałąź `feat/development-assets-etap1`)
+
+- **Komplet 46/46 grafik i 41/41 audio w `manifest.json`**:
+  - **Obiekty treningowe 4 ras (32 obiekty)**:
+    - Verdantia: `training.planetary.*` (dummy, target, ki-node, defense, ki-source, checkpoint, obstacle, surrender).
+    - Aetheria: `training.sage.*` (wszystkie 8 obiektów).
+    - Nexus-9: `training.android.*` (wszystkie 8 obiektów).
+    - Pyra: `training.legend.*` (wszystkie 8 obiektów zaimportowane z paczki właściciela `pyra.zip`, wyczyszczone z magenty do przezroczystych WebP).
+  - **Ikony dyscyplin treningowych (8 ikon)**:
+    - `ui.training.strength`, `endurance`, `agility`, `discipline`, `ki-control`, `ki-capacity`, `technique`, `attack-speed`.
+  - **Emblematy egzaminacyjne (6 emblematów rang)**:
+    - `ui.exam.tier-1` .. `tier-6`.
+  - **Efekty dźwiękowe (41 audio)**:
+    - Wygenerowane i podpięte zoptymalizowane pliki SFX i pętle ambience ElevenLabs v2.
+  - Wszystkie zasoby zintegrowane w `manifest.json`, `public/game/manifest.json` oraz `developmentAssets.ts`.
+
+### 8. System ekwipunku postaci, torba oraz depozyt miejski (commit `93d38fc2`, gałąź `feat/inventory-bag-and-city-depot`)
+
+- **Pełny 8-slotowy ekwipunek (`DiabloInventory.tsx`, `session.ts`)**:
+  - Odblokowano wszystkie 8 slotów w HUD postaci: `head` (Hełm), `weapon` (Broń), `armor` (Pancerz), `offhand` (Tarcza), `hands` (Rękawice), `ring` (Pierścień), `amulet` (Amulet), `feet` (Buty).
+  - Obsługa ubierania i zdejmowania przedmiotów z katalogu V2 (oraz klasycznych).
+  - Automatyczna zamiana miejsc (swap) w przypadku zajętego slotu.
+  - Dynamiczne zasilanie statystyk bojowych postaci (atak, obrona, szansa na trafienie krytyczne, szybkość) z uwzględnieniem pasywnych bonusów zestawowych (`computePassiveEquipmentBonuses`).
+- **Torba postaci (Siatka 40 slotów)**:
+  - Dodano pole `bagItems` w `PlayerSchema` z automatyczną migracją starszych zapisów gry.
+  - Prezentacja przedmiotów z katalogu, klasycznych oraz materiałów w siatce 40 komórek.
+  - Szczegółowe podpowiedzi (tooltip) prezentujące poziom, statystyki, efekty pasywne oraz przynależność do zestawu.
+  - Obsługa przedmiotów użytkowych (jedzenie / mikstury leczące).
+- **Depozyt miejski na pieniądze i ekwipunek (`CityPanels.tsx` – `DepotPanel`)**:
+  - **Skarbiec miejski (Złoto)**:
+    - Rozszerzono `depot` o pole `gold` z domyślną wartością 0 dla zachowania zgodności wstecznej.
+    - Dodano komendę `depot-gold` do wpłacania i wypłacania monet ze skarbca w bezpiecznym mieście.
+    - Szybkie przyciski kwotowe oraz przycisk „Wpłać wszystko” / „Wypłać wszystko”.
+  - **Skrzynia na ekwipunek**:
+    - Możliwość odkładania do depozytu dowolnych przedmiotów z torby oraz odbierania ich ze skrzyni (stosy do 99 sztuk).
+    - Ochrona przed odłożeniem aktualnie założonego na postać ekwipunku bez wcześniejszego zdjęcia.
+- **Weryfikacja**:
+  - Test jednostkowy `src/test/inventory-and-depot.test.ts` (4/4 PASS).
+  - Test katalogu `src/game/items/__tests__/items.test.ts` (8/8 PASS).
+  - Pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.
