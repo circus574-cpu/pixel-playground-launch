@@ -5,14 +5,14 @@ on:
       phase:
         type: choice
         default: prepare
-        options: [prepare, verify-live, restart-verify, stop-old]
+        options: [prepare, verify-live, restart-verify, stop-old, rollback]
 permissions:
   contents: read
   actions: read
 jobs:
   ssh-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -48,10 +48,33 @@ jobs:
             -o StrictHostKeyChecking=accept-new \
             -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
             -p 22 codex@85.235.150.189 'docker exec -i coolify php /dev/stdin plan' < deploy/scripts/configure-online-coolify.php
-          case "$CUTOVER_PHASE" in prepare|verify-live|restart-verify|stop-old) ;; *) exit 2;; esac
-          tested_sha=a32ba3ed68a2164c43965dd7b969678df988173c
-          actual=$(gh api repos/circus574-cpu/pixel-playground-launch/actions/runs/41320574187 --jq '[.head_sha,.conclusion]|join(" ")')
+          case "$CUTOVER_PHASE" in prepare|verify-live|restart-verify|stop-old|rollback) ;; *) exit 2;; esac
+          tested_sha=c3839cc52897f532cf78f49ffaa86309c2143709
+          actual=$(gh api repos/circus574-cpu/pixel-playground-launch/actions/runs/41323498115 --jq '[.head_sha,.conclusion]|join(" ")')
           [ "$actual" = "$tested_sha success" ] || { echo 'Required online QA is not successful on the approved SHA'; exit 1; }
-          tar -czf "$RUNNER_TEMP/ki-online-ops.tar.gz" deploy/scripts/approved-online-config.sh deploy/scripts/configure-online-coolify.php deploy/multiplayer/prepare-online.sh deploy/multiplayer/003-online-character-state.sql deploy/multiplayer/004-online-session-leases.sql deploy/scripts/verify-online-backup.sh deploy/scripts/verify-live-online.mjs deploy/scripts/operate-online-cutover.sh
+          tar -czf "$RUNNER_TEMP/ki-online-ops.tar.gz" deploy/scripts/approved-online-config.sh deploy/scripts/configure-online-coolify.php deploy/multiplayer/prepare-online.sh deploy/multiplayer/003-online-character-state.sql deploy/multiplayer/004-online-session-leases.sql deploy/scripts/verify-online-backup.sh deploy/scripts/verify-live-online.mjs deploy/scripts/operate-online-cutover.sh deploy/scripts/verify-live-browser.mjs deploy/scripts/restore-online-coolify.php
           ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 'umask 077; mkdir -p "$HOME/ki-legends-online-ops"; tar -xzf - -C "$HOME/ki-legends-online-ops"' < "$RUNNER_TEMP/ki-online-ops.tar.gz"
           ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 "KI_ONLINE_CUTOVER_APPROVED=1 bash ki-legends-online-ops/deploy/scripts/operate-online-cutover.sh '$CUTOVER_PHASE'"
+          if [ "$CUTOVER_PHASE" = verify-live ]; then
+            ssh -i "$key_file" -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 'cat "$HOME/ki-multiplayer-db/secrets/live-qa.json"' > "$RUNNER_TEMP/ki-live-qa-private.json"
+          fi
+      - name: Actual production login, keyboard, touch, assets and reload
+        if: ${{ inputs.phase == 'verify-live' }}
+        env:
+          KI_QA_CREDENTIAL_FILE: ${{ runner.temp }}/ki-live-qa-private.json
+          KI_QA_PLAYWRIGHT_ROOT: ${{ runner.temp }}/ki-browser
+          KI_QA_OUTPUT: test-results/live-online
+        run: |
+          npm install --prefix "$KI_QA_PLAYWRIGHT_ROOT" --no-audit --no-fund playwright
+          "$KI_QA_PLAYWRIGHT_ROOT/node_modules/.bin/playwright" install --with-deps chromium
+          node deploy/scripts/verify-live-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && inputs.phase == 'verify-live' }}
+        with:
+          name: live-online-${{ github.run_id }}
+          path: test-results/live-online
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Remove runner-only test credentials
+        if: always()
+        run: rm -f "$RUNNER_TEMP/ki-live-qa-private.json"

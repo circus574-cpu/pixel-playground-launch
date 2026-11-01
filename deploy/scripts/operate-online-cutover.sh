@@ -17,15 +17,41 @@ case "$phase" in
     docker tag "$image" "$tag"
    fi
   done
+  if [ ! -s "$base/before-online-live-release" ]; then cp "$HOME/ki-legends-aruba-staging/coolify-live-release" "$base/before-online-live-release"; fi
   bash "$root/deploy/scripts/approved-online-config.sh" a32ba3ed68a2164c43965dd7b969678df988173c
   bash "$root/deploy/scripts/verify-online-backup.sh"
   cat "$base/secrets/game_runtime_password" | docker exec -i ki-multiplayer-db-db-1 sh -c 'IFS= read -r PGPASSWORD; export PGPASSWORD; psql -X -h 127.0.0.1 -U ki_runtime -d ki_multiplayer -v ON_ERROR_STOP=1 -c "SELECT current_user; SELECT character_id,lease_id FROM game.online_character_state LIMIT 0;"'
+  exit 0;;
+ rollback)
+  backup=$(cat "$base/last-online-config-backup")
+  [[ "$backup" = "$base"/backups/online-config-* && -s "$backup/coolify-before.json" ]] || exit 2
+  docker exec -u 0 coolify mkdir -p -m 700 /tmp/ki-online-cutover-rollback
+  docker cp "$backup/coolify-before.json" coolify:/tmp/ki-online-cutover-rollback/before.json >/dev/null
+  docker cp "$root/deploy/scripts/restore-online-coolify.php" coolify:/tmp/ki-online-cutover-rollback/restore.php >/dev/null
+  docker exec -u 0 -e KI_ONLINE_CUTOVER_APPROVED=1 coolify php /tmp/ki-online-cutover-rollback/restore.php /tmp/ki-online-cutover-rollback/before.json
+  uuid=xh4qbckykxsq1iofxdoe5t3h
+  project=$(docker inspect --format '{{index .Config.Labels "com.docker.compose.project"}}' "web-$uuid")
+  for service in app web; do
+   tag=$(docker inspect --format '{{.Config.Image}}' "$service-$uuid")
+   docker tag "ki-legends-$service:before-online-20261101" "$tag"
+  done
+  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "/data/coolify/services/$uuid:/data/coolify/services/$uuid:ro" -w "/data/coolify/services/$uuid" docker:cli compose -p "$project" up -d --no-build --wait --wait-timeout 180
+  docker start ki-multiplayer-db-game-server-1 >/dev/null
+  cp "$base/before-online-live-release" "$HOME/ki-legends-aruba-staging/coolify-live-release"
+  echo 'Previous application restored; new PostgreSQL records were not deleted'
   exit 0;;
  verify-live|restart-verify|stop-old) ;;
  *) echo 'Unknown operation'; exit 2;;
 esac
 if [ "$phase" = restart-verify ]; then
  test -s "$base/secrets/live-qa.json"
+ docker cp "$base/secrets/live-qa.json" "$app:$qa_file" >/dev/null
+ docker cp "$root/deploy/scripts/verify-live-online.mjs" "$app:/tmp/verify-live-online.mjs" >/dev/null
+ docker exec -u 0 "$app" chown node:node "$qa_file"
+ docker exec -u 0 "$app" chmod 644 /tmp/verify-live-online.mjs
+ docker exec "$app" node /tmp/verify-live-online.mjs "$qa_file" capture
+ docker cp "$app:$qa_file" "$base/secrets/live-qa.json" >/dev/null
+ chmod 600 "$base/secrets/live-qa.json"
  docker restart "$app" >/dev/null
  sleep 17
 fi
@@ -43,7 +69,9 @@ fi
 docker cp "$root/deploy/scripts/verify-live-online.mjs" "$app:/tmp/verify-live-online.mjs" >/dev/null
 docker exec -u 0 "$app" chmod 644 /tmp/verify-live-online.mjs
 qa_status=0
-docker exec "$app" node /tmp/verify-live-online.mjs "$qa_file" || qa_status=$?
+mode=normal
+[ "$phase" != restart-verify ] || mode=restart
+docker exec "$app" node /tmp/verify-live-online.mjs "$qa_file" "$mode" || qa_status=$?
 docker cp "$app:$qa_file" "$base/secrets/live-qa.json" >/dev/null
 chmod 600 "$base/secrets/live-qa.json"
 [[ "$qa_status" = 0 ]] || exit "$qa_status"

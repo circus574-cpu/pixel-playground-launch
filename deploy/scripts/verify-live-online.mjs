@@ -36,6 +36,16 @@ const session = await json(`${auth}/auth/v1/token?grant_type=password`, {
   body: JSON.stringify({ email: data.email, password: data.password }),
 });
 const headers = { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' };
+if (process.argv[3] === 'capture') {
+  assert.equal(data.characters.length, 4, 'Run the four-race test before capturing a restart checkpoint');
+  for (const c of data.characters) {
+    const r = await json(`${base}/ws/characters/${c.id}`, { headers });
+    c.position = { x: r.state.player.x, y: r.state.player.y };
+  }
+  writeFileSync(file, JSON.stringify(data), { mode: 0o600 });
+  console.log('Latest committed positions captured for restart comparison');
+  process.exit(0);
+}
 assert.equal((await fetch(`${base}/ws/characters`)).status, 401, 'Unauthenticated API must be guarded');
 const result = [];
 for (const race of ['planetary', 'sage', 'android', 'legend']) {
@@ -60,7 +70,10 @@ for (const race of ['planetary', 'sage', 'android', 'legend']) {
   assert.equal(frame.view.staff, null, 'Ordinary QA user must not be staff');
   assert.equal(frame.checkpoint.player.race, race);
   assert.ok(Math.hypot(frame.checkpoint.player.x - before.state.player.x, frame.checkpoint.player.y - before.state.player.y) < 1, 'Reconnect must restore committed position');
-  if (saved.position) assert.ok(Math.hypot(frame.checkpoint.player.x - saved.position.x, frame.checkpoint.player.y - saved.position.y) < 1, 'Process restart must retain position');
+  if (process.argv[3] === 'restart') {
+    assert.ok(saved.position, 'Restart checkpoint required');
+    assert.ok(Math.hypot(frame.checkpoint.player.x - saved.position.x, frame.checkpoint.player.y - saved.position.y) < 1, 'Process restart must retain position');
+  }
   const origin = { x: frame.checkpoint.player.x, y: frame.checkpoint.player.y };
   const until = Date.now() + 3500;
   while (Date.now() < until && Math.hypot(frame.checkpoint.player.x - origin.x, frame.checkpoint.player.y - origin.y) < 60) {
