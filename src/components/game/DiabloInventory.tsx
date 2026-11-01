@@ -1,10 +1,5 @@
-import { equippedName } from "../../game/development/heritage/equipment";
+import { equippedAttack, equippedName } from "../../game/development/heritage/equipment";
 import { HeritageWeaponCard } from "./HeritageWeaponCard";
-/**
- * Inventory in the classic action-RPG layout (preview switch ?ki-world-v2=1): the hero in the
- * centre with equipment slots around, a bag grid beside. Uses the existing commands only
- * (equip / use via "equip", unequip), so saves and rules are unchanged.
- */
 import { useState } from "react";
 import originArt from "../../game/world/origin-art.json";
 import {
@@ -14,16 +9,53 @@ import {
   xpNeeded,
   type GameViewState,
   type ItemId,
+  type EquipmentSlot,
+  type Player,
 } from "../../game/session";
+import { getItemById } from "../../game/items";
 import { type SendCommand } from "./AdventurePanels";
+
+export function getItemIconName(itemId: string): string {
+  if (itemId in ITEMS) return itemId;
+  const def = getItemById(itemId);
+  if (!def) return "tusk";
+  const slot = def.slot || def.category;
+  switch (slot) {
+    case "weapon":
+      return "sword";
+    case "armor":
+      return "vest";
+    case "helmet":
+      return "helmet";
+    case "gloves":
+      return "gloves";
+    case "boots":
+      return "boots";
+    case "shield":
+      return "shield";
+    case "ring":
+      return "ring";
+    case "amulet":
+    case "accessory":
+    case "artifact":
+    case "buff":
+      return "amulet";
+    case "consumable":
+      return "potion";
+    default:
+      if (slot.startsWith("artifact_")) return "amulet";
+      return "tusk";
+  }
+}
 
 /** Painted item icons (GPU, public/game/icons-v2); every slot and bag item has one. */
 function ItemIcon({ item }: { item: string }) {
-  return <img className="ki-dinv-icon" src={`/game/icons-v2/${item}.webp`} alt="" aria-hidden />;
+  const icon = getItemIconName(item);
+  return <img className="ki-dinv-icon" src={`/game/icons-v2/${icon}.webp`} alt="" aria-hidden />;
 }
 
 const BAG_CELLS = 40;
-/** Slots without items in the game yet are shown locked so the layout stays complete. */
+
 const SLOTS = [
   { id: "head", label: "Hełm", area: "head", icon: "helmet" },
   { id: "weapon", label: "Broń", area: "weapon", icon: "sword" },
@@ -36,51 +68,117 @@ const SLOTS = [
 ] as const;
 
 type BagEntry =
-  { kind: "item"; id: ItemId; count: number } | { kind: "material"; id: string; count: number };
+  | { kind: "item"; id: ItemId; count: number }
+  | { kind: "material"; id: string; count: number }
+  | { kind: "bagItem"; id: string; count: number };
 
-function describe(entry: BagEntry) {
-  if (entry.kind === "material")
+interface ItemDescription {
+  name: string;
+  info: string;
+}
+
+function describe(entry: BagEntry): ItemDescription {
+  if (entry.kind === "material") {
+    const mat = MATERIALS[entry.id];
     return {
-      name: MATERIALS[entry.id]?.name ?? entry.id,
-      info: "Materiał · sprzedaż " + (MATERIALS[entry.id]?.sell ?? 0) + " monet",
+      name: mat?.name ?? entry.id,
+      info: "Materiał · sprzedaż " + (mat?.sell ?? 0) + " monet",
     };
-  const item = ITEMS[entry.id];
+  }
+  if (entry.kind === "item") {
+    const item = ITEMS[entry.id];
+    return {
+      name: item.name,
+      info: item.attack
+        ? "+" + item.attack + " ataku · broń"
+        : item.defense
+          ? "+" + item.defense + " obrony · pancerz"
+          : entry.id === "potion"
+            ? "Przywraca do 65 HP · kliknij, aby wypić"
+            : "Materiał · sprzedaż " + item.sell + " monet",
+    };
+  }
+  const def = getItemById(entry.id);
+  if (!def) return { name: entry.id, info: "Przedmiot w torbie" };
+
+  const parts: string[] = [];
+  if (def.level) parts.push(`Wym. poziom ${def.level}`);
+  if (def.stats?.atkBonus) parts.push(`+${def.stats.atkBonus} ataku`);
+  if (def.stats?.defBonus) parts.push(`+${def.stats.defBonus} obrony`);
+  if (def.stats?.hpBonus) parts.push(`+${def.stats.hpBonus} HP`);
+  if (def.stats?.kiBonus) parts.push(`+${def.stats.kiBonus} KI`);
+  if (def.stats?.critChancePercent) parts.push(`+${def.stats.critChancePercent}% kryt`);
+  if (def.stats?.moveSpeedPercent) parts.push(`+${def.stats.moveSpeedPercent}% szybkości`);
+  if (def.buff?.value) parts.push(`Pasyw: +${def.buff.value}%`);
+  if (def.setId) parts.push(`Zestaw: ${def.setId}`);
+  if (def.category === "consumable") parts.push("Użyj, aby odzyskać siły");
+
   return {
-    name: item.name,
-    info: item.attack
-      ? "+" + item.attack + " ataku · broń"
-      : item.defense
-        ? "+" + item.defense + " obrony · pancerz"
-        : entry.id === "potion"
-          ? "Przywraca do 65 HP · kliknij, aby wypić"
-          : "Materiał · sprzedaż " + item.sell + " monet",
+    name: def.name,
+    info: parts.length > 0 ? parts.join(" · ") : def.description,
   };
+}
+
+function describeEquipped(slotId: EquipmentSlot, itemId: string, p: Player): ItemDescription {
+  if (slotId === "weapon" && itemId === "heritage") {
+    return {
+      name: equippedName(p),
+      info: "Broń dziedzictwa · " + equippedAttack(p) + " ataku · kliknij, aby zdjąć",
+    };
+  }
+  if (itemId in ITEMS) {
+    const d = describe({ kind: "item", id: itemId as ItemId, count: 1 });
+    return { name: d.name, info: d.info + " · kliknij, aby zdjąć" };
+  }
+  const def = getItemById(itemId);
+  if (def) {
+    const d = describe({ kind: "bagItem", id: itemId, count: 1 });
+    return { name: d.name, info: d.info + " · kliknij, aby zdjąć" };
+  }
+  return { name: itemId, info: "Wyposażenie · kliknij, aby zdjąć" };
 }
 
 export function DiabloInventory({ state, send }: { state: GameViewState; send: SendCommand }) {
   const p = state.player;
-  const [focus, setFocus] = useState<BagEntry | null>(null);
+  const [focusDesc, setFocusDesc] = useState<ItemDescription | null>(null);
+
   const bag: BagEntry[] = [
-    ...ITEM_IDS.filter((id) => p.items[id] > 0 && p.weapon !== id && p.armor !== id).map((id) => ({
+    ...ITEM_IDS.filter(
+      (id) =>
+        p.items[id] > 0 &&
+        p.weapon !== id &&
+        p.armor !== id &&
+        p.equipment?.weapon !== id &&
+        p.equipment?.armor !== id,
+    ).map((id) => ({
       kind: "item" as const,
       id,
       count: p.items[id],
     })),
-    ...Object.entries(p.materials).map(([id, count]) => ({ kind: "material" as const, id, count })),
+    ...Object.entries(p.bagItems ?? {})
+      .filter(([id, count]) => count > 0 && !Object.values(p.equipment ?? {}).includes(id))
+      .map(([id, count]) => ({
+        kind: "bagItem" as const,
+        id,
+        count,
+      })),
+    ...Object.entries(p.materials)
+      .filter(([_, count]) => count > 0)
+      .map(([id, count]) => ({ kind: "material" as const, id, count })),
   ];
-  const equipped = (slot: string): ItemId | null =>
-    slot === "weapon"
-      ? p.weapon === "heritage"
-        ? null
-        : p.weapon
-      : slot === "armor"
-        ? p.armor
-        : null;
-  const shown =
-    focus ??
-    (p.weapon && p.weapon !== "heritage"
-      ? { kind: "item" as const, id: p.weapon, count: 1 }
-      : null);
+
+  const equipped = (slot: EquipmentSlot): string | null => {
+    if (p.equipment?.[slot]) return p.equipment[slot];
+    if (slot === "weapon") return p.weapon;
+    if (slot === "armor") return p.armor;
+    return null;
+  };
+
+  const defaultShown: ItemDescription | null = p.weapon
+    ? describeEquipped("weapon", p.weapon, p)
+    : null;
+  const shown = focusDesc ?? defaultShown;
+
   return (
     <div className="ki-dinv">
       <section className="ki-dinv-doll" aria-label="Postać i wyposażenie">
@@ -92,37 +190,33 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
           height={580}
         />
         {SLOTS.map((slot) => {
-          const item = equipped(slot.id);
+          const item = equipped(slot.id as EquipmentSlot);
           const personal = slot.id === "weapon" && p.weapon === "heritage";
-          const locked = slot.id !== "weapon" && slot.id !== "armor";
+          const desc = item ? describeEquipped(slot.id as EquipmentSlot, item, p) : null;
           return (
             <button
               key={slot.id}
               className={
                 "ki-dinv-slot ki-dinv-" +
                 slot.area +
-                (item || personal ? " is-filled" : "") +
-                (locked ? " is-locked" : "")
+                (item || personal ? " is-filled" : "")
               }
               aria-label={
                 slot.label +
-                (personal
-                  ? ": " + equippedName(p) + " — zdejmij"
-                  : item
-                    ? ": " + ITEMS[item].name + " — zdejmij"
-                    : locked
-                      ? " (wkrótce)"
-                      : ": puste")
+                (desc
+                  ? ": " + desc.name + " — kliknij, aby zdjąć"
+                  : ": puste")
               }
               title={
                 slot.label +
-                (personal ? " · " + equippedName(p) : item ? " · " + ITEMS[item].name : "")
+                (desc ? " · " + desc.name : ": puste")
               }
               disabled={!item && !personal}
               onClick={() =>
-                (item || personal) && send({ type: "unequip", slot: slot.id as "weapon" | "armor" })
+                (item || personal) && send({ type: "unequip", slot: slot.id as EquipmentSlot })
               }
-              onMouseEnter={() => item && setFocus({ kind: "item", id: item, count: 1 })}
+              onMouseEnter={() => desc && setFocusDesc(desc)}
+              onFocus={() => desc && setFocusDesc(desc)}
             >
               {personal ? (
                 <ItemIcon item="sword" />
@@ -175,23 +269,29 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
             if (!entry) return <span key={i} className="ki-dinv-cell" aria-hidden />;
             const d = describe(entry);
             const usable =
-              entry.kind === "item" &&
-              entry.id !== "tusk" &&
-              !(entry.id === "potion" && (p.hp >= state.stats.maxHp || state.potion.remaining > 0));
+              entry.kind === "bagItem" ||
+              (entry.kind === "item" &&
+                entry.id !== "tusk" &&
+                !(
+                  entry.id === "potion" &&
+                  (p.hp >= state.stats.maxHp || state.potion.remaining > 0)
+                ));
             return (
               <button
                 key={i}
                 className="ki-dinv-cell is-filled"
                 title={d.name + " — " + d.info}
-                aria-label={d.name + " ×" + entry.count + (usable ? " — użyj lub załóż" : "")}
-                onMouseEnter={() => setFocus(entry)}
-                onFocus={() => setFocus(entry)}
+                aria-label={d.name + " ×" + entry.count + (usable ? " — załóż lub użyj" : "")}
+                onMouseEnter={() => setFocusDesc(d)}
+                onFocus={() => setFocusDesc(d)}
                 onClick={() => {
-                  setFocus(entry);
-                  if (usable && entry.kind === "item") send({ type: "equip", item: entry.id });
+                  setFocusDesc(d);
+                  if (usable) {
+                    send({ type: "equip", item: entry.id });
+                  }
                 }}
               >
-                {entry.kind === "item" ? <ItemIcon item={entry.id} /> : <ItemIcon item="tusk" />}
+                <ItemIcon item={entry.id} />
                 {entry.count > 1 && <b>{entry.count}</b>}
               </button>
             );
@@ -200,8 +300,8 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
         <div className="ki-dinv-tooltip" aria-live="polite">
           {shown ? (
             <>
-              <strong>{describe(shown).name}</strong>
-              <small>{describe(shown).info}</small>
+              <strong>{shown.name}</strong>
+              <small>{shown.info}</small>
             </>
           ) : (
             <small>Dotknij przedmiotu, aby zobaczyć opis. Kliknij, aby założyć lub użyć.</small>
