@@ -18,8 +18,8 @@ git remote set-url origin "$REMOTE"
 
 # 1) Cała historia i wszystkie gałęzie, dokładnie jak na GitHubie (bez refs/pull — GitHub ich nie przyjmuje)
 git push origin 'refs/heads/*:refs/heads/*' --tags
-# Gałęzie widoczne tylko w Lovable i dawne PR-y jako zwykłe gałęzie archiwalne
-git for-each-ref --format='%(refname)' refs/lovable refs/pull | while read -r ref; do
+# Dawne gałęzie i dawne PR-y jako zwykłe gałęzie archiwalne
+git for-each-ref --format='%(refname)' refs/archive refs/pull | while read -r ref; do
   name="archive/${ref#refs/}"; git push origin "$ref:refs/heads/$name"
 done
 git lfs push --all origin

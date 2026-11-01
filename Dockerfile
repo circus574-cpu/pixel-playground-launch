@@ -18,7 +18,7 @@ RUN npm ci --no-audit --no-fund
 # ---------- budowanie ----------
 FROM deps AS build
 COPY . .
-# Okładka strony głównej i tło /test były dotąd podawane przez hosting Lovable (/__l5e/...).
+# Okładka strony głównej i tło /test podawane są pod ścieżką (/__l5e/...).
 # Kopie leżą w deploy/overlay i trafiają do public/ pod tym samym adresem — bez zmiany kodu gry.
 # Obrazy NIE są generowane w buildzie: muszą leżeć w deploy/overlay/public i mieć sumy z deploy/overlay/SHA256SUMS.
 RUN cd deploy/overlay/public 2>/dev/null && sha256sum -c ../SHA256SUMS \

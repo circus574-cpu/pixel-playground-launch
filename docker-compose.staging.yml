@@ -1,5 +1,5 @@
 # KI LEGENDS — STAGING na VPS (Aruba, Coolify „Docker Compose”, plik: docker-compose.staging.yml).
-# Hosting gry na VPS, backend BEZ ZMIAN: konta, postacie i zapisy zostają w obecnym Lovable Cloud.
+# Hosting gry na VPS, backend BEZ ZMIAN: konta, postacie i zapisy zostają w chmurze Supabase.
 # Te same obrazy co produkcja (Dockerfile, targety "app" i "web"); różnice tylko w zmiennych:
 #   - serwer Node.js NIE dostaje klucza service_role, SESSION_SECRET ani SITE_PASSWORD (celowo puste),
 #     więc funkcje /test odmawiają dostępu (fail-closed: „Brak konfiguracji dostępu.”),
@@ -27,7 +27,7 @@ services:
       PORT: "3000"
       SUPABASE_URL: ${SUPABASE_URL:?Ustaw SUPABASE_URL (ten sam adres co VITE_SUPABASE_URL)}
       SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:?Ustaw SUPABASE_PUBLISHABLE_KEY (ten sam klucz co VITE_SUPABASE_PUBLISHABLE_KEY)}
-      # Celowo puste — staging nie ma klucza service_role Lovable Cloud. Nie wpisuj tu zastępczych wartości.
+      # Celowo puste — staging nie ma klucza service_role Supabase. Nie wpisuj tu zastępczych wartości.
       SUPABASE_SERVICE_ROLE_KEY: ""
       SESSION_SECRET: ""
       SITE_PASSWORD: ""

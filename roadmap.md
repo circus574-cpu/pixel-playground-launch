@@ -17,4 +17,4 @@
 - [x] Make the accepted anime art packs default in the game (all four lands).
 - [x] Aetheria minimap, tests, screenshots; publish on owner request.
 - [x] Aruba staging deploy files delivered as ZIP in Files (GitHub branch write declined by owner).
-- [x] Whole-database file: official Lovable export path given; app data + accounts already exported.
+- [x] Whole-database file: official export path given; app data + accounts already exported.

@@ -163,7 +163,7 @@ Nie nadpisywać historycznego pomiaru `pre-gpu` nową sesją.
 Decyzja właściciela 26.10.2026: konta graczy i panel administratora/game mastera.
 Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce, jak wcześniej.
 
-- Baza: [docs/db/2026-10-26-accounts.sql](db/2026-10-26-accounts.sql), zastosowana w bazie Lovable Cloud.
+- Baza: [docs/db/2026-10-26-accounts.sql](db/2026-10-26-accounts.sql), zastosowana w bazie kont Supabase.
   Tabele `profiles`, `user_roles` (`admin`, `gm`), `characters` (kopia kluczy zapisu gry), `admin_audit`.
   Uprawnienia pilnuje RLS: gracz widzi i zmienia tylko swoje wiersze, game master czyta i edytuje
   postacie, tylko administrator nadaje role. Dziennik zapisują wyzwalacze, nie klient.

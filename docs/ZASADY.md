@@ -34,7 +34,7 @@ opisuje [GPU i zasoby](GPU-I-ZASOBY.md); polecenie startu ComfyUI nie jest start
 ## Git, scalenia i publikacja
 
 Nie przepisywać opublikowanej historii: bez force push oraz rebase/amend/squash
-już wysłanych commitów. Projekt synchronizuje się z Lovable. Pracować na gałęziach,
+już wysłanych commitów. Pracować na gałęziach, zachowywać historię,
 zachowywać cudze zmiany, opisywać konkretny zakres i wyniki kontroli.
 Scalenie, publikacja i konfiguracja produkcji wymagają uprawnienia właściciela
 obejmującego dane działanie. Zgoda z 22.10 była zgodą historycznego wydania;

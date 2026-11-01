@@ -1,6 +1,6 @@
 -- Ki Legends accounts, cloud saves and the game-master panel (owner decision 26.10.2026).
 -- Additive and idempotent: safe to run again; does not touch the sketch tables.
--- Applied to the Lovable Cloud database with the project's SQL access; keep this file as the record.
+-- Applied to the Supabase database with the project's SQL access; keep this file as the record.
 
 do $$ begin
   create type public.app_role as enum ('admin', 'gm');

@@ -18,4 +18,4 @@ All sources were generated separately. Scene exported to WebP quality 90. Object
 
 Visual result: coherent teal/cream/coral palette and painted anime shading; selected tree has a stronger overhead view. Terrain repetition remains a known issue, not a passed production quality gate. Character remains a design, with no claims about eight-direction animation, anatomy consistency between frames, or gameplay integration. Edge cleanup/anchors/footprints and engine-scale camera consistency need a subsequent production pass after approval.
 
-Repository checks: 7 test files / 22 tests passed; full `tsc --noEmit` passed on 2026-10-19. No runtime code changed in this candidate commit. Physical Android/iPhone performance and native fullscreen remain unverified. No Lovable publication requested for this candidate set.
+Repository checks: 7 test files / 22 tests passed; full `tsc --noEmit` passed on 2026-10-19. No runtime code changed in this candidate commit. Physical Android/iPhone performance and native fullscreen remain unverified. No external publication requested for this candidate set.

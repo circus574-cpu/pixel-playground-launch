@@ -27,7 +27,7 @@ nie jest automatycznie inwentaryzacją wszystkich nowszych dostaw.
 
 **Brak podstaw do uznania całej biblioteki grafik za oczyszczoną licencyjnie.**
 Najważniejsze nierozstrzygnięcia: oryginalne ilustracje PDF i ich pochodne,
-pełne prawa do wyglądu Mędrców/Planetarnych, historia atlasu i grafik Lovable,
+pełne prawa do wyglądu Mędrców/Planetarnych, historia atlasu i pierwotnych grafik,
 oryginały `cover.png`/`test-background.png`, dokładna licencja checkpointu DreamShaper.
 Nie jest to twierdzenie o naruszeniu praw; jest to wskazanie brakujących dowodów.
 
@@ -136,17 +136,17 @@ ale nie ustala przypiętego źródła i licencji tego dokładnego pliku. Status:
 ani zgadywanej wersji repo Lykon. Wymagane źródło/wersja i warunki pobrania/wykorzystania.
 Brak dowodu, że ten checkpoint wygenerował którąkolwiek konkretną grafikę tutaj.
 
-## 4. Atlas i globus Lovable
+## 4. Atlas i globus planety
 
 Osiem plików `src/assets/planet-map/` rozpatrzono oddzielnie.
 `atlas-1920.webp` i `atlas-3840.webp` nie mają załączonego źródłowego dowodu
 autorstwa/licencji. `globe-color-*`, `globe-surface-*`, `globe-lights-*` to
 pochodne atlasu z `scripts/build_globe_textures.py` i dziedziczą jego status.
 `globe-clouds-2048.webp` i `space.jpg` są **opisane w dokumentacji** jako wygenerowane
-narzędziem obrazów Lovable; brak logu konkretnej generacji, wejść, modelu i konta.
-Autor commita Lovable/bot jest dowodem dodania pliku do Git, nie autorstwa obrazu.
+zewnętrznym narzędziem generowania obrazów; brak logu konkretnej generacji, wejść, modelu i konta.
+Autor commita z bota jest dowodem dodania pliku do Git, nie autorstwa obrazu.
 
-Zachowano publiczne warunki Lovable z dnia audytu. Mówią o własności Customer Data
+Zachowano publiczne warunki usługi z dnia audytu. Mówią o własności Customer Data
 i AI Output „as between us”, z zastrzeżeniem praw osób trzecich; nie gwarantują
 unikalności ani braku cudzych praw. Nie dowodzi to warunków konkretnej historycznej
 sesji ani tego, czy plik został wygenerowany, wgrany lub pochodził od osoby trzeciej.
