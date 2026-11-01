@@ -5,6 +5,10 @@ set +x
 [[ "${KI_ONLINE_CUTOVER_APPROVED:-}" = 1 ]] || { echo 'Explicit cutover guard missing' >&2; exit 1; }
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 base="$HOME/ki-multiplayer-db"
+source_sha="${1:?Pass the tested source SHA}"
+[[ "$source_sha" =~ ^[0-9a-f]{40}$ ]] || exit 2
+marker="$base/online-config-prepared-$source_sha"
+if [ -s "$marker" ]; then echo "Online configuration already prepared for $source_sha; recovery locator retained"; exit 0; fi
 workdir=/data/coolify/services/xh4qbckykxsq1iofxdoe5t3h
 stamp="$(date -u +%Y%m%dT%H%M%S)-$$"
 backup="$base/backups/online-config-$stamp"
@@ -27,4 +31,6 @@ docker cp "coolify:$private/before.json" "$backup/coolify-before.json" >/dev/nul
 # Retain a durable private recovery locator; never copy these secret-bearing files into Git.
 printf '%s\n' "$backup" > "$base/last-online-config-backup"
 chmod 600 "$base/last-online-config-backup"
+printf '%s\n' "$backup" > "$marker"
+chmod 600 "$marker"
 echo "Approved online configuration prepared; app not restarted; recovery: $backup"

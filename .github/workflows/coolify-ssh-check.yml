@@ -6,6 +6,7 @@ on:
     paths: [.github/workflows/coolify-ssh-check.yml]
 permissions:
   contents: read
+  actions: read
 jobs:
   ssh-check:
     runs-on: ubuntu-latest
@@ -17,6 +18,7 @@ jobs:
       - name: Check SSH access and local Coolify response
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
@@ -41,3 +43,9 @@ jobs:
             -o StrictHostKeyChecking=accept-new \
             -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
             -p 22 codex@85.235.150.189 'docker exec -i coolify php /dev/stdin plan' < deploy/scripts/configure-online-coolify.php
+          tested_sha=a32ba3ed68a2164c43965dd7b969678df988173c
+          actual=$(gh api repos/circus574-cpu/pixel-playground-launch/actions/runs/41320574187 --jq '[.head_sha,.conclusion]|join(" ")')
+          [ "$actual" = "$tested_sha success" ] || { echo 'Required online QA is not successful on the approved SHA'; exit 1; }
+          tar -czf "$RUNNER_TEMP/ki-online-ops.tar.gz" deploy/scripts/approved-online-config.sh deploy/scripts/configure-online-coolify.php deploy/multiplayer/prepare-online.sh deploy/multiplayer/003-online-character-state.sql deploy/multiplayer/004-online-session-leases.sql
+          ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 'umask 077; mkdir -p "$HOME/ki-legends-online-ops"; tar -xzf - -C "$HOME/ki-legends-online-ops"' < "$RUNNER_TEMP/ki-online-ops.tar.gz"
+          ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" codex@85.235.150.189 "KI_ONLINE_CUTOVER_APPROVED=1 bash ki-legends-online-ops/deploy/scripts/approved-online-config.sh '$tested_sha'"
