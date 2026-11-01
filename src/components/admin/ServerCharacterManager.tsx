@@ -13,9 +13,10 @@ import type {
   QuestStatus,
 } from "@/server/adminCharacterService";
 import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
-import { KIT_NODES } from "@/game/kit/nodes.generated";
+import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
 import { ITEM_CATALOG } from "@/game/items/catalog";
-import { ITEMS, ITEM_IDS, type ItemId } from "@/game/session";
+import { ITEMS, ITEM_IDS, type ItemId, characterFullStats, type CharacterFullStatsResult } from "@/game/session";
+import { emptyCombatTraining, trainingRequirement, type CombatTraining } from "@/game/combatTraining";
 import { CHARACTER_STAT_FIELDS } from "@/game/characterStats";
 import { useAccount } from "@/components/account/useAccount";
 
@@ -57,8 +58,8 @@ export function ServerCharacterManager() {
   );
 
   const [activeTab, setActiveTab] = useState<
-    "stats" | "world" | "overrides" | "equipment" | "bag" | "quests" | "skills"
-  >("stats");
+    "breakdown" | "overrides" | "stats" | "world" | "equipment" | "bag" | "quests" | "skills"
+  >("breakdown");
 
   // Dodawanie przedmiotu do torby / depozytu
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<string>(ITEM_CATALOG[0]?.id || "");
@@ -134,6 +135,9 @@ export function ServerCharacterManager() {
               gear: p.quests?.gear ?? "locked",
             },
             skills: [...(p.skills || ["R"])],
+            combatTraining: p.combatTraining
+              ? structuredClone(p.combatTraining)
+              : emptyCombatTraining(),
           });
         }
       } catch (err) {
@@ -232,6 +236,73 @@ export function ServerCharacterManager() {
     if (!detail) return [];
     return KIT_NODES[detail.player.race] || [];
   }, [detail]);
+
+  // Obliczanie pełnych aktualnych/efektywnych statystyk w czasie rzeczywistym
+  const liveStats = useMemo<CharacterFullStatsResult | null>(() => {
+    if (!detail) return null;
+    const p = detail.player;
+
+    const cleanOverrides = form.statOverrides
+      ? (Object.fromEntries(
+          Object.entries(form.statOverrides).filter(
+            ([_, v]) => v !== undefined && v !== null && !isNaN(Number(v))
+          )
+        ) as Record<string, number>)
+      : undefined;
+
+    const normalizedCt =
+      form.combatTraining?.dodge && form.combatTraining?.attackSpeed && form.combatTraining?.technique
+        ? {
+            dodge: {
+              rank: form.combatTraining.dodge.rank ?? 0,
+              progress: form.combatTraining.dodge.progress ?? 0,
+            },
+            attackSpeed: {
+              rank: form.combatTraining.attackSpeed.rank ?? 0,
+              progress: form.combatTraining.attackSpeed.progress ?? 0,
+            },
+            technique: {
+              rank: form.combatTraining.technique.rank ?? 0,
+              progress: form.combatTraining.technique.progress ?? 0,
+            },
+          }
+        : p.combatTraining;
+
+    const eq = form.equipment ?? p.equipment;
+    const normalizedEq = eq
+      ? {
+          head: eq.head ?? null,
+          weapon: eq.weapon ?? null,
+          armor: eq.armor ?? null,
+          offhand: eq.offhand ?? null,
+          hands: eq.hands ?? null,
+          ring: eq.ring ?? null,
+          amulet: eq.amulet ?? null,
+          feet: eq.feet ?? null,
+        }
+      : undefined;
+
+    const simulated = {
+      ...p,
+      level: form.level ?? p.level,
+      weapon: form.equipment?.weapon !== undefined ? (form.equipment.weapon ?? null) : p.weapon,
+      armor: form.equipment?.armor !== undefined ? (form.equipment.armor ?? null) : p.armor,
+      upgrade:
+        form.equipment?.weaponUpgradeTier !== undefined
+          ? form.equipment.weaponUpgradeTier
+          : p.upgrade,
+      skills: form.skills ?? p.skills,
+      ...(cleanOverrides ? { statOverrides: cleanOverrides } : {}),
+      ...(normalizedCt ? { combatTraining: normalizedCt } : {}),
+      ...(normalizedEq ? { equipment: normalizedEq } : {}),
+    };
+
+    try {
+      return characterFullStats(simulated);
+    } catch {
+      return detail.fullStats || null;
+    }
+  }, [detail, form]);
 
   return (
     <div className="ki-admin-server-characters" style={{ marginTop: 12 }}>
@@ -526,6 +597,243 @@ export function ServerCharacterManager() {
                 </div>
               </div>
 
+              {/* KOMPLETNA KARTA AKTUALNYCH STATYSTYK BIEŻĄCYCH */}
+              {liveStats && (
+                <div
+                  style={{
+                    background: "linear-gradient(180deg, #181424 0%, #120e1a 100%)",
+                    padding: "14px 16px",
+                    borderRadius: 8,
+                    marginBottom: 16,
+                    border: "1px solid #4a3d6a",
+                    boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 10,
+                      borderBottom: "1px solid #2e263d",
+                      paddingBottom: 6,
+                    }}
+                  >
+                    <div style={{ fontSize: "0.95rem", fontWeight: 700, color: "#f5d48a" }}>
+                      📊 AKTUALNE EFEKTYWNE STATYSTYKI POSTACI (LIVE):
+                    </div>
+                    <button
+                      onClick={() => setActiveTab("breakdown")}
+                      style={{
+                        fontSize: "0.75rem",
+                        padding: "3px 10px",
+                        background: "#332244",
+                        borderColor: "#664488",
+                      }}
+                    >
+                      🔍 Pełne Rozbicie (Breakdown Table)
+                    </button>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+                      gap: 10,
+                    }}
+                  >
+                    {/* Prędkość poruszania się */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>🏃 Szybkość ruchu:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#74f0ed" }}>
+                        {liveStats.stats.speed.toFixed(2)}{" "}
+                        <span style={{ fontSize: "0.75rem", fontWeight: 400 }}>j./s</span>
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        {form.statOverrides?.speed !== undefined
+                          ? "⚠️ Nadpisanie GM"
+                          : `Baza: ${RACE_BASE[detail.player.race].base.speed} (+5%/lvl)`}
+                      </div>
+                    </div>
+
+                    {/* Szybkość ataku / Odstęp */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>⚔️ Szybkość ataku:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#f7ca65" }}>
+                        {liveStats.attacksPerSecond.toFixed(2)}{" "}
+                        <span style={{ fontSize: "0.75rem", fontWeight: 400 }}>ataku/s</span>
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        Odstęp: {Math.round(liveStats.stats.attackInterval)} ms (premia: +
+                        {liveStats.stats.attackSpeedPct.toFixed(1)}%)
+                      </div>
+                    </div>
+
+                    {/* Atak */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>💥 Siła ataku:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ff8282" }}>
+                        {liveStats.stats.attack.toFixed(0)}
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        {form.statOverrides?.attack !== undefined
+                          ? "⚠️ Nadpisanie GM"
+                          : `Ekwipunek: +${liveStats.gearBonuses?.attack ?? 0}`}
+                      </div>
+                    </div>
+
+                    {/* Obrona */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>🛡️ Obrona:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#82a8ff" }}>
+                        {liveStats.stats.defense.toFixed(1)}
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        {form.statOverrides?.defense !== undefined
+                          ? "⚠️ Nadpisanie GM"
+                          : `Pancerz: +${liveStats.gearBonuses?.defense ?? 0}`}
+                      </div>
+                    </div>
+
+                    {/* HP */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>❤️ Punkty życia (HP):</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ff6677" }}>
+                        {form.hp ?? detail.player.hp} / {liveStats.stats.maxHp.toFixed(0)}
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        Maksymalne: {liveStats.stats.maxHp.toFixed(0)}
+                      </div>
+                    </div>
+
+                    {/* Ki */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>🌀 Energia Ki:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#4deeea" }}>
+                        {form.ki ?? detail.player.ki} / {liveStats.stats.maxKi.toFixed(0)}
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        Regen: +{liveStats.stats.kiRegen.toFixed(2)}/s
+                      </div>
+                    </div>
+
+                    {/* Szansa na unik */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>💨 Szansa na unik:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#a5ff94" }}>
+                        {liveStats.stats.dodgeChance.toFixed(2)}%
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        Trening uniku: ranga {form.combatTraining?.dodge?.rank ?? 0}/100
+                      </div>
+                    </div>
+
+                    {/* Technika */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>🎯 Technika:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#e090ff" }}>
+                        {liveStats.stats.technique.toFixed(0)}
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        +{liveStats.techniqueEffects.crit.toFixed(1)}% kryt, +
+                        {(liveStats.techniqueEffects.kiDamage * 100).toFixed(0)}% Ki dmg
+                      </div>
+                    </div>
+
+                    {/* Szansa krytyczna */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>⚡ Trafienie krytyczne:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffb454" }}>
+                        {liveStats.stats.crit.toFixed(2)}%
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>Mnożnik: ×1.5 obrażeń</div>
+                    </div>
+
+                    {/* Zasięg ataku */}
+                    <div
+                      style={{
+                        background: "#221c30",
+                        padding: "8px 10px",
+                        borderRadius: 6,
+                        border: "1px solid #3d3252",
+                      }}
+                    >
+                      <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>🏹 Zasięg ataku:</div>
+                      <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffd582" }}>
+                        {liveStats.stats.range.toFixed(0)}{" "}
+                        <span style={{ fontSize: "0.75rem", fontWeight: 400 }}>j.</span>
+                      </div>
+                      <div style={{ fontSize: "0.7rem", opacity: 0.6 }}>
+                        {form.statOverrides?.range !== undefined ? "⚠️ Nadpisany" : "Zasięg podstawowy"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* ZAKŁADKI EDYCJI */}
               <div
                 className="ki-admin-tabs"
@@ -534,9 +842,10 @@ export function ServerCharacterManager() {
               >
                 {(
                   [
-                    ["stats", "📊 Podstawowe & Postęp"],
+                    ["breakdown", "📊 Pełna Tabela Statystyk"],
+                    ["overrides", "⚡ Nadpisania Walki & Trening"],
+                    ["stats", "📈 Podstawowe & Postęp"],
                     ["world", "🗺️ Pozycja & Świat"],
-                    ["overrides", "⚡ Nadpisania Walki (Overrides)"],
                     ["equipment", "🛡️ Ekwipunek (8 slotów)"],
                     ["bag", "🎒 Torba & Depozyt"],
                     ["quests", "📜 Zadania (Quests)"],
@@ -766,56 +1075,398 @@ export function ServerCharacterManager() {
                 </div>
               )}
 
-              {/* 3. ZAKŁADKA: NADPISANIA WALKI (CHARACTER STAT OVERRIDES) */}
-              {activeTab === "overrides" && (
+              {/* ZAKŁADKA: PEŁNA TABELA ROZBICIA STATYSTYK */}
+              {activeTab === "breakdown" && liveStats && (
                 <div style={{ display: "grid", gap: 14 }}>
                   <p style={{ fontSize: "0.85rem", opacity: 0.8, margin: 0 }}>
-                    Możesz bezpośrednio wpisać wartość dowolnej statystyki bojowej postaci (zastępuje
-                    kalkulację rasy i poziomu). Pozostaw puste pole, aby usunąć nadpisanie.
+                    Dokładne rozbicie matematyczne każdej statystyki: baza rasy i poziomu, trening,
+                    umiejętności z drzewka, bonusy z ekwipunku, efekty buff oraz nadpisania GM.
                   </p>
 
+                  <div style={{ overflowX: "auto" }}>
+                    <table
+                      style={{
+                        width: "100%",
+                        borderCollapse: "collapse",
+                        fontSize: "0.85rem",
+                        textAlign: "left",
+                      }}
+                    >
+                      <thead>
+                        <tr style={{ background: "#261f33", borderBottom: "2px solid #4a3d6a" }}>
+                          <th style={{ padding: "8px 10px" }}>Parametr / Statystyka</th>
+                          <th style={{ padding: "8px 10px" }}>Baza (Rasa/Poziom)</th>
+                          <th style={{ padding: "8px 10px" }}>Trening</th>
+                          <th style={{ padding: "8px 10px" }}>Drzewko Skilli</th>
+                          <th style={{ padding: "8px 10px" }}>Ekwipunek</th>
+                          <th style={{ padding: "8px 10px" }}>Efekty/Buff</th>
+                          <th style={{ padding: "8px 10px" }}>Nadpisanie GM</th>
+                          <th style={{ padding: "8px 10px", color: "#f5d48a" }}>WARTOŚĆ KOŃCOWA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { key: "speed", label: "🏃 Szybkość ruchu (j./s)", unit: "j./s" },
+                          { key: "attackInterval", label: "⚔️ Odstęp ataku (ms)", unit: "ms" },
+                          { key: "attackSpeedPct", label: "💨 Premia szybkości ataku (%)", unit: "%" },
+                          { key: "attack", label: "💥 Atak", unit: "" },
+                          { key: "defense", label: "🛡️ Obrona", unit: "" },
+                          { key: "maxHp", label: "❤️ Maksymalne HP", unit: "" },
+                          { key: "maxKi", label: "🌀 Maksymalne KI", unit: "" },
+                          { key: "kiRegen", label: "⚡ Regeneracja KI / s", unit: "/s" },
+                          { key: "crit", label: "🎯 Szansa krytyczna (%)", unit: "%" },
+                          { key: "dodgeChance", label: "💨 Szansa na unik (%)", unit: "%" },
+                          { key: "technique", label: "🎯 Technika", unit: "" },
+                          { key: "range", label: "🏹 Zasięg ataku", unit: "j." },
+                          { key: "dealt", label: "🔮 Mnożnik zadawanych obrażeń", unit: "×" },
+                          { key: "cooldownMul", label: "⏱️ Mnożnik odnowienia skilli", unit: "×" },
+                          { key: "kiCostMul", label: "📉 Mnożnik kosztu KI", unit: "×" },
+                          { key: "ccMul", label: "⛓️ Mnożnik podatności na CC", unit: "×" },
+                        ].map(({ key, label, unit }) => {
+                          const row = liveStats.breakdown[key as keyof typeof liveStats.breakdown];
+                          const hasGm = form.statOverrides?.[key as keyof typeof form.statOverrides] !== undefined;
+                          return (
+                            <tr
+                              key={key}
+                              style={{
+                                borderBottom: "1px solid #332b40",
+                                background: hasGm ? "#382329" : "transparent",
+                              }}
+                            >
+                              <td style={{ padding: "8px 10px", fontWeight: 600 }}>{label}</td>
+                              <td style={{ padding: "8px 10px", opacity: 0.8 }}>
+                                {row ? row.base.toFixed(1) : "-"} {unit}
+                              </td>
+                              <td style={{ padding: "8px 10px", opacity: 0.8 }}>
+                                {row && row.training !== 0 ? (row.training > 0 ? `+${row.training.toFixed(1)}` : row.training.toFixed(1)) : "-"}
+                              </td>
+                              <td style={{ padding: "8px 10px", opacity: 0.8 }}>
+                                {row && row.skills !== 0 ? (row.skills > 0 ? `+${row.skills.toFixed(1)}` : row.skills.toFixed(1)) : "-"}
+                              </td>
+                              <td style={{ padding: "8px 10px", opacity: 0.8 }}>
+                                {row && row.items !== 0 ? (row.items > 0 ? `+${row.items.toFixed(1)}` : row.items.toFixed(1)) : "-"}
+                              </td>
+                              <td style={{ padding: "8px 10px", opacity: 0.8 }}>
+                                {row && row.effects !== 0 ? (row.effects > 0 ? `+${row.effects.toFixed(1)}` : row.effects.toFixed(1)) : "-"}
+                              </td>
+                              <td style={{ padding: "8px 10px", color: hasGm ? "#ff7080" : "inherit" }}>
+                                {hasGm ? `${form.statOverrides?.[key as keyof typeof form.statOverrides]} ${unit}` : "-"}
+                              </td>
+                              <td style={{ padding: "8px 10px", fontWeight: 700, color: "#f5d48a" }}>
+                                {row ? row.total.toFixed(2) : "-"} {unit}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* 3. ZAKŁADKA: NADPISANIA WALKI & TRENING BOJOWY */}
+              {activeTab === "overrides" && (
+                <div style={{ display: "grid", gap: 18 }}>
+                  {/* Sekcja szybkiej konfiguracji presetów GM */}
                   <div
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                      gap: 12,
+                      background: "#221c2c",
+                      padding: "12px 14px",
+                      borderRadius: 8,
+                      border: "1px solid #4a3d5e",
                     }}
                   >
-                    {(Object.entries(CHARACTER_STAT_FIELDS) as [keyof typeof CHARACTER_STAT_FIELDS, { label: string; min: number; max: number }][]).map(
-                      ([statKey, fieldInfo]) => {
-                        const val = form.statOverrides?.[statKey];
-                        return (
-                          <label key={statKey}>
-                            {fieldInfo.label}:
-                            <input
-                              type="number"
-                              min={fieldInfo.min}
-                              max={fieldInfo.max}
-                              placeholder="Wartość bazowa"
-                              value={val !== undefined && val !== null ? val : ""}
-                              onChange={(e) => {
-                                const raw = e.target.value.trim();
-                                const next = { ...form.statOverrides };
-                                if (raw === "") {
-                                  delete next[statKey];
-                                } else {
-                                  next[statKey] = Number(raw);
-                                }
-                                setForm({ ...form, statOverrides: next });
-                              }}
-                            />
-                          </label>
-                        );
-                      },
-                    )}
+                    <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "#f5d48a", marginBottom: 8 }}>
+                      ⚡ SZYBKIE PRESETY ADMINISTRACYJNE (GM PRESETS):
+                    </div>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <button
+                        onClick={() =>
+                          setForm({
+                            ...form,
+                            statOverrides: {
+                              ...form.statOverrides,
+                              maxHp: 99999,
+                              maxKi: 99999,
+                              attack: 99999,
+                              defense: 99999,
+                              speed: 500,
+                              attackInterval: 200,
+                            },
+                          })
+                        }
+                      >
+                        ⚡ God Mode (HP/Ki/Atk/Def: 99999, Speed: 500)
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          setForm({
+                            ...form,
+                            statOverrides: {
+                              ...form.statOverrides,
+                              speed: 450,
+                              attackInterval: 250,
+                            },
+                          })
+                        }
+                      >
+                        🏃 Super Szybkość (Ruch 450 j./s, Odstęp 250 ms)
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          setForm({
+                            ...form,
+                            statOverrides: {
+                              ...form.statOverrides,
+                              range: 300,
+                              crit: 50,
+                            },
+                          })
+                        }
+                      >
+                        🎯 Snajper (Zasięg 300 j., Krytyk 50%)
+                      </button>
+
+                      <button
+                        onClick={() => setForm({ ...form, statOverrides: {} })}
+                        style={{ background: "#4a1c22", borderColor: "#7a2b36" }}
+                      >
+                        🔄 Resetuj wszystkie nadpisania do wartości naturalnych
+                      </button>
+                    </div>
                   </div>
 
-                  <button
-                    onClick={() => setForm({ ...form, statOverrides: {} })}
-                    style={{ alignSelf: "flex-start", opacity: 0.8 }}
+                  {/* Bezpośrednia edycja każdego parametru walki */}
+                  <div>
+                    <h3 style={{ margin: "0 0 10px", fontSize: "0.95rem", color: "#f5d48a" }}>
+                      🛠️ Bezpośrednie Nadpisania Statystyk Bojowych:
+                    </h3>
+                    <p style={{ fontSize: "0.8rem", opacity: 0.8, margin: "0 0 12px" }}>
+                      Wpisz dowolną wartość, aby natychmiast nadpisać statystykę w pamięci serwera i bazie.
+                      Pozostawienie pustego pola przywraca naturalną wartość wynikającą z rasy, poziomu i ekwipunku.
+                    </p>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                        gap: 12,
+                      }}
+                    >
+                      {(Object.entries(CHARACTER_STAT_FIELDS) as [keyof typeof CHARACTER_STAT_FIELDS, { label: string; min: number; max: number }][]).map(
+                        ([statKey, fieldInfo]) => {
+                          const val = form.statOverrides?.[statKey];
+                          const naturalVal = liveStats?.breakdown[statKey as keyof typeof liveStats.breakdown]?.base ?? "-";
+                          return (
+                            <div
+                              key={statKey}
+                              style={{
+                                background: val !== undefined ? "#301d24" : "#1a1624",
+                                padding: "10px",
+                                borderRadius: 6,
+                                border: `1px solid ${val !== undefined ? "#8a3542" : "#382e47"}`,
+                              }}
+                            >
+                              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                                <label style={{ fontWeight: 600, fontSize: "0.85rem", margin: 0 }}>
+                                  {fieldInfo.label}:
+                                </label>
+                                {val !== undefined && (
+                                  <button
+                                    onClick={() => {
+                                      const next = { ...form.statOverrides };
+                                      delete next[statKey];
+                                      setForm({ ...form, statOverrides: next });
+                                    }}
+                                    style={{ fontSize: "0.7rem", padding: "1px 6px" }}
+                                    title="Usuń to nadpisanie"
+                                  >
+                                    ✕ Usuń
+                                  </button>
+                                )}
+                              </div>
+
+                              <input
+                                type="number"
+                                min={fieldInfo.min}
+                                max={fieldInfo.max}
+                                placeholder={`Naturalna: ${naturalVal}`}
+                                value={val !== undefined && val !== null ? val : ""}
+                                onChange={(e) => {
+                                  const raw = e.target.value.trim();
+                                  const next = { ...form.statOverrides };
+                                  if (raw === "") {
+                                    delete next[statKey];
+                                  } else {
+                                    next[statKey] = Number(raw);
+                                  }
+                                  setForm({ ...form, statOverrides: next });
+                                }}
+                                style={{ width: "100%", marginTop: 4 }}
+                              />
+                              <div style={{ fontSize: "0.7rem", opacity: 0.6, marginTop: 4 }}>
+                                Zakres: {fieldInfo.min} – {fieldInfo.max}
+                              </div>
+                            </div>
+                          );
+                        },
+                      )}
+                    </div>
+                  </div>
+
+                  {/* PEŁNA EDYCJA TRENINGU BOJOWEGO (COMBAT TRAINING) */}
+                  <div
+                    style={{
+                      background: "#1e1829",
+                      padding: "14px",
+                      borderRadius: 8,
+                      border: "1px solid #4a3d5e",
+                    }}
                   >
-                    Wyczyść wszystkie nadpisania statystyk
-                  </button>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <div>
+                        <h3 style={{ margin: "0 0 4px", fontSize: "0.95rem", color: "#f5d48a" }}>
+                          🥊 Trening Bojowy Postaci (Combat Training):
+                        </h3>
+                        <p style={{ margin: 0, fontSize: "0.8rem", opacity: 0.8 }}>
+                          Rangi 0–100 dla Uniku, Szybkości Ataku oraz Techniki.
+                        </p>
+                      </div>
+
+                      <div style={{ display: "flex", gap: 6 }}>
+                        <button
+                          onClick={() => {
+                            setForm({
+                              ...form,
+                              combatTraining: {
+                                dodge: { rank: 100, progress: 0 },
+                                attackSpeed: { rank: 100, progress: 0 },
+                                technique: { rank: 100, progress: 0 },
+                              },
+                            });
+                          }}
+                          style={{ fontSize: "0.8rem", padding: "4px 10px" }}
+                        >
+                          ⭐ Wymaksuj Trening (100/100)
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setForm({
+                              ...form,
+                              combatTraining: emptyCombatTraining(),
+                            });
+                          }}
+                          style={{ fontSize: "0.8rem", padding: "4px 10px" }}
+                        >
+                          🔄 Zresetuj (0/0)
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+                        gap: 12,
+                      }}
+                    >
+                      {/* Unik */}
+                      <div style={{ background: "#261e33", padding: "10px", borderRadius: 6, border: "1px solid #3c3050" }}>
+                        <div style={{ fontWeight: 600, color: "#a5ff94", marginBottom: 6 }}>
+                          💨 Unik (Dodge):
+                        </div>
+                        <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 6 }}>
+                          Ranga (0–100):
+                          <input
+                            type="number"
+                            min={0}
+                            max={100}
+                            value={form.combatTraining?.dodge?.rank ?? 0}
+                            onChange={(e) => {
+                              const r = Math.max(0, Math.min(100, Number(e.target.value)));
+                              setForm({
+                                ...form,
+                                combatTraining: {
+                                  dodge: { rank: r, progress: r === 100 ? 0 : Math.min(form.combatTraining?.dodge?.progress ?? 0, trainingRequirement(r) - 1) },
+                                  attackSpeed: form.combatTraining?.attackSpeed ?? { rank: 0, progress: 0 },
+                                  technique: form.combatTraining?.technique ?? { rank: 0, progress: 0 },
+                                },
+                              });
+                            }}
+                            style={{ width: "100%", marginTop: 2 }}
+                          />
+                        </label>
+                        <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>
+                          Bonus do uniku: +{((form.combatTraining?.dodge?.rank ?? 0) * 0.1).toFixed(1)}%
+                        </div>
+                      </div>
+
+                      {/* Szybkość Ataku */}
+                      <div style={{ background: "#261e33", padding: "10px", borderRadius: 6, border: "1px solid #3c3050" }}>
+                        <div style={{ fontWeight: 600, color: "#f7ca65", marginBottom: 6 }}>
+                          ⚔️ Szybkość Ataku:
+                        </div>
+                        <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 6 }}>
+                          Ranga (0–100):
+                          <input
+                            type="number"
+                            min={0}
+                            max={100}
+                            value={form.combatTraining?.attackSpeed?.rank ?? 0}
+                            onChange={(e) => {
+                              const r = Math.max(0, Math.min(100, Number(e.target.value)));
+                              setForm({
+                                ...form,
+                                combatTraining: {
+                                  dodge: form.combatTraining?.dodge ?? { rank: 0, progress: 0 },
+                                  attackSpeed: { rank: r, progress: r === 100 ? 0 : Math.min(form.combatTraining?.attackSpeed?.progress ?? 0, trainingRequirement(r) - 1) },
+                                  technique: form.combatTraining?.technique ?? { rank: 0, progress: 0 },
+                                },
+                              });
+                            }}
+                            style={{ width: "100%", marginTop: 2 }}
+                          />
+                        </label>
+                        <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>
+                          Bonus szybkości ataku: +{((form.combatTraining?.attackSpeed?.rank ?? 0) * 0.25).toFixed(1)}%
+                        </div>
+                      </div>
+
+                      {/* Technika */}
+                      <div style={{ background: "#261e33", padding: "10px", borderRadius: 6, border: "1px solid #3c3050" }}>
+                        <div style={{ fontWeight: 600, color: "#e090ff", marginBottom: 6 }}>
+                          🎯 Technika:
+                        </div>
+                        <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 6 }}>
+                          Ranga (0–100):
+                          <input
+                            type="number"
+                            min={0}
+                            max={100}
+                            value={form.combatTraining?.technique?.rank ?? 0}
+                            onChange={(e) => {
+                              const r = Math.max(0, Math.min(100, Number(e.target.value)));
+                              setForm({
+                                ...form,
+                                combatTraining: {
+                                  dodge: form.combatTraining?.dodge ?? { rank: 0, progress: 0 },
+                                  attackSpeed: form.combatTraining?.attackSpeed ?? { rank: 0, progress: 0 },
+                                  technique: { rank: r, progress: r === 100 ? 0 : Math.min(form.combatTraining?.technique?.progress ?? 0, trainingRequirement(r) - 1) },
+                                },
+                              });
+                            }}
+                            style={{ width: "100%", marginTop: 2 }}
+                          />
+                        </label>
+                        <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>
+                          Bonus techniki: +{form.combatTraining?.technique?.rank ?? 0}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 

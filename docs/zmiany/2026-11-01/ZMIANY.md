@@ -395,3 +395,33 @@ Zgodnie z poleceniem właściciela („Wymus publikacje main”) przeprowadzono 
   - Wypchnięto gałąź `main` na `origin/main` (`247bf40b..fbfde40f`).
   - Automatyczny workflow wdrożeniowy GitHub Actions `.github/workflows/aruba-production.yml` został wyzwolony na push do `main`, uruchamiając procedurę promocji release na serwerze Aruba (Coolify).
 
+### 11. Kompletna Karta Statystyk Live i Pełna Edycja Parametrów Bojowych w Panelu Administratora
+
+Na polecenie właściciela rozbudowano moduł zarządzania postaciami serwera (`ServerCharacterManager.tsx`, `src/game/session.ts`, `src/server/adminCharacterService.ts`) o pełną listę aktualnych statystyk i kompletną edycję:
+
+- **Pełna Karta Statystyk Bieżących (Live Character Dashboard w `/admin`)**:
+  - Prezentacja wszystkich efektywnych parametrów postaci w czasie rzeczywistym z uwzględnieniem rasy, poziomu, ekwipunku, drzewka skilli, treningu bojowego i nadpisań GM:
+    - 🏃 **Szybkość ruchu**: aktualna wartość w jednostkach/s (np. `195.00 j./s`) z dynamicznym oznaczeniem wartości naturalnej (`Baza: 185 (+5%/lvl)`) lub nadpisania GM.
+    - ⚔️ **Szybkość / tempo ataku**: liczba ataków na sekundę (np. `1.54 ataku/s`), odstęp ataku w ms (np. `650 ms`) oraz premia procentowa szybkości ataku (`+X.X%`).
+    - 💨 **Szansa na unik**: aktualna szansa procentowa (np. `5.00%`, limit 50%) wraz ze stanem treningu uniku.
+    - 🎯 **Technika**: wartość punktowa wraz z obliczonymi bonusami pasywnymi (+pkt proc. krytyka, +% obrażeń KI, % szansy na darmowe odnowienie umiejętności).
+    - 💥 **Siła ataku**: całkowita wartość bojowa z uwzględnieniem broni, ulepszeń (+1) i premii zestawowych.
+    - 🛡️ **Obrona**: całkowita redukcja obrażeń z pancerza, tarczy i rozwoju.
+    - ❤️ **Maksymalne i obecne HP**: pasek zdrowia postaci.
+    - 🌀 **Maksymalne i obecne KI**: pula energii i regeneracja na sekundę (`+X.XX / s`).
+    - ⚡ **Trafienie krytyczne**: szansa krytyczna (`X.XX%`) z mnożnikiem obrażeń `×1.5`.
+    - 🏹 **Zasięg ataku**: zasięg podstawowy broni w jednostkach.
+    - 🔮 **Mnożniki bojowe**: obrażeń (`dealt`), odnowienia (`cooldownMul`), kosztu Ki (`kiCostMul`) oraz odporności na CC (`ccMul`).
+
+- **Pełna Tabela Rozbicia Matematycznego (Breakdown Table)**:
+  - Dedykowana zakładka `📊 Pełna Tabela Statystyk` prezentująca szczegółowe źródła każdej z 16 statystyk bojowych w 7 kolumnach: `Baza (Rasa/Poziom)`, `Trening`, `Drzewko Skilli`, `Ekwipunek`, `Efekty/Buff`, `Nadpisanie GM` oraz `WARTOŚĆ KOŃCOWA`.
+
+- **Kompletna Edycja Nadpisań i Treningu Bojowego**:
+  - Bezpośrednia edycja każdego z 9 parametrów bojowych `CHARACTER_STAT_FIELDS` z dynamiczną informacją o naturalnej wartości bazowej obok pola edycji oraz przyciskiem szybkiego wyczyszczenia pojedynczego nadpisania.
+  - Szybkie presety administracyjne: ⚡ *God Mode (HP/Ki/Atk/Def: 99999, Speed: 500)*, 🏃 *Super Szybkość (Ruch 450 j./s, Odstęp 250 ms)*, 🎯 *Snajper (Zasięg 300 j., Krytyk 50%)*, 🔄 *Reset do bazy*.
+  - **Pełna Edycja Treningu Bojowego (Combat Training)**: Unik, Szybkość Ataku i Technika (rangi 0–100, postęp) z przyciskami natychmiastowego wymaksowania (`100/100`) lub zresetowania (`0/0`).
+
+- **Silnik sesji i serwis serwerowy**:
+  - `src/game/session.ts`: nowa funkcja `characterFullStats` zwracająca pełne statystyki, tempo ataków, efekty techniki, bonusy ekwipunku i breakdown.
+  - `src/server/adminCharacterService.ts`: integracja `fullStats` w `getServerCharacterDetails` oraz obsługa `patch.combatTraining` ze ścisłą normalizacją limitów `CombatTrainingSchema`.
+  - `src/test/server-character-admin.test.ts`: test jednostkowy weryfikujący obliczenia statystyk, tempo ataku, breakdown i nadpisywanie parametrów (6/6 PASS).

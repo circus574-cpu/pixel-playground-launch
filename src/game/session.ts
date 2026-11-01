@@ -4,6 +4,7 @@ import {
   emptyCombatTraining,
   TRAINABLE_NAMES,
   type TrainableStat,
+  techniqueEffects,
 } from "./combatTraining";
 import { CharacterStatsSchema } from "./characterStats";
 import { PracticeTargets, isPracticeId } from "./development/targets";
@@ -53,6 +54,7 @@ import {
   type AbilityInfo,
   type Foe,
   type Hit,
+  type FinalStats,
   type Kit,
   type KitPort,
   type ResourceInfo,
@@ -359,7 +361,7 @@ export type StaffCommand =
 export type StaffRole = "admin" | "gm";
 export function equipmentStats(
   p: Pick<Player, "weapon" | "armor" | "upgrade" | "development"> & {
-    equipment?: PlayerEquipment;
+    equipment?: PlayerEquipment | undefined;
   },
 ) {
   const gear = {
@@ -433,11 +435,11 @@ export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
-function statsPort(
+export function statsPort(
   p: Pick<
     Player,
     "level" | "weapon" | "armor" | "upgrade" | "statOverrides" | "combatTraining" | "development"
-  > & { equipment?: PlayerEquipment },
+  > & { equipment?: PlayerEquipment | undefined },
 ): KitPort {
   return {
     nowMs: 0,
@@ -509,6 +511,61 @@ export const stats = (
     range: kit.basicRange,
   };
 };
+
+export interface CharacterFullStatsResult {
+  stats: FinalStats;
+  breakdown: Record<
+    keyof FinalStats,
+    {
+      base: number;
+      training: number;
+      skills: number;
+      items: number;
+      effects: number;
+      gm: number;
+      total: number;
+    }
+  >;
+  attacksPerSecond: number;
+  techniqueEffects: {
+    crit: number;
+    resetChance: number;
+    kiDamage: number;
+  };
+  gearBonuses: {
+    attack: number;
+    defense: number;
+    dodgeChance: number;
+    technique: number;
+    attackSpeedPct: number;
+  };
+}
+
+export function characterFullStats(
+  p: Pick<
+    Player,
+    | "race"
+    | "level"
+    | "weapon"
+    | "armor"
+    | "upgrade"
+    | "skills"
+    | "statOverrides"
+    | "combatTraining"
+    | "development"
+  > & { equipment?: PlayerEquipment | undefined },
+): CharacterFullStatsResult {
+  const port = statsPort(p);
+  const kit = createKit(p.race, port, p.skills || ["R"]);
+  const s = kit.stats;
+  return {
+    stats: s,
+    breakdown: kit.statBreakdown,
+    attacksPerSecond: Number((1000 / Math.max(200, s.attackInterval)).toFixed(2)),
+    techniqueEffects: techniqueEffects(s.technique),
+    gearBonuses: port.gear as any,
+  };
+}
 export function newPlayer(race: RaceId = "planetary"): Player {
   const continent = RACES[race].world;
   const base = { race, level: 1, weapon: null, armor: null, upgrade: 0, skills: ["R"] };
@@ -583,7 +640,8 @@ export function ensurePlayerEquipment(p: Player) {
   if (typeof p.depot.gold !== "number") {
     p.depot.gold = 0;
   }
-}
+}
+
 export function migrateLayout(
   p: Pick<Player, "continent" | "x" | "y" | "layout"> & { interior?: BuildingId | null },
 ) {

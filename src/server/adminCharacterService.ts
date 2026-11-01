@@ -7,7 +7,8 @@ import { z } from "zod";
 import { getGameDb } from "./db";
 import { getActiveGameServer } from "./managedServer";
 import { StoredCharacter, type CharacterState } from "./characters/repository";
-import { stats, type Player } from "../game/session";
+import { stats, characterFullStats, type CharacterFullStatsResult, type Player } from "../game/session";
+import { emptyCombatTraining, trainingRequirement, type CombatTraining } from "../game/combatTraining";
 import { BUILDING_IDS, type BuildingId } from "../game/city/types";
 import type { CharacterStats } from "../game/characterStats";
 import type { RaceId, WorldId } from "../game/world/races";
@@ -61,6 +62,7 @@ export interface ServerCharacterDetail {
   player: Player;
   maxHp: number;
   maxKi: number;
+  fullStats: CharacterFullStatsResult;
   runtime: Record<string, JsonSerializable>;
   updatedAt: string;
   createdAt: string;
@@ -132,6 +134,12 @@ export interface ServerCharacterUpdatePatch {
   } | undefined;
 
   skills?: string[] | undefined;
+
+  combatTraining?: {
+    dodge?: { rank?: number | undefined; progress?: number | undefined } | undefined;
+    attackSpeed?: { rank?: number | undefined; progress?: number | undefined } | undefined;
+    technique?: { rank?: number | undefined; progress?: number | undefined } | undefined;
+  } | undefined;
 }
 
 export type LiveAdminAction =
@@ -310,6 +318,7 @@ export async function getServerCharacterDetails(
   const parsedState = StoredCharacter.parse(rows[0]["state"]);
   const player = parsedState.player as Player;
   const calculatedStats = stats(player);
+  const fullStats = characterFullStats(player);
   const gameServer = getActiveGameServer();
   const isOnline = gameServer ? gameServer.isCharacterOnline(characterId) : false;
 
@@ -326,6 +335,7 @@ export async function getServerCharacterDetails(
     player,
     maxHp: calculatedStats.maxHp,
     maxKi: calculatedStats.maxKi,
+    fullStats,
     runtime: parsedState.runtime as Record<string, JsonSerializable>,
     updatedAt: rows[0]["updated_at"] ? new Date(rows[0]["updated_at"]).toISOString() : "",
     createdAt: rows[0]["created_at"] ? new Date(rows[0]["created_at"]).toISOString() : "",
@@ -469,6 +479,24 @@ export async function updateServerCharacter(
     if (patch.skills !== undefined) {
       const uniqueSkills = Array.from(new Set(["R", ...patch.skills]));
       player.skills = uniqueSkills;
+    }
+
+    // Trening bojowy (combatTraining: dodge, attackSpeed, technique)
+    if (patch.combatTraining !== undefined) {
+      const ct = player.combatTraining ?? emptyCombatTraining();
+      const normalizeTrack = (stat: "dodge" | "attackSpeed" | "technique") => {
+        const input = patch.combatTraining?.[stat];
+        if (!input) return;
+        const rank = Math.max(0, Math.min(100, Math.floor(input.rank ?? ct[stat].rank)));
+        const req = trainingRequirement(rank);
+        const maxProg = rank === 100 ? 0 : Math.max(0, req - 1);
+        const progress = Math.max(0, Math.min(maxProg, Math.floor(input.progress ?? 0)));
+        ct[stat] = { rank, progress };
+      };
+      normalizeTrack("dodge");
+      normalizeTrack("attackSpeed");
+      normalizeTrack("technique");
+      player.combatTraining = ct;
     }
 
     const nextState: CharacterState = {

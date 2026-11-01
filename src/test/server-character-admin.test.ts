@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { newPlayer, stats, type Player } from "../game/session";
+import { newPlayer, stats, characterFullStats, type Player } from "../game/session";
 import { StoredCharacter } from "../server/characters/repository";
 import {
   listAllServerCharacters,
@@ -184,5 +184,47 @@ describe("Server Character Admin Management Service", () => {
     // Action heal without DB gracefully returns failure
     const healRes = await executeLiveAdminAction(fakeUuid, { type: "heal" }, "admin-1");
     expect(healRes.ok).toBe(false);
+  });
+
+  it("calculates complete live effective stats including speed, attack interval, attack rate and breakdown", () => {
+    const p = newPlayer("planetary");
+    const full = characterFullStats(p);
+
+    // Initial level 1 Planetary speed and attack interval
+    expect(full.stats.speed).toBe(185);
+    expect(full.stats.attackInterval).toBe(650);
+    expect(full.attacksPerSecond).toBeCloseTo(1.54, 1);
+    expect(full.stats.maxHp).toBe(125);
+    expect(full.stats.maxKi).toBe(50);
+    expect(full.stats.attack).toBe(12);
+    expect(full.stats.defense).toBe(5);
+
+    // Check breakdown table contains required keys
+    expect(full.breakdown.speed).toBeDefined();
+    expect(full.breakdown.attackInterval).toBeDefined();
+    expect(full.breakdown.attack).toBeDefined();
+    expect(full.breakdown.defense).toBeDefined();
+
+    // Check overrides take priority
+    const overridden = characterFullStats({
+      ...p,
+      statOverrides: {
+        speed: 350,
+        attackInterval: 250,
+      },
+      combatTraining: {
+        dodge: { rank: 50, progress: 0 },
+        attackSpeed: { rank: 40, progress: 0 },
+        technique: { rank: 20, progress: 0 },
+      },
+    });
+
+    expect(overridden.stats.speed).toBe(350);
+    expect(overridden.stats.attackInterval).toBe(250);
+    expect(overridden.attacksPerSecond).toBe(4);
+    // Dodge bonus: 50 * 0.1 = +5%
+    expect(overridden.stats.dodgeChance).toBeGreaterThanOrEqual(5);
+    expect(overridden.stats.technique).toBe(20);
+    expect(overridden.breakdown.speed.gm).toBe(350 - overridden.breakdown.speed.base);
   });
 });
