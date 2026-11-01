@@ -37,3 +37,7 @@ jobs:
             -o StrictHostKeyChecking=accept-new \
             -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
             -p 22 codex@85.235.150.189 'bash -s' < deploy/scripts/inspect-online-cutover.sh
+          ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 \
+            -o StrictHostKeyChecking=accept-new \
+            -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts" \
+            -p 22 codex@85.235.150.189 'docker exec -i coolify php /dev/stdin plan' < deploy/scripts/configure-online-coolify.php
