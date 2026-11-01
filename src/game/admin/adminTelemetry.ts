@@ -41,15 +41,10 @@ export interface DatabaseTelemetryStats {
 }
 
 export type ServerNodeStatus =
-  | "online"
-  | "degraded"
-  | "draining"
-  | "offline"
-  | "starting"
-  | "stopping";
+  "online" | "degraded" | "draining" | "offline" | "starting" | "stopping";
 export type TelemetryLogLevel = "debug" | "info" | "warn" | "error" | "critical";
 export type TelemetryLogCategory =
-  | "tick" | "network" | "auth" | "anticheat" | "combat" | "db" | "world" | "admin";
+  "tick" | "network" | "auth" | "anticheat" | "combat" | "db" | "world" | "admin";
 
 export type PlayerActivityState = "safe" | "combat" | "exploring" | "interior" | "offline";
 
@@ -302,7 +297,10 @@ export function saveServerNodeConfigs(configs: ServerNodeConfig[]): void {
 export function createServerNode(
   input: Omit<ServerNodeConfig, "createdAt" | "updatedAt">,
 ): ServerNodeConfig {
-  const cleanId = input.nodeId.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "-");
+  const cleanId = input.nodeId
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, "-");
   if (!cleanId) throw new Error("Identyfikator węzła nie może być pusty");
   const existing = getServerNodeConfigs();
   if (existing.some((n) => n.nodeId === cleanId)) {
@@ -365,7 +363,7 @@ export function updateServerNode(
     tickRateHz:
       patch.tickRateHz !== undefined && patch.tickRateHz > 0
         ? patch.tickRateHz
-        : current.tickRateHz ?? 20.0,
+        : (current.tickRateHz ?? 20.0),
     ...(current.isCustom !== undefined ? { isCustom: current.isCustom } : {}),
     ...(current.createdAt !== undefined ? { createdAt: current.createdAt } : {}),
     updatedAt: new Date().toISOString(),
@@ -413,11 +411,7 @@ export function setServerNodeStatus(nodeId: string, status: ServerNodeStatus): S
   saveServerNodeConfigs([...configs]);
 
   const level: TelemetryLogLevel =
-    status === "offline" || status === "stopping"
-      ? "warn"
-      : status === "online"
-        ? "info"
-        : "debug";
+    status === "offline" || status === "stopping" ? "warn" : status === "online" ? "info" : "debug";
 
   recordServerActionLog({
     nodeId: updated.nodeId,
@@ -992,8 +986,7 @@ export async function collectAdminTelemetrySnapshot(
     const continent = (fInfo?.affinity ?? "verdant") as WorldId;
     const loc = resolveWorldLocationInfo(worldId, sum.x, sum.y);
     const charKey = `${row.user_id}:${row.save_key}`;
-    const isConnectedToServer =
-      livePlayersMap.has(charKey) || livePlayersMap.has(row.save_key);
+    const isConnectedToServer = livePlayersMap.has(charKey) || livePlayersMap.has(row.save_key);
     const maxHp = Math.max(sum.hp, 100 + (sum.level - 1) * 28);
     const maxKi = Math.max(sum.ki, 100 + (sum.level - 1) * 18);
 
@@ -1229,18 +1222,16 @@ export async function collectAdminTelemetrySnapshot(
     const isStarting = cfg.status === "starting";
     const isDraining = cfg.status === "draining";
 
-    const isLiveDaemonNode =
-      liveDaemonStatus?.running && liveDaemonStatus.nodeId === cfg.nodeId;
+    const isLiveDaemonNode = liveDaemonStatus?.running && liveDaemonStatus.nodeId === cfg.nodeId;
 
-    const matchedOnlinePlayers = allPlayers.filter(
-      (p) => p.online && p.nodeId === cfg.nodeId,
-    );
+    const matchedOnlinePlayers = allPlayers.filter((p) => p.online && p.nodeId === cfg.nodeId);
 
-    const playerCount = isOff || isStarting
-      ? 0
-      : isLiveDaemonNode
-        ? liveDaemonStatus.activePlayers
-        : matchedOnlinePlayers.length;
+    const playerCount =
+      isOff || isStarting
+        ? 0
+        : isLiveDaemonNode
+          ? liveDaemonStatus.activePlayers
+          : matchedOnlinePlayers.length;
 
     const cpu = isOff
       ? 0
@@ -1256,11 +1247,7 @@ export async function collectAdminTelemetrySnapshot(
               ),
             );
 
-    const memUsed = isOff
-      ? 45
-      : isStarting
-        ? 180
-        : Math.min(1024, 195 + playerCount * 18);
+    const memUsed = isOff ? 45 : isStarting ? 180 : Math.min(1024, 195 + playerCount * 18);
 
     const tickHz = cfg.tickRateHz || 20.0;
     const tickP50 = isOff

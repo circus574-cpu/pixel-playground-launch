@@ -17,7 +17,7 @@ export interface NetworkClientOptions {
   autoReconnect?: boolean;
   reconnectIntervalMs?: number;
   sendRateHz?: number;
-  webSocketClass?: any;
+  webSocketClass?: (new (url: string) => WebSocket) | undefined;
 }
 
 export interface CharacterAuthInfo {
@@ -150,7 +150,10 @@ export class NetworkClient {
 
   private initiateWebSocket(): void {
     if (this.isDisposed || !this.authInfo) return;
-    if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
+    if (
+      this.ws &&
+      (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)
+    ) {
       return;
     }
 
@@ -162,8 +165,8 @@ export class NetworkClient {
         this.options.webSocketClass ||
         (typeof WebSocket !== "undefined"
           ? WebSocket
-          : typeof globalThis !== "undefined" && (globalThis as any).WebSocket
-            ? (globalThis as any).WebSocket
+          : typeof globalThis !== "undefined" && globalThis.WebSocket
+            ? globalThis.WebSocket
             : undefined);
 
       if (!WSClass) {
@@ -210,19 +213,12 @@ export class NetworkClient {
         this.notifyStatus();
       };
 
-      const onMessageHandler = (event: any) => {
+      const onMessageHandler = (event: unknown) => {
         if (this.isDisposed || this.ws !== ws) return;
         try {
-          const rawData =
-            event?.data !== undefined
-              ? typeof event.data === "string"
-                ? event.data
-                : event.data.toString()
-              : typeof event === "string"
-                ? event
-                : event?.toString
-                  ? event.toString()
-                  : String(event);
+          const payload =
+            typeof event === "object" && event !== null && "data" in event ? event.data : event;
+          const rawData = typeof payload === "string" ? payload : String(payload);
           const msg = JSON.parse(rawData) as ServerMessage;
           this.handleServerMessage(msg);
         } catch {

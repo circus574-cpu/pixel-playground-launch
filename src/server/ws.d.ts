@@ -8,9 +8,10 @@ declare module "ws" {
     static CLOSING: number;
     static CONNECTING: number;
 
-    constructor(address: string | URL, options?: any);
+    constructor(address: string | URL, options?: Record<string, unknown>);
 
     readyState: number;
+    bufferedAmount: number;
     send(data: string | Buffer | ArrayBufferView, cb?: (err?: Error) => void): void;
     close(code?: number, data?: string): void;
     terminate(): void;
@@ -31,6 +32,6 @@ declare module "ws" {
     on(event: "connection", cb: (socket: WebSocket, request: IncomingMessage) => void): this;
     on(event: "error", cb: (error: Error) => void): this;
     on(event: "close", cb: () => void): this;
-    on(event: string, cb: (...args: any[]) => void): this;
+    on(event: string, cb: (...args: unknown[]) => void): this;
   }
 }

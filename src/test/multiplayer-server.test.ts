@@ -27,15 +27,20 @@ describe("Real-time Multiplayer GameServer", () => {
   });
 
   it("responds to HTTP /health endpoint with valid runtime metrics", async () => {
-    const health = await new Promise<{ status: string; nodeId: string; port: number; tickRateHz: number }>(
-      (resolve, reject) => {
-        http.get(`http://localhost:${TEST_PORT}/health`, (res) => {
+    const health = await new Promise<{
+      status: string;
+      nodeId: string;
+      port: number;
+      tickRateHz: number;
+    }>((resolve, reject) => {
+      http
+        .get(`http://localhost:${TEST_PORT}/health`, (res) => {
           let data = "";
           res.on("data", (chunk) => (data += chunk));
           res.on("end", () => resolve(JSON.parse(data)));
-        }).on("error", reject);
-      },
-    );
+        })
+        .on("error", reject);
+    });
 
     expect(health.status).toBe("ok");
     expect(health.nodeId).toBe("test-node-1");

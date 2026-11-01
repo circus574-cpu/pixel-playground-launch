@@ -54,7 +54,7 @@ describe("NetworkClient multiplayer adapter", () => {
     const client = new NetworkClient({
       serverUrl: `ws://127.0.0.1:${TEST_PORT}`,
       autoReconnect: false,
-      webSocketClass: WebSocket as any,
+      webSocketClass: WebSocket as unknown as new (url: string) => globalThis.WebSocket,
     });
 
     let connectedStatus = false;
@@ -96,12 +96,12 @@ describe("NetworkClient multiplayer adapter", () => {
     const client1 = new NetworkClient({
       serverUrl: `ws://127.0.0.1:${TEST_PORT}`,
       autoReconnect: false,
-      webSocketClass: WebSocket as any,
+      webSocketClass: WebSocket as unknown as new (url: string) => globalThis.WebSocket,
     });
     const client2 = new NetworkClient({
       serverUrl: `ws://127.0.0.1:${TEST_PORT}`,
       autoReconnect: false,
-      webSocketClass: WebSocket as any,
+      webSocketClass: WebSocket as unknown as new (url: string) => globalThis.WebSocket,
     });
 
     let client1SawClient2: NetworkPlayerState | undefined;

@@ -90,7 +90,8 @@ export function MultiplayerWorldOverlay(props: {
             width: 8,
             height: 8,
             borderRadius: "50%",
-            background: status === "connected" ? "#5cd68d" : status === "connecting" ? "#f5d48a" : "#ff8577",
+            background:
+              status === "connected" ? "#5cd68d" : status === "connecting" ? "#f5d48a" : "#ff8577",
           }}
         />
         <span>

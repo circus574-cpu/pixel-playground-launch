@@ -145,3 +145,14 @@ przed końcowym przebiegiem, nie pomijano testu. Nie zmieniono progów grywalno�
 [Logi](qa/server-superior-adapter/tests.txt), [build](qa/server-superior-adapter/build.txt).
 Nowego E2E online nie wykonano, ponieważ klient nie jest podłączony. Nie wdrażano
 niekompletnej funkcji, nie kasowano postaci i nie zmieniano konfiguracji VPS/GPU.
+
+## Serwer online — usunięcie blokad lint w istniejącym transporcie
+
+Przed integracją trzeciej partii uporządkowano wcześniejsze błędy CI w modułach
+multiplayera i monitoringu: formatowanie, blok `case` dla lokalnego `const`,
+typowane zdarzenia oraz jawny konstruktor adaptera WebSocket zamiast `any`.
+Nie zmieniono wiadomości starego protokołu, sterowania ani układu monitoringu.
+Pełny TypeScript (3 konfiguracje), build oraz 9 testów istniejących klientów,
+GameServer i Start/Stop przeszły. Globalny lint po tych poprawkach: 0 błędów,
+14 wcześniejszych ostrzeżeń. Te moduły są zachowane dla oddzielnego playtestu;
+nowy klient online ich nie używa.

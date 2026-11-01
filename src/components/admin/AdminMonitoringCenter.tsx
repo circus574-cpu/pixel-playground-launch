@@ -228,9 +228,7 @@ export function AdminMonitoringCenter() {
   const managedNode = useMemo(() => {
     if (!snapshot || snapshot.nodes.length === 0) return null;
     return (
-      snapshot.nodes.find((n) => n.nodeId === selectedManagedNodeId) ??
-      snapshot.nodes[0] ??
-      null
+      snapshot.nodes.find((n) => n.nodeId === selectedManagedNodeId) ?? snapshot.nodes[0] ?? null
     );
   }, [snapshot, selectedManagedNodeId]);
 
@@ -1543,8 +1541,7 @@ export function AdminMonitoringCenter() {
                             style={{
                               height: "100%",
                               width: `${Math.min(100, pct)}%`,
-                              background:
-                                pct > 90 ? "#ff6b6b" : pct > 75 ? "#f5d48a" : "#5cd68d",
+                              background: pct > 90 ? "#ff6b6b" : pct > 75 ? "#f5d48a" : "#5cd68d",
                               transition: "width 0.2s ease",
                             }}
                           />
@@ -2021,7 +2018,9 @@ export function AdminMonitoringCenter() {
                       </td>
                       <td>
                         <span style={{ color: ACTIVITY_COLORS[p.activity], fontWeight: 600 }}>
-                          {p.online ? `● ONLINE (${ACTIVITY_LABELS[p.activity]})` : "○ OFFLINE (Zapis)"}
+                          {p.online
+                            ? `● ONLINE (${ACTIVITY_LABELS[p.activity]})`
+                            : "○ OFFLINE (Zapis)"}
                         </span>
                       </td>
                       <td>
@@ -2504,9 +2503,7 @@ function PhysicalWorldPlayerMapSvg({
 
   const roadPaths = useMemo(() => {
     const filteredRoads =
-      worldId === "all"
-        ? projection.roads
-        : projection.roads.filter((r) => r.land === worldId);
+      worldId === "all" ? projection.roads : projection.roads.filter((r) => r.land === worldId);
     return ["road", "trail"].map((kind) => ({
       kind,
       d: filteredRoads
