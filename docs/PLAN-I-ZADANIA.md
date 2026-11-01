@@ -220,3 +220,94 @@ Stan historyczny 28.10: PR #55 miał konflikt z `main@0b5ae9486914962626d8b7bbe5
 Przed integracją porównać nowe transformacje, zapis, sterowanie i zmiany GM;
 wyniki tej gałęzi nie dowodzą zgodności z nowym main. Nie scalono i nie opublikowano.
 Szczegóły i dowody w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).
+
+
+## Plan kontynuacji mojego zakresu rozwoju — audyt 01.11.2026
+
+### Podstawa i rozbieżności
+
+Odczyt przez konektor GitHub: `main@0e479af37779b54bcae0a373da1d4ea1a291346e`.
+Porównanie refs main...ten SHA dało identical. Przeczytano aktualne AGENTS,
+INDEX, ten plan, dzienniki31.10/01.11 oraz moduły session, kit/base, gmEdit,
+CoderAdminPanel, items/index, heritage/runtime, networkClient i gameServer.
+To przegląd kodu i dokumentacji, nie nowy odbiór uruchomionej produkcji.
+
+- W nagłówku wcześniejszego checkpointu nadal występuje SHA5cea48da z29.10;
+  nie jest aktualnym końcem main. Zachować go jako historyczny dowód wydania.
+- [PR68](https://github.com/circus574-cpu/pixel-playground-launch/pull/68) jest OPEN,
+  niescalony, head1c29979f. Aktualny main nadal czyta w formularzu GM same
+  statOverrides i nie ma summarize.currentStats. Nie oznaczać poprawki jako wdrożonej.
+- [PR66](https://github.com/circus574-cpu/pixel-playground-launch/pull/66) jest OPEN,
+  niescalony i przy odczycie mergeable=false. Zawiera warsztat i665promptów.
+  Wcześniejszy staging ma dowód z29.10; jego aktualnej dostępności dziś nie sprawdzono.
+  Rozwiązać konflikty dopiero po porównaniu z nowym main, bez ślepego scalania.
+- 366przedmiotów,140receptur i computePassiveEquipmentBonuses są w src/game/items.
+  Odczytany PlayerSchema/session nadal ma stary zestaw potion/tusk/sword/vest
+  i osobną broń heritage; session i kit/base nie wywołują nowego kalkulatora.
+  Obecność katalogu nie zamyka pełnego wyposażania, statystyk, craftingu i zapisu V2.
+- Sieć i zarządzanie procesami istnieją. gameServer obsługuje auth na podstawie
+  identyfikatorów z wiadomości, odbiera pozycję/HP/KI klienta i rozgłasza action.
+  Przed nagrodami sieciowymi potrzebny jest osobny odbiór tożsamości/własności
+  postaci i autorytetu symulacji. Nie uznawać tego przeglądu za test bezpieczeństwa
+  wdrożenia ani istniejącego procesu za autorytatywny rozwój postaci.
+- Dziennik01.11 podaje14zaliczonych scenariuszy trzech plików walki/lifecycle;
+  to aktualizacja względem starych porażek, lecz nie dowód całej macierzy
+  Playwright, fizycznego Androida ani wydajności aktualnej produkcji.
+
+### Kolejność realizacji
+
+Każda pozycja ma własną partię kodu, regresję i odbiór; nie wymaga czekania na GPU.
+
+| ID | Priorytet | Zmiana i zależność | Warunek zakończenia |
+| --- | --- | --- | --- |
+| DEV-00 | P0 | Ustalić aktualny release produkcji, przejrzeć nowe PR i przypisać odpowiedzialność za sieć/przedmioty. Ujednolicić w dokumentacji checkpointy historyczne i bieżące. | SHA kodu, SHA faktycznie wdrożonego artefaktu, lista PR/statusów i wyniki odpowiadają sobie; bez deklaracji na podstawie daty nagłówka. |
+| DEV-01 | P0 | Odświeżyć PR68 względem bieżącego main. Dokończyć odczyt aktualnych zapisanych statystyk w Coder, podgląd zmian i ochronę starego formularza. | Cztery rasy: poziom, oba treningi, pasywy, sprzęt i GM zgodne z silnikiem; niezmienione pola nie zamrażają rozwoju; heritage i CAS zachowane; ponowione testy. |
+| DEV-02 | P0 | Z wykonawcą przedmiotów uzgodnić jeden model instancji, slotów i bonusów V2 oraz adapter do wspólnego kalkulatora statystyk. Dopiero wtedy kontrolowana migracja. | Założenie/zdjęcie przedmiotu zmienia realne statystyki i obrażenia dokładnie raz; limity/zestawy zgodne z katalogiem; atak X oraz czerwone +Y, bez podwójnego naliczania; stare bajty zachowane, reload i konflikty przetestowane. |
+| DEV-03 | P0/P1 | Zweryfikować rozliczanie praktyki i oba istniejące treningi po ostatnich zmianach świata/sieci/przedmiotów. | Unik, szybkość ataku i Technika nie rosną od poziomu; ćwiczenia wymagają rzeczywistych czynności; koszt, zapis, przerwanie, brak miejsca i nagroda jednorazowa mają regresje. |
+| DEV-04 | P1 | Zamknąć pełne działanie48prób rasowych x3progi, bazując na obecnym kontrolerze, a nie drugim silniku. Nie mylić z30egzaminami pięciu wspólnych dyscyplin. | Macierz144stopni: wejście, cel, niepowodzenie/przerwanie, sukces, odblokowanie i jednorazowy zapis; próba działa na sprzęcie/umiejętnościach przewidzianych projektem. |
+| DEV-05 | P1 | Dokończyć chronione obiekty, eskorty bojowe, obrony i fale w obecnym AI. Fundament ProtectedActor nie jest gotowym kontrolerem misji. | Prawdziwe obrażenia, osiągalność, porażka, retry, opuszczenie mapy i wznowienie; zwykli NPC pozostają neutralni i bezpieczni. |
+| DEV-06 | P1 | Opracować macierz24rozdziałów i24projektów: definicja / aktywny runtime / test / odbiór; realizować po jednym grywalnym ciągu, najpierw Verdantia. | Każdy rozdział da się ukończyć bez debugowania, projekt zmienia właściwe obiekty, cele pozostają osiągalne, zapis i nagrody nie duplikują się. Sam wpis katalogu nie zalicza pozycji. |
+| DEV-07 | P1 | Domknąć bronie dziedzictwa stopni3–6 oraz mistrzostwaII, warianty i moduły powiązane z rzeczywistymi próbami i fabułą. Zależności: DEV-02/04/06. | Cały łańcuch wymagań i własności broni, brak duplikacji przy craftingu/depozycie, poprawne koszty i odblokowania; wszystkie4rasy. |
+| DEV-08 | P1 | Dokończyć późne spotkania i wyprawy projektu:8archetypów x4poziomy22/28/34/40, narrację, kroniki, biografie i tytuły. | Nie tworzyć32nowych gatunków dla32wariantów poziomu; aktualny właścicielski balans, cele i unikalne nagrody sprawdzone w rozgrywce. |
+| DEV-09 | P1 | Odbierać i integrować materiały Gemini/ElevenLabs według istniejących ID; partie opisane poniżej. | Spójna skala/kamera, alpha/klatki/dźwięk i SHA/proweniencja, importer, opt-in, odbiór w grze; brak wymiany mechaniki w celu ukrycia błędu grafiki. |
+| DEV-10 | P0 przed wydaniem | Regresja finalnego SHA po każdej działającej partii i przed publikacją. | Pełny TS/Vitest/lint/build, właściwe scenariusze rozwoju i Canvas/WebGL, cztery rasy, zapis/GM/przedmioty; fizyczny telefon i pomiary oznaczone osobno. |
+
+DEV-03 i przygotowanie DEV-04 mogą ruszyć przed docelową grafiką na istniejących
+zasobach. DEV-05 poprzedza fabułę wymagającą bojowej eskorty. DEV-07 nie może
+przeskoczyć odblokowań. DEV-08 nie zmienia samowolnie kanonicznych liczb.
+Serwerowy zapis nagród, handlu lub treningu jest osobnym zakresem po odbiorze
+tożsamości i autorytetu serwera; sam WebSocket nie zastępuje walidacji.
+
+### Odbiór nadchodzących materiałów z promptów
+
+Nie produkować ponownie istniejących bohaterów ani dublować dostawy przedmiotów.
+Katalog665promptów jest na gałęzi PR66, nie należy zakładać jego obecności w main.
+Kolejność pierwszej partii pozostaje aktualna:
+
+1. training.planetary.dummy, training.planetary.target, training.planetary.ki-node.
+2. audio.development.dummy-hit, audio.development.exam-success,
+   audio.development.ki-charge.
+3. Po zatwierdzeniu: pozostałe obiekty treningowe czterech kultur oraz ikony
+   dyscyplin/stopni; równolegle podpinanie cue do faktycznych zdarzeń.
+4. Portrety i bazy mentorów/kowali, potem dopiero spójne idle/walk w8kierunkach.
+5. Obiekty projektów przed/po, rekwizyty misji, późniejsze VFX/audio.
+6. Ikony etapów broni tylko po uzgodnieniu pokrycia z wykonawcą przedmiotów.
+
+Dla każdej dostawy: ID promptu, oryginał wyniku, model/wersja/parametry dostępne
+u dostawcy, referencje, format, wymiar lub czas i SHA-256. ZIP animacji musi
+zawierać identyfikowalne klatki/kierunki; sam ZIP ani plansza porównawcza nie
+dowodzą kompletności klipu. Nie wymyślać seedów lub nieznanych ustawień.
+
+Statusy muszą być oddzielne: wgrane -> walidacja techniczna -> akceptacja wyglądu/
+odsłuchu -> zintegrowane -> przetestowane -> opublikowane. Automatyczne zaliczenie
+uploadu z warsztatu nie może zaliczać próby, misji ani odbioru grafiki.
+Zachować oryginały poza generatorem; storage na jednym VPS nie jest kopią offsite.
+
+### Ograniczenia tego audytu
+
+Nie uruchamiano GPU, generowania, serwera gry ani wdrożenia. Nie zmieniano
+mechaniki i zapisów. Nie wykonano dziś testów ani odczytu strony produkcyjnej:
+środowisko wykonawcze startowało; wykorzystano dostępny konektor GitHub.
+Kontrola dokumentacji musi zostać uruchomiona w dostępnym checkout przed scaleniem.
+Nie przenosić historycznych wyników997/14/13 testów na aktualny SHA bez powtórzenia.
+Scalenie i publikacja pozostają odrębną decyzją właściciela.
