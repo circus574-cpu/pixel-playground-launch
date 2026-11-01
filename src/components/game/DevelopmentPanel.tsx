@@ -14,6 +14,11 @@ import {
   type Discipline,
 } from "../../game/development/training";
 import { examInstructions, examSpec } from "../../game/development/exams";
+import {
+  devArtEnabled,
+  examTierIconUrl,
+  TRAINING_DISCIPLINE_ICONS,
+} from "../../game/development/developmentAssets";
 import { MONSTER_BASE } from "../../game/monsters/base.generated";
 import { RACES } from "../../game/world/races";
 import "./development.css";
@@ -89,11 +94,23 @@ export function DevelopmentPanel({
               d,
             );
             const tier = examTier(development.training, d);
+            const showArt = devArtEnabled();
+            const discIcon = showArt ? TRAINING_DISCIPLINE_ICONS[d] : undefined;
+            const tierIcon = showArt ? examTierIconUrl(tier) : undefined;
             const percent =
               d === "strength" || d === "defense" ? 0.4 : d === "kiControl" ? 0.2 : 0.5;
             return (
               <section key={d} className="ki-development-card">
                 <h3>
+                  {discIcon && (
+                    <img
+                      src={discIcon}
+                      alt=""
+                      width={26}
+                      height={26}
+                      style={{ verticalAlign: "middle", marginRight: 6 }}
+                    />
+                  )}
                   {TRAINING_NAMES[d]} <span>{r}/30</span>
                 </h3>
                 <p>
@@ -115,6 +132,15 @@ export function DevelopmentPanel({
                   disabled={!nearTrainer || !startExam}
                   onClick={() => setInstructions({ discipline: d, tier })}
                 >
+                  {tierIcon && (
+                    <img
+                      src={tierIcon}
+                      alt=""
+                      width={20}
+                      height={20}
+                      style={{ verticalAlign: "middle", marginRight: 5 }}
+                    />
+                  )}
                   Egzamin {tier} · zasady i trening
                 </button>
                 <small>

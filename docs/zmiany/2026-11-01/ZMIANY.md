@@ -87,3 +87,23 @@
 - **Pełny Panel Zarządzania Wybranym / Nowo Utworzonym Serwerem Gry**:
   - W zakładce **`🖥️ Serwery Gry i Zarządzanie`** dodano rozbudowany **Panel Zarządzania Aktywnym Serwerem**, który otwiera się automatycznie dla wybranego lub nowo utworzonego serwera (`handleCreateServer`).
   - Panel umożliwia bezpośrednie uruchamianie (`▶ Uruchom ten serwer`), zatrzymywanie (`⏹ Wyłącz ten serwer`), restartowanie (`🔄 Restartuj`), przełączanie w tryb konserwacji (`⏳ Tryb konserwacji`), usuwanie serwera oraz edycję na żywo nazwy, limitu slotów graczy, hosta/IP, portu, regionu i częstotliwości pętli tick (Hz).
+
+### 6. Produkcja Zasobów Rozwoju — Etap 1 (Krok 0 Reuse, Partia 1 Test Stylu, Fundamenty P0, gałąź `feat/development-assets-etap1`)
+
+- **Krok 0 — Audyt Reuse i podpięcie 7 efektów dźwiękowych P0 (`src/game/sfx.ts`, `src/components/game/DevelopmentExam.tsx`)**:
+  - Zgodnie z wytycznymi katalogu (`START-TUTAJ.txt`) przeprowadzono audyt 56 istniejących plików MP3 ElevenLabs w `public/game/sfx/` i podpięto brakujące zdarzenia rozwoju w `cuesFor` oraz `DEVELOPMENT_SFX_REUSE`:
+    - `audio.development.dummy-hit` → `/game/sfx/common/hit.mp3` (uderzenie w manekin treningowy `training-dummy`),
+    - `audio.development.target-hit` → `/game/sfx/common/hit-armor.mp3` (trafienie w cel pomiarowy `practice-*`),
+    - `audio.development.checkpoint` → `/game/sfx/common/loot.mp3` (zaliczenie punktu trasy próby wytrzymałości),
+    - `audio.development.exam-start` → `/game/sfx/sage/A1.mp3` (otwarcie próby w sali egzaminacyjnej),
+    - `audio.development.exam-success` → `/game/sfx/common/quest-complete.mp3` (zaliczenie próby / ukończenie projektu),
+    - `audio.development.exam-fail` → `/game/sfx/common/no-energy.mp3` (niepowodzenie próby bez dramatyzmu śmierci),
+    - `audio.development.ki-charge` → `/game/sfx/sage/C1.mp3` (ładowanie węzła KI),
+    - awans stopnia treningu → `/game/sfx/common/level-up.mp3`.
+- **Wygenerowanie i post-processing 11 zasobów graficznych `v001` (`scripts/development/process-etap1-assets.ts`, `art/production/development/v001/manifest.json`)**:
+  - **Partia 1 (Test Stylu Verdantii — komplet 3 obiektów P0)**: `training.planetary.dummy`, `training.planetary.target`, `training.planetary.ki-node` + czwarty obiekt P0 `training.planetary.defense` (mastery `1024×1024` RGBA PNG z wycięciem tła flood-fill i de-haloingiem 2px, stopy wyrównane do `origin: [0.5, 0.88]`, eksport kliencki `512×512` bezstratny WebP).
+  - **Partia 2 (P0 UI)**: dedykowana ikona `ui.training.strength` + mapa reuse dla pozostałych 7 dyscyplin z `public/game/icons-v3/`, oraz komplet 6 emblematów stopni prób `ui.exam.tier-1` .. `ui.exam.tier-6` (od 1 do 6 symetrycznych nacięć geometrycznych wokół klejnotu, bez cyfr rzymskich; mastery `512×512` RGBA PNG z 12% marginesem → klient `128×128` WebP).
+  - Zachowano oryginalne odpowiedzi modelu `gemini-3.1-flash-image` w `art/production/development/v001/originals/` oraz arkusz kontrolny czytelności `128×128` i `32×32` w `art/production/development/v001/qa/etap1-review-sheet.png`.
+  - Pozostałe pozycje Partii 2 wstrzymano po osiągnięciu limitu okna modelu `gemini-3.1-flash-image` (`429 RESOURCE_EXHAUSTED`, reset po ~4h 57m) — zgodnie z regułą katalogu oczekują na odbiór właściciela dla Partii 1.
+- **Bezpieczna integracja opt-in (`?ki-dev-art=1`)**:
+  - Nowe zasoby są zgrupowane w `src/game/development/developmentAssets.ts` i zarejestrowane pod przełącznikiem `PREVIEW_SWITCHES["ki-dev-art"]` w `src/game/assets/catalog.ts`, dzięki czemu domyślna gra zachowuje dotychczasową prezentację do czasu akceptacji właściciela.

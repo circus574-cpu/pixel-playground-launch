@@ -29,12 +29,37 @@ const COMMON = [
 /** Abilities with their own sound: the basic attack and each branch's two actives and ultimate. */
 export const SFX_ABILITIES = ["R", "A1", "A4", "A9", "B1", "B4", "B9", "C1", "C4", "C9"] as const;
 type Common = (typeof COMMON)[number];
+
+/**
+ * Etap 1 (P0) development sound effects mapped to verified existing ElevenLabs assets
+ * (`START-TUTAJ.txt` Krok 0 reuse audit), with opt-in override support (`?ki-dev-sfx=1`).
+ */
+export const DEVELOPMENT_SFX_REUSE = {
+  "audio.development.dummy-hit": "/game/sfx/common/hit.mp3",
+  "audio.development.target-hit": "/game/sfx/common/hit-armor.mp3",
+  "audio.development.checkpoint": "/game/sfx/common/loot.mp3",
+  "audio.development.exam-start": "/game/sfx/sage/A1.mp3",
+  "audio.development.exam-success": "/game/sfx/common/quest-complete.mp3",
+  "audio.development.exam-fail": "/game/sfx/common/no-energy.mp3",
+  "audio.development.ki-charge": "/game/sfx/sage/C1.mp3",
+} as const;
+export type DevelopmentSfxId = keyof typeof DEVELOPMENT_SFX_REUSE;
+
+export function developmentSfxFile(id: DevelopmentSfxId): string {
+  return DEVELOPMENT_SFX_REUSE[id];
+}
+
 /** Event types a race kit emits for its own abilities (monsters also use "status" and "telegraph"). */
 const KIT_EVENTS = new Set(["attack", "buff", "burst", "heal", "shield", "circle", "channel"]);
 
 /** Sound file for a cue, or undefined when the cue has none (e.g. an ability without its own sound). */
-export function sfxFile(cue: Common | { race: RaceId; ability: string }): string | undefined {
-  if (typeof cue === "string") return "/game/sfx/common/" + cue + ".mp3";
+export function sfxFile(
+  cue: Common | DevelopmentSfxId | { race: RaceId; ability: string },
+): string | undefined {
+  if (typeof cue === "string") {
+    if (cue in DEVELOPMENT_SFX_REUSE) return developmentSfxFile(cue as DevelopmentSfxId);
+    return "/game/sfx/common/" + cue + ".mp3";
+  }
   return (SFX_ABILITIES as readonly string[]).includes(cue.ability)
     ? "/game/sfx/" + cue.race + "/" + cue.ability + ".mp3"
     : undefined;
@@ -77,6 +102,9 @@ export function cuesFor(
           sfxFile(e.text === "Unik" ? "dodge" : e.text === "Tarcza" ? "hit-armor" : "player-hurt"),
         );
       else if (e.text === "Tarcza") add(sfxFile("hit-armor"));
+      else if (e.target?.startsWith("practice-")) add(sfxFile("audio.development.target-hit"));
+      else if (e.target === "training-dummy")
+        add(sfxFile(e.crit ? "hit-crit" : "audio.development.dummy-hit"));
       else if (e.text !== "Pudło") add(sfxFile(e.crit ? "hit-crit" : "hit"));
     } else if (e.type === "death")
       add(sfxFile(e.target === "player" ? "player-death" : "monster-death"));
@@ -94,8 +122,20 @@ export function cuesFor(
     if (now.potions < before.potions) add(sfxFile("potion"));
     if (now.interior !== before.interior) add(sfxFile("door"));
     if (now.noticeId !== before.noticeId) {
-      if (/^(Za mało KI|Odnowienie)/.test(now.notice)) add(sfxFile("no-energy"));
-      else if (now.notice.startsWith("Nagroda:")) add(sfxFile("quest-complete"));
+      if (
+        /^(Za mało KI|Odnowienie|Przekroczono dopuszczalną liczbę błędów\.|Życie spadło poniżej 30%\.|Upłynął aktywny czas egzaminu\.)/.test(
+          now.notice,
+        )
+      )
+        add(sfxFile("audio.development.exam-fail"));
+      else if (
+        /^(Nagroda:|Egzamin zdany\.|Wszystkie cele wykonane\.|Trening przygotowawczy wykonany\.|Projekt ukończony:)/.test(
+          now.notice,
+        )
+      )
+        add(sfxFile("audio.development.exam-success"));
+      else if (/^(Zapisano nowy stopień treningu\.|.+ · trening \d+$)/.test(now.notice))
+        add(sfxFile("level-up"));
     }
   }
   return out;
