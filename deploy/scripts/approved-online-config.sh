@@ -22,6 +22,9 @@ private="/tmp/ki-online-cutover-$stamp"
 docker exec coolify mkdir -m 700 "$private"
 docker cp "$base/secrets/game-server.env" "coolify:$private/runtime.env" >/dev/null
 docker cp "$root/deploy/scripts/configure-online-coolify.php" "coolify:$private/configure.php" >/dev/null
+coolify_uid=$(docker exec coolify id -u)
+coolify_gid=$(docker exec coolify id -g)
+docker exec -u 0 coolify chown -R "$coolify_uid:$coolify_gid" "$private"
 if ! docker exec -e KI_ONLINE_CUTOVER_APPROVED=1 coolify php "$private/configure.php" apply "$private/runtime.env" "$private/before.json"; then
  docker cp "coolify:$private/before.json" "$backup/coolify-before.json" >/dev/null 2>&1 || true
  echo "Configuration failed; private recovery directory: $backup" >&2
