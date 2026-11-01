@@ -611,3 +611,25 @@ W odpowiedzi na dyspozycję właściciela dotyczącą przygotowania reszty boss�
   - Przypisano adresy zasobów produkcyjnych do wszystkich 8 wpisów katalogu.
 - **Interaktywny widget Generative UI (`all_bosses_showcase.html`)**:
   - Utworzono aplikację pokazową prezentującą wszystkich 8 bossów z podziałem na kontynenty, przełączaniem animacji WebP/GIF w czasie rzeczywistym, wskaźnikami faz (1/2/3), czasem ostrzeżenia ataków (telegraphing), parametrami bojowymi oraz tabelami łupów.
+
+### 17. Bramka jakości CI przed wdrożeniem, naprawa lintu i aktualizacja dokumentacji
+
+Audyt produkcji 01.11 (po PR #70, `main@2026c18`) wykazał, że push do `main`
+wdrażał kod na VPS Aruba bez uruchamiania testów ani lintu, a `npm run lint`
+zgłaszał 238 błędów.
+
+- `.github/workflows/aruba-production.yml`: nowy job `verify` (Node 22, `npm ci`,
+  pełny `npm run typecheck`, `npm run test`, `npm run lint`, `npm run assets:check`,
+  `python3 scripts/docs/check_documentation.py`, `npm run build`); job wdrożenia
+  `ssh-check` ma `needs: verify`, więc czerwona bramka blokuje publikację.
+- `.github/workflows/pr-quality-gate.yml`: ten sam zestaw dla każdego PR do `main`.
+- Lint: 231 błędów formatowania poprawione `eslint --fix`; 7 ręcznie — typy zamiast
+  `any` (`session.ts` mapuje premie ekwipunku z domyślnym 0, panel postaci, test
+  depozytu), komentarze w pustych `catch` (`gameServer.ts`). Wynik: 0 błędów,
+  15 ostrzeżeń.
+- Poprawka błędu: wpis audytu w `adminCharacterService.ts` używał nieistniejących
+  kolumn `admin_id`/`target_id`/`details`, więc zapis do `admin_audit` zawsze się
+  nie udawał; teraz używa kolumn schematu `actor`, `target_key`, `after`.
+- Dokumentacja: `INDEX`, `PLAN-I-ZADANIA`, `ARCHITEKTURA-I-TESTY` (PR #69 scalony,
+  opis bramki CI) i `ARUBA_STAGING.md` opisują faktyczny stan: hosting Aruba,
+  `main@2026c18`. Po scaleniu `main@a3de8e2` (8 bossów) bramka przeszła ponownie.

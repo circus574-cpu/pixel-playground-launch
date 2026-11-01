@@ -100,13 +100,24 @@ describe("sound effects", () => {
       "/game/sfx/common/hit-armor.mp3",
     ]);
     expect(
-      cues([], snap(), snap({ noticeId: 2, notice: "Egzamin zdany. +250 praktyki; wynik zapisano." })),
+      cues(
+        [],
+        snap(),
+        snap({ noticeId: 2, notice: "Egzamin zdany. +250 praktyki; wynik zapisano." }),
+      ),
     ).toEqual(["/game/sfx/common/quest-complete.mp3"]);
     expect(
       cues([], snap(), snap({ noticeId: 2, notice: "Przekroczono dopuszczalną liczbę błędów." })),
     ).toEqual(["/game/sfx/common/no-energy.mp3"]);
     expect(
-      cues([], snap(), snap({ noticeId: 2, notice: "Zapisano nowy stopień treningu. HP i KI nie zostały odnowione." })),
+      cues(
+        [],
+        snap(),
+        snap({
+          noticeId: 2,
+          notice: "Zapisano nowy stopień treningu. HP i KI nie zostały odnowione.",
+        }),
+      ),
     ).toEqual(["/game/sfx/common/level-up.mp3"]);
   });
   it("verifies all 37 dedicated development SFX and 4 P3 ambience loops exist on disk and opt-in via ?ki-dev-sfx=1", () => {

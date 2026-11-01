@@ -108,10 +108,7 @@ export function devSfxEnabled(
   return params.get("ki-dev-sfx") === "1" || params.get("ki-dev-art") === "1";
 }
 
-export function developmentSfxFile(
-  id: DevelopmentSfxId,
-  dedicated = devSfxEnabled(),
-): string {
+export function developmentSfxFile(id: DevelopmentSfxId, dedicated = devSfxEnabled()): string {
   if (!dedicated && id in DEVELOPMENT_SFX_REUSE) {
     return DEVELOPMENT_SFX_REUSE[id as keyof typeof DEVELOPMENT_SFX_REUSE];
   }

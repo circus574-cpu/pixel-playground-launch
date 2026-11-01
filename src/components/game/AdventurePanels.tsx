@@ -56,7 +56,12 @@ export function Inventory({
           )}
         </div>
         <div>
-          Pancerz: {p.armor ? (p.armor in ITEMS ? ITEMS[p.armor as ItemId].name : getItemById(p.armor)?.name ?? p.armor) : "brak"}
+          Pancerz:{" "}
+          {p.armor
+            ? p.armor in ITEMS
+              ? ITEMS[p.armor as ItemId].name
+              : (getItemById(p.armor)?.name ?? p.armor)
+            : "brak"}
           {p.armor && (
             <button onClick={() => send({ type: "unequip", slot: "armor" })}>
               Zdejmij pancerz
