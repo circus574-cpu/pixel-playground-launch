@@ -875,3 +875,63 @@ Wdrożono kompleksowy mechanizm uruchamiania, zatrzymywania, restartowania i par
   - Zakładka zarządzania serwerem: wizualny wskaźnik stanu serwera (Online, Offline, Uruchamianie, Zatrzymywanie), kontrolki sterujące (Start, Stop, Restart), formularz edycji parametrów w locie (port, max graczy, tick rate, aoi limit) oraz interaktywny terminal logów procesowych.
 - **Oczyszczenie kodu z metadanych i komentarzy:**
   - Usunięcie wszystkich odwołań, telemetrii edytora, tokenów środowiskowych i komentarzy powiązanych z zewnętrznym edytorem Lovable w całej aplikacji.
+
+## Trwała postać serwera — pierwsza partia, 01.11.2026
+
+Gałąź `feature/server-owned-characters` od `main@2e1f5438`. To fundament,
+**nie ukończony autorytatywny runtime i nie przełączenie klienta na online**.
+`src/server/characters/repository.ts` zapisuje nowe postacie i checkpointy w
+prywatnym PostgreSQL. Tożsamość pochodzi z `accountVerifier` (`/auth/v1/user`),
+nie z accountId dostarczonego przez klienta. API `/ws/characters` przyjmuje przy
+POST wyłącznie race/name; GET listuje własne postacie lub czyta jedną po UUID.
+Nie ma publicznego endpointu zapisu złota, XP, przedmiotów lub checkpointu.
+
+`003-online-character-state.sql` to jawna aktualizacja istniejącej bazy, NIE
+kolejny init ignorowany na istniejącym wolumenie. Zachowuje stare tabele i dane.
+Nowe `online_character_state`/`online_character_operations` mają FK, indeksy PK,
+rewizję, limit JSON i przywileje wyłącznie dla grup serwerowych/read-only. Brak
+publicznego portu bazy lub nadawania uprawnień kontom przeglądarkowym.
+`repository.commit` jest wewnętrznym interfejsem zaufanej symulacji. Atomowo
+zapisuje stan i wynik operacji. Blokada wiersza + expectedRevision chronią konflikt;
+ID operacji + digest chronią przed ponownym wykonaniem, a inna treść pod starym
+ID jest odrzucana. Kontrola właściciela poprzedza nawet odczyt wcześniejszego ACK.
+Tworzenie konta nie wymaga UPDATE przywileju nad game.accounts.
+
+Envelope `server-character-1` zawiera walidowany Player i JSON runtime. Runtime
+musi później przechować stan przeciwników/respawnu, cooldowny i kontekst świata;
+sam Player nie wystarcza. Obecne tworzenie używa `newPlayer`, bez importu lokalnych
+postaci. Przed włączeniem klienta konieczne jest utworzenie w prawidłowym punkcie
+Superior przez adapter symulacji. Nie włączać tej partii jako pełnego multiplayera.
+
+GameServer sprawdza prawdziwe SELECT1 przed stwierdzeniem połączenia DB i nie
+wypisuje URL bazy ani surowych błędów połączenia. API trwałych postaci oddaje503,
+jeśli brakuje bazy, schematu lub konfiguracji kont; brak fallbacku RAM w tym API.
+Health zawiera characterPersistenceReady, opisujący inicjalizację tego modułu;
+każdy odczyt/zapis nadal musi obsłużyć utratę bazy. Istniejący protokół WS i jego
+klient pozostają starym trybem pozycyjnym, nadal wymagającym zabezpieczenia.
+
+### Kontynuacja — wymagane przed przełączeniem graczy
+
+1. Zweryfikować wspólnie z Argonem aktualny main i jego zmiany zarządzania procesem.
+2. Adapter GameSession dla świata Superior: identyczna geometria/nawigacja, miasta,
+   spawn ledger i serwerowy zegar. Nie uruchamiać graczy na uproszczonej starej mapie.
+3. Wpiąć zweryfikowany token i własność postaci do WS. Usunąć zaufanie do accountId,
+   level, HP/KI i współrzędnych z klienta; zweryfikować także istniejące funkcje admina.
+4. Serwer wykonuje walidowane polecenia ruchu/walki/interakcji/treningu/handlu;
+   klient nie wysyła gotowych nagród. Dołączyć lease aktywnej postaci między węzłami,
+   reconnect, snapshoty pełnego runtime, serializację komend i ACK po commicie.
+5. Nowy selektor postaci czyta API serwera; sesja gry renderuje zatwierdzony stan.
+   Nie używać localStorage jako źródła postępu. Przy braku sieci zatrzymać rozgrywkę
+   i pokazać reconnect; nie zamieniać awarii na dalszą lokalną grę.
+6. Dopiero po pełnym przepływie: migracja003 na VPS, prywatny runtime DB login,
+   trwały wolumen/kopie i konfiguracja Auth, kontrolowane włączenie trybu online.
+   Nie usuwać starych testowych danych — zgoda właściciela na nowe postacie nie
+   wymusza kasowania istniejących bajtów.
+7. Testy restartu procesu/bazy, dwóch klientów, przerwanego commitu, utraty sieci,
+   manipulacji XP/przedmiotami i powtórzeń nagród; realne cztery rasy i mobile.
+
+Polecenie testu repozytorium: `KI_ONLINE_TEST_DATABASE_URL=<izolowana-baza> npx tsx
+scripts/qa-online-characters.ts`. Wymaga istniejących schema001 +003, NIE produkcji.
+Skrypt używa roli ki_game_server, nie przywilejów postgres przy operacjach repo.
+Faktyczny test:16/16 na PostgreSQL17 (Docker/tmpfs);3 testy weryfikatora kont i9
+istniejących testów multiplayer/processów. Pełny stan i status: dziennik01.11.

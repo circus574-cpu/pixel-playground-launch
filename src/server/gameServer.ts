@@ -1,6 +1,7 @@
 /**
- * Autorytatywny Serwer Gry Multiplayer (Game Server Daemon).
+ * Serwer transportu Multiplayer (Game Server Daemon).
  *
+ * Nie jest jeszcze autorytatywną symulacją walki i postępu postaci.
  * Obsługuje połączenia WebSocket w czasie rzeczywistym, pętlę symulacji 20 Hz,
  * filtrowanie przestrzenne AOI (Area of Interest 512x512) oraz opcjonalny
  * wsadowy zapis pozycji i telemetrii do PostgreSQL 17 (Schema v2).
@@ -8,9 +9,16 @@
 import http from "node:http";
 import postgres from "postgres";
 import { WebSocket, WebSocketServer } from "ws";
-import type { ClientMessage, NetworkPlayerState, ServerMessage } from "../game/multiplayer/protocol";
+import type {
+  ClientMessage,
+  NetworkPlayerState,
+  ServerMessage,
+} from "../game/multiplayer/protocol";
 import type { FeatureId } from "../game/world/generated/superiorSave";
 import type { RaceId, WorldId } from "../game/world/races";
+import { PgCharacterRepository } from "./characters/repository";
+import { accountVerifier } from "./characters/auth";
+import { characterHttp, type VerifyAccount } from "./characters/http";
 
 export interface GameServerConfig {
   port: number;
@@ -58,6 +66,8 @@ export class GameServer {
   private tickInterval: NodeJS.Timeout | null = null;
   private dbSyncInterval: NodeJS.Timeout | null = null;
   private db: ReturnType<typeof postgres> | null = null;
+  private characterRepository: PgCharacterRepository | null = null;
+  private verifyAccount: VerifyAccount | null = null;
   private tickCount = 0;
   private tickTimes: number[] = [];
   private packetsIn = 0;
@@ -94,6 +104,11 @@ export class GameServer {
   private handleHttpRequest(req: http.IncomingMessage, res: http.ServerResponse): void {
     const url = req.url || "/";
 
+    if (url.split("?")[0] === "/ws/characters" || url.startsWith("/ws/characters/")) {
+      void characterHttp(req, res, this.characterRepository, this.verifyAccount);
+      return;
+    }
+
     if (url === "/health" || url === "/status") {
       const p50 = this.getPercentileTickTime(0.5);
       const p95 = this.getPercentileTickTime(0.95);
@@ -111,6 +126,7 @@ export class GameServer {
         packetsInSec: this.packetsIn,
         packetsOutSec: this.packetsOut,
         dbConnected: this.db !== null,
+        characterPersistenceReady: this.characterRepository !== null && this.verifyAccount !== null,
         uptimeSeconds: Math.floor(process.uptime()),
         timestamp: new Date().toISOString(),
       };
@@ -503,9 +519,26 @@ export class GameServer {
           idle_timeout: 20,
           connect_timeout: 5,
         });
-        console.log(`[GameServer] Połączono z bazą danych PostgreSQL (${this.config.databaseUrl.replace(/:[^:@]+@/, ":***@")}).`);
+        await this.db`SELECT 1`;
+        const repository = new PgCharacterRepository(this.db);
+        const url = process.env["SUPABASE_URL"];
+        const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
+        if (url && key) {
+          try {
+            await repository.ready();
+            this.verifyAccount = accountVerifier({ url, publishableKey: key });
+            this.characterRepository = repository;
+          } catch {
+            console.warn(
+              "[GameServer] Trwały zapis postaci niegotowy: wymagany schemat i konfiguracja kont.",
+            );
+          }
+        }
+        console.log("[GameServer] Połączenie PostgreSQL zweryfikowane.");
       } catch (err) {
-        console.warn("[GameServer] Brak połączenia z PostgreSQL, serwer działa w autonomicznym trybie pamięci RAM:", err);
+        if (this.db) await this.db.end().catch(() => {});
+        this.db = null;
+        console.warn("[GameServer] PostgreSQL niedostępny. Trwała gra online zablokowana.");
       }
     } else {
       console.log("[GameServer] Tryb AUTONOMICZNY (w pamięci RAM) — brak adresu PostgreSQL.");
@@ -531,6 +564,8 @@ export class GameServer {
   public async stop(): Promise<void> {
     if (!this.isRunning) return;
     this.isRunning = false;
+    this.characterRepository = null;
+    this.verifyAccount = null;
 
     if (this.tickInterval) clearInterval(this.tickInterval);
     if (this.dbSyncInterval) clearInterval(this.dbSyncInterval);
@@ -575,7 +610,9 @@ export class GameServer {
     return { ...this.config };
   }
 
-  public updateConfig(patch: Partial<Pick<GameServerConfig, "name" | "region" | "maxPlayers" | "tickRateHz">>): GameServerConfig {
+  public updateConfig(
+    patch: Partial<Pick<GameServerConfig, "name" | "region" | "maxPlayers" | "tickRateHz">>,
+  ): GameServerConfig {
     if (patch.name !== undefined && patch.name.trim()) {
       this.config.name = patch.name.trim();
     }

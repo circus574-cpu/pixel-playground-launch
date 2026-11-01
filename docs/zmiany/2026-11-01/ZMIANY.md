@@ -87,3 +87,39 @@
 - **Pełny Panel Zarządzania Wybranym / Nowo Utworzonym Serwerem Gry**:
   - W zakładce **`🖥️ Serwery Gry i Zarządzanie`** dodano rozbudowany **Panel Zarządzania Aktywnym Serwerem**, który otwiera się automatycznie dla wybranego lub nowo utworzonego serwera (`handleCreateServer`).
   - Panel umożliwia bezpośrednie uruchamianie (`▶ Uruchom ten serwer`), zatrzymywanie (`⏹ Wyłącz ten serwer`), restartowanie (`🔄 Restartuj`), przełączanie w tryb konserwacji (`⏳ Tryb konserwacji`), usuwanie serwera oraz edycję na żywo nazwy, limitu slotów graczy, hosta/IP, portu, regionu i częstotliwości pętli tick (Hz).
+
+## Serwer jako właściciel postaci — partia trwałości (w realizacji)
+
+Zlecenie właściciela: pełna gra serwerowa, bez cichego fallbacku lokalnego;
+zaakceptował nowe postacie testowe. Gałąź `feature/server-owned-characters`,
+baza `2e1f5438`. Przygotowano repozytorium PostgreSQL z własnością, CAS i
+idempotencją checkpointów, verifier Auth oraz prywatne GET/POST/ws/characters
+(wyłącznie tworzenie i odczyt). Brak endpointu importującego XP/złoto/stany od klienta.
+SQL003 zachowuje istniejące dane. Nie wykonano migracji ani wdrożenia na VPS.
+
+Weryfikacja: osobny lokalny PostgreSQL17, schema001 i003, operacje jako grupa
+ki_game_server,16 sprawdzeń PASS:4rasy, odczyt nową instancją repozytorium,
+konflikty, duplikaty, zmieniony digest, brak dostępu do cudzej postaci i HTTP.
+Początkowo fixture natrafił na brak miejsca; bazę testową uruchomiono na tmpfs.
+Odtworzenie testu znalazło podwójną serializację parametru JSONB — poprawiono
+przez typowany JSON drivera. Następnie sprawdzono minimalne przywileje: usunięto
+zbędne DO UPDATE podczas wyszukiwania konta. Końcowy test16/16 PASS na realnym DB.
+Trzy testy verifiera i dziewięć wcześniejszych multiplayer/processów PASS.
+Lokalny kontener i pobrany do niego obraz usunięto po testach; nie dotykano VPS/GPU.
+
+NIE UKOŃCZONO pełnego zadania. Klient nadal korzysta ze starego zapisu i starych
+wiadomości WS. Pozostają adapter Superior/GameSession, serwerowe wykonywanie
+komend i nagród, pełny runtime checkpoint, bezpieczny WS, selektor online,
+zatrzymywanie przy disconnect, konfiguracja VPS i odbiór end-to-end.
+[Dokładna kolejność](../../ARCHITEKTURA-I-TESTY.md#kontynuacja--wymagane-przed-przełączeniem-graczy).
+Nie przedstawiać tej partii ani nowego health pola jako gotowej gry online.
+
+Końcowe kontrole tej partii: pełny TypeScript3konfiguracje PASS, produkcyjny build
+PASS, celowany lint nowych/zmienionych modułów PASS; testy Vitest12/12 PASS.
+Globalny lint aktualnej bazy ma45błędów/15ostrzeżeń głównie formatowania innych
+modułów z ostatnich zmian; nie poprawiano cudzych plików. Pełnego Playwright,
+fizycznego telefonu i testu produkcyjnego właściciela NIE WYKONANO dla tej partii.
+Dowody: [PostgreSQL16](qa/server-owned-characters/postgres.txt),
+[Vitest12](qa/server-owned-characters/tests.txt), [build](qa/server-owned-characters/build.txt).
+Kontrola dokumentacji PASS po odtworzeniu pięciu śledzonych referencji pominiętych
+przez sparse checkout; źródłowych archiwów i checkera nie modyfikowano.
