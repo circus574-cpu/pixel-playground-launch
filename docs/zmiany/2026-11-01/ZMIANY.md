@@ -495,3 +495,38 @@ Zgodnie z poleceniem właściciela („Wygeneruj te 20 kluczowych przedmiotow i 
   - Vitest: `src/game/items/__tests__/items.test.ts` (8/8 PASS).
   - TypeScript: pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.
   - Dokumentacja: `python scripts/docs/check_documentation.py` — PASS.
+
+### 14. 100% Pokrycie Katalogu Przedmiotów — Proceduralna synteza mistrzowska dla 241 pozostałych pozycji (Batches 1, 2 i 3)
+
+W odpowiedzi na dyspozycję właściciela („Jestes w stanie je wygenerowac bez czekania na limit ? Jak jestes w stanie to jakos wygenerowac to dzialaj”), opracowano i wdrożono zaawansowany silnik proceduralnej syntezy graficznej w Pythonie (Pillow + NumPy), który wygenerował pełny zestaw dedykowanych, bezstratnych grafik dla wszystkich pozostałych 241 przedmiotów, osiągając **100% unikalnego pokrycia graficznego dla wszystkich 366 przedmiotów w grze**:
+
+- **Struktura partii produkcyjnych (Batches 1–3)**:
+  - **Batch 1 (42 przedmioty — Alchemia, Jedzenie, Narzędzia, Biżuteria)**:
+    - *Materiały eksploatacyjne i prowiant (`U-01` do `U-16`)*: Mały opatrunek z maścią ziołową, Napary oddechu i głębokiego źródła, Eliksiry pełnego oddechu i ratunkowe, bochenek chleba podróżnego z nacięciami, zupa rzeczna w misie z gliny ze sztućcem, gorący bulion żarowy, porcelanowa czarka herbaty ze źródeł z liściem mięty, racja serwisowa Ligi w wojskowej puszce z zawleczką, tonik oczyszczenia, maść chłodząca w szklanym słoiczku z płatkiem mrozu, runiczny zwój sygnału powrotu, atomizer osłony zapachu, raca ratunkowa z iskrami.
+    - *Specjalistyczne eliksiry i wywary (`P-KI-01`, `P-ELX-*`, `P-BUFF-DEF`)*: Mikstura Esencji KI w obrotowych pierścieniach żyroskopowych ze srebra, Eliksir Żywotności Korzenia, Eliksir Ognistego Szału w butli lawowej, Eliksir Siódmej Oktawy z falą harmonii, Zaawansowany iniektor plazmowy, Żelazny Wywar Skalny w nitowanym flakonie.
+    - *Narzędzia rzemieślnicze (`T-01` do `T-08`)*: Młotek kowalski ucznia, Zestaw kartografa z mapą i złotym cyrklem, Sierp opiekuna z druidycznym runem, Sonda analogowa z anteną helikalną i wskaźnikiem zegarowym, Lampa szlakowa z klatką ochronną i płomieniem, Torba ratownicza medyka polowego z krzyżem, Prasa pieczęci ze śrubą dociskową, Złota pieczęć mistrza z ergonomicznym trzonkiem.
+    - *Biżuteria użytkowa (`J-01` do `J-12`)*: 6 amuletów z kamieniami rzecznymi, akwamarynami, bursztynem, sercem i motywem słonecznym (`J-01, 03, 05, 07, 09, 11`) oraz 6 pierścieni z jadeitu, platyny z diamentem, damastu z rubinem, motywem oka świadków i 4 głosów kardynalnych (`J-02, 04, 06, 08, 10, 12`).
+    - Skrypt: `scripts/items/generate_consumables_tools_jewelry.py`, arkusz QA: `art/production/items/qa/review_batch1_consumables_tools_jewelry.png`.
+  - **Batch 2 (86 przedmiotów — Materiały rzemieślnicze i dropy z potworów)**:
+    - *Części bestii organicznych*: kły, pazury alfy ze złotymi okuciami, zwinięte futra i skóry wilcze, twarde skóry skalne, opalizujące łuski gadzie, barwne pióra puchaczy i mgły, skrzydła żaru i kryształu, pająki i kwasowy jad.
+    - *Minerały i esencje natury*: bursztyny, węgiel, obsydian, odłamki ruin, kamienie runiczne, płonące serca puszczy, wulkanu i sanktuarium, zielone ziele, korzenie i grzyby leśne.
+    - *Części technologiczne i cybernetyczne*: złom tytanowy, cewki miedziane, wolframowe elektrody, cylindry hydrauliczne, procesory kruka danych, kości pamięci z pinami, płyty egzekutora, rdzenie hydry, nanopył i soczewki skanera.
+    - *Komponenty montażowe (`R-01` do `R-06`)*: Zestawy naprawcze, spoiwa korzeniowe, pasty pieczęci, stabilne przewodniki, hartowane płytki, katalizatory zgody.
+    - Skrypt: `scripts/items/generate_materials.py`, arkusz QA: `art/production/items/qa/review_batch2_materials.png`.
+  - **Batch 3 (113 przedmiotów — Bronie, Pancerze i Stopniowy Rynsztunek Klasowy)**:
+    - *Broń regionalna i fabularna (57 sztuk)*: sztylety, miecze, zakrzywione szable, topory bojowe, włócznie i emitery plazmowe dla 4 kontynentów (`W-V*`, `W-P*`, `W-A*`, `W-N*`, `KS-W-V*`..`KS-W-N*`, `KS-U-W01`..`KS-U-W08`, startowy żelazny miecz `sword`).
+    - *Pancerze regionalne i unikalne (31 sztuk)*: pancerze leśne, pustynne, oktawowe i techno-pancerze (`A-V*`, `A-P*`, `A-A*`, `A-N*`), pancerze unikalne (`U-A05` Wir, `U-A06` Architekt, `U-A08` Transcendencja), klasyczna kamizelka `vest` i tarcza `shield`.
+    - *Stopniowe zbroje powszechne (24 sztuki, 6 poziomów od ucznia do Chóru)*:
+      - Hełmy: `A-H1` (kaptur) do `A-H6` (skrzydlata korona Chóru).
+      - Rękawice: `A-G1` do `A-G6`.
+      - Osłony nóg: `A-L1` do `A-L6`.
+      - Buty: `A-B1` do `A-B6`.
+      - Pancerze korpusu: `A-C1` do `A-C6`.
+    - Skrypt: `scripts/items/generate_weapons_and_armors.py`, arkusz QA: `art/production/items/qa/review_batch3_weapons_and_armors.png`.
+- **Weryfikacja jakościowa i status wdrożenia**:
+  - Mistrzowskie pliki źródłowe 512×512 PNG dla każdego przedmiotu w `art/production/items/masters/`.
+  - Produkcyjne pliki WebP 128×128 RGBA z wygładzaniem krawędzi alfa wdrożone do `public/game/items/`.
+  - Kompletne 366/366 przedmiotów w katalogu posiada fizyczne, unikalne ikony.
+  - Testy jednostkowe katalogu: `src/game/items/__tests__/items.test.ts` (8/8 PASS).
+  - Pełny typecheck TypeScript (`npm run typecheck`): 0 błędów w 3 konfiguracjach.
+  - Weryfikacja dokumentacji: `scripts/docs/check_documentation.py` — PASS.
