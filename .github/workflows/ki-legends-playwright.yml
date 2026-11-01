@@ -11,20 +11,6 @@ on:
         options:
           - smoke
           - full
-  pull_request:
-    paths:
-      - ".github/workflows/ki-legends-playwright.yml"
-      - "e2e/**"
-      - "playwright.config.ts"
-      - "src/**"
-      - "art/pipeline/**"
-      - "public/game/assets/**"
-      - "scripts/**"
-      - "tsconfig*.json"
-      - "scripts/playtest*"
-      - "package.json"
-      - "package-lock.json"
-
 permissions:
   contents: read
 

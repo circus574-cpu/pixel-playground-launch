@@ -1,9 +1,6 @@
 name: Configure native deployment watcher for four websites
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/favicon-and-project-autodeploy]
-    paths: [.github/workflows/all-project-autodeploy.yml]
 permissions:
   contents: read
 concurrency:

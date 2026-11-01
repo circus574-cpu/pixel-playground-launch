@@ -1,9 +1,6 @@
 name: Inspect Tigmig domain routing
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/tigmig-domain-routing]
-    paths: [.github/workflows/tigmig-routing.yml]
 permissions:
   contents: read
 jobs:
