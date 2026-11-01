@@ -2,10 +2,15 @@ import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   cuesFor,
+  DEVELOPMENT_AMBIENCE_FILES,
+  DEVELOPMENT_SFX_DEDICATED,
   DEVELOPMENT_SFX_REUSE,
+  developmentAmbienceFile,
   developmentSfxFile,
+  devSfxEnabled,
   sfxFile,
   SFX_ABILITIES,
+  type DevelopmentAmbienceId,
   type DevelopmentSfxId,
   type SfxSnapshot,
 } from "../game/sfx";
@@ -103,5 +108,23 @@ describe("sound effects", () => {
     expect(
       cues([], snap(), snap({ noticeId: 2, notice: "Zapisano nowy stopień treningu. HP i KI nie zostały odnowione." })),
     ).toEqual(["/game/sfx/common/level-up.mp3"]);
+  });
+  it("verifies all 37 dedicated development SFX and 4 P3 ambience loops exist on disk and opt-in via ?ki-dev-sfx=1", () => {
+    expect(devSfxEnabled("")).toBe(false);
+    expect(devSfxEnabled("?ki-dev-sfx=1")).toBe(true);
+    expect(devSfxEnabled("?ki-dev-art=1")).toBe(true);
+
+    for (const id of Object.keys(DEVELOPMENT_SFX_DEDICATED) as DevelopmentSfxId[]) {
+      const dedicatedFile = developmentSfxFile(id, true);
+      expect(dedicatedFile.startsWith("/game/sfx/development/")).toBe(true);
+      expect(existsSync("public" + dedicatedFile), `${id} -> ${dedicatedFile}`).toBe(true);
+    }
+
+    for (const id of Object.keys(DEVELOPMENT_AMBIENCE_FILES) as DevelopmentAmbienceId[]) {
+      const ambFile = developmentAmbienceFile(id);
+      expect(ambFile.startsWith("/game/sfx/ambience/")).toBe(true);
+      expect(existsSync("public" + ambFile), `${id} -> ${ambFile}`).toBe(true);
+      expect(sfxFile(id)).toBe(ambFile);
+    }
   });
 });

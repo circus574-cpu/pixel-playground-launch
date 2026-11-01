@@ -60,3 +60,51 @@ Wygenerowane 26.10.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `legend/C1.mp3`             | Owner's Gemini fight video (28.10): Legend's fireball blast                       |
 | `legend/C4.mp3`             | Ember explosion, crackling fire blast with flying sparks                          |
 | `legend/C9.mp3`             | Fiery cataclysm, huge volcanic explosion with roaring flames and rumble           |
+
+## Rozwój postaci i dziedzictwa (ElevenLabs v2, `v001`)
+
+Wygenerowane 01.11.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`, `mp3_44100_128`). Pełna proweniencja, sumy SHA-256 i oryginały dostawcy znajdują się w `art/production/development/v001/audio-manifest.json`. Zgodnie z `START-TUTAJ.txt` domyślnie dla 7 zdarzeń P0 używany jest zwalidowany reuse Krok 0, a pełny pakiet 37 dedykowanych efektów (`development/*.mp3`) oraz 4 pętli otoczenia (`ambience/*.mp3`) jest dostępny w trybie podglądu `?ki-dev-sfx=1` (lub `?ki-dev-art=1`) do odbioru właściciela.
+
+| Plik                             | Priorytet | ID zasobu                          | Opis                                             |
+| -------------------------------- | --------- | ---------------------------------- | ------------------------------------------------ |
+| `development/dummy-hit.mp3`      | P0        | `audio.development.dummy-hit`      | Trafienie manekina treningowego                  |
+| `development/target-hit.mp3`     | P0        | `audio.development.target-hit`     | Trafienie celu pomiarowego                       |
+| `development/checkpoint.mp3`     | P0        | `audio.development.checkpoint`     | Punkt kontrolny próby                            |
+| `development/exam-start.mp3`     | P0        | `audio.development.exam-start`     | Start próby egzaminacyjnej                       |
+| `development/exam-success.mp3`   | P0        | `audio.development.exam-success`   | Zdanie próby egzaminacyjnej                      |
+| `development/exam-fail.mp3`      | P0        | `audio.development.exam-fail`      | Niepowodzenie próby (miękki sygnał ponowienia)   |
+| `development/ki-charge.mp3`      | P0        | `audio.development.ki-charge`      | Ładowanie węzła KI                               |
+| `development/training-start.mp3` | P2        | `audio.development.training-start` | Rozpoczęcie treningu                             |
+| `development/training-stop.mp3`  | P2        | `audio.development.training-stop`  | Zakończenie treningu                             |
+| `development/window.mp3`         | P2        | `audio.development.window`         | Okno trafienia                                   |
+| `development/exam-abandon.mp3`   | P2        | `audio.development.exam-abandon`   | Przerwanie próby                                 |
+| `development/warning.mp3`        | P2        | `audio.development.warning`        | Ostrzeżenie próby                                |
+| `development/ki-source.mp3`      | P2        | `audio.development.ki-source`      | Źródło KI                                        |
+| `development/restraint.mp3`      | P2        | `audio.development.restraint`      | Powstrzymany cios                                |
+| `development/rank.mp3`           | P2        | `audio.development.rank`           | Wzrost rangi treningu                            |
+| `development/mastery.mp3`        | P2        | `audio.development.mastery`        | Odblokowanie mistrzostwa                         |
+| `development/variant.mp3`        | P2        | `audio.development.variant`        | Wybór wariantu zdolności                         |
+| `development/module-install.mp3` | P2        | `audio.development.module-install` | Instalacja modułu (Nexus-9)                      |
+| `development/module-remove.mp3`  | P2        | `audio.development.module-remove`  | Odłączenie modułu (Nexus-9)                      |
+| `development/scan.mp3`           | P2        | `audio.development.scan`           | Skaner analityczny                               |
+| `development/chronicle.mp3`      | P2        | `audio.development.chronicle`      | Otwarcie kroniki                                 |
+| `development/record.mp3`         | P2        | `audio.development.record`         | Zapis świadectwa                                 |
+| `development/consent.mp3`        | P2        | `audio.development.consent`        | Potwierdzenie zgody                              |
+| `development/project-start.mp3`  | P2        | `audio.development.project-start`  | Rozpoczęcie prac nad projektem                   |
+| `development/project-done.mp3`   | P2        | `audio.development.project-done`   | Ukończenie projektu dziedzictwa                  |
+| `development/forge.mp3`          | P2        | `audio.development.forge`          | Kucie na kowadle                                 |
+| `development/repair.mp3`         | P2        | `audio.development.repair`         | Naprawa broni                                    |
+| `development/attune.mp3`         | P2        | `audio.development.attune`         | Zestrojenie broni                                |
+| `development/name.mp3`           | P2        | `audio.development.name`           | Nazwanie broni                                   |
+| `development/temper.mp3`         | P2        | `audio.development.temper`         | Hartowanie broni                                 |
+| `development/inherit.mp3`        | P2        | `audio.development.inherit`        | Przekazanie dziedzictwa                          |
+| `development/escort-start.mp3`   | P2        | `audio.development.escort-start`   | Start eskorty                                    |
+| `development/escort-wait.mp3`    | P2        | `audio.development.escort-wait`    | Eskorta czeka                                    |
+| `development/escort-safe.mp3`    | P2        | `audio.development.escort-safe`    | Eskorta dotarła bezpiecznie                      |
+| `development/cart-move.mp3`      | P2        | `audio.development.cart-move`      | Wózek w ruchu (pętla 5 s)                        |
+| `development/protect-hit.mp3`    | P2        | `audio.development.protect-hit`    | Obiekt chroniony otrzymuje obrażenia             |
+| `development/protect-safe.mp3`   | P2        | `audio.development.protect-safe`   | Obiekt chroniony zabezpieczony                   |
+| `ambience/planetary.mp3`         | P3        | `audio.ambience.planetary`         | Otoczenie dziedzińca treningowego — Verdantia    |
+| `ambience/sage.mp3`              | P3        | `audio.ambience.sage`              | Otoczenie dziedzińca treningowego — Aetheria     |
+| `ambience/android.mp3`           | P3        | `audio.ambience.android`           | Otoczenie warsztatu treningowego — Nexus-9       |
+| `ambience/legend.mp3`            | P3        | `audio.ambience.legend`            | Otoczenie dziedzińca treningowego — Pyra         |

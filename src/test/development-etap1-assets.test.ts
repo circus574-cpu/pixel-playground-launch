@@ -64,4 +64,25 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
       }
     }
   });
+
+  it("validates art/production/development/v001/audio-manifest.json provenance and SHA-256 checksums for all 41 audio items", () => {
+    const audioManifestPath = "art/production/development/v001/audio-manifest.json";
+    expect(existsSync(audioManifestPath)).toBe(true);
+    const raw = readFileSync(audioManifestPath, "utf8");
+    expect(raw.includes("sk_")).toBe(false);
+
+    const manifest = JSON.parse(raw);
+    expect(manifest.model).toBe("eleven_text_to_sound_v2");
+    expect(manifest.totalCatalogItems).toBe(41);
+    expect(manifest.generatedCount).toBe(41);
+    expect(manifest.items.length).toBe(41);
+
+    for (const item of manifest.items) {
+      expect(existsSync(item.originalPath), item.originalPath).toBe(true);
+      expect(existsSync(item.clientPath), item.clientPath).toBe(true);
+      expect(sha256File(item.originalPath)).toBe(item.sha256);
+      expect(sha256File(item.clientPath)).toBe(item.sha256);
+      expect(item.bytes).toBeGreaterThan(1000);
+    }
+  });
 });
