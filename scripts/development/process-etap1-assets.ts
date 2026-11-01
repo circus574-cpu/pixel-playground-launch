@@ -111,6 +111,78 @@ const ENTRIES: readonly RawEntry[] = [
       "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
   },
   {
+    id: "training.sage.dummy",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Manekin — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537520257_20017785.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.target",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Cel pomiarowy — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537520124_785691ea.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.defense",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Stanowisko obrony — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537520093_5869f802.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.ki-node",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Węzeł KI — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537445963_3eb7381c.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.ki-source",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Źródło testowego KI — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537445922_64e6873e.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.checkpoint",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Punkt trasy — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537445948_db1015c6.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.obstacle",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Przeszkoda treningowa — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537445847_07614859.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
+    id: "training.sage.surrender",
+    batch: "PARTIA_2_P0",
+    kind: "object",
+    titlePl: "Znacznik poddania — Aetheria",
+    sourceFile: ".user_uploaded/media_1793537445752_1936aec3.png",
+    prompt:
+      "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+  },
+  {
     id: "ui.training.strength",
     batch: "PARTIA_2_P0",
     kind: "icon",
@@ -276,6 +348,8 @@ async function matteAndFrame(
   const isMagentaMatte = cornerR >= 200 && cornerB >= 200 && cornerG <= 80;
 
   const isBgCandidate = (idx: number) => {
+    const a = data[idx * 4 + 3]!;
+    if (a < 16) return true;
     const r = data[idx * 4]!;
     const g = data[idx * 4 + 1]!;
     const b = data[idx * 4 + 2]!;
@@ -390,7 +464,7 @@ async function matteAndFrame(
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const i = y * w + x;
-      if (bgMask[i]) {
+      if (bgMask[i] || rgba[i * 4 + 3]! < 16) {
         rgba[i * 4 + 3] = 0;
         transparentPixels++;
         continue;
@@ -501,7 +575,8 @@ async function main() {
   for (let idx = 0; idx < ENTRIES.length; idx++) {
     const entry = ENTRIES[idx]!;
     const srcPath = path.join(BRAIN_DIR, entry.sourceFile);
-    const origDest = path.join(ORIGINALS_DIR, `${entry.id}.v001.orig.jpg`);
+    const ext = path.extname(entry.sourceFile).toLowerCase() === ".png" ? "png" : "jpg";
+    const origDest = path.join(ORIGINALS_DIR, `${entry.id}.v001.orig.${ext}`);
     await copyFile(srcPath, origDest);
     const origBuf = await readFile(origDest);
     const origMeta = await sharp(origBuf).metadata();
@@ -572,6 +647,7 @@ async function main() {
           "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
           "public/game/assets/anime-forest-v1/fountain.webp",
         ],
+        originalPath: `art/production/development/v001/originals/${entry.id}.v001.orig.${ext}`,
         originalFormat: origMeta.format ?? "jpeg",
         originalDimensions: [origMeta.width ?? 1024, origMeta.height ?? 1024],
         originalSha256: sha256(origBuf),

@@ -7,16 +7,21 @@ import { TRAINING_NAMES } from "./training";
 import { devArtEnabled, trainingObjectUrl } from "./developmentAssets";
 import type { ExamAttempt } from "./exams";
 
-const DEV_OBJECT_KEYS = {
-  dummy: "dev-training-planetary-dummy",
-  target: "dev-training-planetary-target",
-  "ki-node": "dev-training-planetary-ki-node",
-  defense: "dev-training-planetary-defense",
-  "ki-source": "dev-training-planetary-ki-source",
-  checkpoint: "dev-training-planetary-checkpoint",
-  obstacle: "dev-training-planetary-obstacle",
-  surrender: "dev-training-planetary-surrender",
-} as const;
+const DEV_OBJECT_KINDS = [
+  "dummy",
+  "target",
+  "ki-node",
+  "defense",
+  "ki-source",
+  "checkpoint",
+  "obstacle",
+  "surrender",
+] as const;
+type DevObjectKind = (typeof DEV_OBJECT_KINDS)[number];
+
+function devObjectTextureKey(world: string, kind: DevObjectKind): string {
+  return `dev-training-${world}-${kind}`;
+}
 
 /** The loan room has no city/landscape/NPCs: load only the current hero, UI and relevant effects. */
 export function examAssets(race: RaceId): AssetDefinition[] {
@@ -32,12 +37,12 @@ export function examAssets(race: RaceId): AssetDefinition[] {
     if (!asset) throw Error("Brak zasobu profilu próby: " + id);
     return asset;
   });
-  if (devArtEnabled() && world === "verdant") {
-    for (const kind of Object.keys(DEV_OBJECT_KEYS) as (keyof typeof DEV_OBJECT_KEYS)[]) {
+  if (devArtEnabled()) {
+    for (const kind of DEV_OBJECT_KINDS) {
       const url = trainingObjectUrl(world, kind);
       if (url)
         base.push({
-          id: DEV_OBJECT_KEYS[kind],
+          id: devObjectTextureKey(world, kind),
           version: "v001",
           kind: "image",
           url,
@@ -61,14 +66,16 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
       for (const b of attempt.session.world.obstacles)
         floor.fillStyle(0x536667).fillRect(b.x, b.y, b.width, b.height);
       const marks = scene.add.graphics().setDepth(1);
+      const world = RACES[attempt.race].world;
+      const keyFor = (kind: DevObjectKind) => devObjectTextureKey(world, kind);
       const props: Phaser.GameObjects.Image[] = [];
       if (
         ["strength", "kiControl"].includes(attempt.spec.discipline) &&
-        scene.textures.exists(DEV_OBJECT_KEYS.dummy)
+        scene.textures.exists(keyFor("dummy"))
       ) {
         props.push(
           scene.add
-            .image(600, 315, DEV_OBJECT_KEYS.dummy)
+            .image(600, 315, keyFor("dummy"))
             .setDisplaySize(112, 112)
             .setOrigin(0.5, 0.88)
             .setDepth(315),
@@ -76,20 +83,20 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
       }
       if (
         attempt.spec.discipline === "kiCapacity" &&
-        scene.textures.exists(DEV_OBJECT_KEYS["ki-node"])
+        scene.textures.exists(keyFor("ki-node"))
       ) {
         for (const pt of attempt.points)
           props.push(
             scene.add
-              .image(pt.x, pt.y + 8, DEV_OBJECT_KEYS["ki-node"])
+              .image(pt.x, pt.y + 8, keyFor("ki-node"))
               .setDisplaySize(84, 84)
               .setOrigin(0.5, 0.88)
               .setDepth(pt.y),
           );
-        if (scene.textures.exists(DEV_OBJECT_KEYS["ki-source"]))
+        if (scene.textures.exists(keyFor("ki-source")))
           props.push(
             scene.add
-              .image(480, 382, DEV_OBJECT_KEYS["ki-source"])
+              .image(480, 382, keyFor("ki-source"))
               .setDisplaySize(104, 104)
               .setOrigin(0.5, 0.88)
               .setDepth(370),
@@ -97,12 +104,12 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
       }
       if (
         attempt.spec.discipline === "endurance" &&
-        scene.textures.exists(DEV_OBJECT_KEYS.checkpoint)
+        scene.textures.exists(keyFor("checkpoint"))
       ) {
         for (const pt of attempt.points)
           props.push(
             scene.add
-              .image(pt.x, pt.y + 10, DEV_OBJECT_KEYS.checkpoint)
+              .image(pt.x, pt.y + 10, keyFor("checkpoint"))
               .setDisplaySize(88, 88)
               .setOrigin(0.5, 0.88)
               .setDepth(pt.y),
@@ -110,30 +117,30 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
       }
       if (
         attempt.spec.discipline === "defense" &&
-        scene.textures.exists(DEV_OBJECT_KEYS.defense)
+        scene.textures.exists(keyFor("defense"))
       ) {
         props.push(
           scene.add
-            .image(480, 175, DEV_OBJECT_KEYS.defense)
+            .image(480, 175, keyFor("defense"))
             .setDisplaySize(96, 96)
             .setOrigin(0.5, 0.88)
             .setDepth(175),
         );
       }
-      if (scene.textures.exists(DEV_OBJECT_KEYS.obstacle)) {
+      if (scene.textures.exists(keyFor("obstacle"))) {
         for (const b of attempt.session.world.obstacles)
           props.push(
             scene.add
-              .image(b.x + b.width / 2, b.y + b.height, DEV_OBJECT_KEYS.obstacle)
+              .image(b.x + b.width / 2, b.y + b.height, keyFor("obstacle"))
               .setDisplaySize(Math.max(72, b.width + 16), Math.max(72, b.height + 24))
               .setOrigin(0.5, 0.88)
               .setDepth(b.y + b.height),
           );
       }
-      if (scene.textures.exists(DEV_OBJECT_KEYS.surrender)) {
+      if (scene.textures.exists(keyFor("surrender"))) {
         props.push(
           scene.add
-            .image(140, 680, DEV_OBJECT_KEYS.surrender)
+            .image(140, 680, keyFor("surrender"))
             .setDisplaySize(96, 96)
             .setOrigin(0.5, 0.88)
             .setDepth(680),
