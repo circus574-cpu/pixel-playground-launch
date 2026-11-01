@@ -531,6 +531,32 @@ W odpowiedzi na dyspozycję właściciela („Jestes w stanie je wygenerowac bez
   - Pełny typecheck TypeScript (`npm run typecheck`): 0 błędów w 3 konfiguracjach.
   - Weryfikacja dokumentacji: `scripts/docs/check_documentation.py` — PASS.
 
+### Ilustrowane listy potworów i przedmiotów w administratorze
+
+Gałąź `feature/admin-illustrated-catalog`, baza `d49c9dec`. Zachowano dostarczone
+przez innych wykonawców grafiki; nie generowano nowych ani nie zmieniano balansu.
+Dodano: prawdziwe klatki atlasów potworów, ikony przedmiotów, bonusy i źródła
+zdobycia z prawdopodobieństwami silnika, recepturami, sklepem i nagrodami zadań.
+Brak skonfigurowanego źródła/grafiki ma jawny komunikat.
+
+- Playwright na zbudowanym harness-ie: 1280×844 i390×844 PASS, po4 kontrole
+  (podgląd potwora, ikony przedmiotów, źródła łupu, brak wyjątków JS); screenshoty
+  w `qa/admin-catalog/`. To emulacja przeglądarki, nie test fizycznego telefonu.
+- Pięć testów katalogu PASS; obejmują wszystkie40 powiązań klatek idle i plików,
+  prawdopodobieństwa, dokładne ID, zasady override i jednostki bonusów.
+- Pełny TypeScript3 konfiguracje oraz produkcyjny build Node PASS.
+- Celowany ESLint zmienionych modułów PASS. Globalny lint:238 błędów i15 ostrzeżeń
+  w istniejących modułach innych wykonawców; nie zmieniano tych plików.
+- Pierwszy pełny test:1041 PASS/2FAIL przez brak źródeł assetów w sparse checkout.
+  Odtworzono niezmienione `art/production/development/v001` z Git i ponowiono test: **1044/1044 PASS,89 plików**.
+- Harness deweloperski Vite nie obsługiwał importowanych JSON z public; użyto
+  produkcyjnego build+preview. Pierwsze selektory myliły role tab/button —
+  poprawiono selektory bez osłabienia asercji i wykonano ponowne realne testy.
+
+Ta dostawa panelu nie jest deklaracją publikacji; scalenie i wdrożenie rozróżniać
+od zielonego testu lokalnego. Kontrola poprzedniej migracji serwera pozostaje
+otwarta na potwierdzenie wejścia testowej postaci właściciela; nie wyłączano
+starego relay bez końcowej weryfikacji zapisu i restartu.
 ### 15. Próba implementacji i animacji pierwszego bossa (Astralny Władca Siedmiu Oktaw) na podstawie grafiki koncepcyjnej
 
 W odpowiedzi na zapytanie właściciela o próbne przygotowanie animowanego bossa na podstawie dostarczonej grafiki koncepcyjnej, przeprowadzono pełny proces obróbki i animacji:

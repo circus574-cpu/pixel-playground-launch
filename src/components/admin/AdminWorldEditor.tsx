@@ -15,6 +15,7 @@
  * 10. Eksport/Import JSON całego świata
  */
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { MonsterThumbnail, MonsterCatalogInfo, ItemCatalogInfo } from "./AdminCatalogInfo";
 import { BOSS_CATALOG } from "@/game/bosses/catalog";
 import { ALL_NPC_DIALOGUES } from "@/game/dialogue";
 import { ITEM_CATALOG } from "@/game/items/catalog";
@@ -1917,6 +1918,7 @@ function MonstersSection({
             return (
               <tr key={m.id}>
                 <td>
+                  <MonsterThumbnail id={m.id} />
                   <input
                     value={m.name}
                     onChange={(e) =>
@@ -1927,6 +1929,7 @@ function MonstersSection({
                   />
                   <br />
                   <small>{m.id}</small>
+                  <MonsterCatalogInfo id={m.id} names={m.loot} />
                 </td>
                 <td>{m.world}</td>
                 <td>
@@ -2507,6 +2510,7 @@ function ItemsMaterialsRecipesSection({
                 <tr key={id}>
                   <td>
                     <b>{id}</b>
+                    <ItemCatalogInfo id={id} />
                   </td>
                   <td>
                     <input
@@ -2594,6 +2598,7 @@ function ItemsMaterialsRecipesSection({
                 <tr key={id}>
                   <td>
                     <b>{id}</b>
+                    <ItemCatalogInfo id={id} />
                   </td>
                   <td>
                     <input
@@ -2659,6 +2664,7 @@ function ItemsMaterialsRecipesSection({
                 <tr key={it.id}>
                   <td>
                     <b>{it.id}</b>
+                    <ItemCatalogInfo id={it.id} />
                   </td>
                   <td>
                     <input
