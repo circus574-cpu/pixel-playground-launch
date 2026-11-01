@@ -24,7 +24,15 @@ if (method_exists($s,'parse')) {
  $lines = file($method->getFileName());
  echo implode('',array_slice($lines,$method->getStartLine()-1,min(100,$method->getEndLine()-$method->getStartLine()+1)));
 }
+echo 'compose_parsing_version='.$s->compose_parsing_version."\n";
+foreach (['saveComposeConfigs'] as $name) {
+ $r = new ReflectionMethod($s,$name); $lines=file($r->getFileName());
+ echo 'method_source='.$name."\n"; echo implode('',array_slice($lines,$r->getStartLine()-1,min(180,$r->getEndLine()-$r->getStartLine()+1)));
+}
+if (function_exists('serviceParser')) { $r=new ReflectionFunction('serviceParser'); echo 'service_parser='.$r->getFileName().':'.$r->getStartLine()."\n"; }
 $e = new App\Models\EnvironmentVariable;
+$r=new ReflectionClass($e);echo 'environment_model_source'."\n";echo implode('',array_slice(file($r->getFileName()),0,150));
+foreach ($s->environment_variables ?? [] as $item) { echo json_encode(['key'=>$item->key,'version'=>$item->version,'literal'=>$item->is_literal,'runtime'=>$item->is_runtime,'buildtime'=>$item->is_buildtime])."\n"; }
 echo json_encode(['environment_table'=>$e->getTable(),'environment_casts'=>array_keys($e->getCasts())])."\n";
 PHP
 docker exec coolify-db psql -X -U coolify -d coolify -At -c "select column_name,data_type from information_schema.columns where table_name='environment_variables' order by ordinal_position;"
