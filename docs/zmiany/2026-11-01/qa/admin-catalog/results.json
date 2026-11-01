@@ -1,0 +1,16 @@
+[
+  {
+    "width": 1280,
+    "monsters": true,
+    "itemImages": true,
+    "lootSources": true,
+    "jsErrors": 0
+  },
+  {
+    "width": 390,
+    "monsters": true,
+    "itemImages": true,
+    "lootSources": true,
+    "jsErrors": 0
+  }
+]

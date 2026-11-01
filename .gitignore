@@ -46,3 +46,5 @@ __pycache__/
 
 # Isolated server-owned Phaser browser QA build
 /.online-playtest-dist/
+
+.admin-catalog-dist/

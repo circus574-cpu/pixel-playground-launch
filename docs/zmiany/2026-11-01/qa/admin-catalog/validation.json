@@ -1,0 +1,19 @@
+{
+  "base": "d49c9dec344dac86ef5214e4de77ac7173de8a77",
+  "typecheck": "PASS: tsconfig, e2e, tools",
+  "unit": {
+    "passed": 1044,
+    "failed": 0,
+    "files": 89
+  },
+  "catalogTests": 5,
+  "productionBuild": "PASS: NITRO_PRESET=node-server npm run build",
+  "targetedLint": "PASS",
+  "globalLint": {
+    "errors": 238,
+    "warnings": 15,
+    "scope": "unchanged main files; full lint not PASS"
+  },
+  "gpuUsed": false,
+  "published": false
+}
