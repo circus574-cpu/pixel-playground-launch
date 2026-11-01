@@ -24,9 +24,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: deploy/scripts
+          sparse-checkout: |
+            src
+            public
+            scripts
+            deploy
+            art/pipeline
       - name: Prepare deployment bundle
-        run: tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/scripts start-aruba-staging.sh promote-coolify-release.sh
+        run: |
+          tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/scripts start-aruba-staging.sh promote-coolify-release.sh
+          tar --exclude='.git' -czf /tmp/ki-release-source.tar.gz .
       - name: Deploy tested candidate and update existing Coolify service
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
@@ -43,4 +50,5 @@ jobs:
           printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"
           ssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")
           ssh "${ssh_opts[@]}" codex@85.235.150.189 'mkdir -p "$HOME/ki-legends-aruba-staging/automation"; tar -xzf - -C "$HOME/ki-legends-aruba-staging/automation"; cp "$HOME/ki-legends-aruba-staging/automation/start-aruba-staging.sh" "$HOME/ki-legends-aruba-staging/deploy-candidate.sh"' < /tmp/ki-deploy-scripts.tar.gz
+          ssh "${ssh_opts[@]}" codex@85.235.150.189 "rm -rf \"\$HOME/ki-legends-aruba-staging/releases/${{ github.sha }}\" && mkdir -p \"\$HOME/ki-legends-aruba-staging/releases/${{ github.sha }}\" && tar -xzf - -C \"\$HOME/ki-legends-aruba-staging/releases/${{ github.sha }}\"" < /tmp/ki-release-source.tar.gz
           ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash ki-legends-aruba-staging/automation/promote-coolify-release.sh '${{ github.sha }}'"

@@ -7,14 +7,25 @@ docker info >/dev/null
 BASE="$HOME/ki-legends-aruba-staging"
 DIR="$BASE/releases/$RELEASE"
 mkdir -p "$BASE/releases"
-if [ ! -d "$DIR" ]; then
+LIVE_SHA=$(cat "$BASE/coolify-live-release" 2>/dev/null || true)
+for old_dir in "$BASE/releases"/*; do
+  [ -d "$old_dir" ] || continue
+  old_sha=$(basename "$old_dir")
+  if [ "$old_sha" != "$RELEASE" ] && [ "$old_sha" != "$LIVE_SHA" ]; then
+    rm -rf "$old_dir" || true
+  fi
+done
+if [ ! -f "$DIR/Dockerfile" ]; then
+  rm -rf "$DIR"
   git clone --depth 1 --filter=blob:none --sparse --branch migration/aruba-staging-2026-10-28 https://github.com/circus574-cpu/pixel-playground-launch.git "$DIR"
   git -C "$DIR" sparse-checkout set src public scripts deploy art/pipeline
+  cd "$DIR"
+  git fetch --depth 1 origin "$RELEASE"
+  git checkout --detach "$RELEASE"
+  test "$(git rev-parse HEAD)" = "$RELEASE"
+else
+  cd "$DIR"
 fi
-cd "$DIR"
-git fetch --depth 1 origin "$RELEASE"
-git checkout --detach "$RELEASE"
-test "$(git rev-parse HEAD)" = "$RELEASE"
 (cd deploy/overlay/public && sha256sum -c ../SHA256SUMS)
 printf 'services:\n  web:\n    ports:\n      - "127.0.0.1:18085:80"\n' > "$BASE/ports.yml"
 export KI_RELEASE="$RELEASE"

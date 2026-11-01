@@ -43,6 +43,13 @@
 		respond "ok" 200
 	}
 
+	@websockets {
+		path /ws /ws/*
+	}
+	handle @websockets {
+		reverse_proxy {$WS_UPSTREAM:app:7420}
+	}
+
 	@testpage path /test /test/*
 	handle @testpage {
 		import test-{$KI_TEST_PAGE:enabled}

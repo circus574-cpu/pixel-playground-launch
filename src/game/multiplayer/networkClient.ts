@@ -106,9 +106,11 @@ export class NetworkClient {
       if (urlParam) return urlParam;
 
       const hostname = window.location.hostname || "127.0.0.1";
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      if (window.location.protocol === "https:") {
+        return `wss://${window.location.host}/ws`;
+      }
       // Default local / test game server runs on port 7420
-      return `${protocol}//${hostname}:7420`;
+      return `ws://${hostname}:7420`;
     } catch {
       return "ws://127.0.0.1:7420";
     }

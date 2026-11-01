@@ -614,6 +614,90 @@ export function AdminMonitoringCenter() {
         </div>
       </header>
 
+      {/* Szybki panel uruchomienia / wyłączenia serwera gry i zarządzania węzłami widoczny od razu */}
+      <section
+        className="ki-admin-panel"
+        style={{
+          background: daemonRunning
+            ? "linear-gradient(135deg, #132b1d 0%, #173824 100%)"
+            : "linear-gradient(135deg, #1a202c 0%, #231b2e 100%)",
+          border: `1px solid ${daemonRunning ? "#5cd68d" : "#c8a35a"}`,
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 12,
+          padding: "14px 18px",
+        }}
+      >
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <span
+              style={{
+                display: "inline-block",
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: daemonRunning ? "#5cd68d" : "#f5d48a",
+                boxShadow: daemonRunning ? "0 0 8px #5cd68d" : "none",
+              }}
+            />
+            <strong style={{ fontSize: "1.02rem", color: "#fff" }}>
+              Serwer Gry Live (Sterowanie Bez Terminala):{" "}
+              <span style={{ color: daemonRunning ? "#5cd68d" : "#f5d48a" }}>
+                {daemonRunning ? "URUCHOMIONY I AKTYWNY" : "GOTOWY DO URUCHOMIENIA"}
+              </span>
+            </strong>
+          </div>
+          <small style={{ color: "#cbd5e1" }}>
+            {daemonRunning
+              ? `Proces serwera działa w tle (port 7420 / WSS, 20 Hz tick, uptime: ${daemonUptime}s). Gracze łączą się automatycznie.`
+              : "Uruchom fizyczny serwer gry jednym kliknięciem lub skonfiguruj nazwę, limit graczy i węzły klastra."}
+          </small>
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+          <button
+            type="button"
+            className="ki-admin-btn"
+            disabled={daemonLoading}
+            onClick={handleTogglePhysicalDaemon}
+            style={{
+              background: daemonRunning ? "#c53030" : "#2e7d32",
+              color: "#fff",
+              fontWeight: "bold",
+              padding: "8px 16px",
+              cursor: daemonLoading ? "wait" : "pointer",
+            }}
+          >
+            {daemonLoading
+              ? "Przetwarzanie..."
+              : daemonRunning
+                ? "🛑 Wyłącz Serwer Gry"
+                : "🚀 Uruchom Serwer Gry (1 kliknięcie)"}
+          </button>
+          <button
+            type="button"
+            className="ki-admin-btn"
+            onClick={() => {
+              setSubTab("nodes-db");
+              setShowCreateServerModal(true);
+            }}
+            style={{ background: "#1e3a5f", color: "#fff", padding: "8px 14px" }}
+          >
+            ➕ Nowy serwer / Limit graczy
+          </button>
+          <button
+            type="button"
+            className="ki-admin-btn"
+            onClick={() => setSubTab("nodes-db")}
+            style={{ padding: "8px 14px" }}
+          >
+            ⚙️ Zarządzaj serwerami ({snapshot?.nodes.length ?? 0})
+          </button>
+        </div>
+      </section>
+
       {/* Karty głównych wskaźników (CPU, RAM, Ping/Tick, FPS, Gracze na świecie, Sieć/DB) */}
       <section
         style={{

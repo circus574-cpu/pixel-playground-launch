@@ -4,6 +4,7 @@ SHA="${1:?release SHA}"
 [[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || exit 2
 UUID=xh4qbckykxsq1iofxdoe5t3h
 BASE="$HOME/ki-legends-aruba-staging"
+LIVE_URL="${KI_LIVE_SMOKE_URL:-https://kilegends.pl}"
 # Build and run HTTP checks in the separate, loopback-only candidate stack first.
 bash -s -- "$SHA" < "$BASE/deploy-candidate.sh"
 WEB="web-$UUID"; APP="app-$UUID"
@@ -22,8 +23,8 @@ wait_for_proxy() {
  # Keep the full smoke suite and rollback; only wait for actual HTTP readiness.
  local attempt
  for ((attempt=1; attempt<=30; attempt++)); do
-  if curl --fail --silent --show-error --max-time 3 --output /dev/null https://staging.kilegends.pl/healthz &&
-     curl --fail --silent --show-error --max-time 3 --output /dev/null https://staging.kilegends.pl/; then
+  if curl --fail --silent --show-error --max-time 3 --output /dev/null "$LIVE_URL/healthz" &&
+     curl --fail --silent --show-error --max-time 3 --output /dev/null "$LIVE_URL/"; then
    return 0
   fi
   sleep 2
@@ -43,7 +44,8 @@ docker tag "ki-legends-web:staging-$SHA" "$WEB_TAG"
 docker tag "ki-legends-app:staging-$SHA" "$APP_TAG"
 compose_up
 wait_for_proxy
-bash "$BASE/releases/$SHA/deploy/scripts/smoke-test.sh" https://staging.kilegends.pl --staging
+bash "$BASE/releases/$SHA/deploy/scripts/smoke-test.sh" "$LIVE_URL" --staging
 trap - ERR
 printf '%s\n' "$SHA" > "$BASE/coolify-live-release"
+docker image prune -f >/dev/null 2>&1 || true
 echo "COOLIFY RELEASE VERIFIED $SHA"
