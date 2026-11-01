@@ -83,6 +83,19 @@ if [ "$phase" = restart-verify ]; then
 fi
 if [ "$phase" = stop-old ]; then
  test -s "$base/online-restart-verified"
+ if [ ! -f "$base/backups/before-online-standalone-compose.yml" ]; then cp "$base/compose.yml" "$base/backups/before-online-standalone-compose.yml"; fi
+ python3 - "$base/compose.yml" <<'PY'
+from pathlib import Path
+import sys,re
+p=Path(sys.argv[1]); text=p.read_text()
+match=re.search(r'^  game-server:[ \t]*$',text,re.M)
+if not match: raise SystemExit('Refused: standalone service not found')
+tail=text[match.end():]; end=re.search(r'^\S|^  [a-zA-Z0-9_-]+:',tail,re.M)
+section=tail[:end.start()] if end else tail
+existing=re.search(r'^    profiles:.*$',section,re.M)
+if existing and existing.group().strip()!='profiles: [standalone-game]': raise SystemExit('Refused: unexpected existing standalone profile')
+if not existing: p.write_text(text[:match.end()]+'\n    profiles: [standalone-game]'+text[match.end():])
+PY
  docker stop ki-multiplayer-db-game-server-1 >/dev/null
  echo 'Old standalone relay stopped; container and data retained'
 fi
