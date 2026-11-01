@@ -1,6 +1,9 @@
 # KI Legends — status migracji VPS Aruba
 
-Status: **gałąź przygotowawcza, bez wdrożenia**. Branch: `migration/aruba-staging-2026-10-28`.
+Status 01.11.2026: **migracja zakończona — produkcja działa na VPS Aruba (Coolify)**.
+Wdrożenie: `.github/workflows/aruba-production.yml` po pushu do `main`, po zielonym
+jobie `verify`. Poniższa treść to historyczny zapis przygotowań z gałęzi
+`migration/aruba-staging-2026-10-28`.
 
 ## Dostępne
 - Kod gry zsynchronizowany na GitHub (main: `0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`).

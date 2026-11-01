@@ -564,7 +564,13 @@ export function characterFullStats(
     breakdown: kit.statBreakdown,
     attacksPerSecond: Number((1000 / Math.max(200, s.attackInterval)).toFixed(2)),
     techniqueEffects: techniqueEffects(s.technique),
-    gearBonuses: port.gear as any,
+    gearBonuses: {
+      attack: port.gear.attack,
+      defense: port.gear.defense,
+      dodgeChance: port.gear.dodgeChance ?? 0,
+      technique: port.gear.technique ?? 0,
+      attackSpeedPct: port.gear.attackSpeedPct ?? 0,
+    },
   };
 }
 export function newPlayer(race: RaceId = "planetary"): Player {
@@ -1386,7 +1392,8 @@ export class GameSession implements MonsterHost {
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) return;
     const material = isMaterial(item);
     const isLegacyItem = ITEM_IDS.includes(item as ItemId);
-    const isBagItem = Boolean(getItemById(item)) || Boolean(p.bagItems[item]) || Boolean(p.depot.bagItems?.[item]);
+    const isBagItem =
+      Boolean(getItemById(item)) || Boolean(p.bagItems[item]) || Boolean(p.depot.bagItems?.[item]);
     if (!material && !isLegacyItem && !isBagItem) return;
 
     let source: Record<string, number>;
@@ -1395,14 +1402,19 @@ export class GameSession implements MonsterHost {
       source = withdraw ? p.depot.materials : p.materials;
       destination = withdraw ? p.materials : p.depot.materials;
     } else if (isLegacyItem) {
-      source = withdraw ? (p.depot.items as Record<string, number>) : (p.items as Record<string, number>);
-      destination = withdraw ? (p.items as Record<string, number>) : (p.depot.items as Record<string, number>);
+      source = withdraw
+        ? (p.depot.items as Record<string, number>)
+        : (p.items as Record<string, number>);
+      destination = withdraw
+        ? (p.items as Record<string, number>)
+        : (p.depot.items as Record<string, number>);
     } else {
       source = withdraw ? p.depot.bagItems : p.bagItems;
       destination = withdraw ? p.bagItems : p.depot.bagItems;
     }
 
-    const isEquipped = Object.values(p.equipment).includes(item) || p.weapon === item || p.armor === item;
+    const isEquipped =
+      Object.values(p.equipment).includes(item) || p.weapon === item || p.armor === item;
     const reserved = !withdraw && isLegacyItem && (p.weapon === item || p.armor === item) ? 1 : 0;
     if (!withdraw && isEquipped && !isLegacyItem) {
       return this.say("Zdejmij wyposażenie przed odłożeniem do skrzyni.");
@@ -1433,12 +1445,9 @@ export class GameSession implements MonsterHost {
       ? MATERIALS[item]!.name
       : isLegacyItem
         ? ITEMS[item as ItemId].name
-        : getItemById(item)?.name ?? item;
+        : (getItemById(item)?.name ?? item);
     this.say(
-      (withdraw ? "Odebrano ze skrzyni: " : "Odłożono do skrzyni: ") +
-        quantity +
-        " × " +
-        itemName,
+      (withdraw ? "Odebrano ze skrzyni: " : "Odłożono do skrzyni: ") + quantity + " × " + itemName,
     );
     this.flush();
   }
@@ -1870,7 +1879,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "depot") return this.transferDepot(c.item, c.quantity, c.withdraw);
-      if (c.type === "depot-gold") return this.transferDepotGold(c.amount, c.withdraw);
+    if (c.type === "depot-gold") return this.transferDepotGold(c.amount, c.withdraw);
     if (c.type === "enter") {
       this.clearDestinations();
       this.pendingService = null;
@@ -2148,7 +2157,8 @@ export class GameSession implements MonsterHost {
         equipment.weapon = null;
         return this.heritage.weaponCommand("unequip");
       }
-      const equippedId = equipment[slot] ?? (slot === "weapon" ? p.weapon : slot === "armor" ? p.armor : null);
+      const equippedId =
+        equipment[slot] ?? (slot === "weapon" ? p.weapon : slot === "armor" ? p.armor : null);
       if (!equippedId) return this.say("Nic nie jest założone w tym miejscu.");
 
       equipment[slot] = null;

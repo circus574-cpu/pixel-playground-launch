@@ -18,7 +18,34 @@ concurrency:
   group: ki-legends-aruba-live
   cancel-in-progress: false
 jobs:
+  verify:
+    name: Quality gate (typecheck, tests, lint, assets, docs, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci --no-audit --no-fund
+      - name: TypeScript (all configurations)
+        run: npm run typecheck
+      - name: Unit and integration tests
+        run: npm run test
+      - name: Lint
+        run: npm run lint
+      - name: Asset contract
+        run: npm run assets:check
+      - name: Documentation structure
+        run: python3 scripts/docs/check_documentation.py
+      - name: Production build
+        run: npm run build
   ssh-check:
+    needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

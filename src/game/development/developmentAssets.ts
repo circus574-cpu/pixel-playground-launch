@@ -48,7 +48,8 @@ export const VERDANTIA_TRAINING_OBJECTS: Record<
   "training.planetary.ki-node": "/game/development-v1/objects/training.planetary.ki-node.webp",
   "training.planetary.defense": "/game/development-v1/objects/training.planetary.defense.webp",
   "training.planetary.ki-source": "/game/development-v1/objects/training.planetary.ki-source.webp",
-  "training.planetary.checkpoint": "/game/development-v1/objects/training.planetary.checkpoint.webp",
+  "training.planetary.checkpoint":
+    "/game/development-v1/objects/training.planetary.checkpoint.webp",
   "training.planetary.obstacle": "/game/development-v1/objects/training.planetary.obstacle.webp",
   "training.planetary.surrender": "/game/development-v1/objects/training.planetary.surrender.webp",
 };
@@ -86,10 +87,7 @@ export const PYRA_TRAINING_OBJECTS: Record<`training.legend.${TrainingObjectKind
   "training.legend.surrender": "/game/development-v1/objects/training.legend.surrender.webp",
 };
 
-export function trainingObjectUrl(
-  world: WorldId,
-  kind: TrainingObjectKind,
-): string | undefined {
+export function trainingObjectUrl(world: WorldId, kind: TrainingObjectKind): string | undefined {
   if (world === "verdant") return VERDANTIA_TRAINING_OBJECTS[`training.planetary.${kind}`];
   if (world === "aether") return AETHERIA_TRAINING_OBJECTS[`training.sage.${kind}`];
   if (world === "nexus") return NEXUS_TRAINING_OBJECTS[`training.android.${kind}`];
