@@ -457,3 +457,41 @@ Zgodnie ze zleceniem właściciela („Zajmij sie katalogiem przedmiotow. Potnij
   - Vitest: `src/test/session.test.ts` (17/17 PASS), `src/test/city.test.ts` (20/20 PASS), `src/game/items/__tests__/items.test.ts` (8/8 PASS), `src/test/inventory-and-depot.test.ts` (4/4 PASS).
   - TypeScript: pełny typecheck (`npm run typecheck`, 3 tsconfigi): 0 błędów.
   - Dokumentacja: `python scripts/docs/check_documentation.py` — PASS.
+
+### 13. Wygenerowanie, pocięcie i wdrożenie 20 kluczowych grafik fabularnych i artefaktów bossów
+
+Zgodnie z poleceniem właściciela („Wygeneruj te 20 kluczowych przedmiotow i potnij”) zrealizowano dedykowany zestaw unikalnych grafik wysokiej rozdzielczości dla 20 kluczowych przedmiotów fabularnych i unikalnych reliktów bossów, które dotychczas nie posiadały bezpośrednich odpowiedników na planszach zestawowych:
+
+- **Zakres wdrożenia (20 kluczowych przedmiotów)**:
+  - **8 unikalnych artefaktów bossów / władców (`U-W01` do `U-W08` oraz aliasy `KS-U-W*`)**:
+    - `U-W01` / `KS-U-W01`: *Amulet Pierwszego Drzewa* (Starożytny naszyjnik z żywym szmaragdowym liściem splecionym w korzenie).
+    - `U-W02` / `KS-U-W02`: *Totem Matki Ygdrashy* (Rzeźbiona drewniana figurka plemienna z mistycznymi runami).
+    - `U-W03` / `KS-U-W03`: *Pryzmat Archiwum Wiatru* (Lewitujący, przejrzysty kryształ załamujący promienie wiatru).
+    - `U-W04` / `KS-U-W04`: *Rdzeń Arbitrażu Danych* (Zaawansowana technologicznie, pulsująca błękitnym światłem sfera z obwodami).
+    - `U-W05` / `KS-U-W05`: *Klejnot Południowych Mórz* (Błyszczący szafir w złotej oprawie z morskimi falami).
+    - `U-W06` / `KS-U-W06`: *Pradawny Kompas Przymierza* (Złocony kompas z igłą w kształcie smoczej głowy).
+    - `U-W07` / `KS-U-W07`: *Pieczęć Siedmiu Oktaw* (Srebrny medalion z siedmioma kolorowymi kamieniami rezonansowymi).
+    - `U-W08` / `KS-U-W08`: *Korona Gwiazd Oceanu* (Królewska tiara z perłami i migoczącymi kryształami astralnymi).
+  - **12 kluczowych przedmiotów fabularnych i questowych (`K-01` do `K-12`)**:
+    - `K-01`: *Kompas Świadka* (Mistyczny mosiężny kompas o podwójnej igle).
+    - `K-02`: *Bilet Ligi* (Holograficzny bilet wstępu na turniej Ligi z pieczęcią).
+    - `K-03`: *Protokół czterech relacji* (Zapieczętowany zwój pergaminowy ze złotą wstęgą).
+    - `K-04`: *Pierwszy ton* (Kryształowy kamień fononowy wibrujący nutą pra-początku).
+    - `K-05`: *Zapis ewakuacji I* (Starożytna metalowa tablica z wyrytymi logami ewakuacji).
+    - `K-06`: *Klucz audytu* (Ornametowany klucz bezpieczeństwa otwierający archiwa).
+    - `K-07`: *Wyłącznik zgody* (Rytualny amulet przełamujący blokady woli).
+    - `K-08`: *Zapis ewakuacji II* (Krystaliczna pamięć z drugiego sektora katastrofy).
+    - `K-09`: *Drugi ton* (Rezonujący minerał o głębokiej barwie indygo).
+    - `K-10`: *Trzeci ton* (Harmonijny kryształ wieńczący triadę tonów).
+    - `K-11`: *Zapis ewakuacji III* (Ostateczna płyta pamięci z raportem końca ekspedycji).
+    - `K-12`: *Projekt Paktu* (Złocony manuskrypt traktatu pokoju i unii kontynentów).
+- **Potok graficzny i cięcie tła (`scripts/items/process_key_items.py`)**:
+  - Pobranie i wygenerowanie masterów 512 × 512 px zapisanych w `art/production/items/masters/`.
+  - Zaawansowane usuwanie jednolitego tła: algorytm BFS flood-fill od krawędzi kadru z płynnym rozmyciem maski alfa (Gaussian blur), eliminujący artefakty halo i zachowujący przezroczystość refleksów.
+  - Centrowanie w przestrzeni 128 × 128 RGBA, resampling Lanczos oraz bezstratna kompresja WebP.
+  - Wdrożenie do katalogu produkcyjnego: nadpisano pliki w `public/game/items/<itemId>.webp` (wraz z symetryczną aktualizacją aliasów `KS-U-W*`).
+  - Wygenerowano tablicę weryfikacyjną QA (contact sheet 5×4): `art/production/items/qa/review_20_key_items.png`.
+- **Weryfikacja jakościowa**:
+  - Vitest: `src/game/items/__tests__/items.test.ts` (8/8 PASS).
+  - TypeScript: pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.
+  - Dokumentacja: `python scripts/docs/check_documentation.py` — PASS.
