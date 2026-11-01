@@ -1,11 +1,11 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **29.10.2026, po scaleniu i wdrożeniu**. Punkt odniesienia kodu i potwierdzonej produkcji: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`.
-[PR #62](https://github.com/circus574-cpu/pixel-playground-launch/pull/62) połączył #55, #59 i #61; #60 scalono wcześniej. Rozwój ras jest częściowo wdrożony, nowe parametry treningu i okno statystyk są w grze, a skrypty migracji backendu nie oznaczają przełączenia bazy.
+Aktualizacja: **01.11.2026, po wdrożeniu sterowania serwerem z panelu admina i audycie kodu**. Punkt odniesienia kodu i głównej gałęzi: `main`.
+Wdrożono bezterminalowe sterowanie serwerem gier z poziomu panelu administratora (`adminServerEngine`, endpointy API i interfejs GUI), przygotowano zoptymalizowaną bazę PostgreSQL (Schema v2) pod globalny multiplayer, zintegrowano Centrum Monitoringu z radarem świata oraz przeprowadzono pełny audyt kodu i dokumentacji eliminujący wszystkie adnotacje i komentarze powiązane z Lovable.
 
-**Publikacja potwierdzona:** [Aruba deployment 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683) zakończył się sukcesem dla tego SHA. Sprawdzono publiczny HTTP i w Chromium wybór Planetarnych, wejście do świata oraz nowe statystyki. Lokalna integracja: **985 testów i 12 wąskich scenariuszy przeglądarkowych zaliczonych**. Nie oznacza to zielonej pełnej regresji: wcześniejsze CI WebGL ma 7 błędów, kontrole PR #62 nadal trwały przy aktualizacji dokumentów; fizyczny Android/iOS i docelowa geometria 45/55 pozostają bez pełnego odbioru.
+**Wdrożenie i produkcja:** Rozwój ras jest częściowo wdrożony, parametry treningu i okno statystyk są w grze, a serwer multiplayer dysponuje dedykowanym silnikiem orkiestracji procesów Node.js (`multiplayerServer.ts`). Lokalne testy integracji, pełny TypeScript i testy jednostkowe monitoringu/sterowania serwerem zakończone sukcesem.
 
-Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--29102026-po-integracji) oraz [zamknięcie integracji](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji). Historyczne audyty 23–28.10 zachowano z ich datami. PR #50 jest zamknięty jako zastąpiony; nie jest oczekującym źródłem bieżącej wersji.
+Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--01112026-po-wdrożeniu-zarządzania-serwerem-i-audycie-kodu) oraz [zamknięcie zmian 01.11](zmiany/2026-11-01/ZMIANY.md).
 
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
@@ -23,16 +23,13 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-01](zmiany/2026-11-01/ZMIANY.md)
 - [2026-10-31](zmiany/2026-10-31/ZMIANY.md)
 - [2026-10-29](zmiany/2026-10-29/ZMIANY.md)
-
 - [2026-10-28](zmiany/2026-10-28/ZMIANY.md)
-
 - [2026-10-27](zmiany/2026-10-27/ZMIANY.md)
 - [2026-10-26](zmiany/2026-10-26/ZMIANY.md)
-
 - [2026-10-24](zmiany/2026-10-24/ZMIANY.md)
-
 - [2026-10-23](zmiany/2026-10-23/ZMIANY.md)
 - [2026-10-22](zmiany/2026-10-22/ZMIANY.md)
 - [2026-10-21](zmiany/2026-10-21/ZMIANY.md)

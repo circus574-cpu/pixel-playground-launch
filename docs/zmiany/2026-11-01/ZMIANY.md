@@ -32,10 +32,10 @@
 
 ### 2. Bezterminalowe zarządzanie procesem fizycznym serwera gier (`f61dbc96`)
 
-- **`src/game/admin/serverControl.ts`**:
-  - Moduł `adminServerEngine` z bezpośrednim sterowaniem fizycznym procesem WebSocket (`multiplayerServer.ts`) w środowisku Node.js (`child_process.spawn`).
+- **`src/server/managedServer.ts`**:
+  - Moduł `managedGameServer` z bezpośrednim sterowaniem fizycznym procesem WebSocket (`gameServer.ts`) w środowisku Node.js (`child_process.spawn`).
   - Bezpieczne startowanie, zatrzymywanie (`SIGTERM` / `SIGKILL` z timeoutem), restart oraz zmiana konfiguracji w locie (port, maksymalny limit graczy, nazwa serwera, interwał tick rate, limit AOI).
-- **`src/routes/api/admin/server-control.ts`**:
+- **`src/lib/serverControl.functions.ts`**:
   - Zabezpieczone endpointy API `/api/admin/server-control` z weryfikacją roli administratora (`role === "admin"`).
-- **`src/components/admin/AdminServerControl.tsx`**:
+- **`src/components/admin/AdminMonitoringCenter.tsx`**:
   - Kompletny interfejs graficzny w panelu administratora: wskaźnik statusu serwera (Online/Offline/Uruchamianie/Zatrzymywanie), przełączniki start/stop/restart, edycja parametrów w czasie rzeczywistym oraz zintegrowany terminal logów procesowych.

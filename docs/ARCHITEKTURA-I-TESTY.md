@@ -858,3 +858,20 @@ Moduły [adminTelemetry.ts](../src/game/admin/adminTelemetry.ts) oraz
 - **Konsola logów serwera, sieci, anti-cheat i audytu:** filtrowanie po poziomie (`INFO`, `WARN`,
   `ERROR`, `CRITICAL`), kategorii (`tick`, `network`, `db`, `anticheat`, `combat`, `world`, `auth`,
   `admin`) i węźle, sonda diagnostyczna oraz eksport pełnego raportu JSON.
+
+### 5. Bezterminalowe sterowanie serwerem gier z Panelu Administratora (01.11.2026)
+
+Wdrożono kompleksowy mechanizm uruchamiania, zatrzymywania, restartowania i parametryzowania serwera WebSocket bezpośrednio z poziomu interfejsu graficznego panelu administratora (`/admin`), eliminując konieczność logowania się przez terminal SSH:
+
+- **Silnik orkiestracji procesów Node.js ([managedServer.ts](../src/server/managedServer.ts)):**
+  - Obiekt `managedGameServer` zarządza cyklem życia fizycznego procesu serwera gier [gameServer.ts](../src/server/gameServer.ts).
+  - Płynne zatrzymywanie procesów z obsługą sygnałów `SIGTERM` oraz wymuszonego `SIGKILL` (timeout 5 s) zapobiega powstawaniu procesów-zombie i blokowaniu portu TCP.
+  - Buforowanie ostatnich 200 linii logów stdout/stderr z emisją zdarzeń w czasie rzeczywistym.
+  - Obsługa trybu autonomicznego (RAM) w przypadku braku połączenia z bazą oraz wsparcie dla dedykowanej bazy PostgreSQL połączonej przez WireGuard VPN / `DATABASE_URL`.
+- **Funkcje serwerowe aplikacji ([serverControl.functions.ts](../src/lib/serverControl.functions.ts)):**
+  - Funkcje serwerowe TanStack Start `getGameServerStatus`, `startGameServer`, `stopGameServer`, `restartGameServer` oraz `updateGameServerConfig`.
+  - Ścisła weryfikacja uprawnień administracyjnych (`role === "admin"`).
+- **Interfejs graficzny ([AdminMonitoringCenter.tsx](../src/components/admin/AdminMonitoringCenter.tsx)):**
+  - Zakładka zarządzania serwerem: wizualny wskaźnik stanu serwera (Online, Offline, Uruchamianie, Zatrzymywanie), kontrolki sterujące (Start, Stop, Restart), formularz edycji parametrów w locie (port, max graczy, tick rate, aoi limit) oraz interaktywny terminal logów procesowych.
+- **Oczyszczenie kodu z metadanych i komentarzy:**
+  - Usunięcie wszystkich odwołań, telemetrii edytora, tokenów środowiskowych i komentarzy powiązanych z zewnętrznym edytorem Lovable w całej aplikacji.

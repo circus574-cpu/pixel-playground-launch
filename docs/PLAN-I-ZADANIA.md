@@ -1,6 +1,6 @@
 # KI Legends — aktualny plan i zadania
 
-## Bieżący checkpoint — 29.10.2026 po integracji (aktualizacja 31.10.2026)
+## Bieżący checkpoint — 01.11.2026 po wdrożeniu zarządzania serwerem i audycie kodu
 
 Kod i potwierdzona publikacja: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`. Aktualizacje na gałęzi roboczej z 31.10 (optymalizacja mapy 2D/3D w grze, wdrożenie katalogu 366 przedmiotów i 140 receptur V2, naprawa selekcji miejsc w `AdminWorldMap` oraz budżetu tekstur streamingu): zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md).
 Ten checkpoint zastępuje wcześniejsze etykiety stanu; zachowuje historyczne wyniki i nierozwiązane błędy.
