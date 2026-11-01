@@ -611,3 +611,37 @@ W odpowiedzi na dyspozycję właściciela dotyczącą przygotowania reszty boss�
   - Przypisano adresy zasobów produkcyjnych do wszystkich 8 wpisów katalogu.
 - **Interaktywny widget Generative UI (`all_bosses_showcase.html`)**:
   - Utworzono aplikację pokazową prezentującą wszystkich 8 bossów z podziałem na kontynenty, przełączaniem animacji WebP/GIF w czasie rzeczywistym, wskaźnikami faz (1/2/3), czasem ostrzeżenia ataków (telegraphing), parametrami bojowymi oraz tabelami łupów.
+### 17. Rozbudowa Panelu Administracyjnego: Szczegółowe podglądy przedmiotów (Hover Tooltip), filtrowanie/sortowanie katalogu oraz edycja procentu łupu (loot drop %)
+
+W odpowiedzi na wytyczne dotyczące Panelu Administracyjnego zrealizowano kompleksowy zestaw usprawnień dla zarządzania przedmiotami i szansami na łupy:
+
+- **Interaktywny podgląd przedmiotu po najechaniu na obrazek (`ItemHoverTooltip` w `src/components/admin/AdminCatalogInfo.tsx` i `admin-catalog.css`)**:
+  - Po najechaniu kursorem na ikonę dowolnego przedmiotu (w katalogu ekwipunku, przedmiotach bazowych, materiałach rzemieślniczych, recepturach i łupach bossów) wyświetla się bogata karta szczegółów (`.ki-item-tooltip`) z dedykowaną kolorystyką obramowania i nagłówka odpowiadającą rzadkości (`common`, `uncommon`, `rare`, `epic`, `legendary`, `mythic`).
+  - Wyświetlane informacje obejmują:
+    - Pełną nazwę, identyfikator techniczny, kategorię oraz wymagany poziom.
+    - Sekcję **"Co daje ten przedmiot"** z wyróżnionymi pigułkami (`.ki-tooltip-stat-pill`): premie do Ataku, Obrony, PŻ, KI, szansy krytycznej, szybkości ruchu i redukcji kosztów KI.
+    - Pasywne wzmocnienia artefaktów i premie zestawów (`SetBonusRule`).
+    - Opis fabularny oraz działanie użytkowe przedmiotu.
+    - Wartość rynkową: cena zakupu w monetach oraz cena skupu u handlarzy.
+    - Sekcję **"Skąd zdobyć"** ze spisem potworów, bossów, zadań i receptur, w których dany przedmiot występuje.
+  - W tabelach panelu dodano plakietkę `✨ Najedź` na miniaturkach dla intuicyjnego odkrywania podglądu.
+
+- **Zaawansowane filtrowanie i sortowanie katalogu przedmiotów (`src/components/admin/AdminWorldEditor.tsx`)**:
+  - W sekcji *Przedmioty* (podzakładka *Katalog Ekwipunku V2* — 177 pozycji) dodano pasek narzędziowy (`.ki-item-filter-container`):
+    - **Filtrowanie według kategorii**: Broń, Pancerz, Hełm, Buty, Rękawice, Spodnie, Pierścień, Amulet, Przedmiot użytkowy, Narzędzie, Przedmiot zadaniowy, Artefakt bossa.
+    - **Filtrowanie według rzadkości**: Pospolity, Niezwykły, Rzadki, Epicki, Legendarny, Mityczny.
+    - **Sortowanie wielokryteriowe**: Nazwa (alfabetycznie z polskimi znakami), ID, Wymagany poziom, Cena zakupu, Bonus ATK, Bonus DEF, Bonus HP, Rzadkość.
+    - **Kierunek sortowania**: przełącznik jednym kliknięciem (Rosnąco ⬆ / Malejąco ⬇).
+    - **Wyszukiwarka tekstowa**: dynamiczne przeszukiwanie po nazwie, ID i treści opisu.
+    - **Licznik pozycji**: dynamiczna plakietka informująca o liczbie pasujących przedmiotów (`Przedmioty: X / 177`) oraz przycisk resetowania wszystkich aktywnych filtrów do stanu domyślnego.
+
+- **Dynamiczna edycja procentu lootowania dla potworów i bossów (`src/game/world/adminWorldStore.ts`, `AdminCatalogInfo.tsx`, `AdminWorldEditor.tsx`)**:
+  - Rozszerzono `AdminWorldOverrides`: dodano pole `lootChances?: Record<string, number>` do `MonsterOverride` oraz `BossOverride`.
+  - W sekcji **Bestiariusz (40 potworów)**:
+    - Każdy łup w komponencie `MonsterCatalogInfo` otrzymał interaktywne pole numeryczne z wartością procentową oraz przyciski szybkiego dostosowania (`-10%`, `+10%`, `100%`, `0%`).
+  - W sekcji **Bossowie (8 bossów)**:
+    - Dodano kolumnę `Łup (Szansa dropu %)` w tabeli bossów z edytowalnymi polami szansy dla każdego przedmiotu z `b.lootTable`.
+  - **Propagacja do środowiska uruchomieniowego (`applyAdminWorldOverridesToRuntime`)**:
+    - Nadpisane szanse dropu potworów aktualizują na bieżąco tabele `MONSTERS[i].loot` oraz `MONSTER_DEFS[id].loot`, co automatycznie aktualizuje także generowane źródła łupów (`itemSources`, `monsterDrops`).
+    - Nadpisane szanse bossów aktualizują na bieżąco `BOSS_CATALOG[i].lootTable`.
+  - Weryfikacja: test jednostkowy w `src/test/admin-content-catalog.test.ts` weryfikujący modyfikację szans dropu potworów i bossów (PASS, 6/6 testów).

@@ -15,7 +15,7 @@
  * 10. Eksport/Import JSON całego świata
  */
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { MonsterThumbnail, MonsterCatalogInfo, ItemCatalogInfo } from "./AdminCatalogInfo";
+import { MonsterThumbnail, MonsterCatalogInfo, ItemCatalogInfo, ItemHoverTooltip } from "./AdminCatalogInfo";
 import { BOSS_CATALOG } from "@/game/bosses/catalog";
 import { ALL_NPC_DIALOGUES } from "@/game/dialogue";
 import { ITEM_CATALOG } from "@/game/items/catalog";
@@ -1929,7 +1929,19 @@ function MonstersSection({
                   />
                   <br />
                   <small>{m.id}</small>
-                  <MonsterCatalogInfo id={m.id} names={m.loot} />
+                  <MonsterCatalogInfo
+                    id={m.id}
+                    names={m.loot}
+                    lootChances={ov.lootChances}
+                    onLootChanceChange={(itemOrIndex, chance) => {
+                      saveOverrides((d) => {
+                        const curOv = d.monsters[m.id] ?? {};
+                        const currentChances = { ...(curOv.lootChances ?? {}) };
+                        currentChances[itemOrIndex] = chance;
+                        d.monsters[m.id] = { ...curOv, lootChances: currentChances };
+                      });
+                    }}
+                  />
                 </td>
                 <td>{m.world}</td>
                 <td>
@@ -2118,6 +2130,7 @@ function BossesSection({
             <th>Szybkość</th>
             <th>Zasięg</th>
             <th>Lokalizacja</th>
+            <th>Łup (Szansa dropu %)</th>
             <th>Akcje</th>
           </tr>
         </thead>
@@ -2243,6 +2256,60 @@ function BossesSection({
                       })
                     }
                   />
+                </td>
+                <td>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 190 }}>
+                    {b.lootTable.map((drop) => {
+                      const curPercent = ov.lootChances?.[drop.itemId] ?? drop.chancePercent;
+                      return (
+                        <div
+                          key={drop.itemId}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            gap: 6,
+                            background: "#090e17",
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            border: "1px solid #1e293b",
+                          }}
+                        >
+                          <ItemHoverTooltip id={drop.itemId}>
+                            <span
+                              style={{
+                                fontSize: 11,
+                                cursor: "pointer",
+                                color: "#38bdf8",
+                                textDecoration: "underline dotted",
+                              }}
+                            >
+                              {drop.itemName ?? drop.itemId}
+                            </span>
+                          </ItemHoverTooltip>
+                          <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+                            <input
+                              type="number"
+                              min="0"
+                              max="100"
+                              className="ki-loot-chance-input"
+                              value={curPercent}
+                              onChange={(e) => {
+                                const val = Math.max(0, Math.min(100, Number(e.target.value) || 0));
+                                saveOverrides((d) => {
+                                  const curOv = d.bosses[b.id] ?? {};
+                                  const customChances = { ...(curOv.lootChances ?? {}) };
+                                  customChances[drop.itemId] = val;
+                                  d.bosses[b.id] = { ...curOv, lootChances: customChances };
+                                });
+                              }}
+                            />
+                            <span style={{ fontSize: 10, color: "#64748b" }}>%</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </td>
                 <td>
                   {onSpawnLiveBoss && (
@@ -2470,7 +2537,58 @@ function ItemsMaterialsRecipesSection({
   saveOverrides: (fn: (d: AdminWorldOverrides) => void, msg?: string) => void;
 }) {
   const [sub, setSub] = useState<"runtime" | "materials" | "catalog" | "recipes">("runtime");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [rarityFilter, setRarityFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<"name" | "id" | "level" | "price" | "atk" | "def" | "hp" | "rarity">("name");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const q = query.toLowerCase();
+
+  const filteredCatalog = useMemo(() => {
+    const list = ITEM_CATALOG.filter((it) => {
+      const matchesQ =
+        !q ||
+        it.name.toLowerCase().includes(q) ||
+        it.id.toLowerCase().includes(q) ||
+        (it.description && it.description.toLowerCase().includes(q));
+      if (!matchesQ) return false;
+      if (categoryFilter !== "all" && it.category !== categoryFilter) return false;
+      if (rarityFilter !== "all" && it.rarity !== rarityFilter) return false;
+      return true;
+    });
+
+    const rarityOrder: Record<string, number> = {
+      common: 1,
+      uncommon: 2,
+      rare: 3,
+      epic: 4,
+      legendary: 5,
+      mythic: 6,
+    };
+
+    list.sort((a, b) => {
+      let cmp = 0;
+      if (sortBy === "name") {
+        cmp = a.name.localeCompare(b.name, "pl");
+      } else if (sortBy === "id") {
+        cmp = a.id.localeCompare(b.id);
+      } else if (sortBy === "level") {
+        cmp = (a.level ?? 0) - (b.level ?? 0);
+      } else if (sortBy === "price") {
+        cmp = a.price - b.price;
+      } else if (sortBy === "atk") {
+        cmp = (a.stats?.atkBonus ?? 0) - (b.stats?.atkBonus ?? 0);
+      } else if (sortBy === "def") {
+        cmp = (a.stats?.defBonus ?? 0) - (b.stats?.defBonus ?? 0);
+      } else if (sortBy === "hp") {
+        cmp = (a.stats?.hpBonus ?? 0) - (b.stats?.hpBonus ?? 0);
+      } else if (sortBy === "rarity") {
+        cmp = (rarityOrder[a.rarity] ?? 0) - (rarityOrder[b.rarity] ?? 0);
+      }
+      return sortDir === "asc" ? cmp : -cmp;
+    });
+
+    return list;
+  }, [q, categoryFilter, rarityFilter, sortBy, sortDir]);
 
   return (
     <section className="ki-admin-panel">
@@ -2642,23 +2760,113 @@ function ItemsMaterialsRecipesSection({
       )}
 
       {sub === "catalog" && (
-        <table className="ki-admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nazwa</th>
-              <th>Kategoria / Rzadkość</th>
-              <th>Cena</th>
-              <th>ATK Bonus</th>
-              <th>DEF Bonus</th>
-              <th>HP Bonus</th>
-              <th>Opis</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ITEM_CATALOG.filter(
-              (it) => it.name.toLowerCase().includes(q) || it.id.toLowerCase().includes(q),
-            ).map((it) => {
+        <>
+          <div className="ki-item-filter-container">
+            <div className="ki-item-filter-group">
+              <label className="ki-filter-label">
+                Kategoria:
+                <select
+                  className="ki-filter-select"
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                >
+                  <option value="all">Wszystkie kategorie</option>
+                  <option value="weapon">Broń (Weapon)</option>
+                  <option value="armor">Pancerz / Zbroja (Armor)</option>
+                  <option value="helmet">Hełm (Helmet)</option>
+                  <option value="boots">Buty (Boots)</option>
+                  <option value="gloves">Rękawice (Gloves)</option>
+                  <option value="legs">Nagolenniki (Legs)</option>
+                  <option value="ring">Pierścień (Ring)</option>
+                  <option value="amulet">Amulet</option>
+                  <option value="consumable">Użytkowy (Consumable)</option>
+                  <option value="tool">Narzędzie (Tool)</option>
+                  <option value="quest">Zadaniowy (Quest)</option>
+                  <option value="boss-artifact">Artefakt Bossa</option>
+                </select>
+              </label>
+
+              <label className="ki-filter-label">
+                Rzadkość:
+                <select
+                  className="ki-filter-select"
+                  value={rarityFilter}
+                  onChange={(e) => setRarityFilter(e.target.value)}
+                >
+                  <option value="all">Wszystkie rzadkości</option>
+                  <option value="common">Pospolity (Common)</option>
+                  <option value="uncommon">Niezwykły (Uncommon)</option>
+                  <option value="rare">Rzadki (Rare)</option>
+                  <option value="epic">Epicki (Epic)</option>
+                  <option value="legendary">Legendarny (Legendary)</option>
+                  <option value="mythic">Mityczny (Mythic)</option>
+                </select>
+              </label>
+
+              <label className="ki-filter-label">
+                Sortuj:
+                <select
+                  className="ki-filter-select"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                >
+                  <option value="name">Nazwa (A-Z)</option>
+                  <option value="id">ID</option>
+                  <option value="level">Wymagany poziom</option>
+                  <option value="price">Cena zakupu</option>
+                  <option value="atk">Bonus ATK</option>
+                  <option value="def">Bonus DEF</option>
+                  <option value="hp">Bonus HP</option>
+                  <option value="rarity">Rzadkość</option>
+                </select>
+              </label>
+
+              <button
+                type="button"
+                className="ki-loot-quick-btn"
+                onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+                title="Przełącz kierunek sortowania"
+              >
+                {sortDir === "asc" ? "⬆ Rosnąco" : "⬇ Malejąco"}
+              </button>
+            </div>
+
+            <div className="ki-item-filter-group">
+              <span className="ki-filter-count-badge">
+                Przedmioty: {filteredCatalog.length} / {ITEM_CATALOG.length}
+              </span>
+              {(categoryFilter !== "all" || rarityFilter !== "all" || sortBy !== "name" || sortDir !== "asc") && (
+                <button
+                  type="button"
+                  className="ki-filter-reset-btn"
+                  onClick={() => {
+                    setCategoryFilter("all");
+                    setRarityFilter("all");
+                    setSortBy("name");
+                    setSortDir("asc");
+                  }}
+                >
+                  Resetuj filtry
+                </button>
+              )}
+            </div>
+          </div>
+
+          <table className="ki-admin-table">
+            <thead>
+              <tr>
+                <th>ID / Podgląd</th>
+                <th>Nazwa</th>
+                <th>Kategoria / Rzadkość</th>
+                <th>Cena</th>
+                <th>ATK Bonus</th>
+                <th>DEF Bonus</th>
+                <th>HP Bonus</th>
+                <th>Opis</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredCatalog.map((it) => {
               const ov = overrides.catalogItems[it.id] ?? {};
               return (
                 <tr key={it.id}>
@@ -2751,6 +2959,7 @@ function ItemsMaterialsRecipesSection({
             })}
           </tbody>
         </table>
+        </>
       )}
 
       {sub === "recipes" && (
