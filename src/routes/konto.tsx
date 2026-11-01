@@ -2,8 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccount } from "@/components/account/useAccount";
-import { cloudPort, touchLastSeen } from "@/game/account/cloudPort";
-import { syncAll } from "@/game/account/cloudSaves";
 import "@/components/account/account.css";
 
 export const Route = createFileRoute("/konto")({
@@ -12,7 +10,7 @@ export const Route = createFileRoute("/konto")({
       { title: "Konto · Ki Legends" },
       {
         name: "description",
-        content: "Konto gracza Ki Legends: logowanie i zapis postaci w chmurze.",
+        content: "Konto gracza Ki Legends: logowanie i serwerowy zapis postaci.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -75,26 +73,6 @@ function AccountPage() {
     }
   };
 
-  const sync = async () => {
-    if (!account.session) return;
-    setBusy(true);
-    setError("");
-    try {
-      const id = account.session.user.id;
-      const r = await syncAll(window.localStorage, id, cloudPort(id));
-      await touchLastSeen(id);
-      setNotice(
-        `Zsynchronizowano: wysłano ${r.pushed.length}, pobrano ${r.pulled.length}` +
-          (r.replaced.length ? `, zastąpiono nowszą wersją z chmury ${r.replaced.length}` : "") +
-          ".",
-      );
-    } catch (cause) {
-      setError("Synchronizacja nie powiodła się: " + (cause instanceof Error ? cause.message : ""));
-    } finally {
-      setBusy(false);
-    }
-  };
-
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
 
   if (account.session)
@@ -117,8 +95,8 @@ function AccountPage() {
             )}
           </p>
           <p className="ki-account-hint">
-            Postacie z tej przeglądarki zapisują się na koncie. Na innym urządzeniu zaloguj się, a
-            postacie pobiorą się przy wejściu do gry.
+            Postacie i postęp zapisuje serwer gry. Na innym urządzeniu zaloguj się na to samo konto.
+            Do rozgrywki potrzebne jest połączenie z serwerem.
           </p>
           {notice && <p className="ki-account-ok">{notice}</p>}
           {error && <p className="ki-account-error">{error}</p>}
@@ -126,9 +104,6 @@ function AccountPage() {
             <Link to="/" className="ki-account-primary">
               Graj
             </Link>
-            <button onClick={() => void sync()} disabled={busy}>
-              Synchronizuj teraz
-            </button>
             {account.roles.length > 0 && <Link to="/admin">Panel administracyjny</Link>}
             <button onClick={() => void supabase.auth.signOut()} disabled={busy}>
               Wyloguj
@@ -182,7 +157,7 @@ function AccountPage() {
           </button>
         </form>
         <p className="ki-account-hint">
-          Konto jest opcjonalne: bez niego gra zapisuje postacie tylko w tej przeglądarce.
+          Konto jest wymagane do gry. Postacie i postęp są zapisywane na serwerze.
         </p>
         <Link to="/">← Wróć do gry</Link>
       </section>
