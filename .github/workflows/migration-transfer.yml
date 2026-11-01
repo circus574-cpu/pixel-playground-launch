@@ -1,9 +1,6 @@
 name: Encrypted transfer of KI database backup
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/tigmig-domain-routing]
-    paths: [.github/workflows/migration-transfer.yml]
 permissions:
   contents: read
 jobs:

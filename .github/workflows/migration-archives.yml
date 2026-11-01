@@ -1,9 +1,6 @@
 name: Inspect private migration archive inventory
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/tigmig-domain-routing]
-    paths: [.github/workflows/migration-archives.yml]
 permissions:
   contents: read
 jobs:

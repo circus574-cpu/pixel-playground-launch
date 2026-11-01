@@ -1,9 +1,6 @@
 name: Aruba staging deployment
 on:
   workflow_dispatch:
-  push:
-    branches: [migration/aruba-staging-2026-10-28]
-    paths: [.github/workflows/aruba-server.yml]
 permissions:
   contents: read
 jobs:

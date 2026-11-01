@@ -1,9 +1,6 @@
 name: Inspect five application backend addresses
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/tigmig-domain-routing]
-    paths: [.github/workflows/backend-addresses.yml]
 permissions:
   contents: read
 jobs:
