@@ -667,3 +667,8 @@ W odpowiedzi na wytyczne dotyczące Panelu Administracyjnego zrealizowano komple
     - Nadpisane szanse dropu potworów aktualizują na bieżąco tabele `MONSTERS[i].loot` oraz `MONSTER_DEFS[id].loot`, co automatycznie aktualizuje także generowane źródła łupów (`itemSources`, `monsterDrops`).
     - Nadpisane szanse bossów aktualizują na bieżąco `BOSS_CATALOG[i].lootTable`.
   - Weryfikacja: test jednostkowy w `src/test/admin-content-catalog.test.ts` weryfikujący modyfikację szans dropu potworów i bossów (PASS, 6/6 testów).
+- **Integracja panelu administracyjnego i zarządzania postaciami (`src/routes/admin.tsx`, `ServerCharacterManager.tsx`)**:
+  - W głównej trasie `/admin` w zakładce **"Zawartość gry"** podłączono bezpośrednio pełny edytor `AdminWorldEditor` (zastępując przestarzałą tabelę tylko-do-odczytu).
+  - W sekcji **"Postacie Serwera (Live)"** (`ServerCharacterManager`):
+    - Obrazki przedmiotów w ekwipunku postaci, torbie i depozycie zostały opakowane w `ItemHoverTooltip`.
+    - W selektorze dodawania przedmiotów z katalogu dodano filtry kategorii, rzadkości oraz sortowanie wielokryteriowe z podglądem wybranego przedmiotu.
