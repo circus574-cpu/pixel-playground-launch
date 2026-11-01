@@ -15,6 +15,7 @@ import type {
 import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
 import { ITEM_CATALOG } from "@/game/items/catalog";
+import { getItemById } from "@/game/items";
 import { ITEMS, ITEM_IDS, type ItemId, characterFullStats, type CharacterFullStatsResult } from "@/game/session";
 import { emptyCombatTraining, trainingRequirement, type CombatTraining } from "@/game/combatTraining";
 import { CHARACTER_STAT_FIELDS } from "@/game/characterStats";
@@ -1522,19 +1523,37 @@ export function ServerCharacterManager() {
                           <div
                             style={{
                               display: "flex",
-                              justifyContent: "space-between",
                               alignItems: "center",
-                              gap: 6,
+                              gap: 8,
+                              minHeight: 38,
                             }}
                           >
-                            <span style={{ fontSize: "0.85rem", wordBreak: "break-all" }}>
-                              {currentItem ? (
-                                <b>{currentItem}</b>
-                              ) : (
-                                <span style={{ opacity: 0.5 }}>(Pusty slot)</span>
+                            {currentItem && (
+                              <img
+                                src={`/game/items/${currentItem}.webp`}
+                                alt=""
+                                style={{
+                                  width: 32,
+                                  height: 32,
+                                  objectFit: "contain",
+                                  borderRadius: 4,
+                                  border: "1px solid #4a3d5e",
+                                  background: "rgba(0,0,0,0.35)",
+                                  flexShrink: 0,
+                                }}
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                                }}
+                              />
+                            )}
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: currentItem ? "#f5d48a" : "inherit", wordBreak: "break-all" }}>
+                                {currentItem ? (getItemById(currentItem)?.name || currentItem) : <span style={{ opacity: 0.5 }}>(Pusty slot)</span>}
+                              </div>
+                              {currentItem && (
+                                <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>{currentItem}</div>
                               )}
-                            </span>
-
+                            </div>
                             {currentItem && (
                               <button
                                 onClick={() => {
@@ -1725,10 +1744,30 @@ export function ServerCharacterManager() {
                               alignItems: "center",
                             }}
                           >
-                            <div style={{ overflow: "hidden" }}>
-                              <b style={{ fontSize: "0.85rem", color: "#f5d48a" }}>{itemId}</b>
-                              <div style={{ fontSize: "0.75rem", opacity: 0.8 }}>
-                                Ilość:{" "}
+                            <div style={{ display: "flex", alignItems: "center", gap: 8, overflow: "hidden", flex: 1, minWidth: 0 }}>
+                              <img
+                                src={`/game/items/${itemId}.webp`}
+                                alt=""
+                                style={{
+                                  width: 28,
+                                  height: 28,
+                                  objectFit: "contain",
+                                  borderRadius: 4,
+                                  border: "1px solid #3d314f",
+                                  background: "rgba(0,0,0,0.3)",
+                                  flexShrink: 0,
+                                }}
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                                }}
+                              />
+                              <div style={{ overflow: "hidden" }}>
+                                <b style={{ fontSize: "0.85rem", color: "#f5d48a", display: "block", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                  {getItemById(itemId)?.name || itemId}
+                                </b>
+                                <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>{itemId}</div>
+                                <div style={{ fontSize: "0.75rem", opacity: 0.8 }}>
+                                  Ilość:{" "}
                                 <input
                                   type="number"
                                   min={1}
@@ -1742,6 +1781,7 @@ export function ServerCharacterManager() {
                                   style={{ width: 55, padding: "2px 4px", fontSize: "0.8rem" }}
                                 />
                               </div>
+                            </div>
                             </div>
                             <button
                               onClick={() => {
@@ -1789,10 +1829,30 @@ export function ServerCharacterManager() {
                               alignItems: "center",
                             }}
                           >
-                            <div style={{ overflow: "hidden" }}>
-                              <b style={{ fontSize: "0.85rem", color: "#f5d48a" }}>{itemId}</b>
-                              <div style={{ fontSize: "0.75rem", opacity: 0.8 }}>
-                                Ilość:{" "}
+                            <div style={{ display: "flex", alignItems: "center", gap: 8, overflow: "hidden", flex: 1, minWidth: 0 }}>
+                              <img
+                                src={`/game/items/${itemId}.webp`}
+                                alt=""
+                                style={{
+                                  width: 28,
+                                  height: 28,
+                                  objectFit: "contain",
+                                  borderRadius: 4,
+                                  border: "1px solid #3d314f",
+                                  background: "rgba(0,0,0,0.3)",
+                                  flexShrink: 0,
+                                }}
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                                }}
+                              />
+                              <div style={{ overflow: "hidden" }}>
+                                <b style={{ fontSize: "0.85rem", color: "#f5d48a", display: "block", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                  {getItemById(itemId)?.name || itemId}
+                                </b>
+                                <div style={{ fontSize: "0.7rem", opacity: 0.7 }}>{itemId}</div>
+                                <div style={{ fontSize: "0.75rem", opacity: 0.8 }}>
+                                  Ilość:{" "}
                                 <input
                                   type="number"
                                   min={1}
@@ -1811,6 +1871,7 @@ export function ServerCharacterManager() {
                                   style={{ width: 55, padding: "2px 4px", fontSize: "0.8rem" }}
                                 />
                               </div>
+                            </div>
                             </div>
                             <button
                               onClick={() => {

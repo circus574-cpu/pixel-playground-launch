@@ -375,7 +375,6 @@ export function equipmentStats(
   if (p.equipment) {
     for (const [slot, id] of Object.entries(p.equipment) as [EquipmentSlot, string | null][]) {
       if (!id || id === "heritage") continue;
-      equippedIds.push(id);
       if (id in ITEMS) {
         const legacy = ITEMS[id as ItemId];
         if (slot !== "weapon" && legacy.attack) gear.attack += legacy.attack;
@@ -386,6 +385,7 @@ export function equipmentStats(
           gear.attackSpeedPct += legacy.statBonuses.attackSpeedPct ?? 0;
         }
       } else {
+        equippedIds.push(id);
         const item = getItemById(id);
         if (item?.stats) {
           if (slot === "weapon") {
@@ -403,10 +403,11 @@ export function equipmentStats(
   } else {
     for (const id of [p.weapon, p.armor]) {
       if (id && id !== "heritage") {
-        equippedIds.push(id);
         if (id in ITEMS) {
           for (const key of ["dodgeChance", "technique", "attackSpeedPct"] as const)
             gear[key] += ITEMS[id as ItemId].statBonuses?.[key] ?? 0;
+        } else {
+          equippedIds.push(id);
         }
       }
     }
@@ -1427,7 +1428,7 @@ export class GameSession implements MonsterHost {
       upgradeFrom.upgrade = 0;
       upgradeTo.upgrade = 1;
     }
-    if (source[item] === 0 && (material || isBagItem)) delete source[item];
+    if (source[item] === 0 && (material || (!isLegacyItem && isBagItem))) delete source[item];
     const itemName = material
       ? MATERIALS[item]!.name
       : isLegacyItem

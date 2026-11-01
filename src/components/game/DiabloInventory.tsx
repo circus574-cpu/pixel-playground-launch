@@ -48,10 +48,24 @@ export function getItemIconName(itemId: string): string {
   }
 }
 
-/** Painted item icons (GPU, public/game/icons-v2); every slot and bag item has one. */
+/** Painted item icons (public/game/items/<id>.webp with fallback to public/game/icons-v2); every slot and bag item has one. */
 function ItemIcon({ item }: { item: string }) {
-  const icon = getItemIconName(item);
-  return <img className="ki-dinv-icon" src={`/game/icons-v2/${icon}.webp`} alt="" aria-hidden />;
+  const fallbackIcon = getItemIconName(item);
+  return (
+    <img
+      className="ki-dinv-icon"
+      src={`/game/items/${item}.webp`}
+      onError={(e) => {
+        const target = e.currentTarget;
+        const fallback = `/game/icons-v2/${fallbackIcon}.webp`;
+        if (!target.src.endsWith(fallback)) {
+          target.src = fallback;
+        }
+      }}
+      alt=""
+      aria-hidden
+    />
+  );
 }
 
 const BAG_CELLS = 40;

@@ -96,6 +96,7 @@ export interface ItemDefinition {
   image?: string | null;
   imagePosition?: number;
   source?: ItemSourceKind;
+  iconUrl?: string;
 }
 
 export interface CraftingIngredient {

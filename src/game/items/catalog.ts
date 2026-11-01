@@ -367,6 +367,7 @@ export const EQUIPMENT_SET_BONUSES: Record<string, SetBonusRule[]> = {
 export const ITEM_CATALOG: ItemDefinition[] = [
   {
     id: "potion",
+    iconUrl: "/game/items/potion.webp",
     name: "Mikstura Życia",
     category: "consumable",
     rarity: "common",
@@ -382,6 +383,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "P-KI-01",
+    iconUrl: "/game/items/P-KI-01.webp",
     name: "Mikstura Esencji KI",
     category: "consumable",
     rarity: "uncommon",
@@ -397,6 +399,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "P-ELX-V",
+    iconUrl: "/game/items/P-ELX-V.webp",
     name: "Eliksir Żywotności Korzenia",
     category: "consumable",
     rarity: "rare",
@@ -412,6 +415,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "P-ELX-P",
+    iconUrl: "/game/items/P-ELX-P.webp",
     name: "Eliksir Ognistego Szału",
     category: "consumable",
     rarity: "rare",
@@ -427,6 +431,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "P-ELX-A",
+    iconUrl: "/game/items/P-ELX-A.webp",
     name: "Eliksir Spokoju Siódmej Oktawy",
     category: "consumable",
     rarity: "rare",
@@ -442,6 +447,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "P-ELX-N",
+    iconUrl: "/game/items/P-ELX-N.webp",
     name: "Zastrzyk Przeciążeniowy Plazmy",
     category: "consumable",
     rarity: "rare",
@@ -457,6 +463,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "P-BUFF-DEF",
+    iconUrl: "/game/items/P-BUFF-DEF.webp",
     name: "Żelazny Wywar Skalny",
     category: "consumable",
     rarity: "uncommon",
@@ -472,6 +479,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "tusk",
+    iconUrl: "/game/items/tusk.webp",
     name: "Kieł Bestii",
     category: "material",
     rarity: "common",
@@ -486,6 +494,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "mchowa-galaretka",
+    iconUrl: "/game/items/mchowa-galaretka.webp",
     name: "Mchowa Galaretka",
     category: "material",
     rarity: "common",
@@ -499,6 +508,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zielone-ziele",
+    iconUrl: "/game/items/zielone-ziele.webp",
     name: "Zielone Ziele",
     category: "material",
     rarity: "common",
@@ -512,6 +522,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ciern-wilka",
+    iconUrl: "/game/items/ciern-wilka.webp",
     name: "Cierń Wilka",
     category: "material",
     rarity: "common",
@@ -525,6 +536,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skora-wilcza",
+    iconUrl: "/game/items/skora-wilcza.webp",
     name: "Skóra Wilcza",
     category: "material",
     rarity: "common",
@@ -538,6 +550,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "sok-lisciaka",
+    iconUrl: "/game/items/sok-lisciaka.webp",
     name: "Sok Liściaka",
     category: "material",
     rarity: "common",
@@ -551,6 +564,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zielone-ostrze",
+    iconUrl: "/game/items/zielone-ostrze.webp",
     name: "Zielone Ostrze",
     category: "material",
     rarity: "uncommon",
@@ -564,6 +578,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zywy-korzen",
+    iconUrl: "/game/items/zywy-korzen.webp",
     name: "Żywy Korzeń",
     category: "material",
     rarity: "uncommon",
@@ -577,6 +592,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "czerwony-grzyb",
+    iconUrl: "/game/items/czerwony-grzyb.webp",
     name: "Czerwony Grzyb",
     category: "material",
     rarity: "common",
@@ -590,6 +606,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zarodniki",
+    iconUrl: "/game/items/zarodniki.webp",
     name: "Zarodniki",
     category: "material",
     rarity: "common",
@@ -603,6 +620,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "bursztyn",
+    iconUrl: "/game/items/bursztyn.webp",
     name: "Bursztyn",
     category: "material",
     rarity: "uncommon",
@@ -616,6 +634,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zadlo-osy",
+    iconUrl: "/game/items/zadlo-osy.webp",
     name: "Żądło Osy",
     category: "material",
     rarity: "uncommon",
@@ -629,6 +648,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "poroze",
+    iconUrl: "/game/items/poroze.webp",
     name: "Poroże",
     category: "material",
     rarity: "uncommon",
@@ -642,6 +662,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skalna-skora",
+    iconUrl: "/game/items/skalna-skora.webp",
     name: "Skalna Skóra",
     category: "material",
     rarity: "rare",
@@ -655,6 +676,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "jedwab-pajaka",
+    iconUrl: "/game/items/jedwab-pajaka.webp",
     name: "Jedwab Pająka",
     category: "material",
     rarity: "uncommon",
@@ -668,6 +690,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "jad",
+    iconUrl: "/game/items/jad.webp",
     name: "Jad",
     category: "material",
     rarity: "rare",
@@ -681,6 +704,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pioro-puchacza",
+    iconUrl: "/game/items/pioro-puchacza.webp",
     name: "Pióro Puchacza",
     category: "material",
     rarity: "uncommon",
@@ -694,6 +718,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pyl",
+    iconUrl: "/game/items/pyl.webp",
     name: "Pył",
     category: "material",
     rarity: "common",
@@ -707,6 +732,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "fragment-ruin",
+    iconUrl: "/game/items/fragment-ruin.webp",
     name: "Fragment Ruin",
     category: "material",
     rarity: "rare",
@@ -720,6 +746,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "kamien-runiczny",
+    iconUrl: "/game/items/kamien-runiczny.webp",
     name: "Kamień Runiczny",
     category: "material",
     rarity: "rare",
@@ -733,6 +760,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "serce-puszczy",
+    iconUrl: "/game/items/serce-puszczy.webp",
     name: "Serce Puszczy",
     category: "material",
     rarity: "epic",
@@ -746,6 +774,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zielona-esencja",
+    iconUrl: "/game/items/zielona-esencja.webp",
     name: "Zielona Esencja",
     category: "material",
     rarity: "rare",
@@ -759,6 +788,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "kwiat-ygdrashy",
+    iconUrl: "/game/items/kwiat-ygdrashy.webp",
     name: "Kwiat Ygdrashy",
     category: "material",
     rarity: "legendary",
@@ -772,6 +802,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "kiel-alfy",
+    iconUrl: "/game/items/kiel-alfy.webp",
     name: "Kieł Alfy",
     category: "material",
     rarity: "epic",
@@ -785,6 +816,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skora-thorgara",
+    iconUrl: "/game/items/skora-thorgara.webp",
     name: "Skóra Thorgara",
     category: "material",
     rarity: "epic",
@@ -798,6 +830,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pazury-alfy",
+    iconUrl: "/game/items/pazury-alfy.webp",
     name: "Pazury Alfy",
     category: "material",
     rarity: "legendary",
@@ -811,6 +844,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "wegiel",
+    iconUrl: "/game/items/wegiel.webp",
     name: "Węgiel",
     category: "material",
     rarity: "common",
@@ -824,6 +858,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "esencja-plomienia",
+    iconUrl: "/game/items/esencja-plomienia.webp",
     name: "Esencja Płomienia",
     category: "material",
     rarity: "uncommon",
@@ -837,6 +872,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "luska-salamandry",
+    iconUrl: "/game/items/luska-salamandry.webp",
     name: "Łuska Salamandry",
     category: "material",
     rarity: "common",
@@ -850,6 +886,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "popielne-futro",
+    iconUrl: "/game/items/popielne-futro.webp",
     name: "Popielne Futro",
     category: "material",
     rarity: "common",
@@ -863,6 +900,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skalny-kastet",
+    iconUrl: "/game/items/skalny-kastet.webp",
     name: "Skalny Kastet",
     category: "material",
     rarity: "uncommon",
@@ -876,6 +914,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "magmowy-pancerz",
+    iconUrl: "/game/items/magmowy-pancerz.webp",
     name: "Magmowy Pancerz",
     category: "material",
     rarity: "uncommon",
@@ -889,6 +928,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skrzydlo-zaru",
+    iconUrl: "/game/items/skrzydlo-zaru.webp",
     name: "Skrzydło Żaru",
     category: "material",
     rarity: "uncommon",
@@ -902,6 +942,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "golem-ruin",
+    iconUrl: "/game/items/golem-ruin.webp",
     name: "Rdzeń Golema Ruin",
     category: "material",
     rarity: "rare",
@@ -915,6 +956,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "plomien-duch",
+    iconUrl: "/game/items/plomien-duch.webp",
     name: "Płomień Duch",
     category: "material",
     rarity: "rare",
@@ -928,6 +970,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "rog-areny",
+    iconUrl: "/game/items/rog-areny.webp",
     name: "Róg Areny",
     category: "material",
     rarity: "rare",
@@ -941,6 +984,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "szklo-obsydianowe",
+    iconUrl: "/game/items/szklo-obsydianowe.webp",
     name: "Szkło Obsydianowe",
     category: "material",
     rarity: "uncommon",
@@ -954,6 +998,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "obsydian",
+    iconUrl: "/game/items/obsydian.webp",
     name: "Obsydian",
     category: "material",
     rarity: "rare",
@@ -967,6 +1012,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pancerz-kharzula",
+    iconUrl: "/game/items/pancerz-kharzula.webp",
     name: "Pancerz Kharzula",
     category: "material",
     rarity: "epic",
@@ -980,6 +1026,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "plomien-areny",
+    iconUrl: "/game/items/plomien-areny.webp",
     name: "Płomień Areny",
     category: "material",
     rarity: "epic",
@@ -993,6 +1040,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "serce-wulkanu",
+    iconUrl: "/game/items/serce-wulkanu.webp",
     name: "Serce Wulkanu",
     category: "material",
     rarity: "legendary",
@@ -1006,6 +1054,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "luska-pyrrhaxa",
+    iconUrl: "/game/items/luska-pyrrhaxa.webp",
     name: "Łuska Pyrrhaxa",
     category: "material",
     rarity: "epic",
@@ -1019,6 +1068,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pyl-swiatla",
+    iconUrl: "/game/items/pyl-swiatla.webp",
     name: "Pył Światła",
     category: "material",
     rarity: "common",
@@ -1032,6 +1082,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "karta-pergaminu",
+    iconUrl: "/game/items/karta-pergaminu.webp",
     name: "Karta Pergaminu",
     category: "material",
     rarity: "common",
@@ -1045,6 +1096,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "eter-bibliotekarza",
+    iconUrl: "/game/items/eter-bibliotekarza.webp",
     name: "Eter Bibliotekarza",
     category: "material",
     rarity: "uncommon",
@@ -1058,6 +1110,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "kamien-swiatynny",
+    iconUrl: "/game/items/kamien-swiatynny.webp",
     name: "Kamień Świątynny",
     category: "material",
     rarity: "uncommon",
@@ -1071,6 +1124,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "nic-eteru",
+    iconUrl: "/game/items/nic-eteru.webp",
     name: "Nić Eteru",
     category: "material",
     rarity: "uncommon",
@@ -1084,6 +1138,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "szmaragdowa-luska",
+    iconUrl: "/game/items/szmaragdowa-luska.webp",
     name: "Szmaragdowa Łuska",
     category: "material",
     rarity: "rare",
@@ -1097,6 +1152,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skarabeusz",
+    iconUrl: "/game/items/skarabeusz.webp",
     name: "Złoty Skarabeusz",
     category: "material",
     rarity: "rare",
@@ -1110,6 +1166,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "soczewka-wiedzy",
+    iconUrl: "/game/items/soczewka-wiedzy.webp",
     name: "Soczewka Wiedzy",
     category: "material",
     rarity: "rare",
@@ -1123,6 +1180,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "maska-rytualu",
+    iconUrl: "/game/items/maska-rytualu.webp",
     name: "Maska Rytuału",
     category: "material",
     rarity: "rare",
@@ -1136,6 +1194,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pioro-mgly",
+    iconUrl: "/game/items/pioro-mgly.webp",
     name: "Pióro Mgły",
     category: "material",
     rarity: "uncommon",
@@ -1149,6 +1208,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "szaty-arcykaplana",
+    iconUrl: "/game/items/szaty-arcykaplana.webp",
     name: "Szaty Arcykapłana",
     category: "material",
     rarity: "epic",
@@ -1162,6 +1222,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "eter-pustki",
+    iconUrl: "/game/items/eter-pustki.webp",
     name: "Eter Pustki",
     category: "material",
     rarity: "epic",
@@ -1175,6 +1236,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pieczec-arcykaplana",
+    iconUrl: "/game/items/pieczec-arcykaplana.webp",
     name: "Pieczęć Arcykapłana",
     category: "material",
     rarity: "legendary",
@@ -1188,6 +1250,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "luska-aurelitha",
+    iconUrl: "/game/items/luska-aurelitha.webp",
     name: "Łuska Aurelitha",
     category: "material",
     rarity: "epic",
@@ -1201,6 +1264,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "serce-sanktuarium",
+    iconUrl: "/game/items/serce-sanktuarium.webp",
     name: "Serce Sanktuarium",
     category: "material",
     rarity: "legendary",
@@ -1214,6 +1278,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zlom",
+    iconUrl: "/game/items/zlom.webp",
     name: "Złom Tytanowy",
     category: "material",
     rarity: "common",
@@ -1227,6 +1292,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "cewka",
+    iconUrl: "/game/items/cewka.webp",
     name: "Cewka Indukcyjna",
     category: "material",
     rarity: "common",
@@ -1240,6 +1306,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "nanopyl",
+    iconUrl: "/game/items/nanopyl.webp",
     name: "Nanopył",
     category: "material",
     rarity: "uncommon",
@@ -1253,6 +1320,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "czujnik",
+    iconUrl: "/game/items/czujnik.webp",
     name: "Czujnik Biometryczny",
     category: "material",
     rarity: "uncommon",
@@ -1266,6 +1334,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "silownik",
+    iconUrl: "/game/items/silownik.webp",
     name: "Siłownik Hydrauliczny",
     category: "material",
     rarity: "uncommon",
@@ -1279,6 +1348,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "elektroda",
+    iconUrl: "/game/items/elektroda.webp",
     name: "Elektroda Wolframowa",
     category: "material",
     rarity: "uncommon",
@@ -1292,6 +1362,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "lufa",
+    iconUrl: "/game/items/lufa.webp",
     name: "Lufa Precyzyjna",
     category: "material",
     rarity: "rare",
@@ -1305,6 +1376,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "plyta-pancerna",
+    iconUrl: "/game/items/plyta-pancerna.webp",
     name: "Płyta Pancerna",
     category: "material",
     rarity: "rare",
@@ -1318,6 +1390,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "rdzen-energii",
+    iconUrl: "/game/items/rdzen-energii.webp",
     name: "Rdzeń Energii",
     category: "material",
     rarity: "rare",
@@ -1331,6 +1404,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "pamiec-danych",
+    iconUrl: "/game/items/pamiec-danych.webp",
     name: "Kość Pamięci Danych",
     category: "material",
     rarity: "rare",
@@ -1344,6 +1418,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "rdzen-plazmy",
+    iconUrl: "/game/items/rdzen-plazmy.webp",
     name: "Rdzeń Plazmy",
     category: "material",
     rarity: "rare",
@@ -1357,6 +1432,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "modul-optyczny",
+    iconUrl: "/game/items/modul-optyczny.webp",
     name: "Moduł Optyczny",
     category: "material",
     rarity: "rare",
@@ -1370,6 +1446,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "kruk-danych",
+    iconUrl: "/game/items/kruk-danych.webp",
     name: "Procesor Kruka Danych",
     category: "material",
     rarity: "rare",
@@ -1383,6 +1460,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "kod-arbitra",
+    iconUrl: "/game/items/kod-arbitra.webp",
     name: "Kod Arbitra",
     category: "material",
     rarity: "epic",
@@ -1396,6 +1474,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "plyta-egzekutora",
+    iconUrl: "/game/items/plyta-egzekutora.webp",
     name: "Płyta Egzekutora",
     category: "material",
     rarity: "epic",
@@ -1409,6 +1488,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "rdzen-hydry",
+    iconUrl: "/game/items/rdzen-hydry.webp",
     name: "Rdzeń Hydry",
     category: "material",
     rarity: "legendary",
@@ -1422,6 +1502,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "modul-prime",
+    iconUrl: "/game/items/modul-prime.webp",
     name: "Moduł Prime",
     category: "material",
     rarity: "epic",
@@ -1435,6 +1516,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-V1",
+    iconUrl: "/game/items/W-V1.webp",
     name: "Sztylet Mchowego Zwiadowcy",
     category: "weapon",
     rarity: "uncommon",
@@ -1453,6 +1535,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-V2",
+    iconUrl: "/game/items/W-V2.webp",
     name: "Ostrze Prastarego Dębu",
     category: "weapon",
     rarity: "rare",
@@ -1471,6 +1554,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-V3",
+    iconUrl: "/game/items/W-V3.webp",
     name: "Klinga Żywicy",
     category: "weapon",
     rarity: "rare",
@@ -1489,6 +1573,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-V4",
+    iconUrl: "/game/items/W-V4.webp",
     name: "Topór Strażnika Puszczy",
     category: "weapon",
     rarity: "epic",
@@ -1507,6 +1592,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-V5",
+    iconUrl: "/game/items/W-V5.webp",
     name: "Pazury Leśnego Berserkera",
     category: "weapon",
     rarity: "epic",
@@ -1527,6 +1613,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-V6",
+    iconUrl: "/game/items/W-V6.webp",
     name: "Szmaragdowy Włócznik Ygdrashy",
     category: "weapon",
     rarity: "legendary",
@@ -1547,6 +1634,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-P1",
+    iconUrl: "/game/items/W-P1.webp",
     name: "Ognisty Puginał Kalderonu",
     category: "weapon",
     rarity: "uncommon",
@@ -1565,6 +1653,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-P2",
+    iconUrl: "/game/items/W-P2.webp",
     name: "Topór Bazaltowy",
     category: "weapon",
     rarity: "rare",
@@ -1583,6 +1672,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-P3",
+    iconUrl: "/game/items/W-P3.webp",
     name: "Miecz Magmowego Żaru",
     category: "weapon",
     rarity: "rare",
@@ -1601,6 +1691,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-P4",
+    iconUrl: "/game/items/W-P4.webp",
     name: "Młot Przełamania",
     category: "weapon",
     rarity: "epic",
@@ -1619,6 +1710,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-P5",
+    iconUrl: "/game/items/W-P5.webp",
     name: "Ostrze Kharzula",
     category: "weapon",
     rarity: "epic",
@@ -1639,6 +1731,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-P6",
+    iconUrl: "/game/items/W-P6.webp",
     name: "Smoczy Kieł Pyrrhaxa",
     category: "weapon",
     rarity: "legendary",
@@ -1659,6 +1752,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-A1",
+    iconUrl: "/game/items/W-A1.webp",
     name: "Runiczny Kostur Ciszy",
     category: "weapon",
     rarity: "uncommon",
@@ -1679,6 +1773,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-A2",
+    iconUrl: "/game/items/W-A2.webp",
     name: "Ostrze Mistrza Oddechu",
     category: "weapon",
     rarity: "rare",
@@ -1699,6 +1794,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-A3",
+    iconUrl: "/game/items/W-A3.webp",
     name: "Laska Złotego Eteru",
     category: "weapon",
     rarity: "rare",
@@ -1719,6 +1815,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-A4",
+    iconUrl: "/game/items/W-A4.webp",
     name: "Berło Sanktuarium",
     category: "weapon",
     rarity: "epic",
@@ -1739,6 +1836,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-A5",
+    iconUrl: "/game/items/W-A5.webp",
     name: "Klinga Tysiąca Źródeł",
     category: "weapon",
     rarity: "epic",
@@ -1759,6 +1857,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-A6",
+    iconUrl: "/game/items/W-A6.webp",
     name: "Promień Aurelitha",
     category: "weapon",
     rarity: "legendary",
@@ -1779,6 +1878,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-N1",
+    iconUrl: "/game/items/W-N1.webp",
     name: "Emiter Wiązki Plazmowej",
     category: "weapon",
     rarity: "uncommon",
@@ -1797,6 +1897,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-N2",
+    iconUrl: "/game/items/W-N2.webp",
     name: "Wibro-Ostrze Nanitowe",
     category: "weapon",
     rarity: "rare",
@@ -1815,6 +1916,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-N3",
+    iconUrl: "/game/items/W-N3.webp",
     name: "Karabinek Łukowy V-2",
     category: "weapon",
     rarity: "rare",
@@ -1833,6 +1935,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-N4",
+    iconUrl: "/game/items/W-N4.webp",
     name: "Działko Przeciążeniowe",
     category: "weapon",
     rarity: "epic",
@@ -1853,6 +1956,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-N5",
+    iconUrl: "/game/items/W-N5.webp",
     name: "Kosa Arbitra Zero",
     category: "weapon",
     rarity: "epic",
@@ -1873,6 +1977,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "W-N6",
+    iconUrl: "/game/items/W-N6.webp",
     name: "Rozpruwacz Hydry-Rdzenia",
     category: "weapon",
     rarity: "legendary",
@@ -1893,6 +1998,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-V1",
+    iconUrl: "/game/items/A-V1.webp",
     name: "Kamizelka Leśnego Pąka",
     category: "armor",
     rarity: "uncommon",
@@ -1911,6 +2017,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-V2",
+    iconUrl: "/game/items/A-V2.webp",
     name: "Pancerz z Kory Pradrzewa",
     category: "armor",
     rarity: "rare",
@@ -1929,6 +2036,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-V3",
+    iconUrl: "/game/items/A-V3.webp",
     name: "Płaszcz Zielonego Wędrowca",
     category: "armor",
     rarity: "rare",
@@ -1949,6 +2057,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-V4",
+    iconUrl: "/game/items/A-V4.webp",
     name: "Zbroja Żywego Korzenia",
     category: "armor",
     rarity: "epic",
@@ -1969,6 +2078,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-V5",
+    iconUrl: "/game/items/A-V5.webp",
     name: "Pancerz Thorgara Alfy",
     category: "armor",
     rarity: "legendary",
@@ -1989,6 +2099,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-P1",
+    iconUrl: "/game/items/A-P1.webp",
     name: "Skórzak z Popiołu",
     category: "armor",
     rarity: "uncommon",
@@ -2007,6 +2118,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-P2",
+    iconUrl: "/game/items/A-P2.webp",
     name: "Kolczuga Kalderonu",
     category: "armor",
     rarity: "rare",
@@ -2025,6 +2137,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-P3",
+    iconUrl: "/game/items/A-P3.webp",
     name: "Zbroja Płytowa z Obsydianu",
     category: "armor",
     rarity: "rare",
@@ -2043,6 +2156,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-P4",
+    iconUrl: "/game/items/A-P4.webp",
     name: "Karacenowa Skorupa Bazaltu",
     category: "armor",
     rarity: "epic",
@@ -2063,6 +2177,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-P5",
+    iconUrl: "/game/items/A-P5.webp",
     name: "Pancerz Płomiennego Czempiona Pyrrhaxa",
     category: "armor",
     rarity: "legendary",
@@ -2083,6 +2198,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-A1",
+    iconUrl: "/game/items/A-A1.webp",
     name: "Szata Ucznia Chmur",
     category: "armor",
     rarity: "uncommon",
@@ -2103,6 +2219,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-A2",
+    iconUrl: "/game/items/A-A2.webp",
     name: "Toga Mistrza Zwojów",
     category: "armor",
     rarity: "rare",
@@ -2123,6 +2240,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-A3",
+    iconUrl: "/game/items/A-A3.webp",
     name: "Tunika Słonecznego Świtu",
     category: "armor",
     rarity: "rare",
@@ -2143,6 +2261,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-A4",
+    iconUrl: "/game/items/A-A4.webp",
     name: "Płaszcz Gwiezdnego Obserwatora",
     category: "armor",
     rarity: "epic",
@@ -2165,6 +2284,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-A5",
+    iconUrl: "/game/items/A-A5.webp",
     name: "Święte Szaty Sanktuarium Aurelitha",
     category: "armor",
     rarity: "legendary",
@@ -2187,6 +2307,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-N1",
+    iconUrl: "/game/items/A-N1.webp",
     name: "Kombinezon Podszyty Przewodnikami",
     category: "armor",
     rarity: "uncommon",
@@ -2207,6 +2328,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-N2",
+    iconUrl: "/game/items/A-N2.webp",
     name: "Pancerz Kompozytowy Sektora",
     category: "armor",
     rarity: "rare",
@@ -2225,6 +2347,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-N3",
+    iconUrl: "/game/items/A-N3.webp",
     name: "Płyta Grafenowa V-2",
     category: "armor",
     rarity: "rare",
@@ -2245,6 +2368,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-N4",
+    iconUrl: "/game/items/A-N4.webp",
     name: "Egzoszkielet Vanguarda",
     category: "armor",
     rarity: "epic",
@@ -2265,6 +2389,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-N5",
+    iconUrl: "/game/items/A-N5.webp",
     name: "Pancerz Rdzenia Prime Arbitra",
     category: "armor",
     rarity: "legendary",
@@ -2285,6 +2410,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W01",
+    iconUrl: "/game/items/U-W01.webp",
     name: "Amulet Pierwszego Drzewa",
     category: "artifact",
     rarity: "epic",
@@ -2305,6 +2431,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W02",
+    iconUrl: "/game/items/U-W02.webp",
     name: "Totem Matki Ygdrashy",
     category: "artifact",
     rarity: "legendary",
@@ -2326,6 +2453,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W03",
+    iconUrl: "/game/items/U-W03.webp",
     name: "Pryzmat Archiwum Wiatru",
     category: "artifact",
     rarity: "epic",
@@ -2346,6 +2474,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W04",
+    iconUrl: "/game/items/U-W04.webp",
     name: "Rdzeń Arbitrażu Danych",
     category: "artifact",
     rarity: "epic",
@@ -2366,6 +2495,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W05",
+    iconUrl: "/game/items/U-W05.webp",
     name: "Klejnot Południowych Mórz",
     category: "artifact",
     rarity: "epic",
@@ -2386,6 +2516,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W06",
+    iconUrl: "/game/items/U-W06.webp",
     name: "Pradawny Kompas Przymierza",
     category: "artifact",
     rarity: "epic",
@@ -2404,6 +2535,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W07",
+    iconUrl: "/game/items/U-W07.webp",
     name: "Pieczęć Siedmiu Oktaw",
     category: "artifact",
     rarity: "legendary",
@@ -2426,6 +2558,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-W08",
+    iconUrl: "/game/items/U-W08.webp",
     name: "Korona Gwiazd Oceanu",
     category: "artifact",
     rarity: "legendary",
@@ -2450,6 +2583,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-A05",
+    iconUrl: "/game/items/U-A05.webp",
     name: "Pancerz Wielkiego Wiru",
     category: "armor",
     rarity: "legendary",
@@ -2470,6 +2604,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-A06",
+    iconUrl: "/game/items/U-A06.webp",
     name: "Płaszcz Zaginionego Architekta",
     category: "armor",
     rarity: "legendary",
@@ -2490,6 +2625,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-A08",
+    iconUrl: "/game/items/U-A08.webp",
     name: "Szata Transcendencji KI",
     category: "armor",
     rarity: "legendary",
@@ -2512,6 +2648,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "sword",
+    iconUrl: "/game/items/sword.webp",
     name: "Żelazny Miecz Bojowy",
     category: "weapon",
     rarity: "common",
@@ -2529,6 +2666,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "vest",
+    iconUrl: "/game/items/vest.webp",
     name: "Skórzana Kamizelka Ochronna",
     category: "armor",
     rarity: "common",
@@ -2548,6 +2686,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "shield",
+    iconUrl: "/game/items/shield.webp",
     name: "Drewniany Puklerz Obronny",
     category: "armor",
     rarity: "common",
@@ -2567,6 +2706,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-01",
+    iconUrl: "/game/items/ZEST-01-01.webp",
     name: "Hełm Wędrowca",
     category: "helmet",
     rarity: "common",
@@ -2588,6 +2728,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-02",
+    iconUrl: "/game/items/ZEST-01-02.webp",
     name: "Skórznia Pogranicza",
     category: "armor",
     rarity: "common",
@@ -2609,6 +2750,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-03",
+    iconUrl: "/game/items/ZEST-01-03.webp",
     name: "Rękawice Podróżnika",
     category: "gloves",
     rarity: "common",
@@ -2630,6 +2772,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-04",
+    iconUrl: "/game/items/ZEST-01-04.webp",
     name: "Buty Długiej Drogi",
     category: "boots",
     rarity: "common",
@@ -2650,6 +2793,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-05",
+    iconUrl: "/game/items/ZEST-01-05.webp",
     name: "Miecz Pierwszego Szlaku",
     category: "weapon",
     rarity: "common",
@@ -2670,6 +2814,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-06",
+    iconUrl: "/game/items/ZEST-01-06.webp",
     name: "Tarcza Dębowego Kręgu",
     category: "shield",
     rarity: "common",
@@ -2691,6 +2836,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-01-07",
+    iconUrl: "/game/items/ZEST-01-07.webp",
     name: "Medalion Wędrowca",
     category: "amulet",
     rarity: "common",
@@ -2711,6 +2857,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-01",
+    iconUrl: "/game/items/ZEST-02-01.webp",
     name: "Hełm Srebrnego Strażnika",
     category: "helmet",
     rarity: "common",
@@ -2732,6 +2879,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-02",
+    iconUrl: "/game/items/ZEST-02-02.webp",
     name: "Napierśnik Srebrnego Traktu",
     category: "armor",
     rarity: "common",
@@ -2753,6 +2901,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-03",
+    iconUrl: "/game/items/ZEST-02-03.webp",
     name: "Rękawice Warty",
     category: "gloves",
     rarity: "common",
@@ -2774,6 +2923,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-04",
+    iconUrl: "/game/items/ZEST-02-04.webp",
     name: "Buty Strażnicze",
     category: "boots",
     rarity: "common",
@@ -2794,6 +2944,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-05",
+    iconUrl: "/game/items/ZEST-02-05.webp",
     name: "Ostrze Strażniczej Przysięgi",
     category: "weapon",
     rarity: "common",
@@ -2814,6 +2965,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-06",
+    iconUrl: "/game/items/ZEST-02-06.webp",
     name: "Tarcza Bramy",
     category: "shield",
     rarity: "common",
@@ -2835,6 +2987,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-02-07",
+    iconUrl: "/game/items/ZEST-02-07.webp",
     name: "Amulet Zachodniego Przejścia",
     category: "amulet",
     rarity: "common",
@@ -2855,6 +3008,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-01",
+    iconUrl: "/game/items/ZEST-03-01.webp",
     name: "Przyłbica Żelaznego Węzła",
     category: "helmet",
     rarity: "uncommon",
@@ -2876,6 +3030,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-02",
+    iconUrl: "/game/items/ZEST-03-02.webp",
     name: "Korpus Kadeta Węzła",
     category: "armor",
     rarity: "uncommon",
@@ -2897,6 +3052,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-03",
+    iconUrl: "/game/items/ZEST-03-03.webp",
     name: "Rękawice Impulsowe",
     category: "gloves",
     rarity: "uncommon",
@@ -2918,6 +3074,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-04",
+    iconUrl: "/game/items/ZEST-03-04.webp",
     name: "Buty Przewodzące",
     category: "boots",
     rarity: "uncommon",
@@ -2938,6 +3095,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-05",
+    iconUrl: "/game/items/ZEST-03-05.webp",
     name: "Nóż Technika",
     category: "weapon",
     rarity: "uncommon",
@@ -2959,6 +3117,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-06",
+    iconUrl: "/game/items/ZEST-03-06.webp",
     name: "Tarcza Impulsowego Rdzenia",
     category: "shield",
     rarity: "uncommon",
@@ -2980,6 +3139,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-03-07",
+    iconUrl: "/game/items/ZEST-03-07.webp",
     name: "Znak Kadeta",
     category: "amulet",
     rarity: "uncommon",
@@ -3001,6 +3161,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-01",
+    iconUrl: "/game/items/ZEST-04-01.webp",
     name: "Hełm Błękitnego Obrońcy",
     category: "helmet",
     rarity: "uncommon",
@@ -3022,6 +3183,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-02",
+    iconUrl: "/game/items/ZEST-04-02.webp",
     name: "Płyta Niebieskiego Muru",
     category: "armor",
     rarity: "uncommon",
@@ -3043,6 +3205,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-03",
+    iconUrl: "/game/items/ZEST-04-03.webp",
     name: "Rękawice Błękitnej Warty",
     category: "gloves",
     rarity: "uncommon",
@@ -3064,6 +3227,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-04",
+    iconUrl: "/game/items/ZEST-04-04.webp",
     name: "Buty Górnego Szlaku",
     category: "boots",
     rarity: "uncommon",
@@ -3085,6 +3249,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-05",
+    iconUrl: "/game/items/ZEST-04-05.webp",
     name: "Klinga Błękitnego Muru",
     category: "weapon",
     rarity: "uncommon",
@@ -3106,6 +3271,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-06",
+    iconUrl: "/game/items/ZEST-04-06.webp",
     name: "Osłona Azurowej Linii",
     category: "shield",
     rarity: "uncommon",
@@ -3127,6 +3293,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-04-07",
+    iconUrl: "/game/items/ZEST-04-07.webp",
     name: "Talizman Błękitnej Warty",
     category: "amulet",
     rarity: "uncommon",
@@ -3148,6 +3315,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-01",
+    iconUrl: "/game/items/ZEST-05-01.webp",
     name: "Opaska Leśnego Tropiciela",
     category: "helmet",
     rarity: "rare",
@@ -3169,6 +3337,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-02",
+    iconUrl: "/game/items/ZEST-05-02.webp",
     name: "Kaftan Korzennej Straży",
     category: "armor",
     rarity: "rare",
@@ -3190,6 +3359,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-03",
+    iconUrl: "/game/items/ZEST-05-03.webp",
     name: "Rękawice Liściastego Kroku",
     category: "gloves",
     rarity: "rare",
@@ -3211,6 +3381,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-04",
+    iconUrl: "/game/items/ZEST-05-04.webp",
     name: "Buty Leśnego Przesmyku",
     category: "boots",
     rarity: "rare",
@@ -3232,6 +3403,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-05",
+    iconUrl: "/game/items/ZEST-05-05.webp",
     name: "Sztylet Zwiadowcy Rubieży",
     category: "weapon",
     rarity: "rare",
@@ -3253,6 +3425,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-06",
+    iconUrl: "/game/items/ZEST-05-06.webp",
     name: "Tarcza Leśnego Wilka",
     category: "shield",
     rarity: "rare",
@@ -3274,6 +3447,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-05-07",
+    iconUrl: "/game/items/ZEST-05-07.webp",
     name: "Amulet Wilczego Tropu",
     category: "amulet",
     rarity: "rare",
@@ -3295,6 +3469,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-01",
+    iconUrl: "/game/items/ZEST-06-01.webp",
     name: "Opaska Adepta Nefrytu",
     category: "helmet",
     rarity: "rare",
@@ -3316,6 +3491,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-02",
+    iconUrl: "/game/items/ZEST-06-02.webp",
     name: "Wdzianko Nefrytowego Szlaku",
     category: "armor",
     rarity: "rare",
@@ -3337,6 +3513,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-03",
+    iconUrl: "/game/items/ZEST-06-03.webp",
     name: "Rękawice Szybkiej Pięści",
     category: "gloves",
     rarity: "rare",
@@ -3358,6 +3535,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-04",
+    iconUrl: "/game/items/ZEST-06-04.webp",
     name: "Buty Bezszelestnych Kroków",
     category: "boots",
     rarity: "rare",
@@ -3379,6 +3557,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-05",
+    iconUrl: "/game/items/ZEST-06-05.webp",
     name: "Kostur Łagodnego Uderzenia",
     category: "weapon",
     rarity: "rare",
@@ -3400,6 +3579,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-06",
+    iconUrl: "/game/items/ZEST-06-06.webp",
     name: "Osłona Przedramienna Adepta",
     category: "shield",
     rarity: "rare",
@@ -3421,6 +3601,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-06-07",
+    iconUrl: "/game/items/ZEST-06-07.webp",
     name: "Koral Nefrytowego Oddechu",
     category: "amulet",
     rarity: "rare",
@@ -3442,6 +3623,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-01",
+    iconUrl: "/game/items/ZEST-07-01.webp",
     name: "Kaptur Burzowej Zorzy",
     category: "helmet",
     rarity: "epic",
@@ -3463,6 +3645,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-02",
+    iconUrl: "/game/items/ZEST-07-02.webp",
     name: "Pancerz Zwiadowcy Zorzy",
     category: "armor",
     rarity: "epic",
@@ -3484,6 +3667,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-03",
+    iconUrl: "/game/items/ZEST-07-03.webp",
     name: "Rękawice Błyskawicznego Ciosu",
     category: "gloves",
     rarity: "epic",
@@ -3505,6 +3689,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-04",
+    iconUrl: "/game/items/ZEST-07-04.webp",
     name: "Buty Powietrznej Zorzy",
     category: "boots",
     rarity: "epic",
@@ -3526,6 +3711,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-05",
+    iconUrl: "/game/items/ZEST-07-05.webp",
     name: "Szabla Nieba",
     category: "weapon",
     rarity: "epic",
@@ -3547,6 +3733,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-06",
+    iconUrl: "/game/items/ZEST-07-06.webp",
     name: "Tarcza Sferycznego Oka",
     category: "shield",
     rarity: "epic",
@@ -3568,6 +3755,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-07-07",
+    iconUrl: "/game/items/ZEST-07-07.webp",
     name: "Amulet Gwiezdnego Kursu",
     category: "amulet",
     rarity: "epic",
@@ -3589,6 +3777,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-01",
+    iconUrl: "/game/items/ZEST-08-01.webp",
     name: "Hełm Popielnego Demona",
     category: "helmet",
     rarity: "epic",
@@ -3610,6 +3799,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-02",
+    iconUrl: "/game/items/ZEST-08-02.webp",
     name: "Pancerz Żaru Kharzula",
     category: "armor",
     rarity: "epic",
@@ -3631,6 +3821,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-03",
+    iconUrl: "/game/items/ZEST-08-03.webp",
     name: "Szpony Płomiennego Egzekutora",
     category: "gloves",
     rarity: "epic",
@@ -3652,6 +3843,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-04",
+    iconUrl: "/game/items/ZEST-08-04.webp",
     name: "Buty Rozżarzonych Śladów",
     category: "boots",
     rarity: "epic",
@@ -3673,6 +3865,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-05",
+    iconUrl: "/game/items/ZEST-08-05.webp",
     name: "Miecz Płonącej Przysięgi",
     category: "weapon",
     rarity: "epic",
@@ -3694,6 +3887,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-06",
+    iconUrl: "/game/items/ZEST-08-06.webp",
     name: "Osłona Smoczej Twarzy",
     category: "shield",
     rarity: "epic",
@@ -3715,6 +3909,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-08-07",
+    iconUrl: "/game/items/ZEST-08-07.webp",
     name: "Wisiorek Serca Lawy",
     category: "amulet",
     rarity: "epic",
@@ -3736,6 +3931,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-01",
+    iconUrl: "/game/items/ZEST-09-01.webp",
     name: "Korona Świetlistej Warty",
     category: "helmet",
     rarity: "legendary",
@@ -3757,6 +3953,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-02",
+    iconUrl: "/game/items/ZEST-09-02.webp",
     name: "Pancerz Złotych Skrzydeł",
     category: "armor",
     rarity: "legendary",
@@ -3778,6 +3975,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-03",
+    iconUrl: "/game/items/ZEST-09-03.webp",
     name: "Rękawice Zorzy",
     category: "gloves",
     rarity: "legendary",
@@ -3799,6 +3997,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-04",
+    iconUrl: "/game/items/ZEST-09-04.webp",
     name: "Buty Niebiańskiej Drogi",
     category: "boots",
     rarity: "legendary",
@@ -3820,6 +4019,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-05",
+    iconUrl: "/game/items/ZEST-09-05.webp",
     name: "Klinga Siódmego Światła",
     category: "weapon",
     rarity: "legendary",
@@ -3841,6 +4041,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-06",
+    iconUrl: "/game/items/ZEST-09-06.webp",
     name: "Tarcza Złotej Rozety",
     category: "shield",
     rarity: "legendary",
@@ -3862,6 +4063,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-09-07",
+    iconUrl: "/game/items/ZEST-09-07.webp",
     name: "Medalion Słonecznego Zewu",
     category: "amulet",
     rarity: "legendary",
@@ -3883,6 +4085,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-01",
+    iconUrl: "/game/items/ZEST-10-01.webp",
     name: "Hełm Neonowego Prymatu",
     category: "helmet",
     rarity: "legendary",
@@ -3904,6 +4107,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-02",
+    iconUrl: "/game/items/ZEST-10-02.webp",
     name: "Korpus Rdzenia Cyjanowego",
     category: "armor",
     rarity: "legendary",
@@ -3925,6 +4129,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-03",
+    iconUrl: "/game/items/ZEST-10-03.webp",
     name: "Rękawice Przewodników Plazmy",
     category: "gloves",
     rarity: "legendary",
@@ -3946,6 +4151,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-04",
+    iconUrl: "/game/items/ZEST-10-04.webp",
     name: "Buty Zerowej Grawitacji",
     category: "boots",
     rarity: "legendary",
@@ -3967,6 +4173,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-05",
+    iconUrl: "/game/items/ZEST-10-05.webp",
     name: "Ostrze Czystej Plazmy",
     category: "weapon",
     rarity: "legendary",
@@ -3988,6 +4195,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-06",
+    iconUrl: "/game/items/ZEST-10-06.webp",
     name: "Tarcza Rdzenia Prymatu",
     category: "shield",
     rarity: "legendary",
@@ -4009,6 +4217,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "ZEST-10-07",
+    iconUrl: "/game/items/ZEST-10-07.webp",
     name: "Kryształ Cyjanowego Kręgu",
     category: "amulet",
     rarity: "legendary",
@@ -4030,6 +4239,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-01",
+    iconUrl: "/game/items/BUFF-01-01.webp",
     name: "Amulet Poranny Oddech",
     category: "buff",
     rarity: "common",
@@ -4059,6 +4269,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-02",
+    iconUrl: "/game/items/BUFF-01-02.webp",
     name: "Pierścień Drobny Impuls",
     category: "buff",
     rarity: "common",
@@ -4088,6 +4299,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-03",
+    iconUrl: "/game/items/BUFF-01-03.webp",
     name: "Koraliki KI Rytmiczna Iskra",
     category: "buff",
     rarity: "common",
@@ -4117,6 +4329,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-04",
+    iconUrl: "/game/items/BUFF-01-04.webp",
     name: "Kryształ KI Przejrzysty Blask",
     category: "buff",
     rarity: "common",
@@ -4146,6 +4359,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-05",
+    iconUrl: "/game/items/BUFF-01-05.webp",
     name: "Talizman Cierpliwe Serce",
     category: "buff",
     rarity: "common",
@@ -4175,6 +4389,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-06",
+    iconUrl: "/game/items/BUFF-01-06.webp",
     name: "Relikwiarz Ocalony Ślad",
     category: "buff",
     rarity: "common",
@@ -4204,6 +4419,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-01-07",
+    iconUrl: "/game/items/BUFF-01-07.webp",
     name: "Sfera KI Ciche Przebudzenie",
     category: "buff",
     rarity: "common",
@@ -4233,6 +4449,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-01",
+    iconUrl: "/game/items/BUFF-02-01.webp",
     name: "Amulet Spokojny Potok",
     category: "buff",
     rarity: "uncommon",
@@ -4262,6 +4479,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-02",
+    iconUrl: "/game/items/BUFF-02-02.webp",
     name: "Pierścień Szafirowy Ślad",
     category: "buff",
     rarity: "uncommon",
@@ -4291,6 +4509,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-03",
+    iconUrl: "/game/items/BUFF-02-03.webp",
     name: "Koraliki KI Węzły Równowagi",
     category: "buff",
     rarity: "uncommon",
@@ -4320,6 +4539,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-04",
+    iconUrl: "/game/items/BUFF-02-04.webp",
     name: "Kryształ Rytmu",
     category: "buff",
     rarity: "uncommon",
@@ -4349,6 +4569,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-05",
+    iconUrl: "/game/items/BUFF-02-05.webp",
     name: "Talizman Karta Harmonii",
     category: "buff",
     rarity: "uncommon",
@@ -4378,6 +4599,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-06",
+    iconUrl: "/game/items/BUFF-02-06.webp",
     name: "Relikwiarz Relikt Medytacji",
     category: "buff",
     rarity: "uncommon",
@@ -4407,6 +4629,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-02-07",
+    iconUrl: "/game/items/BUFF-02-07.webp",
     name: "Sfera KI Orbita Oddechu",
     category: "buff",
     rarity: "uncommon",
@@ -4436,6 +4659,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-01",
+    iconUrl: "/game/items/BUFF-03-01.webp",
     name: "Amulet Zielona Przysięga",
     category: "buff",
     rarity: "rare",
@@ -4465,6 +4689,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-02",
+    iconUrl: "/game/items/BUFF-03-02.webp",
     name: "Pierścień Liść Odnowy",
     category: "buff",
     rarity: "rare",
@@ -4494,6 +4719,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-03",
+    iconUrl: "/game/items/BUFF-03-03.webp",
     name: "Koraliki KI Żywa Korona",
     category: "buff",
     rarity: "rare",
@@ -4523,6 +4749,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-04",
+    iconUrl: "/game/items/BUFF-03-04.webp",
     name: "Kryształ KI Nefrytowy Rdzeń",
     category: "buff",
     rarity: "rare",
@@ -4552,6 +4779,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-05",
+    iconUrl: "/game/items/BUFF-03-05.webp",
     name: "Talizman Znak Lasu",
     category: "buff",
     rarity: "rare",
@@ -4581,6 +4809,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-06",
+    iconUrl: "/game/items/BUFF-03-06.webp",
     name: "Relikwiarz Skrzynia Korzeni",
     category: "buff",
     rarity: "rare",
@@ -4610,6 +4839,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-03-07",
+    iconUrl: "/game/items/BUFF-03-07.webp",
     name: "Sfera KI Orbita Puszczy",
     category: "buff",
     rarity: "rare",
@@ -4639,6 +4869,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-01",
+    iconUrl: "/game/items/BUFF-04-01.webp",
     name: "Amulet Widmowa Harmonia",
     category: "buff",
     rarity: "epic",
@@ -4668,6 +4899,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-02",
+    iconUrl: "/game/items/BUFF-04-02.webp",
     name: "Pierścień Pryzmat Światła",
     category: "buff",
     rarity: "epic",
@@ -4697,6 +4929,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-03",
+    iconUrl: "/game/items/BUFF-04-03.webp",
     name: "Koraliki KI Sznur Gwiazd",
     category: "buff",
     rarity: "epic",
@@ -4726,6 +4959,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-04",
+    iconUrl: "/game/items/BUFF-04-04.webp",
     name: "Kryształ Zgody",
     category: "buff",
     rarity: "epic",
@@ -4755,6 +4989,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-05",
+    iconUrl: "/game/items/BUFF-04-05.webp",
     name: "Talizman Sygnet Chóru",
     category: "buff",
     rarity: "epic",
@@ -4784,6 +5019,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-06",
+    iconUrl: "/game/items/BUFF-04-06.webp",
     name: "Relikwiarz Zwierciadło Splotu",
     category: "buff",
     rarity: "epic",
@@ -4813,6 +5049,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-04-07",
+    iconUrl: "/game/items/BUFF-04-07.webp",
     name: "Sfera KI Orbita Przymierza",
     category: "buff",
     rarity: "epic",
@@ -4842,6 +5079,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-01",
+    iconUrl: "/game/items/BUFF-05-01.webp",
     name: "Amulet Serce Żaru",
     category: "buff",
     rarity: "legendary",
@@ -4871,6 +5109,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-02",
+    iconUrl: "/game/items/BUFF-05-02.webp",
     name: "Pierścień Ognia",
     category: "buff",
     rarity: "legendary",
@@ -4900,6 +5139,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-03",
+    iconUrl: "/game/items/BUFF-05-03.webp",
     name: "Koraliki KI Węzeł Władcy",
     category: "buff",
     rarity: "legendary",
@@ -4929,6 +5169,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-04",
+    iconUrl: "/game/items/BUFF-05-04.webp",
     name: "Kryształ Nieugaszony",
     category: "buff",
     rarity: "legendary",
@@ -4958,6 +5199,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-05",
+    iconUrl: "/game/items/BUFF-05-05.webp",
     name: "Talizman Zwój Ognistej Woli",
     category: "buff",
     rarity: "legendary",
@@ -4987,6 +5229,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-06",
+    iconUrl: "/game/items/BUFF-05-06.webp",
     name: "Relikwiarz Feniksa",
     category: "buff",
     rarity: "legendary",
@@ -5016,6 +5259,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "BUFF-05-07",
+    iconUrl: "/game/items/BUFF-05-07.webp",
     name: "Sfera Wiecznego Żaru",
     category: "buff",
     rarity: "legendary",
@@ -5045,6 +5289,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-V1",
+    iconUrl: "/game/items/KS-W-V1.webp",
     name: "Drewniane ostrze próby",
     category: "weapon",
     rarity: "common",
@@ -5062,6 +5307,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-V2",
+    iconUrl: "/game/items/KS-W-V2.webp",
     name: "Szabla rzeczna",
     category: "weapon",
     rarity: "uncommon",
@@ -5079,6 +5325,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-V3",
+    iconUrl: "/game/items/KS-W-V3.webp",
     name: "Ostrze ścieżek",
     category: "weapon",
     rarity: "rare",
@@ -5096,6 +5343,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-V4",
+    iconUrl: "/game/items/KS-W-V4.webp",
     name: "Miecz Zielonego Traktu",
     category: "weapon",
     rarity: "rare",
@@ -5113,6 +5361,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-V5",
+    iconUrl: "/game/items/KS-W-V5.webp",
     name: "Strażnik Rozlewisk",
     category: "weapon",
     rarity: "epic",
@@ -5131,6 +5380,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-V6",
+    iconUrl: "/game/items/KS-W-V6.webp",
     name: "Ostrze Czterech Korzeni",
     category: "weapon",
     rarity: "legendary",
@@ -5149,6 +5399,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-A1",
+    iconUrl: "/game/items/KS-W-A1.webp",
     name: "Kostur ucznia",
     category: "weapon",
     rarity: "common",
@@ -5166,6 +5417,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-A2",
+    iconUrl: "/game/items/KS-W-A2.webp",
     name: "Berło źródła",
     category: "weapon",
     rarity: "uncommon",
@@ -5183,6 +5435,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-A3",
+    iconUrl: "/game/items/KS-W-A3.webp",
     name: "Laska jasnego atramentu",
     category: "weapon",
     rarity: "rare",
@@ -5200,6 +5453,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-A4",
+    iconUrl: "/game/items/KS-W-A4.webp",
     name: "Kostur Białego Archiwum",
     category: "weapon",
     rarity: "rare",
@@ -5217,6 +5471,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-A5",
+    iconUrl: "/game/items/KS-W-A5.webp",
     name: "Przewodnik Ciszy",
     category: "weapon",
     rarity: "epic",
@@ -5235,6 +5490,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-A6",
+    iconUrl: "/game/items/KS-W-A6.webp",
     name: "Kostur Otwartej Pamięci",
     category: "weapon",
     rarity: "legendary",
@@ -5253,6 +5509,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-N1",
+    iconUrl: "/game/items/KS-W-N1.webp",
     name: "Emiter szkoleniowy",
     category: "weapon",
     rarity: "common",
@@ -5270,6 +5527,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-N2",
+    iconUrl: "/game/items/KS-W-N2.webp",
     name: "Karabinek patrolowy",
     category: "weapon",
     rarity: "uncommon",
@@ -5287,6 +5545,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-N3",
+    iconUrl: "/game/items/KS-W-N3.webp",
     name: "Emiter dwufazowy",
     category: "weapon",
     rarity: "rare",
@@ -5304,6 +5563,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-N4",
+    iconUrl: "/game/items/KS-W-N4.webp",
     name: "Moduł Precyzyjnego Impulsu",
     category: "weapon",
     rarity: "rare",
@@ -5321,6 +5581,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-N5",
+    iconUrl: "/game/items/KS-W-N5.webp",
     name: "Rozdzielacz Horyzontu",
     category: "weapon",
     rarity: "epic",
@@ -5339,6 +5600,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-N6",
+    iconUrl: "/game/items/KS-W-N6.webp",
     name: "Emiter Wolnego Rdzenia",
     category: "weapon",
     rarity: "legendary",
@@ -5357,6 +5619,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-P1",
+    iconUrl: "/game/items/KS-W-P1.webp",
     name: "Tępe ostrze próby",
     category: "weapon",
     rarity: "common",
@@ -5374,6 +5637,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-P2",
+    iconUrl: "/game/items/KS-W-P2.webp",
     name: "Tasak żarowy",
     category: "weapon",
     rarity: "uncommon",
@@ -5391,6 +5655,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-P3",
+    iconUrl: "/game/items/KS-W-P3.webp",
     name: "Ostrze czarnej skały",
     category: "weapon",
     rarity: "rare",
@@ -5408,6 +5673,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-P4",
+    iconUrl: "/game/items/KS-W-P4.webp",
     name: "Miecz Płomiennego Traktu",
     category: "weapon",
     rarity: "rare",
@@ -5425,6 +5691,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-P5",
+    iconUrl: "/game/items/KS-W-P5.webp",
     name: "Klinga Przerwanej Przysięgi",
     category: "weapon",
     rarity: "epic",
@@ -5443,6 +5710,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-W-P6",
+    iconUrl: "/game/items/KS-W-P6.webp",
     name: "Ostrze Ocalonego Świtu",
     category: "weapon",
     rarity: "legendary",
@@ -5461,6 +5729,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W01",
+    iconUrl: "/game/items/KS-U-W01.webp",
     name: "Nóż przewoźniczki",
     category: "weapon",
     rarity: "uncommon",
@@ -5479,6 +5748,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W02",
+    iconUrl: "/game/items/KS-U-W02.webp",
     name: "Laska pustej paginy",
     category: "weapon",
     rarity: "rare",
@@ -5497,6 +5767,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W03",
+    iconUrl: "/game/items/KS-U-W03.webp",
     name: "Emiter ręcznego sygnału",
     category: "weapon",
     rarity: "rare",
@@ -5515,6 +5786,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W04",
+    iconUrl: "/game/items/KS-U-W04.webp",
     name: "Klinga powrotu",
     category: "weapon",
     rarity: "rare",
@@ -5533,6 +5805,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W05",
+    iconUrl: "/game/items/KS-U-W05.webp",
     name: "Kotwica ratownika",
     category: "weapon",
     rarity: "epic",
@@ -5552,6 +5825,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W06",
+    iconUrl: "/game/items/KS-U-W06.webp",
     name: "Rysik ostatniego świadka",
     category: "weapon",
     rarity: "epic",
@@ -5571,6 +5845,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W07",
+    iconUrl: "/game/items/KS-U-W07.webp",
     name: "Ostrze odmowy",
     category: "weapon",
     rarity: "legendary",
@@ -5589,6 +5864,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "KS-U-W08",
+    iconUrl: "/game/items/KS-U-W08.webp",
     name: "Latarnia w dłoni",
     category: "weapon",
     rarity: "legendary",
@@ -5609,6 +5885,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-H1",
+    iconUrl: "/game/items/A-H1.webp",
     name: "Nakrycie ucznia",
     category: "helmet",
     rarity: "common",
@@ -5626,6 +5903,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-H2",
+    iconUrl: "/game/items/A-H2.webp",
     name: "Nakrycie wędrowca",
     category: "helmet",
     rarity: "uncommon",
@@ -5644,6 +5922,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-H3",
+    iconUrl: "/game/items/A-H3.webp",
     name: "Nakrycie strażnika",
     category: "helmet",
     rarity: "rare",
@@ -5662,6 +5941,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-H4",
+    iconUrl: "/game/items/A-H4.webp",
     name: "Nakrycie łącznika",
     category: "helmet",
     rarity: "rare",
@@ -5680,6 +5960,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-H5",
+    iconUrl: "/game/items/A-H5.webp",
     name: "Nakrycie powiernika",
     category: "helmet",
     rarity: "epic",
@@ -5698,6 +5979,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-H6",
+    iconUrl: "/game/items/A-H6.webp",
     name: "Nakrycie Chóru",
     category: "helmet",
     rarity: "legendary",
@@ -5716,6 +5998,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-C1",
+    iconUrl: "/game/items/A-C1.webp",
     name: "Pancerz ucznia",
     category: "armor",
     rarity: "common",
@@ -5733,6 +6016,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-C2",
+    iconUrl: "/game/items/A-C2.webp",
     name: "Pancerz wędrowca",
     category: "armor",
     rarity: "uncommon",
@@ -5751,6 +6035,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-C3",
+    iconUrl: "/game/items/A-C3.webp",
     name: "Pancerz strażnika",
     category: "armor",
     rarity: "rare",
@@ -5769,6 +6054,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-C4",
+    iconUrl: "/game/items/A-C4.webp",
     name: "Pancerz łącznika",
     category: "armor",
     rarity: "rare",
@@ -5787,6 +6073,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-C5",
+    iconUrl: "/game/items/A-C5.webp",
     name: "Pancerz powiernika",
     category: "armor",
     rarity: "epic",
@@ -5805,6 +6092,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-C6",
+    iconUrl: "/game/items/A-C6.webp",
     name: "Pancerz Chóru",
     category: "armor",
     rarity: "legendary",
@@ -5823,6 +6111,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-G1",
+    iconUrl: "/game/items/A-G1.webp",
     name: "Rękawice ucznia",
     category: "gloves",
     rarity: "common",
@@ -5840,6 +6129,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-G2",
+    iconUrl: "/game/items/A-G2.webp",
     name: "Rękawice wędrowca",
     category: "gloves",
     rarity: "uncommon",
@@ -5858,6 +6148,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-G3",
+    iconUrl: "/game/items/A-G3.webp",
     name: "Rękawice strażnika",
     category: "gloves",
     rarity: "rare",
@@ -5876,6 +6167,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-G4",
+    iconUrl: "/game/items/A-G4.webp",
     name: "Rękawice łącznika",
     category: "gloves",
     rarity: "rare",
@@ -5894,6 +6186,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-G5",
+    iconUrl: "/game/items/A-G5.webp",
     name: "Rękawice powiernika",
     category: "gloves",
     rarity: "epic",
@@ -5912,6 +6205,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-G6",
+    iconUrl: "/game/items/A-G6.webp",
     name: "Rękawice Chóru",
     category: "gloves",
     rarity: "legendary",
@@ -5930,6 +6224,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-L1",
+    iconUrl: "/game/items/A-L1.webp",
     name: "Osłony nóg ucznia",
     category: "legs",
     rarity: "common",
@@ -5947,6 +6242,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-L2",
+    iconUrl: "/game/items/A-L2.webp",
     name: "Osłony nóg wędrowca",
     category: "legs",
     rarity: "uncommon",
@@ -5965,6 +6261,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-L3",
+    iconUrl: "/game/items/A-L3.webp",
     name: "Osłony nóg strażnika",
     category: "legs",
     rarity: "rare",
@@ -5983,6 +6280,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-L4",
+    iconUrl: "/game/items/A-L4.webp",
     name: "Osłony nóg łącznika",
     category: "legs",
     rarity: "rare",
@@ -6001,6 +6299,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-L5",
+    iconUrl: "/game/items/A-L5.webp",
     name: "Osłony nóg powiernika",
     category: "legs",
     rarity: "epic",
@@ -6019,6 +6318,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-L6",
+    iconUrl: "/game/items/A-L6.webp",
     name: "Osłony nóg Chóru",
     category: "legs",
     rarity: "legendary",
@@ -6037,6 +6337,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-B1",
+    iconUrl: "/game/items/A-B1.webp",
     name: "Buty ucznia",
     category: "boots",
     rarity: "common",
@@ -6054,6 +6355,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-B2",
+    iconUrl: "/game/items/A-B2.webp",
     name: "Buty wędrowca",
     category: "boots",
     rarity: "uncommon",
@@ -6072,6 +6374,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-B3",
+    iconUrl: "/game/items/A-B3.webp",
     name: "Buty strażnika",
     category: "boots",
     rarity: "rare",
@@ -6090,6 +6393,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-B4",
+    iconUrl: "/game/items/A-B4.webp",
     name: "Buty łącznika",
     category: "boots",
     rarity: "rare",
@@ -6108,6 +6412,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-B5",
+    iconUrl: "/game/items/A-B5.webp",
     name: "Buty powiernika",
     category: "boots",
     rarity: "epic",
@@ -6126,6 +6431,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "A-B6",
+    iconUrl: "/game/items/A-B6.webp",
     name: "Buty Chóru",
     category: "boots",
     rarity: "legendary",
@@ -6144,6 +6450,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-01",
+    iconUrl: "/game/items/J-01.webp",
     name: "Amulet rzeki",
     category: "amulet",
     rarity: "uncommon",
@@ -6161,6 +6468,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-02",
+    iconUrl: "/game/items/J-02.webp",
     name: "Pierścień ogrodnika",
     category: "ring",
     rarity: "uncommon",
@@ -6179,6 +6487,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-03",
+    iconUrl: "/game/items/J-03.webp",
     name: "Amulet jasnej wody",
     category: "amulet",
     rarity: "rare",
@@ -6197,6 +6506,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-04",
+    iconUrl: "/game/items/J-04.webp",
     name: "Pierścień precyzji",
     category: "ring",
     rarity: "rare",
@@ -6214,6 +6524,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-05",
+    iconUrl: "/game/items/J-05.webp",
     name: "Amulet postoju",
     category: "amulet",
     rarity: "rare",
@@ -6232,6 +6543,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-06",
+    iconUrl: "/game/items/J-06.webp",
     name: "Pierścień drugiej próby",
     category: "ring",
     rarity: "rare",
@@ -6250,6 +6562,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-07",
+    iconUrl: "/game/items/J-07.webp",
     name: "Amulet ratownika",
     category: "amulet",
     rarity: "epic",
@@ -6268,6 +6581,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-08",
+    iconUrl: "/game/items/J-08.webp",
     name: "Pierścień kartografa",
     category: "ring",
     rarity: "epic",
@@ -6286,6 +6600,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-09",
+    iconUrl: "/game/items/J-09.webp",
     name: "Amulet wolnej jednostki",
     category: "amulet",
     rarity: "legendary",
@@ -6305,6 +6620,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-10",
+    iconUrl: "/game/items/J-10.webp",
     name: "Pierścień świadków",
     category: "ring",
     rarity: "legendary",
@@ -6323,6 +6639,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-11",
+    iconUrl: "/game/items/J-11.webp",
     name: "Amulet wspólnego oddechu",
     category: "amulet",
     rarity: "legendary",
@@ -6343,6 +6660,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "J-12",
+    iconUrl: "/game/items/J-12.webp",
     name: "Pamiątka Czterech Głosów",
     category: "ring",
     rarity: "legendary",
@@ -6363,6 +6681,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-01",
+    iconUrl: "/game/items/T-01.webp",
     name: "Młotek ucznia",
     category: "tool",
     rarity: "common",
@@ -6377,6 +6696,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-02",
+    iconUrl: "/game/items/T-02.webp",
     name: "Zestaw kartografa",
     category: "tool",
     rarity: "uncommon",
@@ -6390,6 +6710,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-03",
+    iconUrl: "/game/items/T-03.webp",
     name: "Sierp opiekuna",
     category: "tool",
     rarity: "uncommon",
@@ -6403,6 +6724,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-04",
+    iconUrl: "/game/items/T-04.webp",
     name: "Sonda analogowa",
     category: "tool",
     rarity: "rare",
@@ -6416,6 +6738,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-05",
+    iconUrl: "/game/items/T-05.webp",
     name: "Lampa szlakowa",
     category: "tool",
     rarity: "rare",
@@ -6429,6 +6752,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-06",
+    iconUrl: "/game/items/T-06.webp",
     name: "Zestaw ratownika",
     category: "tool",
     rarity: "rare",
@@ -6442,6 +6766,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-07",
+    iconUrl: "/game/items/T-07.webp",
     name: "Prasa pieczęci",
     category: "tool",
     rarity: "epic",
@@ -6455,6 +6780,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "T-08",
+    iconUrl: "/game/items/T-08.webp",
     name: "Pieczęć mistrza",
     category: "tool",
     rarity: "legendary",
@@ -6468,6 +6794,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-01",
+    iconUrl: "/game/items/U-01.webp",
     name: "Mały opatrunek",
     category: "consumable",
     rarity: "common",
@@ -6483,6 +6810,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-02",
+    iconUrl: "/game/items/U-02.webp",
     name: "Napar oddechu",
     category: "consumable",
     rarity: "uncommon",
@@ -6498,6 +6826,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-03",
+    iconUrl: "/game/items/U-03.webp",
     name: "Napar głębokiego źródła",
     category: "consumable",
     rarity: "rare",
@@ -6512,6 +6841,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-04",
+    iconUrl: "/game/items/U-04.webp",
     name: "Eliksir pełnego oddechu",
     category: "consumable",
     rarity: "legendary",
@@ -6526,6 +6856,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-05",
+    iconUrl: "/game/items/U-05.webp",
     name: "Gęsta mikstura życia",
     category: "consumable",
     rarity: "rare",
@@ -6540,6 +6871,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-06",
+    iconUrl: "/game/items/U-06.webp",
     name: "Mikstura ratunkowa",
     category: "consumable",
     rarity: "legendary",
@@ -6555,6 +6887,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-07",
+    iconUrl: "/game/items/U-07.webp",
     name: "Chleb podróżny",
     category: "consumable",
     rarity: "common",
@@ -6570,6 +6903,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-08",
+    iconUrl: "/game/items/U-08.webp",
     name: "Zupa rzeczna",
     category: "consumable",
     rarity: "rare",
@@ -6584,6 +6918,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-09",
+    iconUrl: "/game/items/U-09.webp",
     name: "Bulion żarowy",
     category: "consumable",
     rarity: "epic",
@@ -6598,6 +6933,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-10",
+    iconUrl: "/game/items/U-10.webp",
     name: "Herbata źródeł",
     category: "consumable",
     rarity: "rare",
@@ -6612,6 +6948,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-11",
+    iconUrl: "/game/items/U-11.webp",
     name: "Racja serwisowa",
     category: "consumable",
     rarity: "epic",
@@ -6626,6 +6963,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-12",
+    iconUrl: "/game/items/U-12.webp",
     name: "Tonik oczyszczenia",
     category: "consumable",
     rarity: "rare",
@@ -6640,6 +6978,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-13",
+    iconUrl: "/game/items/U-13.webp",
     name: "Maść chłodząca",
     category: "consumable",
     rarity: "rare",
@@ -6654,6 +6993,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-14",
+    iconUrl: "/game/items/U-14.webp",
     name: "Sygnał powrotu",
     category: "consumable",
     rarity: "uncommon",
@@ -6669,6 +7009,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-15",
+    iconUrl: "/game/items/U-15.webp",
     name: "Osłona zapachu",
     category: "consumable",
     rarity: "rare",
@@ -6683,6 +7024,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "U-16",
+    iconUrl: "/game/items/U-16.webp",
     name: "Raca ratunkowa",
     category: "consumable",
     rarity: "uncommon",
@@ -6698,6 +7040,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "R-01",
+    iconUrl: "/game/items/R-01.webp",
     name: "Zestaw naprawczy",
     category: "material",
     rarity: "uncommon",
@@ -6712,6 +7055,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "R-02",
+    iconUrl: "/game/items/R-02.webp",
     name: "Spoiwo korzeniowe",
     category: "material",
     rarity: "uncommon",
@@ -6726,6 +7070,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "R-03",
+    iconUrl: "/game/items/R-03.webp",
     name: "Pasta pieczęci",
     category: "material",
     rarity: "rare",
@@ -6740,6 +7085,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "R-04",
+    iconUrl: "/game/items/R-04.webp",
     name: "Stabilny przewodnik",
     category: "material",
     rarity: "rare",
@@ -6754,6 +7100,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "R-05",
+    iconUrl: "/game/items/R-05.webp",
     name: "Hartowana płytka",
     category: "material",
     rarity: "epic",
@@ -6768,6 +7115,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "R-06",
+    iconUrl: "/game/items/R-06.webp",
     name: "Katalizator zgody",
     category: "material",
     rarity: "legendary",
@@ -6782,6 +7130,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-01",
+    iconUrl: "/game/items/K-01.webp",
     name: "Kompas Świadka",
     category: "quest",
     rarity: "common",
@@ -6796,6 +7145,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-02",
+    iconUrl: "/game/items/K-02.webp",
     name: "Bilet Ligi",
     category: "quest",
     rarity: "common",
@@ -6810,6 +7160,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-03",
+    iconUrl: "/game/items/K-03.webp",
     name: "Protokół czterech relacji",
     category: "quest",
     rarity: "common",
@@ -6824,6 +7175,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-04",
+    iconUrl: "/game/items/K-04.webp",
     name: "Pierwszy ton",
     category: "quest",
     rarity: "common",
@@ -6838,6 +7190,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-05",
+    iconUrl: "/game/items/K-05.webp",
     name: "Zapis ewakuacji I",
     category: "quest",
     rarity: "common",
@@ -6852,6 +7205,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-06",
+    iconUrl: "/game/items/K-06.webp",
     name: "Klucz audytu",
     category: "quest",
     rarity: "common",
@@ -6866,6 +7220,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-07",
+    iconUrl: "/game/items/K-07.webp",
     name: "Wyłącznik zgody",
     category: "quest",
     rarity: "common",
@@ -6880,6 +7235,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-08",
+    iconUrl: "/game/items/K-08.webp",
     name: "Zapis ewakuacji II",
     category: "quest",
     rarity: "common",
@@ -6894,6 +7250,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-09",
+    iconUrl: "/game/items/K-09.webp",
     name: "Drugi ton",
     category: "quest",
     rarity: "common",
@@ -6908,6 +7265,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-10",
+    iconUrl: "/game/items/K-10.webp",
     name: "Trzeci ton",
     category: "quest",
     rarity: "common",
@@ -6922,6 +7280,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-11",
+    iconUrl: "/game/items/K-11.webp",
     name: "Zapis ewakuacji III",
     category: "quest",
     rarity: "common",
@@ -6936,6 +7295,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "K-12",
+    iconUrl: "/game/items/K-12.webp",
     name: "Projekt Paktu",
     category: "quest",
     rarity: "common",
@@ -6950,6 +7310,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "nasiona",
+    iconUrl: "/game/items/nasiona.webp",
     name: "Nasiona Żywego Korzenia",
     category: "material",
     rarity: "uncommon",
@@ -6964,6 +7325,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "skrzydlo-krysztalowe",
+    iconUrl: "/game/items/skrzydlo-krysztalowe.webp",
     name: "Skrzydło Kryształowe",
     category: "material",
     rarity: "uncommon",
@@ -6978,6 +7340,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zloty-pancerz",
+    iconUrl: "/game/items/zloty-pancerz.webp",
     name: "Złoty Pancerz Skarabeusza",
     category: "material",
     rarity: "rare",
@@ -6992,6 +7355,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "zestaw-naprawczy",
+    iconUrl: "/game/items/zestaw-naprawczy.webp",
     name: "Zestaw Naprawczy Drona",
     category: "material",
     rarity: "common",
@@ -7006,6 +7370,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "gasienica",
+    iconUrl: "/game/items/gasienica.webp",
     name: "Gąsienica Mechaniczna",
     category: "material",
     rarity: "uncommon",
@@ -7020,6 +7385,7 @@ export const ITEM_CATALOG: ItemDefinition[] = [
   },
   {
     id: "soczewka",
+    iconUrl: "/game/items/soczewka.webp",
     name: "Soczewka Skanera",
     category: "material",
     rarity: "uncommon",

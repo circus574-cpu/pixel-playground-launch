@@ -152,3 +152,12 @@ export function computePassiveEquipmentBonuses(
     ...(scaledStats ? { scaledStats } : {}),
   };
 }
+
+/**
+ * Zwraca fizyczny adres URL ikony przedmiotu (/game/items/<itemId>.webp).
+ */
+export function getItemIconUrl(itemId: string): string {
+  const def = getItemById(itemId);
+  if (def?.iconUrl) return def.iconUrl;
+  return `/game/items/${itemId}.webp`;
+}

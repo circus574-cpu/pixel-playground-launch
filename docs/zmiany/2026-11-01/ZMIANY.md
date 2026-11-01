@@ -425,3 +425,35 @@ Na polecenie właściciela rozbudowano moduł zarządzania postaciami serwera (`
   - `src/game/session.ts`: nowa funkcja `characterFullStats` zwracająca pełne statystyki, tempo ataków, efekty techniki, bonusy ekwipunku i breakdown.
   - `src/server/adminCharacterService.ts`: integracja `fullStats` w `getServerCharacterDetails` oraz obsługa `patch.combatTraining` ze ścisłą normalizacją limitów `CombatTrainingSchema`.
   - `src/test/server-character-admin.test.ts`: test jednostkowy weryfikujący obliczenia statystyk, tempo ataku, breakdown i nadpisywanie parametrów (6/6 PASS).
+
+
+### 12. Przygotowanie fizyczne i wdrożenie katalogu 366 przedmiotów (Cięcie grafik, WebP, HUD ekwipunku i Admin Panel)
+
+Zgodnie ze zleceniem właściciela („Zajmij sie katalogiem przedmiotow. Potnij grafike i przygotuj fizycznie przedmioty do wdrozenia”) zrealizowano kompletne pocięcie, przygotowanie fizycznych plików graficznych oraz wdrożenie dla wszystkich 366 przedmiotów:
+
+- **Pocięcie i izolacja grafik ze źródłowych plansz (`docs/katalog-przedmiotow-v2/plansze/*.jpg`)**:
+  - Przetworzono 15 plansz wysokiej rozdzielczości (2048 × 2048 px) zawierających po 7 przedmiotów w siatce (wiersz 1: 4 sloty, wiersz 2: 3 sloty z wycentrowanym układem dla planszy 1):
+    - **70 przedmiotów zestawowych ekwipunku** (`ZEST-01-01` .. `ZEST-10-07`) z plansz 1–10 (hełmy, pancerze, rękawice, buty, broń, tarcze, talizmany).
+    - **35 pasywnych artefaktów** (`BUFF-01-01` .. `BUFF-05-07`) z plansz 11–15 (amulety, pierścienie, relikwiarze, sfery).
+  - Opracowano bezstratny potok wycinania i maskowania (`scripts/items/build_item_catalog_assets.py`):
+    - Dwuetapowa filtracja tła: flood-fill od krawędzi komórki z domknięciem morfologicznym maski (MaxFilter 5px), eliminująca wycieki przez jednopikselowe szczeliny konturów w metalicznych refleksach i srebrnych detalach.
+    - Automatyczne odcinanie dolnych napisów tekstowych (paski tekstu o wysokości <75px oddzielone min. 15px przerwą) bez ucinania ukośnych ostrzy i wysokich pików.
+    - Centrowanie i skalowanie Lanczos do standardu 128 × 128 RGBA WebP z zachowaniem pełnej przezroczystości tła.
+- **Fizyczne przygotowanie pozostałych 261 przedmiotów katalogu**:
+  - Wygenerowano fizyczne pliki WebP dla wszystkich materiałów potworów, ksiąg fabularnych, zwojów, mikstur, narzędzi i dropów (`public/game/items/<itemId>.webp`).
+  - Zastosowano grading kolorystyczny według rzadkości (common, uncommon, rare, epic, legendary) oraz żywiołów kontynentów.
+  - Komplet 366/366 fizycznych plików WebP wdrożony bezpośrednio do `public/game/items/`.
+- **Integracja w kodzie katalogu i silniku gry**:
+  - `src/game/items/types.ts`: rozszerzono `ItemDefinition` o pole `iconUrl?: string;`.
+  - `src/game/items/catalog.ts`: zaktualizowano wszystkie 366 definicji przedmiotów o bezpośrednie dowiązanie `iconUrl: "/game/items/<itemId>.webp"`.
+  - `src/game/items/index.ts`: dodano i wyeksportowano pomocniczą funkcję `getItemIconUrl(itemId: string): string`.
+  - `src/game/session.ts`: naprawiono izolację bonusów pasywnych dla klasycznych przedmiotów runtime (`sword`, `vest`), zachowując niezmienione wartości silnika (miecz +8 ATK, kamizelka +3 DEF, ulepszenie kowala +4 ATK) oraz zabezpieczono zerowanie stosów w depozycie.
+- **Interfejs gracza i panel administratora**:
+  - `src/components/game/DiabloInventory.tsx`: komponent `ItemIcon` ładuje teraz fizyczne grafiki `/game/items/${item}.webp` z płynnym fallbackiem do wektorowych ikon `/game/icons-v2/`.
+  - `src/components/admin/ServerCharacterManager.tsx`:
+    - Podgląd slotów ekwipunku postaci na serwerze dedykowanym wyświetla miniaturki WebP (`32×32`), pełną polską nazwę z katalogu oraz identyfikator.
+    - Torba postaci (40 slotów) i skrzynia depozytu miejskiego w panelu admina prezentują miniatury przedmiotów (`28×28`), nazwy i bezpośrednie pola edycji ilości.
+- **Weryfikacja jakościowa**:
+  - Vitest: `src/test/session.test.ts` (17/17 PASS), `src/test/city.test.ts` (20/20 PASS), `src/game/items/__tests__/items.test.ts` (8/8 PASS), `src/test/inventory-and-depot.test.ts` (4/4 PASS).
+  - TypeScript: pełny typecheck (`npm run typecheck`, 3 tsconfigi): 0 błędów.
+  - Dokumentacja: `python scripts/docs/check_documentation.py` — PASS.
