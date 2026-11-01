@@ -1,7 +1,14 @@
 name: Aruba staging container verification
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [migration/aruba-staging-2026-10-28]
+    paths:
+      - Dockerfile
+      - docker-compose.staging.yml
+      - deploy/**
+      - .github/workflows/aruba-staging.yml
+
 permissions:
   contents: read
 

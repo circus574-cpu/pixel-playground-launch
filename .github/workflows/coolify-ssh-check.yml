@@ -1,6 +1,9 @@
 name: Coolify SSH access check
 on:
   workflow_dispatch:
+  push:
+    branches: [ops/coolify-ssh-access]
+    paths: [.github/workflows/coolify-ssh-check.yml]
 permissions:
   contents: read
 jobs:

@@ -1,6 +1,9 @@
 name: Aruba project inventory
 on:
   workflow_dispatch:
+  push:
+    branches: [migration/aruba-staging-2026-10-28]
+    paths: [.github/workflows/aruba-inventory.yml]
 permissions:
   contents: read
 jobs:

@@ -1,6 +1,17 @@
 name: Ki Legends automatic Aruba deployment
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - src/**
+      - public/**
+      - art/pipeline/**
+      - package*.json
+      - vite.config.ts
+      - Dockerfile
+      - deploy/**
+      - .github/workflows/aruba-production.yml
 permissions:
   contents: read
 concurrency:
