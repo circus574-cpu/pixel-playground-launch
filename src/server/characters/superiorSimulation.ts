@@ -1,0 +1,198 @@
+import { monsterDef } from "../../game/monsters/catalog";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { GameSession, type Command, type Player, type StoragePort } from "../../game/session";
+import { loadBrowserFeature } from "../../game/world/generated/browserLoader";
+import {
+  buildSuperiorSimulationWorld,
+  type SuperiorSimulationSource,
+} from "../../game/world/generated/simulationWorld";
+import {
+  FEATURE_IDS,
+  SuperiorSaveStore,
+  type SuperiorIndex,
+  type FeatureId,
+} from "../../game/world/generated/superiorSave";
+import { streamSpawns, type AuthoredSpawn } from "../../game/world/generated/spawnStream";
+import { v2Places } from "../../game/worlds/v2Places";
+import { RACES } from "../../game/world/races";
+import type { CharacterRecord, CharacterState } from "./repository";
+import { onlineCommand } from "./commands";
+
+/** Filesystem fetcher for the SAME verified manifests/navigation as the browser. Never fetch
+ * a URL supplied by a player and never select world v1 through a Node/window fallback. */
+export function worldFileFetcher(publicRoot: string): typeof fetch {
+  const root = path.resolve(publicRoot);
+  return (async (input: string | URL | Request) => {
+    const resource =
+      typeof input === "string"
+        ? input
+        : input instanceof URL
+          ? input.pathname
+          : new URL(input.url).pathname;
+    if (
+      !/^\/game\/worlds\/superior-v2\/[a-zA-Z0-9/_-]+\.json$/.test(resource) ||
+      resource.includes("..")
+    )
+      throw Error("Unsafe server world path");
+    const file = path.resolve(root, "." + resource);
+    if (!file.startsWith(root + path.sep)) throw Error("Unsafe server world path");
+    return new Response(await readFile(file, "utf8"), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }) as typeof fetch;
+}
+
+/** A server-owned in-memory simulation. Checkpoints still need the repository transaction
+ * and an exclusive lease before this adapter may be exposed over the online protocol. */
+export async function prepareServerSimulation(record: CharacterRecord, publicRoot: string) {
+  const fetcher = worldFileFetcher(publicRoot);
+  const basePath = "/game/worlds/superior-v2";
+  const index = (await (await fetcher(basePath + "/index.json")).json()) as SuperiorIndex;
+  if (
+    index.format !== "superior-runtime-1" ||
+    index.features.length !== 10 ||
+    new Set(index.features.map((f) => f.id)).size !== 10
+  )
+    throw Error("Invalid server world index");
+  const feature = record.state.runtime["feature"] ?? RACES[record.state.player.race].world;
+  if (typeof feature !== "string" || !FEATURE_IDS.includes(feature as FeatureId))
+    throw Error("Invalid saved feature");
+  const info = index.features.find((f) => f.id === feature);
+  if (!info) throw Error("Unknown saved feature");
+  const loader = await loadBrowserFeature(basePath, feature, { fetcher });
+  const source = loader.definition as unknown as SuperiorSimulationSource;
+  if (
+    loader.worldSha256 !== info.worldSha256 ||
+    source.affinity !== info.affinity ||
+    source.geometry.width !== info.width ||
+    source.geometry.height !== info.height
+  )
+    throw Error("Server world/index mismatch");
+  const data = new Map<string, string>();
+  const port: StoragePort = {
+    getItem: (key) => data.get(key) ?? null,
+    setItem: (key, value) => {
+      data.set(key, value);
+    },
+  };
+  const envelope = record.state.runtime["superior"];
+  if (envelope !== undefined) data.set(record.id, JSON.stringify(envelope));
+  const save = new SuperiorSaveStore(port, record.id, index, info.id);
+  let restored = save.load();
+  if (envelope !== undefined && !restored)
+    throw Error("Invalid server checkpoint: " + save.warning);
+  if (restored && JSON.stringify(restored) !== JSON.stringify(record.state.player))
+    throw Error("Checkpoint/player mismatch");
+  const initial: Player = restored ?? {
+    ...structuredClone(record.state.player),
+    ...loader.navigation.safe(info.arrival),
+  };
+  const built = buildSuperiorSimulationWorld({
+    source,
+    info,
+    navigation: loader.navigation,
+    restored: initial,
+    town: save.town,
+    basePath,
+    places: v2Places(info.affinity),
+  });
+  save.town = built.initialTown;
+  if (!restored) {
+    if (!save.save(initial)) throw Error("Cannot initialize server checkpoint");
+    // The store has already loaded; the production session receives that same initial player.
+    restored = initial;
+  }
+  const loadedStore = new SuperiorSaveStore(port, record.id, index, info.id);
+  const session = new GameSession(loadedStore, initial.race, {
+    world: built.world,
+    navigation: loader.navigation,
+    enemyNavigation: loader.enemyNavigation(built.world.safeAreas ?? []),
+    featureId: info.id,
+    heritageHome: built.heritageHome,
+    enemyPositionAllowed: built.outsideCities,
+    maximumActiveEnemies: 24,
+  });
+  const raw = (await loader.loadSpawns()) as { feature: string; overworld: AuthoredSpawn[] };
+  if (
+    raw.feature !== info.id ||
+    !Array.isArray(raw.overworld) ||
+    raw.overworld.length > 10000 ||
+    new Set(raw.overworld.map((s) => s.id)).size !== raw.overworld.length
+  )
+    throw Error("Invalid server spawns");
+  for (const slot of raw.overworld)
+    if (
+      !slot.id.startsWith(info.id + "-") ||
+      !built.outsideCities(slot) ||
+      !loader.navigation.walkable(slot) ||
+      !Number.isFinite(slot.respawnMs) ||
+      slot.respawnMs < 1000
+    )
+      throw Error("Invalid server spawn");
+  built.world.huntKinds = [
+    ...new Set(raw.overworld.filter((s) => monsterDef(s.kind).level <= 4).map((s) => s.kind)),
+  ];
+  const restoredClock = record.state.runtime["simulationMs"];
+  if (
+    restoredClock !== undefined &&
+    (typeof restoredClock !== "number" || !Number.isFinite(restoredClock) || restoredClock < 0)
+  )
+    throw Error("Invalid server clock");
+  let now = typeof restoredClock === "number" ? restoredClock : 0;
+  session.nowMs = now;
+  const stream = streamSpawns(
+    session,
+    loadedStore,
+    raw.overworld,
+    { acquire: async () => {}, release: () => {} },
+    () => now,
+  );
+  loadedStore.beforeSave = stream.capture;
+  return {
+    session,
+    feature: info.id,
+    async tick(dt: number) {
+      if (!Number.isFinite(dt) || dt < 0 || dt > 1000) throw Error("Invalid server tick");
+      now += dt;
+      stream.update();
+      await Promise.resolve();
+      await Promise.resolve();
+      session.tick(dt);
+      const town = source.settlements.find(
+        (t) =>
+          built.cities.has(t.id) &&
+          session.player.x >= t.bounds.x &&
+          session.player.x <= t.bounds.x + t.bounds.width &&
+          session.player.y >= t.bounds.y &&
+          session.player.y <= t.bounds.y + t.bounds.height,
+      );
+      if (town && !session.player.interior) {
+        const city = built.cities.get(town.id)!;
+        loadedStore.town = town.id;
+        built.world.city = city.city;
+        built.world.npcs = city.npcs;
+        built.world.market = city.market;
+      }
+    },
+    command(command: unknown) {
+      session.command(onlineCommand(command));
+    },
+    capture(): CharacterState {
+      if (!loadedStore.save(session.player)) throw Error("Cannot capture server simulation");
+      return {
+        format: "server-character-1",
+        player: structuredClone(session.player),
+        runtime: {
+          feature: info.id,
+          simulationMs: now,
+          superior: JSON.parse(data.get(record.id)!),
+        },
+      };
+    },
+    dispose() {
+      stream.dispose();
+      session.heritage.cancelActivities();
+    },
+  };
+}

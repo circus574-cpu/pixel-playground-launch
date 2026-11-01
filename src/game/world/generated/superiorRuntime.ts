@@ -1,3 +1,7 @@
+import {
+  buildSuperiorSimulationWorld,
+  type SuperiorSimulationSource as Source,
+} from "./simulationWorld";
 import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
 import type Phaser from "phaser";
 import { GameSession } from "../../session";
@@ -38,32 +42,6 @@ import { FEATURE_IDS, SuperiorSaveStore, type SuperiorIndex, type FeatureId } fr
 const MONSTER_SIZE_PX: Record<string, number> = { S: 74, M: 96, L: 118 };
 
 const BASE = WORLD_BASE;
-type Settlement = Point & { id: string; name: string; kind: string; bounds: Obstacle };
-type Source = {
-  feature: FeatureId;
-  affinity: keyof typeof WORLDS;
-  name: string;
-  geometry: { width: number; height: number; anchor: Point };
-  sourceOffset: Point | null;
-  acceptedSource: WorldDefinition | null;
-  settlements: Settlement[];
-  roads: { points: [number, number][]; width: number; kind: string }[];
-  buildings: {
-    id: string;
-    settlement: string;
-    service: string;
-    door: Point;
-    footprint: Obstacle;
-  }[];
-};
-const names: Record<BuildingId, string> = {
-  shop: "Sklep",
-  hall: "Dom zgromadzeń",
-  inn: "Gospoda",
-  smithy: "Kuźnia",
-  depot: "Depozyt",
-  arena: "Arena treningowa",
-};
 const inside = (p: Point, b: Obstacle) =>
   p.x >= b.x && p.x <= b.x + b.width && p.y >= b.y && p.y <= b.y + b.height;
 const bytesHash = async (bytes: ArrayBuffer) =>
@@ -145,109 +123,17 @@ export async function prepareSuperior(options: {
   const places = WORLD_V2 ? v2Places(info.affinity) : undefined;
   if (places)
     for (const town of source.settlements) town.name = places.townNames[town.id] ?? town.name;
-  const offset = source.sourceOffset ?? { x: 0, y: 0 };
-  const shift = (p: Point): Point => ({ x: p.x + offset.x, y: p.y + offset.y });
-  const base = structuredClone(WORLDS[info.affinity]);
-  const cities = new Map<
-    string,
-    { city: CityDefinition; npcs: WorldNpc[]; market: WorldDefinition["market"] }
-  >();
-  for (const town of source.settlements) {
-    if (town.kind === "village") continue;
-    const capital = town.id.endsWith("-capital") && source.acceptedSource;
-    let city: CityDefinition, npcs: WorldNpc[], market: WorldDefinition["market"];
-    if (capital && capital.city) {
-      city = {
-        ...structuredClone(capital.city),
-        bounds: town.bounds,
-        buildings: capital.city.buildings.map((b) => ({ ...b, door: shift(b.door) })),
-        roads: [],
-      };
-      npcs = capital.npcs.map((n) => ({ ...n, ...shift(n) }));
-      market = { ...capital.market, ...shift(capital.market) };
-    } else {
-      const buildings = source.buildings.filter(
-        (b) => b.settlement === town.id && b.service in names,
-      );
-      if (buildings.length !== 6) continue;
-      city = {
-        name: town.name,
-        bounds: town.bounds,
-        roads: [],
-        buildings: buildings.map((b) => ({
-          id: b.service as BuildingId,
-          objectId: b.id,
-          door: b.door,
-          name: names[b.service as BuildingId],
-          district: town.name,
-          description: names[b.service as BuildingId],
-        })),
-      };
-      npcs = base.npcs.map((n) => ({
-        ...n,
-        name: town.name + " · " + n.role,
-        x: town.x + (n.id === "hunter" ? -120 : 120),
-        y: town.y + 180,
-      }));
-      market = { ...base.market, x: town.x, y: town.y };
-    }
-    cities.set(town.id, { city, npcs, market });
-  }
-  if (restored?.interior && !cities.has(save.town ?? ""))
-    throw Error("Nieznane miasto zapisu wyprawy; oryginał zachowano.");
-  const initialTown = cities.has(save.town ?? "")
-    ? save.town!
-    : [...cities.keys()].sort((a, b) => {
-        const p = restored && !restored.interior ? restored : info.arrival;
-        const aa = source.settlements.find((s) => s.id === a)!,
-          bb = source.settlements.find((s) => s.id === b)!;
-        return Math.hypot(p.x - aa.x, p.y - aa.y) - Math.hypot(p.x - bb.x, p.y - bb.y);
-      })[0];
-  if (!initialTown) throw Error("Brak osiągalnego miasta");
+  const { base, world, cities, initialTown, heritageHome, outsideCities, shift } =
+    buildSuperiorSimulationWorld({
+      source,
+      info,
+      navigation: loader.navigation,
+      restored,
+      town: save.town,
+      basePath: BASE,
+      places,
+    });
   save.town = initialTown;
-  const first = cities.get(initialTown)!;
-  const world: WorldDefinition = {
-    ...base,
-    name: source.name,
-    settlement: first.city.name,
-    width: info.width,
-    height: info.height,
-    spawn: loader.navigation.safe(info.arrival),
-    minimap: BASE + "/" + info.id + "/minimap.svg",
-    objects: [],
-    obstacles: [],
-    enemies: [],
-    monsters: [],
-    city: first.city,
-    npcs: first.npcs,
-    market: first.market,
-    safeAreas: source.settlements.map((s) => s.bounds),
-    landmarks: [
-      ...source.settlements.map((s) => ({
-        x: s.x,
-        y: s.y,
-        label: s.name,
-        kind: "settlement" as const,
-      })),
-      ...(places?.famous ?? []),
-    ],
-  };
-  const outsideCities = (p: Point) =>
-    !source.settlements.some(
-      (s) =>
-        p.x >= s.bounds.x - 12 &&
-        p.x <= s.bounds.x + s.bounds.width + 12 &&
-        p.y >= s.bounds.y - 12 &&
-        p.y <= s.bounds.y + s.bounds.height + 12,
-    );
-  const heritageHome = [...cities.entries()].sort(([a], [b]) => {
-    const aa = source.settlements.find((t) => t.id === a)!,
-      bb = source.settlements.find((t) => t.id === b)!;
-    return (
-      Math.hypot(aa.x - info.arrival.x, aa.y - info.arrival.y) -
-      Math.hypot(bb.x - info.arrival.x, bb.y - info.arrival.y)
-    );
-  })[0]![1];
   const session = new GameSession(save, options.race, {
     world,
     featureId: info.id,

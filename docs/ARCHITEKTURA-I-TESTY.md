@@ -935,3 +935,38 @@ scripts/qa-online-characters.ts`. Wymaga istniejących schema001 +003, NIE produ
 Skrypt używa roli ki_game_server, nie przywilejów postgres przy operacjach repo.
 Faktyczny test:16/16 na PostgreSQL17 (Docker/tmpfs);3 testy weryfikatora kont i9
 istniejących testów multiplayer/processów. Pełny stan i status: dziennik01.11.
+
+### Wspólna geometria i adapter serwera Superior — druga partia 01.11
+
+`simulationWorld.ts` wydziela istniejącą konstrukcję world/cities/heritageHome
+z superiorRuntime. Browser korzysta z tej samej funkcji; nie tworzono drugiej,
+uproszczonej mapy. `src/server/characters/superiorSimulation.ts` wczytuje pliki
+z public/game/worlds/superior-v2 przez ten sam loadBrowserFeature (manifesty,
+SHA i browserNavigation). Świat v2 wybiera jawnie, bez Node fallbacku WORLD_V2.
+Fetcher nie przyjmuje zewnętrznych adresów ani ścieżek spoza katalogu świata.
+
+GameSession działa na serwerze bez Phaser/DOM/localStorage. Prywatny port RAM
+jest buforem symulacji, nie trwałym repozytorium i nie zastępuje commit PostgreSQL.
+SuperiorSaveStore zachowuje format5, identyfikator właściciela broni i spawny;
+streamSpawns pracuje bez ładowania tekstur. Serwerowy zegar jest w checkpointcie,
+a tabela snapshotów dopuszcza współrzędne Superior do131072 zamiast starego65536.
+Podstawowe intencje mają ścisły OnlineCommandSchema: brak dowolnych pól statystyk,
+komend staff i nieskończonych współrzędnych. Walidacja schematu nie zastępuje
+kontroli zasięgu/kosztów w GameSession.
+
+Ta partia **nie jest jeszcze kompletną trwałą sesją online**. Adapter nie został
+podłączony do socketów/klienta ani produkcyjnego tworzenia postaci. Brakuje:
+- trwałego checkpointu cooldownów i efektów oraz bezpiecznej polityki przerwanych
+  kanałów; obecny capture nie gwarantuje odtworzenia pełnego stanu walki;
+- lease pojedynczej aktywnej postaci, kolejki poleceń, atomowych ACK po commicie,
+  zatrzymania na błędzie DB i bezpiecznego reconnectu;
+- pełnego zestawu intencji rozwoju/heritage, zadań V2 oraz podróży między lądami;
+- uwierzytelnionego protokołu online i zastąpienia lokalnej symulacji klienta
+  renderingiem/predykcją zatwierdzanego stanu; blokady fallbacku offline;
+- migracji i konfiguracji VPS oraz testów dwóch przeglądarek i awarii procesu.
+Nie aktywować adaptera jako produkcyjnego serwera walki przed tymi kontrolami.
+
+Regresja:31testów w6plikach PASS, w tym4rasy na realnych danych Superior v2,
+rzeczywisty ruch przez GameSession i odtworzenie checkpointu, odrzucenie manipulacji
+oraz dotychczasowe zapisy/spawny/postacie. TS3konfiguracje, celowany lint i build
+PASS. Nie wykonano jeszcze E2E nowego przepływu online — nie ma podłączonego UI.

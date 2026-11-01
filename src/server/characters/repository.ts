@@ -20,7 +20,10 @@ const jsonValue: z.ZodType<JsonValue> = z.lazy(() =>
 export const StoredCharacter = z
   .object({
     format: z.literal("server-character-1"),
-    player: PlayerSchema,
+    player: PlayerSchema.extend({
+      x: z.number().finite().min(0).max(131072),
+      y: z.number().finite().min(0).max(131072),
+    }),
     // The simulation adapter supplies map, enemies and cooldown state here. Never accept this
     // envelope from a browser. A player-only checkpoint is not a complete online simulation.
     runtime: z.record(jsonValue),

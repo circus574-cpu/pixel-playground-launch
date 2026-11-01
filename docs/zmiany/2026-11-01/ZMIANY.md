@@ -123,3 +123,25 @@ Dowody: [PostgreSQL16](qa/server-owned-characters/postgres.txt),
 [Vitest12](qa/server-owned-characters/tests.txt), [build](qa/server-owned-characters/build.txt).
 Kontrola dokumentacji PASS po odtworzeniu pięciu śledzonych referencji pominiętych
 przez sparse checkout; źródłowych archiwów i checkera nie modyfikowano.
+
+## Kontynuacja PR69 — adapter rzeczywistego świata Superior
+
+Kontynuowano na tej samej gałęzi, bez zmian na main. Wydzielono czystą wspólną
+konfigurację miasta/świata z superiorRuntime i użyto jej w nowym adapterze Node.
+Adapter wczytuje jawnie Superior v2 z manifestami/checksum/nav, uruchamia istniejący
+GameSession, streamuje spawny, zapisuje i odtwarza checkpoint Superior5 oraz zegar.
+Nie używa przeglądarki/localStorage, nie zastępuje map uproszczonymi regionami.
+Dodano ścisłą walidację bazowych poleceń, odrzucając dane statystyk i komendy GM.
+Nie jest to jednak pełny runtime online: cooldowny/efekty, protokół, klient,
+zadania V2 i podróże są nadal otwarte. Szczegóły: sekcja drugiej partii architektury.
+
+Końcowe wykonane kontrole: `npm run typecheck` PASS3konfiguracje; build produkcyjny
+PASS; lint zmienionych plików PASS. Vitest:31/31 w6plikach (server-superior-simulation,
+superior-save, superior-spawns, superior-characters, online-account-verification,
+multiplayer-server). Test adaptera obejmuje wszystkie4rasy, ruch na autentycznej
+mapie, replay checkpointu oraz odrzucenie fałszywych nagród/GM/Infinity.
+Podczas parametryzacji fixture znaleziono literówkę zmiennej race — poprawiono
+przed końcowym przebiegiem, nie pomijano testu. Nie zmieniono progów grywalności.
+[Logi](qa/server-superior-adapter/tests.txt), [build](qa/server-superior-adapter/build.txt).
+Nowego E2E online nie wykonano, ponieważ klient nie jest podłączony. Nie wdrażano
+niekompletnej funkcji, nie kasowano postaci i nie zmieniano konfiguracji VPS/GPU.
