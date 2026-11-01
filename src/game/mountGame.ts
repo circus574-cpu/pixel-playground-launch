@@ -34,12 +34,23 @@ import {
   type NpcId,
 } from "./session";
 import { distance, type Point } from "./navigation";
+import { getItemById } from "./items";
+import type { ItemRarity } from "./items/types";
 import { NetworkClient } from "./multiplayer/networkClient";
 import type { NetworkPlayerState } from "./multiplayer/protocol";
 import type { FeatureId } from "./world/generated/superiorSave";
 import type { WorldId } from "./world/races";
 const RACE_VFX = ["impact", "ring"] as const;
 const TRANSFORM_URL = (race: string) => "/game/transform/" + race + ".webp";
+
+/** Ground glow of a dropped catalog item by rarity. */
+const LOOT_GLOW: Record<ItemRarity, number> = {
+  common: 0xd8d8d8,
+  uncommon: 0x4caf50,
+  rare: 0x3f8cff,
+  epic: 0xa855f7,
+  legendary: 0xffa726,
+};
 
 export type { GameViewState } from "./session";
 type Actor = {
@@ -1513,9 +1524,17 @@ export function mountKileGends(
         if (!this.loot.has(l.id)) {
           const icon = this.add.image(0, -17, "ui-icons", 5).setDisplaySize(34, 34);
           // The pickup action is labelled in the HUD; loot on the ground needs only its icon.
+          // Catalog items glow in their rarity colour so a rare drop stands out from materials.
+          const rarity = getItemById(l.item)?.rarity;
+          const parts: Phaser.GameObjects.GameObject[] = [];
+          if (rarity)
+            parts.push(
+              this.add.ellipse(0, -2, 46, 18, LOOT_GLOW[rarity], rarity === "common" ? 0.35 : 0.6),
+            );
+          parts.push(icon);
           this.loot.set(
             l.id,
-            this.add.container(l.x, l.y, [icon]).setDepth(renderDepth("actors", l.y + 1)),
+            this.add.container(l.x, l.y, parts).setDepth(renderDepth("actors", l.y + 1)),
           );
         }
       for (const [id, body] of this.loot)

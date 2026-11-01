@@ -2,6 +2,7 @@ import { MONSTER_DEFS, monsterDef } from "../monsters/catalog";
 import { slug } from "../monsters/materials";
 import { BOSS_CATALOG } from "../bosses/catalog";
 import { CRAFTING_RECIPES } from "../items/recipes";
+import { itemDropChances } from "../items/loot";
 import { ALL_QUESTS_V2 } from "../quests/engine";
 import { WORLDS } from "../world/worlds";
 import type { ItemStats } from "../items/types";
@@ -30,6 +31,10 @@ export function itemSources(id: string) {
           `${m.name} · ${WORLDS[m.world].name} · ${percent(drop.chance)} · 1 szt. na pokonanie`,
         );
   }
+  for (const { monster, chance } of itemDropChances(id))
+    sources.push(
+      `Losowy drop: ${monster.name} · ${WORLDS[monster.world].name} · poz. ${monster.level} · ${percent(chance)} na pokonanie`,
+    );
   for (const b of BOSS_CATALOG)
     for (const drop of b.lootTable)
       if (drop.itemId === id)

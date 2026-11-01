@@ -116,6 +116,8 @@ export const ITEMS: Record<"potion" | "tusk" | "sword" | "vest", ItemDefinition>
 export type ItemId = keyof typeof ITEMS;
 export const ITEM_IDS = Object.keys(ITEMS) as ItemId[];
 export const BAG_CAPACITY = 12;
+/** Cells of the inventory bag grid (legacy items, materials and catalog items together). */
+export const BAG_CELLS = 40;
 /** Distinct loot materials the bag can hold (each stack up to 99). */
 export const MATERIAL_CAPACITY = 30;
 /** A basic attack ("R"), a skill-tree node id ("A1", "T", …) or the potion. */
@@ -1201,8 +1203,12 @@ export class GameSession implements MonsterHost {
       this.player.gold += reward.gold;
       this.say("+" + reward.gold + " monet");
     }
-    for (const [item, n] of Object.entries(reward.items) as [ItemId, number][])
-      if (n > 0 && item in ITEMS) this.add(item, n);
+    for (const [item, n] of Object.entries(reward.items) as [string, number][]) {
+      if (!(n > 0)) continue;
+      if (item in ITEMS) this.add(item as ItemId, n);
+      else if (getItemById(item) && this.addBagItem(item, n))
+        this.say("+" + n + " " + getItemById(item)!.name);
+    }
     if (reward.xp > 0) this.award(reward.xp);
     this.flush();
   }
@@ -1231,6 +1237,22 @@ export class GameSession implements MonsterHost {
       return false;
     }
     this.player.items[item] += n;
+    return true;
+  }
+  /** Catalog item into the 40-cell bag (stack up to 99; a new stack needs a free cell). */
+  private addBagItem(id: string, n: number) {
+    const p = this.player;
+    ensurePlayerEquipment(p);
+    const have = p.bagItems[id] ?? 0;
+    const used =
+      ITEM_IDS.filter((i) => p.items[i] > 0).length +
+      Object.values(p.materials).filter((c) => c > 0).length +
+      Object.values(p.bagItems).filter((c) => c > 0).length;
+    if (have + n > 99 || (!have && used >= BAG_CELLS)) {
+      this.say("Brak miejsca w torbie lub pełny stos (99).");
+      return false;
+    }
+    p.bagItems[id] = have + n;
     return true;
   }
   private addMaterial(id: string, n: number) {
@@ -2270,6 +2292,9 @@ export class GameSession implements MonsterHost {
         if (isMaterial(loot.item)) {
           if (!this.addMaterial(loot.item, loot.quantity)) return;
           name = MATERIALS[loot.item]!.name;
+        } else if (!(loot.item in ITEMS) && getItemById(loot.item)) {
+          if (!this.addBagItem(loot.item, loot.quantity)) return;
+          name = getItemById(loot.item)!.name;
         } else {
           if (!this.add(loot.item as ItemId, loot.quantity)) return;
           name = ITEMS[loot.item as ItemId].name;

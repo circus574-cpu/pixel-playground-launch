@@ -12,6 +12,7 @@ import { distance, type Navigation, type Point } from "../navigation";
 import type { WorldDefinition } from "../world/types";
 import { monsterDef } from "./catalog";
 import { slug } from "./materials";
+import { rollCatalogDrop } from "../items/loot";
 import type {
   Enemy,
   FoeFx,
@@ -1676,6 +1677,11 @@ export class MonsterSystem {
     if (gold > 0) {
       if (out.length) out[0]!.gold = gold;
       else out.push({ item: "", quantity: 0, gold });
+    }
+    // Random catalog item (equipment, consumables, buffs, materials); minions roll nothing.
+    if (!e.m.parent) {
+      const item = rollCatalogDrop(def.id, () => this.host.random());
+      if (item) out.push({ item, quantity: 1, gold: 0 });
     }
     return out;
   }

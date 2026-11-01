@@ -633,3 +633,20 @@ zgłaszał 238 błędów.
 - Dokumentacja: `INDEX`, `PLAN-I-ZADANIA`, `ARCHITEKTURA-I-TESTY` (PR #69 scalony,
   opis bramki CI) i `ARUBA_STAGING.md` opisują faktyczny stan: hosting Aruba,
   `main@2026c18`. Po scaleniu `main@a3de8e2` (8 bossów) bramka przeszła ponownie.
+
+### 18. Losowy łup z całego katalogu przedmiotów i nazwy NPC w mniejszych miastach
+
+- Nowy system łupu (`src/game/items/loot.ts`): każdy przedmiot katalogu poza 12 kluczami
+  fabularnymi ma losowe źródło dropu z potworów swojego kontynentu i zbliżonego poziomu.
+  8% szansy na przedmiot przy każdym zabiciu, wybór ważony rzadkością. Zasady:
+  [Rozwój i walka](../../ROZWOJ-I-WALKA.md#losowy-łup-z-katalogu-przedmiotów-01112026).
+- Podniesiony przedmiot katalogu trafia do torby (`bagItems`, 40 pól); wcześniej podnoszenie
+  obsługiwało tylko 4 dawne przedmioty i materiały.
+- Naprawa: nagrody zadań v2 z przedmiotami katalogu przepadały po cichu
+  (`grantQuestReward` przyjmował tylko 4 dawne identyfikatory); teraz trafiają do torby.
+- `/admin`: katalog przedmiotów pokazuje losowe źródła z dokładną szansą.
+- NPC: w 12 mniejszych miastach postacie zadań (Nela, Oren, Lina, Toren, Hana, Daro, Nari,
+  Kael, Talen, Eko-0, KOR-9, VEX-3) nosiły nazwę „<miasto> · <rola>”, choć zadania kazały
+  rozmawiać z nimi po imieniu. Teraz rola, do której są przypięte, ma ich imię i powitanie.
+- Testy: `catalog-loot.test.ts` (pokrycie, okna poziomów, wagi, zgodność szans),
+  `town-npc-names.test.ts`. Pełny zestaw: 1057/1057, typecheck i lint bez błędów.
