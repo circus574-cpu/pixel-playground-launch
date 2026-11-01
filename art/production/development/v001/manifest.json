@@ -1591,6 +1591,518 @@
       }
     },
     {
+      "id": "training.legend.dummy",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Manekin — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.dummy.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "f9a311623951a6f3506ca5f5542cf79ab9036b95abccef0e59594413236280da",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.dummy.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "249c5c86e14a8435344490c491eb14295424c89b7e4652ece8558631b4c00916",
+        "bytes": 500013,
+        "bounds": {
+          "minX": 243,
+          "minY": 123,
+          "maxX": 781,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.dummy.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "5bc7a0e9f11dc23b95887c7c5219266bc054af5cfd645b252333fc1c78f4b29c",
+        "bytes": 72406
+      }
+    },
+    {
+      "id": "training.legend.target",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Cel pomiarowy — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.target.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "7b2a316407158997de4d886f805099924fbb8afcec7d68c85f62b1c5f5d208da",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.target.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "5db4c0f854e0de8901ab9f2d87f08e2f398a082b638733ce86ef370343cf8902",
+        "bytes": 491043,
+        "bounds": {
+          "minX": 263,
+          "minY": 123,
+          "maxX": 760,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.target.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "4db7b42b7e1bdaab0c0bc9e8c79426bfc613c7a5d20659fae038144ffce15b59",
+        "bytes": 74298
+      }
+    },
+    {
+      "id": "training.legend.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Stanowisko obrony — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.defense.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "43bf1dc337383257611904174df67824ec46aed29d6b87d7a0f7d5bca8c267d3",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "d425d74512dd9bd62bd0127f0209745807324a436877513462c0736f44526cb4",
+        "bytes": 556374,
+        "bounds": {
+          "minX": 248,
+          "minY": 123,
+          "maxX": 775,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "c61388a1ea98544e768ccf7fb0cab6d7bd2432b971de341599dc97e5791d1fda",
+        "bytes": 82584
+      }
+    },
+    {
+      "id": "training.legend.ki-node",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Węzeł KI — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.ki-node.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "7bbb6b98994ff4d056cd7b6b6e8ee98b47cf89dc783d23133e8a64315e4fae66",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.ki-node.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "bab2b96893f230d7c77ad645736fb90b74cd127bba761b546b0276719450db2f",
+        "bytes": 463887,
+        "bounds": {
+          "minX": 250,
+          "minY": 123,
+          "maxX": 773,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.ki-node.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "27794f1e29d414c9f603c0176a6767c10f1b563bd91d3f2ae0a88aef084a9ed3",
+        "bytes": 67058
+      }
+    },
+    {
+      "id": "training.legend.ki-source",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Źródło testowego KI — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.ki-source.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "36de7b039acc36f988c54d621279833122ada7d3508d9a21b32b44b8b125a165",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.ki-source.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "c510bd6fbcc0a6e440f1f56a67af6a056770aa52ac17a25bf6228d44119e1b60",
+        "bytes": 469232,
+        "bounds": {
+          "minX": 300,
+          "minY": 123,
+          "maxX": 723,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.ki-source.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "a9e3c50ed983d0f520b98a1270a211617f67ddc8e4ad9418d8ed2f9ee7fd3873",
+        "bytes": 71188
+      }
+    },
+    {
+      "id": "training.legend.checkpoint",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Punkt trasy — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.checkpoint.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "d507d4de4d2fb4f4222156661b5a8e5773e9eaf82516339572f6f6fe6c1c6792",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.checkpoint.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "5a2d93e4bbe66a78f43dbe79ba7042983a07ab02991cee0427083bbb0526be26",
+        "bytes": 572308,
+        "bounds": {
+          "minX": 207,
+          "minY": 123,
+          "maxX": 816,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.checkpoint.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "8442b4dd35b508d3992efea3c2ddbdd103189b51f0aa73c852787985793a4947",
+        "bytes": 83178
+      }
+    },
+    {
+      "id": "training.legend.obstacle",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Przeszkoda treningowa — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.obstacle.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "37065a05b6ddb3780c3ca5d5cf571582687c4a86c47bb01fff6ae773b586774f",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.obstacle.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "90a1243e2ad70c2ff9bf4624ebb6fdc15b14278c2b89d47a5f2503f7581955e7",
+        "bytes": 394668,
+        "bounds": {
+          "minX": 316,
+          "minY": 123,
+          "maxX": 708,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.obstacle.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "f59fe4e87c953588dfc5c19c14393a1055ec9c037048abc1d15f3f450f9696c2",
+        "bytes": 57000
+      }
+    },
+    {
+      "id": "training.legend.surrender",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Znacznik poddania — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.surrender.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "865da3573dce893f8dd7956455cddb1a8e3978e895d66a9611b4cc1519cdda5f",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.surrender.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "a142547ec625500253aa302185213664962eff54d56821ec8ff6b2750e9f56dc",
+        "bytes": 366752,
+        "bounds": {
+          "minX": 317,
+          "minY": 123,
+          "maxX": 706,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.surrender.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "db41d4689bca7797a5cd7c2b1c36752f2fdaa8a85804fb2c42f1ac294599c365",
+        "bytes": 51456
+      }
+    },
+    {
       "id": "ui.training.strength",
       "version": "v001",
       "batch": "PARTIA_2_P0",

@@ -75,6 +75,17 @@ export const NEXUS_TRAINING_OBJECTS: Record<`training.android.${TrainingObjectKi
   "training.android.surrender": "/game/development-v1/objects/training.android.surrender.webp",
 };
 
+export const PYRA_TRAINING_OBJECTS: Record<`training.legend.${TrainingObjectKind}`, string> = {
+  "training.legend.dummy": "/game/development-v1/objects/training.legend.dummy.webp",
+  "training.legend.target": "/game/development-v1/objects/training.legend.target.webp",
+  "training.legend.ki-node": "/game/development-v1/objects/training.legend.ki-node.webp",
+  "training.legend.defense": "/game/development-v1/objects/training.legend.defense.webp",
+  "training.legend.ki-source": "/game/development-v1/objects/training.legend.ki-source.webp",
+  "training.legend.checkpoint": "/game/development-v1/objects/training.legend.checkpoint.webp",
+  "training.legend.obstacle": "/game/development-v1/objects/training.legend.obstacle.webp",
+  "training.legend.surrender": "/game/development-v1/objects/training.legend.surrender.webp",
+};
+
 export function trainingObjectUrl(
   world: WorldId,
   kind: TrainingObjectKind,
@@ -82,5 +93,6 @@ export function trainingObjectUrl(
   if (world === "verdant") return VERDANTIA_TRAINING_OBJECTS[`training.planetary.${kind}`];
   if (world === "aether") return AETHERIA_TRAINING_OBJECTS[`training.sage.${kind}`];
   if (world === "nexus") return NEXUS_TRAINING_OBJECTS[`training.android.${kind}`];
+  if (world === "pyra") return PYRA_TRAINING_OBJECTS[`training.legend.${kind}`];
   return undefined;
 }
