@@ -21,3 +21,6 @@ gify
 muzyka
 e2e
 *.pdf
+
+.admin-catalog-dist
+.online-playtest-dist

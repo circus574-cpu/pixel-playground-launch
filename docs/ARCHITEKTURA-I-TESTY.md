@@ -1060,3 +1060,26 @@ kontrole repo/leases, produkcyjny GameServer i scenariusze Phaser; uploaduje log
 trace i zrzuty na14dni. Autorytet kont jest w QA jawnie zastąpiony izolowanym
 fixture; nie jest to test produkcyjnego logowania/SMTP ani fizycznego telefonu.
 Nie wykonywano load testu250 graczy; maxPlayers to limit konfiguracji, nie pomiar.
+
+### Ilustrowany katalog administratora — 01.11.2026
+
+`AdminWorldEditor` pokazuje przy potworze klatkę idle z tego samego rejestru
+assetów co gra (`monsterVisual`), kontynent, XP, złoto, odrodzenie i niezależne
+szanse poszczególnych łupów. Podglądy atlasów wczytują się przez IntersectionObserver
+dopiero przy widocznym wierszu, bez uruchamiania Phaser ani pętli animacji.
+Przy przedmiocie/materiałach pokazuje przypisaną ikonę, wszystkie bonusy, pasywny
+buff i progi zestawu oraz źródła: potwory z procentem, tabelę bossa z miejscem
+i liczbą sztuk, receptury ze składnikami, nagrody ukończonych zadań i sklep bazowy.
+`contentCatalog.ts` łączy wyłącznie dokładne ID runtime; podobna nazwa nie jest
+dowodem dropu. Brak źródła jest opisany jawnie. Nagrody bossów pozostają opisane
+jako osobny rejestr, a planowane przyszłe nagrody zadań nie są prezentowane jako
+wdrożone. Edycja lokalnych override’ów nie publikuje definicji na serwerze gry.
+
+QA: `npx vite build --config scripts/admin-catalog.vite.ts`, następnie
+`ln -s ../public/game .admin-catalog-dist/game` i
+`npx vite preview --config scripts/admin-catalog.vite.ts --host 127.0.0.1 --port 5189`.
+W drugim terminalu: `node scripts/qa-admin-catalog.mjs`. Osobny dokument
+`scripts/admin-catalog.html` jest wyłącznie harness-em QA, nie trasą produkcji
+ani zmianą autoryzacji `/admin`. Build nie kopiuje całego public; symlink służy
+jedynie lokalnemu odczytowi istniejących obrazów. Wyniki i zrzuty:
+[QA katalogu](zmiany/2026-11-01/qa/admin-catalog/results.json).
