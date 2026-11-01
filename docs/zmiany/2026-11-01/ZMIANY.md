@@ -220,3 +220,26 @@ Zbudowany artefakt Node, niezalogowane wejście: login wymagany, 0 canvas gry,
 0 pageerror — [wynik](qa/online-runtime/built-login.json),
 [zrzut](qa/online-runtime/login-required.png).
 Manifest źródeł tej dostawy: [SHA256](qa/online-runtime/source-sha256.txt).
+
+### Weryfikacja VPS i pierwsza próba CI na ece835d3
+
+Read-only SSH przez [Actions41318199321](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41318199321)
+przeszedł. [Wynik](qa/online-runtime/live-preflight.json): app nie ma DATABASE_URL,
+nie ma autostartu ani wymagania online; demon w app jest nieosiągalny. DB działa
+bez opublikowanego portu, lecz nie ma tabel003/kolumn004/loginu runtime. App iDB
+nie współdzielą sieci. Osobny stary kontener działa z mapowaniem portu7420.
+Nic nie zmieniono na VPS. Tag obrazu nie jest identyfikatorem źródłowego commita.
+
+Pierwszy [CI41318163536](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41318163536)
+zaliczył TS/unit/build/PostgreSQL/GameServer, lecz część przeglądarkowa nie
+zakończyła żadnej rasy: proces dev Vite przestał odpowiadać. To **FAIL CI**, nie
+PASS przeniesiony z lokalnego testu. [Rejestr](qa/online-runtime/ci-first-attempt.json).
+Szczegółowy log tła nie był dostępny z pobrania artefaktu w tym środowisku;
+nie przypisywać niepotwierdzonej przyczyny silnikowi, pamięci ani grafice.
+
+Harness ma teraz osobny build i statyczny Vite preview, bramkę gotowości,
+kontrolowane sprzątanie procesów oraz wypisywanie logów na porażce. Asercje
+rozgrywki nie zostały osłabione. Build harnessu i podgląd wyboru ras lokalnie
+przeszły ([build](qa/online-runtime/harness-build.txt),
+[podgląd](qa/online-runtime/preview-selector.txt)); to nie zastępuje ponownego E2E
+z bazą w CI. Checkout wskazuje teraz dokładny head PR zamiast merge-ref.

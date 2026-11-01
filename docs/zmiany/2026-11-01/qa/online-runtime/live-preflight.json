@@ -1,0 +1,32 @@
+{
+  "run": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41318199321",
+  "tested_sha": "ece835d380fc11ac703dd320966122a7696674c9",
+  "read_only": true,
+  "app": {
+    "running": true,
+    "databaseConfigured": false,
+    "accountAuthorityConfigured": true,
+    "autostart": false,
+    "onlineRequired": false,
+    "worldPresent": true,
+    "gameDaemonReachable": false,
+    "networks": [
+      "xh4qbckykxsq1iofxdoe5t3h"
+    ]
+  },
+  "database": {
+    "running": true,
+    "publishedPorts": {},
+    "onlineStateTable": false,
+    "leaseColumns": 0,
+    "runtimeRole": false,
+    "networks": [
+      "ki-multiplayer-db_private"
+    ]
+  },
+  "legacyStandalone": {
+    "running": true,
+    "dockerPublishedPort": 7420
+  },
+  "production_changes": false
+}

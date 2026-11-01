@@ -1,0 +1,16 @@
+{
+  "run": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41318163536",
+  "head_sha": "ece835d380fc11ac703dd320966122a7696674c9",
+  "checkout_merge_sha": "36182e6af211021921d294abe7f038612e6f3f7d",
+  "passed_steps": [
+    "TypeScript",
+    "full unit tests",
+    "node-server build",
+    "PostgreSQL25",
+    "GameServer6"
+  ],
+  "browser_status": "FAIL: test dev server stopped responding; no completed race scenario in CI",
+  "root_cause_details": "Detailed background logs unavailable from first artifact download in this environment. Do not infer a gameplay failure from the unavailable test server.",
+  "fix": "build harness and serve static preview; readiness gate, process cleanup and failure logs; checkout exact PR head SHA",
+  "production_changes": false
+}

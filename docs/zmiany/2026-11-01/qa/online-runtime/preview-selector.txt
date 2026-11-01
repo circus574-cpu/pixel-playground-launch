@@ -1,0 +1,52 @@
+[
+  'Nowa podróż',
+  'Twoje postacie 0',
+  '01◇',
+  'Wybierz Planetarni→',
+  '02◇',
+  'Wybierz Mędrcy→',
+  '03◇',
+  'Wybierz Androidy→',
+  '04◇',
+  'Wybierz Legendy→',
+  'Powiększ ilustrację ↗',
+  'Rozpocznij przygodę →'
+]
+czyny staną się dziedzictwem
+
+Wybierz Legendy
+→
+Powiększ ilustrację ↗
+
+VERDANTIA / ZIELONA PRZYSTAŃ
+
+Planetarni
+
+W rytmie żywej planety
+
+Odkrywcy i strażnicy równowagi. Każda ścieżka prowadzi do nowej historii.
+
+KULTURA
+
+Wspólnoty podróżników, rzemieślników i obrońców natury.
+
+ENERGIA KI
+
+Żywa energia ziemi · adaptacja
+
+KONTYNENT STARTOWY
+Verdantia
+Zielona Przystań
+
+Leśna dolina, rzeka i kamienne szlaki podróżników. Żywa planeta zaprasza do odkrywania.
+
+Drewniane i kamienne domy, most i kuźnia wśród drzew.
+
+NICK POSTACI
+3–16 znaków. Zostaw puste, aby użyć „Wędrowiec”.
+Rozpocznij przygodę →
+
+Planetarni · Verdantia · nowy, osobny zapis
+
+Gra serwerowa PvE · postęp w bazie serwera
+Oryginalne ilustracje Ki Legends. W rozgrywce wspólny ludzki sprite; nowe krainy korzystają z tymczasowej grafiki.

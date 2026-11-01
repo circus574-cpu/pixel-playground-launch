@@ -43,3 +43,6 @@ __pycache__/
 /deploy/multiplayer/secrets/
 .aistudio/
 .antigravity/
+
+# Isolated server-owned Phaser browser QA build
+/.online-playtest-dist/
