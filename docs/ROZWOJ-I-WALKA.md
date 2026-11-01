@@ -48,7 +48,7 @@ katalog ekwipunku są [projektem fabularnym](FABULA-I-EKWIPUNEK.md), nie obecną
 | `sword`  | Ostrze strażnika     |   8 |   0 |        40 / 18 |
 | `vest`   | Kamizelka podróżnika |   0 |   3 |        25 / 10 |
 
-Obecne ulepszenie miecza: jednorazowo +4 ATK za 15 monet. Sloty: broń i pancerz.
+Obecne ulepszenie miecza: jednorazowo +4 ATK za 15 monet. Od 01.11.2026 wdrożono pełny 8-slotowy ekwipunek postaci (`head`, `weapon`, `armor`, `offhand`, `hands`, `ring`, `amulet`, `feet`) zintegrowany z panelem `DiabloInventory`, 40-slotową torbę podróżną (`bagItems`) oraz miejski depozyt (`DepotPanel`: skarbiec na złoto i skrzynia magazynowa na ekwipunek) obsługujący katalog przedmiotów V2 oraz przedmioty klasyczne.
 Nie zastępować tych liczb propozycjami z księgi przygody bez osobnego wdrożenia.
 XP do następnego poziomu: `100 + 60 × (L−1)`; dojście do 20: 12 160 XP.
 

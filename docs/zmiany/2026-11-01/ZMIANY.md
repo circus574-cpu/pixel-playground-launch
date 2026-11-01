@@ -378,3 +378,20 @@ Zgodnie ze zleceniem właściciela wdrożono kompletny, bezkompromisowy moduł a
 - **Weryfikacja**:
   - Test jednostkowy `src/test/server-character-admin.test.ts` (5/5 PASS).
   - Pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.
+
+### 10. Integracja gałęzi, pełna weryfikacja jakościowa i publikacja `main` (commit `fbfde40f`)
+
+Zgodnie z poleceniem właściciela („Wymus publikacje main”) przeprowadzono pełne scalenie nowo wdrożonych funkcjonalności na gałęzi `main`, weryfikację i publikację na zdalnym repozytorium:
+
+- **Integracja gałęzi roboczych i zasobów:**
+  - Włączono gałąź `feat/inventory-bag-and-city-depot` (commit `99dd12e1`): 8-slotowy ekwipunek, 40-slotowa torba, miejski skarbiec i depozyt na ekwipunek oraz komplet 46/46 zasobów Etapu 1 (32 obiekty treningowe 4 ras, 8 ikon dyscyplin, 6 emblematów rang, 41 SFX i pętli audio).
+  - Włączono pełny panel administracyjny postaci serwerowych (commit `4110e52e`): serwis `adminCharacterService.ts`, RPC `serverCharacters.functions.ts` oraz GUI `ServerCharacterManager.tsx`.
+  - Scalono gałąź śledzącą `origin/main` (commit `fbfde40f`) integrującą aktualizacje CI workflow (`8eccd8d6` oraz `247bf40b`: przywrócenie automatycznych wyzwalaczy push dla `main` oraz automatycznego wdrożenia produkcyjnego Aruba).
+- **Rygorystyczna weryfikacja jakościowa (QA):**
+  - **Vitest**: 12/12 testów PASS (`server-character-admin.test.ts` 5/5, `admin-server-control.test.ts` 3/3, `inventory-and-depot.test.ts` 4/4).
+  - **TypeScript**: 0 błędów w pełnej potrójnej konfiguracji (`tsconfig.json`, `tsconfig.e2e.json`, `tsconfig.tools.json`).
+  - **Dokumentacja**: `python scripts/docs/check_documentation.py` — PASS (10 podręczników tematycznych, 12 dzienników chronologicznych, 235 chronionych plików dowodowych).
+- **Publikacja zdalna (`origin/main`):**
+  - Wypchnięto gałąź `main` na `origin/main` (`247bf40b..fbfde40f`).
+  - Automatyczny workflow wdrożeniowy GitHub Actions `.github/workflows/aruba-production.yml` został wyzwolony na push do `main`, uruchamiając procedurę promocji release na serwerze Aruba (Coolify).
+

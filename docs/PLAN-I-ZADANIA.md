@@ -1,8 +1,8 @@
 # KI Legends — aktualny plan i zadania
 
-## Bieżący checkpoint — 01.11.2026 po wdrożeniu zarządzania serwerem i audycie kodu
+## Bieżący checkpoint — 01.11.2026 po publikacji serwerowego PvE, panelu postaci, ekwipunku i wydaniu na main
 
-Kod i potwierdzona publikacja: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`. Aktualizacje na gałęzi roboczej z 31.10 (optymalizacja mapy 2D/3D w grze, wdrożenie katalogu 366 przedmiotów i 140 receptur V2, naprawa selekcji miejsc w `AdminWorldMap` oraz budżetu tekstur streamingu): zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md).
+Kod i potwierdzona publikacja: `main@fbfde40f`. Aktualizacje z 01.11 obejmują integrację serwerowych postaci (PR #69), pełny panel administracyjny postaci serwera dedykowanego (`ServerCharacterManager` w `/admin`), system 8-slotowego ekwipunku, 40-slotowej torby i depozytu miejskiego (`feat/inventory-bag-and-city-depot`), komplet 46/46 zasobów Etapu 1 oraz automatyczne wdrożenie produkcyjne Aruba. Zob. [dziennik 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
 Ten checkpoint zastępuje wcześniejsze etykiety stanu; zachowuje historyczne wyniki i nierozwiązane błędy.
 Dowody i dokładne polecenia: [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
 

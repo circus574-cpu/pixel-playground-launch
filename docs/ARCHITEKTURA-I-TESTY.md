@@ -1045,7 +1045,7 @@ wdrożony na main/produkcji**. Poprzednie dwie sekcje pozostają historią ich d
    cutover Supabase/Storage. Backend bazowy Auth i nowe rekordy postaci w PostgreSQL
    są różnymi systemami. Stary edytor kopii cloud w GM nie edytuje tych nowych
    rekordów; komendy GM w aktywnej grze przechodzą przez serwer. Adapter administracji
-   do nowych rekordów wymaga osobnego odbioru i nie może pisać do żywej sesji bokiem.
+   do nowych rekordów zrealizowano 01.11.2026 (`ServerCharacterManager` w `/admin`, `adminCharacterService.ts`), co zapewnia bezpośrednią edycję bazy PostgreSQL i akcje live na serwerze gry.
 5. Demon uruchamia się raz przy pierwszym żądaniu aplikacji; Start/Stop jest
    serializowany. Admin Stop zostaje zatrzymany do jawnego Start/restartu procesu.
    Nieudany bootstrap pozostawia panel dostępny. Tryb wymagający online odmawia

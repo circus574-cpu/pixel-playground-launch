@@ -1,14 +1,14 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **01.11.2026, po wdrożeniu sterowania serwerem z panelu admina i audycie kodu**. Punkt odniesienia kodu i głównej gałęzi: `main`.
-Wdrożono bezterminalowe sterowanie serwerem gier z poziomu panelu administratora (`adminServerEngine`, endpointy API i interfejs GUI), przygotowano zoptymalizowaną bazę PostgreSQL (Schema v2) pod globalny multiplayer, zintegrowano Centrum Monitoringu z radarem świata oraz przeprowadzono pełny audyt kodu i dokumentacji eliminujący wszystkie adnotacje i komentarze powiązane z Lovable.
+Aktualizacja: **01.11.2026, po wdrożeniu pełnego panelu postaci serwerowych, ekwipunku/torby/depozytu i publikacji main**. Punkt odniesienia kodu i głównej gałęzi: `main`.
+Wdrożono pełny panel administracyjny postaci serwerowych (`ServerCharacterManager` w `/admin` z podglądem i edycją bazy PostgreSQL, statystyk, 8 slotów ekwipunku, torby 40 slotów, depozytu, zadań i drzewka skilli oraz akcjami live), wdrożono 8-slotowy ekwipunek, 40-slotową torbę i miejski depozyt na złoto i przedmioty, włączono 46/46 zasobów Etapu 1 oraz opublikowano gałąź `main` z automatycznym deploymentem na serwerze Aruba.
 
 **Wdrożenie i produkcja:** Rozwój ras jest częściowo wdrożony, parametry treningu i okno statystyk są w grze, a serwer multiplayer dysponuje dedykowanym silnikiem orkiestracji procesów Node.js (`multiplayerServer.ts`). Lokalne testy integracji, pełny TypeScript i testy jednostkowe monitoringu/sterowania serwerem zakończone sukcesem.
 
-Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--01112026-po-wdrożeniu-zarządzania-serwerem-i-audycie-kodu) oraz [zamknięcie zmian 01.11](zmiany/2026-11-01/ZMIANY.md).
+Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--01112026-po-publikacji-serwerowego-pve-panelu-postaci-ekwipunku-i-wydaniu-na-main) oraz [zamknięcie zmian 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
 
-Kandydat serwerowego zapisu i rozgrywki PvE jest rozwijany osobno w PR #69,
-`feature/server-owned-characters`; nie jest jeszcze scaleniem ani publikacją.
+Serwerowy zapis i rozgrywka PvE (PR #69) oraz zarządzanie postaciami w PostgreSQL zostały scalone do gałęzi `main`.
+Wdrożenie na serwerze produkcyjnym Aruba zostało opublikowane i jest aktywne.
 Aktualny protokół, testy i warunki cutoveru opisuje
 [Architektura](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
 
