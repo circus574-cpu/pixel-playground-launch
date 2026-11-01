@@ -220,3 +220,19 @@ Stan historyczny 28.10: PR #55 miał konflikt z `main@0b5ae9486914962626d8b7bbe5
 Przed integracją porównać nowe transformacje, zapis, sterowanie i zmiany GM;
 wyniki tej gałęzi nie dowodzą zgodności z nowym main. Nie scalono i nie opublikowano.
 Szczegóły i dowody w [dzienniku](zmiany/2026-10-28/ZMIANY.md#zamknięcie-partii--odbiorcy-obrażeń-i-dowody-qa).
+
+### Serwerowa rozgrywka PvE — kandydat PR #69, 01.11.2026
+
+Gałąź `feature/server-owned-characters` rozszerza dwa wcześniejsze commity
+`7a4d49a6`/`2cd9560d` o sesję/lease, kolejkę i trwałe ACK, ścisłe intencje, wymagany
+online w wejściu gry, mirror Phaser, serwerowy rozwój/zadania/egzaminy i obecność
+pobliskich graczy. Stare zapisy pozostają nienaruszone. To stan kandydata, nie
+zakończone wdrożenie produkcyjne. Procedura, rozdzielenie instancji PvE oraz
+ograniczenia są w [Architekturze](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
+
+Warunki przed cutover: odbiór CI/QA, jawne schema003+004 i login runtime, prywatna
+sieć app–DB, ustawienia procesu w Coolify, rzeczywiste logowanie i restart na VPS,
+oddzielna zgoda na scalenie/zmianę produkcji. Nie usuwać kopii cloud/lokalnych i nie
+przekierowywać edytora GM na nieautoryzowany zapis JSON. Wspólne potwory, PvP,
+partie, administracja nowymi rekordami i pomiary większej liczby graczy pozostają
+osobnymi zakresami; obecny serwer uruchamia instancjonowaną rozgrywkę PvE.

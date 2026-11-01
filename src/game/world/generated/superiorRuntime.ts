@@ -4,7 +4,8 @@ import {
 } from "./simulationWorld";
 import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
 import type Phaser from "phaser";
-import { GameSession } from "../../session";
+import type { OnlineClient } from "../../online/client";
+import { GameSession, type StoragePort } from "../../session";
 import type { GameRuntime } from "../../mountGame";
 import {
   actorVisual,
@@ -19,6 +20,7 @@ import { MONSTER_BASE } from "../../monsters/base.generated";
 
 import { streamSpawns, type AuthoredSpawn } from "./spawnStream";
 import {
+  emptyAdminWorldOverrides,
   applyAdminWorldOverridesToRuntime,
   applyCustomSpawnsForFeature,
   countActiveOverrides,
@@ -62,10 +64,13 @@ export type SuperiorRuntime = GameRuntime & {
 
 export async function prepareSuperior(options: {
   race: RaceId;
+  online?: OnlineClient;
+  storage?: StoragePort;
   saveKey: string;
   signal: AbortSignal;
   onLoading: (state: GameLoadingState) => void;
 }): Promise<SuperiorRuntime> {
+  const BASE = options.online ? "/game/worlds/superior-v2" : WORLD_BASE;
   const abort = new AbortController();
   options.signal.addEventListener("abort", () => abort.abort(), { once: true });
   const fetchJson = async <T>(path: string): Promise<T> => {
@@ -74,7 +79,7 @@ export async function prepareSuperior(options: {
     return (await response.json()) as T;
   };
   options.onLoading({ phase: "preparing", message: "Otwieranie świata Superior…", progress: null });
-  const adminOverrides = readAdminWorldOverrides();
+  const adminOverrides = options.online ? emptyAdminWorldOverrides() : readAdminWorldOverrides();
   if (countActiveOverrides(adminOverrides) > 0) applyAdminWorldOverridesToRuntime(adminOverrides);
   const index = await fetchJson<SuperiorIndex>("index.json");
   if (
@@ -84,9 +89,9 @@ export async function prepareSuperior(options: {
     index.features.some((f) => !FEATURE_IDS.includes(f.id))
   )
     throw Error("Nieobsługiwana wersja świata");
-  let storage: Storage | null = null;
+  let storage: StoragePort | null = options.storage ?? null;
   try {
-    storage = window.localStorage;
+    if (!options.online) storage = window.localStorage;
   } catch {
     /* The dedicated save reports unavailable storage. */
   }
@@ -215,15 +220,16 @@ export async function prepareSuperior(options: {
           "Poza osadą pokonaj trzech przeciwników pierwszych poziomów i wróć po nagrodę. Miasta pozostają bezpieczne.";
   // The session consumes the same initial snapshot; never rebase a writer on another tab mid-load.
   save.town = initialTown;
-  if (WORLD_V2) questsV2.enterTown(info.affinity, initialTown);
-  const stopRewards = WORLD_V2
-    ? questsV2.onReward((reward) =>
-        session.grantQuestReward(
-          { xp: reward.xp, gold: reward.gold, items: reward.items as Record<string, number> },
-          "przygoda Argona",
-        ),
-      )
-    : () => false;
+  if (WORLD_V2 && !options.online) questsV2.enterTown(info.affinity, initialTown);
+  const stopRewards =
+    WORLD_V2 && !options.online
+      ? questsV2.onReward((reward) =>
+          session.grantQuestReward(
+            { xp: reward.xp, gold: reward.gold, items: reward.items as Record<string, number> },
+            "przygoda Argona",
+          ),
+        )
+      : () => false;
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
   // Diagnostic art is available only on the isolated local playtest document (as in mountGame).
   const preview =
@@ -468,6 +474,72 @@ export async function prepareSuperior(options: {
     },
   });
   save.beforeSave = spawnStream.capture;
+  let stopOnline = () => {};
+  if (options.online) {
+    const client = options.online;
+    let latest = client.frame!;
+    const apply = (frame: typeof latest) => {
+      latest = frame;
+      if (frame.checkpoint.runtime["quests"])
+        questsV2.mirror(
+          frame.checkpoint.runtime[
+            "quests"
+          ] as unknown as import("../../quests/types").PlayerSaveV5,
+          (id) => client.intent({ type: "quest-start", id }),
+        );
+      session.player = structuredClone(frame.view.player);
+      const town = (frame.checkpoint.runtime["superior"] as { town?: string } | undefined)?.town;
+      const current = town && cities.get(town);
+      if (current) {
+        world.city = current.city;
+        world.npcs = current.npcs;
+        world.market = current.market;
+        world.settlement = current.city.name;
+        save.town = town;
+      }
+      session.staff = frame.view.staff;
+      session.autoAttack = frame.view.autoAttack;
+      Object.assign(session.training, frame.view.training);
+      session.facing = { ...frame.facing };
+      session.moving = frame.moving;
+      session.targetId = frame.targetId;
+      session.nowMs = frame.nowMs;
+      session.dialogue = frame.view.dialogue;
+      session.depotOpen = frame.view.depotOpen;
+      session.notice = frame.view.notice;
+      session.noticeId = frame.view.noticeId;
+      session.loot = structuredClone(frame.loot);
+      session.events.push(...frame.events);
+    };
+    if (latest.checkpoint.runtime["quests"])
+      questsV2.mirror(
+        latest.checkpoint.runtime["quests"] as unknown as import("../../quests/types").PlayerSaveV5,
+        (id) => client.intent({ type: "quest-start", id }),
+      );
+    apply(latest);
+    stopOnline = client.subscribe(apply);
+    session.tick = () => {};
+    session.command = (command) => {
+      if (command.type === "pause") {
+        session.paused = command.value;
+        if (command.value) {
+          client.direction(0, 0);
+          client.command({ type: "cancel" });
+        }
+        return;
+      }
+      client.command(command);
+    };
+    session.manual = (x, y) => client.direction(x, y);
+    session.discardBufferedInput = () => {
+      client.direction(0, 0);
+      client.command({ type: "cancel" });
+    };
+    session.flush = () => {};
+    session.snapshot = () => latest.view;
+    session.kit.abilities = () => latest.view.abilities;
+    Object.defineProperty(session.kit, "shieldPoints", { get: () => latest.view.shieldPoints });
+  }
   const canTravel = () =>
     !session.player.interior &&
     !session.player.dead &&
@@ -475,6 +547,21 @@ export async function prepareSuperior(options: {
     Math.hypot(session.player.x - info.arrival.x, session.player.y - info.arrival.y) < 320;
   return {
     session,
+    authoritative: !!options.online,
+    ...(options.online
+      ? {
+          networkPlayers: () =>
+            (options.online!.frame?.peers ?? []).filter((p) => {
+              const visual = actorVisual(RACES[p.race].world, "hero");
+              return (
+                !!activeScene &&
+                Object.values(visual.clips).every((clip) =>
+                  activeScene!.textures.exists(clip.asset),
+                )
+              );
+            }),
+        }
+      : {}),
     save,
     index,
     feature: info.id,
@@ -482,6 +569,11 @@ export async function prepareSuperior(options: {
     assets: [...initialAssets.values()],
     canTravel,
     travel(destination, staff = false) {
+      if (options.online) {
+        if (!canTravel()) return false;
+        options.online.intent({ type: "travel", destination });
+        return false;
+      }
       const next = index.features.find((f) => f.id === destination);
       const allowed = staff
         ? !!session.staff && !session.player.interior && !session.player.dead
@@ -489,6 +581,27 @@ export async function prepareSuperior(options: {
       return !!next && destination !== info.id && allowed && save.travel(session.player, next);
     },
     async staffTeleport(destination, point, signal) {
+      if (options.online) {
+        if (destination === info.id)
+          options.online.command({ type: "staff", action: "teleport", ...point });
+        else options.online.intent({ type: "staff-travel", destination, point });
+        return new Promise<boolean>((resolve) => {
+          const stop = options.online!.subscribe((frame) => {
+            if (
+              frame.feature === destination &&
+              Math.hypot(frame.view.x - point.x, frame.view.y - point.y) < 32
+            ) {
+              clearTimeout(timeout);
+              stop();
+              resolve(true);
+            }
+          });
+          const timeout = setTimeout(() => {
+            stop();
+            resolve(false);
+          }, 8000);
+        });
+      }
       if (
         signal?.aborted ||
         !session.staff ||
@@ -542,6 +655,38 @@ export async function prepareSuperior(options: {
       });
     },
     afterTick() {
+      if (options.online) {
+        if (activeScene) {
+          const frame = options.online.frame!;
+          const peers = frame.peers ?? [];
+          const peerOwners = new Set(peers.map((p) => "peer:" + p.race));
+          for (const owner of owners.keys())
+            if (owner.startsWith("peer:") && !peerOwners.has(owner)) release(activeScene, owner);
+          for (const race of new Set(peers.map((p) => p.race))) {
+            const owner = "peer:" + race;
+            if (!owners.has(owner)) {
+              const ids = new Set(
+                Object.values(actorVisual(RACES[race].world, "hero").clips).map(
+                  (clip) => clip.asset,
+                ),
+              );
+              void acquire(activeScene, ids, owner).catch(error);
+            }
+          }
+          // Stream only nearby server-selected actors. Never instantiate a second spawn simulation.
+          const ready = frame.enemies.filter((e) =>
+            [...neededByMonster(e.kind)].every((id) => activeScene!.textures.exists(id)),
+          );
+          session.enemies.splice(0, session.enemies.length, ...structuredClone(ready));
+          const liveOwners = new Set(frame.enemies.map((e) => "online:" + e.kind));
+          for (const owner of owners.keys())
+            if (owner.startsWith("online:") && !liveOwners.has(owner)) release(activeScene, owner);
+          for (const kind of new Set(frame.enemies.map((e) => e.kind)))
+            if (!owners.has("online:" + kind))
+              void acquire(activeScene, neededByMonster(kind), "online:" + kind).catch(error);
+        }
+        return;
+      }
       spawnStream.update();
       if (!WORLD_V2) return;
       const p = session.player;
@@ -559,6 +704,7 @@ export async function prepareSuperior(options: {
       }
     },
     beforeTick() {
+      if (options.online) return;
       if (session.player.interior || session.paused || session.dialogue) return;
       const town = source.settlements.find(
         (t) => cities.has(t.id) && inside(session.player, t.bounds),
@@ -571,10 +717,12 @@ export async function prepareSuperior(options: {
         world.npcs = next.npcs;
         world.market = next.market;
         save.town = town.id;
-        if (WORLD_V2) questsV2.enterTown(info.affinity, town.id);
+        if (WORLD_V2 && !options.online) questsV2.enterTown(info.affinity, town.id);
       }
     },
     dispose() {
+      stopOnline();
+      if (options.online) questsV2.detach();
       stopRewards();
       spawnStream.dispose();
       disposed = true;

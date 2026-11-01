@@ -12,6 +12,7 @@ import {
   ALL_QUESTS_V2,
   discoverHiddenPlace,
   loadSaveFromStorage,
+  createDefaultSaveV5,
   recordQuestObjectiveEvent,
   saveToStorage,
   startQuest,
@@ -20,105 +21,126 @@ import {
 import type { PlayerSaveV5, QuestDefinition } from "./types";
 
 const DISCOVER_RADIUS = 450;
-let save: PlayerSaveV5 | undefined;
-const listeners = new Set<() => void>();
 export type QuestReward = { xp: number; gold: number; items: Partial<Record<string, number>> };
-const rewardListeners = new Set<(reward: QuestReward) => void>();
+export function createQuestTracker(
+  load: () => PlayerSaveV5 = loadSaveFromStorage,
+  persist: (save: PlayerSaveV5) => void = saveToStorage,
+) {
+  let save: PlayerSaveV5 | undefined;
+  let remote: ((id: string) => void) | undefined;
+  const listeners = new Set<() => void>();
+  const rewardListeners = new Set<(reward: QuestReward) => void>();
 
-function current() {
-  save ??= syncQuestAvailability(loadSaveFromStorage());
-  return save;
-}
-function commit(next: PlayerSaveV5) {
-  if (next === save) return;
-  const prev = save;
-  save = next;
-  // The engine credits its own save; every increase is handed to the game character as well.
-  if (prev) {
-    const items: Partial<Record<string, number>> = {};
-    for (const [k, n] of Object.entries(next.inventory)) {
-      const gained = n - (prev.inventory[k as keyof typeof prev.inventory] ?? 0);
-      if (gained > 0) items[k] = gained;
-    }
-    const reward = {
-      xp: Math.max(0, next.xp - prev.xp),
-      gold: Math.max(0, next.coins - prev.coins),
-      items,
-    };
-    if (reward.xp || reward.gold || Object.keys(items).length)
-      for (const l of rewardListeners) l(reward);
+  function current() {
+    save ??= syncQuestAvailability(load());
+    return save;
   }
-  saveToStorage(next);
-  for (const l of listeners) l();
-}
-
-export const questsV2 = {
-  get save() {
-    return current();
-  },
-  /** Called with every reward the engine grants (quest completion, discoveries, events). */
-  onReward(listener: (reward: QuestReward) => void) {
-    rewardListeners.add(listener);
-    return () => rewardListeners.delete(listener);
-  },
-  subscribe(listener: () => void) {
-    listeners.add(listener);
-    return () => listeners.delete(listener);
-  },
-  /** Quests of a continent the journal shows: available, active and completed, hidden ones once triggered. */
-  journal(continent: string): { quest: QuestDefinition; state: string; stage: number }[] {
-    const s = current();
-    return ALL_QUESTS_V2.filter((q) => q.continent === continent)
-      .map((quest) => ({
-        quest,
-        state: s.quests[quest.id]?.state ?? "unavailable",
-        stage: s.quests[quest.id]?.currentStageIndex ?? 0,
-      }))
-      .filter((q) => q.state !== "unavailable");
-  },
-  start(questId: string) {
-    commit(startQuest(current(), questId));
-  },
-  level(level: number) {
-    const s = current();
-    if (s.level !== level) commit(syncQuestAvailability({ ...s, level }));
-  },
-  enterTown(continent: string, settlementId: string) {
-    const city = Object.entries(v2Places(continent)?.cities ?? {}).find(
-      ([, c]) => c.settlement === settlementId,
-    )?.[0];
-    if (city) commit(recordQuestObjectiveEvent(current(), "visit", city));
-  },
-  /**
-   * A conversation with a game NPC (guide, merchant, smith, hunter) in a v2 town counts for every
-   * Argon NPC of that town bound to it (bindingId "<continent>.npc.<id>").
-   */
-  talk(continent: string, settlementId: string, npcId: string) {
-    const binding = continent + ".npc." + npcId;
-    const city = Object.entries(v2Places(continent)?.cities ?? {}).find(
-      ([, c]) => c.settlement === settlementId,
-    )?.[0];
-    let s = recordQuestObjectiveEvent(current(), "talk", binding);
-    for (const npc of ALL_CITIES_V2.find((c) => c.id === city)?.npcs ?? [])
-      if (npc.bindingId === binding) s = recordQuestObjectiveEvent(s, "talk", npc.id);
-    commit(s);
-  },
-  /** Called every tick with the player position; discovers places within reach once. */
-  near(continent: string, x: number, y: number) {
-    const places = v2Places(continent);
-    if (!places) return;
-    let s = current();
-    for (const [id, f] of Object.entries(places.famousById))
-      if (!s.discoveredLocationIds.includes(id) && Math.hypot(f.x - x, f.y - y) < DISCOVER_RADIUS)
-        s = recordQuestObjectiveEvent(s, "discover", id);
-    for (const [id, h] of Object.entries(places.hidden)) {
-      const radius = ALL_HIDDEN_PLACES_V2.find((p) => p.id === id)?.radius ?? 0;
-      if (!s.discoveredLocationIds.includes(id) && Math.hypot(h.x - x, h.y - y) < radius + 200)
-        s = discoverHiddenPlace(s, id);
+  function commit(next: PlayerSaveV5) {
+    if (next === save) return;
+    const prev = save;
+    save = next;
+    // The engine credits its own save; every increase is handed to the game character as well.
+    if (prev) {
+      const items: Partial<Record<string, number>> = {};
+      for (const [k, n] of Object.entries(next.inventory)) {
+        const gained = n - (prev.inventory[k as keyof typeof prev.inventory] ?? 0);
+        if (gained > 0) items[k] = gained;
+      }
+      const reward = {
+        xp: Math.max(0, next.xp - prev.xp),
+        gold: Math.max(0, next.coins - prev.coins),
+        items,
+      };
+      if (reward.xp || reward.gold || Object.keys(items).length)
+        for (const l of rewardListeners) l(reward);
     }
-    commit(s);
-  },
-  defeated(monsterKind: string) {
-    commit(recordQuestObjectiveEvent(current(), "combat", monsterKind));
-  },
-};
+    persist(next);
+    for (const l of listeners) l();
+  }
+
+  return {
+    mirror(next: PlayerSaveV5, start: (id: string) => void) {
+      remote = start;
+      save = next;
+      for (const l of listeners) l();
+    },
+    detach() {
+      remote = undefined;
+      save = undefined;
+    },
+    get save() {
+      return current();
+    },
+    /** Called with every reward the engine grants (quest completion, discoveries, events). */
+    onReward(listener: (reward: QuestReward) => void) {
+      rewardListeners.add(listener);
+      return () => rewardListeners.delete(listener);
+    },
+    subscribe(listener: () => void) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    /** Quests of a continent the journal shows: available, active and completed, hidden ones once triggered. */
+    journal(continent: string): { quest: QuestDefinition; state: string; stage: number }[] {
+      const s = current();
+      return ALL_QUESTS_V2.filter((q) => q.continent === continent)
+        .map((quest) => ({
+          quest,
+          state: s.quests[quest.id]?.state ?? "unavailable",
+          stage: s.quests[quest.id]?.currentStageIndex ?? 0,
+        }))
+        .filter((q) => q.state !== "unavailable");
+    },
+    start(questId: string) {
+      if (remote) {
+        remote(questId);
+        return;
+      }
+      commit(startQuest(current(), questId));
+    },
+    level(level: number) {
+      const s = current();
+      if (s.level !== level) commit(syncQuestAvailability({ ...s, level }));
+    },
+    enterTown(continent: string, settlementId: string) {
+      const city = Object.entries(v2Places(continent)?.cities ?? {}).find(
+        ([, c]) => c.settlement === settlementId,
+      )?.[0];
+      if (city) commit(recordQuestObjectiveEvent(current(), "visit", city));
+    },
+    /**
+     * A conversation with a game NPC (guide, merchant, smith, hunter) in a v2 town counts for every
+     * Argon NPC of that town bound to it (bindingId "<continent>.npc.<id>").
+     */
+    talk(continent: string, settlementId: string, npcId: string) {
+      const binding = continent + ".npc." + npcId;
+      const city = Object.entries(v2Places(continent)?.cities ?? {}).find(
+        ([, c]) => c.settlement === settlementId,
+      )?.[0];
+      let s = recordQuestObjectiveEvent(current(), "talk", binding);
+      for (const npc of ALL_CITIES_V2.find((c) => c.id === city)?.npcs ?? [])
+        if (npc.bindingId === binding) s = recordQuestObjectiveEvent(s, "talk", npc.id);
+      commit(s);
+    },
+    /** Called every tick with the player position; discovers places within reach once. */
+    near(continent: string, x: number, y: number) {
+      const places = v2Places(continent);
+      if (!places) return;
+      let s = current();
+      for (const [id, f] of Object.entries(places.famousById))
+        if (!s.discoveredLocationIds.includes(id) && Math.hypot(f.x - x, f.y - y) < DISCOVER_RADIUS)
+          s = recordQuestObjectiveEvent(s, "discover", id);
+      for (const [id, h] of Object.entries(places.hidden)) {
+        const radius = ALL_HIDDEN_PLACES_V2.find((p) => p.id === id)?.radius ?? 0;
+        if (!s.discoveredLocationIds.includes(id) && Math.hypot(h.x - x, h.y - y) < radius + 200)
+          s = discoverHiddenPlace(s, id);
+      }
+      commit(s);
+    },
+    defeated(monsterKind: string) {
+      commit(recordQuestObjectiveEvent(current(), "combat", monsterKind));
+    },
+  };
+}
+export const questsV2 = createQuestTracker();
+export { createDefaultSaveV5 };

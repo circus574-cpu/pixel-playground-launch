@@ -9,6 +9,7 @@ import { RaceArtwork } from "./RaceArtwork";
 import "./character-selection.css";
 
 type Props = {
+  online?: boolean;
   slots: CharacterSlot[];
   startWithOrigins?: boolean;
   requestedContinent?: WorldId | undefined;
@@ -20,6 +21,7 @@ type Props = {
   onDelete?: (slot: CharacterSlot) => void;
 };
 export function CharacterSelection({
+  online = false,
   slots,
   warning,
   onCreate,
@@ -118,7 +120,11 @@ export function CharacterSelection({
         <section className="ki-roster" aria-label="Zapisane postacie">
           <p className="ki-origin-eyebrow">TWOJE HISTORIE</p>
           <h1>Wróć na swój szlak.</h1>
-          <p>Każda postać ma własną historię zapisaną na tym urządzeniu.</p>
+          <p>
+            {online
+              ? "Każda postać ma własną historię zapisaną na serwerze."
+              : "Każda postać ma własną historię zapisaną na tym urządzeniu."}
+          </p>
           <div className="ki-slot-grid">
             {visibleSlots.map((slot) => (
               <article key={slot.id} className="ki-slot">
@@ -152,7 +158,9 @@ export function CharacterSelection({
                   {onDelete && slot.player && confirming === slot.id && (
                     <div className="ki-slot-confirm" role="group" aria-label="Potwierdź usunięcie">
                       <p>
-                        Usunąć tę postać na stałe? Zapis zostanie skasowany z tego urządzenia.
+                        {online
+                          ? "Wycofać tę postać z gry? Zniknie z listy aktywnych postaci."
+                          : "Usunąć tę postać na stałe? Zapis zostanie skasowany z tego urządzenia."}
                         {slot.id === "legacy" &&
                           " Oryginał z etapu 2 pozostaje w pamięci przeglądarki."}
                       </p>
@@ -392,7 +400,11 @@ export function CharacterSelection({
             </div>
           </section>
           <footer className="ki-origins-footer">
-            <span>Lokalna przygoda PvE · postęp na tym urządzeniu</span>
+            <span>
+              {online
+                ? "Gra serwerowa PvE · postęp w bazie serwera"
+                : "Lokalna przygoda PvE · postęp na tym urządzeniu"}
+            </span>
             <span>
               Oryginalne ilustracje Ki Legends. W rozgrywce wspólny ludzki sprite; nowe krainy
               korzystają z tymczasowej grafiki.

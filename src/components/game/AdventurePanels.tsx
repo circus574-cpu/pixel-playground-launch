@@ -28,7 +28,15 @@ export function ItemIcon({ item }: { item: ItemId }) {
     />
   );
 }
-export function Inventory({ state, send }: { state: GameViewState; send: SendCommand }) {
+export function Inventory({
+  state,
+  send,
+  authoritative = false,
+}: {
+  state: GameViewState;
+  send: SendCommand;
+  authoritative?: boolean;
+}) {
   const p = state.player;
   return (
     <div className="ki-adventure-panel">
@@ -124,8 +132,10 @@ export function Inventory({ state, send }: { state: GameViewState; send: SendCom
         </div>
       )}
       <p className="ki-panel-caption">
-        Przedmioty układają się w stosy do 99. Wyposażenie pozostaje w plecaku. Zapis lokalny na tym
-        urządzeniu.
+        Przedmioty układają się w stosy do 99. Wyposażenie pozostaje w plecaku.{" "}
+        {authoritative
+          ? "Postęp i wyposażenie zapisuje serwer."
+          : "Zapis lokalny na tym urządzeniu."}
       </p>
     </div>
   );
@@ -231,6 +241,7 @@ export function QuestJournal({
   );
 }
 export function NpcDialogue({
+  authoritative = false,
   state,
   send,
   feedback,
@@ -240,6 +251,7 @@ export function NpcDialogue({
   state: GameViewState;
   send: SendCommand;
   feedback?: ReactNode;
+  authoritative?: boolean;
 }) {
   const world = worldOverride ?? WORLDS[state.player.continent];
   const npc = world.npcs.find((n) => n.id === state.dialogue);
@@ -262,7 +274,10 @@ export function NpcDialogue({
       hunter:
         "Dziki krążą przy wschodniej drodze i na zachód od rynku. Przyjmij zadanie, pokonaj trzy i wróć. Kliknięcie dzika uruchamia podejście i autoatak. Skróty 1–9, 0 i Q odpowiadają przyciskom na dole; spacja to atak podstawowy.",
       merchant:
-        "U mnie kupisz mikstury i pancerz. Płacę za kły dzików. Monety i przedmioty pozostaną na tym urządzeniu po odświeżeniu.",
+        "U mnie kupisz mikstury i pancerz. Płacę za kły dzików. " +
+        (authoritative
+          ? "Monety i przedmioty zapisuje serwer gry."
+          : "Monety i przedmioty pozostaną na tym urządzeniu po odświeżeniu."),
       smith:
         "Ren daje ostrze za obronę wioski. Przyjmij u mnie zadanie, załóż je w ekwipunku i wróć. Za 15 monet mogę też raz ulepszyć założone ostrze o 4 ataku.",
       keeper: "Twoja skrzynia jest w depozycie.",
@@ -414,7 +429,9 @@ export function NpcDialogue({
             />
           )}
           <p className="ki-panel-caption">
-            Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry.
+            {authoritative
+              ? "Zamknij okno, aby wrócić do gry. Świat na serwerze pozostaje aktywny."
+              : "Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry."}
           </p>
           <button onClick={() => send({ type: "dialogue", action: "close" })}>Do zobaczenia</button>
         </div>

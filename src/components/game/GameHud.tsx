@@ -65,6 +65,7 @@ import "./manga-hud.css";
 import "./hud-v2-landscape.css";
 
 type Props = {
+  authoritative?: boolean;
   onStartExam?: StartExam | undefined;
   /** Continents a special staff character can travel to directly. */
   staffDestinations?: { id: string; name: string }[] | undefined;
@@ -208,6 +209,7 @@ function TechniqueBank({
 }
 
 export function GameHud({
+  authoritative = false,
   onStartExam,
   state,
   zoom,
@@ -264,7 +266,7 @@ export function GameHud({
   }, [state.noticeId, tab, chatOpen, messages]);
   // Non-intrusive multiplayer background sync (Dual-Mode)
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (authoritative || typeof window === "undefined") return;
     const cid = state.player.name ? `char-${state.player.name}` : `char-${state.player.race}`;
     multiplayerClient.auth({
       characterId: cid,
@@ -276,10 +278,19 @@ export function GameHud({
       x: state.x,
       y: state.y,
     });
-  }, [state.player.race, state.player.level, state.player.name, state.player.continent, planetLocation, state.x, state.y]);
+  }, [
+    authoritative,
+    state.player.race,
+    state.player.level,
+    state.player.name,
+    state.player.continent,
+    planetLocation,
+    state.x,
+    state.y,
+  ]);
 
   useEffect(() => {
-    if (!multiplayerClient.isConnected()) return;
+    if (authoritative || !multiplayerClient.isConnected()) return;
     multiplayerClient.sendPosition({
       x: state.x,
       y: state.y,
@@ -290,7 +301,17 @@ export function GameHud({
       hp: state.player.hp,
       ki: state.player.ki,
     });
-  }, [state.x, state.y, state.inCity, state.target, state.player.hp, state.player.ki, state.player.continent, planetLocation]);
+  }, [
+    authoritative,
+    state.x,
+    state.y,
+    state.inCity,
+    state.target,
+    state.player.hp,
+    state.player.ki,
+    state.player.continent,
+    planetLocation,
+  ]);
 
   const [preferences, setPreferences] = useState(readUiPreferences);
   const [hiddenSaveWarning, setHiddenSaveWarning] = useState("");
@@ -942,6 +963,7 @@ export function GameHud({
       )}
       {!panel && state.dialogue && (
         <NpcDialogue
+          authoritative={authoritative}
           worldOverride={worldOverride}
           state={state}
           send={onCommand}
@@ -1141,7 +1163,7 @@ export function GameHud({
               (WORLD_V2 ? (
                 <DiabloInventory state={state} send={onCommand} />
               ) : (
-                <Inventory state={state} send={onCommand} />
+                <Inventory authoritative={authoritative} state={state} send={onCommand} />
               ))}
             {panel === "journal" && (
               <QuestJournal

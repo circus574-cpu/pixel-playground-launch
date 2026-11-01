@@ -17,8 +17,9 @@ import type {
 import type { FeatureId } from "../game/world/generated/superiorSave";
 import type { RaceId, WorldId } from "../game/world/races";
 import { PgCharacterRepository } from "./characters/repository";
-import { accountVerifier } from "./characters/auth";
+import { accountRole, accountVerifier } from "./characters/auth";
 import { characterHttp, type VerifyAccount } from "./characters/http";
+import { serveOnlineSocket } from "./characters/socket";
 
 export interface GameServerConfig {
   port: number;
@@ -61,6 +62,9 @@ export class GameServer {
   private config: GameServerConfig;
   private httpServer: http.Server;
   private wss: WebSocketServer;
+  private onlinePlayers = new Map<WebSocket, NetworkPlayerState>();
+  private onlineClosers = new Map<WebSocket, () => Promise<void>>();
+  private onlineSockets = new Set<WebSocket>();
   private sessions = new Map<string, ConnectedSession>();
   private socketToCharacterId = new Map<WebSocket, string>();
   private tickInterval: NodeJS.Timeout | null = null;
@@ -70,6 +74,7 @@ export class GameServer {
   private verifyAccount: VerifyAccount | null = null;
   private tickCount = 0;
   private tickTimes: number[] = [];
+  private onlineTickTimes: number[] = [];
   private packetsIn = 0;
   private packetsOut = 0;
   private bytesIn = 0;
@@ -97,7 +102,17 @@ export class GameServer {
     };
 
     this.httpServer = http.createServer((req, res) => this.handleHttpRequest(req, res));
-    this.wss = new WebSocketServer({ server: this.httpServer });
+    this.wss = new WebSocketServer({
+      server: this.httpServer,
+      maxPayload: 16384,
+      perMessageDeflate: {
+        threshold: 1024,
+        serverNoContextTakeover: true,
+        clientNoContextTakeover: true,
+        concurrencyLimit: 2,
+        zlibDeflateOptions: { level: 3 },
+      },
+    });
     this.setupWebSocketServer();
   }
 
@@ -119,7 +134,7 @@ export class GameServer {
         region: this.config.region,
         port: this.config.port,
         tickRateHz: this.config.tickRateHz,
-        activePlayers: this.sessions.size,
+        activePlayers: this.sessions.size + this.onlinePlayers.size,
         maxPlayers: this.config.maxPlayers,
         tickP50Ms: Math.round(p50 * 10) / 10,
         tickP95Ms: Math.round(p95 * 10) / 10,
@@ -141,6 +156,92 @@ export class GameServer {
 
   private setupWebSocketServer(): void {
     this.wss.on("connection", (socket: WebSocket, req: http.IncomingMessage) => {
+      if (this.sessions.size + this.onlineSockets.size >= this.config.maxPlayers) {
+        socket.close(1013, "Serwer pełny");
+        return;
+      }
+      if (req.url?.split("?")[0] === "/ws/online") {
+        if (!this.characterRepository || !this.verifyAccount) {
+          socket.close(1013, "Trwała gra online jest niedostępna.");
+          return;
+        }
+        this.onlineSockets.add(socket);
+        const online = serveOnlineSocket(socket, {
+          onClose: () => {
+            this.onlineSockets.delete(socket);
+            this.onlineClosers.delete(socket);
+            this.onlinePlayers.delete(socket);
+          },
+          onFrame: (frame) => {
+            const p = frame.view.player;
+            this.onlinePlayers.set(socket, {
+              characterId: frame.characterId,
+              accountId: "",
+              nick: p.name ?? "Wędrowiec",
+              race: p.race,
+              level: p.level,
+              worldId: frame.feature,
+              continent: p.continent,
+              x: p.x,
+              y: p.y,
+              vx: frame.moving ? frame.facing.x : 0,
+              vy: frame.moving ? frame.facing.y : 0,
+              activity: p.interior ? "interior" : frame.view.inCity ? "safe" : "exploring",
+              hp: p.hp,
+              maxHp: frame.view.stats.maxHp,
+              ki: p.ki,
+              maxKi: frame.view.stats.maxKi,
+              inSafeCity: frame.view.inCity,
+              pingMs: 0,
+              lastUpdated: Date.now(),
+            });
+          },
+          peers: (frame) =>
+            frame.exam
+              ? []
+              : [...this.onlinePlayers.values()]
+                  .filter(
+                    (p) =>
+                      p.characterId !== frame.characterId &&
+                      p.worldId === frame.feature &&
+                      p.activity !== "interior" &&
+                      Math.hypot(p.x - frame.view.x, p.y - frame.view.y) < 1800,
+                  )
+                  .slice(0, 16),
+          metric: (kind, value) => {
+            if (kind === "in") {
+              this.packetsIn++;
+              this.bytesIn += value;
+            } else if (kind === "out") {
+              this.packetsOut++;
+              this.bytesOut += value;
+            } else {
+              this.onlineTickTimes.push(value);
+              if (this.onlineTickTimes.length > 200) this.onlineTickTimes.shift();
+            }
+          },
+          repository: this.characterRepository,
+          verify: this.verifyAccount,
+          role: (token, subject) =>
+            accountRole(
+              {
+                url: process.env["SUPABASE_URL"] ?? "",
+                publishableKey: process.env["SUPABASE_PUBLISHABLE_KEY"] ?? "",
+              },
+              token,
+              subject,
+            ),
+          ...(process.env["GAME_WORLD_PUBLIC_ROOT"]
+            ? { publicRoot: process.env["GAME_WORLD_PUBLIC_ROOT"] }
+            : {}),
+        });
+        this.onlineClosers.set(socket, online.close);
+        return;
+      }
+      if (this.characterRepository || process.env["GAME_ONLINE_REQUIRED"] === "1") {
+        socket.close(1008, "Wymagana uwierzytelniona sesja /ws/online");
+        return;
+      }
       if (this.sessions.size >= this.config.maxPlayers) {
         this.sendToSocket(socket, {
           type: "error",
@@ -471,8 +572,9 @@ export class GameServer {
   }
 
   private getPercentileTickTime(pct: number): number {
-    if (this.tickTimes.length === 0) return 0;
-    const sorted = [...this.tickTimes].sort((a, b) => a - b);
+    const samples = this.onlinePlayers.size ? this.onlineTickTimes : this.tickTimes;
+    if (samples.length === 0) return 0;
+    const sorted = [...samples].sort((a, b) => a - b);
     const idx = Math.min(sorted.length - 1, Math.floor(sorted.length * pct));
     return sorted[idx] ?? 0;
   }
@@ -518,6 +620,11 @@ export class GameServer {
           max: 10,
           idle_timeout: 20,
           connect_timeout: 5,
+          connection: {
+            application_name: "ki-game-server",
+            statement_timeout: 8000,
+            lock_timeout: 2000,
+          },
         });
         await this.db`SELECT 1`;
         const repository = new PgCharacterRepository(this.db);
@@ -544,8 +651,20 @@ export class GameServer {
       console.log("[GameServer] Tryb AUTONOMICZNY (w pamięci RAM) — brak adresu PostgreSQL.");
     }
 
-    await new Promise<void>((resolve) => {
+    if (process.env["GAME_ONLINE_REQUIRED"] === "1" && !this.characterRepository) {
+      this.isRunning = false;
+      await this.db?.end().catch(() => {});
+      this.db = null;
+      throw Error("ONLINE_STORAGE_UNAVAILABLE");
+    }
+    await new Promise<void>((resolve, reject) => {
+      const failed = (error: Error) => {
+        this.isRunning = false;
+        reject(error);
+      };
+      this.httpServer.once("error", failed);
       this.httpServer.listen(this.config.port, () => {
+        this.httpServer.off("error", failed);
         console.log(
           `[GameServer] Serwer gry '${this.config.name}' (${this.config.nodeId}) nasłuchuje na porcie ${this.config.port} (20 Hz tick, max ${this.config.maxPlayers} graczy).`,
         );
@@ -570,6 +689,9 @@ export class GameServer {
     if (this.tickInterval) clearInterval(this.tickInterval);
     if (this.dbSyncInterval) clearInterval(this.dbSyncInterval);
 
+    await Promise.allSettled([...this.onlineClosers.values()].map((close) => close()));
+    for (const socket of this.onlineSockets) socket.close(1001, "Serwer zatrzymany");
+    for (const socket of this.wss.clients) socket.close(1001, "Serwer zatrzymany");
     for (const s of this.sessions.values()) {
       try {
         s.socket.close(1000, "Serwer gry został zatrzymany");
@@ -595,7 +717,7 @@ export class GameServer {
   }
 
   public getSessionCount(): number {
-    return this.sessions.size;
+    return this.sessions.size + this.onlinePlayers.size;
   }
 
   public getNodeId(): string {
@@ -634,7 +756,10 @@ export class GameServer {
   }
 
   public getActiveSessions(): NetworkPlayerState[] {
-    return Array.from(this.sessions.values()).map((s) => this.toNetworkState(s));
+    return [
+      ...Array.from(this.sessions.values()).map((s) => this.toNetworkState(s)),
+      ...this.onlinePlayers.values(),
+    ];
   }
 
   public getMetrics(): {

@@ -1,0 +1,1 @@
+{"passed":25,"failed":0,"scope":"real isolated PostgreSQL17, actual repository, ownership/CAS/idempotency/readback/leases/retirement/quota"}

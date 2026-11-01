@@ -21,3 +21,26 @@ export function accountVerifier(config: { url: string; publishableKey: string })
     return { project, subject: data.id };
   };
 }
+
+/** Staff rights come from protected account rows, never browser claims/user_metadata. */
+export async function accountRole(
+  config: { url: string; publishableKey: string },
+  token: string,
+  subject: string,
+): Promise<"admin" | "gm" | undefined> {
+  const url = new URL("/rest/v1/user_roles", config.url);
+  url.searchParams.set("select", "role");
+  url.searchParams.set("user_id", "eq." + z.string().uuid().parse(subject));
+  const response = await fetch(url, {
+    headers: { apikey: config.publishableKey, Authorization: "Bearer " + token },
+    signal: AbortSignal.timeout(8000),
+    redirect: "error",
+  });
+  if (!response.ok) throw Error("ROLE_VERIFICATION_FAILED");
+  const rows = z.array(z.object({ role: z.enum(["admin", "gm"]) })).parse(await response.json());
+  return rows.some((r) => r.role === "admin")
+    ? "admin"
+    : rows.some((r) => r.role === "gm")
+      ? "gm"
+      : undefined;
+}

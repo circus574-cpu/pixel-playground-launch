@@ -26,7 +26,7 @@ export interface ManagedServerStatus {
   packetsOutSec: number;
 }
 
-export async function startServerFromAdmin(options?: {
+async function startServerCore(options?: {
   port?: number | undefined;
   nodeId?: string | undefined;
   name?: string | undefined;
@@ -89,11 +89,23 @@ export async function startServerFromAdmin(options?: {
   }
 }
 
+let starting: ReturnType<typeof startServerCore> | undefined;
+export async function startServerFromAdmin(options?: Parameters<typeof startServerCore>[0]) {
+  if (starting) return starting;
+  starting = startServerCore(options);
+  try {
+    return await starting;
+  } finally {
+    starting = undefined;
+  }
+}
+
 export async function stopServerFromAdmin(): Promise<{
   ok: boolean;
   message: string;
   status: ManagedServerStatus;
 }> {
+  if (starting) await starting;
   if (!activeServerInstance) {
     return {
       ok: true,
@@ -144,4 +156,17 @@ export function getServerStatusFromAdmin(): ManagedServerStatus {
     packetsInSec: metrics?.packetsInSec ?? 0,
     packetsOutSec: metrics?.packetsOutSec ?? 0,
   };
+}
+
+let boot: Promise<void> | undefined;
+/** Opt-in production bootstrap, once per process. An admin Stop remains stopped until Start/restart. */
+export function bootstrapGameServer(): Promise<void> {
+  if (process.env["GAME_SERVER_AUTOSTART"] !== "1") return Promise.resolve();
+  boot ??= startServerFromAdmin().then((result) => {
+    if (!result.ok) {
+      boot = undefined;
+      throw Error("GAME_SERVER_BOOT_FAILED");
+    }
+  });
+  return boot;
 }

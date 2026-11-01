@@ -35,6 +35,10 @@ export async function characterHttp(
     if (request.method === "GET" && url.pathname === "/ws/characters")
       return send(200, { characters: await repository.list(principal) });
     const match = url.pathname.match(/^\/ws\/characters\/([a-f0-9-]{36})$/);
+    if (request.method === "DELETE" && match) {
+      await repository.retire(principal, match[1]!);
+      return send(200, { retired: true });
+    }
     if (request.method === "GET" && match)
       return send(200, await repository.read(principal, match[1]!));
     if (request.method !== "POST" || url.pathname !== "/ws/characters")

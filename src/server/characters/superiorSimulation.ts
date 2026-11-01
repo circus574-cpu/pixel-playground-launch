@@ -1,3 +1,7 @@
+import { createQuestTracker, createDefaultSaveV5 } from "../../game/quests/v2Tracker";
+import type { PlayerSaveV5 } from "../../game/quests/types";
+import type { ExamAttempt } from "../../game/development/exams";
+import { isDeepStrictEqual } from "node:util";
 import { monsterDef } from "../../game/monsters/catalog";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -18,6 +22,7 @@ import { v2Places } from "../../game/worlds/v2Places";
 import { RACES } from "../../game/world/races";
 import type { CharacterRecord, CharacterState } from "./repository";
 import { onlineCommand } from "./commands";
+import { captureCombat, restoreCombat } from "./transient";
 
 /** Filesystem fetcher for the SAME verified manifests/navigation as the browser. Never fetch
  * a URL supplied by a player and never select world v1 through a Node/window fallback. */
@@ -82,7 +87,7 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
   let restored = save.load();
   if (envelope !== undefined && !restored)
     throw Error("Invalid server checkpoint: " + save.warning);
-  if (restored && JSON.stringify(restored) !== JSON.stringify(record.state.player))
+  if (restored && !isDeepStrictEqual((envelope as { player: unknown }).player, record.state.player))
     throw Error("Checkpoint/player mismatch");
   const initial: Player = restored ?? {
     ...structuredClone(record.state.player),
@@ -141,6 +146,26 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
     throw Error("Invalid server clock");
   let now = typeof restoredClock === "number" ? restoredClock : 0;
   session.nowMs = now;
+  restoreCombat(session, record.state.runtime["combat"]);
+  if (envelope !== undefined && !record.state.player.dead && record.state.player.hp > 0) {
+    session.player.hp = Math.min(record.state.player.hp, session.kit.stats.maxHp);
+    session.player.ki = Math.min(record.state.player.ki, session.kit.stats.maxKi);
+  }
+  const quests = createQuestTracker(
+    () =>
+      (record.state.runtime["quests"] as unknown as PlayerSaveV5 | undefined) ??
+      createDefaultSaveV5(info.affinity),
+    () => {},
+  );
+  quests.onReward((reward) =>
+    session.grantQuestReward(
+      { xp: reward.xp, gold: reward.gold, items: reward.items as Record<string, number> },
+      "przygoda Argona",
+    ),
+  );
+  quests.enterTown(info.affinity, loadedStore.town ?? "");
+  let previousDialogue: string | null = null;
+  const deaths = new WeakSet<object>();
   const stream = streamSpawns(
     session,
     loadedStore,
@@ -149,16 +174,39 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
     () => now,
   );
   loadedStore.beforeSave = stream.capture;
+  let exam: ExamAttempt | undefined;
   return {
     session,
+    get activeSession() {
+      return exam?.session ?? session;
+    },
+    get exam() {
+      return exam;
+    },
     feature: info.id,
     async tick(dt: number) {
       if (!Number.isFinite(dt) || dt < 0 || dt > 1000) throw Error("Invalid server tick");
+      if (exam) {
+        exam.session.tick(dt);
+        exam.update();
+        return;
+      }
       now += dt;
       stream.update();
       await Promise.resolve();
       await Promise.resolve();
       session.tick(dt);
+      if (!session.player.interior) quests.near(info.affinity, session.player.x, session.player.y);
+      quests.level(session.player.level);
+      if (session.dialogue && session.dialogue !== previousDialogue)
+        quests.talk(info.affinity, loadedStore.town ?? "", session.dialogue);
+      previousDialogue = session.dialogue ?? null;
+      for (const event of session.events) {
+        if (event.type !== "death" || event.target === "player" || deaths.has(event)) continue;
+        deaths.add(event);
+        const kind = session.enemies.find((e) => e.id === event.target)?.kind;
+        if (kind) quests.defeated(kind);
+      }
       const town = source.settlements.find(
         (t) =>
           built.cities.has(t.id) &&
@@ -169,6 +217,7 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       );
       if (town && !session.player.interior) {
         const city = built.cities.get(town.id)!;
+        if (loadedStore.town !== town.id) quests.enterTown(info.affinity, town.id);
         loadedStore.town = town.id;
         built.world.city = city.city;
         built.world.npcs = city.npcs;
@@ -176,7 +225,62 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       }
     },
     command(command: unknown) {
-      session.command(onlineCommand(command));
+      const input = onlineCommand(command, !!session.staff);
+      if (input.type === "exam-start") {
+        if (!exam)
+          exam = session.startDevelopmentExam(input.discipline, input.tier, input.rehearsal);
+        if (exam) session.command({ type: "pause", value: true });
+      } else if (input.type === "exam-action") {
+        if (!exam) return;
+        if (input.action === "charge") exam.chargeNode();
+        if (input.action === "retry") exam = session.retryDevelopmentExam(exam) ?? exam;
+        if (input.action === "accept" && session.finishDevelopmentExam(exam)) exam = undefined;
+        if (input.action === "leave" && exam) {
+          session.leaveDevelopmentExam(exam);
+          exam = undefined;
+        }
+        if (!exam) session.command({ type: "pause", value: false });
+      } else if (input.type === "exam-input") {
+        exam?.session.command(input.command as Command);
+      } else if (exam) return;
+      else if (input.type === "quest-start") quests.start(input.id);
+      else if (input.type !== "travel" && input.type !== "staff-travel")
+        session.command(input as Command);
+    },
+    async travel(destination: FeatureId, staff = false, point?: { x: number; y: number }) {
+      const next = index.features.find((f) => f.id === destination);
+      if (
+        exam ||
+        !next ||
+        next.id === info.id ||
+        session.player.interior ||
+        session.player.dead ||
+        (!staff &&
+          (session.dialogue ||
+            Math.hypot(session.player.x - info.arrival.x, session.player.y - info.arrival.y) >=
+              320)) ||
+        (staff && !session.staff)
+      )
+        throw Error("TRAVEL_UNAVAILABLE");
+      if (
+        point &&
+        !(await loadBrowserFeature(basePath, destination, { fetcher })).navigation.walkable(point)
+      )
+        throw Error("INVALID_DESTINATION");
+      session.command({ type: "cancel" });
+      if (!loadedStore.travel(session.player, next, point)) throw Error("TRAVEL_FAILED");
+      const superior = JSON.parse(data.get(record.id)!);
+      return {
+        format: "server-character-1" as const,
+        player: superior.player,
+        runtime: {
+          feature: next.id,
+          simulationMs: now,
+          combat: captureCombat(session),
+          superior,
+          quests: JSON.parse(JSON.stringify(quests.save)),
+        },
+      };
     },
     capture(): CharacterState {
       if (!loadedStore.save(session.player)) throw Error("Cannot capture server simulation");
@@ -186,6 +290,8 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
         runtime: {
           feature: info.id,
           simulationMs: now,
+          quests: JSON.parse(JSON.stringify(quests.save)),
+          combat: captureCombat(session),
           superior: JSON.parse(data.get(record.id)!),
         },
       };

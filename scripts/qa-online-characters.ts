@@ -98,11 +98,55 @@ try {
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
   }
+  const leased = await repo.create(owner, "planetary", "LeaseTester");
+  const firstLease = randomUUID(),
+    nextLease = randomUUID();
+  await repo.acquire(owner, leased.id, firstLease);
+  await assert.rejects(repo.acquire(owner, leased.id, nextLease), { code: "SESSION_BUSY" });
+  count++;
+  await assert.rejects(repo.retire(owner, leased.id), { code: "SESSION_BUSY" });
+  count++;
+  const leasedCommit = {
+    principal: owner,
+    characterId: leased.id,
+    expectedRevision: leased.revision,
+    operationId: randomUUID(),
+    commandDigest: commandDigest({ leaseTest: 1 }),
+    state: leased.state,
+    leaseId: nextLease,
+  };
+  await assert.rejects(repo.commit(leasedCommit), { code: "LEASE_LOST" });
+  count++;
+  await db`UPDATE game.online_character_state SET lease_until=now()-interval '1 second' WHERE character_id=${leased.id}`;
+  await repo.acquire(owner, leased.id, nextLease);
+  await repo.release(leased.id, firstLease);
+  await assert.rejects(repo.commit({ ...leasedCommit, leaseId: firstLease }), {
+    code: "LEASE_LOST",
+  });
+  count++;
+  await repo.commit(leasedCommit);
+  count++;
+  await repo.release(leased.id, nextLease);
+  await assert.rejects(
+    repo.commit({ ...leasedCommit, operationId: randomUUID(), expectedRevision: 2 }),
+    { code: "LEASE_LOST" },
+  );
+  count++;
+  await assert.rejects(repo.retire(other, leased.id), { code: "NOT_FOUND" });
+  count++;
+  await repo.retire(owner, leased.id);
+  await assert.rejects(repo.read(owner, leased.id), { code: "NOT_FOUND" });
+  count++;
+  const quotaOwner = { ...owner, subject: randomUUID() };
+  for (let i = 0; i < 12; i++) await repo.create(quotaOwner, "sage", "QuotaTester");
+  await assert.rejects(repo.create(quotaOwner, "sage", "QuotaTester"), { code: "CHARACTER_LIMIT" });
+  count++;
   console.log(
     JSON.stringify({
       passed: count,
       failed: 0,
-      scope: "real isolated PostgreSQL17, actual repository, ownership/CAS/idempotency/readback",
+      scope:
+        "real isolated PostgreSQL17, actual repository, ownership/CAS/idempotency/readback/leases/retirement/quota",
     }),
   );
 } finally {

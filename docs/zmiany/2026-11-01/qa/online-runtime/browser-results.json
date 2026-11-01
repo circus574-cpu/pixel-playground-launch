@@ -1,0 +1,74 @@
+[
+  {
+    "race": "planetary",
+    "status": "PASS",
+    "checks": [
+      "selection",
+      "Phaser world",
+      "NPC dialogue and quest acceptance",
+      "keyboard intention",
+      "PostgreSQL position",
+      "reload",
+      "no local save",
+      "disconnect freezes",
+      "no legacy packets"
+    ],
+    "start": 49040.231468081314,
+    "moved": 49284.05808073134,
+    "restored": 49284.05808073134
+  },
+  {
+    "race": "sage",
+    "status": "PASS",
+    "checks": [
+      "selection",
+      "Phaser world",
+      "NPC dialogue and quest acceptance",
+      "keyboard intention",
+      "PostgreSQL position",
+      "reload",
+      "no local save",
+      "disconnect freezes",
+      "no legacy packets"
+    ],
+    "start": 36519.72667100001,
+    "moved": 36726.14054078,
+    "restored": 36726.14054078
+  },
+  {
+    "race": "android",
+    "status": "PASS",
+    "checks": [
+      "selection",
+      "Phaser world",
+      "NPC dialogue and quest acceptance",
+      "keyboard intention",
+      "PostgreSQL position",
+      "reload",
+      "no local save",
+      "disconnect freezes",
+      "no legacy packets"
+    ],
+    "start": 37138.47373500001,
+    "moved": 37367.71521985001,
+    "restored": 37367.71521985001
+  },
+  {
+    "race": "legend",
+    "status": "PASS",
+    "checks": [
+      "selection",
+      "Phaser world",
+      "NPC dialogue and quest acceptance",
+      "keyboard intention",
+      "PostgreSQL position",
+      "reload",
+      "no local save",
+      "disconnect freezes",
+      "no legacy packets"
+    ],
+    "start": 45858.78602700001,
+    "moved": 46100.72016411001,
+    "restored": 46100.72016411001
+  }
+]

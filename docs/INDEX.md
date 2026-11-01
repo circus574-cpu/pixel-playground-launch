@@ -7,6 +7,11 @@ Wdrożono bezterminalowe sterowanie serwerem gier z poziomu panelu administrator
 
 Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--01112026-po-wdrożeniu-zarządzania-serwerem-i-audycie-kodu) oraz [zamknięcie zmian 01.11](zmiany/2026-11-01/ZMIANY.md).
 
+Kandydat serwerowego zapisu i rozgrywki PvE jest rozwijany osobno w PR #69,
+`feature/server-owned-characters`; nie jest jeszcze scaleniem ani publikacją.
+Aktualny protokół, testy i warunki cutoveru opisuje
+[Architektura](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
+
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
 | Dokument                                        | Co w nim znaleźć                                                           |

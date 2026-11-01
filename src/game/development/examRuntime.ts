@@ -23,6 +23,7 @@ export function examAssets(race: RaceId) {
 /** Presentation adapter only. The pure session/attempt never imports the graphics catalog. */
 export function examRuntime(attempt: ExamAttempt): GameRuntime {
   return {
+    authoritative: attempt.authoritative,
     session: attempt.session,
     assets: examAssets(attempt.race),
     afterTick: () => attempt.update(),

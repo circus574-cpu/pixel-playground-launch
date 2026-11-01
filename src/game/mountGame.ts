@@ -57,6 +57,8 @@ type Actor = {
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
 export type GameRuntime = {
+  authoritative?: boolean;
+  networkPlayers?: () => NetworkPlayerState[];
   session: GameSession;
   assets: AssetDefinition[];
   render: (scene: Phaser.Scene) => {
@@ -354,14 +356,14 @@ export function mountKileGends(
         ? this.add.sprite(0, 0, shieldArt.asset, shieldArt.frame).setDisplaySize(100, 112)
         : this.add.ellipse(0, 0, 100, 112, 0x85dfe8, 0.13).setStrokeStyle(3, 0xaffff4);
       this.shield.setVisible(false);
-      if (NetworkClient.isMultiplayerEnabled()) {
+      if (!runtime?.authoritative && NetworkClient.isMultiplayerEnabled()) {
         const client = new NetworkClient();
         this.networkClient = client;
 
         const authPayload = {
           accountId: options?.saveKey ?? "pve-player",
-          characterId: session.player.name ?? ("hero-" + session.player.race),
-          nick: session.player.name || ("Gracz " + RACES[session.player.race].name),
+          characterId: session.player.name ?? "hero-" + session.player.race,
+          nick: session.player.name || "Gracz " + RACES[session.player.race].name,
           race: session.player.race,
           level: session.player.level,
           worldId: (world.id as FeatureId) || "verdant",
@@ -854,7 +856,7 @@ export function mountKileGends(
       return actor;
     }
     private syncNetworkPlayer(p: NetworkPlayerState) {
-      if (p.worldId !== world.id) {
+      if (!runtime?.authoritative && p.worldId !== world.id) {
         this.removeNetworkPlayer(p.characterId);
         return;
       }
@@ -871,7 +873,12 @@ export function mountKileGends(
         return;
       }
 
-      const playerVisual = actorVisual(RACES[p.race]?.world ?? "verdant", "hero", undefined, preview);
+      const playerVisual = actorVisual(
+        RACES[p.race]?.world ?? "verdant",
+        "hero",
+        undefined,
+        preview,
+      );
       const actor = this.actor(
         { x: p.x, y: p.y },
         p.nick + " [Lvl " + p.level + "]",
@@ -1241,11 +1248,22 @@ export function mountKileGends(
           vx: session.moving ? session.facing.x : 0,
           vy: session.moving ? session.facing.y : 0,
           facing: facingDir,
-          activity: session.player.interior ? "interior" : session.targetId ? "combat" : "exploring",
+          activity: session.player.interior
+            ? "interior"
+            : session.targetId
+              ? "combat"
+              : "exploring",
           worldId: world.id as FeatureId,
           hp: session.player.hp,
           ki: session.player.ki,
         });
+      }
+      if (runtime?.networkPlayers) {
+        const peers = runtime.networkPlayers();
+        const live = new Set(peers.map((p) => p.characterId));
+        for (const p of peers) this.syncNetworkPlayer(p);
+        for (const id of this.networkPlayers.keys())
+          if (!live.has(id)) this.removeNetworkPlayer(id);
       }
       const lerpFactor = Math.min(1, (dt / 1000) * 12);
       for (const entry of this.networkPlayers.values()) {

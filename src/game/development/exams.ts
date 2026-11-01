@@ -62,6 +62,7 @@ let attemptSequence = 0;
 
 /** An in-memory loan profile using the production session and kit. It has no save port or rewards. */
 export class ExamAttempt {
+  authoritative = false;
   readonly instanceId = "exam-attempt-" + ++attemptSequence;
   readonly session: GameSession;
   readonly spec: ExamSpec;

@@ -3,6 +3,7 @@
  * z poziomu przeglądarki (Panel Administratora) bez konieczności otwierania terminala.
  */
 import { createServerFn } from "@tanstack/react-start";
+import { requireServerAdmin } from "@/server/characters/adminGuard";
 import { z } from "zod";
 import {
   startServerFromAdmin,
@@ -13,6 +14,7 @@ import {
 
 export const getGameServerStatusFn = createServerFn({ method: "GET" }).handler(
   async (): Promise<ManagedServerStatus> => {
+    await requireServerAdmin();
     return getServerStatusFromAdmin();
   },
 );
@@ -31,9 +33,11 @@ export const startGameServerFn = createServerFn({ method: "POST" })
       .parse(input || {}),
   )
   .handler(async ({ data }) => {
+    await requireServerAdmin();
     return startServerFromAdmin(data);
   });
 
 export const stopGameServerFn = createServerFn({ method: "POST" }).handler(async () => {
+  await requireServerAdmin();
   return stopServerFromAdmin();
 });

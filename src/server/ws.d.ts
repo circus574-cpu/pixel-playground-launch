@@ -23,6 +23,7 @@ declare module "ws" {
     server?: HttpServer;
     path?: string;
     maxPayload?: number;
+    perMessageDeflate?: boolean | Record<string, unknown>;
   }
 
   export class WebSocketServer extends EventEmitter {

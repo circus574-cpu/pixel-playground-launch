@@ -1,0 +1,17 @@
+# Opt-in overlay, used ONLY after the database migration and explicit cutover approval.
+# docker compose -f docker-compose.yml -f docker-compose.online.yml ...
+services:
+  app:
+    env_file:
+      - ${KI_GAME_SERVER_ENV_FILE:?Set the absolute path to the private runtime env file on the VPS}
+    environment:
+      GAME_SERVER_AUTOSTART: "1"
+      GAME_ONLINE_REQUIRED: "1"
+      GAME_WORLD_PUBLIC_ROOT: /app/.output/public
+    expose:
+      - "7420"
+    networks: [default, game-database]
+networks:
+  game-database:
+    external: true
+    name: ${KI_GAME_DB_NETWORK:-ki-multiplayer-db_private}
