@@ -243,3 +243,24 @@ rozgrywki nie zostały osłabione. Build harnessu i podgląd wyboru ras lokalnie
 przeszły ([build](qa/online-runtime/harness-build.txt),
 [podgląd](qa/online-runtime/preview-selector.txt)); to nie zastępuje ponownego E2E
 z bazą w CI. Checkout wskazuje teraz dokładny head PR zamiast merge-ref.
+
+### Druga próba online CI — a0971d48
+
+[Actions41319447687](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41319447687)
+przeszedł TS, unit, build, SQL i wrapper oraz3/4 ras. Planetarni nie wykonali ruchu
+w oknie900ms po kliknięciu zamknięcia dialogu; pozostałe kontynenty przeszły pełny
+scenariusz. Nie oznaczono tego jako PASS. Kod wejścia świadomie ignoruje klawisze,
+gdy fokus nadal jest na przycisku/modalnym dialogu. Test nie czekał na jego
+potwierdzone zniknięcie po odpowiedzi serwera. Dodano oczekiwanie na zamknięcie
+modalu, a klawisz jest teraz przytrzymywany do rzeczywistej zmiany pozycji z limitem8s.
+Wymagany ruch, zapis SQL i odczyt nie zostały zmienione. Do porażek dochodzi
+rejestr fokusu i typów pakietów. Przyczyny tej pojedynczej próby nie wolno uznawać
+za ostatecznie rozstrzygniętą wyłącznie na podstawie tego opisu — wynik ponownego
+CI pozostaje rozstrzygający.
+
+Właściciel zatwierdził konfigurację, kopię/migrację, wyłączenie starego demona,
+scalenie i publikację **po zaliczeniu testów**. Zgoda nie oznacza, że cutover już
+wykonano. Do bezpiecznego przygotowania używana jest osobna gałąź
+`ops/online-cutover-20261101`; commit `35a191d9` sprawdza strukturę Coolify bez
+modyfikowania konfiguracji lub wypisywania wartości sekretów. Potwierdzony bieżący
+release VPS to `2e1f54383ba8298060fbabc0c4e12cc8e0047fe3`.
