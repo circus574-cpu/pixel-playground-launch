@@ -6,6 +6,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   // ==========================================
   {
     id: "ygdrasha",
+    animWebpUrl: "/game/bosses/ygdrasha_idle.webp",
+    animGifUrl: "/game/bosses/ygdrasha_idle.gif",
+    spriteSheetUrl: "/game/bosses/ygdrasha_spritesheet.png",
     name: "Ygdrasha, Matka Puszczy",
     title: "Starożytna Władczyni Puszczy",
     continent: "verdant",
@@ -136,6 +139,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   },
   {
     id: "thorgar",
+    animWebpUrl: "/game/bosses/thorgar_idle.webp",
+    animGifUrl: "/game/bosses/thorgar_idle.gif",
+    spriteSheetUrl: "/game/bosses/thorgar_spritesheet.png",
     name: "Thorgar, Alfa Kłów",
     title: "Władca Ciernistego Stada",
     continent: "verdant",
@@ -259,6 +265,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   // ==========================================
   {
     id: "arcykaplan-pustki",
+    animWebpUrl: "/game/bosses/arcykaplan-pustki_idle.webp",
+    animGifUrl: "/game/bosses/arcykaplan-pustki_idle.gif",
+    spriteSheetUrl: "/game/bosses/arcykaplan-pustki_spritesheet.png",
     name: "Arcykapłan Pustki",
     title: "Kustosz Zgasłej Gwiazdy",
     continent: "aether",
@@ -380,6 +389,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   },
   {
     id: "aurelith",
+    animWebpUrl: "/game/bosses/aurelith_idle.webp",
+    animGifUrl: "/game/bosses/aurelith_idle.gif",
+    spriteSheetUrl: "/game/bosses/aurelith_spritesheet.png",
     name: "Aurelith, Smok Sanktuarium",
     title: "Żywa Pieczęć Archontów",
     continent: "aether",
@@ -495,6 +507,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   // ==========================================
   {
     id: "arbiter-zero",
+    animWebpUrl: "/game/bosses/arbiter-zero_idle.webp",
+    animGifUrl: "/game/bosses/arbiter-zero_idle.gif",
+    spriteSheetUrl: "/game/bosses/arbiter-zero_spritesheet.png",
     name: "Arbiter Zero",
     title: "Pierwotny Protokół Porządku",
     continent: "nexus",
@@ -606,6 +621,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   },
   {
     id: "hydra-rdzen",
+    animWebpUrl: "/game/bosses/hydra-rdzen_idle.webp",
+    animGifUrl: "/game/bosses/hydra-rdzen_idle.gif",
+    spriteSheetUrl: "/game/bosses/hydra-rdzen_spritesheet.png",
     name: "Hydra-Rdzeń",
     title: "Wielogłowy Klaster Przeliczeniowy",
     continent: "nexus",
@@ -731,6 +749,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   // ==========================================
   {
     id: "kharzul",
+    animWebpUrl: "/game/bosses/kharzul_idle.webp",
+    animGifUrl: "/game/bosses/kharzul_idle.gif",
+    spriteSheetUrl: "/game/bosses/kharzul_spritesheet.png",
     name: "Kharzul, Mistrz Areny",
     title: "Niezwyciężony Czempion Krateru",
     continent: "pyra",
@@ -844,6 +865,9 @@ export const BOSS_CATALOG: BossDefinition[] = [
   },
   {
     id: "pyrrhax",
+    animWebpUrl: "/game/bosses/pyrrhax_idle.webp",
+    animGifUrl: "/game/bosses/pyrrhax_idle.gif",
+    spriteSheetUrl: "/game/bosses/pyrrhax_spritesheet.png",
     name: "Pyrrhax, Smok Wulkanu",
     title: "Władca Płonącej Otchłani",
     continent: "pyra",
