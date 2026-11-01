@@ -21,6 +21,24 @@ import { FEATURE_IDS, type FeatureId } from "@/game/world/generated/superiorSave
 import { WORLD_INDEX } from "@/game/world/generated/worldVersion";
 import { RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { ALL_CITIES_V2, ALL_FAMOUS_LOCATIONS_V2, ALL_HIDDEN_PLACES_V2 } from "@/game/worlds";
+import type { NetworkPlayerState } from "@/game/multiplayer/protocol";
+
+export interface DatabaseTelemetryStats {
+  connected: boolean;
+  latencyMs: number;
+  error: string | null;
+  host: string;
+  port: number;
+  profilesCount: number;
+  charactersCount: number;
+  rolesCount: number;
+  auditsCount: number;
+  poolActive: number;
+  poolIdle: number;
+  poolMax: number;
+  hotTablesUnlogged: boolean;
+  updatedAt: string;
+}
 
 export type ServerNodeStatus =
   | "online"
@@ -166,6 +184,7 @@ export interface AdminTelemetrySnapshot {
   dbConnected: boolean;
   dbLatencyMs: number;
   dbError: string | null;
+  dbStats: DatabaseTelemetryStats;
   clientFps: number;
   clientHeapUsedMb: number;
   clientHeapLimitMb: number;
@@ -590,8 +609,8 @@ export function collectLocalCharactersPresence(measuredFps = 60): WorldPlayerPre
         ...(sum.name ? { characterName: sum.name } : {}),
         roles: ["admin"],
         source: "local",
-        online: true,
-        activity: sum.town ? "interior" : loc.inSafeCity ? "safe" : "exploring",
+        online: false,
+        activity: "offline",
         race: sum.race,
         level: sum.level,
         xp: sum.xp,
@@ -866,13 +885,30 @@ export async function collectAdminTelemetrySnapshot(
     measuredFps?: number;
     tickSeed?: number;
     cloudTimeoutMs?: number;
+    liveDaemonStatus?: {
+      running: boolean;
+      nodeId: string;
+      port: number;
+      name: string;
+      region?: string;
+      maxPlayers?: number;
+      tickRateHz?: number;
+      activePlayers: number;
+      uptimeSeconds: number;
+      players?: NetworkPlayerState[];
+      tickP50Ms?: number;
+      tickP95Ms?: number;
+      packetsInSec?: number;
+      packetsOutSec?: number;
+    } | null;
   } = {},
 ): Promise<AdminTelemetrySnapshot> {
   const {
-    includeClusterSimulation = true,
+    includeClusterSimulation = false,
     measuredFps = 60,
     tickSeed = 1,
     cloudTimeoutMs = 450,
+    liveDaemonStatus = null,
   } = options;
   const start = typeof performance !== "undefined" ? performance.now() : Date.now();
 
@@ -930,6 +966,13 @@ export async function collectAdminTelemetrySnapshot(
   }
 
   const nowMs = Date.now();
+  const livePlayersMap = new Map<string, NetworkPlayerState>();
+  if (liveDaemonStatus?.running && Array.isArray(liveDaemonStatus.players)) {
+    for (const lp of liveDaemonStatus.players) {
+      livePlayersMap.set(lp.characterId, lp);
+    }
+  }
+
   const cloudPlayers: WorldPlayerPresence[] = [];
 
   for (const row of characters) {
@@ -948,22 +991,23 @@ export async function collectAdminTelemetrySnapshot(
     const fInfo = WORLD_INDEX.features.find((f) => f.id === worldId);
     const continent = (fInfo?.affinity ?? "verdant") as WorldId;
     const loc = resolveWorldLocationInfo(worldId, sum.x, sum.y);
-    const lastTs = Date.parse(row.updated_at || prof?.last_seen || "") || nowMs;
-    const isRecentlyActive = nowMs - lastTs <= 15 * 60 * 1000;
+    const charKey = `${row.user_id}:${row.save_key}`;
+    const isConnectedToServer =
+      livePlayersMap.has(charKey) || livePlayersMap.has(row.save_key);
     const maxHp = Math.max(sum.hp, 100 + (sum.level - 1) * 28);
     const maxKi = Math.max(sum.ki, 100 + (sum.level - 1) * 18);
 
     cloudPlayers.push({
       id: `cloud:${row.user_id}:${row.save_key}`,
-      characterId: `${row.user_id}:${row.save_key}`,
+      characterId: charKey,
       accountId: row.user_id,
       saveKey: row.save_key,
       nick,
       ...(sum.name ? { characterName: sum.name } : {}),
       roles: userRoles,
       source: "cloud",
-      online: isRecentlyActive,
-      activity: !isRecentlyActive
+      online: isConnectedToServer,
+      activity: !isConnectedToServer
         ? "offline"
         : sum.town
           ? "interior"
@@ -993,19 +1037,96 @@ export async function collectAdminTelemetrySnapshot(
       skillsCount: sum.skills.length,
       pingMs: dbLatencyMs,
       fps: clientMetrics.clientFps,
-      nodeId: "cloud-supabase",
+      nodeId: isConnectedToServer ? (liveDaemonStatus?.nodeId ?? "eu-central-1") : "cloud-supabase",
       revision: row.revision,
       lastSeenAt: row.updated_at || prof?.last_seen || new Date(nowMs).toISOString(),
       rawSave: row.data,
     });
   }
 
-  const localPlayers = collectLocalCharactersPresence(clientMetrics.clientFps);
+  const localPlayers = collectLocalCharactersPresence(clientMetrics.clientFps).map((lp) => {
+    const live = livePlayersMap.get(lp.characterId) || livePlayersMap.get(lp.saveKey);
+    if (!live) return lp;
+    const loc = resolveWorldLocationInfo(live.worldId, live.x, live.y);
+    return {
+      ...lp,
+      online: true,
+      activity: live.activity,
+      worldId: live.worldId,
+      continent: live.continent,
+      x: Math.round(live.x),
+      y: Math.round(live.y),
+      cellX: Math.floor(live.x / 512),
+      cellY: Math.floor(live.y / 512),
+      hp: live.hp,
+      maxHp: live.maxHp,
+      ki: live.ki,
+      maxKi: live.maxKi,
+      inSafeCity: loc.inSafeCity,
+      nearestPlace: loc.nearestPlace,
+      pingMs: live.pingMs,
+      nodeId: liveDaemonStatus?.nodeId ?? "eu-central-1",
+    };
+  });
+
+  // Dodaj sesje graczy bezpośrednio połączonych z GameServer, których nie ma w local/cloud
+  const knownCharIds = new Set<string>();
+  for (const p of [...localPlayers, ...cloudPlayers]) {
+    knownCharIds.add(p.characterId);
+    knownCharIds.add(p.saveKey);
+  }
+
+  const liveServerPlayers: WorldPlayerPresence[] = [];
+  if (liveDaemonStatus?.running && Array.isArray(liveDaemonStatus.players)) {
+    for (const lp of liveDaemonStatus.players) {
+      if (knownCharIds.has(lp.characterId)) continue;
+      const loc = resolveWorldLocationInfo(lp.worldId, lp.x, lp.y);
+      liveServerPlayers.push({
+        id: `live:${lp.characterId}`,
+        characterId: lp.characterId,
+        accountId: lp.accountId,
+        saveKey: lp.characterId,
+        nick: lp.nick,
+        characterName: lp.nick,
+        roles: [],
+        source: "multiplayer",
+        online: true,
+        activity: lp.activity,
+        race: lp.race,
+        level: lp.level,
+        xp: lp.level * 300,
+        gold: lp.level * 250,
+        worldId: lp.worldId,
+        continent: lp.continent,
+        town: loc.cityName,
+        inSafeCity: loc.inSafeCity,
+        nearestPlace: loc.nearestPlace,
+        x: Math.round(lp.x),
+        y: Math.round(lp.y),
+        cellX: Math.floor(lp.x / 512),
+        cellY: Math.floor(lp.y / 512),
+        hp: lp.hp,
+        maxHp: lp.maxHp,
+        ki: lp.ki,
+        maxKi: lp.maxKi,
+        weapon: "sword",
+        armor: "vest",
+        upgrade: 0,
+        skillsCount: 3,
+        pingMs: lp.pingMs,
+        fps: 60,
+        nodeId: liveDaemonStatus.nodeId,
+        revision: 1,
+        lastSeenAt: new Date(lp.lastUpdated || nowMs).toISOString(),
+      });
+    }
+  }
+
   const sim = includeClusterSimulation
     ? buildSimulatedClusterPresence(tickSeed)
     : { players: [], logs: [] };
 
-  const allPlayers = [...localPlayers, ...cloudPlayers, ...sim.players];
+  const allPlayers = [...liveServerPlayers, ...localPlayers, ...cloudPlayers, ...sim.players];
 
   // Aggregate per-world statistics
   const worldStats = {} as Record<FeatureId, WorldPopulationSummary>;
@@ -1078,114 +1199,134 @@ export async function collectAdminTelemetrySnapshot(
   }
   const hotspots = [...cellMap.values()].sort((a, b) => b.playerCount - a.playerCount);
 
-  // Build server nodes telemetry
+  // Build Database Telemetry Stats (Supabase & PostgreSQL)
   const nowIso = new Date(nowMs).toISOString();
-  const realOnlineCount = cloudPlayers.filter((p) => p.online).length + localPlayers.length;
-  const configuredNodes = getServerNodeConfigs();
+  const realOnlineCount = allPlayers.filter((p) => p.online).length;
 
-  const nodes: ServerNodeMetric[] = [
-    {
-      nodeId: "cloud-supabase",
-      name: "Baza Kont i Zapisów (Supabase / PostgreSQL)",
-      region: "eu-central",
-      label: "Baza Kont i Zapisów (Supabase / PostgreSQL)",
-      host: "supabase-pooler.internal:5432",
-      port: 5432,
-      maxPlayers: 1000,
-      status: dbConnected ? "online" : "degraded",
-      cpuPercent: Math.min(
-        95,
-        Math.max(6, Math.round(12 + (dbLatencyMs % 11) + realOnlineCount * 1.4)),
-      ),
-      memUsedMb: Math.min(1024, 248 + characters.length * 2),
+  const dbStats: DatabaseTelemetryStats = {
+    connected: dbConnected,
+    latencyMs: dbLatencyMs,
+    error: dbError,
+    host: "supabase-pooler.internal:5432",
+    port: 5432,
+    profilesCount: profiles.length,
+    charactersCount: characters.length,
+    rolesCount: roles.length,
+    auditsCount: audits.length,
+    poolActive: Math.min(40, Math.max(1, 1 + Math.ceil(realOnlineCount / 4))),
+    poolIdle: 18,
+    poolMax: 40,
+    hotTablesUnlogged: true,
+    updatedAt: nowIso,
+  };
+
+  // Build Game Server Nodes telemetry (always include all configured game servers!)
+  const configuredNodes = getServerNodeConfigs();
+  const nodes: ServerNodeMetric[] = [];
+
+  for (const cfg of configuredNodes) {
+    const isOff = cfg.status === "offline" || cfg.status === "stopping";
+    const isStarting = cfg.status === "starting";
+    const isDraining = cfg.status === "draining";
+
+    const isLiveDaemonNode =
+      liveDaemonStatus?.running && liveDaemonStatus.nodeId === cfg.nodeId;
+
+    const matchedOnlinePlayers = allPlayers.filter(
+      (p) => p.online && p.nodeId === cfg.nodeId,
+    );
+
+    const playerCount = isOff || isStarting
+      ? 0
+      : isLiveDaemonNode
+        ? liveDaemonStatus.activePlayers
+        : matchedOnlinePlayers.length;
+
+    const cpu = isOff
+      ? 0
+      : isStarting
+        ? 38
+        : isDraining
+          ? 8
+          : Math.min(
+              98,
+              Math.max(
+                4,
+                8 + (playerCount > 0 ? Math.round((playerCount / cfg.maxPlayers) * 55) : 0),
+              ),
+            );
+
+    const memUsed = isOff
+      ? 45
+      : isStarting
+        ? 180
+        : Math.min(1024, 195 + playerCount * 18);
+
+    const tickHz = cfg.tickRateHz || 20.0;
+    const tickP50 = isOff
+      ? 0
+      : isLiveDaemonNode && liveDaemonStatus.tickP50Ms !== undefined
+        ? liveDaemonStatus.tickP50Ms
+        : isStarting
+          ? 2.1
+          : 2.8 + (playerCount > 0 ? 0.8 : 0);
+    const tickP95 = isOff
+      ? 0
+      : isLiveDaemonNode && liveDaemonStatus.tickP95Ms !== undefined
+        ? liveDaemonStatus.tickP95Ms
+        : isStarting
+          ? 4.8
+          : 5.4 + (playerCount > 0 ? 1.4 : 0);
+    const tickP99 = isOff ? 0 : Math.round(tickP95 * 1.35 * 10) / 10;
+    const ping = isOff
+      ? 0
+      : cfg.region.includes("us-east")
+        ? 64
+        : cfg.region.includes("west")
+          ? 27
+          : 18;
+
+    const packetsIn = isOff
+      ? 0
+      : isLiveDaemonNode && liveDaemonStatus.packetsInSec !== undefined
+        ? liveDaemonStatus.packetsInSec
+        : playerCount * 20;
+    const packetsOut = isOff
+      ? 0
+      : isLiveDaemonNode && liveDaemonStatus.packetsOutSec !== undefined
+        ? liveDaemonStatus.packetsOutSec
+        : playerCount * 40;
+
+    nodes.push({
+      nodeId: cfg.nodeId,
+      name: cfg.name,
+      region: cfg.region,
+      label: `${cfg.name} (${cfg.region})`,
+      host: `${cfg.host}:${cfg.port}`,
+      port: cfg.port,
+      maxPlayers: cfg.maxPlayers,
+      status: cfg.status,
+      cpuPercent: cpu,
+      memUsedMb: memUsed,
       memTotalMb: 1024,
-      loadAvg1m: Math.round((0.28 + realOnlineCount * 0.04) * 100) / 100,
-      tickRateHz: 20,
-      tickP50Ms: Math.round(Math.min(18, 2.4 + dbLatencyMs * 0.08) * 10) / 10,
-      tickP95Ms: Math.round(Math.min(35, 5.8 + dbLatencyMs * 0.15) * 10) / 10,
-      tickP99Ms: Math.round(Math.min(48, 9.2 + dbLatencyMs * 0.22) * 10) / 10,
-      avgPingMs: dbLatencyMs,
-      p95PingMs: Math.round(dbLatencyMs * 1.35),
-      activePlayers: cloudPlayers.length + localPlayers.length,
-      activeEntities: (cloudPlayers.length + localPlayers.length) * 12 + 160,
-      packetsInSec: (realOnlineCount + 1) * 20,
-      packetsOutSec: (realOnlineCount + 1) * 40,
-      bandwidthInKbps: Math.round((realOnlineCount + 1) * 14.5 * 10) / 10,
-      bandwidthOutKbps: Math.round((realOnlineCount + 1) * 32.8 * 10) / 10,
-      dbPoolActive: Math.min(40, Math.max(1, 2 + Math.ceil(realOnlineCount / 4))),
-      dbPoolIdle: 18,
+      loadAvg1m: isOff ? 0 : Math.round((cpu / 48) * 100) / 100,
+      tickRateHz: isOff ? 0 : tickHz,
+      tickP50Ms: Math.round(tickP50 * 10) / 10,
+      tickP95Ms: Math.round(tickP95 * 10) / 10,
+      tickP99Ms: Math.round(tickP99 * 10) / 10,
+      avgPingMs: ping,
+      p95PingMs: Math.round(ping * 1.4),
+      activePlayers: playerCount,
+      activeEntities: isOff ? 0 : playerCount * 28 + 120,
+      packetsInSec: packetsIn,
+      packetsOutSec: packetsOut,
+      bandwidthInKbps: isOff ? 0 : Math.round(packetsIn * 0.65 * 10) / 10,
+      bandwidthOutKbps: isOff ? 0 : Math.round(packetsOut * 0.85 * 10) / 10,
+      dbPoolActive: isOff ? 0 : Math.min(16, Math.max(1, Math.ceil(playerCount / 2))),
+      dbPoolIdle: isOff ? 0 : 16,
       dbHotTablesUnlogged: true,
       updatedAt: nowIso,
-    },
-  ];
-
-  if (includeClusterSimulation) {
-    for (const cfg of configuredNodes) {
-      const isOff = cfg.status === "offline" || cfg.status === "stopping";
-      const isStarting = cfg.status === "starting";
-      const isDraining = cfg.status === "draining";
-
-      const matchedPlayers = sim.players.filter((p) => p.nodeId === cfg.nodeId);
-      const playerCount = isOff
-        ? 0
-        : isStarting
-          ? 0
-          : Math.min(cfg.maxPlayers, matchedPlayers.length > 0 ? matchedPlayers.length : 3);
-
-      const cpu = isOff
-        ? 0
-        : isStarting
-          ? 38
-          : isDraining
-            ? 8
-            : Math.min(
-                98,
-                Math.max(5, 14 + (tickSeed % 6) + Math.round((playerCount / cfg.maxPlayers) * 45)),
-              );
-
-      const memUsed = isOff
-        ? 45
-        : isStarting
-          ? 180
-          : Math.min(1024, 210 + playerCount * 18 + (tickSeed % 15));
-
-      const tickHz = cfg.tickRateHz || 20.0;
-      const tickP50 = isOff ? 0 : isStarting ? 2.1 : 3.4 + ((tickSeed + cfg.port) % 4) * 0.2;
-      const tickP95 = isOff ? 0 : isStarting ? 4.8 : 6.8 + ((tickSeed + cfg.port) % 4) * 0.3;
-      const tickP99 = isOff ? 0 : isStarting ? 8.5 : 10.5 + ((tickSeed + cfg.port) % 4) * 0.4;
-      const ping = isOff ? 0 : cfg.region.includes("us-east") ? 64 : cfg.region.includes("west") ? 27 : 20;
-
-      nodes.push({
-        nodeId: cfg.nodeId,
-        name: cfg.name,
-        region: cfg.region,
-        label: `${cfg.name} (${cfg.region})`,
-        host: `${cfg.host}:${cfg.port}`,
-        port: cfg.port,
-        maxPlayers: cfg.maxPlayers,
-        status: cfg.status,
-        cpuPercent: cpu,
-        memUsedMb: memUsed,
-        memTotalMb: 1024,
-        loadAvg1m: isOff ? 0 : Math.round((cpu / 48) * 100) / 100,
-        tickRateHz: isOff ? 0 : tickHz,
-        tickP50Ms: Math.round(tickP50 * 10) / 10,
-        tickP95Ms: Math.round(tickP95 * 10) / 10,
-        tickP99Ms: Math.round(tickP99 * 10) / 10,
-        avgPingMs: ping,
-        p95PingMs: Math.round(ping * 1.5),
-        activePlayers: playerCount,
-        activeEntities: isOff ? 0 : playerCount * 28 + 120,
-        packetsInSec: isOff ? 0 : (playerCount + 1) * 35,
-        packetsOutSec: isOff ? 0 : (playerCount + 1) * 70,
-        bandwidthInKbps: isOff ? 0 : Math.round((playerCount + 1) * 22.4 * 10) / 10,
-        bandwidthOutKbps: isOff ? 0 : Math.round((playerCount + 1) * 51.6 * 10) / 10,
-        dbPoolActive: isOff ? 0 : Math.min(16, Math.max(1, Math.ceil(playerCount / 2))),
-        dbPoolIdle: isOff ? 0 : 16,
-        dbHotTablesUnlogged: true,
-        updatedAt: nowIso,
-      });
-    }
+    });
   }
 
   // Convert real audit rows + runtime probe into structured server logs
@@ -1198,7 +1339,7 @@ export async function collectAdminTelemetrySnapshot(
     return {
       id: `audit-${a.id}`,
       recordedAt: a.at,
-      nodeId: "cloud-supabase",
+      nodeId: "baza-supabase",
       level: isDeleteOrRole ? "warn" : "info",
       category: a.action.startsWith("role-") ? "auth" : "admin",
       message: `Operacja [${a.action}] wykonana przez ${actorNick}${targetNick ? ` dla gracza ${targetNick}` : ""}${a.target_key ? ` (klucz: ${a.target_key})` : ""}.`,
@@ -1210,11 +1351,11 @@ export async function collectAdminTelemetrySnapshot(
   const probeLog: ServerLogEntry = {
     id: `probe-${nowMs}`,
     recordedAt: nowIso,
-    nodeId: "cloud-supabase",
+    nodeId: "eu-central-1",
     level: dbConnected ? "info" : "error",
     category: "network",
     message: dbConnected
-      ? `Sonda telemetrii OK: RTT bazy=${dbLatencyMs} ms, FPS klienta=${clientMetrics.clientFps}, Heap=${clientMetrics.clientHeapUsedMb} MB, wykryto ${cloudPlayers.length} postaci w chmurze i ${localPlayers.length} lokalnych.`
+      ? `Sonda telemetrii OK: Online=${realOnlineCount}, Zapisy w chmurze=${cloudPlayers.length}, Zapisy lokalne=${localPlayers.length}, RTT bazy=${dbLatencyMs} ms, FPS=${clientMetrics.clientFps}.`
       : `Błąd sondy bazy danych: ${dbError ?? "brak odpowiedzi"} (RTT=${dbLatencyMs} ms).`,
   };
 
@@ -1227,6 +1368,7 @@ export async function collectAdminTelemetrySnapshot(
     dbConnected,
     dbLatencyMs,
     dbError,
+    dbStats,
     ...clientMetrics,
     nodes,
     players: allPlayers,

@@ -570,6 +570,51 @@ export class GameServer {
   public getPort(): number {
     return this.config.port;
   }
+
+  public getConfig(): GameServerConfig {
+    return { ...this.config };
+  }
+
+  public updateConfig(patch: Partial<Pick<GameServerConfig, "name" | "region" | "maxPlayers" | "tickRateHz">>): GameServerConfig {
+    if (patch.name !== undefined && patch.name.trim()) {
+      this.config.name = patch.name.trim();
+    }
+    if (patch.region !== undefined && patch.region.trim()) {
+      this.config.region = patch.region.trim();
+    }
+    if (patch.maxPlayers !== undefined && patch.maxPlayers > 0) {
+      this.config.maxPlayers = Math.max(5, Math.min(10000, patch.maxPlayers));
+    }
+    if (patch.tickRateHz !== undefined && patch.tickRateHz >= 5 && patch.tickRateHz <= 60) {
+      this.config.tickRateHz = patch.tickRateHz;
+      if (this.isRunning && this.tickInterval) {
+        clearInterval(this.tickInterval);
+        const tickMs = Math.round(1000 / this.config.tickRateHz);
+        this.tickInterval = setInterval(() => this.runSimulationTick(), tickMs);
+      }
+    }
+    return { ...this.config };
+  }
+
+  public getActiveSessions(): NetworkPlayerState[] {
+    return Array.from(this.sessions.values()).map((s) => this.toNetworkState(s));
+  }
+
+  public getMetrics(): {
+    tickP50Ms: number;
+    tickP95Ms: number;
+    packetsInSec: number;
+    packetsOutSec: number;
+    dbConnected: boolean;
+  } {
+    return {
+      tickP50Ms: Math.round(this.getPercentileTickTime(0.5) * 10) / 10,
+      tickP95Ms: Math.round(this.getPercentileTickTime(0.95) * 10) / 10,
+      packetsInSec: this.packetsIn,
+      packetsOutSec: this.packetsOut,
+      dbConnected: this.db !== null,
+    };
+  }
 }
 
 // Uruchomienie z linii poleceń jeśli plik jest wywoływany bezpośrednio

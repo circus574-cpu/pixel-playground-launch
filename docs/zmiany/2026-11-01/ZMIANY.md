@@ -70,3 +70,20 @@
   - **`e2e/combat-v3.spec.ts`**: 6/6 PASS (Planetarni 320x568: 27.0s, Mędrcy 360x640: 26.1s, Androidy 390x844: 23.5s, Legendy 852x393: 19.6s, Planetarni 1280x720: 24.7s, Mędrcy 1920x1080: 38.6s).
   - **`e2e/hero-lifecycle.spec.ts`**: 4/4 PASS (wszystkie cztery rasy, pełne animacje, walka, śmierć i respawn w bezpiecznym mieście).
   - **`npm run typecheck`**: 0 błędów w `tsconfig.json`, `tsconfig.e2e.json` oraz `tsconfig.tools.json`.
+
+### 5. Przebudowa Centrum Monitoringu: rzeczywista liczba graczy online, wydzielona sekcja BAZA DANYCH, Fizyczna Mapa Świata i Panel Zarządzania Serwerem
+
+- **Rzeczywista liczba graczy Online (eliminacja fałszywych `19 online` przy braku graczy)**:
+  - **`src/game/admin/adminTelemetry.ts`**:
+    - Zmieniono domyślne `includeClusterSimulation` na `false`, dzięki czemu symulowane boty (`mp-sim-1`..`8`) nie są doliczane domyślnie.
+    - Zapisane postacie w `localStorage` (`collectLocalCharactersPresence`) oraz w tabeli `characters` Supabase (`cloudPlayers`) są traktowane jako zapisane postacie w bazie (`online: false`, `activity: "offline"`), chyba że dany `characterId` ma aktywną sesję WebSocket w działającym procesie `GameServer` (`liveDaemonStatus.players`).
+    - Węzły serwerów gry (`configuredNodes`) są zwracane zawsze (niezależnie od przełącznika symulacji), z rzeczywistą liczbą połączonych graczy (`0` gdy nikt nie gra, bez sztucznego wpisywania `3` graczy).
+- **Wydzielenie zarządzania Supabase i PostgreSQL do dedykowanej sekcji `BAZA DANYCH`**:
+  - Usunięto węzeł `cloud-supabase` z tablicy serwerów gry `snapshot.nodes` i wydzielono pełną diagnostykę bazy do struktury `snapshot.dbStats` (`DatabaseTelemetryStats`).
+  - W **`src/components/admin/AdminMonitoringCenter.tsx`** utworzono dedykowaną zakładkę **`🗄️ BAZA DANYCH (Supabase i PostgreSQL)`** prezentującą status połączenia, ping RTT, liczbę kont (`profiles`), ról (`user_roles`), zapisanych postaci (`characters`), wpisów audytu (`admin_audit`), pulę połączeń oraz optymalizacje `UNLOGGED` PostgreSQL 17.
+- **Fizyczna Mapa Świata pod siatką graczy (`PhysicalWorldPlayerMapSvg`)**:
+  - Zastąpiono pustą czarną siatkę SVG prawdziwą teksturą fizycznej mapy planety Superior (`atlas-v2-3840.webp`) z projekcją `worldOverlay.v2.json` i transformacją `worldToAtlas`.
+  - Dodano wybór widoku całej planety (`🌍 Cała Planeta Superior`) lub automatycznego kadrowania na wybrany kontynent/wyspę (`verdant`, `aether`, `nexus`, `pyra`, `island-1`..`6`) oraz przełączniki warstw: siatka sektorów AOI, drogi i szlaki, miasta i lokacje.
+- **Pełny Panel Zarządzania Wybranym / Nowo Utworzonym Serwerem Gry**:
+  - W zakładce **`🖥️ Serwery Gry i Zarządzanie`** dodano rozbudowany **Panel Zarządzania Aktywnym Serwerem**, który otwiera się automatycznie dla wybranego lub nowo utworzonego serwera (`handleCreateServer`).
+  - Panel umożliwia bezpośrednie uruchamianie (`▶ Uruchom ten serwer`), zatrzymywanie (`⏹ Wyłącz ten serwer`), restartowanie (`🔄 Restartuj`), przełączanie w tryb konserwacji (`⏳ Tryb konserwacji`), usuwanie serwera oraz edycję na żywo nazwy, limitu slotów graczy, hosta/IP, portu, regionu i częstotliwości pętli tick (Hz).

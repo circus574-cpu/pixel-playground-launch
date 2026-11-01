@@ -1,11 +1,14 @@
 /**
- * Centrum Monitoringu Serwera, Zasobów (CPU/RAM/Ping/FPS/Tick), Logów oraz Graczy na Świecie.
+ * Centrum Monitoringu Serwera, Zasobów (CPU/RAM/Ping/FPS/Tick), Bazy Danych, Logów oraz Graczy na Świecie.
  *
- * Komponent w pełni bezinwazyjny dla pętli gry — odczytuje rzeczywiste dane z chmury (`accountsDb`),
- * zapisów lokalnych (`localStorage`), pomiarów wydajności przeglądarki/sieci oraz telemetrii
- * węzłów multiplayer (`deploy/multiplayer/init/002-global-multiplayer-optimization.sql`).
+ * Komponent w pełni bezinwazyjny dla pętli gry — odczytuje rzeczywiste dane z działającego serwera gry,
+ * chmury Supabase (`accountsDb`), zapisów lokalnych (`localStorage`), pomiarów wydajności przeglądarki/sieci
+ * oraz telemetrii węzłów multiplayer (`deploy/multiplayer/init/002-global-multiplayer-optimization.sql`).
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import atlas from "@/assets/planet-map/atlas-v2-3840.webp";
+import projection from "@/components/planet-map/worldOverlay.v2.json";
+import { worldToAtlas } from "@/components/planet-map/worldToAtlas";
 import {
   getGameServerStatusFn,
   startGameServerFn,
@@ -23,26 +26,24 @@ import {
   type AdminTelemetrySnapshot,
   type PlayerActivityState,
   type ServerLogEntry,
-  type ServerNodeConfig,
   type ServerNodeMetric,
-  type ServerNodeStatus,
   type TelemetryLogCategory,
   type TelemetryLogLevel,
   type WorldPlayerPresence,
 } from "@/game/admin/adminTelemetry";
 import { FEATURE_IDS, type FeatureId } from "@/game/world/generated/superiorSave";
-import { WORLD_INDEX } from "@/game/world/generated/worldVersion";
 import { RACES } from "@/game/world/races";
 import { ALL_CITIES_V2, ALL_FAMOUS_LOCATIONS_V2 } from "@/game/worlds";
+import type { ManagedServerStatus } from "@/server/managedServer";
 
-type MonitoringSubTab = "overview" | "world-players" | "nodes-db" | "logs";
+type MonitoringSubTab = "servers" | "world-players" | "database" | "overview" | "logs";
 
 const ACTIVITY_LABELS: Record<PlayerActivityState, string> = {
   safe: "W bezpiecznym mieście",
   combat: "W walce",
   exploring: "Eksploracja szlaku",
   interior: "Wnętrze budynku",
-  offline: "Offline (Zapis)",
+  offline: "Offline (Zapis w bazie)",
 };
 
 const ACTIVITY_COLORS: Record<PlayerActivityState, string> = {
@@ -82,8 +83,8 @@ const fmtDateTime = (iso: string) => {
 };
 
 export function AdminMonitoringCenter() {
-  const [subTab, setSubTab] = useState<MonitoringSubTab>("overview");
-  const [includeClusterSim, setIncludeClusterSim] = useState(true);
+  const [subTab, setSubTab] = useState<MonitoringSubTab>("servers");
+  const [includeClusterSim, setIncludeClusterSim] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [tickSeed, setTickSeed] = useState(1);
   const [measuredFps, setMeasuredFps] = useState(60);
@@ -100,7 +101,10 @@ export function AdminMonitoringCenter() {
   );
   const [playerQuery, setPlayerQuery] = useState("");
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
-  const [radarWorld, setRadarWorld] = useState<FeatureId>("verdant");
+  const [radarWorld, setRadarWorld] = useState<"all" | FeatureId>("verdant");
+  const [showAoiGrid, setShowAoiGrid] = useState(true);
+  const [showRoadsLayer, setShowRoadsLayer] = useState(true);
+  const [showPlacesLayer, setShowPlacesLayer] = useState(true);
 
   // Log filters
   const [logLevelFilter, setLogLevelFilter] = useState<"all" | TelemetryLogLevel>("all");
@@ -110,18 +114,19 @@ export function AdminMonitoringCenter() {
   const [customLogs, setCustomLogs] = useState<ServerLogEntry[]>([]);
 
   // Server node management state
+  const [selectedManagedNodeId, setSelectedManagedNodeId] = useState<string>("eu-central-1");
   const [showCreateServerModal, setShowCreateServerModal] = useState(false);
   const [createNodeId, setCreateNodeId] = useState("");
   const [createName, setCreateName] = useState("");
   const [createRegion, setCreateRegion] = useState("eu-central (Frankfurt)");
-  const [createHost, setCreateHost] = useState("127.0.0.1");
+  const [createHost, setCreateHost] = useState("85.235.150.189");
   const [createPort, setCreatePort] = useState(7420);
-  const [createMaxPlayers, setCreateMaxPlayers] = useState(200);
+  const [createMaxPlayers, setCreateMaxPlayers] = useState(250);
   const [createTickRate, setCreateTickRate] = useState(20.0);
 
   const [editingServerNode, setEditingServerNode] = useState<ServerNodeMetric | null>(null);
   const [editName, setEditName] = useState("");
-  const [editMaxPlayers, setEditMaxPlayers] = useState(200);
+  const [editMaxPlayers, setEditMaxPlayers] = useState(250);
   const [editHost, setEditHost] = useState("");
   const [editPort, setEditPort] = useState(7420);
   const [editRegion, setEditRegion] = useState("");
@@ -132,6 +137,7 @@ export function AdminMonitoringCenter() {
     text: string;
   } | null>(null);
 
+  const [daemonStatus, setDaemonStatus] = useState<ManagedServerStatus | null>(null);
   const [daemonRunning, setDaemonRunning] = useState(false);
   const [daemonUptime, setDaemonUptime] = useState(0);
   const [daemonLoading, setDaemonLoading] = useState(false);
@@ -159,21 +165,47 @@ export function AdminMonitoringCenter() {
   }, []);
 
   const refresh = useCallback(
-    async (nextSeed?: number) => {
+    async (nextSeed?: number, customDaemon?: ManagedServerStatus | null) => {
       setLoading(true);
       try {
+        let currentDaemon = customDaemon ?? daemonStatus;
+        try {
+          const freshDaemon = await getGameServerStatusFn();
+          if (freshDaemon) {
+            currentDaemon = freshDaemon;
+            setDaemonStatus(freshDaemon);
+            setDaemonRunning(freshDaemon.running);
+            setDaemonUptime(freshDaemon.uptimeSeconds);
+          }
+        } catch {
+          /* ignore in test/browser-only mode */
+        }
+
         const snap = await collectAdminTelemetrySnapshot({
           includeClusterSimulation: includeClusterSim,
           measuredFps,
           tickSeed: nextSeed ?? tickSeed,
+          liveDaemonStatus: currentDaemon,
         });
         setSnapshot(snap);
       } finally {
         setLoading(false);
       }
     },
-    [includeClusterSim, measuredFps, tickSeed],
+    [includeClusterSim, measuredFps, tickSeed, daemonStatus],
   );
+
+  // Synchronizuj stan formularza z konfiguracją węzłów serwera natychmiast przy zmianie selectedManagedNodeId
+  const syncFormWithNodeId = useCallback((nodeId: string) => {
+    const cfg = getServerNodeConfigs().find((n) => n.nodeId === nodeId);
+    if (!cfg) return;
+    setEditName(cfg.name || cfg.nodeId);
+    setEditMaxPlayers(cfg.maxPlayers || 250);
+    setEditHost(cfg.host || "85.235.150.189");
+    setEditPort(cfg.port || 7420);
+    setEditRegion(cfg.region || "eu-central");
+    setEditTickRate(cfg.tickRateHz || 20.0);
+  }, []);
 
   useEffect(() => {
     void refresh(1);
@@ -192,27 +224,19 @@ export function AdminMonitoringCenter() {
     return () => clearInterval(timer);
   }, [autoRefresh, refresh]);
 
-  // Check physical game server daemon status
+  // Synchronizuj formularz wybranego serwera gdy zmienia się selectedManagedNodeId
+  const managedNode = useMemo(() => {
+    if (!snapshot || snapshot.nodes.length === 0) return null;
+    return (
+      snapshot.nodes.find((n) => n.nodeId === selectedManagedNodeId) ??
+      snapshot.nodes[0] ??
+      null
+    );
+  }, [snapshot, selectedManagedNodeId]);
+
   useEffect(() => {
-    let cancelled = false;
-    const checkDaemon = async () => {
-      try {
-        const res = await getGameServerStatusFn();
-        if (!cancelled && res) {
-          setDaemonRunning(res.running);
-          setDaemonUptime(res.uptimeSeconds);
-        }
-      } catch {
-        /* ignore */
-      }
-    };
-    void checkDaemon();
-    const interval = setInterval(checkDaemon, 5000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, []);
+    syncFormWithNodeId(selectedManagedNodeId);
+  }, [selectedManagedNodeId, syncFormWithNodeId]);
 
   const handleTogglePhysicalDaemon = async () => {
     setDaemonLoading(true);
@@ -220,19 +244,35 @@ export function AdminMonitoringCenter() {
       if (daemonRunning) {
         const res = await stopGameServerFn();
         setDaemonRunning(false);
+        setDaemonStatus(res.status);
         setServerActionMsg({
           type: res.ok ? "success" : "error",
           text: res.message,
         });
+        void refresh(tickSeed, res.status);
       } else {
-        const res = await startGameServerFn({ data: { port: 7420 } });
+        const target = managedNode;
+        const res = await startGameServerFn({
+          data: {
+            port: target?.port || 7420,
+            nodeId: target?.nodeId || "eu-central-1",
+            name: target?.name || "Węzeł Główny EU-Central #1",
+            region: target?.region || "eu-central (Frankfurt)",
+            maxPlayers: target?.maxPlayers || 250,
+            tickRateHz: target?.tickRateHz || 20,
+          },
+        });
         setDaemonRunning(res.ok);
+        setDaemonStatus(res.status);
+        if (target) {
+          setServerNodeStatus(target.nodeId, "online");
+        }
         setServerActionMsg({
           type: res.ok ? "success" : "error",
           text: res.message,
         });
+        void refresh(tickSeed, res.status);
       }
-      void refresh();
     } catch (err) {
       setServerActionMsg({
         type: "error",
@@ -246,26 +286,36 @@ export function AdminMonitoringCenter() {
   const handleCreateServer = async () => {
     try {
       if (!createNodeId.trim()) {
-        setServerActionMsg({ type: "error", text: "Podaj identyfikator węzła (np. eu-north-1)." });
+        setServerActionMsg({ type: "error", text: "Podaj identyfikator węzła (np. eu-poland-1)." });
         return;
       }
       if (!createName.trim()) {
         setServerActionMsg({ type: "error", text: "Podaj nazwę wyświetlaną serwera." });
         return;
       }
-      createServerNode({
+      const created = createServerNode({
         nodeId: createNodeId,
         name: createName,
         region: createRegion,
         host: createHost,
         port: Number(createPort) || 7420,
-        maxPlayers: Number(createMaxPlayers) || 200,
+        maxPlayers: Number(createMaxPlayers) || 250,
         status: "online",
         tickRateHz: Number(createTickRate) || 20.0,
       });
+
+      // Od razu przełącz widok na nowo utworzony serwer w panelu zarządzania!
+      setSelectedManagedNodeId(created.nodeId);
+      setEditName(created.name);
+      setEditMaxPlayers(created.maxPlayers);
+      setEditHost(created.host);
+      setEditPort(created.port);
+      setEditRegion(created.region);
+      setEditTickRate(created.tickRateHz || 20.0);
+
       setServerActionMsg({
         type: "success",
-        text: `Utworzono i zainicjowano serwer '${createName}' [${createNodeId}].`,
+        text: `Utworzono i otwarto panel zarządzania serwerem '${created.name}' [${created.nodeId}].`,
       });
       setShowCreateServerModal(false);
       setCreateNodeId("");
@@ -280,31 +330,51 @@ export function AdminMonitoringCenter() {
   };
 
   const handleOpenEdit = (n: ServerNodeMetric) => {
+    setSelectedManagedNodeId(n.nodeId);
     setEditingServerNode(n);
     setEditName(n.name || n.label || n.nodeId);
-    setEditMaxPlayers(n.maxPlayers || 200);
+    setEditMaxPlayers(n.maxPlayers || 250);
     const hostParts = n.host.split(":");
-    setEditHost(hostParts[0] || "127.0.0.1");
+    setEditHost(hostParts[0] || "85.235.150.189");
     setEditPort(n.port || (hostParts[1] ? Number(hostParts[1]) : 7420));
     setEditRegion(n.region || "eu-central");
     setEditTickRate(n.tickRateHz || 20.0);
     setServerActionMsg(null);
   };
 
-  const handleSaveEdit = async () => {
-    if (!editingServerNode) return;
+  const handleSaveEdit = async (targetNodeId?: string) => {
+    const nodeIdToUpdate = targetNodeId || editingServerNode?.nodeId || managedNode?.nodeId;
+    if (!nodeIdToUpdate) return;
     try {
-      updateServerNode(editingServerNode.nodeId, {
+      const updated = updateServerNode(nodeIdToUpdate, {
         name: editName,
-        maxPlayers: Number(editMaxPlayers) || 200,
+        maxPlayers: Number(editMaxPlayers) || 250,
         host: editHost,
         port: Number(editPort) || 7420,
         region: editRegion,
         tickRateHz: Number(editTickRate) || 20.0,
       });
+
+      if (daemonRunning && daemonStatus?.nodeId === nodeIdToUpdate) {
+        try {
+          const res = await startGameServerFn({
+            data: {
+              nodeId: updated.nodeId,
+              name: updated.name,
+              region: updated.region,
+              maxPlayers: updated.maxPlayers,
+              tickRateHz: updated.tickRateHz || 20,
+            },
+          });
+          setDaemonStatus(res.status);
+        } catch {
+          /* ignore */
+        }
+      }
+
       setServerActionMsg({
         type: "success",
-        text: `Zaktualizowano konfigurację serwera '${editName}' [${editingServerNode.nodeId}].`,
+        text: `Zaktualizowano konfigurację serwera '${editName}' [${nodeIdToUpdate}].`,
       });
       setEditingServerNode(null);
       void refresh();
@@ -318,18 +388,29 @@ export function AdminMonitoringCenter() {
 
   const handleStartServer = async (nodeId: string) => {
     try {
-      setServerNodeStatus(nodeId, "online");
-      if (nodeId === "eu-central-1" || nodeId.includes("local") || !daemonRunning) {
+      const updated = setServerNodeStatus(nodeId, "online");
+      setSelectedManagedNodeId(nodeId);
+      if (!daemonRunning || daemonStatus?.nodeId === nodeId) {
         try {
-          const res = await startGameServerFn({ data: { port: 7420, nodeId } });
+          const res = await startGameServerFn({
+            data: {
+              port: updated.port || 7420,
+              nodeId: updated.nodeId,
+              name: updated.name,
+              region: updated.region,
+              maxPlayers: updated.maxPlayers,
+              tickRateHz: updated.tickRateHz || 20,
+            },
+          });
           setDaemonRunning(res.ok);
+          setDaemonStatus(res.status);
         } catch {
           /* ignore */
         }
       }
       setServerActionMsg({
         type: "success",
-        text: `Serwer [${nodeId}] został pomyślnie uruchomiony (status: ONLINE).`,
+        text: `Serwer '${updated.name}' [${nodeId}] został pomyślnie uruchomiony (status: ONLINE).`,
       });
       void refresh();
     } catch (err) {
@@ -342,18 +423,20 @@ export function AdminMonitoringCenter() {
 
   const handleStopServer = async (nodeId: string) => {
     try {
-      setServerNodeStatus(nodeId, "offline");
-      if (nodeId === "eu-central-1" && daemonRunning) {
+      const updated = setServerNodeStatus(nodeId, "offline");
+      setSelectedManagedNodeId(nodeId);
+      if (daemonRunning && daemonStatus?.nodeId === nodeId) {
         try {
-          await stopGameServerFn();
+          const res = await stopGameServerFn();
           setDaemonRunning(false);
+          setDaemonStatus(res.status);
         } catch {
           /* ignore */
         }
       }
       setServerActionMsg({
         type: "success",
-        text: `Serwer [${nodeId}] został zatrzymany i wyłączony (status: OFFLINE).`,
+        text: `Serwer '${updated.name}' [${nodeId}] został zatrzymany i wyłączony (status: OFFLINE).`,
       });
       void refresh();
     } catch (err) {
@@ -364,12 +447,22 @@ export function AdminMonitoringCenter() {
     }
   };
 
+  const handleRestartServer = async (nodeId: string) => {
+    await handleStopServer(nodeId);
+    await handleStartServer(nodeId);
+    setServerActionMsg({
+      type: "success",
+      text: `Serwer [${nodeId}] został zrestartowany i jest ponownie ONLINE.`,
+    });
+  };
+
   const handleDrainServer = (nodeId: string) => {
     try {
       setServerNodeStatus(nodeId, "draining");
+      setSelectedManagedNodeId(nodeId);
       setServerActionMsg({
         type: "success",
-        text: `Serwer [${nodeId}] przełączony w tryb opróżniania (DRAINING - brak nowych połączeń).`,
+        text: `Serwer [${nodeId}] przełączony w tryb konserwacji / opróżniania (DRAINING - brak nowych połączeń).`,
       });
       void refresh();
     } catch (err) {
@@ -384,6 +477,9 @@ export function AdminMonitoringCenter() {
     if (!window.confirm(`Czy na pewno usunąć serwer [${nodeId}] z klastra?`)) return;
     try {
       deleteServerNode(nodeId);
+      if (selectedManagedNodeId === nodeId) {
+        setSelectedManagedNodeId("eu-central-1");
+      }
       setServerActionMsg({
         type: "success",
         text: `Serwer [${nodeId}] został trwale usunięty z konfiguracji klastra.`,
@@ -400,6 +496,7 @@ export function AdminMonitoringCenter() {
   const handleResetNodes = () => {
     if (!window.confirm("Przywrócić domyślną listę węzłów serwera?")) return;
     resetServerNodesToDefault();
+    setSelectedManagedNodeId("eu-central-1");
     setServerActionMsg({
       type: "success",
       text: "Przywrócono domyślne serwery klastra.",
@@ -486,8 +583,10 @@ export function AdminMonitoringCenter() {
 
     const players = snapshot.players;
     const onlinePlayers = players.filter((p) => p.online).length;
-    const safePlayers = players.filter((p) => p.inSafeCity || p.activity === "safe").length;
-    const combatPlayers = players.filter((p) => p.activity === "combat").length;
+    const safePlayers = players.filter(
+      (p) => p.online && (p.inSafeCity || p.activity === "safe"),
+    ).length;
+    const combatPlayers = players.filter((p) => p.online && p.activity === "combat").length;
 
     return {
       avgCpu,
@@ -546,12 +645,16 @@ export function AdminMonitoringCenter() {
           <strong style={{ fontSize: "1.05rem", color: "#f5d48a" }}>
             Centrum Monitoringu Serwera, Zasobów i Graczy na Świecie (Live Telemetry)
           </strong>
-          <div style={{ fontSize: "0.82rem", opacity: 0.8, marginTop: 2 }}>
-            Ostatni odczyt: <b>{snapshot ? fmtTime(snapshot.collectedAt) : "trwa…"}</b> · Status DB:{" "}
-            <b style={{ color: snapshot?.dbConnected ? "#5cd68d" : "#ff8577" }}>
-              {snapshot?.dbConnected ? "POŁĄCZONO (ONLINE)" : "TRYB LOKALNY / OFFLINE"}
+          <div style={{ fontSize: "0.82rem", opacity: 0.85, marginTop: 2 }}>
+            Ostatni odczyt: <b>{snapshot ? fmtTime(snapshot.collectedAt) : "trwa…"}</b> · Gracze
+            Online:{" "}
+            <b style={{ color: clusterTotals.onlinePlayers > 0 ? "#5cd68d" : "#9aa0a6" }}>
+              {clusterTotals.onlinePlayers} online
             </b>{" "}
-            · Siatka AOI: <b>512×512 j. (Index-Only Scan + UNLOGGED HOT)</b>
+            <small>({clusterTotals.totalPlayers} zapisanych postaci w bazie)</small> · Baza Danych:{" "}
+            <b style={{ color: snapshot?.dbConnected ? "#5cd68d" : "#ff8577" }}>
+              {snapshot?.dbConnected ? "POŁĄCZONO" : "OFFLINE"}
+            </b>
           </div>
         </div>
 
@@ -565,13 +668,14 @@ export function AdminMonitoringCenter() {
               fontSize: "0.84rem",
               cursor: "pointer",
             }}
+            title="Włącza testowych botów symulacyjnych na mapie i w węzłach klastra"
           >
             <input
               type="checkbox"
               checked={includeClusterSim}
               onChange={(e) => setIncludeClusterSim(e.target.checked)}
             />
-            <span>Symulacja węzłów globalnych (EU / US / AP)</span>
+            <span>Symulacja testowych graczy (Boty)</span>
           </label>
 
           <label
@@ -614,91 +718,7 @@ export function AdminMonitoringCenter() {
         </div>
       </header>
 
-      {/* Szybki panel uruchomienia / wyłączenia serwera gry i zarządzania węzłami widoczny od razu */}
-      <section
-        className="ki-admin-panel"
-        style={{
-          background: daemonRunning
-            ? "linear-gradient(135deg, #132b1d 0%, #173824 100%)"
-            : "linear-gradient(135deg, #1a202c 0%, #231b2e 100%)",
-          border: `1px solid ${daemonRunning ? "#5cd68d" : "#c8a35a"}`,
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: 12,
-          padding: "14px 18px",
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-            <span
-              style={{
-                display: "inline-block",
-                width: 10,
-                height: 10,
-                borderRadius: "50%",
-                background: daemonRunning ? "#5cd68d" : "#f5d48a",
-                boxShadow: daemonRunning ? "0 0 8px #5cd68d" : "none",
-              }}
-            />
-            <strong style={{ fontSize: "1.02rem", color: "#fff" }}>
-              Serwer Gry Live (Sterowanie Bez Terminala):{" "}
-              <span style={{ color: daemonRunning ? "#5cd68d" : "#f5d48a" }}>
-                {daemonRunning ? "URUCHOMIONY I AKTYWNY" : "GOTOWY DO URUCHOMIENIA"}
-              </span>
-            </strong>
-          </div>
-          <small style={{ color: "#cbd5e1" }}>
-            {daemonRunning
-              ? `Proces serwera działa w tle (port 7420 / WSS, 20 Hz tick, uptime: ${daemonUptime}s). Gracze łączą się automatycznie.`
-              : "Uruchom fizyczny serwer gry jednym kliknięciem lub skonfiguruj nazwę, limit graczy i węzły klastra."}
-          </small>
-        </div>
-
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-          <button
-            type="button"
-            className="ki-admin-btn"
-            disabled={daemonLoading}
-            onClick={handleTogglePhysicalDaemon}
-            style={{
-              background: daemonRunning ? "#c53030" : "#2e7d32",
-              color: "#fff",
-              fontWeight: "bold",
-              padding: "8px 16px",
-              cursor: daemonLoading ? "wait" : "pointer",
-            }}
-          >
-            {daemonLoading
-              ? "Przetwarzanie..."
-              : daemonRunning
-                ? "🛑 Wyłącz Serwer Gry"
-                : "🚀 Uruchom Serwer Gry (1 kliknięcie)"}
-          </button>
-          <button
-            type="button"
-            className="ki-admin-btn"
-            onClick={() => {
-              setSubTab("nodes-db");
-              setShowCreateServerModal(true);
-            }}
-            style={{ background: "#1e3a5f", color: "#fff", padding: "8px 14px" }}
-          >
-            ➕ Nowy serwer / Limit graczy
-          </button>
-          <button
-            type="button"
-            className="ki-admin-btn"
-            onClick={() => setSubTab("nodes-db")}
-            style={{ padding: "8px 14px" }}
-          >
-            ⚙️ Zarządzaj serwerami ({snapshot?.nodes.length ?? 0})
-          </button>
-        </div>
-      </section>
-
-      {/* Karty głównych wskaźników (CPU, RAM, Ping/Tick, FPS, Gracze na świecie, Sieć/DB) */}
+      {/* Karty głównych wskaźników (Gracze Online, Serwery Gry, CPU/RAM, Tick/Ping, Baza Danych) */}
       <section
         style={{
           display: "grid",
@@ -707,79 +727,65 @@ export function AdminMonitoringCenter() {
         }}
       >
         <div className="ki-admin-panel" style={{ padding: 12 }}>
-          <small>Obciążenie CPU Serwera / Węzłów</small>
-          <div style={{ fontSize: "1.45rem", fontWeight: 700, color: "#f5d48a", margin: "4px 0" }}>
-            {clusterTotals.avgCpu}%
-          </div>
+          <small>Gracze Online (Teraz w Grze)</small>
           <div
             style={{
-              height: 6,
-              background: "#2a2333",
-              borderRadius: 4,
-              overflow: "hidden",
-              marginBottom: 6,
+              fontSize: "1.45rem",
+              fontWeight: 700,
+              color: clusterTotals.onlinePlayers > 0 ? "#5cd68d" : "#f5d48a",
+              margin: "4px 0",
             }}
           >
-            <div
-              style={{
-                width: `${Math.min(100, clusterTotals.avgCpu)}%`,
-                height: "100%",
-                background: clusterTotals.avgCpu > 80 ? "#ff6b6b" : "#5cd68d",
-              }}
-            />
+            {clusterTotals.onlinePlayers} online{" "}
+            <span style={{ fontSize: "0.82rem", fontWeight: 400, color: "#9aa0a6" }}>
+              (zapisanych: {clusterTotals.totalPlayers})
+            </span>
           </div>
           <small>
-            Rdzenie klienta: {snapshot?.hardwareConcurrency ?? 8} · Węzły:{" "}
-            {snapshot?.nodes.length ?? 1}
+            W bezpiecznym mieście: {clusterTotals.safePlayers} · W walce:{" "}
+            {clusterTotals.combatPlayers}
           </small>
         </div>
 
         <div className="ki-admin-panel" style={{ padding: 12 }}>
-          <small>Pamięć RAM Klastra i JS Heap</small>
+          <small>Status Głównego Serwera Gry</small>
+          <div
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              color: daemonRunning ? "#5cd68d" : "#f5d48a",
+              margin: "4px 0",
+            }}
+          >
+            {daemonRunning ? `ONLINE (Port ${daemonStatus?.port ?? 7420})` : "GOTOWY / STANDBY"}
+          </div>
+          <small>
+            Węzły gry: {snapshot?.nodes.filter((n) => n.status === "online").length ?? 0} /{" "}
+            {snapshot?.nodes.length ?? 0} aktywnych
+          </small>
+        </div>
+
+        <div className="ki-admin-panel" style={{ padding: 12 }}>
+          <small>Obciążenie CPU i Pamięć RAM</small>
           <div style={{ fontSize: "1.45rem", fontWeight: 700, color: "#7cc5ff", margin: "4px 0" }}>
-            {clusterTotals.totalMemUsed} MB{" "}
+            {clusterTotals.avgCpu}% CPU{" "}
             <span style={{ fontSize: "0.85rem", fontWeight: 400 }}>
-              / {clusterTotals.totalMemLimit} MB
+              · {clusterTotals.totalMemUsed} MB RAM
             </span>
           </div>
-          <div
-            style={{
-              height: 6,
-              background: "#2a2333",
-              borderRadius: 4,
-              overflow: "hidden",
-              marginBottom: 6,
-            }}
-          >
-            <div
-              style={{
-                width: `${Math.min(100, Math.round((clusterTotals.totalMemUsed / Math.max(1, clusterTotals.totalMemLimit)) * 100))}%`,
-                height: "100%",
-                background: "#7cc5ff",
-              }}
-            />
-          </div>
           <small>
-            JS Heap przeglądarki: {snapshot?.clientHeapUsedMb ?? 0} MB /{" "}
-            {snapshot?.clientHeapLimitMb ?? 2048} MB
+            JS Heap przeglądarki: {snapshot?.clientHeapUsedMb ?? 0} MB ·{" "}
+            {snapshot?.clientFps ?? measuredFps} FPS
           </small>
         </div>
 
         <div className="ki-admin-panel" style={{ padding: 12 }}>
-          <small>Ping RTT Bazy i Pętla Ticku (20 Hz)</small>
+          <small>Pętla Ticku (20 Hz) i Sieć</small>
           <div style={{ fontSize: "1.45rem", fontWeight: 700, color: "#5cd68d", margin: "4px 0" }}>
-            {snapshot?.dbLatencyMs ?? 1} ms{" "}
+            {clusterTotals.avgTickP95} ms{" "}
             <span style={{ fontSize: "0.85rem", fontWeight: 400 }}>
-              (Tick p95: {clusterTotals.avgTickP95} ms)
+              (Śr. ping: {clusterTotals.avgPing} ms)
             </span>
-          </div>
-          <small>Śr. ping węzłów: {clusterTotals.avgPing} ms · Budżet ticku: 50.0 ms (20 Hz)</small>
-        </div>
-
-        <div className="ki-admin-panel" style={{ padding: 12 }}>
-          <small>Wydajność Klienta (FPS) i Sieć</small>
-          <div style={{ fontSize: "1.45rem", fontWeight: 700, color: "#9fe0a0", margin: "4px 0" }}>
-            {snapshot?.clientFps ?? measuredFps} FPS
           </div>
           <small>
             Ruch: {clusterTotals.totalPacketsIn} pkt/s WEJ · {clusterTotals.totalPacketsOut} pkt/s
@@ -787,31 +793,45 @@ export function AdminMonitoringCenter() {
           </small>
         </div>
 
-        <div className="ki-admin-panel" style={{ padding: 12 }}>
-          <small>Gracze na Świecie (Wszystkie Lądy)</small>
-          <div style={{ fontSize: "1.45rem", fontWeight: 700, color: "#f5d48a", margin: "4px 0" }}>
-            {clusterTotals.onlinePlayers} online{" "}
-            <span style={{ fontSize: "0.85rem", fontWeight: 400 }}>
-              ({clusterTotals.totalPlayers} łącznie)
-            </span>
+        <div
+          className="ki-admin-panel"
+          style={{ padding: 12, cursor: "pointer" }}
+          onClick={() => setSubTab("database")}
+          title="Kliknij, aby przejść do sekcji Baza Danych (Supabase i PostgreSQL)"
+        >
+          <small>Baza Danych (Supabase / PostgreSQL)</small>
+          <div
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              color: snapshot?.dbConnected ? "#5cd68d" : "#ff8577",
+              margin: "4px 0",
+            }}
+          >
+            {snapshot?.dbConnected ? `ONLINE (${snapshot.dbLatencyMs} ms)` : "TRYB LOKALNY"}
           </div>
           <small>
-            Bezpieczne miasta: {clusterTotals.safePlayers} · W walce: {clusterTotals.combatPlayers}
+            Konta: {snapshot?.dbStats.profilesCount ?? 0} · Postacie:{" "}
+            {snapshot?.dbStats.charactersCount ?? 0} → Zarządzaj
           </small>
         </div>
       </section>
 
-      {/* Nawigacja podzakładek monitoringu */}
+      {/* Nawigacja podzakładek monitoringu i zarządzania */}
       <div className="ki-admin-tabs" role="tablist" aria-label="Sekcje monitoringu">
         {(
           [
-            ["overview", "Przegląd Wszystkiego (Dashboard)"],
+            ["servers", `🖥️ Serwery Gry i Zarządzanie (${snapshot?.nodes.length ?? 0})`],
             [
               "world-players",
-              `Gracze na Świecie i Mapa Pozycji (${snapshot?.players.length ?? 0})`,
+              `🗺️ Fizyczna Mapa Świata i Gracze (${clusterTotals.onlinePlayers} online / ${snapshot?.players.length ?? 0})`,
             ],
-            ["nodes-db", `Węzły Serwera, CPU/RAM i Baza (${snapshot?.nodes.length ?? 0})`],
-            ["logs", `Logi Serwera, Sieci i Anti-Cheat (${allLogs.length})`],
+            [
+              "database",
+              `🗄️ BAZA DANYCH (Supabase i PostgreSQL · ${snapshot?.dbStats.charactersCount ?? 0} zapisów)`,
+            ],
+            ["overview", "📊 Przegląd Lądów i Zasobów"],
+            ["logs", `📜 Logi Serwera, Sieci i Anti-Cheat (${allLogs.length})`],
           ] as const
         ).map(([id, label]) => (
           <button
@@ -826,59 +846,793 @@ export function AdminMonitoringCenter() {
         ))}
       </div>
 
-      {/* 1. PRZEGLĄD WSZYSTKIEGO (OVERVIEW) */}
-      {subTab === "overview" && snapshot && (
+      {/* ================================================================================= */}
+      {/* 1. SERWERY GRY I ZARZĄDZANIE (DEDYKOWANY PANEL STEROWANIA + LISTA SERWERÓW)        */}
+      {/* ================================================================================= */}
+      {subTab === "servers" && snapshot && (
         <div style={{ display: "grid", gap: 14 }}>
-          {/* Populacja na 10 lądach Superior */}
+          {serverActionMsg && (
+            <div
+              style={{
+                padding: "10px 14px",
+                borderRadius: 6,
+                background: serverActionMsg.type === "success" ? "#1b3a2a" : "#421c1c",
+                border: `1px solid ${serverActionMsg.type === "success" ? "#5cd68d" : "#ff8577"}`,
+                color: serverActionMsg.type === "success" ? "#abf7cb" : "#ffc2bc",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>{serverActionMsg.text}</span>
+              <button
+                type="button"
+                className="ki-admin-btn"
+                onClick={() => setServerActionMsg(null)}
+                style={{ padding: "2px 8px", fontSize: "0.8rem" }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Szybki pasek procesu fizycznego serwera WebSocket */}
+          <section
+            className="ki-admin-panel"
+            style={{
+              background: daemonRunning
+                ? "linear-gradient(135deg, #132b1d 0%, #173824 100%)"
+                : "linear-gradient(135deg, #1a202c 0%, #231b2e 100%)",
+              border: `1px solid ${daemonRunning ? "#5cd68d" : "#c8a35a"}`,
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
+              padding: "14px 18px",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: daemonRunning ? "#5cd68d" : "#f5d48a",
+                    boxShadow: daemonRunning ? "0 0 8px #5cd68d" : "none",
+                  }}
+                />
+                <strong style={{ fontSize: "1.02rem", color: "#fff" }}>
+                  Fizyczny Proces Serwera Gry (WebSocket Daemon):{" "}
+                  <span style={{ color: daemonRunning ? "#5cd68d" : "#f5d48a" }}>
+                    {daemonRunning
+                      ? `URUCHOMIONY NA PORCIE ${daemonStatus?.port ?? 7420} (${daemonStatus?.nodeId ?? "eu-central-1"})`
+                      : "ZATRZYMANY (GOTOWY DO STARTU)"}
+                  </span>
+                </strong>
+              </div>
+              <small style={{ color: "#cbd5e1" }}>
+                {daemonRunning
+                  ? `Aktywne połączenia WebSocket: ${daemonStatus?.activePlayers ?? 0} / ${daemonStatus?.maxPlayers ?? 250} graczy · Czas działania (Uptime): ${daemonUptime}s · Pętla: ${daemonStatus?.tickRateHz ?? 20} Hz.`
+                  : "Możesz uruchomić fizyczny serwer gry jednym kliknięciem poniżej lub wybrać konkretny serwer z listy i kliknąć Uruchom."}
+              </small>
+            </div>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+              <button
+                type="button"
+                className="ki-admin-btn"
+                disabled={daemonLoading}
+                onClick={handleTogglePhysicalDaemon}
+                style={{
+                  background: daemonRunning ? "#c53030" : "#2e7d32",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  padding: "8px 16px",
+                  cursor: daemonLoading ? "wait" : "pointer",
+                }}
+              >
+                {daemonLoading
+                  ? "Przetwarzanie..."
+                  : daemonRunning
+                    ? "🛑 Wyłącz Proces Serwera Gry"
+                    : "🚀 Uruchom Serwer Gry (1 kliknięcie)"}
+              </button>
+              <button
+                type="button"
+                className="ki-admin-btn"
+                onClick={() => setShowCreateServerModal(true)}
+                style={{ background: "#1e3a5f", color: "#fff", padding: "8px 14px" }}
+              >
+                ➕ Utwórz nowy serwer gry
+              </button>
+            </div>
+          </section>
+
+          {/* Formularz tworzenia nowego serwera */}
+          {showCreateServerModal && (
+            <section
+              className="ki-admin-panel"
+              style={{
+                border: "2px solid #7cc5ff",
+                background: "#161c28",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 12,
+                }}
+              >
+                <h3 style={{ margin: 0, color: "#7cc5ff" }}>
+                  ➕ Tworzenie Nowego Serwera Gry (Węzeł Klastra)
+                </h3>
+                <button
+                  type="button"
+                  className="ki-admin-btn"
+                  onClick={() => setShowCreateServerModal(false)}
+                >
+                  ✕ Zamknij
+                </button>
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: 12,
+                  marginBottom: 14,
+                }}
+              >
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Identyfikator serwera (unikalny ID):
+                  </label>
+                  <input
+                    aria-label="Identyfikator serwera"
+                    placeholder="np. pl-warszawa-1"
+                    value={createNodeId}
+                    onChange={(e) => setCreateNodeId(e.target.value)}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Nazwa wyświetlana serwera:
+                  </label>
+                  <input
+                    aria-label="Nazwa serwera"
+                    placeholder="np. Serwer Polska #1 (Warszawa)"
+                    value={createName}
+                    onChange={(e) => setCreateName(e.target.value)}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Region geograficzny:
+                  </label>
+                  <input
+                    aria-label="Region serwera"
+                    placeholder="np. eu-central (Warszawa)"
+                    value={createRegion}
+                    onChange={(e) => setCreateRegion(e.target.value)}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Host / Adres IP:
+                  </label>
+                  <input
+                    aria-label="Host serwera"
+                    placeholder="np. 85.235.150.189"
+                    value={createHost}
+                    onChange={(e) => setCreateHost(e.target.value)}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Port sieciowy (TCP/WebSocket):
+                  </label>
+                  <input
+                    type="number"
+                    aria-label="Port serwera"
+                    placeholder="7420"
+                    value={createPort}
+                    onChange={(e) => setCreatePort(Number(e.target.value))}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Maksymalny limit graczy (Sloty):
+                  </label>
+                  <input
+                    type="number"
+                    aria-label="Maksymalny limit graczy"
+                    placeholder="250"
+                    value={createMaxPlayers}
+                    onChange={(e) => setCreateMaxPlayers(Number(e.target.value))}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
+                    Częstotliwość pętli tick (Hz):
+                  </label>
+                  <input
+                    type="number"
+                    step="1"
+                    aria-label="Częstotliwość ticku"
+                    placeholder="20"
+                    value={createTickRate}
+                    onChange={(e) => setCreateTickRate(Number(e.target.value))}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: 10 }}>
+                <button
+                  type="button"
+                  className="ki-admin-btn"
+                  onClick={handleCreateServer}
+                  style={{ background: "#2e7d32", color: "#fff", fontWeight: "bold" }}
+                >
+                  🚀 Zainicjuj i dodaj serwer
+                </button>
+                <button
+                  type="button"
+                  className="ki-admin-btn"
+                  onClick={() => setShowCreateServerModal(false)}
+                >
+                  Anuluj
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* ================================================================================= */}
+          {/* DEDYKOWANA SEKCJA ZARZĄDZANIA WYBRANYM / UTWORZONYM SERWEREM GRY                  */}
+          {/* ================================================================================= */}
+          {managedNode && (
+            <section
+              className="ki-admin-panel"
+              style={{
+                border: "2px solid #c8a35a",
+                background: "#181420",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: 12,
+                  paddingBottom: 12,
+                  marginBottom: 14,
+                  borderBottom: "1px solid #3a3242",
+                }}
+              >
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <h3 style={{ margin: 0, color: "#f5d48a" }}>
+                      🎛️ Panel Zarządzania Aktywnym Serwerem: {managedNode.name}
+                    </h3>
+                    <span
+                      style={{
+                        padding: "3px 10px",
+                        borderRadius: 4,
+                        fontSize: "0.8rem",
+                        fontWeight: "bold",
+                        background:
+                          managedNode.status === "online"
+                            ? "#1b4d2e"
+                            : managedNode.status === "draining"
+                              ? "#4d3d1b"
+                              : "#3d1b1b",
+                        color:
+                          managedNode.status === "online"
+                            ? "#5cd68d"
+                            : managedNode.status === "draining"
+                              ? "#f5d48a"
+                              : "#ff8577",
+                      }}
+                    >
+                      {managedNode.status.toUpperCase()}
+                    </span>
+                  </div>
+                  <small style={{ color: "#cbd5e1" }}>
+                    ID węzła: <code>{managedNode.nodeId}</code> · Adres:{" "}
+                    <code>{managedNode.host}</code> · Region: <b>{managedNode.region}</b> · Sloty:{" "}
+                    <b>
+                      {managedNode.activePlayers} / {managedNode.maxPlayers} graczy online
+                    </b>
+                  </small>
+                </div>
+
+                {/* Wybór którym serwerem zarządzamy + przyciski akcji zasilania */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                  <label style={{ fontSize: "0.82rem", margin: 0 }}>
+                    Wybrany serwer:{" "}
+                    <select
+                      aria-label="Wybierz serwer do zarządzania"
+                      value={managedNode.nodeId}
+                      onChange={(e) => setSelectedManagedNodeId(e.target.value)}
+                    >
+                      {snapshot.nodes.map((n) => (
+                        <option key={n.nodeId} value={n.nodeId}>
+                          {n.name} [{n.nodeId}] ({n.status.toUpperCase()})
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  {managedNode.status === "offline" || managedNode.status === "stopping" ? (
+                    <button
+                      type="button"
+                      className="ki-admin-btn"
+                      onClick={() => void handleStartServer(managedNode.nodeId)}
+                      style={{
+                        background: "#2e7d32",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        padding: "6px 14px",
+                      }}
+                    >
+                      ▶ Uruchom ten serwer
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="ki-admin-btn"
+                      onClick={() => void handleStopServer(managedNode.nodeId)}
+                      style={{
+                        background: "#c53030",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        padding: "6px 14px",
+                      }}
+                    >
+                      ⏹ Wyłącz ten serwer
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    className="ki-admin-btn"
+                    onClick={() => void handleRestartServer(managedNode.nodeId)}
+                    style={{ padding: "6px 12px" }}
+                  >
+                    🔄 Restartuj
+                  </button>
+
+                  <button
+                    type="button"
+                    className="ki-admin-btn"
+                    onClick={() => handleDrainServer(managedNode.nodeId)}
+                    style={{ padding: "6px 12px" }}
+                  >
+                    ⏳ Tryb konserwacji (Draining)
+                  </button>
+
+                  <button
+                    type="button"
+                    className="ki-admin-btn"
+                    onClick={() => handleDeleteServer(managedNode.nodeId)}
+                    style={{ padding: "6px 12px", color: "#ff8577" }}
+                  >
+                    🗑 Usuń serwer
+                  </button>
+                </div>
+              </div>
+
+              {/* Dwie kolumny wewnątrz Panelu Zarządzania Serwerem: Konfiguracja na żywo + Telemetria tego serwera */}
+              <div className="ki-admin-grid">
+                <div
+                  style={{
+                    padding: 12,
+                    borderRadius: 8,
+                    background: "#120f17",
+                    border: "1px solid #2e2638",
+                  }}
+                >
+                  <h4 style={{ marginTop: 0, marginBottom: 10, color: "#f5d48a" }}>
+                    ⚙️ Konfiguracja i Parametry Serwera ({managedNode.nodeId})
+                  </h4>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                      gap: 10,
+                      marginBottom: 12,
+                    }}
+                  >
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 4 }}>
+                        Nazwa serwera:
+                      </label>
+                      <input
+                        aria-label="Edycja nazwy serwera"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 4 }}>
+                        Limit graczy (Max Sloty):
+                      </label>
+                      <input
+                        type="number"
+                        aria-label="Edycja limitu graczy"
+                        value={editMaxPlayers}
+                        onChange={(e) => setEditMaxPlayers(Number(e.target.value))}
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 4 }}>
+                        Host / IP serwera:
+                      </label>
+                      <input
+                        aria-label="Edycja hosta serwera"
+                        value={editHost}
+                        onChange={(e) => setEditHost(e.target.value)}
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 4 }}>
+                        Port TCP / WS:
+                      </label>
+                      <input
+                        type="number"
+                        aria-label="Edycja portu serwera"
+                        value={editPort}
+                        onChange={(e) => setEditPort(Number(e.target.value))}
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 4 }}>
+                        Region:
+                      </label>
+                      <input
+                        aria-label="Edycja regionu serwera"
+                        value={editRegion}
+                        onChange={(e) => setEditRegion(e.target.value)}
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", marginBottom: 4 }}>
+                        Częstotliwość Tick Rate (Hz):
+                      </label>
+                      <input
+                        type="number"
+                        aria-label="Edycja częstotliwości ticku"
+                        value={editTickRate}
+                        onChange={(e) => setEditTickRate(Number(e.target.value))}
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="ki-admin-btn"
+                    onClick={() => void handleSaveEdit(managedNode.nodeId)}
+                    style={{
+                      background: "#e65100",
+                      color: "#fff",
+                      fontWeight: "bold",
+                      padding: "7px 16px",
+                    }}
+                  >
+                    💾 Zapisz zmiany serwera
+                  </button>
+                </div>
+
+                {/* Statystyki na żywo dla wybranego serwera */}
+                <div
+                  style={{
+                    padding: 12,
+                    borderRadius: 8,
+                    background: "#120f17",
+                    border: "1px solid #2e2638",
+                    display: "grid",
+                    gap: 10,
+                  }}
+                >
+                  <h4 style={{ marginTop: 0, marginBottom: 4, color: "#7cc5ff" }}>
+                    📈 Telemetria i Obciążenie Serwera ({managedNode.nodeId})
+                  </h4>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                      gap: 8,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    <div style={{ padding: 8, background: "#1a1622", borderRadius: 6 }}>
+                      <small>Połączeni Gracze</small>
+                      <div style={{ fontSize: "1.15rem", fontWeight: "bold", color: "#5cd68d" }}>
+                        {managedNode.activePlayers} / {managedNode.maxPlayers}
+                      </div>
+                    </div>
+                    <div style={{ padding: 8, background: "#1a1622", borderRadius: 6 }}>
+                      <small>Obciążenie CPU</small>
+                      <div style={{ fontSize: "1.15rem", fontWeight: "bold", color: "#f5d48a" }}>
+                        {managedNode.cpuPercent}% <small>(load {managedNode.loadAvg1m})</small>
+                      </div>
+                    </div>
+                    <div style={{ padding: 8, background: "#1a1622", borderRadius: 6 }}>
+                      <small>Pamięć RAM</small>
+                      <div style={{ fontSize: "1.15rem", fontWeight: "bold", color: "#7cc5ff" }}>
+                        {managedNode.memUsedMb} / {managedNode.memTotalMb} MB
+                      </div>
+                    </div>
+                    <div style={{ padding: 8, background: "#1a1622", borderRadius: 6 }}>
+                      <small>Pętla Symulacji</small>
+                      <div style={{ fontSize: "1.15rem", fontWeight: "bold" }}>
+                        {managedNode.tickRateHz} Hz <small>(p95: {managedNode.tickP95Ms} ms)</small>
+                      </div>
+                    </div>
+                    <div style={{ padding: 8, background: "#1a1622", borderRadius: 6 }}>
+                      <small>Średni Ping RTT</small>
+                      <div style={{ fontSize: "1.15rem", fontWeight: "bold", color: "#5cd68d" }}>
+                        {managedNode.avgPingMs} ms
+                      </div>
+                    </div>
+                    <div style={{ padding: 8, background: "#1a1622", borderRadius: 6 }}>
+                      <small>Ruch Sieciowy</small>
+                      <div style={{ fontSize: "1.0rem", fontWeight: "bold" }}>
+                        {managedNode.packetsInSec} wej / {managedNode.packetsOutSec} wyj pkt/s
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Tabela wszystkich serwerów gry */}
           <section className="ki-admin-panel">
-            <h3 style={{ marginTop: 0, marginBottom: 10 }}>
-              Populacja i Wydajność na Lądach Planety Superior (10 Lądów)
-            </h3>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 12,
+              }}
+            >
+              <div>
+                <h3 style={{ margin: 0 }}>
+                  Zarządzanie i Monitoring Serwerów Gry ({snapshot.nodes.length})
+                </h3>
+                <small style={{ color: "#9aa0a6" }}>
+                  Lista skonfigurowanych serwerów gry (bez bazy danych Supabase, która znajduje się
+                  w sekcji BAZA DANYCH). Kliknij wiersz lub przycisk „Zarządzaj / Edytuj”, aby
+                  sterować wybranym serwerem powyżej.
+                </small>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  className="ki-admin-btn"
+                  onClick={() => setShowCreateServerModal(true)}
+                  style={{ background: "#2e7d32", color: "#fff" }}
+                >
+                  ➕ Nowy serwer gry
+                </button>
+                <button
+                  type="button"
+                  className="ki-admin-btn"
+                  onClick={handleResetNodes}
+                  title="Przywraca domyślną konfigurację klastra"
+                >
+                  ↺ Przywróć domyślne
+                </button>
+              </div>
+            </div>
+
             <table className="ki-admin-table">
               <thead>
                 <tr>
-                  <th>Ląd / Kraina</th>
-                  <th>Gracze (Łącznie)</th>
-                  <th>Aktywni (Online)</th>
-                  <th>W Bezpiecznym Mieście</th>
-                  <th>W Walce</th>
-                  <th>Eksploracja</th>
-                  <th>Śr. Ping</th>
-                  <th>Śr. FPS</th>
-                  <th>Akcja</th>
+                  <th>Serwer / Nazwa / ID</th>
+                  <th>Host : Port</th>
+                  <th>Status</th>
+                  <th>Gracze Online / Limit</th>
+                  <th>CPU % · Load 1m</th>
+                  <th>RAM (Used / Total)</th>
+                  <th>Tick (p50 / p95)</th>
+                  <th>Ping</th>
+                  <th>Zarządzanie Serwerem</th>
                 </tr>
               </thead>
               <tbody>
-                {FEATURE_IDS.map((fid) => {
-                  const st = snapshot.worldStats[fid];
-                  if (!st) return null;
+                {snapshot.nodes.map((n) => {
+                  const maxCap = n.maxPlayers || 250;
+                  const pct = Math.round((n.activePlayers / maxCap) * 100);
+                  const isOff = n.status === "offline" || n.status === "stopping";
+                  const isOnline = n.status === "online" || n.status === "degraded";
+                  const isSelected = managedNode?.nodeId === n.nodeId;
+
                   return (
-                    <tr key={fid}>
+                    <tr
+                      key={n.nodeId}
+                      onClick={() => setSelectedManagedNodeId(n.nodeId)}
+                      style={{
+                        cursor: "pointer",
+                        background: isSelected ? "#261f30" : undefined,
+                      }}
+                    >
                       <td>
-                        <b>{st.name}</b> <small>({fid})</small>
+                        <b>{n.name || n.label || n.nodeId}</b>
+                        <br />
+                        <small style={{ color: "#9aa0a6" }}>
+                          ID: <code>{n.nodeId}</code> · {n.region}
+                        </small>
                       </td>
-                      <td>{st.totalPlayers}</td>
-                      <td style={{ color: st.onlinePlayers > 0 ? "#5cd68d" : undefined }}>
-                        <b>{st.onlinePlayers}</b>
-                      </td>
-                      <td>{st.safeZonePlayers}</td>
-                      <td style={{ color: st.combatPlayers > 0 ? "#ff8577" : undefined }}>
-                        {st.combatPlayers}
-                      </td>
-                      <td>{st.exploringPlayers}</td>
-                      <td>{st.totalPlayers > 0 ? `${st.avgPingMs} ms` : "—"}</td>
-                      <td>{st.totalPlayers > 0 ? `${st.avgFps} FPS` : "—"}</td>
                       <td>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setRadarWorld(fid);
-                            setWorldFilter(fid);
-                            setSubTab("world-players");
+                        <code>{n.host}</code>
+                      </td>
+                      <td>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "2px 8px",
+                            borderRadius: 4,
+                            fontSize: "0.78rem",
+                            fontWeight: "bold",
+                            background:
+                              n.status === "online"
+                                ? "#1b4d2e"
+                                : n.status === "draining"
+                                  ? "#4d3d1b"
+                                  : isOff
+                                    ? "#3d1b1b"
+                                    : "#2a3d4d",
+                            color:
+                              n.status === "online"
+                                ? "#5cd68d"
+                                : n.status === "draining"
+                                  ? "#f5d48a"
+                                  : isOff
+                                    ? "#ff8577"
+                                    : "#7cc5ff",
                           }}
                         >
-                          Pokaż na radarze
-                        </button>
+                          {n.status.toUpperCase()}
+                        </span>
+                      </td>
+                      <td style={{ minWidth: 140 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            fontSize: "0.82rem",
+                            marginBottom: 2,
+                          }}
+                        >
+                          <b>
+                            {n.activePlayers} / {maxCap}
+                          </b>
+                          <small style={{ color: "#9aa0a6" }}>{pct}%</small>
+                        </div>
+                        <div
+                          style={{
+                            height: 6,
+                            background: "#2a2a2a",
+                            borderRadius: 3,
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div
+                            style={{
+                              height: "100%",
+                              width: `${Math.min(100, pct)}%`,
+                              background:
+                                pct > 90 ? "#ff6b6b" : pct > 75 ? "#f5d48a" : "#5cd68d",
+                              transition: "width 0.2s ease",
+                            }}
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <b>{n.cpuPercent}%</b> <small>(load {n.loadAvg1m})</small>
+                      </td>
+                      <td>
+                        <small>
+                          {n.memUsedMb} / {n.memTotalMb} MB
+                        </small>
+                      </td>
+                      <td>
+                        <b>{n.tickRateHz} Hz</b>
+                        <br />
+                        <small style={{ color: "#9aa0a6" }}>
+                          p50: {n.tickP50Ms} ms · p95: {n.tickP95Ms} ms
+                        </small>
+                      </td>
+                      <td>
+                        <b>{n.avgPingMs} ms</b>
+                      </td>
+                      <td onClick={(e) => e.stopPropagation()}>
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          {isOff ? (
+                            <button
+                              type="button"
+                              className="ki-admin-btn"
+                              onClick={() => void handleStartServer(n.nodeId)}
+                              style={{
+                                background: "#1b4d2e",
+                                color: "#5cd68d",
+                                padding: "3px 8px",
+                                fontSize: "0.78rem",
+                              }}
+                            >
+                              ▶ Uruchom
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="ki-admin-btn"
+                              onClick={() => void handleStopServer(n.nodeId)}
+                              style={{
+                                background: "#4d1b1b",
+                                color: "#ff8577",
+                                padding: "3px 8px",
+                                fontSize: "0.78rem",
+                              }}
+                            >
+                              ⏹ Wyłącz
+                            </button>
+                          )}
+
+                          {isOnline && (
+                            <button
+                              type="button"
+                              className="ki-admin-btn"
+                              onClick={() => handleDrainServer(n.nodeId)}
+                              style={{ padding: "3px 8px", fontSize: "0.78rem" }}
+                            >
+                              ⏳ Drenuj
+                            </button>
+                          )}
+
+                          <button
+                            type="button"
+                            className="ki-admin-btn"
+                            onClick={() => handleOpenEdit(n)}
+                            style={{ padding: "3px 8px", fontSize: "0.78rem" }}
+                          >
+                            ✏ Edytuj
+                          </button>
+
+                          <button
+                            type="button"
+                            className="ki-admin-btn"
+                            onClick={() => handleDeleteServer(n.nodeId)}
+                            style={{
+                              padding: "3px 8px",
+                              fontSize: "0.78rem",
+                              color: "#ff8577",
+                            }}
+                          >
+                            🗑
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -886,114 +1640,14 @@ export function AdminMonitoringCenter() {
               </tbody>
             </table>
           </section>
-
-          {/* Dwie kolumny: Węzły serwera + Ostatnie logi */}
-          <div className="ki-admin-grid">
-            <section className="ki-admin-panel">
-              <h3 style={{ marginTop: 0 }}>Stan Węzłów Serwera i Bazy</h3>
-              <div style={{ display: "grid", gap: 10 }}>
-                {snapshot.nodes.map((n) => (
-                  <div
-                    key={n.nodeId}
-                    style={{
-                      padding: 10,
-                      border: "1px solid #3a3242",
-                      borderRadius: 8,
-                      background: "#120f17",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                      <b>{n.label}</b>
-                      <span
-                        style={{
-                          color: n.status === "online" ? "#5cd68d" : "#f5d48a",
-                          fontWeight: 600,
-                          fontSize: "0.8rem",
-                        }}
-                      >
-                        {n.status.toUpperCase()}
-                      </span>
-                    </div>
-                    <small>
-                      {n.nodeId} · {n.region} · {n.host}
-                    </small>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(4, 1fr)",
-                        gap: 6,
-                        marginTop: 8,
-                        fontSize: "0.82rem",
-                      }}
-                    >
-                      <div>
-                        CPU: <b>{n.cpuPercent}%</b>
-                      </div>
-                      <div>
-                        RAM:{" "}
-                        <b>
-                          {n.memUsedMb}/{n.memTotalMb} MB
-                        </b>
-                      </div>
-                      <div>
-                        Tick p95: <b>{n.tickP95Ms} ms</b>
-                      </div>
-                      <div>
-                        Ping: <b>{n.avgPingMs} ms</b>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="ki-admin-panel">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 8,
-                }}
-              >
-                <h3 style={{ margin: 0 }}>Ostatnie Zdarzenia i Logi Serwera</h3>
-                <button type="button" onClick={() => setSubTab("logs")}>
-                  Pełna konsola ({allLogs.length})
-                </button>
-              </div>
-              <div style={{ display: "grid", gap: 6, maxHeight: 340, overflowY: "auto" }}>
-                {allLogs.slice(0, 8).map((log) => (
-                  <div
-                    key={log.id}
-                    style={{
-                      padding: "6px 8px",
-                      borderLeft: `3px solid ${LOG_LEVEL_COLORS[log.level]}`,
-                      background: "#120f17",
-                      fontSize: "0.82rem",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                      <span>
-                        <b style={{ color: LOG_LEVEL_COLORS[log.level] }}>
-                          [{log.level.toUpperCase()}]
-                        </b>{" "}
-                        <code>[{log.category}]</code> <small>{log.nodeId}</small>
-                      </span>
-                      <small>{fmtTime(log.recordedAt)}</small>
-                    </div>
-                    <div style={{ marginTop: 2 }}>{log.message}</div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
         </div>
       )}
 
-      {/* 2. GRACZE NA ŚWIECIE I MAPA POZYCJI LIVE */}
+      {/* ================================================================================= */}
+      {/* 2. FIZYCZNA MAPA ŚWIATA I GRACZE NA ŚWIECIE                                        */}
+      {/* ================================================================================= */}
       {subTab === "world-players" && snapshot && (
         <div style={{ display: "grid", gap: 14 }}>
-          {/* Interaktywny Radar 2D Lądu + Inspektor Gracza */}
           <div className="ki-admin-grid">
             <section className="ki-admin-panel">
               <div
@@ -1006,25 +1660,83 @@ export function AdminMonitoringCenter() {
                   marginBottom: 10,
                 }}
               >
-                <h3 style={{ margin: 0 }}>Radar Świata 2D (Pozycje Graczy i Siatka AOI)</h3>
-                <select
-                  aria-label="Wybierz ląd radaru"
-                  value={radarWorld}
-                  onChange={(e) => setRadarWorld(e.target.value as FeatureId)}
-                >
-                  {FEATURE_IDS.map((fid) => (
-                    <option key={fid} value={fid}>
-                      {getFeatureDisplayName(fid)} (
-                      {snapshot.players.filter((p) => p.worldId === fid).length})
+                <div>
+                  <h3 style={{ margin: 0 }}>
+                    Radar Świata 2D — Fizyczna Mapa Planety Superior i Siatka AOI
+                  </h3>
+                  <small style={{ color: "#9aa0a6" }}>
+                    Fizyczna tekstura świata (atlas-v2) z drogami, miastami, siatką AOI i pozycjami
+                    graczy ({clusterTotals.onlinePlayers} online, {snapshot.players.length}{" "}
+                    zapisanych)
+                  </small>
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                  <select
+                    aria-label="Wybierz ląd radaru"
+                    value={radarWorld}
+                    onChange={(e) => setRadarWorld(e.target.value as "all" | FeatureId)}
+                  >
+                    <option value="all">
+                      🌍 Cała Planeta Superior ({snapshot.players.length})
                     </option>
-                  ))}
-                </select>
+                    {FEATURE_IDS.map((fid) => (
+                      <option key={fid} value={fid}>
+                        {getFeatureDisplayName(fid)} (
+                        {snapshot.players.filter((p) => p.worldId === fid).length})
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <WorldPlayerRadarSvg
+              {/* Przełączniki warstw fizycznej mapy */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 12,
+                  marginBottom: 8,
+                  fontSize: "0.8rem",
+                }}
+              >
+                <label style={{ display: "inline-flex", alignItems: "center", gap: 5, margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={showAoiGrid}
+                    onChange={(e) => setShowAoiGrid(e.target.checked)}
+                  />
+                  <span>Siatka sektorów AOI</span>
+                </label>
+                <label style={{ display: "inline-flex", alignItems: "center", gap: 5, margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={showRoadsLayer}
+                    onChange={(e) => setShowRoadsLayer(e.target.checked)}
+                  />
+                  <span>Drogi i szlaki</span>
+                </label>
+                <label style={{ display: "inline-flex", alignItems: "center", gap: 5, margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={showPlacesLayer}
+                    onChange={(e) => setShowPlacesLayer(e.target.checked)}
+                  />
+                  <span>Miasta i lokacje</span>
+                </label>
+              </div>
+
+              <PhysicalWorldPlayerMapSvg
                 worldId={radarWorld}
-                players={snapshot.players.filter((p) => p.worldId === radarWorld)}
+                players={
+                  radarWorld === "all"
+                    ? snapshot.players
+                    : snapshot.players.filter((p) => p.worldId === radarWorld)
+                }
                 selectedId={selectedPlayer?.id ?? null}
+                showAoiGrid={showAoiGrid}
+                showRoads={showRoadsLayer}
+                showPlaces={showPlacesLayer}
                 onSelectPlayer={(id) => setSelectedPlayerId(id)}
               />
 
@@ -1082,7 +1794,10 @@ export function AdminMonitoringCenter() {
                         <small>
                           ID: <code>{selectedPlayer.accountId}</code> · Klucz:{" "}
                           <code>{selectedPlayer.saveKey}</code> · Źródło:{" "}
-                          <b>{selectedPlayer.source.toUpperCase()}</b>
+                          <b>{selectedPlayer.source.toUpperCase()}</b> · Status:{" "}
+                          <b style={{ color: selectedPlayer.online ? "#5cd68d" : "#9aa0a6" }}>
+                            {selectedPlayer.online ? "ONLINE (W GRZE)" : "OFFLINE (ZAPIS)"}
+                          </b>
                         </small>
                       </div>
                     </div>
@@ -1162,10 +1877,13 @@ export function AdminMonitoringCenter() {
 
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                     <button type="button" onClick={() => setRadarWorld(selectedPlayer.worldId)}>
-                      Pokaż ląd gracza na radarze ({selectedPlayer.worldId})
+                      Przybliż mapę na ląd gracza ({selectedPlayer.worldId})
+                    </button>
+                    <button type="button" onClick={() => setRadarWorld("all")}>
+                      Pokaż całą planetę
                     </button>
                     <small style={{ alignSelf: "center" }}>
-                      Ostatnia aktywność: {fmtDateTime(selectedPlayer.lastSeenAt)} · Rewizja:{" "}
+                      Ostatni zapis: {fmtDateTime(selectedPlayer.lastSeenAt)} · Rewizja:{" "}
                       {selectedPlayer.revision}
                     </small>
                   </div>
@@ -1184,7 +1902,10 @@ export function AdminMonitoringCenter() {
                   )}
                 </div>
               ) : (
-                <p>Wybierz gracza z radaru lub tabeli poniżej.</p>
+                <p>
+                  Brak wybranego gracza. Jeśli nikt nie jest online, możesz przejrzeć zapisane
+                  postacie poniżej lub włączyć „Symulację testowych graczy (Boty)” na górnym pasku.
+                </p>
               )}
             </section>
           </div>
@@ -1202,8 +1923,8 @@ export function AdminMonitoringCenter() {
               }}
             >
               <h3 style={{ margin: 0 }}>
-                Lista Wszystkich Graczy na Świecie ({filteredPlayers.length} /{" "}
-                {snapshot.players.length})
+                Lista Graczy i Zapisanych Postaci na Świecie ({filteredPlayers.length} /{" "}
+                {snapshot.players.length} · Online: {clusterTotals.onlinePlayers})
               </h3>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 <input
@@ -1231,13 +1952,13 @@ export function AdminMonitoringCenter() {
                     setActivityFilter(e.target.value as "all" | "online" | PlayerActivityState)
                   }
                 >
-                  <option value="all">Wszystkie statusy</option>
-                  <option value="online">Tylko Online</option>
+                  <option value="all">Wszystkie (Online + Zapisy Offline)</option>
+                  <option value="online">Tylko Online (Aktywni w grze)</option>
                   <option value="safe">W bezpiecznym mieście</option>
                   <option value="combat">W walce</option>
                   <option value="exploring">Eksploracja</option>
                   <option value="interior">Wnętrze</option>
-                  <option value="offline">Offline (Zapis)</option>
+                  <option value="offline">Offline (Zapis w bazie)</option>
                 </select>
                 <select
                   aria-label="Filtruj źródło"
@@ -1247,9 +1968,9 @@ export function AdminMonitoringCenter() {
                   }
                 >
                   <option value="all">Wszystkie źródła</option>
+                  <option value="multiplayer">Sesje Serwera Gry (Live WS)</option>
                   <option value="cloud">Chmura (Supabase)</option>
                   <option value="local">Lokalne urządzenie</option>
-                  <option value="multiplayer">Węzły Multiplayer</option>
                 </select>
               </div>
             </div>
@@ -1300,7 +2021,7 @@ export function AdminMonitoringCenter() {
                       </td>
                       <td>
                         <span style={{ color: ACTIVITY_COLORS[p.activity], fontWeight: 600 }}>
-                          {ACTIVITY_LABELS[p.activity]}
+                          {p.online ? `● ONLINE (${ACTIVITY_LABELS[p.activity]})` : "○ OFFLINE (Zapis)"}
                         </span>
                       </td>
                       <td>
@@ -1342,723 +2063,106 @@ export function AdminMonitoringCenter() {
         </div>
       )}
 
-      {/* 3. WĘZŁY SERWERA, CPU/RAM/TICK I BAZA DANYCH */}
-      {subTab === "nodes-db" && snapshot && (
+      {/* ================================================================================= */}
+      {/* 3. BAZA DANYCH (SUPABASE I POSTGRESQL 17) — WYDZIELONA SEKCJA                     */}
+      {/* ================================================================================= */}
+      {subTab === "database" && snapshot && (
         <div style={{ display: "grid", gap: 14 }}>
-          {serverActionMsg && (
-            <div
-              style={{
-                padding: "10px 14px",
-                borderRadius: 6,
-                background: serverActionMsg.type === "success" ? "#1b3a2a" : "#421c1c",
-                border: `1px solid ${serverActionMsg.type === "success" ? "#5cd68d" : "#ff8577"}`,
-                color: serverActionMsg.type === "success" ? "#abf7cb" : "#ffc2bc",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span>{serverActionMsg.text}</span>
-              <button
-                type="button"
-                className="ki-admin-btn"
-                onClick={() => setServerActionMsg(null)}
-                style={{ padding: "2px 8px", fontSize: "0.8rem" }}
-              >
-                ✕
-              </button>
-            </div>
-          )}
-
-          {/* Kafelki podsumowujące klastra serwerów gry */}
-          {(() => {
-            const gameNodes = snapshot.nodes.filter((n) => n.nodeId !== "cloud-supabase");
-            const onlineCount = gameNodes.filter((n) => n.status === "online").length;
-            const totalCapacity = gameNodes.reduce((acc, n) => acc + (n.maxPlayers || 200), 0);
-            const totalActive = gameNodes.reduce((acc, n) => acc + n.activePlayers, 0);
-            const clusterUtilization =
-              totalCapacity > 0 ? Math.round((totalActive / totalCapacity) * 100) : 0;
-            return (
-              <div className="ki-admin-grid">
-                <div className="ki-admin-stat-card">
-                  <small>Węzły Gry Online</small>
-                  <h3>
-                    <span style={{ color: "#5cd68d" }}>{onlineCount}</span> / {gameNodes.length}
-                  </h3>
-                  <small style={{ color: "#9aa0a6" }}>
-                    Baza: {snapshot.dbConnected ? "POŁĄCZONO" : "BŁĄD"} ({snapshot.dbLatencyMs} ms)
-                  </small>
-                </div>
-                <div className="ki-admin-stat-card">
-                  <small>Pojemność Klastra (Sloty)</small>
-                  <h3>{totalCapacity.toLocaleString()} graczy</h3>
-                  <small style={{ color: "#9aa0a6" }}>Suma limitów zarejestrowanych węzłów</small>
-                </div>
-                <div className="ki-admin-stat-card">
-                  <small>Aktywni Gracze w Klastrze</small>
-                  <h3>
-                    {totalActive} <small style={{ fontSize: "0.85rem" }}>({clusterUtilization}%)</small>
-                  </h3>
-                  <div
-                    style={{
-                      height: 6,
-                      background: "#333",
-                      borderRadius: 3,
-                      overflow: "hidden",
-                      marginTop: 6,
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "100%",
-                        width: `${Math.min(100, clusterUtilization)}%`,
-                        background:
-                          clusterUtilization > 85
-                            ? "#ff6b6b"
-                            : clusterUtilization > 60
-                              ? "#f5d48a"
-                              : "#5cd68d",
-                        transition: "width 0.3s ease",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="ki-admin-stat-card">
-                  <small>Średni Tick i Ping Klastra</small>
-                  <h3>20.0 Hz · ~28 ms</h3>
-                  <small style={{ color: "#5cd68d" }}>PostgreSQL 17 HOT UNLOGGED</small>
-                </div>
-              </div>
-            );
-          })()}
-
-          {/* Formularz / Modal tworzenia nowego serwera */}
-          {showCreateServerModal && (
-            <section
-              className="ki-admin-panel"
-              style={{
-                border: "1px solid #7cc5ff",
-                background: "#161c28",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 12,
-                }}
-              >
-                <h3 style={{ margin: 0, color: "#7cc5ff" }}>
-                  ➕ Tworzenie Nowego Serwera Gry (Węzeł Klastra)
-                </h3>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={() => setShowCreateServerModal(false)}
-                >
-                  ✕ Anuluj
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                  gap: 12,
-                  marginBottom: 14,
-                }}
-              >
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Identyfikator węzła (unikalny):
-                  </label>
-                  <input
-                    aria-label="Identyfikator serwera"
-                    placeholder="np. eu-north-1"
-                    value={createNodeId}
-                    onChange={(e) => setCreateNodeId(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Nazwa serwera:
-                  </label>
-                  <input
-                    aria-label="Nazwa serwera"
-                    placeholder="np. Węzeł EU-North (Sztokholm)"
-                    value={createName}
-                    onChange={(e) => setCreateName(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Region:
-                  </label>
-                  <input
-                    aria-label="Region serwera"
-                    placeholder="np. eu-north (Sztokholm)"
-                    value={createRegion}
-                    onChange={(e) => setCreateRegion(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Host / Adres IP:
-                  </label>
-                  <input
-                    aria-label="Host serwera"
-                    placeholder="np. 85.235.150.190"
-                    value={createHost}
-                    onChange={(e) => setCreateHost(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Port sieciowy:
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Port serwera"
-                    placeholder="7420"
-                    value={createPort}
-                    onChange={(e) => setCreatePort(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Maksymalny limit graczy (Sloty):
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Maksymalny limit graczy"
-                    placeholder="250"
-                    value={createMaxPlayers}
-                    onChange={(e) => setCreateMaxPlayers(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Częstotliwość pętli tick (Hz):
-                  </label>
-                  <input
-                    type="number"
-                    step="1"
-                    aria-label="Częstotliwość ticku"
-                    placeholder="20"
-                    value={createTickRate}
-                    onChange={(e) => setCreateTickRate(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 10 }}>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={handleCreateServer}
-                  style={{ background: "#2e7d32", color: "#fff", fontWeight: "bold" }}
-                >
-                  🚀 Zainicjuj i dodaj serwer
-                </button>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={() => setShowCreateServerModal(false)}
-                >
-                  Anuluj
-                </button>
-              </div>
-            </section>
-          )}
-
-          {/* Formularz edycji parametrów wybranego serwera */}
-          {editingServerNode && (
-            <section
-              className="ki-admin-panel"
-              style={{
-                border: "1px solid #f5d48a",
-                background: "#241f16",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 12,
-                }}
-              >
-                <h3 style={{ margin: 0, color: "#f5d48a" }}>
-                  ✏️ Edycja Konfiguracji Serwera: <code>{editingServerNode.nodeId}</code>
-                </h3>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={() => setEditingServerNode(null)}
-                >
-                  ✕ Anuluj
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                  gap: 12,
-                  marginBottom: 14,
-                }}
-              >
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Nazwa serwera:
-                  </label>
-                  <input
-                    aria-label="Edycja nazwy serwera"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Maksymalny limit graczy:
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Edycja limitu graczy"
-                    value={editMaxPlayers}
-                    onChange={(e) => setEditMaxPlayers(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Host / IP:
-                  </label>
-                  <input
-                    aria-label="Edycja hosta serwera"
-                    value={editHost}
-                    onChange={(e) => setEditHost(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Port:
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Edycja portu serwera"
-                    value={editPort}
-                    onChange={(e) => setEditPort(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Region:
-                  </label>
-                  <input
-                    aria-label="Edycja regionu serwera"
-                    value={editRegion}
-                    onChange={(e) => setEditRegion(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Częstotliwość pętli tick (Hz):
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Edycja częstotliwości ticku"
-                    value={editTickRate}
-                    onChange={(e) => setEditTickRate(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 10 }}>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={handleSaveEdit}
-                  style={{ background: "#e65100", color: "#fff", fontWeight: "bold" }}
-                >
-                  💾 Zapisz zmiany serwera
-                </button>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={() => setEditingServerNode(null)}
-                >
-                  Anuluj
-                </button>
-              </div>
-            </section>
-          )}
-
-          {/* Szybkie sterowanie fizycznym procesem serwera (bez terminala) */}
           <section
             className="ki-admin-panel"
             style={{
-              background: daemonRunning ? "linear-gradient(135deg, #132b1d 0%, #173824 100%)" : "#1a202c",
-              border: `1px solid ${daemonRunning ? "#5cd68d" : "#4a5568"}`,
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: 12,
-              padding: "14px 18px",
+              border: `1px solid ${snapshot.dbStats.connected ? "#5cd68d" : "#ff8577"}`,
+              background: "#141824",
             }}
           >
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    background: daemonRunning ? "#5cd68d" : "#9aa0a6",
-                    boxShadow: daemonRunning ? "0 0 8px #5cd68d" : "none",
-                  }}
-                />
-                <h3 style={{ margin: 0, fontSize: "1.05rem" }}>
-                  Fizyczny Serwer Gry (Sterowanie Bez Terminala):{" "}
-                  <span style={{ color: daemonRunning ? "#5cd68d" : "#9aa0a6" }}>
-                    {daemonRunning ? "URUCHOMIONY I AKTYWNY" : "ZATRZYMANY"}
-                  </span>
-                </h3>
-              </div>
-              <small style={{ color: "#cbd5e1" }}>
-                {daemonRunning
-                  ? `Proces serwera nasłuchuje na porcie 7420 (WebSocket/HTTP). Uptime: ${daemonUptime}s. Gracze w przeglądarkach łączą się automatycznie.`
-                  : "Serwer gry jest wyłączony. Kliknij przycisk obok, aby uruchomić go 1 kliknięciem bez użycia konsoli ani SSH."}
-              </small>
-            </div>
-
-            <button
-              type="button"
-              className="ki-admin-btn"
-              disabled={daemonLoading}
-              onClick={handleTogglePhysicalDaemon}
-              style={{
-                background: daemonRunning ? "#c53030" : "#2e7d32",
-                color: "#fff",
-                fontWeight: "bold",
-                fontSize: "0.92rem",
-                padding: "8px 16px",
-                cursor: daemonLoading ? "wait" : "pointer",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-              }}
-            >
-              {daemonLoading
-                ? "Przetwarzanie..."
-                : daemonRunning
-                  ? "🛑 Wyłącz Serwer Gry"
-                  : "🚀 Uruchom Serwer Gry (1 kliknięcie)"}
-            </button>
-          </section>
-
-          {/* Główna tabela serwerów z akcjami start/stop/edycja */}
-          <section className="ki-admin-panel">
             <div
               style={{
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "space-between",
                 alignItems: "center",
-                gap: 10,
-                marginBottom: 12,
+                gap: 12,
+                marginBottom: 14,
               }}
             >
               <div>
-                <h3 style={{ margin: 0 }}>
-                  Zarządzanie i Monitoring Serwerów Gry ({snapshot.nodes.length})
+                <h3 style={{ margin: 0, color: "#7cc5ff" }}>
+                  🗄️ Zarządzanie Bazą Danych — Supabase Cloud & PostgreSQL 17 Multiplayer
                 </h3>
-                <small style={{ color: "#9aa0a6" }}>
-                  Tworzenie instancji, edycja limitu graczy, startowanie, wyłączanie i telemetria w
-                  czasie rzeczywistym
+                <small style={{ color: "#cbd5e1" }}>
+                  Centralny panel diagnostyki, połączeń, tabel kont (`profiles`, `characters`,
+                  `user_roles`, `admin_audit`) oraz silnika PostgreSQL 17 (`game.active_sessions`,
+                  `game.character_snapshots`).
                 </small>
               </div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 8 }}>
                 <button
                   type="button"
                   className="ki-admin-btn"
-                  onClick={() => setShowCreateServerModal(true)}
-                  style={{ background: "#2e7d32", color: "#fff" }}
+                  onClick={() => void refresh()}
+                  style={{ background: "#1e3a5f", color: "#fff", fontWeight: "bold" }}
                 >
-                  ➕ Nowy serwer gry
-                </button>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={handleResetNodes}
-                  title="Przywraca domyślną konfigurację klastra"
-                >
-                  ↺ Przywróć domyślne
+                  🔄 Testuj połączenie i odśwież bazę
                 </button>
               </div>
             </div>
 
-            <table className="ki-admin-table">
-              <thead>
-                <tr>
-                  <th>Serwer / Nazwa / ID</th>
-                  <th>Host : Port</th>
-                  <th>Status</th>
-                  <th>Gracze / Limit (Sloty)</th>
-                  <th>CPU % · Load 1m</th>
-                  <th>RAM (Used / Total)</th>
-                  <th>Tick 20 Hz (p50 / p95)</th>
-                  <th>Ping (Śr.)</th>
-                  <th>Zarządzanie Serwerem</th>
-                </tr>
-              </thead>
-              <tbody>
-                {snapshot.nodes.map((n) => {
-                  const isDb = n.nodeId === "cloud-supabase";
-                  const maxCap = n.maxPlayers || 200;
-                  const pct = Math.round((n.activePlayers / maxCap) * 100);
-                  const isOff = n.status === "offline" || n.status === "stopping";
-                  const isStarting = n.status === "starting";
-                  const isOnline = n.status === "online" || n.status === "degraded";
+            <div className="ki-admin-grid">
+              <div className="ki-admin-stat-card">
+                <small>Status Połączenia Supabase</small>
+                <h3 style={{ color: snapshot.dbStats.connected ? "#5cd68d" : "#ff8577" }}>
+                  {snapshot.dbStats.connected ? "ONLINE (POŁĄCZONO)" : "OFFLINE / BŁĄD"}
+                </h3>
+                <small>
+                  Host: <code>{snapshot.dbStats.host}</code> · Ping RTT:{" "}
+                  <b>{snapshot.dbStats.latencyMs} ms</b>
+                </small>
+              </div>
 
-                  return (
-                    <tr key={n.nodeId}>
-                      <td>
-                        <b>{n.name || n.label || n.nodeId}</b>
-                        <br />
-                        <small style={{ color: "#9aa0a6" }}>
-                          ID: <code>{n.nodeId}</code> · {n.region}
-                        </small>
-                      </td>
-                      <td>
-                        <code>{n.host}</code>
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            display: "inline-block",
-                            padding: "2px 8px",
-                            borderRadius: 4,
-                            fontSize: "0.78rem",
-                            fontWeight: "bold",
-                            background:
-                              n.status === "online"
-                                ? "#1b4d2e"
-                                : n.status === "draining"
-                                  ? "#4d3d1b"
-                                  : isOff
-                                    ? "#3d1b1b"
-                                    : "#2a3d4d",
-                            color:
-                              n.status === "online"
-                                ? "#5cd68d"
-                                : n.status === "draining"
-                                  ? "#f5d48a"
-                                  : isOff
-                                    ? "#ff8577"
-                                    : "#7cc5ff",
-                          }}
-                        >
-                          {n.status.toUpperCase()}
-                        </span>
-                      </td>
-                      <td style={{ minWidth: 150 }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            fontSize: "0.82rem",
-                            marginBottom: 2,
-                          }}
-                        >
-                          <b>
-                            {n.activePlayers} / {maxCap}
-                          </b>
-                          <small style={{ color: "#9aa0a6" }}>{pct}%</small>
-                        </div>
-                        <div
-                          style={{
-                            height: 6,
-                            background: "#2a2a2a",
-                            borderRadius: 3,
-                            overflow: "hidden",
-                          }}
-                        >
-                          <div
-                            style={{
-                              height: "100%",
-                              width: `${Math.min(100, pct)}%`,
-                              background:
-                                pct > 90 ? "#ff6b6b" : pct > 75 ? "#f5d48a" : "#5cd68d",
-                              transition: "width 0.2s ease",
-                            }}
-                          />
-                        </div>
-                        <small style={{ color: "#9aa0a6", fontSize: "0.74rem" }}>
-                          {n.activeEntities} encji · {n.packetsInSec} pkt/s
-                        </small>
-                      </td>
-                      <td>
-                        <b>{n.cpuPercent}%</b> <small>(load {n.loadAvg1m})</small>
-                      </td>
-                      <td>
-                        <small>
-                          {n.memUsedMb} / {n.memTotalMb} MB
-                        </small>
-                      </td>
-                      <td>
-                        <b>{n.tickRateHz} Hz</b>
-                        <br />
-                        <small style={{ color: "#9aa0a6" }}>
-                          p50: {n.tickP50Ms} ms · p95: {n.tickP95Ms} ms
-                        </small>
-                      </td>
-                      <td>
-                        <b>{n.avgPingMs} ms</b>
-                      </td>
-                      <td>
-                        {isDb ? (
-                          <small style={{ color: "#7cc5ff" }}>Zarządzana przez Supabase</small>
-                        ) : (
-                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                            {isOff ? (
-                              <button
-                                type="button"
-                                className="ki-admin-btn"
-                                onClick={() => handleStartServer(n.nodeId)}
-                                style={{
-                                  background: "#1b4d2e",
-                                  color: "#5cd68d",
-                                  padding: "3px 8px",
-                                  fontSize: "0.78rem",
-                                }}
-                                title="Uruchom ten serwer gry"
-                              >
-                                ▶ Uruchom
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                className="ki-admin-btn"
-                                onClick={() => handleStopServer(n.nodeId)}
-                                style={{
-                                  background: "#4d1b1b",
-                                  color: "#ff8577",
-                                  padding: "3px 8px",
-                                  fontSize: "0.78rem",
-                                }}
-                                title="Wyłącz ten serwer gry"
-                              >
-                                ⏹ Wyłącz
-                              </button>
-                            )}
+              <div className="ki-admin-stat-card">
+                <small>Zarejestrowane Konta i Role</small>
+                <h3>{snapshot.dbStats.profilesCount} kont</h3>
+                <small>
+                  Przypisane role (`user_roles`): <b>{snapshot.dbStats.rolesCount}</b>
+                </small>
+              </div>
 
-                            {isOnline && (
-                              <button
-                                type="button"
-                                className="ki-admin-btn"
-                                onClick={() => handleDrainServer(n.nodeId)}
-                                style={{ padding: "3px 8px", fontSize: "0.78rem" }}
-                                title="Opróżnij serwer z graczy przed wyłączeniem"
-                              >
-                                ⏳ Drenuj
-                              </button>
-                            )}
+              <div className="ki-admin-stat-card">
+                <small>Zapisane Postacie w Bazie (`characters`)</small>
+                <h3 style={{ color: "#f5d48a" }}>{snapshot.dbStats.charactersCount} postaci</h3>
+                <small>
+                  Wpisy audytu (`admin_audit`): <b>{snapshot.dbStats.auditsCount}</b>
+                </small>
+              </div>
 
-                            <button
-                              type="button"
-                              className="ki-admin-btn"
-                              onClick={() => handleOpenEdit(n)}
-                              style={{ padding: "3px 8px", fontSize: "0.78rem" }}
-                              title="Edytuj nazwę, limit graczy, host, port"
-                            >
-                              ✏ Edytuj
-                            </button>
+              <div className="ki-admin-stat-card">
+                <small>Pula Połączeń PostgreSQL Pooler</small>
+                <h3>
+                  {snapshot.dbStats.poolActive} aktywne / {snapshot.dbStats.poolMax} max
+                </h3>
+                <small style={{ color: "#5cd68d" }}>
+                  Idle: {snapshot.dbStats.poolIdle} · Tabele UNLOGGED HOT:{" "}
+                  {snapshot.dbStats.hotTablesUnlogged ? "AKTYWNE" : "WYŁ."}
+                </small>
+              </div>
+            </div>
 
-                            <button
-                              type="button"
-                              className="ki-admin-btn"
-                              onClick={() => handleDeleteServer(n.nodeId)}
-                              style={{
-                                padding: "3px 8px",
-                                fontSize: "0.78rem",
-                                color: "#ff8577",
-                              }}
-                              title="Usuń ten węzeł z konfiguracji"
-                            >
-                              🗑
-                            </button>
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            {snapshot.dbStats.error && (
+              <div
+                style={{
+                  marginTop: 12,
+                  padding: 10,
+                  borderRadius: 6,
+                  background: "#3d1b1b",
+                  color: "#ffc2bc",
+                }}
+              >
+                <b>Komunikat błędu bazy danych:</b> {snapshot.dbStats.error}
+              </div>
+            )}
           </section>
 
           <div className="ki-admin-grid">
-            <section className="ki-admin-panel">
-              <h3 style={{ marginTop: 0 }}>
-                Najbardziej Obciążone Sektory AOI 512×512 (Hotspoty Przestrzenne)
-              </h3>
-              <table className="ki-admin-table">
-                <thead>
-                  <tr>
-                    <th>Ląd</th>
-                    <th>Komórka AOI [X, Y]</th>
-                    <th>Środek (X, Y)</th>
-                    <th>Gracze</th>
-                    <th>W walce</th>
-                    <th>Śr. Ping / FPS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {snapshot.hotspots.slice(0, 12).map((h) => (
-                    <tr key={`${h.worldId}:${h.cellX}:${h.cellY}`}>
-                      <td>
-                        <b>{h.worldId}</b>
-                      </td>
-                      <td>
-                        <code>
-                          [{h.cellX}, {h.cellY}]
-                        </code>
-                      </td>
-                      <td>
-                        ({h.worldX}, {h.worldY})
-                      </td>
-                      <td>
-                        <b>{h.playerCount}</b> <small>({h.onlineCount} online)</small>
-                      </td>
-                      <td>{h.combatCount}</td>
-                      <td>
-                        {h.avgPingMs} ms · {h.avgFps} FPS
-                      </td>
-                    </tr>
-                  ))}
-                  {snapshot.hotspots.length === 0 && (
-                    <tr>
-                      <td colSpan={6}>Brak aktywnych sektorów AOI.</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </section>
-
             <section className="ki-admin-panel">
               <h3 style={{ marginTop: 0 }}>
                 Status Optymalizacji Bazy Danych Multiplayer (PostgreSQL 17 Schema v2)
@@ -2096,11 +2200,124 @@ export function AdminMonitoringCenter() {
                 </li>
               </ul>
             </section>
+
+            <section className="ki-admin-panel">
+              <h3 style={{ marginTop: 0 }}>
+                Najbardziej Obciążone Sektory AOI 512×512 w Bazie (Hotspoty)
+              </h3>
+              <table className="ki-admin-table">
+                <thead>
+                  <tr>
+                    <th>Ląd</th>
+                    <th>Komórka AOI [X, Y]</th>
+                    <th>Środek (X, Y)</th>
+                    <th>Postacie (Online)</th>
+                    <th>W walce</th>
+                    <th>Śr. Ping / FPS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {snapshot.hotspots.slice(0, 10).map((h) => (
+                    <tr key={`${h.worldId}:${h.cellX}:${h.cellY}`}>
+                      <td>
+                        <b>{h.worldId}</b>
+                      </td>
+                      <td>
+                        <code>
+                          [{h.cellX}, {h.cellY}]
+                        </code>
+                      </td>
+                      <td>
+                        ({h.worldX}, {h.worldY})
+                      </td>
+                      <td>
+                        <b>{h.playerCount}</b> <small>({h.onlineCount} online)</small>
+                      </td>
+                      <td>{h.combatCount}</td>
+                      <td>
+                        {h.avgPingMs} ms · {h.avgFps} FPS
+                      </td>
+                    </tr>
+                  ))}
+                  {snapshot.hotspots.length === 0 && (
+                    <tr>
+                      <td colSpan={6}>Brak zapisanych pozycji w sektorach AOI.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </section>
           </div>
         </div>
       )}
 
-      {/* 4. KONSOLA LOGÓW SERWERA, SIECI I ANTI-CHEAT */}
+      {/* ================================================================================= */}
+      {/* 4. PRZEGLĄD LĄDÓW I ZASOBÓW (OVERVIEW)                                             */}
+      {/* ================================================================================= */}
+      {subTab === "overview" && snapshot && (
+        <div style={{ display: "grid", gap: 14 }}>
+          <section className="ki-admin-panel">
+            <h3 style={{ marginTop: 0, marginBottom: 10 }}>
+              Populacja i Wydajność na Lądach Planety Superior (10 Lądów)
+            </h3>
+            <table className="ki-admin-table">
+              <thead>
+                <tr>
+                  <th>Ląd / Kraina</th>
+                  <th>Aktywni Gracze (Online)</th>
+                  <th>Zapisane Postacie (Łącznie)</th>
+                  <th>W Bezpiecznym Mieście</th>
+                  <th>W Walce</th>
+                  <th>Eksploracja</th>
+                  <th>Śr. Ping</th>
+                  <th>Śr. FPS</th>
+                  <th>Akcja</th>
+                </tr>
+              </thead>
+              <tbody>
+                {FEATURE_IDS.map((fid) => {
+                  const st = snapshot.worldStats[fid];
+                  if (!st) return null;
+                  return (
+                    <tr key={fid}>
+                      <td>
+                        <b>{st.name}</b> <small>({fid})</small>
+                      </td>
+                      <td style={{ color: st.onlinePlayers > 0 ? "#5cd68d" : undefined }}>
+                        <b>{st.onlinePlayers} online</b>
+                      </td>
+                      <td>{st.totalPlayers}</td>
+                      <td>{st.safeZonePlayers}</td>
+                      <td style={{ color: st.combatPlayers > 0 ? "#ff8577" : undefined }}>
+                        {st.combatPlayers}
+                      </td>
+                      <td>{st.exploringPlayers}</td>
+                      <td>{st.totalPlayers > 0 ? `${st.avgPingMs} ms` : "—"}</td>
+                      <td>{st.totalPlayers > 0 ? `${st.avgFps} FPS` : "—"}</td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRadarWorld(fid);
+                            setWorldFilter(fid);
+                            setSubTab("world-players");
+                          }}
+                        >
+                          Pokaż na fizycznej mapie
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </section>
+        </div>
+      )}
+
+      {/* ================================================================================= */}
+      {/* 5. KONSOLA LOGÓW SERWERA, SIECI I ANTI-CHEAT                                      */}
+      {/* ================================================================================= */}
       {subTab === "logs" && (
         <section className="ki-admin-panel">
           <div
@@ -2164,6 +2381,7 @@ export function AdminMonitoringCenter() {
                     {n.nodeId}
                   </option>
                 ))}
+                <option value="baza-supabase">baza-supabase</option>
                 <option value="admin-console">admin-console</option>
               </select>
               {customLogs.length > 0 && (
@@ -2223,30 +2441,124 @@ export function AdminMonitoringCenter() {
   );
 }
 
-/** Wizualny radar 2D wybranego lądu pokazujący bezpieczne miasta, lokacje, siatkę AOI i pozycje graczy. */
-function WorldPlayerRadarSvg({
+/**
+ * Fizyczna mapa świata Superior v2 (`atlas-v2-3840.webp`) z nałożoną siatką AOI, drogami,
+ * miastami, lokacjami i pozycjami graczy przeliczanymi przez `worldToAtlas`.
+ */
+function PhysicalWorldPlayerMapSvg({
   worldId,
   players,
   selectedId,
+  showAoiGrid,
+  showRoads,
+  showPlaces,
   onSelectPlayer,
 }: {
-  worldId: FeatureId;
+  worldId: "all" | FeatureId;
   players: WorldPlayerPresence[];
   selectedId: string | null;
+  showAoiGrid: boolean;
+  showRoads: boolean;
+  showPlaces: boolean;
   onSelectPlayer: (id: string) => void;
 }) {
-  const fInfo = WORLD_INDEX.features.find((f) => f.id === worldId) ?? WORLD_INDEX.features[0]!;
-  const w = fInfo.width || 131072;
-  const h = fInfo.height || 131072;
-  const continent = fInfo.affinity;
+  // Wyliczamy bounding box na atlasie (2000 x 1000) dla wybranego lądu lub całej planety
+  const viewBox = useMemo(() => {
+    if (worldId === "all") {
+      return { x: 0, y: 0, w: 2000, h: 1000 };
+    }
+    const landTiles = projection.tiles.filter((t) => t.land === worldId);
+    if (landTiles.length === 0) {
+      return { x: 0, y: 0, w: 2000, h: 1000 };
+    }
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    for (const t of landTiles) {
+      const [cx, cy, cw, ch] = t.crop as [number, number, number, number];
+      const [a, b, c, d, e, f] = t.m as [number, number, number, number, number, number];
+      const corners: [number, number][] = [
+        [cx, cy],
+        [cx + cw, cy],
+        [cx, cy + ch],
+        [cx + cw, cy + ch],
+      ];
+      for (const [px, py] of corners) {
+        const ax = a * px + c * py + e;
+        const ay = b * px + d * py + f;
+        if (ax < minX) minX = ax;
+        if (ay < minY) minY = ay;
+        if (ax > maxX) maxX = ax;
+        if (ay > maxY) maxY = ay;
+      }
+    }
+    const padX = Math.max(25, (maxX - minX) * 0.12);
+    const padY = Math.max(20, (maxY - minY) * 0.12);
+    const x = Math.max(0, minX - padX);
+    const y = Math.max(0, minY - padY);
+    const w = Math.min(2000 - x, maxX - minX + padX * 2);
+    const h = Math.min(1000 - y, maxY - minY + padY * 2);
+    return { x, y, w, h };
+  }, [worldId]);
 
-  const cities = useMemo(() => ALL_CITIES_V2.filter((c) => c.continent === continent), [continent]);
-  const famous = useMemo(
-    () => ALL_FAMOUS_LOCATIONS_V2.filter((l) => l.continent === continent),
-    [continent],
-  );
+  const roadPaths = useMemo(() => {
+    const filteredRoads =
+      worldId === "all"
+        ? projection.roads
+        : projection.roads.filter((r) => r.land === worldId);
+    return ["road", "trail"].map((kind) => ({
+      kind,
+      d: filteredRoads
+        .filter((r) => (kind === "road" ? r.kind !== "trail" : r.kind === "trail"))
+        .map((r) => r.points.map((p, i) => `${i ? "L" : "M"}${p[0]},${p[1]}`).join(""))
+        .join(""),
+    }));
+  }, [worldId]);
 
-  const gridStep = Math.round(w / 8);
+  const placesOnView = useMemo(() => {
+    return worldId === "all"
+      ? projection.places
+      : projection.places.filter((p) => p.land === worldId);
+  }, [worldId]);
+
+  // Projektujemy pozycje graczy na współrzędne fizycznego atlasu (2000 x 1000)
+  const projectedPlayers = useMemo(() => {
+    return players.flatMap((p) => {
+      const pt = worldToAtlas(projection, p.worldId, p.x, p.y);
+      if (!pt) return [];
+      return [{ player: p, ax: pt.x, ay: pt.y }];
+    });
+  }, [players]);
+
+  const scaleFactor = viewBox.w / 2000;
+  const markerRadius = Math.max(2.2, 11 * scaleFactor);
+  const strokeW = Math.max(0.4, 2.0 * scaleFactor);
+  const fontSize = Math.max(3.2, 16 * scaleFactor);
+
+  // Siatka sektorów AOI nałożona na fizyczną mapę
+  const gridLines = useMemo(() => {
+    const stepX = viewBox.w / 8;
+    const stepY = viewBox.h / 6;
+    const lines: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+    for (let i = 1; i < 8; i++) {
+      lines.push({
+        x1: viewBox.x + i * stepX,
+        y1: viewBox.y,
+        x2: viewBox.x + i * stepX,
+        y2: viewBox.y + viewBox.h,
+      });
+    }
+    for (let j = 1; j < 6; j++) {
+      lines.push({
+        x1: viewBox.x,
+        y1: viewBox.y + j * stepY,
+        x2: viewBox.x + viewBox.w,
+        y2: viewBox.y + j * stepY,
+      });
+    }
+    return lines;
+  }, [viewBox]);
 
   return (
     <div
@@ -2255,102 +2567,126 @@ function WorldPlayerRadarSvg({
         border: "1px solid #6b5a3a",
         borderRadius: 8,
         overflow: "hidden",
-        background: "#0d1118",
+        background: "#0b1520",
       }}
     >
       <svg
-        viewBox={`0 0 ${w} ${h}`}
+        viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`}
         role="img"
         aria-label={`Radar pozycji graczy na lądzie ${worldId}`}
-        style={{ width: "100%", height: 340, display: "block" }}
+        style={{ width: "100%", height: 380, display: "block" }}
       >
-        {/* Siatka sektorów AOI */}
-        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-          <g key={i} stroke="#232b38" strokeWidth={Math.max(120, w * 0.0015)}>
-            <line x1={i * gridStep} y1={0} x2={i * gridStep} y2={h} />
-            <line x1={0} y1={i * gridStep} x2={w} y2={i * gridStep} />
-          </g>
-        ))}
-
-        {/* Bezpieczne granice miast (city.bounds) */}
-        {cities.map((c) => (
-          <g key={c.id}>
-            <rect
-              x={c.bounds.x}
-              y={c.bounds.y}
-              width={c.bounds.width}
-              height={c.bounds.height}
-              fill="#1f4d3688"
-              stroke="#5cd68d"
-              strokeWidth={Math.max(200, w * 0.0025)}
-            />
-            <text
-              x={c.bounds.x + c.bounds.width / 2}
-              y={c.bounds.y - Math.max(400, w * 0.006)}
-              fill="#9fe0a0"
-              fontSize={Math.max(900, w * 0.022)}
-              textAnchor="middle"
-            >
-              {c.name}
-            </text>
-          </g>
-        ))}
-
-        {/* Słynne lokacje */}
-        {famous.map((loc) => (
-          <g key={loc.id}>
-            <circle
-              cx={loc.coordinates.x}
-              cy={loc.coordinates.y}
-              r={Math.max(450, w * 0.008)}
-              fill="#3c2f52"
-              stroke="#b392f0"
-              strokeWidth={Math.max(150, w * 0.002)}
-            />
-          </g>
-        ))}
-
-        {/* Punkt przybycia lądu */}
-        <circle
-          cx={fInfo.arrival.x}
-          cy={fInfo.arrival.y}
-          r={Math.max(600, w * 0.01)}
-          fill="none"
-          stroke="#7cc5ff"
-          strokeDasharray={`${Math.max(400, w * 0.006)} ${Math.max(300, w * 0.004)}`}
-          strokeWidth={Math.max(180, w * 0.0025)}
+        {/* FIZYCZNA MAPA ŚWIATA (Tekstura Atlasu Planety Superior) */}
+        <image
+          href={atlas}
+          x={0}
+          y={0}
+          width={2000}
+          height={1000}
+          preserveAspectRatio="xMidYMid slice"
         />
 
-        {/* Znaczniki wszystkich graczy na tym lądzie */}
-        {players.map((p) => {
+        {/* Siatka sektorów AOI */}
+        {showAoiGrid &&
+          gridLines.map((ln, idx) => (
+            <line
+              key={idx}
+              x1={ln.x1}
+              y1={ln.y1}
+              x2={ln.x2}
+              y2={ln.y2}
+              stroke="rgba(124, 197, 255, 0.25)"
+              strokeDasharray={`${strokeW * 3} ${strokeW * 2}`}
+              strokeWidth={strokeW * 0.6}
+            />
+          ))}
+
+        {/* Drogi i ścieżki na fizycznej mapie */}
+        {showRoads &&
+          roadPaths.map((r) => (
+            <path
+              key={r.kind}
+              d={r.d}
+              fill="none"
+              stroke={r.kind === "road" ? "#f5d28a" : "#87d8bd"}
+              strokeWidth={r.kind === "road" ? 1.5 : 0.9}
+              strokeOpacity={0.85}
+              vectorEffect="non-scaling-stroke"
+            />
+          ))}
+
+        {/* Miasta i lokacje na fizycznej mapie */}
+        {showPlaces &&
+          placesOnView.map((pl, idx) => {
+            const isCity = pl.kind === "capital" || pl.kind === "town" || pl.kind === "city";
+            return (
+              <g key={`${pl.id}-${idx}`}>
+                <circle
+                  cx={pl.x}
+                  cy={pl.y}
+                  r={isCity ? markerRadius * 0.85 : markerRadius * 0.5}
+                  fill={isCity ? "#1f4d36" : "#3c2f52"}
+                  stroke={isCity ? "#5cd68d" : "#b392f0"}
+                  strokeWidth={strokeW * 0.6}
+                >
+                  <title>{pl.name || pl.id}</title>
+                </circle>
+                {isCity && (
+                  <text
+                    x={pl.x}
+                    y={pl.y - markerRadius * 1.1}
+                    fill="#d8ffe4"
+                    stroke="#09130d"
+                    strokeWidth={strokeW * 0.35}
+                    paintOrder="stroke"
+                    fontSize={fontSize * 0.85}
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    {pl.name || pl.id}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+
+        {/* Znaczniki graczy na fizycznej mapie */}
+        {projectedPlayers.map(({ player: p, ax, ay }) => {
           const isSelected = p.id === selectedId;
           const color = ACTIVITY_COLORS[p.activity];
-          const r = isSelected ? Math.max(1300, w * 0.022) : Math.max(950, w * 0.016);
+          const r = isSelected ? markerRadius * 1.45 : markerRadius;
           return (
             <g key={p.id} onClick={() => onSelectPlayer(p.id)} style={{ cursor: "pointer" }}>
               {isSelected && (
                 <circle
-                  cx={p.x}
-                  cy={p.y}
-                  r={r * 1.65}
+                  cx={ax}
+                  cy={ay}
+                  r={r * 1.7}
                   fill="none"
                   stroke="#ffffff"
-                  strokeWidth={Math.max(220, w * 0.003)}
+                  strokeWidth={strokeW * 1.1}
                 />
               )}
               <circle
-                cx={p.x}
-                cy={p.y}
+                cx={ax}
+                cy={ay}
                 r={r}
                 fill={color}
                 stroke="#0f0d14"
-                strokeWidth={Math.max(200, w * 0.0025)}
-              />
+                strokeWidth={strokeW * 0.9}
+              >
+                <title>
+                  {p.nick} (poz. {p.level}) — {p.nearestPlace} ({p.x}, {p.y})
+                </title>
+              </circle>
               <text
-                x={p.x}
-                y={p.y - r * 1.35}
+                x={ax}
+                y={ay - r * 1.35}
                 fill="#ffffff"
-                fontSize={Math.max(950, w * 0.023)}
+                stroke="#0b0910"
+                strokeWidth={strokeW * 0.45}
+                paintOrder="stroke"
+                fontSize={fontSize}
                 fontWeight="bold"
                 textAnchor="middle"
               >
