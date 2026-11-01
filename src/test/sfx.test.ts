@@ -1,6 +1,19 @@
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { cuesFor, sfxFile, SFX_ABILITIES, type SfxSnapshot } from "../game/sfx";
+import {
+  cuesFor,
+  DEVELOPMENT_AMBIENCE_FILES,
+  DEVELOPMENT_SFX_DEDICATED,
+  DEVELOPMENT_SFX_REUSE,
+  developmentAmbienceFile,
+  developmentSfxFile,
+  devSfxEnabled,
+  sfxFile,
+  SFX_ABILITIES,
+  type DevelopmentAmbienceId,
+  type DevelopmentSfxId,
+  type SfxSnapshot,
+} from "../game/sfx";
 import type { GameEvent } from "../game/session";
 
 const at = { x: 0, y: 0 };
@@ -74,5 +87,44 @@ describe("sound effects", () => {
     // The same notice id is not a new message; the first frame has no previous snapshot.
     expect(cues([], snap({ notice: "Za mało KI" }), snap({ notice: "Za mało KI" }))).toEqual([]);
     expect(cuesFor("sage", [], null, snap({ potions: 0 }))).toEqual([]);
+  });
+  it("maps P0 development training, measurement target and exam cues via Krok 0 reuse", () => {
+    for (const id of Object.keys(DEVELOPMENT_SFX_REUSE) as DevelopmentSfxId[]) {
+      const file = developmentSfxFile(id);
+      expect(existsSync("public" + file), id + " -> " + file).toBe(true);
+    }
+    expect(cues([{ type: "hit", ...at, target: "training-dummy", text: "-12" }])).toEqual([
+      "/game/sfx/common/hit.mp3",
+    ]);
+    expect(cues([{ type: "hit", ...at, target: "practice-target-1", text: "-18" }])).toEqual([
+      "/game/sfx/common/hit-armor.mp3",
+    ]);
+    expect(
+      cues([], snap(), snap({ noticeId: 2, notice: "Egzamin zdany. +250 praktyki; wynik zapisano." })),
+    ).toEqual(["/game/sfx/common/quest-complete.mp3"]);
+    expect(
+      cues([], snap(), snap({ noticeId: 2, notice: "Przekroczono dopuszczalną liczbę błędów." })),
+    ).toEqual(["/game/sfx/common/no-energy.mp3"]);
+    expect(
+      cues([], snap(), snap({ noticeId: 2, notice: "Zapisano nowy stopień treningu. HP i KI nie zostały odnowione." })),
+    ).toEqual(["/game/sfx/common/level-up.mp3"]);
+  });
+  it("verifies all 37 dedicated development SFX and 4 P3 ambience loops exist on disk and opt-in via ?ki-dev-sfx=1", () => {
+    expect(devSfxEnabled("")).toBe(false);
+    expect(devSfxEnabled("?ki-dev-sfx=1")).toBe(true);
+    expect(devSfxEnabled("?ki-dev-art=1")).toBe(true);
+
+    for (const id of Object.keys(DEVELOPMENT_SFX_DEDICATED) as DevelopmentSfxId[]) {
+      const dedicatedFile = developmentSfxFile(id, true);
+      expect(dedicatedFile.startsWith("/game/sfx/development/")).toBe(true);
+      expect(existsSync("public" + dedicatedFile), `${id} -> ${dedicatedFile}`).toBe(true);
+    }
+
+    for (const id of Object.keys(DEVELOPMENT_AMBIENCE_FILES) as DevelopmentAmbienceId[]) {
+      const ambFile = developmentAmbienceFile(id);
+      expect(ambFile.startsWith("/game/sfx/ambience/")).toBe(true);
+      expect(existsSync("public" + ambFile), `${id} -> ${ambFile}`).toBe(true);
+      expect(sfxFile(id)).toBe(ambFile);
+    }
   });
 });

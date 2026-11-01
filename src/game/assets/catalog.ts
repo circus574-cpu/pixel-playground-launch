@@ -143,6 +143,8 @@ export function makeCatalog(
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   /** Combat-only boss catalog preview; uses existing actor graphics. */
   "ki-bosses": [],
+  /** Etap 1 (Partia 1 + P0) development & training assets, opt-in until owner acceptance. */
+  "ki-dev-art": [],
   /** Anime start point of Aetheria, awaiting the owner's review. */
   "ki-aether-art": ["aether-sanctuary"],
   "ki-nexus-art": ["nexus-start"],

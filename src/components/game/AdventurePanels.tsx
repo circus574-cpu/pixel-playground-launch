@@ -1,3 +1,4 @@
+import { getItemById } from "../../game/items";
 import { equippedName } from "../../game/development/heritage/equipment";
 import { HeritageWeaponCard } from "./HeritageWeaponCard";
 import type { ReactNode } from "react";
@@ -55,7 +56,7 @@ export function Inventory({
           )}
         </div>
         <div>
-          Pancerz: {p.armor ? ITEMS[p.armor].name : "brak"}
+          Pancerz: {p.armor ? (p.armor in ITEMS ? ITEMS[p.armor as ItemId].name : getItemById(p.armor)?.name ?? p.armor) : "brak"}
           {p.armor && (
             <button onClick={() => send({ type: "unequip", slot: "armor" })}>
               Zdejmij pancerz

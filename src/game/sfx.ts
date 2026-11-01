@@ -29,12 +29,114 @@ const COMMON = [
 /** Abilities with their own sound: the basic attack and each branch's two actives and ultimate. */
 export const SFX_ABILITIES = ["R", "A1", "A4", "A9", "B1", "B4", "B9", "C1", "C4", "C9"] as const;
 type Common = (typeof COMMON)[number];
+
+/**
+ * Etap 1 (P0) development sound effects mapped to verified existing ElevenLabs assets
+ * (`START-TUTAJ.txt` Krok 0 reuse audit), used as the default fallback until owner acceptance.
+ */
+export const DEVELOPMENT_SFX_REUSE = {
+  "audio.development.dummy-hit": "/game/sfx/common/hit.mp3",
+  "audio.development.target-hit": "/game/sfx/common/hit-armor.mp3",
+  "audio.development.checkpoint": "/game/sfx/common/loot.mp3",
+  "audio.development.exam-start": "/game/sfx/sage/A1.mp3",
+  "audio.development.exam-success": "/game/sfx/common/quest-complete.mp3",
+  "audio.development.exam-fail": "/game/sfx/common/no-energy.mp3",
+  "audio.development.ki-charge": "/game/sfx/sage/C1.mp3",
+} as const;
+
+/**
+ * Full 37 development SFX cues (7 P0 + 30 P2) generated via ElevenLabs Sound Effects v2
+ * (`eleven_text_to_sound_v2`, `art/production/development/v001/audio-manifest.json`).
+ * Opt-in via `?ki-dev-sfx=1` or `?ki-dev-art=1` until owner acceptance.
+ */
+export const DEVELOPMENT_SFX_DEDICATED = {
+  "audio.development.dummy-hit": "/game/sfx/development/dummy-hit.mp3",
+  "audio.development.target-hit": "/game/sfx/development/target-hit.mp3",
+  "audio.development.checkpoint": "/game/sfx/development/checkpoint.mp3",
+  "audio.development.exam-start": "/game/sfx/development/exam-start.mp3",
+  "audio.development.exam-success": "/game/sfx/development/exam-success.mp3",
+  "audio.development.exam-fail": "/game/sfx/development/exam-fail.mp3",
+  "audio.development.ki-charge": "/game/sfx/development/ki-charge.mp3",
+  "audio.development.training-start": "/game/sfx/development/training-start.mp3",
+  "audio.development.training-stop": "/game/sfx/development/training-stop.mp3",
+  "audio.development.window": "/game/sfx/development/window.mp3",
+  "audio.development.exam-abandon": "/game/sfx/development/exam-abandon.mp3",
+  "audio.development.warning": "/game/sfx/development/warning.mp3",
+  "audio.development.ki-source": "/game/sfx/development/ki-source.mp3",
+  "audio.development.restraint": "/game/sfx/development/restraint.mp3",
+  "audio.development.rank": "/game/sfx/development/rank.mp3",
+  "audio.development.mastery": "/game/sfx/development/mastery.mp3",
+  "audio.development.variant": "/game/sfx/development/variant.mp3",
+  "audio.development.module-install": "/game/sfx/development/module-install.mp3",
+  "audio.development.module-remove": "/game/sfx/development/module-remove.mp3",
+  "audio.development.scan": "/game/sfx/development/scan.mp3",
+  "audio.development.chronicle": "/game/sfx/development/chronicle.mp3",
+  "audio.development.record": "/game/sfx/development/record.mp3",
+  "audio.development.consent": "/game/sfx/development/consent.mp3",
+  "audio.development.project-start": "/game/sfx/development/project-start.mp3",
+  "audio.development.project-done": "/game/sfx/development/project-done.mp3",
+  "audio.development.forge": "/game/sfx/development/forge.mp3",
+  "audio.development.repair": "/game/sfx/development/repair.mp3",
+  "audio.development.attune": "/game/sfx/development/attune.mp3",
+  "audio.development.name": "/game/sfx/development/name.mp3",
+  "audio.development.temper": "/game/sfx/development/temper.mp3",
+  "audio.development.inherit": "/game/sfx/development/inherit.mp3",
+  "audio.development.escort-start": "/game/sfx/development/escort-start.mp3",
+  "audio.development.escort-wait": "/game/sfx/development/escort-wait.mp3",
+  "audio.development.escort-safe": "/game/sfx/development/escort-safe.mp3",
+  "audio.development.cart-move": "/game/sfx/development/cart-move.mp3",
+  "audio.development.protect-hit": "/game/sfx/development/protect-hit.mp3",
+  "audio.development.protect-safe": "/game/sfx/development/protect-safe.mp3",
+} as const;
+export type DevelopmentSfxId = keyof typeof DEVELOPMENT_SFX_DEDICATED;
+
+/**
+ * P3 training yard ambience loops (4 worlds, 22 s seamless loops) generated via ElevenLabs Sound Effects v2.
+ */
+export const DEVELOPMENT_AMBIENCE_FILES = {
+  "audio.ambience.planetary": "/game/sfx/ambience/planetary.mp3",
+  "audio.ambience.sage": "/game/sfx/ambience/sage.mp3",
+  "audio.ambience.android": "/game/sfx/ambience/android.mp3",
+  "audio.ambience.legend": "/game/sfx/ambience/legend.mp3",
+} as const;
+export type DevelopmentAmbienceId = keyof typeof DEVELOPMENT_AMBIENCE_FILES;
+
+export function devSfxEnabled(
+  search = typeof window !== "undefined" ? window.location.search : "",
+): boolean {
+  const params = new URLSearchParams(search);
+  return params.get("ki-dev-sfx") === "1" || params.get("ki-dev-art") === "1";
+}
+
+export function developmentSfxFile(
+  id: DevelopmentSfxId,
+  dedicated = devSfxEnabled(),
+): string {
+  if (!dedicated && id in DEVELOPMENT_SFX_REUSE) {
+    return DEVELOPMENT_SFX_REUSE[id as keyof typeof DEVELOPMENT_SFX_REUSE];
+  }
+  return DEVELOPMENT_SFX_DEDICATED[id];
+}
+
+export function developmentAmbienceFile(id: DevelopmentAmbienceId): string {
+  return DEVELOPMENT_AMBIENCE_FILES[id];
+}
+
 /** Event types a race kit emits for its own abilities (monsters also use "status" and "telegraph"). */
 const KIT_EVENTS = new Set(["attack", "buff", "burst", "heal", "shield", "circle", "channel"]);
 
 /** Sound file for a cue, or undefined when the cue has none (e.g. an ability without its own sound). */
-export function sfxFile(cue: Common | { race: RaceId; ability: string }): string | undefined {
-  if (typeof cue === "string") return "/game/sfx/common/" + cue + ".mp3";
+export function sfxFile(
+  cue: Common | DevelopmentSfxId | DevelopmentAmbienceId | { race: RaceId; ability: string },
+  dedicated = devSfxEnabled(),
+): string | undefined {
+  if (typeof cue === "string") {
+    if (cue in DEVELOPMENT_SFX_DEDICATED)
+      return developmentSfxFile(cue as DevelopmentSfxId, dedicated);
+    if (cue in DEVELOPMENT_AMBIENCE_FILES)
+      return developmentAmbienceFile(cue as DevelopmentAmbienceId);
+    return "/game/sfx/common/" + cue + ".mp3";
+  }
   return (SFX_ABILITIES as readonly string[]).includes(cue.ability)
     ? "/game/sfx/" + cue.race + "/" + cue.ability + ".mp3"
     : undefined;
@@ -77,6 +179,9 @@ export function cuesFor(
           sfxFile(e.text === "Unik" ? "dodge" : e.text === "Tarcza" ? "hit-armor" : "player-hurt"),
         );
       else if (e.text === "Tarcza") add(sfxFile("hit-armor"));
+      else if (e.target?.startsWith("practice-")) add(sfxFile("audio.development.target-hit"));
+      else if (e.target === "training-dummy")
+        add(sfxFile(e.crit ? "hit-crit" : "audio.development.dummy-hit"));
       else if (e.text !== "Pudło") add(sfxFile(e.crit ? "hit-crit" : "hit"));
     } else if (e.type === "death")
       add(sfxFile(e.target === "player" ? "player-death" : "monster-death"));
@@ -94,8 +199,20 @@ export function cuesFor(
     if (now.potions < before.potions) add(sfxFile("potion"));
     if (now.interior !== before.interior) add(sfxFile("door"));
     if (now.noticeId !== before.noticeId) {
-      if (/^(Za mało KI|Odnowienie)/.test(now.notice)) add(sfxFile("no-energy"));
-      else if (now.notice.startsWith("Nagroda:")) add(sfxFile("quest-complete"));
+      if (
+        /^(Za mało KI|Odnowienie|Przekroczono dopuszczalną liczbę błędów\.|Życie spadło poniżej 30%\.|Upłynął aktywny czas egzaminu\.)/.test(
+          now.notice,
+        )
+      )
+        add(sfxFile("audio.development.exam-fail"));
+      else if (
+        /^(Nagroda:|Egzamin zdany\.|Wszystkie cele wykonane\.|Trening przygotowawczy wykonany\.|Projekt ukończony:)/.test(
+          now.notice,
+        )
+      )
+        add(sfxFile("audio.development.exam-success"));
+      else if (/^(Zapisano nowy stopień treningu\.|.+ · trening \d+$)/.test(now.notice))
+        add(sfxFile("level-up"));
     }
   }
   return out;

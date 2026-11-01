@@ -1,8 +1,10 @@
 import { examRuntime } from "../../game/development/examRuntime";
+import { devArtEnabled, examTierIconUrl } from "../../game/development/developmentAssets";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ExamAttempt } from "../../game/development/exams";
 import { TRAINING_NAMES } from "../../game/development/training";
 import { initialView, type Command } from "../../game/session";
+import { developmentSfxFile, sfx } from "../../game/sfx";
 import { RotateNotice } from "./RotateNotice";
 import { GameHud } from "./GameHud";
 import type { GameLoadingState } from "../../game/loading";
@@ -47,6 +49,21 @@ export function DevelopmentExam({
     };
   }, [attempt]);
   const result = attempt.snapshot();
+  const prevSuccesses = useRef(0);
+  useEffect(() => {
+    sfx.play(developmentSfxFile("audio.development.exam-start"));
+    prevSuccesses.current = 0;
+  }, [attempt]);
+  useEffect(() => {
+    if (result.successes > prevSuccesses.current) {
+      prevSuccesses.current = result.successes;
+      if (attempt.spec.discipline === "kiCapacity")
+        sfx.play(developmentSfxFile("audio.development.ki-charge"));
+      else if (attempt.spec.discipline === "endurance")
+        sfx.play(developmentSfxFile("audio.development.checkpoint"));
+    }
+  }, [attempt.spec.discipline, result.successes]);
+  const tierIcon = devArtEnabled() ? examTierIconUrl(attempt.spec.tier) : undefined;
   return (
     <section ref={stage} className="ki-stage ki-exam-stage" aria-label="Sala egzaminacyjna">
       <RotateNotice stage={stage.current} onCommand={send} />
@@ -75,6 +92,15 @@ export function DevelopmentExam({
       )}
       <div className="ki-exam-toolbar" aria-live="polite">
         <span>
+          {tierIcon && (
+            <img
+              src={tierIcon}
+              alt=""
+              width={24}
+              height={24}
+              style={{ verticalAlign: "middle", marginRight: 6 }}
+            />
+          )}
           {TRAINING_NAMES[attempt.spec.discipline]} {attempt.spec.tier} · {result.successes}/
           {attempt.spec.target} · błędy {result.errors}/{attempt.spec.maxErrors}
         </span>

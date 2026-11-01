@@ -58,6 +58,7 @@ import {
   type ResourceInfo,
 } from "./kit";
 import { MATERIALS, MATERIAL_IDS, isMaterial } from "./monsters/materials";
+import { getItemById, computePassiveEquipmentBonuses } from "./items";
 import {
   MonsterSystem,
   type HurtKind,
@@ -135,10 +136,68 @@ const storedItems = z.object({
   sword: finite(99).int(),
   vest: finite(99).int(),
 });
+export const EQUIPMENT_SLOTS = [
+  "head",
+  "weapon",
+  "armor",
+  "offhand",
+  "hands",
+  "ring",
+  "amulet",
+  "feet",
+] as const;
+export type EquipmentSlot = (typeof EQUIPMENT_SLOTS)[number];
+export const PlayerEquipmentSchema = z.object({
+  head: z.string().nullable().default(null),
+  weapon: z.string().nullable().default(null),
+  armor: z.string().nullable().default(null),
+  offhand: z.string().nullable().default(null),
+  hands: z.string().nullable().default(null),
+  ring: z.string().nullable().default(null),
+  amulet: z.string().nullable().default(null),
+  feet: z.string().nullable().default(null),
+});
+export type PlayerEquipment = z.infer<typeof PlayerEquipmentSchema>;
+
+export function getSlotForItem(itemId: string): EquipmentSlot | null {
+  if (itemId === "sword" || itemId === "heritage") return "weapon";
+  if (itemId === "vest") return "armor";
+  if (itemId === "shield") return "offhand";
+  const def = getItemById(itemId);
+  if (!def) return null;
+  const slot = def.slot || def.category;
+  switch (slot) {
+    case "helmet":
+      return "head";
+    case "weapon":
+      return "weapon";
+    case "armor":
+      return "armor";
+    case "shield":
+      return "offhand";
+    case "gloves":
+      return "hands";
+    case "ring":
+      return "ring";
+    case "amulet":
+    case "artifact":
+    case "accessory":
+    case "buff":
+      return "amulet";
+    case "boots":
+      return "feet";
+    default:
+      if (slot.startsWith("artifact_")) return "amulet";
+      return null;
+  }
+}
+
 const emptyDepot = () => ({
   items: { potion: 0, tusk: 0, sword: 0, vest: 0 },
   materials: {} as Record<string, number>,
   upgrade: 0,
+  gold: 0,
+  bagItems: {} as Record<string, number>,
 });
 export const PlayerSchema = z.object({
   combatTraining: CombatTrainingSchema.optional(),
@@ -162,8 +221,8 @@ export const PlayerSchema = z.object({
     sword: finite(99).int(),
     vest: finite(99).int(),
   }),
-  weapon: z.enum(["sword", "heritage"]).nullable(),
-  armor: z.literal("vest").nullable(),
+  weapon: z.string().nullable().default(null),
+  armor: z.string().nullable().default(null),
   upgrade: z.number().int().min(0).max(1),
   quests: z.object({ steps: status, boars: status, gear: status }),
   visited: z.boolean(),
@@ -183,8 +242,21 @@ export const PlayerSchema = z.object({
       items: storedItems,
       materials: z.record(z.string().max(60), finite(99).int()),
       upgrade: z.number().int().min(0).max(1),
+      gold: finite(10000000).int().default(0),
+      bagItems: z.record(z.string().max(80), finite(99).int()).default({}),
     })
     .default(emptyDepot),
+  equipment: PlayerEquipmentSchema.default({
+    head: null,
+    weapon: null,
+    armor: null,
+    offhand: null,
+    hands: null,
+    ring: null,
+    amulet: null,
+    feet: null,
+  }),
+  bagItems: z.record(z.string().max(80), finite(99).int()).default({}),
 });
 export type Player = z.infer<typeof PlayerSchema>;
 export type NpcId = NpcRole;
@@ -236,8 +308,8 @@ export type Command =
   | { type: "dodge" }
   | { type: "interact"; npc: NpcId }
   | { type: "dialogue"; action: "close" | "accept" | "claim" | "upgrade" }
-  | { type: "equip"; item: ItemId }
-  | { type: "unequip"; slot: "weapon" | "armor" }
+  | { type: "equip"; item: string }
+  | { type: "unequip"; slot: EquipmentSlot | "weapon" | "armor" }
   | { type: "trade"; item: string; buy: boolean }
   | { type: "loot"; id: string }
   | { type: "learn"; node: string }
@@ -249,6 +321,7 @@ export type Command =
   | { type: "chest" }
   | { type: "storage-close" }
   | { type: "depot"; item: string; quantity: number; withdraw: boolean }
+  | { type: "depot-gold"; amount: number; withdraw: boolean }
   | { type: "rest" }
   | { type: "training"; action: "start" | "reset" | "stop"; discipline?: TrainableStat }
   | StaffCommand;
@@ -262,6 +335,8 @@ export type StaffCommand =
   | { type: "staff"; action: "setHpKi"; hp: number; ki: number }
   | { type: "staff"; action: "setItem"; item: ItemId; count: number; depot?: boolean }
   | { type: "staff"; action: "setMaterial"; id: string; count: number; depot?: boolean }
+  | { type: "staff"; action: "setBagItem"; id: string; count: number; depot?: boolean }
+  | { type: "staff"; action: "setDepotGold"; gold: number }
   | {
       type: "staff";
       action: "setEquipment";
@@ -282,18 +357,73 @@ export type StaffCommand =
   | { type: "staff"; action: "killTarget" }
   | { type: "staff"; action: "killAllNearby"; radius?: number };
 export type StaffRole = "admin" | "gm";
-export function equipmentStats(p: Pick<Player, "weapon" | "armor" | "upgrade" | "development">) {
+export function equipmentStats(
+  p: Pick<Player, "weapon" | "armor" | "upgrade" | "development"> & {
+    equipment?: PlayerEquipment;
+  },
+) {
   const gear = {
     attack: equippedAttack(p),
-    defense: p.armor ? ITEMS[p.armor].defense : 0,
+    defense: p.armor && p.armor in ITEMS ? ITEMS[p.armor as ItemId].defense : 0,
     dodgeChance: 0,
     technique: 0,
     attackSpeedPct: 0,
   };
-  for (const id of [p.weapon, p.armor])
-    if (id && id !== "heritage")
-      for (const key of ["dodgeChance", "technique", "attackSpeedPct"] as const)
-        gear[key] += ITEMS[id].statBonuses?.[key] ?? 0;
+  const equippedIds: string[] = [];
+  if (p.equipment) {
+    for (const [slot, id] of Object.entries(p.equipment) as [EquipmentSlot, string | null][]) {
+      if (!id || id === "heritage") continue;
+      equippedIds.push(id);
+      if (id in ITEMS) {
+        const legacy = ITEMS[id as ItemId];
+        if (slot !== "weapon" && legacy.attack) gear.attack += legacy.attack;
+        if (slot !== "armor" && legacy.defense) gear.defense += legacy.defense;
+        if (legacy.statBonuses) {
+          gear.dodgeChance += legacy.statBonuses.dodgeChance ?? 0;
+          gear.technique += legacy.statBonuses.technique ?? 0;
+          gear.attackSpeedPct += legacy.statBonuses.attackSpeedPct ?? 0;
+        }
+      } else {
+        const item = getItemById(id);
+        if (item?.stats) {
+          if (slot === "weapon") {
+            if (item.stats.atkBonus) gear.attack = item.stats.atkBonus;
+          } else {
+            if (item.stats.atkBonus) gear.attack += item.stats.atkBonus;
+          }
+          if (item.stats.defBonus) gear.defense += item.stats.defBonus;
+          if (item.stats.critChancePercent) gear.technique += item.stats.critChancePercent;
+          if (item.stats.critChancePoints) gear.technique += item.stats.critChancePoints;
+          if (item.stats.moveSpeedPercent) gear.attackSpeedPct += item.stats.moveSpeedPercent;
+        }
+      }
+    }
+  } else {
+    for (const id of [p.weapon, p.armor]) {
+      if (id && id !== "heritage") {
+        equippedIds.push(id);
+        if (id in ITEMS) {
+          for (const key of ["dodgeChance", "technique", "attackSpeedPct"] as const)
+            gear[key] += ITEMS[id as ItemId].statBonuses?.[key] ?? 0;
+        }
+      }
+    }
+  }
+  if (equippedIds.length > 0) {
+    const passives = computePassiveEquipmentBonuses(equippedIds);
+    if (passives.cappedTotals.atkPercent) {
+      gear.attack = Math.round(gear.attack * (1 + passives.cappedTotals.atkPercent / 100));
+    }
+    if (passives.cappedTotals.defPercent) {
+      gear.defense = Math.round(gear.defense * (1 + passives.cappedTotals.defPercent / 100));
+    }
+    if (passives.cappedTotals.critChancePoints) {
+      gear.technique += passives.cappedTotals.critChancePoints;
+    }
+    if (passives.cappedTotals.moveSpeedPercent) {
+      gear.attackSpeedPct += passives.cappedTotals.moveSpeedPercent;
+    }
+  }
   return gear;
 }
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
@@ -307,7 +437,7 @@ function statsPort(
   p: Pick<
     Player,
     "level" | "weapon" | "armor" | "upgrade" | "statOverrides" | "combatTraining" | "development"
-  >,
+  > & { equipment?: PlayerEquipment },
 ): KitPort {
   return {
     nowMs: 0,
@@ -407,9 +537,53 @@ export function newPlayer(race: RaceId = "planetary"): Player {
     respecs: 0,
     interior: null,
     depot: emptyDepot(),
+    equipment: {
+      head: null,
+      weapon: null,
+      armor: null,
+      offhand: null,
+      hands: null,
+      ring: null,
+      amulet: null,
+      feet: null,
+    },
+    bagItems: {},
   };
 }
 /** Moves a position saved on an older map layout into the enlarged open world. */
+export function ensurePlayerEquipment(p: Player) {
+  if (!p.equipment) {
+    p.equipment = {
+      head: null,
+      weapon: p.weapon,
+      armor: p.armor,
+      offhand: null,
+      hands: null,
+      ring: null,
+      amulet: null,
+      feet: null,
+    };
+  } else {
+    if (p.equipment.weapon === null && p.weapon !== null) {
+      p.equipment.weapon = p.weapon;
+    }
+    if (p.equipment.armor === null && p.armor !== null) {
+      p.equipment.armor = p.armor;
+    }
+  }
+  if (!p.bagItems) {
+    p.bagItems = {};
+  }
+  if (!p.depot) {
+    p.depot = emptyDepot();
+  }
+  if (!p.depot.bagItems) {
+    p.depot.bagItems = {};
+  }
+  if (typeof p.depot.gold !== "number") {
+    p.depot.gold = 0;
+  }
+}
 export function migrateLayout(
   p: Pick<Player, "continent" | "x" | "y" | "layout"> & { interior?: BuildingId | null },
 ) {
@@ -487,6 +661,7 @@ export class SaveStore {
       }
       const p = data.data.player;
       migrateLayout(p);
+      ensurePlayerEquipment(p);
       const s = stats(p);
       if (
         p.startContinent !== RACES[p.race].world ||
@@ -496,7 +671,7 @@ export class SaveStore {
         p.xp >= xpNeeded(p.level) ||
         !weaponConsistent(p, this.identity) ||
         !heritageRaceConsistent(p.development?.heritage, p.race) ||
-        (p.armor && !p.items.vest) ||
+        (p.armor === "vest" && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
         // introduction done) stay valid.
@@ -1125,18 +1300,54 @@ export class GameSession implements MonsterHost {
       this.say("Idziesz do: " + b.name + " · " + b.district);
     }
   }
+  private transferDepotGold(amount: number, withdraw: boolean) {
+    const p = this.player;
+    ensurePlayerEquipment(p);
+    if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
+      return this.say("Otwórz swoją skrzynię w budynku depozytu.");
+    if (!Number.isInteger(amount) || amount < 1) return;
+    if (withdraw) {
+      if (p.depot.gold < amount) return this.say("W skarbcu nie ma tylu monet.");
+      p.depot.gold -= amount;
+      p.gold += amount;
+      this.say("Wypłacono ze skarbca: " + amount + " monet.");
+    } else {
+      if (p.gold < amount) return this.say("Nie masz tylu monet w sakiewce.");
+      p.gold -= amount;
+      p.depot.gold += amount;
+      this.say("Wpłacono do skarbca: " + amount + " monet.");
+    }
+    this.flush();
+  }
   private transferDepot(item: string, quantity: number, withdraw: boolean) {
     const p = this.player;
+    ensurePlayerEquipment(p);
     if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
       return this.say("Otwórz swoją skrzynię w budynku depozytu.");
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) return;
     const material = isMaterial(item);
-    if (!material && !ITEM_IDS.includes(item as ItemId)) return;
-    const bag = material ? p.materials : (p.items as Record<string, number>);
-    const chest = material ? p.depot.materials : (p.depot.items as Record<string, number>);
-    const source = withdraw ? chest : bag,
-      destination = withdraw ? bag : chest;
-    const reserved = !withdraw && (p.weapon === item || p.armor === item) ? 1 : 0;
+    const isLegacyItem = ITEM_IDS.includes(item as ItemId);
+    const isBagItem = Boolean(getItemById(item)) || Boolean(p.bagItems[item]) || Boolean(p.depot.bagItems?.[item]);
+    if (!material && !isLegacyItem && !isBagItem) return;
+
+    let source: Record<string, number>;
+    let destination: Record<string, number>;
+    if (material) {
+      source = withdraw ? p.depot.materials : p.materials;
+      destination = withdraw ? p.materials : p.depot.materials;
+    } else if (isLegacyItem) {
+      source = withdraw ? (p.depot.items as Record<string, number>) : (p.items as Record<string, number>);
+      destination = withdraw ? (p.items as Record<string, number>) : (p.depot.items as Record<string, number>);
+    } else {
+      source = withdraw ? p.depot.bagItems : p.bagItems;
+      destination = withdraw ? p.bagItems : p.depot.bagItems;
+    }
+
+    const isEquipped = Object.values(p.equipment).includes(item) || p.weapon === item || p.armor === item;
+    const reserved = !withdraw && isLegacyItem && (p.weapon === item || p.armor === item) ? 1 : 0;
+    if (!withdraw && isEquipped && !isLegacyItem) {
+      return this.say("Zdejmij wyposażenie przed odłożeniem do skrzyni.");
+    }
     if ((source[item] ?? 0) - reserved < quantity)
       return this.say("Brak tylu wolnych przedmiotów. Zdejmij wyposażenie przed odłożeniem.");
     if (
@@ -1146,8 +1357,7 @@ export class GameSession implements MonsterHost {
         Object.values(destination).filter((n) => n > 0).length >= MATERIAL_CAPACITY)
     )
       return this.say("Brak miejsca lub pełny stos (99). Nic nie przeniesiono.");
-    // The legacy bag represents one enhanced blade with a separate flag. Move
-    // that flag only with the last blade, preserving it across deposits/reloads.
+
     const upgradeFrom = withdraw ? p.depot : p;
     const upgradeTo = withdraw ? p : p.depot;
     const movingUpgrade = item === "sword" && upgradeFrom.upgrade > 0 && source[item] === quantity;
@@ -1159,12 +1369,17 @@ export class GameSession implements MonsterHost {
       upgradeFrom.upgrade = 0;
       upgradeTo.upgrade = 1;
     }
-    if (material && source[item] === 0) delete source[item];
+    if (source[item] === 0 && (material || isBagItem)) delete source[item];
+    const itemName = material
+      ? MATERIALS[item]!.name
+      : isLegacyItem
+        ? ITEMS[item as ItemId].name
+        : getItemById(item)?.name ?? item;
     this.say(
       (withdraw ? "Odebrano ze skrzyni: " : "Odłożono do skrzyni: ") +
         quantity +
         " × " +
-        (material ? MATERIALS[item]!.name : ITEMS[item as ItemId].name),
+        itemName,
     );
     this.flush();
   }
@@ -1596,6 +1811,7 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "depot") return this.transferDepot(c.item, c.quantity, c.withdraw);
+      if (c.type === "depot-gold") return this.transferDepotGold(c.amount, c.withdraw);
     if (c.type === "enter") {
       this.clearDestinations();
       this.pendingService = null;
@@ -1794,20 +2010,95 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "equip") {
-      if (!p.items[c.item]) return this.say("Nie masz tego przedmiotu.");
-      if (c.item === "potion") return this.use("potion");
-      if (c.item === "sword") p.weapon = "sword";
-      else if (c.item === "vest") p.armor = "vest";
-      else return this.say("Ten materiał możesz sprzedać kupcowi.");
-      if (p.quests.gear === "active" && p.weapon === "sword") p.quests.gear = "ready";
-      this.say("Założono: " + ITEMS[c.item].name);
+      ensurePlayerEquipment(p);
+      const equipment = p.equipment!;
+      const bagItems = p.bagItems!;
+      const itemId = c.item;
+      if (itemId === "potion") return this.use("potion");
+      if (itemId === "sword") {
+        if (!p.items.sword) return this.say("Nie masz tego przedmiotu.");
+        p.weapon = "sword";
+        equipment.weapon = "sword";
+        if (p.quests.gear === "active") p.quests.gear = "ready";
+        this.say("Założono: " + ITEMS.sword.name);
+        this.flush();
+        return;
+      }
+      if (itemId === "vest") {
+        if (!p.items.vest) return this.say("Nie masz tego przedmiotu.");
+        p.armor = "vest";
+        equipment.armor = "vest";
+        this.say("Założono: " + ITEMS.vest.name);
+        this.flush();
+        return;
+      }
+      const def = getItemById(itemId);
+      if (!def) return this.say("Nieznany przedmiot.");
+      if (def.category === "consumable") {
+        const cur = bagItems[itemId] ?? 0;
+        if (cur <= 0) return this.say("Brak przedmiotu do użycia.");
+        if (cur <= 1) {
+          delete bagItems[itemId];
+        } else {
+          bagItems[itemId] = cur - 1;
+        }
+        const healHp = def.stats?.hpBonus ?? 50;
+        makePort(this).heal(healHp);
+        this.say("Użyto: " + def.name);
+        this.flush();
+        return;
+      }
+      const slot = getSlotForItem(itemId);
+      if (!slot) return this.say("Tego przedmiotu nie można założyć.");
+      if (def.level && p.level < def.level) {
+        return this.say("Wymagany poziom: " + def.level + " (masz " + p.level + ").");
+      }
+      const cur = bagItems[itemId] ?? 0;
+      if (cur <= 0) return this.say("Nie masz tego przedmiotu w torbie.");
+
+      const previous = equipment[slot];
+      if (previous) {
+        if (previous === "sword") {
+          p.weapon = null;
+        } else if (previous === "vest") {
+          p.armor = null;
+        } else if (previous === "heritage") {
+          this.heritage.weaponCommand("unequip");
+        } else {
+          bagItems[previous] = (bagItems[previous] ?? 0) + 1;
+        }
+      }
+      if (cur <= 1) {
+        delete bagItems[itemId];
+      } else {
+        bagItems[itemId] = cur - 1;
+      }
+      equipment[slot] = itemId;
+      if (slot === "weapon") p.weapon = itemId;
+      if (slot === "armor") p.armor = itemId;
+      this.say("Założono: " + def.name);
       this.flush();
       return;
     }
     if (c.type === "unequip") {
-      if (c.slot === "weapon" && p.weapon === "heritage")
+      ensurePlayerEquipment(p);
+      const equipment = p.equipment!;
+      const bagItems = p.bagItems!;
+      const slot = c.slot as EquipmentSlot;
+      if (slot === "weapon" && p.weapon === "heritage") {
+        equipment.weapon = null;
         return this.heritage.weaponCommand("unequip");
-      p[c.slot] = null;
+      }
+      const equippedId = equipment[slot] ?? (slot === "weapon" ? p.weapon : slot === "armor" ? p.armor : null);
+      if (!equippedId) return this.say("Nic nie jest założone w tym miejscu.");
+
+      equipment[slot] = null;
+      if (slot === "weapon") p.weapon = null;
+      if (slot === "armor") p.armor = null;
+
+      if (equippedId !== "sword" && equippedId !== "vest" && equippedId !== "heritage") {
+        bagItems[equippedId] = (bagItems[equippedId] ?? 0) + 1;
+      }
       p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       this.say("Zdjęto wyposażenie.");
       this.flush();

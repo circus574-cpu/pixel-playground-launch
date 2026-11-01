@@ -1,0 +1,3002 @@
+{
+  "catalogTitle": "KI LEGENDS — GEMINI + ELEVENLABS: PRODUKCJA ZASOBÓW ROZWOJU (Etap 1)",
+  "createdAt": "2026-11-01T11:59:00+01:00",
+  "branch": "feat/development-assets-etap1",
+  "optInSwitch": "ki-dev-art",
+  "krok0ReuseAudit": {
+    "audioP0": {
+      "audio.development.dummy-hit": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/common/hit.mp3",
+        "note": "Istniejący plik common/hit.mp3 obsługuje uderzenie w manekin; dedykowany prompt w Partii 1 gotowy do eksportu z ElevenLabs Sound Effects."
+      },
+      "audio.development.target-hit": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/common/hit-armor.mp3",
+        "note": "Podpięto common/hit-armor.mp3 dla celów pomiarowych practice-* zgodnie z wytyczną START-TUTAJ.txt."
+      },
+      "audio.development.checkpoint": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/common/loot.mp3",
+        "note": "Podpięto lekki sygnał potwierdzenia punktu kontrolnego w próbie wytrzymałości."
+      },
+      "audio.development.exam-start": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/sage/A1.mp3",
+        "note": "Podpięto czysty gong pieczęci przy otwarciu sali egzaminacyjnej."
+      },
+      "audio.development.exam-success": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/common/quest-complete.mp3",
+        "note": "Zgodnie z START-TUTAJ.txt podpięto common/quest-complete.mp3 przy zdaniu próby i ukończeniu projektu."
+      },
+      "audio.development.exam-fail": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/common/no-energy.mp3",
+        "note": "Podpięto stonowany sygnał niepowodzenia próby bez dramatyzmu śmierci postaci."
+      },
+      "audio.development.ki-charge": {
+        "status": "reuse-active",
+        "reuseFile": "/game/sfx/sage/C1.mp3",
+        "note": "Zgodnie z katalogiem podpięto sage/C1.mp3 ('Focusing ki energy, rising soft hum with a gentle chime') przy ładowaniu węzła KI."
+      }
+    },
+    "uiTrainingIconsReuseFallback": {
+      "ui.training.strength": "/game/development-v1/icons/ui.training.strength.webp (v001 new)",
+      "ui.training.endurance": "/game/development-v1/icons/ui.training.endurance.webp (v001 new)",
+      "ui.training.ki-capacity": "/game/development-v1/icons/ui.training.ki-capacity.webp (v001 new)",
+      "ui.training.defense": "/game/development-v1/icons/ui.training.defense.webp (v001 new)",
+      "ui.training.ki-control": "/game/development-v1/icons/ui.training.ki-control.webp (v001 new)",
+      "ui.training.dodge": "/game/development-v1/icons/ui.training.dodge.webp (v001 new)",
+      "ui.training.attack-speed": "/game/development-v1/icons/ui.training.attack-speed.webp (v001 new)",
+      "ui.training.technique": "/game/development-v1/icons/ui.training.technique.webp (v001 new)"
+    },
+    "trainingEffectsDecision": "Zachowano proceduralne oznaczenia kręgów (safe-window, danger, goal) w examRuntime.ts zgodnie z zasadą katalogu: proceduralne ringi są w pełni czytelne w skali sali egzaminacyjnej i nie wypalają stałych plam na mapie."
+  },
+  "assets": [
+    {
+      "id": "training.planetary.dummy",
+      "version": "v001",
+      "batch": "PARTIA_1",
+      "kind": "object",
+      "titlePl": "Manekin — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.dummy.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "89e08b1749c68f54664472d62870a60e641331b977b03b05c53145401ef3f633",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.dummy.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "5a7c1aaa87a7de1762afdf1a65457623fbd48cb639c69b2ef6b299701e7d5e13",
+        "bytes": 484564,
+        "bounds": {
+          "minX": 348,
+          "minY": 123,
+          "maxX": 676,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.dummy.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "2c582f8614b5a60929cf300b458c61a42fc82f60cd227ac17232d1950a0158ea",
+        "bytes": 71556
+      }
+    },
+    {
+      "id": "training.planetary.target",
+      "version": "v001",
+      "batch": "PARTIA_1",
+      "kind": "object",
+      "titlePl": "Cel pomiarowy — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.target.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "906500fba23bb1242ea878da5630abd0079ffd1552b01687d52c8a0da45e7c55",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.target.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "5dc8dea7a9c251848d0634859269ad4a84a6c7d6d72aa1f0c1323d66986e9c32",
+        "bytes": 655055,
+        "bounds": {
+          "minX": 262,
+          "minY": 123,
+          "maxX": 762,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.target.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "d9b5bdf0aa3134d6dfd9e7e45f24fdef58c5f6db34a9f25ac3393fd482a1aab2",
+        "bytes": 96058
+      }
+    },
+    {
+      "id": "training.planetary.ki-node",
+      "version": "v001",
+      "batch": "PARTIA_1",
+      "kind": "object",
+      "titlePl": "Węzeł KI — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.ki-node.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "cd7de51e56d5a5329713c853ca8e7de6cc8fda3c0a5edde4b1c6a69cd0eb601f",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.ki-node.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "9ff907693eee168a42e4fbb7a553749922b1111779cd98d48b045071202761fb",
+        "bytes": 1109994,
+        "bounds": {
+          "minX": 123,
+          "minY": 238,
+          "maxX": 900,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.ki-node.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "baffc421af5d605d6c827f3af7b828010a85dba0edf599d0d07cd255cd70d354",
+        "bytes": 148580
+      }
+    },
+    {
+      "id": "training.planetary.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Stanowisko obrony — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.defense.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "5d1616ef3ebab838af32b7ad020357d7566df469eaa41eab69373bf3ab7c26bb",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "3e43da39cb38779cdd600d36342eaaea07f86dd82bdc38e02b0d1ff19e9d78b4",
+        "bytes": 987342,
+        "bounds": {
+          "minX": 225,
+          "minY": 123,
+          "maxX": 799,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "fa1eaa7eb047055a39b46b9249f2f6f7f3c51bbdfce2a80befeb12ddf98ec2a0",
+        "bytes": 135510
+      }
+    },
+    {
+      "id": "training.planetary.ki-source",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Źródło testowego KI — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.ki-source.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "c2793dad2dbb4c343c5f5a36d550546961c12f2cb83073dcdfd7cf6b65dbf4d6",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.ki-source.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "7fd00bdade31f9c818906c2503de43033a1a221c2ce365b59ee79d29976697e2",
+        "bytes": 1115275,
+        "bounds": {
+          "minX": 123,
+          "minY": 178,
+          "maxX": 900,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.ki-source.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "9981c7e603b2020cbc2a7d1038bb9cb1a6eb6e12201adcd2d84bdb986f3f2395",
+        "bytes": 175114
+      }
+    },
+    {
+      "id": "training.planetary.checkpoint",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Punkt trasy — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.checkpoint.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "37abf4580778c55d10c7d2616d63ae6a331db9a4d6b6d40a4a3eee4db6b69be7",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.checkpoint.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "cf34da8e8a8465146f0ef16adf4af4502816579bd795665356476df7c39a952e",
+        "bytes": 1200474,
+        "bounds": {
+          "minX": 129,
+          "minY": 123,
+          "maxX": 895,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.checkpoint.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "be13979423417e0f224d7592c7b60315c98f4ee56521507df969ab2d454e23b3",
+        "bytes": 189794
+      }
+    },
+    {
+      "id": "training.planetary.obstacle",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Przeszkoda treningowa — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.obstacle.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "6663455400800038b567dca9bfdfa65fe38580f4cbb3aff1486f702aef13c787",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.obstacle.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "515d91a096110af76334359ffed622717da832bb6ff50047907273447a73ce35",
+        "bytes": 1070051,
+        "bounds": {
+          "minX": 123,
+          "minY": 175,
+          "maxX": 900,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.obstacle.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "56f8642b15d8ba8b75efa88835e9d6d68cd77facc4408c669602e22884a94807",
+        "bytes": 181398
+      }
+    },
+    {
+      "id": "training.planetary.surrender",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Znacznik poddania — Verdantia",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Verdantia / Planetarni, forest green, amber, ochre, weathered wood and natural stone; living nature, practical craftsmanship. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.planetary.surrender.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "5ca3612d1ab4c55e4654fef5526e8a93cd38ac4a8452f622d8fe89dcdbd5203c",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.planetary.surrender.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "162607433ae58f2b2c25a73c30e03f8b04d0c4d4206ab33d37841c218e1411d2",
+        "bytes": 991471,
+        "bounds": {
+          "minX": 123,
+          "minY": 217,
+          "maxX": 900,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.planetary.surrender.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "804fbdc3cdc3df07cf95c3a403fa5ba5299bcea8b1a3faec6cf8e33be026ab67",
+        "bytes": 157756
+      }
+    },
+    {
+      "id": "training.sage.dummy",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Manekin — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.dummy.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          682,
+          1024
+        ],
+        "originalSha256": "b682e219421581bbc4c75e44e45167660f0f36aa85ac1099169c89fc269f32c9",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.dummy.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "8da0092326ac079cbe721a3b9cb89aa53b68d24ef196dcc4411533af12054c38",
+        "bytes": 669495,
+        "bounds": {
+          "minX": 300,
+          "minY": 123,
+          "maxX": 724,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.dummy.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "25a517dadad8577222109d83a13fde826f67064bb09c2fb4e8dd35c9ff5338b2",
+        "bytes": 93000
+      }
+    },
+    {
+      "id": "training.sage.target",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Cel pomiarowy — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.target.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "54d174a8e1af7bdf41cc095f55d44ee7e0bd2945ececd9b7ee6a1d1d1963e37b",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.target.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "cae96fc696a22b7a3372d6bdf2983d09e6ce75e01cad08b506b63d1132b393e2",
+        "bytes": 557032,
+        "bounds": {
+          "minX": 279,
+          "minY": 123,
+          "maxX": 745,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.target.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "047ce994e87359432f059729b5840b865bef5bc03bdf446edf883737f1df5cf8",
+        "bytes": 80202
+      }
+    },
+    {
+      "id": "training.sage.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Stanowisko obrony — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.defense.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "9fcd47476402824f67a023254e307f5b904973c361712e278cfa630c2115d4c1",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "42e504c0826733c4d9aa840fa3b63345ac0ae3fe81a9859159c9da758a148ab2",
+        "bytes": 599087,
+        "bounds": {
+          "minX": 236,
+          "minY": 123,
+          "maxX": 787,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "3c8228903c1e628e91eecee3edea8979c44dbe7ff13a2ac601246869ba29dadd",
+        "bytes": 85488
+      }
+    },
+    {
+      "id": "training.sage.ki-node",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Węzeł KI — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.ki-node.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          682,
+          1024
+        ],
+        "originalSha256": "36c1ff972291e172313e3afcd2a7bf563ecf1bb29ebd57d123683bd6db5a4398",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.ki-node.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "2ea0e2016d967afed63f68522593fdb8f3f11698a6c6c2aef1c4662cc1137129",
+        "bytes": 588043,
+        "bounds": {
+          "minX": 273,
+          "minY": 123,
+          "maxX": 751,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.ki-node.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "ff49600d370400b805531efd8e843fe6f3e907c484e2d49be4dc7854c3c16c0f",
+        "bytes": 84912
+      }
+    },
+    {
+      "id": "training.sage.ki-source",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Źródło testowego KI — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.ki-source.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "5452954452e80d2574a74be31b0e3672684c38f26a59ea087277700563d7478b",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.ki-source.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "75bd75e1a7cf4d8159016b89f3c0f3d68bf5fe0b2a1ba5d89f719f1bcc12bd07",
+        "bytes": 776284,
+        "bounds": {
+          "minX": 212,
+          "minY": 123,
+          "maxX": 811,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.ki-source.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "72b856438cc333306180804e8b323d12f541b9f0d0779d5cbe047fd3d8e85a4a",
+        "bytes": 109732
+      }
+    },
+    {
+      "id": "training.sage.checkpoint",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Punkt trasy — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.checkpoint.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          682,
+          1024
+        ],
+        "originalSha256": "1a3f6d6d3b28c37b123e5efddcbdaaf52cd72be22cb5e21de86cd07bc1efade1",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.checkpoint.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "8b662314884c52d74bcb2b313f3261f9c13bf365e75aecb99d8a96cd2ee460f1",
+        "bytes": 459303,
+        "bounds": {
+          "minX": 352,
+          "minY": 123,
+          "maxX": 671,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.checkpoint.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "33b8bc4af1892be1b2764a6a983c8c863fc2fc36b3665d6123df8c77eef3e483",
+        "bytes": 66996
+      }
+    },
+    {
+      "id": "training.sage.obstacle",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Przeszkoda treningowa — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.obstacle.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "1fdb2d6d11c61d0d119b9d2a2d66572df38a7453205daac60c9b15e7c76bdfe6",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.obstacle.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "d571ea58e69c6956a207ae72cb5193beeae7eafc2505bc1723bd66570a3c8a13",
+        "bytes": 721519,
+        "bounds": {
+          "minX": 244,
+          "minY": 123,
+          "maxX": 779,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.obstacle.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "8fe8113cb2a0a5b394e5b7bfc6378929ba690bcbba3ebd6863461bece2e403e3",
+        "bytes": 103754
+      }
+    },
+    {
+      "id": "training.sage.surrender",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Znacznik poddania — Aetheria",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Aetheria / Mędrcy, ivory, emerald, turquoise and restrained gold; disciplined KI scholarship, carved stone, sacred gardens. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.sage.surrender.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "98e4de47a377695e9ce11ce4ac0cc1b738ff8fa651df2d72a34dd811103703ba",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.sage.surrender.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "cbc05d5cfa467fc42b26a37551aa02d3c7b452d125c6cad846d577f0265f29bb",
+        "bytes": 566123,
+        "bounds": {
+          "minX": 224,
+          "minY": 123,
+          "maxX": 799,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.sage.surrender.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "4e90ea90ab102538cdede978df79889d2e254bc2048b137f83ef43b44659c148",
+        "bytes": 85170
+      }
+    },
+    {
+      "id": "training.android.dummy",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Manekin — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.dummy.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "27d408574ccb6353be8d51fdf9421b2e0c5660510f4464ab3c5b6f0afb57ab57",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.dummy.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "3092c22ce7a63fef79a99f48e86438ba6a2c2a632090e42be143a4f245154ce0",
+        "bytes": 679974,
+        "bounds": {
+          "minX": 239,
+          "minY": 123,
+          "maxX": 784,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.dummy.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "e5ae375bb15b7b6b9c97a3078928e808d6304c4bd4cbcec4b96685b62f284b4e",
+        "bytes": 102676
+      }
+    },
+    {
+      "id": "training.android.target",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Cel pomiarowy — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.target.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "6fb2443c34b64966e15cf0d6834b09467acba06e47e08452228e950fe47dddf3",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.target.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "360dfdc5b81d7b7c7fb6d84262da25adcb0b2c51129d6b3118b7b5e571f5e7be",
+        "bytes": 601397,
+        "bounds": {
+          "minX": 265,
+          "minY": 123,
+          "maxX": 759,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.target.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "3af3c612770e1d877ee26d5f66a0d4b20de761686f950eb7de510a2fa9a53bd7",
+        "bytes": 91484
+      }
+    },
+    {
+      "id": "training.android.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Stanowisko obrony — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.defense.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "c74422f7afe4f4a6f0dc849f4b6816b28124a5a3198e6dc53cfad9336d6d26b7",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "599d9292d9f88eae77491f0b2af4fd1303e3ab7791ff0d97fa7efcba8a87f723",
+        "bytes": 453228,
+        "bounds": {
+          "minX": 327,
+          "minY": 123,
+          "maxX": 696,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "5c91d4b2a65a6015185496b4cf4f98b49afb5f76b6ac42c7c638bd9a39ca0892",
+        "bytes": 65590
+      }
+    },
+    {
+      "id": "training.android.ki-node",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Węzeł KI — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.ki-node.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "1962b523dec96f5b965f9097fed80e548f8a499feb6a2f3f9462431bb55b5125",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.ki-node.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "72277b73380c82e5cc21da3c3024d56a89a8b971ab14d648412d39d8d3de17ae",
+        "bytes": 791700,
+        "bounds": {
+          "minX": 194,
+          "minY": 123,
+          "maxX": 830,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.ki-node.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "372896152468b9f08c665e15fd7d9fb699e339d44fcff2cc8fd498a72c47e493",
+        "bytes": 110944
+      }
+    },
+    {
+      "id": "training.android.ki-source",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Źródło testowego KI — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.ki-source.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "4357e40b14734e1d0ebf729a80489318376cdb8cf621cc422d4c19ec3408705a",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.ki-source.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "34b6a571fc5c5046156d5f859a155627a2fb19378643a08ef908cd9364d6a371",
+        "bytes": 855871,
+        "bounds": {
+          "minX": 170,
+          "minY": 123,
+          "maxX": 854,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.ki-source.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "53fe5afaf1ec122b967d78b813b95a9c66ae9e50bd6f4a81c4e4756e9aadfc86",
+        "bytes": 124170
+      }
+    },
+    {
+      "id": "training.android.checkpoint",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Punkt trasy — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.checkpoint.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "e0cc3eff1eb7de7f7a8b51ae463142f2f278d6cfa21ff548c66723e654415c37",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.checkpoint.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "e920c2a87d1ff3d3caff88e9171766ebd14ec2eb33725da98431f87229b693f0",
+        "bytes": 795705,
+        "bounds": {
+          "minX": 233,
+          "minY": 123,
+          "maxX": 790,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.checkpoint.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "64ebb4148202555ad16941fcbf54c78eb19ba6ce543a93690eaf398677186f89",
+        "bytes": 113224
+      }
+    },
+    {
+      "id": "training.android.obstacle",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Przeszkoda treningowa — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.obstacle.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "90a3aaa7ee2264d25f2d9cd748e0a2b079ba9c19faa39570556d0a29b9394815",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.obstacle.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "f4d80d61f8bf1734b6f3131ca251270e916232dc94f57e2c234b61f4d87dce3f",
+        "bytes": 692221,
+        "bounds": {
+          "minX": 240,
+          "minY": 123,
+          "maxX": 784,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.obstacle.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "5d6216e211aeb4a8cc34690c6250595aadb8beefb5cb294e3d96a1c5901bc5b2",
+        "bytes": 102354
+      }
+    },
+    {
+      "id": "training.android.surrender",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Znacznik poddania — Nexus-9",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Nexus-9 / Androidy, silver, graphite and electric cyan; precise cybernetic fantasy, glass, metal and energy circuits. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.android.surrender.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "9faeb72ec744904cd900ee0b4066a29a6093514cc18139062b7d025339e04882",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.android.surrender.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "1b00a3ff3e434ff47ef9a8c7ccfa66fe9104251ee212cd293541bb50f8c283e4",
+        "bytes": 541042,
+        "bounds": {
+          "minX": 287,
+          "minY": 123,
+          "maxX": 737,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.android.surrender.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "ad35a4be3905f12dd18de96e9f2993f2e42d4e3fb894ddc8196de7e37acdb6f4",
+        "bytes": 79440
+      }
+    },
+    {
+      "id": "training.legend.dummy",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Manekin — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy practice dummy, neutral humanoid torso on a low base, no real human face World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.dummy.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "f9a311623951a6f3506ca5f5542cf79ab9036b95abccef0e59594413236280da",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.dummy.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "249c5c86e14a8435344490c491eb14295424c89b7e4652ece8558631b4c00916",
+        "bytes": 500013,
+        "bounds": {
+          "minX": 243,
+          "minY": 123,
+          "maxX": 781,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.dummy.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "5bc7a0e9f11dc23b95887c7c5219266bc054af5cfd645b252333fc1c78f4b29c",
+        "bytes": 72406
+      }
+    },
+    {
+      "id": "training.legend.target",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Cel pomiarowy — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small adjustable impact measurement target on a stable stand World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.target.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "7b2a316407158997de4d886f805099924fbb8afcec7d68c85f62b1c5f5d208da",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.target.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "5db4c0f854e0de8901ab9f2d87f08e2f398a082b638733ce86ef370343cf8902",
+        "bytes": 491043,
+        "bounds": {
+          "minX": 263,
+          "minY": 123,
+          "maxX": 760,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.target.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "4db7b42b7e1bdaab0c0bc9e8c79426bfc613c7a5d20659fae038144ffce15b59",
+        "bytes": 74298
+      }
+    },
+    {
+      "id": "training.legend.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Stanowisko obrony — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. an inert defensive training emitter with a clearly visible outward aperture; no active projectile World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.defense.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "43bf1dc337383257611904174df67824ec46aed29d6b87d7a0f7d5bca8c267d3",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "d425d74512dd9bd62bd0127f0209745807324a436877513462c0736f44526cb4",
+        "bytes": 556374,
+        "bounds": {
+          "minX": 248,
+          "minY": 123,
+          "maxX": 775,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "c61388a1ea98544e768ccf7fb0cab6d7bd2432b971de341599dc97e5791d1fda",
+        "bytes": 82584
+      }
+    },
+    {
+      "id": "training.legend.ki-node",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Węzeł KI — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low KI charging node with a readable central receptacle World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.ki-node.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "7bbb6b98994ff4d056cd7b6b6e8ee98b47cf89dc783d23133e8a64315e4fae66",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.ki-node.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "bab2b96893f230d7c77ad645736fb90b74cd127bba761b546b0276719450db2f",
+        "bytes": 463887,
+        "bounds": {
+          "minX": 250,
+          "minY": 123,
+          "maxX": 773,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.ki-node.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "27794f1e29d414c9f603c0176a6767c10f1b563bd91d3f2ae0a88aef084a9ed3",
+        "bytes": 67058
+      }
+    },
+    {
+      "id": "training.legend.ki-source",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Źródło testowego KI — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a compact training energy source with a small luminous reservoir; not a healing fountain World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.ki-source.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "36de7b039acc36f988c54d621279833122ada7d3508d9a21b32b44b8b125a165",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.ki-source.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "c510bd6fbcc0a6e440f1f56a67af6a056770aa52ac17a25bf6228d44119e1b60",
+        "bytes": 469232,
+        "bounds": {
+          "minX": 300,
+          "minY": 123,
+          "maxX": 723,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.ki-source.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "a9e3c50ed983d0f520b98a1270a211617f67ddc8e4ad9418d8ed2f9ee7fd3873",
+        "bytes": 71188
+      }
+    },
+    {
+      "id": "training.legend.checkpoint",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Punkt trasy — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low physical route checkpoint beacon, no lettering World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.checkpoint.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "d507d4de4d2fb4f4222156661b5a8e5773e9eaf82516339572f6f6fe6c1c6792",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.checkpoint.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "5a2d93e4bbe66a78f43dbe79ba7042983a07ab02991cee0427083bbb0526be26",
+        "bytes": 572308,
+        "bounds": {
+          "minX": 207,
+          "minY": 123,
+          "maxX": 816,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.checkpoint.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "8442b4dd35b508d3992efea3c2ddbdd103189b51f0aa73c852787985793a4947",
+        "bytes": 83178
+      }
+    },
+    {
+      "id": "training.legend.obstacle",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Przeszkoda treningowa — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a low freestanding practice obstacle with a simple broad collision footprint World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.obstacle.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "37065a05b6ddb3780c3ca5d5cf571582687c4a86c47bb01fff6ae773b586774f",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.obstacle.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "90a1243e2ad70c2ff9bf4624ebb6fdc15b14278c2b89d47a5f2503f7581955e7",
+        "bytes": 394668,
+        "bounds": {
+          "minX": 316,
+          "minY": 123,
+          "maxX": 708,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.obstacle.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "f59fe4e87c953588dfc5c19c14393a1055ec9c037048abc1d15f3f450f9696c2",
+        "bytes": 57000
+      }
+    },
+    {
+      "id": "training.legend.surrender",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "object",
+      "titlePl": "Znacznik poddania — Pyra",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a small nonviolent practice surrender marker, lowered pennant beside a training base World identity: Pyra / Legendy, basalt, obsidian, gold and ember crimson; ancient martial arenas, volcanic stone and battle-worn monuments. Produce ONE isolated modular game object, 1024x1024 master, transparent background, whole object visible with 12% padding. Orthographic top-down view, camera elevation 60 degrees, roll zero, visible south-facing facade, light from northwest.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/training.legend.surrender.v001.orig.png",
+        "originalFormat": "png",
+        "originalDimensions": [
+          1024,
+          1536
+        ],
+        "originalSha256": "865da3573dce893f8dd7956455cddb1a8e3978e895d66a9611b4cc1519cdda5f",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/training.legend.surrender.v001.png",
+        "format": "png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "sha256": "a142547ec625500253aa302185213664962eff54d56821ec8ff6b2750e9f56dc",
+        "bytes": 366752,
+        "bounds": {
+          "minX": 317,
+          "minY": 123,
+          "maxX": 706,
+          "maxY": 900
+        },
+        "origin": [
+          0.5,
+          0.88
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/objects/training.legend.surrender.webp",
+        "format": "webp",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "db41d4689bca7797a5cd7c2b1c36752f2fdaa8a85804fb2c42f1ac294599c365",
+        "bytes": 51456
+      }
+    },
+    {
+      "id": "ui.training.strength",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Siła",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a firmly clenched fist with a simple bronze bracer Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.strength.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "e3dd3cfc056e11534da1a41e0350deb663e2d41bee9285ecd328afe21a9d4c67",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.strength.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "c6006bce8b5849fc4fccefae9acea142911a05f34823fbfa1ee35a7e094a3ae7",
+        "bytes": 229981,
+        "bounds": {
+          "minX": 79,
+          "minY": 61,
+          "maxX": 432,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.strength.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "798f8641e9f668cc4a05e330dff1dd7629d9f01caf653508445bb0b801d4e887",
+        "bytes": 12004
+      }
+    },
+    {
+      "id": "ui.training.endurance",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Wytrzymałość",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a sturdy heart enclosed by a durable woven band Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.endurance.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "768a02b0bf5457bb79e44f17aec8feadfdd1191e971bbc26b7e6f0ccfe598a26",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.endurance.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "09032e915de9631a681a6de2922c7748dbdab559da6fe0ed0d7c2761616d5f67",
+        "bytes": 300562,
+        "bounds": {
+          "minX": 61,
+          "minY": 66,
+          "maxX": 450,
+          "maxY": 445
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.endurance.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "7bb3e684c6cf88db05c22d8f7805648e7e9abb517d7b8c43f0f61a938f5c2977",
+        "bytes": 14792
+      }
+    },
+    {
+      "id": "ui.training.ki-capacity",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Pojemność KI",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a luminous blue energy vessel filled to its rim Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.ki-capacity.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "b58e2ad22e5317e2155e5a609f993bb4a20217d89124ef1cbfa41c2d48d1676a",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.ki-capacity.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "c9c5b2bed9343df80c9070c7a37fc5df62db9af70f3c9d8d8534167475ead132",
+        "bytes": 261402,
+        "bounds": {
+          "minX": 109,
+          "minY": 61,
+          "maxX": 402,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.ki-capacity.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "ab38d7d1c88f10af7461cfef91a836cea98e07797fe8e49e72e83b207398867a",
+        "bytes": 14038
+      }
+    },
+    {
+      "id": "ui.training.defense",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Obrona",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a solid shield receiving a single glancing impact Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.defense.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "2e86ec5baf7b822da0d46604ff3b751aef98da64384b3e470216c76b1e1d3635",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.defense.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "476c89a88a00c91842fb451738ab9f22db632c9b1dedb09d22d1d331a1c3a894",
+        "bytes": 272372,
+        "bounds": {
+          "minX": 70,
+          "minY": 61,
+          "maxX": 441,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.defense.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "978d5719ed81c754dcf06cb8b812082bceb57b5a64f2ce8a5da024dcaabec67a",
+        "bytes": 13600
+      }
+    },
+    {
+      "id": "ui.training.ki-control",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Kontrola KI",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. two calm hands shaping a small precisely bounded energy sphere Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.ki-control.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "388ef2ce2aac7be35d59c42f9770ee474b85a030b08576219df05a578ccc72cd",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.ki-control.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "b1755e387ccafb229f5c886657c7230893a59c94b791764d0f6a8592d89cbf0d",
+        "bytes": 188868,
+        "bounds": {
+          "minX": 61,
+          "minY": 109,
+          "maxX": 450,
+          "maxY": 402
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.ki-control.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "e9ac7ca4ef59d15c5136b633d5495e87a82c610d9b6ebca9af7fc5b4b4573257",
+        "bytes": 11056
+      }
+    },
+    {
+      "id": "ui.training.dodge",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Unik",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a side-stepping boot and one clean curved motion trail Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.dodge.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "c5447c14679e5b8284b8d360d2b57e0e0271dba3307538f4b77c4733bcd00fce",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.dodge.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "e43b3d3e6e90eec6d68e4eb2f93756797d7f12067b6f90623bca9eaef77abf3d",
+        "bytes": 207256,
+        "bounds": {
+          "minX": 61,
+          "minY": 75,
+          "maxX": 450,
+          "maxY": 436
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.dodge.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "04585aeb0874d8c3c2d36a039a5274391b8d51ec7325a72b35f36be35e04ee19",
+        "bytes": 11928
+      }
+    },
+    {
+      "id": "ui.training.attack-speed",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Szybkość ataku",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. one blade with two restrained directional motion trails Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.attack-speed.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "43a2cc87bd4324270151bea547268e893c57ff042c49a53faee25723fb0d4842",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.attack-speed.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "bb8c18213a32e18896497b5003ff32776fd5c50adf88e23567f03123d71848c0",
+        "bytes": 205835,
+        "bounds": {
+          "minX": 72,
+          "minY": 61,
+          "maxX": 439,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.attack-speed.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "87f6ec69fa0591ba9d0b6222ff48caa4318328b6bbae056dcc404582d40e92ed",
+        "bytes": 15098
+      }
+    },
+    {
+      "id": "ui.training.technique",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Technika",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. a precisely focused energy point at the intersection of three controlled arcs Produce ONE square UI icon, 512x512 master, intended downsample 128x128 and readable at 32x32. Center the silhouette with 12% safe padding.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.training.technique.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "d40fd12d2180bee8c3749dbef0a4b5712c7766d228f6e5359dcdedf86ed2bfe0",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.training.technique.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "b0807f16ba31891ee5c19771c2407432520945bb4c5f034b9fb834ee6ec393cf",
+        "bytes": 192936,
+        "bounds": {
+          "minX": 61,
+          "minY": 63,
+          "maxX": 450,
+          "maxY": 448
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.training.technique.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "4ff3fb86ad205a62d0e0d513c5ac2cf12722a5e21f32e0984f0431d40bca2cdb",
+        "bytes": 15038
+      }
+    },
+    {
+      "id": "ui.exam.tier-1",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Stopień próby 1",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 1 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.exam.tier-1.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "630b1aef1d7e521a58892647da36f3e42ab5fd9c31eed9bd347566b877539161",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.exam.tier-1.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "60dcf65da171a058c21cbc000183f8574c903b64b3aa735fe747907b49f27a16",
+        "bytes": 295251,
+        "bounds": {
+          "minX": 61,
+          "minY": 61,
+          "maxX": 450,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.exam.tier-1.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "787068c8cd4905efdcc2a0b002e3e5c9f023dc03b36a2cd8399c450e27f03b49",
+        "bytes": 12958
+      }
+    },
+    {
+      "id": "ui.exam.tier-2",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Stopień próby 2",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 2 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.exam.tier-2.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "a1bb0c027184d361300afbfd53cd6216678dcd0d393d8952df72b969f76e5da0",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.exam.tier-2.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "3a9c1a673be82d663d0d34ac359df458ef020d7acb4672b95a05df725fc68203",
+        "bytes": 306261,
+        "bounds": {
+          "minX": 61,
+          "minY": 61,
+          "maxX": 450,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.exam.tier-2.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "bb54ec14f2fbcf9f6b63fa30ab7a91e5290e12f552345fbf74bb1b1eb2c26d6d",
+        "bytes": 13216
+      }
+    },
+    {
+      "id": "ui.exam.tier-3",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Stopień próby 3",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 3 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.exam.tier-3.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "e8448c8438f49b6dae6625b6689dfd69d4fa068637e246a0a5d78a9355ede7e4",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.exam.tier-3.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "7a9f5173dfb9b05390283251a6b0d102833352ac873cbce7f6080041801b9f73",
+        "bytes": 304497,
+        "bounds": {
+          "minX": 61,
+          "minY": 61,
+          "maxX": 450,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.exam.tier-3.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "6948c04b40bfff4ebfd0111876022a900959db2645a30c2ffb308e01d32c1614",
+        "bytes": 13240
+      }
+    },
+    {
+      "id": "ui.exam.tier-4",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Stopień próby 4",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 4 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.exam.tier-4.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "4b62741180f141d66302dda86b277750b582497a84614a6070c57bdf35bfe133",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.exam.tier-4.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "7cf10b404bb47997d34953c9fdd6e267a080285a7ab60e301ae157a9c3447b15",
+        "bytes": 320639,
+        "bounds": {
+          "minX": 61,
+          "minY": 61,
+          "maxX": 450,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.exam.tier-4.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "f9d4201c7a08467b587fabbce75224f0e191c215ff9823ed59c16391d401e15c",
+        "bytes": 14284
+      }
+    },
+    {
+      "id": "ui.exam.tier-5",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Stopień próby 5",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 5 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.exam.tier-5.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "c3e0474117c238d4abb1fd02d45457ae9428f8f0de6e083fa75950fb47e1ce38",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.exam.tier-5.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "e2880c6ed7e655ed93d188784111af1e31906f3abd23425dc5b680495dc76803",
+        "bytes": 363946,
+        "bounds": {
+          "minX": 61,
+          "minY": 61,
+          "maxX": 450,
+          "maxY": 450
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.exam.tier-5.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "0e97cf849375c4988033af4334d5a4270cb9ba8c4ae1fdc9811e325e1afef306",
+        "bytes": 16222
+      }
+    },
+    {
+      "id": "ui.exam.tier-6",
+      "version": "v001",
+      "batch": "PARTIA_2_P0",
+      "kind": "icon",
+      "titlePl": "Stopień próby 6",
+      "status": {
+        "candidate": true,
+        "needsRevision": false,
+        "ownerAccepted": false,
+        "validated": true,
+        "importedOptIn": true,
+        "published": false
+      },
+      "provenance": {
+        "generator": "Google Gemini Image Generation (subagent image-generator)",
+        "model": "gemini-3.1-flash-image",
+        "generatedAt": "2026-11-01",
+        "prompt": "Create a production asset for KI LEGENDS, a cohesive painted anime fantasy 2D action RPG. An exam rank emblem using exactly 6 large geometric notches arranged around one central gem. Same circular outline and visual weight as all other tier emblems. No Roman numerals or text.",
+        "referencesUsed": [
+          "art/production/heroes/planetary/painted-v1/masters/planetary-master-down.png",
+          "public/game/assets/anime-forest-v1/fountain.webp"
+        ],
+        "originalPath": "art/production/development/v001/originals/ui.exam.tier-6.v001.orig.jpg",
+        "originalFormat": "jpeg",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
+        "originalSha256": "ac6a19d6af753bdb0e78cd2f658b4b42ca58abc21dbf9734b51798bff4f34061",
+        "mattingApplied": "corner-floodfill-rgba-dehalo-12pct-padding"
+      },
+      "master": {
+        "path": "art/production/development/v001/masters/ui.exam.tier-6.v001.png",
+        "format": "png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "sha256": "bf565d7d1985b2a5700ed4c7c4ebf396bd00686349847dcda9323185d4243a42",
+        "bytes": 365270,
+        "bounds": {
+          "minX": 61,
+          "minY": 63,
+          "maxX": 450,
+          "maxY": 449
+        },
+        "origin": [
+          0.5,
+          0.5
+        ],
+        "alphaVerified": true
+      },
+      "client": {
+        "url": "/game/development-v1/icons/ui.exam.tier-6.webp",
+        "format": "webp",
+        "dimensions": [
+          128,
+          128
+        ],
+        "sha256": "61bb7054cc3e468270d25003791e4a8e6e8c703b3607c77de8bbdd79ae266db2",
+        "bytes": 18028
+      }
+    }
+  ]
+}

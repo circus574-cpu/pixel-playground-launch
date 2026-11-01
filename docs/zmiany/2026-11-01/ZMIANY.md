@@ -88,7 +88,7 @@
   - W zakładce **`🖥️ Serwery Gry i Zarządzanie`** dodano rozbudowany **Panel Zarządzania Aktywnym Serwerem**, który otwiera się automatycznie dla wybranego lub nowo utworzonego serwera (`handleCreateServer`).
   - Panel umożliwia bezpośrednie uruchamianie (`▶ Uruchom ten serwer`), zatrzymywanie (`⏹ Wyłącz ten serwer`), restartowanie (`🔄 Restartuj`), przełączanie w tryb konserwacji (`⏳ Tryb konserwacji`), usuwanie serwera oraz edycję na żywo nazwy, limitu slotów graczy, hosta/IP, portu, regionu i częstotliwości pętli tick (Hz).
 
-## Serwer jako właściciel postaci — partia trwałości (w realizacji)
+## Serwer jako właściciel postaci — partia trwałości (PR #69)
 
 Zlecenie właściciela: pełna gra serwerowa, bez cichego fallbacku lokalnego;
 zaakceptował nowe postacie testowe. Gałąź `feature/server-owned-characters`,
@@ -278,3 +278,64 @@ Zakres zaakceptowany: osobne instancje PvE postaci, nie wspólne potwory/PvP.
 - Pierwsza próba workflow nie miała plików migracji w sparse checkout: przerwana przed zmianą bazy. Druga wykonała kopię/migracje, lecz PHP nie mogło odczytać pliku skopiowanego jako root: konfiguracja jeszcze nie zmieniona. Poprawiono checkout i własność prywatnych plików; kolejna próba zakończona sukcesem.
 - Uwzględniono nowy main `2bca62ab522976ffbb3ec15c33085e9b62fd27e7`: zachowana pauza automatycznych Actions; nowy workflow serwera również wyłącznie ręczny. Publikacja wymaga ręcznego uruchomienia, zgoda na nią została udzielona.
 - Status w tym checkpointcie: konfiguracja i kopia gotowe; scalenie i produkcyjna weryfikacja pozostają do wykonania. Szersze stare regresje przeglądarkowe jeszcze trwają, nie wpisano PASS.
+### 6. Produkcja Zasobów Rozwoju — Etap 1 (Krok 0 Reuse, Partia 1 Test Stylu, Fundamenty P0, gałąź `feat/development-assets-etap1`)
+
+- **Krok 0 — Audyt Reuse i podpięcie 7 efektów dźwiękowych P0 (`src/game/sfx.ts`, `src/components/game/DevelopmentExam.tsx`)**:
+  - Zgodnie z wytycznymi katalogu (`START-TUTAJ.txt`) przeprowadzono audyt 56 istniejących plików MP3 ElevenLabs w `public/game/sfx/` i podpięto brakujące zdarzenia rozwoju w `cuesFor` oraz `DEVELOPMENT_SFX_REUSE`:
+    - `audio.development.dummy-hit` → `/game/sfx/common/hit.mp3` (uderzenie w manekin treningowy `training-dummy`),
+    - `audio.development.target-hit` → `/game/sfx/common/hit-armor.mp3` (trafienie w cel pomiarowy `practice-*`),
+    - `audio.development.checkpoint` → `/game/sfx/common/loot.mp3` (zaliczenie punktu trasy próby wytrzymałości),
+    - `audio.development.exam-start` → `/game/sfx/sage/A1.mp3` (otwarcie próby w sali egzaminacyjnej),
+    - `audio.development.exam-success` → `/game/sfx/common/quest-complete.mp3` (zaliczenie próby / ukończenie projektu),
+    - `audio.development.exam-fail` → `/game/sfx/common/no-energy.mp3` (niepowodzenie próby bez dramatyzmu śmierci),
+    - `audio.development.ki-charge` → `/game/sfx/sage/C1.mp3` (ładowanie węzła KI),
+    - awans stopnia treningu → `/game/sfx/common/level-up.mp3`.
+- **Wygenerowanie i post-processing 11 zasobów graficznych `v001` (`scripts/development/process-etap1-assets.ts`, `art/production/development/v001/manifest.json`)**:
+  - **Partia 1 (Test Stylu Verdantii — komplet 3 obiektów P0)**: `training.planetary.dummy`, `training.planetary.target`, `training.planetary.ki-node` + czwarty obiekt P0 `training.planetary.defense` (mastery `1024×1024` RGBA PNG z wycięciem tła flood-fill i de-haloingiem 2px, stopy wyrównane do `origin: [0.5, 0.88]`, eksport kliencki `512×512` bezstratny WebP).
+  - **Partia 2 (P0 UI)**: dedykowana ikona `ui.training.strength` + mapa reuse dla pozostałych 7 dyscyplin z `public/game/icons-v3/`, oraz komplet 6 emblematów stopni prób `ui.exam.tier-1` .. `ui.exam.tier-6` (od 1 do 6 symetrycznych nacięć geometrycznych wokół klejnotu, bez cyfr rzymskich; mastery `512×512` RGBA PNG z 12% marginesem → klient `128×128` WebP).
+  - Zachowano oryginalne odpowiedzi modelu `gemini-3.1-flash-image` w `art/production/development/v001/originals/` oraz arkusz kontrolny czytelności `128×128` i `32×32` w `art/production/development/v001/qa/etap1-review-sheet.png`.
+  - Pozostałe pozycje Partii 2 wstrzymano po osiągnięciu limitu okna modelu `gemini-3.1-flash-image` (`429 RESOURCE_EXHAUSTED`, reset po ~4h 57m) — zgodnie z regułą katalogu oczekują na odbiór właściciela dla Partii 1.
+- **Bezpieczna integracja opt-in (`?ki-dev-art=1`)**:
+  - Nowe zasoby są zgrupowane w `src/game/development/developmentAssets.ts` i zarejestrowane pod przełącznikiem `PREVIEW_SWITCHES["ki-dev-art"]` w `src/game/assets/catalog.ts`, dzięki czemu domyślna gra zachowuje dotychczasową prezentację do czasu akceptacji właściciela.
+
+
+### 7. Dokończenie pełnej puli assetów Etapu 1 (P0 Development, commit `f8dff1d8`, gałąź `feat/development-assets-etap1`)
+
+- **Komplet 46/46 grafik i 41/41 audio w `manifest.json`**:
+  - **Obiekty treningowe 4 ras (32 obiekty)**:
+    - Verdantia: `training.planetary.*` (dummy, target, ki-node, defense, ki-source, checkpoint, obstacle, surrender).
+    - Aetheria: `training.sage.*` (wszystkie 8 obiektów).
+    - Nexus-9: `training.android.*` (wszystkie 8 obiektów).
+    - Pyra: `training.legend.*` (wszystkie 8 obiektów zaimportowane z paczki właściciela `pyra.zip`, wyczyszczone z magenty do przezroczystych WebP).
+  - **Ikony dyscyplin treningowych (8 ikon)**:
+    - `ui.training.strength`, `endurance`, `agility`, `discipline`, `ki-control`, `ki-capacity`, `technique`, `attack-speed`.
+  - **Emblematy egzaminacyjne (6 emblematów rang)**:
+    - `ui.exam.tier-1` .. `tier-6`.
+  - **Efekty dźwiękowe (41 audio)**:
+    - Wygenerowane i podpięte zoptymalizowane pliki SFX i pętle ambience ElevenLabs v2.
+  - Wszystkie zasoby zintegrowane w `manifest.json`, `public/game/manifest.json` oraz `developmentAssets.ts`.
+
+### 8. System ekwipunku postaci, torba oraz depozyt miejski (commit `93d38fc2`, gałąź `feat/inventory-bag-and-city-depot`)
+
+- **Pełny 8-slotowy ekwipunek (`DiabloInventory.tsx`, `session.ts`)**:
+  - Odblokowano wszystkie 8 slotów w HUD postaci: `head` (Hełm), `weapon` (Broń), `armor` (Pancerz), `offhand` (Tarcza), `hands` (Rękawice), `ring` (Pierścień), `amulet` (Amulet), `feet` (Buty).
+  - Obsługa ubierania i zdejmowania przedmiotów z katalogu V2 (oraz klasycznych).
+  - Automatyczna zamiana miejsc (swap) w przypadku zajętego slotu.
+  - Dynamiczne zasilanie statystyk bojowych postaci (atak, obrona, szansa na trafienie krytyczne, szybkość) z uwzględnieniem pasywnych bonusów zestawowych (`computePassiveEquipmentBonuses`).
+- **Torba postaci (Siatka 40 slotów)**:
+  - Dodano pole `bagItems` w `PlayerSchema` z automatyczną migracją starszych zapisów gry.
+  - Prezentacja przedmiotów z katalogu, klasycznych oraz materiałów w siatce 40 komórek.
+  - Szczegółowe podpowiedzi (tooltip) prezentujące poziom, statystyki, efekty pasywne oraz przynależność do zestawu.
+  - Obsługa przedmiotów użytkowych (jedzenie / mikstury leczące).
+- **Depozyt miejski na pieniądze i ekwipunek (`CityPanels.tsx` – `DepotPanel`)**:
+  - **Skarbiec miejski (Złoto)**:
+    - Rozszerzono `depot` o pole `gold` z domyślną wartością 0 dla zachowania zgodności wstecznej.
+    - Dodano komendę `depot-gold` do wpłacania i wypłacania monet ze skarbca w bezpiecznym mieście.
+    - Szybkie przyciski kwotowe oraz przycisk „Wpłać wszystko” / „Wypłać wszystko”.
+  - **Skrzynia na ekwipunek**:
+    - Możliwość odkładania do depozytu dowolnych przedmiotów z torby oraz odbierania ich ze skrzyni (stosy do 99 sztuk).
+    - Ochrona przed odłożeniem aktualnie założonego na postać ekwipunku bez wcześniejszego zdjęcia.
+- **Weryfikacja**:
+  - Test jednostkowy `src/test/inventory-and-depot.test.ts` (4/4 PASS).
+  - Test katalogu `src/game/items/__tests__/items.test.ts` (8/8 PASS).
+  - Pełny typecheck (`tsc --noEmit` dla 3 tsconfigów): 0 błędów.
