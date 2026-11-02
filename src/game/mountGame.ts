@@ -1682,7 +1682,7 @@ export function mountKileGends(
           return;
         }
         badge.textContent =
-          `${m.renderer} ${m.fps} fps (p95 ${Math.round(m.frameP95Ms)} ms)\n` +
+          `${m.renderer} ${m.fps} fps (p95 ${Math.round(m.frameP95Ms)} ms · max ${Math.round(m.frameMaxMs ?? 0)} ms · >33 ms: ${m.slowFrames ?? 0})\n` +
           `obiekty ${m.visibleObjects}/${m.objects} tekstury ${m.textures} ` +
           `${Math.round(m.estimatedTextureBytes / 1048576)} MB\n` +
           `JS ${(jsTimes.reduce((a, b) => a + b, 0) / Math.max(1, jsTimes.length)).toFixed(1)} ms/klatkę` +

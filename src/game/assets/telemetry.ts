@@ -48,6 +48,9 @@ export function installRenderTelemetry(scene: Phaser.Scene, parent: HTMLElement)
       fps: Number(((count * 1000) / (now - start)).toFixed(2)),
       frameP50Ms: times[Math.floor(times.length * 0.5)] ?? null,
       frameP95Ms: times[Math.min(times.length - 1, Math.floor(times.length * 0.95))] ?? null,
+      // Spikes the average and p95 hide: the slowest frame and how many exceeded 33 ms.
+      frameMaxMs: times.length ? Math.max(...times) : null,
+      slowFrames: times.filter((t) => t > 33).length,
       objects: total,
       activeObjects: active,
       visibleObjects: visible,

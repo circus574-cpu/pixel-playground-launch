@@ -106,4 +106,6 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
   `foliage-occlusion.test.ts`. Pomiar w przeglądarce bez GPU: 15 fps z poprawką, 16 fps bez — bez różnicy.
 - Wyjście z budynku: wejście w oznaczoną strefę drzwi wychodzi z budynku (joystick, klawisze lub
   dotknięcie), bez osobnego działania; po wejściu jest 0,6 s przerwy. Test w `city.test.ts`.
+- Licznik `?ki-debug=1` pokazuje teraz także najgorszą klatkę i liczbę klatek powyżej 33 ms (średnia
+  i p95 ukrywały pojedyncze zacięcia). Odczyt z telefonu z tymi wartościami wskaże źródło szarpania.
 - Nie wdrożono: labirynty (PR #80) czekają na decyzję właściciela.
