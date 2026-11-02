@@ -246,6 +246,26 @@ Paczki `deliveries/enemy-*` nie są zainstalowane; nowe spawny dopiero po ukońc
 kontynentów. Istniejące dziki poza miastami nie oznaczają ukończenia nowego bestiariusza.
 Nie wszystkie słabości mają wykonalny typ ataku (np. woda/zimno).
 
+### Losowy łup z katalogu przedmiotów (01.11.2026)
+
+Źródło: `src/game/items/loot.ts`, wywołanie w `MonsterSystem.rollLoot` (ten sam kod w
+przeglądarce i w autorytatywnym serwerze `/ws/online`), testy `src/test/catalog-loot.test.ts`.
+
+- Każdy z 354 przedmiotów katalogu poza 12 kluczami fabularnymi (`category: "quest"`,
+  K-01…K-12 — nagrody kampanii) ma co najmniej jedno źródło losowego dropu.
+- Pula potwora: przedmioty jego kontynentu (`sourceContinent`; „all”/„neutral” — każdy
+  kontynent), których poziom mieści się w oknie [poziom − 3, poziom + 5] względem poziomu
+  potwora. Przedmiot bez poziomu dostaje poziom z rzadkości (pospolity 1, niepospolity 5,
+  rzadki 9, epicki 13, legendarny 17); poziom powyżej 18 liczy się jako 18.
+- Każde zabicie potwora (bez przywołańców i klonów) daje 8% szansy na jeden przedmiot.
+  Wybór w puli jest ważony rzadkością: pospolity 50, niepospolity 25, rzadki 10, epicki 4,
+  legendarny 1,5. Dotychczasowe materiały potworów i złoto losują się jak wcześniej.
+- Przedmiot trafia do 40-polowej torby (`bagItems`, stos do 99); przy pełnej torbie
+  zostaje na ziemi. Na ziemi świeci kolorem rzadkości.
+- Panel `/admin` (katalog przedmiotów) pokazuje dla każdego przedmiotu potwory, poziom i
+  dokładną szansę na pokonanie.
+- Łup bossów pozostaje podglądem: ich identyfikatory nagród nie należą do katalogu.
+
 <!-- BESTIARY:START -->
 
 ### Kontrakt grafiki potworów

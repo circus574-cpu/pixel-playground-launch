@@ -672,3 +672,24 @@ W odpowiedzi na wytyczne dotyczące Panelu Administracyjnego zrealizowano komple
   - W sekcji **"Postacie Serwera (Live)"** (`ServerCharacterManager`):
     - Obrazki przedmiotów w ekwipunku postaci, torbie i depozycie zostały opakowane w `ItemHoverTooltip`.
     - W selektorze dodawania przedmiotów z katalogu dodano filtry kategorii, rzadkości oraz sortowanie wielokryteriowe z podglądem wybranego przedmiotu.
+
+### 19. Losowy łup z całego katalogu przedmiotów i nazwy NPC w mniejszych miastach
+
+- Nowy system łupu (`src/game/items/loot.ts`): każdy przedmiot katalogu poza 12 kluczami
+  fabularnymi ma losowe źródło dropu z potworów swojego kontynentu i zbliżonego poziomu.
+  8% szansy na przedmiot przy każdym zabiciu, wybór ważony rzadkością. Zasady:
+  [Rozwój i walka](../../ROZWOJ-I-WALKA.md#losowy-łup-z-katalogu-przedmiotów-01112026).
+- Podniesiony przedmiot katalogu trafia do torby (`bagItems`, 40 pól); wcześniej podnoszenie
+  obsługiwało tylko 4 dawne przedmioty i materiały.
+- Naprawa: nagrody zadań v2 z przedmiotami katalogu przepadały po cichu
+  (`grantQuestReward` przyjmował tylko 4 dawne identyfikatory); teraz trafiają do torby.
+- `/admin`: katalog przedmiotów pokazuje losowe źródła z dokładną szansą.
+- NPC: w 12 mniejszych miastach postacie zadań (Nela, Oren, Lina, Toren, Hana, Daro, Nari,
+  Kael, Talen, Eko-0, KOR-9, VEX-3) nosiły nazwę „<miasto> · <rola>”, choć zadania kazały
+  rozmawiać z nimi po imieniu. Teraz rola, do której są przypięte, ma ich imię i powitanie.
+- Testy: `catalog-loot.test.ts` (pokrycie, okna poziomów, wagi, zgodność szans),
+  `town-npc-names.test.ts`. Pełny zestaw: 1057/1057, typecheck i lint bez błędów.
+- Lint: commity panelu admina z 01.11 (b1f7814, c029c20) trafiły na `main` z 113 błędami
+  lintu, więc bramka CI zatrzymała ich wdrożenie (przebiegi 28 i 29). Formatowanie poprawione
+  `eslint --fix`, dwa `as any` zastąpione typem stanu sortowania; produkcja do scalenia tego PR
+  pozostaje na `main@69555ee`.

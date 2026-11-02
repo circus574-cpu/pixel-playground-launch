@@ -3,6 +3,7 @@ import { HeritageWeaponCard } from "./HeritageWeaponCard";
 import { useState } from "react";
 import originArt from "../../game/world/origin-art.json";
 import {
+  BAG_CELLS,
   ITEMS,
   ITEM_IDS,
   MATERIALS,
@@ -67,8 +68,6 @@ function ItemIcon({ item }: { item: string }) {
     />
   );
 }
-
-const BAG_CELLS = 40;
 
 const SLOTS = [
   { id: "head", label: "Hełm", area: "head", icon: "helmet" },

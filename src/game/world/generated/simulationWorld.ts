@@ -7,6 +7,8 @@ import type { Obstacle } from "../../movement";
 import type { Player } from "../../session";
 import type { FeatureInfo, FeatureId } from "./superiorSave";
 import type { v2Places } from "../../worlds/v2Places";
+import { ALL_CITIES_V2 } from "../../worlds";
+import { getNpcDialogue } from "../../dialogue";
 type Settlement = Point & { id: string; name: string; kind: string; bounds: Obstacle };
 export type SuperiorSimulationSource = {
   feature: FeatureId;
@@ -33,6 +35,27 @@ const names: Record<BuildingId, string> = {
   depot: "Depozyt",
   arena: "Arena treningowa",
 };
+
+/**
+ * The quest NPC of a v2 town (Nela, Toren, Kael, …) bound to a game role there, so "talk to <name>"
+ * objectives point at an NPC the player can find by that name.
+ */
+export function boundTownNpc(
+  affinity: string,
+  settlement: string,
+  places: ReturnType<typeof v2Places> | undefined,
+  role: string,
+): { id: string; name: string; greeting?: string } | undefined {
+  const city = Object.entries(places?.cities ?? {}).find(
+    ([, c]) => c.settlement === settlement,
+  )?.[0];
+  const npc = ALL_CITIES_V2.find((c) => c.id === city)?.npcs.find(
+    (b) => b.bindingId === affinity + ".npc." + role,
+  );
+  if (!npc) return undefined;
+  const greeting = getNpcDialogue(npc.id)?.greetings[0];
+  return { id: npc.id, name: npc.name, ...(greeting ? { greeting } : {}) };
+}
 
 export function buildSuperiorSimulationWorld(options: {
   source: SuperiorSimulationSource;
@@ -82,12 +105,16 @@ export function buildSuperiorSimulationWorld(options: {
           description: names[b.service as BuildingId],
         })),
       };
-      npcs = base.npcs.map((n) => ({
-        ...n,
-        name: town.name + " · " + n.role,
-        x: town.x + (n.id === "hunter" ? -120 : 120),
-        y: town.y + 180,
-      }));
+      npcs = base.npcs.map((n) => {
+        const named = boundTownNpc(info.affinity, town.id, places, n.id);
+        return {
+          ...n,
+          name: named ? named.name : town.name + " · " + n.role,
+          ...(named?.greeting ? { dialogue: named.greeting } : {}),
+          x: town.x + (n.id === "hunter" ? -120 : 120),
+          y: town.y + 180,
+        };
+      });
       market = { ...base.market, x: town.x, y: town.y };
     }
     cities.set(town.id, { city, npcs, market });

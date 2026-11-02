@@ -44,9 +44,8 @@ describe("Admin content catalogue uses actual loot definitions", () => {
   });
 
   it("applies admin custom loot chances to runtime monsters and bosses", async () => {
-    const { applyAdminWorldOverridesToRuntime, readAdminWorldOverrides } = await import(
-      "../game/world/adminWorldStore"
-    );
+    const { applyAdminWorldOverridesToRuntime, readAdminWorldOverrides } =
+      await import("../game/world/adminWorldStore");
     const { MONSTERS } = await import("../game/monsters/catalog");
     const { BOSS_CATALOG } = await import("../game/bosses/catalog");
 

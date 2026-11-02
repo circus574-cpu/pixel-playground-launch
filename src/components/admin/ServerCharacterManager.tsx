@@ -79,7 +79,9 @@ export function ServerCharacterManager() {
   const [itemSearch, setItemSearch] = useState<string>("");
   const [itemCategoryFilter, setItemCategoryFilter] = useState<string>("all");
   const [itemRarityFilter, setItemRarityFilter] = useState<string>("all");
-  const [itemSortBy, setItemSortBy] = useState<"name" | "id" | "level" | "price" | "rarity">("name");
+  const [itemSortBy, setItemSortBy] = useState<"name" | "id" | "level" | "price" | "rarity">(
+    "name",
+  );
 
   // Wczytywanie listy postaci serwera
   const loadCharacters = useCallback(async () => {
@@ -267,7 +269,8 @@ export function ServerCharacterManager() {
       if (itemSortBy === "id") return a.id.localeCompare(b.id);
       if (itemSortBy === "level") return (a.level ?? 0) - (b.level ?? 0);
       if (itemSortBy === "price") return a.price - b.price;
-      if (itemSortBy === "rarity") return (rarityOrder[b.rarity] ?? 0) - (rarityOrder[a.rarity] ?? 0);
+      if (itemSortBy === "rarity")
+        return (rarityOrder[b.rarity] ?? 0) - (rarityOrder[a.rarity] ?? 0);
       return 0;
     });
 
@@ -1849,7 +1852,15 @@ export function ServerCharacterManager() {
                       ➕ Dodaj przedmiot do Torby lub Depozytu z Katalogu Gry:
                     </div>
 
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 8,
+                        flexWrap: "wrap",
+                        marginBottom: 8,
+                        alignItems: "center",
+                      }}
+                    >
                       <input
                         placeholder="Szukaj (nazwa, ID, typ)..."
                         value={itemSearch}
@@ -1894,7 +1905,7 @@ export function ServerCharacterManager() {
 
                       <select
                         value={itemSortBy}
-                        onChange={(e) => setItemSortBy(e.target.value as any)}
+                        onChange={(e) => setItemSortBy(e.target.value as typeof itemSortBy)}
                         style={{ minWidth: 130 }}
                       >
                         <option value="name">Sortuj: Nazwa (A-Z)</option>
@@ -1905,7 +1916,15 @@ export function ServerCharacterManager() {
                       </select>
                     </div>
 
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 8,
+                        flexWrap: "wrap",
+                        marginBottom: 8,
+                        alignItems: "center",
+                      }}
+                    >
                       {selectedCatalogItem && (
                         <ItemHoverTooltip id={selectedCatalogItem}>
                           <img
