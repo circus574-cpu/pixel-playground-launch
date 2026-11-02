@@ -3,10 +3,9 @@
  * (kept with the game's saves, so it follows the account to other devices); its tools are
  * enabled only while the signed-in account still holds the role in the database.
  */
-import { supabase } from "../../integrations/supabase/client";
+import { accessToken, authSnapshot } from "./vpsAuth";
 import { isPlaytest } from "../playtest";
 import type { StaffRole } from "../session";
-import { myRoles } from "./cloudPort";
 import type { KeyStorage } from "./cloudSaves";
 
 export const STAFF_KEY = "ki-legends:staff-characters";
@@ -42,9 +41,8 @@ export async function verifiedStaffRole(characterId: string): Promise<StaffRole 
   const mark = staffMark(window.localStorage, characterId);
   if (!mark) return null;
   try {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) return null;
-    return grants(await myRoles(data.session.user.id), mark);
+    await accessToken();
+    return grants(authSnapshot().account?.roles ?? [], mark);
   } catch {
     return null;
   }

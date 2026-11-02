@@ -228,3 +228,12 @@
     gap: 2px;
   }
 }
+
+.ki-account-link {
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  color: #f5d48a;
+  text-decoration: underline;
+  cursor: pointer;
+}
