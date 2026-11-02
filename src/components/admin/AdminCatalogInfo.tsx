@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { catalog, monsterVisual } from "@/game/assets/catalog";
 import { getItemById } from "@/game/items";
 import { PASSIVE_BUFF_SET_BONUSES } from "@/game/items/catalog";
-import { itemBonuses, itemSources, monsterDrops, percent } from "@/game/admin/contentCatalog";
+import { itemBonuses, itemSourceGroups, monsterDrops, percent } from "@/game/admin/contentCatalog";
 import { monsterDef } from "@/game/monsters/catalog";
 import { MATERIALS } from "@/game/monsters/materials";
 import { ITEMS, type ItemId } from "@/game/session";
@@ -154,217 +155,260 @@ const CATEGORY_NAMES: Record<string, string> = {
 /**
  * Rich Item Hover Tooltip explaining exactly what an item gives (stats, passives, effects, value, sources).
  */
+/** Click or tap an item anywhere in the admin panel to open its details in a centred window. */
 export function ItemHoverTooltip({ id, children }: { id: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
+  return (
+    <>
+      <span
+        className="ki-item-tooltip-anchor"
+        role="button"
+        tabIndex={0}
+        title="Kliknij, aby zobaczyć szczegóły przedmiotu"
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(true);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
+      >
+        {children}
+      </span>
+      {open && <ItemDetailsModal id={id} onClose={() => setOpen(false)} />}
+    </>
+  );
+}
+
+export function ItemDetailsModal({ id, onClose }: { id: string; onClose: () => void }) {
   const item = getItemById(id);
   const runtimeItem = id in ITEMS ? ITEMS[id as ItemId] : undefined;
   const material = id in MATERIALS ? MATERIALS[id] : undefined;
-
   const name = item?.name ?? runtimeItem?.name ?? material?.name ?? id;
   const category = item?.category ?? runtimeItem?.type ?? (material ? "material" : "Inne");
   const rarity = item?.rarity ?? (material ? "uncommon" : "common");
-  const bonuses = itemBonuses(item?.stats);
-  const sources = itemSources(id);
-
-  // Runtime item base stats if not in catalog
   const runtimeStats: string[] = [];
-  if (runtimeItem) {
-    if (runtimeItem.attack > 0) runtimeStats.push(`Atak: +${runtimeItem.attack}`);
-    if (runtimeItem.defense > 0) runtimeStats.push(`Obrona: +${runtimeItem.defense}`);
-  }
-  if (material) {
-    runtimeStats.push(`Poziom materiału: ${material.level}`);
-  }
+  if (runtimeItem?.attack) runtimeStats.push(`Atak: +${runtimeItem.attack}`);
+  if (runtimeItem?.defense) runtimeStats.push(`Obrona: +${runtimeItem.defense}`);
+  if (material) runtimeStats.push(`Poziom materiału: ${material.level}`);
+  const bonuses = itemBonuses(item?.stats);
+  const stats = bonuses.length > 0 ? bonuses : runtimeStats;
+  const groups = itemSourceGroups(id);
+  const price = (item?.price ?? runtimeItem?.price) || undefined;
+  const sell = (runtimeItem?.sell ?? material?.sell) || undefined;
+  const [iconFailed, setIconFailed] = useState(false);
 
-  const allStatBonuses = bonuses.length > 0 ? bonuses : runtimeStats;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
 
-  return (
+  if (typeof document === "undefined") return null;
+  return createPortal(
     <div
-      className="ki-item-tooltip-anchor"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
+      className="ki-item-modal-backdrop"
+      onClick={onClose}
+      role="presentation"
+      data-testid="item-modal-backdrop"
     >
-      {children}
-      {open && (
-        <div className={`ki-item-tooltip ki-rarity-${rarity}`} role="tooltip">
-          {/* Header */}
-          <div className="ki-tooltip-header">
-            <div className={`ki-tooltip-icon-box ki-border-${rarity}`}>
+      <div
+        className={`ki-item-modal ki-rarity-${rarity}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Szczegóły przedmiotu: ${name}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <header className="ki-item-modal-head">
+          <div className={`ki-item-modal-icon ki-border-${rarity}`}>
+            {!iconFailed ? (
               <img
                 src={item?.iconUrl ?? `/game/items/${encodeURIComponent(id)}.webp`}
-                alt={name}
-                className="ki-tooltip-img"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = "none";
-                }}
+                alt=""
+                onError={() => setIconFailed(true)}
               />
-            </div>
-            <div className="ki-tooltip-title-area">
-              <strong className={`ki-tooltip-title ki-text-${rarity}`}>{name}</strong>
-              <div className="ki-tooltip-tags">
-                <span className={`ki-tag-rarity ki-bg-${rarity}`}>
-                  {RARITY_NAMES[rarity] ?? rarity}
-                </span>
-                <span className="ki-tag-category">{CATEGORY_NAMES[category] ?? category}</span>
-                {item?.level != null && (
-                  <span className="ki-tag-level">Wym. poz. {item.level}</span>
-                )}
-              </div>
-              <small className="ki-tooltip-id">ID: {id}</small>
-            </div>
-          </div>
-
-          {/* Statystyki & Co daje dany przedmiot */}
-          <div className="ki-tooltip-body">
-            <div className="ki-tooltip-section-title">Co daje ten przedmiot:</div>
-            {allStatBonuses.length > 0 ? (
-              <div className="ki-tooltip-stats-grid">
-                {allStatBonuses.map((b) => (
-                  <div key={b} className="ki-tooltip-stat-pill">
-                    <span className="ki-stat-bullet">✦</span> {b}
-                  </div>
-                ))}
-              </div>
             ) : (
-              <div className="ki-tooltip-no-stats">
-                Przedmiot fabularny lub rzemieślniczy bez bezpośrednich premii liczbowych.
-              </div>
-            )}
-
-            {/* Pasywny Buff */}
-            {item?.buff && (
-              <div className="ki-tooltip-buff">
-                <strong>✨ Efekt pasywny:</strong>{" "}
-                {itemBonuses({ [item.buff.effect]: item.buff.value }).join(" · ")}
-                <div className="ki-tooltip-hint">Działa stale po założeniu w oknie ekwipunku.</div>
-              </div>
-            )}
-
-            {/* Opis Działania / Efekt */}
-            {item?.effectDescription && (
-              <div className="ki-tooltip-effect">
-                <strong>Działanie:</strong> {item.effectDescription}
-              </div>
-            )}
-
-            {/* Zestaw Przedmiotów */}
-            {item?.setId && (
-              <div className="ki-tooltip-set">
-                <strong>💎 Zestaw: {item.setId}</strong>
-                <ul>
-                  {(PASSIVE_BUFF_SET_BONUSES[item.setId] ?? []).map((rule) => (
-                    <li key={rule.requiredPieces}>
-                      {rule.requiredPieces} części:{" "}
-                      {itemBonuses({ [rule.effect]: rule.value }).join(" · ")}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Ceny Monet */}
-            <div className="ki-tooltip-prices">
-              {(item?.price ?? runtimeItem?.price) !== undefined && (
-                <span>
-                  Kupno: <b>{item?.price ?? runtimeItem?.price}</b> monet
-                </span>
-              )}
-              {(runtimeItem?.sell ?? material?.sell) !== undefined && (
-                <span>
-                  Sprzedaż: <b>{runtimeItem?.sell ?? material?.sell}</b> monet
-                </span>
-              )}
-            </div>
-
-            {/* Gdzie zdobyć (Drop / Receptura / Zadanie) */}
-            {sources.length > 0 && (
-              <div className="ki-tooltip-sources">
-                <strong>Skąd zdobyć:</strong>
-                <ul>
-                  {sources.slice(0, 3).map((s) => (
-                    <li key={s}>{s}</li>
-                  ))}
-                  {sources.length > 3 && (
-                    <li className="ki-sources-more">+ {sources.length - 3} innych źródeł...</li>
-                  )}
-                </ul>
-              </div>
+              <small>Brak ikony</small>
             )}
           </div>
+          <div className="ki-item-modal-title">
+            <strong className={`ki-text-${rarity}`}>{name}</strong>
+            <div className="ki-tooltip-tags">
+              <span className={`ki-tag-rarity ki-bg-${rarity}`}>
+                {RARITY_NAMES[rarity] ?? rarity}
+              </span>
+              <span className="ki-tag-category">{CATEGORY_NAMES[category] ?? category}</span>
+              {item?.level != null && <span className="ki-tag-level">Wym. poz. {item.level}</span>}
+            </div>
+            <small className="ki-tooltip-id">ID: {id}</small>
+          </div>
+          <button className="ki-item-modal-close" onClick={onClose} aria-label="Zamknij">
+            ×
+          </button>
+        </header>
+
+        <div className="ki-item-modal-body">
+          {item?.description && <p className="ki-item-modal-desc">{item.description}</p>}
+
+          <h4>Co daje</h4>
+          {stats.length > 0 ? (
+            <div className="ki-tooltip-stats-grid">
+              {stats.map((b) => (
+                <div key={b} className="ki-tooltip-stat-pill">
+                  <span className="ki-stat-bullet">✦</span> {b}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="ki-tooltip-no-stats">Bez bezpośrednich premii liczbowych.</p>
+          )}
+          {item?.buff && (
+            <p className="ki-tooltip-buff">
+              <strong>Efekt pasywny:</strong>{" "}
+              {itemBonuses({ [item.buff.effect]: item.buff.value }).join(" · ")} — działa po
+              założeniu.
+            </p>
+          )}
+          {item?.effectDescription && (
+            <p className="ki-tooltip-effect">
+              <strong>Działanie:</strong> {item.effectDescription}
+            </p>
+          )}
+          {item?.setId && (
+            <div className="ki-tooltip-set">
+              <strong>Zestaw {item.setId}</strong>
+              <ul>
+                {(PASSIVE_BUFF_SET_BONUSES[item.setId] ?? []).map((rule) => (
+                  <li key={rule.requiredPieces}>
+                    {rule.requiredPieces} części:{" "}
+                    {itemBonuses({ [rule.effect]: rule.value }).join(" · ")}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {(price !== undefined || sell !== undefined) && (
+            <p className="ki-tooltip-prices">
+              {price !== undefined && (
+                <span>
+                  Cena: <b>{price}</b> monet
+                </span>
+              )}
+              {sell !== undefined && (
+                <span>
+                  Sprzedaż: <b>{sell}</b> monet
+                </span>
+              )}
+            </p>
+          )}
+
+          <h4>Skąd zdobyć</h4>
+          {groups.shop !== null && <p>Kupiec w osadzie: {groups.shop} monet (bez losowania).</p>}
+          {groups.drops.length > 0 && (
+            <div className="ki-table-scroll">
+              <table className="ki-admin-table ki-compact-table">
+                <thead>
+                  <tr>
+                    <th>Potwór</th>
+                    <th>Kraina</th>
+                    <th>Poz.</th>
+                    <th>Szansa</th>
+                    <th>Rodzaj</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {groups.drops.map((d) => (
+                    <tr key={d.monster + d.random}>
+                      <td>{d.monster}</td>
+                      <td>{d.world}</td>
+                      <td>{d.level}</td>
+                      <td>{percent(d.chance)}</td>
+                      <td>{d.random ? "losowy" : "stały łup"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {groups.bosses.map((b) => (
+            <p key={b.boss}>
+              Boss {b.boss} ({b.location}): {b.chancePercent}%, {b.min}–{b.max} szt.
+            </p>
+          ))}
+          {groups.recipes.map((r) => (
+            <p key={r.name}>
+              Receptura „{r.name}” ({r.station}, poz. {r.level}, {r.coins} monet): {r.ingredients}
+            </p>
+          ))}
+          {groups.quests.map((q) => (
+            <p key={q.title}>
+              Zadanie „{q.title}”: nagroda ×{q.count}
+            </p>
+          ))}
+          {groups.shop === null &&
+            !groups.drops.length &&
+            !groups.bosses.length &&
+            !groups.recipes.length &&
+            !groups.quests.length && <p>Brak źródła w tabelach dropu, zadań i receptur.</p>}
         </div>
-      )}
-    </div>
+      </div>
+    </div>,
+    document.body,
   );
 }
 
 export function ItemCatalogInfo({ id }: { id: string }) {
   const item = getItemById(id),
-    sources = itemSources(id),
+    groups = itemSourceGroups(id),
     bonuses = itemBonuses(item?.stats);
   const [failed, setFailed] = useState(false);
+  const [open, setOpen] = useState(false);
+  const randomDrops = groups.drops.filter((d) => d.random).length;
+  const fixedDrops = groups.drops.length - randomDrops;
+  const summary = [
+    groups.shop !== null ? "kupiec" : "",
+    randomDrops ? `losowy drop: ${randomDrops} potw.` : "",
+    fixedDrops ? `stały łup: ${fixedDrops} potw.` : "",
+    groups.bosses.length ? `bossowie: ${groups.bosses.length}` : "",
+    groups.recipes.length ? `receptury: ${groups.recipes.length}` : "",
+    groups.quests.length ? `zadania: ${groups.quests.length}` : "",
+  ].filter(Boolean);
 
   return (
     <div className="ki-catalog-info">
-      <ItemHoverTooltip id={id}>
-        <div
-          className="ki-catalog-item-wrapper"
-          title="Najedź, aby zobaczyć szczegóły i statystyki przedmiotu"
-        >
-          {!failed ? (
-            <img
-              className="ki-catalog-item ki-catalog-item-interactive"
-              loading="lazy"
-              src={item?.iconUrl ?? `/game/items/${encodeURIComponent(id)}.webp`}
-              alt={`Grafika: ${item?.name ?? id}`}
-              onError={() => setFailed(true)}
-            />
-          ) : (
-            <div className="ki-catalog-item ki-catalog-item-placeholder">
-              <small>Brak ikony</small>
-            </div>
-          )}
-          <span className="ki-hover-hint-badge" aria-hidden="true">
-            Najedź
-          </span>
-        </div>
-      </ItemHoverTooltip>
-
+      <button
+        type="button"
+        className="ki-catalog-item-wrapper"
+        onClick={() => setOpen(true)}
+        aria-label={`Szczegóły: ${item?.name ?? id}`}
+      >
+        {!failed ? (
+          <img
+            className="ki-catalog-item ki-catalog-item-interactive"
+            loading="lazy"
+            src={item?.iconUrl ?? `/game/items/${encodeURIComponent(id)}.webp`}
+            alt=""
+            onError={() => setFailed(true)}
+          />
+        ) : (
+          <div className="ki-catalog-item ki-catalog-item-placeholder">
+            <small>Brak ikony</small>
+          </div>
+        )}
+      </button>
       {bonuses.length > 0 && <p className="ki-bonuses-preview">{bonuses.join(" · ")}</p>}
-      {item?.buff && (
-        <p>
-          Buff pasywny: {itemBonuses({ [item.buff.effect]: item.buff.value }).join(" · ")}; działa
-          po założeniu, do zdjęcia.
-        </p>
-      )}
-      {item?.effectDescription && <p>{item.effectDescription}</p>}
-      {item?.setId && (
-        <div>
-          <p>Zestaw: {item.setId}</p>
-          <ul>
-            {(PASSIVE_BUFF_SET_BONUSES[item.setId] ?? []).map((rule) => (
-              <li key={rule.requiredPieces}>
-                {rule.requiredPieces} części:{" "}
-                {itemBonuses({ [rule.effect]: rule.value }).join(" · ")}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <strong>Skąd zdobyć</strong>
-      {sources.length ? (
-        <ul>
-          {sources.map((s) => (
-            <li key={s}>{s}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>
-          Brak skonfigurowanego źródła w tabelach dropu, zadań i receptur. Sama obecność w katalogu
-          nie oznacza dostępności w grze.
-        </p>
-      )}
+      <p className="ki-sources-summary">
+        <strong>Źródła:</strong> {summary.length ? summary.join(" · ") : "brak"}
+      </p>
+      <button type="button" className="ki-details-button" onClick={() => setOpen(true)}>
+        Szczegóły
+      </button>
+      {open && <ItemDetailsModal id={id} onClose={() => setOpen(false)} />}
     </div>
   );
 }

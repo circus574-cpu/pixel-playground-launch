@@ -51,6 +51,62 @@ export function itemSources(id: string) {
       sources.push(`Zadanie: ${q.title} · nagroda ×${q.reward.itemCount ?? 1} po ukończeniu`);
   return sources;
 }
+export type ItemSourceGroups = {
+  shop: number | null;
+  drops: { monster: string; world: string; level: number; chance: number; random: boolean }[];
+  bosses: { boss: string; location: string; chancePercent: number; min: number; max: number }[];
+  recipes: { name: string; station: string; level: number; coins: number; ingredients: string }[];
+  quests: { title: string; count: number }[];
+};
+/** The same sources as `itemSources`, structured for tables in the admin item window. */
+export function itemSourceGroups(id: string): ItemSourceGroups {
+  const groups: ItemSourceGroups = { shop: null, drops: [], bosses: [], recipes: [], quests: [] };
+  if (id in ITEMS && ITEMS[id as ItemId].price > 0) groups.shop = ITEMS[id as ItemId].price;
+  for (const m of Object.values(MONSTER_DEFS)) {
+    if (m.minion && m.id !== "boar") continue;
+    for (const drop of monsterDrops(m.id))
+      if (drop.id === id)
+        groups.drops.push({
+          monster: m.name,
+          world: WORLDS[m.world].name,
+          level: m.level,
+          chance: drop.chance,
+          random: false,
+        });
+  }
+  for (const { monster, chance } of itemDropChances(id))
+    groups.drops.push({
+      monster: monster.name,
+      world: WORLDS[monster.world].name,
+      level: monster.level,
+      chance,
+      random: true,
+    });
+  groups.drops.sort((a, b) => b.chance - a.chance);
+  for (const b of BOSS_CATALOG)
+    for (const drop of b.lootTable)
+      if (drop.itemId === id)
+        groups.bosses.push({
+          boss: b.name,
+          location: b.locationName,
+          chancePercent: drop.chancePercent,
+          min: drop.minCount,
+          max: drop.maxCount,
+        });
+  for (const r of CRAFTING_RECIPES)
+    if (r.resultItemId === id)
+      groups.recipes.push({
+        name: r.name,
+        station: r.station,
+        level: r.requiredLevel,
+        coins: r.craftingCostCoins,
+        ingredients: r.ingredients.map((i) => `${i.itemId} ×${i.count}`).join(", "),
+      });
+  for (const q of ALL_QUESTS_V2)
+    if (q.reward.itemId === id)
+      groups.quests.push({ title: q.title, count: q.reward.itemCount ?? 1 });
+  return groups;
+}
 const labels: Record<keyof ItemStats, string> = {
   hpBonus: "HP",
   kiBonus: "KI",

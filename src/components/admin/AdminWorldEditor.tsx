@@ -53,6 +53,7 @@ import {
   type AdventureRoad,
 } from "@/game/worlds";
 
+import { AdminSpawnList } from "./AdminSpawnList";
 const AdminWorldMap = lazy(() =>
   import("./AdminWorldMap").then((m) => ({ default: m.AdminWorldMap })),
 );
@@ -60,6 +61,7 @@ const AdminWorldMap = lazy(() =>
 export type WorldEditorTab =
   | "worldmap"
   | "map"
+  | "spawns"
   | "continents"
   | "cities"
   | "places"
@@ -123,7 +125,7 @@ export function AdminWorldEditor({
     <div className={`ki-world-editor ${compact ? "is-compact" : ""}`}>
       <header className="ki-world-editor-header">
         <div>
-          <strong>Edytor Świata gry (Master World Panel)</strong>
+          <strong>Edytor świata</strong>
           <small style={{ marginLeft: 8 }}>
             Aktywne modyfikacje: <b>{activeCount}</b>
           </small>
@@ -176,23 +178,21 @@ export function AdminWorldEditor({
       <nav className="ki-admin-tabs" role="tablist" aria-label="Kategorie edytora świata">
         {(
           [
-            ["worldmap", "Mapa świata 2D"],
-            ["map", "Mapa i Spawny (10 lądów)"],
-            ["continents", "Stolice, Budynki i NPC (4)"],
-            ["cities", `Miasta V2 (${ALL_CITIES_V2.length})`],
-            [
-              "places",
-              `Lokacje, Szlaki i Eventy (${ALL_FAMOUS_LOCATIONS_V2.length + ALL_HIDDEN_PLACES_V2.length + ALL_ROADS_V2.length + ALL_WORLD_EVENTS_V2.length})`,
-            ],
+            ["worldmap", "Mapa świata"],
+            ["map", "Lądy i nowe spawny"],
+            ["spawns", "Spawny (lista)"],
             ["monsters", `Potwory (${MONSTER_BASE.length})`],
             ["bosses", `Bossowie (${BOSS_CATALOG.length})`],
-            ["races", "Rasy i Drzewka (4×29)"],
+            ["items", `Przedmioty (${ITEM_CATALOG.length})`],
+            ["quests", `Zadania (${ALL_QUESTS_V2.length})`],
+            ["continents", "Stolice i NPC"],
+            ["cities", `Miasta (${ALL_CITIES_V2.length})`],
             [
-              "items",
-              `Przedmioty i Rzemiosło (${ITEM_IDS.length + MATERIAL_IDS.length + ITEM_CATALOG.length + CRAFTING_RECIPES.length})`,
+              "places",
+              `Lokacje i szlaki (${ALL_FAMOUS_LOCATIONS_V2.length + ALL_HIDDEN_PLACES_V2.length + ALL_ROADS_V2.length + ALL_WORLD_EVENTS_V2.length})`,
             ],
-            ["quests", `Zadania i Dialogi (${ALL_QUESTS_V2.length})`],
-            ["io", "Eksport / Import JSON"],
+            ["races", "Rasy i drzewka"],
+            ["io", "Eksport / import"],
           ] as const
         ).map(([id, label]) => (
           <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>
@@ -222,6 +222,8 @@ export function AdminWorldEditor({
           onSpawnLiveBoss={onSpawnLiveBoss}
         />
       )}
+
+      {tab === "spawns" && <AdminSpawnList overrides={overrides} onTeleport={onTeleport} />}
 
       {tab === "continents" && (
         <ContinentsAndNpcsSection
@@ -2117,35 +2119,52 @@ function BossesSection({
   const list = BOSS_CATALOG.filter(
     (b) => b.name.toLowerCase().includes(q) || b.title.toLowerCase().includes(q),
   );
+  const field = (
+    b: (typeof BOSS_CATALOG)[number],
+    label: string,
+    value: number,
+    patch: (v: number) => Record<string, number>,
+    step = 1,
+  ) => (
+    <label className="ki-boss-field">
+      <span>{label}</span>
+      <input
+        type="number"
+        step={step}
+        value={value}
+        onChange={(e) =>
+          saveOverrides((d) => {
+            d.bosses[b.id] = { ...(d.bosses[b.id] ?? {}), ...patch(Number(e.target.value)) };
+          })
+        }
+      />
+    </label>
+  );
 
   return (
     <section className="ki-admin-panel">
-      <h3>Bossowie ({list.length}) — Statystyki, Lokalizacje i Przywołanie</h3>
-      <table className="ki-admin-table">
-        <thead>
-          <tr>
-            <th>Boss</th>
-            <th>Tytuł</th>
-            <th>Kraina</th>
-            <th>Poz.</th>
-            <th>HP</th>
-            <th>ATK</th>
-            <th>DEF</th>
-            <th>XP</th>
-            <th>Szybkość</th>
-            <th>Zasięg</th>
-            <th>Lokalizacja</th>
-            <th>Łup (Szansa dropu %)</th>
-            <th>Akcje</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((b) => {
-            const ov = overrides.bosses[b.id] ?? {};
-            return (
-              <tr key={b.id}>
-                <td>
+      <h3>Bossowie ({list.length})</h3>
+      <p className="ki-section-hint">
+        Animacja, statystyki, ataki, fazy i łup każdego bossa. Zmiany zapisują się jako nadpisania
+        świata na tym urządzeniu.
+      </p>
+      <div className="ki-boss-grid">
+        {list.map((b) => {
+          const ov = overrides.bosses[b.id] ?? {};
+          return (
+            <article key={b.id} className="ki-boss-card">
+              <div className="ki-boss-preview">
+                <img
+                  src={b.animWebpUrl ?? `/game/bosses/${b.id}_idle.webp`}
+                  alt={`Boss ${b.name}`}
+                  loading="lazy"
+                />
+              </div>
+              <div className="ki-boss-main">
+                <header>
                   <input
+                    className="ki-boss-name"
+                    aria-label={`Nazwa bossa ${b.id}`}
                     value={b.name}
                     onChange={(e) =>
                       saveOverrides((d) => {
@@ -2153,11 +2172,8 @@ function BossesSection({
                       })
                     }
                   />
-                  <br />
-                  <small>{b.id}</small>
-                </td>
-                <td>
                   <input
+                    aria-label={`Tytuł bossa ${b.id}`}
                     value={b.title}
                     onChange={(e) =>
                       saveOverrides((d) => {
@@ -2165,94 +2181,21 @@ function BossesSection({
                       })
                     }
                   />
-                </td>
-                <td>{b.continent}</td>
-                <td>
-                  <input
-                    type="number"
-                    style={{ width: 60 }}
-                    value={b.level}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, level: Number(e.target.value) || 1 };
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    style={{ width: 80 }}
-                    value={b.stats.hp}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, hp: Math.max(1, Number(e.target.value) || 1) };
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    style={{ width: 65 }}
-                    value={b.stats.atk}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, atk: Math.max(1, Number(e.target.value) || 1) };
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    style={{ width: 65 }}
-                    value={b.stats.def}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, def: Math.max(0, Number(e.target.value) || 0) };
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    style={{ width: 75 }}
-                    value={b.stats.xp}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, xp: Math.max(0, Number(e.target.value) || 0) };
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    step="0.05"
-                    style={{ width: 65 }}
-                    value={b.speed}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, speed: Number(e.target.value) || 0 };
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    style={{ width: 68 }}
-                    value={b.range}
-                    onChange={(e) =>
-                      saveOverrides((d) => {
-                        d.bosses[b.id] = { ...ov, range: Number(e.target.value) || 100 };
-                      })
-                    }
-                  />
-                </td>
-                <td>
+                  <small>
+                    {WORLDS[b.continent as WorldId]?.name ?? b.continent} · {b.race} · ID {b.id}
+                  </small>
+                </header>
+                <div className="ki-boss-stats">
+                  {field(b, "Poziom", b.level, (v) => ({ level: Math.max(1, v || 1) }))}
+                  {field(b, "HP", b.stats.hp, (v) => ({ hp: Math.max(1, v || 1) }))}
+                  {field(b, "Atak", b.stats.atk, (v) => ({ atk: Math.max(1, v || 1) }))}
+                  {field(b, "Obrona", b.stats.def, (v) => ({ def: Math.max(0, v || 0) }))}
+                  {field(b, "XP", b.stats.xp, (v) => ({ xp: Math.max(0, v || 0) }))}
+                  {field(b, "Szybkość", b.speed, (v) => ({ speed: v || 0 }), 0.05)}
+                  {field(b, "Zasięg", b.range, (v) => ({ range: v || 100 }))}
+                </div>
+                <label className="ki-boss-field ki-boss-location">
+                  <span>Lokalizacja</span>
                   <input
                     value={b.locationName}
                     onChange={(e) =>
@@ -2261,71 +2204,78 @@ function BossesSection({
                       })
                     }
                   />
-                </td>
-                <td>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 190 }}>
-                    {b.lootTable.map((drop) => {
-                      const curPercent = ov.lootChances?.[drop.itemId] ?? drop.chancePercent;
-                      return (
-                        <div
-                          key={drop.itemId}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: 6,
-                            background: "#090e17",
-                            padding: "2px 6px",
-                            borderRadius: 4,
-                            border: "1px solid #1e293b",
+                </label>
+                <details>
+                  <summary>
+                    Ataki ({b.attacks.length}) i fazy ({b.phases.length})
+                  </summary>
+                  <ul>
+                    {b.attacks.map((a) => (
+                      <li key={a.id}>
+                        <b>{a.name}</b> · ×{a.damageMultiplier} obrażeń · odnowienie{" "}
+                        {a.cooldownSeconds} s{a.isAoe ? " · obszarowy" : ""} — {a.description}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    {b.phases.map((ph) => (
+                      <li key={ph.phaseNumber}>
+                        <b>
+                          Faza {ph.phaseNumber}: {ph.name}
+                        </b>{" "}
+                        (od {ph.hpThresholdPercent}% HP) — {ph.description}
+                      </li>
+                    ))}
+                  </ul>
+                  <p>
+                    <b>Słabość:</b> {b.weakness}
+                  </p>
+                  <p>
+                    <b>Zachowanie:</b> {b.behavior}
+                  </p>
+                </details>
+                <div className="ki-boss-loot">
+                  <b>Łup (szansa %)</b>
+                  {b.lootTable.map((drop) => {
+                    const curPercent = ov.lootChances?.[drop.itemId] ?? drop.chancePercent;
+                    return (
+                      <div key={drop.itemId} className="ki-boss-loot-row">
+                        <ItemHoverTooltip id={drop.itemId}>
+                          <span className="ki-link-like">{drop.itemName ?? drop.itemId}</span>
+                        </ItemHoverTooltip>
+                        <span>
+                          {drop.minCount}–{drop.maxCount} szt.
+                        </span>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          aria-label={`Szansa ${drop.itemId}`}
+                          className="ki-loot-chance-input"
+                          value={curPercent}
+                          onChange={(e) => {
+                            const val = Math.max(0, Math.min(100, Number(e.target.value) || 0));
+                            saveOverrides((d) => {
+                              const curOv = d.bosses[b.id] ?? {};
+                              d.bosses[b.id] = {
+                                ...curOv,
+                                lootChances: { ...(curOv.lootChances ?? {}), [drop.itemId]: val },
+                              };
+                            });
                           }}
-                        >
-                          <ItemHoverTooltip id={drop.itemId}>
-                            <span
-                              style={{
-                                fontSize: 11,
-                                cursor: "pointer",
-                                color: "#38bdf8",
-                                textDecoration: "underline dotted",
-                              }}
-                            >
-                              {drop.itemName ?? drop.itemId}
-                            </span>
-                          </ItemHoverTooltip>
-                          <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-                            <input
-                              type="number"
-                              min="0"
-                              max="100"
-                              className="ki-loot-chance-input"
-                              value={curPercent}
-                              onChange={(e) => {
-                                const val = Math.max(0, Math.min(100, Number(e.target.value) || 0));
-                                saveOverrides((d) => {
-                                  const curOv = d.bosses[b.id] ?? {};
-                                  const customChances = { ...(curOv.lootChances ?? {}) };
-                                  customChances[drop.itemId] = val;
-                                  d.bosses[b.id] = { ...curOv, lootChances: customChances };
-                                });
-                              }}
-                            />
-                            <span style={{ fontSize: 10, color: "#64748b" }}>%</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </td>
-                <td>
-                  {onSpawnLiveBoss && (
-                    <button onClick={() => onSpawnLiveBoss(b.id)}>Przywołaj</button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+                {onSpawnLiveBoss && (
+                  <button onClick={() => onSpawnLiveBoss(b.id)}>Przywołaj w grze</button>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
     </section>
   );
 }

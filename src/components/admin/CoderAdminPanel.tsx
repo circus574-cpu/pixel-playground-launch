@@ -1,17 +1,6 @@
 import { CHARACTER_STAT_FIELDS, type CharacterStats } from "@/game/characterStats";
-import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { AdminMonitoringCenter } from "@/components/admin/AdminMonitoringCenter";
-import { AdminWorldEditor } from "@/components/admin/AdminWorldEditor";
-import { useAccount } from "@/components/account/useAccount";
-import {
-  accountsDb,
-  type AppRole,
-  type AuditRow,
-  type CharacterRow,
-  type Profile,
-  type RoleRow,
-} from "@/game/account/cloudPort";
+import { accountsDb, type CharacterRow } from "@/game/account/cloudPort";
 import { applyEdit, summarize, type CharacterEdit, type QuestStatus } from "@/game/account/gmEdit";
 import { KIT_NODES } from "@/game/kit";
 import { MATERIALS, MATERIAL_IDS } from "@/game/monsters/materials";
@@ -22,53 +11,13 @@ import { FEATURE_IDS, type FeatureId } from "@/game/world/generated/superiorSave
 import { RACES } from "@/game/world/races";
 import "./coder-panel.css";
 
-const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
 
+/** Characters saved in this browser (local playtest saves); server characters live in "Postacie (live)". */
 export default function CoderAdminPanel() {
-  const account = useAccount();
-  const [tab, setTab] = useState<"world" | "monitoring" | "players" | "local" | "audit">("world");
-  if (!account.ready) return <section className="ki-account">Wczytywanie…</section>;
-  if (!account.session || account.roles.length === 0)
-    return (
-      <section className="ki-account">
-        <section className="ki-account-card">
-          <h1>Brak dostępu</h1>
-          <p>Panel jest dostępny tylko dla administratorów i game masterów.</p>
-          <Link to="/konto">Przejdź do konta</Link>
-        </section>
-      </section>
-    );
-  const isAdmin = account.roles.includes("admin");
   return (
-    <section className="ki-account">
-      <div className="ki-admin">
-        <h1>Panel administracyjny i Edytor Świata</h1>
-        <small>
-          {account.profile?.nick} · {account.roles.map((r) => ROLE_NAME[r]).join(", ")} ·{" "}
-          <Link to="/konto">konto</Link> · <Link to="/">gra</Link>
-        </small>
-        <div className="ki-admin-tabs" role="tablist">
-          {(
-            [
-              ["world", "Panel Świata (Edytuj wszystko)"],
-              ["monitoring", "Monitoring Serwera i Graczy Live"],
-              ["players", "Gracze (Chmura)"],
-              ["local", "Postacie lokalne (Urządzenie)"],
-              ["audit", "Dziennik zmian"],
-            ] as const
-          ).map(([id, label]) => (
-            <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>
-              {label}
-            </button>
-          ))}
-        </div>
-        {tab === "world" && <AdminWorldEditor />}
-        {tab === "monitoring" && <AdminMonitoringCenter />}
-        {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
-        {tab === "local" && <LocalCharactersPanel />}
-        {tab === "audit" && <Audit />}
-      </div>
+    <section className="ki-admin-panel">
+      <LocalCharactersPanel />
     </section>
   );
 }
@@ -132,154 +81,6 @@ function LocalCharactersPanel() {
         />
       ))}
     </section>
-  );
-}
-
-function Players({ me, isAdmin }: { me: string; isAdmin: boolean }) {
-  const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [roles, setRoles] = useState<RoleRow[]>([]);
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<string | null>(null);
-  const [error, setError] = useState("");
-  const reload = useCallback(async () => {
-    const [p, r] = await Promise.all([
-      accountsDb.from("profiles").select("*").order("created_at", { ascending: false }),
-      accountsDb.from("user_roles").select("*"),
-    ]);
-    if (p.error || r.error) setError((p.error ?? r.error)!.message);
-    setProfiles(p.data ?? []);
-    setRoles(r.data ?? []);
-  }, []);
-  useEffect(() => void reload(), [reload]);
-  const shown = profiles.filter((p) => p.nick.toLowerCase().includes(query.toLowerCase()));
-  const player = profiles.find((p) => p.id === selected);
-  return (
-    <div className="ki-admin-grid">
-      <section>
-        <input
-          placeholder="Szukaj nicku…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Szukaj gracza"
-        />
-        <p>
-          <small>Graczy: {profiles.length}</small>
-        </p>
-        {error && <p className="ki-account-error">{error}</p>}
-        <div className="ki-admin-list">
-          {shown.map((p) => (
-            <button key={p.id} aria-pressed={p.id === selected} onClick={() => setSelected(p.id)}>
-              <b>{p.nick}</b>{" "}
-              {roles
-                .filter((r) => r.user_id === p.id)
-                .map((r) => ROLE_NAME[r.role])
-                .join(", ")}
-              <br />
-              <small>ostatnio: {when(p.last_seen)}</small>
-            </button>
-          ))}
-        </div>
-      </section>
-      <section className="ki-admin-panel">
-        {player ? (
-          <PlayerDetail
-            key={player.id}
-            player={player}
-            roles={roles.filter((r) => r.user_id === player.id).map((r) => r.role)}
-            me={me}
-            isAdmin={isAdmin}
-            onRolesChanged={reload}
-          />
-        ) : (
-          <p>Wybierz gracza z listy.</p>
-        )}
-      </section>
-    </div>
-  );
-}
-
-function PlayerDetail({
-  player,
-  roles,
-  me,
-  isAdmin,
-  onRolesChanged,
-}: {
-  player: Profile;
-  roles: AppRole[];
-  me: string;
-  isAdmin: boolean;
-  onRolesChanged: () => Promise<void>;
-}) {
-  const [rows, setRows] = useState<CharacterRow[]>([]);
-  const [message, setMessage] = useState("");
-  const load = useCallback(async () => {
-    const { data, error } = await accountsDb
-      .from("characters")
-      .select("*")
-      .eq("user_id", player.id)
-      .order("save_key");
-    if (error) setMessage(error.message);
-    setRows(data ?? []);
-  }, [player.id]);
-  useEffect(() => void load(), [load]);
-
-  const setRole = async (role: AppRole, grant: boolean) => {
-    const { error } = grant
-      ? await accountsDb.from("user_roles").insert({ user_id: player.id, role, granted_by: me })
-      : await accountsDb.from("user_roles").delete().eq("user_id", player.id).eq("role", role);
-    setMessage(error ? error.message : grant ? "Nadano rolę." : "Odebrano rolę.");
-    await onRolesChanged();
-  };
-
-  const characters = rows.filter((r) => summarize(r.data));
-  const other = rows.filter((r) => !summarize(r.data));
-  return (
-    <>
-      <h2>{player.nick}</h2>
-      <p>
-        <small>
-          Konto od {when(player.created_at)} · ostatnio w grze {when(player.last_seen)}
-        </small>
-      </p>
-      {isAdmin && player.id !== me && (
-        <div className="ki-account-actions">
-          {(["gm", "admin"] as const).map((role) =>
-            roles.includes(role) ? (
-              <button key={role} onClick={() => void setRole(role, false)}>
-                Odbierz: {ROLE_NAME[role]}
-              </button>
-            ) : (
-              <button key={role} onClick={() => void setRole(role, true)}>
-                Nadaj: {ROLE_NAME[role]}
-              </button>
-            ),
-          )}
-        </div>
-      )}
-      {message && <p className="ki-account-ok">{message}</p>}
-      <h3>Postacie ({characters.length})</h3>
-      {characters.length === 0 && (
-        <p>
-          <small>Gracz nie ma jeszcze postaci w chmurze.</small>
-        </p>
-      )}
-      {characters.map((row) => (
-        <CharacterEditor key={row.save_key} row={row} onSaved={load} />
-      ))}
-      {other.length > 0 && (
-        <details>
-          <summary>Pozostałe zapisy ({other.length})</summary>
-          {other.map((row) => (
-            <p key={row.save_key}>
-              <small>
-                {row.save_key} · wersja {row.revision} · {when(row.updated_at)}
-              </small>
-            </p>
-          ))}
-        </details>
-      )}
-    </>
   );
 }
 
@@ -598,67 +399,4 @@ export function CharacterEditor({
       </details>
     </article>
   );
-}
-
-function Audit() {
-  const [rows, setRows] = useState<AuditRow[]>([]);
-  const [nicks, setNicks] = useState<Record<string, string>>({});
-  useEffect(() => {
-    void (async () => {
-      const [a, p] = await Promise.all([
-        accountsDb.from("admin_audit").select("*").order("at", { ascending: false }).limit(200),
-        accountsDb.from("profiles").select("id, nick"),
-      ]);
-      setRows(a.data ?? []);
-      setNicks(Object.fromEntries((p.data ?? []).map((x) => [x.id, x.nick])));
-    })();
-  }, []);
-  const name = (id: string | null) => (id ? (nicks[id] ?? id.slice(0, 8)) : "system");
-  return (
-    <section className="ki-admin-panel">
-      <table className="ki-admin-table">
-        <thead>
-          <tr>
-            <th>Kiedy</th>
-            <th>Kto</th>
-            <th>Co</th>
-            <th>Komu</th>
-            <th>Zmiana</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.id}>
-              <td>{when(r.at)}</td>
-              <td>{name(r.actor)}</td>
-              <td>{r.action}</td>
-              <td>{name(r.target_user)}</td>
-              <td>
-                <small>{describeChange(r)}</small>
-              </td>
-            </tr>
-          ))}
-          {rows.length === 0 && (
-            <tr>
-              <td colSpan={5}>Brak zmian.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </section>
-  );
-}
-
-/** Short "field: before → after" list for character edits. */
-function describeChange(r: AuditRow): string {
-  if (r.action.startsWith("role-")) return String(r.after ?? "");
-  const a = summarize(r.before),
-    b = summarize(r.after);
-  if (!a || !b) return r.target_key ?? "";
-  const out: string[] = [];
-  for (const k of ["level", "xp", "hp", "ki", "gold"] as const)
-    if (a[k] !== b[k]) out.push(`${k}: ${a[k]} → ${b[k]}`);
-  for (const id of ITEM_IDS)
-    if (a.items[id] !== b.items[id]) out.push(`${ITEMS[id].name}: ${a.items[id]} → ${b.items[id]}`);
-  return out.join(", ") || "zmiana w polach postaci";
 }
