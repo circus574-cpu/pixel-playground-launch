@@ -903,6 +903,7 @@ export class GameSession implements MonsterHost {
   private pendingOutsideNpc: NpcId | null = null;
   private pendingChest = false;
   private pendingExit = false;
+  private interiorEnteredAt = 0;
   private afterExit: BuildingId | null = null;
   depotOpen = false;
   training = { active: false, hits: 0, damage: 0 };
@@ -1352,6 +1353,7 @@ export class GameSession implements MonsterHost {
     const previous = this.building;
     const room = id ? cityRoom(id, this.world.id) : null;
     this.player.interior = id;
+    this.interiorEnteredAt = this.nowMs;
     this.nav = room ? new Navigation(room.width, room.height, room.obstacles) : this.outsideNav;
     Object.assign(this.player, this.nav.safe(room?.entry ?? previous?.door ?? this.world.spawn));
     this.dialogue = null;
@@ -2512,6 +2514,21 @@ export class GameSession implements MonsterHost {
     if (this.route.length && !this.fx.cannotAct) {
       this.movePlayer(this.route[0]!, dt);
       if (distance(p, this.route[0]!) < 5) this.route.shift();
+    }
+    // Walking onto the marked doorway leaves the building (joystick, keys or a tap): no extra action.
+    if (
+      p.interior &&
+      !this.pendingExit &&
+      this.nowMs - this.interiorEnteredAt > 600 &&
+      distance(p, cityRoom(p.interior, this.world.id).exit) <= 45
+    ) {
+      this.clearDestinations();
+      this.dialogue = null;
+      this.depotOpen = false;
+      this.pendingService = null;
+      this.pendingChest = false;
+      this.afterExit = null;
+      this.pendingExit = true;
     }
     if (
       this.pendingExit &&

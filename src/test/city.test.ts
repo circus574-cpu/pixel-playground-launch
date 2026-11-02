@@ -60,6 +60,17 @@ describe("Verdantia functional city", () => {
     talk(g, "guide");
     expect(g.player.interior).toBeNull();
   });
+  it("leaves a building by walking onto the doorway, but not right after entering", () => {
+    const g = new GameSession();
+    enter(g, "arena");
+    const room = cityRoom("arena");
+    for (let i = 0; i < 20; i++) g.tick(50);
+    expect(g.player.interior).toBe("arena");
+    // Straight walk (no pending exit command): put the hero on the doorway marker.
+    Object.assign(g.player, g.nav.safe({ x: room.exit.x, y: room.exit.y - 20 }));
+    run(g, () => g.player.interior === null, 5);
+    expect(g.player.interior).toBeNull();
+  });
   it("has six separated, reachable buildings, collision and accessible interiors", () => {
     const g = new GameSession();
     expect(g.enemies.length).toBeGreaterThan(0);

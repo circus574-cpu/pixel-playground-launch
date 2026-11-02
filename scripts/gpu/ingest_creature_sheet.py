@@ -38,7 +38,16 @@ def cutouts(sheet):
         if m.sum() > 120 and np.median(mins[m]) >= 246 and rgb[m].std() <= 7.6:
             bg |= m
     fg = ~bg
-    comps, n = ndimage.label(ndimage.binary_closing(fg, iterations=1))
+    # Frames that touch (a horn against a neighbour's tail) are split along the grid lines:
+    # cut the foreground at every cell border, then group the pieces by their cell.
+    cut = fg.copy()
+    for c in range(1, COLS):
+        x = round(c * w / COLS)
+        cut[:, max(0, x - 6) : x + 6] = False
+    for r in range(1, ROWS):
+        y = round(r * h / ROWS)
+        cut[max(0, y - 6) : y + 6, :] = False
+    comps, n = ndimage.label(ndimage.binary_closing(cut, iterations=1))
     cells = {}
     for i, sl in enumerate(ndimage.find_objects(comps), 1):
         m = comps[sl] == i
