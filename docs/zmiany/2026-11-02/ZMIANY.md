@@ -95,3 +95,15 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
   przywracanie rewizji. Szczegóły: [Architektura i testy](../../ARCHITEKTURA-I-TESTY.md#edycja-świata-na-serwerze-02112026).
 - QA: `world-overrides.test.ts` na PostgreSQL 16 (17/17 razem z kontami), `qa-world-live.ts`
   na prawdziwym GameServer 9/9 PASS.
+
+### 7. Potwory w stylu anime, widoczność przez drzewa i wyjście z budynku
+
+- Potwory: 25 z 40 w nowym stylu anime z animacją (chód/lot, atak, śmierć), domyślnie włączone;
+  `?ki-monsters-anime=0` przywraca stare. Szczegóły i lista pozostałych 15:
+  [GPU i zasoby](../../GPU-I-ZASOBY.md#potwory-w-stylu-anime--02112026).
+- Drzewa i dachy nie zasłaniają już potworów, NPC ani innych graczy: korony stają się półprzezroczyste
+  wokół każdego z nich, a zasłonięta postać ma złoty zarys (jak wcześniej bohater). Test:
+  `foliage-occlusion.test.ts`. Pomiar w przeglądarce bez GPU: 15 fps z poprawką, 16 fps bez — bez różnicy.
+- Wyjście z budynku: wejście w oznaczoną strefę drzwi wychodzi z budynku (joystick, klawisze lub
+  dotknięcie), bez osobnego działania; po wejściu jest 0,6 s przerwy. Test w `city.test.ts`.
+- Nie wdrożono: labirynty (PR #80) czekają na decyzję właściciela.

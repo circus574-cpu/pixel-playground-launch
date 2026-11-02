@@ -237,7 +237,12 @@ export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
   // World v2 is the default world (owner decision 26.10.2026); only `?ki-world-v1=1` turns it off.
   const on = (param: string) =>
-    param === "ki-world-v2" ? params.get("ki-world-v1") !== "1" : params.get(param) === "1";
+    param === "ki-world-v2"
+      ? params.get("ki-world-v1") !== "1"
+      : // Anime monsters accepted by the owner 02.11.2026: default on, `?ki-monsters-anime=0` restores the old ones.
+        param === "ki-monsters-anime"
+        ? params.get(param) !== "0"
+        : params.get(param) === "1";
   return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) => (on(param) ? packs : []));
 }
 export const catalog = makeCatalog(
