@@ -122,6 +122,16 @@ jobs:
               | grep -E 'ERROR|FATAL|PANIC|permission|timeout|too many|could not' \
               | grep -viE 'password|secret|token' | tail -n 40 || true
           done
+      - name: Read stray game-server container and load (read only)
+        if: ${{ github.event.inputs.action == 'logs' }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          "$RUNNER_TEMP/ssh.sh" 'uptime; nproc; free -m | head -2' || true
+          "$RUNNER_TEMP/ssh.sh" 'docker stats --no-stream --format "{{.Name}} cpu={{.CPUPerc}} mem={{.MemUsage}}"' || true
+          "$RUNNER_TEMP/ssh.sh" 'docker inspect ki-multiplayer-db-game-server-1 --format "restarts={{.RestartCount}} started={{.State.StartedAt}} created={{.Created}} policy={{.HostConfig.RestartPolicy.Name}}"' || true
+          "$RUNNER_TEMP/ssh.sh" 'docker logs --tail 25 ki-multiplayer-db-game-server-1 2>&1' \
+            | grep -viE 'bearer|authorization|re_[A-Za-z0-9]{8}|postgres(ql)?://|password|secret|token' | tail -n 25 || true
       - name: Clean up
         if: always()
         shell: bash
