@@ -17,54 +17,47 @@ DIRS = ["down", "down-left", "left", "up-left", "up", "up-right", "right", "down
 LEFT = {"down-left", "left", "up-left"}
 
 
-def segment(sheet):
-    a = np.asarray(sheet.convert("RGB")).astype(int)
-    fg = ndimage.binary_closing(a.min(2) < 235, iterations=3)
-    lab, _ = ndimage.label(fg)
-    boxes = [
-        (s[0].start, s[1].start, s[0].stop, s[1].stop)
-        for s in ndimage.find_objects(lab)
-        if (s[0].stop - s[0].start) * (s[1].stop - s[1].start) > 8000
-    ]
-    boxes.sort()
-    ys = sorted({b[0] for b in boxes})
-    rows = [[], [], []]
-    # three rows: group by vertical start
-    cut = [ys[0]]
-    for y in ys[1:]:
-        if y - cut[-1] > 200:
-            cut.append(y)
-    if len(cut) != 3:
-        raise SystemExit(f"expected 3 rows, found {len(cut)}")
-    for b in boxes:
-        rows[max(i for i, c in enumerate(cut) if b[0] >= c - 100)].append(b)
-    for r in rows:
-        r.sort(key=lambda b: b[1])
-    return rows
+COLS, ROWS = 4, 3
 
 
-def cutout(sheet, box):
-    y0, x0, y1, x1 = box
-    crop = sheet.convert("RGB").crop((max(0, x0 - 12), max(0, y0 - 12), x1 + 12, y1 + 12))
-    a = np.asarray(crop).astype(int)
-    white = a.min(2) >= 222
+def cutouts(sheet):
+    """Frames of a COLS x ROWS sheet: components are grouped by the grid cell holding their centroid,
+    so debris, sparks and slightly spilling limbs stay with their frame."""
+    rgb = np.asarray(sheet.convert("RGB")).astype(int)
+    h, w = rgb.shape[:2]
+    white = rgb.min(2) >= 222
     lab, _ = ndimage.label(white)
     edge = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
     bg = np.isin(lab, list(edge))
     lw, nw = ndimage.label(white & ~bg)
-    for i in range(1, nw + 1):  # large white gaps between legs are background too
+    for i in range(1, nw + 1):  # enclosed white gaps (between legs) are background too
         m = lw == i
         if m.sum() > 120:
             bg |= m
-    alpha = ndimage.binary_opening(~bg, iterations=1)
-    l2, n2 = ndimage.label(alpha)
-    if n2 > 1:
-        alpha = l2 == (1 + int(np.argmax(ndimage.sum(alpha, l2, range(1, n2 + 1)))))
-    alpha = ndimage.binary_erosion(alpha, iterations=1)
-    al = Image.fromarray((alpha * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8))
-    rgba = crop.convert("RGBA")
-    rgba.putalpha(al)
-    return rgba.crop(rgba.getbbox())
+    fg = ~bg
+    comps, n = ndimage.label(ndimage.binary_closing(fg, iterations=3))
+    cells = {}
+    for i, sl in enumerate(ndimage.find_objects(comps), 1):
+        m = comps[sl] == i
+        if m.sum() < 400:
+            continue
+        cy, cx = ndimage.center_of_mass(m)
+        row = min(ROWS - 1, int((sl[0].start + cy) / (h / ROWS)))
+        col = min(COLS - 1, int((sl[1].start + cx) / (w / COLS)))
+        cells.setdefault((row, col), []).append(i)
+    out = {}
+    for (row, col), ids in cells.items():
+        keep = np.isin(comps, ids) & fg
+        keep = ndimage.binary_opening(keep, iterations=1)
+        keep = ndimage.binary_erosion(keep, iterations=1)
+        ys, xs = np.where(keep)
+        if len(ys) < 400:
+            continue
+        al = Image.fromarray((keep * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8))
+        rgba = sheet.convert("RGBA")
+        rgba.putalpha(al)
+        out[(row, col)] = rgba.crop((xs.min(), ys.min(), xs.max() + 1, ys.max() + 1))
+    return out
 
 
 def main():
@@ -73,21 +66,24 @@ def main():
     old_id = f"enemy-v2-{monster}"
     pack_id = f"enemy-v3-{monster}"
     sheet = Image.open(src)
-    rows = segment(sheet)
-    counts = [len(r) for r in rows]
-    if counts[0] < 4 or counts[1] < 3 or counts[2] < 3:
-        raise SystemExit(f"too few frames per row: {counts}")
-    frames = {f"{k}{i}": cutout(sheet, b) for k, row in zip("wad", rows) for i, b in enumerate(row)}
-    scale = (CELL - 6) / max(f.size[0] for f in frames.values())
+    grid = cutouts(sheet)
+    missing = [(r, c) for r in range(ROWS) for c in range(COLS) if (r, c) not in grid]
+    if missing:
+        raise SystemExit(f"empty cells in the sheet: {missing}")
+    frames = {f"{k}{c}": grid[(r, c)] for r, k in enumerate("wad") for c in range(COLS)}
+    counts = [COLS, COLS, COLS]
     base = int(CELL * BASEY)
-    if max(f.size[1] for f in frames.values()) * scale > base + 2:
-        raise SystemExit("a frame is taller than the baseline allows")
+    # Scale by the body (walk frames) so long effects (tongue, beam) never shrink the monster;
+    # every frame must still fit under the baseline. Effects wider than the cell are clipped.
+    walk_w = max(frames[f"w{c}"].size[0] for c in range(COLS))
+    scale = min((CELL - 6) / walk_w, (base - 2) / max(f.size[1] for f in frames.values()))
     cells = {}
     for k, f in frames.items():
         nf = f.resize((max(1, round(f.size[0] * scale)), max(1, round(f.size[1] * scale))), Image.LANCZOS)
         c = Image.new("RGBA", (CELL, CELL), (0, 0, 0, 0))
         c.paste(nf, ((CELL - nf.size[0]) // 2, base - nf.size[1]), nf)
         cells[k] = c
+    print("scale", round(scale, 3), "walk width", round(walk_w * scale), "of", CELL)
     names = list(cells)
     atlas = Image.new("RGBA", (2048, 1024), (0, 0, 0, 0))
     rect = {}

@@ -154,7 +154,13 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
   /** Anime-style redrawn monsters (animation sheets by the owner); the older monsters stay the default. */
-  "ki-monsters-anime": ["enemy-v3-verdant-cierniowy-wilk"],
+  "ki-monsters-anime": [
+    "enemy-v3-verdant-cierniowy-wilk",
+    "enemy-v3-verdant-mchowy-szlamak",
+    "enemy-v3-pyra-golem-ruin",
+    "enemy-v3-nexus-skaner-gasienicowy",
+    "enemy-v3-aether-lew-swiatyni",
+  ],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
     "ki-v2-terrain",
