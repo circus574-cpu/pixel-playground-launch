@@ -213,3 +213,49 @@
 .ki-coder-panel .ki-admin-stat-overrides > button {
   grid-column: 1 / -1;
 }
+
+.ki-world-publish {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #c8a35a;
+  border-radius: 8px;
+  background: #1d1a12;
+  color: #f1e3c2;
+}
+.ki-world-publish-state {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+}
+.ki-world-publish-state .is-pending {
+  color: #ffb347;
+  font-weight: 700;
+}
+.ki-world-publish-state .is-synced {
+  color: #8fd99c;
+}
+.ki-world-publish-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ki-world-publish-actions input {
+  min-width: 180px;
+}
+.ki-world-publish-history {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.ki-world-publish-history th,
+.ki-world-publish-history td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #3a3322;
+  text-align: left;
+}

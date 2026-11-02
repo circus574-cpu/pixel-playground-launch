@@ -83,3 +83,15 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
 - QA: `scripts/qa-accounts-server.ts` + `scripts/qa-accounts-browser.mjs` (prawdziwa strona `/konto`,
   PostgreSQL, przechwycony e-mail): rejestracja → odmowa logowania przed aktywacją → link →
   zalogowany → odświeżenie strony → wylogowanie → logowanie; 0 błędów JS.
+
+### 5. Porządek w Coolify i edycja świata na serwerze
+
+- Coolify: workflow `coolify-service.yml` (remove-build) usunął z compose usługi dwie stare sekcje
+  `build:` wskazujące na kod z 28.10. Ponowny odczyt: 0 sekcji `build:`, zmienne
+  `RESEND_API_KEY`, `EMAIL_FROM`, `DATABASE_URL` obecne w kontenerze, produkcja bez restartu
+  (`/healthz` 200, `/ws/auth/status` `{"mail":true}`).
+- Edycja świata działa na serwerze: publikacja z panelu zapisuje rewizję w PostgreSQL na VPS,
+  serwer gry nakłada ją od razu, gracze online pobierają ją przy wejściu na ląd. Historia i
+  przywracanie rewizji. Szczegóły: [Architektura i testy](../../ARCHITEKTURA-I-TESTY.md#edycja-świata-na-serwerze-02112026).
+- QA: `world-overrides.test.ts` na PostgreSQL 16 (17/17 razem z kontami), `qa-world-live.ts`
+  na prawdziwym GameServer 9/9 PASS.

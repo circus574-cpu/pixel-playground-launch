@@ -18,6 +18,7 @@ import {
   type FeatureId,
 } from "../../game/world/generated/superiorSave";
 import { streamSpawns, type AuthoredSpawn } from "../../game/world/generated/spawnStream";
+import { applyCustomSpawnsForFeature } from "../../game/world/adminWorldStore";
 import { v2Places } from "../../game/worlds/v2Places";
 import { RACES } from "../../game/world/races";
 import type { CharacterRecord, CharacterState } from "./repository";
@@ -135,6 +136,13 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       slot.respawnMs < 1000
     )
       throw Error("Invalid server spawn");
+  // Spawns published from /admin (moved, added, removed); unplaceable ones are skipped.
+  raw.overworld = applyCustomSpawnsForFeature(info.id, raw.overworld).filter(
+    (slot) =>
+      slot.id.startsWith(info.id + "-") &&
+      built.outsideCities(slot) &&
+      loader.navigation.walkable(slot),
+  );
   built.world.huntKinds = [
     ...new Set(raw.overworld.filter((s) => monsterDef(s.kind).level <= 4).map((s) => s.kind)),
   ];
