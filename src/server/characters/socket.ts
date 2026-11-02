@@ -141,7 +141,13 @@ export function serveOnlineSocket(
                 options.metric?.("tick", performance.now() - started);
               }
             })()
-              .catch(() => fail("SESSION_FAILED"))
+              .catch((error: unknown) => {
+                console.error(
+                  "[Online] Tick sesji nie powiódł się:",
+                  (error instanceof Error ? error.message : String(error)).slice(0, 200),
+                );
+                fail("SESSION_FAILED");
+              })
               .finally(() => {
                 ticking = false;
               });
@@ -167,7 +173,12 @@ export function serveOnlineSocket(
           }
         }
       })
-      .catch(() => fail("COMMAND_REJECTED"))
+      .catch((error: unknown) => {
+        // The reason is logged (never a token) and, when it is a known code, sent to the player.
+        const reason = error instanceof Error ? error.message : String(error);
+        console.error("[Online] Odrzucono pakiet:", reason.slice(0, 200));
+        fail(/^[A-Z_]{3,40}$/.test(reason) ? reason : "COMMAND_REJECTED");
+      })
       .finally(() => {
         pending--;
       });
