@@ -153,6 +153,8 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-smithy-art": ["pyra-smithy"],
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
+  /** Anime-style redrawn monsters (animation sheets by the owner); the older monsters stay the default. */
+  "ki-monsters-anime": ["enemy-v3-verdant-cierniowy-wilk"],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
     "ki-v2-terrain",
