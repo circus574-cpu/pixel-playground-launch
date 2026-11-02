@@ -10,6 +10,7 @@ on:
         options:
           - inspect
           - remove-build
+          - logs
 permissions:
   contents: read
 concurrency:
@@ -99,6 +100,16 @@ jobs:
           PY
           api PATCH "/api/v1/services/$SERVICE_UUID" "$(cat "$RUNNER_TEMP/body.json")" | head -c 300; echo
           echo 'Compose updated in Coolify. No restart was performed; the next GitHub deployment uses it.'
+      - name: Read game server logs (read only)
+        if: ${{ github.event.inputs.action == 'logs' }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          "$RUNNER_TEMP/ssh.sh" 'docker ps -a --filter name=xh4qbckykxsq1iofxdoe5t3h --format "{{.Names}} {{.Status}} {{.Image}}"' || true
+          # Last lines of the game server; credentials, tokens and connection strings are removed.
+          "$RUNNER_TEMP/ssh.sh" 'docker logs --since 40m --tail 400 app-xh4qbckykxsq1iofxdoe5t3h 2>&1' \
+            | grep -viE 'bearer|authorization|re_[A-Za-z0-9]{8}|postgres(ql)?://|password|secret|token' \
+            | tail -n 120 || true
       - name: Clean up
         if: always()
         shell: bash
