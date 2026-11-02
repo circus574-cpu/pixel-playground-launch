@@ -30,9 +30,12 @@ def cutouts(sheet):
     edge = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
     bg = np.isin(lab, list(edge))
     lw, nw = ndimage.label(white & ~bg)
-    for i in range(1, nw + 1):  # enclosed white gaps (between legs) are background too
+    mins = rgb.min(2)
+    for i in range(1, nw + 1):
+        # An enclosed light region is background only when it is pure white and flat (a gap between
+        # legs). Light fur, a mane or a silver panel is off-white and shaded: it stays opaque.
         m = lw == i
-        if m.sum() > 120:
+        if m.sum() > 120 and np.median(mins[m]) >= 246 and rgb[m].std() <= 7.6:
             bg |= m
     fg = ~bg
     comps, n = ndimage.label(ndimage.binary_closing(fg, iterations=3))
@@ -73,17 +76,34 @@ def main():
     frames = {f"{k}{c}": grid[(r, c)] for r, k in enumerate("wad") for c in range(COLS)}
     counts = [COLS, COLS, COLS]
     base = int(CELL * BASEY)
-    # Scale by the body (walk frames) so long effects (tongue, beam) never shrink the monster;
-    # every frame must still fit under the baseline. Effects wider than the cell are clipped.
-    walk_w = max(frames[f"w{c}"].size[0] for c in range(COLS))
-    scale = min((CELL - 6) / walk_w, (base - 2) / max(f.size[1] for f in frames.values()))
+    # Frames much wider than the rest are long effects (tongue, beam): they never set the scale.
+    # Every other frame must fit the cell completely, so no body part is ever cut off.
+    widths = sorted(f.size[0] for f in frames.values())
+    median = widths[len(widths) // 2]
+    effect = {k for k, f in frames.items() if f.size[0] > 1.45 * median}
+    body = [f for k, f in frames.items() if k not in effect]
+    scale = min(min((CELL - 6) / f.size[0], (base - 2) / f.size[1]) for f in body)
     cells = {}
-    for k, f in frames.items():
+    placed_x = {}
+    order = [f"{k}{c}" for k in "wad" for c in range(COLS)]
+    for k in order:
+        f = frames[k]
         nf = f.resize((max(1, round(f.size[0] * scale)), max(1, round(f.size[1] * scale))), Image.LANCZOS)
+        prev = f"{k[0]}{int(k[1:]) - 1}"
+        if k in effect and prev in placed_x:
+            x = placed_x[prev]  # keep the body where it was; the effect extends past it
+        else:
+            x = (CELL - nf.size[0]) // 2
+        placed_x[k] = x
         c = Image.new("RGBA", (CELL, CELL), (0, 0, 0, 0))
-        c.paste(nf, ((CELL - nf.size[0]) // 2, base - nf.size[1]), nf)
+        c.paste(nf, (x, base - nf.size[1]), nf)
+        if k in effect:  # fade the clipped end instead of a hard cut
+            a_ = np.asarray(c.split()[3]).astype(float)
+            ramp = np.clip((CELL - np.arange(CELL)) / 40.0, 0, 1)
+            c.putalpha(Image.fromarray((a_ * ramp[None, :]).astype(np.uint8)))
         cells[k] = c
-    print("scale", round(scale, 3), "walk width", round(walk_w * scale), "of", CELL)
+    print("effect frames:", sorted(effect))
+    print("scale", round(scale, 3))
     names = list(cells)
     atlas = Image.new("RGBA", (2048, 1024), (0, 0, 0, 0))
     rect = {}
