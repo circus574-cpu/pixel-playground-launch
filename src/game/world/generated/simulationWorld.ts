@@ -1,4 +1,5 @@
 /** Shared simulation geometry for browser rendering and server authority. No Phaser or window. */
+import { labyrinthPortals } from "./labyrinths";
 import type { CityDefinition, BuildingId } from "../../city/types";
 import type { WorldDefinition, WorldNpc } from "../types";
 import { WORLDS } from "../worlds";
@@ -147,6 +148,7 @@ export function buildSuperiorSimulationWorld(options: {
     npcs: first.npcs,
     market: first.market,
     safeAreas: source.settlements.map((s) => s.bounds),
+    portals: labyrinthPortals(info.id),
     landmarks: [
       ...source.settlements.map((s) => ({
         x: s.x,

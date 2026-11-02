@@ -65786,5 +65786,55 @@
     "actorBindings": {},
     "renderBindings": {},
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "dungeon-tiles",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "terrain.dungeon-floor-a": {
+        "asset": "dungeon-floor-stones-a",
+        "fit": "stretch"
+      },
+      "terrain.dungeon-floor-b": {
+        "asset": "dungeon-floor-stones-b",
+        "fit": "stretch"
+      },
+      "object.dungeon-tiles.wall-straight": {
+        "asset": "dungeon-wall-straight",
+        "fit": "contain"
+      }
+    },
+    "effects": {},
+    "assets": [
+      {
+        "id": "dungeon-floor-stones-a",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/dungeon-tiles/1.0.0-2a79d4bf31ea/dungeon-floor-stones-a.webp",
+        "width": 1024,
+        "height": 1024
+      },
+      {
+        "id": "dungeon-floor-stones-b",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/dungeon-tiles/1.0.0-2a79d4bf31ea/dungeon-floor-stones-b.webp",
+        "width": 1024,
+        "height": 1024
+      },
+      {
+        "id": "dungeon-wall-straight",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/dungeon-tiles/1.0.0-2a79d4bf31ea/dungeon-wall-straight.webp",
+        "width": 1024,
+        "height": 654
+      }
+    ]
   }
 ]

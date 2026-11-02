@@ -95,3 +95,14 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
   przywracanie rewizji. Szczegóły: [Architektura i testy](../../ARCHITEKTURA-I-TESTY.md#edycja-świata-na-serwerze-02112026).
 - QA: `world-overrides.test.ts` na PostgreSQL 16 (17/17 razem z kontami), `qa-world-live.ts`
   na prawdziwym GameServer 9/9 PASS.
+
+### 6. Grywalne labirynty na czterech kontynentach
+
+- Wejścia `kind: maze` prowadzą do labiryntów w zamkniętych kieszeniach morza tego samego lądu.
+  Szczegóły: [Świat i miasta](../../SWIAT-I-MIASTA.md#grywalne-labirynty--02112026).
+- Nowa paczka grafik `dungeon-tiles` (2 podłogi kafelkowane bez szwu, ściana z przezroczystym tłem)
+  z obrazów wygenerowanych przez właściciela; zarejestrowana w `src/game/assets/imported.json`.
+- Nagłówek lokacji w HUD pokazuje nazwę labiryntu.
+- QA: `labyrinths.test.ts` na danych 4 lądów 28/28 (szczelność w morzu, ścieżki do serca, wyjścia
+  i ślepych zaułków, portale, spawny, grafika); `e2e/labyrinths.spec.ts` w przeglądarce: wejście
+  przez bramę Verdant, korytarz z potworem, wyjście przez drzwi, 0 błędów.

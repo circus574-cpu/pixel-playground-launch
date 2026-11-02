@@ -1,4 +1,5 @@
 /** Verified JSON/chunk loading for generated worlds. CPU/NPZ libraries never enter the browser. */
+import { labyrinthOpenings } from "./labyrinths";
 import { browserNavigation, decodeRuns, type GridData } from "./browserTerrain";
 import type { Obstacle } from "../../movement";
 export type BrowserChunk = {
@@ -68,6 +69,8 @@ export async function loadBrowserFeature(
     navData as GridData,
     terrain as GridData,
     rectangles as Obstacle[],
+    [],
+    labyrinthOpenings(feature),
   );
   const cache = new Map<string, BrowserChunk>(),
     pending = new Map<string, Promise<BrowserChunk>>();
@@ -83,6 +86,7 @@ export async function loadBrowserFeature(
         terrain as GridData,
         rectangles as Obstacle[],
         exclusions,
+        labyrinthOpenings(feature),
       ),
     async loadChunk(x: number, y: number): Promise<BrowserChunk> {
       if (

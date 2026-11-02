@@ -19,6 +19,7 @@ import {
 } from "../../game/world/generated/superiorSave";
 import { streamSpawns, type AuthoredSpawn } from "../../game/world/generated/spawnStream";
 import { applyCustomSpawnsForFeature } from "../../game/world/adminWorldStore";
+import { withLabyrinthSpawns } from "../../game/world/generated/labyrinths";
 import { v2Places } from "../../game/worlds/v2Places";
 import { RACES } from "../../game/world/races";
 import type { CharacterRecord, CharacterState } from "./repository";
@@ -142,6 +143,11 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       slot.id.startsWith(info.id + "-") &&
       built.outsideCities(slot) &&
       loader.navigation.walkable(slot),
+  );
+  raw.overworld = withLabyrinthSpawns(
+    info.id,
+    raw.overworld,
+    (p) => built.outsideCities(p) && loader.navigation.walkable(p),
   );
   built.world.huntKinds = [
     ...new Set(raw.overworld.filter((s) => monsterDef(s.kind).level <= 4).map((s) => s.kind)),
