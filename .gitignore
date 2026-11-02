@@ -48,3 +48,4 @@ __pycache__/
 /.online-playtest-dist/
 
 .admin-catalog-dist/
+public/publications.json

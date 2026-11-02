@@ -15,6 +15,7 @@ import { ITEMS, ITEM_IDS, type ItemId } from "@/game/session";
 import { RACES } from "@/game/world/races";
 
 import "@/components/account/account.css";
+import { AdminPublications } from "@/components/admin/AdminPublications";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -67,12 +68,12 @@ function AdminPage() {
         <div className="ki-admin-tabs" role="tablist">
           {(
             [
-              ["server-chars", "🎮 Postacie Serwera (Live)"],
-              ["players", "👥 Konta Graczy i Role"],
-              ["monitoring", "🖥️ Monitoring i Serwer Live"],
-              ["audit", "Dziennik zmian"],
-              ["content", "Zawartość gry"],
-              ["coder", "Coder · Edytor świata"],
+              ["server-chars", "Postacie (live)"],
+              ["players", "Konta i role"],
+              ["monitoring", "Serwer"],
+              ["content", "Świat i zawartość"],
+              ["audit", "Dziennik"],
+              ["coder", "Postacie lokalne"],
             ] as const
           ).map(([id, label]) => (
             <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>
@@ -91,22 +92,27 @@ function AdminPage() {
             <AdminMonitoringCenter />
           </Suspense>
         )}
-        {tab === "audit" && <Audit />}
+        {tab === "audit" && (
+          <>
+            <section className="ki-admin-panel">
+              <h3>Publikacje na produkcji</h3>
+              <AdminPublications />
+            </section>
+            <section className="ki-admin-panel">
+              <h3>Zmiany wykonane w panelu</h3>
+              <Audit />
+            </section>
+          </>
+        )}
         {tab === "content" && (
           <Suspense fallback={<p role="status">Wczytywanie edytora zawartości…</p>}>
             <AdminWorldEditor />
           </Suspense>
         )}
         {tab === "coder" && (
-          <div className="ki-coder-panel">
-            <p>
-              Edytor Coder. Nadpisania świata są zapisywane na tym urządzeniu; można je eksportować
-              do JSON.
-            </p>
-            <Suspense fallback={<p role="status">Wczytywanie edytora…</p>}>
-              <CoderAdminPanel />
-            </Suspense>
-          </div>
+          <Suspense fallback={<p role="status">Wczytywanie postaci lokalnych…</p>}>
+            <CoderAdminPanel />
+          </Suspense>
         )}
       </div>
     </main>
@@ -358,7 +364,7 @@ function Audit() {
   }, []);
   const name = (id: string | null) => (id ? (nicks[id] ?? id.slice(0, 8)) : "system");
   return (
-    <section className="ki-admin-panel">
+    <div className="ki-table-scroll">
       <table className="ki-admin-table">
         <thead>
           <tr>
@@ -388,7 +394,7 @@ function Audit() {
           )}
         </tbody>
       </table>
-    </section>
+    </div>
   );
 }
 

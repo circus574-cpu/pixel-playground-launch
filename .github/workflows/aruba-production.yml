@@ -53,12 +53,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 120 # history for the /admin publication log
           sparse-checkout: |
             src
             public
             scripts
             deploy
             art/pipeline
+            docs/zmiany
+      - name: Write publication log for /admin
+        run: node scripts/build_publications.mjs public/publications.json 40
       - name: Prepare deployment bundle
         run: |
           tar -czf /tmp/ki-deploy-scripts.tar.gz -C deploy/scripts start-aruba-staging.sh promote-coolify-release.sh

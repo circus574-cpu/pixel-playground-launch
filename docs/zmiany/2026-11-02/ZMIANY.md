@@ -22,3 +22,26 @@ pozostałe wpisy mają zniknąć.
   Zmiennych środowiska usługi Coolify na VPS nie weryfikowano z repozytorium.
 - Testy: `single-superior-server.test.ts`, zaktualizowany `admin-monitoring.test.tsx`.
   Pełny zestaw 1063/1063, typecheck i lint bez błędów.
+
+### 2. Czytelny panel administratora: bossowie, okno przedmiotu, spawny, dziennik publikacji
+
+Zgłoszenie właściciela 02.11: brak podglądu bossów, podgląd przedmiotu ucięty w połowie, brak
+szczegółowej listy spawnów, chaos w układzie, dziennik bez informacji o publikacjach.
+
+- `/admin`: jedna nawigacja — Postacie (live), Konta i role, Serwer, Świat i zawartość, Dziennik,
+  Postacie lokalne. Usunięto zagnieżdżony drugi panel („Coder”), który powtarzał wszystkie zakładki;
+  zostały w nim tylko postacie zapisane na urządzeniu. Szerokie tabele przewijają się wewnątrz
+  panelu, a zakładki na telefonie w jednym rzędzie.
+- Edytor świata: krótsze nazwy zakładek w kolejności użycia; nowa zakładka „Spawny (lista)”.
+- Bossowie: karty z animacją (`public/game/bosses/*_idle.webp`), statystykami w opisanej siatce,
+  atakami, fazami, słabością i łupem z edycją szans.
+- Przedmiot: kliknięcie ikony lub nazwy otwiera okno na środku ekranu (zamknięcie: ×, tło, Esc) —
+  premie, efekt, zestaw, cena oraz źródła w tabeli (potwór, kraina, poziom, szansa, rodzaj).
+  Karty katalogu pokazują krótkie podsumowanie źródeł zamiast długiej listy.
+- Spawny: dane z `superior-v2/<ląd>/spawns.json` — podsumowanie per potwór (punkty, grupy,
+  odrodzenie, smycz) i stronicowana lista punktów (ID, X, Y, odrodzenie, smycz, grupa).
+- Dziennik: „Publikacje na produkcji” z pliku `publications.json`, generowanego przy każdym
+  wdrożeniu przez `scripts/build_publications.mjs` (historia `main` i wpisy dzienników zmian), oraz
+  dotychczasowe zmiany wykonane w panelu.
+- QA: `scripts/qa-admin-catalog.mjs` zaktualizowany do nowego układu (1280 i 390 px, okno w
+  granicach ekranu, animacje bossów, lista spawnów, 0 błędów JS); `admin-readability.test.tsx`.

@@ -19,7 +19,10 @@
   object-fit: contain;
   background: #101f2d;
   border-radius: 10px;
-  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .ki-catalog-item-interactive {
   cursor: pointer;
@@ -87,7 +90,9 @@
   border: 1px solid #334155;
   border-radius: 14px;
   padding: 12px 14px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(56, 189, 248, 0.2);
   z-index: 99999;
   pointer-events: none;
   text-align: left;
@@ -154,7 +159,9 @@
   gap: 4px;
   margin-top: 3px;
 }
-.ki-tag-rarity, .ki-tag-category, .ki-tag-level {
+.ki-tag-rarity,
+.ki-tag-category,
+.ki-tag-level {
   font-size: 9px;
   font-weight: 700;
   padding: 1px 6px;
@@ -173,26 +180,78 @@
 }
 
 /* Rarity Color Themes */
-.ki-text-common { color: #cbd5e1; }
-.ki-text-uncommon { color: #4ade80; }
-.ki-text-rare { color: #38bdf8; }
-.ki-text-epic { color: #c084fc; }
-.ki-text-legendary { color: #fbbf24; }
-.ki-text-mythic { color: #f43f5e; }
+.ki-text-common {
+  color: #cbd5e1;
+}
+.ki-text-uncommon {
+  color: #4ade80;
+}
+.ki-text-rare {
+  color: #38bdf8;
+}
+.ki-text-epic {
+  color: #c084fc;
+}
+.ki-text-legendary {
+  color: #fbbf24;
+}
+.ki-text-mythic {
+  color: #f43f5e;
+}
 
-.ki-border-common { border-color: #64748b; }
-.ki-border-uncommon { border-color: #22c55e; box-shadow: 0 0 8px rgba(34, 197, 94, 0.3); }
-.ki-border-rare { border-color: #0284c7; box-shadow: 0 0 10px rgba(56, 189, 248, 0.35); }
-.ki-border-epic { border-color: #9333ea; box-shadow: 0 0 12px rgba(192, 132, 252, 0.4); }
-.ki-border-legendary { border-color: #d97706; box-shadow: 0 0 14px rgba(251, 191, 36, 0.45); }
-.ki-border-mythic { border-color: #e11d48; box-shadow: 0 0 16px rgba(244, 63, 94, 0.5); }
+.ki-border-common {
+  border-color: #64748b;
+}
+.ki-border-uncommon {
+  border-color: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+}
+.ki-border-rare {
+  border-color: #0284c7;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+}
+.ki-border-epic {
+  border-color: #9333ea;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+.ki-border-legendary {
+  border-color: #d97706;
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
+}
+.ki-border-mythic {
+  border-color: #e11d48;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.5);
+}
 
-.ki-bg-common { background: #334155; color: #f1f5f9; }
-.ki-bg-uncommon { background: #14532d; color: #86efac; border: 1px solid #22c55e; }
-.ki-bg-rare { background: #0c4a6e; color: #7dd3fc; border: 1px solid #0284c7; }
-.ki-bg-epic { background: #581c87; color: #d8b4fe; border: 1px solid #9333ea; }
-.ki-bg-legendary { background: #78350f; color: #fde68a; border: 1px solid #d97706; }
-.ki-bg-mythic { background: #881337; color: #fecdd3; border: 1px solid #e11d48; }
+.ki-bg-common {
+  background: #334155;
+  color: #f1f5f9;
+}
+.ki-bg-uncommon {
+  background: #14532d;
+  color: #86efac;
+  border: 1px solid #22c55e;
+}
+.ki-bg-rare {
+  background: #0c4a6e;
+  color: #7dd3fc;
+  border: 1px solid #0284c7;
+}
+.ki-bg-epic {
+  background: #581c87;
+  color: #d8b4fe;
+  border: 1px solid #9333ea;
+}
+.ki-bg-legendary {
+  background: #78350f;
+  color: #fde68a;
+  border: 1px solid #d97706;
+}
+.ki-bg-mythic {
+  background: #881337;
+  color: #fecdd3;
+  border: 1px solid #e11d48;
+}
 
 .ki-tooltip-section-title {
   font-size: 10px;
@@ -407,7 +466,8 @@
   font-weight: 700;
   color: #94a3b8;
 }
-.ki-filter-select, .ki-filter-search {
+.ki-filter-select,
+.ki-filter-search {
   background: #0f172a !important;
   border: 1px solid #334155 !important;
   border-radius: 6px !important;
@@ -415,7 +475,8 @@
   padding: 4px 8px !important;
   font-size: 12px !important;
 }
-.ki-filter-select:focus, .ki-filter-search:focus {
+.ki-filter-select:focus,
+.ki-filter-search:focus {
   border-color: #38bdf8 !important;
   outline: none !important;
 }
@@ -441,4 +502,218 @@
 .ki-filter-reset-btn:hover {
   background: #475569 !important;
   color: #fff !important;
+}
+
+/* Item details window: centred, scrollable, readable on a phone. */
+.ki-item-tooltip-anchor {
+  cursor: pointer;
+}
+.ki-item-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(3, 6, 12, 0.72);
+}
+.ki-item-modal {
+  width: min(560px, 100%);
+  max-height: min(86vh, 900px);
+  display: flex;
+  flex-direction: column;
+  background: #0b111e;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+  color: #e2e8f0;
+  overflow: hidden;
+}
+.ki-item-modal-head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border-bottom: 1px solid #1e293b;
+}
+.ki-item-modal-icon {
+  flex: none;
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #334155;
+  border-radius: 10px;
+  background: #050912;
+}
+.ki-item-modal-icon img {
+  max-width: 76px;
+  max-height: 76px;
+  image-rendering: auto;
+}
+.ki-item-modal-title {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+.ki-item-modal-title strong {
+  font-size: 1.1rem;
+}
+.ki-item-modal-close {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.ki-item-modal-body {
+  padding: 4px 14px 16px;
+  overflow-y: auto;
+}
+.ki-item-modal-body h4 {
+  margin: 14px 0 6px;
+  font-size: 0.95rem;
+  color: #fbbf24;
+}
+.ki-item-modal-desc {
+  color: #cbd5e1;
+}
+.ki-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.ki-compact-table th,
+.ki-compact-table td {
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.ki-sources-summary {
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+.ki-details-button {
+  padding: 4px 12px;
+}
+button.ki-catalog-item-wrapper {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Boss cards */
+.ki-section-hint {
+  margin: 0 0 12px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+.ki-boss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: 14px;
+}
+.ki-boss-card {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: #0b111e;
+}
+.ki-boss-preview {
+  display: grid;
+  place-items: center;
+  min-height: 170px;
+  border-radius: 10px;
+  background: radial-gradient(circle at 50% 60%, #1e293b, #050912 70%);
+}
+.ki-boss-preview img {
+  max-width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+}
+.ki-boss-main {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.ki-boss-main header {
+  display: grid;
+  gap: 4px;
+}
+.ki-boss-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.ki-boss-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 6px;
+}
+.ki-boss-field {
+  display: grid;
+  gap: 2px;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+.ki-boss-field input {
+  width: 100%;
+  min-width: 0;
+}
+.ki-boss-loot {
+  display: grid;
+  gap: 4px;
+}
+.ki-boss-loot-row {
+  display: grid;
+  grid-template-columns: 1fr auto 64px;
+  gap: 6px;
+  align-items: center;
+  padding: 3px 6px;
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.ki-link-like {
+  color: #38bdf8;
+  text-decoration: underline dotted;
+}
+@media (max-width: 560px) {
+  .ki-boss-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Spawn list */
+.ki-spawn-feature {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.ki-spawn-thumb {
+  width: 44px;
+}
+.ki-spawn-thumb .ki-catalog-thumbnail {
+  width: 40px;
+  height: 40px;
+  min-height: 0;
+}
+.ki-spawn-list tr.is-selected td {
+  background: #1e293b;
+}
+.ki-pager {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0;
+}
+.ki-inline-button {
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
 }
