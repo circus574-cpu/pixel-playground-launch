@@ -91,12 +91,14 @@ export class GameServer {
     const envDbUrl = process.env["DATABASE_URL"];
 
     this.config = {
+      // Caddy forwards /ws only to this port, so the panel cannot move it.
       port: Number(envPort) || customConfig?.port || 7420,
       nodeId: envNodeId || customConfig?.nodeId || "eu-central-1",
-      name: envName || customConfig?.name || "Węzeł Gry EU-Central #1",
-      region: envRegion || customConfig?.region || "eu-central (Frankfurt)",
-      maxPlayers: Number(envMaxPlayers) || customConfig?.maxPlayers || 250,
-      tickRateHz: Number(envTickRate) || customConfig?.tickRateHz || 20.0,
+      // Values the owner sets in /admin win over the container environment.
+      name: customConfig?.name || envName || "Superior",
+      region: customConfig?.region || envRegion || "eu-central (Frankfurt)",
+      maxPlayers: customConfig?.maxPlayers || Number(envMaxPlayers) || 50,
+      tickRateHz: customConfig?.tickRateHz || Number(envTickRate) || 20.0,
       aoiCellSize: 512,
       databaseUrl: envDbUrl || customConfig?.databaseUrl,
     };
