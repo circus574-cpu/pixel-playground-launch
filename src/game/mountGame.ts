@@ -24,7 +24,7 @@ import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
 import { cuesFor, sfx } from "./sfx";
 import { actionFor, readKeyBindings, skillSlot } from "./keyBindings";
-import { heroOcclusion } from "./world/visibility";
+import { focusOcclusion, heroOcclusion, type OcclusionFocus } from "./world/visibility";
 import {
   GameSession,
   SaveStore,
@@ -75,7 +75,7 @@ export type GameRuntime = {
   render: (scene: Phaser.Scene) => {
     terrainMode: string;
     dispose: () => void;
-    updateVisibility: (player: Point) => void;
+    updateVisibility: (player: Point, others?: readonly OcclusionFocus[]) => void;
     setVisible: (visible: boolean) => void;
   };
   interiorBindings?: Readonly<Record<string, import("./assets/schema").TextureRef>>;
@@ -142,7 +142,7 @@ export function mountKileGends(
       const release = this.visualBudget.add(() => object.destroy(), critical);
       object.once(Phaser.GameObjects.Events.DESTROY, release);
     }
-    private updateVisibility?: (player: Point) => void;
+    private updateVisibility?: (player: Point, others?: readonly OcclusionFocus[]) => void;
     private runtimeVisible: ((visible: boolean) => void) | undefined;
     private outsideObjects: (Phaser.GameObjects.GameObject &
       Phaser.GameObjects.Components.Visible)[] = [];
@@ -150,6 +150,38 @@ export function mountKileGends(
     private lastInterior: BuildingId | null | undefined;
     private hero!: Actor;
     private heroGhost?: Phaser.GameObjects.Image;
+    /** See-through outlines of monsters, villagers and players standing under foliage or roofs. */
+    private ghosts = new Map<string, Phaser.GameObjects.Image>();
+    private ghostsSeen = new Set<string>();
+    private syncGhost(
+      key: string,
+      actor: { sprite: Phaser.GameObjects.Sprite; body: Phaser.GameObjects.Container },
+      covered: boolean,
+    ) {
+      this.ghostsSeen.add(key);
+      let ghost = this.ghosts.get(key);
+      if (!covered || !actor.body.visible) {
+        ghost?.setVisible(false);
+        return;
+      }
+      const sprite = actor.sprite,
+        holder = actor.body;
+      if (!ghost) {
+        ghost = this.add
+          .image(0, 0, sprite.texture.key)
+          .setDepth(renderDepth("overhead"))
+          .setAlpha(0.9)
+          .setTint(0xffe7a8);
+        this.ghosts.set(key, ghost);
+      }
+      ghost
+        .setVisible(true)
+        .setTexture(sprite.texture.key, sprite.frame.name)
+        .setOrigin(sprite.originX, sprite.originY)
+        .setPosition(holder.x + sprite.x * holder.scaleX, holder.y + sprite.y * holder.scaleY)
+        .setScale(sprite.scaleX * holder.scaleX, sprite.scaleY * holder.scaleY)
+        .setFlip(sprite.flipX, sprite.flipY);
+    }
     private enemies = new Map<string, Actor>();
     private networkClient: NetworkClient | undefined;
     private networkPlayers = new Map<
@@ -1335,7 +1367,17 @@ export function mountKileGends(
         }
       }
       heroOcclusion.reset();
-      if (!session.player.interior) this.updateVisibility?.(session.player);
+      focusOcclusion.reset();
+      if (!session.player.interior) {
+        // Everything that must stay visible behind foliage: monsters, villagers, other players.
+        const foci: OcclusionFocus[] = [];
+        for (const e of session.enemies)
+          if (e.hp > 0 && !e.m.hidden) foci.push({ id: "enemy:" + e.id, x: e.x, y: e.y });
+        for (const n of session.npcs) foci.push({ id: "npc:" + n.id, x: n.x, y: n.y });
+        for (const [id, entry] of this.networkPlayers)
+          foci.push({ id: "peer:" + id, x: entry.actor.body.x, y: entry.actor.body.y });
+        this.updateVisibility?.(session.player, foci);
+      }
       const activeNpcs = new Map(session.npcs.map((n) => [n.id, n]));
       for (const actor of this.actors)
         if (actor.npcId) {
@@ -1454,6 +1496,22 @@ export function mountKileGends(
           );
         else if (!near) a.body.setVisible(false);
       }
+      this.ghostsSeen.clear();
+      for (const e of session.enemies) {
+        const a = this.enemies.get(e.id);
+        if (a)
+          this.syncGhost("enemy:" + e.id, a, e.hp > 0 && focusOcclusion.covered("enemy:" + e.id));
+      }
+      for (const a of this.actors)
+        if (a.kind === "npc" && a.npcId)
+          this.syncGhost("npc:" + a.npcId, a, focusOcclusion.covered("npc:" + a.npcId));
+      for (const [id, entry] of this.networkPlayers)
+        this.syncGhost("peer:" + id, entry.actor, focusOcclusion.covered("peer:" + id));
+      for (const [key, ghost] of this.ghosts)
+        if (!this.ghostsSeen.has(key)) {
+          ghost.destroy();
+          this.ghosts.delete(key);
+        }
       for (const actor of this.actors)
         if (actor.kind === "npc")
           actor.animation.update(

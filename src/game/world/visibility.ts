@@ -36,3 +36,39 @@ export function coversPlayer(object: ForestObject, player: Point, margin?: numbe
     player.y - 45 <= top + object.height + m
   );
 }
+
+/** A creature (monster, NPC, other player) that foliage must never hide. */
+export type OcclusionFocus = Point & { id: string };
+
+const coveredFoci = new Set<string>();
+/** Which non-hero creatures stood under something tall this frame (drives their see-through outline). */
+export const focusOcclusion = {
+  reset() {
+    coveredFoci.clear();
+  },
+  covered(id: string) {
+    return coveredFoci.has(id);
+  },
+};
+
+const CROWN = /tree|pine|bamboo|oak|birch|spruce|willow|palm/;
+/**
+ * Opacity of a foreground object for every creature that could stand behind it, so a dense forest
+ * never hides a monster or a villager (owner 02.11.2026). Same fading as for the hero.
+ */
+export function foliageAlpha(object: ForestObject, foci: readonly OcclusionFocus[]): number {
+  if (!foci.length || object.kind === "bridge") return 1;
+  const left = object.x - object.width * object.anchorX - 48,
+    right = left + object.width + 96,
+    top = object.y - object.height * object.anchorY - 48 - 45,
+    bottom = top + object.height + 96 + 90;
+  let alpha = 1;
+  for (const f of foci) {
+    if (f.x < left || f.x > right || f.y < top || f.y > bottom) continue;
+    if (!coversPlayer(object, f)) continue;
+    if (object.height >= 140 && coversPlayer(object, f, 0)) coveredFoci.add(f.id);
+    // Stronger fade than for the hero: several crowns stack in a forest, and a monster is small.
+    alpha = Math.min(alpha, CROWN.test(object.kind) ? 0.3 : 0.2);
+  }
+  return alpha;
+}
