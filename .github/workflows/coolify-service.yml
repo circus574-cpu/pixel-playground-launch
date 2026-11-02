@@ -1,0 +1,107 @@
+name: Coolify service maintenance (Ki Legends)
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "inspect = read only; remove-build = drop stale build: sections from the compose (no restart)"
+        type: choice
+        required: true
+        default: inspect
+        options:
+          - inspect
+          - remove-build
+permissions:
+  contents: read
+concurrency:
+  group: coolify-service
+  cancel-in-progress: false
+jobs:
+  coolify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SERVICE_UUID: xh4qbckykxsq1iofxdoe5t3h
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+      - name: Prepare SSH and API helper
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+          COOLIFY_API_TOKEN: ${{ secrets.COOLIFY_API_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [ -n "$SSH_PRIVATE_KEY" ] || { echo '::error::Missing COOLIFY_SSH_KEY'; exit 1; }
+          [ -n "$COOLIFY_API_TOKEN" ] || { echo '::error::Missing COOLIFY_API_TOKEN'; exit 1; }
+          umask 077
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$RUNNER_TEMP/key"
+          cat > "$RUNNER_TEMP/ssh.sh" <<'EOS'
+          #!/usr/bin/env bash
+          exec ssh -i "$RUNNER_TEMP/key" -o BatchMode=yes -o ConnectTimeout=15 \
+            -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" \
+            codex@85.235.150.189 "$@"
+          EOS
+          chmod +x "$RUNNER_TEMP/ssh.sh"
+          "$RUNNER_TEMP/ssh.sh" 'umask 077; cat > /tmp/ki-coolify-api.sh' < .github/scripts/coolify-api.sh
+      - name: Read service (compose, variable names, container check)
+        env:
+          COOLIFY_API_TOKEN: ${{ secrets.COOLIFY_API_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api() { printf '%s\n%s' "$COOLIFY_API_TOKEN" "${3:-}" | "$RUNNER_TEMP/ssh.sh" "bash /tmp/ki-coolify-api.sh $1 $2"; }
+          api GET "/api/v1/services/$SERVICE_UUID" > "$RUNNER_TEMP/service.json"
+          python3 - "$RUNNER_TEMP/service.json" <<'PY'
+          import base64, json, re, sys
+          s = json.load(open(sys.argv[1]))
+          raw = s.get("docker_compose_raw") or ""
+          try:
+              text = base64.b64decode(raw).decode() if raw and ":" not in raw[:40] else raw
+          except Exception:
+              text = raw
+          open(sys.argv[1] + ".compose.yml", "w").write(text)
+          print("Service:", s.get("name"), "| keys:", ", ".join(sorted(s.keys())))
+          print("compose is base64:", text != raw)
+          print("build: sections:", len(re.findall(r"^\s{4}build:", text, re.M)))
+          masked = re.sub(r"(sb_publishable_|re_)[A-Za-z0-9_]+", r"\1***", text)
+          print("----- compose -----"); print(masked)
+          PY
+          api GET "/api/v1/services/$SERVICE_UUID/envs" | python3 -c "import json,sys; d=json.load(sys.stdin); print('Coolify variables:', sorted({e.get('key') for e in d}))"
+          "$RUNNER_TEMP/ssh.sh" 'for v in RESEND_API_KEY EMAIL_FROM DATABASE_URL; do if docker exec app-xh4qbckykxsq1iofxdoe5t3h printenv "$v" >/dev/null 2>&1; then echo "$v in app container: yes"; else echo "$v in app container: no"; fi; done' || true
+      - name: Remove stale build sections (no restart)
+        if: ${{ github.event.inputs.action == 'remove-build' }}
+        env:
+          COOLIFY_API_TOKEN: ${{ secrets.COOLIFY_API_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api() { printf '%s\n%s' "$COOLIFY_API_TOKEN" "${3:-}" | "$RUNNER_TEMP/ssh.sh" "bash /tmp/ki-coolify-api.sh $1 $2"; }
+          python3 - "$RUNNER_TEMP/service.json.compose.yml" > "$RUNNER_TEMP/body.json" <<'PY'
+          import base64, json, re, sys
+          lines = open(sys.argv[1]).read().splitlines()
+          out, skip = [], None
+          for line in lines:
+              indent = len(line) - len(line.lstrip())
+              if skip is not None:
+                  if line.strip() and indent <= skip:
+                      skip = None
+                  else:
+                      continue
+              if re.match(r"^x-build-args:", line) or re.match(r"^\s{4}build:\s*$", line):
+                  skip = indent
+                  continue
+              out.append(line)
+          text = "\n".join(out) + "\n"
+          assert "build:" not in text and "image:" in text, "unexpected compose shape"
+          sys.stderr.write("----- new compose -----\n" + re.sub(r"(sb_publishable_|re_)[A-Za-z0-9_]+", r"\1***", text))
+          print(json.dumps({"docker_compose_raw": base64.b64encode(text.encode()).decode()}))
+          PY
+          api PATCH "/api/v1/services/$SERVICE_UUID" "$(cat "$RUNNER_TEMP/body.json")" | head -c 300; echo
+          echo 'Compose updated in Coolify. No restart was performed; the next GitHub deployment uses it.'
+      - name: Clean up
+        if: always()
+        shell: bash
+        run: |
+          "$RUNNER_TEMP/ssh.sh" 'rm -f /tmp/ki-coolify-api.sh' || true
+          rm -f "$RUNNER_TEMP/key"
