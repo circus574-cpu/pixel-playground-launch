@@ -42,6 +42,8 @@ export function browserNavigation(
   terrain: GridData,
   colliders: readonly Obstacle[],
   exclusions: readonly Obstacle[] = [],
+  /** Sealed-pocket corridors (labyrinths) opened on top of the generated sea. */
+  openings: readonly Obstacle[] = [],
 ): Navigation {
   if (
     navigation.cell !== 16 ||
@@ -68,6 +70,25 @@ export function browserNavigation(
         x++
       )
         blocked[y * navigation.width + x] = 1;
+  const inside = (p: Point) =>
+    openings.some(
+      (o) =>
+        p.x >= o.x + FOOT_RADIUS &&
+        p.y >= o.y + FOOT_RADIUS &&
+        p.x <= o.x + o.width - FOOT_RADIUS &&
+        p.y <= o.y + o.height - FOOT_RADIUS,
+    );
+  for (const o of openings)
+    for (let y = Math.ceil(o.y / 16); y < Math.floor((o.y + o.height) / 16); y++)
+      for (let x = Math.ceil(o.x / 16); x < Math.floor((o.x + o.width) / 16); x++)
+        if (
+          x >= 0 &&
+          y >= 0 &&
+          x < navigation.width &&
+          y < navigation.height &&
+          inside({ x: x * 16 + 8, y: y * 16 + 8 })
+        )
+          blocked[y * navigation.width + x] = 0;
   const index = new Map<string, Obstacle[]>();
   for (const r of [...colliders, ...exclusions]) {
     if (
@@ -98,6 +119,7 @@ export function browserNavigation(
       p.y > height - WORLD_EDGE_MARGIN
     )
       return false;
+    if (inside(p)) return true;
     for (
       let y = Math.max(0, Math.floor((p.y - FOOT_RADIUS) / 32));
       y <= Math.min(terrain.height - 1, Math.floor((p.y + FOOT_RADIUS) / 32));

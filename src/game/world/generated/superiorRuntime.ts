@@ -27,6 +27,7 @@ import {
   readAdminWorldOverrides,
 } from "../adminWorldStore";
 import { fetchPublishedWorld } from "../worldOverridesClient";
+import { labyrinthArt, labyrinthBounds, withLabyrinthSpawns } from "./labyrinths";
 import { RACES, type RaceId } from "../races";
 import { WORLDS } from "../worlds";
 import type { CityDefinition, BuildingId } from "../../city/types";
@@ -168,6 +169,11 @@ export async function prepareSuperior(options: {
         )
       : rawSpawnData.overworld,
   };
+  spawnData.overworld = withLabyrinthSpawns(
+    info.id,
+    spawnData.overworld,
+    (p) => outsideCities(p) && loader.navigation.walkable(p),
+  );
   if (
     spawnData.feature !== info.id ||
     !Array.isArray(spawnData.overworld) ||
@@ -287,7 +293,7 @@ export async function prepareSuperior(options: {
   const protectedAssets = new Set(initialAssets.keys());
   const artCache = new Map<string, ArtObject[]>();
   const artRequests = new Map<string, Promise<ArtObject[]>>();
-  const readArt = async (x: number, y: number) => {
+  const readArtFile = async (x: number, y: number) => {
     const id = x + "-" + y,
       cached = artCache.get(id);
     if (cached) {
@@ -325,6 +331,17 @@ export async function prepareSuperior(options: {
     } finally {
       artRequests.delete(id);
     }
+  };
+  // Labyrinth scenery joins the regular per-chunk scenery (same streaming and asset loading).
+  const labyrinthChunks = new Map<string, ArtObject[]>();
+  for (const item of labyrinthArt(info.id)) {
+    const id = Math.floor(item.x / 2048) + "-" + Math.floor(item.y / 2048);
+    labyrinthChunks.set(id, [...(labyrinthChunks.get(id) ?? []), item]);
+  }
+  const readArt = async (x: number, y: number) => {
+    const extra = labyrinthChunks.get(x + "-" + y);
+    const objects = await readArtFile(x, y);
+    return extra ? [...objects, ...extra] : objects;
   };
   // Warm the starting neighbourhood before Phaser's genuine asset-loading progress begins.
   const cx = Math.floor(session.player.x / 2048),
@@ -660,6 +677,12 @@ export async function prepareSuperior(options: {
         release,
         error,
         currentDoors: () => [...(world.city?.buildings ?? [])],
+        underlays: labyrinthBounds(info.id).map((b) => ({
+          x: b.x - 2000,
+          y: b.y - 2000,
+          width: b.width + 4000,
+          height: b.height + 4000,
+        })),
       });
     },
     afterTick() {

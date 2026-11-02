@@ -1342,6 +1342,28 @@ export class GameSession implements MonsterHost {
     if (next[stat].rank > before[stat].rank)
       this.say(TRAINABLE_NAMES[stat] + " · trening " + next[stat].rank);
   }
+  private portalReadyAt = 0;
+  /** Labyrinth passages: stepping on one moves the hero within the same land. */
+  private usePortals() {
+    const p = this.player;
+    if (p.interior || this.nowMs < this.portalReadyAt) return;
+    const portal = this.world.portals?.find((o) => distance(o.at, p) <= o.radius);
+    if (!portal) return;
+    const to = this.nav.safe(portal.to);
+    if (!this.nav.walkable(to)) return;
+    this.portalReadyAt = this.nowMs + 1500;
+    this.clearDestinations();
+    this.route = [];
+    this.targetId = null;
+    this.autoAttack = false;
+    this.bufferedAction = undefined;
+    this.kit.cancelActions();
+    this.projectiles.cancel();
+    this.monsters.cancelCombat();
+    Object.assign(p, to);
+    this.say(portal.message);
+    this.flush();
+  }
   private switchInterior(id: BuildingId | null) {
     this.practiceTargets.clear();
     this.heritage.cancelActivities(false);
@@ -2455,6 +2477,7 @@ export class GameSession implements MonsterHost {
     if (p.dead) return;
     this.kit.tick(dt, wasMoving);
     if (p.dead) return;
+    this.usePortals();
     const buffered = this.bufferedAction;
     if (buffered) {
       if (this.nowMs > buffered.expires || this.fx.cannotAct || p.dead)

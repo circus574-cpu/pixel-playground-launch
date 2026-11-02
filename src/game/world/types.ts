@@ -47,6 +47,8 @@ export type WorldDefinition = {
   city?: CityDefinition;
   /** Additional safe settlements in a generated feature. */
   safeAreas?: readonly Obstacle[];
+  /** Step-on passages within the land (labyrinth entrances and exits). */
+  portals?: readonly { id: string; at: Point; radius: number; to: Point; message: string }[];
   /** Number of leading obstacles that form the outer boundary (default 3). */
   border?: number;
   /** Open-world layout revision; saves from an earlier layout are shifted by `legacyShift`. */

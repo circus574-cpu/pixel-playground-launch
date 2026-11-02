@@ -37,6 +37,8 @@ export type RenderSource = {
   release: (scene: Phaser.Scene, owner: string) => void;
   error: (error: unknown) => void;
   currentDoors: () => { id: string; name: string; door: Point }[];
+  /** Dark rock drawn over the sea around sealed labyrinths (presentation only). */
+  underlays?: readonly { x: number; y: number; width: number; height: number }[];
 };
 const CHUNK = 2048;
 type Tile = {
@@ -89,6 +91,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     lastCells = "",
     doorsKey = "";
   const markers: (Phaser.GameObjects.Ellipse | Phaser.GameObjects.Text)[] = [];
+  const underlays = (source.underlays ?? []).map((u) =>
+    scene.add
+      .rectangle(u.x + u.width / 2, u.y + u.height / 2, u.width, u.height, 0x0c0e12)
+      .setDepth(renderDepth("paths") + 1),
+  );
   const staticItems = [
     ...source.art.buildings,
     ...source.art.acceptedCityBuildings,
@@ -410,11 +417,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         for (const image of tile.images.values()) image.setVisible(value);
       }
       for (const marker of markers) marker.setVisible(value);
+      for (const u of underlays) u.setVisible(value);
     },
     dispose() {
       disposed = true;
       for (const id of [...live.keys()]) drop(id);
       markers.splice(0).forEach((m) => m.destroy());
+      underlays.splice(0).forEach((u) => u.destroy());
     },
   };
 }

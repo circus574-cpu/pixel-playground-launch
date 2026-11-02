@@ -1,4 +1,5 @@
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
+import { labyrinthAt } from "@/game/world/generated/labyrinths";
 import { CharacterStatsPanel } from "./CharacterStatsPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
 import { CombatAction } from "./CombatAction";
@@ -732,7 +733,9 @@ export function GameHud({
       <div className="ki-location">
         <BrandMark compact />
         <strong>
-          {state.building?.name ?? (WORLD_V2 && !state.inCity ? "Dzikie ziemie" : world.settlement)}
+          {state.building?.name ??
+            labyrinthAt(world.id, state.player)?.name ??
+            (WORLD_V2 && !state.inCity ? "Dzikie ziemie" : world.settlement)}
         </strong>
         <i />
         {world.name}

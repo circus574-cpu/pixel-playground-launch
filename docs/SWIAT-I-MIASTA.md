@@ -4,8 +4,6 @@
 >
 > **Kanon nie jest tożsamy z odbiorem:** 45% lądu / 55% wody na sferze (4 kontynenty i 6 wysp), maks. 20 rozległych podziemi (4–5 labiryntów), przejścia między kontynentami oraz bezstratne migracje nadal wymagają niezależnego sprawdzenia aktywnej geometrii, nawigacji, questów i zapisów. Historyczne 152 podziemia nie są 152 gotowymi grywalnymi lokacjami. Mapa Coder ma dodatkowo niezaliczoną interakcję wyboru miast/lokacji; patrz [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
 
-
-
 ## Superior — jedyny świat gry
 
 Decyzja właściciela 24.10.2026: Superior zastępuje cztery stare mapy gry.
@@ -53,7 +51,6 @@ Otwarte: pełne wnętrza lochów z nagrodami, zbieranie zasobów, ukryte miejsca
 życie mieszkańców/karawany, grafiki NPC oraz odbiór wyglądu zainstalowanych 40 potworów,
 limity i pomiary fizycznego telefonu. Poniższy opis generacji dotyczy danych źródłowych;
 znaczniki `runtimeInstalled: false` zachowano w ich niezmienionych oryginałach.
-
 
 Stan: 23.10.2026, `origin/main` na `d0bfc2c`. Wszystkie cztery miasta mają wspólne
 wejścia, wnętrza i usługi. Dawne opisy „dane gotowe, mechanik brak” są nieaktualne.
@@ -197,7 +194,6 @@ Testy `city`, `aetheria-city`, `nexus-city`, `pyra-city` sprawdzają separację,
 osiągalność, brak walki w mieście i zachowaną walkę poza granicą. Wynik testu nie
 zastępuje oceny wyglądu i fizycznego telefonu.
 
-
 ## Pełna generacja Superior na CPU — 23.10.2026
 
 Polecenie właściciela obejmuje wszystkie 10 lądów, drogi, ścieżki, ukryte miejsca,
@@ -240,7 +236,6 @@ pościgu, wędrówki i aggro + 256. Siatka aktywacji i limit 24 to **kontrakt do
 nie zmierzona wydajność Androida ani już zaimplementowany streaming potworów.
 
 Instrukcja uruchomienia i odbioru: [architektura](ARCHITEKTURA-I-TESTY.md#pełna-planeta-i-osobna-generacja-spawnów).
-
 
 ## Kontynenty w skali planety i miasta 4000 × 2500 (23.10.2026)
 
@@ -288,6 +283,34 @@ Wymiary kontynentów to prostokąty opisane na obrysach z `atlasRegions.json` pr
 4. Dłuższe trasy: kamera, minimapa i mapa świata nie mają jeszcze przybliżenia na całą krainę; podróż po 40-tysięcznym kontynencie pieszo trwa kilka minut.
 5. Pomiar FPS i pamięci na telefonie.
 
+## Grywalne labirynty — 02.11.2026
+
+Cztery zarezerwowane wejścia `kind: maze` z `world.json` (po jednym na kontynent) prowadzą do
+grywalnych labiryntów (`src/game/world/generated/labyrinths.ts`). Jaskinie (18) i wnętrza
+ruin nadal mają tylko zarezerwowane wejścia.
+
+- Położenie: zamknięta kieszeń otwartego morza na tym samym lądzie, co najmniej 3 km od
+  jakiegokolwiek lądu (sprawdzane testem na `navigation.json`). Potwory nie wychodzą z labiryntu
+  ani do niego nie wchodzą. Ten sam układ współrzędnych oznacza, że walka, spawny, zapis i serwer
+  online działają bez zmian.
+- Układ: siatka 12×12 komórek po 384 j. (ściany 96 j.), generowana deterministycznie ze stałego
+  ziarna (przeglądarka i serwer budują identyczne korytarze). Nawigacja otwiera dokładnie
+  prostokąty korytarzy; reszta pozostaje morzem.
+- Przejścia: brama na lądzie → przybycie w labiryncie; drzwi obok przybycia → powrót przed bramę;
+  portal w sercu labiryntu (najdalsza komórka) → powrót na powierzchnię. Przejście w `GameSession`
+  (`usePortals`), więc działa tak samo lokalnie i na serwerze.
+- Potwory: najsilniejsze gatunki danego lądu w ślepych zaułkach, najsilniejszy jako strażnik serca
+  (odrodzenie 2 / 5 min). Łup jak u zwykłych potworów. Skrzynia w sercu jest dekoracją.
+- Grafika: podłoga i ściana z paczki `dungeon-tiles` (wygenerowane przez właściciela 02.11),
+  kolumny, pochodnie, kości, kryształy, drzwi i skrzynia z `dungeon-kit`; ciemne tło pod kieszenią.
+
+| Ląd     | Labirynt                    |
+| ------- | --------------------------- |
+| Verdant | Labirynt Splątanych Korzeni |
+| Aether  | Labirynt Mglistych Sal      |
+| Nexus   | Labirynt Martwych Obwodów   |
+| Pyra    | Labirynt Wygasłych Pieców   |
+
 ## Superior v2 — decyzja właściciela 24.10.2026
 
 Nowy cel zastępuje ograniczenie skali 0,5: 45% lądu / 55% oceanów na sferze
@@ -318,7 +341,6 @@ w pamięci i śpi. Nie zmienia się atlas, geometria kontynentów, położenie m
 wysp ani rejestr podziemi. To nie nowy tunel ani nowy duży loch.
 24 trwałe projekty świata z nowego zlecenia nadal wymagają realizacji i odbioru;
 sama sala egzaminacyjna nie stanowi ich wdrożenia.
-
 
 ### Lokalne cele i projekty dziedzictwa — PR #55, w realizacji
 
