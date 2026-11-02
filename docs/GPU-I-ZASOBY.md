@@ -1,6 +1,5 @@
 # KI Legends — GPU i zasoby
 
-
 ## Partia 2 i braki do docelowej oprawy — 23.10.2026
 
 Dostawę `8b0a814` z `assets/world-kit-for-codex-20261023` połączono na osobnej
@@ -39,7 +38,6 @@ prostokątne wycinki z uciętymi brzegami/sąsiednimi roślinami. Źródła zach
 binder używa obejrzanego dębu dla dwóch drzew i kwitnącego krzewu dla dwóch grup.
 Grafika `verdant-city-tree` przedstawia dom na drzewie i nie jest zamiennikiem sosny.
 Nie zamknięto odbioru artystycznego pozostałych części ani praw do wykorzystania.
-
 
 ## Partia 1 od Claude'a — zasoby do świata CPU
 
@@ -322,6 +320,23 @@ Bootstrap wymaga zgodnego Pythona/runtime. Dane o wcześniejszym `/opt`, archiwa
 checkpointach i przywróceniu są dowodami historycznymi w dziennikach, nie odczytem
 aktualnego stanu poda. Hasła/auth nie mogą trafić do kopii ani raportów.
 
+## Potwory w stylu anime — 02.11.2026
+
+Właściciel zaakceptował nowy styl potworów (ręcznie malowane anime, grube kontury) i zastąpił nim
+dotychczasowe wizerunki. Powstał bez GPU, z plansz wygenerowanych przez właściciela w zewnętrznym
+generatorze (jedna plansza 4:3 na potwora: 4 klatki chodu/lotu, 4 ataku, 4 śmierci, widok z boku w prawo).
+
+- Skrypt: `scripts/gpu/ingest_creature_sheet.py <plansza> <id-potwora> [--no-effects]` wycina 12 klatek
+  (siatka 4×3; klatki stykające się rogiem lub ogonem są rozcinane po liniach siatki), usuwa jasne tło
+  zachowując jasne futro i blachę, skaluje jedną skalą po ciele (długi język lub wiązka nie zmniejsza
+  potwora i zanika łagodnie) i buduje atlas 2048×1024 z lustrzanymi klatkami dla kierunków w lewo.
+  `--no-effects` dla latających i szerokich (skrzydła, wąż) — nic nie jest przycinane.
+- Pakiety `enemy-v3-<id>` (`public/game/assets/gpu/enemy-v3-*`) mapują wszystkie 8 kierunków na widok w
+  prawo lub lewo (góra i dół pokazują bok); `idle` = pierwsza klatka chodu, `hit` = pierwsza klatka
+  śmierci, `respawn` = śmierć od końca. Pakiety zastępują `enemy-v2-<id>` tym samym kluczem aktora.
+- Włączenie: domyślnie; `?ki-monsters-anime=0` przywraca poprzednie wizerunki (`enemy-v2-*` zostają).
+- Gotowe: 25 z 40 potworów. Bez planszy zostają: verdant-lisciak-skrytobojca, verdant-korzeniowy-pelzacz, aether-swietlik-pieczeci, aether-pergaminowy-straznik, aether-duch-bibliotekarza, aether-oko-wiedzy, aether-marionetka-rytualu, nexus-pajak-spawalniczy, nexus-wiezyczka-autonomiczna, nexus-roj-nanitow, nexus-straznik-rdzenia, nexus-latarnia-plazmowa, pyra-wegielek, pyra-popielny-wilk, pyra-plomien-duch.
+  Rój nanitów to chmura bez jednego ciała i wymaga innego ujęcia.
 
 ## Zestaw grafik do układania świata — kontrakt (23.10.2026)
 
@@ -394,7 +409,6 @@ Orientacyjnie: kilkanaście części jednego zestawu to godzina pracy GPU plus p
 | 494 tekstury krajobrazu + wersja przemalowana                                                                                     | wygenerowane / w trakcie przemalowania                                                                                    |
 | Góry, wulkany, skały, drzewa, 8 zwierząt neutralnych                                                                              | wygenerowane próbki, do wyboru                                                                                            |
 | Bohaterowie 4 ras w nowym stylu z animacjami                                                                                      | Legendy: trening modelu; Androidy: wybrany wygląd; reszta: koncepty                                                       |
-
 
 ## Krajobraz planety i neutralna fauna — specyfikacja (23.10.2026)
 

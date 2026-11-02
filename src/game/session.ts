@@ -903,6 +903,9 @@ export class GameSession implements MonsterHost {
   private pendingOutsideNpc: NpcId | null = null;
   private pendingChest = false;
   private pendingExit = false;
+  private interiorEnteredAt = 0;
+  /** True during a tick that follows manual (joystick/keys) movement. */
+  private manualFrame = false;
   private afterExit: BuildingId | null = null;
   depotOpen = false;
   training = { active: false, hits: 0, damage: 0 };
@@ -1352,6 +1355,7 @@ export class GameSession implements MonsterHost {
     const previous = this.building;
     const room = id ? cityRoom(id, this.world.id) : null;
     this.player.interior = id;
+    this.interiorEnteredAt = this.nowMs;
     this.nav = room ? new Navigation(room.width, room.height, room.obstacles) : this.outsideNav;
     Object.assign(this.player, this.nav.safe(room?.entry ?? previous?.door ?? this.world.spawn));
     this.dialogue = null;
@@ -2373,6 +2377,7 @@ export class GameSession implements MonsterHost {
     this.afterExit = null;
     this.pendingChest = false;
     this.movePlayer({ x: this.player.x + dx * 100, y: this.player.y + dy * 100 }, dt);
+    this.manualFrame = true;
   }
   private movePlayer(to: Point, dt: number) {
     if (this.fx.cannotMove || this.kit.lockMs > 0) return;
@@ -2400,6 +2405,7 @@ export class GameSession implements MonsterHost {
       this.stepSimulation(dt, manualMovement);
       remaining -= dt;
     }
+    this.manualFrame = false;
   }
   private stepSimulation(dt: number, manualMovement: boolean) {
     const wasMoving = manualMovement || this.moving;
@@ -2512,6 +2518,23 @@ export class GameSession implements MonsterHost {
     if (this.route.length && !this.fx.cannotAct) {
       this.movePlayer(this.route[0]!, dt);
       if (distance(p, this.route[0]!) < 5) this.route.shift();
+    }
+    // Walking onto the marked doorway with the joystick or keys leaves the building. Route walking
+    // (a tap, a quest target placed near the door) never does: a tap on the doorway exits already.
+    if (
+      p.interior &&
+      this.manualFrame &&
+      !this.pendingExit &&
+      this.nowMs - this.interiorEnteredAt > 600 &&
+      distance(p, cityRoom(p.interior, this.world.id).exit) <= 45
+    ) {
+      this.clearDestinations();
+      this.dialogue = null;
+      this.depotOpen = false;
+      this.pendingService = null;
+      this.pendingChest = false;
+      this.afterExit = null;
+      this.pendingExit = true;
     }
     if (
       this.pendingExit &&

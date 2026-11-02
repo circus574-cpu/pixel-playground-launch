@@ -9,7 +9,8 @@ describe("installed bestiary art", () => {
     expect(MONSTERS).toHaveLength(40);
     for (const m of MONSTERS) {
       const visual = actorVisual(m.world, "enemy", m.id.slice(m.world.length + 1));
-      expect(visual.id, m.id).toBe("enemy-" + m.id);
+      // Anime redraws (owner 02.11.2026) are `enemy-v3-<id>`; the rest keep their own `enemy-<id>`.
+      expect(["enemy-" + m.id, "enemy-v3-" + m.id], m.id).toContain(visual.id);
       expect(visual.size).toEqual([84, 84]);
       expect(visual.origin).toEqual([0.5, 0.8]);
       expect(Object.keys(visual.clips).sort()).toEqual([
@@ -24,7 +25,9 @@ describe("installed bestiary art", () => {
     }
   });
   it("uses the delivered wasp for its summoned offspring", () => {
-    expect(monsterVisual("verdant-mala-osa").id).toBe("enemy-verdant-bursztynowa-osa");
+    expect(["enemy-verdant-bursztynowa-osa", "enemy-v3-verdant-bursztynowa-osa"]).toContain(
+      monsterVisual("verdant-mala-osa").id,
+    );
   });
   it("does not eagerly allocate the complete installed bestiary on an accepted static map", () => {
     for (const world of Object.values(WORLDS)) {

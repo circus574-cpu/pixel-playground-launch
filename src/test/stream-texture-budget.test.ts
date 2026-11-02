@@ -32,7 +32,9 @@ describe("HD hero and streamed creature texture budget", () => {
     const bytes = streamTextureBytes(ids, catalog.assets);
     expect(bytes).toBeGreaterThan(128 * 1024 * 1024);
     expect(bytes).toBeLessThanOrEqual(STREAM_TEXTURE_BUDGET_BYTES);
-    expect(bytes / 1024 / 1024).toBeCloseTo(137.9630126953125);
+    // 137.96 MB with the earlier salamander (two atlas pages); 132.47 MB with its anime redraw
+    // (one 2048×1024 page, 02.11.2026).
+    expect(bytes / 1024 / 1024).toBeCloseTo(132.4708251953125);
   });
   it("retains a finite ceiling and reserves terrain, deduplicating reused atlases", () => {
     const assets = new Map([["atlas", { width: 2048, height: 2048 }]]);

@@ -153,6 +153,34 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-smithy-art": ["pyra-smithy"],
   /** Alternative Verdantia village; the accepted anime forest stays the default. */
   "ki-verdant-art": ["verdant-start"],
+  /** Anime-style redrawn monsters (animation sheets by the owner); the older monsters stay the default. */
+  "ki-monsters-anime": [
+    "enemy-v3-aether-krysztalowy-motyl",
+    "enemy-v3-aether-lew-swiatyni",
+    "enemy-v3-aether-mgielny-zuraw",
+    "enemy-v3-aether-szmaragdowy-waz",
+    "enemy-v3-aether-zloty-skarabeusz",
+    "enemy-v3-nexus-dron-zwiadowca",
+    "enemy-v3-nexus-kruk-danych",
+    "enemy-v3-nexus-pelzacz-serwisowy",
+    "enemy-v3-nexus-pies-lowca",
+    "enemy-v3-nexus-skaner-gasienicowy",
+    "enemy-v3-pyra-byk-areny",
+    "enemy-v3-pyra-golem-ruin",
+    "enemy-v3-pyra-magmowy-krab",
+    "enemy-v3-pyra-ognista-salamandra",
+    "enemy-v3-pyra-skalny-berserker",
+    "enemy-v3-pyra-skorpion-obsydianowy",
+    "enemy-v3-pyra-zarowy-nietoperz",
+    "enemy-v3-verdant-bursztynowa-osa",
+    "enemy-v3-verdant-cierniowy-wilk",
+    "enemy-v3-verdant-grzybowy-zarodnik",
+    "enemy-v3-verdant-lesny-pajak",
+    "enemy-v3-verdant-mchowy-szlamak",
+    "enemy-v3-verdant-puchacz-pylowy",
+    "enemy-v3-verdant-skalny-jelen",
+    "enemy-v3-verdant-straznik-ruin",
+  ],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
     "ki-v2-terrain",
@@ -209,7 +237,12 @@ export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
   // World v2 is the default world (owner decision 26.10.2026); only `?ki-world-v1=1` turns it off.
   const on = (param: string) =>
-    param === "ki-world-v2" ? params.get("ki-world-v1") !== "1" : params.get(param) === "1";
+    param === "ki-world-v2"
+      ? params.get("ki-world-v1") !== "1"
+      : // Anime monsters accepted by the owner 02.11.2026: default on, `?ki-monsters-anime=0` restores the old ones.
+        param === "ki-monsters-anime"
+        ? params.get(param) !== "0"
+        : params.get(param) === "1";
   return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) => (on(param) ? packs : []));
 }
 export const catalog = makeCatalog(
