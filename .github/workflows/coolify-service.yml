@@ -110,6 +110,18 @@ jobs:
           "$RUNNER_TEMP/ssh.sh" 'docker logs --since 40m --tail 400 app-xh4qbckykxsq1iofxdoe5t3h 2>&1' \
             | grep -viE 'bearer|authorization|re_[A-Za-z0-9]{8}|postgres(ql)?://|password|secret|token' \
             | tail -n 120 || true
+      - name: Read database errors (read only)
+        if: ${{ github.event.inputs.action == 'logs' }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          "$RUNNER_TEMP/ssh.sh" 'docker ps --format "{{.Names}} {{.Status}}"' || true
+          for name in $("$RUNNER_TEMP/ssh.sh" 'docker ps --format "{{.Names}}" | grep -iE "multiplayer|postgres|db"'); do
+            echo "== $name"
+            "$RUNNER_TEMP/ssh.sh" "docker logs --since 90m --tail 600 $name 2>&1" \
+              | grep -E 'ERROR|FATAL|PANIC|permission|timeout|too many|could not' \
+              | grep -viE 'password|secret|token' | tail -n 40 || true
+          done
       - name: Clean up
         if: always()
         shell: bash
