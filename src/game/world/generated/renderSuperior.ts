@@ -3,7 +3,7 @@ import { catalog } from "../../assets/catalog";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
 import { blendedTexture } from "../../assets/blendPlates";
-import { occlusionAlpha } from "../visibility";
+import { foliageAlpha, occlusionAlpha, type OcclusionFocus } from "../visibility";
 import { decodeRuns } from "./browserTerrain";
 import type { Point } from "../../navigation";
 import type { RegionObject } from "../types";
@@ -305,7 +305,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       pending.delete(id);
     }
   };
-  const updateVisibility = (player: Point) => {
+  const updateVisibility = (player: Point, others: readonly OcclusionFocus[] = []) => {
     if (disposed || failed || !visible) return;
     const view = scene.cameras.main.worldView;
     const maxX = Math.ceil(source.loader.definition.geometry.width / CHUNK) - 1;
@@ -368,7 +368,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
           tile.images.set(item.id, image);
         }
-        image.setAlpha(occlusionAlpha(item, player));
+        image.setAlpha(Math.min(occlusionAlpha(item, player), foliageAlpha(item, others)));
       }
     const doors = source.currentDoors(),
       nextKey = doors.map((d) => d.door.x + "," + d.door.y).join(";");
