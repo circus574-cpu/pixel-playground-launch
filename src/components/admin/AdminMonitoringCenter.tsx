@@ -16,8 +16,6 @@ import {
 } from "@/lib/serverControl.functions";
 import {
   collectAdminTelemetrySnapshot,
-  createServerNode,
-  deleteServerNode,
   getFeatureDisplayName,
   getServerNodeConfigs,
   resetServerNodesToDefault,
@@ -115,18 +113,10 @@ export function AdminMonitoringCenter() {
 
   // Server node management state
   const [selectedManagedNodeId, setSelectedManagedNodeId] = useState<string>("eu-central-1");
-  const [showCreateServerModal, setShowCreateServerModal] = useState(false);
-  const [createNodeId, setCreateNodeId] = useState("");
-  const [createName, setCreateName] = useState("");
-  const [createRegion, setCreateRegion] = useState("eu-central (Frankfurt)");
-  const [createHost, setCreateHost] = useState("85.235.150.189");
-  const [createPort, setCreatePort] = useState(7420);
-  const [createMaxPlayers, setCreateMaxPlayers] = useState(250);
-  const [createTickRate, setCreateTickRate] = useState(20.0);
 
   const [editingServerNode, setEditingServerNode] = useState<ServerNodeMetric | null>(null);
   const [editName, setEditName] = useState("");
-  const [editMaxPlayers, setEditMaxPlayers] = useState(250);
+  const [editMaxPlayers, setEditMaxPlayers] = useState(50);
   const [editHost, setEditHost] = useState("");
   const [editPort, setEditPort] = useState(7420);
   const [editRegion, setEditRegion] = useState("");
@@ -200,7 +190,7 @@ export function AdminMonitoringCenter() {
     const cfg = getServerNodeConfigs().find((n) => n.nodeId === nodeId);
     if (!cfg) return;
     setEditName(cfg.name || cfg.nodeId);
-    setEditMaxPlayers(cfg.maxPlayers || 250);
+    setEditMaxPlayers(cfg.maxPlayers || 50);
     setEditHost(cfg.host || "85.235.150.189");
     setEditPort(cfg.port || 7420);
     setEditRegion(cfg.region || "eu-central");
@@ -256,7 +246,7 @@ export function AdminMonitoringCenter() {
             nodeId: target?.nodeId || "eu-central-1",
             name: target?.name || "Węzeł Główny EU-Central #1",
             region: target?.region || "eu-central (Frankfurt)",
-            maxPlayers: target?.maxPlayers || 250,
+            maxPlayers: target?.maxPlayers || 50,
             tickRateHz: target?.tickRateHz || 20,
           },
         });
@@ -281,57 +271,11 @@ export function AdminMonitoringCenter() {
     }
   };
 
-  const handleCreateServer = async () => {
-    try {
-      if (!createNodeId.trim()) {
-        setServerActionMsg({ type: "error", text: "Podaj identyfikator węzła (np. eu-poland-1)." });
-        return;
-      }
-      if (!createName.trim()) {
-        setServerActionMsg({ type: "error", text: "Podaj nazwę wyświetlaną serwera." });
-        return;
-      }
-      const created = createServerNode({
-        nodeId: createNodeId,
-        name: createName,
-        region: createRegion,
-        host: createHost,
-        port: Number(createPort) || 7420,
-        maxPlayers: Number(createMaxPlayers) || 250,
-        status: "online",
-        tickRateHz: Number(createTickRate) || 20.0,
-      });
-
-      // Od razu przełącz widok na nowo utworzony serwer w panelu zarządzania!
-      setSelectedManagedNodeId(created.nodeId);
-      setEditName(created.name);
-      setEditMaxPlayers(created.maxPlayers);
-      setEditHost(created.host);
-      setEditPort(created.port);
-      setEditRegion(created.region);
-      setEditTickRate(created.tickRateHz || 20.0);
-
-      setServerActionMsg({
-        type: "success",
-        text: `Utworzono i otwarto panel zarządzania serwerem '${created.name}' [${created.nodeId}].`,
-      });
-      setShowCreateServerModal(false);
-      setCreateNodeId("");
-      setCreateName("");
-      void refresh();
-    } catch (err) {
-      setServerActionMsg({
-        type: "error",
-        text: err instanceof Error ? err.message : "Nie udało się utworzyć serwera",
-      });
-    }
-  };
-
   const handleOpenEdit = (n: ServerNodeMetric) => {
     setSelectedManagedNodeId(n.nodeId);
     setEditingServerNode(n);
     setEditName(n.name || n.label || n.nodeId);
-    setEditMaxPlayers(n.maxPlayers || 250);
+    setEditMaxPlayers(n.maxPlayers || 50);
     const hostParts = n.host.split(":");
     setEditHost(hostParts[0] || "85.235.150.189");
     setEditPort(n.port || (hostParts[1] ? Number(hostParts[1]) : 7420));
@@ -346,7 +290,7 @@ export function AdminMonitoringCenter() {
     try {
       const updated = updateServerNode(nodeIdToUpdate, {
         name: editName,
-        maxPlayers: Number(editMaxPlayers) || 250,
+        maxPlayers: Number(editMaxPlayers) || 50,
         host: editHost,
         port: Number(editPort) || 7420,
         region: editRegion,
@@ -467,26 +411,6 @@ export function AdminMonitoringCenter() {
       setServerActionMsg({
         type: "error",
         text: err instanceof Error ? err.message : "Błąd zmiany trybu serwera",
-      });
-    }
-  };
-
-  const handleDeleteServer = (nodeId: string) => {
-    if (!window.confirm(`Czy na pewno usunąć serwer [${nodeId}] z klastra?`)) return;
-    try {
-      deleteServerNode(nodeId);
-      if (selectedManagedNodeId === nodeId) {
-        setSelectedManagedNodeId("eu-central-1");
-      }
-      setServerActionMsg({
-        type: "success",
-        text: `Serwer [${nodeId}] został trwale usunięty z konfiguracji klastra.`,
-      });
-      void refresh();
-    } catch (err) {
-      setServerActionMsg({
-        type: "error",
-        text: err instanceof Error ? err.message : "Błąd usuwania serwera",
       });
     }
   };
@@ -913,7 +837,7 @@ export function AdminMonitoringCenter() {
               </div>
               <small style={{ color: "#cbd5e1" }}>
                 {daemonRunning
-                  ? `Aktywne połączenia WebSocket: ${daemonStatus?.activePlayers ?? 0} / ${daemonStatus?.maxPlayers ?? 250} graczy · Czas działania (Uptime): ${daemonUptime}s · Pętla: ${daemonStatus?.tickRateHz ?? 20} Hz.`
+                  ? `Aktywne połączenia WebSocket: ${daemonStatus?.activePlayers ?? 0} / ${daemonStatus?.maxPlayers ?? 50} graczy · Czas działania (Uptime): ${daemonUptime}s · Pętla: ${daemonStatus?.tickRateHz ?? 20} Hz.`
                   : "Możesz uruchomić fizyczny serwer gry jednym kliknięciem poniżej lub wybrać konkretny serwer z listy i kliknąć Uruchom."}
               </small>
             </div>
@@ -938,163 +862,8 @@ export function AdminMonitoringCenter() {
                     ? "🛑 Wyłącz Proces Serwera Gry"
                     : "🚀 Uruchom Serwer Gry (1 kliknięcie)"}
               </button>
-              <button
-                type="button"
-                className="ki-admin-btn"
-                onClick={() => setShowCreateServerModal(true)}
-                style={{ background: "#1e3a5f", color: "#fff", padding: "8px 14px" }}
-              >
-                ➕ Utwórz nowy serwer gry
-              </button>
             </div>
           </section>
-
-          {/* Formularz tworzenia nowego serwera */}
-          {showCreateServerModal && (
-            <section
-              className="ki-admin-panel"
-              style={{
-                border: "2px solid #7cc5ff",
-                background: "#161c28",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 12,
-                }}
-              >
-                <h3 style={{ margin: 0, color: "#7cc5ff" }}>
-                  ➕ Tworzenie Nowego Serwera Gry (Węzeł Klastra)
-                </h3>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={() => setShowCreateServerModal(false)}
-                >
-                  ✕ Zamknij
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                  gap: 12,
-                  marginBottom: 14,
-                }}
-              >
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Identyfikator serwera (unikalny ID):
-                  </label>
-                  <input
-                    aria-label="Identyfikator serwera"
-                    placeholder="np. pl-warszawa-1"
-                    value={createNodeId}
-                    onChange={(e) => setCreateNodeId(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Nazwa wyświetlana serwera:
-                  </label>
-                  <input
-                    aria-label="Nazwa serwera"
-                    placeholder="np. Serwer Polska #1 (Warszawa)"
-                    value={createName}
-                    onChange={(e) => setCreateName(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Region geograficzny:
-                  </label>
-                  <input
-                    aria-label="Region serwera"
-                    placeholder="np. eu-central (Warszawa)"
-                    value={createRegion}
-                    onChange={(e) => setCreateRegion(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Host / Adres IP:
-                  </label>
-                  <input
-                    aria-label="Host serwera"
-                    placeholder="np. 85.235.150.189"
-                    value={createHost}
-                    onChange={(e) => setCreateHost(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Port sieciowy (TCP/WebSocket):
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Port serwera"
-                    placeholder="7420"
-                    value={createPort}
-                    onChange={(e) => setCreatePort(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Maksymalny limit graczy (Sloty):
-                  </label>
-                  <input
-                    type="number"
-                    aria-label="Maksymalny limit graczy"
-                    placeholder="250"
-                    value={createMaxPlayers}
-                    onChange={(e) => setCreateMaxPlayers(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.82rem", marginBottom: 4 }}>
-                    Częstotliwość pętli tick (Hz):
-                  </label>
-                  <input
-                    type="number"
-                    step="1"
-                    aria-label="Częstotliwość ticku"
-                    placeholder="20"
-                    value={createTickRate}
-                    onChange={(e) => setCreateTickRate(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 10 }}>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={handleCreateServer}
-                  style={{ background: "#2e7d32", color: "#fff", fontWeight: "bold" }}
-                >
-                  🚀 Zainicjuj i dodaj serwer
-                </button>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
-                  onClick={() => setShowCreateServerModal(false)}
-                >
-                  Anuluj
-                </button>
-              </div>
-            </section>
-          )}
 
           {/* ================================================================================= */}
           {/* DEDYKOWANA SEKCJA ZARZĄDZANIA WYBRANYM / UTWORZONYM SERWEREM GRY                  */}
@@ -1220,15 +989,6 @@ export function AdminMonitoringCenter() {
                   >
                     ⏳ Tryb konserwacji (Draining)
                   </button>
-
-                  <button
-                    type="button"
-                    className="ki-admin-btn"
-                    onClick={() => handleDeleteServer(managedNode.nodeId)}
-                    style={{ padding: "6px 12px", color: "#ff8577" }}
-                  >
-                    🗑 Usuń serwer
-                  </button>
                 </div>
               </div>
 
@@ -1283,6 +1043,8 @@ export function AdminMonitoringCenter() {
                       <input
                         aria-label="Edycja hosta serwera"
                         value={editHost}
+                        readOnly
+                        title="Jedyny serwer gry działa na VPS Aruba"
                         onChange={(e) => setEditHost(e.target.value)}
                         style={{ width: "100%" }}
                       />
@@ -1295,6 +1057,8 @@ export function AdminMonitoringCenter() {
                         type="number"
                         aria-label="Edycja portu serwera"
                         value={editPort}
+                        readOnly
+                        title="Caddy kieruje graczy tylko na port 7420"
                         onChange={(e) => setEditPort(Number(e.target.value))}
                         style={{ width: "100%" }}
                       />
@@ -1429,14 +1193,6 @@ export function AdminMonitoringCenter() {
                 <button
                   type="button"
                   className="ki-admin-btn"
-                  onClick={() => setShowCreateServerModal(true)}
-                  style={{ background: "#2e7d32", color: "#fff" }}
-                >
-                  ➕ Nowy serwer gry
-                </button>
-                <button
-                  type="button"
-                  className="ki-admin-btn"
                   onClick={handleResetNodes}
                   title="Przywraca domyślną konfigurację klastra"
                 >
@@ -1461,7 +1217,7 @@ export function AdminMonitoringCenter() {
               </thead>
               <tbody>
                 {snapshot.nodes.map((n) => {
-                  const maxCap = n.maxPlayers || 250;
+                  const maxCap = n.maxPlayers || 50;
                   const pct = Math.round((n.activePlayers / maxCap) * 100);
                   const isOff = n.status === "offline" || n.status === "stopping";
                   const isOnline = n.status === "online" || n.status === "degraded";
@@ -1615,19 +1371,6 @@ export function AdminMonitoringCenter() {
                             style={{ padding: "3px 8px", fontSize: "0.78rem" }}
                           >
                             ✏ Edytuj
-                          </button>
-
-                          <button
-                            type="button"
-                            className="ki-admin-btn"
-                            onClick={() => handleDeleteServer(n.nodeId)}
-                            style={{
-                              padding: "3px 8px",
-                              fontSize: "0.78rem",
-                              color: "#ff8577",
-                            }}
-                          >
-                            🗑
                           </button>
                         </div>
                       </td>

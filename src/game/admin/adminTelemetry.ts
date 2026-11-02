@@ -194,44 +194,54 @@ export interface AdminTelemetrySnapshot {
 
 export const SERVER_NODES_STORAGE_KEY = "ki_admin_server_nodes_v2";
 
+/** The only game server: one process on the Aruba VPS behind Caddy (`/ws` → port 7420). */
+export const SUPERIOR_NODE_ID = "eu-central-1";
+export const SUPERIOR_PORT = 7420;
+
 export const DEFAULT_SERVER_NODE_CONFIGS: ServerNodeConfig[] = [
   {
-    nodeId: "eu-central-1",
-    name: "Węzeł Główny EU-Central #1 (Frankfurt)",
-    region: "eu-central (Frankfurt)",
+    nodeId: SUPERIOR_NODE_ID,
+    name: "Superior",
+    region: "eu-central (Aruba VPS)",
     host: "85.235.150.189",
-    port: 7420,
-    maxPlayers: 250,
-    status: "online",
-    tickRateHz: 20.0,
-    isCustom: false,
-    createdAt: "2026-10-31T08:00:00.000Z",
-  },
-  {
-    nodeId: "eu-west-1",
-    name: "Węzeł Zapasowy EU-West #1 (Amsterdam)",
-    region: "eu-west (Amsterdam)",
-    host: "10.24.10.12",
-    port: 7420,
-    maxPlayers: 200,
-    status: "online",
-    tickRateHz: 20.0,
-    isCustom: false,
-    createdAt: "2026-10-31T08:00:00.000Z",
-  },
-  {
-    nodeId: "us-east-1",
-    name: "Węzeł Międzykontynentalny US-East #1 (Virginia)",
-    region: "us-east (Virginia)",
-    host: "10.24.20.15",
-    port: 7420,
-    maxPlayers: 150,
+    port: SUPERIOR_PORT,
+    maxPlayers: 50,
     status: "online",
     tickRateHz: 20.0,
     isCustom: false,
     createdAt: "2026-10-31T08:00:00.000Z",
   },
 ];
+
+/**
+ * Reduces any stored node list to the single real server. Older panels stored two invented nodes
+ * (eu-west-1, us-east-1) and let admins add nodes that never existed; a node the owner named
+ * "Superior" keeps its name, player limit and tick rate. Port and host always stay those of the VPS,
+ * because Caddy forwards players only to port 7420.
+ */
+export function normalizeServerNodes(stored: unknown): ServerNodeConfig[] {
+  const base = DEFAULT_SERVER_NODE_CONFIGS[0]!;
+  const list = Array.isArray(stored) ? (stored as Partial<ServerNodeConfig>[]) : [];
+  const source =
+    list.find((n) => typeof n?.name === "string" && /superior/i.test(n.name)) ??
+    list.find((n) => n?.nodeId === SUPERIOR_NODE_ID);
+  const maxPlayers = Number(source?.maxPlayers);
+  const tickRateHz = Number(source?.tickRateHz);
+  return [
+    {
+      ...base,
+      ...(typeof source?.name === "string" &&
+      source.name.trim() &&
+      !source.name.startsWith("Węzeł Główny EU-Central")
+        ? { name: source.name.trim() }
+        : {}),
+      ...(Number.isFinite(maxPlayers) && maxPlayers >= 1 ? { maxPlayers } : {}),
+      ...(Number.isFinite(tickRateHz) && tickRateHz > 0 ? { tickRateHz } : {}),
+      ...(source?.status ? { status: source.status } : {}),
+      ...(source?.updatedAt ? { updatedAt: source.updatedAt } : {}),
+    },
+  ];
+}
 
 let inMemoryNodeConfigs: ServerNodeConfig[] = [...DEFAULT_SERVER_NODE_CONFIGS];
 const inMemoryAdminLogs: ServerLogEntry[] = [];
@@ -268,11 +278,11 @@ export function getServerNodeConfigs(): ServerNodeConfig[] {
     try {
       const raw = window.localStorage.getItem(SERVER_NODES_STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          inMemoryNodeConfigs = parsed;
-          return parsed;
-        }
+        const nodes = normalizeServerNodes(JSON.parse(raw));
+        inMemoryNodeConfigs = nodes;
+        if (JSON.stringify(nodes) !== raw)
+          window.localStorage.setItem(SERVER_NODES_STORAGE_KEY, JSON.stringify(nodes));
+        return nodes;
       }
     } catch {
       /* fallback */
@@ -282,7 +292,8 @@ export function getServerNodeConfigs(): ServerNodeConfig[] {
 }
 
 /** Zapisuje listę konfiguracji węzłów serwera do localStorage i pamięci podręcznej. */
-export function saveServerNodeConfigs(configs: ServerNodeConfig[]): void {
+export function saveServerNodeConfigs(input: ServerNodeConfig[]): void {
+  const configs = normalizeServerNodes(input);
   inMemoryNodeConfigs = configs;
   if (typeof window !== "undefined" && window.localStorage) {
     try {
@@ -297,43 +308,8 @@ export function saveServerNodeConfigs(configs: ServerNodeConfig[]): void {
 export function createServerNode(
   input: Omit<ServerNodeConfig, "createdAt" | "updatedAt">,
 ): ServerNodeConfig {
-  const cleanId = input.nodeId
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9_-]/g, "-");
-  if (!cleanId) throw new Error("Identyfikator węzła nie może być pusty");
-  const existing = getServerNodeConfigs();
-  if (existing.some((n) => n.nodeId === cleanId)) {
-    throw new Error(`Węzeł o identyfikatorze '${cleanId}' już istnieje`);
-  }
-
-  const nowIso = new Date().toISOString();
-  const newNode: ServerNodeConfig = {
-    nodeId: cleanId,
-    name: input.name.trim() || `Serwer ${cleanId}`,
-    region: input.region.trim() || "eu-central (Frankfurt)",
-    host: input.host.trim() || "127.0.0.1",
-    port: input.port > 0 && input.port <= 65535 ? input.port : 7420,
-    maxPlayers: Math.max(10, Math.min(5000, input.maxPlayers || 200)),
-    status: input.status || "online",
-    tickRateHz: input.tickRateHz && input.tickRateHz > 0 ? input.tickRateHz : 20.0,
-    isCustom: true,
-    createdAt: nowIso,
-    updatedAt: nowIso,
-  };
-
-  const updated = [...existing, newNode];
-  saveServerNodeConfigs(updated);
-
-  recordServerActionLog({
-    nodeId: newNode.nodeId,
-    level: "info",
-    category: "admin",
-    message: `Utworzono nowy serwer gry '${newNode.name}' (${newNode.nodeId}) na ${newNode.host}:${newNode.port} z limitem ${newNode.maxPlayers} graczy.`,
-    metadata: { ...newNode },
-  });
-
-  return newNode;
+  void input;
+  throw new Error("Na VPS działa jeden serwer gry (Superior). Nowych węzłów nie można dodać.");
 }
 
 /** Aktualizuje konfigurację istniejącego serwera gry (nazwa, limit graczy, host, port, tick). */
@@ -352,9 +328,8 @@ export function updateServerNode(
     nodeId: current.nodeId,
     name: patch.name !== undefined ? patch.name.trim() || current.name : current.name,
     region: patch.region !== undefined ? patch.region.trim() || current.region : current.region,
-    host: patch.host !== undefined ? patch.host.trim() || current.host : current.host,
-    port:
-      patch.port !== undefined && patch.port > 0 && patch.port <= 65535 ? patch.port : current.port,
+    host: current.host,
+    port: current.port,
     maxPlayers:
       patch.maxPlayers !== undefined
         ? Math.max(5, Math.min(10000, patch.maxPlayers))
@@ -426,22 +401,9 @@ export function setServerNodeStatus(nodeId: string, status: ServerNodeStatus): S
 
 /** Usuwa węzeł serwera gry (tylko customowe węzły lub węzły wyłączone). */
 export function deleteServerNode(nodeId: string): boolean {
-  const configs = getServerNodeConfigs();
-  const idx = configs.findIndex((n) => n.nodeId === nodeId);
-  const node = configs[idx];
-  if (idx === -1 || !node) return false;
-
-  const updated = configs.filter((n) => n.nodeId !== nodeId);
-  saveServerNodeConfigs(updated);
-
-  recordServerActionLog({
-    nodeId,
-    level: "warn",
-    category: "admin",
-    message: `Usunięto serwer gry '${node.name}' (${nodeId}) z klastra.`,
-  });
-
-  return true;
+  // Superior is the only real server; removing it from the panel would not stop the VPS process.
+  void nodeId;
+  return false;
 }
 
 /** Przywraca domyślne węzły serwera gry. */

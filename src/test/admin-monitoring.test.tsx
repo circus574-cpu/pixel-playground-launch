@@ -61,67 +61,50 @@ describe("AdminMonitoringCenter and global multiplayer telemetry", () => {
     const onlinePlayers = snap.players.filter((p) => p.online);
     expect(onlinePlayers.length).toBe(0);
     // Game server nodes are always returned, without cloud-supabase mixed in
-    expect(snap.nodes.length).toBeGreaterThanOrEqual(3);
-    expect(snap.nodes.some((n) => n.nodeId === "cloud-supabase")).toBe(false);
+    // Only the real Superior game server is listed, without cloud-supabase mixed in
+    expect(snap.nodes.map((n) => n.nodeId)).toEqual(["eu-central-1"]);
     expect(snap.dbStats).toBeDefined();
     expect(snap.dbStats.port).toBe(5432);
   });
 
-  it("creates, edits, manages status, and deletes game server nodes", async () => {
-    // 1. Create a server node with max players limit
-    const created = createServerNode({
-      nodeId: "eu-poland-1",
-      name: "Węzeł Polska Centralna (Warszawa)",
-      region: "eu-central (Warszawa)",
-      host: "85.235.150.192",
-      port: 7421,
-      maxPlayers: 350,
-      status: "online",
-      tickRateHz: 20,
-    });
-    expect(created.nodeId).toBe("eu-poland-1");
-    expect(created.maxPlayers).toBe(350);
-    expect(created.name).toBe("Węzeł Polska Centralna (Warszawa)");
+  it("manages the single Superior server: edit, status; no create, no delete, fixed port", async () => {
+    expect(() =>
+      createServerNode({
+        nodeId: "eu-poland-1",
+        name: "Węzeł Polska",
+        region: "eu-central (Warszawa)",
+        host: "85.235.150.192",
+        port: 7421,
+        maxPlayers: 350,
+        status: "online",
+        tickRateHz: 20,
+      }),
+    ).toThrow(/jeden serwer/);
+    expect(getServerNodeConfigs().map((n) => n.nodeId)).toEqual(["eu-central-1"]);
 
-    let configs = getServerNodeConfigs();
-    expect(configs.some((n) => n.nodeId === "eu-poland-1")).toBe(true);
-
-    // 2. Edit server name and max players limit
-    const updated = updateServerNode("eu-poland-1", {
-      name: "Węzeł Polska Zachodnia (Poznań)",
-      maxPlayers: 500,
+    const updated = updateServerNode("eu-central-1", {
+      name: "Superior",
+      maxPlayers: 50,
       port: 7425,
+      host: "10.0.0.1",
     });
-    expect(updated.name).toBe("Węzeł Polska Zachodnia (Poznań)");
-    expect(updated.maxPlayers).toBe(500);
-    expect(updated.port).toBe(7425);
+    expect(updated.name).toBe("Superior");
+    expect(updated.maxPlayers).toBe(50);
+    expect(updated.port).toBe(7420);
+    expect(updated.host).toBe("85.235.150.189");
 
-    // 3. Stop server (OFFLINE)
-    const stopped = setServerNodeStatus("eu-poland-1", "offline");
-    expect(stopped.status).toBe("offline");
-
-    // 4. Verify telemetry when server is offline
+    expect(setServerNodeStatus("eu-central-1", "offline").status).toBe("offline");
     const snapOff = await collectAdminTelemetrySnapshot({ includeClusterSimulation: false });
-    const nodeOff = snapOff.nodes.find((n) => n.nodeId === "eu-poland-1");
-    expect(nodeOff).toBeDefined();
+    const nodeOff = snapOff.nodes.find((n) => n.nodeId === "eu-central-1");
     expect(nodeOff?.status).toBe("offline");
-    expect(nodeOff?.cpuPercent).toBe(0);
     expect(nodeOff?.activePlayers).toBe(0);
 
-    // 5. Start server (ONLINE)
-    const started = setServerNodeStatus("eu-poland-1", "online");
-    expect(started.status).toBe("online");
-
+    expect(setServerNodeStatus("eu-central-1", "online").status).toBe("online");
     const snapOn = await collectAdminTelemetrySnapshot({ includeClusterSimulation: false });
-    const nodeOn = snapOn.nodes.find((n) => n.nodeId === "eu-poland-1");
-    expect(nodeOn?.status).toBe("online");
-    expect(nodeOn?.maxPlayers).toBe(500);
+    expect(snapOn.nodes.find((n) => n.nodeId === "eu-central-1")?.maxPlayers).toBe(50);
 
-    // 6. Delete server
-    const deleted = deleteServerNode("eu-poland-1");
-    expect(deleted).toBe(true);
-    configs = getServerNodeConfigs();
-    expect(configs.some((n) => n.nodeId === "eu-poland-1")).toBe(false);
+    expect(deleteServerNode("eu-central-1")).toBe(false);
+    expect(getServerNodeConfigs().map((n) => n.nodeId)).toEqual(["eu-central-1"]);
   });
 
   it("collects a full telemetry snapshot with simulated cluster when requested", async () => {
@@ -130,7 +113,7 @@ describe("AdminMonitoringCenter and global multiplayer telemetry", () => {
       measuredFps: 60,
       tickSeed: 1,
     });
-    expect(snap.nodes.length).toBeGreaterThanOrEqual(3);
+    expect(snap.nodes.map((n) => n.nodeId)).toEqual(["eu-central-1"]);
     expect(snap.players.length).toBeGreaterThanOrEqual(8);
     expect(snap.hotspots.length).toBeGreaterThan(0);
     expect(snap.worldStats.verdant.totalPlayers).toBeGreaterThan(0);
@@ -140,42 +123,29 @@ describe("AdminMonitoringCenter and global multiplayer telemetry", () => {
   it("renders AdminMonitoringCenter with dedicated Server Management panel, Physical World Map, and Database section", async () => {
     vi.spyOn(window, "confirm").mockImplementation(() => true);
 
-    const { getByText, getAllByText, getByLabelText } = render(<AdminMonitoringCenter />);
+    const { getByText, getAllByText, getByLabelText, queryByText } = render(
+      <AdminMonitoringCenter />,
+    );
 
     await waitFor(() => {
       expect(getByText(/Centrum Monitoringu Serwera, Zasobów i Graczy na Świecie/i)).toBeTruthy();
       expect(getByText(/Panel Zarządzania Aktywnym Serwerem/i)).toBeTruthy();
     });
 
-    // Test creating a server via UI modal and verifying it opens in the management panel
-    fireEvent.click(getByText("➕ Nowy serwer gry"));
-    await waitFor(() => {
-      expect(getByText(/Tworzenie Nowego Serwera Gry/i)).toBeTruthy();
-    });
+    expect(queryByText("➕ Nowy serwer gry")).toBeNull();
+    expect(queryByText(/Węzeł Zapasowy EU-West/i)).toBeNull();
+    expect(queryByText(/US-East/i)).toBeNull();
 
-    fireEvent.change(getByLabelText("Identyfikator serwera"), {
-      target: { value: "eu-nordic-test" },
-    });
-    fireEvent.change(getByLabelText("Nazwa serwera"), {
-      target: { value: "Węzeł Skandynawia Test" },
-    });
-    fireEvent.change(getByLabelText("Maksymalny limit graczy"), { target: { value: "320" } });
-    fireEvent.click(getByText("🚀 Zainicjuj i dodaj serwer"));
-
-    await waitFor(() => {
-      expect(getAllByText(/Węzeł Skandynawia Test/i).length).toBeGreaterThanOrEqual(1);
-      expect(getByText(/Konfiguracja i Parametry Serwera \(eu-nordic-test\)/i)).toBeTruthy();
-    });
-
-    // Edit the newly created server directly in the Active Server Management Panel
+    // Edit Superior in the Active Server Management Panel; the port stays read-only
+    expect((getByLabelText("Edycja portu serwera") as HTMLInputElement).readOnly).toBe(true);
     const nameInput = getByLabelText("Edycja nazwy serwera");
-    fireEvent.change(nameInput, { target: { value: "Węzeł Główny EU Zaktualizowany" } });
+    fireEvent.change(nameInput, { target: { value: "Superior PvE" } });
     const limitInput = getByLabelText("Edycja limitu graczy");
-    fireEvent.change(limitInput, { target: { value: "600" } });
+    fireEvent.change(limitInput, { target: { value: "50" } });
     fireEvent.click(getByText("💾 Zapisz zmiany serwera"));
 
     await waitFor(() => {
-      expect(getAllByText(/Węzeł Główny EU Zaktualizowany/i).length).toBeGreaterThanOrEqual(1);
+      expect(getAllByText(/Superior PvE/i).length).toBeGreaterThanOrEqual(1);
     });
 
     // Switch to Physical World Map & Players tab

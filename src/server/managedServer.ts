@@ -55,10 +55,9 @@ async function startServerCore(options?: {
 
   const port = options?.port || Number(process.env["GAME_SERVER_PORT"]) || 7420;
   const nodeId = options?.nodeId || process.env["GAME_SERVER_NODE_ID"] || "eu-central-1";
-  const name =
-    options?.name || process.env["GAME_SERVER_NAME"] || "Węzeł Gry EU-Central #1 (Panel Admin)";
+  const name = options?.name || process.env["GAME_SERVER_NAME"] || "Superior";
   const region = options?.region || process.env["GAME_SERVER_REGION"] || "eu-central (Frankfurt)";
-  const maxPlayers = options?.maxPlayers || Number(process.env["GAME_SERVER_MAX_PLAYERS"]) || 250;
+  const maxPlayers = options?.maxPlayers || Number(process.env["GAME_SERVER_MAX_PLAYERS"]) || 50;
   const tickRateHz = options?.tickRateHz || Number(process.env["GAME_SERVER_TICK_RATE"]) || 20.0;
   const databaseUrl = process.env["DATABASE_URL"];
 
@@ -146,9 +145,9 @@ export function getServerStatusFromAdmin(): ManagedServerStatus {
     running: isRunning,
     port: cfg?.port ?? (Number(process.env["GAME_SERVER_PORT"]) || 7420),
     nodeId: cfg?.nodeId ?? (process.env["GAME_SERVER_NODE_ID"] || "eu-central-1"),
-    name: cfg?.name ?? (process.env["GAME_SERVER_NAME"] || "Węzeł Gry EU-Central #1"),
+    name: cfg?.name ?? (process.env["GAME_SERVER_NAME"] || "Superior"),
     region: cfg?.region ?? (process.env["GAME_SERVER_REGION"] || "eu-central (Frankfurt)"),
-    maxPlayers: cfg?.maxPlayers ?? (Number(process.env["GAME_SERVER_MAX_PLAYERS"]) || 250),
+    maxPlayers: cfg?.maxPlayers ?? (Number(process.env["GAME_SERVER_MAX_PLAYERS"]) || 50),
     tickRateHz: cfg?.tickRateHz ?? (Number(process.env["GAME_SERVER_TICK_RATE"]) || 20.0),
     activePlayers: activeServerInstance?.getSessionCount() ?? 0,
     uptimeSeconds: uptime,
