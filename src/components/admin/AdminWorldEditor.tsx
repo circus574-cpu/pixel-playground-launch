@@ -54,6 +54,7 @@ import {
 } from "@/game/worlds";
 
 import { AdminSpawnList } from "./AdminSpawnList";
+import { AdminWorldPublishBar } from "./AdminWorldPublishBar";
 const AdminWorldMap = lazy(() =>
   import("./AdminWorldMap").then((m) => ({ default: m.AdminWorldMap })),
 );
@@ -167,6 +168,8 @@ export function AdminWorldEditor({
           )}
         </div>
       </header>
+
+      <AdminWorldPublishBar draft={overrides} onStatus={setStatus} />
 
       {status && (
         <div className="ki-world-editor-status" role="status">

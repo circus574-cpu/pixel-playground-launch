@@ -464,11 +464,34 @@ Style nowego panelu są zamknięte w `@scope (.ki-coder-panel)`; account.css i s
 pozostały nietknięte. Nie zmieniono klienta Supabase, schematu DB ani RLS.
 
 Edytor świata, rozszerzony edytor postaci lokalnych/chmurowych i narzędzia eksportu/importu
-pochodzą z gałęzi coder. Nadpisania świata są lokalne, pod kluczem
-`ki-legends:admin-world-overrides-v1`; nie oznacza to publikacji zmian dla wszystkich graczy.
-Runtime nakłada je przy przygotowaniu świata, a domyślne spawny pozostają bez zmian,
-gdy nie zapisano własnych spawnów. Nie przeniesiono zastępującego stare UI StaffTools.
+pochodzą z gałęzi coder. Edytor pracuje na szkicu w przeglądarce (klucz
+`ki-legends:admin-world-overrides-v1`), który gra lokalna nakłada przy przygotowaniu świata.
+Od 02.11.2026 szkic publikuje się przyciskiem „Publikuj na serwer” (patrz niżej
+„Edycja świata na serwerze”); dopiero publikacja zmienia świat graczy online. Nie przeniesiono zastępującego stare UI StaffTools.
 Testy pominięto na wyraźne polecenie właściciela; nie deklarować sprawdzenia przeglądarkowego.
+
+### Edycja świata na serwerze (02.11.2026)
+
+- Baza: `deploy/multiplayer/init/006-world-overrides.sql` — schemat `world_admin`, tabela
+  `revisions` (numer, pełny pakiet zmian JSON, autor, czas, opis). `install.sh` robi kopię bazy i
+  stosuje migrację raz. Każda publikacja to nowa rewizja; starsze zostają do wglądu i przywrócenia.
+- Serwer gry (`src/server/world/overrides.ts`): przy starcie wczytuje najnowszą rewizję i nakłada
+  ją na katalogi w pamięci (`applyAdminWorldOverridesToRuntime`); po publikacji robi to od razu.
+  Potwory współdzielą definicję, więc atak, obrona, prędkość i łup zmieniają się natychmiast;
+  maksymalne HP i spawny obowiązują od następnego pojawienia się potwora / wejścia na ląd.
+  Spawny niemożliwe do postawienia (miasto, przeszkoda) są pomijane, nie blokują lądu.
+- API: `GET /ws/world/overrides` (publiczne — gra online pobiera opublikowany świat),
+  `POST /ws/world/overrides` (`data`, `expectedRevision`, `note`; 409 przy nieaktualnej wersji),
+  `GET /ws/world/revisions`, `POST /ws/world/rollback` — tylko konta admin/GM z VPS. Każda
+  publikacja trafia do `accounts.audit` jako `WORLD_PUBLISH`.
+- Walidacja wspólna dla panelu i serwera (`worldOverridesSchema.ts`): tylko znane sekcje, liczby
+  skończone i nieujemne dla statystyk, limity długości i rozmiaru (1 MB), spawny tylko znanych
+  potworów na znanych lądach.
+- Panel: pasek „Na serwerze: rewizja N” nad edytorem — „Publikuj na serwer”, „Odrzuć szkic”,
+  „Historia publikacji” z przywracaniem. Pusty szkic startuje od wersji z serwera.
+- Testy: `world-overrides.test.ts` (walidacja + PostgreSQL: publikacja, restart, konflikt,
+  przywrócenie), `scripts/qa-world-live.ts` (prawdziwy GameServer przez HTTP: odmowa bez
+  uprawnień, publikacja, zmiana katalogu na żywo, 409, przywrócenie).
 
 ### Mapa świata w edytorze Coder
 
@@ -961,6 +984,7 @@ kontroli zasięgu/kosztów w GameSession.
 
 Ta partia **nie jest jeszcze kompletną trwałą sesją online**. Adapter nie został
 podłączony do socketów/klienta ani produkcyjnego tworzenia postaci. Brakuje:
+
 - trwałego checkpointu cooldownów i efektów oraz bezpiecznej polityki przerwanych
   kanałów; obecny capture nie gwarantuje odtworzenia pełnego stanu walki;
 - lease pojedynczej aktywnej postaci, kolejki poleceń, atomowych ACK po commicie,
@@ -969,7 +993,7 @@ podłączony do socketów/klienta ani produkcyjnego tworzenia postaci. Brakuje:
 - uwierzytelnionego protokołu online i zastąpienia lokalnej symulacji klienta
   renderingiem/predykcją zatwierdzanego stanu; blokady fallbacku offline;
 - migracji i konfiguracji VPS oraz testów dwóch przeglądarek i awarii procesu.
-Nie aktywować adaptera jako produkcyjnego serwera walki przed tymi kontrolami.
+  Nie aktywować adaptera jako produkcyjnego serwera walki przed tymi kontrolami.
 
 Regresja:31testów w6plikach PASS, w tym4rasy na realnych danych Superior v2,
 rzeczywisty ruch przez GameSession i odtworzenie checkpointu, odrzucenie manipulacji

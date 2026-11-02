@@ -26,6 +26,7 @@ import {
   countActiveOverrides,
   readAdminWorldOverrides,
 } from "../adminWorldStore";
+import { fetchPublishedWorld } from "../worldOverridesClient";
 import { RACES, type RaceId } from "../races";
 import { WORLDS } from "../worlds";
 import type { CityDefinition, BuildingId } from "../../city/types";
@@ -79,8 +80,15 @@ export async function prepareSuperior(options: {
     return (await response.json()) as T;
   };
   options.onLoading({ phase: "preparing", message: "Otwieranie świata Superior…", progress: null });
-  const adminOverrides = options.online ? emptyAdminWorldOverrides() : readAdminWorldOverrides();
-  if (countActiveOverrides(adminOverrides) > 0) applyAdminWorldOverridesToRuntime(adminOverrides);
+  // Online: the world published on the server (the same edits the server simulates).
+  // Local play: the editor's draft in this browser.
+  const adminOverrides = options.online
+    ? await fetchPublishedWorld(abort.signal)
+        .then((w) => w.data)
+        .catch(() => emptyAdminWorldOverrides())
+    : readAdminWorldOverrides();
+  if (options.online || countActiveOverrides(adminOverrides) > 0)
+    applyAdminWorldOverridesToRuntime(adminOverrides);
   const index = await fetchJson<SuperiorIndex>("index.json");
   if (
     index.format !== "superior-runtime-1" ||

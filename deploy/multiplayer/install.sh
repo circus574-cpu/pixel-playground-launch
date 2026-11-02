@@ -36,6 +36,15 @@ if [ "$accounts_present" != t ]; then
  sha256sum "$pre" > "$pre.sha256"
  docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/005-accounts.sql
 fi
+world_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select to_regclass('world_admin.schema_version') is not null")
+if [ "$world_present" != t ]; then
+ # World edits from /admin: back up first, then apply the idempotent migration.
+ umask 077
+ pre="$BASE/backups/before-world-admin-$(date -u +%Y%m%dT%H%M%SZ).dump"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db pg_dump -U ki_owner -d ki_multiplayer -Fc > "$pre"
+ sha256sum "$pre" > "$pre.sha256"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/006-world-overrides.sql
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"

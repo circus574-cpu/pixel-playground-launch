@@ -40,10 +40,11 @@ jobs:
           psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/003-online-character-state.sql
           psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/004-online-session-leases.sql
           psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/init/005-accounts.sql
-      - name: Player accounts on PostgreSQL (register, activate, login, reset, migration)
+          psql -h 127.0.0.1 -p 55439 -U postgres -d ki_multiplayer -v ON_ERROR_STOP=1 -f deploy/multiplayer/init/006-world-overrides.sql
+      - name: Player accounts and world edits on PostgreSQL
         env:
           KI_ACCOUNTS_TEST_DATABASE_URL: postgres://postgres:local-fixture-only@127.0.0.1:55439/ki_multiplayer
-        run: npx vitest run src/test/accounts-service.test.ts
+        run: npx vitest run src/test/accounts-service.test.ts src/test/world-overrides.test.ts
       - run: npm run typecheck
       - run: npm test
       - run: npm run build

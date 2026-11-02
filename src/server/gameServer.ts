@@ -24,6 +24,7 @@ import { accountHttp } from "./accounts/http";
 import { resendMailer } from "./accounts/mailer";
 import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
+import { WorldOverrideService, worldHttp } from "./world/overrides";
 
 export interface GameServerConfig {
   port: number;
@@ -78,6 +79,7 @@ export class GameServer {
   private verifyAccount: VerifyAccount | null = null;
   /** Player accounts in PostgreSQL on the VPS (/ws/auth/*). */
   private accounts: AccountService | null = null;
+  private world: WorldOverrideService | null = null;
   private tickCount = 0;
   private tickTimes: number[] = [];
   private onlineTickTimes: number[] = [];
@@ -129,6 +131,11 @@ export class GameServer {
 
     if (url.split("?")[0] === "/ws/auth" || url.startsWith("/ws/auth/")) {
       void accountHttp(req, res, this.accounts);
+      return;
+    }
+
+    if (url.startsWith("/ws/world/")) {
+      void worldHttp(req, res, this.world, (token) => this.staffSubject(token));
       return;
     }
 
@@ -668,6 +675,7 @@ export class GameServer {
             );
           }
         }
+        this.world = await this.prepareWorld(this.db);
         console.log("[GameServer] Połączenie PostgreSQL zweryfikowane.");
       } catch (err) {
         if (this.db) await this.db.end().catch(() => {});
@@ -707,6 +715,27 @@ export class GameServer {
     }
   }
 
+  /** Published world edits from /admin, applied before the first player loads a land. */
+  private async prepareWorld(sql: ReturnType<typeof postgres>) {
+    try {
+      const world = new WorldOverrideService(sql);
+      await world.ready();
+      console.log(`[GameServer] Edycja świata gotowa (rewizja ${world.published.revision}).`);
+      return world;
+    } catch {
+      console.warn("[GameServer] Edycja świata niedostępna: brak schematu world_admin.");
+      return null;
+    }
+  }
+
+  /** Account id of an admin or GM holding this access token. */
+  private async staffSubject(token: string | undefined): Promise<string | null> {
+    const subject = this.accounts?.subjectOf(token);
+    if (!subject || !this.accounts) return null;
+    const roles = await this.accounts.roles(subject);
+    return roles.includes("admin") || roles.includes("gm") ? subject : null;
+  }
+
   /** Accounts on the VPS when their schema exists; null keeps the previous authority only. */
   private async prepareAccounts(
     sql: ReturnType<typeof postgres>,
@@ -742,6 +771,7 @@ export class GameServer {
     this.characterRepository = null;
     this.verifyAccount = null;
     this.accounts = null;
+    this.world = null;
 
     if (this.tickInterval) clearInterval(this.tickInterval);
     if (this.dbSyncInterval) clearInterval(this.dbSyncInterval);
