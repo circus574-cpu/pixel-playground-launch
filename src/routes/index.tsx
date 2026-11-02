@@ -1,6 +1,6 @@
 import { remoteExam } from "../game/online/exam";
 import { OnlineClient } from "../game/online/client";
-import { supabase } from "../integrations/supabase/client";
+import { accessToken } from "../game/account/vpsAuth";
 import { DevelopmentExam } from "../components/game/DevelopmentExam";
 import type { ExamAttempt } from "../game/development/exams";
 import { bossPreviewEnabled } from "../game/bosses/preview";
@@ -58,9 +58,11 @@ export function Index() {
   const [busy, setBusy] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const token = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) throw Error("Zaloguj się, aby wejść na serwer gry.");
-    return data.session.access_token;
+    try {
+      return await accessToken();
+    } catch {
+      throw Error("Zaloguj się, aby wejść na serwer gry.");
+    }
   }, []);
   const [client] = useState(() => new OnlineClient(token, setWarning));
   useEffect(() => {
@@ -370,9 +372,11 @@ export function GameScreen({
               new OnlineClient(
                 tokenProvider ??
                   (async () => {
-                    const { data } = await supabase.auth.getSession();
-                    if (!data.session) throw Error("Zaloguj się ponownie.");
-                    return data.session.access_token;
+                    try {
+                      return await accessToken();
+                    } catch {
+                      throw Error("Zaloguj się ponownie.");
+                    }
                   }),
                 (message) => {
                   onlineConnection.current = undefined;

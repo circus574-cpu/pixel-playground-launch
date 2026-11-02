@@ -65,3 +65,21 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
 - Serwer gry i panel admina przyjmują nowe tokeny; tokeny Supabase działają w okresie przejściowym.
 - Etap 2 (osobny PR): `/konto` i panel admina przełączone na nowe API.
 - Testy: `accounts-crypto.test.ts`, `accounts-service.test.ts` (PostgreSQL, w workflow QA online).
+
+### 4. Konta graczy na VPS — etap 2: strona `/konto`, gra i panel admina
+
+- `src/game/account/vpsAuth.ts`: klient `/ws/auth` — token dostępu tylko w pamięci, token sesji w
+  `localStorage`, odświeżanie minutę przed wygaśnięciem, wylogowanie we wszystkich kartach.
+- `/konto`: rejestracja (konto nieaktywne do kliknięcia linku), aktywacja z linku `?aktywacja=…`,
+  logowanie z przyciskiem „Wyślij ponownie link aktywacyjny”, zapomniane hasło i nowe hasło z linku
+  `?nowe-haslo=…`, wylogowanie.
+- Gra (`/ws/online`, lista postaci) i panel admina pobierają token z kont na VPS; role z PostgreSQL.
+- `/admin` → „Konta i role”: lista kont z VPS (nick, e-mail, aktywne/nieaktywne, ostatnie
+  logowanie), nadawanie i odbieranie ról. „Dziennik” → zmiany kont (rejestracja, aktywacja,
+  przeniesienie konta, zmiana hasła, role). Stare zapisy postaci z chmury Supabase usunięto z tej
+  zakładki; postacie są w „Postacie (live)”.
+- Istniejący gracze logują się jak dotąd tym samym e-mailem i hasłem; przy pierwszym logowaniu
+  konto przenosi się na VPS (etap 1).
+- QA: `scripts/qa-accounts-server.ts` + `scripts/qa-accounts-browser.mjs` (prawdziwa strona `/konto`,
+  PostgreSQL, przechwycony e-mail): rejestracja → odmowa logowania przed aktywacją → link →
+  zalogowany → odświeżenie strony → wylogowanie → logowanie; 0 błędów JS.

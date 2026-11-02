@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
-import { supabase } from "../../integrations/supabase/client";
-import { accountsDb, myRoles, type AppRole, type Profile } from "../../game/account/cloudPort";
+import { subscribeAuth, type AppRole } from "../../game/account/vpsAuth";
+import type { Profile } from "../../game/account/cloudPort";
 
+/** The signed-in account, shaped like the previous session object the pages already use. */
+export type AccountSession = { user: { id: string; email: string }; access_token: string };
 export type AccountState = {
   ready: boolean;
-  session: Session | null;
+  session: AccountSession | null;
   profile: Profile | null;
   roles: AppRole[];
 };
 
-/** Signed-in player, profile and staff roles; follows sign-in and sign-out in every tab. */
+/** Signed-in player (accounts on the VPS), profile and staff roles; follows every tab. */
 export function useAccount(): AccountState {
   const [state, setState] = useState<AccountState>({
     ready: false,
@@ -18,28 +19,27 @@ export function useAccount(): AccountState {
     profile: null,
     roles: [],
   });
-  useEffect(() => {
-    let cancelled = false;
-    const load = async (session: Session | null) => {
-      if (!session) {
-        if (!cancelled) setState({ ready: true, session: null, profile: null, roles: [] });
-        return;
-      }
-      const [{ data: profile }, roles] = await Promise.all([
-        accountsDb.from("profiles").select("*").eq("id", session.user.id).maybeSingle(),
-        myRoles(session.user.id),
-      ]);
-      if (!cancelled) setState({ ready: true, session, profile: profile ?? null, roles });
-    };
-    void supabase.auth.getSession().then(({ data }) => load(data.session));
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Never await inside the auth callback; it would block the client's own session lock.
-      setTimeout(() => void load(session), 0);
-    });
-    return () => {
-      cancelled = true;
-      data.subscription.unsubscribe();
-    };
-  }, []);
+  useEffect(
+    () =>
+      subscribeAuth((s) =>
+        setState({
+          ready: s.ready,
+          session:
+            s.account && s.accessToken
+              ? { user: { id: s.account.id, email: s.account.email }, access_token: s.accessToken }
+              : null,
+          profile: s.account
+            ? {
+                id: s.account.id,
+                nick: s.account.nick,
+                created_at: s.account.createdAt,
+                last_seen: s.account.lastLoginAt,
+              }
+            : null,
+          roles: s.account?.roles ?? [],
+        }),
+      ),
+    [],
+  );
   return state;
 }
