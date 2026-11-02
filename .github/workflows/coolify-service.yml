@@ -132,6 +132,26 @@ jobs:
           "$RUNNER_TEMP/ssh.sh" 'docker inspect ki-multiplayer-db-game-server-1 --format "restarts={{.RestartCount}} started={{.State.StartedAt}} created={{.Created}} policy={{.HostConfig.RestartPolicy.Name}}"' || true
           "$RUNNER_TEMP/ssh.sh" 'docker logs --tail 25 ki-multiplayer-db-game-server-1 2>&1' \
             | grep -viE 'bearer|authorization|re_[A-Za-z0-9]{8}|postgres(ql)?://|password|secret|token' | tail -n 25 || true
+      - name: Read proxy responses for character list (read only)
+        if: ${{ github.event.inputs.action == 'logs' }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          "$RUNNER_TEMP/ssh.sh" 'docker logs --since 75m coolify-proxy 2>&1 | grep -E "ws/characters|ws/online|ws/auth" | tail -n 400' \
+            | grep -viE 'bearer|authorization|cookie|token' \
+            | python3 -c "
+          import re,sys,collections
+          c=collections.Counter(); last=[]
+          for l in sys.stdin:
+              m=re.search(r'\"status\":\s*(\d{3})',l) or re.search(r'\s(\d{3})\s',l)
+              path=re.search(r'(/ws/[a-z]+(?:/[a-z]+)?)',l)
+              ts=re.search(r'(2026-\d\d-\d\dT\d\d:\d\d:\d\d)',l)
+              if m and path:
+                  c[(path.group(1),m.group(1))]+=1
+                  if m.group(1)[0] in '45' and m.group(1)!='401': last.append((ts.group(1) if ts else '?',path.group(1),m.group(1)))
+          print('status counts:',dict(c))
+          print('non-401 errors (time,path,status):',last[-25:])
+          " || true
       - name: Clean up
         if: always()
         shell: bash
