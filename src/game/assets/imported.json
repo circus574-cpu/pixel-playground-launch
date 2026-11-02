@@ -67684,5 +67684,3785 @@
         }
       }
     ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-nexus-pies-lowca",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "nexus.enemy.pies-lowca": "enemy-v3-nexus-pies-lowca"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-nexus-pies-lowca-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-nexus-pies-lowca/1.0.0-9ccd8938ff17/enemy-v3-nexus-pies-lowca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pies-lowca/1.0.0-9ccd8938ff17/enemy-v3-nexus-pies-lowca-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-nexus-pies-lowca",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/walk/down/00",
+                "enemy-v3-nexus-pies-lowca/walk/down/01",
+                "enemy-v3-nexus-pies-lowca/walk/down/02",
+                "enemy-v3-nexus-pies-lowca/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/walk/down-left/00",
+                "enemy-v3-nexus-pies-lowca/walk/down-left/01",
+                "enemy-v3-nexus-pies-lowca/walk/down-left/02",
+                "enemy-v3-nexus-pies-lowca/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/walk/left/00",
+                "enemy-v3-nexus-pies-lowca/walk/left/01",
+                "enemy-v3-nexus-pies-lowca/walk/left/02",
+                "enemy-v3-nexus-pies-lowca/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/walk/up-left/00",
+                "enemy-v3-nexus-pies-lowca/walk/up-left/01",
+                "enemy-v3-nexus-pies-lowca/walk/up-left/02",
+                "enemy-v3-nexus-pies-lowca/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/walk/up/00",
+                "enemy-v3-nexus-pies-lowca/walk/up/01",
+                "enemy-v3-nexus-pies-lowca/walk/up/02",
+                "enemy-v3-nexus-pies-lowca/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/walk/up-right/00",
+                "enemy-v3-nexus-pies-lowca/walk/up-right/01",
+                "enemy-v3-nexus-pies-lowca/walk/up-right/02",
+                "enemy-v3-nexus-pies-lowca/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/walk/right/00",
+                "enemy-v3-nexus-pies-lowca/walk/right/01",
+                "enemy-v3-nexus-pies-lowca/walk/right/02",
+                "enemy-v3-nexus-pies-lowca/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/walk/down-right/00",
+                "enemy-v3-nexus-pies-lowca/walk/down-right/01",
+                "enemy-v3-nexus-pies-lowca/walk/down-right/02",
+                "enemy-v3-nexus-pies-lowca/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/attack/down/00",
+                "enemy-v3-nexus-pies-lowca/attack/down/01",
+                "enemy-v3-nexus-pies-lowca/attack/down/02",
+                "enemy-v3-nexus-pies-lowca/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/attack/down-left/00",
+                "enemy-v3-nexus-pies-lowca/attack/down-left/01",
+                "enemy-v3-nexus-pies-lowca/attack/down-left/02",
+                "enemy-v3-nexus-pies-lowca/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/attack/left/00",
+                "enemy-v3-nexus-pies-lowca/attack/left/01",
+                "enemy-v3-nexus-pies-lowca/attack/left/02",
+                "enemy-v3-nexus-pies-lowca/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/attack/up-left/00",
+                "enemy-v3-nexus-pies-lowca/attack/up-left/01",
+                "enemy-v3-nexus-pies-lowca/attack/up-left/02",
+                "enemy-v3-nexus-pies-lowca/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/attack/up/00",
+                "enemy-v3-nexus-pies-lowca/attack/up/01",
+                "enemy-v3-nexus-pies-lowca/attack/up/02",
+                "enemy-v3-nexus-pies-lowca/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/attack/up-right/00",
+                "enemy-v3-nexus-pies-lowca/attack/up-right/01",
+                "enemy-v3-nexus-pies-lowca/attack/up-right/02",
+                "enemy-v3-nexus-pies-lowca/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/attack/right/00",
+                "enemy-v3-nexus-pies-lowca/attack/right/01",
+                "enemy-v3-nexus-pies-lowca/attack/right/02",
+                "enemy-v3-nexus-pies-lowca/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/attack/down-right/00",
+                "enemy-v3-nexus-pies-lowca/attack/down-right/01",
+                "enemy-v3-nexus-pies-lowca/attack/down-right/02",
+                "enemy-v3-nexus-pies-lowca/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/skill/down/00",
+                "enemy-v3-nexus-pies-lowca/skill/down/01",
+                "enemy-v3-nexus-pies-lowca/skill/down/02",
+                "enemy-v3-nexus-pies-lowca/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/skill/down-left/00",
+                "enemy-v3-nexus-pies-lowca/skill/down-left/01",
+                "enemy-v3-nexus-pies-lowca/skill/down-left/02",
+                "enemy-v3-nexus-pies-lowca/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/skill/left/00",
+                "enemy-v3-nexus-pies-lowca/skill/left/01",
+                "enemy-v3-nexus-pies-lowca/skill/left/02",
+                "enemy-v3-nexus-pies-lowca/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/skill/up-left/00",
+                "enemy-v3-nexus-pies-lowca/skill/up-left/01",
+                "enemy-v3-nexus-pies-lowca/skill/up-left/02",
+                "enemy-v3-nexus-pies-lowca/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/skill/up/00",
+                "enemy-v3-nexus-pies-lowca/skill/up/01",
+                "enemy-v3-nexus-pies-lowca/skill/up/02",
+                "enemy-v3-nexus-pies-lowca/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/skill/up-right/00",
+                "enemy-v3-nexus-pies-lowca/skill/up-right/01",
+                "enemy-v3-nexus-pies-lowca/skill/up-right/02",
+                "enemy-v3-nexus-pies-lowca/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/skill/right/00",
+                "enemy-v3-nexus-pies-lowca/skill/right/01",
+                "enemy-v3-nexus-pies-lowca/skill/right/02",
+                "enemy-v3-nexus-pies-lowca/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/skill/down-right/00",
+                "enemy-v3-nexus-pies-lowca/skill/down-right/01",
+                "enemy-v3-nexus-pies-lowca/skill/down-right/02",
+                "enemy-v3-nexus-pies-lowca/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/death/down/00",
+                "enemy-v3-nexus-pies-lowca/death/down/01",
+                "enemy-v3-nexus-pies-lowca/death/down/02",
+                "enemy-v3-nexus-pies-lowca/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/death/down-left/00",
+                "enemy-v3-nexus-pies-lowca/death/down-left/01",
+                "enemy-v3-nexus-pies-lowca/death/down-left/02",
+                "enemy-v3-nexus-pies-lowca/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/death/left/00",
+                "enemy-v3-nexus-pies-lowca/death/left/01",
+                "enemy-v3-nexus-pies-lowca/death/left/02",
+                "enemy-v3-nexus-pies-lowca/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/death/up-left/00",
+                "enemy-v3-nexus-pies-lowca/death/up-left/01",
+                "enemy-v3-nexus-pies-lowca/death/up-left/02",
+                "enemy-v3-nexus-pies-lowca/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/death/up/00",
+                "enemy-v3-nexus-pies-lowca/death/up/01",
+                "enemy-v3-nexus-pies-lowca/death/up/02",
+                "enemy-v3-nexus-pies-lowca/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/death/up-right/00",
+                "enemy-v3-nexus-pies-lowca/death/up-right/01",
+                "enemy-v3-nexus-pies-lowca/death/up-right/02",
+                "enemy-v3-nexus-pies-lowca/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/death/right/00",
+                "enemy-v3-nexus-pies-lowca/death/right/01",
+                "enemy-v3-nexus-pies-lowca/death/right/02",
+                "enemy-v3-nexus-pies-lowca/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/death/down-right/00",
+                "enemy-v3-nexus-pies-lowca/death/down-right/01",
+                "enemy-v3-nexus-pies-lowca/death/down-right/02",
+                "enemy-v3-nexus-pies-lowca/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-nexus-pies-lowca-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-pies-lowca/respawn/down/00",
+                "enemy-v3-nexus-pies-lowca/respawn/down/01",
+                "enemy-v3-nexus-pies-lowca/respawn/down/02",
+                "enemy-v3-nexus-pies-lowca/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-pies-lowca/respawn/down-left/00",
+                "enemy-v3-nexus-pies-lowca/respawn/down-left/01",
+                "enemy-v3-nexus-pies-lowca/respawn/down-left/02",
+                "enemy-v3-nexus-pies-lowca/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-pies-lowca/respawn/left/00",
+                "enemy-v3-nexus-pies-lowca/respawn/left/01",
+                "enemy-v3-nexus-pies-lowca/respawn/left/02",
+                "enemy-v3-nexus-pies-lowca/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-pies-lowca/respawn/up-left/00",
+                "enemy-v3-nexus-pies-lowca/respawn/up-left/01",
+                "enemy-v3-nexus-pies-lowca/respawn/up-left/02",
+                "enemy-v3-nexus-pies-lowca/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-pies-lowca/respawn/up/00",
+                "enemy-v3-nexus-pies-lowca/respawn/up/01",
+                "enemy-v3-nexus-pies-lowca/respawn/up/02",
+                "enemy-v3-nexus-pies-lowca/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-pies-lowca/respawn/up-right/00",
+                "enemy-v3-nexus-pies-lowca/respawn/up-right/01",
+                "enemy-v3-nexus-pies-lowca/respawn/up-right/02",
+                "enemy-v3-nexus-pies-lowca/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-pies-lowca/respawn/right/00",
+                "enemy-v3-nexus-pies-lowca/respawn/right/01",
+                "enemy-v3-nexus-pies-lowca/respawn/right/02",
+                "enemy-v3-nexus-pies-lowca/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-pies-lowca/respawn/down-right/00",
+                "enemy-v3-nexus-pies-lowca/respawn/down-right/01",
+                "enemy-v3-nexus-pies-lowca/respawn/down-right/02",
+                "enemy-v3-nexus-pies-lowca/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-pyra-ognista-salamandra",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "pyra.enemy.ognista-salamandra": "enemy-v3-pyra-ognista-salamandra"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-pyra-ognista-salamandra-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-pyra-ognista-salamandra/1.0.0-03ff02958e37/enemy-v3-pyra-ognista-salamandra-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-ognista-salamandra/1.0.0-03ff02958e37/enemy-v3-pyra-ognista-salamandra-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-pyra-ognista-salamandra",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/walk/down/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/down/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/down/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/walk/down-left/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/down-left/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/down-left/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/walk/left/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/left/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/left/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/walk/up-left/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/up-left/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/up-left/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/walk/up/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/up/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/up/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/walk/up-right/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/up-right/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/up-right/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/walk/right/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/right/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/right/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/walk/down-right/00",
+                "enemy-v3-pyra-ognista-salamandra/walk/down-right/01",
+                "enemy-v3-pyra-ognista-salamandra/walk/down-right/02",
+                "enemy-v3-pyra-ognista-salamandra/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/attack/down/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/down/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/down/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/attack/down-left/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/down-left/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/down-left/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/attack/left/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/left/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/left/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/attack/up-left/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/up-left/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/up-left/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/attack/up/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/up/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/up/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/attack/up-right/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/up-right/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/up-right/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/attack/right/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/right/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/right/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/attack/down-right/00",
+                "enemy-v3-pyra-ognista-salamandra/attack/down-right/01",
+                "enemy-v3-pyra-ognista-salamandra/attack/down-right/02",
+                "enemy-v3-pyra-ognista-salamandra/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/skill/down/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/down/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/down/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/skill/down-left/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/down-left/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/down-left/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/skill/left/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/left/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/left/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/skill/up-left/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/up-left/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/up-left/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/skill/up/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/up/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/up/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/skill/up-right/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/up-right/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/up-right/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/skill/right/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/right/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/right/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/skill/down-right/00",
+                "enemy-v3-pyra-ognista-salamandra/skill/down-right/01",
+                "enemy-v3-pyra-ognista-salamandra/skill/down-right/02",
+                "enemy-v3-pyra-ognista-salamandra/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/death/down/00",
+                "enemy-v3-pyra-ognista-salamandra/death/down/01",
+                "enemy-v3-pyra-ognista-salamandra/death/down/02",
+                "enemy-v3-pyra-ognista-salamandra/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/death/down-left/00",
+                "enemy-v3-pyra-ognista-salamandra/death/down-left/01",
+                "enemy-v3-pyra-ognista-salamandra/death/down-left/02",
+                "enemy-v3-pyra-ognista-salamandra/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/death/left/00",
+                "enemy-v3-pyra-ognista-salamandra/death/left/01",
+                "enemy-v3-pyra-ognista-salamandra/death/left/02",
+                "enemy-v3-pyra-ognista-salamandra/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/death/up-left/00",
+                "enemy-v3-pyra-ognista-salamandra/death/up-left/01",
+                "enemy-v3-pyra-ognista-salamandra/death/up-left/02",
+                "enemy-v3-pyra-ognista-salamandra/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/death/up/00",
+                "enemy-v3-pyra-ognista-salamandra/death/up/01",
+                "enemy-v3-pyra-ognista-salamandra/death/up/02",
+                "enemy-v3-pyra-ognista-salamandra/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/death/up-right/00",
+                "enemy-v3-pyra-ognista-salamandra/death/up-right/01",
+                "enemy-v3-pyra-ognista-salamandra/death/up-right/02",
+                "enemy-v3-pyra-ognista-salamandra/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/death/right/00",
+                "enemy-v3-pyra-ognista-salamandra/death/right/01",
+                "enemy-v3-pyra-ognista-salamandra/death/right/02",
+                "enemy-v3-pyra-ognista-salamandra/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/death/down-right/00",
+                "enemy-v3-pyra-ognista-salamandra/death/down-right/01",
+                "enemy-v3-pyra-ognista-salamandra/death/down-right/02",
+                "enemy-v3-pyra-ognista-salamandra/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-pyra-ognista-salamandra-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/down/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-left/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-left/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-left/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/left/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/left/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/left/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-left/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-left/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-left/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/up/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-right/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-right/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-right/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/right/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/right/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/right/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-right/00",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-right/01",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-right/02",
+                "enemy-v3-pyra-ognista-salamandra/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-verdant-grzybowy-zarodnik",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "verdant.enemy.grzybowy-zarodnik": "enemy-v3-verdant-grzybowy-zarodnik"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-verdant-grzybowy-zarodnik/1.0.0-459bb882e22f/enemy-v3-verdant-grzybowy-zarodnik-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-grzybowy-zarodnik/1.0.0-459bb882e22f/enemy-v3-verdant-grzybowy-zarodnik-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-verdant-grzybowy-zarodnik",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-left/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-left/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-left/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-right/00",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-right/01",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-right/02",
+                "enemy-v3-verdant-grzybowy-zarodnik/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-verdant-bursztynowa-osa",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "verdant.enemy.bursztynowa-osa": "enemy-v3-verdant-bursztynowa-osa"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-verdant-bursztynowa-osa-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-verdant-bursztynowa-osa/1.0.0-9d961de37560/enemy-v3-verdant-bursztynowa-osa-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-bursztynowa-osa/1.0.0-9d961de37560/enemy-v3-verdant-bursztynowa-osa-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-verdant-bursztynowa-osa",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/down/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/left/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/left/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/left/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/up/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/right/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/right/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/right/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/down/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/left/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/left/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/left/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/up/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/right/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/right/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/right/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/down/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/left/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/left/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/left/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/up/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/right/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/right/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/right/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/death/down/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/down/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/down/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/death/down-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/down-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/down-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/death/left/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/left/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/left/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/death/up-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/up-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/up-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/death/up/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/up/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/up/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/death/up-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/up-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/up-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/death/right/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/right/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/right/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/death/down-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/death/down-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/death/down-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-verdant-bursztynowa-osa-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/left/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/left/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/left/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-left/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-left/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-left/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/right/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/right/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/right/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-right/00",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-right/01",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-right/02",
+                "enemy-v3-verdant-bursztynowa-osa/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-aether-szmaragdowy-waz",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "aether.enemy.szmaragdowy-waz": "enemy-v3-aether-szmaragdowy-waz"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-aether-szmaragdowy-waz-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-aether-szmaragdowy-waz/1.0.0-c3f801446bce/enemy-v3-aether-szmaragdowy-waz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-szmaragdowy-waz/1.0.0-c3f801446bce/enemy-v3-aether-szmaragdowy-waz-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-aether-szmaragdowy-waz",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/down/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/left/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/left/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/left/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/up/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/right/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/right/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/right/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/down/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/left/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/left/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/left/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/up/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/right/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/right/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/right/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/down/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/left/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/left/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/left/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/up/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/right/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/right/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/right/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/death/down/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/down/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/down/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/death/down-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/down-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/down-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/death/left/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/left/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/left/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/death/up-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/up-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/up-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/death/up/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/up/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/up/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/death/up-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/up-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/up-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/death/right/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/right/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/right/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/death/down-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/death/down-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/death/down-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-aether-szmaragdowy-waz-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/left/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/left/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/left/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-left/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-left/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-left/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/right/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/right/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/right/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-right/00",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-right/01",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-right/02",
+                "enemy-v3-aether-szmaragdowy-waz/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-aether-zloty-skarabeusz",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "aether.enemy.zloty-skarabeusz": "enemy-v3-aether-zloty-skarabeusz"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-aether-zloty-skarabeusz-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-aether-zloty-skarabeusz/1.0.0-3cf433d1ffb3/enemy-v3-aether-zloty-skarabeusz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-zloty-skarabeusz/1.0.0-3cf433d1ffb3/enemy-v3-aether-zloty-skarabeusz-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-aether-zloty-skarabeusz",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/down/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/left/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/left/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/left/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/up/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/right/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/right/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/right/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/down/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/left/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/left/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/left/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/up/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/right/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/right/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/right/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/down/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/left/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/left/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/left/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/up/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/right/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/right/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/right/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/death/down/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/down/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/down/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/death/down-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/down-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/down-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/death/left/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/left/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/left/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/death/up-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/up-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/up-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/death/up/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/up/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/up/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/death/up-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/up-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/up-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/death/right/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/right/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/right/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/death/down-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/death/down-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/death/down-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-aether-zloty-skarabeusz-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/left/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/left/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/left/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-left/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-left/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-left/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/right/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/right/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/right/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-right/00",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-right/01",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-right/02",
+                "enemy-v3-aether-zloty-skarabeusz/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-nexus-kruk-danych",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "nexus.enemy.kruk-danych": "enemy-v3-nexus-kruk-danych"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-nexus-kruk-danych-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-nexus-kruk-danych/1.0.0-de984f237917/enemy-v3-nexus-kruk-danych-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-kruk-danych/1.0.0-de984f237917/enemy-v3-nexus-kruk-danych-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-nexus-kruk-danych",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/walk/down/00",
+                "enemy-v3-nexus-kruk-danych/walk/down/01",
+                "enemy-v3-nexus-kruk-danych/walk/down/02",
+                "enemy-v3-nexus-kruk-danych/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/walk/down-left/00",
+                "enemy-v3-nexus-kruk-danych/walk/down-left/01",
+                "enemy-v3-nexus-kruk-danych/walk/down-left/02",
+                "enemy-v3-nexus-kruk-danych/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/walk/left/00",
+                "enemy-v3-nexus-kruk-danych/walk/left/01",
+                "enemy-v3-nexus-kruk-danych/walk/left/02",
+                "enemy-v3-nexus-kruk-danych/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/walk/up-left/00",
+                "enemy-v3-nexus-kruk-danych/walk/up-left/01",
+                "enemy-v3-nexus-kruk-danych/walk/up-left/02",
+                "enemy-v3-nexus-kruk-danych/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/walk/up/00",
+                "enemy-v3-nexus-kruk-danych/walk/up/01",
+                "enemy-v3-nexus-kruk-danych/walk/up/02",
+                "enemy-v3-nexus-kruk-danych/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/walk/up-right/00",
+                "enemy-v3-nexus-kruk-danych/walk/up-right/01",
+                "enemy-v3-nexus-kruk-danych/walk/up-right/02",
+                "enemy-v3-nexus-kruk-danych/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/walk/right/00",
+                "enemy-v3-nexus-kruk-danych/walk/right/01",
+                "enemy-v3-nexus-kruk-danych/walk/right/02",
+                "enemy-v3-nexus-kruk-danych/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/walk/down-right/00",
+                "enemy-v3-nexus-kruk-danych/walk/down-right/01",
+                "enemy-v3-nexus-kruk-danych/walk/down-right/02",
+                "enemy-v3-nexus-kruk-danych/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/attack/down/00",
+                "enemy-v3-nexus-kruk-danych/attack/down/01",
+                "enemy-v3-nexus-kruk-danych/attack/down/02",
+                "enemy-v3-nexus-kruk-danych/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/attack/down-left/00",
+                "enemy-v3-nexus-kruk-danych/attack/down-left/01",
+                "enemy-v3-nexus-kruk-danych/attack/down-left/02",
+                "enemy-v3-nexus-kruk-danych/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/attack/left/00",
+                "enemy-v3-nexus-kruk-danych/attack/left/01",
+                "enemy-v3-nexus-kruk-danych/attack/left/02",
+                "enemy-v3-nexus-kruk-danych/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/attack/up-left/00",
+                "enemy-v3-nexus-kruk-danych/attack/up-left/01",
+                "enemy-v3-nexus-kruk-danych/attack/up-left/02",
+                "enemy-v3-nexus-kruk-danych/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/attack/up/00",
+                "enemy-v3-nexus-kruk-danych/attack/up/01",
+                "enemy-v3-nexus-kruk-danych/attack/up/02",
+                "enemy-v3-nexus-kruk-danych/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/attack/up-right/00",
+                "enemy-v3-nexus-kruk-danych/attack/up-right/01",
+                "enemy-v3-nexus-kruk-danych/attack/up-right/02",
+                "enemy-v3-nexus-kruk-danych/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/attack/right/00",
+                "enemy-v3-nexus-kruk-danych/attack/right/01",
+                "enemy-v3-nexus-kruk-danych/attack/right/02",
+                "enemy-v3-nexus-kruk-danych/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/attack/down-right/00",
+                "enemy-v3-nexus-kruk-danych/attack/down-right/01",
+                "enemy-v3-nexus-kruk-danych/attack/down-right/02",
+                "enemy-v3-nexus-kruk-danych/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/skill/down/00",
+                "enemy-v3-nexus-kruk-danych/skill/down/01",
+                "enemy-v3-nexus-kruk-danych/skill/down/02",
+                "enemy-v3-nexus-kruk-danych/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/skill/down-left/00",
+                "enemy-v3-nexus-kruk-danych/skill/down-left/01",
+                "enemy-v3-nexus-kruk-danych/skill/down-left/02",
+                "enemy-v3-nexus-kruk-danych/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/skill/left/00",
+                "enemy-v3-nexus-kruk-danych/skill/left/01",
+                "enemy-v3-nexus-kruk-danych/skill/left/02",
+                "enemy-v3-nexus-kruk-danych/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/skill/up-left/00",
+                "enemy-v3-nexus-kruk-danych/skill/up-left/01",
+                "enemy-v3-nexus-kruk-danych/skill/up-left/02",
+                "enemy-v3-nexus-kruk-danych/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/skill/up/00",
+                "enemy-v3-nexus-kruk-danych/skill/up/01",
+                "enemy-v3-nexus-kruk-danych/skill/up/02",
+                "enemy-v3-nexus-kruk-danych/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/skill/up-right/00",
+                "enemy-v3-nexus-kruk-danych/skill/up-right/01",
+                "enemy-v3-nexus-kruk-danych/skill/up-right/02",
+                "enemy-v3-nexus-kruk-danych/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/skill/right/00",
+                "enemy-v3-nexus-kruk-danych/skill/right/01",
+                "enemy-v3-nexus-kruk-danych/skill/right/02",
+                "enemy-v3-nexus-kruk-danych/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/skill/down-right/00",
+                "enemy-v3-nexus-kruk-danych/skill/down-right/01",
+                "enemy-v3-nexus-kruk-danych/skill/down-right/02",
+                "enemy-v3-nexus-kruk-danych/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/death/down/00",
+                "enemy-v3-nexus-kruk-danych/death/down/01",
+                "enemy-v3-nexus-kruk-danych/death/down/02",
+                "enemy-v3-nexus-kruk-danych/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/death/down-left/00",
+                "enemy-v3-nexus-kruk-danych/death/down-left/01",
+                "enemy-v3-nexus-kruk-danych/death/down-left/02",
+                "enemy-v3-nexus-kruk-danych/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/death/left/00",
+                "enemy-v3-nexus-kruk-danych/death/left/01",
+                "enemy-v3-nexus-kruk-danych/death/left/02",
+                "enemy-v3-nexus-kruk-danych/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/death/up-left/00",
+                "enemy-v3-nexus-kruk-danych/death/up-left/01",
+                "enemy-v3-nexus-kruk-danych/death/up-left/02",
+                "enemy-v3-nexus-kruk-danych/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/death/up/00",
+                "enemy-v3-nexus-kruk-danych/death/up/01",
+                "enemy-v3-nexus-kruk-danych/death/up/02",
+                "enemy-v3-nexus-kruk-danych/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/death/up-right/00",
+                "enemy-v3-nexus-kruk-danych/death/up-right/01",
+                "enemy-v3-nexus-kruk-danych/death/up-right/02",
+                "enemy-v3-nexus-kruk-danych/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/death/right/00",
+                "enemy-v3-nexus-kruk-danych/death/right/01",
+                "enemy-v3-nexus-kruk-danych/death/right/02",
+                "enemy-v3-nexus-kruk-danych/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/death/down-right/00",
+                "enemy-v3-nexus-kruk-danych/death/down-right/01",
+                "enemy-v3-nexus-kruk-danych/death/down-right/02",
+                "enemy-v3-nexus-kruk-danych/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-nexus-kruk-danych-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-kruk-danych/respawn/down/00",
+                "enemy-v3-nexus-kruk-danych/respawn/down/01",
+                "enemy-v3-nexus-kruk-danych/respawn/down/02",
+                "enemy-v3-nexus-kruk-danych/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-kruk-danych/respawn/down-left/00",
+                "enemy-v3-nexus-kruk-danych/respawn/down-left/01",
+                "enemy-v3-nexus-kruk-danych/respawn/down-left/02",
+                "enemy-v3-nexus-kruk-danych/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-kruk-danych/respawn/left/00",
+                "enemy-v3-nexus-kruk-danych/respawn/left/01",
+                "enemy-v3-nexus-kruk-danych/respawn/left/02",
+                "enemy-v3-nexus-kruk-danych/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-kruk-danych/respawn/up-left/00",
+                "enemy-v3-nexus-kruk-danych/respawn/up-left/01",
+                "enemy-v3-nexus-kruk-danych/respawn/up-left/02",
+                "enemy-v3-nexus-kruk-danych/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-kruk-danych/respawn/up/00",
+                "enemy-v3-nexus-kruk-danych/respawn/up/01",
+                "enemy-v3-nexus-kruk-danych/respawn/up/02",
+                "enemy-v3-nexus-kruk-danych/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-kruk-danych/respawn/up-right/00",
+                "enemy-v3-nexus-kruk-danych/respawn/up-right/01",
+                "enemy-v3-nexus-kruk-danych/respawn/up-right/02",
+                "enemy-v3-nexus-kruk-danych/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-kruk-danych/respawn/right/00",
+                "enemy-v3-nexus-kruk-danych/respawn/right/01",
+                "enemy-v3-nexus-kruk-danych/respawn/right/02",
+                "enemy-v3-nexus-kruk-danych/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-kruk-danych/respawn/down-right/00",
+                "enemy-v3-nexus-kruk-danych/respawn/down-right/01",
+                "enemy-v3-nexus-kruk-danych/respawn/down-right/02",
+                "enemy-v3-nexus-kruk-danych/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-pyra-magmowy-krab",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "pyra.enemy.magmowy-krab": "enemy-v3-pyra-magmowy-krab"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-pyra-magmowy-krab-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-pyra-magmowy-krab/1.0.0-41c93bc14653/enemy-v3-pyra-magmowy-krab-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-magmowy-krab/1.0.0-41c93bc14653/enemy-v3-pyra-magmowy-krab-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-pyra-magmowy-krab",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/walk/down/00",
+                "enemy-v3-pyra-magmowy-krab/walk/down/01",
+                "enemy-v3-pyra-magmowy-krab/walk/down/02",
+                "enemy-v3-pyra-magmowy-krab/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/walk/down-left/00",
+                "enemy-v3-pyra-magmowy-krab/walk/down-left/01",
+                "enemy-v3-pyra-magmowy-krab/walk/down-left/02",
+                "enemy-v3-pyra-magmowy-krab/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/walk/left/00",
+                "enemy-v3-pyra-magmowy-krab/walk/left/01",
+                "enemy-v3-pyra-magmowy-krab/walk/left/02",
+                "enemy-v3-pyra-magmowy-krab/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/walk/up-left/00",
+                "enemy-v3-pyra-magmowy-krab/walk/up-left/01",
+                "enemy-v3-pyra-magmowy-krab/walk/up-left/02",
+                "enemy-v3-pyra-magmowy-krab/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/walk/up/00",
+                "enemy-v3-pyra-magmowy-krab/walk/up/01",
+                "enemy-v3-pyra-magmowy-krab/walk/up/02",
+                "enemy-v3-pyra-magmowy-krab/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/walk/up-right/00",
+                "enemy-v3-pyra-magmowy-krab/walk/up-right/01",
+                "enemy-v3-pyra-magmowy-krab/walk/up-right/02",
+                "enemy-v3-pyra-magmowy-krab/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/walk/right/00",
+                "enemy-v3-pyra-magmowy-krab/walk/right/01",
+                "enemy-v3-pyra-magmowy-krab/walk/right/02",
+                "enemy-v3-pyra-magmowy-krab/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/walk/down-right/00",
+                "enemy-v3-pyra-magmowy-krab/walk/down-right/01",
+                "enemy-v3-pyra-magmowy-krab/walk/down-right/02",
+                "enemy-v3-pyra-magmowy-krab/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/attack/down/00",
+                "enemy-v3-pyra-magmowy-krab/attack/down/01",
+                "enemy-v3-pyra-magmowy-krab/attack/down/02",
+                "enemy-v3-pyra-magmowy-krab/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/attack/down-left/00",
+                "enemy-v3-pyra-magmowy-krab/attack/down-left/01",
+                "enemy-v3-pyra-magmowy-krab/attack/down-left/02",
+                "enemy-v3-pyra-magmowy-krab/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/attack/left/00",
+                "enemy-v3-pyra-magmowy-krab/attack/left/01",
+                "enemy-v3-pyra-magmowy-krab/attack/left/02",
+                "enemy-v3-pyra-magmowy-krab/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/attack/up-left/00",
+                "enemy-v3-pyra-magmowy-krab/attack/up-left/01",
+                "enemy-v3-pyra-magmowy-krab/attack/up-left/02",
+                "enemy-v3-pyra-magmowy-krab/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/attack/up/00",
+                "enemy-v3-pyra-magmowy-krab/attack/up/01",
+                "enemy-v3-pyra-magmowy-krab/attack/up/02",
+                "enemy-v3-pyra-magmowy-krab/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/attack/up-right/00",
+                "enemy-v3-pyra-magmowy-krab/attack/up-right/01",
+                "enemy-v3-pyra-magmowy-krab/attack/up-right/02",
+                "enemy-v3-pyra-magmowy-krab/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/attack/right/00",
+                "enemy-v3-pyra-magmowy-krab/attack/right/01",
+                "enemy-v3-pyra-magmowy-krab/attack/right/02",
+                "enemy-v3-pyra-magmowy-krab/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/attack/down-right/00",
+                "enemy-v3-pyra-magmowy-krab/attack/down-right/01",
+                "enemy-v3-pyra-magmowy-krab/attack/down-right/02",
+                "enemy-v3-pyra-magmowy-krab/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/skill/down/00",
+                "enemy-v3-pyra-magmowy-krab/skill/down/01",
+                "enemy-v3-pyra-magmowy-krab/skill/down/02",
+                "enemy-v3-pyra-magmowy-krab/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/skill/down-left/00",
+                "enemy-v3-pyra-magmowy-krab/skill/down-left/01",
+                "enemy-v3-pyra-magmowy-krab/skill/down-left/02",
+                "enemy-v3-pyra-magmowy-krab/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/skill/left/00",
+                "enemy-v3-pyra-magmowy-krab/skill/left/01",
+                "enemy-v3-pyra-magmowy-krab/skill/left/02",
+                "enemy-v3-pyra-magmowy-krab/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/skill/up-left/00",
+                "enemy-v3-pyra-magmowy-krab/skill/up-left/01",
+                "enemy-v3-pyra-magmowy-krab/skill/up-left/02",
+                "enemy-v3-pyra-magmowy-krab/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/skill/up/00",
+                "enemy-v3-pyra-magmowy-krab/skill/up/01",
+                "enemy-v3-pyra-magmowy-krab/skill/up/02",
+                "enemy-v3-pyra-magmowy-krab/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/skill/up-right/00",
+                "enemy-v3-pyra-magmowy-krab/skill/up-right/01",
+                "enemy-v3-pyra-magmowy-krab/skill/up-right/02",
+                "enemy-v3-pyra-magmowy-krab/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/skill/right/00",
+                "enemy-v3-pyra-magmowy-krab/skill/right/01",
+                "enemy-v3-pyra-magmowy-krab/skill/right/02",
+                "enemy-v3-pyra-magmowy-krab/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/skill/down-right/00",
+                "enemy-v3-pyra-magmowy-krab/skill/down-right/01",
+                "enemy-v3-pyra-magmowy-krab/skill/down-right/02",
+                "enemy-v3-pyra-magmowy-krab/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/death/down/00",
+                "enemy-v3-pyra-magmowy-krab/death/down/01",
+                "enemy-v3-pyra-magmowy-krab/death/down/02",
+                "enemy-v3-pyra-magmowy-krab/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/death/down-left/00",
+                "enemy-v3-pyra-magmowy-krab/death/down-left/01",
+                "enemy-v3-pyra-magmowy-krab/death/down-left/02",
+                "enemy-v3-pyra-magmowy-krab/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/death/left/00",
+                "enemy-v3-pyra-magmowy-krab/death/left/01",
+                "enemy-v3-pyra-magmowy-krab/death/left/02",
+                "enemy-v3-pyra-magmowy-krab/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/death/up-left/00",
+                "enemy-v3-pyra-magmowy-krab/death/up-left/01",
+                "enemy-v3-pyra-magmowy-krab/death/up-left/02",
+                "enemy-v3-pyra-magmowy-krab/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/death/up/00",
+                "enemy-v3-pyra-magmowy-krab/death/up/01",
+                "enemy-v3-pyra-magmowy-krab/death/up/02",
+                "enemy-v3-pyra-magmowy-krab/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/death/up-right/00",
+                "enemy-v3-pyra-magmowy-krab/death/up-right/01",
+                "enemy-v3-pyra-magmowy-krab/death/up-right/02",
+                "enemy-v3-pyra-magmowy-krab/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/death/right/00",
+                "enemy-v3-pyra-magmowy-krab/death/right/01",
+                "enemy-v3-pyra-magmowy-krab/death/right/02",
+                "enemy-v3-pyra-magmowy-krab/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/death/down-right/00",
+                "enemy-v3-pyra-magmowy-krab/death/down-right/01",
+                "enemy-v3-pyra-magmowy-krab/death/down-right/02",
+                "enemy-v3-pyra-magmowy-krab/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-pyra-magmowy-krab-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-magmowy-krab/respawn/down/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/down/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/down/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-magmowy-krab/respawn/down-left/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/down-left/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/down-left/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-magmowy-krab/respawn/left/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/left/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/left/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-magmowy-krab/respawn/up-left/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/up-left/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/up-left/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-magmowy-krab/respawn/up/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/up/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/up/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-magmowy-krab/respawn/up-right/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/up-right/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/up-right/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-magmowy-krab/respawn/right/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/right/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/right/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-magmowy-krab/respawn/down-right/00",
+                "enemy-v3-pyra-magmowy-krab/respawn/down-right/01",
+                "enemy-v3-pyra-magmowy-krab/respawn/down-right/02",
+                "enemy-v3-pyra-magmowy-krab/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-verdant-puchacz-pylowy",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "verdant.enemy.puchacz-pylowy": "enemy-v3-verdant-puchacz-pylowy"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-verdant-puchacz-pylowy-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-verdant-puchacz-pylowy/1.0.0-12b9a4a70f6a/enemy-v3-verdant-puchacz-pylowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-puchacz-pylowy/1.0.0-12b9a4a70f6a/enemy-v3-verdant-puchacz-pylowy-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-verdant-puchacz-pylowy",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/down/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/left/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/left/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/left/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/up/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/right/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/right/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/right/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/down/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/left/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/left/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/left/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/up/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/right/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/right/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/right/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/down/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/left/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/left/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/left/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/up/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/right/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/right/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/right/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/death/down/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/down/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/down/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/death/down-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/down-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/down-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/death/left/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/left/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/left/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/death/up-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/up-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/up-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/death/up/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/up/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/up/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/death/up-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/up-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/up-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/death/right/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/right/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/right/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/death/down-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/death/down-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/death/down-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-verdant-puchacz-pylowy-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/left/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/left/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/left/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-left/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-left/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-left/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/right/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/right/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/right/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-right/00",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-right/01",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-right/02",
+                "enemy-v3-verdant-puchacz-pylowy/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-verdant-straznik-ruin",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "verdant.enemy.straznik-ruin": "enemy-v3-verdant-straznik-ruin"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-verdant-straznik-ruin-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-verdant-straznik-ruin/1.0.0-79aea0686266/enemy-v3-verdant-straznik-ruin-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-straznik-ruin/1.0.0-79aea0686266/enemy-v3-verdant-straznik-ruin-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-verdant-straznik-ruin",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/walk/down/00",
+                "enemy-v3-verdant-straznik-ruin/walk/down/01",
+                "enemy-v3-verdant-straznik-ruin/walk/down/02",
+                "enemy-v3-verdant-straznik-ruin/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/walk/down-left/00",
+                "enemy-v3-verdant-straznik-ruin/walk/down-left/01",
+                "enemy-v3-verdant-straznik-ruin/walk/down-left/02",
+                "enemy-v3-verdant-straznik-ruin/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/walk/left/00",
+                "enemy-v3-verdant-straznik-ruin/walk/left/01",
+                "enemy-v3-verdant-straznik-ruin/walk/left/02",
+                "enemy-v3-verdant-straznik-ruin/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/walk/up-left/00",
+                "enemy-v3-verdant-straznik-ruin/walk/up-left/01",
+                "enemy-v3-verdant-straznik-ruin/walk/up-left/02",
+                "enemy-v3-verdant-straznik-ruin/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/walk/up/00",
+                "enemy-v3-verdant-straznik-ruin/walk/up/01",
+                "enemy-v3-verdant-straznik-ruin/walk/up/02",
+                "enemy-v3-verdant-straznik-ruin/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/walk/up-right/00",
+                "enemy-v3-verdant-straznik-ruin/walk/up-right/01",
+                "enemy-v3-verdant-straznik-ruin/walk/up-right/02",
+                "enemy-v3-verdant-straznik-ruin/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/walk/right/00",
+                "enemy-v3-verdant-straznik-ruin/walk/right/01",
+                "enemy-v3-verdant-straznik-ruin/walk/right/02",
+                "enemy-v3-verdant-straznik-ruin/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/walk/down-right/00",
+                "enemy-v3-verdant-straznik-ruin/walk/down-right/01",
+                "enemy-v3-verdant-straznik-ruin/walk/down-right/02",
+                "enemy-v3-verdant-straznik-ruin/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/attack/down/00",
+                "enemy-v3-verdant-straznik-ruin/attack/down/01",
+                "enemy-v3-verdant-straznik-ruin/attack/down/02",
+                "enemy-v3-verdant-straznik-ruin/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/attack/down-left/00",
+                "enemy-v3-verdant-straznik-ruin/attack/down-left/01",
+                "enemy-v3-verdant-straznik-ruin/attack/down-left/02",
+                "enemy-v3-verdant-straznik-ruin/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/attack/left/00",
+                "enemy-v3-verdant-straznik-ruin/attack/left/01",
+                "enemy-v3-verdant-straznik-ruin/attack/left/02",
+                "enemy-v3-verdant-straznik-ruin/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/attack/up-left/00",
+                "enemy-v3-verdant-straznik-ruin/attack/up-left/01",
+                "enemy-v3-verdant-straznik-ruin/attack/up-left/02",
+                "enemy-v3-verdant-straznik-ruin/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/attack/up/00",
+                "enemy-v3-verdant-straznik-ruin/attack/up/01",
+                "enemy-v3-verdant-straznik-ruin/attack/up/02",
+                "enemy-v3-verdant-straznik-ruin/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/attack/up-right/00",
+                "enemy-v3-verdant-straznik-ruin/attack/up-right/01",
+                "enemy-v3-verdant-straznik-ruin/attack/up-right/02",
+                "enemy-v3-verdant-straznik-ruin/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/attack/right/00",
+                "enemy-v3-verdant-straznik-ruin/attack/right/01",
+                "enemy-v3-verdant-straznik-ruin/attack/right/02",
+                "enemy-v3-verdant-straznik-ruin/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/attack/down-right/00",
+                "enemy-v3-verdant-straznik-ruin/attack/down-right/01",
+                "enemy-v3-verdant-straznik-ruin/attack/down-right/02",
+                "enemy-v3-verdant-straznik-ruin/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/skill/down/00",
+                "enemy-v3-verdant-straznik-ruin/skill/down/01",
+                "enemy-v3-verdant-straznik-ruin/skill/down/02",
+                "enemy-v3-verdant-straznik-ruin/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/skill/down-left/00",
+                "enemy-v3-verdant-straznik-ruin/skill/down-left/01",
+                "enemy-v3-verdant-straznik-ruin/skill/down-left/02",
+                "enemy-v3-verdant-straznik-ruin/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/skill/left/00",
+                "enemy-v3-verdant-straznik-ruin/skill/left/01",
+                "enemy-v3-verdant-straznik-ruin/skill/left/02",
+                "enemy-v3-verdant-straznik-ruin/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/skill/up-left/00",
+                "enemy-v3-verdant-straznik-ruin/skill/up-left/01",
+                "enemy-v3-verdant-straznik-ruin/skill/up-left/02",
+                "enemy-v3-verdant-straznik-ruin/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/skill/up/00",
+                "enemy-v3-verdant-straznik-ruin/skill/up/01",
+                "enemy-v3-verdant-straznik-ruin/skill/up/02",
+                "enemy-v3-verdant-straznik-ruin/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/skill/up-right/00",
+                "enemy-v3-verdant-straznik-ruin/skill/up-right/01",
+                "enemy-v3-verdant-straznik-ruin/skill/up-right/02",
+                "enemy-v3-verdant-straznik-ruin/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/skill/right/00",
+                "enemy-v3-verdant-straznik-ruin/skill/right/01",
+                "enemy-v3-verdant-straznik-ruin/skill/right/02",
+                "enemy-v3-verdant-straznik-ruin/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/skill/down-right/00",
+                "enemy-v3-verdant-straznik-ruin/skill/down-right/01",
+                "enemy-v3-verdant-straznik-ruin/skill/down-right/02",
+                "enemy-v3-verdant-straznik-ruin/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/death/down/00",
+                "enemy-v3-verdant-straznik-ruin/death/down/01",
+                "enemy-v3-verdant-straznik-ruin/death/down/02",
+                "enemy-v3-verdant-straznik-ruin/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/death/down-left/00",
+                "enemy-v3-verdant-straznik-ruin/death/down-left/01",
+                "enemy-v3-verdant-straznik-ruin/death/down-left/02",
+                "enemy-v3-verdant-straznik-ruin/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/death/left/00",
+                "enemy-v3-verdant-straznik-ruin/death/left/01",
+                "enemy-v3-verdant-straznik-ruin/death/left/02",
+                "enemy-v3-verdant-straznik-ruin/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/death/up-left/00",
+                "enemy-v3-verdant-straznik-ruin/death/up-left/01",
+                "enemy-v3-verdant-straznik-ruin/death/up-left/02",
+                "enemy-v3-verdant-straznik-ruin/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/death/up/00",
+                "enemy-v3-verdant-straznik-ruin/death/up/01",
+                "enemy-v3-verdant-straznik-ruin/death/up/02",
+                "enemy-v3-verdant-straznik-ruin/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/death/up-right/00",
+                "enemy-v3-verdant-straznik-ruin/death/up-right/01",
+                "enemy-v3-verdant-straznik-ruin/death/up-right/02",
+                "enemy-v3-verdant-straznik-ruin/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/death/right/00",
+                "enemy-v3-verdant-straznik-ruin/death/right/01",
+                "enemy-v3-verdant-straznik-ruin/death/right/02",
+                "enemy-v3-verdant-straznik-ruin/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/death/down-right/00",
+                "enemy-v3-verdant-straznik-ruin/death/down-right/01",
+                "enemy-v3-verdant-straznik-ruin/death/down-right/02",
+                "enemy-v3-verdant-straznik-ruin/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-verdant-straznik-ruin-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-straznik-ruin/respawn/down/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/down/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/down/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-straznik-ruin/respawn/down-left/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/down-left/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/down-left/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-straznik-ruin/respawn/left/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/left/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/left/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-straznik-ruin/respawn/up-left/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/up-left/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/up-left/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-straznik-ruin/respawn/up/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/up/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/up/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-straznik-ruin/respawn/up-right/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/up-right/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/up-right/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-straznik-ruin/respawn/right/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/right/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/right/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-straznik-ruin/respawn/down-right/00",
+                "enemy-v3-verdant-straznik-ruin/respawn/down-right/01",
+                "enemy-v3-verdant-straznik-ruin/respawn/down-right/02",
+                "enemy-v3-verdant-straznik-ruin/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
   }
 ]

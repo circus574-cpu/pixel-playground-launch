@@ -38,7 +38,7 @@ def cutouts(sheet):
         if m.sum() > 120 and np.median(mins[m]) >= 246 and rgb[m].std() <= 7.6:
             bg |= m
     fg = ~bg
-    comps, n = ndimage.label(ndimage.binary_closing(fg, iterations=3))
+    comps, n = ndimage.label(ndimage.binary_closing(fg, iterations=1))
     cells = {}
     for i, sl in enumerate(ndimage.find_objects(comps), 1):
         m = comps[sl] == i
@@ -80,7 +80,8 @@ def main():
     # Every other frame must fit the cell completely, so no body part is ever cut off.
     widths = sorted(f.size[0] for f in frames.values())
     median = widths[len(widths) // 2]
-    effect = {k for k, f in frames.items() if f.size[0] > 1.45 * median}
+    # --no-effects: wide frames are the body (spread wings, a striking serpent), never clipped.
+    effect = set() if "--no-effects" in sys.argv else {k for k, f in frames.items() if f.size[0] > 1.45 * median}
     body = [f for k, f in frames.items() if k not in effect]
     scale = min(min((CELL - 6) / f.size[0], (base - 2) / f.size[1]) for f in body)
     cells = {}

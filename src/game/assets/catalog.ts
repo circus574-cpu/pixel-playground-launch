@@ -155,11 +155,21 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-verdant-art": ["verdant-start"],
   /** Anime-style redrawn monsters (animation sheets by the owner); the older monsters stay the default. */
   "ki-monsters-anime": [
-    "enemy-v3-verdant-cierniowy-wilk",
-    "enemy-v3-verdant-mchowy-szlamak",
-    "enemy-v3-pyra-golem-ruin",
-    "enemy-v3-nexus-skaner-gasienicowy",
     "enemy-v3-aether-lew-swiatyni",
+    "enemy-v3-aether-szmaragdowy-waz",
+    "enemy-v3-aether-zloty-skarabeusz",
+    "enemy-v3-nexus-kruk-danych",
+    "enemy-v3-nexus-pies-lowca",
+    "enemy-v3-nexus-skaner-gasienicowy",
+    "enemy-v3-pyra-golem-ruin",
+    "enemy-v3-pyra-magmowy-krab",
+    "enemy-v3-pyra-ognista-salamandra",
+    "enemy-v3-verdant-bursztynowa-osa",
+    "enemy-v3-verdant-cierniowy-wilk",
+    "enemy-v3-verdant-grzybowy-zarodnik",
+    "enemy-v3-verdant-mchowy-szlamak",
+    "enemy-v3-verdant-puchacz-pylowy",
+    "enemy-v3-verdant-straznik-ruin",
   ],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
