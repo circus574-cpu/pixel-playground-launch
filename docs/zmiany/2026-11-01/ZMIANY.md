@@ -689,3 +689,7 @@ W odpowiedzi na wytyczne dotyczące Panelu Administracyjnego zrealizowano komple
   rozmawiać z nimi po imieniu. Teraz rola, do której są przypięte, ma ich imię i powitanie.
 - Testy: `catalog-loot.test.ts` (pokrycie, okna poziomów, wagi, zgodność szans),
   `town-npc-names.test.ts`. Pełny zestaw: 1057/1057, typecheck i lint bez błędów.
+- Lint: commity panelu admina z 01.11 (b1f7814, c029c20) trafiły na `main` z 113 błędami
+  lintu, więc bramka CI zatrzymała ich wdrożenie (przebiegi 28 i 29). Formatowanie poprawione
+  `eslint --fix`, dwa `as any` zastąpione typem stanu sortowania; produkcja do scalenia tego PR
+  pozostaje na `main@69555ee`.

@@ -405,4 +405,3 @@ function describeChange(r: AuditRow): string {
     if (a.items[id] !== b.items[id]) out.push(`${ITEMS[id].name}: ${a.items[id]} → ${b.items[id]}`);
   return out.join(", ") || "bez zmian w polach postaci";
 }
-

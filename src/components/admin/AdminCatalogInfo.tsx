@@ -154,13 +154,7 @@ const CATEGORY_NAMES: Record<string, string> = {
 /**
  * Rich Item Hover Tooltip explaining exactly what an item gives (stats, passives, effects, value, sources).
  */
-export function ItemHoverTooltip({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
+export function ItemHoverTooltip({ id, children }: { id: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const item = getItemById(id);
   const runtimeItem = id in ITEMS ? ITEMS[id as ItemId] : undefined;
@@ -213,9 +207,7 @@ export function ItemHoverTooltip({
                 <span className={`ki-tag-rarity ki-bg-${rarity}`}>
                   {RARITY_NAMES[rarity] ?? rarity}
                 </span>
-                <span className="ki-tag-category">
-                  {CATEGORY_NAMES[category] ?? category}
-                </span>
+                <span className="ki-tag-category">{CATEGORY_NAMES[category] ?? category}</span>
                 {item?.level != null && (
                   <span className="ki-tag-level">Wym. poz. {item.level}</span>
                 )}
@@ -275,10 +267,14 @@ export function ItemHoverTooltip({
             {/* Ceny Monet */}
             <div className="ki-tooltip-prices">
               {(item?.price ?? runtimeItem?.price) !== undefined && (
-                <span>Kupno: <b>{item?.price ?? runtimeItem?.price}</b> monet</span>
+                <span>
+                  Kupno: <b>{item?.price ?? runtimeItem?.price}</b> monet
+                </span>
               )}
               {(runtimeItem?.sell ?? material?.sell) !== undefined && (
-                <span>Sprzedaż: <b>{runtimeItem?.sell ?? material?.sell}</b> monet</span>
+                <span>
+                  Sprzedaż: <b>{runtimeItem?.sell ?? material?.sell}</b> monet
+                </span>
               )}
             </div>
 
@@ -312,7 +308,10 @@ export function ItemCatalogInfo({ id }: { id: string }) {
   return (
     <div className="ki-catalog-info">
       <ItemHoverTooltip id={id}>
-        <div className="ki-catalog-item-wrapper" title="Najedź, aby zobaczyć szczegóły i statystyki przedmiotu">
+        <div
+          className="ki-catalog-item-wrapper"
+          title="Najedź, aby zobaczyć szczegóły i statystyki przedmiotu"
+        >
           {!failed ? (
             <img
               className="ki-catalog-item ki-catalog-item-interactive"
@@ -326,7 +325,9 @@ export function ItemCatalogInfo({ id }: { id: string }) {
               <small>Brak ikony</small>
             </div>
           )}
-          <span className="ki-hover-hint-badge" aria-hidden="true">Najedź</span>
+          <span className="ki-hover-hint-badge" aria-hidden="true">
+            Najedź
+          </span>
         </div>
       </ItemHoverTooltip>
 
@@ -392,7 +393,8 @@ export function MonsterCatalogInfo({
       <ul className="ki-loot-drops-list">
         {drops.map((d, i) => {
           // If custom chance override is present
-          const customFraction = lootChances?.[d.name] ?? lootChances?.[d.id] ?? lootChances?.[String(i)];
+          const customFraction =
+            lootChances?.[d.name] ?? lootChances?.[d.id] ?? lootChances?.[String(i)];
           const currentFraction = customFraction !== undefined ? customFraction : d.chance;
           const currentPercent = Math.round(currentFraction * 1000) / 10;
 
@@ -464,7 +466,8 @@ export function MonsterCatalogInfo({
         })}
       </ul>
       <small>
-        Wartości modyfikowane w panelu zapisują się lokalnie i natychmiast zmieniają tabele dropu potwora.
+        Wartości modyfikowane w panelu zapisują się lokalnie i natychmiast zmieniają tabele dropu
+        potwora.
       </small>
     </div>
   );

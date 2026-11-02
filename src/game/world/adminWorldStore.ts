@@ -598,7 +598,10 @@ export function applyAdminWorldOverridesToRuntime(
         const customChance = ov.lootChances?.[name] ?? ov.lootChances?.[String(idx)];
         return {
           name,
-          chance: customChance !== undefined ? customChance : (base.loot[idx]?.chance ?? (idx === 0 ? 0.7 : 0.35)),
+          chance:
+            customChance !== undefined
+              ? customChance
+              : (base.loot[idx]?.chance ?? (idx === 0 ? 0.7 : 0.35)),
         };
       });
     } else if (ov?.lootChances) {
@@ -636,7 +639,10 @@ export function applyAdminWorldOverridesToRuntime(
     if (ov?.lootChances) {
       target.lootTable = base.lootTable.map((drop) => ({
         ...drop,
-        chancePercent: ov.lootChances?.[drop.itemId] !== undefined ? ov.lootChances[drop.itemId]! : drop.chancePercent,
+        chancePercent:
+          ov.lootChances?.[drop.itemId] !== undefined
+            ? ov.lootChances[drop.itemId]!
+            : drop.chancePercent,
       }));
     } else {
       target.lootTable = structuredClone(base.lootTable);

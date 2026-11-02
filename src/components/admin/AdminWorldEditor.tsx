@@ -15,7 +15,12 @@
  * 10. Eksport/Import JSON całego świata
  */
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { MonsterThumbnail, MonsterCatalogInfo, ItemCatalogInfo, ItemHoverTooltip } from "./AdminCatalogInfo";
+import {
+  MonsterThumbnail,
+  MonsterCatalogInfo,
+  ItemCatalogInfo,
+  ItemHoverTooltip,
+} from "./AdminCatalogInfo";
 import { BOSS_CATALOG } from "@/game/bosses/catalog";
 import { ALL_NPC_DIALOGUES } from "@/game/dialogue";
 import { ITEM_CATALOG } from "@/game/items/catalog";
@@ -2539,7 +2544,9 @@ function ItemsMaterialsRecipesSection({
   const [sub, setSub] = useState<"runtime" | "materials" | "catalog" | "recipes">("runtime");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [rarityFilter, setRarityFilter] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"name" | "id" | "level" | "price" | "atk" | "def" | "hp" | "rarity">("name");
+  const [sortBy, setSortBy] = useState<
+    "name" | "id" | "level" | "price" | "atk" | "def" | "hp" | "rarity"
+  >("name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const q = query.toLowerCase();
 
@@ -2808,7 +2815,7 @@ function ItemsMaterialsRecipesSection({
                 <select
                   className="ki-filter-select"
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
+                  onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
                 >
                   <option value="name">Nazwa (A-Z)</option>
                   <option value="id">ID</option>
@@ -2835,7 +2842,10 @@ function ItemsMaterialsRecipesSection({
               <span className="ki-filter-count-badge">
                 Przedmioty: {filteredCatalog.length} / {ITEM_CATALOG.length}
               </span>
-              {(categoryFilter !== "all" || rarityFilter !== "all" || sortBy !== "name" || sortDir !== "asc") && (
+              {(categoryFilter !== "all" ||
+                rarityFilter !== "all" ||
+                sortBy !== "name" ||
+                sortDir !== "asc") && (
                 <button
                   type="button"
                   className="ki-filter-reset-btn"
@@ -2867,98 +2877,98 @@ function ItemsMaterialsRecipesSection({
             </thead>
             <tbody>
               {filteredCatalog.map((it) => {
-              const ov = overrides.catalogItems[it.id] ?? {};
-              return (
-                <tr key={it.id}>
-                  <td>
-                    <b>{it.id}</b>
-                    <ItemCatalogInfo id={it.id} />
-                  </td>
-                  <td>
-                    <input
-                      value={it.name}
-                      onChange={(e) =>
-                        saveOverrides((d) => {
-                          d.catalogItems[it.id] = { ...ov, name: e.target.value };
-                        })
-                      }
-                    />
-                  </td>
-                  <td>
-                    {it.category} · {it.rarity}
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      style={{ width: 75 }}
-                      value={it.price}
-                      onChange={(e) =>
-                        saveOverrides((d) => {
-                          d.catalogItems[it.id] = { ...ov, price: Number(e.target.value) || 0 };
-                        })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      style={{ width: 65 }}
-                      value={it.stats?.atkBonus ?? 0}
-                      onChange={(e) =>
-                        saveOverrides((d) => {
-                          d.catalogItems[it.id] = {
-                            ...ov,
-                            atkBonus: Number(e.target.value) || 0,
-                          };
-                        })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      style={{ width: 65 }}
-                      value={it.stats?.defBonus ?? 0}
-                      onChange={(e) =>
-                        saveOverrides((d) => {
-                          d.catalogItems[it.id] = {
-                            ...ov,
-                            defBonus: Number(e.target.value) || 0,
-                          };
-                        })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      style={{ width: 65 }}
-                      value={it.stats?.hpBonus ?? 0}
-                      onChange={(e) =>
-                        saveOverrides((d) => {
-                          d.catalogItems[it.id] = {
-                            ...ov,
-                            hpBonus: Number(e.target.value) || 0,
-                          };
-                        })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      value={it.description}
-                      onChange={(e) =>
-                        saveOverrides((d) => {
-                          d.catalogItems[it.id] = { ...ov, description: e.target.value };
-                        })
-                      }
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                const ov = overrides.catalogItems[it.id] ?? {};
+                return (
+                  <tr key={it.id}>
+                    <td>
+                      <b>{it.id}</b>
+                      <ItemCatalogInfo id={it.id} />
+                    </td>
+                    <td>
+                      <input
+                        value={it.name}
+                        onChange={(e) =>
+                          saveOverrides((d) => {
+                            d.catalogItems[it.id] = { ...ov, name: e.target.value };
+                          })
+                        }
+                      />
+                    </td>
+                    <td>
+                      {it.category} · {it.rarity}
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        style={{ width: 75 }}
+                        value={it.price}
+                        onChange={(e) =>
+                          saveOverrides((d) => {
+                            d.catalogItems[it.id] = { ...ov, price: Number(e.target.value) || 0 };
+                          })
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        style={{ width: 65 }}
+                        value={it.stats?.atkBonus ?? 0}
+                        onChange={(e) =>
+                          saveOverrides((d) => {
+                            d.catalogItems[it.id] = {
+                              ...ov,
+                              atkBonus: Number(e.target.value) || 0,
+                            };
+                          })
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        style={{ width: 65 }}
+                        value={it.stats?.defBonus ?? 0}
+                        onChange={(e) =>
+                          saveOverrides((d) => {
+                            d.catalogItems[it.id] = {
+                              ...ov,
+                              defBonus: Number(e.target.value) || 0,
+                            };
+                          })
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        style={{ width: 65 }}
+                        value={it.stats?.hpBonus ?? 0}
+                        onChange={(e) =>
+                          saveOverrides((d) => {
+                            d.catalogItems[it.id] = {
+                              ...ov,
+                              hpBonus: Number(e.target.value) || 0,
+                            };
+                          })
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={it.description}
+                        onChange={(e) =>
+                          saveOverrides((d) => {
+                            d.catalogItems[it.id] = { ...ov, description: e.target.value };
+                          })
+                        }
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </>
       )}
 
