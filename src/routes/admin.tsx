@@ -12,10 +12,8 @@ import {
 import { fromCloud } from "@/game/account/cloudSaves";
 import { applyEdit, summarize, type CharacterEdit } from "@/game/account/gmEdit";
 import { ITEMS, ITEM_IDS, type ItemId } from "@/game/session";
-import { MONSTER_BASE } from "@/game/monsters/base.generated";
-import { ALL_QUESTS_V2 } from "@/game/quests/engine";
-import { BOSS_CATALOG } from "@/game/bosses/catalog";
 import { RACES } from "@/game/world/races";
+
 import "@/components/account/account.css";
 
 export const Route = createFileRoute("/admin")({
@@ -32,6 +30,11 @@ const AdminMonitoringCenter = lazy(() =>
   })),
 );
 const ServerCharacterManager = lazy(() => import("@/components/admin/ServerCharacterManager"));
+const AdminWorldEditor = lazy(() =>
+  import("@/components/admin/AdminWorldEditor").then((m) => ({
+    default: m.AdminWorldEditor,
+  })),
+);
 
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
@@ -89,7 +92,11 @@ function AdminPage() {
           </Suspense>
         )}
         {tab === "audit" && <Audit />}
-        {tab === "content" && <Content />}
+        {tab === "content" && (
+          <Suspense fallback={<p role="status">Wczytywanie edytora zawartości…</p>}>
+            <AdminWorldEditor />
+          </Suspense>
+        )}
         {tab === "coder" && (
           <div className="ki-coder-panel">
             <p>
@@ -399,103 +406,3 @@ function describeChange(r: AuditRow): string {
   return out.join(", ") || "bez zmian w polach postaci";
 }
 
-function Content() {
-  const [kind, setKind] = useState<"monsters" | "items" | "quests" | "bosses">("monsters");
-  const [query, setQuery] = useState("");
-  const q = query.toLowerCase();
-  const table = useMemo(() => {
-    if (kind === "monsters")
-      return {
-        head: ["Potwór", "Kraina", "Poz.", "HP", "ATK", "DEF", "XP", "Rozmiar", "Łup"],
-        rows: MONSTER_BASE.map((m) => [
-          m.name,
-          m.world,
-          m.level,
-          m.hp,
-          m.atk,
-          m.def,
-          m.xp,
-          m.size,
-          m.loot.join(", "),
-        ]),
-      };
-    if (kind === "items")
-      return {
-        head: ["Przedmiot", "Atak", "Obrona", "Cena", "Skup"],
-        rows: ITEM_IDS.map((id) => [
-          ITEMS[id].name,
-          ITEMS[id].attack,
-          ITEMS[id].defense,
-          ITEMS[id].price,
-          ITEMS[id].sell,
-        ]),
-      };
-    if (kind === "quests")
-      return {
-        head: ["Zadanie", "Kraina", "Poz.", "Zleca", "Nagroda"],
-        rows: ALL_QUESTS_V2.map((x) => [
-          x.title,
-          x.continent,
-          x.recommendedLevel,
-          x.giverName,
-          `${x.reward.xp} XP` + (x.reward.coins ? ` · ${x.reward.coins} monet` : ""),
-        ]),
-      };
-    return {
-      head: ["Boss", "Tytuł", "Kraina", "Poz.", "HP", "ATK", "DEF"],
-      rows: BOSS_CATALOG.map((b) => [
-        b.name,
-        b.title,
-        b.continent,
-        b.level,
-        b.stats.hp,
-        b.stats.atk,
-        b.stats.def,
-      ]),
-    };
-  }, [kind]);
-  const rows = table.rows.filter((r) => r.join(" ").toLowerCase().includes(q));
-  return (
-    <section className="ki-admin-panel">
-      <div className="ki-admin-tabs">
-        {(
-          [
-            ["monsters", `Potwory (${MONSTER_BASE.length})`],
-            ["items", `Przedmioty (${ITEM_IDS.length})`],
-            ["quests", `Zadania (${ALL_QUESTS_V2.length})`],
-            ["bosses", `Bossowie (${BOSS_CATALOG.length})`],
-          ] as const
-        ).map(([id, label]) => (
-          <button key={id} aria-selected={kind === id} onClick={() => setKind(id)}>
-            {label}
-          </button>
-        ))}
-        <input placeholder="Filtruj…" value={query} onChange={(e) => setQuery(e.target.value)} />
-      </div>
-      <p>
-        <small>
-          Podgląd tylko do odczytu. Liczby pochodzą z dokumentów właściciela; ich edycja z panelu to
-          osobny etap.
-        </small>
-      </p>
-      <table className="ki-admin-table">
-        <thead>
-          <tr>
-            {table.head.map((h) => (
-              <th key={h}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i}>
-              {r.map((c, j) => (
-                <td key={j}>{String(c)}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
-  );
-}

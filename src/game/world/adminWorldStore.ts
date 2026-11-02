@@ -132,6 +132,7 @@ export type MonsterOverride = Partial<{
   respawn: number;
   size: "S" | "M" | "L";
   loot: string[];
+  lootChances?: Record<string, number>;
 }>;
 
 export type BossOverride = Partial<{
@@ -146,6 +147,7 @@ export type BossOverride = Partial<{
   range: number;
   agro: number;
   locationName: string;
+  lootChances?: Record<string, number>;
 }>;
 
 export type RaceOverride = Partial<{
@@ -592,10 +594,21 @@ export function applyAdminWorldOverridesToRuntime(
     target.attackCd = ov?.attackCd ?? base.attackCd;
     target.respawn = ov?.respawn ?? base.respawn;
     if (ov?.loot) {
-      target.loot = ov.loot.map((name, idx) => ({
-        name,
-        chance: base.loot[idx]?.chance ?? (idx === 0 ? 0.7 : 0.35),
-      }));
+      target.loot = ov.loot.map((name, idx) => {
+        const customChance = ov.lootChances?.[name] ?? ov.lootChances?.[String(idx)];
+        return {
+          name,
+          chance: customChance !== undefined ? customChance : (base.loot[idx]?.chance ?? (idx === 0 ? 0.7 : 0.35)),
+        };
+      });
+    } else if (ov?.lootChances) {
+      target.loot = base.loot.map((entry, idx) => {
+        const customChance = ov.lootChances?.[entry.name] ?? ov.lootChances?.[String(idx)];
+        return {
+          ...entry,
+          chance: customChance !== undefined ? customChance : entry.chance,
+        };
+      });
     } else {
       target.loot = structuredClone(base.loot);
     }
@@ -620,6 +633,14 @@ export function applyAdminWorldOverridesToRuntime(
     target.range = ov?.range ?? base.range;
     target.agro = ov?.agro ?? base.agro;
     target.locationName = ov?.locationName ?? base.locationName;
+    if (ov?.lootChances) {
+      target.lootTable = base.lootTable.map((drop) => ({
+        ...drop,
+        chancePercent: ov.lootChances?.[drop.itemId] !== undefined ? ov.lootChances[drop.itemId]! : drop.chancePercent,
+      }));
+    } else {
+      target.lootTable = structuredClone(base.lootTable);
+    }
   }
 
   // 8. Races & Skill Nodes

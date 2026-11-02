@@ -19,10 +19,40 @@
   object-fit: contain;
   background: #101f2d;
   border-radius: 10px;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+.ki-catalog-item-interactive {
+  cursor: pointer;
+  border: 1px solid #334155;
+}
+.ki-catalog-item-interactive:hover {
+  transform: scale(1.08);
+  border-color: #38bdf8;
+  filter: brightness(1.15);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+.ki-catalog-item-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.ki-hover-hint-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  pointer-events: none;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 .ki-catalog-info {
-  min-width: 220px;
-  max-width: 330px;
+  min-width: 240px;
+  max-width: 380px;
   font-size: 12px;
   line-height: 1.5;
   white-space: normal;
@@ -36,4 +66,379 @@
 }
 .ki-catalog-info small {
   opacity: 0.75;
+}
+
+/* ==========================================================================
+   RICH ITEM HOVER TOOLTIP ("Co daje dany przedmiot")
+   ========================================================================== */
+.ki-item-tooltip-anchor {
+  position: relative;
+  display: inline-block;
+}
+.ki-item-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  background: rgba(11, 17, 30, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2);
+  z-index: 99999;
+  pointer-events: none;
+  text-align: left;
+  line-height: 1.45;
+  color: #f1f5f9;
+  animation: ki-tooltip-in 0.18s ease-out;
+}
+@keyframes ki-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.ki-tooltip-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.ki-tooltip-icon-box {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  background: #090e17;
+  border-radius: 10px;
+  border: 1.5px solid #475569;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 3px;
+}
+.ki-tooltip-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ki-tooltip-title-area {
+  flex: 1;
+  min-width: 0;
+}
+.ki-tooltip-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ki-tooltip-id {
+  font-size: 10px;
+  color: #64748b;
+  font-family: monospace;
+}
+.ki-tooltip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 3px;
+}
+.ki-tag-rarity, .ki-tag-category, .ki-tag-level {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.ki-tag-category {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+.ki-tag-level {
+  background: #312e81;
+  color: #a5b4fc;
+  border: 1px solid #4338ca;
+}
+
+/* Rarity Color Themes */
+.ki-text-common { color: #cbd5e1; }
+.ki-text-uncommon { color: #4ade80; }
+.ki-text-rare { color: #38bdf8; }
+.ki-text-epic { color: #c084fc; }
+.ki-text-legendary { color: #fbbf24; }
+.ki-text-mythic { color: #f43f5e; }
+
+.ki-border-common { border-color: #64748b; }
+.ki-border-uncommon { border-color: #22c55e; box-shadow: 0 0 8px rgba(34, 197, 94, 0.3); }
+.ki-border-rare { border-color: #0284c7; box-shadow: 0 0 10px rgba(56, 189, 248, 0.35); }
+.ki-border-epic { border-color: #9333ea; box-shadow: 0 0 12px rgba(192, 132, 252, 0.4); }
+.ki-border-legendary { border-color: #d97706; box-shadow: 0 0 14px rgba(251, 191, 36, 0.45); }
+.ki-border-mythic { border-color: #e11d48; box-shadow: 0 0 16px rgba(244, 63, 94, 0.5); }
+
+.ki-bg-common { background: #334155; color: #f1f5f9; }
+.ki-bg-uncommon { background: #14532d; color: #86efac; border: 1px solid #22c55e; }
+.ki-bg-rare { background: #0c4a6e; color: #7dd3fc; border: 1px solid #0284c7; }
+.ki-bg-epic { background: #581c87; color: #d8b4fe; border: 1px solid #9333ea; }
+.ki-bg-legendary { background: #78350f; color: #fde68a; border: 1px solid #d97706; }
+.ki-bg-mythic { background: #881337; color: #fecdd3; border: 1px solid #e11d48; }
+
+.ki-tooltip-section-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.ki-tooltip-stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+.ki-tooltip-stat-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: #34d399;
+}
+.ki-stat-bullet {
+  color: #10b981;
+  font-size: 9px;
+  margin-right: 4px;
+}
+.ki-tooltip-no-stats {
+  font-size: 11px;
+  color: #94a3b8;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.ki-tooltip-buff {
+  background: rgba(49, 46, 129, 0.4);
+  border: 1px solid #4338ca;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #c7d2fe;
+  margin-bottom: 6px;
+}
+.ki-tooltip-hint {
+  font-size: 9px;
+  color: #a5b4fc;
+  margin-top: 2px;
+}
+.ki-tooltip-effect {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+}
+.ki-tooltip-set {
+  background: rgba(88, 28, 135, 0.35);
+  border: 1px solid #9333ea;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #e9d5ff;
+  margin-bottom: 6px;
+}
+.ki-tooltip-set ul {
+  padding-left: 14px;
+  margin: 3px 0 0;
+}
+.ki-tooltip-prices {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #fbbf24;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+}
+.ki-tooltip-sources {
+  font-size: 10px;
+  color: #94a3b8;
+  border-top: 1px solid rgba(51, 65, 85, 0.6);
+  padding-top: 6px;
+}
+.ki-tooltip-sources ul {
+  padding-left: 12px;
+  margin: 2px 0 0;
+}
+.ki-sources-more {
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   LOOT CHANCE EDITOR ("zmian procentu lootowania")
+   ========================================================================== */
+.ki-loot-drops-list {
+  list-style: none !important;
+  padding-left: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px !important;
+}
+.ki-loot-drop-item {
+  background: #090e17;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.ki-loot-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.ki-loot-name-hoverable {
+  cursor: pointer;
+  color: #f1f5f9;
+  transition: color 0.15s;
+}
+.ki-loot-name-hoverable:hover {
+  color: #38bdf8;
+  text-decoration: underline;
+}
+.ki-loot-chance-tag {
+  background: #0284c7;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.ki-loot-chance-editor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: #0f172a;
+  border-radius: 6px;
+  padding: 4px 6px;
+}
+.ki-loot-input-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+.ki-loot-chance-input {
+  width: 56px !important;
+  padding: 2px 4px !important;
+  background: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 4px !important;
+  color: #38bdf8 !important;
+  font-weight: 800 !important;
+  font-family: monospace !important;
+  text-align: right !important;
+}
+.ki-loot-quick-buttons {
+  display: flex;
+  gap: 3px;
+}
+.ki-loot-quick-btn {
+  padding: 2px 5px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #cbd5e1 !important;
+  cursor: pointer;
+}
+.ki-loot-quick-btn:hover {
+  background: #334155 !important;
+  color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}
+
+/* ==========================================================================
+   FILTERING & SORTING CONTROLS FOR ITEMS ("Filtrowania, sortowania")
+   ========================================================================== */
+.ki-item-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #090e17;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+}
+.ki-item-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ki-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.ki-filter-select, .ki-filter-search {
+  background: #0f172a !important;
+  border: 1px solid #334155 !important;
+  border-radius: 6px !important;
+  color: #f1f5f9 !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+.ki-filter-select:focus, .ki-filter-search:focus {
+  border-color: #38bdf8 !important;
+  outline: none !important;
+}
+.ki-filter-count-badge {
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 700;
+  background: #0c4a6e44;
+  border: 1px solid #0284c7;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.ki-filter-reset-btn {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+}
+.ki-filter-reset-btn:hover {
+  background: #475569 !important;
+  color: #fff !important;
 }

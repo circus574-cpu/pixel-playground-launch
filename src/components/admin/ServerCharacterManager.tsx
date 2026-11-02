@@ -15,6 +15,7 @@ import type {
 import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
 import { ITEM_CATALOG } from "@/game/items/catalog";
+import { ItemHoverTooltip } from "./AdminCatalogInfo";
 import { getItemById } from "@/game/items";
 import {
   ITEMS,
@@ -76,6 +77,9 @@ export function ServerCharacterManager() {
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<string>(ITEM_CATALOG[0]?.id || "");
   const [itemQuantity, setItemQuantity] = useState<number>(1);
   const [itemSearch, setItemSearch] = useState<string>("");
+  const [itemCategoryFilter, setItemCategoryFilter] = useState<string>("all");
+  const [itemRarityFilter, setItemRarityFilter] = useState<string>("all");
+  const [itemSortBy, setItemSortBy] = useState<"name" | "id" | "level" | "price" | "rarity">("name");
 
   // Wczytywanie listy postaci serwera
   const loadCharacters = useCallback(async () => {
@@ -231,17 +235,44 @@ export function ServerCharacterManager() {
     }
   };
 
-  // Filtrowany katalog przedmiotów do wyszukiwarki
+  // Filtrowany i sortowany katalog przedmiotów do wyszukiwarki
   const filteredCatalogItems = useMemo(() => {
-    if (!itemSearch.trim()) return ITEM_CATALOG.slice(0, 40);
-    const q = itemSearch.toLowerCase();
-    return ITEM_CATALOG.filter(
-      (it) =>
-        it.id.toLowerCase().includes(q) ||
-        it.name.toLowerCase().includes(q) ||
-        it.category.toLowerCase().includes(q),
-    ).slice(0, 50);
-  }, [itemSearch]);
+    const list = ITEM_CATALOG.filter((it) => {
+      if (itemCategoryFilter !== "all" && it.category !== itemCategoryFilter) return false;
+      if (itemRarityFilter !== "all" && it.rarity !== itemRarityFilter) return false;
+      if (itemSearch.trim()) {
+        const q = itemSearch.toLowerCase();
+        if (
+          !it.id.toLowerCase().includes(q) &&
+          !it.name.toLowerCase().includes(q) &&
+          !it.category.toLowerCase().includes(q)
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    const rarityOrder: Record<string, number> = {
+      common: 1,
+      uncommon: 2,
+      rare: 3,
+      epic: 4,
+      legendary: 5,
+      mythic: 6,
+    };
+
+    list.sort((a, b) => {
+      if (itemSortBy === "name") return a.name.localeCompare(b.name, "pl");
+      if (itemSortBy === "id") return a.id.localeCompare(b.id);
+      if (itemSortBy === "level") return (a.level ?? 0) - (b.level ?? 0);
+      if (itemSortBy === "price") return a.price - b.price;
+      if (itemSortBy === "rarity") return (rarityOrder[b.rarity] ?? 0) - (rarityOrder[a.rarity] ?? 0);
+      return 0;
+    });
+
+    return list.slice(0, 80);
+  }, [itemSearch, itemCategoryFilter, itemRarityFilter, itemSortBy]);
 
   const activeKitNodes = useMemo(() => {
     if (!detail) return [];
@@ -1679,22 +1710,25 @@ export function ServerCharacterManager() {
                             }}
                           >
                             {currentItem && (
-                              <img
-                                src={`/game/items/${currentItem}.webp`}
-                                alt=""
-                                style={{
-                                  width: 32,
-                                  height: 32,
-                                  objectFit: "contain",
-                                  borderRadius: 4,
-                                  border: "1px solid #4a3d5e",
-                                  background: "rgba(0,0,0,0.35)",
-                                  flexShrink: 0,
-                                }}
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                                }}
-                              />
+                              <ItemHoverTooltip id={currentItem}>
+                                <img
+                                  src={`/game/items/${currentItem}.webp`}
+                                  alt=""
+                                  style={{
+                                    width: 32,
+                                    height: 32,
+                                    objectFit: "contain",
+                                    borderRadius: 4,
+                                    border: "1px solid #4a3d5e",
+                                    background: "rgba(0,0,0,0.35)",
+                                    flexShrink: 0,
+                                    cursor: "pointer",
+                                  }}
+                                  onError={(e) => {
+                                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                                  }}
+                                />
+                              </ItemHoverTooltip>
                             )}
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div
@@ -1815,13 +1849,83 @@ export function ServerCharacterManager() {
                       ➕ Dodaj przedmiot do Torby lub Depozytu z Katalogu Gry:
                     </div>
 
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
                       <input
-                        placeholder="Filtruj katalog przedmiotów..."
+                        placeholder="Szukaj (nazwa, ID, typ)..."
                         value={itemSearch}
                         onChange={(e) => setItemSearch(e.target.value)}
-                        style={{ flex: 1, minWidth: 200 }}
+                        style={{ flex: 1, minWidth: 160 }}
                       />
+
+                      <select
+                        value={itemCategoryFilter}
+                        onChange={(e) => setItemCategoryFilter(e.target.value)}
+                        style={{ minWidth: 140 }}
+                      >
+                        <option value="all">Wszystkie kategorie</option>
+                        <option value="weapon">Broń (Weapon)</option>
+                        <option value="armor">Pancerz (Armor)</option>
+                        <option value="helmet">Hełm (Helmet)</option>
+                        <option value="boots">Buty (Boots)</option>
+                        <option value="gloves">Rękawice (Gloves)</option>
+                        <option value="legs">Nagolenniki (Legs)</option>
+                        <option value="ring">Pierścień (Ring)</option>
+                        <option value="amulet">Amulet</option>
+                        <option value="consumable">Użytkowy (Consumable)</option>
+                        <option value="tool">Narzędzie (Tool)</option>
+                        <option value="material">Materiał (Material)</option>
+                        <option value="quest">Zadaniowy (Quest)</option>
+                        <option value="boss-artifact">Artefakt (Artifact)</option>
+                      </select>
+
+                      <select
+                        value={itemRarityFilter}
+                        onChange={(e) => setItemRarityFilter(e.target.value)}
+                        style={{ minWidth: 130 }}
+                      >
+                        <option value="all">Wszystkie rzadkości</option>
+                        <option value="common">Pospolity</option>
+                        <option value="uncommon">Niezwykły</option>
+                        <option value="rare">Rzadki</option>
+                        <option value="epic">Epicki</option>
+                        <option value="legendary">Legendarny</option>
+                        <option value="mythic">Mityczny</option>
+                      </select>
+
+                      <select
+                        value={itemSortBy}
+                        onChange={(e) => setItemSortBy(e.target.value as any)}
+                        style={{ minWidth: 130 }}
+                      >
+                        <option value="name">Sortuj: Nazwa (A-Z)</option>
+                        <option value="rarity">Sortuj: Rzadkość (malejąco)</option>
+                        <option value="level">Sortuj: Poziom</option>
+                        <option value="price">Sortuj: Cena</option>
+                        <option value="id">Sortuj: ID</option>
+                      </select>
+                    </div>
+
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
+                      {selectedCatalogItem && (
+                        <ItemHoverTooltip id={selectedCatalogItem}>
+                          <img
+                            src={`/game/items/${selectedCatalogItem}.webp`}
+                            alt=""
+                            style={{
+                              width: 32,
+                              height: 32,
+                              objectFit: "contain",
+                              borderRadius: 4,
+                              border: "1px solid #38bdf8",
+                              background: "rgba(0,0,0,0.5)",
+                              cursor: "pointer",
+                            }}
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).style.display = "none";
+                            }}
+                          />
+                        </ItemHoverTooltip>
+                      )}
 
                       <select
                         value={selectedCatalogItem}
@@ -1917,22 +2021,25 @@ export function ServerCharacterManager() {
                                 minWidth: 0,
                               }}
                             >
-                              <img
-                                src={`/game/items/${itemId}.webp`}
-                                alt=""
-                                style={{
-                                  width: 28,
-                                  height: 28,
-                                  objectFit: "contain",
-                                  borderRadius: 4,
-                                  border: "1px solid #3d314f",
-                                  background: "rgba(0,0,0,0.3)",
-                                  flexShrink: 0,
-                                }}
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                                }}
-                              />
+                              <ItemHoverTooltip id={itemId}>
+                                <img
+                                  src={`/game/items/${itemId}.webp`}
+                                  alt=""
+                                  style={{
+                                    width: 28,
+                                    height: 28,
+                                    objectFit: "contain",
+                                    borderRadius: 4,
+                                    border: "1px solid #3d314f",
+                                    background: "rgba(0,0,0,0.3)",
+                                    flexShrink: 0,
+                                    cursor: "pointer",
+                                  }}
+                                  onError={(e) => {
+                                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                                  }}
+                                />
+                              </ItemHoverTooltip>
                               <div style={{ overflow: "hidden" }}>
                                 <b
                                   style={{
@@ -2020,22 +2127,25 @@ export function ServerCharacterManager() {
                                 minWidth: 0,
                               }}
                             >
-                              <img
-                                src={`/game/items/${itemId}.webp`}
-                                alt=""
-                                style={{
-                                  width: 28,
-                                  height: 28,
-                                  objectFit: "contain",
-                                  borderRadius: 4,
-                                  border: "1px solid #3d314f",
-                                  background: "rgba(0,0,0,0.3)",
-                                  flexShrink: 0,
-                                }}
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                                }}
-                              />
+                              <ItemHoverTooltip id={itemId}>
+                                <img
+                                  src={`/game/items/${itemId}.webp`}
+                                  alt=""
+                                  style={{
+                                    width: 28,
+                                    height: 28,
+                                    objectFit: "contain",
+                                    borderRadius: 4,
+                                    border: "1px solid #3d314f",
+                                    background: "rgba(0,0,0,0.3)",
+                                    flexShrink: 0,
+                                    cursor: "pointer",
+                                  }}
+                                  onError={(e) => {
+                                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                                  }}
+                                />
+                              </ItemHoverTooltip>
                               <div style={{ overflow: "hidden" }}>
                                 <b
                                   style={{

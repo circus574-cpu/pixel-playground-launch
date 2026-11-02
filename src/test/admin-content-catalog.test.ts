@@ -42,4 +42,39 @@ describe("Admin content catalogue uses actual loot definitions", () => {
     ]);
     expect(percent(0.0035)).toBe("0,35%");
   });
+
+  it("applies admin custom loot chances to runtime monsters and bosses", async () => {
+    const { applyAdminWorldOverridesToRuntime, readAdminWorldOverrides } = await import(
+      "../game/world/adminWorldStore"
+    );
+    const { MONSTERS } = await import("../game/monsters/catalog");
+    const { BOSS_CATALOG } = await import("../game/bosses/catalog");
+
+    const ov = readAdminWorldOverrides();
+    const testMonsterId = MONSTERS[0]!.id;
+    const firstDropName = MONSTERS[0]!.loot[0]!.name;
+
+    ov.monsters[testMonsterId] = {
+      lootChances: { [firstDropName]: 0.95 },
+    };
+
+    const testBossId = BOSS_CATALOG[0]!.id;
+    const firstBossDropId = BOSS_CATALOG[0]!.lootTable[0]!.itemId;
+
+    ov.bosses[testBossId] = {
+      lootChances: { [firstBossDropId]: 85 },
+    };
+
+    applyAdminWorldOverridesToRuntime(ov);
+
+    expect(MONSTERS[0]!.loot[0]!.chance).toBe(0.95);
+    expect(
+      BOSS_CATALOG[0]!.lootTable.find((d) => d.itemId === firstBossDropId)?.chancePercent,
+    ).toBe(85);
+
+    // Reset back
+    delete ov.monsters[testMonsterId];
+    delete ov.bosses[testBossId];
+    applyAdminWorldOverridesToRuntime(ov);
+  });
 });
