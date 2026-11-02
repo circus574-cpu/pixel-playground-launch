@@ -45,3 +45,23 @@ szczegółowej listy spawnów, chaos w układzie, dziennik bez informacji o publ
   dotychczasowe zmiany wykonane w panelu.
 - QA: `scripts/qa-admin-catalog.mjs` zaktualizowany do nowego układu (1280 i 390 px, okno w
   granicach ekranu, animacje bossów, lista spawnów, 0 błędów JS); `admin-readability.test.tsx`.
+
+### 3. Konta graczy na VPS (PostgreSQL) z aktywacją e-mail przez Resend — etap 1: serwer
+
+Decyzja właściciela 02.11: wszystko na VPS. Do tej pory logowanie, nicki i role były w Supabase
+Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
+
+- Baza: `deploy/multiplayer/init/005-accounts.sql` — schemat `accounts` (użytkownicy, role,
+  jednorazowe linki, sesje, dziennik). `install.sh` robi kopię bazy i stosuje migrację raz.
+- API pod `/ws/auth/*` (serwer gry, ta sama trasa Caddy co `/ws`): rejestracja, aktywacja linkiem,
+  ponowne wysłanie linku, logowanie, odświeżanie i wylogowanie, zapomniane hasło, nowe hasło,
+  `me`, a dla administratora lista kont, role i dziennik. Hasła: scrypt; tokeny dostępu HS256 na
+  15 min; sesje i linki przechowywane tylko jako SHA-256; limity prób na IP i e-mail.
+- E-mail: Resend HTTP API (`RESEND_API_KEY`, `EMAIL_FROM`). Bez klucza rejestracja zwraca
+  „Wysyłka e-maili nie jest jeszcze skonfigurowana”.
+- Przeniesienie kont: przy pierwszym logowaniu gracza z dotychczasowej bazy serwer jednorazowo
+  sprawdza e-mail i hasło u poprzedniego dostawcy i zakłada konto na VPS z tym samym ID, nickiem
+  i rolami — postacie zostają przypisane bez zmian w danych gry.
+- Serwer gry i panel admina przyjmują nowe tokeny; tokeny Supabase działają w okresie przejściowym.
+- Etap 2 (osobny PR): `/konto` i panel admina przełączone na nowe API.
+- Testy: `accounts-crypto.test.ts`, `accounts-service.test.ts` (PostgreSQL, w workflow QA online).
