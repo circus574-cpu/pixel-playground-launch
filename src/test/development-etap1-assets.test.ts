@@ -76,7 +76,7 @@ describe("Etap 1 development assets (Partia 1 + P0)", () => {
         expect(asset.client.dimensions).toEqual([512, 512]);
       }
     }
-  });
+  }, 30_000); // hashes every delivered file; slow only when the full suite saturates the CPU
 
   it("validates art/production/development/v001/audio-manifest.json provenance and SHA-256 checksums for all 41 audio items", () => {
     const audioManifestPath = "art/production/development/v001/audio-manifest.json";

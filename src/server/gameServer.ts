@@ -20,6 +20,10 @@ import { PgCharacterRepository } from "./characters/repository";
 import { accountRole, accountVerifier } from "./characters/auth";
 import { characterHttp, type VerifyAccount } from "./characters/http";
 import { serveOnlineSocket } from "./characters/socket";
+import { accountHttp } from "./accounts/http";
+import { resendMailer } from "./accounts/mailer";
+import { AccountService } from "./accounts/service";
+import { signingKey } from "./accounts/crypto";
 
 export interface GameServerConfig {
   port: number;
@@ -72,6 +76,8 @@ export class GameServer {
   private db: ReturnType<typeof postgres> | null = null;
   private characterRepository: PgCharacterRepository | null = null;
   private verifyAccount: VerifyAccount | null = null;
+  /** Player accounts in PostgreSQL on the VPS (/ws/auth/*). */
+  private accounts: AccountService | null = null;
   private tickCount = 0;
   private tickTimes: number[] = [];
   private onlineTickTimes: number[] = [];
@@ -120,6 +126,11 @@ export class GameServer {
 
   private handleHttpRequest(req: http.IncomingMessage, res: http.ServerResponse): void {
     const url = req.url || "/";
+
+    if (url.split("?")[0] === "/ws/auth" || url.startsWith("/ws/auth/")) {
+      void accountHttp(req, res, this.accounts);
+      return;
+    }
 
     if (url.split("?")[0] === "/ws/characters" || url.startsWith("/ws/characters/")) {
       void characterHttp(req, res, this.characterRepository, this.verifyAccount);
@@ -224,15 +235,21 @@ export class GameServer {
           },
           repository: this.characterRepository,
           verify: this.verifyAccount,
-          role: (token, subject) =>
-            accountRole(
+          role: async (token, subject) => {
+            // VPS accounts first; tokens of the previous authority only during the transition.
+            if (this.accounts?.subjectOf(token) === subject) {
+              const roles = await this.accounts.roles(subject);
+              return roles.includes("admin") ? "admin" : roles.includes("gm") ? "gm" : undefined;
+            }
+            return accountRole(
               {
                 url: process.env["SUPABASE_URL"] ?? "",
                 publishableKey: process.env["SUPABASE_PUBLISHABLE_KEY"] ?? "",
               },
               token,
               subject,
-            ),
+            );
+          },
           ...(process.env["GAME_WORLD_PUBLIC_ROOT"]
             ? { publicRoot: process.env["GAME_WORLD_PUBLIC_ROOT"] }
             : {}),
@@ -632,10 +649,18 @@ export class GameServer {
         const repository = new PgCharacterRepository(this.db);
         const url = process.env["SUPABASE_URL"];
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
-        if (url && key) {
+        const accounts = await this.prepareAccounts(this.db, url, key);
+        const legacy = url && key ? accountVerifier({ url, publishableKey: key }) : null;
+        if (accounts || legacy) {
           try {
             await repository.ready();
-            this.verifyAccount = accountVerifier({ url, publishableKey: key });
+            this.accounts = accounts;
+            this.verifyAccount = async (token) => {
+              const subject = accounts?.subjectOf(token);
+              if (accounts && subject) return { project: accounts.realm, subject };
+              if (legacy) return legacy(token);
+              throw Error("UNAUTHENTICATED");
+            };
             this.characterRepository = repository;
           } catch {
             console.warn(
@@ -682,11 +707,41 @@ export class GameServer {
     }
   }
 
+  /** Accounts on the VPS when their schema exists; null keeps the previous authority only. */
+  private async prepareAccounts(
+    sql: ReturnType<typeof postgres>,
+    legacyUrl: string | undefined,
+    legacyKey: string | undefined,
+  ): Promise<AccountService | null> {
+    try {
+      const service = new AccountService({
+        sql,
+        mailer: resendMailer(),
+        key: signingKey(),
+        publicUrl: (process.env["PUBLIC_SITE_URL"] || "https://kilegends.pl").replace(/\/$/, ""),
+        // Same principal "project" as the previous authority keeps every character linked.
+        realm:
+          process.env["ACCOUNT_REALM"] ||
+          (legacyUrl ? new URL(legacyUrl).origin : "https://kilegends.pl"),
+        legacy: legacyUrl && legacyKey ? { url: legacyUrl, publishableKey: legacyKey } : undefined,
+      });
+      await service.ready();
+      console.log(
+        `[GameServer] Konta na VPS gotowe (poczta: ${service.mailConfigured ? "Resend" : "nieskonfigurowana"}).`,
+      );
+      return service;
+    } catch {
+      console.warn("[GameServer] Konta na VPS niedostępne: brak schematu accounts.");
+      return null;
+    }
+  }
+
   public async stop(): Promise<void> {
     if (!this.isRunning) return;
     this.isRunning = false;
     this.characterRepository = null;
     this.verifyAccount = null;
+    this.accounts = null;
 
     if (this.tickInterval) clearInterval(this.tickInterval);
     if (this.dbSyncInterval) clearInterval(this.dbSyncInterval);

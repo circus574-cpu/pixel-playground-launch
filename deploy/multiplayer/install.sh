@@ -27,6 +27,15 @@ v2_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql 
 if [ "$v2_present" != t ]; then
  docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/002-global-multiplayer-optimization.sql
 fi
+accounts_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select to_regclass('accounts.schema_version') is not null")
+if [ "$accounts_present" != t ]; then
+ # Player accounts on the VPS: back up first, then apply the idempotent migration.
+ umask 077
+ pre="$BASE/backups/before-accounts-$(date -u +%Y%m%dT%H%M%SZ).dump"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db pg_dump -U ki_owner -d ki_multiplayer -Fc > "$pre"
+ sha256sum "$pre" > "$pre.sha256"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/005-accounts.sql
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"

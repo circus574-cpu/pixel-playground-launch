@@ -1,5 +1,7 @@
 import { getRequest } from "@tanstack/react-start/server";
 import { accountVerifier, accountRole } from "./auth";
+import { signingKey, verifyAccess } from "../accounts/crypto";
+import { getGameDb } from "../db";
 
 export async function requireServerAdmin(explicitToken?: string) {
   let headerToken: string | undefined;
@@ -28,6 +30,26 @@ export async function requireServerAdmin(explicitToken?: string) {
       return { subject: "local-dev-admin", project: "http://localhost" };
     }
     throw Error("UNAUTHENTICATED");
+  }
+
+  // Accounts on the VPS: access token signed by the game server, roles from PostgreSQL.
+  const db = getGameDb();
+  let local: string | undefined;
+  try {
+    local = verifyAccess(token, signingKey())?.sub;
+  } catch {
+    local = undefined;
+  }
+  if (local && db) {
+    const rows = await db<{ role: string }[]>`
+      SELECT role FROM accounts.roles WHERE user_id = ${local}`;
+    if (!rows.some((r) => r.role === "admin" || r.role === "gm")) throw Error("FORBIDDEN");
+    return {
+      subject: local,
+      project:
+        process.env["ACCOUNT_REALM"] ||
+        (config.url ? new URL(config.url).origin : "https://kilegends.pl"),
+    };
   }
 
   const owner = await accountVerifier(config)(token);
