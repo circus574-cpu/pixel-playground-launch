@@ -355,3 +355,22 @@ Zdjęto limity 20 w panelu admina (poziom, „+1 poziom”), w migracji questów
 Statystyki rosną liniowo z poziomem (`baza + przyrost × (poziom − 1)`), więc wyższe poziomy liczą się poprawnie.
 Bez zmian: wzrost szybkości ruchu nadal kończy się na poziomie 20 (decyzja właściciela 22.10.2026), a węzeł
 Tryb KI nadal wymaga poziomu 20. Testy: `level-uncapped`, `skills-repair`. Rangi węzłów (efekt ×ranga) to osobna zmiana.
+
+## Mapa 2D ostrzejsza, etykiety bez nakładania, panel ADM w kadrze
+
+- **Mapa kontynentów (`map-hi.webp`):** dotąd 1 piksel na komórkę terenu 32×32 j., więc przy zoomie widać siatkę
+  i schodki. Nowy tryb `MAP_UPSAMPLE=2` w `scripts/worldgen/v2/render_v2_maps.py`: gładkie granice lądu i
+  biomów (interpolacja), drogi rysowane z polilinii `world.json` z wygładzonymi narożnikami (bez tajnych
+  szlaków), budżet `MAP_MAX_MEGAPIXELS=12` (ok. 48 MB po zdekodowaniu, bo mapa jest dekodowana podczas gry).
+  Odświeżono `worldOverlay.v2.json` (`build_v2_atlas_overlay.py`): drogi i miejsca bez zmian, nowe transformacje kafli.
+  Polecenie: `MAP_WIDTH=8192 MAP_SUFFIX=-hi MAP_UPSAMPLE=2 MAP_LANDS=aether,nexus,pyra,verdant python3 scripts/worldgen/v2/render_v2_maps.py`.
+- **Etykiety „Obóz · poz. X”:** `src/components/planet-map/labelLayout.ts`: priorytety (stolica > miasto > słynne >
+  wioska > obóz) i pomijanie etykiet nachodzących na już ustawione. Test `map-labels`.
+- **Przycisk „Teleportuj”** przeniesiony do lewego dolnego rogu mapy.
+- **Panel ADM na komputerze** rozwijał się w lewo poza ekran (`right: 0` przy przycisku przypiętym do lewej krawędzi);
+  teraz otwiera się w prawo i mieści w kadrze.
+- **Filtr slotów** w panelu używa tej samej funkcji co gra (`getSlotForItem`), więc artefakty pasują do amuletu.
+- **Zbadane i odrzucone:** mipmapy Phasera (`?ki-mipmap=1`) rozmywały drzewa i gubiły obrys, więc ich nie wprowadzono.
+- **Ustalone, nie zmienione:** gra rysuje w rozdzielczości CSS i ignoruje `devicePixelRatio`; przy skalowaniu ekranu
+  150% lub 200% przeglądarka rozciąga obraz (np. 1280×720 na 1920×1080). Poprawka zmienia rozmiar gry i współrzędne
+  wskaźnika, a koszt GPU rośnie z kwadratem skali, więc wymaga pomiaru na telefonie.

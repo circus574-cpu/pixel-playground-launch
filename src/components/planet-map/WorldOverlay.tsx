@@ -5,10 +5,10 @@
  */
 import { useEffect, useMemo, useState, useRef } from "react";
 import { decodedImage, loadWorldOverlay } from "./preload";
+import { meets, visiblePlaces, type Box, type Place } from "./labelLayout";
 import type { OverlayLands, OverlayTile } from "./worldToAtlas";
 
 type Road = { id: string; land: string; kind: string; width: number; points: [number, number][] };
-type Place = { id: string; land: string; kind: string; name: string; x: number; y: number };
 type Tile = OverlayTile;
 type Overlay = { lands?: OverlayLands; roads: Road[]; places: Place[]; tiles: Tile[] };
 
@@ -26,14 +26,10 @@ const GLYPH: Record<string, string> = {
   wilderness: "▲",
   camp: "⚔",
 };
-/** Zoom from which a kind of place gets its name (capitals always). */
-const NAME_ZOOM: Record<string, number> = { capital: 0, town: 2.5, famous: 3, village: 6, camp: 5 };
 
-type Box = [number, number, number, number];
 type PreparedOverlay = { tiles: Box[]; roads: Box[]; roadPoints: string[] };
 const preparedOverlayCache = new WeakMap<Overlay, PreparedOverlay>();
 
-const meets = (a: Box, b: Box) => a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
 function tileBox(t: Tile): Box {
   const [a = 1, b = 0, c = 0, d = 1, e = 0, f = 0] = t.m;
   const [x0 = 0, y0 = 0, w = 0, h = 0] = t.crop;
@@ -223,32 +219,25 @@ export function WorldOverlay({
           />
         ) : null,
       )}
-      {data.places.map((p) => {
-        const big = p.kind === "capital" || p.kind === "town" || p.kind === "famous";
-        if (!big && zoom < 3) return null;
-        if (p.x < bounds[0] || p.x > bounds[2] || p.y < bounds[1] || p.y > bounds[3]) return null;
-        const r = px(p.kind === "capital" ? 7 : big ? 5 : 3.5);
-        const named = zoom >= (NAME_ZOOM[p.kind] ?? 9) && p.name;
-        return (
-          <g key={p.land + p.id} className={"pm-world-place pm-world-" + p.kind}>
-            <circle cx={p.x} cy={p.y} r={r} />
-            <text className="pm-world-glyph" x={p.x} y={p.y + r * 0.45} fontSize={r * 1.3}>
-              {GLYPH[p.kind] ?? "•"}
+      {visiblePlaces(data.places, bounds, zoom, px).map(({ p, r, named }) => (
+        <g key={p.land + p.id} className={"pm-world-place pm-world-" + p.kind}>
+          <circle cx={p.x} cy={p.y} r={r} />
+          <text className="pm-world-glyph" x={p.x} y={p.y + r * 0.45} fontSize={r * 1.3}>
+            {GLYPH[p.kind] ?? "•"}
+          </text>
+          {named && (
+            <text
+              className="pm-world-name"
+              x={p.x}
+              y={p.y + r + px(12)}
+              fontSize={px(11)}
+              strokeWidth={px(3)}
+            >
+              {p.name}
             </text>
-            {named && (
-              <text
-                className="pm-world-name"
-                x={p.x}
-                y={p.y + r + px(12)}
-                fontSize={px(11)}
-                strokeWidth={px(3)}
-              >
-                {p.name}
-              </text>
-            )}
-          </g>
-        );
-      })}
+          )}
+        </g>
+      ))}
     </g>
   );
 }

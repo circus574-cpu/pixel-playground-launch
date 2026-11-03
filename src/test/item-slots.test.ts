@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ITEM_CATALOG } from "../game/items/catalog";
 import { EQUIPMENT_SLOTS, itemFitsSlot } from "../game/items/slots";
+import { getSlotForItem } from "../game/session";
 
 describe("przedmioty pasują tylko do swojego slotu", () => {
   it("surowce, ziela i skóry nie pasują do żadnego slotu", () => {
@@ -24,6 +25,15 @@ describe("przedmioty pasują tylko do swojego slotu", () => {
     expect(itemFitsSlot("armor", "vest")).toBe(true);
     expect(itemFitsSlot("armor", "sword")).toBe(false);
     expect(itemFitsSlot("weapon", "potion")).toBe(false);
+  });
+
+  it("artefakty pasują do amuletu, tak jak w grze, a panel zgadza się z komendą equip", () => {
+    const artifact = ITEM_CATALOG.find((i) => i.slot === "artifact")!;
+    expect(itemFitsSlot("amulet", artifact.id)).toBe(true);
+    expect(itemFitsSlot("weapon", artifact.id)).toBe(false);
+    for (const item of ITEM_CATALOG)
+      for (const slot of EQUIPMENT_SLOTS)
+        expect(itemFitsSlot(slot, item.id)).toBe(getSlotForItem(item.id) === slot);
   });
 
   it("każdy slot ma przynajmniej jeden pasujący przedmiot w katalogu", () => {

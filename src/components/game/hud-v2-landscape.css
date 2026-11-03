@@ -289,12 +289,19 @@ html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
   }
 }
 
-/* Computers: the GM button under the portrait card, clear of the (scaled) minimap. */
+/* Computers: the GM button under the portrait card, clear of the (scaled) minimap. The button
+   hugs the left edge, so its panel must open to the right of it (the default `right: 0` pushed it
+   off-screen to the left and cut off the coordinates). */
 @media (min-width: 900px) and (min-height: 600px) {
   html[data-ki-world-v2] .ki-staff {
     top: 210px;
     right: auto;
     left: 14px;
+  }
+  html[data-ki-world-v2] .ki-staff-panel {
+    right: auto;
+    left: 0;
+    max-height: calc(100dvh - 210px - 64px);
   }
 }
 
