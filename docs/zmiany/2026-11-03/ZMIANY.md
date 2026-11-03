@@ -161,3 +161,34 @@ Przygotowanie commita: pełny statyczny TypeScript **PASS** (trzy konfiguracje),
 wywołanie wykazało brak historycznych archiwów wyłączonych przez sparse checkout;
 odtworzono wyłącznie brakujące pliki z bieżącego HEAD, bez zmiany ich zawartości.
 Nie ponawiano testów rozgrywki ani Software WebGL po żądaniu właściciela.
+
+
+## Aetheria — oprawa z materiałów właściciela
+
+Gałąź `preview/aetheria-painted-world` od aktualnego `main@327727e2`.
+Zasoby odczytano z `Grafika/`: sześć budynków, cztery tekstury i plansza dekoracji.
+Nie modyfikowano oryginałów. Przezroczystość i atlas przygotowano na CPU;
+nie korzystano z RunPod, generacji nowych ilustracji ani usług zewnętrznych.
+
+- Flaga `ki-aether-painted=1`; lokalnie `npm run playtest`, następnie
+  `/scripts/playtest.html?ki-world-v2=1&ki-aether-painted=1`, wybór Mędrców.
+- Podgląd używa tego samego renderera Superior co gra. Reużywa maski dróg,
+  światła i streamingu z próby Verdantii. Dodano wiązania budynków Aetherii,
+  prawdziwą alfę, latarnie, bramę, kwiaty, sakury, bonsai, bambus i dekoracyjne oczko wodne.
+- Dekoracje są prezentacyjne i niesolidne, brama nie jest nowym teleportem.
+  Nie zmieniano kolizji, geometrii, NPC, questów, kont ani zapisów.
+- [Zrzut przed Salą Rady Źródeł](qa/aether-painted/front.png) oraz
+  [szerszy podgląd](qa/aether-painted/overview.png) pochodzą z rzeczywistej gry lokalnej.
+  Uruchomiono Mędrca od początku i przesunięto go zwykłymi kliknięciami;
+  nie podstawiano tła sceny ani stanu gry. Podgląd: Canvas, 1280×900.
+- Importer waliduje manifest, obrazy, alfę i klatki: [wynik](qa/aether-painted/import.log).
+  Pełny statyczny TypeScript aplikacji/e2e/tools: PASS, [log](qa/aether-painted/typecheck.log).
+- Testy jednostkowe, pełny Playwright, WebGL, fizyczny telefon i benchmark FPS:
+  NIEWYKONANE dla tej partii. Priorytetem był zażądany lokalny podgląd.
+- Pakiet wymaga optymalizacji rozmiaru i dalszego odbioru: starsze drzewa,
+  kryształowe skały i landmarki pozostają ze wcześniejszego zestawu. Nie jest
+  to ukończenie wymiany wszystkich grafik świata.
+- Nie scalano do main i nie publikowano. To osobna gałąź do oceny właściciela.
+
+Źródła i mapowanie: [manifest](../../../art/production/aether-painted-preview/manifest.json),
+[pochodzenie](../../../art/production/aether-painted-preview/provenance.json).

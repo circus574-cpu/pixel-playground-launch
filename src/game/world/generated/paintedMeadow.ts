@@ -3,19 +3,26 @@ import type { ArtObject, FeatureArt } from "./renderSuperior";
 
 /** A render-only review switch. No world data, collider or saved position is changed. */
 export const paintedMeadowEnabled = (feature: string) =>
-  feature === "verdant" &&
-  catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass";
+  (feature === "verdant" &&
+    catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass") ||
+  (feature === "aether" &&
+    catalog.renderBindings["terrain.ki-v2-aether-grass-0"]?.asset === "aether-painted-grass");
 
 export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
   return items.map((item) => {
     const ref = catalog.renderBindings[item.binding];
-    if (ref?.asset !== "verdant-painted-shop" || !item.door) return item;
+    if (
+      !ref ||
+      !item.door ||
+      !(ref.asset === "verdant-painted-shop" || ref.asset.startsWith("aether-painted-"))
+    )
+      return item;
     return {
       ...item,
       x: item.door.x,
       y: item.door.y,
-      width: 560,
-      height: 520,
+      width: ref.asset.startsWith("aether") ? Math.max(item.width, 580) : 560,
+      height: ref.asset.startsWith("aether") ? Math.max(item.height, 480) : 520,
       anchorX: ref.origin![0],
       anchorY: ref.origin![1],
     };
@@ -90,6 +97,40 @@ export function meadowScenery(
   art: FeatureArt,
   roads: readonly { x: number; y: number; width: number; height: number }[],
 ): ArtObject[] {
+  if (art.acceptedCityBuildings.some((b) => b.binding.includes(".aether-"))) {
+    const items: ArtObject[] = [];
+    const add = (name: string, x: number, y: number, width: number, height: number) =>
+      items.push({
+        id: "aether-garden-" + items.length,
+        binding: "object.aether-painted." + name,
+        kind: name === "sakura" || name === "bonsai" ? "tree" : "bush",
+        x,
+        y,
+        width,
+        height,
+        anchorX: 0.5,
+        anchorY: 0.92,
+        solid: false,
+        layer: "objects",
+      });
+    for (const b of art.acceptedCityBuildings) {
+      add("lamp", b.x - 210, b.y + 135, 65, 140);
+      add("lamp", b.x + 210, b.y + 135, 65, 140);
+      add("blueflowers", b.x - 285, b.y + 130, 145, 115);
+      add("flowers", b.x + 285, b.y + 130, 140, 115);
+      add("sakura", b.x - 365, b.y - 90, 340, 295);
+      add("bonsai", b.x + 370, b.y - 115, 240, 280);
+      add("daisies", b.x - 290, b.y + 290, 115, 90);
+      add("lavender", b.x + 290, b.y + 290, 90, 100);
+    }
+    const hall = art.acceptedCityBuildings.find((b) => b.id === "accepted-sanctum-0");
+    if (hall) {
+      add("gate", hall.x + 410, hall.y + 520, 340, 320);
+      add("pond", hall.x - 550, hall.y + 480, 330, 200);
+      add("bamboo", hall.x - 660, hall.y + 290, 210, 260);
+    }
+    return items;
+  }
   const shop = art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
   if (!shop) return [];
   const items: ArtObject[] = [];

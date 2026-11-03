@@ -1,5 +1,18 @@
 # KI Legends — GPU i zasoby
 
+## Aetheria — materiały właściciela 03.11.2026
+
+Pakiet `aether-painted-preview@1.0.0`, flaga `ki-aether-painted=1`: cztery
+powierzchnie, sześć budynków i atlas jedenastu statycznych dekoracji. Źródła
+są w `Grafika/` z `main@327727e2`; [pochodzenie i SHA-256](../art/production/aether-painted-preview/provenance.json).
+Białe tło czterech nieprzezroczystych budynków usunięto przez flood fill
+połączony z zewnętrzną krawędzią, zachowując biel we wnętrzach. Pozostała alfa
+została zachowana. Plansza dekoracji ma jawne prostokątne klatki atlasu.
+[Pakiet i odtwarzalny skrypt](../art/production/aether-painted-preview/).
+Nie używano GPU ani nowej generacji; to prototyp bez odbioru na fizycznym telefonie.
+Runtime ma około 21 MiB plików, wymaga dalszej optymalizacji przed publikacją.
+[Zrzuty i zakres](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
+
 ## Próba Verdantii — 03.11.2026
 
 Pakiet `verdant-painted-preview@1.2.0` jest opcjonalny przez `ki-verdant-painted=1`.

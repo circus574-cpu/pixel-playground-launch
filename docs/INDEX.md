@@ -1,5 +1,7 @@
 # KI Legends — dokumentacja projektu
 
+**Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
+
 **Próba oprawy Verdantii (osobna gałąź, bez publikacji):** [kod, zasoby, zrzut z gry i włączenie podglądu](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
 
 Aktualizacja: **01.11.2026, po PR #70 (`main@2026c18`) i dodaniu bramki jakości CI przed wdrożeniem**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
