@@ -50,6 +50,7 @@ export default defineConfig({
       name: "software-webgl",
       testMatch: [
         "**/development.spec.ts",
+        "**/verdant-painted-preview.spec.ts",
         "**/development-heritage.spec.ts",
         "**/heritage-delivery.spec.ts",
         "**/development-combat-smoke.spec.ts",

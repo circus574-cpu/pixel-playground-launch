@@ -1,5 +1,15 @@
 # KI Legends — świat, kontynenty i miasta
 
+## Malowana Verdantia — podgląd 03.11.2026
+
+Gałąź `preview/verdantia-painted-terrain`, flaga `ki-verdant-painted=1`:
+ostrzejsze podłoże, wspólna maska dróg bez równych obrysów, łagodne poszarpane
+brzegi, korekta zieleni i światła, liściasty sklep oraz dodatkowe niesolidne rośliny.
+To warstwa prezentacji rzeczywistego Superior; kolizje, nawigacja, punkty wejść,
+NPC, questy i zapisy nie zmieniają się. Zrzut pokazuje Zieloną Przystań, nie nową
+mapę Kamiennego Sadu. Styl nie zastępuje wszystkich zasobów świata.
+[Włączenie, dowody i ograniczenia](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
+
 > **Stan obowiązujący 28.10.2026 (`main@30f7b8d5`):** od PR #44 domyślny jest Superior v2, PR #49 włączył malowane tekstury Gemini, `954dd3ee` dodał mapę 2D w Coder, a PR #52 zoptymalizował preloading i renderowanie mapy w grze. Niżej zachowano historyczne opisy gałęzi z 23–24.10; sformułowania „v1 aktywny” i „bez scalenia” są datowanymi checkpointami, **nie opisem obecnej produkcji**.
 >
 > **Kanon nie jest tożsamy z odbiorem:** 45% lądu / 55% wody na sferze (4 kontynenty i 6 wysp), maks. 20 rozległych podziemi (4–5 labiryntów), przejścia między kontynentami oraz bezstratne migracje nadal wymagają niezależnego sprawdzenia aktywnej geometrii, nawigacji, questów i zapisów. Historyczne 152 podziemia nie są 152 gotowymi grywalnymi lokacjami. Mapa Coder ma dodatkowo niezaliczoną interakcję wyboru miast/lokacji; patrz [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).

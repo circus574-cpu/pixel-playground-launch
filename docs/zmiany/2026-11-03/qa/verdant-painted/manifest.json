@@ -1,0 +1,17 @@
+{
+  "base": "e02c87b5ea9ad654f17d450464d13c36083f058b",
+  "branch": "preview/verdantia-painted-terrain",
+  "sha256": {
+    "src/game/assets/catalog.ts": "7d7437701d11622e76af230d391df518927864b22b24d1a1d6e26bbe1d180522",
+    "src/game/assets/imported.json": "226f7beccdcecc9d31fa4ad1c871aeab2073267870aff956e080ef75ed4c8a81",
+    "src/game/world/generated/renderSuperior.ts": "f3b2cdae4ad07e460850e9f4287c325caa9cc82dbbb9e184b91b96bfed5ef308",
+    "src/game/world/generated/paintedMeadow.ts": "9874257f25c1b594cba9c938a1bf07420d495edc1dc0650fbd7f0566401700db",
+    "e2e/verdant-painted-preview.spec.ts": "4a5b9b8cf385df1baf267a8dc6a7ced7bf417ef7bdea811e74b64fab8977f6a1",
+    "playwright.config.ts": "992f58dfbecf804baf8ccd4130ea0647a991000c21df4e786aa33e5df30aab78"
+  },
+  "screenshots": {
+    "painted-full-scene.png": "624027f62d4004cd5d117833ed304a0dbced0e12bde7b5eba03f4c4bee73018e",
+    "default-full-scene.png": "b9ffbb95387752284295cc4dae618c79c5c6987ea62a5b3c71e19717feecad5b",
+    "painted-touch-landscape.png": "8ff0e3c8326a99932a66bace002d3f31a76126b1829d65e18bde0e818d2e133a"
+  }
+}

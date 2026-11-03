@@ -1,3 +1,10 @@
+import {
+  paintedMeadowEnabled,
+  paintedPaths,
+  meadowLight,
+  meadowScenery,
+  meadowBuildings,
+} from "./paintedMeadow";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
 import { sizeScenery } from "../../assets/scenery";
@@ -11,6 +18,7 @@ import type { loadBrowserFeature, BrowserChunk } from "./browserLoader";
 
 export type ArtObject = RegionObject & {
   binding: string;
+  door?: Point;
   layer?: "below" | "objects" | "overhead";
 };
 export type FeatureArt = {
@@ -71,15 +79,18 @@ const cellCanvas = (width: number, height: number) => {
   }
   return cells;
 };
-const layerCanvas = () => {
-  if (!layer) {
-    layer = document.createElement("canvas");
-    layer.width = layer.height = 512;
+const layerCanvas = (size = 512) => {
+  layer ??= document.createElement("canvas");
+  if (layer.width !== size || layer.height !== size) {
+    layer.width = layer.height = size;
   }
   return layer;
 };
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
+  const painted = paintedMeadowEnabled(source.loader.definition.feature);
+  const resolution = painted ? 1024 : 512;
+  const scale = resolution / CHUNK;
   const live = new Map<string, Tile>();
   const pending = new Set<string>();
   let wanted = new Set<string>();
@@ -90,12 +101,15 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     doorsKey = "";
   const markers: (Phaser.GameObjects.Ellipse | Phaser.GameObjects.Text)[] = [];
   const staticItems = [
-    ...source.art.buildings,
-    ...source.art.acceptedCityBuildings,
+    ...(painted ? meadowBuildings(source.art.buildings) : source.art.buildings),
+    ...(painted
+      ? meadowBuildings(source.art.acceptedCityBuildings)
+      : source.art.acceptedCityBuildings),
     ...(source.art.acceptedCityScenery ?? []),
     ...(source.art.landmarks ?? []),
     ...source.art.resources,
     ...source.art.dungeonEntrances,
+    ...(painted ? meadowScenery(source.art, source.cityRoads) : []),
   ];
   const staticGrid = new Map<string, ArtObject[]>();
   for (const item of staticItems) {
@@ -117,18 +131,24 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
     const biome = decodeRuns(data.terrain.biome, flags.length);
     const key = "superior-ground:" + id;
-    // 512² RGBA per chunk = 1 MiB, independent of its 2048² world footprint.
-    const tex = scene.textures.createCanvas(key, 512, 512);
+    // Standard chunk: 1 MiB; opt-in painted review: 4 MiB. The world footprint is unchanged.
+    const tex = scene.textures.createCanvas(key, resolution, resolution);
     if (!tex) throw Error("Nie można przygotować terenu");
     const ctx = tex.getContext();
     const pattern = (binding: string) => {
       const image = scene.textures.get(textureId(binding)).getSourceImage() as HTMLImageElement;
       const tile = ctx.createPattern(image, "repeat")!;
       const size = catalog.renderBindings[binding]?.tileSize ?? [256, 256];
-      // The canvas is four times smaller than its world footprint. Preserve the
+      // Preserve texture scale relative to the world footprint at either bake resolution.
+      // Keep the
       // authored world-unit tile size instead of enlarging grass to 2048 units.
       tile.setTransform(
-        new DOMMatrix().scale(size[0] / 4 / image.width, size[1] / 4 / image.height),
+        new DOMMatrix()
+          .translate(
+            painted ? -(data.x % size[0]) * scale : 0,
+            painted ? -(data.y % size[1]) * scale : 0,
+          )
+          .scale((size[0] * scale) / image.width, (size[1] * scale) / image.height),
       );
       return tile;
     };
@@ -137,7 +157,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       road = source.art.road ? pattern(source.art.road) : undefined,
       plaza = source.art.plaza ? pattern(source.art.plaza) : undefined;
     // Painted sets (with a road texture) are meant to be seen; the legacy kit stays a faint tint.
-    const groundAlpha = road ? 0.6 : 0.15,
+    const groundAlpha = painted ? 1 : road ? 0.6 : 0.15,
       waterAlpha = road ? 0.85 : 0.5;
     const tone = (binding: string) =>
       binding.includes("snow")
@@ -175,10 +195,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     sctx.putImageData(colors, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(small, 0, 0, cols, rows, 0, 0, 512, 512);
+    ctx.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
     // Low-contrast texture reads as a continuous ground surface rather than a board of
     // repeated pictures; each texture fades in through the same smoothed cell mask.
-    const layer = layerCanvas(),
+    const layer = layerCanvas(resolution),
       lctx = layer.getContext("2d")!;
     const texture = (fill: CanvasPattern, alpha: number, inside: (i: number) => boolean) => {
       const mask = sctx.createImageData(cols, rows);
@@ -186,54 +206,76 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       sctx.clearRect(0, 0, cols, rows);
       sctx.putImageData(mask, 0, 0);
       lctx.globalCompositeOperation = "source-over";
-      lctx.clearRect(0, 0, 512, 512);
+      lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
-      lctx.fillRect(0, 0, 512, 512);
+      lctx.filter = painted && fill !== water ? "saturate(0.82) brightness(0.9)" : "none";
+      lctx.fillRect(0, 0, resolution, resolution);
+      lctx.filter = "none";
       lctx.globalCompositeOperation = "destination-in";
       lctx.imageSmoothingEnabled = true;
       lctx.imageSmoothingQuality = "high";
-      lctx.drawImage(small, 0, 0, cols, rows, 0, 0, 512, 512);
+      lctx.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
       ctx.globalAlpha = alpha;
       ctx.drawImage(layer, 0, 0);
       ctx.globalAlpha = 1;
     };
     for (const b of biomes)
       texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
+    if (painted) {
+      const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
+      if (shop)
+        texture(ground[0]!, 1, (i) => {
+          const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols;
+          const y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
+          return (
+            !!(flags[i]! & 16) &&
+            x > shop.x - 600 &&
+            x < shop.x + 1500 &&
+            y > shop.y - 750 &&
+            y < shop.y + 1500
+          );
+        });
+    }
     texture(water, waterAlpha, (i) => !(flags[i]! & 16));
+    if (painted) meadowLight(ctx, data.x, data.y, scale);
+    const silhouette = painted ? document.createElement("canvas") : undefined;
+    if (silhouette) silhouette.width = silhouette.height = resolution + 48;
+    const pen = silhouette?.getContext("2d") ?? ctx;
+    if (silhouette) pen.translate(24, 24);
     const strokeRoad = (
       points: [number, number][],
       width: number,
       color: string | CanvasPattern,
     ) => {
       if (points.length < 2) return;
-      const scaled = points.map(([x, y]) => ({ x: (x - data.x) / 4, y: (y - data.y) / 4 }));
-      ctx.beginPath();
-      ctx.moveTo(scaled[0]!.x, scaled[0]!.y);
+      const scaled = points.map(([x, y]) => ({ x: (x - data.x) * scale, y: (y - data.y) * scale }));
+      pen.beginPath();
+      pen.moveTo(scaled[0]!.x, scaled[0]!.y);
       for (let i = 1; i < scaled.length - 1; i++) {
         const prev = scaled[i - 1]!,
           p = scaled[i]!,
           next = scaled[i + 1]!;
         const before = Math.hypot(p.x - prev.x, p.y - prev.y),
           after = Math.hypot(next.x - p.x, next.y - p.y);
-        const radius = Math.min((width / 4) * 0.55, before / 3, after / 3);
+        const radius = Math.min(width * scale * 0.55, before / 3, after / 3);
         if (before < 0.01 || after < 0.01) continue;
-        ctx.lineTo(
+        pen.lineTo(
           p.x + ((prev.x - p.x) * radius) / before,
           p.y + ((prev.y - p.y) * radius) / before,
         );
-        ctx.quadraticCurveTo(
+        pen.quadraticCurveTo(
           p.x,
           p.y,
           p.x + ((next.x - p.x) * radius) / after,
           p.y + ((next.y - p.y) * radius) / after,
         );
       }
-      ctx.lineTo(scaled.at(-1)!.x, scaled.at(-1)!.y);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = width / 4;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.stroke();
+      pen.lineTo(scaled.at(-1)!.x, scaled.at(-1)!.y);
+      pen.strokeStyle = color;
+      pen.lineWidth = width * scale;
+      pen.lineCap = "round";
+      pen.lineJoin = "round";
+      pen.stroke();
     };
     const roadFill = road;
     for (const road of source.roads) {
@@ -246,25 +288,26 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         Math.min(...ys) - road.width > data.y + CHUNK
       )
         continue;
-      strokeRoad(road.points, road.width + 16, "#88916a");
+      if (!painted) strokeRoad(road.points, road.width + 16, "#88916a");
       strokeRoad(
         road.points,
         road.width,
-        roadFill ?? (road.kind === "trail" ? "#b2a27c" : "#bdae8b"),
+        painted ? "#fff" : (roadFill ?? (road.kind === "trail" ? "#b2a27c" : "#bdae8b")),
       );
     }
     for (const road of source.cityRoads) {
-      ctx.fillStyle = plaza ?? roadFill ?? "#b5ad8b";
-      ctx.beginPath();
-      ctx.roundRect(
-        (road.x - data.x) / 4,
-        (road.y - data.y) / 4,
-        road.width / 4,
-        road.height / 4,
-        Math.min(road.width, road.height) / 12,
+      pen.fillStyle = painted ? "#fff" : (plaza ?? roadFill ?? "#b5ad8b");
+      pen.beginPath();
+      pen.roundRect(
+        (road.x - data.x) * scale,
+        (road.y - data.y) * scale,
+        road.width * scale,
+        road.height * scale,
+        (Math.min(road.width, road.height) * scale) / 3,
       );
-      ctx.fill();
+      pen.fill();
     }
+    if (silhouette && roadFill) paintedPaths(ctx, silhouette, roadFill, data.x, data.y, scale);
     tex.refresh();
     return {
       key,
@@ -396,6 +439,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       }
     }
     scene.game.canvas.dataset["superiorChunks"] = String(live.size);
+    scene.game.canvas.dataset["superiorPending"] = String(pending.size);
+    scene.game.canvas.dataset["superiorPainted"] = String(painted);
+    scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
     );
