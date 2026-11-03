@@ -109,6 +109,9 @@ async function walkToStation(page: Page, touch: boolean) {
 
 for (const [race, id, land] of [
   ["Planetarni", "TV10", "verdant"],
+  ["Planetarni", "TV01", "verdant"],
+  ["Planetarni", "TV02", "verdant"],
+  ["Planetarni", "TV03", "verdant"],
   ["Planetarni", "TV04", "verdant"],
   ["Planetarni", "TV05", "verdant"],
   ["Planetarni", "TV06", "verdant"],
@@ -147,7 +150,58 @@ for (const [race, id, land] of [
         return metrics ? JSON.parse(metrics).renderer : null;
       })
       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
-    if (id === "TV05") {
+    if (id === "TV01") {
+      for (let i = 0; i < 4; i++) {
+        await walkToStation(page, false);
+        await expect
+          .poll(async () => Number(await stage.getAttribute("data-trial-successes")))
+          .toBe(i + 1);
+      }
+    } else if (id === "TV03") {
+      let last = -1,
+        leading = true;
+      for (
+        let i = 0;
+        i < 500 &&
+        !(await page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true }).count());
+        i++
+      ) {
+        const d = await stage.evaluate((el) => ({ ...el.dataset }));
+        const canvas = stage.locator(".ki-canvas");
+        const p = await canvas.evaluate((el) => ({ ...el.dataset }));
+        const npc = { x: Number(d["companionX"]), y: Number(d["companionY"]) },
+          player = { x: Number(p["playerX"]), y: Number(p["playerY"]) };
+        const progress = Number(d["trialSuccesses"]);
+        let target: { x: number; y: number } | null = null;
+        if (progress !== last) {
+          last = progress;
+          leading = true;
+          target = { x: Number(d["trialX"]), y: Number(d["trialY"]) };
+        }
+        const gap = Math.hypot(npc.x - player.x, npc.y - player.y);
+        if (leading && gap > 190) {
+          leading = false;
+          target = npc;
+        } else if (!leading && gap < 90) {
+          leading = true;
+          target = { x: Number(d["trialX"]), y: Number(d["trialY"]) };
+        }
+        if (target) {
+          const at = await canvas.evaluate((el, t) => {
+            const d = (el as HTMLElement).dataset,
+              b = el.getBoundingClientRect(),
+              z = Number(d["cameraZoom"]);
+            return {
+              x: b.x + (t.x - Number(d["cameraX"]) - b.width / 2) * z + b.width / 2,
+              y: b.y + (t.y - Number(d["cameraY"]) - b.height / 2) * z + b.height / 2,
+            };
+          }, target);
+          await page.mouse.click(at.x, at.y);
+        }
+        await page.waitForTimeout(100);
+      }
+      expect(Number(await stage.getAttribute("data-companion-hp"))).toBeGreaterThanOrEqual(50);
+    } else if (id === "TV05") {
       const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
       for (let cycle = 0; cycle < 8 && !(await result.count()); cycle++) {
         await expect.poll(async () => await stage.getAttribute("data-trial-phase")).toBe("warning");
@@ -243,7 +297,17 @@ for (const [race, id, land] of [
           // Read only the clues actually shown to the player, never internal answer IDs.
           const heading = await materials.getByRole("heading", { level: 2 }).innerText();
           let answer: string;
-          if (id === "TV04") {
+          if (id === "TV02") {
+            const sign = heading.split(": ")[1]!.split(". Którym")[0]!;
+            answer = text
+              .join(" ")
+              .split("Karta tropiciela: ")[1]!
+              .split(". Przy")[0]!
+              .split("; ")
+              .find((row) => row.endsWith(": " + sign))!
+              .split(": ")[0]!
+              .trim();
+          } else if (id === "TV04") {
             answer = text.join(" ").split("strzałki: ")[1]!.split(".")[0]!.split(" → ")[i]!.trim();
           } else if (id === "TV06") {
             const location = text.join(" ").match(/(Północ|Brzeg|Polana): 82/)![1]!;

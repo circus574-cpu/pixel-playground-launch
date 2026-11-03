@@ -104,6 +104,27 @@ export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle
   return Array.from({ length: count }, (_, i) => {
     const rotate = tier + i + def.id.charCodeAt(2);
     switch (def.kind) {
+      case "tracks": {
+        const signs = [
+          "dwa równoległe nacięcia",
+          "trzy kropki",
+          "złamana gałązka",
+          "ślad liścia",
+          "okrąg z kreską",
+        ];
+        const labels = ["Szlak posłańca", "Ścieżka zwierzyny", "Dawny trakt"].slice(
+          0,
+          tier === 1 ? 2 : 3,
+        );
+        const right = labels[i % labels.length]!;
+        return question(
+          `Ślad ${i + 1}/${count}: ${signs[i]}. Którym szlakiem dalej?`,
+          `Karta tropiciela: ${labels.map((name, j) => `${name}: ${signs[(i + j - (i % labels.length) + signs.length) % signs.length]}`).join("; ")}. Przy tym stanowisku widzisz: ${signs[i]}.`,
+          labels,
+          right,
+          rotate,
+        );
+      }
       case "flow-nodes": {
         const nodes = ["Źródło", "Przepust", "Korzeń", "Odbiornik"].slice(0, count);
         return question(

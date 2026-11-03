@@ -206,6 +206,8 @@ export const CurrentDevelopmentSchema = Version2Base.extend({
     )
       fail("Invalid trial receipt");
   }
+  if (domainRank(s.trials, "planetary", "trails") >= 2 && !s.unlockedVariants.includes("mv-trail"))
+    fail("Missing trail mastery unlock");
   if (domainRank(s.trials, "planetary", "earth") >= 2 && !s.unlockedVariants.includes("mv-earth"))
     fail("Missing earth mastery unlock");
   if (domainRank(s.trials, "sage", "seals") >= 2 && !s.unlockedVariants.includes("ma-seal"))

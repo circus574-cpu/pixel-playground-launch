@@ -83,17 +83,21 @@ export function TrialsPanel({
             {chosen.name} · stopień {selected.tier}
           </h4>
           <p>
-            {chosen.kind === "earth-rhythm"
-              ? "Uniknij 4/6/8 zapowiedzianych uderzeń i traf 2/3/4 kontry. Oba warunki są wymagane. Trafienie nie zalicza uniku; śmierć przerywa próbę."
-              : chosen.kind === "counter"
-                ? "Uniknij czerwonej zapowiedzi i traf bezpieczny cel w oknie kontry. Maksymalnie 2 otrzymane trafienia. Zapowiedź 1800/1500/1300 ms; okno kontrataku 4 s."
-                : chosen.kind === "restraint"
-                  ? "Wykonuj celne ciosy wyłącznie między sygnałami STOP. 4 s na cios, potem 2 s bez ataku. Zatrzymaj się również po poddaniu mistrza. Błędny cios przerywa próbę."
-                  : chosen.kind === "position"
-                    ? "Przejdź do punktu ustawienia, podejdź do celu i traf zwykłym atakiem, następnie wróć do punktu odwrotu. Pozycje i trafienia sprawdza silnik."
-                    : chosen.kind === "modules"
-                      ? "Dobierz różne moduły do jawnych wymagań, liczby gniazd i budżetu energii. Dostępne są testowe kopie wszystkich sześciu modułów. Niczego nie przeniesiesz do ekwipunku."
-                      : "Podejdź do oznaczonego stanowiska i przeczytaj materiały ćwiczebne. Odpowiedz na podstawie podanych znaków, pomiarów lub dokumentów. Wszystkie potrzebne informacje są dostępne."}
+            {chosen.kind === "wind-route"
+              ? "Przejdź 4/6/8 punktów w 180/210/240 s. Maksymalnie dwa wejścia w oznaczone zagrożenie."
+              : chosen.kind === "messenger"
+                ? "Przeprowadź posłańca przez 2/3/4 punkty, zachowując minimum 50% jego HP. Czeka na gracza; unikaj zapowiedzianych zagrożeń razem z nim."
+                : chosen.kind === "earth-rhythm"
+                  ? "Uniknij 4/6/8 zapowiedzianych uderzeń i traf 2/3/4 kontry. Oba warunki są wymagane. Trafienie nie zalicza uniku; śmierć przerywa próbę."
+                  : chosen.kind === "counter"
+                    ? "Uniknij czerwonej zapowiedzi i traf bezpieczny cel w oknie kontry. Maksymalnie 2 otrzymane trafienia. Zapowiedź 1800/1500/1300 ms; okno kontrataku 4 s."
+                    : chosen.kind === "restraint"
+                      ? "Wykonuj celne ciosy wyłącznie między sygnałami STOP. 4 s na cios, potem 2 s bez ataku. Zatrzymaj się również po poddaniu mistrza. Błędny cios przerywa próbę."
+                      : chosen.kind === "position"
+                        ? "Przejdź do punktu ustawienia, podejdź do celu i traf zwykłym atakiem, następnie wróć do punktu odwrotu. Pozycje i trafienia sprawdza silnik."
+                        : chosen.kind === "modules"
+                          ? "Dobierz różne moduły do jawnych wymagań, liczby gniazd i budżetu energii. Dostępne są testowe kopie wszystkich sześciu modułów. Niczego nie przeniesiesz do ekwipunku."
+                          : "Podejdź do oznaczonego stanowiska i przeczytaj materiały ćwiczebne. Odpowiedz na podstawie podanych znaków, pomiarów lub dokumentów. Wszystkie potrzebne informacje są dostępne."}
           </p>
           <p>
             Wymagane działania: {chosen.targets[selected.tier - 1]} · dopuszczalne błędy:{" "}

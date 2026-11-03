@@ -1,5 +1,34 @@
 # KI Legends — rozwój i walka
 
+## Szlaki Planetarnych — kontynuacja PR #90
+
+W tej partii dodano TV01/TV02/TV03, każdy w trzech stopniach. Źródło liczb:
+`docs/design/racial-development-owner-2026-10-28.txt`, sekcja 6.5. Trasa wymaga
+4/6/8 kolejnych checkpointów w 180/210/240 aktywnych sekund, najwyżej dwóch
+wejść w jawnie oznaczone zagrożenie. Przebywanie w nim przez kilka klatek liczy
+się jako jedno wejście, a odwiedzenie dalszego checkpointu nie omija kolejności.
+Tropy wymagają 3/4/5 poprawnych odpowiedzi z 2/3/3 opcji, najwyżej jednej pomyłki;
+wszystkie wskazówki znajdują się w jawnej karcie stanowiska.
+
+Posłaniec korzysta z `EscortActivity` i nawigacji obecnej sali. Wymagane 2/3/4
+checkpointy i co najmniej 50% HP, obecność gracza przy zatwierdzaniu punktu,
+czekanie po odejściu gracza o ponad 220 j. Ciało `ProtectedActor` ma tu wyłącznie
+środowiskowe obrażenia, bez rejestracji jako cel AI. Domyślny tryb istniejących
+eskort bojowych i ochrona zwykłych NPC w miastach pozostają bez zmian.
+Lokalny profil sali to 100 HP, zapowiedź zagrożenia 1800 ms, promień 65 j.,
+20 obrażeń przy pozostaniu w nim po zapowiedzi, kolejna zapowiedź po 5 s.
+Są to parametry ćwiczenia, nie nowe statystyki ras lub potworów. Użyto istniejącego
+sprite'a i animacji NPC. Próba nie dodaje przeciwników ani nowych globalnych spawnów.
+
+Szlaki II odblokowują istniejący `mv-trail`; jego mnożniki i koszty nie są zmieniane.
+Wyniki i jednorazowe 100/150/200 praktyki idą przez istniejące intenty i ledger.
+Nie zmieniano formatów zapisu 10/6 ani development v3. Katalog obejmuje teraz
+18/48 prób i 54/144 stopni; Planetarni mają 9/12 prób i 4050 praktyki z prób.
+Wcześniejszy teoretyczny budżet Planetarnych to teraz 16 450, nadal o 1350 mniej
+niż 17 800. Pełnej osiągalności ani balansu kampanii nadal nie potwierdzono.
+Pozostaje implementacja interakcji dziedzin w kontynencie poza salą prób.
+[Kontrole tej partii](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+
 ## Kontynuacja PR #90 — Żywa Ziemia, 03.11.2026
 
 Na gałęzi rozwoju (bez scalenia/publikacji) dodano TV04 Otwarty przepływ,

@@ -1,13 +1,26 @@
+import { actorVisual, catalog } from "../../assets/catalog";
+import { registerActorAnimations } from "../../assets/phaserAssets";
+import { ActorAnimation } from "../../assets/actorAnimation";
 import type { GameRuntime } from "../../mountGame";
 import { examAssets } from "../examRuntime";
 import type { TrialAttempt } from "./attempt";
 
 /** Uses the existing Phaser mount, actors, controls and combat; only room markers are added. */
 export function trialRuntime(attempt: TrialAttempt): GameRuntime {
+  const npc =
+    attempt.definition.kind === "messenger"
+      ? actorVisual(attempt.session.world.id, "npc", "hunter")
+      : null;
+  const assets = examAssets(attempt.race);
+  if (npc)
+    for (const clip of Object.values(npc.clips)) {
+      const asset = catalog.assets.get(clip.asset);
+      if (asset && !assets.some((a) => a.id === asset.id)) assets.push(asset);
+    }
   return {
     authoritative: attempt.authoritative,
     session: attempt.session,
-    assets: examAssets(attempt.race),
+    assets,
     afterTick: () => attempt.update(),
     render: (scene) => {
       const floor = scene.add.graphics().setDepth(-100);
@@ -23,12 +36,49 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
         .text(0, 0, "", { fontSize: "14px", color: "#f1e6c4", backgroundColor: "#10242be8" })
         .setOrigin(0.5, 1)
         .setDepth(3);
+      let companion: ReturnType<typeof scene.add.sprite> | undefined;
+      let animation: ActorAnimation | undefined;
+      const health = scene.add
+        .text(0, 0, "", { fontSize: "13px", color: "#c4f8c5", backgroundColor: "#10242be8" })
+        .setOrigin(0.5, 1);
+      if (npc) {
+        registerActorAnimations(scene, npc);
+        const idle = npc.clips.idle!;
+        companion = scene.add
+          .sprite(0, 0, idle.asset, Object.values(idle.directions)[0]![0]!)
+          .setDisplaySize(...npc.size)
+          .setOrigin(...npc.origin);
+        animation = new ActorAnimation(companion, npc);
+      }
+      health.setVisible(!!companion);
       let next = 0;
       const draw = (now: number) => {
         if (now < next) return;
         next = now + 100;
         const result = attempt.snapshot();
         marks.clear();
+        for (const h of result.routeHazards)
+          marks
+            .lineStyle(3, 0xeb6666)
+            .fillStyle(0xa42c36, 0.25)
+            .fillCircle(h.x, h.y, h.radius)
+            .strokeCircle(h.x, h.y, h.radius);
+        if (result.escort && companion) {
+          companion.setPosition(result.escort.x, result.escort.y).setDepth(result.escort.y);
+          animation?.update(
+            now,
+            result.escort.moving,
+            false,
+            result.escort.facing,
+            attempt.session.paused,
+          );
+          health
+            .setPosition(result.escort.x, result.escort.y - 100)
+            .setDepth(result.escort.y + 1)
+            .setText(
+              `Posłaniec · ${Math.round((result.escort.hp / result.escort.maxHp) * 100)}% HP`,
+            );
+        }
         label.setVisible(!!result.point);
         if (result.point) {
           marks
@@ -50,9 +100,13 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
           marks.setVisible(visible);
           title.setVisible(visible);
           label.setVisible(visible);
+          companion?.setVisible(visible);
+          health.setVisible(visible && !!companion);
         },
         dispose: () => {
           scene.events.off("update", draw);
+          companion?.destroy();
+          health.destroy();
           floor.destroy();
           marks.destroy();
           title.destroy();

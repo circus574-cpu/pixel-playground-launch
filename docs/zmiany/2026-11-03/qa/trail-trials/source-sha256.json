@@ -1,0 +1,15 @@
+{
+  "src/game/development/trials/catalog.ts": "d88c3485239c019d2607ee57c57a0e0e39652af34b8838fdea5c65ae27a658ff",
+  "src/game/development/trials/puzzles.ts": "17e9df2c01d38bb2840200dfa2daa2eaeb1902b3664d0ebfd7ea697195932e88",
+  "src/game/development/trials/attempt.ts": "d09b369faf9cddb49e4846e0b839f193c4ef7e428ba8be76b46fe4891f416db9",
+  "src/game/development/trials/runtime.ts": "862760f2c514b443aad5f1a548a80b230c8770d2f7edd922d9c5880358502a67",
+  "src/game/development/heritage/protectedActor.ts": "356bdab4cad66bd84d2678c2a8930bba5b58aec7f2688b6f8536d18f800cdcc8",
+  "src/game/development/state.ts": "a699927abbf45e425b6856e381fa0e9bb54810a38b2763cbad64ca0efac2a280",
+  "src/game/session.ts": "61a1b6cdd4ff0caa48dd7b3a68d6543b18e12e56e436a9f478befa5552c013aa",
+  "src/components/game/TrialsPanel.tsx": "e18092fb05cf377f1d0421c616544a9406085bd1d11c0c52331352963c331548",
+  "src/components/game/TrialRoom.tsx": "dd9f3e8ba7728e23e718a530a0746ccf1265c163e5f4e54d70baa38dd6a1947d",
+  "e2e/racial-trials.spec.ts": "3ff4cf54a5f30397ffc9402539fa8dc8aa5c53a43e3d31353ffa2b76a399a0b5",
+  "src/test/trail-trials.test.ts": "a4adc098af1e261fc78d38c9a17a5ad34915824ce3434e03b3f5b0e98b18a0ff",
+  "src/test/server-racial-trials.test.ts": "f59aabc699231f9f7fda1d82f06c25b4cc54cc033f151972db104d9a31a71804",
+  "src/test/helpers/racialTrials.ts": "86f8777b505f1164baa2779a92a16afda0feb3eb5eaa24f9b84f7d7a12fe720f"
+}

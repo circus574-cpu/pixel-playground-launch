@@ -21,7 +21,29 @@ export function walkTrial(a: TrialAttempt, point: Point) {
 }
 export function completeTrial(a: TrialAttempt) {
   a.begin();
-  if (!["counter", "earth-rhythm", "restraint", "position"].includes(a.definition.kind)) {
+  if (["wind-route", "messenger"].includes(a.definition.kind)) {
+    let last = -1,
+      leading = true;
+    for (let n = 0; n < 12000 && a.snapshot().outcome === "running"; n++) {
+      const r = a.snapshot(),
+        s = a.session;
+      if (r.successes !== last) {
+        last = r.successes;
+        leading = true;
+        s.command({ type: "move", ...a.currentPoint! });
+      }
+      if (r.escort) {
+        if (leading && distance(s.player, r.escort) > 190) {
+          leading = false;
+          s.command({ type: "move", x: r.escort.x, y: r.escort.y });
+        } else if (!leading && distance(s.player, r.escort) < 90) {
+          leading = true;
+          s.command({ type: "move", ...a.currentPoint! });
+        }
+      }
+      tickTrial(a);
+    }
+  } else if (!["counter", "earth-rhythm", "restraint", "position"].includes(a.definition.kind)) {
     const puzzles = trialPuzzles(a.definition, a.tier);
     for (let i = 0; i < puzzles.length; i++) {
       walkTrial(a, a.currentPoint!);

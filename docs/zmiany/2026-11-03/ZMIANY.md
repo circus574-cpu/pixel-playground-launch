@@ -1117,3 +1117,82 @@ sterowania na potrzeby testu. Build na końcowych źródłach UI ponowiono: PASS
 Przed commitem ponowiono pełny TypeScript. Logi, niepowodzenia, screenshoty
 oraz sumy SHA-256 końcowych źródeł zapisano w QA tej partii.
 Publikacja wymaga zgodnego wydania klienta i serwera; tej partii nie wdrażano.
+
+
+## Szlaki — TV01, TV02, TV03
+
+Kontynuacja tej samej gałęzi PR #90 od `f26d3adb`. Dodano trzy próby / dziewięć
+stopni według specyfikacji właściciela z 28.10: TV01 kolejna trasa 4/6/8 punktów
+w 180/210/240 aktywnych sekund z najwyżej dwoma wejściami w zagrożenie;
+TV02 rozpoznanie 3/4/5 tropów z 2/3/3 opcji i jedną dozwoloną pomyłką;
+TV03 eskorta przez 2/3/4 punkty z minimum 50% HP posłańca.
+
+Posłaniec używa istniejącego `EscortActivity`, nawigacji sali i animacji NPC.
+Środowiskowy `ProtectedActor` dostaje obrażenia przez wspólne HP/eventy/śmierć,
+bez rejestrowania jako cel potworów. Dotychczasowe eskorty bojowe zachowują
+rejestrację i zabezpieczenie miast. Zagrożenia są tylko w sali; nie dodano
+agresji zwykłych potworów na NPC. Profil ćwiczebny: 100 HP, zapowiedź 1800 ms,
+promień 65 j., 20 obrażeń przy pozostaniu w kręgu, kolejny cykl po 5 s.
+Stanowiska i kolizje kontynentów, HUD, joystick i skróty klawiszowe bez zmian.
+
+Pierwsza seria kontrolerów miała 7 FAIL: rejestracja ciała w bezpiecznej sali
+została słusznie odrzucona przez ochronę NPC, a robot testowy stale ponawiał
+`move`, resetując drogę przy przeszkodzie. Rozwiązania: tryb wyłącznie
+środowiskowy dla posłańca oraz polecenia ruchu robota tylko przy zmianie celu,
+z wracaniem do posłańca, gdy odstęp przekracza 190 j. Nie usunięto osłon sali,
+nie osłabiono progów ani asercji. Zaliczenie eskorty nie następuje od samej
+obecności gracza na końcu ani od upływu czasu. Pierwszy TypeScript wykrył
+odczyty pól DOM przez kropkę w e2e; poprawiono je na zapis indeksowy.
+
+Stopień Szlaków II odblokowuje istniejący `mv-trail`. Nagrody i trwałość idą
+przez wspólne transakcje/serwerowe intenty, z ledgerem 100/150/200 praktyki.
+Walidacja wymaga odblokowania po uzyskaniu rangi. Nie zmieniono mnożników
+wariantu ani formatów zapisu. Katalog ma teraz 18/48 prób i 54/144 stopni;
+pozostaje 30/90, siedem wariantów, trzy moduły i reszta odbioru kampanii.
+Planetarni mają 4050 praktyki z prób; pozostałe rasy po 1350. Nadal pozostaje
+niedobór 1350 do 17 800 w wcześniejszym teoretycznym budżecie Planetarnych.
+
+[Dowody tej partii](qa/trail-trials/). Scenariusze przeglądarkowe używają
+rzeczywistej trasy, widocznych pomiarów/tropów i pozycji posłańca, normalnych
+kliknięć i czasu ruchu; bez mutacji localStorage lub instancji silnika.
+Sprawdzają nagrodę, własne HP/KI/XP/ekwipunek i wynik po odświeżeniu.
+Fizyczny Android/iOS, pełna regresja całego e2e, odsłuch oraz produkcyjna
+sesja WebSocket/PostgreSQL: NIEWYKONANE. Wyższe stopnie są weryfikowane
+kontrolerami i transakcjami, a nie całym przejściem UI każdej trudności.
+Nie scalano do main, nie publikowano i nie używano GPU.
+
+
+### Kontrole partii Szlaków
+
+- `NODE_OPTIONS=--max-old-space-size=2048 npm test`: **1261 PASS / 0 FAIL / 10 SKIP**,
+  107 plików PASS i jeden SKIP. Pominięte przypadki nadal wymagają osobnej PostgreSQL QA.
+- `npx vitest run src/test/trail-trials.test.ts src/test/racial-trials.test.ts src/test/racial-trial-transactions.test.ts src/test/heritage-battle.test.ts`:
+  **89 PASS / 0 FAIL**. Obejmuje wyższe stopnie, błędy, limity, anulowanie,
+  nagrody, reload oraz regresję wcześniejszych eskort bojowych.
+- Po tej pełnej serii dopisano trzy jawne scenariusze serwerowe TV01/TV02/TV03.
+  `npx vitest run src/test/server-racial-trials.test.ts src/test/remote-racial-trial.test.ts`:
+  **9 PASS / 0 FAIL**. Rzeczywiste intenty do `prepareServerSimulation`, brak nagrody
+  przed wynikiem, pojedyncze zatwierdzenie, poprawny snapshot i odtworzenie serwera.
+  Nie powtarzano całego `npm test` tylko z powodu dopisania tych testów;
+  liczba 1261 nie obejmuje trzech dopisanych przypadków i nie jest deklaracją 1264 w jednej serii.
+- Pełny TypeScript aplikacja/e2e/tools: PASS, ponowiony przed commitem po dodaniu testów.
+- Lint: PASS, 0 błędów / 15 wcześniejszych ostrzeżeń. `npm run assets:check`: PASS.
+- `NODE_OPTIONS=--max-old-space-size=3072 npm run build`: PASS; output w
+  `/tmp/ki-development-build-output` przez ignorowany `.output`, jak w poprzedniej partii.
+- Canvas: TV01/TV02/TV03 I **3 PASS / 0 FAIL**. Każdy przypadek jawnie sprawdza renderer,
+  działania, własne zasoby, nagrodę i zachowanie wyniku po reload. `pageerror` = 0.
+- Fizyczny telefon, audio oraz sesja na opublikowanym serwerze: NIEWYKONANE.
+
+Polecenia browser: `KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/racial-trials.spec.ts --project=gameplay --grep 'real TV01|real TV02|real TV03' --output=/workspace/ki-trails-canvas --reporter=list --trace=off`,
+analogicznie `--project=software-webgl --output=/workspace/ki-trails-webgl`.
+Logi pierwszych niepowodzeń, ponowień i pozytywnych wyników zachowano w QA.
+Baza `f26d3adb` plus źródła opisane sumami SHA-256 tej partii.
+
+
+Software WebGL: TV01/TV02/TV03 I **3 PASS / 0 FAIL**, 4,3 min.
+Łącznie z osobną serią Canvas zaliczono sześć scenariuszy nowych prób, po jednym
+na próbę i renderer. Asercje sprawdzają faktyczny renderer przez metrics oraz
+brak błędów JavaScript. Potwierdzono animowanego posłańca, jego zdrowie >=50%,
+zapis nagrody i brak utraty własnych zasobów po odświeżeniu. Nie jest to test
+fizycznego telefonu ani całego katalogu e2e. Wyższe stopnie pozostają pokryte
+kontrolerami i transakcjami. Publikacja wymaga zgodnego klienta i serwera.

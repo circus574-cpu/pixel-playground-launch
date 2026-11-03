@@ -112,6 +112,10 @@ export function TrialRoom({
       data-trial-tier={attempt.tier}
       data-trial-phase={result.phase}
       data-trial-round={result.round}
+      data-trial-successes={result.successes}
+      data-companion-x={result.escort?.x}
+      data-companion-y={result.escort?.y}
+      data-companion-hp={result.escort?.hp}
       data-trial-x={result.point?.x}
       data-trial-y={result.point?.y}
     >

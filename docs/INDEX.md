@@ -1,6 +1,10 @@
 # KI Legends — dokumentacja projektu
 
-**Wznowiony rozwój — PR #90:** dodano trzy próby Żywej Ziemi Planetarnych i ich
+**Najnowsza partia rozwoju — Szlaki Planetarnych:** TV01/TV02/TV03, ranga Szlaków
+i odblokowanie `mv-trail`; katalog 18/48 prób, 54/144 stopni. Pełny rozwój pozostaje
+nieukończony. [Zakres i kontrole](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+
+**Poprzednia partia rozwoju — PR #90:** dodano trzy próby Żywej Ziemi Planetarnych i ich
 odblokowanie mistrzostwa. Katalog: 15/48 prób, 45/144 stopni; pełna kampania nadal
 nieukończona. [Bieżąca partia i dowody](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
 

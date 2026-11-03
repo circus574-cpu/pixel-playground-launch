@@ -1,3 +1,5 @@
+import { EscortActivity } from "../heritage/escort";
+import { ProtectedActor } from "../heritage/protectedActor";
 import { loanSession } from "../loan";
 import type { GameSession } from "../../session";
 import { distance, type Point } from "../../navigation";
@@ -32,6 +34,25 @@ export class TrialAttempt {
   private danger: Point = { x: 0, y: 0 };
   private target: PracticeTarget | undefined;
   private restraint: RestraintActivity | undefined;
+  private escort: EscortActivity | undefined;
+  private companion: ProtectedActor | undefined;
+  private escortHazard: { x: number; y: number; until: number } | undefined;
+  private nextEscortHazard = 5000;
+  private insideHazard = false;
+  readonly route = [
+    { x: 230, y: 550 },
+    { x: 240, y: 170 },
+    { x: 520, y: 130 },
+    { x: 810, y: 250 },
+    { x: 820, y: 620 },
+    { x: 520, y: 620 },
+    { x: 520, y: 350 },
+    { x: 230, y: 550 },
+  ];
+  readonly routeHazards = [{ x: 600, y: 440, radius: 50 }];
+  get routeLimitMs() {
+    return [180000, 210000, 240000][this.tier - 1]!;
+  }
   private puzzles;
   readonly targetCount;
   readonly points = [
@@ -57,7 +78,51 @@ export class TrialAttempt {
     p.hp = this.session.kit.stats.maxHp;
     p.ki = this.session.kit.stats.maxKi;
     const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
-    this.puzzles = physical ? [] : trialPuzzles(definition, tier);
+    this.puzzles =
+      physical || ["wind-route", "messenger"].includes(definition.kind)
+        ? []
+        : trialPuzzles(definition, tier);
+    if (definition.kind === "wind-route") this.phase = "route";
+    if (definition.kind === "messenger") {
+      this.phase = "escort";
+      this.companion = new ProtectedActor(
+        this.session,
+        "Posłaniec próby",
+        { x: p.x, y: p.y },
+        100,
+        0,
+        true,
+        false,
+      );
+      this.escort = new EscortActivity(
+        this.session,
+        {
+          id: this.instanceId,
+          kind: "escort",
+          label: definition.name,
+          site: "trainer",
+          documents: [],
+          checkpoints: this.targetCount,
+          actor: "Posłaniec próby",
+          minHealthFraction: 0.5,
+          combat: false,
+        },
+        this.instanceId,
+        {
+          id: this.instanceId,
+          label: definition.name,
+          point: { x: p.x, y: p.y },
+          feature: this.session.world.id,
+          interior: null,
+          npc: null,
+          witness: false,
+          entrance: null,
+        },
+        this.route.slice(0, this.targetCount),
+        0,
+        () => !!this.companion?.valid() && this.companion.body.hp / this.companion.maxHp >= 0.5,
+      );
+    }
     if (physical) {
       Object.assign(p, { x: 600, y: 350 });
       if (definition.kind === "restraint") {
@@ -125,6 +190,12 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
+    if (k === "wind-route")
+      return `Przejdź kolejno ${this.targetCount} punktów w ${this.routeLimitMs / 1000} s. Maksymalnie dwa wejścia w czerwone zagrożenie; trzecie przerywa próbę. Stanie w środku nie nalicza kolejnych wejść.`;
+    if (k === "messenger")
+      return `Przeprowadź posłańca przez ${this.targetCount} punkty. Wymagane minimum 50% jego HP. Czeka, gdy oddalisz się o ponad 220 j. Unikaj zapowiedzianych zagrożeń razem z nim; sama obecność gracza w celu nie zalicza eskorty.`;
+    if (k === "tracks")
+      return `Rozpoznaj ${this.targetCount} kolejnych śladów według jawnej karty. Wybierz spośród ${this.tier === 1 ? 2 : 3} szlaków. Maksymalnie jedna pomyłka.`;
     if (k === "earth-rhythm")
       return `Opuść ${this.definition.dodgeTargets![this.tier - 1]} zapowiedzianych kręgów i wykonaj ${this.targetCount} celnych kontrataków. Trafienie nie zalicza uniku. Oba cele są obowiązkowe; śmierć przerywa próbę. Kontra: 4 s.`;
     if (k === "flow-nodes")
@@ -144,6 +215,8 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
+    if (this.escort) return this.escort.nextTarget().point;
+    if (this.definition.kind === "wind-route") return this.route[this.result.successes];
     if (this.puzzles.length)
       return this.points[
         (this.definition.kind === "contamination" ? Math.floor(this.round / 2) : this.round) %
@@ -211,6 +284,9 @@ export class TrialAttempt {
     this.session.paused = true;
     this.session.practiceTargets.removeOwner(this.instanceId);
     this.restraint?.dispose();
+    this.escortHazard = undefined;
+    this.escort?.dispose();
+    this.companion?.dispose();
   }
   abandon() {
     if (this.result.outcome === "running")
@@ -234,6 +310,52 @@ export class TrialAttempt {
         "failed",
         "Profil testowy poległ. Oryginalna postać nie utraciła zasobów.",
       );
+    if (this.definition.kind === "wind-route") {
+      if (this.result.activeMs > this.routeLimitMs)
+        return this.finish("failed", "Przekroczono limit czasu trasy.");
+      const danger = this.routeHazards.some((h) => distance(s.player, h) < h.radius);
+      if (danger && !this.insideHazard) this.result.errors++;
+      this.insideHazard = danger;
+      if (this.result.errors > 2) return this.finish("failed", "Trzecie wejście w zagrożenie.");
+      if (
+        this.currentPoint &&
+        distance(s.player, this.currentPoint) <= 45 &&
+        s.nav.visible(s.player, this.currentPoint)
+      )
+        this.result.successes++;
+      this.checkEnd();
+      return;
+    }
+    if (this.escort && this.companion) {
+      this.escort.update();
+      Object.assign(this.companion.body, this.escort.actor);
+      const r = this.escort.snapshot();
+      this.result.successes = r.windows;
+      if (this.escortHazard && s.nowMs >= this.escortHazard.until) {
+        if (distance(this.companion.body, this.escortHazard) < 65)
+          this.companion.hurtEnvironment(20);
+        this.escortHazard = undefined;
+        this.nextEscortHazard = s.nowMs + 5000;
+      }
+      if (!this.companion.valid() || this.companion.body.hp / this.companion.maxHp < 0.5)
+        return this.finish("failed", "Zdrowie posłańca spadło poniżej 50%.");
+      if (r.phase === "failed") return this.finish("failed", r.message);
+      if (r.phase === "passed") {
+        this.checkEnd();
+        return;
+      }
+      if (!this.escortHazard && s.nowMs >= this.nextEscortHazard) {
+        this.escortHazard = { ...this.companion.body, until: s.nowMs + 1800 };
+        s.emit({
+          type: "telegraph",
+          x: this.companion.body.x,
+          y: this.companion.body.y,
+          radius: 65,
+          ms: 1800,
+        });
+      }
+      return;
+    }
     if (this.restraint) {
       this.restraint.update();
       const r = this.restraint.snapshot();
@@ -283,6 +405,10 @@ export class TrialAttempt {
   snapshot() {
     const r = this.restraint?.snapshot();
     const messages: Record<string, string> = {
+      route: `Kolejny punkt ${this.result.successes + 1}/${this.targetCount}. Czas ${Math.ceil(Math.max(0, this.routeLimitMs - this.result.activeMs) / 1000)} s.`,
+      escort: this.escort
+        ? `${this.escort.snapshot().message} HP: ${this.companion?.body.hp ?? 0}%`
+        : "",
       read: "Podejdź do stanowiska i zbadaj materiały.",
       prepare: "Przygotuj się na zapowiedź.",
       warning: "Opuść czerwony krąg.",
@@ -293,6 +419,16 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      escort:
+        this.escort && this.companion
+          ? {
+              ...this.escort.snapshot().actor,
+              hp: this.companion.body.hp,
+              maxHp: this.companion.maxHp,
+            }
+          : null,
+      routeHazards: this.definition.kind === "wind-route" ? this.routeHazards : [],
+      escortDanger: this.escortHazard ?? null,
       dodges: this.dodges,
       dodgeTarget: this.definition.dodgeTargets?.[this.tier - 1] ?? 0,
       phase: r?.phase ?? this.phase,

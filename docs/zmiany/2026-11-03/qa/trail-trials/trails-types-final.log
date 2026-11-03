@@ -1,0 +1,13 @@
+
+> typecheck
+> tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json && tsc --noEmit -p tsconfig.tools.json
+
+e2e/racial-trials.spec.ts(172,35): error TS4111: Property 'companionX' comes from an index signature, so it must be accessed with ['companionX'].
+e2e/racial-trials.spec.ts(172,60): error TS4111: Property 'companionY' comes from an index signature, so it must be accessed with ['companionY'].
+e2e/racial-trials.spec.ts(173,34): error TS4111: Property 'playerX' comes from an index signature, so it must be accessed with ['playerX'].
+e2e/racial-trials.spec.ts(173,56): error TS4111: Property 'playerY' comes from an index signature, so it must be accessed with ['playerY'].
+e2e/racial-trials.spec.ts(174,35): error TS4111: Property 'trialSuccesses' comes from an index signature, so it must be accessed with ['trialSuccesses'].
+e2e/racial-trials.spec.ts(179,34): error TS4111: Property 'trialX' comes from an index signature, so it must be accessed with ['trialX'].
+e2e/racial-trials.spec.ts(179,55): error TS4111: Property 'trialY' comes from an index signature, so it must be accessed with ['trialY'].
+e2e/racial-trials.spec.ts(187,34): error TS4111: Property 'trialX' comes from an index signature, so it must be accessed with ['trialX'].
+e2e/racial-trials.spec.ts(187,55): error TS4111: Property 'trialY' comes from an index signature, so it must be accessed with ['trialY'].

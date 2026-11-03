@@ -162,3 +162,82 @@ it("server disposal discards an unfinished loan without changing its character",
   expect(trial.snapshot().outcome).toBe("abandoned");
   expect(s.session.player).toEqual(before);
 });
+
+it.each(["TV01", "TV02", "TV03"] as const)(
+  "server authoritatively completes %s and restores only the owned grade",
+  async (id) => {
+    const { record, simulation: s } = await fixture("planetary");
+    try {
+      const before = structuredClone(s.session.player);
+      s.command({ type: "trial-start", id, tier: 1 });
+      const a = s.trial!;
+      const action = (action: string) =>
+        s.command({ type: "trial-action", instanceId: a.instanceId, action });
+      const input = (command: Command) =>
+        s.command({ type: "trial-input", instanceId: a.instanceId, command });
+      action("accept");
+      expect(s.session.player).toEqual(before);
+      action("ready");
+      if (id === "TV02") {
+        const puzzles = trialPuzzles(a.definition, 1);
+        for (let i = 0; i < puzzles.length; i++) {
+          const target = a.currentPoint!;
+          input({ type: "move", ...target });
+          for (let n = 0; n < 1000 && distance(a.session.player, target) > 12; n++)
+            await s.tick(50);
+          action("inspect");
+          s.command({
+            type: "trial-answer",
+            instanceId: a.instanceId,
+            round: i,
+            answerId: puzzles[i]!.answer,
+          });
+        }
+      } else {
+        let last = -1,
+          leading = true;
+        for (let i = 0; i < 12000 && a.snapshot().outcome === "running"; i++) {
+          const r = a.snapshot();
+          if (r.successes !== last) {
+            last = r.successes;
+            leading = true;
+            input({ type: "move", ...a.currentPoint! });
+          }
+          if (r.escort) {
+            if (leading && distance(a.session.player, r.escort) > 190) {
+              leading = false;
+              input({ type: "move", x: r.escort.x, y: r.escort.y });
+            } else if (!leading && distance(a.session.player, r.escort) < 90) {
+              leading = true;
+              input({ type: "move", ...a.currentPoint! });
+            }
+          }
+          await s.tick(50);
+        }
+      }
+      expect(a.snapshot().outcome, a.snapshot().reason).toBe("passed");
+      expect(s.session.player).toEqual(before);
+      action("accept");
+      expect(s.session.player.development!.trials[id]).toBe(1);
+      expect(s.session.player.development!.practiceEarned).toBe(100);
+      action("accept");
+      expect(s.session.player.development!.practiceEarned).toBe(100);
+      const state = s.capture();
+      expect(StoredCharacter.safeParse(state).success).toBe(true);
+      expect(JSON.stringify(state.runtime)).not.toContain(a.instanceId);
+      const restored = await prepareServerSimulation(
+        { ...record, revision: 2, state },
+        path.resolve("public"),
+      );
+      try {
+        expect(restored.session.player.development).toEqual(s.session.player.development);
+        expect(restored.trial).toBeUndefined();
+      } finally {
+        restored.dispose();
+      }
+    } finally {
+      s.dispose();
+    }
+  },
+  60000,
+);

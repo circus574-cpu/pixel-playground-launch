@@ -1,5 +1,14 @@
 # KI Legends — aktualny plan i zadania
 
+## Najnowsza partia — Szlaki Planetarnych
+
+PR #90 rozbudowano o TV01/TV02/TV03 i `mv-trail` po II stopniu Szlaków.
+Łącznie **18/48 prób, 54/144 stopni**. Pozostaje 30 prób / 90 stopni, siedem
+wariantów i trzy moduły, dziedziny w świecie, późne starcia, tytuły i pełny odbiór
+kampanii. Same próby w sali nie oznaczają ukończenia funkcjonalności dziedziny.
+[Zakres i dowody](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+Poniższe checkpointy 15/45 i 12/36 zachowano jako historię.
+
 ## Kontynuacja 03.11 — Żywa Ziemia Planetarnych
 
 Do PR #90 dołączono aktualny `main@4ecba945`, zachowując oprawę czterech miast.
