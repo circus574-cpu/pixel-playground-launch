@@ -3,21 +3,34 @@ import type { ArtObject, FeatureArt } from "./renderSuperior";
 
 /** A render-only review switch. No world data, collider or saved position is changed. */
 export const paintedMeadowEnabled = (feature: string) =>
-  feature === "verdant" &&
-  catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass";
+  (feature === "verdant" || feature === "aether") &&
+  catalog.renderBindings["terrain.ki-v2-" + feature + "-grass-0"]?.asset ===
+    feature + "-painted-grass";
+
+/** Painted city buildings: display width and height/width ratio per cut-out. */
+const PAINTED_BUILDINGS: Record<string, { width: number; ratio: number }> = {
+  "verdant-painted-shop": { width: 560, ratio: 520 / 560 },
+  "aether-painted-b-hall": { width: 640, ratio: 0.731 },
+  "aether-painted-b-market": { width: 560, ratio: 0.74 },
+  "aether-painted-b-inn": { width: 640, ratio: 0.777 },
+  "aether-painted-b-smithy": { width: 580, ratio: 0.758 },
+  "aether-painted-b-depot": { width: 600, ratio: 0.783 },
+  "aether-painted-b-arena": { width: 700, ratio: 0.716 },
+};
 
 export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
   return items.map((item) => {
     const ref = catalog.renderBindings[item.binding];
-    if (ref?.asset !== "verdant-painted-shop" || !item.door) return item;
+    const size = ref && PAINTED_BUILDINGS[ref.asset];
+    if (!size || !ref.origin || !item.door) return item;
     return {
       ...item,
       x: item.door.x,
       y: item.door.y,
-      width: 560,
-      height: 520,
-      anchorX: ref.origin![0],
-      anchorY: ref.origin![1],
+      width: size.width,
+      height: Math.round(size.width * size.ratio),
+      anchorX: ref.origin[0],
+      anchorY: ref.origin[1],
     };
   });
 }
