@@ -1,0 +1,44 @@
+{
+  "hall": {
+    "source": "sources/hall.jpg",
+    "sha256": "2188158c63fec887af0cc46398bcaea2e4eda14e76bf0825ae29a53eed819499",
+    "author": "Owner supplied; rights not independently verified",
+    "processing": "Edge-connected white matte removal, transparent trim, WebP quality 94; original retained unchanged",
+    "removedPixels": 532187
+  },
+  "arena": {
+    "source": "sources/arena.jpg",
+    "sha256": "e46632ed5b6ae027c87e99d3e91df4bcedc8f9a6dd57413e139942090ae1aeb2",
+    "author": "Owner supplied; rights not independently verified",
+    "processing": "Edge-connected white matte removal, transparent trim, WebP quality 94; original retained unchanged",
+    "removedPixels": 528653
+  },
+  "depot": {
+    "source": "sources/depot.jpg",
+    "sha256": "76dc8de5a1779f7607e2d93dce659f29919c0a15f299a7fe7d94e2f4d141ddc9",
+    "author": "Owner supplied; rights not independently verified",
+    "processing": "Edge-connected white matte removal, transparent trim, WebP quality 94; original retained unchanged",
+    "removedPixels": 515391
+  },
+  "shop": {
+    "source": "sources/shop.jpg",
+    "sha256": "a6fede6f021a99c9afb2977311689dd4853950d1502833742b29ed64128a4e61",
+    "author": "Owner supplied; rights not independently verified",
+    "processing": "Edge-connected white matte removal, transparent trim, WebP quality 94; original retained unchanged",
+    "removedPixels": 636427
+  },
+  "inn": {
+    "source": "sources/inn.jpg",
+    "sha256": "a377559a06cc1e43c1c5935ded240b70eade18e810dc897530f8ab7e4e530ea0",
+    "author": "Owner supplied; rights not independently verified",
+    "processing": "Edge-connected white matte removal, transparent trim, WebP quality 94; original retained unchanged",
+    "removedPixels": 557494
+  },
+  "smithy": {
+    "source": "sources/smithy.jpg",
+    "sha256": "186d3127bc1bb4f5e88945cbfc231460a86f88f7c08c11ae2388e8790b69a69d",
+    "author": "Owner supplied; rights not independently verified",
+    "processing": "Edge-connected white matte removal, transparent trim, WebP quality 94; original retained unchanged",
+    "removedPixels": 565293
+  }
+}

@@ -1,5 +1,130 @@
 # KI Legends — GPU i zasoby
 
+## Aetheria — materiały właściciela 03.11.2026
+
+Pakiet `aether-painted-preview@1.0.0`, flaga `ki-aether-painted=1`: cztery
+powierzchnie, sześć budynków i atlas jedenastu statycznych dekoracji. Źródła
+są w `Grafika/` z `main@327727e2`; [pochodzenie i SHA-256](../art/production/aether-painted-preview/provenance.json).
+Białe tło czterech nieprzezroczystych budynków usunięto przez flood fill
+połączony z zewnętrzną krawędzią, zachowując biel we wnętrzach. Pozostała alfa
+została zachowana. Plansza dekoracji ma jawne prostokątne klatki atlasu.
+[Pakiet i odtwarzalny skrypt](../art/production/aether-painted-preview/).
+Nie używano GPU ani nowej generacji; to prototyp bez odbioru na fizycznym telefonie.
+Runtime ma około 21 MiB plików, wymaga dalszej optymalizacji przed publikacją.
+[Zrzuty i zakres](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
+
+## Pyra — materiały właściciela, 03.11.2026
+
+Oddzielna gałąź `preview/pyra-painted-world`, pakiet `pyra-painted-preview@1.0.1`,
+opcja `ki-pyra-painted=1`. Cztery tekstury JPG: spękana skała, jesienna ściółka,
+ozdobny kamień oraz ceglana droga. Sześć przezroczystych PNG z ZIP właściciela:
+sala wodza → sala przysięgi, targ → sklep, karczma → gospoda, kuźnia Goro →
+kuźnia żaru, skarbiec → depozyt, arena treningowa → arena.
+Nazwy, usługi i fizyczna geometria miasta pozostają kanoniczne.
+
+[Źródła, manifest, skrypt i sumy SHA-256](../art/production/pyra-painted-preview/).
+Odtworzenie: `node art/production/pyra-painted-preview/prepare.mjs`, import:
+`npm run assets:import -- art/production/pyra-painted-preview/manifest.json --install`.
+Zachowano oryginalną alfę budynków (także dym), bez usuwania tła ani przemalowania.
+Przesłany przykład całej sceny jest jedynie referencją, nie teksturą mapy.
+Runtime: `public/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/`,
+10 plików WebP, 10 175 460 bajtów (9,70 MiB). Źródłowe WebP: 2 622 414 bajtów.
+Importer normalizuje do bezstratnego WebP. GPU nie używano.
+
+Teren/ściany nawigacyjne zachowują oryginalne maski; w mieście skała zastępuje
+plamy biomów wyłącznie wizualnie na komórkach lądu. Ściółka ma skalę 256 j.,
+skała 1024 j., cegła 640 j., ornament 768 j. Zdobiony podest 460×300 j. przed
+istniejącą salą wodza jest dekoracją pod stopami; nie dodaje kolizji ani ścieżek.
+Chunki podglądu 1024² zamiast 512²; streaming pozostaje aktywny. Budynki mają
+wysokość 470 j. i szerokość co najmniej 530 j. z zachowaniem proporcji i wiązania
+do istniejących drzwi. Pozostaje standardowe przygaszanie przy zasłanianiu aktorów.
+Wersja 1.0.0 była lokalną próbą; 1.0.1 poprawia wielkość liści.
+[Zrzut i wyniki kontroli](zmiany/2026-11-03/ZMIANY.md#pyra--podgląd-czterech-tekstur-i-sześciu-budynków).
+Nie ma publikacji ani odbioru fizycznego telefonu.
+
+## Nexus — pakiet z Dysku właściciela, 03.11.2026
+
+**Korekta po uwadze właściciela:** aktualny pakiet to `nexus-painted-preview@1.1.0`,
+`public/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/`.
+Pierwszy podgląd opisany poniżej był zbyt jednolity: pełna skała w centrum
+przykrywała zróżnicowanie nawierzchni. Nie stanowił odbioru zgodności ze wzorem.
+Wersja 1.1.0 dodaje osobny jasny bruk wygenerowany przez OpenAI image_gen
+([prompt, źródła i SHA-256](../art/production/nexus-painted-preview/courtyard-generation.json)).
+To pojedynczy kafel gruntu, nie tło całej sceny. Źródłowe pięć tekstur właściciela
+pozostaje: skała na zewnątrz, roślinne podłoże i ściółka w ogrodach, panele na
+ścieżkach, jasne płyty na podeście centrum. Dodano dekoracyjne pasy do
+istniejących drzwi usług z cyjanowo-złotą krawędzią; nie dodają colliderów ani
+instrukcji nawigacji. `nexusWalkways` jest wyłącznie rendererem, nie nową drogą
+w kanonicznym JSON. Paczka 11 zasobów: 18 124 460 bajtów (17,29 MiB).
+Poprzednie wersje i dowody zachowano. [Nowy zrzut i zakres](zmiany/2026-11-03/ZMIANY.md#nexus--korekta-rozdzielenia-nawierzchni).
+
+Pierwsza iteracja, zachowana dla historii:
+
+Osobna gałąź `preview/nexus-painted-world`, opcja `ki-nexus-painted=1`,
+pakiet `nexus-painted-preview@1.0.1`. Źródło: [folder Nexus](https://drive.google.com/drive/folders/1xG2Ioa6pac5wAWWmeQ0HLRhMmuOT9pl2).
+Pobrano wszystkie 10 PNG: pięć tekstur (trawa z technicznymi fragmentami,
+leśne podłoże, spękana skała, ciemne panele drogi, jasne płyty placu),
+cztery budynki (centrum/hall, sklep, depozyt, arena) oraz przezroczysty arkusz
+1536×1024 z dekoracjami. Brak nowych grafik gospody i kuźni — zachowano ich
+wcześniejsze zasoby. Nie deklarujemy sześciu nowych budynków.
+
+[Źródła i skrypt](../art/production/nexus-painted-preview/),
+[identyfikatory plików Drive](../art/production/nexus-painted-preview/drive-sources.json),
+[SHA-256 i pochodzenie](../art/production/nexus-painted-preview/provenance.json).
+Źródłowe PNG są zachowane bez zmian. Budynkom usunięto jedynie biel połączoną
+z krawędzią, następnie przycięto przezroczysty margines. Oryginalna alfa arkusza
+została zachowana. Atlas ma 15 wydzielonych klatek; część to rezerwa do dalszego
+urządzania mapy, nie wszystkie są rozmieszczone. Drzewa, grzyby i cyjanowe rośliny
+stoją przy usługach; istniejące pylony, terminal, reaktor, kryształy i ogrody
+otrzymują nowe wiązania tylko w rendererze Nexusa. Bez nowych colliderów.
+
+Odtworzenie: `node art/production/nexus-painted-preview/prepare.mjs`, potem
+`npm run assets:import -- art/production/nexus-painted-preview/manifest.json --install`.
+Runtime `public/game/assets/gpu/nexus-painted-preview/1.0.1-c7886e7013ec/`:
+10 zasobów, 16 715 910 bajtów (15,94 MiB), plus JSON atlasu/pakietu. Źródłowe
+WebP 5 236 078 bajtów. Importer zapisuje bezstratny WebP. Wersja 1.0.0 była
+lokalną próbą; 1.0.1 zawęża ramki, by nie łapać fragmentów sąsiednich dekoracji.
+
+Neutralne światło, światowo zakotwiczona tekstura, streaming 1024² na chunk.
+W mieście na komórkach lądu wizualnie dominuje spękana skała, panele rysowane
+są po istniejących drogach, a jasny ozdobny podest 460×280 stoi przed drzwiami
+centrum. To warstwa pod stopami, nie zmiana danych świata lub nawigacji.
+Nowe budynki mają prezentację 540×480 j., z zachowaniem proporcji i punktów drzwi.
+Podgląd nie zmienia HUD, statystyk, zapisów, geometrii ani nazw.
+Zachowano oryginalne tło referencyjne wyłącznie jako materiał poglądowy.
+[Zrzut i kontrole](zmiany/2026-11-03/ZMIANY.md#nexus--podgląd-z-materiałów-drive).
+GPU nie używano. Przed produkcją potrzebna optymalizacja i pełna regresja urządzeń.
+
+## Próba Verdantii — 03.11.2026
+
+Pakiet `verdant-painted-preview@1.2.0` jest opcjonalny przez `ki-verdant-painted=1`.
+Dwie tekstury pochodzą z przesłanych JPEG właściciela; osobny przezroczysty sklep
+wygenerowano narzędziem OpenAI image_gen. RunPod nie był używany. Źródła, master,
+manifest i pochodzenie: [katalog produkcyjny](../art/production/verdant-painted-preview/),
+[provenance](../art/production/verdant-painted-preview/provenance.json).
+
+Tekstury 1280² mają skalę 768 j. dla trawy i 1024 j. dla ziemi. Sklep 1312×1199
+korzysta z kotwicy drzwi `(0.565,0.93)`. Import wykonano istniejącym importerem;
+`imported.json` zachowuje wcześniejsze pakiety, podgląd dopisuje własne wiązania.
+Teren w podglądzie ma 1024² px na chunk 2048 j. (4 MiB RGBA zamiast 1 MiB);
+pozostaje streaming, usuwanie chunków i sortowanie Y. Nie ma odbioru wydajności
+fizycznego telefonu ani publikacji. [Zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
+
+### Sześć budynków Verdantii — osobna gałąź podglądowa
+
+Pakiet `verdant-leaf-buildings@1.0.0` zastępuje w podglądzie sklep, dom zgromadzeń,
+gospodę, kuźnię, depozyt i arenę. Wszystkie sześć JPG dostarczył właściciel.
+[Źródła, skrypt przygotowania, manifest i SHA-256](../art/production/verdant-leaf-buildings/)
+są zachowane w repozytorium. `node art/production/verdant-leaf-buildings/prepare.mjs`
+odtwarza WebP; importer: `npm run assets:import -- art/production/verdant-leaf-buildings/manifest.json --install`.
+Usunięto tylko biały obszar połączony z brzegiem obrazu. Kotwica `(0.5,0.85)`
+wiąże schody z istniejącymi drzwiami. Skala prezentacji 560×520; kolizje i usługi bez zmian.
+Włącznik `ki-verdant-painted=1` ładuje oba pakiety, z pierwszeństwem nowego zestawu
+budynków. Domyślny widok pozostaje bez zmian. Paczka runtime zajmuje 9 985 190 bajtów
+(około 9,52 MiB); sześć źródłowych WebP 2 763 280 bajtów. Importer normalizuje do
+bezstratnego WebP. Nie wykonano publikacji ani odbioru na fizycznym telefonie.
+[Zrzut i zakres kontroli](zmiany/2026-11-03/ZMIANY.md#sześć-budynków-verdantii).
+
 ## Partia 2 i braki do docelowej oprawy — 23.10.2026
 
 Dostawę `8b0a814` z `assets/world-kit-for-codex-20261023` połączono na osobnej

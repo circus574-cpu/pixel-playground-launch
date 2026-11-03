@@ -51,6 +51,7 @@ export default defineConfig({
       testMatch: [
         "**/development.spec.ts",
         "**/racial-trials.spec.ts",
+        "**/verdant-painted-preview.spec.ts",
         "**/development-heritage.spec.ts",
         "**/heritage-chronicle.spec.ts",
         "**/heritage-delivery.spec.ts",

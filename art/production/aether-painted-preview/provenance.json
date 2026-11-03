@@ -1,0 +1,64 @@
+{
+  "sourceCommit": "327727e2",
+  "pack": "aether-painted-preview@1.0.0",
+  "items": {
+    "grass": {
+      "source": "Grafika/file_000000005cc08210ad6a0a972fb1f5fa.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "forest": {
+      "source": "Grafika/file_00000000ef2081f4aee8691893d4a755.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "road": {
+      "source": "Grafika/file_00000000b73c820c955127be8fdb694e.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "plaza": {
+      "source": "Grafika/file_00000000749881f49f0c3c4cfd962099.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "shop": {
+      "source": "Grafika/file_000000008f44821082f1edcedf97cc1b.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "hall": {
+      "source": "Grafika/file_000000004e448210acf7b846e578c10e.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "inn": {
+      "source": "Grafika/file_000000001a108210ba366a85cedd7664.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "arena": {
+      "source": "Grafika/file_00000000bb448210a97d72c31ad48e6a.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "smithy": {
+      "source": "Grafika/file_00000000bd0082109e20e00ef8257cba.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "depot": {
+      "source": "Grafika/file_00000000d07c8211ba76a77b3ba93f46.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    },
+    "props": {
+      "source": "Grafika/file_00000000b02081f4b94bfbaad53fba6c.png",
+      "processing": "PNG conversion; exterior connected white matte removed from opaque buildings only; transparent sprites kept."
+    }
+  },
+  "sourceSha256": {
+    "grass": "375e9243813ca91eba37bbf8f9609b6a6be66c1cc2487fd4f7b9e06761ab6f23",
+    "forest": "e50e58048ec59163b418886e8003a6a81b3d6285f8a131c5d2173a0fb77d6106",
+    "road": "4314fa3cc3683565c2b513300a7f370873f3e20d38006a8e2a2a7803c620671b",
+    "plaza": "68cbae066836ad8bacea3ec271d4a80b4a30bbf48d024b64404ee3dd791194e2",
+    "shop": "77468fb3962202242b5055a8d408e0beb3233a98b91beb5f1f155641b5159093",
+    "hall": "ba6c2c4d14e4008609365ae7c8a0ec2be488c684c70cf317b3b60e4bc17865eb",
+    "inn": "9dfd107d8769e8d5af1091c5248617c76839244293040a1a51c9e64a8b2c4b2a",
+    "arena": "f8e12d331ef85ff1f55d80c8c2c7142004f4e80d0eb869fbff469b651193fefd",
+    "smithy": "717c146ba61510645bebb7da62cf574401fcecf9196e39ad37f78a50d4822844",
+    "depot": "8ceb63d5af04bcf40c5e79e0ce8366e138a47104ac0895b24e75923d4658e1db",
+    "props": "61592923ee374fde3c794ea8114752cf5efcb3a300050f9238bee8cce204ebb6"
+  },
+  "notes": "No RunPod or image generation. Exterior white matte removed by connected flood fill; original Grafika files untouched. Atlas frames are static props. Preview only; no collision/quest/save edits."
+}

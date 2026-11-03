@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "id": "pyra-painted-preview",
+  "version": "1.0.1",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "pyra-painted-ground",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "ground.webp",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "pyra-painted-forest",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "forest.webp",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "pyra-painted-plaza",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "plaza.webp",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "pyra-painted-road",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "road.webp",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "pyra-painted-hall",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "hall.webp",
+      "width": 536,
+      "height": 462
+    },
+    {
+      "id": "pyra-painted-shop",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "shop.webp",
+      "width": 537,
+      "height": 450
+    },
+    {
+      "id": "pyra-painted-inn",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "inn.webp",
+      "width": 530,
+      "height": 464
+    },
+    {
+      "id": "pyra-painted-smithy",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "smithy.webp",
+      "width": 544,
+      "height": 472
+    },
+    {
+      "id": "pyra-painted-depot",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "depot.webp",
+      "width": 544,
+      "height": 452
+    },
+    {
+      "id": "pyra-painted-arena",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "arena.webp",
+      "width": 544,
+      "height": 471
+    }
+  ],
+  "renderBindings": {
+    "terrain.ki-v2-pyra-grass-0": {
+      "asset": "pyra-painted-ground",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.ki-v2-pyra-mountain-0": {
+      "asset": "pyra-painted-ground",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.ki-v2-pyra-forest-0": {
+      "asset": "pyra-painted-forest",
+      "tileSize": [
+        256,
+        256
+      ]
+    },
+    "terrain.ki-v2-pyra-road-0": {
+      "asset": "pyra-painted-road",
+      "tileSize": [
+        640,
+        640
+      ]
+    },
+    "terrain.ki-v2-city-pyra-plaza-0": {
+      "asset": "pyra-painted-plaza",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "object.ki-v2-buildings.pyra-hall": {
+      "asset": "pyra-painted-hall",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.pyra-market": {
+      "asset": "pyra-painted-shop",
+      "fit": "contain",
+      "origin": [
+        0.53,
+        0.93
+      ]
+    },
+    "object.ki-v2-buildings.pyra-inn": {
+      "asset": "pyra-painted-inn",
+      "fit": "contain",
+      "origin": [
+        0.53,
+        0.93
+      ]
+    },
+    "object.ki-v2-buildings.pyra-smithy": {
+      "asset": "pyra-painted-smithy",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.pyra-depot": {
+      "asset": "pyra-painted-depot",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.pyra-arena": {
+      "asset": "pyra-painted-arena",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    }
+  }
+}
