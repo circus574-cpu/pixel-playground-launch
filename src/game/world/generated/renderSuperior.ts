@@ -4,6 +4,7 @@ import {
   meadowLight,
   meadowScenery,
   meadowBuildings,
+  aetherLegacyScenery,
 } from "./paintedMeadow";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
@@ -105,7 +106,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     ...(painted
       ? meadowBuildings(source.art.acceptedCityBuildings)
       : source.art.acceptedCityBuildings),
-    ...(source.art.acceptedCityScenery ?? []),
+    ...(painted && source.loader.definition.feature === "aether"
+      ? aetherLegacyScenery(source.art.acceptedCityScenery ?? [])
+      : (source.art.acceptedCityScenery ?? [])),
     ...(source.art.landmarks ?? []),
     ...source.art.resources,
     ...source.art.dungeonEntrances,
@@ -235,6 +238,18 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             y < shop.y + 1500
           );
         });
+    }
+    if (painted && source.loader.definition.feature === "aether") {
+      const buildings = source.art.acceptedCityBuildings;
+      const left = Math.min(...buildings.map((b) => b.x)) - 450,
+        right = Math.max(...buildings.map((b) => b.x)) + 450;
+      const top = Math.min(...buildings.map((b) => b.y)) - 350,
+        bottom = Math.max(...buildings.map((b) => b.y)) + 350;
+      texture(ground[0]!, 1, (i) => {
+        const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols,
+          y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
+        return !!(flags[i]! & 16) && x > left && x < right && y > top && y < bottom;
+      });
     }
     texture(water, waterAlpha, (i) => !(flags[i]! & 16));
     if (painted) meadowLight(ctx, data.x, data.y, scale);

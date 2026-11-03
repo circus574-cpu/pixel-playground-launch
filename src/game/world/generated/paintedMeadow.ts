@@ -172,3 +172,29 @@ export function meadowScenery(
     }
   return items;
 }
+
+/** The new garden preview does not retain ground plates from the older city art. */
+export function aetherLegacyScenery(items: readonly ArtObject[]): ArtObject[] {
+  const seen = new Set<string>();
+  return items.flatMap((item) => {
+    if (item.binding === "object.ki-source")
+      return [
+        {
+          ...item,
+          binding: "object.aether-painted.pond",
+          width: 150,
+          height: 90,
+          anchorX: 0.5,
+          anchorY: 0.5,
+          layer: "below" as const,
+        },
+      ];
+    if (item.binding !== "object.garden") return [item];
+    const key = item.x + ":" + item.y;
+    if (seen.has(key)) return [];
+    seen.add(key);
+    return [
+      { ...item, binding: "object.aether-painted.flowers", width: 110, height: 80, anchorY: 0.9 },
+    ];
+  });
+}

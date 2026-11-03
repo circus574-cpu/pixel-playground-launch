@@ -192,3 +192,20 @@ nie korzystano z RunPod, generacji nowych ilustracji ani usług zewnętrznych.
 
 Źródła i mapowanie: [manifest](../../../art/production/aether-painted-preview/manifest.json),
 [pochodzenie](../../../art/production/aether-painted-preview/provenance.json).
+
+
+### Aetheria — poprawka zaznaczonej fontanny i niebieskich płatów
+
+Po uwadze właściciela sprawdzono dotychczasową fontannę `object.ki-source`,
+podwójne stare ogrody i mieszanie biomów na lądzie w centrum.
+Wyłącznie w podglądzie Aetherii fontanna ma teraz niski sprite oczka wodnego
+z dostarczonego atlasu na warstwie poniżej aktorów. Zachowano jej współrzędne
+oraz oryginalny collider. Stare ogrody zastąpiono kwiatami z nowej planszy,
+a zdublowane wizualizacje w tych samych punktach pominięto w rendererze.
+Ląd w granicach centrum ma wspólną teksturę trawy; woda poza flagą lądu pozostaje.
+Nie zmieniano danych geometrii ani nawigacji.
+
+[Poprawiony zrzut lokalnej gry](qa/aether-painted/corrected.png): postać doszła
+zwykłym kliknięciem w tę samą okolicę, Canvas 1280×900, bez pageerror.
+Pełny statyczny TypeScript: PASS, [log](qa/aether-painted/corrected-typecheck.log).
+Nie uruchamiano pełnego Playwright ani odbioru fizycznego telefonu.
