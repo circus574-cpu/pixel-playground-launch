@@ -16,13 +16,13 @@ describe.each(RACE_IDS)("equipment statistics %s", (race) => {
     s.command({ type: "equip", item: id });
     expect(Object.values(s.player.equipment!)).toContain(id);
   }
-  it("applies HP percentage once, reports the item delta, and preserves the health ratio", () => {
+  it("applies HP percentage once, reports the item delta, and does not restore current HP", () => {
     const s = session(),
       before = s.kit.stats;
     equip(s, "A-V1");
     const pct = getItemById("A-V1")!.stats!.maxHpPercent!;
     expect(s.kit.stats.maxHp).toBe(Math.floor(before.maxHp * (1 + pct / 100) + 0.5));
-    expect(s.player.hp / s.kit.stats.maxHp).toBeCloseTo(0.5, 10);
+    expect(s.player.hp).toBe(before.maxHp / 2);
     expect(s.kit.statBreakdown.maxHp.items).toBe(s.kit.stats.maxHp - before.maxHp);
   });
   it("applies KI and KI regeneration without changing technique", () => {
@@ -31,7 +31,7 @@ describe.each(RACE_IDS)("equipment statistics %s", (race) => {
     equip(s, "A-A1");
     expect(s.kit.stats.maxKi).toBeGreaterThan(before.maxKi);
     expect(s.kit.stats.kiRegen).toBeGreaterThan(before.kiRegen);
-    expect(s.player.ki / s.kit.stats.maxKi).toBeCloseTo(1 / 3, 10);
+    expect(s.player.ki).toBe(before.maxKi / 3);
     expect(s.kit.stats.technique).toBe(before.technique);
   });
   it("gives movement rather than attack speed and respects the capped percentage", () => {

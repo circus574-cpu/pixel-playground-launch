@@ -1,0 +1,491 @@
+RUN  v4.1.12 /workspace/ki-aruba
+
+ ❯ src/test/equipment-resource-policy.test.ts (24 tests | 24 failed) 79ms
+     × hp: raising a maximum does not restore a wounded resource 21ms
+     × hp: a full resource does not fill the newly added capacity 6ms
+     × hp: lowering a maximum clamps only excess and re-equipping does not refill it 2ms
+     × ki: raising a maximum does not restore a wounded resource 4ms
+     × ki: a full resource does not fill the newly added capacity 3ms
+     × ki: lowering a maximum clamps only excess and re-equipping does not refill it 2ms
+     × hp: raising a maximum does not restore a wounded resource 2ms
+     × hp: a full resource does not fill the newly added capacity 2ms
+     × hp: lowering a maximum clamps only excess and re-equipping does not refill it 3ms
+     × ki: raising a maximum does not restore a wounded resource 2ms
+     × ki: a full resource does not fill the newly added capacity 2ms
+     × ki: lowering a maximum clamps only excess and re-equipping does not refill it 2ms
+     × hp: raising a maximum does not restore a wounded resource 2ms
+     × hp: a full resource does not fill the newly added capacity 1ms
+     × hp: lowering a maximum clamps only excess and re-equipping does not refill it 12ms
+     × ki: raising a maximum does not restore a wounded resource 2ms
+     × ki: a full resource does not fill the newly added capacity 1ms
+     × ki: lowering a maximum clamps only excess and re-equipping does not refill it 1ms
+     × hp: raising a maximum does not restore a wounded resource 1ms
+     × hp: a full resource does not fill the newly added capacity 1ms
+     × hp: lowering a maximum clamps only excess and re-equipping does not refill it 1ms
+     × ki: raising a maximum does not restore a wounded resource 1ms
+     × ki: a full resource does not fill the newly added capacity 1ms
+     × ki: lowering a maximum clamps only excess and re-equipping does not refill it 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 24 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: planetary > hp: raising a maximum does not restore a wounded resource
+AssertionError: expected 660.4000000000001 to be 611.6 // Object.is equality
+
+- Expected
++ Received
+
+- 611.6
++ 660.4000000000001
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: planetary > hp: a full resource does not fill the newly added capacity
+AssertionError: expected 1651 to be 1529 // Object.is equality
+
+- Expected
++ Received
+
+- 1529
++ 1651
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: planetary > hp: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 1651 to be 1529 // Object.is equality
+
+- Expected
++ Received
+
+- 1529
++ 1651
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: planetary > ki: raising a maximum does not restore a wounded resource
+AssertionError: expected 88 to be 82.4 // Object.is equality
+
+- Expected
++ Received
+
+- 82.4
++ 88
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: planetary > ki: a full resource does not fill the newly added capacity
+AssertionError: expected 220 to be 206 // Object.is equality
+
+- Expected
++ Received
+
+- 206
++ 220
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: planetary > ki: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 220 to be 206 // Object.is equality
+
+- Expected
++ Received
+
+- 206
++ 220
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: sage > hp: raising a maximum does not restore a wounded resource
+AssertionError: expected 514.8 to be 476.8 // Object.is equality
+
+- Expected
++ Received
+
+- 476.8
++ 514.8
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: sage > hp: a full resource does not fill the newly added capacity
+AssertionError: expected 1287 to be 1192 // Object.is equality
+
+- Expected
++ Received
+
+- 1192
++ 1287
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: sage > hp: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 1287 to be 1192 // Object.is equality
+
+- Expected
++ Received
+
+- 1192
++ 1287
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: sage > ki: raising a maximum does not restore a wounded resource
+AssertionError: expected 151.20000000000002 to be 141.20000000000002 // Object.is equality
+
+- Expected
++ Received
+
+- 141.20000000000002
++ 151.20000000000002
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: sage > ki: a full resource does not fill the newly added capacity
+AssertionError: expected 378 to be 353 // Object.is equality
+
+- Expected
++ Received
+
+- 353
++ 378
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: sage > ki: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 378 to be 353 // Object.is equality
+
+- Expected
++ Received
+
+- 353
++ 378
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: android > hp: raising a maximum does not restore a wounded resource
+AssertionError: expected 622.4 to be 576.4 // Object.is equality
+
+- Expected
++ Received
+
+- 576.4
++ 622.4
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: android > hp: a full resource does not fill the newly added capacity
+AssertionError: expected 1556 to be 1441 // Object.is equality
+
+- Expected
++ Received
+
+- 1441
++ 1556
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: android > hp: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 1556 to be 1441 // Object.is equality
+
+- Expected
++ Received
+
+- 1441
++ 1556
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: android > ki: raising a maximum does not restore a wounded resource
+AssertionError: expected 109.2 to be 102 // Object.is equality
+
+- Expected
++ Received
+
+- 102
++ 109.2
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: android > ki: a full resource does not fill the newly added capacity
+AssertionError: expected 273 to be 255 // Object.is equality
+
+- Expected
++ Received
+
+- 255
++ 273
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: android > ki: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 273 to be 255 // Object.is equality
+
+- Expected
++ Received
+
+- 255
++ 273
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: legend > hp: raising a maximum does not restore a wounded resource
+AssertionError: expected 768 to be 711.2 // Object.is equality
+
+- Expected
++ Received
+
+- 711.2
++ 768
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: legend > hp: a full resource does not fill the newly added capacity
+AssertionError: expected 1920 to be 1778 // Object.is equality
+
+- Expected
++ Received
+
+- 1778
++ 1920
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: legend > hp: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 1920 to be 1778 // Object.is equality
+
+- Expected
++ Received
+
+- 1778
++ 1920
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: legend > ki: raising a maximum does not restore a wounded resource
+AssertionError: expected 67.2 to be 62.800000000000004 // Object.is equality
+
+- Expected
++ Received
+
+- 62.800000000000004
++ 67.2
+
+ ❯ src/test/equipment-resource-policy.test.ts:24:34
+     22|       s.command({ type: "equip", item });
+     23|       expect(s.kit.stats[maximum]).toBeGreaterThan(beforeMax);
+     24|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     25|     });
+     26|     it(`${resource}: a full resource does not fill the newly added cap…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: legend > ki: a full resource does not fill the newly added capacity
+AssertionError: expected 168 to be 157 // Object.is equality
+
+- Expected
++ Received
+
+- 157
++ 168
+
+ ❯ src/test/equipment-resource-policy.test.ts:32:34
+     30|       s.command({ type: "equip", item });
+     31|       expect(s.kit.stats[maximum]).toBeGreaterThan(current);
+     32|       expect(s.player[resource]).toBe(current);
+       |                                  ^
+     33|     });
+     34|     it(`${resource}: lowering a maximum clamps only excess and re-equi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/24]⎯
+
+ FAIL  src/test/equipment-resource-policy.test.ts > equipment resource policy: legend > ki: lowering a maximum clamps only excess and re-equipping does not refill it
+AssertionError: expected 168 to be 157 // Object.is equality
+
+- Expected
++ Received
+
+- 157
++ 168
+
+ ❯ src/test/equipment-resource-policy.test.ts:43:34
+     41|       s.command({ type: "equip", item });
+     42|       expect(s.kit.stats[maximum]).toBeGreaterThan(base);
+     43|       expect(s.player[resource]).toBe(base);
+       |                                  ^
+     44|       s.player[resource] = base * 0.25;
+     45|       s.command({ type: "unequip", slot: "armor" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/24]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  24 failed (24)
+   Start at  10:16:22
+   Duration  2.23s (transform 1.20s, setup 93ms, import 1.39s, tests 79ms, environment 396ms)

@@ -430,3 +430,72 @@ z braku kontrolerów. Nadal brakuje 48 prób / 144 stopni, stopni dziedzin,
 normalnych odblokowań 12 wariantów i 4 modułów, tytułów za próby III oraz późnych
 wariantów starć. Pełna kampania na produkcyjnym koncie, balanse/czas rozwoju,
 fizyczne telefony i odbiór wszystkich finałów w Phaserze pozostają do sprawdzenia.
+
+
+## Korekta zasobów wyposażenia — zgodność z zleceniem
+
+Kontrola po `a547cc8b` wykryła błąd mojej wcześniejszej implementacji: zachowanie
+**procentu** HP/KI zapobiegało powtarzalnemu odzyskiwaniu po pełnym cyklu zmiany,
+lecz samo założenie przedmiotu podnosiło bieżący zasób wraz z maksimum. To było
+niezgodne z §3.1 niezmienionego zlecenia właściciela:
+
+> Przy spadku maksimum jedynie ogranicz aktualny zasób do nowego maksimum;
+> wzrost maksimum nie podnosi aktualnego zasobu.
+
+Ta sekcja koryguje wcześniejsze deklaracje o proporcjach w partiach 1 i 2; nie
+zmienia historii tych commitów. Nowe testy odtwarzają **24 FAIL** w czterech rasach:
+HP i KI zranione/pełne, spadek maksimum i ponowne założenie. Poszerzony zestaw
+z wcześniej istniejącymi testami: **36 FAIL / 33 PASS** przed korektą.
+[24 przypadki](qa/resource-policy/before-24.txt),
+[pełna reprodukcja](qa/resource-policy/before-expanded.txt).
+
+Implementacja stosuje wyłącznie `min(bieżący zasób, nowe maksimum)` zarówno przy
+zwykłej zmianie sprzętu, jak i transakcyjnej zmianie osobistej broni. Nie skaluje
+bieżącego zasobu, nie odnawia HP/KI ani nie resetuje kitu i jego cooldownów.
+Istniejące testy sprawdzają teraz dokładną bieżącą wartość z wymagania, zamiast
+niewłaściwie przyjętej proporcji. Nie zmieniono kanonicznych statystyk ani procentów
+przedmiotów. Wyników tej korekty nie należy utożsamiać z odbiorem całego rozwoju.
+
+Dla wcześniejszego commita `a547cc8bc4dee279d05d3004b42d0012e6463894` pełna
+[bramka GitHub Actions](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41617618111)
+zakończyła się sukcesem. Nie jest to dowód zgodności z wymaganiem, którego wtedy
+nie sprawdzał test — dlatego dodano powyższe regresje.
+
+
+Po korekcie celowany zestaw: **69 PASS / 0 FAIL**
+([wynik](qa/resource-policy/targeted-after.txt)). Pełne `npm test`:
+**1167 PASS / 0 FAIL / 10 SKIP**, 100 plików zaliczonych, jeden pominięty.
+Pominięcia dotyczą testowej bazy PostgreSQL, bez dodatkowej infrastruktury.
+[Log jednostkowych](qa/resource-policy/unit-tests.txt),
+[TypeScript — trzy konfiguracje](qa/resource-policy/typecheck.txt),
+[lint — 0 błędów / 15 wcześniejszych ostrzeżeń](qa/resource-policy/lint.txt),
+[build](qa/resource-policy/build.txt). Nie zmieniono zasobów względem zaliczonej
+kontroli `assets:check` z partii 2. Metadane testowanego kodu:
+[sumy źródeł i polecenia](qa/resource-policy/verification.json).
+
+
+Końcowy Playwright na kodzie z korektą zasobów: **8 PASS / 0 FAIL**:
+
+- Cztery pełne pierwsze rozdziały/projekty osobistych dziedzictw Canvas, po jednym
+  na rasę, z prawdziwym prologiem, odbiorem nagród, założeniem osobistej broni,
+  odczytem wybranej decyzji w kronice i reloadem. Bez wstrzykiwania postępu.
+  [Log](qa/resource-policy/first-chapters-canvas.txt).
+- Cztery dotykowe wejścia do kroniki nowych postaci Software WebGL z rzeczywistym
+  sprawdzeniem renderera oraz braku nieodkrytej historii.
+  [Log](qa/resource-policy/chronicle-webgl.txt).
+- Brak `pageerror` w tych scenariuszach. To lokalny Phaser i emulacja dotyku,
+  nie fizyczny Android/iOS ani odbiór całej kampanii lub kont produkcyjnych.
+
+Oryginalne screenshoty odkrytej kroniki:
+[Planetarni](qa/resource-policy/planetary-earned-chronicle.png),
+[Mędrcy](qa/resource-policy/sage-earned-chronicle.png),
+[Androidy](qa/resource-policy/android-earned-chronicle.png),
+[Legendy](qa/resource-policy/legend-earned-chronicle.png).
+W tym samym katalogu są obrazy założonej broni i nowych kronik w WebGL.
+Starszy dodatkowy przebieg Mędrca/Androida/Legendy, sprzed korekty HP/KI,
+miał 3 PASS i pozostaje [oddzielnym dowodem](qa/resource-policy/other-first-chapters-before-correction.txt).
+Nie doliczamy go do ośmiu końcowych scenariuszy.
+
+Pozostały zakres pełnego zlecenia jest niezmieniony: próby rasowe i stopnie dziedzin,
+odblokowania, tytuły, późne warianty starć, pełny graf i odbiór legalnego balansu.
+Ta partia nie scala PR #90 i nie zmienia produkcji.

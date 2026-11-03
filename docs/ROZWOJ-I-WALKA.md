@@ -15,6 +15,9 @@ To gałąź robocza, bez scalenia i publikacji. 48 prób i odblokowania pozostaj
 
 `feature/complete-character-development` usuwa błędne mapowanie bonusów HP/KI,
 ruchu i krytyka oraz chroni przed leczeniem przez zmianę wyposażenia.
+Obowiązuje zasada z §3.1 zlecenia: wzrost maksimum nie zwiększa bieżącego HP/KI,
+a spadek jedynie przycina nadmiar. Wcześniejsza implementacja proporcji została
+skorygowana; [odtworzenie i regresje](zmiany/2026-11-03/ZMIANY.md#korekta-zasobów-wyposażenia--zgodność-z-zleceniem).
 To pierwsza partia domykania, bez publikacji i bez zamknięcia fabuł/prób.
 [Implementacja, testy i dalsze prace](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-1-statystyki-wyposażenia).
 

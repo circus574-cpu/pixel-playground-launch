@@ -988,17 +988,19 @@ it.each(RACE_IDS)("personal weapon swaps keep equipment, bag and HP/KI consisten
     s.player.hp = s.kit.stats.maxHp * 0.4;
     s.player.ki = s.kit.stats.maxKi * 0.3;
     for (let cycle = 0; cycle < 3; cycle++) {
+      const hp = s.player.hp,
+        ki = s.player.ki;
       s.command({ type: "heritage-weapon", action: "equip" });
       expect(s.player.weapon).toBe("heritage");
       expect(s.player.equipment!.weapon).toBe("heritage");
       expect(s.player.bagItems![id]).toBe(1);
-      expect(s.player.hp / s.kit.stats.maxHp).toBeCloseTo(0.4, 10);
-      expect(s.player.ki / s.kit.stats.maxKi).toBeCloseTo(0.3, 10);
+      expect(s.player.hp).toBe(hp);
+      expect(s.player.ki).toBe(ki);
       s.command({ type: "equip", item: id });
       expect(s.player.equipment!.weapon).toBe(id);
       expect(s.player.bagItems![id]).toBeUndefined();
-      expect(s.player.hp / s.kit.stats.maxHp).toBeCloseTo(0.4, 10);
-      expect(s.player.ki / s.kit.stats.maxKi).toBeCloseTo(0.3, 10);
+      expect(s.player.hp).toBe(hp);
+      expect(s.player.ki).toBe(ki);
     }
     const before = structuredClone(s.player);
     port.fail = true;
@@ -1019,12 +1021,12 @@ it.each(RACE_IDS)("personal weapon swaps keep equipment, bag and HP/KI consisten
   s.player.bagItems = originalBag;
   // Historical wire state: p.weapon changed but the old catalog slot remained occupied.
   s.player.weapon = "heritage";
-  const hpRatio = s.player.hp / s.kit.stats.maxHp,
-    kiRatio = s.player.ki / s.kit.stats.maxKi;
+  const hp = s.player.hp,
+    ki = s.player.ki;
   s.command({ type: "unequip", slot: "weapon" });
   expect(s.player.weapon).toBeNull();
   expect(s.player.equipment!.weapon).toBeNull();
   expect(s.player.bagItems!["W-V2"]).toBe(1);
-  expect(s.player.hp / s.kit.stats.maxHp).toBeCloseTo(hpRatio, 10);
-  expect(s.player.ki / s.kit.stats.maxKi).toBeCloseTo(kiRatio, 10);
+  expect(s.player.hp).toBe(Math.min(hp, s.kit.stats.maxHp));
+  expect(s.player.ki).toBe(Math.min(ki, s.kit.stats.maxKi));
 });

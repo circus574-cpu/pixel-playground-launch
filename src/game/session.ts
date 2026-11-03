@@ -1690,8 +1690,7 @@ export class GameSession implements MonsterHost {
       this.say("Nie można zatwierdzić tej zmiany rozwoju.");
       return false;
     }
-    // Only equipment swaps preserve resource proportions; training still never restores HP/KI.
-    const previousLimits = candidate.weapon !== original.weapon ? this.kit.stats : undefined;
+    // Training, modules and equipment only clamp excess; increasing a maximum never restores it.
     // Evaluate the live kit (including temporary buffs), without replacing/resetting the kit.
     let limits;
     try {
@@ -1700,14 +1699,8 @@ export class GameSession implements MonsterHost {
     } finally {
       this.player = original;
     }
-    candidate.hp = Math.min(
-      limits.maxHp,
-      previousLimits ? (candidate.hp * limits.maxHp) / previousLimits.maxHp : candidate.hp,
-    );
-    candidate.ki = Math.min(
-      limits.maxKi,
-      previousLimits ? (candidate.ki * limits.maxKi) / previousLimits.maxKi : candidate.ki,
-    );
+    candidate.hp = Math.min(candidate.hp, limits.maxHp);
+    candidate.ki = Math.min(candidate.ki, limits.maxKi);
     if (!this.saves || !this.saves.save(candidate)) {
       this.say(
         this.saves?.warning || "Rozwój wymaga działającego zapisu postaci. Nic nie przyznano.",
@@ -2124,11 +2117,10 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "equip") {
-      const beforeGear = this.kit.stats;
-      const preserveResources = () => {
+      const clampResources = () => {
         const afterGear = this.kit.stats;
-        p.hp = Math.min(afterGear.maxHp, (p.hp * afterGear.maxHp) / beforeGear.maxHp);
-        p.ki = Math.min(afterGear.maxKi, (p.ki * afterGear.maxKi) / beforeGear.maxKi);
+        p.hp = Math.min(p.hp, afterGear.maxHp);
+        p.ki = Math.min(p.ki, afterGear.maxKi);
       };
       ensurePlayerEquipment(p);
       const equipment = p.equipment!;
@@ -2141,7 +2133,7 @@ export class GameSession implements MonsterHost {
         equipment.weapon = "sword";
         if (p.quests.gear === "active") p.quests.gear = "ready";
         this.say("Założono: " + ITEMS.sword.name);
-        preserveResources();
+        clampResources();
         this.flush();
         return;
       }
@@ -2150,7 +2142,7 @@ export class GameSession implements MonsterHost {
         p.armor = "vest";
         equipment.armor = "vest";
         this.say("Założono: " + ITEMS.vest.name);
-        preserveResources();
+        clampResources();
         this.flush();
         return;
       }
@@ -2167,7 +2159,7 @@ export class GameSession implements MonsterHost {
         const healHp = def.stats?.hpBonus ?? 50;
         makePort(this).heal(healHp);
         this.say("Użyto: " + def.name);
-        preserveResources();
+        clampResources();
         this.flush();
         return;
       }
@@ -2201,16 +2193,15 @@ export class GameSession implements MonsterHost {
       if (slot === "weapon") p.weapon = itemId;
       if (slot === "armor") p.armor = itemId;
       this.say("Założono: " + def.name);
-      preserveResources();
+      clampResources();
       this.flush();
       return;
     }
     if (c.type === "unequip") {
-      const beforeGear = this.kit.stats;
-      const preserveResources = () => {
+      const clampResources = () => {
         const afterGear = this.kit.stats;
-        p.hp = Math.min(afterGear.maxHp, (p.hp * afterGear.maxHp) / beforeGear.maxHp);
-        p.ki = Math.min(afterGear.maxKi, (p.ki * afterGear.maxKi) / beforeGear.maxKi);
+        p.hp = Math.min(p.hp, afterGear.maxHp);
+        p.ki = Math.min(p.ki, afterGear.maxKi);
       };
       ensurePlayerEquipment(p);
       const equipment = p.equipment!;
@@ -2231,7 +2222,7 @@ export class GameSession implements MonsterHost {
         bagItems[equippedId] = (bagItems[equippedId] ?? 0) + 1;
       }
       this.say("Zdjęto wyposażenie.");
-      preserveResources();
+      clampResources();
       this.flush();
       return;
     }
