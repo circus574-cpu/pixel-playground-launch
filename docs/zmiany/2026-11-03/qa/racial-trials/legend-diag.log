@@ -1,0 +1,62 @@
+
+Running 1 test using 1 worker
+
+(node:5636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/racial-trials.spec.ts:116:3 › Legendy: real TP08, one-time reward and reload (30.3s)
+
+
+  1) [gameplay] › e2e/racial-trials.spec.ts:116:3 › Legendy: real TP08, one-time reward and reload ─
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for locator('.ki-trial-stage').locator('[data-ability="R"]')
+        - locator resolved to <button class="ki-skill" data-ability="R" title="Uderzenie Żaru" aria-label="Uderzenie Żaru">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div aria-live="polite" class="ki-exam-toolbar">…</div> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div aria-live="polite" class="ki-exam-toolbar">…</div> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        3 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div aria-live="polite" class="ki-exam-toolbar">…</div> intercepts pointer events
+        - retrying click action
+          - waiting 500ms
+        25 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <div role="dialog" aria-label="Wynik próby rasowej" class="ki-exam-result ki-development">…</div> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      169 |       for (let i = 0; i < 3; i++) {
+      170 |         await expect(stage).toHaveAttribute("data-trial-phase", "strike");
+    > 171 |         await stage.locator('[data-ability="R"]').click();
+          |                                                   ^
+      172 |         await expect(stage).toHaveAttribute("data-trial-phase", "hold");
+      173 |       }
+      174 |     } else {
+        at /workspace/ki-aruba/e2e/racial-trials.spec.ts:171:51
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ki-trials-legend-diag/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ki-trials-legend-diag/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/error-context.md
+
+  1 failed
+    [gameplay] › e2e/racial-trials.spec.ts:116:3 › Legendy: real TP08, one-time reward and reload ──

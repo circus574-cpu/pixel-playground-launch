@@ -1,5 +1,7 @@
 import { test, expect, openHudTool, type Page } from "./fixtures";
 
+test.use({ actionTimeout: 15_000 });
+
 async function owner(page: Page) {
   return page.evaluate(() => {
     for (const [key, value] of Object.entries(localStorage)) {
@@ -14,6 +16,67 @@ async function owner(page: Page) {
     throw new Error("No active Superior character save");
   });
 }
+
+test.describe("touch racial trial", () => {
+  test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
+  test("Androidy: portrait guard, touch navigation and module construction", async ({
+    page,
+  }, info) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto("/scripts/playtest.html?ki-world-v2=1");
+    await page.getByRole("button", { name: "Wybierz: Androidy", exact: true }).tap();
+    await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).tap();
+    await expect(page.getByText("Obróć telefon poziomo", { exact: true })).toBeVisible();
+    await page.setViewportSize({ width: 852, height: 393 });
+    const canvas = page.locator(".ki-canvas").first();
+    await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+    await openHudTool(page, "Umiejętności", "touch");
+    await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+    await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).tap();
+    await expect(canvas).toHaveAttribute("data-interior", "arena");
+    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).tap();
+    const before = await owner(page);
+    await openHudTool(page, "Umiejętności", "touch");
+    await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+    await page.getByRole("tab", { name: "Próby", exact: true }).tap();
+    const card = page.locator(".ki-development-card").filter({
+      has: page.getByRole("heading", { name: /^TN08 ·/ }),
+    });
+    await card.getByRole("button", { name: "Instrukcja · 1", exact: true }).tap();
+    await page.getByRole("button", { name: "Rozpocznij próbę rasową", exact: true }).tap();
+    const stage = page.locator(".ki-trial-stage");
+    await expect(stage.locator(".ki-canvas")).toHaveAttribute("data-player-x", /^\d/);
+    await expect(stage.locator('[data-ability="R"]')).toBeVisible();
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(stage.getByText("Obróć telefon poziomo", { exact: true })).toBeVisible();
+    await page.screenshot({ path: info.outputPath("touch-portrait-trial-guard.png") });
+    await page.setViewportSize({ width: 852, height: 393 });
+    await expect(stage.getByText("Obróć telefon poziomo", { exact: true })).not.toBeVisible();
+    await walkToStation(page, true);
+    await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).tap();
+    const materials = page.getByRole("dialog", { name: "Materiały próby", exact: true });
+    await materials.getByRole("checkbox", { name: "Skaner · 2 energii", exact: true }).tap();
+    await materials.getByRole("checkbox", { name: "Precyzja · 3 energii", exact: true }).tap();
+    await page.screenshot({ path: info.outputPath("touch-modules.png") });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    await materials.getByRole("button", { name: "Sprawdź konstrukcję", exact: true }).tap();
+    const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+    await expect(result).toContainText("Próba ukończona");
+    await page.screenshot({ path: info.outputPath("touch-trial-passed.png") });
+    await result.getByRole("button", { name: "Zatwierdź wynik i wróć", exact: true }).tap();
+    await expect(stage).toHaveCount(0);
+    const after = await owner(page);
+    expect(after.development.trials.TN08).toBe(1);
+    expect(after.development.practiceEarned - (before.development?.practiceEarned ?? 0)).toBe(100);
+    await page.reload();
+    await expect(canvas).toHaveAttribute("data-interior", "arena");
+    expect((await owner(page)).development.trials.TN08).toBe(1);
+    expect(errors).toEqual([]);
+  });
+});
 
 async function walkToStation(page: Page, touch: boolean) {
   const stage = page.locator(".ki-trial-stage");
@@ -66,7 +129,7 @@ for (const [race, id, land] of [
     const before = await owner(page);
     await openHudTool(page, "Umiejętności");
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
-    await page.getByRole("button", { name: "Próby", exact: true }).click();
+    await page.getByRole("tab", { name: "Próby", exact: true }).click();
     const card = page.locator(".ki-development-card").filter({
       has: page.getByRole("heading", { name: new RegExp(`^${id} ·`) }),
     });
@@ -75,7 +138,34 @@ for (const [race, id, land] of [
     const stage = page.locator(".ki-trial-stage");
     await expect(stage.locator(".ki-canvas")).toHaveAttribute("data-player-x", /^\d/);
     await expect(stage.locator('[data-ability="R"]')).toBeVisible();
+    await expect
+      .poll(async () => {
+        const metrics = await stage.locator(".ki-canvas").getAttribute("data-metrics");
+        return metrics ? JSON.parse(metrics).renderer : null;
+      })
+      .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
     if (id === "TP08") {
+      await page.screenshot({ path: info.outputPath("pyra-trial-before-attack.png") });
+      await info.attach("attack-preflight", {
+        contentType: "application/json",
+        body: JSON.stringify(
+          await stage.locator('[data-ability="R"]').evaluate((button) => {
+            const b = button.getBoundingClientRect();
+            return {
+              x: b.x,
+              y: b.y,
+              width: b.width,
+              height: b.height,
+              blockedBy: document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2)
+                ?.outerHTML,
+              canvas: {
+                ...(document.querySelector<HTMLElement>(".ki-trial-stage .ki-canvas")?.dataset ??
+                  {}),
+              },
+            };
+          }),
+        ),
+      });
       for (let i = 0; i < 3; i++) {
         await expect(stage).toHaveAttribute("data-trial-phase", "strike");
         await stage.locator('[data-ability="R"]').click();
@@ -130,14 +220,28 @@ for (const [race, id, land] of [
     await expect(stage).toHaveCount(0);
     await expect.poll(async () => (await owner(page)).development?.trials?.[id]).toBe(1);
     const after = await owner(page);
-    expect(after.development.practice - before.development.practice).toBe(100);
-    for (const field of ["hp", "ki", "xp", "gold", "gear", "bag", "level", "race", "continent"])
+    expect(after.development.practiceEarned - (before.development?.practiceEarned ?? 0)).toBe(100);
+    for (const field of [
+      "hp",
+      "ki",
+      "xp",
+      "gold",
+      "equipment",
+      "bagItems",
+      "items",
+      "materials",
+      "depot",
+      "skills",
+      "level",
+      "race",
+      "continent",
+    ])
       expect(after[field], field).toEqual(before[field]);
     await page.reload();
     await expect(canvas).toHaveAttribute("data-interior", "arena");
     const reloaded = await owner(page);
     expect(reloaded.development.trials[id]).toBe(1);
-    expect(reloaded.development.practice).toBe(after.development.practice);
+    expect(reloaded.development.practiceEarned).toBe(after.development.practiceEarned);
     expect(errors).toEqual([]);
   });
 }

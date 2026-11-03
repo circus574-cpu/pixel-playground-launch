@@ -1,0 +1,112 @@
+[
+  {
+    "path": "browser-final/racial-trials-Androidy-real-TN08-one-time-reward-and-reload-gameplay/nexus-trial-materials.png",
+    "sha256": "516a8509c55216ca871462faacd6367022537cde8f44cb65919f7a45d7ca6ad2",
+    "bytes": 232876
+  },
+  {
+    "path": "browser-final/racial-trials-Androidy-real-TN08-one-time-reward-and-reload-gameplay/nexus-trial-passed.png",
+    "sha256": "80c9d3b282110d529fbe63f17476c41cdc39e43a711ededa160790ed02039d85",
+    "bytes": 179414
+  },
+  {
+    "path": "browser-final/racial-trials-Androidy-real-TN08-one-time-reward-and-reload-software-webgl/nexus-trial-materials.png",
+    "sha256": "52b0209cfe75d0d1444f0feda869ceccb92dfb55b3fda9b2829ff5b6e8b29454",
+    "bytes": 215665
+  },
+  {
+    "path": "browser-final/racial-trials-Androidy-real-TN08-one-time-reward-and-reload-software-webgl/nexus-trial-passed.png",
+    "sha256": "c962564991ad4795f5a9fab2a1af6016c523e828a411bc1563de5d0405fd679a",
+    "bytes": 164837
+  },
+  {
+    "path": "browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/pyra-trial-before-attack.png",
+    "sha256": "5995680f183eab1f7de283e0521e9a9635880afb3ebf082207ed49cd8ea16db9",
+    "bytes": 194523
+  },
+  {
+    "path": "browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/pyra-trial-passed.png",
+    "sha256": "0bdca54daa8d39e0b99651e46a2fcad96bcc42d5f026ae1d4079278a103c6ad4",
+    "bytes": 166834
+  },
+  {
+    "path": "browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-software-webgl/pyra-trial-before-attack.png",
+    "sha256": "53243980d8c51a334a58fd97c71299ca1979545e2f6686a5f04009e2cc5a9e1d",
+    "bytes": 188165
+  },
+  {
+    "path": "browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-software-webgl/pyra-trial-passed.png",
+    "sha256": "b22c1de08c632afaeae385456c43ebc1ff417740db837ba5a0eb61c8997d473e",
+    "bytes": 162392
+  },
+  {
+    "path": "browser-final/racial-trials-M\u0119drcy-real-TA01-one-time-reward-and-reload-gameplay/aether-trial-materials.png",
+    "sha256": "55b5895b6238b012b33fe2ee61011c2a368094e3363941d2b208ae226d4b38da",
+    "bytes": 186885
+  },
+  {
+    "path": "browser-final/racial-trials-M\u0119drcy-real-TA01-one-time-reward-and-reload-gameplay/aether-trial-passed.png",
+    "sha256": "a0ce721477a61057ac947ceca4a632063732d6149549f722ba24f83ea7a5dc3a",
+    "bytes": 164659
+  },
+  {
+    "path": "browser-final/racial-trials-M\u0119drcy-real-TA01-one-time-reward-and-reload-software-webgl/aether-trial-materials.png",
+    "sha256": "f6c7afcd4c32709be8135edff969788af3352d587eca3f878807daec51350696",
+    "bytes": 171212
+  },
+  {
+    "path": "browser-final/racial-trials-M\u0119drcy-real-TA01-one-time-reward-and-reload-software-webgl/aether-trial-passed.png",
+    "sha256": "97a3897f0f76efb2a61ef45462ab6503ff36bc5932549536f11b40929a970a92",
+    "bytes": 158886
+  },
+  {
+    "path": "browser-final/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-gameplay/verdant-trial-materials.png",
+    "sha256": "3ab7452cac0e6060f524e4ec29a6b99b28a0afcad50d7a47e711e3344487e5f4",
+    "bytes": 189152
+  },
+  {
+    "path": "browser-final/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-gameplay/verdant-trial-passed.png",
+    "sha256": "439d886fcb725581d4d558a8938d0f50da6d88db1594b0dd601b1d93dcbb5012",
+    "bytes": 163121
+  },
+  {
+    "path": "browser-final/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-software-webgl/verdant-trial-materials.png",
+    "sha256": "bbddafb703f97e2dc9b912090a9f4653e5043057467a1a254d0a3cb45d61dd19",
+    "bytes": 174516
+  },
+  {
+    "path": "browser-final/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-software-webgl/verdant-trial-passed.png",
+    "sha256": "6f4b2f5090b31f443195345feb5f26459544bfbf15f49d93debfc9aa2506e2b1",
+    "bytes": 157717
+  },
+  {
+    "path": "browser-final/racial-trials-touch-racial-4a4e8-ion-and-module-construction-gameplay/touch-modules.png",
+    "sha256": "76e6d664709e1e39b5524edc804d03fc45b6a6cf1141dfae633060b97485db24",
+    "bytes": 111572
+  },
+  {
+    "path": "browser-final/racial-trials-touch-racial-4a4e8-ion-and-module-construction-gameplay/touch-portrait-trial-guard.png",
+    "sha256": "891fd4abe03ed12a2580d6fe17d08cc462427a9cf5ac4363deac3d8bd0afd79e",
+    "bytes": 121003
+  },
+  {
+    "path": "browser-final/racial-trials-touch-racial-4a4e8-ion-and-module-construction-gameplay/touch-trial-passed.png",
+    "sha256": "331794704f91889e28d95c7483e01765067b43ce8690a55f5071650cde97e288",
+    "bytes": 108039
+  },
+  {
+    "path": "browser-final/racial-trials-touch-racial-4a4e8-ion-and-module-construction-software-webgl/touch-modules.png",
+    "sha256": "a8bd3830ced2cc61fad920eeeb538255322b65052d05a3e797b9a90d1b3814a3",
+    "bytes": 106102
+  },
+  {
+    "path": "browser-final/racial-trials-touch-racial-4a4e8-ion-and-module-construction-software-webgl/touch-portrait-trial-guard.png",
+    "sha256": "cc745e9cd844b756db2459ca4558fdc3e48611649e0b79f989225a65c1e4d40d",
+    "bytes": 84714
+  },
+  {
+    "path": "browser-final/racial-trials-touch-racial-4a4e8-ion-and-module-construction-software-webgl/touch-trial-passed.png",
+    "sha256": "40688bc74888fdc718680a1f3ca075c62ba710240edfcd1212fd982037186434",
+    "bytes": 101377
+  }
+]

@@ -162,13 +162,25 @@
   padding: 0.5rem;
 }
 .ki-trial-stage .ki-exam-toolbar {
-  top: auto;
-  bottom: 100px;
-  left: auto;
-  right: 12px;
-  transform: none;
-  max-width: min(480px, 70vw);
+  top: 110px;
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  max-width: min(480px, 56vw);
   flex-wrap: wrap;
+  pointer-events: none;
+}
+.ki-trial-stage .ki-exam-toolbar button {
+  pointer-events: auto;
+}
+@media (max-height: 500px) {
+  .ki-trial-stage .ki-exam-toolbar {
+    top: 76px;
+    max-width: 52vw;
+    font-size: 0.72rem;
+    padding: 0.3rem;
+  }
 }
 .ki-trial-stage .ki-exam-result {
   inset: 8% 10%;

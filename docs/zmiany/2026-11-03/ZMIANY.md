@@ -693,3 +693,112 @@ Nie scalono PR i nie opublikowano gry.
 - `npm run lint`: **PASS**, 0 błędów / 15 wcześniejszych ostrzeżeń;
   `npm run assets:check`: **PASS**. [Lint](qa/racial-trials/lint-final.log),
   [zasoby](qa/racial-trials/assets.log), [sumy źródeł checkpointu](qa/racial-trials/checkpoint-sources.json).
+
+### Odbiór przeglądarkowy — odtworzona przeszkoda interfejsu
+
+Checkpoint implementacyjny `653116d71f2b731b7f2baf488088728353c0039e` jest na GitHubie.
+[GitHub Actions 41634475944](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41634475944)
+ma **SUCCESS** na tym SHA (typecheck, jednostkowe/integracje, lint, zasoby, docs, build).
+
+Pierwszą próbę Planetarnych przerwano po wykryciu błędnego selektora testu:
+zakładka ma rolę `tab`, a scenariusz szukał `button`. Nie uznano tego za błąd gry.
+Poprawiono także odczyt testowy na rzeczywisty `practiceEarned` i pola wyposażenia.
+[Zapis przerwania](qa/racial-trials/canvas-first.log).
+
+Następna seria Canvas: **3 PASS / 1 FAIL**. Planetarni TV10, Mędrcy TA01 i Androidy
+TN08 rzeczywiście ukończyli próbę I, dostali +100 praktyki i zachowali wynik po reload.
+Legendy TP08: brak ciosu w pierwszym oknie 4 s. Odtworzenie z ograniczeniem czasu
+kliknięcia pokazało przyczynę: `.ki-exam-toolbar` przechwytywał pointer events nad
+przyciskiem R. Screenshot sprzed ataku oraz log zawierają ten fakt — nie omijano
+interfejsu przez force-click ani sterowanie stanem.
+[Seria](qa/racial-trials/canvas-2.log), [diagnoza kliknięcia](qa/racial-trials/legend-diag.log).
+
+Poprawka dotyczy tylko nowego paska sali prób: nad środkową częścią świata, z osobnym
+wariantem niskiego ekranu; tekst przepuszcza dotyk/kliknięcia, aktywne pozostają jego
+przyciski. Nie przesunięto HUD-u, joysticka ani przycisków walki. Nie osłabiono czasu
+okien, limitów błędów, wymaganych trafień ani asercji zaliczenia.
+
+Celowane ponowienie: **2 PASS / 0 FAIL**, Legendy TP08 oraz Androidy z prawdziwymi
+zdarzeniami dotykowymi Chromium: wybór w pionie 390×844, gra 852×393, ponowny obrót
+podczas próby, nawigacja dotykiem, moduły, +100 praktyki i reload.
+[Log ponowienia](qa/racial-trials/fixed-smoke.log). To emulacja, nie fizyczny Android/iOS.
+Końcowa pełna seria nowego pliku w Canvas i Software WebGL trwa; jej wyniku nie
+zastępują powyższe częściowe rezultaty. Pełnego zestawu wszystkich e2e nie wykonano.
+
+### Końcowa seria nowych prób — 10/10
+
+`KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/racial-trials.spec.ts --project=gameplay --project=software-webgl --output=/workspace/ki-trials-final --reporter=list --trace=off`
+
+**10 PASS / 0 FAIL / 0 SKIP**, 9,2 min. Po pięć scenariuszy Canvas i Software WebGL:
+cztery rasy TV10/TA01/TN08/TP08 oraz Androidy dotykiem. Cztery scenariusze rasowe
+w każdym projekcie jawnie sprawdzają rzeczywisty renderer przez metrics; sama nazwa
+projektu nie jest dowodem. Testy czytają jedynie widoczne wskazówki i zapis;
+nie zmieniają localStorage ani stanu sesji, nie używają force-click.
+
+- Wszystkie rasy: wejście u trenera, instrukcja, uruchomienie sali, wykonanie próby I,
+  +100 praktyki, grade=1, zachowane HP/KI/XP/złoto, osiem slotów, torba, przedmioty,
+  materiały, depozyt, umiejętności, rasa i kontynent, potem reload z tym samym wynikiem.
+- TV10/TA01: fizyczne stanowiska i odpowiedzi z jawnych materiałów.
+  TN08: prawdziwe kontrolki modułów i budżet. TP08: trzy rzeczywiste ciosy w kolejnych
+  dozwolonych oknach, brak ciosów w STOP i po poddaniu, bez zmiany reguł próby.
+- Dotyk: pion 390×844, poziom 852×393, osłona obrotu również w sali,
+  nawigacja dotykowa, kontrolki modułów, nagroda i odświeżenie. Brak poziomego overflow.
+- Wszystkie scenariusze: **0 pageerror**. To nie jest odsłuch audio, test fizycznego
+  telefonu, sprzętowego WebGL ani benchmark FPS. Czas całego e2e obejmuje start i reload,
+  więc nie jest pomiarem czasu ładowania. Software WebGL jest tu renderowane na CPU.
+- Stopnie II/III i pozostałe osiem prób są sprawdzone kontrolerami/symulacją serwera,
+  nie pełnym przejściem UI wszystkich 36 stopni. Powtórki bez nagrody i awarie zapisu
+  sprawdzają testy transakcyjne. Przeglądarka używa lokalnego harnessu rzeczywistej trasy;
+  nie testowano wdrożenia tej partii ani sesji produkcyjnego WebSocket/PostgreSQL.
+
+[Log całej serii](qa/racial-trials/browser-final.log),
+[sumy przetestowanych źródeł](qa/racial-trials/browser-sources.json),
+[indeks screenshotów z SHA-256](qa/racial-trials/screenshots.json).
+Przykłady: [Planetarni — materiały](qa/racial-trials/browser-final/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-gameplay/verdant-trial-materials.png),
+[Legendy — dostępny atak po poprawce](qa/racial-trials/browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/pyra-trial-before-attack.png),
+[Legendy — zaliczenie](qa/racial-trials/browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/pyra-trial-passed.png).
+Trace był jawnie wyłączony (`--trace=off`) ze względu na ograniczony dysk;
+pozostają logi i screenshoty, w tym odtworzone niepowodzenie.
+
+### Regresja wcześniejszego egzaminu i sterowania
+
+`KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/development.spec.ts --project=gameplay --grep 'endurance route: Planetarni|portrait selection, landscape training and simultaneous' --output=/workspace/ki-trials-exam-regression --reporter=list --trace=off`
+
+**2 PASS / 0 FAIL / 0 SKIP**, Canvas, 40,9 s. Starszy egzamin wytrzymałości
+Planetarnych wymaga rzeczywistego przejścia czterech punktów; zatwierdzenie ćwiczebne
+nie zmienia bajtów zapisu właściciela. Drugi przypadek używa równoczesnych dwóch
+palców CDP na joysticku i ataku, wykrywa realny ruch i trafienie zwykłym atakiem, wraca do postaci.
+Po dodaniu współdzielonej `loanSession` i nowego paska sala starego egzaminu działa.
+Nie zmieniano tego scenariusza, jego asercji ani sterowania, aby uzyskać PASS.
+[Log regresji](qa/racial-trials/exam-regression.log).
+
+Łącznie bieżący odbiór przeglądarkowy: **12 PASS / 0 FAIL / 0 SKIP** (10 nowych + 2 regresje).
+Pełny katalog e2e projektu pozostaje **NIEWYKONANY**; zakres filtrowania jest jawny.
+Nie sprawdzono fizycznego telefonu, sprzętowego WebGL, audio ani produkcyjnego wdrożenia.
+
+### Końcowe kontrole przed zapisem poprawki i dowodów
+
+Po zakończeniu przeglądarek zatrzymano wyłącznie lokalny Vite (bez kontaktu z GPU).
+Na niezmienionych od odbioru przeglądarkowego źródłach ponowiono kolejno:
+
+| Kontrola | Wynik |
+| --- | --- |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck` | PASS, wszystkie trzy konfiguracje |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm test` | 1226 PASS / 0 FAIL / 10 SKIP |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run lint` | PASS, 0 błędów / 15 wcześniejszych ostrzeżeń |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run assets:check` | PASS |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run build` | PASS |
+
+[Polecenia, kody wyjścia i czasy](qa/racial-trials/release-checks.json),
+[pełny końcowy zestaw jednostkowy](qa/racial-trials/release-unit.log),
+[końcowy TypeScript](qa/racial-trials/release-typecheck.log),
+[końcowy build](qa/racial-trials/release-build.log).
+JSDOM nadal loguje brak implementacji HTMLMediaElement.play; nie jest to test odsłuchu.
+Dziesięć przypadków PostgreSQL pozostaje pominiętych bez bazy QA.
+Kontrola dokumentów była zielona po dodaniu screenshotów; uruchamiana ponownie po tej adnotacji.
+Bieżący `main` sprawdzony przez GitHub pozostaje `e02c87b5ea9ad654f17d450464d13c36083f058b`.
+Nie scalano i nie publikowano. Dalsze wdrożenie wymaga zgodnego wydania klienta i serwera.
+
+Nowa uwaga właściciela „Jest zadanie na próbę” wymaga wskazania konkretnego zadania/NPC:
+w katalogu jest kilka różnych prób fabularnych, które nie muszą być próbami rasowymi.
+Nie podpinano ich automatycznie ani nie zmieniano warunków questów na podstawie niejednoznacznego opisu.

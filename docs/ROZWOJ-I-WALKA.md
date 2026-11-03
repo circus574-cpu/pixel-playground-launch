@@ -19,7 +19,8 @@ każdej rasy. Cztery testy rzeczywistej geometrii Superior potwierdzają binding
 Kronika pokazuje zdobyte świadectwa, tło i rzeczywistą decyzję; komplet opowieści ma
 570–679 słów. Nie przyznaje brakujących jeszcze tytułów mistrzowskich.
 [Zakres, wyniki, warunki testowe i pozostałe braki](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
-To gałąź robocza, bez scalenia i publikacji. 48 prób i odblokowania pozostają otwarte.
+To gałąź robocza, bez scalenia i publikacji. W checkpointcie kontrolerów fabuły próby
+nie były jeszcze wdrożone; aktualną partię 12 prób opisuje sekcja wyżej.
 
 ## Naprawy wyposażenia — gałąź robocza 03.11.2026
 
