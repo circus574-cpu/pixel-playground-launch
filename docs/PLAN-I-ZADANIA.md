@@ -1,5 +1,16 @@
 # KI Legends — aktualny plan i zadania
 
+## Aktualizacja rozwoju — 03.11.2026
+
+Audyt `main@13983467` potwierdza częściową implementację. Do zamknięcia kolejno:
+bonusy przedmiotów w rzeczywistych statystykach, eskorty bojowe/ochrona (blokady
+H-V03/H-A05/H-N03/H-P06), 48 prób / 144 stopnie i normalne odblokowania 12 wariantów
+oraz 4 modułów, pełny budżet 17 800 praktyki, bronie/finały i treść poziomów 21–40.
+Komplet plików graficznych i audio Etapu 1 nie zamyka tych zadań.
+[Dowody, wyniki i dokładna lista](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
+Starsze checkpointy poniżej zachowano jako historię. Ten audyt dotyczy rozwoju
+postaci, bez sprawdzania aktualnego wdrożenia produkcyjnego.
+
 ## Bieżący checkpoint — 01.11.2026 po publikacji serwerowego PvE, panelu postaci, ekwipunku i wydaniu na main
 
 Kod i potwierdzona publikacja: `main@2026c18` (PR #70, ilustrowane katalogi potworów i przedmiotów w `/admin`). Hosting: VPS Aruba (Coolify), wdrożenie automatyczne po pushu do `main` — od 01.11 dopiero po zielonej bramce jakości (typecheck, testy, lint, zasoby, dokumentacja, build). Lovable nie jest już hostingiem. Aktualizacje z 01.11 obejmują integrację serwerowych postaci (PR #69), pełny panel administracyjny postaci serwera dedykowanego (`ServerCharacterManager` w `/admin`), system 8-slotowego ekwipunku, 40-slotowej torby i depozytu miejskiego (`feat/inventory-bag-and-city-depot`), komplet 46/46 zasobów Etapu 1 oraz automatyczne wdrożenie produkcyjne Aruba. Zob. [dziennik 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
