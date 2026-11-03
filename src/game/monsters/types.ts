@@ -289,6 +289,8 @@ export type MonsterState = {
 };
 
 export type Enemy = Point & {
+  /** Ephemeral chapter encounter, inherited by summons; never a persistent world spawn. */
+  encounterOwner?: string;
   boss?: import("../bosses/runtime").BossRuntime;
   /** Outside the deterministic AI budget; no actions are executed. */
   sleeping?: boolean;

@@ -273,3 +273,160 @@ punktów wznowienia i czyszczenia aktorów/przeciwników przy śmierci/zmianie �
 Nie zastępować tych celów kliknięciem „zalicz”. Dalej: 48 prób / 144 stopnie,
 zapis dowodów i jednorazowych nagród, odblokowania, budżet praktyki, zakończenia,
 biografie i kronika. Zamówienie pozostaje otwarte do pełnego odbioru tych ścieżek.
+
+## Domykanie rozwoju — partia 2: eskorty, obrona i kronika
+
+Kontynuacja na `feature/complete-character-development`, po `b7d41ffe`, PR #90.
+**Nie jest to zamknięcie całego systemu mistrzostwa.** Wdrożono brakujące kontrolery
+rozdziałów i prywatną kronikę. Próby rasowe, dziedziny, ich odblokowania i późne
+warianty starć pozostają oddzielnymi, niezrealizowanymi wymaganiami.
+Bez scalenia, publikacji, zmian produkcyjnej bazy ani używania GPU.
+Przyszłe wdrożenie musi objąć klienta i proces serwera gry z tego samego wydania;
+sam nowy frontend nie doda kontrolerów do starego serwera. Nie potrzeba migracji DDL.
+
+### Rzeczywiste aktywności bojowe
+
+- `HeritageEncounter` tworzy ograniczone spotkanie na istniejącej nawigacji i AI.
+  To osobny aktor zadania `ProtectedActor`, a nie zwykły NPC miejski.
+  Rejestracja i punkty trasy wymagają terenu poza miastem i aktualnych kolizji.
+- `EscortActivity` obsługuje teraz eskortę bojową. Przed kolejnym odcinkiem trzeba
+  pokonać rzeczywistą falę, a podopieczny musi zachować minimum zdrowia z definicji.
+  Punkt wymaga fizycznej obecności gracza, widoczności i zatwierdzonego wyniku walki.
+  Samo czekanie, dojście do celu lub kliknięcie nie zalicza walki.
+- `ProtectionActivity` broni kolejnych węzłów. Liczba punktów/fal i próg HP pochodzą
+  z katalogu zadań. Każdy ukończony punkt zapisuje się transakcyjnie i można go wznowić
+  po ponownym wczytaniu. Nie dodano pola ani numeru wersji zapisu.
+- Odebranie nagrody nadal przechodzi przez istniejące jednorazowe receipts rozdziału.
+  Tymczasowi przeciwnicy nie dają powtarzalnego XP/łupów ani postępu innych zadań;
+  kanoniczne bojowe pasywy `kit.onKill` pozostają aktywne.
+- Przeciwnicy i ich przywołane jednostki mają znacznik właściciela spotkania.
+  Są usuwani razem z rejestracją celu i efektami przy przerwaniu, śmierci lub zmianie
+  świata. Nie trafiają do zapisanych slotów zwykłych spawnów Superior.
+- Profile spotkań są stałe dla rozdziału, korzystają z istniejących potworów
+  poziomów 1/4/8/12/16/20. Trwałość celu: 4 × HP wybranego profilu, jego DEF.
+  To jawny profil techniczny aktywności, bez zmiany bazowych ras/potworów.
+  **Nie zastępuje wymaganych 32 nowych wariantów poziomów 22/28/34/40 ani odbioru balansu finałów.**
+
+### Naprawy wykryte podczas przejść
+
+1. Finał Legend H-P06 zaczyna się sprawdzaniem projektów, które nie miało fizycznego
+   miejsca przyjęcia. Binding instruktażu wskazuje teraz rzeczywistego przewodnika.
+   Zachowano kolejność celów i indeksy już zapisanych postępów.
+2. Śmierć przeciwnika zadania czyści trasę pościgu, tak samo jak zwykła walka.
+   Postać przestaje odchodzić w stronę poprzedniego celu po jego pokonaniu.
+3. Przycisk podejścia do celu działa również podczas walki. Nie umożliwia wtedy
+   rzemiosła, odbioru nagrody ani tworzenia dowodu ukończenia.
+4. Bezpieczne miasto chroni gracza, lecz nie zamraża AI atakującego chroniony obiekt
+   poza miastem. Test sprawdza rzeczywiste obrażenia podopiecznego i bezpieczeństwo bohatera.
+5. Ruch podopiecznego uwzględnia kolizje, korzenie/ogłuszenia i spowolnienia.
+6. Po zaliczeniu eskorty/obrony znika panel aktywności; zostaje krótki komunikat
+   istniejącego systemu powiadomień, zamiast trwałej podpowiedzi nad światem.
+7. Osobista broń synchronizuje teraz pole broni, slot ekwipunku i torbę. Zamiana
+   zachowuje proporcję HP/KI, a awaria zapisu nie zmienia gracza. Pełna torba blokuje
+   zamianę bez utraty przedmiotu; zdjęcie osobistej broni odzyskuje także zwykły
+   przedmiot pozostawiony w slocie przez starszy błąd. Usunięto zagnieżdżoną transakcję
+   przy powrocie do zwykłej broni, która odłączała aktualne referencje torby/slotu.
+   [Odtworzenie: 4 FAIL przed naprawą](qa/heritage-combat/weapon-swap-before.txt),
+   [regresja po naprawie](qa/heritage-combat/weapon-swap-after.txt).
+
+### Historia dostępna w grze
+
+Zakładka **Kronika** jest częścią istniejącego okna rozwoju. Czyta zapis postaci,
+nie przyznaje nagród. Pokazuje tylko ukończone własne rozdziały, świadectwa rozmówców
+oraz faktycznie wybraną decyzję. Fragmenty tła odblokowują się po rozdziałach 2/4/6.
+Tło jest niezmienionym tekstem właściciela z sekcji 6.1–9.1 źródła 28.10;
+świadectwa i zakończenia pochodzą z kanonicznego katalogu dziedzictwa.
+Nie ujawnia się finału nowej postaci ani nie przyznaje tytułu wymagającego prób III.
+
+Łączna odblokowana opowieść (tło + wstępy + świadectwa + zapisane decyzje), bez
+liczenia etykiet UI, obejmuje dla każdej kombinacji wyborów:
+
+| Rasa | Liczba słów |
+| --- | --- |
+| Planetarni | 659–679 |
+| Mędrcy | 571–585 |
+| Androidy | 570–576 |
+| Legendy | 619–632 |
+
+Nie utworzono nowych ilustracji: zachowano istniejące postacie i zasoby.
+Towarzysz używa obecnej animacji NPC; węzeł ma tymczasowy symbol KI z paskiem HP.
+Renderer odczytuje aktywność serwera, buforuje odczyt przez 100 ms, stosuje culling
+900 jednostek i ponownie wykorzystuje obiekty. Nie zmieniono sterowania ani pozycji HUD.
+Ukryto jedynie pozorne „0 s” dla aktywności bez timera.
+
+### Dowody, zakres testów i ograniczenia
+
+- Kontrolowane integracje `GameSession`: **24 rozdziały + 24 projekty**, sześć etapów
+  broni każdej rasy, 2900 praktyki dziedzictwa, zapis/odczyt kroniki i wznowienia
+  eskorty/ochrony po pierwszym zapisanym punkcie.
+- Warunki tych testów to jawny profil poziomu 40 i kontrolowana geometria.
+  Android odwiedza Verdantię przez kontrolowany adapter ponownego załadowania świata.
+  **To nie jest przejście poziomów 1–40 ani test podróży przez rzeczywisty portal w przeglądarce.**
+- Cztery integracje z prawdziwymi danymi Superior weryfikują teren, kolizje, trasy,
+  możliwość utworzenia fali, odrzucenie podrobionego wyniku i brak zapisu tymczasowych
+  przeciwników w trwałych spawnach serwera.
+- 12 testów kroniki sprawdza brak spoilerów, zgodność zapisanej decyzji, brak mutacji,
+  pochodzenie tekstu i zakres 500–800 słów przy dowolnej kombinacji wyborów.
+- Pełne wyniki, polecenia, ograniczenia i sumy testowanych źródeł:
+  [metadane](qa/heritage-combat/verification.json).
+- [Jednostkowe](qa/heritage-combat/unit-tests.txt),
+  [typy](qa/heritage-combat/typecheck.txt), [lint](qa/heritage-combat/lint.txt),
+  [build](qa/heritage-combat/build.txt).
+- [Dotykowa kronika Canvas](qa/heritage-combat/chronicle-canvas.txt),
+  [Software WebGL](qa/heritage-combat/chronicle-webgl.txt): rzeczywisty typ renderera
+  sprawdzany przez telemetrię. To emulacja dotyku w Chromium, nie fizyczny Android/iOS.
+
+Przykładowe rzeczywiste zrzuty kroniki nowej postaci:
+[Planetarni](qa/heritage-combat/planetary-chronicle.png),
+[Mędrcy](qa/heritage-combat/sage-chronicle.png),
+[Androidy](qa/heritage-combat/android-chronicle.png),
+[Legendy](qa/heritage-combat/legend-chronicle.png).
+
+Pierwsza próba starszego E2E dziedzictwa została przerwana po HMR zamykającym okno
+lokalnego podglądu. Nie uznano jej za PASS ani dowód błędu gry. Zachowano
+[wyciąg zdarzeń](qa/heritage-combat/interrupted-call-log.json) i
+[zrzut](qa/heritage-combat/interrupted-browser.png). Surowe zasoby trace zajęły
+1,1 GiB i wyczerpały dysk; usunięto wyłącznie własne wygenerowane trace oraz build
+po zapisaniu wyników. Ponowna próba używa logów i screenshotów, bez pełnego trace.
+Pierwsza powtórka wykryła błąd nowego selektora testu: dokładny tekst decyzji
+pomijał widoczny prefiks „Twój zapis:”. Na zrzucie gra pokazywała właściwą decyzję.
+Selektor sprawdza teraz pełny dokładny tekst wraz z prefiksem; nie osłabiono
+sprawdzania treści. [Log](qa/heritage-combat/browser-selector-failure.txt),
+[zrzut](qa/heritage-combat/earned-chronicle-selector-failure.png).
+
+Końcowe kontrole tej partii: **1143 PASS / 0 FAIL / 10 SKIP** w `npm test`.
+Dziesięć pominiętych testów wymaga osobnej testowej bazy PostgreSQL
+(`KI_ACCOUNTS_TEST_DATABASE_URL`); nie uruchamiano dodatkowej infrastruktury.
+Pełny TypeScript (trzy konfiguracje), build i lint zaliczone; lint zachowuje
+15 wcześniejszych ostrzeżeń, bez błędów. Ostatnie zmiany testu/configu przeszły
+dodatkowo osobne wywołanie ESLint.
+
+W przeglądarce zaliczono **9 scenariuszy**: cztery kroniki nowych postaci Canvas,
+cztery Software WebGL oraz rzeczywisty pierwszy rozdział/projekt/założenie broni,
+odkrytą decyzję w kronice i odświeżenie Planetarnego
+([log](qa/heritage-combat/earned-chronicle-canvas.txt),
+[odkryta kronika](qa/heritage-combat/planetary-earned-chronicle.png),
+[wyposażenie](qa/heritage-combat/planetary-equipped-heritage.png)).
+Wszystkie te scenariusze sprawdzają również brak `pageerror`.
+Pełny Playwright repozytorium nie został wykonany. Testy źródeł sprzed commita
+identyfikują sumy SHA-256 w metadanych, zamiast nieistniejącego SHA przyszłego commita.
+
+Powtórka standardowego projektu `software-webgl` ujawniła też błędne oczekiwanie
+testu (Canvas przy rzeczywistym WebGL). Poprawiono sprawdzanie nazwy projektu,
+zachowując asercję rzeczywistego renderera
+([niezaliczony log](qa/heritage-combat/renderer-expectation-failure.txt)).
+Kolejna próba po wznowieniu sesji miała niedostępny lokalny Vite
+([log](qa/heritage-combat/preview-connection-failure.txt)); uruchomienie lokalnego
+podglądu przywróciło testy. Końcowy standardowy przebieg Software WebGL: **4/4 PASS**.
+Nie zmieniano w tych powtórkach logiki gry i nie zaliczano awarii środowiska jako PASS.
+
+### Co dalej
+
+Kontrolery usuwają wskazane blokady H-V03/H-A05/H-N03/H-P06. Ukończenie wszystkich
+zdefiniowanych rozdziałów/projektów dostarcza 2900 praktyki. Przy założeniu wszystkich
+30 egzaminów i 40 badań katalogowy budżet bez prób rasowych wynosi 12 400;
+brakuje 5400 do wymaganych 17 800. Nie obowiązują już wcześniejsze pułapy wynikające
+z braku kontrolerów. Nadal brakuje 48 prób / 144 stopni, stopni dziedzin,
+normalnych odblokowań 12 wariantów i 4 modułów, tytułów za próby III oraz późnych
+wariantów starć. Pełna kampania na produkcyjnym koncie, balanse/czas rozwoju,
+fizyczne telefony i odbiór wszystkich finałów w Phaserze pozostają do sprawdzenia.

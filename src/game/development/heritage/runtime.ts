@@ -1,3 +1,5 @@
+import { ProtectionActivity } from "./protection";
+import { combatGround } from "./encounter";
 import { EscortActivity, escortRoute } from "./escort";
 import { InstallationScanner } from "./scanner";
 import { MeasurementActivity } from "./measurement";
@@ -66,10 +68,36 @@ export class HeritageRuntime {
   readonly scanner: InstallationScanner;
   private observeIn = 0;
   private readonly escortRoutes = new Map<string, Point[]>();
+  private defenseRoute(goal: Extract<HeritageGoal, { kind: "protect" }>, start: Point) {
+    let points = this.escortRoutes.get(goal.id);
+    if (!points) {
+      points =
+        goal.points === 1
+          ? [start]
+          : [
+              start,
+              ...escortRoute(
+                this.session.enemyNavigation ?? this.outside,
+                start,
+                goal.points - 1,
+                goal.id,
+                (p) => combatGround(this.session, p),
+              ),
+            ];
+      this.escortRoutes.set(goal.id, points);
+    }
+    return points;
+  }
   private deliveryRoute(goal: Extract<HeritageGoal, { kind: "escort" }>, start: Point) {
     let route = this.escortRoutes.get(goal.id);
     if (!route) {
-      route = escortRoute(this.outside, start, goal.checkpoints, goal.id);
+      route = escortRoute(
+        goal.combat ? (this.session.enemyNavigation ?? this.outside) : this.outside,
+        start,
+        goal.checkpoints,
+        goal.id,
+        goal.combat ? (p) => combatGround(this.session, p) : undefined,
+      );
       this.escortRoutes.set(goal.id, route);
     }
     return route;
@@ -77,7 +105,7 @@ export class HeritageRuntime {
   private measurement: { content: HeritageContentId; attempt: MeasurementActivity } | null = null;
   private activity: {
     content: HeritageContentId;
-    attempt: RestraintActivity | EscortActivity;
+    attempt: RestraintActivity | EscortActivity | ProtectionActivity;
   } | null = null;
   cancelActivities(cancelRoute = true) {
     this.activity?.attempt.dispose();
@@ -165,7 +193,27 @@ export class HeritageRuntime {
   }
   private targets(goal: HeritageGoal, world: WorldId) {
     const bindings = this.bindings.resolve(goal, goal.world ?? world);
-    if (goal.kind !== "escort" || goal.combat || !bindings[0]) return bindings;
+    if (goal.kind === "protect" && bindings[0]) {
+      if (
+        this.activity?.attempt instanceof ProtectionActivity &&
+        this.activity.attempt.goal.id === goal.id
+      )
+        return [this.activity.attempt.nextTarget()];
+      const progress = this.progress(goal.id.split(":")[0] as HeritageContentId);
+      try {
+        return [
+          {
+            ...bindings[0],
+            point: this.defenseRoute(goal, bindings[0].point)[
+              Math.min(progress?.goal.sequence ?? 0, goal.points - 1)
+            ]!,
+          },
+        ];
+      } catch {
+        return bindings;
+      }
+    }
+    if (goal.kind !== "escort" || !bindings[0]) return bindings;
     if (
       this.activity?.attempt instanceof EscortActivity &&
       this.activity.attempt.goal.id === goal.id
@@ -237,7 +285,7 @@ export class HeritageRuntime {
     if (
       !s.saves ||
       p.dead ||
-      (s.combatIn > 0 && c.action !== "activity-finish") ||
+      (s.combatIn > 0 && c.action !== "activity-finish" && c.action !== "go") ||
       !heritageDefinition(c.id)
     )
       return s.say("Poczekaj na koniec walki. Dziedzictwo wymaga aktywnego zapisu postaci.");
@@ -328,7 +376,7 @@ export class HeritageRuntime {
         };
         return;
       }
-      if (goal.kind === "escort" && !goal.combat && c.action === "activity-start") {
+      if (goal.kind === "escort" && c.action === "activity-start") {
         const target = this.targets(goal, def.world)[0];
         if (!this.near(target))
           return s.say("Podejdź do towarzysza lub ostatniego punktu eskorty.");
@@ -340,42 +388,103 @@ export class HeritageRuntime {
           return s.say("Nie udało się wyznaczyć bezpiecznej trasy. Postęp zachowano.");
         }
         this.cancelActivities(false);
-        const attempt = new EscortActivity(
-          s,
-          goal,
-          s.saves.identity,
-          base,
-          route,
-          progress.goal.sequence,
-          (proof) => {
-            const current = this.progress(c.id);
-            if (!current || current.status !== "active" || def.goals[current.step]?.id !== goal.id)
-              return false;
-            const context = this.goalContext(goal, null);
-            context.approvedEscortCheckpoints = new Map([[attempt.id, proof]]);
-            this.apply(
-              c.id,
-              goal,
-              current,
-              {
-                owner: s.saves!.identity,
-                goalId: goal.id,
-                eventId: crypto.randomUUID(),
-                expectedRevision: current.goal.revision,
-                targetId: "",
-                kind: "escort-checkpoint",
-                source: "activity-runtime",
-                attemptId: attempt.id,
-              },
-              context,
-            );
-            const next = this.progress(c.id);
-            return (
-              !!next && (next.step !== current.step || next.goal.sequence === proof.checkpoint)
-            );
-          },
-        );
-        this.activity = { content: c.id, attempt };
+        try {
+          const attempt = new EscortActivity(
+            s,
+            goal,
+            s.saves.identity,
+            base,
+            route,
+            progress.goal.sequence,
+            (proof) => {
+              const current = this.progress(c.id);
+              if (
+                !current ||
+                current.status !== "active" ||
+                def.goals[current.step]?.id !== goal.id
+              )
+                return false;
+              const context = this.goalContext(goal, null);
+              context.approvedEscortCheckpoints = new Map([[attempt.id, proof]]);
+              this.apply(
+                c.id,
+                goal,
+                current,
+                {
+                  owner: s.saves!.identity,
+                  goalId: goal.id,
+                  eventId: crypto.randomUUID(),
+                  expectedRevision: current.goal.revision,
+                  targetId: "",
+                  kind: "escort-checkpoint",
+                  source: "activity-runtime",
+                  attemptId: attempt.id,
+                },
+                context,
+              );
+              const next = this.progress(c.id);
+              return (
+                !!next && (next.step !== current.step || next.goal.sequence === proof.checkpoint)
+              );
+            },
+          );
+          this.activity = { content: c.id, attempt };
+        } catch (error) {
+          this.cancelActivities(false);
+          s.say(error instanceof Error ? error.message : "Nie udało się rozpocząć eskorty.");
+        }
+        return;
+      }
+      if (goal.kind === "protect" && c.action === "activity-start") {
+        const target = this.targets(goal, def.world)[0];
+        if (!this.near(target)) return s.say("Podejdź do punktu obrony lub wznowienia.");
+        this.cancelActivities(false);
+        try {
+          const base = this.bindings.resolve(goal, def.world)[0]!;
+          const attempt = new ProtectionActivity(
+            s,
+            goal,
+            s.saves.identity,
+            base,
+            progress.goal.sequence,
+            (proof) => {
+              const current = this.progress(c.id);
+              if (
+                !current ||
+                current.status !== "active" ||
+                def.goals[current.step]?.id !== goal.id
+              )
+                return false;
+              const context = this.goalContext(goal, null);
+              context.approvedActivities = new Map([[attempt.id, proof]]);
+              this.apply(
+                c.id,
+                goal,
+                current,
+                {
+                  owner: s.saves!.identity,
+                  goalId: goal.id,
+                  eventId: crypto.randomUUID(),
+                  expectedRevision: current.goal.revision,
+                  targetId: "",
+                  kind: "activity",
+                  source: "activity-runtime",
+                  attemptId: attempt.id,
+                },
+                context,
+              );
+              const next = this.progress(c.id);
+              return (
+                !!next &&
+                (next.step !== current.step || next.goal.sequence === proof.protectedPoints)
+              );
+            },
+            this.defenseRoute(goal, base.point),
+          );
+          this.activity = { content: c.id, attempt };
+        } catch (error) {
+          s.say(error instanceof Error ? error.message : "Nie udało się rozpocząć obrony.");
+        }
         return;
       }
       if (goal.kind !== "restraint") return s.say("Ten etap korzysta z innego rodzaju próby.");
@@ -571,6 +680,15 @@ export class HeritageRuntime {
     if (!s.saves) return;
     this.updateRoute();
     this.activity?.attempt.update();
+    const finished = this.activity?.attempt;
+    if (
+      (finished instanceof EscortActivity || finished instanceof ProtectionActivity) &&
+      finished.snapshot().phase === "passed"
+    ) {
+      finished.dispose();
+      this.activity = null;
+      s.say("Etap ukończony. Postęp zapisano.");
+    }
     this.observeIn += dt;
     if (this.observeIn < 1000) return;
     this.observeIn = 0;
@@ -647,9 +765,19 @@ export class HeritageRuntime {
       return s.say("Broń musi należeć do tej postaci. Zmień wyposażenie po walce.");
     if (action === "unequip") {
       if (p.weapon !== "heritage") return;
+      // An older buggy swap could leave a real catalog item in the slot. Recover it, never discard it.
+      const residual = p.equipment?.weapon;
+      const recover = residual && residual !== "heritage" && residual !== "sword" ? residual : null;
+      if (recover && !s.canAddBagItem(recover))
+        return s.say("Zwolnij miejsce w torbie na wcześniej założoną broń.");
       if (
         this.commit((_d, candidate) => {
+          if (recover) {
+            candidate.bagItems ??= {};
+            candidate.bagItems[recover] = (candidate.bagItems[recover] ?? 0) + 1;
+          }
           candidate.weapon = null;
+          if (candidate.equipment) candidate.equipment.weapon = null;
         })
       )
         s.say("Zdjęto osobistą broń.");
@@ -657,9 +785,18 @@ export class HeritageRuntime {
     }
     if (action === "equip") {
       if (w.location !== "bag") return s.say("Najpierw odbierz osobistą broń ze swojego depozytu.");
+      const previous = p.weapon;
+      if (previous === "heritage") return;
+      if (previous && previous !== "sword" && !s.canAddBagItem(previous))
+        return s.say("Zwolnij miejsce w torbie na zdejmowaną broń.");
       if (
         this.commit((_d, candidate) => {
+          if (previous && previous !== "sword") {
+            candidate.bagItems ??= {};
+            candidate.bagItems[previous] = (candidate.bagItems[previous] ?? 0) + 1;
+          }
           candidate.weapon = "heritage";
+          if (candidate.equipment) candidate.equipment.weapon = "heritage";
         })
       )
         s.say("Założono: " + w.name);

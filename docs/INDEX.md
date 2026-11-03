@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Kontynuacja na gałęzi PR #90:** naprawiono bonusy wyposażenia, dodano kontrolery
+eskort bojowych/ochrony i kronikę odkrywanej historii. Cały rozwój nadal nie jest
+ukończony; [zakres i dowody](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
+
 **Audyt rozwoju 03.11.2026:** pełne zlecenie czterech ras pozostaje nieukończone.
 Potwierdzone braki, blokady i błędy wyposażenia oraz aktualne wyniki testów są w
 [raporcie z 03.11](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
@@ -31,6 +35,9 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 | [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
 ## Historia — jeden dziennik na dzień
+
+- [2026-11-03](zmiany/2026-11-03/ZMIANY.md)
+- [2026-11-02](zmiany/2026-11-02/ZMIANY.md)
 
 - [2026-11-01](zmiany/2026-11-01/ZMIANY.md)
 - [2026-10-31](zmiany/2026-10-31/ZMIANY.md)

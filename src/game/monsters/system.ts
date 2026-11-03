@@ -228,6 +228,12 @@ export class MonsterSystem {
     const id = this.focusedReceivers.get(e.id);
     return (id && this.receivers.get(id)) || this.heroReceiver;
   }
+  private targetSafe(e: Enemy) {
+    const receiver = this.receiver(e);
+    return receiver === this.heroReceiver
+      ? this.host.safe
+      : inSafeCity(this.host.world, receiver.body, null);
+  }
   private body(e: Enemy) {
     return this.receiver(e).body;
   }
@@ -462,6 +468,10 @@ export class MonsterSystem {
     const clone = this.spawn(e.kind, { x: e.x + 30, y: e.y + 20 });
     clone.maxHp = part;
     clone.hp = part;
+    if (e.encounterOwner) {
+      clone.encounterOwner = e.encounterOwner;
+      this.setCombatTarget(clone, this.receiver(e).id);
+    }
     clone.m.split = true;
     clone.m.parent = e.id;
     clone.home = { ...e.home };
@@ -802,7 +812,7 @@ export class MonsterSystem {
     if (m.phase === "idle") {
       const radius = def.agro * (def.traits.night && !host.isNight() ? def.traits.night.day : 1);
       const calm = def.traits.provoked && !m.provoked;
-      if (!calm && !p.dead && !host.safe && d <= radius && this.navigation.visible(e, p))
+      if (!calm && !p.dead && !this.targetSafe(e) && d <= radius && this.navigation.visible(e, p))
         this.engage(e);
       else return this.stepIdle(e, dt);
     }
@@ -814,10 +824,10 @@ export class MonsterSystem {
     if (
       !this.validReceiver(this.receiver(e)) ||
       p.dead ||
-      host.safe ||
+      this.targetSafe(e) ||
       distance(e, e.home) > def.traits.leash + reachBonus + 10
     ) {
-      if (def.traits.still && !p.dead && !host.safe) {
+      if (def.traits.still && !p.dead && !this.targetSafe(e)) {
         /* turrets and plants never leave their place */
       } else return this.beginReturn(e);
     }
@@ -897,7 +907,7 @@ export class MonsterSystem {
     const m = e.m;
     const t = m.def.traits;
     const p = this.body(e);
-    if (this.host.safe || this.body(e).dead) {
+    if (this.targetSafe(e) || this.body(e).dead) {
       m.cast = undefined;
       return;
     }
@@ -910,7 +920,7 @@ export class MonsterSystem {
       m.phaseMs -= dt;
       return;
     }
-    if (p.dead || this.host.safe) {
+    if (p.dead || this.targetSafe(e)) {
       m.cast = undefined;
       return;
     }
@@ -1135,7 +1145,7 @@ export class MonsterSystem {
         p,
         () =>
           this.validReceiver(receiver) &&
-          !this.host.safe &&
+          !this.targetSafe(e) &&
           e.mode !== "dead" &&
           e.m.phase !== "return" &&
           this.host.enemies.includes(e),
@@ -1441,6 +1451,10 @@ export class MonsterSystem {
           y: e.y + Math.sin(a) * 40,
         });
         minion.m.parent = e.id;
+        if (e.encounterOwner) {
+          minion.encounterOwner = e.encounterOwner;
+          this.setCombatTarget(minion, this.receiver(e).id);
+        }
         this.engage(minion);
       }
     }

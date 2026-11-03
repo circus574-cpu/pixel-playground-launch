@@ -1,3 +1,4 @@
+import { heritageEnemy } from "./development/heritage/encounter";
 import {
   CombatTrainingSchema,
   advanceCombatTraining,
@@ -1105,6 +1106,15 @@ export class GameSession implements MonsterHost {
     return this.monsters.spawnBoss(id, at);
   }
   killed(e: Enemy) {
+    if (heritageEnemy(e, this.enemies)) {
+      this.kit.onKill(e); // Preserve canonical combat passives; only repeatable economic rewards are suppressed.
+      if (this.targetId === e.id) {
+        this.targetId = null;
+        this.autoAttack = false;
+        this.route = [];
+      }
+      return; // Repeatable quest attempts pay their chapter reward once, never farm loot/XP.
+    }
     if (e.boss) {
       if (!e.boss.lootRolled) {
         e.boss.lootRolled = true;
@@ -1239,20 +1249,25 @@ export class GameSession implements MonsterHost {
     this.player.items[item] += n;
     return true;
   }
+  /** Read-only capacity check, shared by ordinary loot and transactional personal-weapon swaps. */
+  canAddBagItem(id: string, n = 1) {
+    const p = this.player;
+    const have = p.bagItems?.[id] ?? 0;
+    const used =
+      ITEM_IDS.filter((i) => p.items[i] > 0).length +
+      Object.values(p.materials).filter((c) => c > 0).length +
+      Object.values(p.bagItems ?? {}).filter((c) => c > 0).length;
+    return Number.isInteger(n) && n > 0 && have + n <= 99 && (have > 0 || used < BAG_CELLS);
+  }
   /** Catalog item into the 40-cell bag (stack up to 99; a new stack needs a free cell). */
   private addBagItem(id: string, n: number) {
     const p = this.player;
     ensurePlayerEquipment(p);
-    const have = p.bagItems[id] ?? 0;
-    const used =
-      ITEM_IDS.filter((i) => p.items[i] > 0).length +
-      Object.values(p.materials).filter((c) => c > 0).length +
-      Object.values(p.bagItems).filter((c) => c > 0).length;
-    if (have + n > 99 || (!have && used >= BAG_CELLS)) {
+    if (!this.canAddBagItem(id, n)) {
       this.say("Brak miejsca w torbie lub pełny stos (99).");
       return false;
     }
-    p.bagItems[id] = have + n;
+    p.bagItems[id] = (p.bagItems[id] ?? 0) + n;
     return true;
   }
   private addMaterial(id: string, n: number) {
@@ -1675,6 +1690,8 @@ export class GameSession implements MonsterHost {
       this.say("Nie można zatwierdzić tej zmiany rozwoju.");
       return false;
     }
+    // Only equipment swaps preserve resource proportions; training still never restores HP/KI.
+    const previousLimits = candidate.weapon !== original.weapon ? this.kit.stats : undefined;
     // Evaluate the live kit (including temporary buffs), without replacing/resetting the kit.
     let limits;
     try {
@@ -1683,8 +1700,14 @@ export class GameSession implements MonsterHost {
     } finally {
       this.player = original;
     }
-    candidate.hp = Math.min(candidate.hp, limits.maxHp);
-    candidate.ki = Math.min(candidate.ki, limits.maxKi);
+    candidate.hp = Math.min(
+      limits.maxHp,
+      previousLimits ? (candidate.hp * limits.maxHp) / previousLimits.maxHp : candidate.hp,
+    );
+    candidate.ki = Math.min(
+      limits.maxKi,
+      previousLimits ? (candidate.ki * limits.maxKi) / previousLimits.maxKi : candidate.ki,
+    );
     if (!this.saves || !this.saves.save(candidate)) {
       this.say(
         this.saves?.warning || "Rozwój wymaga działającego zapisu postaci. Nic nie przyznano.",
@@ -2163,7 +2186,8 @@ export class GameSession implements MonsterHost {
         } else if (previous === "vest") {
           p.armor = null;
         } else if (previous === "heritage") {
-          this.heritage.weaponCommand("unequip");
+          // One swap/flush below; a nested development transaction would replace our bag/slot references.
+          p.weapon = null;
         } else {
           bagItems[previous] = (bagItems[previous] ?? 0) + 1;
         }
@@ -2193,7 +2217,6 @@ export class GameSession implements MonsterHost {
       const bagItems = p.bagItems!;
       const slot = c.slot as EquipmentSlot;
       if (slot === "weapon" && p.weapon === "heritage") {
-        equipment.weapon = null;
         return this.heritage.weaponCommand("unequip");
       }
       const equippedId =

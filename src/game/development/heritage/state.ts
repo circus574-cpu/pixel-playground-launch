@@ -75,6 +75,12 @@ export const HeritageStateSchema = z
         progress.goal.sequence >= goal.checkpoints
       )
         fail("Invalid escort checkpoint");
+      if (
+        goal?.kind === "protect" &&
+        progress.status === "active" &&
+        progress.goal.sequence >= goal.points
+      )
+        fail("Invalid protection checkpoint");
       if (def && "choices" in def) {
         if (
           progress.status === "done"

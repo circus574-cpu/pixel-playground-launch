@@ -248,12 +248,15 @@ function HeritageEntry({
                 ))}
             </section>
           )}
-          {goal.kind === "escort" && !goal.combat && entry.status === "active" && (
+          {goal.kind === "escort" && entry.status === "active" && (
             <section>
               <p>
                 Towarzysz idzie po sprawdzonej trasie i czeka, gdy odejdziesz. Podejdźcie razem do
                 każdego punktu. Każdy punkt jest zapisywany; po przerwaniu wróć do punktu
-                wznowienia. To dostawa bez walki.
+                wznowienia.{" "}
+                {goal.combat
+                  ? "Pokonaj przeciwnika przed każdym odcinkiem i zachowaj co najmniej 50% zdrowia podopiecznego."
+                  : "To dostawa bez walki."}
               </p>
               <p>
                 Punkty: {progress?.goal.sequence ?? 0}/{goal.checkpoints}
@@ -272,6 +275,34 @@ function HeritageEntry({
                   onClick={() => send({ type: "heritage", action: "activity-leave", id: entry.id })}
                 >
                   Przerwij eskortę — zachowaj punkty
+                </button>
+              )}
+            </section>
+          )}
+          {goal.kind === "protect" && entry.status === "active" && (
+            <section>
+              <p>
+                Obroń {goal.points} punkty przed {goal.waves} falami poza miastem. Zachowaj co
+                najmniej {Math.round(goal.minHealthFraction * 100)}% zdrowia każdego węzła. Zapisane
+                punkty pozostają po przerwaniu.
+              </p>
+              <p>
+                Obronione punkty: {progress?.goal.sequence ?? 0}/{goal.points}
+              </p>
+              <button
+                disabled={!entry.near}
+                onClick={() => {
+                  close();
+                  send({ type: "heritage", action: "activity-start", id: entry.id });
+                }}
+              >
+                Rozpocznij lub wznów obronę
+              </button>
+              {state.heritageActivity?.goalId === goal.id && (
+                <button
+                  onClick={() => send({ type: "heritage", action: "activity-leave", id: entry.id })}
+                >
+                  Przerwij obronę — zachowaj punkty
                 </button>
               )}
             </section>

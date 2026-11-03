@@ -443,7 +443,7 @@ export function reduceGoal(
       }
       const proof = context.approvedEscortCheckpoints?.get(event.attemptId);
       if (
-        goal.combat ||
+        (goal.combat && proof?.combatCleared !== true) ||
         !proof ||
         proof.owner !== context.owner ||
         proof.goalId !== goal.id ||
@@ -481,12 +481,24 @@ export function reduceGoal(
         proof.outcome !== "passed"
       )
         return reject("Brakuje zatwierdzonego wyniku bieżącej próby.");
+      if (goal.kind === "protect") {
+        if (
+          !Number.isFinite(proof.healthFraction) ||
+          proof.healthFraction > 1 ||
+          proof.healthFraction < goal.minHealthFraction ||
+          proof.protectedPoints !== previous.sequence + 1 ||
+          proof.protectedPoints > goal.points
+        )
+          return reject("Brakuje kolejnego obronionego punktu z wymaganym zdrowiem.");
+        next.sequence = proof.protectedPoints;
+        if (next.sequence === goal.points) next.outcome = "done";
+        result.reason = "Punkt obrony zapisany: " + next.sequence + "/" + goal.points;
+        break;
+      }
       const valid =
-        goal.kind === "protect"
-          ? proof.protectedPoints >= goal.points && proof.healthFraction >= goal.minHealthFraction
-          : proof.windows >= goal.windows &&
-            proof.errors <= goal.maxErrors &&
-            (!goal.surrender || proof.surrendered);
+        proof.windows >= goal.windows &&
+        proof.errors <= goal.maxErrors &&
+        (!goal.surrender || proof.surrendered);
       if (!valid) return reject("Wynik nie spełnia warunków tego etapu.");
       next.outcome = "done";
       next.sequence = 1;

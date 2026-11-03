@@ -1,5 +1,16 @@
 # KI Legends — rozwój i walka
 
+## Kontrolery fabuły i kronika — gałąź robocza 03.11.2026
+
+Na `feature/complete-character-development` działają eskorty bojowe i obrona punktów
+z rzeczywistymi obrażeniami, AI i zapisem punktów wznowienia. Integracje kontrolowane
+poziomu 40 przechodzą 24 rozdziały i 24 projekty oraz zapisują sześć etapów broni
+każdej rasy. Cztery testy rzeczywistej geometrii Superior potwierdzają bindingi i trasy.
+Kronika pokazuje zdobyte świadectwa, tło i rzeczywistą decyzję; komplet opowieści ma
+570–679 słów. Nie przyznaje brakujących jeszcze tytułów mistrzowskich.
+[Zakres, wyniki, warunki testowe i pozostałe braki](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
+To gałąź robocza, bez scalenia i publikacji. 48 prób i odblokowania pozostają otwarte.
+
 ## Naprawy wyposażenia — gałąź robocza 03.11.2026
 
 `feature/complete-character-development` usuwa błędne mapowanie bonusów HP/KI,

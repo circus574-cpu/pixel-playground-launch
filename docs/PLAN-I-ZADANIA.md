@@ -1,5 +1,15 @@
 # KI Legends — aktualny plan i zadania
 
+## Kontynuacja rozwoju — gałąź robocza 03.11.2026
+
+PR #90: naprawy wyposażenia, kontrolery eskort bojowych/ochrony i prywatna kronika.
+Sześć rozdziałów i projektów każdej rasy przechodzi w kontrolowanych testach silnika,
+a rzeczywiste dane Superior przechodzą testy bindingów tras. Nie jest to jeszcze
+odbiór całej kampanii w przeglądarce ani publikacja.
+Dalej: 48 prób / 144 stopnie, stopnie dziedzin, odblokowania wariantów/modułów,
+budżet 17 800 praktyki, tytuły i 32 warianty późnych starć, pełna regresja kont/urządzeń.
+[Dowody i granice odbioru](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
+
 ## Aktualizacja rozwoju — 03.11.2026
 
 Audyt `main@13983467` potwierdza częściową implementację. Do zamknięcia kolejno:

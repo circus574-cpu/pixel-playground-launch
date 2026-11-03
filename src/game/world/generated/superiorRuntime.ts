@@ -708,7 +708,8 @@ export async function prepareSuperior(options: {
           continue;
         countedDeaths.add(event);
         const kind = session.enemies.find((e) => e.id === event.target)?.kind;
-        if (kind) questsV2.defeated(kind);
+        if (kind && !session.enemies.find((e) => e.id === event.target)?.encounterOwner)
+          questsV2.defeated(kind);
       }
     },
     beforeTick() {

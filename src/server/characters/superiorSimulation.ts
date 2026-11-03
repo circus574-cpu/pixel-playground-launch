@@ -235,7 +235,8 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
         if (event.type !== "death" || event.target === "player" || deaths.has(event)) continue;
         deaths.add(event);
         const kind = session.enemies.find((e) => e.id === event.target)?.kind;
-        if (kind) quests.defeated(kind);
+        if (kind && !session.enemies.find((e) => e.id === event.target)?.encounterOwner)
+          quests.defeated(kind);
       }
       const town = source.settlements.find(
         (t) =>

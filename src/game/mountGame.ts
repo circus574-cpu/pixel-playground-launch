@@ -614,7 +614,11 @@ export function mountKileGends(
           if (tap && !pointer.wasCanceled) this.interactAt(tap);
         }
       });
-      this.heritageMarkers = new HeritageMarkers(this, session);
+      this.heritageMarkers = new HeritageMarkers(
+        this,
+        session,
+        options?.runtime?.authoritative ? () => session.snapshot().heritageActivity : undefined,
+      );
       const releaseHeritage = () => {
         this.heritageMarkers?.dispose();
         this.heritageMarkers = undefined;

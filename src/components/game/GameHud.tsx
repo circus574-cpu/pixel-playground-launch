@@ -711,9 +711,11 @@ export function GameHud({
               {state.heritageActivity.target}
             </strong>
             <span>
-              {state.heritageActivity.message} ·{" "}
-              {Math.ceil(state.heritageActivity.remainingMs / 1000)} s · błędy{" "}
-              {state.heritageActivity.errors}
+              {state.heritageActivity.message}
+              {state.heritageActivity.remainingMs > 0 && (
+                <> · {Math.ceil(state.heritageActivity.remainingMs / 1000)} s</>
+              )}
+              {state.heritageActivity.errors > 0 && <> · błędy {state.heritageActivity.errors}</>}
             </span>
           </div>
         ) : WORLD_V2 && !tracked ? (
