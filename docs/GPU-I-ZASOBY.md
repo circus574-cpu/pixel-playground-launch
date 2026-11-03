@@ -329,14 +329,14 @@ generatorze (jedna plansza 4:3 na potwora: 4 klatki chodu/lotu, 4 ataku, 4 śmie
 - Skrypt: `scripts/gpu/ingest_creature_sheet.py <plansza> <id-potwora> [--no-effects]` wycina 12 klatek
   (siatka 4×3; klatki stykające się rogiem lub ogonem są rozcinane po liniach siatki, a efekt ataku
   przecięty linią siatki wraca do swojej klatki), usuwa jasne tło zachowując jasne futro, blachę i
-  białe rdzenie blasku (tło to biel obrysowana czernią), skaluje jedną skalą po ciele (długi język lub wiązka nie zmniejsza
+  białe rdzenie blasku (tło to biel otoczona ciemnym konturem lub ciemnym materiałem), skaluje jedną skalą po ciele (długi język lub wiązka nie zmniejsza
   potwora i zanika łagodnie) i buduje atlas 2048×1024 z lustrzanymi klatkami dla kierunków w lewo.
   `--no-effects` dla latających i szerokich (skrzydła, wąż) — nic nie jest przycinane.
 - Pakiety `enemy-v3-<id>` (`public/game/assets/gpu/enemy-v3-*`) mapują wszystkie 8 kierunków na widok w
   prawo lub lewo (góra i dół pokazują bok); `idle` = pierwsza klatka chodu, `hit` = pierwsza klatka
   śmierci, `respawn` = śmierć od końca. Pakiety zastępują `enemy-v2-<id>` tym samym kluczem aktora.
 - Włączenie: domyślnie; `?ki-monsters-anime=0` przywraca poprzednie wizerunki (`enemy-v2-*` zostają).
-- Gotowe: 30 z 40 potworów. Bez planszy zostają: verdant-lisciak-skrytobojca, verdant-korzeniowy-pelzacz, aether-swietlik-pieczeci, nexus-pajak-spawalniczy, nexus-wiezyczka-autonomiczna, nexus-roj-nanitow, nexus-straznik-rdzenia, pyra-wegielek, pyra-popielny-wilk, pyra-plomien-duch.
+- Gotowe: 35 z 40 potworów. Bez planszy zostają: verdant-lisciak-skrytobojca, aether-swietlik-pieczeci, nexus-pajak-spawalniczy, nexus-roj-nanitow, pyra-popielny-wilk.
   Rój nanitów to chmura bez jednego ciała i wymaga innego ujęcia.
 
 ## Zestaw grafik do układania świata — kontrakt (23.10.2026)

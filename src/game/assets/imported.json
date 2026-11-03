@@ -75261,8 +75261,8 @@
         "id": "enemy-v3-nexus-latarnia-plazmowa-page-0",
         "version": "1.0.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.0.0-5c5fae3397c2/enemy-v3-nexus-latarnia-plazmowa-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.0.0-5c5fae3397c2/enemy-v3-nexus-latarnia-plazmowa-page-0.json",
+        "url": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.0.0-e4d26cead734/enemy-v3-nexus-latarnia-plazmowa-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.0.0-e4d26cead734/enemy-v3-nexus-latarnia-plazmowa-page-0.json",
         "width": 2048,
         "height": 1024
       }
@@ -75639,8 +75639,8 @@
         "id": "enemy-v3-aether-pergaminowy-straznik-page-0",
         "version": "1.0.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.0.0-d64d9fc37fad/enemy-v3-aether-pergaminowy-straznik-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.0.0-d64d9fc37fad/enemy-v3-aether-pergaminowy-straznik-page-0.json",
+        "url": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.0.0-1428e2b7e01d/enemy-v3-aether-pergaminowy-straznik-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.0.0-1428e2b7e01d/enemy-v3-aether-pergaminowy-straznik-page-0.json",
         "width": 2048,
         "height": 1024
       }
@@ -76017,8 +76017,8 @@
         "id": "enemy-v3-aether-oko-wiedzy-page-0",
         "version": "1.0.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.0.0-3a984354c559/enemy-v3-aether-oko-wiedzy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.0.0-3a984354c559/enemy-v3-aether-oko-wiedzy-page-0.json",
+        "url": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.0.0-354b0bdf7b91/enemy-v3-aether-oko-wiedzy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.0.0-354b0bdf7b91/enemy-v3-aether-oko-wiedzy-page-0.json",
         "width": 2048,
         "height": 1024
       }
@@ -76395,8 +76395,8 @@
         "id": "enemy-v3-aether-marionetka-rytualu-page-0",
         "version": "1.0.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.0.0-9ff0304f38b5/enemy-v3-aether-marionetka-rytualu-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.0.0-9ff0304f38b5/enemy-v3-aether-marionetka-rytualu-page-0.json",
+        "url": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.0.0-e72549ea6830/enemy-v3-aether-marionetka-rytualu-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.0.0-e72549ea6830/enemy-v3-aether-marionetka-rytualu-page-0.json",
         "width": 2048,
         "height": 1024
       }
@@ -76773,8 +76773,8 @@
         "id": "enemy-v3-aether-duch-bibliotekarza-page-0",
         "version": "1.0.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.0.0-6e6ef80a6a24/enemy-v3-aether-duch-bibliotekarza-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.0.0-6e6ef80a6a24/enemy-v3-aether-duch-bibliotekarza-page-0.json",
+        "url": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.0.0-deaedde39098/enemy-v3-aether-duch-bibliotekarza-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.0.0-deaedde39098/enemy-v3-aether-duch-bibliotekarza-page-0.json",
         "width": 2048,
         "height": 1024
       }
@@ -77128,6 +77128,1896 @@
                 "enemy-v3-aether-duch-bibliotekarza/respawn/down-right/01",
                 "enemy-v3-aether-duch-bibliotekarza/respawn/down-right/02",
                 "enemy-v3-aether-duch-bibliotekarza/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-verdant-korzeniowy-pelzacz",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "verdant.enemy.korzeniowy-pelzacz": "enemy-v3-verdant-korzeniowy-pelzacz"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-verdant-korzeniowy-pelzacz/1.0.0-279b5a0ae7b7/enemy-v3-verdant-korzeniowy-pelzacz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-korzeniowy-pelzacz/1.0.0-279b5a0ae7b7/enemy-v3-verdant-korzeniowy-pelzacz-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-verdant-korzeniowy-pelzacz",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-left/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-left/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-left/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-right/00",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-right/01",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-right/02",
+                "enemy-v3-verdant-korzeniowy-pelzacz/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-pyra-wegielek",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "pyra.enemy.wegielek": "enemy-v3-pyra-wegielek"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-pyra-wegielek-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-pyra-wegielek/1.0.0-16495c4760ef/enemy-v3-pyra-wegielek-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-wegielek/1.0.0-16495c4760ef/enemy-v3-pyra-wegielek-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-pyra-wegielek",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/walk/down/00",
+                "enemy-v3-pyra-wegielek/walk/down/01",
+                "enemy-v3-pyra-wegielek/walk/down/02",
+                "enemy-v3-pyra-wegielek/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/walk/down-left/00",
+                "enemy-v3-pyra-wegielek/walk/down-left/01",
+                "enemy-v3-pyra-wegielek/walk/down-left/02",
+                "enemy-v3-pyra-wegielek/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/walk/left/00",
+                "enemy-v3-pyra-wegielek/walk/left/01",
+                "enemy-v3-pyra-wegielek/walk/left/02",
+                "enemy-v3-pyra-wegielek/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/walk/up-left/00",
+                "enemy-v3-pyra-wegielek/walk/up-left/01",
+                "enemy-v3-pyra-wegielek/walk/up-left/02",
+                "enemy-v3-pyra-wegielek/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/walk/up/00",
+                "enemy-v3-pyra-wegielek/walk/up/01",
+                "enemy-v3-pyra-wegielek/walk/up/02",
+                "enemy-v3-pyra-wegielek/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/walk/up-right/00",
+                "enemy-v3-pyra-wegielek/walk/up-right/01",
+                "enemy-v3-pyra-wegielek/walk/up-right/02",
+                "enemy-v3-pyra-wegielek/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/walk/right/00",
+                "enemy-v3-pyra-wegielek/walk/right/01",
+                "enemy-v3-pyra-wegielek/walk/right/02",
+                "enemy-v3-pyra-wegielek/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/walk/down-right/00",
+                "enemy-v3-pyra-wegielek/walk/down-right/01",
+                "enemy-v3-pyra-wegielek/walk/down-right/02",
+                "enemy-v3-pyra-wegielek/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/attack/down/00",
+                "enemy-v3-pyra-wegielek/attack/down/01",
+                "enemy-v3-pyra-wegielek/attack/down/02",
+                "enemy-v3-pyra-wegielek/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/attack/down-left/00",
+                "enemy-v3-pyra-wegielek/attack/down-left/01",
+                "enemy-v3-pyra-wegielek/attack/down-left/02",
+                "enemy-v3-pyra-wegielek/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/attack/left/00",
+                "enemy-v3-pyra-wegielek/attack/left/01",
+                "enemy-v3-pyra-wegielek/attack/left/02",
+                "enemy-v3-pyra-wegielek/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/attack/up-left/00",
+                "enemy-v3-pyra-wegielek/attack/up-left/01",
+                "enemy-v3-pyra-wegielek/attack/up-left/02",
+                "enemy-v3-pyra-wegielek/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/attack/up/00",
+                "enemy-v3-pyra-wegielek/attack/up/01",
+                "enemy-v3-pyra-wegielek/attack/up/02",
+                "enemy-v3-pyra-wegielek/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/attack/up-right/00",
+                "enemy-v3-pyra-wegielek/attack/up-right/01",
+                "enemy-v3-pyra-wegielek/attack/up-right/02",
+                "enemy-v3-pyra-wegielek/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/attack/right/00",
+                "enemy-v3-pyra-wegielek/attack/right/01",
+                "enemy-v3-pyra-wegielek/attack/right/02",
+                "enemy-v3-pyra-wegielek/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/attack/down-right/00",
+                "enemy-v3-pyra-wegielek/attack/down-right/01",
+                "enemy-v3-pyra-wegielek/attack/down-right/02",
+                "enemy-v3-pyra-wegielek/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/skill/down/00",
+                "enemy-v3-pyra-wegielek/skill/down/01",
+                "enemy-v3-pyra-wegielek/skill/down/02",
+                "enemy-v3-pyra-wegielek/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/skill/down-left/00",
+                "enemy-v3-pyra-wegielek/skill/down-left/01",
+                "enemy-v3-pyra-wegielek/skill/down-left/02",
+                "enemy-v3-pyra-wegielek/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/skill/left/00",
+                "enemy-v3-pyra-wegielek/skill/left/01",
+                "enemy-v3-pyra-wegielek/skill/left/02",
+                "enemy-v3-pyra-wegielek/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/skill/up-left/00",
+                "enemy-v3-pyra-wegielek/skill/up-left/01",
+                "enemy-v3-pyra-wegielek/skill/up-left/02",
+                "enemy-v3-pyra-wegielek/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/skill/up/00",
+                "enemy-v3-pyra-wegielek/skill/up/01",
+                "enemy-v3-pyra-wegielek/skill/up/02",
+                "enemy-v3-pyra-wegielek/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/skill/up-right/00",
+                "enemy-v3-pyra-wegielek/skill/up-right/01",
+                "enemy-v3-pyra-wegielek/skill/up-right/02",
+                "enemy-v3-pyra-wegielek/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/skill/right/00",
+                "enemy-v3-pyra-wegielek/skill/right/01",
+                "enemy-v3-pyra-wegielek/skill/right/02",
+                "enemy-v3-pyra-wegielek/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/skill/down-right/00",
+                "enemy-v3-pyra-wegielek/skill/down-right/01",
+                "enemy-v3-pyra-wegielek/skill/down-right/02",
+                "enemy-v3-pyra-wegielek/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/death/down/00",
+                "enemy-v3-pyra-wegielek/death/down/01",
+                "enemy-v3-pyra-wegielek/death/down/02",
+                "enemy-v3-pyra-wegielek/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/death/down-left/00",
+                "enemy-v3-pyra-wegielek/death/down-left/01",
+                "enemy-v3-pyra-wegielek/death/down-left/02",
+                "enemy-v3-pyra-wegielek/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/death/left/00",
+                "enemy-v3-pyra-wegielek/death/left/01",
+                "enemy-v3-pyra-wegielek/death/left/02",
+                "enemy-v3-pyra-wegielek/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/death/up-left/00",
+                "enemy-v3-pyra-wegielek/death/up-left/01",
+                "enemy-v3-pyra-wegielek/death/up-left/02",
+                "enemy-v3-pyra-wegielek/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/death/up/00",
+                "enemy-v3-pyra-wegielek/death/up/01",
+                "enemy-v3-pyra-wegielek/death/up/02",
+                "enemy-v3-pyra-wegielek/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/death/up-right/00",
+                "enemy-v3-pyra-wegielek/death/up-right/01",
+                "enemy-v3-pyra-wegielek/death/up-right/02",
+                "enemy-v3-pyra-wegielek/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/death/right/00",
+                "enemy-v3-pyra-wegielek/death/right/01",
+                "enemy-v3-pyra-wegielek/death/right/02",
+                "enemy-v3-pyra-wegielek/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/death/down-right/00",
+                "enemy-v3-pyra-wegielek/death/down-right/01",
+                "enemy-v3-pyra-wegielek/death/down-right/02",
+                "enemy-v3-pyra-wegielek/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-pyra-wegielek-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-wegielek/respawn/down/00",
+                "enemy-v3-pyra-wegielek/respawn/down/01",
+                "enemy-v3-pyra-wegielek/respawn/down/02",
+                "enemy-v3-pyra-wegielek/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-wegielek/respawn/down-left/00",
+                "enemy-v3-pyra-wegielek/respawn/down-left/01",
+                "enemy-v3-pyra-wegielek/respawn/down-left/02",
+                "enemy-v3-pyra-wegielek/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-wegielek/respawn/left/00",
+                "enemy-v3-pyra-wegielek/respawn/left/01",
+                "enemy-v3-pyra-wegielek/respawn/left/02",
+                "enemy-v3-pyra-wegielek/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-wegielek/respawn/up-left/00",
+                "enemy-v3-pyra-wegielek/respawn/up-left/01",
+                "enemy-v3-pyra-wegielek/respawn/up-left/02",
+                "enemy-v3-pyra-wegielek/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-wegielek/respawn/up/00",
+                "enemy-v3-pyra-wegielek/respawn/up/01",
+                "enemy-v3-pyra-wegielek/respawn/up/02",
+                "enemy-v3-pyra-wegielek/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-wegielek/respawn/up-right/00",
+                "enemy-v3-pyra-wegielek/respawn/up-right/01",
+                "enemy-v3-pyra-wegielek/respawn/up-right/02",
+                "enemy-v3-pyra-wegielek/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-wegielek/respawn/right/00",
+                "enemy-v3-pyra-wegielek/respawn/right/01",
+                "enemy-v3-pyra-wegielek/respawn/right/02",
+                "enemy-v3-pyra-wegielek/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-wegielek/respawn/down-right/00",
+                "enemy-v3-pyra-wegielek/respawn/down-right/01",
+                "enemy-v3-pyra-wegielek/respawn/down-right/02",
+                "enemy-v3-pyra-wegielek/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-pyra-plomien-duch",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "pyra.enemy.plomien-duch": "enemy-v3-pyra-plomien-duch"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-pyra-plomien-duch-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-pyra-plomien-duch/1.0.0-f89c54c12552/enemy-v3-pyra-plomien-duch-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-plomien-duch/1.0.0-f89c54c12552/enemy-v3-pyra-plomien-duch-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-pyra-plomien-duch",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/walk/down/00",
+                "enemy-v3-pyra-plomien-duch/walk/down/01",
+                "enemy-v3-pyra-plomien-duch/walk/down/02",
+                "enemy-v3-pyra-plomien-duch/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/walk/down-left/00",
+                "enemy-v3-pyra-plomien-duch/walk/down-left/01",
+                "enemy-v3-pyra-plomien-duch/walk/down-left/02",
+                "enemy-v3-pyra-plomien-duch/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/walk/left/00",
+                "enemy-v3-pyra-plomien-duch/walk/left/01",
+                "enemy-v3-pyra-plomien-duch/walk/left/02",
+                "enemy-v3-pyra-plomien-duch/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/walk/up-left/00",
+                "enemy-v3-pyra-plomien-duch/walk/up-left/01",
+                "enemy-v3-pyra-plomien-duch/walk/up-left/02",
+                "enemy-v3-pyra-plomien-duch/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/walk/up/00",
+                "enemy-v3-pyra-plomien-duch/walk/up/01",
+                "enemy-v3-pyra-plomien-duch/walk/up/02",
+                "enemy-v3-pyra-plomien-duch/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/walk/up-right/00",
+                "enemy-v3-pyra-plomien-duch/walk/up-right/01",
+                "enemy-v3-pyra-plomien-duch/walk/up-right/02",
+                "enemy-v3-pyra-plomien-duch/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/walk/right/00",
+                "enemy-v3-pyra-plomien-duch/walk/right/01",
+                "enemy-v3-pyra-plomien-duch/walk/right/02",
+                "enemy-v3-pyra-plomien-duch/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/walk/down-right/00",
+                "enemy-v3-pyra-plomien-duch/walk/down-right/01",
+                "enemy-v3-pyra-plomien-duch/walk/down-right/02",
+                "enemy-v3-pyra-plomien-duch/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/attack/down/00",
+                "enemy-v3-pyra-plomien-duch/attack/down/01",
+                "enemy-v3-pyra-plomien-duch/attack/down/02",
+                "enemy-v3-pyra-plomien-duch/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/attack/down-left/00",
+                "enemy-v3-pyra-plomien-duch/attack/down-left/01",
+                "enemy-v3-pyra-plomien-duch/attack/down-left/02",
+                "enemy-v3-pyra-plomien-duch/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/attack/left/00",
+                "enemy-v3-pyra-plomien-duch/attack/left/01",
+                "enemy-v3-pyra-plomien-duch/attack/left/02",
+                "enemy-v3-pyra-plomien-duch/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/attack/up-left/00",
+                "enemy-v3-pyra-plomien-duch/attack/up-left/01",
+                "enemy-v3-pyra-plomien-duch/attack/up-left/02",
+                "enemy-v3-pyra-plomien-duch/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/attack/up/00",
+                "enemy-v3-pyra-plomien-duch/attack/up/01",
+                "enemy-v3-pyra-plomien-duch/attack/up/02",
+                "enemy-v3-pyra-plomien-duch/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/attack/up-right/00",
+                "enemy-v3-pyra-plomien-duch/attack/up-right/01",
+                "enemy-v3-pyra-plomien-duch/attack/up-right/02",
+                "enemy-v3-pyra-plomien-duch/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/attack/right/00",
+                "enemy-v3-pyra-plomien-duch/attack/right/01",
+                "enemy-v3-pyra-plomien-duch/attack/right/02",
+                "enemy-v3-pyra-plomien-duch/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/attack/down-right/00",
+                "enemy-v3-pyra-plomien-duch/attack/down-right/01",
+                "enemy-v3-pyra-plomien-duch/attack/down-right/02",
+                "enemy-v3-pyra-plomien-duch/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/skill/down/00",
+                "enemy-v3-pyra-plomien-duch/skill/down/01",
+                "enemy-v3-pyra-plomien-duch/skill/down/02",
+                "enemy-v3-pyra-plomien-duch/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/skill/down-left/00",
+                "enemy-v3-pyra-plomien-duch/skill/down-left/01",
+                "enemy-v3-pyra-plomien-duch/skill/down-left/02",
+                "enemy-v3-pyra-plomien-duch/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/skill/left/00",
+                "enemy-v3-pyra-plomien-duch/skill/left/01",
+                "enemy-v3-pyra-plomien-duch/skill/left/02",
+                "enemy-v3-pyra-plomien-duch/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/skill/up-left/00",
+                "enemy-v3-pyra-plomien-duch/skill/up-left/01",
+                "enemy-v3-pyra-plomien-duch/skill/up-left/02",
+                "enemy-v3-pyra-plomien-duch/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/skill/up/00",
+                "enemy-v3-pyra-plomien-duch/skill/up/01",
+                "enemy-v3-pyra-plomien-duch/skill/up/02",
+                "enemy-v3-pyra-plomien-duch/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/skill/up-right/00",
+                "enemy-v3-pyra-plomien-duch/skill/up-right/01",
+                "enemy-v3-pyra-plomien-duch/skill/up-right/02",
+                "enemy-v3-pyra-plomien-duch/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/skill/right/00",
+                "enemy-v3-pyra-plomien-duch/skill/right/01",
+                "enemy-v3-pyra-plomien-duch/skill/right/02",
+                "enemy-v3-pyra-plomien-duch/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/skill/down-right/00",
+                "enemy-v3-pyra-plomien-duch/skill/down-right/01",
+                "enemy-v3-pyra-plomien-duch/skill/down-right/02",
+                "enemy-v3-pyra-plomien-duch/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/death/down/00",
+                "enemy-v3-pyra-plomien-duch/death/down/01",
+                "enemy-v3-pyra-plomien-duch/death/down/02",
+                "enemy-v3-pyra-plomien-duch/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/death/down-left/00",
+                "enemy-v3-pyra-plomien-duch/death/down-left/01",
+                "enemy-v3-pyra-plomien-duch/death/down-left/02",
+                "enemy-v3-pyra-plomien-duch/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/death/left/00",
+                "enemy-v3-pyra-plomien-duch/death/left/01",
+                "enemy-v3-pyra-plomien-duch/death/left/02",
+                "enemy-v3-pyra-plomien-duch/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/death/up-left/00",
+                "enemy-v3-pyra-plomien-duch/death/up-left/01",
+                "enemy-v3-pyra-plomien-duch/death/up-left/02",
+                "enemy-v3-pyra-plomien-duch/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/death/up/00",
+                "enemy-v3-pyra-plomien-duch/death/up/01",
+                "enemy-v3-pyra-plomien-duch/death/up/02",
+                "enemy-v3-pyra-plomien-duch/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/death/up-right/00",
+                "enemy-v3-pyra-plomien-duch/death/up-right/01",
+                "enemy-v3-pyra-plomien-duch/death/up-right/02",
+                "enemy-v3-pyra-plomien-duch/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/death/right/00",
+                "enemy-v3-pyra-plomien-duch/death/right/01",
+                "enemy-v3-pyra-plomien-duch/death/right/02",
+                "enemy-v3-pyra-plomien-duch/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/death/down-right/00",
+                "enemy-v3-pyra-plomien-duch/death/down-right/01",
+                "enemy-v3-pyra-plomien-duch/death/down-right/02",
+                "enemy-v3-pyra-plomien-duch/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-pyra-plomien-duch-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-pyra-plomien-duch/respawn/down/00",
+                "enemy-v3-pyra-plomien-duch/respawn/down/01",
+                "enemy-v3-pyra-plomien-duch/respawn/down/02",
+                "enemy-v3-pyra-plomien-duch/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-pyra-plomien-duch/respawn/down-left/00",
+                "enemy-v3-pyra-plomien-duch/respawn/down-left/01",
+                "enemy-v3-pyra-plomien-duch/respawn/down-left/02",
+                "enemy-v3-pyra-plomien-duch/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-pyra-plomien-duch/respawn/left/00",
+                "enemy-v3-pyra-plomien-duch/respawn/left/01",
+                "enemy-v3-pyra-plomien-duch/respawn/left/02",
+                "enemy-v3-pyra-plomien-duch/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-pyra-plomien-duch/respawn/up-left/00",
+                "enemy-v3-pyra-plomien-duch/respawn/up-left/01",
+                "enemy-v3-pyra-plomien-duch/respawn/up-left/02",
+                "enemy-v3-pyra-plomien-duch/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-pyra-plomien-duch/respawn/up/00",
+                "enemy-v3-pyra-plomien-duch/respawn/up/01",
+                "enemy-v3-pyra-plomien-duch/respawn/up/02",
+                "enemy-v3-pyra-plomien-duch/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-pyra-plomien-duch/respawn/up-right/00",
+                "enemy-v3-pyra-plomien-duch/respawn/up-right/01",
+                "enemy-v3-pyra-plomien-duch/respawn/up-right/02",
+                "enemy-v3-pyra-plomien-duch/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-pyra-plomien-duch/respawn/right/00",
+                "enemy-v3-pyra-plomien-duch/respawn/right/01",
+                "enemy-v3-pyra-plomien-duch/respawn/right/02",
+                "enemy-v3-pyra-plomien-duch/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-pyra-plomien-duch/respawn/down-right/00",
+                "enemy-v3-pyra-plomien-duch/respawn/down-right/01",
+                "enemy-v3-pyra-plomien-duch/respawn/down-right/02",
+                "enemy-v3-pyra-plomien-duch/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-nexus-wiezyczka-autonomiczna",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "nexus.enemy.wiezyczka-autonomiczna": "enemy-v3-nexus-wiezyczka-autonomiczna"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-nexus-wiezyczka-autonomiczna/1.0.0-fa5202a0c618/enemy-v3-nexus-wiezyczka-autonomiczna-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-wiezyczka-autonomiczna/1.0.0-fa5202a0c618/enemy-v3-nexus-wiezyczka-autonomiczna-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-nexus-wiezyczka-autonomiczna",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-left/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-left/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-left/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-right/00",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-right/01",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-right/02",
+                "enemy-v3-nexus-wiezyczka-autonomiczna/respawn/down-right/03"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "enemy-v3-nexus-straznik-rdzenia",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "actorBindings": {
+      "nexus.enemy.straznik-rdzenia": "enemy-v3-nexus-straznik-rdzenia"
+    },
+    "renderBindings": {},
+    "effects": {},
+    "assets": [
+      {
+        "id": "enemy-v3-nexus-straznik-rdzenia-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/enemy-v3-nexus-straznik-rdzenia/1.0.0-ad92ddd2b4f7/enemy-v3-nexus-straznik-rdzenia-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-straznik-rdzenia/1.0.0-ad92ddd2b4f7/enemy-v3-nexus-straznik-rdzenia-page-0.json",
+        "width": 2048,
+        "height": 1024
+      }
+    ],
+    "actors": [
+      {
+        "id": "enemy-v3-nexus-straznik-rdzenia",
+        "profile": "enemy",
+        "presentation": "legacy",
+        "size": [
+          84,
+          84
+        ],
+        "origin": [
+          0.5,
+          0.8
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/idle/down-right/00"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 10,
+            "loop": true,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/down/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/left/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/left/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/left/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/up/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/right/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/right/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/right/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/walk/down-right/03"
+              ]
+            }
+          },
+          "attack": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/down/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/left/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/left/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/left/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/up/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/right/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/right/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/right/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/attack/down-right/03"
+              ]
+            }
+          },
+          "skill": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/down/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/left/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/left/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/left/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/up/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/right/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/right/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/right/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/skill/down-right/03"
+              ]
+            }
+          },
+          "hit": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/down/00"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/down-left/00"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/left/00"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/up-left/00"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/up/00"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/up-right/00"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/right/00"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/hit/down-right/00"
+              ]
+            }
+          },
+          "death": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 6,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/death/down/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/down/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/down/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/death/down-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/down-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/down-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/death/left/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/left/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/left/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/death/up-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/up-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/up-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/death/up/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/up/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/up/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/death/up-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/up-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/up-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/death/right/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/right/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/right/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/death/down-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/death/down-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/death/down-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/death/down-right/03"
+              ]
+            }
+          },
+          "respawn": {
+            "asset": "enemy-v3-nexus-straznik-rdzenia-page-0",
+            "fps": 8,
+            "loop": false,
+            "directions": {
+              "down": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down/03"
+              ],
+              "down-left": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-left/03"
+              ],
+              "left": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/left/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/left/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/left/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/left/03"
+              ],
+              "up-left": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-left/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-left/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-left/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-left/03"
+              ],
+              "up": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up/03"
+              ],
+              "up-right": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/up-right/03"
+              ],
+              "right": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/right/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/right/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/right/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/right/03"
+              ],
+              "down-right": [
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-right/00",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-right/01",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-right/02",
+                "enemy-v3-nexus-straznik-rdzenia/respawn/down-right/03"
               ]
             }
           }

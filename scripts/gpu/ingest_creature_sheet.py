@@ -31,16 +31,27 @@ def cutouts(sheet):
     bg = np.isin(lab, list(edge))
     lw, nw = ndimage.label(white & ~bg)
     mins = rgb.min(2)
+    near_bg = ndimage.binary_dilation(bg, iterations=12)
     for i in range(1, nw + 1):
         # An enclosed light region is background only when it is pure white and flat (a gap between
         # legs). Light fur, a mane or a silver panel is off-white and shaded: it stays opaque.
         m = lw == i
-        if m.sum() > 120 and np.median(mins[m]) >= 246 and rgb[m].std() <= 7.6:
-            # A real gap in the background is outlined in black; the white core of a glow (a beam,
-            # a plasma ball) is ringed by bright colour and stays opaque.
-            ring = ndimage.binary_dilation(m, iterations=3) & ~m
-            if (rgb[ring].max(1) < 110).mean() >= 0.25:
+        n_px = int(m.sum())
+        if n_px <= 25 or np.median(mins[m]) < 246 or rgb[m].std() > 7.6:
+            continue
+        # A real gap in the background is ringed by dark outlines or dark material (black, brown
+        # roots); the white core of a glow (a beam, a plasma ball) is ringed by bright colour
+        # and stays opaque.
+        ring = ndimage.binary_dilation(m, iterations=3) & ~m
+        around = rgb[ring]
+        luma = (0.3 * around[:, 0] + 0.59 * around[:, 1] + 0.11 * around[:, 2]).mean()
+        dark = (around.max(1) < 110).mean()
+        if n_px > 120:
+            if dark >= 0.25 or luma < 135:
                 bg |= m
+        # Small slivers between roots or limbs at the silhouette; an eye's highlight lies deeper.
+        elif (m & near_bg).any() and dark >= 0.5 and luma < 110:
+            bg |= m
     fg = ~bg
     # Frames that touch (a horn against a neighbour's tail) are split along the grid lines:
     # cut the foreground at every cell border, then group the pieces by their cell.

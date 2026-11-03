@@ -66,3 +66,12 @@ Skrypt `ingest_creature_sheet.py` poprawiony po tych planszach:
   tylko wtedy, gdy jest obrysowane czernią.
 - Znane ograniczenie: biały rdzeń wiązki połączony z białym tłem przez zanikający koniec nadal może mieć
   drobne prześwity w jednej klatce ataku (oko wiedzy).
+
+### 7. Potwory anime: 35 z 40
+
+Kolejne pięć z plansz właściciela: strażnik rdzenia, wieżyczka autonomiczna (Nexus), płomień-duch,
+węgielek (Pyra) i korzeniowy pełzacz (Verdantia). Skrypt wycinania dostał jeszcze regułę dla małych
+białych szczelin przy obrysie postaci (między korzeniami, kończynami), obramowanych ciemnym materiałem;
+błyski w oczach i kwiaty zostają. Pięć wcześniejszych pakietów przeliczono ponownie (zmiana poniżej 1%
+pikseli). Zostaje 5 potworów: świetlik pieczęci, pająk spawalniczy, rój nanitów, popielny wilk i liściak
+skrytobójca.
