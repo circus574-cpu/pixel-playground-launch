@@ -155,13 +155,18 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-verdant-art": ["verdant-start"],
   /** Anime-style redrawn monsters (animation sheets by the owner); the older monsters stay the default. */
   "ki-monsters-anime": [
+    "enemy-v3-aether-duch-bibliotekarza",
     "enemy-v3-aether-krysztalowy-motyl",
     "enemy-v3-aether-lew-swiatyni",
+    "enemy-v3-aether-marionetka-rytualu",
     "enemy-v3-aether-mgielny-zuraw",
+    "enemy-v3-aether-oko-wiedzy",
+    "enemy-v3-aether-pergaminowy-straznik",
     "enemy-v3-aether-szmaragdowy-waz",
     "enemy-v3-aether-zloty-skarabeusz",
     "enemy-v3-nexus-dron-zwiadowca",
     "enemy-v3-nexus-kruk-danych",
+    "enemy-v3-nexus-latarnia-plazmowa",
     "enemy-v3-nexus-pelzacz-serwisowy",
     "enemy-v3-nexus-pies-lowca",
     "enemy-v3-nexus-skaner-gasienicowy",

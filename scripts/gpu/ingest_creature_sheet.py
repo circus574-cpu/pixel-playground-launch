@@ -36,7 +36,11 @@ def cutouts(sheet):
         # legs). Light fur, a mane or a silver panel is off-white and shaded: it stays opaque.
         m = lw == i
         if m.sum() > 120 and np.median(mins[m]) >= 246 and rgb[m].std() <= 7.6:
-            bg |= m
+            # A real gap in the background is outlined in black; the white core of a glow (a beam,
+            # a plasma ball) is ringed by bright colour and stays opaque.
+            ring = ndimage.binary_dilation(m, iterations=3) & ~m
+            if (rgb[ring].max(1) < 110).mean() >= 0.25:
+                bg |= m
     fg = ~bg
     # Frames that touch (a horn against a neighbour's tail) are split along the grid lines:
     # cut the foreground at every cell border, then group the pieces by their cell.
@@ -48,18 +52,66 @@ def cutouts(sheet):
         y = round(r * h / ROWS)
         cut[max(0, y - 6) : y + 6, :] = False
     comps, n = ndimage.label(ndimage.binary_closing(cut, iterations=1))
-    cells = {}
-    for i, sl in enumerate(ndimage.find_objects(comps), 1):
+    objs = ndimage.find_objects(comps)
+    owner, area, bbox = {}, {}, {}
+    for i, sl in enumerate(objs, 1):
         m = comps[sl] == i
         if m.sum() < 400:
             continue
         cy, cx = ndimage.center_of_mass(m)
         row = min(ROWS - 1, int((sl[0].start + cy) / (h / ROWS)))
         col = min(COLS - 1, int((sl[1].start + cx) / (w / COLS)))
-        cells.setdefault((row, col), []).append(i)
+        owner[i], area[i], bbox[i] = (row, col), int(m.sum()), sl
+    # An attack effect (beam, blades, a thrown talisman) often crosses the grid line: the cut then
+    # splits one object in two. A small piece that is continuous with a larger one across a cut
+    # zone belongs to the larger one's frame, and the zone pixels between them are put back.
+    bridges = {}
+    for axis in (1, 0):
+        size = w if axis == 1 else h
+        count = COLS if axis == 1 else ROWS
+        fgv = fg if axis == 1 else fg.T
+        cv = comps if axis == 1 else comps.T
+        for c in range(1, count):
+            z0, z1 = round(c * size / count) - 6, round(c * size / count) + 6
+            left = {i for i in owner if (bbox[i][axis].stop >= z0 - 3) and (bbox[i][axis].start < z0)}
+            right = {i for i in owner if (bbox[i][axis].start <= z1 + 3) and (bbox[i][axis].stop > z1)}
+            for a_ in left:
+                for b_ in right:
+                    if owner[a_] == owner[b_]:
+                        continue
+                    ya = np.any(cv[:, max(0, z0 - 3) : z0] == a_, axis=1)
+                    yb = np.any(cv[:, z1 : z1 + 3] == b_, axis=1)
+                    rows = np.where(ya & yb & np.all(fgv[:, z0:z1], axis=1))[0]
+                    if not len(rows) or min(area[a_], area[b_]) >= 0.4 * max(area[a_], area[b_]):
+                        continue
+                    big, small = (a_, b_) if area[a_] >= area[b_] else (b_, a_)
+                    owner[small] = owner[big]
+                    mask = np.zeros(fgv.shape, bool)
+                    mask[rows.min() : rows.max() + 1, z0:z1] = fgv[rows.min() : rows.max() + 1, z0:z1]
+                    bridges.setdefault(owner[big], []).append(mask if axis == 1 else mask.T)
+    # What is left of a spill (a sliver touching a cut zone, far smaller than the frame's body) is
+    # dropped instead of widening the frame.
+    largest = {}
+    for i in owner:
+        largest[owner[i]] = max(largest.get(owner[i], 0), area[i])
+    zones = [(round(c * w / COLS) - 6, round(c * w / COLS) + 6, 1) for c in range(1, COLS)] + [
+        (round(r * h / ROWS) - 6, round(r * h / ROWS) + 6, 0) for r in range(1, ROWS)
+    ]
+    for i in list(owner):
+        if area[i] >= 0.06 * largest[owner[i]]:
+            continue
+        sl = bbox[i]
+        if any(sl[ax].start <= z1 + 3 and sl[ax].stop >= z0 - 3 and sl[ax].start < z1 and sl[ax].stop > z0 - 1 and (sl[ax].stop - sl[ax].start) < 60 for z0, z1, ax in zones):
+            del owner[i]
+    cells = {}
+    for i, cell in owner.items():
+        cells.setdefault(cell, []).append(i)
     out = {}
     for (row, col), ids in cells.items():
-        keep = np.isin(comps, ids) & fg
+        keep = np.isin(comps, ids)
+        for mask in bridges.get((row, col), []):
+            keep |= mask
+        keep &= fg
         keep = ndimage.binary_opening(keep, iterations=1)
         keep = ndimage.binary_erosion(keep, iterations=1)
         ys, xs = np.where(keep)

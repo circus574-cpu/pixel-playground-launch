@@ -48,3 +48,21 @@ optymalizacji tabel, które nie istnieją w schemacie.
 - Kafel, zakładka i dziennik sondy pokazują te liczby; brak odpowiedzi serwera jest raportowany jako
   błąd, a nie dane z martwej chmury.
 - Usunięto panel „Status optymalizacji bazy" (opisywał tabele, których nie ma).
+
+## Potwory anime: 30 z 40
+
+### 5. Kolejne pięć potworów
+
+Z plansz właściciela: duch bibliotekarza, marionetka rytuału, oko wiedzy, pergaminowy strażnik (Aetheria)
+i latarnia plazmowa (Nexus). Pakiety `enemy-v3-*`, domyślnie włączone (`?ki-monsters-anime=0` przywraca
+stare). Zostaje 10 potworów, w tym pięć z już wysłanymi promptami.
+
+Skrypt `ingest_creature_sheet.py` poprawiony po tych planszach:
+
+- Efekt ataku przecięty linią siatki (wiązka, ostrza, rzucony talizman) wracał do sąsiedniej klatki jako
+  osierocony ułamek, a własna klatka miała płasko ucięty efekt. Teraz mniejszy kawałek ciągły z większym
+  trafia do klatki większego, a drobne resztki przy linii siatki są odrzucane.
+- Białe rdzenie blasku (środek wiązki, rdzeń plazmy) były brane za tło i miały dziury. Wnętrze jest tłem
+  tylko wtedy, gdy jest obrysowane czernią.
+- Znane ograniczenie: biały rdzeń wiązki połączony z białym tłem przez zanikający koniec nadal może mieć
+  drobne prześwity w jednej klatce ataku (oko wiedzy).
