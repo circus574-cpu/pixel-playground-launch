@@ -3,6 +3,7 @@ import {
   paintedPaths,
   meadowLight,
   meadowScenery,
+  organicMask,
   meadowBuildings,
 } from "./paintedMeadow";
 import type Phaser from "phaser";
@@ -229,6 +230,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       alpha: number,
       inside: (i: number) => boolean,
       tint?: string,
+      organic = false,
     ) => {
       const mask = sctx.createImageData(cols, rows);
       for (let i = 0; i < flags.length; i++) mask.data[i * 4 + 3] = inside(i) ? 255 : 0;
@@ -243,13 +245,24 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       lctx.globalCompositeOperation = "destination-in";
       lctx.imageSmoothingEnabled = true;
       lctx.imageSmoothingQuality = "high";
-      if (painted) lctx.drawImage(softMask(), 0, 0);
+      if (painted)
+        lctx.drawImage(
+          organic ? organicMask(softMask(), data.x, data.y, CHUNK) : softMask(),
+          0,
+          0,
+          resolution,
+          resolution,
+        );
       else lctx.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
       ctx.globalAlpha = alpha;
       ctx.drawImage(layer, 0, 0);
       ctx.globalAlpha = 1;
     };
-    for (const b of biomes)
+    // Painted mode: the meadow is one continuous base under all land; other biomes are laid over
+    // it as ragged organic patches (world-anchored noise), never as rectangles of a different tone.
+    if (painted) texture(ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16));
+    for (const b of biomes) {
+      if (painted && b === 0) continue;
       texture(
         ground[b] ?? ground[0]!,
         groundAlpha,
@@ -258,7 +271,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         source.art.groundByBiome[b]?.includes("forest")
           ? "saturate(0.9) brightness(1.18)"
           : undefined,
+        painted,
       );
+    }
     if (painted) {
       const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
       if (shop)

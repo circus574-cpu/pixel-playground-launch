@@ -41,6 +41,43 @@ function noise(x: number, y: number) {
   return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
 }
 
+function smoothNoise(x: number, y: number, cell: number) {
+  const gx = x / cell,
+    gy = y / cell,
+    ix = Math.floor(gx),
+    iy = Math.floor(gy);
+  const f = (t: number) => t * t * (3 - 2 * t);
+  const fx = f(gx - ix),
+    fy = f(gy - iy);
+  const top = noise(ix, iy) * (1 - fx) + noise(ix + 1, iy) * fx;
+  const bottom = noise(ix, iy + 1) * (1 - fx) + noise(ix + 1, iy + 1) * fx;
+  return top * (1 - fy) + bottom * fy;
+}
+
+/**
+ * Turns a blurred biome mask into an organic, ragged-edged patch. The noise is anchored to world
+ * coordinates, so neighbouring chunks agree and the border never shows a seam.
+ */
+export function organicMask(soft: HTMLCanvasElement, x: number, y: number, chunk: number) {
+  const n = 256;
+  const c = document.createElement("canvas");
+  c.width = c.height = n;
+  const g = c.getContext("2d", { willReadFrequently: true })!;
+  g.drawImage(soft, 0, 0, soft.width, soft.height, 0, 0, n, n);
+  const img = g.getImageData(0, 0, n, n);
+  for (let i = 0; i < n * n; i++) {
+    const wx = x + ((i % n) + 0.5) * (chunk / n),
+      wy = y + (Math.floor(i / n) + 0.5) * (chunk / n);
+    const v = 0.6 * smoothNoise(wx, wy, 240) + 0.4 * smoothNoise(wx + 977, wy + 531, 80);
+    const a = img.data[i * 4 + 3]! / 255;
+    const t = (a - 0.5) * 3.2 + (v - 0.5) * 2.2 + 0.5;
+    img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = 0;
+    img.data[i * 4 + 3] = Math.round(Math.max(0, Math.min(1, t)) * 255);
+  }
+  g.putImageData(img, 0, 0);
+  return c;
+}
+
 /** Low-frequency light stays anchored to the world when chunks stream in and out. */
 export function meadowLight(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number) {
   ctx.save();
