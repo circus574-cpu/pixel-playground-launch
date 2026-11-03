@@ -1,5 +1,15 @@
 # KI Legends — aktualny plan i zadania
 
+## Kontynuacja 03.11 — Żywa Ziemia Planetarnych
+
+Do PR #90 dołączono aktualny `main@4ecba945`, zachowując oprawę czterech miast.
+Nowa partia: TV04/TV05/TV06, łącznie 3 próby / 9 stopni, ranga Żywej Ziemi
+oraz `mv-earth` po II stopniu wszystkich trzech prób. Katalog obejmuje teraz
+15 prób / 45 stopni; nadal brakuje **33 prób / 99 stopni**, 8 wariantów i 3 modułów,
+interakcji dziedzin w świecie, późnych wariantów starć oraz pełnego odbioru kampanii.
+[Kontrole i granice odbioru](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
+Poniższe liczby 12/36 i 36/108 są wcześniejszym checkpointem, nie bieżącym stanem.
+
 ## Próby rasowe — partia 03.11 na PR #90
 
 Dodano pierwsze 12 prób / 36 stopni dla czterech ras, trwałe wyniki, rangi

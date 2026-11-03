@@ -1,0 +1,275 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: racial-trials.spec.ts >> Planetarni: real TV06, one-time reward and reload
+- Location: e2e/racial-trials.spec.ts:118:3
+
+# Error details
+
+```
+TimeoutError: locator.click: Timeout 15000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Menu gry', exact: true })
+
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic "Ki Legends — ekran gry" [ref=e4]
+  - generic:
+    - region "Postać gracza":
+      - button "Pokaż statystyki postaci" [ref=e6] [cursor=pointer]:
+        - generic [ref=e7]:
+          - 'img "Portret: Planetarni"'
+        - generic [ref=e8]: "1"
+      - generic:
+        - generic:
+          - text: Wędrowiec
+          - generic: PLANETARNI
+        - meter "Zdrowie":
+          - generic: 125 / 125
+        - meter "Energia KI":
+          - generic: 50 / 50
+        - generic "Doświadczenie 0/100"
+    - generic:
+      - generic "Powiadomienia gry"
+    - region "Minimapa":
+      - generic "Zielona Przystań"
+      - button "Otwórz mapę świata" [ref=e9] [cursor=pointer]:
+        - generic [ref=e10]:
+          - generic "Zielona Przystań" [ref=e12]
+          - generic "Przystań Trzech Mostów" [ref=e13]
+          - generic "Kamienny Sad" [ref=e14]
+          - generic "Latarnia Korzeni" [ref=e15]
+    - button "◆ Pierwsze kroki Porozmawiaj z Airy przy miejscu startowym ›" [ref=e17] [cursor=pointer]:
+      - generic [ref=e18]: ◆
+      - generic [ref=e19]:
+        - strong [ref=e20]: Pierwsze kroki
+        - generic [ref=e21]: Porozmawiaj z Airy przy miejscu startowym
+      - generic [ref=e22]: ›
+    - generic:
+      - img "KI LEGENDS":
+        - generic [aria-hidden]:
+          - strong: KI LEGENDS
+      - strong: Zielona Przystań
+      - text: Verdantia
+    - text: ☷
+    - navigation "Umiejętności":
+      - button "Cios Szlaku" [ref=e23] [cursor=pointer]:
+        - generic [ref=e24]: Spacja
+      - button "Unik" [ref=e25] [cursor=pointer]:
+        - generic [ref=e26]: Shift
+      - button "Mikstura życia" [disabled] [ref=e27]:
+        - generic [ref=e28]: Q
+        - generic [ref=e29]: "3"
+    - button "Menu gry" [ref=e30] [cursor=pointer]:
+      - generic [ref=e31]: Widok
+    - navigation "Menu gry":
+      - button "Ekwipunek" [ref=e32] [cursor=pointer]
+      - button "Dziennik" [ref=e34] [cursor=pointer]:
+        - generic [ref=e35]: Zadania
+      - button "Umiejętności" [ref=e36] [cursor=pointer]
+      - button "Ustawienia" [ref=e38] [cursor=pointer]
+    - generic "Akcje":
+      - button "Plan miasta" [ref=e40] [cursor=pointer]
+      - button "Rozmowa · Aira E" [ref=e41] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  1   | import { test as base } from "@playwright/test";
+  2   | import { readFileSync } from "node:fs";
+  3   | import { browserNavigation, type GridData } from "../src/game/world/generated/browserTerrain";
+  4   | import type { Obstacle } from "../src/game/movement";
+  5   | import { MONSTER_BASE } from "../src/game/monsters/base.generated";
+  6   | import { monsterDef } from "../src/game/monsters/catalog";
+  7   | import { expect } from "@playwright/test";
+  8   | export { expect };
+  9   | export type { Page, CDPSession } from "@playwright/test";
+  10  | /** Attach failures without modifying the game or assuming a browser failure proves a game bug. */
+  11  | export const test = base.extend<{ diagnostics: void; legacyWorld: void }>({
+  12  |   /**
+  13  |    * World v2 became the default world on 26.10.2026. Specs written for the original world keep it
+  14  |    * through `?ki-world-v1=1`; a spec that names `ki-world-v2` in its URL plays the new world.
+  15  |    */
+  16  |   legacyWorld: [
+  17  |     async ({ page }, use) => {
+  18  |       const goto = page.goto.bind(page);
+  19  |       page.goto = (url, options) => {
+  20  |         if (!/ki-world-v[12]=/.test(url)) {
+  21  |           const [path, hash] = url.split("#");
+  22  |           url =
+  23  |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+  24  |         }
+  25  |         return goto(url, options);
+  26  |       };
+  27  |       await use();
+  28  |     },
+  29  |     { auto: true },
+  30  |   ],
+  31  |   diagnostics: [
+  32  |     async ({ page }, use, info) => {
+  33  |       const logs: string[] = [];
+  34  |       page.on("console", (m) => {
+  35  |         if (["error", "warning"].includes(m.type())) logs.push(m.type() + ": " + m.text());
+  36  |       });
+  37  |       page.on("pageerror", (error) => logs.push("pageerror: " + error.message));
+  38  |       await use();
+  39  |       if (info.status !== info.expectedStatus) {
+  40  |         const observed = await page
+  41  |           .evaluate(() => {
+  42  |             const el = document.querySelector<HTMLElement>(".ki-canvas");
+  43  |             return {
+  44  |               url: location.href,
+  45  |               viewport: [innerWidth, innerHeight],
+  46  |               canvas: el ? { ...el.dataset } : null,
+  47  |             };
+  48  |           })
+  49  |           .catch(() => null);
+  50  |         await info.attach("game-failure-context", {
+  51  |           body: JSON.stringify(
+  52  |             {
+  53  |               test: info.title,
+  54  |               expected: info.expectedStatus,
+  55  |               actual: info.status,
+  56  |               errors: info.errors,
+  57  |               observed,
+  58  |               logs,
+  59  |             },
+  60  |             null,
+  61  |             2,
+  62  |           ),
+  63  |           contentType: "application/json",
+  64  |         });
+  65  |         if (!page.isClosed())
+  66  |           await info.attach("game-failure-screenshot", {
+  67  |             body: await page.screenshot().catch(() => Buffer.alloc(0)),
+  68  |             contentType: "image/png",
+  69  |           });
+  70  |       }
+  71  |     },
+  72  |     { auto: true },
+  73  |   ],
+  74  | });
+  75  | 
+  76  | /** Mobile tools are deliberately folded; follow the same taps as a player. */
+  77  | export async function openHudTool(
+  78  |   page: import("@playwright/test").Page,
+  79  |   name: string,
+  80  |   input: "mouse" | "touch" = "mouse",
+  81  | ) {
+  82  |   const button = page.getByRole("button", { name, exact: true });
+  83  |   if (!(await button.isVisible())) {
+  84  |     const menu = page.getByRole("button", { name: "Menu gry", exact: true });
+  85  |     if (input === "touch") await menu.tap();
+> 86  |     else await menu.click();
+      |                     ^ TimeoutError: locator.click: Timeout 15000ms exceeded.
+  87  |   }
+  88  |   if (input === "touch") await button.tap();
+  89  |   else await button.click();
+  90  |   const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+  91  |   if (
+  92  |     (name === "Oddal mapę" || name === "Przybliż mapę") &&
+  93  |     (await toggle.isVisible()) &&
+  94  |     (await toggle.getAttribute("aria-expanded")) === "true"
+  95  |   )
+  96  |     await toggle.click();
+  97  | }
+  98  | 
+  99  | export const SAVE_BASE = "ki-legends:adventure:v1";
+  100 | /** Character slots of the single Superior world (owner-authorised reset of the older slots). */
+  101 | export const WORLD_SAVE = SAVE_BASE + ":superior-world-v1";
+  102 | const superior = JSON.parse(readFileSync("public/game/worlds/superior-v1/index.json", "utf8")) as {
+  103 |   features: { id: string; arrival: { x: number; y: number } }[];
+  104 | };
+  105 | /** Where a new character of this land appears on the Superior planet. */
+  106 | export const superiorArrival = (land: string) =>
+  107 |   superior.features.find((f) => f.id === land)!.arrival;
+  108 | /**
+  109 |  * The generated land as the browser sees it: real size, the player navigation
+  110 |  * field built from the same CPU grids, the safe arrival and authored spawn slots.
+  111 |  */
+  112 | export function superiorLand(land: string) {
+  113 |   const dir = `public/game/worlds/superior-v1/${land}/`,
+  114 |     read = (f: string) => JSON.parse(readFileSync(dir + f, "utf8")) as unknown;
+  115 |   const { geometry } = read("world.json") as { geometry: { width: number; height: number } };
+  116 |   const colliders = read("collision.json") as Obstacle[];
+  117 |   const nav = browserNavigation(
+  118 |     geometry.width,
+  119 |     geometry.height,
+  120 |     read("navigation.json") as GridData,
+  121 |     read("terrain.json") as GridData,
+  122 |     colliders,
+  123 |   );
+  124 |   const { overworld } = read("spawns.json") as {
+  125 |     overworld: { id: string; x: number; y: number }[];
+  126 |   };
+  127 |   const { npcs } = read("world.json") as { npcs: { id: string; x: number; y: number }[] };
+  128 |   return {
+  129 |     colliders,
+  130 |     npcs,
+  131 |     width: geometry.width,
+  132 |     height: geometry.height,
+  133 |     nav,
+  134 |     spawn: nav.safe(superiorArrival(land)),
+  135 |     enemies: overworld,
+  136 |   };
+  137 | }
+  138 | /** Attack of the weakest creature that can defeat a first-level hero within a test (not the capital slimes). */
+  139 | export const DEFEAT_ATTACK = 10;
+  140 | type SpawnSlot = { id: string; kind: string; x: number; y: number };
+  141 | /** A creature that stays visible and in reach (no hiding, burrowing, fleeing or standing still). */
+  142 | const VOLATILE = ["ambush", "burrow", "dive", "fleeAfterHits", "ghost", "still"];
+  143 | function steady(kind: string, also: string[] = []) {
+  144 |   const t = monsterDef(kind).traits as Record<string, unknown>;
+  145 |   return ![...VOLATILE, ...also].some((k) => t[k]);
+  146 | }
+  147 | /** Authored overworld spawn slots of a land, nearest to its arrival first; live enemies share the ids. */
+  148 | function spawnsByDistance(land: string) {
+  149 |   const a = superiorArrival(land);
+  150 |   const { overworld } = JSON.parse(
+  151 |     readFileSync(`public/game/worlds/superior-v1/${land}/spawns.json`, "utf8"),
+  152 |   ) as { overworld: SpawnSlot[] };
+  153 |   const far = (s: SpawnSlot) => Math.hypot(s.x - a.x, s.y - a.y);
+  154 |   return [...overworld].sort((p, q) => far(p) - far(q));
+  155 | }
+  156 | /**
+  157 |  * The spawn slot nearest to a land's arrival. `minAttack` skips the harmless first-level creatures
+  158 |  * beside the capital when a test needs a real defeat.
+  159 |  */
+  160 | export function nearestSpawn(land: string, minAttack = 0) {
+  161 |   const base = new Map(MONSTER_BASE.map((m) => [m.id, m]));
+  162 |   return spawnsByDistance(land).find((s) => {
+  163 |     const atk = base.get(s.kind)?.atk ?? 0;
+  164 |     // Strong enough to defeat a first-level hero, but not in one or two hits before the potion.
+  165 |     // It must also attack a passive hero unprovoked.
+  166 |     return (
+  167 |       !minAttack ||
+  168 |       (atk >= minAttack && atk <= minAttack * 3 && steady(s.kind, ["provoked", "pack"]))
+  169 |     );
+  170 |   })!;
+  171 | }
+  172 | /**
+  173 |  * Temporary QA aid: the playtest page's `?ki-test-spawn=<kind>` places a defeat-capable creature
+  174 |  * just outside the starting town (never in the published game).
+  175 |  */
+  176 | export function testCreature(land: string) {
+  177 |   // One steady, single creature for every land (the QA spawn need not be native): strong enough
+  178 |   // to defeat a first-level hero, not so strong that the potion and skill clips are skipped.
+  179 |   const kind = "pyra-ognista-salamandra";
+  180 |   return { id: land + "-test-spawn", kind, query: "?ki-test-spawn=" + kind };
+  181 | }
+  182 | /** Whether a point lies beyond every safe settlement of the land (combat is allowed there). */
+  183 | export function outsideTowns(land: string, p: { x: number; y: number }, margin = 16) {
+  184 |   const { settlements } = JSON.parse(
+  185 |     readFileSync(`public/game/worlds/superior-v1/${land}/world.json`, "utf8"),
+  186 |   ) as { settlements: { bounds: { x: number; y: number; width: number; height: number } }[] };
+```

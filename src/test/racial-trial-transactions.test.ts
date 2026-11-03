@@ -60,8 +60,9 @@ describe("racial trial results are owned, atomic and finite", () => {
       }
       const d = s.player.development!;
       expect(domainRank(d.trials, race, TRIALS.find((t) => t.race === race)!.domain)).toBe(3);
-      expect(d.practiceEarned).toBe(1350);
+      expect(d.practiceEarned).toBe(race === "planetary" ? 2700 : 1350);
       expect(DevelopmentSchema.safeParse(d).success).toBe(true);
+      if (race === "planetary") expect(d.unlockedVariants).toContain("mv-earth");
       if (race === "sage") expect(d.unlockedVariants).toContain("ma-seal");
       if (race === "legend") expect(d.unlockedVariants).toContain("mp-cuts");
       if (race === "android") {
@@ -76,7 +77,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       const again = s.startRacialTrial(TRIALS.find((t) => t.race === race)!.id, 1)!;
       completeTrial(again);
       expect(s.finishRacialTrial(again)).toBe(true);
-      expect(s.player.development!.practiceEarned).toBe(1350);
+      expect(s.player.development!.practiceEarned).toBe(race === "planetary" ? 2700 : 1350);
     },
   );
   it("refuses a constructed or foreign result and requires the physical trainer", () => {

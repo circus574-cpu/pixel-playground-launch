@@ -87,9 +87,33 @@ export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle
       },
     ];
   }
+  if (def.kind === "contamination") {
+    const sites = ["Północ", "Brzeg", "Polana"];
+    return Array.from({ length: count * 2 }, (_, step) => {
+      const location = sites[Math.floor(step / 2) % sites.length]!;
+      const action = step % 2 === 0 ? "Oznacz" : "Oczyść";
+      return question(
+        `${step % 2 === 0 ? "Oznacz skażone miejsce" : "Oczyść wcześniej oznaczone miejsce"}. Zdrowe miejsca pozostaw nietknięte.`,
+        `Tablica pomiarowa stanowiska ${Math.floor(step / 2) + 1}. Zdrowe podłoże: 0–20. ${sites.map((n) => `${n}: ${n === location ? 82 : 12}`).join("; ")}. Najpierw oznacz, potem oczyść to samo miejsce.`,
+        sites.flatMap((n) => ["Oznacz " + n, "Oczyść " + n]),
+        action + " " + location,
+        tier + step,
+      );
+    });
+  }
   return Array.from({ length: count }, (_, i) => {
     const rotate = tier + i + def.id.charCodeAt(2);
     switch (def.kind) {
+      case "flow-nodes": {
+        const nodes = ["Źródło", "Przepust", "Korzeń", "Odbiornik"].slice(0, count);
+        return question(
+          `Napraw węzeł ${i + 1}/${count} zgodnie z kierunkiem przepływu.`,
+          `Na kamieniach wyryto strzałki: ${nodes.join(" → ")}. Naprawy zaczynają się przy źródle i podążają za strzałkami.`,
+          nodes,
+          nodes[i]!,
+          rotate,
+        );
+      }
       case "motifs": {
         const motifs = ["Źródło", "Most", "Dom", "Korzeń", "Światło"].slice(0, count);
         return question(

@@ -1,6 +1,9 @@
 import type { RaceId } from "../../world/races";
 
 export const TRIAL_IDS = [
+  "TV04",
+  "TV05",
+  "TV06",
   "TV10",
   "TV11",
   "TV12",
@@ -17,6 +20,9 @@ export const TRIAL_IDS = [
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "flow-nodes"
+  | "earth-rhythm"
+  | "contamination"
   | "motifs"
   | "map"
   | "contradictions"
@@ -29,7 +35,7 @@ export type TrialKind =
   | "counter"
   | "restraint"
   | "position";
-export type DomainId = "memory" | "seals" | "construction" | "duel";
+export type DomainId = "earth" | "memory" | "seals" | "construction" | "duel";
 export type TrialDefinition = {
   id: TrialId;
   race: RaceId;
@@ -38,10 +44,38 @@ export type TrialDefinition = {
   kind: TrialKind;
   targets: readonly [number, number, number];
   maxErrors: number;
+  dodgeTargets?: readonly [number, number, number];
 };
-// These twelve controllers implement all three trials in each of four domains from the owner's 28.10 specification.
-// The other 36 trials are deliberately not presented as playable or awarded by these controllers.
+// Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TV04",
+    race: "planetary",
+    domain: "earth",
+    name: "Otwarty przepływ",
+    kind: "flow-nodes",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TV05",
+    race: "planetary",
+    domain: "earth",
+    name: "Kamienny rytm",
+    kind: "earth-rhythm",
+    targets: [2, 3, 4],
+    dodgeTargets: [4, 6, 8],
+    maxErrors: 0,
+  },
+  {
+    id: "TV06",
+    race: "planetary",
+    domain: "earth",
+    name: "Granica skażenia",
+    kind: "contamination",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
   {
     id: "TV10",
     race: "planetary",
@@ -152,6 +186,7 @@ export const TRIALS: readonly TrialDefinition[] = [
   },
 ];
 export const DOMAIN_NAMES: Record<DomainId, string> = {
+  earth: "Żywa Ziemia",
   memory: "Pamięć Korzeni",
   seals: "Pieczęcie",
   construction: "Konstrukcja",

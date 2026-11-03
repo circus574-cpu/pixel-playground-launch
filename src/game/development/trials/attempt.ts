@@ -26,6 +26,7 @@ export class TrialAttempt {
   private ready = false;
   private suspended = false;
   private round = 0;
+  private dodges = 0;
   private phase = "read";
   private until = 0;
   private danger: Point = { x: 0, y: 0 };
@@ -55,7 +56,7 @@ export class TrialAttempt {
     p.items.potion = 0;
     p.hp = this.session.kit.stats.maxHp;
     p.ki = this.session.kit.stats.maxKi;
-    const physical = ["counter", "restraint", "position"].includes(definition.kind);
+    const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
     this.puzzles = physical ? [] : trialPuzzles(definition, tier);
     if (physical) {
       Object.assign(p, { x: 600, y: 350 });
@@ -84,7 +85,11 @@ export class TrialAttempt {
           0,
           (contact) => {
             if (contact.hit.indirect || this.result.outcome !== "running") return;
-            if (this.phase === "counter" && contact.at <= this.until) {
+            if (
+              this.phase === "counter" &&
+              contact.at <= this.until &&
+              this.result.successes < this.targetCount
+            ) {
               this.result.successes++;
               this.phase = "prepare";
               this.until = this.session.nowMs + 1200;
@@ -96,7 +101,7 @@ export class TrialAttempt {
           },
         );
         this.session.targetId = this.target.id;
-        this.phase = definition.kind === "counter" ? "prepare" : "position";
+        this.phase = ["counter", "earth-rhythm"].includes(definition.kind) ? "prepare" : "position";
         this.until = 1200;
       }
     }
@@ -120,6 +125,12 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
+    if (k === "earth-rhythm")
+      return `Opuść ${this.definition.dodgeTargets![this.tier - 1]} zapowiedzianych kręgów i wykonaj ${this.targetCount} celnych kontrataków. Trafienie nie zalicza uniku. Oba cele są obowiązkowe; śmierć przerywa próbę. Kontra: 4 s.`;
+    if (k === "flow-nodes")
+      return `Napraw ${this.targetCount} węzły w kolejności odczytanej ze strzałek przy stanowiskach. Błędna kolejność przerywa próbę.`;
+    if (k === "contamination")
+      return `Oznacz, potem oczyść ${this.targetCount} skażone miejsca według pomiarów. Nie oznaczaj ani nie czyść zdrowego podłoża. Samo oznaczenie nie zalicza oczyszczenia.`;
     if (k === "counter")
       return `Uniknij zapowiedzianego kręgu, następnie traf zwykłym atakiem w oknie kontry. Cel: ${this.targetCount}. Maksymalnie 2 otrzymane trafienia. Zapowiedź ${[1800, 1500, 1300][this.tier - 1]} ms, kontra 4 s.`;
     if (k === "restraint")
@@ -133,7 +144,11 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
-    if (this.puzzles.length) return this.points[this.round % this.points.length];
+    if (this.puzzles.length)
+      return this.points[
+        (this.definition.kind === "contamination" ? Math.floor(this.round / 2) : this.round) %
+          this.points.length
+      ];
     if (this.phase === "position") return { x: 230, y: 550 };
     if (this.phase === "retreat") return { x: 240, y: 550 };
     if (this.phase === "attack" || this.phase === "counter") return { x: 600, y: 350 };
@@ -181,7 +196,11 @@ export class TrialAttempt {
         this.finish("failed", "Błędne rozwiązanie. Ponów próbę i sprawdź dostępne materiały.");
       return;
     }
-    this.result.successes += puzzle.modules ? this.targetCount : 1;
+    this.result.successes += puzzle.modules
+      ? this.targetCount
+      : this.definition.kind === "contamination" && this.round % 2 === 0
+        ? 0
+        : 1;
     this.round++;
     this.reading = false;
     this.checkEnd();
@@ -198,7 +217,10 @@ export class TrialAttempt {
       this.finish("abandoned", "Próba przerwana. Oryginalny stan postaci zachowano.");
   }
   private checkEnd() {
-    if (this.result.successes >= this.targetCount)
+    if (
+      this.result.successes >= this.targetCount &&
+      this.dodges >= (this.definition.dodgeTargets?.[this.tier - 1] ?? 0)
+    )
       this.finish("passed", "Próba ukończona. Zatwierdź wynik, aby bezpiecznie zapisać postęp.");
   }
   update() {
@@ -229,7 +251,7 @@ export class TrialAttempt {
         this.checkEnd();
       }
     }
-    if (this.definition.kind !== "counter") return;
+    if (!["counter", "earth-rhythm"].includes(this.definition.kind)) return;
     if (this.phase === "prepare" && s.nowMs >= this.until) {
       this.danger = { x: s.player.x, y: s.player.y };
       this.phase = "warning";
@@ -245,11 +267,12 @@ export class TrialAttempt {
         }
         this.phase = "prepare";
         this.until = s.nowMs + 1200;
-        if (this.result.errors > this.definition.maxErrors)
+        if (this.definition.kind === "counter" && this.result.errors > this.definition.maxErrors)
           return this.finish("failed", "Otrzymano więcej niż dwa zapowiedziane trafienia.");
       } else {
-        this.phase = "counter";
-        this.until = s.nowMs + 4000;
+        this.dodges++;
+        this.phase = this.result.successes < this.targetCount ? "counter" : "prepare";
+        this.until = s.nowMs + (this.phase === "counter" ? 4000 : 1200);
       }
     } else if (this.phase === "counter" && s.nowMs > this.until) {
       this.phase = "prepare";
@@ -270,10 +293,15 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      dodges: this.dodges,
+      dodgeTarget: this.definition.dodgeTargets?.[this.tier - 1] ?? 0,
       phase: r?.phase ?? this.phase,
       message:
         this.result.outcome === "running"
-          ? (r?.message ?? messages[this.phase] ?? "")
+          ? (r?.message ??
+            (this.definition.kind === "earth-rhythm"
+              ? `Uniki: ${this.dodges}/${this.definition.dodgeTargets![this.tier - 1]} · Kontry: ${this.result.successes}/${this.targetCount}. `
+              : "") + (messages[this.phase] ?? ""))
           : this.result.reason,
       round: this.round,
       target: this.targetCount,

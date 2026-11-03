@@ -159,7 +159,10 @@ export function TrialRoom({
         <div className="ki-exam-toolbar" aria-live="polite">
           <span>
             Profil testowy · {attempt.definition.name} · stopień {attempt.tier} · {result.successes}
-            /{attempt.targetCount} · błędy {result.errors}/{attempt.definition.maxErrors}
+            /{attempt.targetCount} · błędy {result.errors}
+            {attempt.definition.kind === "earth-rhythm"
+              ? " otrzymanych trafień"
+              : `/${attempt.definition.maxErrors}`}
             <br />
             {result.message}
           </span>

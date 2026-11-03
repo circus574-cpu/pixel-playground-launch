@@ -21,7 +21,7 @@ export function walkTrial(a: TrialAttempt, point: Point) {
 }
 export function completeTrial(a: TrialAttempt) {
   a.begin();
-  if (!["counter", "restraint", "position"].includes(a.definition.kind)) {
+  if (!["counter", "earth-rhythm", "restraint", "position"].includes(a.definition.kind)) {
     const puzzles = trialPuzzles(a.definition, a.tier);
     for (let i = 0; i < puzzles.length; i++) {
       walkTrial(a, a.currentPoint!);
@@ -49,7 +49,7 @@ export function completeTrial(a: TrialAttempt) {
         lastPhase = r.phase;
       }
       if (r.phase === "warning" && r.danger)
-        s.command({ type: "move", x: r.danger.x, y: r.danger.y + 155 });
+        s.command({ type: "move", x: r.danger.x, y: r.danger.y + (r.danger.y > 400 ? -155 : 155) });
       else if (r.phase === "position" || r.phase === "retreat")
         s.command({ type: "move", ...r.point! });
       else if (

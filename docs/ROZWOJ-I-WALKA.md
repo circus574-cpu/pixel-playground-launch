@@ -1,5 +1,29 @@
 # KI Legends — rozwój i walka
 
+## Kontynuacja PR #90 — Żywa Ziemia, 03.11.2026
+
+Na gałęzi rozwoju (bez scalenia/publikacji) dodano TV04 Otwarty przepływ,
+TV05 Kamienny rytm i TV06 Granica skażenia, według specyfikacji właściciela
+28.10. TV04 wymaga kolejności 2/3/4 węzłów odczytanej ze strzałek. TV05
+sprawdza niezależnie 4/6/8 unikniętych uderzeń oraz 2/3/4 skuteczne kontry;
+trafienie przez zapowiedź nie zwiększa liczby uników. TV06 wymaga oznaczenia,
+a następnie oczyszczenia 3/4/5 miejsc według jawnych pomiarów. Zdrowych miejsc
+nie wolno dotykać, samo oznaczenie nie jest oczyszczeniem. Stanowiska znajdują
+się w rzeczywistej sali Phaser i używają istniejących interakcji/sterowania.
+To ćwiczenia na wypożyczonym profilu, nie nowe obiekty fabularne na kontynencie.
+
+Stopień dziedziny jest minimum wyników tych trzech prób; stopień II odblokowuje
+istniejący `mv-earth`, bez zmiany jego kanonicznych mnożników. Kontrolery wyniku,
+serwerowy intent i zapis używają wspólnego katalogu; jednorazowe nagrody pozostają
+100/150/200 praktyki. Walidator wymaga poprawnego ledgeru i odblokowania mistrzostwa.
+Nie zmieniano formatów zapisu 10/6 ani development v3. Panel pokazuje teraz obie
+zaimplementowane dziedziny Planetarnych zamiast podpisywać wszystkie próby jedną.
+Planetarni mogą zdobyć z 6 prób 2700 praktyki; przy poprzednich założeniach budżetu
+katalogowego nadal brakuje 2700 do 17 800. Inne rasy pozostają na 3 próbach/1350,
+z wcześniejszym niedoborem 4050. Nie jest to jeszcze pełny audyt osiągalności budżetu.
+[Dowody i pozostała praca](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
+
+
 ## Pierwsze próby rasowe — gałąź robocza 03.11.2026
 
 W PR #90 dodano 12 kontrolerów / 36 stopni: TV10–12, TA01–03, TN07–09 i TP07–09.

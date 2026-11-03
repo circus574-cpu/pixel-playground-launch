@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Wznowiony rozwój — PR #90:** dodano trzy próby Żywej Ziemi Planetarnych i ich
+odblokowanie mistrzostwa. Katalog: 15/48 prób, 45/144 stopni; pełna kampania nadal
+nieukończona. [Bieżąca partia i dowody](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
+
+
 **Kolejna partia PR #90:** 12 prób rasowych / 36 stopni, wyniki serwerowe, rangi i pierwsze odblokowania mistrzostwa. [Bieżący zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni). Pełny system nadal wymaga dalszych prac.
 
 **Kontynuacja na gałęzi PR #90:** naprawiono bonusy wyposażenia, dodano kontrolery

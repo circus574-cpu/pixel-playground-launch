@@ -1057,3 +1057,63 @@ nie deklaracja drugiego pełnego zielonego uruchomienia.
 Logi: [pełna seria](qa/development-continuation/development-merge-tests.log),
 [typy](qa/development-continuation/development-merge-types.log),
 [ponowienie zasobów](qa/development-continuation/development-merge-assets-retry.log).
+
+## Żywa Ziemia — TV04, TV05, TV06
+
+Kontynuacja PR #90 po integracji `main@4ecba945` w `01225e9c`.
+Dodano trzy próby / dziewięć stopni według źródła właściciela z 28.10:
+TV04 naprawa 2/3/4 węzłów w odczytanej kolejności, TV05 osobno 4/6/8
+unikniętych zapowiedzi i 2/3/4 kontry, TV06 oznaczenie i oczyszczenie 3/4/5
+skażonych miejsc bez naruszania zdrowych. Stanowiska TV04/TV06 są interakcjami
+sali i jawnymi pomiarami — nie jest to jeszcze system skażenia na kontynencie.
+
+Zapis, nagrody i walidacja są podłączone do istniejących transakcji `GameSession`
+i intentów serwera. Wyniki nie wyciekają z wypożyczonego profilu do HP/KI/XP
+postaci. Stopień II całej Żywej Ziemi odblokowuje istniejący `mv-earth`.
+Panel wyświetla każdą dziedzinę osobno; toolbar TV05 pokazuje otrzymane trafienia
+bez sugerowania nieistniejącego limitu 0. Nie zmieniano kanonu parametrów,
+HUD-u głównej gry, joysticka, przypisań ani formatów zapisu.
+
+Katalog: 15/48 prób, 45/144 stopni. Pozostało 33/99, osiem wariantów i trzy moduły,
+interakcje dziedzin poza salami, późne starcia, tytuły i pełny odbiór kampanii.
+Planetarni mają 2700 praktyki z sześciu prób; pozostałe rasy po 1350 z trzech.
+Budżet katalogowy nadal nie zamyka wymaganych 17 800; niedobór Planetarnych
+wynosi 2700, innych ras 4050 przy wcześniejszych założeniach badań/egzaminów.
+
+### Kontrole i odtworzone przeszkody
+
+- Pełne `NODE_OPTIONS=--max-old-space-size=2048 npm test`: **1242 PASS / 0 FAIL / 10 SKIP**, 106 plików PASS i jeden SKIP. Pominięte przypadki wymagają osobnej bazy QA; nie używano produkcji.
+- Nowe i powiązane testy kontrolerów, transakcji i serwera: **70 PASS**. Pierwsza seria miała 3 FAIL: robot testowy po kolejnych unikach szedł stale na południe poza salę. Poprawiono wybór osiągalnego kierunku robota, bez zmiany limitów próby i asercji.
+- Pierwszy odbiór TV04/TV06 w przeglądarce: **2 Canvas PASS / 2 Software WebGL FAIL**. Błędy były timeoutami kliknięć w menu przed rozpoczęciem próby; zachowano logi.
+- Wspólny wybór binarnego Chromium był nadpisywany przez projekt Software WebGL w `playwright.config.ts`. Teraz każdy projekt zachowuje ten sam zweryfikowany executable. Nadal wymaga się rzeczywistego WebGL w metrics; nie poluzowano asercji.
+- Pierwszy TV05 Canvas FAIL: test klikał w pobliżu manekina, co wybierało cel zamiast ruszać postać. Podejście zmieniono na rzeczywiste klawisze W/S, bez force-click i wstrzykiwania stanu.
+- `npm run lint`: 0 błędów, 15 wcześniejszych ostrzeżeń. `npm run assets:check`: PASS.
+- Pierwszy `npm run build`: FAIL `ENOSPC` przy kopiowaniu zasobów. Usunięto wyłącznie nieudany, ignorowany `.output` tego uruchomienia. Wynik ponowienia skierowano symlinkiem `.output` do `/tmp/ki-development-build-output` na odrębnym wolnym filesystemie. `npm run build`: PASS. To lokalny, nietrwały output, nie kopia zasobów źródłowych ani wdrożenie. Nie zmieniano konfiguracji builda/hostingu.
+
+Logi i zrzuty tej partii są w [QA kontynuacji](qa/development-continuation/).
+Pełny zestaw wszystkich e2e, fizyczny Android/iOS i produkcyjny WebSocket/PostgreSQL:
+NIEWYKONANE. Nie scalano do main, nie publikowano i nie dotykano GPU.
+
+W TV05 podejście W/S również nie dało zaliczenia scenariusza. Kod silnika
+blokuje klawisze przy fokusie przycisku, ale tej konkretnej przyczyny nie potwierdzono odczytem fokusu w nieudanej próbie.
+Zachowano tę próbę w logu; nie zmieniono kontroli fokusu gry. Scenariusz używa
+ostatecznie normalnego kliknięcia osiągalnego gruntu (600,390), poza promieniem
+45 j. wyboru manekina (600,315), a w zasięgu zwykłego ciosu. Sprawdza dojście
+z tolerancją 20 j., potem rzeczywiste trafienie — bez force-click i mutacji sesji.
+
+### Końcowy odbiór tej partii
+
+Zaliczono **6 unikalnych scenariuszy**: TV04, TV05 i TV06 na I stopniu,
+każdy w Canvas i Software WebGL. Pozytywne wyniki pochodzą z kolejnych uruchomień:
+TV04/TV06 Canvas i TV04 WebGL z serii `browser-final`, TV05 Canvas z
+`rhythm-fixed`, TV05/TV06 WebGL z `webgl-release`. To nie deklaracja jednej
+zielonej serii 6/6. W `browser-final` były także 1 FAIL, 1 INTERRUPTED i 1 NOT RUN:
+przerwano znaną błędną wersję scenariusza TV05 przed ponowieniem poprawionego.
+Każdy pozytywny przypadek wymaga rzeczywistego renderera, ukończenia działań,
++100 praktyki, zachowania własnych zasobów i wyniku po reload; `pageerror` = 0.
+II/III stopnie są sprawdzone testami kontrolerów/transakcji, nie całym przejściem UI.
+Nowych prób nie testowano na fizycznym telefonie ani dotykiem; nie podmieniano
+sterowania na potrzeby testu. Build na końcowych źródłach UI ponowiono: PASS.
+Przed commitem ponowiono pełny TypeScript. Logi, niepowodzenia, screenshoty
+oraz sumy SHA-256 końcowych źródeł zapisano w QA tej partii.
+Publikacja wymaga zgodnego wydania klienta i serwera; tej partii nie wdrażano.

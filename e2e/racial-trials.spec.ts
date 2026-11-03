@@ -109,6 +109,9 @@ async function walkToStation(page: Page, touch: boolean) {
 
 for (const [race, id, land] of [
   ["Planetarni", "TV10", "verdant"],
+  ["Planetarni", "TV04", "verdant"],
+  ["Planetarni", "TV05", "verdant"],
+  ["Planetarni", "TV06", "verdant"],
   ["Mędrcy", "TA01", "aether"],
   ["Androidy", "TN08", "nexus"],
   ["Legendy", "TP08", "pyra"],
@@ -144,7 +147,54 @@ for (const [race, id, land] of [
         return metrics ? JSON.parse(metrics).renderer : null;
       })
       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
-    if (id === "TP08") {
+    if (id === "TV05") {
+      const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+      for (let cycle = 0; cycle < 8 && !(await result.count()); cycle++) {
+        await expect.poll(async () => await stage.getAttribute("data-trial-phase")).toBe("warning");
+        const canvas = stage.locator(".ki-canvas");
+        const point = await canvas.evaluate((el) => {
+          const d = (el as HTMLElement).dataset,
+            b = el.getBoundingClientRect(),
+            z = Number(d["cameraZoom"]);
+          const x = Number(d["playerX"]),
+            y = Number(d["playerY"]);
+          const targetY = y + (y > 400 ? -155 : 155);
+          return {
+            x: b.x + (x - Number(d["cameraX"]) - b.width / 2) * z + b.width / 2,
+            y: b.y + (targetY - Number(d["cameraY"]) - b.height / 2) * z + b.height / 2,
+          };
+        });
+        await page.mouse.click(point.x, point.y);
+        await expect
+          .poll(async () => await stage.getAttribute("data-trial-phase"))
+          .not.toBe("warning");
+        if ((await stage.getAttribute("data-trial-phase")) === "counter") {
+          // Click reachable ground outside the dummy's 45-unit selection circle.
+          const approach = await canvas.evaluate((el) => {
+            const d = (el as HTMLElement).dataset,
+              b = el.getBoundingClientRect(),
+              z = Number(d["cameraZoom"]);
+            return {
+              x: b.x + (600 - Number(d["cameraX"]) - b.width / 2) * z + b.width / 2,
+              y: b.y + (390 - Number(d["cameraY"]) - b.height / 2) * z + b.height / 2,
+            };
+          });
+          await page.mouse.click(approach.x, approach.y);
+          await expect
+            .poll(async () =>
+              Math.hypot(
+                Number(await canvas.getAttribute("data-player-x")) - 600,
+                Number(await canvas.getAttribute("data-player-y")) - 390,
+              ),
+            )
+            .toBeLessThan(20);
+          await stage.locator('[data-ability="R"]').click();
+          await expect
+            .poll(async () => await stage.getAttribute("data-trial-phase"))
+            .not.toBe("counter");
+        }
+      }
+    } else if (id === "TP08") {
       await page.screenshot({ path: info.outputPath("pyra-trial-before-attack.png") });
       await info.attach("attack-preflight", {
         contentType: "application/json",
@@ -172,7 +222,7 @@ for (const [race, id, land] of [
         await expect(stage).toHaveAttribute("data-trial-phase", "hold");
       }
     } else {
-      const rounds = id === "TN08" ? 1 : 3;
+      const rounds = id === "TN08" ? 1 : id === "TV04" ? 2 : id === "TV06" ? 6 : 3;
       for (let i = 0; i < rounds; i++) {
         await walkToStation(page, false);
         await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
@@ -193,7 +243,12 @@ for (const [race, id, land] of [
           // Read only the clues actually shown to the player, never internal answer IDs.
           const heading = await materials.getByRole("heading", { level: 2 }).innerText();
           let answer: string;
-          if (id === "TV10") {
+          if (id === "TV04") {
+            answer = text.join(" ").split("strzałki: ")[1]!.split(".")[0]!.split(" → ")[i]!.trim();
+          } else if (id === "TV06") {
+            const location = text.join(" ").match(/(Północ|Brzeg|Polana): 82/)![1]!;
+            answer = `${i % 2 === 0 ? "Oznacz" : "Oczyść"} ${location}`;
+          } else if (id === "TV10") {
             answer = text
               .join(" ")
               .match(new RegExp(`${i + 1}\\.\\s*([^→.]+)`))![1]!

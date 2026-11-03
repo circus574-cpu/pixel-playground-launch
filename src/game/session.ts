@@ -1827,6 +1827,11 @@ export class GameSession implements MonsterHost {
       next.rewardReceipts[key] = { practice: trialReward(attempt.tier) };
       next.practiceEarned += trialReward(attempt.tier);
       if (
+        domainRank(next.trials, "planetary", "earth") >= 2 &&
+        !next.unlockedVariants.includes("mv-earth")
+      )
+        next.unlockedVariants.push("mv-earth");
+      if (
         domainRank(next.trials, "sage", "seals") >= 2 &&
         !next.unlockedVariants.includes("ma-seal")
       )
