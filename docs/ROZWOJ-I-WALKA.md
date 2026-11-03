@@ -1,5 +1,18 @@
 # KI Legends — rozwój i walka
 
+## Audyt kompletności — 03.11.2026
+
+Na `main@13983467` pełny zakres rozwoju czterech ras pozostaje **NIEUKOŃCZONY**.
+Późniejsze prace dostarczyły 46/46 grafik i 41 plików audio, ekwipunek/depozyt
+i administrację. Nadal brakuje 48 prób rasowych, odblokowania 12 wariantów oraz
+kontrolerów eskort bojowych/ochrony. Potwierdzono blokady H-V03, H-A05, H-N03
+i H-P06 oraz błędne naliczanie części bonusów nowych przedmiotów (HP/KI/ruch/krytyk).
+Pełny zestaw testów jednostkowych: 1088 PASS / 0 FAIL / 10 SKIP;
+nie potwierdza ukończenia brakujących ścieżek gry.
+[Raport, konkretne blokady, budżet praktyki i reprodukcja błędów](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
+
+Poniższe checkpointy z 28–29.10 opisują historię implementacji.
+
 > **Stan po integracji 29.10.2026, `main@5cea48da`:** PR #55 i #61 są scalone przez #62 i opublikowane. Działają wspólny trening/egzaminy, częściowe dziedzictwa oraz nowe parametry Unik, szybkość ataku i Technika bez wzrostu za poziom. Portret otwiera rzeczywiste statystyki z prezentacją wartości i premii. Obowiązują formaty klasyczny9 i Superior5, opisane [w sekcji integracji](#integracja-oczekujących-gałęzi--29102026). Późne rozdziały i próby nie są ukończone, a pełna regresja walki nie ma zielonego odbioru. [Wyniki i publikacja](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
 
 > **Audyt 28.10.2026, `main@30f7b8d5`:** Combat V3 scalono przez #48; w #51 scalono animacje HD czterech ras (klatki 256 px, skala wyświetlania zachowuje poprzednie proporcje). Nie jest to potwierdzenie płynnej, bezbłędnej walki. W pełnym Playwright PR #49 scenariusz Planetarnego w `e2e/three-races-pve.spec.ts:176` uzyskał 2 zamiast 3 zabójstw w 60 sekund (1 FAIL / 182 PASS). W nowszym WebGL #52 na `a4ee855e` stwierdzono 7 FAIL, wszystkie z timeoutem poszukiwania żywego przeciwnika przez `liveEnemy` w `e2e/fixtures.ts:223`; problem dotyczy m.in. Mędrców i Androidów. Przyczyny technicznej nie potwierdzono. **Nie zaliczać całego Combat V3; nie usuwać ani nie rozluźniać testów.** Dowody: [28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
