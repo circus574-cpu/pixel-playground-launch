@@ -351,6 +351,13 @@ export function mountKileGends(
         this.scene.pause();
       }
     }
+    /** A screen wider or taller than the room shows the room centred, not stuck to a corner. */
+    private fitRoomBounds(room: { width: number; height: number }) {
+      const cam = this.cameras.main;
+      const extraX = Math.max(0, (this.scale.width / cam.zoom - room.width) / 2);
+      const extraY = Math.max(0, (this.scale.height / cam.zoom - room.height) / 2);
+      cam.setBounds(-extraX, -extraY, room.width + 2 * extraX, room.height + 2 * extraY);
+    }
     private initializeWorld() {
       prepareTextures(this, assets);
       for (const ref of runtime ? [] : worldRenderRefs(world.id))
@@ -469,7 +476,7 @@ export function mountKileGends(
               cam.centerOn(room.width / 2, room.height / 2);
             }
           } else if (isLargeRoom(room)) {
-            cam.setBounds(0, 0, room.width, room.height);
+            this.fitRoomBounds(room);
             if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
           } else cam.centerOn(room.width / 2, room.height / 2);
         }
@@ -1358,7 +1365,7 @@ export function mountKileGends(
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
           if (isLargeRoom(room)) {
-            this.cameras.main.setBounds(0, 0, room.width, room.height);
+            this.fitRoomBounds(room);
             this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
             this.cameras.main.centerOn(session.player.x, session.player.y);
           } else this.cameras.main.centerOn(room.width / 2, room.height / 2);

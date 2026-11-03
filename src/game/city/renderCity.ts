@@ -112,7 +112,7 @@ export function renderCityInterior(
   const painted = paintedRoomArt(id, world.id);
   const art = painted ? textureBinding(painted, { asset: "" }) : undefined;
   if (art?.asset && scene.textures.exists(art.asset))
-    return renderPaintedRoom(scene, room, b.name, art.asset);
+    return renderPaintedRoom(scene, room, art.asset);
   const objects: (
     | Phaser.GameObjects.TileSprite
     | Phaser.GameObjects.Image
@@ -227,8 +227,8 @@ export function renderCityInterior(
   return { dispose: () => objects.forEach((o) => o.destroy()) };
 }
 
-/** A painted room: the picture fills the room; the exit label and the building name sit on top. */
-function renderPaintedRoom(scene: Phaser.Scene, room: Interior, name: string, asset: string) {
+/** A painted room: the picture fills the room; the exit label sits on top (the name is in the HUD). */
+function renderPaintedRoom(scene: Phaser.Scene, room: Interior, asset: string) {
   const objects: (Phaser.GameObjects.Image | Phaser.GameObjects.Text)[] = [];
   objects.push(
     scene.add
@@ -236,19 +236,6 @@ function renderPaintedRoom(scene: Phaser.Scene, room: Interior, name: string, as
       .setOrigin(0)
       .setDisplaySize(room.width, room.height)
       .setDepth(-90000),
-  );
-  objects.push(
-    scene.add
-      .text(room.width / 2, 36, name, {
-        fontFamily: "Arial",
-        fontSize: "34px",
-        color: "#ecdfb0",
-        stroke: "#12281e",
-        strokeThickness: 6,
-      })
-      .setOrigin(0.5)
-      .setResolution(2)
-      .setDepth(1000),
   );
   objects.push(
     scene.add
