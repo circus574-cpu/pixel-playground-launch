@@ -17,6 +17,7 @@ import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
 import { ITEM_CATALOG } from "@/game/items/catalog";
 import { ItemHoverTooltip } from "./AdminCatalogInfo";
 import { getItemById } from "@/game/items";
+import { itemFitsSlot } from "@/game/items/slots";
 import {
   ITEMS,
   ITEM_IDS,
@@ -1787,19 +1788,21 @@ export function ServerCharacterManager() {
                               <option value="">-- Wybierz przedmiot --</option>
                               {/* Klasyczne */}
                               <optgroup label="Klasyczne przedmioty">
-                                {ITEM_IDS.map((it) => (
+                                {ITEM_IDS.filter((it) => itemFitsSlot(slotKey, it)).map((it) => (
                                   <option key={it} value={it}>
                                     {ITEMS[it]?.name || it} ({it})
                                   </option>
                                 ))}
                               </optgroup>
                               {/* V2 Item Catalog */}
-                              <optgroup label="Katalog V2 (366 przedmiotów)">
-                                {ITEM_CATALOG.map((it) => (
-                                  <option key={it.id} value={it.id}>
-                                    {it.name} [{it.rarity}] ({it.id})
-                                  </option>
-                                ))}
+                              <optgroup label="Katalog V2 (tylko pasujące do slotu)">
+                                {ITEM_CATALOG.filter((it) => itemFitsSlot(slotKey, it.id)).map(
+                                  (it) => (
+                                    <option key={it.id} value={it.id}>
+                                      {it.name} [{it.rarity}] ({it.id})
+                                    </option>
+                                  ),
+                                )}
                               </optgroup>
                             </select>
                           </div>

@@ -19,6 +19,7 @@ import {
   type CombatTraining,
 } from "../game/combatTraining";
 import { BUILDING_IDS, type BuildingId } from "../game/city/types";
+import { itemFitsSlot } from "../game/items/slots";
 import type { CharacterStats } from "../game/characterStats";
 import type { RaceId, WorldId } from "../game/world/races";
 import { supabase } from "../integrations/supabase/client";
@@ -467,6 +468,8 @@ export async function updateServerCharacter(
         if (slot === "weaponUpgradeTier") {
           player.upgrade = Math.max(0, Math.min(1, Number(item ?? 0)));
         } else {
+          if (item && !itemFitsSlot(slot, String(item)))
+            throw new Error(`Przedmiot "${String(item)}" nie pasuje do slotu "${slot}".`);
           (player.equipment as Record<string, unknown>)[slot] = item || null;
           if (slot === "weapon") player.weapon = typeof item === "string" ? item : null;
           if (slot === "armor") player.armor = typeof item === "string" ? item : null;
