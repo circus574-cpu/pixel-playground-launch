@@ -18,3 +18,18 @@ otwierać. Postacie bez edycji z panelu działały.
   z bazy do punktu zapisu, zapisuje ostrzeżenie w logu i nadal wymaga pełnej walidacji punktu zapisu.
   Zapis, który jej nie przejdzie, jest odrzucany jak dotąd.
 - Test `server-superior-simulation` odtwarza rozjazd i sprawdza, że postać się otwiera.
+
+## Chodzenie przestało się przycinać na serwerze
+
+### 3. Zapis postaci przy każdym ticku
+
+Na nagraniu z telefonu i w panelu `/admin` (pętla ticka: p95 109 ms przy budżecie 50 ms przy jednym
+graczu) widać, że serwer nie wyrabiał 20 Hz. Przyczyna: każdy tick (co 50 ms) kończył się pełną
+transakcją PostgreSQL (`SELECT … FOR UPDATE`, dwie walidacje całego stanu, `UPDATE` z całym JSON-em), a
+ramka trafiała do gracza dopiero po jej zatwierdzeniu. Ruch przychodził więc co ok. 110 ms.
+
+- Tiki są zapisywane co 2 s (`OnlineSession.checkpointEveryMs`), ramki idą od razu.
+- Komendy gracza nadal zapisują natychmiast, a zamknięcie sesji zapisuje postęp od ostatniego zapisu
+  przed zwolnieniem dzierżawy. Nieudany zapis nadal zatrzymuje sesję (wykrywany najpóźniej po 2 s).
+- Przy awarii serwera można stracić najwyżej ostatnie 2 s ruchu i walki.
+- Test sprawdza: jeden zapis na 11 ticków i dopisek przy zamknięciu.
