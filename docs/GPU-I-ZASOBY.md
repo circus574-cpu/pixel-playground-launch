@@ -1,5 +1,34 @@
 # KI Legends — GPU i zasoby
 
+## Pyra — materiały właściciela, 03.11.2026
+
+Oddzielna gałąź `preview/pyra-painted-world`, pakiet `pyra-painted-preview@1.0.1`,
+opcja `ki-pyra-painted=1`. Cztery tekstury JPG: spękana skała, jesienna ściółka,
+ozdobny kamień oraz ceglana droga. Sześć przezroczystych PNG z ZIP właściciela:
+sala wodza → sala przysięgi, targ → sklep, karczma → gospoda, kuźnia Goro →
+kuźnia żaru, skarbiec → depozyt, arena treningowa → arena.
+Nazwy, usługi i fizyczna geometria miasta pozostają kanoniczne.
+
+[Źródła, manifest, skrypt i sumy SHA-256](../art/production/pyra-painted-preview/).
+Odtworzenie: `node art/production/pyra-painted-preview/prepare.mjs`, import:
+`npm run assets:import -- art/production/pyra-painted-preview/manifest.json --install`.
+Zachowano oryginalną alfę budynków (także dym), bez usuwania tła ani przemalowania.
+Przesłany przykład całej sceny jest jedynie referencją, nie teksturą mapy.
+Runtime: `public/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/`,
+10 plików WebP, 10 175 460 bajtów (9,70 MiB). Źródłowe WebP: 2 622 414 bajtów.
+Importer normalizuje do bezstratnego WebP. GPU nie używano.
+
+Teren/ściany nawigacyjne zachowują oryginalne maski; w mieście skała zastępuje
+plamy biomów wyłącznie wizualnie na komórkach lądu. Ściółka ma skalę 256 j.,
+skała 1024 j., cegła 640 j., ornament 768 j. Zdobiony podest 460×300 j. przed
+istniejącą salą wodza jest dekoracją pod stopami; nie dodaje kolizji ani ścieżek.
+Chunki podglądu 1024² zamiast 512²; streaming pozostaje aktywny. Budynki mają
+wysokość 470 j. i szerokość co najmniej 530 j. z zachowaniem proporcji i wiązania
+do istniejących drzwi. Pozostaje standardowe przygaszanie przy zasłanianiu aktorów.
+Wersja 1.0.0 była lokalną próbą; 1.0.1 poprawia wielkość liści.
+[Zrzut i wyniki kontroli](zmiany/2026-11-03/ZMIANY.md#pyra--podgląd-czterech-tekstur-i-sześciu-budynków).
+Nie ma publikacji ani odbioru fizycznego telefonu.
+
 ## Próba Verdantii — 03.11.2026
 
 Pakiet `verdant-painted-preview@1.2.0` jest opcjonalny przez `ki-verdant-painted=1`.

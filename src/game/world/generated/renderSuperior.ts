@@ -89,6 +89,7 @@ const layerCanvas = (size = 512) => {
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const painted = paintedMeadowEnabled(source.loader.definition.feature);
+  const paintedPyra = painted && source.loader.definition.feature === "pyra";
   const resolution = painted ? 1024 : 512;
   const scale = resolution / CHUNK;
   const live = new Map<string, Tile>();
@@ -208,7 +209,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       lctx.globalCompositeOperation = "source-over";
       lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
-      lctx.filter = painted && fill !== water ? "saturate(0.82) brightness(0.9)" : "none";
+      lctx.filter =
+        painted && !paintedPyra && fill !== water ? "saturate(0.82) brightness(0.9)" : "none";
       lctx.fillRect(0, 0, resolution, resolution);
       lctx.filter = "none";
       lctx.globalCompositeOperation = "destination-in";
@@ -236,8 +238,20 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           );
         });
     }
+    if (paintedPyra) {
+      const buildings = source.art.acceptedCityBuildings;
+      const left = Math.min(...buildings.map((b) => b.x)) - 400;
+      const right = Math.max(...buildings.map((b) => b.x)) + 400;
+      const top = Math.min(...buildings.map((b) => b.y)) - 450;
+      const bottom = Math.max(...buildings.map((b) => b.y)) + 300;
+      texture(ground[0]!, 1, (i) => {
+        const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols;
+        const y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
+        return !!(flags[i]! & 16) && x > left && x < right && y > top && y < bottom;
+      });
+    }
     texture(water, waterAlpha, (i) => !(flags[i]! & 16));
-    if (painted) meadowLight(ctx, data.x, data.y, scale);
+    if (painted && !paintedPyra) meadowLight(ctx, data.x, data.y, scale);
     const silhouette = painted ? document.createElement("canvas") : undefined;
     if (silhouette) silhouette.width = silhouette.height = resolution + 48;
     const pen = silhouette?.getContext("2d") ?? ctx;
@@ -308,6 +322,31 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       pen.fill();
     }
     if (silhouette && roadFill) paintedPaths(ctx, silhouette, roadFill, data.x, data.y, scale);
+    if (paintedPyra && plaza) {
+      const courts = document.createElement("canvas");
+      courts.width = courts.height = resolution + 48;
+      const courtPen = courts.getContext("2d")!;
+      courtPen.translate(24, 24);
+      courtPen.fillStyle = "#fff";
+      // Decorative doorstep apron; navigation and the authored world remain unchanged.
+      const hall = source.art.acceptedCityBuildings.find((b) => b.binding.endsWith(".pyra-hall"));
+      const aprons = hall?.door
+        ? [{ x: hall.door.x - 230, y: hall.door.y + 20, width: 460, height: 300 }]
+        : [];
+      for (const court of [...source.cityRoads, ...aprons]) {
+        if (Math.min(court.width, court.height) < 300) continue;
+        courtPen.beginPath();
+        courtPen.roundRect(
+          (court.x - data.x) * scale,
+          (court.y - data.y) * scale,
+          court.width * scale,
+          court.height * scale,
+          20 * scale,
+        );
+        courtPen.fill();
+      }
+      paintedPaths(ctx, courts, plaza, data.x, data.y, scale);
+    }
     tex.refresh();
     return {
       key,
@@ -402,7 +441,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         if (!image) {
           const ref = catalog.renderBindings[item.binding]!;
           image = sizeScenery(
-            scene.add.image(item.x, item.y, blendedTexture(scene, ref.asset, ref.frame), ref.frame),
+            scene.add.image(
+              item.x,
+              item.y,
+              paintedPyra && ref.asset.startsWith("pyra-painted-")
+                ? ref.asset
+                : blendedTexture(scene, ref.asset, ref.frame),
+              ref.frame,
+            ),
             item.width,
             item.height,
             ref.fit,
