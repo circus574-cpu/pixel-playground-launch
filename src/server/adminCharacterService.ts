@@ -20,6 +20,7 @@ import {
 } from "../game/combatTraining";
 import { BUILDING_IDS, type BuildingId } from "../game/city/types";
 import { itemFitsSlot } from "../game/items/slots";
+import { skillPointsAt, validLearned } from "../game/kit/progression";
 import type { CharacterStats } from "../game/characterStats";
 import type { RaceId, WorldId } from "../game/world/races";
 import { supabase } from "../integrations/supabase/client";
@@ -503,6 +504,16 @@ export async function updateServerCharacter(
       const uniqueSkills = Array.from(new Set(["R", ...patch.skills]));
       player.skills = uniqueSkills;
     }
+
+    // A skill set the game would refuse must never be stored: the character could not open again.
+    if (
+      (patch.skills !== undefined || patch.level !== undefined) &&
+      !validLearned(player.race, player.level, player.skills)
+    )
+      throw new Error(
+        `Umiejętności nie pasują do poziomu ${player.level}: dostępne punkty ${skillPointsAt(player.level)}, ` +
+          "a każdy węzeł ma wymagany poziom, poprzedniki i wykluczenia. Użyj „Odblokuj dozwolone”.",
+      );
 
     // Trening bojowy (combatTraining: dodge, attackSpeed, technique)
     if (patch.combatTraining !== undefined) {

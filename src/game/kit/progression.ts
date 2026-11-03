@@ -55,4 +55,42 @@ export function validLearned(race: RaceId, level: number, learned: readonly stri
   }
   return true;
 }
+/**
+ * The largest valid subset of `wanted` (kept in the given order, root first): it respects the point
+ * budget of the level, each node's minimum level, its prerequisites and its exclusions. Used to
+ * heal data that no longer satisfies `validLearned` and to unlock "everything allowed".
+ */
+export function repairLearned(race: RaceId, level: number, wanted: readonly string[]): string[] {
+  const nodes = KIT_NODES[race];
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const pending = [...new Set(["R", ...wanted])].filter((id) => byId.has(id));
+  const kept: string[] = [];
+  const keptSet = new Set<string>();
+  const budget = skillPointsAt(level);
+  let progress = true;
+  while (progress && kept.length < budget) {
+    progress = false;
+    for (const id of pending) {
+      if (kept.length >= budget) break;
+      if (keptSet.has(id)) continue;
+      const n = byId.get(id)!;
+      if (level < n.minLevel) continue;
+      if (n.requires.length && !n.requires.some((r) => keptSet.has(r))) continue;
+      if (n.excludes && keptSet.has(n.excludes)) continue;
+      if (kept.some((k) => byId.get(k)!.excludes === id)) continue;
+      kept.push(id);
+      keptSet.add(id);
+      progress = true;
+    }
+  }
+  return kept;
+}
+/** Every node the tree allows at this level, taken in tree order until the points run out. */
+export function unlockAllowed(race: RaceId, level: number): string[] {
+  return repairLearned(
+    race,
+    level,
+    KIT_NODES[race].map((n) => n.id),
+  );
+}
 export const START_NODES = ["R"] as const;

@@ -14,6 +14,7 @@ import type {
 } from "@/server/adminCharacterService";
 import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
+import { unlockAllowed } from "@/game/kit/progression";
 import { ITEM_CATALOG } from "@/game/items/catalog";
 import { ItemHoverTooltip } from "./AdminCatalogInfo";
 import { getItemById } from "@/game/items";
@@ -2339,12 +2340,22 @@ export function ServerCharacterManager() {
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                     <button
                       onClick={() => {
-                        const allNodes = activeKitNodes.map((n) => n.id);
-                        setForm({ ...form, skills: Array.from(new Set(["R", ...allNodes])) });
+                        setForm({
+                          ...form,
+                          skills: unlockAllowed(
+                            detail!.player.race,
+                            form.level ?? detail!.player.level,
+                          ),
+                        });
                       }}
                       className="ki-account-primary"
                     >
-                      🌟 Odblokuj wszystkie umiejętności rasy ({activeKitNodes.length})
+                      🌟 Odblokuj dozwolone umiejętności (
+                      {
+                        unlockAllowed(detail!.player.race, form.level ?? detail!.player.level)
+                          .length
+                      }{" "}
+                      z {activeKitNodes.length})
                     </button>
 
                     <button

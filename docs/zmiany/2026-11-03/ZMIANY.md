@@ -332,3 +332,16 @@ Dodano `?ki-painted=1`: włącza naraz paczki Verdantii (teren i budynki z liśc
 Flagi pojedynczych miast (`ki-verdant-painted`, `ki-aether-painted`, `ki-nexus-painted`, `ki-pyra-painted`)
 nadal działają. Bez flagi gra wygląda jak dotychczas; paczki pozostają `previewOnly`.
 Test: `src/test/painted-flag.test.ts`. Nie mierzono FPS ani pamięci na telefonie.
+
+## Admin: zmiany w panelu nie psują postaci
+
+- Przyczyna zablokowanej postaci: panel zapisywał dowolny zestaw umiejętności (przycisk „Odblokuj wszystkie”,
+  29 węzłów przy poziomie 4), a wczytanie postaci odrzuca zestaw przekraczający punkty poziomu, poziom
+  minimalny, poprzedniki i wykluczenia (`validLearned`). Błąd trafiał do gracza jako `COMMAND_REJECTED`.
+- Serwer panelu odrzuca teraz niedozwolone umiejętności z jasnym komunikatem; ekwipunek przyjmuje tylko
+  przedmioty pasujące do slotu (`src/game/items/slots.ts`).
+- Przycisk „Odblokuj dozwolone umiejętności” daje największy dozwolony zestaw dla poziomu (`unlockAllowed`).
+- Wczytanie postaci z niedozwolonymi umiejętnościami przycina je do dozwolonych (`repairLearned`) zamiast
+  odrzucać postać; to naprawia już zablokowane postacie.
+- Testy: `item-slots`, `skills-repair`, `skills-load-heal` (ten ostatni odtwarza błąd bez poprawki).
+- Nie zmieniono: reguł drzewka, balansu, zapisów graczy bez błędu. Rangi węzłów (punkty bez limitu) to osobna zmiana.
