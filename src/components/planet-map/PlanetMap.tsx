@@ -679,7 +679,7 @@ export function PlanetMap({
       )}
 
       {onTeleport && ATLAS_V2 && (
-        <div className="pm-teleport-tools" style={{ top: notice ? 190 : 126 }}>
+        <div className="pm-teleport-tools">
           <Button
             type="button"
             aria-pressed={teleportArmed}

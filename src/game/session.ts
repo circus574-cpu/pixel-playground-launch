@@ -58,6 +58,7 @@ import {
   type Kit,
   type KitPort,
   type ResourceInfo,
+  LEVEL_MAX,
 } from "./kit";
 import { MATERIALS, MATERIAL_IDS, isMaterial } from "./monsters/materials";
 import { getItemById, computePassiveEquipmentBonuses } from "./items";
@@ -210,7 +211,7 @@ export const PlayerSchema = z.object({
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
   startContinent: z.enum(WORLD_IDS),
-  level: z.number().int().min(1).max(100),
+  level: z.number().int().min(1).max(LEVEL_MAX),
   xp: finite(1000000).int(),
   hp: finite(100000),
   ki: finite(100000),
@@ -1218,17 +1219,18 @@ export class GameSession implements MonsterHost {
   private award(xp: number) {
     this.player.xp += xp;
     this.say("+" + xp + " XP");
-    while (this.player.level < 100 && this.player.xp >= xpNeeded(this.player.level)) {
+    while (this.player.level < LEVEL_MAX && this.player.xp >= xpNeeded(this.player.level)) {
       this.player.xp -= xpNeeded(this.player.level);
       this.player.level++;
       const s = this.kit.stats;
       this.player.hp = s.maxHp;
       this.player.ki = s.maxKi;
       this.emit({ type: "level", ...this.player, text: "Poziom " + this.player.level });
-      const gained = this.player.level <= 20 ? " Nowy punkt umiejętności." : "";
+      const gained = " Nowy punkt umiejętności.";
       this.say("Awans! Poziom " + this.player.level + "." + gained);
     }
-    if (this.player.level === 100) this.player.xp = Math.min(this.player.xp, xpNeeded(100) - 1);
+    if (this.player.level === LEVEL_MAX)
+      this.player.xp = Math.min(this.player.xp, xpNeeded(LEVEL_MAX) - 1);
   }
   private add(item: ItemId, n = 1) {
     if (
@@ -1516,7 +1518,7 @@ export class GameSession implements MonsterHost {
       this.god = !this.god;
       this.say(this.god ? "Nieśmiertelność włączona." : "Nieśmiertelność wyłączona.");
     } else if (c.action === "level") {
-      if (p.level >= 100) return;
+      if (p.level >= LEVEL_MAX) return;
       p.level += 1;
       p.xp = 0;
       p.hp = this.kit.stats.maxHp;

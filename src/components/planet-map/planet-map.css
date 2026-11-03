@@ -1033,6 +1033,8 @@ html[data-ki-world-v2] .pg-zone {
 .pm-teleport-tools {
   position: absolute;
   left: max(14px, env(safe-area-inset-left));
+  /* Bottom-left corner: it used to sit over the map just under the header and hid terrain. */
+  bottom: max(14px, env(safe-area-inset-bottom));
   z-index: 3;
   max-width: min(260px, calc(100% - 28px));
   color: #ffedc6;

@@ -14,9 +14,11 @@ import type {
 } from "@/server/adminCharacterService";
 import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
+import { LEVEL_MAX, unlockAllowed } from "@/game/kit/progression";
 import { ITEM_CATALOG } from "@/game/items/catalog";
 import { ItemHoverTooltip } from "./AdminCatalogInfo";
 import { getItemById } from "@/game/items";
+import { itemFitsSlot } from "@/game/items/slots";
 import {
   ITEMS,
   ITEM_IDS,
@@ -601,7 +603,7 @@ export function ServerCharacterManager() {
                     onClick={() =>
                       void handleLiveAction({
                         type: "setLevel",
-                        level: Math.min(20, (form.level || 1) + 1),
+                        level: Math.min(LEVEL_MAX, (form.level || 1) + 1),
                       })
                     }
                   >
@@ -612,7 +614,7 @@ export function ServerCharacterManager() {
                     disabled={saving}
                     onClick={() => void handleLiveAction({ type: "setLevel", level: 20 })}
                   >
-                    ⭐ Max 20 Poziom
+                    ⭐ Poziom 20
                   </button>
 
                   {detail.isOnline && (
@@ -933,11 +935,11 @@ export function ServerCharacterManager() {
                     </label>
 
                     <label>
-                      Poziom (1–20):
+                      Poziom (bez limitu):
                       <input
                         type="number"
                         min={1}
-                        max={20}
+                        max={LEVEL_MAX}
                         value={form.level ?? 1}
                         onChange={(e) => setForm({ ...form, level: Number(e.target.value) })}
                       />
@@ -1787,19 +1789,21 @@ export function ServerCharacterManager() {
                               <option value="">-- Wybierz przedmiot --</option>
                               {/* Klasyczne */}
                               <optgroup label="Klasyczne przedmioty">
-                                {ITEM_IDS.map((it) => (
+                                {ITEM_IDS.filter((it) => itemFitsSlot(slotKey, it)).map((it) => (
                                   <option key={it} value={it}>
                                     {ITEMS[it]?.name || it} ({it})
                                   </option>
                                 ))}
                               </optgroup>
                               {/* V2 Item Catalog */}
-                              <optgroup label="Katalog V2 (366 przedmiotów)">
-                                {ITEM_CATALOG.map((it) => (
-                                  <option key={it.id} value={it.id}>
-                                    {it.name} [{it.rarity}] ({it.id})
-                                  </option>
-                                ))}
+                              <optgroup label="Katalog V2 (tylko pasujące do slotu)">
+                                {ITEM_CATALOG.filter((it) => itemFitsSlot(slotKey, it.id)).map(
+                                  (it) => (
+                                    <option key={it.id} value={it.id}>
+                                      {it.name} [{it.rarity}] ({it.id})
+                                    </option>
+                                  ),
+                                )}
                               </optgroup>
                             </select>
                           </div>
@@ -2336,12 +2340,22 @@ export function ServerCharacterManager() {
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                     <button
                       onClick={() => {
-                        const allNodes = activeKitNodes.map((n) => n.id);
-                        setForm({ ...form, skills: Array.from(new Set(["R", ...allNodes])) });
+                        setForm({
+                          ...form,
+                          skills: unlockAllowed(
+                            detail!.player.race,
+                            form.level ?? detail!.player.level,
+                          ),
+                        });
                       }}
                       className="ki-account-primary"
                     >
-                      🌟 Odblokuj wszystkie umiejętności rasy ({activeKitNodes.length})
+                      🌟 Odblokuj dozwolone umiejętności (
+                      {
+                        unlockAllowed(detail!.player.race, form.level ?? detail!.player.level)
+                          .length
+                      }{" "}
+                      z {activeKitNodes.length})
                     </button>
 
                     <button
@@ -2360,7 +2374,12 @@ export function ServerCharacterManager() {
                     }}
                   >
                     {activeKitNodes.map((node) => {
-                      const isUnlocked = form.skills?.includes(node.id) ?? false;
+                      const rank = (form.skills ?? []).filter((id) => id === node.id).length;
+                      const isUnlocked = rank > 0;
+                      const setRank = (n: number) => {
+                        const rest = (form.skills ?? ["R"]).filter((id) => id !== node.id);
+                        setForm({ ...form, skills: [...rest, ...Array<string>(n).fill(node.id)] });
+                      };
                       return (
                         <div
                           key={node.id}
@@ -2386,16 +2405,7 @@ export function ServerCharacterManager() {
                             <input
                               type="checkbox"
                               checked={isUnlocked}
-                              onChange={(e) => {
-                                const current = form.skills || ["R"];
-                                let next: string[];
-                                if (e.target.checked) {
-                                  next = Array.from(new Set([...current, node.id]));
-                                } else {
-                                  next = current.filter((id) => id !== node.id);
-                                }
-                                setForm({ ...form, skills: next });
-                              }}
+                              onChange={(e) => setRank(e.target.checked ? 1 : 0)}
                             />
                             <b style={{ color: isUnlocked ? "#f5d48a" : "inherit" }}>
                               {node.name} ({node.id})
@@ -2405,6 +2415,29 @@ export function ServerCharacterManager() {
                           <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>
                             Typ: <b>{node.type}</b> · Min Lvl: <b>{node.minLevel}</b>
                           </div>
+                          {isUnlocked && node.id !== "R" && (
+                            <label
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 6,
+                                margin: 0,
+                                fontSize: "0.75rem",
+                              }}
+                            >
+                              Ranga (efekt ×ranga):
+                              <input
+                                type="number"
+                                min={1}
+                                step={1}
+                                value={rank}
+                                style={{ width: 70 }}
+                                onChange={(e) =>
+                                  setRank(Math.max(1, Math.floor(Number(e.target.value) || 1)))
+                                }
+                              />
+                            </label>
+                          )}
 
                           <div style={{ fontSize: "0.75rem", opacity: 0.65 }}>{node.text}</div>
                         </div>

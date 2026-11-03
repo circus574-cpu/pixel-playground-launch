@@ -454,17 +454,23 @@ const TYPE_LABEL: Record<string, string> = {
   ultimate: "Ostateczna",
   "ki-mode": "Tryb KI",
 };
-/** Skill tree of the player's race (owner annex 22.10.2026): 29 nodes, 3 branches, one point per level up to 20. */
+/**
+ * Skill tree of the player's race (owner annex 22.10.2026): 29 nodes, 3 branches, one point per level
+ * with no cap (owner 03.11.2026). Points can be put into a node again and again: its effect grows in
+ * direct proportion to its rank.
+ */
 export function SkillTree({ state, send }: { state: GameViewState; send: SendCommand }) {
   const p = state.player;
   const nodes = KIT_NODES[p.race];
   const names = BRANCH_NAMES[p.race];
   const learned = new Set(p.skills);
+  const rankOf = (id: string) => p.skills.filter((s) => s === id).length;
   const row = (id: string) => nodes.find((n) => n.id === id)!;
   const branch = (b: "A" | "B" | "C") => nodes.filter((n) => n.id.startsWith(b));
   const node = (id: string) => {
     const n = row(id);
     const have = learned.has(id);
+    const rank = rankOf(id);
     const check = canLearn(p.race, p.level, p.skills, id);
     const blocked = !have && n.excludes && learned.has(n.excludes);
     return (
@@ -482,16 +488,27 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
           </small>
         </header>
         <p>{n.text}</p>
-        {have ? (
+        {have && id === "R" ? (
           <span className="ki-skill-state">Poznane</span>
         ) : (
-          <button
-            disabled={!check.ok}
-            title={check.ok ? "Poznaj za 1 punkt" : check.reason}
-            onClick={() => send({ type: "learn", node: id })}
-          >
-            {check.ok ? "Poznaj · 1 pkt" : check.reason}
-          </button>
+          <>
+            {have && (
+              <span className="ki-skill-state">
+                Ranga {rank} · efekt ×{rank}
+              </span>
+            )}
+            <button
+              disabled={!check.ok}
+              title={check.ok ? "Wydaj 1 punkt" : check.reason}
+              onClick={() => send({ type: "learn", node: id })}
+            >
+              {check.ok
+                ? have
+                  ? "Zwiększ rangę do " + (rank + 1) + " · 1 pkt"
+                  : "Poznaj · 1 pkt"
+                : check.reason}
+            </button>
+          </>
         )}
       </article>
     );
@@ -500,7 +517,7 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
     <div className="ki-adventure-panel ki-skilltree">
       <p>
         <strong>Punkty umiejętności: {state.skillPoints}</strong> · poziom {p.level} (1 punkt na
-        poziom do 20.) · wykorzystane {p.skills.length}
+        poziom, bez limitu) · wykorzystane {p.skills.length}
       </p>
       <div className="ki-skill-root">{node("R")}</div>
       {(["A", "B", "C"] as const).map((b) => (
@@ -523,8 +540,9 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
         {state.respecCost === 0 ? "pierwszy raz za darmo" : state.respecCost + " monet"}
       </button>
       <p className="ki-panel-caption">
-        Wymagany poprzednik, poziom i brak wykluczającego wyboru. Efekty i koszty Ki to wartości z
-        aneksu projektowego do testów i balansu.
+        Wymagany poprzednik, poziom i brak wykluczającego wyboru. Każdy dodatkowy punkt w węźle
+        zwiększa jego efekt wprost proporcjonalnie (ranga 2 = ×2, ranga 3 = ×3). Koszty Ki i czasy
+        odnowienia zostają bez zmian.
       </p>
     </div>
   );

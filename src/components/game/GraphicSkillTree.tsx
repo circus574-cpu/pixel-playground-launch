@@ -30,6 +30,7 @@ export function GraphicSkillTree({ state, send }: { state: GameViewState; send: 
   const nodes = KIT_NODES[p.race];
   const names = BRANCH_NAMES[p.race];
   const learned = new Set(p.skills);
+  const rankOf = (id: string) => p.skills.filter((s) => s === id).length;
   const [selected, setSelected] = useState("R");
   const sel = nodes.find((n) => n.id === selected) ?? nodes[0]!;
   const check = canLearn(p.race, p.level, p.skills, sel.id);
@@ -52,7 +53,10 @@ export function GraphicSkillTree({ state, send }: { state: GameViewState; send: 
         <span className="ki-gst-glyph" aria-hidden>
           {GLYPH[n.type] ?? "◆"}
         </span>
-        <span className="ki-gst-id">{id}</span>
+        <span className="ki-gst-id">
+          {id}
+          {rankOf(id) > 1 ? " ×" + rankOf(id) : ""}
+        </span>
       </button>
     );
   };
@@ -93,16 +97,27 @@ export function GraphicSkillTree({ state, send }: { state: GameViewState; send: 
           </div>
         </header>
         <p>{sel.text}</p>
-        {learned.has(sel.id) ? (
+        {learned.has(sel.id) && sel.id === "R" ? (
           <span className="ki-gst-learned">Poznane</span>
         ) : (
-          <button
-            disabled={!check.ok}
-            onClick={() => send({ type: "learn", node: sel.id })}
-            className="ki-gst-learn"
-          >
-            {check.ok ? "Poznaj · 1 punkt" : check.reason}
-          </button>
+          <>
+            {learned.has(sel.id) && (
+              <span className="ki-gst-learned">
+                Ranga {rankOf(sel.id)} · efekt ×{rankOf(sel.id)}
+              </span>
+            )}
+            <button
+              disabled={!check.ok}
+              onClick={() => send({ type: "learn", node: sel.id })}
+              className="ki-gst-learn"
+            >
+              {check.ok
+                ? learned.has(sel.id)
+                  ? "Zwiększ rangę do " + (rankOf(sel.id) + 1) + " · 1 punkt"
+                  : "Poznaj · 1 punkt"
+                : check.reason}
+            </button>
+          </>
         )}
       </article>
       <button

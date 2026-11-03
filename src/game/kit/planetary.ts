@@ -25,21 +25,23 @@ export class PlanetaryKit extends Kit {
   }
   protected override mods(): Mods {
     const m: Mods = {};
+    // Every effect grows in direct proportion to the points put into its node (rank).
     const terrain = this.has("B2") ? this.port.terrain() : "open";
-    if (this.has("A2")) m.speedPct = (m.speedPct ?? 0) + 0.06;
-    if (this.has("A6")) m.critAdd = 0.05;
-    if (this.has("B3")) m.defPct = (m.defPct ?? 0) + 0.08;
-    if (this.has("C2")) m.hpPct = 0.1;
-    if (this.has("C3")) m.hpRegenOoc = 0.01;
-    if (this.has("C5")) m.ccPct = -0.25;
-    if (terrain === "forest") m.kiRegenPct = 0.3;
-    if (terrain === "rock") m.defPct = (m.defPct ?? 0) + 0.1;
-    if (terrain === "water") m.speedPct = (m.speedPct ?? 0) + 0.08;
+    const adapt = this.rank("B2");
+    if (this.has("A2")) m.speedPct = (m.speedPct ?? 0) + 0.06 * this.rank("A2");
+    if (this.has("A6")) m.critAdd = 0.05 * this.rank("A6");
+    if (this.has("B3")) m.defPct = (m.defPct ?? 0) + 0.08 * this.rank("B3");
+    if (this.has("C2")) m.hpPct = 0.1 * this.rank("C2");
+    if (this.has("C3")) m.hpRegenOoc = 0.01 * this.rank("C3");
+    if (this.has("C5")) m.ccPct = -0.25 * this.rank("C5");
+    if (terrain === "forest") m.kiRegenPct = 0.3 * adapt;
+    if (terrain === "rock") m.defPct = (m.defPct ?? 0) + 0.1 * adapt;
+    if (terrain === "water") m.speedPct = (m.speedPct ?? 0) + 0.08 * adapt;
     return m;
   }
   protected override cooldownOf(id: string) {
     const base = this.defs[id]?.cd ?? 0;
-    return id === "A1" && this.has("A8") ? base * 0.7 : base;
+    return id === "A1" && this.has("A8") ? base * Math.max(0.1, 1 - 0.3 * this.rank("A8")) : base;
   }
   protected override basic(): UseResult {
     const s = this.stats;
@@ -62,7 +64,7 @@ export class PlanetaryKit extends Kit {
     return { ok: true };
   }
   override onKill(_foe: Foe) {
-    if (this.has("A5")) this.addBuff({ id: "A5", ms: 4000, speedPct: 0.15 });
+    if (this.has("A5")) this.addBuff({ id: "A5", ms: 4000, speedPct: 0.15 * this.rank("A5") });
   }
   private aoe(
     id: string,
@@ -95,14 +97,15 @@ export class PlanetaryKit extends Kit {
         const distance = 160 * (this.variant("mv-trail") ? 1.2 : 1);
         this.port.dash({ x: p.x + f.x * distance, y: p.y + f.y * distance }, distance);
         this.addBuff({ id: "dodge", ms: 400, invulnerable: true });
-        if (this.has("A3")) this.addBuff({ id: "A3", ms: 5000, nextHitPct: 0.25 });
+        if (this.has("A3"))
+          this.addBuff({ id: "A3", ms: 5000, nextHitPct: 0.25 * this.rank("A3") });
         if (this.has("A7")) this.addBuff({ id: "A7", ms: 5000, guaranteedCrit: true });
-        if (this.has("A8")) this.addBuff({ id: "A8", ms: 1000, defPct: 0.2 });
+        if (this.has("A8")) this.addBuff({ id: "A8", ms: 1000, defPct: 0.2 * this.rank("A8") });
         this.port.emit({ type: "buff", x: p.x, y: p.y, ability: "A1", text: "Unik" });
         return { ok: true };
       }
       case "A4": {
-        this.aoe("A4", p, 140, 1.8, () => {});
+        this.aoe("A4", p, 140, 1.8 * this.castRank("A4"), () => {});
         return { ok: true };
       }
       case "A9": {
@@ -113,12 +116,17 @@ export class PlanetaryKit extends Kit {
           this.schedule(i * 150, () => {
             const alive = this.port.foesIn(this.port.player, 160);
             const foe = alive[i % Math.max(1, alive.length)];
-            if (foe) this.strike(foe, 0.8, { tags: ["physical"], melee: true, ability: "A9" });
+            if (foe)
+              this.strike(foe, 0.8 * this.castRank("A9"), {
+                tags: ["physical"],
+                melee: true,
+                ability: "A9",
+              });
           });
         return { ok: true };
       }
       case "B1": {
-        const radius = 120 * (this.has("B8") ? 1.4 : 1) * (this.variant("mv-earth") ? 1.2 : 1);
+        const radius = 120 * (1 + 0.4 * this.rank("B8")) * (this.variant("mv-earth") ? 1.2 : 1);
         const damageFactor = this.variant("mv-earth") ? 0.9 : 1;
         let got = 0;
         const hitAll = (mult: number, first: boolean) => {
@@ -131,21 +139,24 @@ export class PlanetaryKit extends Kit {
             radius,
           });
           for (const foe of foes) {
-            this.strike(foe, mult * damageFactor, {
+            this.strike(foe, mult * damageFactor * this.castRank("B1"), {
               tags: ["physical", "area"],
               melee: true,
               ability: "B1",
             });
             if (first) {
               this.port.slowFoe(foe, 0.3, 2000);
-              if (this.has("B8")) this.port.stunFoe(foe, 500);
+              if (this.has("B8")) this.port.stunFoe(foe, Math.min(3000, 500 * this.rank("B8")));
             }
           }
           return foes.length;
         };
         got = hitAll(1.4, true);
-        if (this.has("B6")) this.port.addKi(Math.min(15, got * 5));
-        if (this.has("B5")) this.schedule(500, () => hitAll(1.4 * 0.6, false));
+        if (this.has("B6")) {
+          const r = this.rank("B6");
+          this.port.addKi(Math.min(15 * r, got * 5 * r));
+        }
+        if (this.has("B5")) this.schedule(500, () => hitAll(1.4 * 0.6 * this.rank("B5"), false));
         return { ok: true };
       }
       case "B4": {
@@ -158,51 +169,65 @@ export class PlanetaryKit extends Kit {
         const foes = this.port.foesIn(q, 100);
         this.port.emit({ type: "burst", x: q.x, y: q.y, ability: "B4", radius: 100 });
         for (const x of foes) {
-          this.strike(x, 2, { tags: ["physical", "area", "stun"], melee: true, ability: "B4" });
+          this.strike(x, 2 * this.castRank("B4"), {
+            tags: ["physical", "area", "stun"],
+            melee: true,
+            ability: "B4",
+          });
           this.port.stunFoe(x, 1000);
         }
         if (this.has("B7"))
           this.addShield({
             id: "B7",
             ms: 5000,
-            amount: this.stats.maxHp * 0.15,
-            max: this.stats.maxHp * 0.15,
+            amount: this.stats.maxHp * 0.15 * this.rank("B7"),
+            max: this.stats.maxHp * 0.15 * this.rank("B7"),
           });
         return { ok: true };
       }
       case "B9": {
-        const foes = this.aoe("B9", p, 220, 4, (x) => this.port.stunFoe(x, 1500));
+        const foes = this.aoe("B9", p, 220, 4 * this.castRank("B9"), (x) =>
+          this.port.stunFoe(x, 1500),
+        );
         return foes.length ? { ok: true } : { ok: true };
       }
       case "C1": {
-        const total = this.stats.maxHp * 0.12 * (this.has("C6") ? 1.3 : 1);
+        const total = this.stats.maxHp * 0.12 * this.castRank("C1") * (1 + 0.3 * this.rank("C6"));
         this.hot(
           total * (this.variant("mv-root") ? 1.1 : 1),
           4000 * (this.variant("mv-root") ? 1.5 : 1),
         );
-        if (this.has("C8")) this.port.addKi(15);
+        if (this.has("C8")) this.port.addKi(15 * this.rank("C8"));
         this.port.emit({ type: "heal", x: p.x, y: p.y, ability: "C1", text: "Oddech" });
         return { ok: true };
       }
       case "C4": {
-        const amount = this.stats.maxHp * 0.18;
+        const amount = this.stats.maxHp * 0.18 * this.castRank("C4");
         this.addShield({
           id: "C4",
           ms: 5000,
           amount,
           max: amount,
-          reflectMelee: this.has("C7") ? 0.2 : undefined,
+          reflectMelee: this.has("C7") ? Math.min(0.9, 0.2 * this.rank("C7")) : undefined,
         });
         return { ok: true };
       }
       case "C9": {
-        this.port.heal(this.stats.maxHp * 0.4);
-        const amount = this.stats.maxHp * 0.2;
+        const power = this.castRank("C9");
+        this.port.heal(this.stats.maxHp * 0.4 * power);
+        const amount = this.stats.maxHp * 0.2 * power;
         this.addShield({ id: "C9", ms: 6000, amount, max: amount });
         return { ok: true };
       }
       case "T": {
-        this.addBuff({ id: "T", ms: 20000, atkPct: 0.2, defPct: 0.15, speedPct: 0.1 });
+        const power = this.castRank("T");
+        this.addBuff({
+          id: "T",
+          ms: 20000,
+          atkPct: 0.2 * power,
+          defPct: 0.15 * power,
+          speedPct: 0.1 * power,
+        });
         this.port.emit({
           type: "buff",
           x: p.x,

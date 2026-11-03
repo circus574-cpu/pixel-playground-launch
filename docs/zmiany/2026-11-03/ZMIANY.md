@@ -332,3 +332,59 @@ Dodano `?ki-painted=1`: włącza naraz paczki Verdantii (teren i budynki z liśc
 Flagi pojedynczych miast (`ki-verdant-painted`, `ki-aether-painted`, `ki-nexus-painted`, `ki-pyra-painted`)
 nadal działają. Bez flagi gra wygląda jak dotychczas; paczki pozostają `previewOnly`.
 Test: `src/test/painted-flag.test.ts`. Nie mierzono FPS ani pamięci na telefonie.
+
+## Admin: zmiany w panelu nie psują postaci
+
+- Przyczyna zablokowanej postaci: panel zapisywał dowolny zestaw umiejętności (przycisk „Odblokuj wszystkie”,
+  29 węzłów przy poziomie 4), a wczytanie postaci odrzuca zestaw przekraczający punkty poziomu, poziom
+  minimalny, poprzedniki i wykluczenia (`validLearned`). Błąd trafiał do gracza jako `COMMAND_REJECTED`.
+- Serwer panelu odrzuca teraz niedozwolone umiejętności z jasnym komunikatem; ekwipunek przyjmuje tylko
+  przedmioty pasujące do slotu (`src/game/items/slots.ts`).
+- Przycisk „Odblokuj dozwolone umiejętności” daje największy dozwolony zestaw dla poziomu (`unlockAllowed`).
+- Wczytanie postaci z niedozwolonymi umiejętnościami przycina je do dozwolonych (`repairLearned`) zamiast
+  odrzucać postać; to naprawia już zablokowane postacie.
+- Testy: `item-slots`, `skills-repair`, `skills-load-heal` (ten ostatni odtwarza błąd bez poprawki).
+- Nie zmieniono: reguł drzewka, balansu, zapisów graczy bez błędu. Rangi węzłów (punkty bez limitu) to osobna zmiana.
+
+## Poziom i punkty umiejętności bez limitu 20
+
+Limit 20 był tylko punktem startowym pod późniejszy rozwój drzewek (decyzja właściciela 03.11.2026).
+Punkty umiejętności = poziom (`skillPointsAt`), bez ograniczenia do 20. Poziom nie zatrzymuje się na 100;
+`LEVEL_MAX = 10 000` to techniczny bezpiecznik danych (pole `xp` zostaje poniżej 1 000 000), nie limit gry.
+Zdjęto limity 20 w panelu admina (poziom, „+1 poziom”), w migracji questów i w edytorze świata.
+Statystyki rosną liniowo z poziomem (`baza + przyrost × (poziom − 1)`), więc wyższe poziomy liczą się poprawnie.
+Bez zmian: wzrost szybkości ruchu nadal kończy się na poziomie 20 (decyzja właściciela 22.10.2026), a węzeł
+Tryb KI nadal wymaga poziomu 20. Testy: `level-uncapped`, `skills-repair`. Rangi węzłów (efekt ×ranga) to osobna zmiana.
+
+## Mapa 2D ostrzejsza, etykiety bez nakładania, panel ADM w kadrze
+
+- **Mapa kontynentów (`map-hi.webp`):** dotąd 1 piksel na komórkę terenu 32×32 j., więc przy zoomie widać siatkę
+  i schodki. Nowy tryb `MAP_UPSAMPLE=2` w `scripts/worldgen/v2/render_v2_maps.py`: gładkie granice lądu i
+  biomów (interpolacja), drogi rysowane z polilinii `world.json` z wygładzonymi narożnikami (bez tajnych
+  szlaków), budżet `MAP_MAX_MEGAPIXELS=12` (ok. 48 MB po zdekodowaniu, bo mapa jest dekodowana podczas gry).
+  Odświeżono `worldOverlay.v2.json` (`build_v2_atlas_overlay.py`): drogi i miejsca bez zmian, nowe transformacje kafli.
+  Polecenie: `MAP_WIDTH=8192 MAP_SUFFIX=-hi MAP_UPSAMPLE=2 MAP_LANDS=aether,nexus,pyra,verdant python3 scripts/worldgen/v2/render_v2_maps.py`.
+- **Etykiety „Obóz · poz. X”:** `src/components/planet-map/labelLayout.ts`: priorytety (stolica > miasto > słynne >
+  wioska > obóz) i pomijanie etykiet nachodzących na już ustawione. Test `map-labels`.
+- **Przycisk „Teleportuj”** przeniesiony do lewego dolnego rogu mapy.
+- **Panel ADM na komputerze** rozwijał się w lewo poza ekran (`right: 0` przy przycisku przypiętym do lewej krawędzi);
+  teraz otwiera się w prawo i mieści w kadrze.
+- **Filtr slotów** w panelu używa tej samej funkcji co gra (`getSlotForItem`), więc artefakty pasują do amuletu.
+- **Zbadane i odrzucone:** mipmapy Phasera (`?ki-mipmap=1`) rozmywały drzewa i gubiły obrys, więc ich nie wprowadzono.
+- **Ustalone, nie zmienione:** gra rysuje w rozdzielczości CSS i ignoruje `devicePixelRatio`; przy skalowaniu ekranu
+  150% lub 200% przeglądarka rozciąga obraz (np. 1280×720 na 1920×1080). Poprawka zmienia rozmiar gry i współrzędne
+  wskaźnika, a koszt GPU rośnie z kwadratem skali, więc wymaga pomiaru na telefonie.
+
+## Rangi węzłów drzewka umiejętności (efekt wprost proporcjonalny)
+
+- Punkt można wkładać w ten sam węzeł wielokrotnie; powtórzone id w `skills` oznacza rangę, a każda ranga
+  kosztuje punkt (korzeń `R` zawsze jedna). Klasa `Kit` ma `rank(id)`; zapis, serwer panelu, naprawa przy
+  wczytaniu (`repairLearned` zachowuje rangi) i `validLearned` rozumieją rangi.
+- Wszystkie cztery rasy (`planetary`, `sage`, `android`, `legend`): liczbowe efekty węzłów pasywnych rosną
+  z rangą, a obrażenia/leczenie/tarcze zdolności aktywnych z rangą zdolności. Koszty Ki, czasy odnowienia i
+  mechaniki przełączające bez zmian; bezpieczniki zakresu opisano w `docs/ROZWOJ-I-WALKA.md`.
+- Interfejs: lista i graficzne drzewko pokazują rangę i przycisk „Zwiększ rangę”; panel admina ma pole rangi.
+- Przy randze 1 wszystkie dotychczasowe wartości są identyczne (istniejące testy walki bez zmian).
+- Testy: `kit-ranks` (proporcjonalność efektów w czterech rasach, uczenie i reset rang, reguły korzenia),
+  `skills-repair`, `monsters` (zapis z rangą 2).
+- Nie zmierzono balansu walki przy wysokich rangach ani na telefonie; wartości rosną liniowo bez sufitu.
