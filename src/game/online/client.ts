@@ -99,7 +99,9 @@ export class OnlineClient {
           const packet = JSON.parse(event.data);
           if (packet.type === "online_error")
             return fail(
-              "Sesja serwerowa została przerwana. Połącz ponownie; postęp pozostaje na serwerze.",
+              "Sesja serwerowa została przerwana" +
+                (typeof packet.code === "string" ? ` (${packet.code})` : "") +
+                ". Połącz ponownie; postęp pozostaje na serwerze.",
             );
           if (packet.type !== "state") return;
           const frame: OnlineFrame = packet.frame;

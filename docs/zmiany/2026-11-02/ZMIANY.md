@@ -109,3 +109,12 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
 - Licznik `?ki-debug=1` pokazuje teraz także najgorszą klatkę i liczbę klatek powyżej 33 ms (średnia
   i p95 ukrywały pojedyncze zacięcia). Odczyt z telefonu z tymi wartościami wskaże źródło szarpania.
 - Nie wdrożono: labirynty (PR #80) czekają na decyzję właściciela.
+
+### 8. Diagnostyka połączenia online
+
+- Serwer zapisuje do logów przyczynę odrzucenia pakietu lub przerwania sesji online (bez tokenów), a znany kod
+  błędu trafia do klienta; komunikaty „Sesja serwerowa została przerwana" i „Nie można uruchomić silnika gry"
+  pokazują teraz w nawiasie powód. Wcześniej każdy wyjątek kończył się ogólnym komunikatem bez śladu w logach.
+- Workflow `coolify-service.yml` ma tryb `logs` (tylko odczyt): stan kontenerów, logi gry i bazy, obciążenie.
+  Ustalono, że kontener `ki-multiplayer-db-game-server-1` (profil `standalone-game`, 2850 restartów od 31.10) to
+  zbędny relikt: nic nie obsługuje i nie zużywa procesora.

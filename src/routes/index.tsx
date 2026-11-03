@@ -485,7 +485,9 @@ export function GameScreen({
         if (!cancelled)
           setLoading({
             phase: "error",
-            message: "Nie można uruchomić silnika gry. Sprawdź połączenie i ponów próbę.",
+            message:
+              "Nie można uruchomić silnika gry. Sprawdź połączenie i ponów próbę." +
+              (error instanceof Error && error.message ? ` (${error.message.slice(0, 120)})` : ""),
             progress: null,
             reload: true,
           });
