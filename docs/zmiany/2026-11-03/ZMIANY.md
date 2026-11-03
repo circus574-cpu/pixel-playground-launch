@@ -193,3 +193,31 @@ Pełne testy jednostkowe, regresja Playwright/Software WebGL, build produkcyjny
 oraz fizyczny telefon: NIEWYKONANE — zakres to zamówiony podgląd wizualny.
 Do odbioru: wygląd, dwie brakujące grafiki usług, redukcja rozmiaru i regresja
 przed publikacją. Nie scalano do main, nie publikowano i nie używano GPU.
+
+
+## Nexus — korekta rozdzielenia nawierzchni
+
+Właściciel odrzucił pierwszy podgląd jako zbyt jednolity wobec wzoru. Diagnoza:
+renderer nakładał `ground[2]` na całe centrum. Pięć zaimportowanych tekstur nie
+stanowiło dowodu ich czytelnego wykorzystania. Usunięto tę dominację skały.
+Aktualizacja tej samej gałęzi `preview/nexus-painted-world` od `c23f648c`.
+
+Pakiet 1.1.0 dodaje pojedynczy jasny kafel bruku z OpenAI image_gen (oryginał,
+pełny prompt i SHA w katalogu produkcyjnym). RunPod nie był używany.
+Ogrody mają roślinny grunt oraz ściółkę właściciela, ścieżki panele i krawędzie
+cyjan/złoto wypiekane w chunkach, plac jasne technologiczne płyty. Skalna tekstura
+pozostaje poza centrum. Nowe pasy między istniejącymi drzwiami usług są
+prezentacją; kanoniczna geometria, nawigacja, collidery i HUD nie zostały zmienione.
+Nie twierdzimy, że jest to odwzorowanie referencji 1:1; budynki zachowują obecny
+układ mapy i dwa starsze zasoby usług (gospoda, kuźnia).
+
+[Lokalny zrzut po korekcie](qa/nexus-painted/corrected.png),
+[rejestr przeglądarki](qa/nexus-painted/corrected-capture.json),
+[pełny TypeScript](qa/nexus-painted/corrected-typecheck.log).
+Komendy: `npm run assets:import -- art/production/nexus-painted-preview/manifest.json --install --replace`
+(11 zasobów, sukces), `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`,
+`python3 scripts/docs/check_documentation.py`. Podgląd jak poprzednio przez
+`ki-nexus-painted=1`, race Androidy, ruch normalnym kliknięciem.
+Przeglądarka Canvas służy do realnego zrzutu, nie jest potwierdzeniem fizycznego
+telefonu ani pełnej regresji. Testy jednostkowe/Software WebGL i build produkcyjny:
+NIEWYKONANE w tej korekcie podglądu. Brak scalenia i publikacji.

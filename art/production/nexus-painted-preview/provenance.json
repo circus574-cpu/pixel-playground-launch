@@ -68,5 +68,16 @@
     "sha256": "6be61edfc1596181a090428b3e78654761d62138dc0f60f63e2628ae17542c41",
     "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
     "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "courtyard": {
+    "source": "sources/courtyard-generated.png",
+    "sha256": "c941aa9dba259b6308faa223a1bf663aa76192067beec643640254e067a5bd59",
+    "generator": "OpenAI image_gen; local generation on 2026-11-03",
+    "purpose": "Flat light grey irregular flagstone courtyard matching owner scene reference; separate tile, never a scene backdrop",
+    "references": [
+      "sources/reference.jpg",
+      "sources/file_00000000f01481f4a866bf992e774bc4.png"
+    ],
+    "processing": "WebP quality 94"
   }
 }

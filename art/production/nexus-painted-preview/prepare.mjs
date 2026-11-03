@@ -60,7 +60,7 @@ for (const [name, i] of Object.entries(entries)) {
   const m = await sharp(new URL(name + ".webp", root).pathname).metadata();
   assets.push({
     id: "nexus-painted-" + name,
-    version: "1.0.1",
+    version: "1.1.0",
     kind: name === "props" ? "atlas" : "image",
     url: name + ".webp",
     width: m.width,
@@ -76,6 +76,31 @@ for (const [name, i] of Object.entries(entries)) {
     author: "Owner supplied via Google Drive; rights not independently verified",
   };
 }
+// Additional flat pavement requested after the first in-game review; owner PNGs remain intact.
+const courtyardSource = await fs.readFile(new URL("sources/courtyard-generated.png", root));
+await sharp(courtyardSource).webp({ quality: 94 }).toFile(new URL("courtyard.webp", root).pathname);
+const courtyardMeta = await sharp(courtyardSource).metadata();
+assets.push({
+  id: "nexus-painted-courtyard",
+  version: "1.1.0",
+  kind: "image",
+  url: "courtyard.webp",
+  width: courtyardMeta.width,
+  height: courtyardMeta.height,
+});
+renderBindings["terrain.nexus-painted-courtyard"] = {
+  asset: "nexus-painted-courtyard",
+  tileSize: [640, 640],
+};
+provenance.courtyard = {
+  source: "sources/courtyard-generated.png",
+  sha256: createHash("sha256").update(courtyardSource).digest("hex"),
+  generator: "OpenAI image_gen; local generation on 2026-11-03",
+  purpose:
+    "Flat light grey irregular flagstone courtyard matching owner scene reference; separate tile, never a scene backdrop",
+  references: ["sources/reference.jpg", "sources/file_00000000f01481f4a866bf992e774bc4.png"],
+  processing: "WebP quality 94",
+};
 for (const [biome, name] of [
   ["grass", "grass"],
   ["forest", "forest"],
@@ -146,7 +171,7 @@ await fs.writeFile(
     {
       schemaVersion: 1,
       id: "nexus-painted-preview",
-      version: "1.0.1",
+      version: "1.1.0",
       previewOnly: true,
       assets,
       renderBindings,

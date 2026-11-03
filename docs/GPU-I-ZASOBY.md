@@ -2,6 +2,22 @@
 
 ## Nexus — pakiet z Dysku właściciela, 03.11.2026
 
+**Korekta po uwadze właściciela:** aktualny pakiet to `nexus-painted-preview@1.1.0`,
+`public/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/`.
+Pierwszy podgląd opisany poniżej był zbyt jednolity: pełna skała w centrum
+przykrywała zróżnicowanie nawierzchni. Nie stanowił odbioru zgodności ze wzorem.
+Wersja 1.1.0 dodaje osobny jasny bruk wygenerowany przez OpenAI image_gen
+([prompt, źródła i SHA-256](../art/production/nexus-painted-preview/courtyard-generation.json)).
+To pojedynczy kafel gruntu, nie tło całej sceny. Źródłowe pięć tekstur właściciela
+pozostaje: skała na zewnątrz, roślinne podłoże i ściółka w ogrodach, panele na
+ścieżkach, jasne płyty na podeście centrum. Dodano dekoracyjne pasy do
+istniejących drzwi usług z cyjanowo-złotą krawędzią; nie dodają colliderów ani
+instrukcji nawigacji. `nexusWalkways` jest wyłącznie rendererem, nie nową drogą
+w kanonicznym JSON. Paczka 11 zasobów: 18 124 460 bajtów (17,29 MiB).
+Poprzednie wersje i dowody zachowano. [Nowy zrzut i zakres](zmiany/2026-11-03/ZMIANY.md#nexus--korekta-rozdzielenia-nawierzchni).
+
+Pierwsza iteracja, zachowana dla historii:
+
 Osobna gałąź `preview/nexus-painted-world`, opcja `ki-nexus-painted=1`,
 pakiet `nexus-painted-preview@1.0.1`. Źródło: [folder Nexus](https://drive.google.com/drive/folders/1xG2Ioa6pac5wAWWmeQ0HLRhMmuOT9pl2).
 Pobrano wszystkie 10 PNG: pięć tekstur (trawa z technicznymi fragmentami,

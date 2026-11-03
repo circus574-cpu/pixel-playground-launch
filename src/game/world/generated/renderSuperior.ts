@@ -1,4 +1,4 @@
-import { nexusGarden, nexusScenery } from "./nexusPainted";
+import { nexusGarden, nexusScenery, nexusWalkways } from "./nexusPainted";
 import {
   paintedMeadowEnabled,
   paintedPaths,
@@ -91,6 +91,8 @@ const layerCanvas = (size = 512) => {
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const painted = paintedMeadowEnabled(source.loader.definition.feature);
   const paintedNexus = painted && source.loader.definition.feature === "nexus";
+  const nexusRoads = paintedNexus ? nexusWalkways(source.art) : [];
+  const renderRoads = [...source.roads, ...nexusRoads];
   const resolution = painted ? 1024 : 512;
   const scale = resolution / CHUNK;
   const live = new Map<string, Tile>();
@@ -160,6 +162,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       );
       return tile;
     };
+    const courtyard = paintedNexus ? pattern("terrain.nexus-painted-courtyard") : undefined;
     const ground = source.art.groundByBiome.map(pattern),
       water = pattern(source.art.water),
       road = source.art.road ? pattern(source.art.road) : undefined,
@@ -251,10 +254,27 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const right = Math.max(...buildings.map((b) => b.x)) + 400;
       const top = Math.min(...buildings.map((b) => b.y)) - 450;
       const bottom = Math.max(...buildings.map((b) => b.y)) + 300;
-      texture(ground[2]!, 1, (i) => {
+      const onCityLand = (i: number) => {
         const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols;
         const y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
         return !!(flags[i]! & 16) && x > left && x < right && y > top && y < bottom;
+      };
+      texture(ground[0]!, 1, onCityLand);
+      const inGarden = (x: number, y: number) =>
+        buildings.some(
+          (b) =>
+            Math.hypot((x - b.x + 310) / 195, (y - b.y - 65) / 230) < 1 ||
+            Math.hypot((x - b.x - 300) / 155, (y - b.y - 55) / 190) < 1,
+        );
+      texture(courtyard!, 1, (i) => {
+        const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols;
+        const y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
+        return onCityLand(i) && !inGarden(x, y);
+      });
+      texture(ground[1]!, 0.7, (i) => {
+        const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols;
+        const y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
+        return onCityLand(i) && inGarden(x, y);
       });
     }
     texture(water, waterAlpha, (i) => !(flags[i]! & 16));
@@ -299,7 +319,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       pen.stroke();
     };
     const roadFill = road;
-    for (const road of source.roads) {
+    for (const road of renderRoads) {
       const xs = road.points.map((p) => p[0]),
         ys = road.points.map((p) => p[1]);
       if (
@@ -329,6 +349,43 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       pen.fill();
     }
     if (silhouette && roadFill) paintedPaths(ctx, silhouette, roadFill, data.x, data.y, scale);
+    if (paintedNexus && silhouette) {
+      const edge = document.createElement("canvas");
+      edge.width = edge.height = resolution;
+      const edgeCtx = edge.getContext("2d")!;
+      // A local emissive tint keeps the supplied panel detail visible against pale paving.
+      edgeCtx.fillStyle = "#129ac6";
+      edgeCtx.fillRect(0, 0, resolution, resolution);
+      edgeCtx.globalCompositeOperation = "destination-in";
+      edgeCtx.drawImage(silhouette, -24, -24);
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.globalAlpha = 0.38;
+      ctx.drawImage(edge, 0, 0);
+      ctx.restore();
+      // Dilated minus original mask yields a continuous outline, including intersections.
+      for (const [radius, color] of [
+        [3, "#b49b5d"],
+        [1.5, "#5beaff"],
+      ] as const) {
+        edgeCtx.clearRect(0, 0, resolution, resolution);
+        edgeCtx.globalCompositeOperation = "source-over";
+        const r = radius * scale;
+        for (const [dx, dy] of [
+          [-r, 0],
+          [r, 0],
+          [0, -r],
+          [0, r],
+        ])
+          edgeCtx.drawImage(silhouette, -24 + dx!, -24 + dy!);
+        edgeCtx.globalCompositeOperation = "destination-out";
+        edgeCtx.drawImage(silhouette, -24, -24);
+        edgeCtx.globalCompositeOperation = "source-in";
+        edgeCtx.fillStyle = color;
+        edgeCtx.fillRect(0, 0, resolution, resolution);
+        ctx.drawImage(edge, 0, 0);
+      }
+    }
     if (paintedNexus && plaza) {
       const hall = source.art.acceptedCityBuildings.find((b) => b.binding.endsWith(".nexus-hall"));
       if (hall?.door) {
@@ -368,6 +425,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           .filter((b): b is string => !!b)
           .map(textureId),
       );
+      if (paintedNexus) ids.add(textureId("terrain.nexus-painted-courtyard"));
       for (const item of items) ids.add(textureId(item.binding));
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {

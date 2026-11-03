@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "nexus-painted-preview",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "previewOnly": true,
   "assets": [
     {
       "id": "nexus-painted-props",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "atlas",
       "url": "props.webp",
       "width": 1536,
@@ -15,7 +15,7 @@
     },
     {
       "id": "nexus-painted-arena",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "arena.webp",
       "width": 1289,
@@ -23,7 +23,7 @@
     },
     {
       "id": "nexus-painted-depot",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "depot.webp",
       "width": 1292,
@@ -31,7 +31,7 @@
     },
     {
       "id": "nexus-painted-forest",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "forest.webp",
       "width": 1254,
@@ -39,7 +39,7 @@
     },
     {
       "id": "nexus-painted-road",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "road.webp",
       "width": 1254,
@@ -47,7 +47,7 @@
     },
     {
       "id": "nexus-painted-plaza",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "plaza.webp",
       "width": 1254,
@@ -55,7 +55,7 @@
     },
     {
       "id": "nexus-painted-grass",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "grass.webp",
       "width": 1254,
@@ -63,7 +63,7 @@
     },
     {
       "id": "nexus-painted-stone",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "stone.webp",
       "width": 1254,
@@ -71,7 +71,7 @@
     },
     {
       "id": "nexus-painted-hall",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "hall.webp",
       "width": 1292,
@@ -79,14 +79,29 @@
     },
     {
       "id": "nexus-painted-shop",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "kind": "image",
       "url": "shop.webp",
       "width": 1290,
       "height": 1172
+    },
+    {
+      "id": "nexus-painted-courtyard",
+      "version": "1.1.0",
+      "kind": "image",
+      "url": "courtyard.webp",
+      "width": 1254,
+      "height": 1254
     }
   ],
   "renderBindings": {
+    "terrain.nexus-painted-courtyard": {
+      "asset": "nexus-painted-courtyard",
+      "tileSize": [
+        640,
+        640
+      ]
+    },
     "terrain.ki-v2-nexus-grass-0": {
       "asset": "nexus-painted-grass",
       "tileSize": [

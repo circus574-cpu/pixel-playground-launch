@@ -40,3 +40,30 @@ export function nexusGarden(art: FeatureArt): ArtObject[] {
   }
   return items;
 }
+
+/** Decorative links between existing service doors. No navigation/collision data is edited. */
+export function nexusWalkways(art: FeatureArt) {
+  const doors = art.acceptedCityBuildings.flatMap((b) => (b.door ? [b.door] : []));
+  const hall = art.acceptedCityBuildings.find((b) => b.binding.endsWith(".nexus-hall"))?.door;
+  if (!hall || !doors.length) return [];
+  return [
+    {
+      points: [
+        [hall.x, hall.y],
+        [hall.x, Math.max(...doors.map((d) => d.y))],
+      ] as [number, number][],
+      width: 86,
+      kind: "road",
+    },
+    ...doors
+      .filter((d) => Math.abs(d.x - hall.x) > 50)
+      .map((d) => ({
+        points: [
+          [hall.x, d.y],
+          [d.x, d.y],
+        ] as [number, number][],
+        width: 86,
+        kind: "road",
+      })),
+  ];
+}
