@@ -18,6 +18,7 @@ export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
       !item.door ||
       !(
         ref.asset === "verdant-painted-shop" ||
+        ref.asset.startsWith("verdant-leaf-") ||
         ref.asset.startsWith("aether-painted-") ||
         ref.asset.startsWith("pyra-painted-")
       )

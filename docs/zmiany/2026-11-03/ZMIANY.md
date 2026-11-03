@@ -240,3 +240,29 @@ Pełna kampania jednostkowa/Playwright/Software WebGL, build i fizyczny telefon:
 NIEWYKONANE — dostawa podglądu grafiki bez pełnej kampanii testowej, jak zlecono.
 Przed wydaniem: odbiór wizualny, optymalizacja paczki i regresja urządzeń.
 Brak scalenia do main i publikacji. Nie uruchamiano GPU.
+
+## Sześć budynków Verdantii
+
+Gałąź `preview/verdantia-leaf-buildings`, baza `origin/main@327727e2`.
+Sześć grafik właściciela przypisano do istniejących usług: sklep (11749),
+dom zgromadzeń (11752), gospoda (11750), kuźnia (11751), depozyt (11748),
+arena/dom treningu (11753). Źródła bez zmian i sumy SHA-256 przechowuje pakiet
+`art/production/verdant-leaf-buildings`; runtime `public/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/`.
+Zmiany kodu: katalog paczek, wiązania importera, `meadowBuildings` (wyłącznie prezentacja).
+Zachowano HUD, sterowanie, punkty wejść, geometrię, kolizje i zapisy.
+Wszystkie sześć wiązań działa tylko w podglądzie `ki-verdant-painted=1`.
+
+Lokalny podgląd: `npm run playtest -- --port 4174`, następnie
+`http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1&ki-verdant-painted=1`,
+Planetarni → Rozpocznij przygodę. [Rzeczywisty zrzut Phaser Canvas](qa/verdant-buildings/preview.png).
+Rejestr załadowanych plików, pozycji postaci i błędów przeglądarki:
+[podgląd](qa/verdant-buildings/capture.json).
+
+Wykonano import sześciu zasobów istniejącym walidatorem (sukces) i lokalny
+podgląd z ruchem zwykłym kliknięciem. Pełny TypeScript `npm run typecheck`:
+wynik w [logu](qa/verdant-buildings/typecheck.log).
+Kontrola dokumentacji: `python3 scripts/docs/check_documentation.py`.
+Testy jednostkowe, build produkcyjny, pełna regresja Playwright/Software WebGL
+oraz fizyczny telefon: NIEWYKONANE — zakres tej dostawy to podgląd grafiki na życzenie
+właściciela, bez pełnej kampanii testowej. Brak scalenia i publikacji produkcyjnej.
+Do odbioru pozostaje wygląd, optymalizacja rozmiaru oraz powyższa regresja przed wydaniem.

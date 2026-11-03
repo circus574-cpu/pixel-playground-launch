@@ -142,7 +142,7 @@ export function makeCatalog(
 /** Packs enabled by each opt-in review switch (`?<param>=1`). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-pyra-painted": ["pyra-painted-preview"],
-  "ki-verdant-painted": ["verdant-painted-preview"],
+  "ki-verdant-painted": ["verdant-painted-preview", "verdant-leaf-buildings"],
   "ki-aether-painted": ["aether-painted-preview"],
   /** Combat-only boss catalog preview; uses existing actor graphics. */
   "ki-bosses": [],
