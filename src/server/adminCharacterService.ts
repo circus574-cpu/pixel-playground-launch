@@ -519,10 +519,23 @@ export async function updateServerCharacter(
       player.combatTraining = ct;
     }
 
+    // The online session refuses a character whose checkpoint copy of the player differs from the
+    // stored player, so an admin edit must update both.
+    const checkpoint = currentRecord.runtime["superior"];
+    const runtime =
+      checkpoint &&
+      typeof checkpoint === "object" &&
+      !Array.isArray(checkpoint) &&
+      "player" in checkpoint
+        ? {
+            ...currentRecord.runtime,
+            superior: { ...checkpoint, player: JSON.parse(JSON.stringify(player)) },
+          }
+        : currentRecord.runtime;
     const nextState: CharacterState = {
       format: "server-character-1",
       player,
-      runtime: currentRecord.runtime,
+      runtime,
     };
 
     // Ścisła walidacja schematu

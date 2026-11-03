@@ -82,13 +82,35 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       data.set(key, value);
     },
   };
-  const envelope = record.state.runtime["superior"];
+  let envelope = record.state.runtime["superior"];
+  // An administrator edit used to change only the stored player and leave the checkpoint copy
+  // behind. The stored player is the authoritative one: adopt it into the checkpoint (it still has
+  // to pass the full checkpoint validation below) instead of locking the character out.
+  let healed = false;
+  if (
+    envelope !== undefined &&
+    typeof envelope === "object" &&
+    envelope !== null &&
+    !Array.isArray(envelope) &&
+    !isDeepStrictEqual(envelope["player"], record.state.player)
+  ) {
+    console.warn("[Online] Punkt zapisu różnił się od postaci; przyjęto postać z bazy:", record.id);
+    envelope = {
+      ...envelope,
+      player: JSON.parse(JSON.stringify(record.state.player)) as typeof envelope,
+    };
+    healed = true;
+  }
   if (envelope !== undefined) data.set(record.id, JSON.stringify(envelope));
   const save = new SuperiorSaveStore(port, record.id, index, info.id);
   let restored = save.load();
   if (envelope !== undefined && !restored)
     throw Error("Invalid server checkpoint: " + save.warning);
-  if (restored && !isDeepStrictEqual((envelope as { player: unknown }).player, record.state.player))
+  if (
+    !healed &&
+    restored &&
+    !isDeepStrictEqual((envelope as { player: unknown }).player, record.state.player)
+  )
     throw Error("Checkpoint/player mismatch");
   const initial: Player = restored ?? {
     ...structuredClone(record.state.player),
