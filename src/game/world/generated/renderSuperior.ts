@@ -1,3 +1,4 @@
+import { nexusGarden, nexusScenery } from "./nexusPainted";
 import {
   paintedMeadowEnabled,
   paintedPaths,
@@ -89,6 +90,7 @@ const layerCanvas = (size = 512) => {
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const painted = paintedMeadowEnabled(source.loader.definition.feature);
+  const paintedNexus = painted && source.loader.definition.feature === "nexus";
   const resolution = painted ? 1024 : 512;
   const scale = resolution / CHUNK;
   const live = new Map<string, Tile>();
@@ -105,11 +107,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     ...(painted
       ? meadowBuildings(source.art.acceptedCityBuildings)
       : source.art.acceptedCityBuildings),
-    ...(source.art.acceptedCityScenery ?? []),
+    ...(paintedNexus
+      ? nexusScenery(source.art.acceptedCityScenery ?? [])
+      : (source.art.acceptedCityScenery ?? [])),
     ...(source.art.landmarks ?? []),
     ...source.art.resources,
     ...source.art.dungeonEntrances,
-    ...(painted ? meadowScenery(source.art, source.cityRoads) : []),
+    ...(paintedNexus
+      ? nexusGarden(source.art)
+      : painted
+        ? meadowScenery(source.art, source.cityRoads)
+        : []),
   ];
   const staticGrid = new Map<string, ArtObject[]>();
   for (const item of staticItems) {
@@ -208,7 +216,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       lctx.globalCompositeOperation = "source-over";
       lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
-      lctx.filter = painted && fill !== water ? "saturate(0.82) brightness(0.9)" : "none";
+      lctx.filter =
+        painted && !paintedNexus && fill !== water ? "saturate(0.82) brightness(0.9)" : "none";
       lctx.fillRect(0, 0, resolution, resolution);
       lctx.filter = "none";
       lctx.globalCompositeOperation = "destination-in";
@@ -236,8 +245,20 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           );
         });
     }
+    if (paintedNexus) {
+      const buildings = source.art.acceptedCityBuildings;
+      const left = Math.min(...buildings.map((b) => b.x)) - 400;
+      const right = Math.max(...buildings.map((b) => b.x)) + 400;
+      const top = Math.min(...buildings.map((b) => b.y)) - 450;
+      const bottom = Math.max(...buildings.map((b) => b.y)) + 300;
+      texture(ground[2]!, 1, (i) => {
+        const x = data.x + (((i % cols) + 0.5) * CHUNK) / cols;
+        const y = data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows;
+        return !!(flags[i]! & 16) && x > left && x < right && y > top && y < bottom;
+      });
+    }
     texture(water, waterAlpha, (i) => !(flags[i]! & 16));
-    if (painted) meadowLight(ctx, data.x, data.y, scale);
+    if (painted && !paintedNexus) meadowLight(ctx, data.x, data.y, scale);
     const silhouette = painted ? document.createElement("canvas") : undefined;
     if (silhouette) silhouette.width = silhouette.height = resolution + 48;
     const pen = silhouette?.getContext("2d") ?? ctx;
@@ -308,6 +329,22 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       pen.fill();
     }
     if (silhouette && roadFill) paintedPaths(ctx, silhouette, roadFill, data.x, data.y, scale);
+    if (paintedNexus && plaza) {
+      const hall = source.art.acceptedCityBuildings.find((b) => b.binding.endsWith(".nexus-hall"));
+      if (hall?.door) {
+        const apron = document.createElement("canvas");
+        apron.width = apron.height = resolution + 48;
+        const pen = apron.getContext("2d")!;
+        pen.fillStyle = "#fff";
+        pen.fillRect(
+          24 + (hall.door.x - 230 - data.x) * scale,
+          24 + (hall.door.y + 20 - data.y) * scale,
+          460 * scale,
+          280 * scale,
+        );
+        paintedPaths(ctx, apron, plaza, data.x, data.y, scale);
+      }
+    }
     tex.refresh();
     return {
       key,
@@ -402,7 +439,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         if (!image) {
           const ref = catalog.renderBindings[item.binding]!;
           image = sizeScenery(
-            scene.add.image(item.x, item.y, blendedTexture(scene, ref.asset, ref.frame), ref.frame),
+            scene.add.image(
+              item.x,
+              item.y,
+              paintedNexus && ref.asset.startsWith("nexus-painted-")
+                ? ref.asset
+                : blendedTexture(scene, ref.asset, ref.frame),
+              ref.frame,
+            ),
             item.width,
             item.height,
             ref.fit,

@@ -3,19 +3,26 @@ import type { ArtObject, FeatureArt } from "./renderSuperior";
 
 /** A render-only review switch. No world data, collider or saved position is changed. */
 export const paintedMeadowEnabled = (feature: string) =>
-  feature === "verdant" &&
-  catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass";
+  (feature === "verdant" &&
+    catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass") ||
+  (feature === "nexus" &&
+    catalog.renderBindings["terrain.ki-v2-nexus-grass-0"]?.asset === "nexus-painted-grass");
 
 export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
   return items.map((item) => {
     const ref = catalog.renderBindings[item.binding];
-    if (ref?.asset !== "verdant-painted-shop" || !item.door) return item;
+    if (
+      !ref ||
+      !item.door ||
+      !(ref.asset === "verdant-painted-shop" || ref.asset.startsWith("nexus-painted-"))
+    )
+      return item;
     return {
       ...item,
       x: item.door.x,
       y: item.door.y,
-      width: 560,
-      height: 520,
+      width: ref.asset.startsWith("nexus-painted-") ? Math.max(item.width, 540) : 560,
+      height: ref.asset.startsWith("nexus-painted-") ? 480 : 520,
       anchorX: ref.origin![0],
       anchorY: ref.origin![1],
     };
