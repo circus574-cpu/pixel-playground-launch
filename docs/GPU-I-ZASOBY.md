@@ -1,5 +1,47 @@
 # KI Legends — GPU i zasoby
 
+## Aetheria — materiały właściciela 03.11.2026
+
+Pakiet `aether-painted-preview@1.0.0`, flaga `ki-aether-painted=1`: cztery
+powierzchnie, sześć budynków i atlas jedenastu statycznych dekoracji. Źródła
+są w `Grafika/` z `main@327727e2`; [pochodzenie i SHA-256](../art/production/aether-painted-preview/provenance.json).
+Białe tło czterech nieprzezroczystych budynków usunięto przez flood fill
+połączony z zewnętrzną krawędzią, zachowując biel we wnętrzach. Pozostała alfa
+została zachowana. Plansza dekoracji ma jawne prostokątne klatki atlasu.
+[Pakiet i odtwarzalny skrypt](../art/production/aether-painted-preview/).
+Nie używano GPU ani nowej generacji; to prototyp bez odbioru na fizycznym telefonie.
+Runtime ma około 21 MiB plików, wymaga dalszej optymalizacji przed publikacją.
+[Zrzuty i zakres](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
+
+## Pyra — materiały właściciela, 03.11.2026
+
+Oddzielna gałąź `preview/pyra-painted-world`, pakiet `pyra-painted-preview@1.0.1`,
+opcja `ki-pyra-painted=1`. Cztery tekstury JPG: spękana skała, jesienna ściółka,
+ozdobny kamień oraz ceglana droga. Sześć przezroczystych PNG z ZIP właściciela:
+sala wodza → sala przysięgi, targ → sklep, karczma → gospoda, kuźnia Goro →
+kuźnia żaru, skarbiec → depozyt, arena treningowa → arena.
+Nazwy, usługi i fizyczna geometria miasta pozostają kanoniczne.
+
+[Źródła, manifest, skrypt i sumy SHA-256](../art/production/pyra-painted-preview/).
+Odtworzenie: `node art/production/pyra-painted-preview/prepare.mjs`, import:
+`npm run assets:import -- art/production/pyra-painted-preview/manifest.json --install`.
+Zachowano oryginalną alfę budynków (także dym), bez usuwania tła ani przemalowania.
+Przesłany przykład całej sceny jest jedynie referencją, nie teksturą mapy.
+Runtime: `public/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/`,
+10 plików WebP, 10 175 460 bajtów (9,70 MiB). Źródłowe WebP: 2 622 414 bajtów.
+Importer normalizuje do bezstratnego WebP. GPU nie używano.
+
+Teren/ściany nawigacyjne zachowują oryginalne maski; w mieście skała zastępuje
+plamy biomów wyłącznie wizualnie na komórkach lądu. Ściółka ma skalę 256 j.,
+skała 1024 j., cegła 640 j., ornament 768 j. Zdobiony podest 460×300 j. przed
+istniejącą salą wodza jest dekoracją pod stopami; nie dodaje kolizji ani ścieżek.
+Chunki podglądu 1024² zamiast 512²; streaming pozostaje aktywny. Budynki mają
+wysokość 470 j. i szerokość co najmniej 530 j. z zachowaniem proporcji i wiązania
+do istniejących drzwi. Pozostaje standardowe przygaszanie przy zasłanianiu aktorów.
+Wersja 1.0.0 była lokalną próbą; 1.0.1 poprawia wielkość liści.
+[Zrzut i wyniki kontroli](zmiany/2026-11-03/ZMIANY.md#pyra--podgląd-czterech-tekstur-i-sześciu-budynków).
+Nie ma publikacji ani odbioru fizycznego telefonu.
+
 ## Próba Verdantii — 03.11.2026
 
 Pakiet `verdant-painted-preview@1.2.0` jest opcjonalny przez `ki-verdant-painted=1`.
@@ -14,6 +56,21 @@ korzysta z kotwicy drzwi `(0.565,0.93)`. Import wykonano istniejącym importerem
 Teren w podglądzie ma 1024² px na chunk 2048 j. (4 MiB RGBA zamiast 1 MiB);
 pozostaje streaming, usuwanie chunków i sortowanie Y. Nie ma odbioru wydajności
 fizycznego telefonu ani publikacji. [Zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
+
+### Sześć budynków Verdantii — osobna gałąź podglądowa
+
+Pakiet `verdant-leaf-buildings@1.0.0` zastępuje w podglądzie sklep, dom zgromadzeń,
+gospodę, kuźnię, depozyt i arenę. Wszystkie sześć JPG dostarczył właściciel.
+[Źródła, skrypt przygotowania, manifest i SHA-256](../art/production/verdant-leaf-buildings/)
+są zachowane w repozytorium. `node art/production/verdant-leaf-buildings/prepare.mjs`
+odtwarza WebP; importer: `npm run assets:import -- art/production/verdant-leaf-buildings/manifest.json --install`.
+Usunięto tylko biały obszar połączony z brzegiem obrazu. Kotwica `(0.5,0.85)`
+wiąże schody z istniejącymi drzwiami. Skala prezentacji 560×520; kolizje i usługi bez zmian.
+Włącznik `ki-verdant-painted=1` ładuje oba pakiety, z pierwszeństwem nowego zestawu
+budynków. Domyślny widok pozostaje bez zmian. Paczka runtime zajmuje 9 985 190 bajtów
+(około 9,52 MiB); sześć źródłowych WebP 2 763 280 bajtów. Importer normalizuje do
+bezstratnego WebP. Nie wykonano publikacji ani odbioru na fizycznym telefonie.
+[Zrzut i zakres kontroli](zmiany/2026-11-03/ZMIANY.md#sześć-budynków-verdantii).
 
 ## Partia 2 i braki do docelowej oprawy — 23.10.2026
 

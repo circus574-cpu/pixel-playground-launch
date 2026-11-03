@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "id": "aether-painted-preview",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "aether-painted-grass",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "grass.webp",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "aether-painted-forest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "forest.webp",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "aether-painted-road",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road.webp",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "aether-painted-plaza",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "plaza.webp",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "aether-painted-shop",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "shop.webp",
+      "width": 1366,
+      "height": 1010
+    },
+    {
+      "id": "aether-painted-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "hall.webp",
+      "width": 1383,
+      "height": 1011
+    },
+    {
+      "id": "aether-painted-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "inn.webp",
+      "width": 1310,
+      "height": 1017
+    },
+    {
+      "id": "aether-painted-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "arena.webp",
+      "width": 1484,
+      "height": 1024
+    },
+    {
+      "id": "aether-painted-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "smithy.webp",
+      "width": 1341,
+      "height": 1016
+    },
+    {
+      "id": "aether-painted-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "depot.webp",
+      "width": 1424,
+      "height": 1024
+    },
+    {
+      "id": "aether-painted-props",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "props.webp",
+      "width": 1536,
+      "height": 1024,
+      "atlasUrl": "props.json"
+    }
+  ],
+  "renderBindings": {
+    "terrain.ki-v2-aether-grass-0": {
+      "asset": "aether-painted-grass",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.ki-v2-aether-forest-0": {
+      "asset": "aether-painted-forest",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.ki-v2-aether-road-0": {
+      "asset": "aether-painted-road",
+      "tileSize": [
+        640,
+        640
+      ]
+    },
+    "terrain.ki-v2-city-aether-plaza-0": {
+      "asset": "aether-painted-plaza",
+      "tileSize": [
+        640,
+        640
+      ]
+    },
+    "object.ki-v2-buildings.aether-market": {
+      "asset": "aether-painted-shop",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.aether-hall": {
+      "asset": "aether-painted-hall",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.aether-inn": {
+      "asset": "aether-painted-inn",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.aether-arena": {
+      "asset": "aether-painted-arena",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.aether-smithy": {
+      "asset": "aether-painted-smithy",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.ki-v2-buildings.aether-depot": {
+      "asset": "aether-painted-depot",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.94
+      ]
+    },
+    "object.aether-painted.lamp": {
+      "asset": "aether-painted-props",
+      "frame": "lamp",
+      "fit": "contain"
+    },
+    "object.aether-painted.gate": {
+      "asset": "aether-painted-props",
+      "frame": "gate",
+      "fit": "contain"
+    },
+    "object.aether-painted.blueflowers": {
+      "asset": "aether-painted-props",
+      "frame": "blueflowers",
+      "fit": "contain"
+    },
+    "object.aether-painted.flowers": {
+      "asset": "aether-painted-props",
+      "frame": "flowers",
+      "fit": "contain"
+    },
+    "object.aether-painted.pinkflowers": {
+      "asset": "aether-painted-props",
+      "frame": "pinkflowers",
+      "fit": "contain"
+    },
+    "object.aether-painted.daisies": {
+      "asset": "aether-painted-props",
+      "frame": "daisies",
+      "fit": "contain"
+    },
+    "object.aether-painted.lavender": {
+      "asset": "aether-painted-props",
+      "frame": "lavender",
+      "fit": "contain"
+    },
+    "object.aether-painted.sakura": {
+      "asset": "aether-painted-props",
+      "frame": "sakura",
+      "fit": "contain"
+    },
+    "object.aether-painted.bonsai": {
+      "asset": "aether-painted-props",
+      "frame": "bonsai",
+      "fit": "contain"
+    },
+    "object.aether-painted.bamboo": {
+      "asset": "aether-painted-props",
+      "frame": "bamboo",
+      "fit": "contain"
+    },
+    "object.aether-painted.pond": {
+      "asset": "aether-painted-props",
+      "frame": "pond",
+      "fit": "contain"
+    }
+  }
+}

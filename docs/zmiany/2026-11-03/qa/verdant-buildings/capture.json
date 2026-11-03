@@ -1,0 +1,42 @@
+{
+  "errors": [],
+  "missing": [],
+  "loaded": [
+    "http://127.0.0.1:4174/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-shop.webp",
+    "http://127.0.0.1:4174/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-hall.webp",
+    "http://127.0.0.1:4174/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-inn.webp",
+    "http://127.0.0.1:4174/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-smithy.webp",
+    "http://127.0.0.1:4174/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-depot.webp",
+    "http://127.0.0.1:4174/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-arena.webp"
+  ],
+  "position": {
+    "zoom": "0.62",
+    "worldLabels": "true",
+    "textureIds": "[\"ui-icons\",\"hero-planetary-painted-walk-v3-idle-0\",\"hero-planetary-painted-walk-v3-page-0\",\"hero-planetary-painted-walk-v3-fight-0\",\"hero-planetary-painted-walk-v3-fight-1\",\"hero-sheet\",\"city-floor\",\"city-stone\",\"interior-verdant-locked-chest\",\"interior-verdant-bed-with-blankets\",\"interior-verdant-tall-bookshelf\",\"interior-verdant-counter-with-a-shelf\",\"city-props\",\"verdant-painted-grass\",\"ki-v2-terrain-verdant-mountain-0\",\"ki-v2-terrain-verdant-wetland-0\",\"ki-v2-terrain-verdant-sea-0\",\"verdant-painted-road\",\"verdant-leaf-shop\",\"verdant-leaf-hall\",\"verdant-leaf-inn\",\"verdant-leaf-smithy\",\"verdant-leaf-depot\",\"verdant-leaf-arena\",\"verdant-city-fountain\",\"verdant-city-bridge\",\"verdant-city-lamp\",\"biome-forest-tall-broadleaf-oak-tree\",\"biome-forest-mossy-boulder\",\"biome-forest-flowering-bush\",\"dungeon-kit-glowing-crystal-cluster\",\"biome-forest-fallen-mossy-log\",\"ki-v2-objects-verdant-mushrooms-5\",\"ki-v2-objects-verdant-fern-3\",\"ki-v2-objects-verdant-bush-0\",\"ki-v2-objects-verdant-tree2-2\",\"ki-v2-objects-verdant-reeds-1\",\"ki-v2-objects-verdant-fern-0\",\"ki-v2-objects-verdant-flowerbush-1\",\"ki-v2-objects-verdant-fern-5\",\"ki-v2-objects-verdant-pine-5\",\"ki-v2-objects-verdant-log-5\",\"ki-v2-objects-verdant-pine-1\",\"ki-v2-objects-verdant-fern-2\",\"ki-v2-objects-verdant-reeds-2\",\"ki-v2-objects-verdant-reeds-5\",\"ki-v2-objects-verdant-boulder-0\",\"ki-v2-objects-verdant-tree2-5\",\"ki-v2-objects-verdant-fern-1\",\"ki-v2-objects-verdant-reeds-3\",\"ki-v2-objects-verdant-tree2-0\",\"ki-v2-objects-verdant-bush-2\",\"ki-v2-objects-verdant-flowerbush-0\",\"ki-v2-objects-verdant-oak-3\",\"ki-v2-objects-verdant-oak-2\",\"ki-v2-objects-verdant-flowerbush-2\",\"ki-v2-objects-verdant-boulder-1\",\"ki-v2-objects-verdant-log-1\",\"ki-v2-objects-verdant-bush-1\",\"ki-v2-objects-verdant-oak-5\",\"ki-v2-objects-verdant-pine-3\",\"ki-v2-objects-verdant-pine-4\",\"ki-v2-objects-verdant-oak-1\",\"ki-v2-objects-verdant-oak-0\",\"ki-v2-objects-verdant-tree2-4\",\"ki-v2-objects-verdant-mushrooms-1\",\"ki-v2-objects-verdant-pine-2\",\"ki-v2-objects-verdant-tree2-3\",\"ki-v2-objects-verdant-oak-4\",\"ki-v2-objects-verdant-stump-5\",\"ki-v2-objects-verdant-log-2\",\"ki-v2-objects-verdant-stump-0\",\"ki-v2-objects-verdant-boulder-5\",\"ki-v2-objects-verdant-boulder-2\",\"ki-v2-objects-verdant-rocks-3\",\"ki-v2-objects-verdant-stump-3\",\"ki-v2-objects-verdant-stump-4\",\"ki-v2-objects-verdant-log-3\",\"ki-v2-objects-verdant-stump-2\",\"ki-v2-objects-verdant-boulder-4\",\"ki-v2-objects-verdant-stump-1\",\"ki-v2-objects-verdant-log-4\"]",
+    "terrainMode": "superior",
+    "npcLabels": "0",
+    "enemyLabels": "0",
+    "world": "verdant",
+    "interior": "outside",
+    "actorVisual": "hero-planetary-painted",
+    "animationState": "idle",
+    "animationFrame": "hero-planetary-painted/idle/up-left/00",
+    "targetId": "",
+    "enemyVisuals": "[]",
+    "combatVisuals": "0",
+    "projectiles": "0",
+    "bossRewards": "[]",
+    "bosses": "[]",
+    "networkPlayers": "0",
+    "enemies": "[]",
+    "cameraX": "47944.38884297393",
+    "cameraY": "34187.01419627838",
+    "cameraZoom": "0.62",
+    "joystickX": "0",
+    "joystickY": "0",
+    "playerX": "48900.39856383611",
+    "playerY": "34781.07740706",
+    "loadMs": "771",
+    "metrics": "{\"sampleAtMs\":11261,\"fps\":35.29,\"frameP50Ms\":26,\"frameP95Ms\":46.5,\"frameMaxMs\":51.5,\"slowFrames\":5,\"objects\":455,\"activeObjects\":455,\"visibleObjects\":416,\"textures\":119,\"estimatedTextureBytes\":210765612,\"bakedTextureBytes\":0,\"jsHeapBytes\":302699022,\"renderer\":\"Canvas\",\"drawCalls\":null}"
+  }
+}

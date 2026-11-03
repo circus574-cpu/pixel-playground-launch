@@ -161,3 +161,108 @@ Przygotowanie commita: pełny statyczny TypeScript **PASS** (trzy konfiguracje),
 wywołanie wykazało brak historycznych archiwów wyłączonych przez sparse checkout;
 odtworzono wyłącznie brakujące pliki z bieżącego HEAD, bez zmiany ich zawartości.
 Nie ponawiano testów rozgrywki ani Software WebGL po żądaniu właściciela.
+
+
+## Aetheria — oprawa z materiałów właściciela
+
+Gałąź `preview/aetheria-painted-world` od aktualnego `main@327727e2`.
+Zasoby odczytano z `Grafika/`: sześć budynków, cztery tekstury i plansza dekoracji.
+Nie modyfikowano oryginałów. Przezroczystość i atlas przygotowano na CPU;
+nie korzystano z RunPod, generacji nowych ilustracji ani usług zewnętrznych.
+
+- Flaga `ki-aether-painted=1`; lokalnie `npm run playtest`, następnie
+  `/scripts/playtest.html?ki-world-v2=1&ki-aether-painted=1`, wybór Mędrców.
+- Podgląd używa tego samego renderera Superior co gra. Reużywa maski dróg,
+  światła i streamingu z próby Verdantii. Dodano wiązania budynków Aetherii,
+  prawdziwą alfę, latarnie, bramę, kwiaty, sakury, bonsai, bambus i dekoracyjne oczko wodne.
+- Dekoracje są prezentacyjne i niesolidne, brama nie jest nowym teleportem.
+  Nie zmieniano kolizji, geometrii, NPC, questów, kont ani zapisów.
+- [Zrzut przed Salą Rady Źródeł](qa/aether-painted/front.png) oraz
+  [szerszy podgląd](qa/aether-painted/overview.png) pochodzą z rzeczywistej gry lokalnej.
+  Uruchomiono Mędrca od początku i przesunięto go zwykłymi kliknięciami;
+  nie podstawiano tła sceny ani stanu gry. Podgląd: Canvas, 1280×900.
+- Importer waliduje manifest, obrazy, alfę i klatki: [wynik](qa/aether-painted/import.log).
+  Pełny statyczny TypeScript aplikacji/e2e/tools: PASS, [log](qa/aether-painted/typecheck.log).
+- Testy jednostkowe, pełny Playwright, WebGL, fizyczny telefon i benchmark FPS:
+  NIEWYKONANE dla tej partii. Priorytetem był zażądany lokalny podgląd.
+- Pakiet wymaga optymalizacji rozmiaru i dalszego odbioru: starsze drzewa,
+  kryształowe skały i landmarki pozostają ze wcześniejszego zestawu. Nie jest
+  to ukończenie wymiany wszystkich grafik świata.
+- Nie scalano do main i nie publikowano. To osobna gałąź do oceny właściciela.
+
+Źródła i mapowanie: [manifest](../../../art/production/aether-painted-preview/manifest.json),
+[pochodzenie](../../../art/production/aether-painted-preview/provenance.json).
+
+
+### Aetheria — poprawka zaznaczonej fontanny i niebieskich płatów
+
+Po uwadze właściciela sprawdzono dotychczasową fontannę `object.ki-source`,
+podwójne stare ogrody i mieszanie biomów na lądzie w centrum.
+Wyłącznie w podglądzie Aetherii fontanna ma teraz niski sprite oczka wodnego
+z dostarczonego atlasu na warstwie poniżej aktorów. Zachowano jej współrzędne
+oraz oryginalny collider. Stare ogrody zastąpiono kwiatami z nowej planszy,
+a zdublowane wizualizacje w tych samych punktach pominięto w rendererze.
+Ląd w granicach centrum ma wspólną teksturę trawy; woda poza flagą lądu pozostaje.
+Nie zmieniano danych geometrii ani nawigacji.
+
+[Poprawiony zrzut lokalnej gry](qa/aether-painted/corrected.png): postać doszła
+zwykłym kliknięciem w tę samą okolicę, Canvas 1280×900, bez pageerror.
+Pełny statyczny TypeScript: PASS, [log](qa/aether-painted/corrected-typecheck.log).
+Nie uruchamiano pełnego Playwright ani odbioru fizycznego telefonu.
+
+## Pyra — podgląd czterech tekstur i sześciu budynków
+
+Gałąź `preview/pyra-painted-world`, od `origin/main@327727e2`.
+Pakiet `pyra-painted-preview@1.0.1` zawiera cztery tekstury i sześć budynków
+właściciela, zachowane źródła, skrypt odtwarzania oraz provenance SHA-256.
+Sześć istniejących usług Twierdzy Popiołu używa nowych budynków. Grafiki nie
+zmieniają nazw, mechanik, NPC, HUD-u, ruchu, zapisów, kolizji ani JSON świata.
+
+Kod: `catalog.ts` (opcja `ki-pyra-painted=1`), `imported.json`,
+`paintedMeadow.ts` (prezentacja budynków przy drzwiach), `renderSuperior.ts`
+(pełna jakość malowanego terenu, neutralne światło dla Pyry, jednolita skała w
+centrum na masce lądu i ozdobny podest przed salą wodza). Drogi mają ceglaną
+teksturę i miękki brzeg. Na obrzeżach pozostaje ściółka oraz wcześniejsze obiekty;
+nie twierdzimy, że wymieniono wszystkie dekoracje kontynentu.
+Pierwszy podgląd miał zbyt wielkie liście i plamy biomów — poprawiono skalę
+ściółki 768→256 j. i podłoże centrum. Wersja 1.0.0 była wyłącznie lokalną próbą.
+Pierwszą próbę zrzutu przerwał reload Vite podczas formatowania; ponowiono po zakończeniu edycji.
+
+Uruchomienie: `npm run playtest -- --port 4174`,
+`http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1&ki-pyra-painted=1`,
+Legendy → Rozpocznij przygodę. [Lokalny zrzut prawdziwego Phasera](qa/pyra-painted/preview.png).
+[Załadowane zasoby i błędy przeglądarki](qa/pyra-painted/capture.json).
+Pełny TypeScript: `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`,
+[log](qa/pyra-painted/typecheck.log). Import 10 zasobów: zaliczony.
+Kontrola dokumentacji: `python3 scripts/docs/check_documentation.py`.
+Baza kontroli: `327727e2` + opisane zmiany gałęzi; nie jest to regresja końcowego SHA produkcji.
+Pełna kampania jednostkowa/Playwright/Software WebGL, build i fizyczny telefon:
+NIEWYKONANE — dostawa podglądu grafiki bez pełnej kampanii testowej, jak zlecono.
+Przed wydaniem: odbiór wizualny, optymalizacja paczki i regresja urządzeń.
+Brak scalenia do main i publikacji. Nie uruchamiano GPU.
+
+## Sześć budynków Verdantii
+
+Gałąź `preview/verdantia-leaf-buildings`, baza `origin/main@327727e2`.
+Sześć grafik właściciela przypisano do istniejących usług: sklep (11749),
+dom zgromadzeń (11752), gospoda (11750), kuźnia (11751), depozyt (11748),
+arena/dom treningu (11753). Źródła bez zmian i sumy SHA-256 przechowuje pakiet
+`art/production/verdant-leaf-buildings`; runtime `public/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/`.
+Zmiany kodu: katalog paczek, wiązania importera, `meadowBuildings` (wyłącznie prezentacja).
+Zachowano HUD, sterowanie, punkty wejść, geometrię, kolizje i zapisy.
+Wszystkie sześć wiązań działa tylko w podglądzie `ki-verdant-painted=1`.
+
+Lokalny podgląd: `npm run playtest -- --port 4174`, następnie
+`http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1&ki-verdant-painted=1`,
+Planetarni → Rozpocznij przygodę. [Rzeczywisty zrzut Phaser Canvas](qa/verdant-buildings/preview.png).
+Rejestr załadowanych plików, pozycji postaci i błędów przeglądarki:
+[podgląd](qa/verdant-buildings/capture.json).
+
+Wykonano import sześciu zasobów istniejącym walidatorem (sukces) i lokalny
+podgląd z ruchem zwykłym kliknięciem. Pełny TypeScript `npm run typecheck`:
+wynik w [logu](qa/verdant-buildings/typecheck.log).
+Kontrola dokumentacji: `python3 scripts/docs/check_documentation.py`.
+Testy jednostkowe, build produkcyjny, pełna regresja Playwright/Software WebGL
+oraz fizyczny telefon: NIEWYKONANE — zakres tej dostawy to podgląd grafiki na życzenie
+właściciela, bez pełnej kampanii testowej. Brak scalenia i publikacji produkcyjnej.
+Do odbioru pozostaje wygląd, optymalizacja rozmiaru oraz powyższa regresja przed wydaniem.

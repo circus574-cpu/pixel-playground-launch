@@ -79102,5 +79102,535 @@
       }
     },
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "aether-painted-preview",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "aether-painted-grass",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-grass.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "aether-painted-forest",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-forest.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "aether-painted-road",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-road.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "aether-painted-plaza",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-plaza.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "aether-painted-shop",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-shop.webp",
+        "width": 1366,
+        "height": 1010
+      },
+      {
+        "id": "aether-painted-hall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-hall.webp",
+        "width": 1383,
+        "height": 1011
+      },
+      {
+        "id": "aether-painted-inn",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-inn.webp",
+        "width": 1310,
+        "height": 1017
+      },
+      {
+        "id": "aether-painted-arena",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-arena.webp",
+        "width": 1484,
+        "height": 1024
+      },
+      {
+        "id": "aether-painted-smithy",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-smithy.webp",
+        "width": 1341,
+        "height": 1016
+      },
+      {
+        "id": "aether-painted-depot",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-depot.webp",
+        "width": 1424,
+        "height": 1024
+      },
+      {
+        "id": "aether-painted-props",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-props.webp",
+        "atlasUrl": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-props.json",
+        "width": 1536,
+        "height": 1024
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "terrain.ki-v2-aether-grass-0": {
+        "asset": "aether-painted-grass",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "terrain.ki-v2-aether-forest-0": {
+        "asset": "aether-painted-forest",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "terrain.ki-v2-aether-road-0": {
+        "asset": "aether-painted-road",
+        "fit": "contain",
+        "tileSize": [
+          640,
+          640
+        ]
+      },
+      "terrain.ki-v2-city-aether-plaza-0": {
+        "asset": "aether-painted-plaza",
+        "fit": "contain",
+        "tileSize": [
+          640,
+          640
+        ]
+      },
+      "object.ki-v2-buildings.aether-market": {
+        "asset": "aether-painted-shop",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.aether-hall": {
+        "asset": "aether-painted-hall",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.aether-inn": {
+        "asset": "aether-painted-inn",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.aether-arena": {
+        "asset": "aether-painted-arena",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.aether-smithy": {
+        "asset": "aether-painted-smithy",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.aether-depot": {
+        "asset": "aether-painted-depot",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.aether-painted.lamp": {
+        "asset": "aether-painted-props",
+        "frame": "lamp",
+        "fit": "contain"
+      },
+      "object.aether-painted.gate": {
+        "asset": "aether-painted-props",
+        "frame": "gate",
+        "fit": "contain"
+      },
+      "object.aether-painted.blueflowers": {
+        "asset": "aether-painted-props",
+        "frame": "blueflowers",
+        "fit": "contain"
+      },
+      "object.aether-painted.flowers": {
+        "asset": "aether-painted-props",
+        "frame": "flowers",
+        "fit": "contain"
+      },
+      "object.aether-painted.pinkflowers": {
+        "asset": "aether-painted-props",
+        "frame": "pinkflowers",
+        "fit": "contain"
+      },
+      "object.aether-painted.daisies": {
+        "asset": "aether-painted-props",
+        "frame": "daisies",
+        "fit": "contain"
+      },
+      "object.aether-painted.lavender": {
+        "asset": "aether-painted-props",
+        "frame": "lavender",
+        "fit": "contain"
+      },
+      "object.aether-painted.sakura": {
+        "asset": "aether-painted-props",
+        "frame": "sakura",
+        "fit": "contain"
+      },
+      "object.aether-painted.bonsai": {
+        "asset": "aether-painted-props",
+        "frame": "bonsai",
+        "fit": "contain"
+      },
+      "object.aether-painted.bamboo": {
+        "asset": "aether-painted-props",
+        "frame": "bamboo",
+        "fit": "contain"
+      },
+      "object.aether-painted.pond": {
+        "asset": "aether-painted-props",
+        "frame": "pond",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "pyra-painted-preview",
+    "version": "1.0.1",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "pyra-painted-ground",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-ground.webp",
+        "width": 1280,
+        "height": 1280
+      },
+      {
+        "id": "pyra-painted-forest",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-forest.webp",
+        "width": 1280,
+        "height": 1280
+      },
+      {
+        "id": "pyra-painted-plaza",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-plaza.webp",
+        "width": 1280,
+        "height": 1280
+      },
+      {
+        "id": "pyra-painted-road",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-road.webp",
+        "width": 1280,
+        "height": 1280
+      },
+      {
+        "id": "pyra-painted-hall",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-hall.webp",
+        "width": 536,
+        "height": 462
+      },
+      {
+        "id": "pyra-painted-shop",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-shop.webp",
+        "width": 537,
+        "height": 450
+      },
+      {
+        "id": "pyra-painted-inn",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-inn.webp",
+        "width": 530,
+        "height": 464
+      },
+      {
+        "id": "pyra-painted-smithy",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-smithy.webp",
+        "width": 544,
+        "height": 472
+      },
+      {
+        "id": "pyra-painted-depot",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-depot.webp",
+        "width": 544,
+        "height": 452
+      },
+      {
+        "id": "pyra-painted-arena",
+        "version": "1.0.1",
+        "kind": "image",
+        "url": "/game/assets/gpu/pyra-painted-preview/1.0.1-34b54027eca7/pyra-painted-arena.webp",
+        "width": 544,
+        "height": 471
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "terrain.ki-v2-pyra-grass-0": {
+        "asset": "pyra-painted-ground",
+        "fit": "contain",
+        "tileSize": [
+          1024,
+          1024
+        ]
+      },
+      "terrain.ki-v2-pyra-mountain-0": {
+        "asset": "pyra-painted-ground",
+        "fit": "contain",
+        "tileSize": [
+          1024,
+          1024
+        ]
+      },
+      "terrain.ki-v2-pyra-forest-0": {
+        "asset": "pyra-painted-forest",
+        "fit": "contain",
+        "tileSize": [
+          256,
+          256
+        ]
+      },
+      "terrain.ki-v2-pyra-road-0": {
+        "asset": "pyra-painted-road",
+        "fit": "contain",
+        "tileSize": [
+          640,
+          640
+        ]
+      },
+      "terrain.ki-v2-city-pyra-plaza-0": {
+        "asset": "pyra-painted-plaza",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "object.ki-v2-buildings.pyra-hall": {
+        "asset": "pyra-painted-hall",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.pyra-market": {
+        "asset": "pyra-painted-shop",
+        "fit": "contain",
+        "origin": [
+          0.53,
+          0.93
+        ]
+      },
+      "object.ki-v2-buildings.pyra-inn": {
+        "asset": "pyra-painted-inn",
+        "fit": "contain",
+        "origin": [
+          0.53,
+          0.93
+        ]
+      },
+      "object.ki-v2-buildings.pyra-smithy": {
+        "asset": "pyra-painted-smithy",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.pyra-depot": {
+        "asset": "pyra-painted-depot",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.pyra-arena": {
+        "asset": "pyra-painted-arena",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      }
+    },
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "verdant-leaf-buildings",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "verdant-leaf-hall",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-hall.webp",
+        "width": 1280,
+        "height": 1272
+      },
+      {
+        "id": "verdant-leaf-arena",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-arena.webp",
+        "width": 1279,
+        "height": 1248
+      },
+      {
+        "id": "verdant-leaf-depot",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-depot.webp",
+        "width": 1279,
+        "height": 1276
+      },
+      {
+        "id": "verdant-leaf-shop",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-shop.webp",
+        "width": 1276,
+        "height": 1182
+      },
+      {
+        "id": "verdant-leaf-inn",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-inn.webp",
+        "width": 1278,
+        "height": 1258
+      },
+      {
+        "id": "verdant-leaf-smithy",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-smithy.webp",
+        "width": 1273,
+        "height": 1275
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.ki-v2-buildings.verdant-hall": {
+        "asset": "verdant-leaf-hall",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.85
+        ]
+      },
+      "object.ki-v2-buildings.verdant-arena": {
+        "asset": "verdant-leaf-arena",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.85
+        ]
+      },
+      "object.ki-v2-buildings.verdant-depot": {
+        "asset": "verdant-leaf-depot",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.85
+        ]
+      },
+      "object.ki-v2-buildings.verdant-market": {
+        "asset": "verdant-leaf-shop",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.85
+        ]
+      },
+      "object.ki-v2-buildings.verdant-inn": {
+        "asset": "verdant-leaf-inn",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.85
+        ]
+      },
+      "object.ki-v2-buildings.verdant-smithy": {
+        "asset": "verdant-leaf-smithy",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.85
+        ]
+      }
+    },
+    "effects": {}
   }
 ]

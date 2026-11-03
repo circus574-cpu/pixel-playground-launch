@@ -1,0 +1,20 @@
+
+> assets:import
+> tsx scripts/import-game-assets.ts art/production/aether-painted-preview/manifest.json --install
+
+{
+  "id": "aether-painted-preview",
+  "version": "1.0.0",
+  "digest": "132c2b614ce1c98eb3ae155dae8881c17d374502e823be0c2ee4be32d3d380bd",
+  "assets": 11,
+  "bytesBefore": 6368254,
+  "bytesAfter": 21131592,
+  "worlds": {
+    "verdant": 125856544,
+    "aether": 106391840,
+    "nexus": 97039136,
+    "pyra": 108984432
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1"
+}

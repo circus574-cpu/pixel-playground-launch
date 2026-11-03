@@ -3,19 +3,41 @@ import type { ArtObject, FeatureArt } from "./renderSuperior";
 
 /** A render-only review switch. No world data, collider or saved position is changed. */
 export const paintedMeadowEnabled = (feature: string) =>
-  feature === "verdant" &&
-  catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass";
+  (feature === "verdant" &&
+    catalog.renderBindings["terrain.ki-v2-verdant-grass-0"]?.asset === "verdant-painted-grass") ||
+  (feature === "aether" &&
+    catalog.renderBindings["terrain.ki-v2-aether-grass-0"]?.asset === "aether-painted-grass") ||
+  (feature === "pyra" &&
+    catalog.renderBindings["terrain.ki-v2-pyra-grass-0"]?.asset === "pyra-painted-ground");
 
 export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
   return items.map((item) => {
     const ref = catalog.renderBindings[item.binding];
-    if (ref?.asset !== "verdant-painted-shop" || !item.door) return item;
+    if (
+      !ref ||
+      !item.door ||
+      !(
+        ref.asset === "verdant-painted-shop" ||
+        ref.asset.startsWith("verdant-leaf-") ||
+        ref.asset.startsWith("aether-painted-") ||
+        ref.asset.startsWith("pyra-painted-")
+      )
+    )
+      return item;
     return {
       ...item,
       x: item.door.x,
       y: item.door.y,
-      width: 560,
-      height: 520,
+      width: ref.asset.startsWith("aether-painted-")
+        ? Math.max(item.width, 580)
+        : ref.asset.startsWith("pyra-painted-")
+          ? Math.max(item.width, 530)
+          : 560,
+      height: ref.asset.startsWith("aether-painted-")
+        ? Math.max(item.height, 480)
+        : ref.asset.startsWith("pyra-painted-")
+          ? 470
+          : 520,
       anchorX: ref.origin![0],
       anchorY: ref.origin![1],
     };
@@ -90,6 +112,40 @@ export function meadowScenery(
   art: FeatureArt,
   roads: readonly { x: number; y: number; width: number; height: number }[],
 ): ArtObject[] {
+  if (art.acceptedCityBuildings.some((b) => b.binding.includes(".aether-"))) {
+    const items: ArtObject[] = [];
+    const add = (name: string, x: number, y: number, width: number, height: number) =>
+      items.push({
+        id: "aether-garden-" + items.length,
+        binding: "object.aether-painted." + name,
+        kind: name === "sakura" || name === "bonsai" ? "tree" : "bush",
+        x,
+        y,
+        width,
+        height,
+        anchorX: 0.5,
+        anchorY: 0.92,
+        solid: false,
+        layer: "objects",
+      });
+    for (const b of art.acceptedCityBuildings) {
+      add("lamp", b.x - 210, b.y + 135, 65, 140);
+      add("lamp", b.x + 210, b.y + 135, 65, 140);
+      add("blueflowers", b.x - 285, b.y + 130, 145, 115);
+      add("flowers", b.x + 285, b.y + 130, 140, 115);
+      add("sakura", b.x - 365, b.y - 90, 340, 295);
+      add("bonsai", b.x + 370, b.y - 115, 240, 280);
+      add("daisies", b.x - 290, b.y + 290, 115, 90);
+      add("lavender", b.x + 290, b.y + 290, 90, 100);
+    }
+    const hall = art.acceptedCityBuildings.find((b) => b.id === "accepted-sanctum-0");
+    if (hall) {
+      add("gate", hall.x + 410, hall.y + 520, 340, 320);
+      add("pond", hall.x - 550, hall.y + 480, 330, 200);
+      add("bamboo", hall.x - 660, hall.y + 290, 210, 260);
+    }
+    return items;
+  }
   const shop = art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
   if (!shop) return [];
   const items: ArtObject[] = [];
@@ -130,4 +186,30 @@ export function meadowScenery(
       if (n < 0.7) add("verdant-fern-0", dx - 65, dy + 50, 76, 70);
     }
   return items;
+}
+
+/** The new garden preview does not retain ground plates from the older city art. */
+export function aetherLegacyScenery(items: readonly ArtObject[]): ArtObject[] {
+  const seen = new Set<string>();
+  return items.flatMap((item) => {
+    if (item.binding === "object.ki-source")
+      return [
+        {
+          ...item,
+          binding: "object.aether-painted.pond",
+          width: 150,
+          height: 90,
+          anchorX: 0.5,
+          anchorY: 0.5,
+          layer: "below" as const,
+        },
+      ];
+    if (item.binding !== "object.garden") return [item];
+    const key = item.x + ":" + item.y;
+    if (seen.has(key)) return [];
+    seen.add(key);
+    return [
+      { ...item, binding: "object.aether-painted.flowers", width: 110, height: 80, anchorY: 0.9 },
+    ];
+  });
 }
