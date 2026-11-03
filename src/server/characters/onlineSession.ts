@@ -28,6 +28,7 @@ export class OnlineSession {
   private direction = { x: 0, y: 0, until: 0 };
   private elapsed = 0;
   private sequence = 0;
+  private frameSeq = 0;
   private lastCheckpointAt = Number.NEGATIVE_INFINITY;
   private dirty = false;
   private receipts = new Map<string, { digest: string; revision: number }>();
@@ -210,6 +211,8 @@ export class OnlineSession {
         : null,
       characterId: this.record.id,
       revision: this.record.revision,
+      // Frames between two durable writes share a revision; `seq` keeps them in order.
+      seq: ++this.frameSeq,
       feature: this.simulation.feature,
       view: s.snapshot(),
       enemies: structuredClone(s.enemies),

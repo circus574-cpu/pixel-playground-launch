@@ -3,6 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { OnlineSession } from "../server/characters/onlineSession";
+import { isStaleFrame } from "../game/online/client";
 import { newPlayer } from "../game/session";
 import type { CharacterRecord, PgCharacterRepository } from "../server/characters/repository";
 const owner = { project: "https://test.supabase.co", subject: randomUUID() };
@@ -122,3 +123,27 @@ it("fixed ticks are written periodically, and closing saves the progress made si
   expect(commits).toHaveBeenCalledTimes(2);
   expect(f.read().state.player.x).toBe(moved.view.x);
 }, 60000);
+
+it("every tick frame is newer than the last, also while durable writes are throttled", async () => {
+  OnlineSession.checkpointEveryMs = 60_000;
+  const f = fixture();
+  const session = await OnlineSession.open(f.repository, owner, f.id, path.resolve("public"));
+  let last = await session.tick();
+  const accepted = [];
+  for (let i = 0; i < 10; i++) {
+    const next = await session.tick();
+    // The player sees every one of these frames: none is dropped as stale.
+    accepted.push(!isStaleFrame(last, next));
+    last = next;
+  }
+  expect(accepted.every(Boolean)).toBe(true);
+  await session.close();
+}, 60000);
+
+it("an older frame or a repeat is stale, a newer revision or sequence is not", () => {
+  expect(isStaleFrame({ revision: 5, seq: 9 }, { revision: 5, seq: 9 })).toBe(true);
+  expect(isStaleFrame({ revision: 5, seq: 9 }, { revision: 5, seq: 8 })).toBe(true);
+  expect(isStaleFrame({ revision: 5, seq: 9 }, { revision: 4, seq: 99 })).toBe(true);
+  expect(isStaleFrame({ revision: 5, seq: 9 }, { revision: 5, seq: 10 })).toBe(false);
+  expect(isStaleFrame({ revision: 5, seq: 9 }, { revision: 6, seq: 1 })).toBe(false);
+});

@@ -499,3 +499,105 @@ Nie doliczamy go do ośmiu końcowych scenariuszy.
 Pozostały zakres pełnego zlecenia jest niezmieniony: próby rasowe i stopnie dziedzin,
 odblokowania, tytuły, późne warianty starć, pełny graf i odbiór legalnego balansu.
 Ta partia nie scala PR #90 i nie zmienia produkcji.
+
+## Potwory anime: 30 z 40
+
+### 5. Kolejne pięć potworów
+
+Z plansz właściciela: duch bibliotekarza, marionetka rytuału, oko wiedzy, pergaminowy strażnik (Aetheria)
+i latarnia plazmowa (Nexus). Pakiety `enemy-v3-*`, domyślnie włączone (`?ki-monsters-anime=0` przywraca
+stare). Zostaje 10 potworów, w tym pięć z już wysłanymi promptami.
+
+Skrypt `ingest_creature_sheet.py` poprawiony po tych planszach:
+
+- Efekt ataku przecięty linią siatki (wiązka, ostrza, rzucony talizman) wracał do sąsiedniej klatki jako
+  osierocony ułamek, a własna klatka miała płasko ucięty efekt. Teraz mniejszy kawałek ciągły z większym
+  trafia do klatki większego, a drobne resztki przy linii siatki są odrzucane.
+- Białe rdzenie blasku (środek wiązki, rdzeń plazmy) były brane za tło i miały dziury. Wnętrze jest tłem
+  tylko wtedy, gdy jest obrysowane czernią.
+- Znane ograniczenie: biały rdzeń wiązki połączony z białym tłem przez zanikający koniec nadal może mieć
+  drobne prześwity w jednej klatce ataku (oko wiedzy).
+
+## Poprawka: postać skakała zamiast chodzić
+
+### 6. Ramki z serwera między zapisami
+
+Po przejściu na zapis postaci co 2 s (sekcja 3) klient odrzucał prawie wszystkie ramki: uznawał za
+nieaktualną każdą ramkę, której `revision` nie jest większy od poprzedniej, a `revision` rośnie dopiero
+przy zapisie do bazy. Do gracza docierała jedna ramka na 2 s, więc postać teleportowała się.
+
+- Ramka ma teraz własny numer `seq` rosnący z każdą ramką; klient porównuje `revision`, a w jego obrębie
+  `seq` (`isStaleFrame` w `src/game/online/client.ts`).
+- Testy: 10 kolejnych ticków w jednej wersji zapisu daje 10 przyjętych ramek oraz tabela przypadków
+  nieaktualnej, powtórzonej i nowszej ramki.
+
+## Potwory anime: 35 z 40
+
+### 7. Kolejne pięć potworów
+
+Kolejne pięć z plansz właściciela: strażnik rdzenia, wieżyczka autonomiczna (Nexus), płomień-duch,
+węgielek (Pyra) i korzeniowy pełzacz (Verdantia). Skrypt wycinania dostał jeszcze regułę dla małych
+białych szczelin przy obrysie postaci (między korzeniami, kończynami), obramowanych ciemnym materiałem;
+błyski w oczach i kwiaty zostają. Pięć wcześniejszych pakietów przeliczono ponownie (zmiana poniżej 1%
+pikseli). Zostaje 5 potworów: świetlik pieczęci, pająk spawalniczy, rój nanitów, popielny wilk i liściak
+skrytobójca.
+
+
+## Integracja nowszego main z gałęzią domykania rozwoju
+
+Po wysłaniu `f9e1d5b5` sprawdzono zdalny `main`, który w międzyczasie przeszedł
+z `13983467` do `e02c87b5ea9ad654f17d450464d13c36083f058b`. Zawiera cudze prace:
+35/40 potworów anime i poprawkę `revision/seq` ramek serwera z PR #91 oraz
+`fix/frame-order`. Nie przypisujemy ich autorstwa tej gałęzi.
+
+Wykonano `git merge --no-commit --no-ff e02c87b5ea9ad654f17d450464d13c36083f058b`
+**do gałęzi `feature/complete-character-development`**, żeby nie utracić tych zmian
+przy późniejszym odbiorze PR #90. Nie scalono PR do `main`, nie przepisano historii,
+nie zmieniono gałęzi innych wykonawców i nie opublikowano gry.
+
+Jedyny konflikt był w niniejszym dzienniku. Zachowano pełną treść obu wkładów;
+47 pozostałych plików nowszego `main` ma identyczne bajty
+([wykaz i sumy](qa/main-integration/preserved-upstream.json)). Nie zmieniano nowych
+atlasów, skryptu importu ani poprawki ramek. Ponownie wykonywane kontrole
+połączonego kodu identyfikuje [manifest](qa/main-integration/verification.json).
+
+
+Kontrole po integracji: TypeScript (trzy konfiguracje), lint (0 błędów,
+15 wcześniejszych ostrzeżeń), build oraz kontrakt zasobów zaliczone. Software
+WebGL nowych kronik czterech ras: **4 PASS / 0 FAIL**, bez błędów `pageerror`.
+Wcześniejsze rzeczywiste pierwsze rozdziały czterech ras Canvas pozostają dowodem
+na `f9e1d5b5`; po integracji nowszych atlasów wykonano osobno powyższy WebGL.
+Nie deklarujemy ponownego przejścia wszystkich rozdziałów w przeglądarce po merge.
+
+Kontrola środowiska po `git merge` ujawniła ponowne pominięcie źródeł poza zakresem
+lokalnego sparse checkout: pięciu śledzonych plików `deliveries/` (31 077 049 bajtów) oraz
+136 plików `art/production/development/v001/` (71 205 040 bajtów).
+Pierwsza kontrola dokumentacji miała brak lokalnego archiwum, a pierwsze pełne
+jednostkowe: **2 FAIL / 1167 PASS / 10 SKIP** w testach pochodzenia grafik/audio.
+To rzeczywiście niezaliczone próby, zachowane w
+[logu dokumentacji](qa/main-integration/documentation-before-restore.txt) i
+[logu jednostkowych](qa/main-integration/unit-before-restore.txt).
+
+Odtworzono tylko brakujące pliki, bezpośrednio z ich bieżących blobów indeksu Git;
+nie nadpisano istniejących plików i nie zmieniono kodu, źródeł ani manifestów.
+Nie pobierano modeli ani nie korzystano z GPU. Po przywróceniu: kontrola dokumentacji
+PASS, pochodzenie grafik/audio **4/4 PASS**
+([log](qa/main-integration/provenance-after-restore.txt)). Pełną regresję powtórzono
+oddzielnie; wynik zostaje zapisany poniżej. Baza produkcyjna nie była używana.
+
+CI dla `f9e1d5b5428eab9968622a059e8f98606c913a75`:
+[SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41619749800).
+To wynik przed niniejszą integracją, a nie wynik przyszłego commita merge.
+
+
+Pełna regresja po przywróceniu źródeł: **1169 PASS / 0 FAIL / 10 SKIP**,
+100 plików zaliczonych / 1 pominięty. Przyrost dwóch testów pochodzi z przejętej
+poprawki ramek, a nie z nowej mechaniki rozwoju. Brakująca testowa baza PostgreSQL
+jest powodem 10 SKIP. [Końcowy log](qa/main-integration/unit-tests.txt).
+Pozostałe logi: [typy](qa/main-integration/typecheck.txt),
+[lint](qa/main-integration/lint.txt), [build](qa/main-integration/build.txt),
+[zasoby](qa/main-integration/assets.txt), [dokumentacja](qa/main-integration/documentation.txt),
+[Software WebGL](qa/main-integration/chronicle-webgl.txt).
+Wyniki odnoszą się do źródeł o sumach w manifeście połączonych rodziców
+`f9e1d5b5` + `e02c87b5`; commit merge powstaje dopiero po tych kontrolach.
+Stan niewdrożonych prób, dziedzin, odblokowań i późnych starć pozostaje otwarty.

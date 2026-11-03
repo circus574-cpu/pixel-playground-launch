@@ -4,6 +4,8 @@
 eskort bojowych/ochrony i kronikę odkrywanej historii. Cały rozwój nadal nie jest
 ukończony; [zakres i dowody](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
 
+Gałąź PR #90 uwzględnia także [nowszy `main@e02c87b5`](zmiany/2026-11-03/ZMIANY.md#integracja-nowszego-main-z-gałęzią-domykania-rozwoju); cudze grafiki i poprawka ramek zostały zachowane.
+
 **Audyt rozwoju 03.11.2026:** pełne zlecenie czterech ras pozostaje nieukończone.
 Potwierdzone braki, blokady i błędy wyposażenia oraz aktualne wyniki testów są w
 [raporcie z 03.11](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
