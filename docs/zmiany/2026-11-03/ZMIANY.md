@@ -209,3 +209,34 @@ Nie zmieniano danych geometrii ani nawigacji.
 zwykłym kliknięciem w tę samą okolicę, Canvas 1280×900, bez pageerror.
 Pełny statyczny TypeScript: PASS, [log](qa/aether-painted/corrected-typecheck.log).
 Nie uruchamiano pełnego Playwright ani odbioru fizycznego telefonu.
+
+## Pyra — podgląd czterech tekstur i sześciu budynków
+
+Gałąź `preview/pyra-painted-world`, od `origin/main@327727e2`.
+Pakiet `pyra-painted-preview@1.0.1` zawiera cztery tekstury i sześć budynków
+właściciela, zachowane źródła, skrypt odtwarzania oraz provenance SHA-256.
+Sześć istniejących usług Twierdzy Popiołu używa nowych budynków. Grafiki nie
+zmieniają nazw, mechanik, NPC, HUD-u, ruchu, zapisów, kolizji ani JSON świata.
+
+Kod: `catalog.ts` (opcja `ki-pyra-painted=1`), `imported.json`,
+`paintedMeadow.ts` (prezentacja budynków przy drzwiach), `renderSuperior.ts`
+(pełna jakość malowanego terenu, neutralne światło dla Pyry, jednolita skała w
+centrum na masce lądu i ozdobny podest przed salą wodza). Drogi mają ceglaną
+teksturę i miękki brzeg. Na obrzeżach pozostaje ściółka oraz wcześniejsze obiekty;
+nie twierdzimy, że wymieniono wszystkie dekoracje kontynentu.
+Pierwszy podgląd miał zbyt wielkie liście i plamy biomów — poprawiono skalę
+ściółki 768→256 j. i podłoże centrum. Wersja 1.0.0 była wyłącznie lokalną próbą.
+Pierwszą próbę zrzutu przerwał reload Vite podczas formatowania; ponowiono po zakończeniu edycji.
+
+Uruchomienie: `npm run playtest -- --port 4174`,
+`http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1&ki-pyra-painted=1`,
+Legendy → Rozpocznij przygodę. [Lokalny zrzut prawdziwego Phasera](qa/pyra-painted/preview.png).
+[Załadowane zasoby i błędy przeglądarki](qa/pyra-painted/capture.json).
+Pełny TypeScript: `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`,
+[log](qa/pyra-painted/typecheck.log). Import 10 zasobów: zaliczony.
+Kontrola dokumentacji: `python3 scripts/docs/check_documentation.py`.
+Baza kontroli: `327727e2` + opisane zmiany gałęzi; nie jest to regresja końcowego SHA produkcji.
+Pełna kampania jednostkowa/Playwright/Software WebGL, build i fizyczny telefon:
+NIEWYKONANE — dostawa podglądu grafiki bez pełnej kampanii testowej, jak zlecono.
+Przed wydaniem: odbiór wizualny, optymalizacja paczki i regresja urządzeń.
+Brak scalenia do main i publikacji. Nie uruchamiano GPU.

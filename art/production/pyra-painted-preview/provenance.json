@@ -1,0 +1,62 @@
+{
+  "ground": {
+    "source": "sources/ground.jpg",
+    "sha256": "c98432468eeed1ee486b1cb96735faa43d2823e39f665a2d36f723e26d2820af",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "forest": {
+    "source": "sources/forest.jpg",
+    "sha256": "fdce1d189e676341c31572ff8e1c41cb567e016e27bf8fa7f40decbd51caf446",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "plaza": {
+    "source": "sources/plaza.jpg",
+    "sha256": "207eeeab5c7579bb5a249bec3fd5e1edbc3065d9a966dfd971844acf2084dda1",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "road": {
+    "source": "sources/road.jpg",
+    "sha256": "99f0f684fdfd49bc0b3cb552ed77a5618a9c24cac9b2f42e64b66975bfdf929b",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "hall": {
+    "source": "sources/B1_sala_wodza.png",
+    "sha256": "443c4a148218dc1187cefa51a901ba83dbdc8b8d794494093a4bbcdaa2bb93c2",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "shop": {
+    "source": "sources/B2_targ.png",
+    "sha256": "eb3797f8a5b03dbcb2516d24ab74a087e3ba86e187d97b121cfb97b493262acf",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "inn": {
+    "source": "sources/B3_karczma.png",
+    "sha256": "66a3dd50523c4b40d748fec50d4e6c4cdedaa8c0d93320115e4e3efff29d3bbe",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "smithy": {
+    "source": "sources/B4_kuznia_goro.png",
+    "sha256": "6b7e9444ffd093eca2f205bab116e74c36cab1554eb41b8f476fd35b64060cbe",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "depot": {
+    "source": "sources/B5_skarbiec.png",
+    "sha256": "c99c67d887b837df24920918dce627d70e4cbca6d716d3d08312b6720714b6b9",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  },
+  "arena": {
+    "source": "sources/B6_arena_treningowa.png",
+    "sha256": "e2376c77a8f0bcb37f9a543f2ee2d0ace684623031f79688a17b0e07081de56d",
+    "processing": "WebP quality 94, alpha 100; no repaint or crop",
+    "author": "Owner supplied; rights not independently verified"
+  }
+}
