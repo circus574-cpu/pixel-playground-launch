@@ -48,3 +48,45 @@ optymalizacji tabel, które nie istnieją w schemacie.
 - Kafel, zakładka i dziennik sondy pokazują te liczby; brak odpowiedzi serwera jest raportowany jako
   błąd, a nie dane z martwej chmury.
 - Usunięto panel „Status optymalizacji bazy" (opisywał tabele, których nie ma).
+
+## Potwory anime: 30 z 40
+
+### 5. Kolejne pięć potworów
+
+Z plansz właściciela: duch bibliotekarza, marionetka rytuału, oko wiedzy, pergaminowy strażnik (Aetheria)
+i latarnia plazmowa (Nexus). Pakiety `enemy-v3-*`, domyślnie włączone (`?ki-monsters-anime=0` przywraca
+stare). Zostaje 10 potworów, w tym pięć z już wysłanymi promptami.
+
+Skrypt `ingest_creature_sheet.py` poprawiony po tych planszach:
+
+- Efekt ataku przecięty linią siatki (wiązka, ostrza, rzucony talizman) wracał do sąsiedniej klatki jako
+  osierocony ułamek, a własna klatka miała płasko ucięty efekt. Teraz mniejszy kawałek ciągły z większym
+  trafia do klatki większego, a drobne resztki przy linii siatki są odrzucane.
+- Białe rdzenie blasku (środek wiązki, rdzeń plazmy) były brane za tło i miały dziury. Wnętrze jest tłem
+  tylko wtedy, gdy jest obrysowane czernią.
+- Znane ograniczenie: biały rdzeń wiązki połączony z białym tłem przez zanikający koniec nadal może mieć
+  drobne prześwity w jednej klatce ataku (oko wiedzy).
+
+## Poprawka: postać skakała zamiast chodzić
+
+### 6. Ramki z serwera między zapisami
+
+Po przejściu na zapis postaci co 2 s (sekcja 3) klient odrzucał prawie wszystkie ramki: uznawał za
+nieaktualną każdą ramkę, której `revision` nie jest większy od poprzedniej, a `revision` rośnie dopiero
+przy zapisie do bazy. Do gracza docierała jedna ramka na 2 s, więc postać teleportowała się.
+
+- Ramka ma teraz własny numer `seq` rosnący z każdą ramką; klient porównuje `revision`, a w jego obrębie
+  `seq` (`isStaleFrame` w `src/game/online/client.ts`).
+- Testy: 10 kolejnych ticków w jednej wersji zapisu daje 10 przyjętych ramek oraz tabela przypadków
+  nieaktualnej, powtórzonej i nowszej ramki.
+
+## Potwory anime: 35 z 40
+
+### 7. Kolejne pięć potworów
+
+Kolejne pięć z plansz właściciela: strażnik rdzenia, wieżyczka autonomiczna (Nexus), płomień-duch,
+węgielek (Pyra) i korzeniowy pełzacz (Verdantia). Skrypt wycinania dostał jeszcze regułę dla małych
+białych szczelin przy obrysie postaci (między korzeniami, kończynami), obramowanych ciemnym materiałem;
+błyski w oczach i kwiaty zostają. Pięć wcześniejszych pakietów przeliczono ponownie (zmiana poniżej 1%
+pikseli). Zostaje 5 potworów: świetlik pieczęci, pająk spawalniczy, rój nanitów, popielny wilk i liściak
+skrytobójca.

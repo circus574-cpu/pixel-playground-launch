@@ -6,6 +6,17 @@ export type OnlineFrame = ReturnType<OnlineSession["view"]> & {
   peers?: import("../multiplayer/protocol").NetworkPlayerState[];
 };
 
+/** Frames between two durable writes share a revision, so they are ordered by `seq` within it. */
+export function isStaleFrame(
+  current: Pick<OnlineFrame, "revision" | "seq">,
+  next: Pick<OnlineFrame, "revision" | "seq">,
+) {
+  return (
+    next.revision < current.revision ||
+    (next.revision === current.revision && next.seq <= current.seq)
+  );
+}
+
 /** Deliberately has no local save port and sends intentions only. */
 export class OnlineClient {
   frame: OnlineFrame | undefined;
@@ -105,7 +116,7 @@ export class OnlineClient {
             );
           if (packet.type !== "state") return;
           const frame: OnlineFrame = packet.frame;
-          if (this.frame && frame.revision <= this.frame.revision) return;
+          if (this.frame && isStaleFrame(this.frame, frame)) return;
           lastFrame = performance.now();
           this.frame = frame;
           for (const listener of this.listeners) listener(frame);
