@@ -11,6 +11,7 @@ import projection from "@/components/planet-map/worldOverlay.v2.json";
 import { worldToAtlas } from "@/components/planet-map/worldToAtlas";
 import {
   getGameServerStatusFn,
+  getDatabaseStatusFn,
   startGameServerFn,
   stopGameServerFn,
 } from "@/lib/serverControl.functions";
@@ -171,11 +172,18 @@ export function AdminMonitoringCenter() {
           /* ignore in test/browser-only mode */
         }
 
+        let database = null;
+        try {
+          database = await getDatabaseStatusFn();
+        } catch {
+          /* the snapshot reports the missing answer as a database error */
+        }
         const snap = await collectAdminTelemetrySnapshot({
           includeClusterSimulation: includeClusterSim,
           measuredFps,
           tickSeed: nextSeed ?? tickSeed,
           liveDaemonStatus: currentDaemon,
+          database,
         });
         setSnapshot(snap);
       } finally {
@@ -719,9 +727,9 @@ export function AdminMonitoringCenter() {
           className="ki-admin-panel"
           style={{ padding: 12, cursor: "pointer" }}
           onClick={() => setSubTab("database")}
-          title="Kliknij, aby przejść do sekcji Baza Danych (Supabase i PostgreSQL)"
+          title="Kliknij, aby przejść do sekcji Baza Danych (PostgreSQL)"
         >
-          <small>Baza Danych (Supabase / PostgreSQL)</small>
+          <small>Baza danych (PostgreSQL na VPS)</small>
           <div
             style={{
               fontSize: "1.25rem",
@@ -730,7 +738,7 @@ export function AdminMonitoringCenter() {
               margin: "4px 0",
             }}
           >
-            {snapshot?.dbConnected ? `ONLINE (${snapshot.dbLatencyMs} ms)` : "TRYB LOKALNY"}
+            {snapshot?.dbConnected ? `ONLINE (${snapshot.dbLatencyMs} ms)` : "BRAK POŁĄCZENIA"}
           </div>
           <small>
             Konta: {snapshot?.dbStats.profilesCount ?? 0} · Postacie:{" "}
@@ -750,7 +758,7 @@ export function AdminMonitoringCenter() {
             ],
             [
               "database",
-              `🗄️ BAZA DANYCH (Supabase i PostgreSQL · ${snapshot?.dbStats.charactersCount ?? 0} zapisów)`,
+              `🗄️ BAZA DANYCH (PostgreSQL · ${snapshot?.dbStats.charactersCount ?? 0} zapisów)`,
             ],
             ["overview", "📊 Przegląd Lądów i Zasobów"],
             ["logs", `📜 Logi Serwera, Sieci i Anti-Cheat (${allLogs.length})`],
@@ -1184,9 +1192,9 @@ export function AdminMonitoringCenter() {
                   Zarządzanie i Monitoring Serwerów Gry ({snapshot.nodes.length})
                 </h3>
                 <small style={{ color: "#9aa0a6" }}>
-                  Lista skonfigurowanych serwerów gry (bez bazy danych Supabase, która znajduje się
-                  w sekcji BAZA DANYCH). Kliknij wiersz lub przycisk „Zarządzaj / Edytuj”, aby
-                  sterować wybranym serwerem powyżej.
+                  Lista skonfigurowanych serwerów gry (bez bazy danych, która znajduje się w sekcji
+                  BAZA DANYCH). Kliknij wiersz lub przycisk „Zarządzaj / Edytuj”, aby sterować
+                  wybranym serwerem powyżej.
                 </small>
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -1806,7 +1814,7 @@ export function AdminMonitoringCenter() {
       )}
 
       {/* ================================================================================= */}
-      {/* 3. BAZA DANYCH (SUPABASE I POSTGRESQL 17) — WYDZIELONA SEKCJA                     */}
+      {/* 3. BAZA DANYCH (POSTGRESQL NA VPS) — WYDZIELONA SEKCJA                      */}
       {/* ================================================================================= */}
       {subTab === "database" && snapshot && (
         <div style={{ display: "grid", gap: 14 }}>
@@ -1829,12 +1837,12 @@ export function AdminMonitoringCenter() {
             >
               <div>
                 <h3 style={{ margin: 0, color: "#7cc5ff" }}>
-                  🗄️ Zarządzanie Bazą Danych — Supabase Cloud & PostgreSQL 17 Multiplayer
+                  🗄️ Baza danych gry — PostgreSQL na VPS
                 </h3>
                 <small style={{ color: "#cbd5e1" }}>
-                  Centralny panel diagnostyki, połączeń, tabel kont (`profiles`, `characters`,
-                  `user_roles`, `admin_audit`) oraz silnika PostgreSQL 17 (`game.active_sessions`,
-                  `game.character_snapshots`).
+                  Odczyt na żywo z bazy PostgreSQL gry: konta (`accounts.users`), role
+                  (`accounts.roles`), postacie (`game.characters`) i dziennik audytu
+                  (`accounts.audit`).
                 </small>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
@@ -1851,7 +1859,7 @@ export function AdminMonitoringCenter() {
 
             <div className="ki-admin-grid">
               <div className="ki-admin-stat-card">
-                <small>Status Połączenia Supabase</small>
+                <small>Status połączenia z bazą</small>
                 <h3 style={{ color: snapshot.dbStats.connected ? "#5cd68d" : "#ff8577" }}>
                   {snapshot.dbStats.connected ? "ONLINE (POŁĄCZONO)" : "OFFLINE / BŁĄD"}
                 </h3>
@@ -1865,27 +1873,24 @@ export function AdminMonitoringCenter() {
                 <small>Zarejestrowane Konta i Role</small>
                 <h3>{snapshot.dbStats.profilesCount} kont</h3>
                 <small>
-                  Przypisane role (`user_roles`): <b>{snapshot.dbStats.rolesCount}</b>
+                  Przypisane role (`accounts.roles`): <b>{snapshot.dbStats.rolesCount}</b>
                 </small>
               </div>
 
               <div className="ki-admin-stat-card">
-                <small>Zapisane Postacie w Bazie (`characters`)</small>
+                <small>Postacie w bazie (`game.characters`)</small>
                 <h3 style={{ color: "#f5d48a" }}>{snapshot.dbStats.charactersCount} postaci</h3>
                 <small>
-                  Wpisy audytu (`admin_audit`): <b>{snapshot.dbStats.auditsCount}</b>
+                  Wpisy audytu (`accounts.audit`): <b>{snapshot.dbStats.auditsCount}</b>
                 </small>
               </div>
 
               <div className="ki-admin-stat-card">
-                <small>Pula Połączeń PostgreSQL Pooler</small>
+                <small>Połączenia z bazą</small>
                 <h3>
-                  {snapshot.dbStats.poolActive} aktywne / {snapshot.dbStats.poolMax} max
+                  {snapshot.dbStats.poolActive} / {snapshot.dbStats.poolMax}
                 </h3>
-                <small style={{ color: "#5cd68d" }}>
-                  Idle: {snapshot.dbStats.poolIdle} · Tabele UNLOGGED HOT:{" "}
-                  {snapshot.dbStats.hotTablesUnlogged ? "AKTYWNE" : "WYŁ."}
-                </small>
+                <small style={{ color: "#cbd5e1" }}>aktywne połączenia / limit bazy</small>
               </div>
             </div>
 
@@ -1905,44 +1910,6 @@ export function AdminMonitoringCenter() {
           </section>
 
           <div className="ki-admin-grid">
-            <section className="ki-admin-panel">
-              <h3 style={{ marginTop: 0 }}>
-                Status Optymalizacji Bazy Danych Multiplayer (PostgreSQL 17 Schema v2)
-              </h3>
-              <ul
-                style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 8, fontSize: "0.86rem" }}
-              >
-                <li>
-                  <b>Tabele ścieżki gorącej (`UNLOGGED` + `fillfactor=70`):</b>{" "}
-                  <code>game.active_sessions</code> oraz <code>game.server_nodes</code> — brak
-                  narzutu fsync WAL przy aktualizacjach pozycji 10–20 Hz (aktualizacje typu HOT w
-                  obrębie tej samej strony pamięci).
-                </li>
-                <li>
-                  <b>Indeks przestrzenny AOI (`Index-Only Scan`):</b>{" "}
-                  <code>active_sessions_aoi_idx (world_id, cell_x, cell_y) INCLUDE (...)</code> —
-                  zapytania <code>game.query_aoi</code> zwracają sąsiedztwo sektorów 512×512 bez
-                  odczytu sterty tabeli.
-                </li>
-                <li>
-                  <b>Wsadowa synchronizacja ticku (`Single-Roundtrip RPC`):</b>{" "}
-                  <code>game.batch_sync_positions(node_id, region, jsonb)</code> aktualizuje do 500
-                  graczy w pojedynczym zapytaniu SQL (brak problemu N+1).
-                </li>
-                <li>
-                  <b>Strojenie niskiej latencji PostgreSQL (`compose.yml`):</b> <code>jit=off</code>{" "}
-                  (eliminacja skoków kompilacji JIT), <code>wal_compression=lz4</code>,{" "}
-                  <code>shared_buffers=256MB</code>, <code>effective_io_concurrency=200</code>.
-                </li>
-                <li>
-                  <b>Trwałe zapisy ACID (`WAL`):</b> <code>game.character_snapshots</code> (z
-                  kontrolą optymistyczną CAS <code>revision = revision + 1</code>),{" "}
-                  <code>game.inventory_instances</code>, <code>game.operations</code> i{" "}
-                  <code>game.outbox</code>.
-                </li>
-              </ul>
-            </section>
-
             <section className="ki-admin-panel">
               <h3 style={{ marginTop: 0 }}>
                 Najbardziej Obciążone Sektory AOI 512×512 w Bazie (Hotspoty)

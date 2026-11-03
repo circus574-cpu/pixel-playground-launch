@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { expect, it } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { OnlineSession } from "../server/characters/onlineSession";
@@ -54,6 +54,12 @@ function fixture() {
     operations,
   };
 }
+beforeEach(() => {
+  OnlineSession.checkpointEveryMs = 0;
+});
+afterEach(() => {
+  OnlineSession.checkpointEveryMs = 2000;
+});
 it("exclusive session, bounded movement, acknowledged persistence and durable retry after reconnect", async () => {
   const f = fixture();
   const first = await OnlineSession.open(f.repository, owner, f.id, path.resolve("public"));
@@ -97,4 +103,22 @@ it("a failed database commit stops the simulation and cannot emit a successful n
   await expect(session.command(randomUUID(), { type: "rest" })).rejects.toThrow("SESSION_CLOSED");
   expect(f.read()).toEqual(saved);
   await session.close();
+}, 60000);
+
+it("fixed ticks are written periodically, and closing saves the progress made since", async () => {
+  OnlineSession.checkpointEveryMs = 60_000;
+  const f = fixture();
+  const commits = vi.spyOn(f.repository, "commit");
+  const session = await OnlineSession.open(f.repository, owner, f.id, path.resolve("public"));
+  const initial = await session.tick();
+  session.setDirection(1, 0);
+  for (let i = 0; i < 10; i++) await session.tick();
+  // One write for the first tick; the other ten ticks only advance the simulation.
+  expect(commits).toHaveBeenCalledTimes(1);
+  const moved = session.view();
+  expect(moved.view.x).toBeGreaterThan(initial.view.x);
+  expect(f.read().state.player.x).toBe(initial.view.x);
+  await session.close();
+  expect(commits).toHaveBeenCalledTimes(2);
+  expect(f.read().state.player.x).toBe(moved.view.x);
 }, 60000);

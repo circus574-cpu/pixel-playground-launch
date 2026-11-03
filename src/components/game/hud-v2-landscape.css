@@ -11,7 +11,8 @@
     /* Between the portrait and "Widok": both edges are anchored, so a notch inset on either side
        narrows the menu instead of pushing it under the button. */
     left: calc(250px + env(safe-area-inset-left));
-    right: calc(164px + env(safe-area-inset-right));
+    /* "Widok" occupies 168–216 px from the right edge: the menu ends clear of it, also on 800 px. */
+    right: calc(224px + env(safe-area-inset-right));
     width: auto;
     max-width: 400px;
     height: 50px;
@@ -168,21 +169,24 @@
   }
 }
 
-/* The special staff character's GM button sits on the free left edge under the actions menu, clear
-   of the minimap and the skill buttons on the right (it can also be moved in the controls editor). */
+/* The special staff character's GM button sits at the bottom, right of the joystick (centre 84 px
+   from the left, radius ~50 px), clear of the minimap and the skill buttons. Its panel opens to the
+   right of the button in the free middle of the screen and never reaches the top row (portrait,
+   menu, "Widok", minimap). It can also be moved in the controls editor. */
 @media (max-height: 500px) and (max-width: 1100px) {
   html[data-ki-world-v2] .ki-staff {
-    top: calc(212px + env(safe-area-inset-top));
-    bottom: auto;
+    top: auto;
+    bottom: calc(14px + env(safe-area-inset-bottom));
     right: auto;
-    left: calc(12px + env(safe-area-inset-left));
+    left: calc(144px + env(safe-area-inset-left));
   }
   html[data-ki-world-v2] .ki-staff-panel {
     top: auto;
-    bottom: 54px;
-    left: 0;
+    bottom: 0;
+    left: calc(100% + 8px);
     right: auto;
-    max-height: calc(100vh - 80px);
+    width: clamp(240px, calc(100vw - 480px), 340px);
+    max-height: calc(100dvh - 96px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 }
 

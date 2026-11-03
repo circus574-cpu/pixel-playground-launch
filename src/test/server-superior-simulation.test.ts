@@ -104,3 +104,25 @@ it.each(RACE_IDS)(
   },
   60000,
 );
+
+it("opens a character whose stored player was edited by an administrator after the checkpoint", async () => {
+  const seed: CharacterRecord = {
+    id: "admin-edit-fixture",
+    revision: 1,
+    state: { format: "server-character-1", player: newPlayer("planetary"), runtime: {} },
+  };
+  const first = await prepareServerSimulation(seed, path.resolve("public"));
+  const state = first.capture();
+  first.dispose();
+  // The old admin panel changed only the stored player, never the checkpoint copy.
+  state.player.gold += 777;
+  const reopened = await prepareServerSimulation(
+    { ...seed, revision: 2, state },
+    path.resolve("public"),
+  );
+  try {
+    expect(reopened.session.player.gold).toBe(state.player.gold);
+  } finally {
+    reopened.dispose();
+  }
+}, 60000);

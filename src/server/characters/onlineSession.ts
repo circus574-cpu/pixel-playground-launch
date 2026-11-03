@@ -17,6 +17,9 @@ type Repository = Pick<
 >;
 /** One exclusive, serialized server simulation. No caller can supply delta time or a checkpoint. */
 export class OnlineSession {
+  /** Fixed ticks are written to PostgreSQL at most this often (a full transaction per 50 ms tick
+   * took longer than the tick itself and made walking choppy). Commands and closing always write. */
+  static checkpointEveryMs = 2000;
   readonly id: string;
   private queue: Promise<unknown> = Promise.resolve();
   private stopped = false;
@@ -25,6 +28,8 @@ export class OnlineSession {
   private direction = { x: 0, y: 0, until: 0 };
   private elapsed = 0;
   private sequence = 0;
+  private lastCheckpointAt = Number.NEGATIVE_INFINITY;
+  private dirty = false;
   private receipts = new Map<string, { digest: string; revision: number }>();
   private constructor(
     private repository: Repository,
@@ -97,6 +102,8 @@ export class OnlineSession {
         checkpointOnly,
       });
       this.record = { id: this.record.id, revision: result.revision, state };
+      this.lastCheckpointAt = performance.now();
+      this.dirty = false;
       return result.revision;
     } catch (error) {
       this.failed = true;
@@ -171,8 +178,10 @@ export class OnlineSession {
       )
         this.simulation.activeSession.manual(this.direction.x, this.direction.y, dt);
       await this.simulation.tick(dt);
-      // Fixed server tick, durably accepted before any state is delivered to the client.
-      await this.checkpoint(randomUUID(), commandDigest({ serverTick: ++this.sequence }), true);
+      // Fixed server tick: written on a fixed period; a failed write still stops the session.
+      if (performance.now() - this.lastCheckpointAt >= OnlineSession.checkpointEveryMs)
+        await this.checkpoint(randomUUID(), commandDigest({ serverTick: ++this.sequence }), true);
+      else this.dirty = true;
       return this.view();
     });
   }
@@ -218,6 +227,13 @@ export class OnlineSession {
     if (this.stopped) return;
     this.stopped = true;
     await this.queue;
+    // Progress made since the last periodic write is saved before the lease is released.
+    if (this.dirty && !this.failed)
+      await this.checkpoint(
+        randomUUID(),
+        commandDigest({ serverTick: ++this.sequence }),
+        true,
+      ).catch(() => {});
     this.simulation.dispose();
     await this.repository.release(this.record.id, this.leaseId);
   }

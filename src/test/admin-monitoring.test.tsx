@@ -65,6 +65,25 @@ describe("AdminMonitoringCenter and global multiplayer telemetry", () => {
     expect(snap.nodes.map((n) => n.nodeId)).toEqual(["eu-central-1"]);
     expect(snap.dbStats).toBeDefined();
     expect(snap.dbStats.port).toBe(5432);
+    // Without an answer from the server the snapshot reports the database as unreachable instead
+    // of showing data from the retired cloud project.
+    expect(snap.dbConnected).toBe(false);
+    const real = await collectAdminTelemetrySnapshot({
+      database: {
+        connected: true,
+        latencyMs: 4,
+        error: null,
+        host: "db:5432",
+        accounts: 7,
+        roles: 2,
+        characters: 5,
+        audits: 3,
+        connections: 6,
+        maxConnections: 100,
+      },
+    });
+    expect(real.dbConnected).toBe(true);
+    expect(real.dbStats).toMatchObject({ profilesCount: 7, charactersCount: 5, poolMax: 100 });
   });
 
   it("manages the single Superior server: edit, status; no create, no delete, fixed port", async () => {
@@ -167,13 +186,12 @@ describe("AdminMonitoringCenter and global multiplayer telemetry", () => {
     fireEvent.change(searchInput, { target: { value: "Kaelen_V" } });
     expect(getAllByText("Kaelen_V").length).toBeGreaterThanOrEqual(2);
 
-    // Switch to dedicated BAZA DANYCH (Supabase & PostgreSQL) tab
-    fireEvent.click(getByText(/BAZA DANYCH \(Supabase i PostgreSQL/i));
+    // Switch to the dedicated database tab (PostgreSQL on the VPS)
+    fireEvent.click(getByText(/BAZA DANYCH \(PostgreSQL · /i));
     await waitFor(() => {
-      expect(
-        getByText(/Zarządzanie Bazą Danych — Supabase Cloud & PostgreSQL 17 Multiplayer/i),
-      ).toBeTruthy();
-      expect(getByText(/Status Optymalizacji Bazy Danych Multiplayer/i)).toBeTruthy();
+      expect(getByText(/Baza danych gry — PostgreSQL na VPS/i)).toBeTruthy();
+      expect(getByText(/Status połączenia z bazą/i)).toBeTruthy();
+      expect(getByText(/aktywne połączenia \/ limit bazy/i)).toBeTruthy();
     });
 
     // Switch to Server Logs tab and emit diagnostic probe
