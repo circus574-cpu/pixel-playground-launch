@@ -14,7 +14,7 @@ import type {
 } from "@/server/adminCharacterService";
 import { RACE_IDS, RACES, type RaceId, type WorldId } from "@/game/world/races";
 import { KIT_NODES, RACE_BASE } from "@/game/kit/nodes.generated";
-import { unlockAllowed } from "@/game/kit/progression";
+import { LEVEL_MAX, unlockAllowed } from "@/game/kit/progression";
 import { ITEM_CATALOG } from "@/game/items/catalog";
 import { ItemHoverTooltip } from "./AdminCatalogInfo";
 import { getItemById } from "@/game/items";
@@ -603,7 +603,7 @@ export function ServerCharacterManager() {
                     onClick={() =>
                       void handleLiveAction({
                         type: "setLevel",
-                        level: Math.min(20, (form.level || 1) + 1),
+                        level: Math.min(LEVEL_MAX, (form.level || 1) + 1),
                       })
                     }
                   >
@@ -614,7 +614,7 @@ export function ServerCharacterManager() {
                     disabled={saving}
                     onClick={() => void handleLiveAction({ type: "setLevel", level: 20 })}
                   >
-                    ⭐ Max 20 Poziom
+                    ⭐ Poziom 20
                   </button>
 
                   {detail.isOnline && (
@@ -935,11 +935,11 @@ export function ServerCharacterManager() {
                     </label>
 
                     <label>
-                      Poziom (1–20):
+                      Poziom (bez limitu):
                       <input
                         type="number"
                         min={1}
-                        max={20}
+                        max={LEVEL_MAX}
                         value={form.level ?? 1}
                         onChange={(e) => setForm({ ...form, level: Number(e.target.value) })}
                       />

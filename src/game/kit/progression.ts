@@ -1,9 +1,13 @@
 import type { RaceId } from "../world/races";
 import { KIT_NODES } from "./nodes.generated";
 
-/** One skill point per level in 1–20; every node, the root included, costs one point. */
-export const MAX_SKILL_LEVEL = 20;
-export const skillPointsAt = (level: number) => Math.min(level, MAX_SKILL_LEVEL);
+/**
+ * One skill point per level, with no cap at 20 (owner decision 03.11.2026; the old limit was only a
+ * starting point for the tree). Every node, the root included, costs one point. LEVEL_MAX is a
+ * technical sanity bound for stored data (the `xp` field stays below 1 000 000), not a game limit.
+ */
+export const LEVEL_MAX = 10_000;
+export const skillPointsAt = (level: number) => level;
 export const spentPoints = (learned: readonly string[]) => learned.length;
 export const freePoints = (level: number, learned: readonly string[]) =>
   skillPointsAt(level) - spentPoints(learned);

@@ -42,3 +42,22 @@ describe("naprawa i odblokowanie umiejętności", () => {
     }
   });
 });
+
+describe("brak limitu poziomu 20", () => {
+  it("punkty umiejętności rosną z poziomem także powyżej 20", () => {
+    expect(skillPointsAt(20)).toBe(20);
+    expect(skillPointsAt(21)).toBe(21);
+    expect(skillPointsAt(150)).toBe(150);
+  });
+
+  it("na wyższym poziomie dozwolone jest więcej węzłów, a zestaw nadal jest poprawny", () => {
+    for (const race of RACES_ALL) {
+      const nodes = KIT_NODES[race].length;
+      const at20 = unlockAllowed(race, 20);
+      const at200 = unlockAllowed(race, 200);
+      expect(at200.length).toBeGreaterThanOrEqual(at20.length);
+      expect(at200.length).toBeLessThanOrEqual(nodes);
+      expect(validLearned(race, 200, at200)).toBe(true);
+    }
+  });
+});

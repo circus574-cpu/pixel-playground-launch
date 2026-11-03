@@ -531,7 +531,7 @@ describe("loot, materials and progression", () => {
     g.monsters.damage(boar, 1e6, physical);
     expect(g.player.kills).toBe(1);
   });
-  it("skill points: one per level up to 20, prerequisites, exclusive choice, respec rules", () => {
+  it("skill points: one per level with no cap, prerequisites, exclusive choice, respec rules", () => {
     const g = arena();
     expect(g.skillPoints).toBe(0);
     g.player.level = 4;

@@ -1,3 +1,4 @@
+import { LEVEL_MAX } from "../kit/progression";
 import { MONSTERS, OWNER_BESTIARY_IDS } from "./bestiary";
 import {
   ALL_CITIES_V2,
@@ -416,7 +417,7 @@ function evaluateStageProgression(save: PlayerSaveV5, questId: string): PlayerSa
         const { factionId, amount } = quest.reward.factionReputation;
         factionReputation[factionId] = (factionReputation[factionId] ?? 0) + amount;
       }
-      level = Math.min(20, Math.max(level, 1 + Math.floor(xp / 200)));
+      level = Math.min(LEVEL_MAX, Math.max(level, 1 + Math.floor(xp / 200)));
       if (!alreadyClaimedOnce) {
         rewardClaimedQuestIds.push(questId);
       }
@@ -589,7 +590,7 @@ export function discoverFamousLocation(
       nextClaimed.push(famous.id);
     }
 
-    const level = Math.min(20, Math.max(save.level, 1 + Math.floor(xp / 200)));
+    const level = Math.min(LEVEL_MAX, Math.max(save.level, 1 + Math.floor(xp / 200)));
 
     nextSave = {
       ...save,
@@ -656,7 +657,7 @@ export function discoverHiddenPlace(save: PlayerSaveV5, hiddenPlaceId: string): 
 
   const nextSave: PlayerSaveV5 = {
     ...save,
-    level: Math.min(20, Math.max(save.level, 1 + Math.floor(xp / 200))),
+    level: Math.min(LEVEL_MAX, Math.max(save.level, 1 + Math.floor(xp / 200))),
     xp,
     coins,
     inventory,
@@ -695,7 +696,7 @@ export function triggerWorldEvent(save: PlayerSaveV5, eventId: string): PlayerSa
 
   return {
     ...save,
-    level: Math.min(20, Math.max(save.level, 1 + Math.floor(xp / 200))),
+    level: Math.min(LEVEL_MAX, Math.max(save.level, 1 + Math.floor(xp / 200))),
     xp,
     coins,
     inventory,

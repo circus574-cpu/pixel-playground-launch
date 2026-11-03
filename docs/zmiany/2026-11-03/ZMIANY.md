@@ -345,3 +345,13 @@ Test: `src/test/painted-flag.test.ts`. Nie mierzono FPS ani pamięci na telefoni
   odrzucać postać; to naprawia już zablokowane postacie.
 - Testy: `item-slots`, `skills-repair`, `skills-load-heal` (ten ostatni odtwarza błąd bez poprawki).
 - Nie zmieniono: reguł drzewka, balansu, zapisów graczy bez błędu. Rangi węzłów (punkty bez limitu) to osobna zmiana.
+
+## Poziom i punkty umiejętności bez limitu 20
+
+Limit 20 był tylko punktem startowym pod późniejszy rozwój drzewek (decyzja właściciela 03.11.2026).
+Punkty umiejętności = poziom (`skillPointsAt`), bez ograniczenia do 20. Poziom nie zatrzymuje się na 100;
+`LEVEL_MAX = 10 000` to techniczny bezpiecznik danych (pole `xp` zostaje poniżej 1 000 000), nie limit gry.
+Zdjęto limity 20 w panelu admina (poziom, „+1 poziom”), w migracji questów i w edytorze świata.
+Statystyki rosną liniowo z poziomem (`baza + przyrost × (poziom − 1)`), więc wyższe poziomy liczą się poprawnie.
+Bez zmian: wzrost szybkości ruchu nadal kończy się na poziomie 20 (decyzja właściciela 22.10.2026), a węzeł
+Tryb KI nadal wymaga poziomu 20. Testy: `level-uncapped`, `skills-repair`. Rangi węzłów (efekt ×ranga) to osobna zmiana.

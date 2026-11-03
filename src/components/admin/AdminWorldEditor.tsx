@@ -53,6 +53,7 @@ import {
   type AdventureRoad,
 } from "@/game/worlds";
 
+import { LEVEL_MAX } from "@/game/kit/progression";
 import { AdminSpawnList } from "./AdminSpawnList";
 import { AdminWorldPublishBar } from "./AdminWorldPublishBar";
 const AdminWorldMap = lazy(() =>
@@ -2454,7 +2455,7 @@ function RacesAndSkillsSection({
                       saveOverrides((d) => {
                         d.skillNodes[key] = {
                           ...nov,
-                          minLevel: Math.max(1, Math.min(20, Number(e.target.value) || 1)),
+                          minLevel: Math.max(1, Math.min(LEVEL_MAX, Number(e.target.value) || 1)),
                         };
                       })
                     }

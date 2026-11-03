@@ -20,7 +20,7 @@ import {
 } from "../game/combatTraining";
 import { BUILDING_IDS, type BuildingId } from "../game/city/types";
 import { itemFitsSlot } from "../game/items/slots";
-import { skillPointsAt, validLearned } from "../game/kit/progression";
+import { LEVEL_MAX, skillPointsAt, validLearned } from "../game/kit/progression";
 import type { CharacterStats } from "../game/characterStats";
 import type { RaceId, WorldId } from "../game/world/races";
 import { supabase } from "../integrations/supabase/client";
@@ -400,7 +400,7 @@ export async function updateServerCharacter(
     // Aplikacja zmian z patcha
     if (patch.name !== undefined) player.name = patch.name.trim();
     if (patch.level !== undefined)
-      player.level = Math.max(1, Math.min(20, Math.floor(patch.level)));
+      player.level = Math.max(1, Math.min(LEVEL_MAX, Math.floor(patch.level)));
     if (patch.xp !== undefined) player.xp = Math.max(0, Math.floor(patch.xp));
     if (patch.hp !== undefined) player.hp = Math.max(0, Math.round(patch.hp));
     if (patch.ki !== undefined) player.ki = Math.max(0, Math.round(patch.ki));
@@ -662,7 +662,7 @@ export async function executeLiveAdminAction(
       break;
     }
     case "setLevel": {
-      playerPatch.level = Math.max(1, Math.min(20, Math.floor(action.level)));
+      playerPatch.level = Math.max(1, Math.min(LEVEL_MAX, Math.floor(action.level)));
       break;
     }
     case "teleport": {
