@@ -8,7 +8,9 @@ export const paintedMeadowEnabled = (feature: string) =>
   (feature === "aether" &&
     catalog.renderBindings["terrain.ki-v2-aether-grass-0"]?.asset === "aether-painted-grass") ||
   (feature === "pyra" &&
-    catalog.renderBindings["terrain.ki-v2-pyra-grass-0"]?.asset === "pyra-painted-ground");
+    catalog.renderBindings["terrain.ki-v2-pyra-grass-0"]?.asset === "pyra-painted-ground") ||
+  (feature === "nexus" &&
+    catalog.renderBindings["terrain.ki-v2-nexus-grass-0"]?.asset === "nexus-painted-grass");
 
 export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
   return items.map((item) => {
@@ -20,7 +22,8 @@ export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
         ref.asset === "verdant-painted-shop" ||
         ref.asset.startsWith("verdant-leaf-") ||
         ref.asset.startsWith("aether-painted-") ||
-        ref.asset.startsWith("pyra-painted-")
+        ref.asset.startsWith("pyra-painted-") ||
+        ref.asset.startsWith("nexus-painted-")
       )
     )
       return item;
@@ -32,12 +35,16 @@ export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
         ? Math.max(item.width, 580)
         : ref.asset.startsWith("pyra-painted-")
           ? Math.max(item.width, 530)
-          : 560,
+          : ref.asset.startsWith("nexus-painted-")
+            ? Math.max(item.width, 540)
+            : 560,
       height: ref.asset.startsWith("aether-painted-")
         ? Math.max(item.height, 480)
         : ref.asset.startsWith("pyra-painted-")
           ? 470
-          : 520,
+          : ref.asset.startsWith("nexus-painted-")
+            ? 480
+            : 520,
       anchorX: ref.origin![0],
       anchorY: ref.origin![1],
     };

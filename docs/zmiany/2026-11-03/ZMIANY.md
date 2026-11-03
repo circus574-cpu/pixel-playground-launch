@@ -266,3 +266,62 @@ Testy jednostkowe, build produkcyjny, pełna regresja Playwright/Software WebGL
 oraz fizyczny telefon: NIEWYKONANE — zakres tej dostawy to podgląd grafiki na życzenie
 właściciela, bez pełnej kampanii testowej. Brak scalenia i publikacji produkcyjnej.
 Do odbioru pozostaje wygląd, optymalizacja rozmiaru oraz powyższa regresja przed wydaniem.
+
+## Nexus — podgląd z materiałów Drive
+
+Baza `origin/main@327727e2`, osobna gałąź `preview/nexus-painted-world`.
+Przez połączenie Google Drive pobrano 10 plików z folderu właściciela; oryginały,
+numery Drive, SHA-256, skrypt, manifest i runtime zapisano w repozytorium.
+Pięć tekstur, cztery nowe budynki (hall, shop, depot, arena), jeden atlas dekoracji.
+Gospoda i kuźnia pozostają dotychczasowe — brak ich nowych grafik w folderze.
+
+Zmodyfikowano katalog, wiązania importera i renderer. `nexusPainted.ts`
+przypisuje nowe grafiki istniejącym dekoracjom oraz dodaje niekolizyjne
+fioletowe drzewa, grzyby i cyjanowe rośliny przy usługach. Woda, kolizje,
+ścieżki nawigacyjne, NPC, save i sterowanie pozostają bez zmian.
+Płyty przed centrum są prezentacją, nie nową geometrią. Nie użyto obrazu
+referencyjnego jako tła całej mapy. Po sprawdzeniu klatek zawężono kadry
+reaktora/terminala/roślin — wersja 1.0.1. Pierwszy zrzut nie powstał, bo lokalny
+Vite nie działał (`ERR_CONNECTION_REFUSED`); uruchomiono go ponownie.
+
+Podgląd: `npm run playtest -- --port 4174`,
+`http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1&ki-nexus-painted=1`,
+Androidy → Rozpocznij przygodę. [Rzeczywisty lokalny zrzut](qa/nexus-painted/preview.png).
+[Zasoby, pozycja gracza i błędy przeglądarki](qa/nexus-painted/capture.json).
+`npm run assets:import -- art/production/nexus-painted-preview/manifest.json --install --replace`:
+10 zasobów, sukces. `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`:
+[log pełnego TypeScript](qa/nexus-painted/typecheck.log).
+`python3 scripts/docs/check_documentation.py`: kontrola dokumentacji.
+Baza kontroli: `327727e2` plus opisany zakres gałęzi. Nie jest to odbiór produkcji.
+Pełne testy jednostkowe, regresja Playwright/Software WebGL, build produkcyjny
+oraz fizyczny telefon: NIEWYKONANE — zakres to zamówiony podgląd wizualny.
+Do odbioru: wygląd, dwie brakujące grafiki usług, redukcja rozmiaru i regresja
+przed publikacją. Nie scalano do main, nie publikowano i nie używano GPU.
+
+
+## Nexus — korekta rozdzielenia nawierzchni
+
+Właściciel odrzucił pierwszy podgląd jako zbyt jednolity wobec wzoru. Diagnoza:
+renderer nakładał `ground[2]` na całe centrum. Pięć zaimportowanych tekstur nie
+stanowiło dowodu ich czytelnego wykorzystania. Usunięto tę dominację skały.
+Aktualizacja tej samej gałęzi `preview/nexus-painted-world` od `c23f648c`.
+
+Pakiet 1.1.0 dodaje pojedynczy jasny kafel bruku z OpenAI image_gen (oryginał,
+pełny prompt i SHA w katalogu produkcyjnym). RunPod nie był używany.
+Ogrody mają roślinny grunt oraz ściółkę właściciela, ścieżki panele i krawędzie
+cyjan/złoto wypiekane w chunkach, plac jasne technologiczne płyty. Skalna tekstura
+pozostaje poza centrum. Nowe pasy między istniejącymi drzwiami usług są
+prezentacją; kanoniczna geometria, nawigacja, collidery i HUD nie zostały zmienione.
+Nie twierdzimy, że jest to odwzorowanie referencji 1:1; budynki zachowują obecny
+układ mapy i dwa starsze zasoby usług (gospoda, kuźnia).
+
+[Lokalny zrzut po korekcie](qa/nexus-painted/corrected.png),
+[rejestr przeglądarki](qa/nexus-painted/corrected-capture.json),
+[pełny TypeScript](qa/nexus-painted/corrected-typecheck.log).
+Komendy: `npm run assets:import -- art/production/nexus-painted-preview/manifest.json --install --replace`
+(11 zasobów, sukces), `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`,
+`python3 scripts/docs/check_documentation.py`. Podgląd jak poprzednio przez
+`ki-nexus-painted=1`, race Androidy, ruch normalnym kliknięciem.
+Przeglądarka Canvas służy do realnego zrzutu, nie jest potwierdzeniem fizycznego
+telefonu ani pełnej regresji. Testy jednostkowe/Software WebGL i build produkcyjny:
+NIEWYKONANE w tej korekcie podglądu. Brak scalenia i publikacji.

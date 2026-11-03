@@ -1,0 +1,14 @@
+{
+  "tool": "OpenAI image_gen",
+  "date": "2026-11-03",
+  "prompt": "Create ONE SQUARE SEAMLESS TILEABLE ground texture for an actual 2D anime RPG. This is a terrain asset ONLY, not a scene illustration or UI. Match the light grey courtyard pavement around the player in reference image 1. Use reference 2 only as stylistic continuity, but CHANGE the terrain to FLAT WALKABLE LIGHT GREY irregular flagstone cobblestones, with shallow dark fine cracks and tiny sparse moss in joints. Much lighter than image 2. Orthographic directly overhead plan view, constant scale, no perspective, no ridges or protruding rocks, no diagonal layering, no raised cliff appearance. Hand-painted clean high quality anime fantasy game style, subtle violet/cool grey tint. Roughly 12-16 irregular stones across the square tile, large and medium irregular polygon flagstones. Tiny subtle cyan mineral glints in a few joints only. Calm low contrast, soft even ambient light. All four edges must seamlessly tile. NO objects, NO buildings, NO characters, NO text, NO UI, NO borders. Flat light grey stone pavement fills the entire square.",
+  "transparent_background": false,
+  "references": [
+    "sources/reference.jpg",
+    "sources/file_00000000f01481f4a866bf992e774bc4.png"
+  ],
+  "output": "sources/courtyard-generated.png",
+  "sha256": "c941aa9dba259b6308faa223a1bf663aa76192067beec643640254e067a5bd59",
+  "seed": null,
+  "model_version": "not exposed by tool"
+}
