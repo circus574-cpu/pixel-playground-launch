@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Próba: izometria 2D</title>
+<style>
+  html,body{margin:0;height:100%;background:#1c2a14;overflow:hidden;font:14px system-ui,sans-serif;color:#f4e8c4}
+  canvas{display:block;width:100vw;height:100vh;touch-action:none}
+  #hint{position:fixed;left:12px;top:10px;background:#0009;padding:6px 10px;border-radius:6px}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hint">Próba izometrii 2D · strzałki lub WASD · dotyk: przeciągnij</div>
+<script>
+// Izometria 2:1: ekran = ((x - y) / 2, (x + y) / 4); budynek stoi na kwadratowym śladzie o boku N.
+const N = 460, TILE = 64, SPEED = 190, HERO = 124;
+const BASE = "/game/assets/gpu/hero-planetary-painted-walk-v3/2.0.0-debfefa03c98/hero-planetary-painted-walk-v3-page-0";
+const DIRS = ["right","down-right","down","down-left","left","up-left","up","up-right"]; // sektory co 45°, od prawej zgodnie z zegarem
+const cv = document.getElementById("c"), g = cv.getContext("2d");
+const iso = (x, y) => [(x - y) / 2, (x + y) / 4];
+const load = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+let hero = { x: 260, y: 520, dir: "down", t: 0, moving: false }, keys = new Set(), touch = null;
+let shop, atlas, frames;
+// ślad budynku: kwadrat [-N/2, N/2]^2; drzwi na ścianie x = +N/2
+const half = N / 2, R = 20;
+function collide(nx, ny) {
+  const inside = nx > -half - R && nx < half + R && ny > -half - R && ny < half + R;
+  return inside;
+}
+function hash(a, b) { let h = (a * 374761393 + b * 668265263) | 0; h = (h ^ (h >> 13)) * 1274126177; return ((h ^ (h >> 16)) >>> 0) / 4294967295; }
+function drawGround(cx, cy, w, h) {
+  // tylko kafle w zasięgu widoku
+  const span = Math.ceil(Math.max(w, h) / TILE) + 8;
+  const hx = Math.round(hero.x / TILE), hy = Math.round(hero.y / TILE);
+  for (let i = -span; i <= span; i++) for (let j = -span; j <= span; j++) {
+    const tx = hx + i, ty = hy + j;
+    const [sx, sy] = iso(tx * TILE, ty * TILE);
+    const px = sx - cx + w / 2, py = sy - cy + h / 2;
+    if (px < -80 || px > w + 80 || py < -50 || py > h + 50) continue;
+    const r = hash(tx, ty);
+    // ścieżka z drzwi budynku na wschód (+x), na wysokości drzwi
+    const doorY = half - 0.44 * N;
+    const path = tx * TILE > half && Math.abs(ty * TILE - doorY) < TILE * 0.9 && tx * TILE < half + TILE * 9;
+    g.fillStyle = path ? (r > 0.5 ? "#b99562" : "#a98652") : (r > 0.55 ? "#6aa83f" : r > 0.2 ? "#5f9b38" : "#58922f");
+    g.beginPath();
+    g.moveTo(px, py - TILE / 4); g.lineTo(px + TILE / 2, py); g.lineTo(px, py + TILE / 4); g.lineTo(px - TILE / 2, py);
+    g.closePath(); g.fill();
+    if (!path && r > 0.86) { g.fillStyle = "#7cbc4c"; g.fillRect(px - 2, py - 6, 2, 5); g.fillRect(px + 3, py - 4, 2, 4); }
+  }
+}
+function frameOf(dir, t) {
+  const n = 8, i = Math.floor(t * 16) % n;
+  return frames[`hero-planetary-painted/walk/${dir}/0${i}`];
+}
+function drawHero(cx, cy, w, h) {
+  const [sx, sy] = iso(hero.x, hero.y);
+  const px = sx - cx + w / 2, py = sy - cy + h / 2;
+  g.fillStyle = "#0006"; g.beginPath(); g.ellipse(px, py, 30, 12, 0, 0, 7); g.fill();
+  const f = frameOf(hero.dir, hero.moving ? hero.t : 0).frame;
+  const s = HERO / 256;
+  g.drawImage(atlas, f.x, f.y, f.w, f.h, px - 128 * s, py - 256 * 0.95 * s, 256 * s, 256 * s);
+}
+const tmp = document.createElement("canvas"), tg = tmp.getContext("2d");
+function drawShop(cx, cy, w, h) {
+  const [sx, sy] = iso(0, 0);
+  const px = sx - cx + w / 2, py = sy - cy + h / 2;
+  const bw = N, bh = N * (shop.height / shop.width);
+  const left = px - N / 2, top = py - (662 / 900) * N;
+  // Postać za budynkiem: w ścianie i dachu robimy miękki otwór, żeby było ją widać.
+  const [hx, hy] = iso(hero.x, hero.y);
+  const hpx = hx - cx + w / 2, hpy = hy - cy + h / 2 - 50;
+  const behind = hero.x + hero.y < 0.001 && hpx > left && hpx < left + bw && hpy > top && hpy < top + bh;
+  if (!behind) { g.drawImage(shop, left, top, bw, bh); return; }
+  tmp.width = bw; tmp.height = bh;
+  tg.drawImage(shop, 0, 0, bw, bh);
+  tg.globalCompositeOperation = "destination-out";
+  const gr = tg.createRadialGradient(hpx - left, hpy - top, 40, hpx - left, hpy - top, 130);
+  gr.addColorStop(0, "rgba(0,0,0,1)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+  tg.fillStyle = gr; tg.fillRect(0, 0, bw, bh);
+  tg.globalCompositeOperation = "source-over";
+  g.drawImage(tmp, left, top);
+}
+let last = 0;
+function dirFromScreen(vx, vy) {
+  const a = (Math.atan2(vy, vx) + Math.PI * 2) % (Math.PI * 2);
+  return DIRS[Math.round(a / (Math.PI / 4)) % 8];
+}
+function step(dt) {
+  let ix = (keys.has("ArrowRight") || keys.has("d") ? 1 : 0) - (keys.has("ArrowLeft") || keys.has("a") ? 1 : 0);
+  let iy = (keys.has("ArrowDown") || keys.has("s") ? 1 : 0) - (keys.has("ArrowUp") || keys.has("w") ? 1 : 0);
+  if (touch) { ix = touch.x; iy = touch.y; }
+  const len = Math.hypot(ix, iy);
+  hero.moving = len > 0.2;
+  if (!hero.moving) return;
+  ix /= len; iy /= len;
+  hero.dir = dirFromScreen(ix, iy);
+  // kierunek ekranowy -> kierunek świata: dx = sx + 2 sy, dy = 2 sy - sx
+  let dx = ix + 2 * iy, dy = 2 * iy - ix;
+  const l = Math.hypot(dx, dy); dx /= l; dy /= l;
+  const nx = hero.x + dx * SPEED * dt, ny = hero.y + dy * SPEED * dt;
+  if (!collide(nx, ny)) { hero.x = nx; hero.y = ny; }
+  else if (!collide(nx, hero.y)) hero.x = nx;
+  else if (!collide(hero.x, ny)) hero.y = ny;
+  hero.t += dt;
+}
+function frame(ts) {
+  const dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  if (cv.width !== innerWidth * dpr) { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const w = innerWidth, h = innerHeight;
+  step(dt);
+  const [cx, cy] = iso(hero.x, hero.y);
+  g.fillStyle = "#3c6a24"; g.fillRect(0, 0, w, h);
+  drawGround(cx, cy, w, h);
+  // kolejność rysowania: im większe x + y (bliżej kamery), tym później
+  const items = [
+    { k: 0.001, draw: () => drawShop(cx, cy, w, h) },
+    { k: hero.x + hero.y, draw: () => drawHero(cx, cy, w, h) },
+  ].sort((a, b) => a.k - b.k);
+  for (const it of items) it.draw();
+  requestAnimationFrame(frame);
+}
+addEventListener("keydown", (e) => keys.add(e.key.length === 1 ? e.key.toLowerCase() : e.key));
+addEventListener("keyup", (e) => keys.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key));
+let origin = null;
+cv.addEventListener("pointerdown", (e) => { origin = { x: e.clientX, y: e.clientY }; touch = { x: 0, y: 0 }; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener("pointermove", (e) => { if (!origin) return; const dx = e.clientX - origin.x, dy = e.clientY - origin.y, l = Math.hypot(dx, dy) || 1; const k = Math.min(1, l / 50); touch = { x: dx / l * k, y: dy / l * k }; });
+const stop = () => { origin = null; touch = null; };
+cv.addEventListener("pointerup", stop); cv.addEventListener("pointercancel", stop);
+(async () => {
+  [shop, atlas] = await Promise.all([load("shop.webp"), load(BASE + ".webp")]);
+  frames = (await (await fetch(BASE + ".json")).json()).frames;
+  window.__ready = true;
+  requestAnimationFrame(frame);
+})();
+window.__iso = { hero: () => hero };
+</script>
+</body>
+</html>
