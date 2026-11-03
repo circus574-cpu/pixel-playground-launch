@@ -1,0 +1,83 @@
+{
+  "props": {
+    "source": "sources/file_00000000c9fc8210bd6cd1d99a5f11bf.png",
+    "driveId": "1yckkR9Di-PuB5THdH7kP7TS4VwqypVl8",
+    "sha256": "c6a8e7abada4a14b26382e491ec875e691baeb8e42df493e6faefa9bfd0c5239",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "arena": {
+    "source": "sources/file_000000000c5c8210ab432cceabd7b2bc.png",
+    "driveId": "1_S2kH2Ixu27tDajEEc0ivfjP2LfpKgaN",
+    "sha256": "26af800bd371aa65c132f84bc9dcffb42f6d865f91919d228fb67499fd60b157",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "depot": {
+    "source": "sources/file_000000001a7c82109f5748d45a7442ff.png",
+    "driveId": "1O3QRW0Q2vZEH3JwgTeevcrQA7UnZSSb5",
+    "sha256": "86a6c1a8e287a56371a1ee7d0a929c841b360cd7c196340c912a1a7ce022cee1",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "forest": {
+    "source": "sources/file_00000000dc5c81f58c3f99350936f8b8.png",
+    "driveId": "1T5PfmYsN52GL9vbzimOwAXXVIAq0kQVm",
+    "sha256": "743243ed7bb342c7736627ad786a7579db026216e85d4256c8e08d7f50270dfd",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "road": {
+    "source": "sources/file_00000000842c81f48ab520ffafd14c3a.png",
+    "driveId": "12J3x9yf9S61xJleiugTyyPxYYb5_0x-x",
+    "sha256": "0c3d9c3bb4098e2c7f1c1536943a17c40f2c01fcda01df02e778cff897cc9faa",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "plaza": {
+    "source": "sources/file_00000000bba88230be95bb5f7eec5329.png",
+    "driveId": "1-cjShFfvfowRpvHNDtFsbQBFWMGmb5Xl",
+    "sha256": "77ec8e3bdda05ea5e1b7836f97b3bd94d84b10bf5a0eec89ecde502d2a431bd9",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "grass": {
+    "source": "sources/file_000000000dcc8210a3eb8f36454ffb3f.png",
+    "driveId": "1iKBer0-Nxuio6Fl9_LmV4HRv9z9N90Mu",
+    "sha256": "27b93d2122f4c162b6bfed5ee1a7b6720ff91ed4d467b2c4cf8697e78197fa5a",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "stone": {
+    "source": "sources/file_00000000f01481f4a866bf992e774bc4.png",
+    "driveId": "1iP0u7VCIfQjm69xsmL7suuLxqZWdiWqj",
+    "sha256": "2bbfa9c8ecd9c8cee75a9d3c052d8349485d1f96b4b5ad9829e587d8211a97c0",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "hall": {
+    "source": "sources/file_00000000032c821098989263bee09965.png",
+    "driveId": "1Iz2IuRsxb5NfDHZfCH1VxuTMs4rwB-hZ",
+    "sha256": "8cded756f7bb37f09a79d78e8fa231d99ff9819a510b71a2c4974ff0e43bc837",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "shop": {
+    "source": "sources/file_0000000054908211892b4399afbda51b.png",
+    "driveId": "13rHF2njARX0NR_Rlxfi_lEd4NALoCdAs",
+    "sha256": "6be61edfc1596181a090428b3e78654761d62138dc0f60f63e2628ae17542c41",
+    "processing": "WebP 94/alpha 100; buildings: connected exterior white removal and transparent trim; atlas alpha preserved",
+    "author": "Owner supplied via Google Drive; rights not independently verified"
+  },
+  "courtyard": {
+    "source": "sources/courtyard-generated.png",
+    "sha256": "c941aa9dba259b6308faa223a1bf663aa76192067beec643640254e067a5bd59",
+    "generator": "OpenAI image_gen; local generation on 2026-11-03",
+    "purpose": "Flat light grey irregular flagstone courtyard matching owner scene reference; separate tile, never a scene backdrop",
+    "references": [
+      "sources/reference.jpg",
+      "sources/file_00000000f01481f4a866bf992e774bc4.png"
+    ],
+    "processing": "WebP quality 94"
+  }
+}

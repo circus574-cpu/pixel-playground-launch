@@ -79632,5 +79632,271 @@
       }
     },
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "nexus-painted-preview",
+    "version": "1.1.0",
+    "technical": false,
+    "previewOnly": true,
+    "assets": [
+      {
+        "id": "nexus-painted-props",
+        "version": "1.1.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-props.webp",
+        "atlasUrl": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-props.json",
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "id": "nexus-painted-arena",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-arena.webp",
+        "width": 1289,
+        "height": 1154
+      },
+      {
+        "id": "nexus-painted-depot",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-depot.webp",
+        "width": 1292,
+        "height": 1169
+      },
+      {
+        "id": "nexus-painted-forest",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-forest.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "nexus-painted-road",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-road.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "nexus-painted-plaza",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-plaza.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "nexus-painted-grass",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-grass.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "nexus-painted-stone",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-stone.webp",
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "id": "nexus-painted-hall",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-hall.webp",
+        "width": 1292,
+        "height": 1158
+      },
+      {
+        "id": "nexus-painted-shop",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-shop.webp",
+        "width": 1290,
+        "height": 1172
+      },
+      {
+        "id": "nexus-painted-courtyard",
+        "version": "1.1.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-courtyard.webp",
+        "width": 1254,
+        "height": 1254
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "terrain.nexus-painted-courtyard": {
+        "asset": "nexus-painted-courtyard",
+        "fit": "contain",
+        "tileSize": [
+          640,
+          640
+        ]
+      },
+      "terrain.ki-v2-nexus-grass-0": {
+        "asset": "nexus-painted-grass",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "terrain.ki-v2-nexus-forest-0": {
+        "asset": "nexus-painted-forest",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "terrain.ki-v2-nexus-mountain-0": {
+        "asset": "nexus-painted-stone",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "terrain.ki-v2-nexus-wetland-0": {
+        "asset": "nexus-painted-grass",
+        "fit": "contain",
+        "tileSize": [
+          768,
+          768
+        ]
+      },
+      "terrain.ki-v2-nexus-road-0": {
+        "asset": "nexus-painted-road",
+        "fit": "contain",
+        "tileSize": [
+          512,
+          512
+        ]
+      },
+      "terrain.ki-v2-city-nexus-plaza-0": {
+        "asset": "nexus-painted-plaza",
+        "fit": "contain",
+        "tileSize": [
+          640,
+          640
+        ]
+      },
+      "object.ki-v2-buildings.nexus-hall": {
+        "asset": "nexus-painted-hall",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.nexus-market": {
+        "asset": "nexus-painted-shop",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.91
+        ]
+      },
+      "object.ki-v2-buildings.nexus-depot": {
+        "asset": "nexus-painted-depot",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.ki-v2-buildings.nexus-arena": {
+        "asset": "nexus-painted-arena",
+        "fit": "contain",
+        "origin": [
+          0.5,
+          0.94
+        ]
+      },
+      "object.nexus-painted.pinktree": {
+        "asset": "nexus-painted-props",
+        "frame": "pinktree",
+        "fit": "contain"
+      },
+      "object.nexus-painted.bluetree": {
+        "asset": "nexus-painted-props",
+        "frame": "bluetree",
+        "fit": "contain"
+      },
+      "object.nexus-painted.cyanplant": {
+        "asset": "nexus-painted-props",
+        "frame": "cyanplant",
+        "fit": "contain"
+      },
+      "object.nexus-painted.mushrooms": {
+        "asset": "nexus-painted-props",
+        "frame": "mushrooms",
+        "fit": "contain"
+      },
+      "object.nexus-painted.cyanflowers": {
+        "asset": "nexus-painted-props",
+        "frame": "cyanflowers",
+        "fit": "contain"
+      },
+      "object.nexus-painted.flowers": {
+        "asset": "nexus-painted-props",
+        "frame": "flowers",
+        "fit": "contain"
+      },
+      "object.nexus-painted.pylon": {
+        "asset": "nexus-painted-props",
+        "frame": "pylon",
+        "fit": "contain"
+      },
+      "object.nexus-painted.terminal": {
+        "asset": "nexus-painted-props",
+        "frame": "terminal",
+        "fit": "contain"
+      },
+      "object.nexus-painted.reactor": {
+        "asset": "nexus-painted-props",
+        "frame": "reactor",
+        "fit": "contain"
+      },
+      "object.nexus-painted.garden": {
+        "asset": "nexus-painted-props",
+        "frame": "garden",
+        "fit": "contain"
+      },
+      "object.nexus-painted.pond": {
+        "asset": "nexus-painted-props",
+        "frame": "pond",
+        "fit": "contain"
+      },
+      "object.nexus-painted.waterfall": {
+        "asset": "nexus-painted-props",
+        "frame": "waterfall",
+        "fit": "contain"
+      },
+      "object.nexus-painted.gate": {
+        "asset": "nexus-painted-props",
+        "frame": "gate",
+        "fit": "contain"
+      },
+      "object.nexus-painted.runestone": {
+        "asset": "nexus-painted-props",
+        "frame": "runestone",
+        "fit": "contain"
+      },
+      "object.nexus-painted.crystal": {
+        "asset": "nexus-painted-props",
+        "frame": "crystal",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
   }
 ]

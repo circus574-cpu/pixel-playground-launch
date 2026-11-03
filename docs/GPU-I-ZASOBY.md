@@ -42,6 +42,59 @@ Wersja 1.0.0 była lokalną próbą; 1.0.1 poprawia wielkość liści.
 [Zrzut i wyniki kontroli](zmiany/2026-11-03/ZMIANY.md#pyra--podgląd-czterech-tekstur-i-sześciu-budynków).
 Nie ma publikacji ani odbioru fizycznego telefonu.
 
+## Nexus — pakiet z Dysku właściciela, 03.11.2026
+
+**Korekta po uwadze właściciela:** aktualny pakiet to `nexus-painted-preview@1.1.0`,
+`public/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/`.
+Pierwszy podgląd opisany poniżej był zbyt jednolity: pełna skała w centrum
+przykrywała zróżnicowanie nawierzchni. Nie stanowił odbioru zgodności ze wzorem.
+Wersja 1.1.0 dodaje osobny jasny bruk wygenerowany przez OpenAI image_gen
+([prompt, źródła i SHA-256](../art/production/nexus-painted-preview/courtyard-generation.json)).
+To pojedynczy kafel gruntu, nie tło całej sceny. Źródłowe pięć tekstur właściciela
+pozostaje: skała na zewnątrz, roślinne podłoże i ściółka w ogrodach, panele na
+ścieżkach, jasne płyty na podeście centrum. Dodano dekoracyjne pasy do
+istniejących drzwi usług z cyjanowo-złotą krawędzią; nie dodają colliderów ani
+instrukcji nawigacji. `nexusWalkways` jest wyłącznie rendererem, nie nową drogą
+w kanonicznym JSON. Paczka 11 zasobów: 18 124 460 bajtów (17,29 MiB).
+Poprzednie wersje i dowody zachowano. [Nowy zrzut i zakres](zmiany/2026-11-03/ZMIANY.md#nexus--korekta-rozdzielenia-nawierzchni).
+
+Pierwsza iteracja, zachowana dla historii:
+
+Osobna gałąź `preview/nexus-painted-world`, opcja `ki-nexus-painted=1`,
+pakiet `nexus-painted-preview@1.0.1`. Źródło: [folder Nexus](https://drive.google.com/drive/folders/1xG2Ioa6pac5wAWWmeQ0HLRhMmuOT9pl2).
+Pobrano wszystkie 10 PNG: pięć tekstur (trawa z technicznymi fragmentami,
+leśne podłoże, spękana skała, ciemne panele drogi, jasne płyty placu),
+cztery budynki (centrum/hall, sklep, depozyt, arena) oraz przezroczysty arkusz
+1536×1024 z dekoracjami. Brak nowych grafik gospody i kuźni — zachowano ich
+wcześniejsze zasoby. Nie deklarujemy sześciu nowych budynków.
+
+[Źródła i skrypt](../art/production/nexus-painted-preview/),
+[identyfikatory plików Drive](../art/production/nexus-painted-preview/drive-sources.json),
+[SHA-256 i pochodzenie](../art/production/nexus-painted-preview/provenance.json).
+Źródłowe PNG są zachowane bez zmian. Budynkom usunięto jedynie biel połączoną
+z krawędzią, następnie przycięto przezroczysty margines. Oryginalna alfa arkusza
+została zachowana. Atlas ma 15 wydzielonych klatek; część to rezerwa do dalszego
+urządzania mapy, nie wszystkie są rozmieszczone. Drzewa, grzyby i cyjanowe rośliny
+stoją przy usługach; istniejące pylony, terminal, reaktor, kryształy i ogrody
+otrzymują nowe wiązania tylko w rendererze Nexusa. Bez nowych colliderów.
+
+Odtworzenie: `node art/production/nexus-painted-preview/prepare.mjs`, potem
+`npm run assets:import -- art/production/nexus-painted-preview/manifest.json --install`.
+Runtime `public/game/assets/gpu/nexus-painted-preview/1.0.1-c7886e7013ec/`:
+10 zasobów, 16 715 910 bajtów (15,94 MiB), plus JSON atlasu/pakietu. Źródłowe
+WebP 5 236 078 bajtów. Importer zapisuje bezstratny WebP. Wersja 1.0.0 była
+lokalną próbą; 1.0.1 zawęża ramki, by nie łapać fragmentów sąsiednich dekoracji.
+
+Neutralne światło, światowo zakotwiczona tekstura, streaming 1024² na chunk.
+W mieście na komórkach lądu wizualnie dominuje spękana skała, panele rysowane
+są po istniejących drogach, a jasny ozdobny podest 460×280 stoi przed drzwiami
+centrum. To warstwa pod stopami, nie zmiana danych świata lub nawigacji.
+Nowe budynki mają prezentację 540×480 j., z zachowaniem proporcji i punktów drzwi.
+Podgląd nie zmienia HUD, statystyk, zapisów, geometrii ani nazw.
+Zachowano oryginalne tło referencyjne wyłącznie jako materiał poglądowy.
+[Zrzut i kontrole](zmiany/2026-11-03/ZMIANY.md#nexus--podgląd-z-materiałów-drive).
+GPU nie używano. Przed produkcją potrzebna optymalizacja i pełna regresja urządzeń.
+
 ## Próba Verdantii — 03.11.2026
 
 Pakiet `verdant-painted-preview@1.2.0` jest opcjonalny przez `ki-verdant-painted=1`.
