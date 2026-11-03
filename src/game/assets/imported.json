@@ -79024,5 +79024,31 @@
         }
       }
     ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "world-beauty-v1",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "world-beauty-verdant-market",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/world-beauty-v1/1.0.0-baaf432a0e25/world-beauty-verdant-market.webp",
+        "width": 760,
+        "height": 764
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "object.ki-v2-buildings.verdant-market": {
+        "asset": "world-beauty-verdant-market",
+        "fit": "contain"
+      }
+    },
+    "effects": {}
   }
 ]
