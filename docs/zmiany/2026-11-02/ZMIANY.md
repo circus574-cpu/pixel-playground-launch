@@ -118,3 +118,10 @@ Lovable Cloud (`istakaetceprpnbafdgu`), a na VPS tylko gra i postacie.
 - Workflow `coolify-service.yml` ma tryb `logs` (tylko odczyt): stan kontenerów, logi gry i bazy, obciążenie.
   Ustalono, że kontener `ki-multiplayer-db-game-server-1` (profil `standalone-game`, 2850 restartów od 31.10) to
   zbędny relikt: nic nie obsługuje i nie zużywa procesora.
+
+### 9. Panel GM/ADM i menu na telefonie w poziomie
+
+- Menu gry kończy się teraz 224 px od prawej krawędzi, więc nie zakrywa przycisku „Widok" (na ekranie
+  ok. 800 px nachodziło na niego).
+- Przycisk ADM/GM stoi obok joysticka (nie na nim), a jego panel otwiera się w środku ekranu i nie
+  zasłania portretu, menu ani minimapy. Sprawdzone w przeglądarce w rozmiarze 800 × 360.
