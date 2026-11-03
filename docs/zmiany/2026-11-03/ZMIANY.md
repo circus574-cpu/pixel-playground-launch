@@ -325,3 +325,10 @@ Komendy: `npm run assets:import -- art/production/nexus-painted-preview/manifest
 Przeglądarka Canvas służy do realnego zrzutu, nie jest potwierdzeniem fizycznego
 telefonu ani pełnej regresji. Testy jednostkowe/Software WebGL i build produkcyjny:
 NIEWYKONANE w tej korekcie podglądu. Brak scalenia i publikacji.
+
+## Jedna flaga dla malowanych miast
+
+Dodano `?ki-painted=1`: włącza naraz paczki Verdantii (teren i budynki z liści), Aetherii, Nexus-9 i Pyry.
+Flagi pojedynczych miast (`ki-verdant-painted`, `ki-aether-painted`, `ki-nexus-painted`, `ki-pyra-painted`)
+nadal działają. Bez flagi gra wygląda jak dotychczas; paczki pozostają `previewOnly`.
+Test: `src/test/painted-flag.test.ts`. Nie mierzono FPS ani pamięci na telefonie.

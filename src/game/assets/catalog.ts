@@ -141,6 +141,14 @@ export function makeCatalog(
 }
 /** Packs enabled by each opt-in review switch (`?<param>=1`). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
+  /** One switch for every painted city (Verdantia, Aetheria, Nexus-9, Pyra); the per-city flags below still work. */
+  "ki-painted": [
+    "verdant-painted-preview",
+    "verdant-leaf-buildings",
+    "aether-painted-preview",
+    "nexus-painted-preview",
+    "pyra-painted-preview",
+  ],
   "ki-pyra-painted": ["pyra-painted-preview"],
   "ki-nexus-painted": ["nexus-painted-preview"],
   "ki-verdant-painted": ["verdant-painted-preview", "verdant-leaf-buildings"],
