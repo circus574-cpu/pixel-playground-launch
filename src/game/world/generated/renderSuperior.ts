@@ -200,7 +200,36 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     // repeated pictures; each texture fades in through the same smoothed cell mask.
     const layer = layerCanvas(resolution),
       lctx = layer.getContext("2d")!;
-    const texture = (fill: CanvasPattern, alpha: number, inside: (i: number) => boolean) => {
+    // Painted mode: the cell mask is edge-clamped, padded and blurred, so biome borders are wide
+    // organic gradients instead of 16 px stair-steps, with no fade at chunk borders.
+    const pad = 64,
+      blurPx = 34;
+    let soft: HTMLCanvasElement | undefined;
+    const softMask = () => {
+      const big = document.createElement("canvas");
+      big.width = big.height = resolution + pad * 2;
+      const b = big.getContext("2d")!;
+      b.imageSmoothingEnabled = true;
+      b.drawImage(small, 0, 0, cols, rows, pad, pad, resolution, resolution);
+      b.imageSmoothingEnabled = false;
+      b.drawImage(small, 0, 0, 1, rows, 0, pad, pad, resolution);
+      b.drawImage(small, cols - 1, 0, 1, rows, pad + resolution, pad, pad, resolution);
+      b.drawImage(big, 0, pad, big.width, 1, 0, 0, big.width, pad);
+      b.drawImage(big, 0, pad + resolution - 1, big.width, 1, 0, pad + resolution, big.width, pad);
+      soft ??= document.createElement("canvas");
+      soft.width = soft.height = resolution;
+      const o = soft.getContext("2d")!;
+      o.filter = "blur(" + blurPx + "px)";
+      o.drawImage(big, -pad, -pad);
+      o.filter = "none";
+      return soft;
+    };
+    const texture = (
+      fill: CanvasPattern,
+      alpha: number,
+      inside: (i: number) => boolean,
+      tint?: string,
+    ) => {
       const mask = sctx.createImageData(cols, rows);
       for (let i = 0; i < flags.length; i++) mask.data[i * 4 + 3] = inside(i) ? 255 : 0;
       sctx.clearRect(0, 0, cols, rows);
@@ -208,19 +237,28 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       lctx.globalCompositeOperation = "source-over";
       lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
-      lctx.filter = painted && fill !== water ? "saturate(0.82) brightness(0.9)" : "none";
+      lctx.filter = painted && fill !== water ? (tint ?? "saturate(0.82) brightness(0.9)") : "none";
       lctx.fillRect(0, 0, resolution, resolution);
       lctx.filter = "none";
       lctx.globalCompositeOperation = "destination-in";
       lctx.imageSmoothingEnabled = true;
       lctx.imageSmoothingQuality = "high";
-      lctx.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
+      if (painted) lctx.drawImage(softMask(), 0, 0);
+      else lctx.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
       ctx.globalAlpha = alpha;
       ctx.drawImage(layer, 0, 0);
       ctx.globalAlpha = 1;
     };
     for (const b of biomes)
-      texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
+      texture(
+        ground[b] ?? ground[0]!,
+        groundAlpha,
+        (i) => !!(flags[i]! & 16) && biome[i] === b,
+        // The painted forest floor is far darker than the meadow; lift it so borders read as a blend.
+        source.art.groundByBiome[b]?.includes("forest")
+          ? "saturate(0.9) brightness(1.18)"
+          : undefined,
+      );
     if (painted) {
       const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
       if (shop)
