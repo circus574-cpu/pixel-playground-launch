@@ -5,12 +5,20 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireServerAdmin } from "@/server/characters/adminGuard";
 import { z } from "zod";
+import { readDatabaseStatus, type DatabaseStatus } from "@/server/databaseStatus";
 import {
   startServerFromAdmin,
   stopServerFromAdmin,
   getServerStatusFromAdmin,
   type ManagedServerStatus,
 } from "@/server/managedServer";
+
+export const getDatabaseStatusFn = createServerFn({ method: "GET" }).handler(
+  async (): Promise<DatabaseStatus> => {
+    await requireServerAdmin();
+    return readDatabaseStatus();
+  },
+);
 
 export const getGameServerStatusFn = createServerFn({ method: "GET" }).handler(
   async (): Promise<ManagedServerStatus> => {

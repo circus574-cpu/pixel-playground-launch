@@ -1,13 +1,11 @@
 /**
  * Moduł telemetrii i monitoringu dla Panelu Administratora (AdminMonitoringCenter).
  *
- * Łączy dane z rzeczywistych źródeł (chmura Supabase `accountsDb`, zapisy lokalne `localStorage`,
- * dziennik `admin_audit`, pomiary RTT bazy danych, FPS oraz pamięć JS Heap) z telemetrią węzłów
- * serwera multiplayer (schemat `game.server_nodes`, `game.active_sessions`, `game.server_logs`).
+ * Łączy dane z rzeczywistych źródeł (baza PostgreSQL na VPS odczytana przez serwer, zapisy lokalne
+ * `localStorage`, pomiary RTT bazy danych, FPS oraz pamięć JS Heap) z telemetrią serwera gry.
  * Nie modyfikuje ani nie obciąża pętli rozgrywki.
  */
 import {
-  accountsDb,
   type AppRole,
   type AuditRow,
   type CharacterRow,
@@ -34,9 +32,7 @@ export interface DatabaseTelemetryStats {
   rolesCount: number;
   auditsCount: number;
   poolActive: number;
-  poolIdle: number;
   poolMax: number;
-  hotTablesUnlogged: boolean;
   updatedAt: string;
 }
 
@@ -841,6 +837,19 @@ export async function collectAdminTelemetrySnapshot(
     measuredFps?: number;
     tickSeed?: number;
     cloudTimeoutMs?: number;
+    /** Real status of the game database (PostgreSQL on the VPS), read by the server. */
+    database?: {
+      connected: boolean;
+      latencyMs: number;
+      error: string | null;
+      host: string;
+      accounts: number;
+      roles: number;
+      characters: number;
+      audits: number;
+      connections: number;
+      maxConnections: number;
+    } | null;
     liveDaemonStatus?: {
       running: boolean;
       nodeId: string;
@@ -863,52 +872,17 @@ export async function collectAdminTelemetrySnapshot(
     includeClusterSimulation = false,
     measuredFps = 60,
     tickSeed = 1,
-    cloudTimeoutMs = 450,
+    database = null,
     liveDaemonStatus = null,
   } = options;
-  const start = typeof performance !== "undefined" ? performance.now() : Date.now();
-
-  let profiles: Profile[] = [];
-  let roles: RoleRow[] = [];
-  let characters: CharacterRow[] = [];
-  let audits: AuditRow[] = [];
-  let dbError: string | null = null;
-  let dbConnected = true;
-
-  try {
-    const queryPromise = Promise.all([
-      accountsDb.from("profiles").select("*").order("created_at", { ascending: false }).limit(200),
-      accountsDb.from("user_roles").select("*"),
-      accountsDb
-        .from("characters")
-        .select("*")
-        .order("updated_at", { ascending: false })
-        .limit(300),
-      accountsDb.from("admin_audit").select("*").order("at", { ascending: false }).limit(120),
-    ]);
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(
-        () => reject(new Error("Przekroczono limit czasu odpowiedzi chmury")),
-        cloudTimeoutMs,
-      ),
-    );
-    const [pRes, rRes, cRes, aRes] = await Promise.race([queryPromise, timeoutPromise]);
-    const firstErr = pRes.error ?? rRes.error ?? cRes.error ?? aRes.error;
-    if (firstErr) {
-      dbError = firstErr.message;
-      dbConnected = false;
-    }
-    profiles = pRes.data ?? [];
-    roles = rRes.data ?? [];
-    characters = cRes.data ?? [];
-    audits = aRes.data ?? [];
-  } catch (err) {
-    dbConnected = false;
-    dbError = err instanceof Error ? err.message : "Błąd połączenia z bazą danych";
-  }
-
-  const end = typeof performance !== "undefined" ? performance.now() : Date.now();
-  const dbLatencyMs = Math.max(1, Math.round(end - start));
+  // Accounts and characters live in PostgreSQL on the VPS; the old cloud tables are no longer read.
+  const profiles: Profile[] = [];
+  const roles: RoleRow[] = [];
+  const characters: CharacterRow[] = [];
+  const audits: AuditRow[] = [];
+  const dbConnected = database?.connected ?? false;
+  const dbError = database ? database.error : "Serwer nie odpowiedział na zapytanie o bazę danych";
+  const dbLatencyMs = database?.latencyMs ?? 0;
   const clientMetrics = readClientRuntimeMetrics(measuredFps);
 
   const profileById = new Map<string, Profile>();
@@ -992,7 +966,7 @@ export async function collectAdminTelemetrySnapshot(
       skillsCount: sum.skills.length,
       pingMs: dbLatencyMs,
       fps: clientMetrics.clientFps,
-      nodeId: isConnectedToServer ? (liveDaemonStatus?.nodeId ?? "eu-central-1") : "cloud-supabase",
+      nodeId: isConnectedToServer ? (liveDaemonStatus?.nodeId ?? "eu-central-1") : "cloud",
       revision: row.revision,
       lastSeenAt: row.updated_at || prof?.last_seen || new Date(nowMs).toISOString(),
       rawSave: row.data,
@@ -1154,7 +1128,7 @@ export async function collectAdminTelemetrySnapshot(
   }
   const hotspots = [...cellMap.values()].sort((a, b) => b.playerCount - a.playerCount);
 
-  // Build Database Telemetry Stats (Supabase & PostgreSQL)
+  // Real database telemetry (PostgreSQL on the VPS)
   const nowIso = new Date(nowMs).toISOString();
   const realOnlineCount = allPlayers.filter((p) => p.online).length;
 
@@ -1162,16 +1136,14 @@ export async function collectAdminTelemetrySnapshot(
     connected: dbConnected,
     latencyMs: dbLatencyMs,
     error: dbError,
-    host: "supabase-pooler.internal:5432",
+    host: database?.host ?? "brak danych",
     port: 5432,
-    profilesCount: profiles.length,
-    charactersCount: characters.length,
-    rolesCount: roles.length,
-    auditsCount: audits.length,
-    poolActive: Math.min(40, Math.max(1, 1 + Math.ceil(realOnlineCount / 4))),
-    poolIdle: 18,
-    poolMax: 40,
-    hotTablesUnlogged: true,
+    profilesCount: database?.accounts ?? 0,
+    charactersCount: database?.characters ?? 0,
+    rolesCount: database?.roles ?? 0,
+    auditsCount: database?.audits ?? 0,
+    poolActive: database?.connections ?? 0,
+    poolMax: database?.maxConnections ?? 0,
     updatedAt: nowIso,
   };
 
@@ -1288,7 +1260,7 @@ export async function collectAdminTelemetrySnapshot(
     return {
       id: `audit-${a.id}`,
       recordedAt: a.at,
-      nodeId: "baza-supabase",
+      nodeId: "baza-postgres",
       level: isDeleteOrRole ? "warn" : "info",
       category: a.action.startsWith("role-") ? "auth" : "admin",
       message: `Operacja [${a.action}] wykonana przez ${actorNick}${targetNick ? ` dla gracza ${targetNick}` : ""}${a.target_key ? ` (klucz: ${a.target_key})` : ""}.`,
@@ -1304,7 +1276,7 @@ export async function collectAdminTelemetrySnapshot(
     level: dbConnected ? "info" : "error",
     category: "network",
     message: dbConnected
-      ? `Sonda telemetrii OK: Online=${realOnlineCount}, Zapisy w chmurze=${cloudPlayers.length}, Zapisy lokalne=${localPlayers.length}, RTT bazy=${dbLatencyMs} ms, FPS=${clientMetrics.clientFps}.`
+      ? `Sonda telemetrii OK: Online=${realOnlineCount}, Konta=${dbStats.profilesCount}, Postacie=${dbStats.charactersCount}, RTT bazy=${dbLatencyMs} ms, FPS=${clientMetrics.clientFps}.`
       : `Błąd sondy bazy danych: ${dbError ?? "brak odpowiedzi"} (RTT=${dbLatencyMs} ms).`,
   };
 

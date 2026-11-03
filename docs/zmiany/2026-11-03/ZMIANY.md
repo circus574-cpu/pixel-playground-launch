@@ -33,3 +33,18 @@ ramka trafiała do gracza dopiero po jej zatwierdzeniu. Ruch przychodził więc 
   przed zwolnieniem dzierżawy. Nieudany zapis nadal zatrzymuje sesję (wykrywany najpóźniej po 2 s).
 - Przy awarii serwera można stracić najwyżej ostatnie 2 s ruchu i walki.
 - Test sprawdza: jeden zapis na 11 ticków i dopisek przy zamknięciu.
+
+## Panel admina czyta prawdziwą bazę
+
+### 4. Baza danych w `/admin`
+
+Kafel „Baza danych" i zakładka „Baza danych" czytały starą chmurę Supabase, której gra już nie używa
+(pokazywały „OFFLINE/LOKALNY" i błąd „Przekroczono limit czasu odpowiedzi chmury"), a obok stały opisy
+optymalizacji tabel, które nie istnieją w schemacie.
+
+- Nowa funkcja serwerowa `getDatabaseStatusFn` (tylko dla administratora) odpytuje PostgreSQL na VPS:
+  czas odpowiedzi, liczba kont (`accounts.users`), ról, postaci (`game.characters`), wpisów audytu
+  (`accounts.audit`) i połączeń z limitem bazy. Adres bazy bez danych logowania.
+- Kafel, zakładka i dziennik sondy pokazują te liczby; brak odpowiedzi serwera jest raportowany jako
+  błąd, a nie dane z martwej chmury.
+- Usunięto panel „Status optymalizacji bazy" (opisywał tabele, których nie ma).
