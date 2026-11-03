@@ -399,8 +399,9 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
   it("migrates foundation development v1 read-only, backs original v6 bytes before v7 and keeps unknown fields", () => {
     const port = storage(),
       p = newPlayer();
-    const { heritage: omitted, ...legacy } = emptyDevelopment();
+    const { heritage: omitted, trials: omittedTrials, ...legacy } = emptyDevelopment();
     void omitted;
+    void omittedTrials;
     const bytes = JSON.stringify({
       version: 6,
       revision: "foundation",
@@ -409,10 +410,10 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
     port.data.set("slot", bytes);
     const save = new SaveStore(port, "slot"),
       loaded = save.load()!;
-    expect(loaded.development!.version).toBe(2);
+    expect(loaded.development!.version).toBe(3);
     expect(port.getItem("slot")).toBe(bytes);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(9);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(10);
     expect(port.getItem("ki-legends:recovery:before-v7:slot")).toBe(bytes);
     const raw = JSON.parse(port.getItem("slot")!);
     raw.player.development.heritage.future = 1;

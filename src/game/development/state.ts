@@ -1,4 +1,14 @@
 import {
+  TRIAL_IDS,
+  TRIALS,
+  domainRank,
+  parseTrialReceipt,
+  trialReceipt,
+  trialReward,
+  type TrialTier,
+  type TrialGrades,
+} from "./trials/catalog";
+import {
   HeritageStateSchema,
   emptyHeritage,
   expectedHeritageReward,
@@ -80,6 +90,7 @@ const DevelopmentBase = z
         .refine(
           (id) =>
             expectedHeritageReward(id) !== undefined ||
+            parseTrialReceipt(id) !== undefined ||
             EXAM_IDS.some((exam) => id === `${exam}:v1`) ||
             [...SPECIES_IDS].some((species) => id === `bestiary:${species}:complete:v1`),
         ),
@@ -124,16 +135,21 @@ function validateBase(s: Omit<z.infer<typeof DevelopmentBase>, "version">, ctx: 
 }
 const LegacyDevelopmentSchema = DevelopmentBase.superRefine((s, ctx) => {
   validateBase(s, ctx);
-  if (Object.keys(s.rewardReceipts).some((key) => key.startsWith("heritage:")))
+  if (
+    Object.keys(s.rewardReceipts).some(
+      (key) => key.startsWith("heritage:") || key.startsWith("trial:"),
+    )
+  )
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: "Legacy development cannot own heritage rewards",
     });
 });
-export const CurrentDevelopmentSchema = DevelopmentBase.extend({
+const Version2Base = DevelopmentBase.extend({
   version: z.literal(2),
   heritage: HeritageStateSchema,
-}).superRefine((s, ctx) => {
+});
+function validateHeritage(s: Omit<z.infer<typeof Version2Base>, "version">, ctx: z.RefinementCtx) {
   validateBase(s, ctx);
   const fail = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });
   for (const [id, progress] of Object.entries({ ...s.heritage.quests, ...s.heritage.projects })) {
@@ -155,19 +171,70 @@ export const CurrentDevelopmentSchema = DevelopmentBase.extend({
     )
       fail("Invalid heritage reward");
   }
+}
+const Version2DevelopmentSchema = Version2Base.superRefine((s, ctx) => {
+  validateHeritage(s, ctx);
+  if (Object.keys(s.rewardReceipts).some((key) => key.startsWith("trial:")))
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Legacy development cannot own trial rewards",
+    });
+});
+export const CurrentDevelopmentSchema = Version2Base.extend({
+  version: z.literal(3),
+  trials: z.record(z.enum(TRIAL_IDS), z.union([z.literal(1), z.literal(2), z.literal(3)])),
+}).superRefine((s, ctx) => {
+  validateHeritage(s, ctx);
+  const fail = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });
+  for (const def of TRIALS) {
+    const grade = s.trials[def.id] ?? 0;
+    for (let tier = 1; tier <= grade; tier++)
+      if (
+        s.rewardReceipts[trialReceipt(def.id, tier as TrialTier)]?.practice !==
+        trialReward(tier as TrialTier)
+      )
+        fail("Trial grade without reward ledger");
+  }
+  for (const [key, reward] of Object.entries(s.rewardReceipts)) {
+    const trial = parseTrialReceipt(key);
+    if (
+      trial &&
+      ((s.trials[trial.definition.id] ?? 0) < trial.tier ||
+        reward.practice !== trialReward(trial.tier) ||
+        reward.xp !== undefined ||
+        reward.gold !== undefined)
+    )
+      fail("Invalid trial receipt");
+  }
+  if (domainRank(s.trials, "sage", "seals") >= 2 && !s.unlockedVariants.includes("ma-seal"))
+    fail("Missing seal mastery unlock");
+  if (
+    domainRank(s.trials, "android", "construction") >= 2 &&
+    (!s.unlockedVariants.includes("mn-barrier") || !s.unlockedModules.includes("mn-shield"))
+  )
+    fail("Missing construction unlock");
+  if (domainRank(s.trials, "legend", "duel") >= 2 && !s.unlockedVariants.includes("mp-cuts"))
+    fail("Missing duel mastery unlock");
 });
 export const DevelopmentSchema = z.union([
   CurrentDevelopmentSchema,
+  Version2DevelopmentSchema.transform((s) => ({
+    ...s,
+    version: 3 as const,
+    trials: {} as TrialGrades,
+  })),
   LegacyDevelopmentSchema.transform((s) => ({
     ...s,
-    version: 2 as const,
+    version: 3 as const,
+    trials: {} as TrialGrades,
     heritage: emptyHeritage(),
   })),
 ]);
 export type DevelopmentState = z.infer<typeof DevelopmentSchema>;
 export function emptyDevelopment(): DevelopmentState {
   return {
-    version: 2,
+    version: 3,
+    trials: {},
     heritage: emptyHeritage(),
     practiceEarned: 0,
     practiceSpent: 0,

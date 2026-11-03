@@ -1,3 +1,14 @@
+import { TrialAttempt } from "./development/trials/attempt";
+import {
+  trialDefinition,
+  trialAvailable,
+  trialReceipt,
+  trialReward,
+  domainRank,
+  trialsRaceConsistent,
+  type TrialId,
+  type TrialTier,
+} from "./development/trials/catalog";
 import { heritageEnemy } from "./development/heritage/encounter";
 import {
   CombatTrainingSchema,
@@ -678,7 +689,7 @@ const SaveSchema = z.discriminatedUnion("version", [
     .object({
       version: z.literal(7),
       revision: z.string(),
-      player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema }),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema }),
     })
     .strict(),
   z
@@ -692,6 +703,13 @@ const SaveSchema = z.discriminatedUnion("version", [
   z
     .object({
       version: z.literal(9),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema.optional() }),
+    })
+    .strict(),
+  z
+    .object({
+      version: z.literal(10),
       revision: z.string(),
       player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema.optional() }),
     })
@@ -736,6 +754,7 @@ export class SaveStore {
         p.xp >= xpNeeded(p.level) ||
         !weaponConsistent(p, this.identity) ||
         !heritageRaceConsistent(p.development?.heritage, p.race) ||
+        !trialsRaceConsistent(p.development?.trials, p.race) ||
         (p.armor === "vest" && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
@@ -776,7 +795,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5, 6, 7, 8, 9]) {
+    for (const target of [4, 5, 6, 7, 8, 9, 10]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -797,15 +816,16 @@ export class SaveStore {
       }
       if (
         !weaponConsistent(p, this.identity) ||
-        !heritageRaceConsistent(p.development?.heritage, p.race)
+        !heritageRaceConsistent(p.development?.heritage, p.race) ||
+        !trialsRaceConsistent(p.development?.trials, p.race)
       )
         return false;
-      SaveSchema.parse({ version: 9, revision: "validation", player: p });
+      SaveSchema.parse({ version: 10, revision: "validation", player: p });
       if (this.expected && JSON.parse(this.expected)?.player?.combatTraining && !p.combatTraining)
         return false;
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 9,
+        version: 10,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -845,6 +865,7 @@ export const NIGHT_FROM = 300000;
 export class GameSession implements MonsterHost {
   private readonly practiceOnly: boolean;
   private activeExam: ExamAttempt | undefined;
+  private activeTrial: TrialAttempt | undefined;
   private examRehearsal = false;
   private knowledgeIn = 0;
   /** A trace comes from an actually observed live attack, never from map loading. */
@@ -1720,6 +1741,7 @@ export class GameSession implements MonsterHost {
     if (
       !this.developmentServiceReady ||
       this.activeExam ||
+      this.activeTrial ||
       !DISCIPLINES.includes(discipline) ||
       !Number.isInteger(tier) ||
       tier < 1 ||
@@ -1773,9 +1795,77 @@ export class GameSession implements MonsterHost {
     attempt.abandon();
     this.activeExam = undefined;
   }
+  startRacialTrial(id: TrialId, tier: TrialTier): TrialAttempt | undefined {
+    const def = trialDefinition(id),
+      state = this.player.development ?? emptyDevelopment();
+    if (
+      !def ||
+      def.race !== this.player.race ||
+      ![1, 2, 3].includes(tier) ||
+      !this.saves ||
+      !this.developmentServiceReady ||
+      this.activeExam ||
+      this.activeTrial ||
+      !trialAvailable(state.trials, id, tier)
+    )
+      return undefined;
+    this.heritage.cancelActivities();
+    return (this.activeTrial = new TrialAttempt(id, tier));
+  }
+  finishRacialTrial(attempt: TrialAttempt): boolean {
+    if (attempt !== this.activeTrial || !attempt.passed || attempt.race !== this.player.race)
+      return false;
+    const state = this.player.development ?? emptyDevelopment(),
+      key = trialReceipt(attempt.trialId, attempt.tier);
+    if (!trialAvailable(state.trials, attempt.trialId, attempt.tier)) return false;
+    if (state.rewardReceipts[key]) {
+      this.activeTrial = undefined;
+      return true;
+    }
+    const saved = this.commitDevelopment((next) => {
+      next.trials[attempt.trialId] = attempt.tier;
+      next.rewardReceipts[key] = { practice: trialReward(attempt.tier) };
+      next.practiceEarned += trialReward(attempt.tier);
+      if (
+        domainRank(next.trials, "sage", "seals") >= 2 &&
+        !next.unlockedVariants.includes("ma-seal")
+      )
+        next.unlockedVariants.push("ma-seal");
+      if (domainRank(next.trials, "android", "construction") >= 2) {
+        if (!next.unlockedVariants.includes("mn-barrier")) next.unlockedVariants.push("mn-barrier");
+        if (!next.unlockedModules.includes("mn-shield")) next.unlockedModules.push("mn-shield");
+      }
+      if (
+        domainRank(next.trials, "legend", "duel") >= 2 &&
+        !next.unlockedVariants.includes("mp-cuts")
+      )
+        next.unlockedVariants.push("mp-cuts");
+    });
+    if (saved) {
+      this.activeTrial = undefined;
+      this.say("Próba zapisana. +" + trialReward(attempt.tier) + " praktyki.");
+    }
+    return saved;
+  }
+  retryRacialTrial(attempt: TrialAttempt) {
+    if (attempt !== this.activeTrial || attempt.snapshot().outcome !== "failed") return undefined;
+    this.activeTrial = undefined;
+    return this.startRacialTrial(attempt.trialId, attempt.tier);
+  }
+  leaveRacialTrial(attempt: TrialAttempt) {
+    if (attempt !== this.activeTrial) return;
+    attempt.abandon();
+    this.activeTrial = undefined;
+  }
   private developmentCommand(c: DevelopmentCommand) {
     if (c.action === "study" || c.action === "study-route") {
-      if (this.player.dead || this.practiceOnly || this.activeExam || !SPECIES_IDS.has(c.species))
+      if (
+        this.player.dead ||
+        this.practiceOnly ||
+        this.activeExam ||
+        this.activeTrial ||
+        !SPECIES_IDS.has(c.species)
+      )
         return;
       const point = this.researchTraces.get(c.species);
       if (!point || (this.player.development?.knowledge[c.species] ?? 0) < 2)
@@ -1799,7 +1889,7 @@ export class GameSession implements MonsterHost {
       }
       return;
     }
-    if (this.player.dead || this.combatIn > 0 || this.activeExam)
+    if (this.player.dead || this.combatIn > 0 || this.activeExam || this.activeTrial)
       return this.say("Zakończ walkę lub próbę przed zmianą rozwoju.");
     const state = this.player.development ?? emptyDevelopment();
     if (c.action === "train" || c.action === "reset-training") {

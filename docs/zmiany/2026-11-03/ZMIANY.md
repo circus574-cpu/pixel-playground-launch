@@ -601,3 +601,95 @@ Pozostałe logi: [typy](qa/main-integration/typecheck.txt),
 Wyniki odnoszą się do źródeł o sumach w manifeście połączonych rodziców
 `f9e1d5b5` + `e02c87b5`; commit merge powstaje dopiero po tych kontrolach.
 Stan niewdrożonych prób, dziedzin, odblokowań i późnych starć pozostaje otwarty.
+
+
+## Próby rasowe — pierwsze 12 kontrolerów i 36 stopni
+
+Kontynuacja `feature/complete-character-development`, PR #90, po `c19207a9`.
+Zakres to trzy próby w każdej z czterech dziedzin, nie komplet całego zlecenia:
+
+| Rasa / dziedzina | Próby | Działanie |
+| --- | --- | --- |
+| Planetarni / Pamięć Korzeni | TV10–12 | Kolejność motywów, dopasowanie śladów do osad i rozpoznanie sprzeczności w jawnych materiałach ćwiczebnych |
+| Mędrcy / Pieczęcie | TA01–03 | Klucz symboli, zmienione elementy kopii, zależności aktywacji; TA03 dopuszcza jedną pomyłkę |
+| Androidy / Konstrukcja | TN07–09 | Obwód, diagnoza pomiarów oraz dobór unikalnych modułów do 2/3/3 gniazd i budżetów 6/8/10 |
+| Legendy / Pojedynek | TP07–09 | Faktyczny unik zapowiedzi i cios w oknie kontry, powstrzymanie ciosu i poddanie, pozycja → trafienie → odwrót |
+
+### Mechanika i trwałość
+
+- Każda próba ma trzy stopnie z wymaganym niższym stopniem i jednorazową praktyką
+  100/150/200. Powtórka zaliczonego stopnia nie dodaje nagrody ani nie obniża wyniku.
+- Trzy próby na tym samym stopniu dają stopień dziedziny. II Pieczęci odblokowuje
+  `ma-seal`, II Konstrukcji `mn-barrier` i `mn-shield`, II Pojedynku `mp-cuts`.
+  Odkrycie nie uczy kanonicznego węzła i nie zakłada wariantu automatycznie.
+- Wspólna sala `loanSession` zachowuje dotychczasową geometrię egzaminów.
+  Używa rzeczywistego GameSession, nawigacji, hitów kitów i istniejącego RestraintActivity.
+  Wypożyczony profil poziomu 20 ma tylko R, bez sprzętu/mikstur; nie ma writer portu,
+  XP ani łupów. Oryginalna postać, jej pozycja i cooldowny są zachowane.
+- Przeglądarka wysyła intencje. Gotowość, pauza, odpowiedź, ruch i zatwierdzenie są
+  przypisane do konkretnej instancji. Nie przyjmuje się wyniku, postępu ani czasu od klienta.
+  Ready blokuje zegar podczas pobierania zasobów; suspend/resume blokuje czas sali.
+  Interfejs rozróżnia pauzę HUD, obrotu telefonu, fokusu, ukrytej karty i ładowania.
+- Sala ma obecny ekran ładowania Phaser, obsługę błędu/powtórki i ręczne wyjście.
+  Dotychczasowe globalne sterowanie, HUD, geometria i kanoniczne statystyki nie zmieniły się.
+  Wykorzystano istniejące zasoby; nie generowano nowych grafik i nie używano GPU.
+- Development v3 dodaje wyniki i kontrolę receipts. Migracje v1/v2 zachowują postęp.
+  Writer klasyczny 10 i Superior 6 chronią nowy zapis przed starszym klientem,
+  zachowując kopie przed migracją, CAS i odrzucanie nieznanych przyszłych pól/wersji.
+  Nie ma migracji SQL ani zmian produkcyjnej konfiguracji.
+- `scripts/playtest-entry.tsx` importuje rzeczywisty LegacyIndex: nowa integracja
+  jest wspólna z trasą aplikacji, nie została dodana wyłącznie do demonstratora.
+
+### Przerwanie środowiska i wyniki wznowienia
+
+Dwie awarie exec-server przerwały poprzednie próby. Lokalny WIP odzyskano w całości;
+notatkę wznowienia wcześniej zapisano w opisie PR #90. Nie ogłoszono pushu ani PASS
+niewykonanych kontroli. Tymczasowe logi `/tmp` utracono; ponowione logi są teraz
+zachowywane w `/workspace`, a wyniki po kontroli trafiają do QA w tym dzienniku.
+Nie ustalono przyczyny awarii. Po odzyskaniu cgroup miał limit 8 GiB i liczniki OOM 0.
+Ciężkie kontrole wznowiono z limitem sterty Node 3 GiB, bez równoległego serwera podglądu.
+
+Potwierdzone przed przygotowaniem checkpointu:
+
+- Pełny TypeScript (trzy konfiguracje) PASS po poprawieniu opcjonalnego onRetry.
+- Celowany zestaw rozwoju, dziedzictw i prób: 120/120 PASS.
+- Kontrolery, transakcje, intencje serwera czterech ras i mirror: 57/57 PASS.
+  Te zestawy się pokrywają; nie sumujemy ich jako unikalnej liczby przypadków.
+- Nowe testy obejmują 36 stopni, ruch/trafienia, błędne/stare/zdalne odpowiedzi,
+  budżety modułów, brak zaliczenia AFK, stopnie w kolejności, receipts,
+  powtórki, fałszywy wynik i instancję, awarię zapisu i konflikt dwóch kart,
+  migrację, pauzę serwera, reload i brak przenoszenia zasobów profilu.
+- Screenshoty i odbiór przeglądarkowy tej nowej partii nie są jeszcze zaliczone
+  w pierwszym checkpoincie; pozostają obowiązkowe przed uznaniem partii za odebraną.
+
+### Pozostały zakres
+
+Pozostało 36 prób / 108 stopni, dziewięć odblokowań wariantów, trzech modułów,
+interakcje dziedzin w świecie poza próbami i końcowe tytuły. Nie dodano 32 późnych
+wariantów starć. Ta część daje 1350 praktyki na rasę: przy hipotetycznym wykonaniu
+wszystkich 30 egzaminów i 40 badań budżet katalogowy wynosi 13 750, wciąż o 4050
+mniej niż wymagane 17 800. Nie ogłasza się pełnej osiągalności/balansu kampanii.
+Nie scalono PR i nie opublikowano gry.
+
+### Kontrole checkpointu prób
+
+- `NODE_OPTIONS=--max-old-space-size=3072 npm test`: **1226 PASS / 0 FAIL / 10 SKIP**,
+  104 pliki zaliczone, jeden pominięty. Dziesięć przypadków PostgreSQL wymaga
+  osobnej bazy QA (`accounts-service`, `world-overrides`); nie uruchamiano produkcyjnej bazy.
+- Pierwsze pełne uruchomienie miało 11 FAIL: stare asercje nadal oczekiwały writerów
+  9/5 zamiast nowych 10/6. Zaktualizowano wyłącznie kontrakt wersji, zachowując
+  kontrole danych i kopii. Fixture integracyjny dawnych zapisów używa teraz
+  rzeczywistego development v2 bez pola trials. Ponowienie całego zestawu jest zielone.
+- `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`: **PASS**, aplikacja/e2e/tools.
+- `NODE_OPTIONS=--max-old-space-size=3072 npm run build`: **PASS**.
+- [Pełne wyniki](qa/racial-trials/unit-final.log),
+  [pierwotne niezgodne asercje](qa/racial-trials/unit-full.log),
+  [TypeScript](qa/racial-trials/types-checkpoint.log),
+  [build](qa/racial-trials/build.log).
+- Nowy `e2e/racial-trials.spec.ts` przechodzi przez rzeczywisty ekran rozwoju
+  i wypożyczoną salę oraz czyta widoczne wskazówki. W chwili checkpointu pozostaje
+  **NIEWYKONANY**; nie stanowi jeszcze dowodu odbioru przeglądarkowego.
+
+- `npm run lint`: **PASS**, 0 błędów / 15 wcześniejszych ostrzeżeń;
+  `npm run assets:check`: **PASS**. [Lint](qa/racial-trials/lint-final.log),
+  [zasoby](qa/racial-trials/assets.log), [sumy źródeł checkpointu](qa/racial-trials/checkpoint-sources.json).

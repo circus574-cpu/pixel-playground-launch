@@ -1,3 +1,4 @@
+import { trialsRaceConsistent } from "../../development/trials/catalog";
 import { cityRoom } from "../../city/room";
 import { heritageRaceConsistent } from "../../development/heritage/state";
 import { weaponConsistent } from "../../development/heritage/equipment";
@@ -52,7 +53,14 @@ const spawnRecord = z.object({
 const envelope = z
   .object({
     format: z.literal("superior-character"),
-    version: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    version: z.union([
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+      z.literal(6),
+    ]),
     revision: z.string(),
     geometry: z.string(),
     feature: z.enum(FEATURE_IDS),
@@ -64,7 +72,7 @@ const envelope = z
   .refine(
     (value) =>
       (![2, 3].includes(value.version) || value.player.development !== undefined) &&
-      (value.version !== 3 || value.player.development?.version === 2),
+      (value.version !== 3 || value.player.development?.version === 3),
     "Development envelope requires development data",
   );
 export type SpawnRecord = z.infer<typeof spawnRecord>;
@@ -115,6 +123,7 @@ export class SuperiorSaveStore extends SaveStore {
         p.xp >= xpNeeded(p.level) ||
         !weaponConsistent(p, this.identity) ||
         !heritageRaceConsistent(p.development?.heritage, p.race) ||
+        !trialsRaceConsistent(p.development?.trials, p.race) ||
         (p.armor && !p.items.vest) ||
         !validLearned(p.race, p.level, p.skills) ||
         !p.skills.includes("R") ||
@@ -161,7 +170,7 @@ export class SuperiorSaveStore extends SaveStore {
       }
       if (this.previous !== null) {
         const oldVersion = JSON.parse(this.previous)?.version;
-        for (const target of [2, 3, 4, 5]) {
+        for (const target of [2, 3, 4, 5, 6]) {
           const key = "ki-legends:recovery:before-superior-v" + target + ":" + this.expeditionKey;
           if (oldVersion < target && this.port.getItem(key) === null)
             this.port.setItem(key, this.previous);
@@ -169,7 +178,8 @@ export class SuperiorSaveStore extends SaveStore {
       }
       if (
         !weaponConsistent(p, this.identity) ||
-        !heritageRaceConsistent(p.development?.heritage, p.race)
+        !heritageRaceConsistent(p.development?.heritage, p.race) ||
+        !trialsRaceConsistent(p.development?.trials, p.race)
       )
         return false;
       if (this.previous && JSON.parse(this.previous)?.player?.combatTraining && !p.combatTraining)
@@ -180,7 +190,7 @@ export class SuperiorSaveStore extends SaveStore {
       }
       const value = envelope.parse({
         format: "superior-character",
-        version: 5,
+        version: 6,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
         feature: this.feature,

@@ -1,3 +1,4 @@
+import { TrialsPanel, type StartTrial } from "./TrialsPanel";
 import { ChroniclePanel } from "./ChroniclePanel";
 import { HeritagePanel } from "./HeritagePanel";
 import { useState } from "react";
@@ -29,16 +30,18 @@ export function DevelopmentPanel({
   state,
   send,
   startExam,
+  startTrial,
   close,
 }: {
   state: GameViewState;
   send: (c: Command) => void;
   startExam?: StartExam | undefined;
+  startTrial?: StartTrial | undefined;
   close: () => void;
 }) {
-  const [tab, setTab] = useState<"training" | "knowledge" | "mastery" | "heritage" | "chronicle">(
-    "training",
-  );
+  const [tab, setTab] = useState<
+    "training" | "knowledge" | "mastery" | "heritage" | "chronicle" | "trials"
+  >("training");
   const [instructions, setInstructions] = useState<{ discipline: Discipline; tier: number } | null>(
     null,
   );
@@ -60,6 +63,7 @@ export function DevelopmentPanel({
             ["training", "Trening"],
             ["knowledge", "Wiedza"],
             ["mastery", "Mistrzostwo"],
+            ["trials", "Próby"],
             ["heritage", "Dziedzictwo"],
             ["chronicle", "Kronika"],
           ] as const
@@ -69,6 +73,9 @@ export function DevelopmentPanel({
           </button>
         ))}
       </div>
+      {tab === "trials" && (
+        <TrialsPanel state={state} startTrial={startTrial} send={send} close={close} />
+      )}
       {tab === "chronicle" && <ChroniclePanel player={p} />}
       {tab === "heritage" && <HeritagePanel state={state} send={send} close={close} />}
       {tab === "training" && (

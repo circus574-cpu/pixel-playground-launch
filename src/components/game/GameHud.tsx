@@ -1,3 +1,4 @@
+import type { StartTrial } from "./TrialsPanel";
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
 import { CharacterStatsPanel } from "./CharacterStatsPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
@@ -67,6 +68,7 @@ import "./hud-v2-landscape.css";
 type Props = {
   authoritative?: boolean;
   onStartExam?: StartExam | undefined;
+  onStartTrial?: StartTrial | undefined;
   /** Continents a special staff character can travel to directly. */
   staffDestinations?: { id: string; name: string }[] | undefined;
   onStaffTeleport?:
@@ -211,6 +213,7 @@ function TechniqueBank({
 export function GameHud({
   authoritative = false,
   onStartExam,
+  onStartTrial,
   state,
   zoom,
   onZoom,
@@ -1149,6 +1152,7 @@ export function GameHud({
                 state={state}
                 send={onCommand}
                 startExam={onStartExam}
+                startTrial={onStartTrial}
                 close={closeAndResume}
               />
             )}

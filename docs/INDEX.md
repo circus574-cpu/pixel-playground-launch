@@ -1,5 +1,7 @@
 # KI Legends — dokumentacja projektu
 
+**Kolejna partia PR #90:** 12 prób rasowych / 36 stopni, wyniki serwerowe, rangi i pierwsze odblokowania mistrzostwa. [Bieżący zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni). Pełny system nadal wymaga dalszych prac.
+
 **Kontynuacja na gałęzi PR #90:** naprawiono bonusy wyposażenia, dodano kontrolery
 eskort bojowych/ochrony i kronikę odkrywanej historii. Cały rozwój nadal nie jest
 ukończony; [zakres i dowody](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).

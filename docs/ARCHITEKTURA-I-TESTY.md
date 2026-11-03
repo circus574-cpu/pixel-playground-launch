@@ -1,5 +1,20 @@
 # KI Legends — architektura i testy
 
+## Wyniki prób rasowych — gałąź PR #90, 03.11.2026
+
+Bieżąca implementacja prób używa development **v3**, klasycznego writera **10**
+i Superior **6**. Czyta development 1/2/3, klasyczne 1/3/4/5/6/7/8/9/10 i Superior
+1–6, zachowuje kopie dawnych bajtów i CAS oraz blokuje nieznane przyszłe dane.
+Nie cofaj writerów do historycznych 9/5 opisanych w starszych checkpointach.
+
+`TrialAttempt` korzysta z istniejącego `GameSession` bez save portu, we wspólnej
+sali z egzaminami. Serwer przyjmuje związane z instancją intencje, sam oblicza wynik
+i zapisuje wyłącznie zatwierdzony stopień/nagrodę. Ready oraz suspend/resume sterują
+aktywnym czasem tej sali; klient nie podaje czasu ani werdyktu. Wyjście/reconnect
+odtwarza oryginalną postać, bez przenoszenia profilu próby. Brak migracji SQL/DDL.
+[Dowody i ograniczenia](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
+
+
 ## Aktualny stan techniczny — 29.10.2026
 
 Punkt odniesienia: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`, opublikowany na Aruba przez [run 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683). Phaser pozostaje lokalną symulacją PvE, React/TanStack obsługuje aplikację i HUD. Supabase zapewnia dotychczasowe konto/zapisy; nowy projekt właściciela nie jest jeszcze aktywnym backendem gry. Prywatny PostgreSQL VPS nie oznacza uruchomionego multiplayera.

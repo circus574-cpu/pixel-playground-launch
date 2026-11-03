@@ -76,6 +76,16 @@ export class PracticeTargets {
         this.targets.delete(id);
       }
   }
+  /** Presentation-only mirror of trusted server targets; never used to approve an outcome. */
+  mirror(values: readonly Omit<PracticeTarget, "onHit">[]) {
+    const live = new Set(values.map((t) => t.id));
+    for (const t of values) {
+      const previous = this.targets.get(t.id);
+      if (previous) Object.assign(previous, t);
+      else this.targets.set(t.id, { ...t, onHit: () => {} });
+    }
+    for (const id of this.targets.keys()) if (!live.has(id)) this.targets.delete(id);
+  }
   clear() {
     for (const target of this.targets.values()) target.hp = 0;
     this.targets.clear();

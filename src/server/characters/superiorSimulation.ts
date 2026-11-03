@@ -1,3 +1,4 @@
+import type { TrialAttempt } from "../../game/development/trials/attempt";
 import { createQuestTracker, createDefaultSaveV5 } from "../../game/quests/v2Tracker";
 import type { PlayerSaveV5 } from "../../game/quests/types";
 import type { ExamAttempt } from "../../game/development/exams";
@@ -205,10 +206,14 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
   );
   loadedStore.beforeSave = stream.capture;
   let exam: ExamAttempt | undefined;
+  let trial: TrialAttempt | undefined;
   return {
     session,
     get activeSession() {
-      return exam?.session ?? session;
+      return trial?.session ?? exam?.session ?? session;
+    },
+    get trial() {
+      return trial;
     },
     get exam() {
       return exam;
@@ -216,6 +221,13 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
     feature: info.id,
     async tick(dt: number) {
       if (!Number.isFinite(dt) || dt < 0 || dt > 1000) throw Error("Invalid server tick");
+      if (trial) {
+        if (trial.started) {
+          trial.session.tick(dt);
+          trial.update();
+        }
+        return;
+      }
       if (exam) {
         exam.session.tick(dt);
         exam.update();
@@ -257,7 +269,31 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
     },
     command(command: unknown) {
       const input = onlineCommand(command, !!session.staff);
-      if (input.type === "exam-start") {
+      if (input.type === "trial-start") {
+        if (!exam && !trial) trial = session.startRacialTrial(input.id, input.tier);
+        if (trial) session.command({ type: "pause", value: true });
+      } else if (input.type === "trial-action") {
+        if (!trial || input.instanceId !== trial.instanceId) return;
+        if (input.action === "ready") trial.begin(input.suspended ?? false);
+        if (input.action === "suspend") trial.suspend(true);
+        if (input.action === "resume") trial.suspend(false);
+        if (input.action === "inspect") trial.inspect();
+        if (input.action === "close") trial.closeReading();
+        if (input.action === "retry") trial = session.retryRacialTrial(trial) ?? trial;
+        if (input.action === "accept" && session.finishRacialTrial(trial)) trial = undefined;
+        if (input.action === "leave" && trial) {
+          session.leaveRacialTrial(trial);
+          trial = undefined;
+        }
+        if (!trial) session.command({ type: "pause", value: false });
+      } else if (input.type === "trial-answer") {
+        if (trial && input.instanceId === trial.instanceId)
+          trial.answer(input.round, input.answerId, input.modules);
+      } else if (input.type === "trial-input") {
+        if (trial?.started && input.instanceId === trial.instanceId)
+          trial.session.command(input.command as Command);
+      } else if (trial) return;
+      else if (input.type === "exam-start") {
         if (!exam)
           exam = session.startDevelopmentExam(input.discipline, input.tier, input.rehearsal);
         if (exam) session.command({ type: "pause", value: true });
@@ -282,6 +318,7 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       const next = index.features.find((f) => f.id === destination);
       if (
         exam ||
+        trial ||
         !next ||
         next.id === info.id ||
         session.player.interior ||
@@ -328,6 +365,8 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       };
     },
     dispose() {
+      if (trial) session.leaveRacialTrial(trial);
+      if (exam) session.leaveDevelopmentExam(exam);
       stream.dispose();
       session.heritage.cancelActivities();
     },

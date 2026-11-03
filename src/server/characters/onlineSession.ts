@@ -142,7 +142,12 @@ export class OnlineSession {
         replacement.session.staff = this.simulation.session.staff;
         state = replacement.capture();
       } else this.simulation.command(command);
-      if (command.type === "exam-start" || command.type === "exam-action")
+      if (
+        command.type === "exam-start" ||
+        command.type === "exam-action" ||
+        command.type === "trial-start" ||
+        command.type === "trial-action"
+      )
         this.direction = { x: 0, y: 0, until: 0 };
       let revision: number;
       try {
@@ -191,7 +196,23 @@ export class OnlineSession {
     if (this.failed || this.stopped) throw Error("SESSION_CLOSED");
     const s = this.simulation.session;
     const e = this.simulation.exam;
+    const t = this.simulation.trial;
     return {
+      trial: t
+        ? {
+            instanceId: t.instanceId,
+            id: t.trialId,
+            tier: t.tier,
+            started: t.started,
+            suspended: t.session.paused,
+            result: t.snapshot(),
+            view: t.session.snapshot(),
+            facing: { ...t.session.facing },
+            moving: t.session.moving,
+            events: t.session.events.splice(0),
+            nowMs: t.session.nowMs,
+          }
+        : null,
       exam: e
         ? {
             instanceId: e.instanceId,

@@ -1,5 +1,15 @@
 # KI Legends — rozwój i walka
 
+## Pierwsze próby rasowe — gałąź robocza 03.11.2026
+
+W PR #90 dodano 12 kontrolerów / 36 stopni: TV10–12, TA01–03, TN07–09 i TP07–09.
+Wynik wymaga faktycznych odpowiedzi, ruchu i trafień w sali wypożyczonego profilu,
+a zatwierdza go właściciel aktywnej próby. Stopień dziedziny jest minimum trzech prób.
+II Pieczęci odblokowuje `ma-seal`, II Konstrukcji `mn-barrier` + `mn-shield`,
+II Pojedynku `mp-cuts`; Pamięć nie dostaje niezatwierdzonej premii bojowej.
+To nie jest komplet 48 prób ani wszystkich interakcji dziedzin w świecie.
+[Implementacja, migracje, testy i granice odbioru](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
+
 ## Kontrolery fabuły i kronika — gałąź robocza 03.11.2026
 
 Na `feature/complete-character-development` działają eskorty bojowe i obrona punktów

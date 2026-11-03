@@ -1,5 +1,14 @@
 # KI Legends — aktualny plan i zadania
 
+## Próby rasowe — partia 03.11 na PR #90
+
+Dodano pierwsze 12 prób / 36 stopni dla czterech ras, trwałe wyniki, rangi
+i trzy odblokowania wariantów oraz moduł osłony. [Zakres i rzeczywiste kontrole](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
+Pozostają 36 prób / 108 stopni, pozostałe 9 odblokowań wariantów i 3 modułów,
+interakcje dziedzin poza próbami, tytuły wymagające całego kompletu III,
+32 późne warianty przeciwników oraz pełny graf, budżet i odbiór kampanii.
+Ta gałąź nie jest opublikowana. Starsze checkpointy poniżej opisują historię.
+
 ## Kontynuacja rozwoju — gałąź robocza 03.11.2026
 
 PR #90: naprawy wyposażenia, kontrolery eskort bojowych/ochrony i prywatna kronika.
