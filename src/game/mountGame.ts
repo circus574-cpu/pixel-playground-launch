@@ -1358,6 +1358,7 @@ export function mountKileGends(
             world,
             session.player.interior,
             runtime?.interiorBindings,
+            () => ({ x: session.player.x, y: session.player.y }),
           );
           const room = cityRoom(session.player.interior, world.id);
           this.cameras.main

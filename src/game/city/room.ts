@@ -1,3 +1,4 @@
+import type { RoomAtmosphere } from "./atmosphere";
 import type { BuildingId, Interior } from "./types";
 
 /**
@@ -33,9 +34,30 @@ export const SMITHY_ROOM: Interior = {
  * Painted rooms (owner-generated 4:3 backgrounds, 1920 × 1440 units): the picture is the whole room, so the
  * walls, counter and corner props are collision rectangles laid over it, and the free floor is the middle.
  */
-const PAINTED_ROOMS: Readonly<Record<string, { art: string; room: Interior }>> = {
+const PAINTED_ROOMS: Readonly<
+  Record<string, { art: string; room: Interior; atmosphere?: RoomAtmosphere }>
+> = {
   "verdant:shop": {
     art: "interior.verdant.shop",
+    // Light positions are read off the painting (lanterns, windows) in room units.
+    atmosphere: {
+      ambient: { color: 0x241a46, alpha: 0.1 },
+      lights: [
+        { x: 493, y: 130, radius: 420, color: 0xffb35a, alpha: 0.7, flicker: true },
+        { x: 798, y: 140, radius: 420, color: 0xffb35a, alpha: 0.65, flicker: true },
+        { x: 1162, y: 140, radius: 420, color: 0xffb35a, alpha: 0.65, flicker: true },
+        { x: 1440, y: 130, radius: 420, color: 0xffb35a, alpha: 0.7, flicker: true },
+        { x: 75, y: 590, radius: 380, color: 0xffa24a, alpha: 0.65, flicker: true },
+        { x: 1850, y: 575, radius: 380, color: 0xffa24a, alpha: 0.65, flicker: true },
+        { x: 968, y: 180, radius: 380, color: 0xcfe9a0, alpha: 0.3 },
+      ],
+      shafts: [
+        { x: 968, y: 190, length: 760, width: 420, lean: 0, alpha: 0.4 },
+        { x: 150, y: 360, length: 700, width: 300, lean: -24, alpha: 0.38 },
+        { x: 1775, y: 365, length: 700, width: 300, lean: 24, alpha: 0.38 },
+      ],
+      motes: { x: 300, y: 300, width: 1320, height: 700, count: 36 },
+    },
     room: {
       width: 1920,
       height: 1440,
@@ -73,6 +95,10 @@ export function paintedRoomArts(worldId: string): string[] {
 }
 /** Rooms wider than a screen scroll with the hero instead of being shown whole. */
 export const isLargeRoom = (room: Interior) => room.width >= 1500;
+/** The HD-2D mood of a painted room, if it has one. */
+export function paintedRoomAtmosphere(building: BuildingId, worldId?: string) {
+  return PAINTED_ROOMS[`${worldId}:${building}`]?.atmosphere;
+}
 /** Render binding of the painted room of a building, if it has one. */
 export function paintedRoomArt(building: BuildingId, worldId?: string): string | undefined {
   return PAINTED_ROOMS[`${worldId}:${building}`]?.art;

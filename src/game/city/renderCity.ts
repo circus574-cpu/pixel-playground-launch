@@ -2,7 +2,8 @@ import type Phaser from "phaser";
 import { catalog, textureBinding } from "../assets/catalog";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "../world/types";
-import { cityRoom, paintedRoomArt } from "./room";
+import { renderRoomAtmosphere } from "./atmosphere";
+import { cityRoom, paintedRoomArt, paintedRoomAtmosphere } from "./room";
 import type { TextureRef } from "../assets/schema";
 import type { BuildingId, Interior } from "./types";
 import { renderSmithy } from "./renderSmithy";
@@ -105,14 +106,29 @@ export function renderCityInterior(
   world: WorldDefinition,
   id: BuildingId,
   bindings: Readonly<Record<string, TextureRef>> = {},
+  focus?: () => { x: number; y: number },
 ) {
   const room = cityRoom(id, world.id),
     b = world.city!.buildings.find((b) => b.id === id)!;
   if (id === "smithy" && world.id === "pyra") return renderSmithy(scene, world, room);
   const painted = paintedRoomArt(id, world.id);
   const art = painted ? textureBinding(painted, { asset: "" }) : undefined;
-  if (art?.asset && scene.textures.exists(art.asset))
-    return renderPaintedRoom(scene, room, art.asset);
+  if (art?.asset && scene.textures.exists(art.asset)) {
+    const view = renderPaintedRoom(scene, room, art.asset);
+    const mood = paintedRoomAtmosphere(id, world.id);
+    // `?ki-hd2d=0` turns the HD-2D mood off, to compare it with the plain painting.
+    const off =
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).get("ki-hd2d") === "0";
+    if (!mood || !focus || off) return view;
+    const atmosphere = renderRoomAtmosphere(scene, room, mood, focus);
+    return {
+      dispose: () => {
+        atmosphere.dispose();
+        view.dispose();
+      },
+    };
+  }
   const objects: (
     | Phaser.GameObjects.TileSprite
     | Phaser.GameObjects.Image
