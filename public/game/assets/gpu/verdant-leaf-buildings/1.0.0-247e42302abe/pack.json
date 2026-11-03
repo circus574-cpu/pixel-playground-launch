@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "verdant-leaf-buildings",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "verdant-leaf-hall",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-hall.webp",
+      "width": 1280,
+      "height": 1272
+    },
+    {
+      "id": "verdant-leaf-arena",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-arena.webp",
+      "width": 1279,
+      "height": 1248
+    },
+    {
+      "id": "verdant-leaf-depot",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-depot.webp",
+      "width": 1279,
+      "height": 1276
+    },
+    {
+      "id": "verdant-leaf-shop",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-shop.webp",
+      "width": 1276,
+      "height": 1182
+    },
+    {
+      "id": "verdant-leaf-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-inn.webp",
+      "width": 1278,
+      "height": 1258
+    },
+    {
+      "id": "verdant-leaf-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-smithy.webp",
+      "width": 1273,
+      "height": 1275
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.ki-v2-buildings.verdant-hall": {
+      "asset": "verdant-leaf-hall",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.85
+      ]
+    },
+    "object.ki-v2-buildings.verdant-arena": {
+      "asset": "verdant-leaf-arena",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.85
+      ]
+    },
+    "object.ki-v2-buildings.verdant-depot": {
+      "asset": "verdant-leaf-depot",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.85
+      ]
+    },
+    "object.ki-v2-buildings.verdant-market": {
+      "asset": "verdant-leaf-shop",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.85
+      ]
+    },
+    "object.ki-v2-buildings.verdant-inn": {
+      "asset": "verdant-leaf-inn",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.85
+      ]
+    },
+    "object.ki-v2-buildings.verdant-smithy": {
+      "asset": "verdant-leaf-smithy",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.85
+      ]
+    }
+  },
+  "effects": {}
+}

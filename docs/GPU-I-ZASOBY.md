@@ -15,6 +15,21 @@ Teren w podglądzie ma 1024² px na chunk 2048 j. (4 MiB RGBA zamiast 1 MiB);
 pozostaje streaming, usuwanie chunków i sortowanie Y. Nie ma odbioru wydajności
 fizycznego telefonu ani publikacji. [Zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
 
+### Sześć budynków Verdantii — osobna gałąź podglądowa
+
+Pakiet `verdant-leaf-buildings@1.0.0` zastępuje w podglądzie sklep, dom zgromadzeń,
+gospodę, kuźnię, depozyt i arenę. Wszystkie sześć JPG dostarczył właściciel.
+[Źródła, skrypt przygotowania, manifest i SHA-256](../art/production/verdant-leaf-buildings/)
+są zachowane w repozytorium. `node art/production/verdant-leaf-buildings/prepare.mjs`
+odtwarza WebP; importer: `npm run assets:import -- art/production/verdant-leaf-buildings/manifest.json --install`.
+Usunięto tylko biały obszar połączony z brzegiem obrazu. Kotwica `(0.5,0.85)`
+wiąże schody z istniejącymi drzwiami. Skala prezentacji 560×520; kolizje i usługi bez zmian.
+Włącznik `ki-verdant-painted=1` ładuje oba pakiety, z pierwszeństwem nowego zestawu
+budynków. Domyślny widok pozostaje bez zmian. Paczka runtime zajmuje 9 985 190 bajtów
+(około 9,52 MiB); sześć źródłowych WebP 2 763 280 bajtów. Importer normalizuje do
+bezstratnego WebP. Nie wykonano publikacji ani odbioru na fizycznym telefonie.
+[Zrzut i zakres kontroli](zmiany/2026-11-03/ZMIANY.md#sześć-budynków-verdantii).
+
 ## Partia 2 i braki do docelowej oprawy — 23.10.2026
 
 Dostawę `8b0a814` z `assets/world-kit-for-codex-20261023` połączono na osobnej

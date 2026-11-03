@@ -9,7 +9,12 @@ export const paintedMeadowEnabled = (feature: string) =>
 export function meadowBuildings(items: readonly ArtObject[]): ArtObject[] {
   return items.map((item) => {
     const ref = catalog.renderBindings[item.binding];
-    if (ref?.asset !== "verdant-painted-shop" || !item.door) return item;
+    if (
+      !ref ||
+      !item.door ||
+      !(ref.asset === "verdant-painted-shop" || ref.asset.startsWith("verdant-leaf-"))
+    )
+      return item;
     return {
       ...item,
       x: item.door.x,
