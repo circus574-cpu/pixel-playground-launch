@@ -132,6 +132,7 @@ export type KitPort = {
     dodgeChance?: number;
     technique?: number;
     attackSpeedPct?: number;
+    moveSpeedPct?: number;
   };
   readonly inCombat: boolean;
   terrain(): "forest" | "rock" | "water" | "open";

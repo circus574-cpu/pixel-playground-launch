@@ -1947,7 +1947,9 @@ function MonstersSection({
                       saveOverrides((d) => {
                         const curOv = d.monsters[m.id] ?? {};
                         const currentChances = { ...(curOv.lootChances ?? {}) };
-                        currentChances[itemOrIndex] = chance;
+                        // Ensure monster chance is stored as fraction 0.0 - 1.0
+                        const fraction = chance > 1 ? Number((chance / 100).toFixed(4)) : chance;
+                        currentChances[itemOrIndex] = fraction;
                         d.monsters[m.id] = { ...curOv, lootChances: currentChances };
                       });
                     }}

@@ -372,6 +372,7 @@ export function equipmentStats(
     dodgeChance: 0,
     technique: 0,
     attackSpeedPct: 0,
+    moveSpeedPct: 0,
   };
   const equippedIds: string[] = [];
   if (p.equipment) {
@@ -398,7 +399,7 @@ export function equipmentStats(
           if (item.stats.defBonus) gear.defense += item.stats.defBonus;
           if (item.stats.critChancePercent) gear.technique += item.stats.critChancePercent;
           if (item.stats.critChancePoints) gear.technique += item.stats.critChancePoints;
-          if (item.stats.moveSpeedPercent) gear.attackSpeedPct += item.stats.moveSpeedPercent;
+          if (item.stats.moveSpeedPercent) gear.moveSpeedPct += item.stats.moveSpeedPercent;
         }
       }
     }
@@ -426,7 +427,7 @@ export function equipmentStats(
       gear.technique += passives.cappedTotals.critChancePoints;
     }
     if (passives.cappedTotals.moveSpeedPercent) {
-      gear.attackSpeedPct += passives.cappedTotals.moveSpeedPercent;
+      gear.moveSpeedPct += passives.cappedTotals.moveSpeedPercent;
     }
   }
   return gear;
@@ -2082,7 +2083,22 @@ export class GameSession implements MonsterHost {
         this.flush();
         return;
       }
-      if (!(c.item in ITEMS)) return;
+      if (!(c.item in ITEMS)) {
+        if (!c.buy && p.bagItems && (p.bagItems[c.item] ?? 0) > 0) {
+          const def = getItemById(c.item);
+          if (def) {
+            const count = p.bagItems[c.item]!;
+            if (count <= 1) delete p.bagItems[c.item];
+            else p.bagItems[c.item] = count - 1;
+            const sellPrice = def.price ? Math.max(1, Math.floor(def.price / 2)) : Math.max(5, (def.level || 1) * 8);
+            p.gold += sellPrice;
+            this.say(`Sprzedano: ${def.name} (+${sellPrice} złota).`);
+            this.flush();
+            return;
+          }
+        }
+        return;
+      }
       const id = c.item as ItemId;
       const item = ITEMS[id];
       if (c.buy) {
