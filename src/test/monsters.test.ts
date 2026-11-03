@@ -612,7 +612,7 @@ describe("saves: version 5 with skills, materials and depot, older saves intact"
     for (const patch of [
       { skills: ["R", "A4"] },
       { skills: ["A1"] },
-      { skills: ["R", "A1", "A1"] },
+      { skills: ["R", "R"] },
       { materials: { zlote: 1 } },
     ]) {
       const store = memory();
@@ -624,6 +624,18 @@ describe("saves: version 5 with skills, materials and depot, older saves intact"
       expect(g.player.skills).toEqual(["R"]);
     }
   });
+});
+
+it("a save with a node learned twice keeps rank 2 and the points it costs", () => {
+  const store = memory();
+  const p = { ...newPlayer("planetary"), level: 20, skills: ["R", "A1", "A1"] };
+  store.setItem(SAVE_KEY, JSON.stringify({ version: 4, revision: "r", player: p }));
+  const saves = new SaveStore(store);
+  const g = new GameSession(saves);
+  expect(saves.warning).toBe("");
+  expect(g.player.skills).toEqual(["R", "A1", "A1"]);
+  expect(g.kit.rank("A1")).toBe(2);
+  expect(g.skillPoints).toBe(20 - 3);
 });
 
 it("trained passive dodge evades melee and projectiles but not fixed or periodic damage", () => {

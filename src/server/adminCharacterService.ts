@@ -501,8 +501,8 @@ export async function updateServerCharacter(
 
     // Drzewko umiejętności (skills - tablica unikalnych stringów z korzeniem "R")
     if (patch.skills !== undefined) {
-      const uniqueSkills = Array.from(new Set(["R", ...patch.skills]));
-      player.skills = uniqueSkills;
+      // Repeated ids are ranks (each costs a point); only the root is kept to a single point.
+      player.skills = ["R", ...patch.skills.filter((id) => id !== "R")];
     }
 
     // A skill set the game would refuse must never be stored: the character could not open again.

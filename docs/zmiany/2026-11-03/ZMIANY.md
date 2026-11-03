@@ -374,3 +374,17 @@ Tryb KI nadal wymaga poziomu 20. Testy: `level-uncapped`, `skills-repair`. Rangi
 - **Ustalone, nie zmienione:** gra rysuje w rozdzielczości CSS i ignoruje `devicePixelRatio`; przy skalowaniu ekranu
   150% lub 200% przeglądarka rozciąga obraz (np. 1280×720 na 1920×1080). Poprawka zmienia rozmiar gry i współrzędne
   wskaźnika, a koszt GPU rośnie z kwadratem skali, więc wymaga pomiaru na telefonie.
+
+## Rangi węzłów drzewka umiejętności (efekt wprost proporcjonalny)
+
+- Punkt można wkładać w ten sam węzeł wielokrotnie; powtórzone id w `skills` oznacza rangę, a każda ranga
+  kosztuje punkt (korzeń `R` zawsze jedna). Klasa `Kit` ma `rank(id)`; zapis, serwer panelu, naprawa przy
+  wczytaniu (`repairLearned` zachowuje rangi) i `validLearned` rozumieją rangi.
+- Wszystkie cztery rasy (`planetary`, `sage`, `android`, `legend`): liczbowe efekty węzłów pasywnych rosną
+  z rangą, a obrażenia/leczenie/tarcze zdolności aktywnych z rangą zdolności. Koszty Ki, czasy odnowienia i
+  mechaniki przełączające bez zmian; bezpieczniki zakresu opisano w `docs/ROZWOJ-I-WALKA.md`.
+- Interfejs: lista i graficzne drzewko pokazują rangę i przycisk „Zwiększ rangę”; panel admina ma pole rangi.
+- Przy randze 1 wszystkie dotychczasowe wartości są identyczne (istniejące testy walki bez zmian).
+- Testy: `kit-ranks` (proporcjonalność efektów w czterech rasach, uczenie i reset rang, reguły korzenia),
+  `skills-repair`, `monsters` (zapis z rangą 2).
+- Nie zmierzono balansu walki przy wysokich rangach ani na telefonie; wartości rosną liniowo bez sufitu.

@@ -2374,7 +2374,12 @@ export function ServerCharacterManager() {
                     }}
                   >
                     {activeKitNodes.map((node) => {
-                      const isUnlocked = form.skills?.includes(node.id) ?? false;
+                      const rank = (form.skills ?? []).filter((id) => id === node.id).length;
+                      const isUnlocked = rank > 0;
+                      const setRank = (n: number) => {
+                        const rest = (form.skills ?? ["R"]).filter((id) => id !== node.id);
+                        setForm({ ...form, skills: [...rest, ...Array<string>(n).fill(node.id)] });
+                      };
                       return (
                         <div
                           key={node.id}
@@ -2400,16 +2405,7 @@ export function ServerCharacterManager() {
                             <input
                               type="checkbox"
                               checked={isUnlocked}
-                              onChange={(e) => {
-                                const current = form.skills || ["R"];
-                                let next: string[];
-                                if (e.target.checked) {
-                                  next = Array.from(new Set([...current, node.id]));
-                                } else {
-                                  next = current.filter((id) => id !== node.id);
-                                }
-                                setForm({ ...form, skills: next });
-                              }}
+                              onChange={(e) => setRank(e.target.checked ? 1 : 0)}
                             />
                             <b style={{ color: isUnlocked ? "#f5d48a" : "inherit" }}>
                               {node.name} ({node.id})
@@ -2419,6 +2415,29 @@ export function ServerCharacterManager() {
                           <div style={{ fontSize: "0.75rem", opacity: 0.75 }}>
                             Typ: <b>{node.type}</b> · Min Lvl: <b>{node.minLevel}</b>
                           </div>
+                          {isUnlocked && node.id !== "R" && (
+                            <label
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 6,
+                                margin: 0,
+                                fontSize: "0.75rem",
+                              }}
+                            >
+                              Ranga (efekt ×ranga):
+                              <input
+                                type="number"
+                                min={1}
+                                step={1}
+                                value={rank}
+                                style={{ width: 70 }}
+                                onChange={(e) =>
+                                  setRank(Math.max(1, Math.floor(Number(e.target.value) || 1)))
+                                }
+                              />
+                            </label>
+                          )}
 
                           <div style={{ fontSize: "0.75rem", opacity: 0.65 }}>{node.text}</div>
                         </div>
