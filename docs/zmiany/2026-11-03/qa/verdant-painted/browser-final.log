@@ -1,0 +1,35 @@
+
+Running 4 tests using 1 worker
+
+(node:12706) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: unchanged default, real movement and shop (21.4s)
+  ✓  2 [gameplay] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop (27.9s)
+(node:12948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: unchanged default, real movement and shop (1.0m)
+  ✘  4 [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop (45.4s)
+
+
+  1) [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop 
+
+    TimeoutError: locator.getAttribute: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for locator('.ki-canvas').first()
+
+
+      54 |     );
+      55 |     await expect
+    > 56 |       .poll(async () => JSON.parse((await canvas.getAttribute("data-metrics")) ?? "{}").renderer)
+         |                                                  ^
+      57 |       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
+      58 |     // Real clicks from the arrival to the same shop in the original city geometry.
+      59 |     await walk(page, 48380, 34790);
+        at /workspace/ki-aruba/e2e/verdant-painted-preview.spec.ts:56:50
+        at /workspace/ki-aruba/e2e/verdant-painted-preview.spec.ts:55:5
+
+    Error Context: ../verdant-preview-final/verdant-painted-preview-Ve-2877c-view-real-movement-and-shop-software-webgl/error-context.md
+
+  1 failed
+    [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop 
+  3 passed (2.7m)

@@ -1,0 +1,48 @@
+{
+  "purpose": "Opt-in Verdantia render prototype on the real Superior Phaser runtime; never a full-screen illustration.",
+  "pack": "verdant-painted-preview",
+  "version": "1.2.0",
+  "switch": "ki-verdant-painted=1",
+  "terrain": {
+    "supplier": "owner upload 2026-11-03",
+    "grass": "source/owner-grass.jpg",
+    "road": "source/owner-road.jpg",
+    "conversion": "JPEG to WebP quality94, no crop or resize; normal importer then losslessly repacks those decoded pixels."
+  },
+  "building": {
+    "generator": "OpenAI image_gen tool; underlying model/version not exposed",
+    "source": "source/leaf-shop-master.png",
+    "transparent": true,
+    "reference": "docs/zmiany/2026-11-03/qa/verdant-painted/owner-reference-look.jpg",
+    "promptSummary": "One isolated transparent freestanding forest merchant cottage; large layered leaf roof, carved arched centered front door, ivory stone and warm timber, ivy, white flowers, warm lanterns, side herb stall. Premium hand-painted anime fantasy, orthographic top-down three-quarter camera, light upper left. No UI, text, people, roads, lawn or background. Original reference used for style/architecture only."
+  },
+  "runtime": {
+    "grassWorldTile": [
+      768,
+      768
+    ],
+    "roadWorldTile": [
+      1024,
+      1024
+    ],
+    "chunkWorldSize": 2048,
+    "previewChunkPixels": 1024,
+    "defaultChunkPixels": 512,
+    "doorOrigin": [
+      0.565,
+      0.93
+    ],
+    "foliage": "Existing streamed ki-v2-objects bushes, ferns, flowering bushes and trees. Extra decorations are non-solid and render-only."
+  },
+  "gpu": "No RunPod access or pod lifecycle action.",
+  "rights": "Terrain supplied by owner; generation recorded, no independent assertion of rights to all reference material. Prototype only, no production publication.",
+  "sha256": {
+    "grass.webp": "d86b0d1dca230a967c9a720a12f1f4991f33965ee904741f48a7b3c74c80bc36",
+    "manifest.json": "014074321d7dc43b34089e8d26b5da83b6cdee838877399fcc73ec866e436da3",
+    "road.webp": "db3f6341da3f241c02a3a86a8ba873ae158514fee23ea75c71e269689a0dcf48",
+    "shop.webp": "1a2cdacf48e0c5ad76706f57d4c00e79fc1666cf4a4daf16f30e0f890024ad4e",
+    "source/leaf-shop-master.png": "b6022b1e76c0bf86aebd21300ea4f5924541478e2cb3a9ec48b2088a9a64bd27",
+    "source/owner-grass.jpg": "dec4dcd7834fc2773c7622f6da36fe3b9b12ec0d4dda708c7e018e0de1d4ce5b",
+    "source/owner-road.jpg": "e8112dc157cad8447e9ffe45676f2e028ae6b6d90f8000796fed29cde034abd0"
+  }
+}

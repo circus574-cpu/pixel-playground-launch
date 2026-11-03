@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "id": "verdant-painted-preview",
+  "version": "1.2.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "verdant-painted-grass",
+      "version": "1.2.0",
+      "kind": "image",
+      "url": "grass.webp",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "verdant-painted-road",
+      "version": "1.2.0",
+      "kind": "image",
+      "url": "road.webp",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "verdant-painted-shop",
+      "version": "1.2.0",
+      "kind": "image",
+      "url": "shop.webp",
+      "width": 1312,
+      "height": 1199
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.ki-v2-verdant-grass-0": {
+      "asset": "verdant-painted-grass",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.ki-v2-verdant-forest-0": {
+      "asset": "verdant-painted-grass",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.ki-v2-verdant-road-0": {
+      "asset": "verdant-painted-road",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.ki-v2-city-verdant-plaza-0": {
+      "asset": "verdant-painted-road",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "object.ki-v2-buildings.verdant-market": {
+      "asset": "verdant-painted-shop",
+      "fit": "contain",
+      "origin": [
+        0.565,
+        0.93
+      ]
+    }
+  },
+  "effects": {}
+}

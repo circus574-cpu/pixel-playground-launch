@@ -90,3 +90,74 @@ białych szczelin przy obrysie postaci (między korzeniami, kończynami), obramo
 błyski w oczach i kwiaty zostają. Pięć wcześniejszych pakietów przeliczono ponownie (zmiana poniżej 1%
 pikseli). Zostaje 5 potworów: świetlik pieczęci, pająk spawalniczy, rój nanitów, popielny wilk i liściak
 skrytobójca.
+
+
+## Próba malowanej Verdantii — gałąź podglądowa
+
+Gałąź: `preview/verdantia-painted-terrain`, baza `e02c87b5ea9ad654f17d450464d13c36083f058b`.
+To osobna próba wyglądu na aktualnym main, nie część PR #90 rozwoju postaci.
+Właściciel zlecił użycie dwóch tekstur i pokazanie rzeczywistego screenshotu gry,
+a następnie zapisanie tej próby na gałęzi GitHub. Bez scalenia i publikacji.
+
+### Gdzie jest kod i jak otworzyć
+
+- `src/game/world/generated/paintedMeadow.ts`: maska dróg, światło, dekoracje i prezentacja sklepu.
+- `renderSuperior.ts`: ten sam renderer świata, tryb o wyższej rozdzielczości po włączeniu pakietu.
+- `src/game/assets/catalog.ts`, `imported.json`: opt-in i zainstalowane wiązania.
+- [Źródła, grafiki i manifest](../../../art/production/verdant-painted-preview/).
+- [Pokazany właścicielowi zrzut](qa/verdant-painted/painted-full-scene.png).
+- [Ten sam obszar bez flagi](qa/verdant-painted/default-full-scene.png),
+  [dotyk 852×393](qa/verdant-painted/painted-touch-landscape.png).
+
+Na buildzie tej gałęzi uruchom `npm run playtest`, a następnie otwórz
+`/scripts/playtest.html?ki-world-v2=1&ki-verdant-painted=1`.
+W zwykłej aplikacji tej gałęzi wystarcza parametr `?ki-verdant-painted=1`.
+Wybierz Planetarnych. Zrzut wykonano przy sklepie w Zielonej Przystani;
+flaga sama nie teleportuje gracza i nie zmienia zapisu. Adres produkcji nie ma tego
+kodu, dopóki osobno nie zatwierdzono i nie wykonano wdrożenia.
+
+### Wykonana prezentacja
+
+Dwie tekstury właściciela połączono z oryginalnymi flagami terenu i drogami.
+Maska łączy przecięcia, ma nieregularny miękki brzeg i zapas poza chunkiem, aby
+nie tworzyć sztucznej szczeliny na granicy. Współrzędne wzoru i światła są globalne.
+Wyższa rozdzielczość chunku 1024² zachowuje detale; normalny wariant pozostaje 512².
+Korekta nasycenia/jasności ogranicza jaskrawość trawy. Koło sklepu ten sam wzór
+łąki przykrywa lokalne prostokątne różnice biomów; nie zmienia flag wody/lądu.
+
+Sklep jest osobnym wygenerowanym sprite'em RGBA; nie ma na nim UI ani bohaterów.
+Jego stopnie są osadzone przy dotychczasowych drzwiach. Dodatkowe krzewy, kwiaty,
+paprocie i drzewa używają istniejącego streamingu/sortowania/fadingu, bez colliderów.
+Wzorcowe zdjęcie nie jest tłem gry. Nie dotykano RunPod, joysticka, HUD-u,
+reguł walki, geometrii ani bazy/postaci. To próbka oprawy, nie ukończenie wszystkich miast/biomów.
+
+### Faktyczne kontrole i ograniczenia
+
+- Import paczki 1.2.0 przeszedł istniejący walidator/importer: [log](qa/verdant-painted/import.log).
+- Canvas: wariant zwykły i podglądowy przeszły dojście, zoom, sklep i powrót;
+  podgląd dodatkowo zmianę viewportu i ruch dotykowy w poziomie. Brak pageerror i brakujących zasobów.
+- Pełna seria e2e: **3 PASS / 1 FAIL**. Zwykły wariant Software WebGL przeszedł;
+  podglądowy zatrzymał się na 15-sekundowym timeout odczytu metrics przez locator.
+  Nie uznano tego za dowód błędu mechaniki, ale odbiór Software WebGL podglądu pozostaje otwarty.
+- Ponowienie WebGL podglądu **PRZERWANO** na żądanie właściciela „POKAŻ MI ZDJĘCIE BEZ TESTÓW”.
+  Nie oznaczono go PASS. [Pełny log](qa/verdant-painted/browser-final.log),
+  [przerwane ponowienie](qa/verdant-painted/webgl-interrupted.log).
+- Pierwsze dwie próby automatu używały błędnego selektora `Wejdź · Sklep`, podczas gdy
+  rzeczywista nazwa to `Dom Handlowy Mio`; po poprawieniu selektora Canvas przeszedł.
+  Zachowano [pierwszy log](qa/verdant-painted/initial-selectors.log).
+- Przy zapisie gałęzi uruchomiono tylko statyczny pełny TypeScript (aplikacja/e2e/tools)
+  i kontrolę dokumentacji. Bez ponawiania testów, bez nowego buildu, bez ręcznego wyzwalania CI.
+- Fizyczny Android/iOS, sprzętowe WebGL i benchmark FPS: **NIEWYKONANE**.
+  Większe tekstury zwiększają pamięć; flagi nie włączono domyślnie.
+
+[Sumy źródeł i screenshotów](qa/verdant-painted/manifest.json).
+Źródła tekstur i master budynku są zachowane w katalogu produkcyjnym, runtime w
+`public/game/assets/gpu/verdant-painted-preview/1.2.0-a7df8b58b053/`.
+Cudzy nieśledzony `docs/zmiany/2026-11-01/qa/online-cutover/` i pozostałe artefakty
+innych gałęzi pozostały poza commitem. Nie utworzono nowego aktywnego dokumentu QA.
+
+Przygotowanie commita: pełny statyczny TypeScript **PASS** (trzy konfiguracje),
+[kontrola dokumentacji](qa/verdant-painted/documentation.log) **PASS**. Pierwsze
+wywołanie wykazało brak historycznych archiwów wyłączonych przez sparse checkout;
+odtworzono wyłącznie brakujące pliki z bieżącego HEAD, bez zmiany ich zawartości.
+Nie ponawiano testów rozgrywki ani Software WebGL po żądaniu właściciela.

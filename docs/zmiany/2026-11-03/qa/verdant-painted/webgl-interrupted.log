@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:13189) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop (1.0m)
+
+
+  1) [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop 
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'Przybliż mapę', exact: true })
+        - locator resolved to <button title="Przybliż mapę" aria-label="Przybliż mapę">+</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+       at fixtures.ts:89
+
+      87 |   }
+      88 |   if (input === "touch") await button.tap();
+    > 89 |   else await button.click();
+         |                     ^
+      90 |   const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+      91 |   if (
+      92 |     (name === "Oddal mapę" || name === "Przybliż mapę") &&
+        at openHudTool (/workspace/ki-aruba/e2e/fixtures.ts:89:21)
+        at /workspace/ki-aruba/e2e/verdant-painted-preview.spec.ts:62:5
+
+    Error Context: ../verdant-preview-webgl-retry/verdant-painted-preview-Ve-2877c-view-real-movement-and-shop-software-webgl/error-context.md
+
+  1 interrupted
+    [software-webgl] › e2e/verdant-painted-preview.spec.ts:32:3 › Verdantia: painted preview, real movement and shop 

@@ -1,5 +1,20 @@
 # KI Legends — GPU i zasoby
 
+## Próba Verdantii — 03.11.2026
+
+Pakiet `verdant-painted-preview@1.2.0` jest opcjonalny przez `ki-verdant-painted=1`.
+Dwie tekstury pochodzą z przesłanych JPEG właściciela; osobny przezroczysty sklep
+wygenerowano narzędziem OpenAI image_gen. RunPod nie był używany. Źródła, master,
+manifest i pochodzenie: [katalog produkcyjny](../art/production/verdant-painted-preview/),
+[provenance](../art/production/verdant-painted-preview/provenance.json).
+
+Tekstury 1280² mają skalę 768 j. dla trawy i 1024 j. dla ziemi. Sklep 1312×1199
+korzysta z kotwicy drzwi `(0.565,0.93)`. Import wykonano istniejącym importerem;
+`imported.json` zachowuje wcześniejsze pakiety, podgląd dopisuje własne wiązania.
+Teren w podglądzie ma 1024² px na chunk 2048 j. (4 MiB RGBA zamiast 1 MiB);
+pozostaje streaming, usuwanie chunków i sortowanie Y. Nie ma odbioru wydajności
+fizycznego telefonu ani publikacji. [Zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
+
 ## Partia 2 i braki do docelowej oprawy — 23.10.2026
 
 Dostawę `8b0a814` z `assets/world-kit-for-codex-20261023` połączono na osobnej

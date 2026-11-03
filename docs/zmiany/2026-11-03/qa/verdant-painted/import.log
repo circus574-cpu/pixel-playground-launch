@@ -1,0 +1,20 @@
+
+> assets:import
+> tsx scripts/import-game-assets.ts art/production/verdant-painted-preview/manifest.json --install --replace
+
+{
+  "id": "verdant-painted-preview",
+  "version": "1.2.0",
+  "digest": "a7df8b58b0531ee26f683d61ab2f22caa1f666e0ce8793c18d97a168ed00e0db",
+  "assets": 3,
+  "bytesBefore": 1439770,
+  "bytesAfter": 5644066,
+  "worlds": {
+    "verdant": 125856544,
+    "aether": 106391840,
+    "nexus": 97039136,
+    "pyra": 108984432
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/verdant-painted-preview/1.2.0-a7df8b58b053"
+}
