@@ -67,7 +67,22 @@ Skrypt `ingest_creature_sheet.py` poprawiony po tych planszach:
 - Znane ograniczenie: biały rdzeń wiązki połączony z białym tłem przez zanikający koniec nadal może mieć
   drobne prześwity w jednej klatce ataku (oko wiedzy).
 
-### 7. Potwory anime: 35 z 40
+## Poprawka: postać skakała zamiast chodzić
+
+### 6. Ramki z serwera między zapisami
+
+Po przejściu na zapis postaci co 2 s (sekcja 3) klient odrzucał prawie wszystkie ramki: uznawał za
+nieaktualną każdą ramkę, której `revision` nie jest większy od poprzedniej, a `revision` rośnie dopiero
+przy zapisie do bazy. Do gracza docierała jedna ramka na 2 s, więc postać teleportowała się.
+
+- Ramka ma teraz własny numer `seq` rosnący z każdą ramką; klient porównuje `revision`, a w jego obrębie
+  `seq` (`isStaleFrame` w `src/game/online/client.ts`).
+- Testy: 10 kolejnych ticków w jednej wersji zapisu daje 10 przyjętych ramek oraz tabela przypadków
+  nieaktualnej, powtórzonej i nowszej ramki.
+
+## Potwory anime: 35 z 40
+
+### 7. Kolejne pięć potworów
 
 Kolejne pięć z plansz właściciela: strażnik rdzenia, wieżyczka autonomiczna (Nexus), płomień-duch,
 węgielek (Pyra) i korzeniowy pełzacz (Verdantia). Skrypt wycinania dostał jeszcze regułę dla małych
