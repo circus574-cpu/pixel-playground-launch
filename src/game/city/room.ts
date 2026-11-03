@@ -29,8 +29,58 @@ export const SMITHY_ROOM: Interior = {
     { x: 55, y: 830, width: 90, height: 50 },
   ],
 };
+/**
+ * Painted rooms (owner-generated 4:3 backgrounds, 1920 × 1440 units): the picture is the whole room, so the
+ * walls, counter and corner props are collision rectangles laid over it, and the free floor is the middle.
+ */
+const PAINTED_ROOMS: Readonly<Record<string, { art: string; room: Interior }>> = {
+  "verdant:shop": {
+    art: "interior.verdant.shop",
+    room: {
+      width: 1920,
+      height: 1440,
+      entry: { x: 955, y: 1110 },
+      exit: { x: 955, y: 1300 },
+      npc: { x: 955, y: 395 },
+      chest: { x: 1500, y: 900 },
+      dummy: { x: 700, y: 900 },
+      obstacles: [
+        // Left and right walls follow the slanted floor edge of the painting.
+        { x: 0, y: 0, width: 225, height: 433 },
+        { x: 0, y: 433, width: 165, height: 230 },
+        { x: 0, y: 663, width: 110, height: 265 },
+        { x: 0, y: 928, width: 70, height: 242 },
+        { x: 1725, y: 0, width: 195, height: 433 },
+        { x: 1772, y: 433, width: 148, height: 230 },
+        { x: 1820, y: 663, width: 100, height: 265 },
+        { x: 1855, y: 928, width: 65, height: 242 },
+        // Back wall with the shelves and the counter, and the crates in the back corners.
+        { x: 225, y: 0, width: 1500, height: 445 },
+        { x: 226, y: 445, width: 170, height: 55 },
+        { x: 1537, y: 445, width: 170, height: 85 },
+        // Front wall with the doorway (x 830 – 1080) in the middle.
+        { x: 0, y: 1170, width: 830, height: 270 },
+        { x: 1080, y: 1170, width: 840, height: 270 },
+      ],
+    },
+  },
+};
+/** Render bindings of every painted room of a world (their images are loaded with the world). */
+export function paintedRoomArts(worldId: string): string[] {
+  return Object.entries(PAINTED_ROOMS)
+    .filter(([key]) => key.startsWith(worldId + ":"))
+    .map(([, v]) => v.art);
+}
+/** Rooms wider than a screen scroll with the hero instead of being shown whole. */
+export const isLargeRoom = (room: Interior) => room.width >= 1500;
+/** Render binding of the painted room of a building, if it has one. */
+export function paintedRoomArt(building: BuildingId, worldId?: string): string | undefined {
+  return PAINTED_ROOMS[`${worldId}:${building}`]?.art;
+}
 /** Interior coordinates are local to the room, never coordinates on the planet. */
 export function cityRoom(building: BuildingId, worldId?: string): Interior {
+  const painted = PAINTED_ROOMS[`${worldId}:${building}`];
+  if (painted) return painted.room;
   if (building === "smithy" && worldId === "pyra") return SMITHY_ROOM;
   const furniture =
     building === "arena"

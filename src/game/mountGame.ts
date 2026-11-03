@@ -18,7 +18,7 @@ import { RACES, type RaceId } from "./world/races";
 import { playtestSaveKey } from "./playtest";
 import { renderWorld } from "./world/renderWorld";
 import { renderCityStreets, renderCityInterior } from "./city/renderCity";
-import { cityRoom } from "./city/room";
+import { cityRoom, isLargeRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
@@ -468,6 +468,9 @@ export function mountKileGends(
               cam.stopFollow().removeBounds();
               cam.centerOn(room.width / 2, room.height / 2);
             }
+          } else if (isLargeRoom(room)) {
+            cam.setBounds(0, 0, room.width, room.height);
+            if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
           } else cam.centerOn(room.width / 2, room.height / 2);
         }
         // The resting joystick keeps its screen place and size at any zoom.
@@ -1354,7 +1357,11 @@ export function mountKileGends(
             .stopFollow()
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
-          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          if (isLargeRoom(room)) {
+            this.cameras.main.setBounds(0, 0, room.width, room.height);
+            this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
+            this.cameras.main.centerOn(session.player.x, session.player.y);
+          } else this.cameras.main.centerOn(room.width / 2, room.height / 2);
           parent.dispatchEvent(new Event("ki:zoom"));
         } else {
           this.outsideObjects.forEach((o) => o.setVisible(true));

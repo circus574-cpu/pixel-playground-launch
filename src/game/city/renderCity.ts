@@ -2,9 +2,9 @@ import type Phaser from "phaser";
 import { catalog, textureBinding } from "../assets/catalog";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "../world/types";
-import { cityRoom } from "./room";
+import { cityRoom, paintedRoomArt } from "./room";
 import type { TextureRef } from "../assets/schema";
-import type { BuildingId } from "./types";
+import type { BuildingId, Interior } from "./types";
 import { renderSmithy } from "./renderSmithy";
 
 export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
@@ -109,6 +109,10 @@ export function renderCityInterior(
   const room = cityRoom(id, world.id),
     b = world.city!.buildings.find((b) => b.id === id)!;
   if (id === "smithy" && world.id === "pyra") return renderSmithy(scene, world, room);
+  const painted = paintedRoomArt(id, world.id);
+  const art = painted ? textureBinding(painted, { asset: "" }) : undefined;
+  if (art?.asset && scene.textures.exists(art.asset))
+    return renderPaintedRoom(scene, room, b.name, art.asset);
   const objects: (
     | Phaser.GameObjects.TileSprite
     | Phaser.GameObjects.Image
@@ -212,6 +216,45 @@ export function renderCityInterior(
       .text(room.exit.x, room.exit.y - 4, "↓  WYJŚCIE DO MIASTA", {
         fontFamily: "Arial",
         fontSize: "17px",
+        color: "#f4dfab",
+        backgroundColor: "#183a2dcc",
+        padding: { x: 10, y: 7 },
+      })
+      .setOrigin(0.5)
+      .setResolution(2)
+      .setDepth(1000),
+  );
+  return { dispose: () => objects.forEach((o) => o.destroy()) };
+}
+
+/** A painted room: the picture fills the room; the exit label and the building name sit on top. */
+function renderPaintedRoom(scene: Phaser.Scene, room: Interior, name: string, asset: string) {
+  const objects: (Phaser.GameObjects.Image | Phaser.GameObjects.Text)[] = [];
+  objects.push(
+    scene.add
+      .image(0, 0, asset)
+      .setOrigin(0)
+      .setDisplaySize(room.width, room.height)
+      .setDepth(-90000),
+  );
+  objects.push(
+    scene.add
+      .text(room.width / 2, 36, name, {
+        fontFamily: "Arial",
+        fontSize: "34px",
+        color: "#ecdfb0",
+        stroke: "#12281e",
+        strokeThickness: 6,
+      })
+      .setOrigin(0.5)
+      .setResolution(2)
+      .setDepth(1000),
+  );
+  objects.push(
+    scene.add
+      .text(room.exit.x, room.exit.y - 4, "↓  WYJŚCIE DO MIASTA", {
+        fontFamily: "Arial",
+        fontSize: "20px",
         color: "#f4dfab",
         backgroundColor: "#183a2dcc",
         padding: { x: 10, y: 7 },

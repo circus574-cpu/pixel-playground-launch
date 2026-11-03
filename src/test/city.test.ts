@@ -11,7 +11,7 @@ import {
 import { WORLDS } from "../game/world/worlds";
 import { VERDANT_CITY } from "../game/city/verdantia";
 import { inSafeCity } from "../game/city/types";
-import { cityRoom } from "../game/city/room";
+import { cityRoom, isLargeRoom, paintedRoomArt } from "../game/city/room";
 import { Navigation, distance } from "../game/navigation";
 import type { BuildingId } from "../game/city/types";
 function memory(): StoragePort {
@@ -87,7 +87,7 @@ describe("Verdantia functional city", () => {
       expect(g.nav.path(g.player, b.door).length, b.name).toBeGreaterThan(0);
       for (const other of VERDANT_CITY.buildings)
         if (other.id !== b.id) expect(distance(b.door, other.door)).toBeGreaterThan(700);
-      const r = cityRoom(b.id),
+      const r = cityRoom(b.id, "verdant"),
         nav = new Navigation(r.width, r.height, r.obstacles);
       for (const p of [r.npc, r.exit, r.chest, r.dummy])
         expect(nav.path(r.entry, p).length).toBeGreaterThan(0);
@@ -100,7 +100,7 @@ describe("Verdantia functional city", () => {
     for (const b of VERDANT_CITY.buildings) {
       enter(g, b.id);
       expect(g.npcs).toHaveLength(1);
-      expect(g.nav.width).toBe(cityRoom(b.id).width);
+      expect(g.nav.width).toBe(cityRoom(b.id, g.world.id).width);
     }
     const last = g.building!;
     g.command({ type: "exit" });
@@ -384,4 +384,27 @@ it("persists training only after paying the skill KI cost, and rejects quota fai
       expect(restored.ki).toBeLessThan(31);
     }
   }
+});
+
+describe("Painted rooms", () => {
+  it("the Verdantia shop is a large painted room with a free floor, a doorway and a reachable counter", () => {
+    const g = new GameSession();
+    enter(g, "shop");
+    const room = cityRoom("shop", g.world.id);
+    expect(paintedRoomArt("shop", g.world.id)).toBe("interior.verdant.shop");
+    expect([room.width, room.height]).toEqual([1920, 1440]);
+    expect(isLargeRoom(room)).toBe(true);
+    expect(g.nav.walkable(room.entry)).toBe(true);
+    expect(g.nav.walkable({ x: 960, y: 800 })).toBe(true);
+    expect(g.nav.walkable({ x: 100, y: 700 })).toBe(false);
+    expect(g.nav.walkable({ x: 960, y: 300 })).toBe(false);
+    expect(g.nav.walkable({ x: 300, y: 1300 })).toBe(false);
+    // The doorway in the front wall is open and leads to the exit.
+    expect(g.nav.walkable({ x: 955, y: 1250 })).toBe(true);
+    expect(room.exit.x).toBeGreaterThan(830);
+    expect(room.exit.x).toBeLessThan(1080);
+    // A route from the entrance to the exit exists and the shopkeeper stands behind the counter.
+    expect(g.nav.path(room.entry, room.exit).length).toBeGreaterThan(0);
+    expect(g.npcs[0]!.y).toBeLessThan(445);
+  });
 });

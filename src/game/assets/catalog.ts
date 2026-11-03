@@ -2,6 +2,7 @@ import { CHARACTER_VISUALS, SHARED_ASSETS, regionAssets } from "../world/assets"
 import { walkFrame } from "../world/characterVisual";
 import { WORLDS } from "../world/worlds";
 import { RACES, type WorldId } from "../world/races";
+import { paintedRoomArts } from "../city/room";
 import imported from "./imported.json" with { type: "json" };
 import technical from "../../../art/pipeline/examples/technical-pack.json" with { type: "json" };
 import {
@@ -334,6 +335,10 @@ export function worldAssets(
       used.add(clip.asset);
   }
   for (const ref of worldRenderRefs(worldId, source)) add(ref);
+  for (const key of paintedRoomArts(worldId)) {
+    const ref = source.renderBindings[key];
+    if (ref) add(ref);
+  }
   for (const [key, effect] of Object.entries(source.effects))
     if (!key.includes(".") || key.startsWith(worldId + ".")) used.add(effect.asset);
   return [...used].map((id) => {

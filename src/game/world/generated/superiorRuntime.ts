@@ -29,6 +29,7 @@ import {
 import { fetchPublishedWorld } from "../worldOverridesClient";
 import { RACES, type RaceId } from "../races";
 import { WORLDS } from "../worlds";
+import { paintedRoomArts } from "../../city/room";
 import type { CityDefinition, BuildingId } from "../../city/types";
 import type { WorldDefinition, WorldNpc } from "../types";
 import type { Point } from "../../navigation";
@@ -267,6 +268,10 @@ export async function prepareSuperior(options: {
         textureBinding("terrain.city-" + kind, { asset: "city-floor" }),
       ).asset,
     );
+  for (const key of paintedRoomArts(info.affinity)) {
+    const ref = catalog.renderBindings[key];
+    if (ref) addAsset(ref.asset);
+  }
   const interiorBindings: Record<string, import("../../assets/schema").TextureRef> = {};
   const parts: Record<string, string> = {
     chest: "locked-chest",

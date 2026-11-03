@@ -79024,5 +79024,31 @@
         }
       }
     ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "interior-rooms",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "interior-verdant-shop",
+        "version": "1.0.0",
+        "kind": "image",
+        "url": "/game/assets/gpu/interior-rooms/1.0.0-cccafe42caed/interior-verdant-shop.webp",
+        "width": 1436,
+        "height": 1076
+      }
+    ],
+    "actors": [],
+    "actorBindings": {},
+    "renderBindings": {
+      "interior.verdant.shop": {
+        "asset": "interior-verdant-shop",
+        "fit": "stretch"
+      }
+    },
+    "effects": {}
   }
 ]
