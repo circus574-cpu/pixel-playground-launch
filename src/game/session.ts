@@ -366,17 +366,20 @@ export function equipmentStats(
     equipment?: PlayerEquipment | undefined;
   },
 ) {
-  const gear = {
-    attack: equippedAttack(p),
-    defense: p.armor && p.armor in ITEMS ? ITEMS[p.armor as ItemId].defense : 0,
-    dodgeChance: 0,
-    technique: 0,
-    attackSpeedPct: 0,
-  };
+  const gear: KitPort["gear"] & { dodgeChance: number; technique: number; attackSpeedPct: number } =
+    {
+      attack: equippedAttack(p),
+      defense: p.armor && p.armor in ITEMS ? ITEMS[p.armor as ItemId].defense : 0,
+      dodgeChance: 0,
+      technique: 0,
+      attackSpeedPct: 0,
+    };
   const equippedIds: string[] = [];
+  const seen = new Set<string>();
   if (p.equipment) {
     for (const [slot, id] of Object.entries(p.equipment) as [EquipmentSlot, string | null][]) {
-      if (!id || id === "heritage") continue;
+      if (!id || id === "heritage" || seen.has(id)) continue;
+      seen.add(id);
       if (id in ITEMS) {
         const legacy = ITEMS[id as ItemId];
         if (slot !== "weapon" && legacy.attack) gear.attack += legacy.attack;
@@ -396,9 +399,14 @@ export function equipmentStats(
             if (item.stats.atkBonus) gear.attack += item.stats.atkBonus;
           }
           if (item.stats.defBonus) gear.defense += item.stats.defBonus;
-          if (item.stats.critChancePercent) gear.technique += item.stats.critChancePercent;
-          if (item.stats.critChancePoints) gear.technique += item.stats.critChancePoints;
-          if (item.stats.moveSpeedPercent) gear.attackSpeedPct += item.stats.moveSpeedPercent;
+          // New percentage fields supersede the historical flat representation of the same stat.
+          if (item.stats.maxHpPercent === undefined)
+            gear.hpBonus = (gear.hpBonus ?? 0) + (item.stats.hpBonus ?? 0);
+          if (item.stats.maxKiPercent === undefined)
+            gear.kiBonus = (gear.kiBonus ?? 0) + (item.stats.kiBonus ?? 0);
+          gear.kiRegenBonus = (gear.kiRegenBonus ?? 0) + (item.stats.kiRegenBonus ?? 0);
+          if (item.stats.moveSpeedPercent === undefined)
+            gear.speedMultiplier = (gear.speedMultiplier ?? 1) * (item.stats.speedMultiplier ?? 1);
         }
       }
     }
@@ -416,18 +424,7 @@ export function equipmentStats(
   }
   if (equippedIds.length > 0) {
     const passives = computePassiveEquipmentBonuses(equippedIds);
-    if (passives.cappedTotals.atkPercent) {
-      gear.attack = Math.round(gear.attack * (1 + passives.cappedTotals.atkPercent / 100));
-    }
-    if (passives.cappedTotals.defPercent) {
-      gear.defense = Math.round(gear.defense * (1 + passives.cappedTotals.defPercent / 100));
-    }
-    if (passives.cappedTotals.critChancePoints) {
-      gear.technique += passives.cappedTotals.critChancePoints;
-    }
-    if (passives.cappedTotals.moveSpeedPercent) {
-      gear.attackSpeedPct += passives.cappedTotals.moveSpeedPercent;
-    }
+    Object.assign(gear, passives.cappedTotals);
   }
   return gear;
 }
@@ -2104,6 +2101,12 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "equip") {
+      const beforeGear = this.kit.stats;
+      const preserveResources = () => {
+        const afterGear = this.kit.stats;
+        p.hp = Math.min(afterGear.maxHp, (p.hp * afterGear.maxHp) / beforeGear.maxHp);
+        p.ki = Math.min(afterGear.maxKi, (p.ki * afterGear.maxKi) / beforeGear.maxKi);
+      };
       ensurePlayerEquipment(p);
       const equipment = p.equipment!;
       const bagItems = p.bagItems!;
@@ -2115,6 +2118,7 @@ export class GameSession implements MonsterHost {
         equipment.weapon = "sword";
         if (p.quests.gear === "active") p.quests.gear = "ready";
         this.say("Założono: " + ITEMS.sword.name);
+        preserveResources();
         this.flush();
         return;
       }
@@ -2123,6 +2127,7 @@ export class GameSession implements MonsterHost {
         p.armor = "vest";
         equipment.armor = "vest";
         this.say("Założono: " + ITEMS.vest.name);
+        preserveResources();
         this.flush();
         return;
       }
@@ -2139,6 +2144,7 @@ export class GameSession implements MonsterHost {
         const healHp = def.stats?.hpBonus ?? 50;
         makePort(this).heal(healHp);
         this.say("Użyto: " + def.name);
+        preserveResources();
         this.flush();
         return;
       }
@@ -2171,10 +2177,17 @@ export class GameSession implements MonsterHost {
       if (slot === "weapon") p.weapon = itemId;
       if (slot === "armor") p.armor = itemId;
       this.say("Założono: " + def.name);
+      preserveResources();
       this.flush();
       return;
     }
     if (c.type === "unequip") {
+      const beforeGear = this.kit.stats;
+      const preserveResources = () => {
+        const afterGear = this.kit.stats;
+        p.hp = Math.min(afterGear.maxHp, (p.hp * afterGear.maxHp) / beforeGear.maxHp);
+        p.ki = Math.min(afterGear.maxKi, (p.ki * afterGear.maxKi) / beforeGear.maxKi);
+      };
       ensurePlayerEquipment(p);
       const equipment = p.equipment!;
       const bagItems = p.bagItems!;
@@ -2194,8 +2207,8 @@ export class GameSession implements MonsterHost {
       if (equippedId !== "sword" && equippedId !== "vest" && equippedId !== "heritage") {
         bagItems[equippedId] = (bagItems[equippedId] ?? 0) + 1;
       }
-      p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       this.say("Zdjęto wyposażenie.");
+      preserveResources();
       this.flush();
       return;
     }
@@ -2486,7 +2499,12 @@ export class GameSession implements MonsterHost {
     p.ki = Math.min(live.maxKi, p.ki + (live.kiRegen * dt) / 1000);
     p.hp = Math.min(
       live.maxHp,
-      p.hp + (live.maxHp * (this.kit.hpRegen() + (this.combatIn ? 0 : BASE_HP_REGEN)) * dt) / 1000,
+      p.hp +
+        (live.maxHp *
+          (this.kit.hpRegen() + (this.combatIn ? 0 : BASE_HP_REGEN)) *
+          (1 + (equipmentStats(p).hpRegenPercent ?? 0) / 100) *
+          dt) /
+          1000,
     );
     void s;
     if (this.fx.fearMs > 0 && this.fx.fearFrom) {

@@ -1,3 +1,4 @@
+import type { ItemStats } from "../items/types";
 import type { CombatTraining } from "../combatTraining";
 import type { CharacterStats } from "../characterStats";
 import type { DevelopmentState } from "../development/state";
@@ -126,7 +127,7 @@ export type KitPort = {
   readonly nowMs: number;
   readonly development?: DevelopmentState | undefined;
   /** Equipment bonuses (weapon ATK incl. upgrade, armor DEF). */
-  readonly gear: {
+  readonly gear: ItemStats & {
     attack: number;
     defense: number;
     dodgeChance?: number;

@@ -1,5 +1,12 @@
 # KI Legends — rozwój i walka
 
+## Naprawy wyposażenia — gałąź robocza 03.11.2026
+
+`feature/complete-character-development` usuwa błędne mapowanie bonusów HP/KI,
+ruchu i krytyka oraz chroni przed leczeniem przez zmianę wyposażenia.
+To pierwsza partia domykania, bez publikacji i bez zamknięcia fabuł/prób.
+[Implementacja, testy i dalsze prace](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-1-statystyki-wyposażenia).
+
 ## Audyt kompletności — 03.11.2026
 
 Na `main@13983467` pełny zakres rozwoju czterech ras pozostaje **NIEUKOŃCZONY**.

@@ -1,0 +1,11 @@
+
+Running 4 tests using 1 worker
+
+(node:5740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Planetarni: portrait opens current statistics 1280 (24.5s)
+  ✓  2 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Mędrcy: portrait opens current statistics 390 (19.6s)
+  ✓  3 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Androidy: portrait opens current statistics 360 (21.6s)
+  ✓  4 [gameplay] › e2e/character-statistics.spec.ts:9:3 › Legendy: portrait opens current statistics 852 (49.1s)
+
+  4 passed (1.9m)

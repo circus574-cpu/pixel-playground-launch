@@ -214,3 +214,62 @@ Reprodukcja:
    i 32 późne warianty starć.
 5. Wykonać E2E początku i finału 4 ras bez obchodzenia rozgrywki, pełny graf
    osiągalności i pomiary balansu/czasu. Dopiero te wyniki mogą zamknąć zlecenie.
+
+## Domykanie rozwoju — partia 1: statystyki wyposażenia
+
+Gałąź `feature/complete-character-development`, baza kodu `main@13983467`
+i audyt `c7e08168`. Właściciel zlecił domknięcie całego systemu rozwoju, fabuł
+oraz oprawy. Ta partia naprawia naliczanie wyposażenia; **nie jest ukończeniem
+całego zlecenia**. Pozostałe blokady z audytu nadal wymagają implementacji.
+Nie opublikowano gry ani nie scalono gałęzi.
+
+### Implementacja
+
+- Rozszerzono `KitPort.gear` o istniejący kontrakt `ItemStats`. HP, KI,
+  regeneracja, ruch, koszty KI i redukcja obrażeń docierają do prawdziwego kitu.
+- Capped procenty ATK/DEF są liczone od rasy/poziomu/drzewka/treningu,
+  nie tylko od wartości samej broni/pancerza. Kanoniczne pliki ras nie zmieniają się.
+- Prędkość ruchu nie zmienia szybkości ataku. Krytyk daje punkty procentowe,
+  nie Techniki; nie przyznaje przy okazji obrażeń KI ani ponowienia umiejętności.
+- Obowiązują procenty i limity istniejącego kalkulatora pasywnego. Dla HP/KI,
+  ruchu i krytyka obecność nowego pola zastępuje historyczną reprezentację tej
+  samej premii, zapobiegając podwójnemu doliczeniu. Historyczne płaskie HP/KI
+  i mnożnik ruchu pozostają fallbackiem, gdy nowego pola nie ma.
+- Unikalne ID wyposażenia są liczone raz. Bonus regeneracji HP zwiększa tempo
+  regeneracji, a nie dodaje procentu pełnego zdrowia na sekundę.
+- Zakładanie, zmiana i zdejmowanie sprzętu zachowują proporcję HP/KI.
+  Nie można odzyskiwać zasobów przez powtarzanie zmiany pancerza/szaty.
+- Podgląd statystyk korzysta z tych samych obliczeń: premia przedmiotu jest
+  osobną różnicą pomiędzy warstwami, zgodnie z dotychczasowym układem panelu.
+- Bez zmiany formatu zapisów, sterowania, geometrii, cen, plików generated i GPU.
+
+### Dowody i ograniczenia
+
+Dodano 20 regresji (5 scenariuszy dla każdej rasy): HP, KI/regeneracja,
+ruch/szybkość ataku, krytyk/Technika oraz 12 cykli zmiany wyposażenia bez leczenia.
+Jawne warunki jednostkowe zapewniają przedmiot i wymagany poziom; testy nie są
+przejściem kampanii ani dowodem zdobycia przedmiotu przez gracza.
+
+- [Wyniki po naprawie](qa/progression-equipment/item-statistics-after.json).
+- [TypeScript](qa/progression-equipment/typecheck.txt): PASS, wszystkie 3 konfiguracje.
+- [Testy celowane](qa/progression-equipment/targeted-tests.txt): 76 PASS.
+- [Pełny zestaw jednostkowy](qa/progression-equipment/unit-tests.txt):
+  1108 PASS / 0 FAIL / 10 SKIP (testowa baza PostgreSQL niedostępna).
+  [Metadane i SHA-256 testowanych źródeł](qa/progression-equipment/verification.json).
+- [Lint całego projektu](qa/progression-equipment/lint.txt): 0 błędów / 15 istniejących ostrzeżeń.
+- [Build produkcyjny](qa/progression-equipment/build.txt): PASS.
+- [Canvas — okno statystyk](qa/progression-equipment/browser-canvas.txt): 4 PASS,
+  wszystkie rasy, otwarcie/zamknięcie i odświeżenie, emulacja dotyku;
+  widoki 1280×720, 390×844, 360×800 i 852×393 (z obecną wymaganą rotacją pionu).
+- [Software WebGL — okno statystyk](qa/progression-equipment/browser-webgl.txt):
+  4 PASS dla tych samych ras i widoków, SwiftShader.
+- To nie jest test na fizycznym telefonie ani odbiór całej kampanii.
+
+### Dalsza realizacja
+
+Następna partia musi usunąć blokady eskort bojowych i ochrony H-V03/H-A05/H-N03/H-P06,
+korzystając z `ProtectedActor`, faktycznych obrażeń, nawigacji poza miastami,
+punktów wznowienia i czyszczenia aktorów/przeciwników przy śmierci/zmianie świata.
+Nie zastępować tych celów kliknięciem „zalicz”. Dalej: 48 prób / 144 stopnie,
+zapis dowodów i jednorazowych nagród, odblokowania, budżet praktyki, zakończenia,
+biografie i kronika. Zamówienie pozostaje otwarte do pełnego odbioru tych ścieżek.
