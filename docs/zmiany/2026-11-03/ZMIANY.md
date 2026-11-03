@@ -48,3 +48,16 @@ optymalizacji tabel, które nie istnieją w schemacie.
 - Kafel, zakładka i dziennik sondy pokazują te liczby; brak odpowiedzi serwera jest raportowany jako
   błąd, a nie dane z martwej chmury.
 - Usunięto panel „Status optymalizacji bazy" (opisywał tabele, których nie ma).
+
+## Poprawka: postać skakała zamiast chodzić
+
+### 6. Ramki z serwera między zapisami
+
+Po przejściu na zapis postaci co 2 s (sekcja 3) klient odrzucał prawie wszystkie ramki: uznawał za
+nieaktualną każdą ramkę, której `revision` nie jest większy od poprzedniej, a `revision` rośnie dopiero
+przy zapisie do bazy. Do gracza docierała jedna ramka na 2 s, więc postać teleportowała się.
+
+- Ramka ma teraz własny numer `seq` rosnący z każdą ramką; klient porównuje `revision`, a w jego obrębie
+  `seq` (`isStaleFrame` w `src/game/online/client.ts`).
+- Testy: 10 kolejnych ticków w jednej wersji zapisu daje 10 przyjętych ramek oraz tabela przypadków
+  nieaktualnej, powtórzonej i nowszej ramki.
