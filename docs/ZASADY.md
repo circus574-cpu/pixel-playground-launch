@@ -1,6 +1,6 @@
 # KI Legends — zasady projektu
 
-Aktualizacja: 23.10.2026. Punkt wejścia: [indeks](INDEX.md).
+Stan obowiązujący: 04.11.2026 (`main@1690fb6e`). Punkt wejścia: [indeks](INDEX.md). Dawne decyzje i opisy lokalnego zapisu niżej stanowią historię.
 
 ## Tożsamość i zakres
 
@@ -8,7 +8,7 @@ Anime fantasy 2D z widokiem z góry; interfejs po polsku, przeglądarka na kompu
 Projekt: `circus574-cpu/pixel-playground-launch`; publiczna domena `kilegends.pl`.
 Obowiązują Planetarni/Verdantia, Mędrcy/Aetheria, Androidy/Nexus-9 i Legendy/Pyra.
 Wcześniejsze Human/Orc/Dwarf/Elf, medieval/pixel art i sztywny kalendarz zdobywania
-zdolności są zastąpione. Gra działa jako lokalne PvE; MMORPG jest dalszym etapem.
+zdolności są zastąpione. Gra działa jako **serwerowe PvE na VPS Aruba z PostgreSQL 17 i kontami na VPS** (PR #69, #76–77). Pełne MMO (wspólne potwory, PvP, drużyny) jest dalszym etapem; sama obecność postaci online nie stanowi jego ukończenia.
 Inspiracje pętlą eksploracji i walki nie uprawniają do kopiowania cudzych postaci,
 map, interfejsu, nazw ani grafik.
 
@@ -51,10 +51,12 @@ Nowe paczki podlegają walidowanemu importerowi i ocenie w działającej grze.
 
 ## Zapisy i prywatne zasoby
 
-24.10.2026 właściciel zlecił Superior jako jedyny świat i reset starych zapisów.
+**Aktualne:** postacie i postęp PvE są przechowywane na serwerze w PostgreSQL, sesja online jest obowiązkowa bez lokalnego fallbacku; `/ws/auth/*` i `/konto` używają kont VPS. Historyczne lokalne formaty służą migracji i dowodom, nie są aktywnym źródłem prawdy. Dane prywatnego `/test` mają osobny model dostępu.
+
+**Historyczna decyzja:** 24.10.2026 właściciel zlecił Superior jako jedyny świat i reset starych zapisów.
 Nowe sloty zaczynają od początku; stare bajty pozostają archiwalne, bez importu.
 Zachować ochronę nieznanych/nowszych
-zapisów i konfliktów kart. Nie obiecywać synchronizacji kont ani serwerowego banku.
+zapisów i konfliktów kart. Od 01–02.11 trwałe postacie i konta należą do VPS/PostgreSQL; weryfikować zachowanie depozytu w serwerowej sesji przed deklaracją synchronizacji wielograczowej.
 Prywatne `/test` to osobna funkcja: wspólne hasło i zaszyfrowana sesja serwerowa,
 prywatny bucket bez anonimowych/authenticated policies, walidacja sesji przed każdą
 operacją, krótkotrwałe możliwości uploadu/pobrania i wspólny schemat walidacji.

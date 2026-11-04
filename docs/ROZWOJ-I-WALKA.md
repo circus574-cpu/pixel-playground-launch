@@ -1,6 +1,8 @@
 # KI Legends — rozwój i walka
 
-> **Stan po integracji 29.10.2026, `main@5cea48da`:** PR #55 i #61 są scalone przez #62 i opublikowane. Działają wspólny trening/egzaminy, częściowe dziedzictwa oraz nowe parametry Unik, szybkość ataku i Technika bez wzrostu za poziom. Portret otwiera rzeczywiste statystyki z prezentacją wartości i premii. Obowiązują formaty klasyczny9 i Superior5, opisane [w sekcji integracji](#integracja-oczekujących-gałęzi--29102026). Późne rozdziały i próby nie są ukończone, a pełna regresja walki nie ma zielonego odbioru. [Wyniki i publikacja](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
+> **Stan bieżący 04.11.2026 (`main@1690fb6e`):** PvE, rozwój, przedmioty i zapisy wykonuje sesja gry na VPS/PostgreSQL (PR #69). Na `main` jest katalog 366 przedmiotów, 140 receptur, 8 slotów ekwipunku, 40-slotowa torba i depozyt. Węzły drzewek mają wielokrotne rangi (PR #97), poziom i punkty nie kończą się na 20 (bezpiecznik danych 10 000). PR #99 integruje naprawę bonusu szybkości ruchu, losowego dropu i mechaniki NPC. **Nie scalono** pełnego rozwoju ras: #90 jest Draft i raportuje 24/48 prób (72/144 stopni), #87 opisuje nierozwiązane usterki. Testy opisane w PR nie zastępują fizycznego QA walki.
+
+> Starsze audyty poniżej są historycznymi checkpointami o własnych SHA. Nie traktować ich czerwonych/zielonych wyników jako aktualnego statusu `main`.
 
 > **Audyt 28.10.2026, `main@30f7b8d5`:** Combat V3 scalono przez #48; w #51 scalono animacje HD czterech ras (klatki 256 px, skala wyświetlania zachowuje poprzednie proporcje). Nie jest to potwierdzenie płynnej, bezbłędnej walki. W pełnym Playwright PR #49 scenariusz Planetarnego w `e2e/three-races-pve.spec.ts:176` uzyskał 2 zamiast 3 zabójstw w 60 sekund (1 FAIL / 182 PASS). W nowszym WebGL #52 na `a4ee855e` stwierdzono 7 FAIL, wszystkie z timeoutem poszukiwania żywego przeciwnika przez `liveEnemy` w `e2e/fixtures.ts:223`; problem dotyczy m.in. Mędrców i Androidów. Przyczyny technicznej nie potwierdzono. **Nie zaliczać całego Combat V3; nie usuwać ani nie rozluźniać testów.** Dowody: [28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
 
@@ -47,7 +49,7 @@ katalog ekwipunku są [projektem fabularnym](FABULA-I-EKWIPUNEK.md), nie obecną
 - Materiały: 30 typów po 99 sztuk, skup `round(2 + 1.5 × poziom źródła)`.
   Założenia spoza aneksu zatwierdzono przez właściciela 23.10.2026.
 
-## Obecny ekwipunek, zadania i zapisy
+## Ekwipunek, zadania i zapisy — historyczna baza + katalog V2
 
 | ID       | Przedmiot            | ATK | DEF | Kup / sprzedaj |
 | -------- | -------------------- | --: | --: | -------------: |
@@ -61,7 +63,7 @@ Nie zastępować tych liczb propozycjami z księgi przygody bez osobnego wdroże
 XP do następnego poziomu: `100 + 60 × (L−1)` (bez górnego limitu poziomu); dojście do 20: 12 160 XP.
 
 Klasyczny zapis v9 obejmuje umiejętności, materiały, resety, wnętrze, osobisty depozyt, rozwój ras, nowy trening i nadpisania GM. Wczytuje v1/v3/v4/v5/v6/v7/v8/v9; Superior zapisuje v5 i czyta v1–v5. Surowe kopie wcześniejszych zapisów pozostają zachowane, a walidacja chroni nieznane/nowsze dane, konflikt kart oraz przed usunięciem istniejącego rozwoju lub treningu. Szczegóły kluczy i testów: [integracja](#integracja-oczekujących-gałęzi--29102026).
-Depozyt jest prywatny dla lokalnego slotu na danej domenie, nie serwerowy.
+Historyczna uwaga o depozycie lokalnym (przed #69); aktualna postać, torba i depozyt należą do serwerowego stanu PvE zatwierdzanego w PostgreSQL.
 Przeniesienie ostatniego miecza przenosi również ulepszenie; wyposażona ostatnia
 sztuka nie opuszcza plecaka. Limity i ilości sprawdzane przed mutacją.
 

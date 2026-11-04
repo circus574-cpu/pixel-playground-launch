@@ -1,12 +1,26 @@
 # KI Legends — architektura i testy
 
-## Aktualny stan techniczny — 29.10.2026
+## Stan techniczny na 04.11.2026 (`main@1690fb6e`)
 
-Punkt odniesienia: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`, opublikowany na Aruba przez [run 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683). Phaser pozostaje lokalną symulacją PvE, React/TanStack obsługuje aplikację i HUD. Supabase zapewnia dotychczasowe konto/zapisy; nowy projekt właściciela nie jest jeszcze aktywnym backendem gry. Prywatny PostgreSQL VPS nie oznacza uruchomionego multiplayera.
+KI Legends ma **fizycznie przygotowaną infrastrukturę na VPS Aruba/Coolify i prywatną bazę PostgreSQL 17**. Klient TanStack/Phaser komunikuje się z serwerem Node przez `/ws/online` i `/ws/auth/*`. Serwer `Superior` ma konfigurację domyślną portu 7420, 20 ticków/s i limitu 50 graczy. Dane `game.*` obejmują postacie/operacje i trwały stan; `accounts.*` obejmuje użytkowników, role i sesje; `world_admin.revisions` przechowuje publikacje świata. Dane bazy nie mają publicznego portu.
 
-`GameSession`, kity ras, `development/` i `combatTraining.ts` współpracują w jednym silniku. Klasyczny zapis **9** oraz Superior **5** zachowują oba systemy rozwoju i GM; szczegóły migracji są [poniżej](#integracja-rozwoju-i-treningu--29102026). Portret otwiera `CharacterStatsPanel`; okno Rozwój obsługuje `DevelopmentPanel`. Nie zmieniono klawiszy, joysticka ani pozycji HUD-u przy tej integracji.
+PR #69 przeniósł `GameSession` dla PvE na serwer (`src/server/characters/onlineSession.ts`, `superiorSimulation.ts`, `repository.ts`), bez zapisu awaryjnego w przeglądarce. Idempotentne operacje, lease i kontrola właściciela chronią zapis. PR #76–77 przeniósł logowanie/role/aktywację e-mail i `/konto` na VPS, a PR #79 — publikację edycji świata z `/admin` do PostgreSQL i natychmiastową aktualizację. Zapis był potem poprawiany (#84, #85, #89; 03.11) i panel bazy działa na rzeczywistym PostgreSQL (#86).
 
-Rozróżniać cztery kontrole: lokalne 985 testów, 12 wąskich scenariuszy przeglądarkowych, pełne CI oraz test publikacji. Lokalny zestaw jednostkowy, wąskie scenariusze i test publikacji są zaliczone; pełna regresja CI nie ma zielonego odbioru. [Aktualny plan i ograniczenia](PLAN-I-ZADANIA.md#bieżący-checkpoint--29102026-po-integracji), [dowody publikacji](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji). Datowane checkpointy CPU i starsze formaty w dalszych sekcjach pozostają historią, nie bieżącą konfiguracją.
+**To nie jest pełny MMO:** obecność online i snapshoty innych postaci nie tworzą współdzielonych przeciwników, PvP ani drużyn. Nie ma weryfikacji tunelu VPN: PR #60 stwierdza brak VPN i prywatną sieć Docker. Rozróżniaj VPS od VPN i testy integracyjne od wyniku na żywym serwerze. Zależności Supabase w historycznym compose/legacy należy audytować osobno, nie brać za bieżący magazyn postaci.
+
+**Pliki:** `src/server/gameServer.ts`, `src/server/managedServer.ts`, `src/server/accounts/*`, `src/server/characters/*`, `src/server/world/overrides.ts`, `src/game/online/client.ts`, `deploy/multiplayer/init/{001,002,005,006}-*.sql`, `deploy/multiplayer/{003,004}-*.sql`, `docker-compose.online.yml`, `.github/workflows/aruba-production.yml`. Uwaga: rozróżnić komentarz o pomocniczym transporcie z `gameServer.ts` od autorytatywnego wykonania PvE w `OnlineSession`.
+
+**QA:** PR #101 deklaruje lokalne: typecheck, lint, 1132 testy i screenshot Chromium. Tego audytu dokumentacyjnego nie wolno wpisywać jako nowego PASS; nie wykonano tu pełnego repo QA, weryfikacji VPS, backupu poza VPS ani testu fizycznego telefonu.
+
+### Ślad migracji
+
+- 29.10 #60 — pierwsza wersja prywatnego PostgreSQL, bez VPN.
+- 01.11 #69 — serwerowe postacie i obowiązkowa sesja PvE.
+- 02.11 #76–77 — konta i role VPS; #79 — edycja świata PostgreSQL.
+- 03.11 #84–86, #89 — korekty spójności postaci, zapisu i ramek; #86 także panel bazy.
+- 04.11 #99–101 — NPC, oprawa miast, mobilny HUD i skala UI.
+
+## Historyczne sekcje techniczne i audyty
 
 ## Odtworzenie po wyłączeniu poda CPU
 
@@ -75,9 +89,7 @@ Stan kodu: 23.10.2026, `d0bfc2c`. Polecenia uruchamiać z katalogu repozytorium.
 | Planeta                  | `components/planet-map/`, wspólny `MapaView` i dane obrysów/atlasu             |
 | Prywatne szkice          | `/test`, walidowane funkcje serwerowe, odrębna sesja i magazyn                 |
 
-Rozgrywka działa lokalnie; nie ma serwera autorytatywnego, rynku między graczami
-ani współdzielonej symulacji. Rozszerzenie do MMORPG wymaga osobnej architektury,
-stałego kroku symulacji i wysyłania zmian wyłącznie pobliskich obiektów.
+Historyczny opis (sprzed PR #69): rozgrywka lokalna. Aktualnie PvE działa autorytatywnie na serwerze, lecz bez wspólnej symulacji przeciwników, rynku gracz-gracz i pełnego MMO.
 Nie importować GameSession do lekkiej strony `/mapa`; komunikacja idzie przez propsy.
 
 ## Zapis, wnętrza i cykl sceny
@@ -158,10 +170,9 @@ Nowe wyniki zapisują się do `docs/zmiany/<data UTC>/qa/benchmark/`;
 `KI_QA_OUTPUT_DIR` pozwala wskazać katalog konkretnego przebiegu.
 Nie nadpisywać historycznego pomiaru `pre-gpu` nową sesją.
 
-## Konta, zapisy w chmurze i panel administracyjny (26.10.2026)
+## Historyczny model kont i zapisów Supabase (26.10.2026; zastąpiony przez #69 i #76–77)
 
-Decyzja właściciela 26.10.2026: konta graczy i panel administratora/game mastera.
-Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce, jak wcześniej.
+Poniższa sekcja dokumentuje dawny model i kontrolę migracji. Nie stosować jej jako instrukcji aktywnego logowania/zapisu: produkcyjne konta i postacie znajdują się na VPS/PostgreSQL, a sesja online wymaga logowania.
 
 - Baza: [docs/db/2026-10-26-accounts.sql](db/2026-10-26-accounts.sql), zastosowana w bazie kont Supabase.
   Tabele `profiles`, `user_roles` (`admin`, `gm`), `characters` (kopia kluczy zapisu gry), `admin_audit`.
