@@ -8,7 +8,26 @@ import { expect } from "@playwright/test";
 export { expect };
 export type { Page, CDPSession } from "@playwright/test";
 /** Attach failures without modifying the game or assuming a browser failure proves a game bug. */
-export const test = base.extend<{ diagnostics: void; legacyWorld: void }>({
+export const test = base.extend<{ diagnostics: void; legacyWorld: void; fullScaleHud: void }>({
+  /**
+   * The HUD is smaller by default on a landscape phone (settings: "Rozmiar interfejsu"). Specs measure
+   * the 100 % layout (44 px touch targets), so they start with that scale unless they set their own.
+   */
+  fullScaleHud: [
+    async ({ page }, use) => {
+      await page.addInitScript(() => {
+        try {
+          const key = "ki-legends:ui-preferences:v1";
+          if (!localStorage.getItem(key))
+            localStorage.setItem(key, JSON.stringify({ version: 1, uiScale: 1 }));
+        } catch {
+          /* storage may be blocked */
+        }
+      });
+      await use();
+    },
+    { auto: true },
+  ],
   /**
    * World v2 became the default world on 26.10.2026. Specs written for the original world keep it
    * through `?ki-world-v1=1`; a spec that names `ki-world-v2` in its URL plays the new world.
