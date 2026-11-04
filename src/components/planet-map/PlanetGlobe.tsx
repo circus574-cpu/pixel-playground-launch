@@ -139,7 +139,10 @@ const noRaycast = () => null;
 
 function configure(tex: THREE.Texture, gl: THREE.WebGLRenderer, srgb: boolean) {
   tex.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
-  tex.anisotropy = Math.min(8, gl.capabilities.getMaxAnisotropy());
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  tex.anisotropy = Math.max(8, gl.capabilities.getMaxAnisotropy());
   tex.needsUpdate = true;
   return tex;
 }
@@ -405,6 +408,9 @@ function Planet({
     cloudsUrl,
   ]) as [THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture];
   const cloudRef = useRef<THREE.Mesh>(null);
+  const rimRef = useRef<THREE.Mesh>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
+  const camera = useThree((s) => s.camera);
   const hoverId = useRef<string | null>(null);
 
   const material = useMemo(() => {
@@ -470,7 +476,8 @@ function Planet({
 
   // Sharper colour for large screens once the first frame is up.
   useEffect(() => {
-    if (!quality.hiResColor) return;
+    const canHiRes = quality.hiResColor || gl.capabilities.maxTextureSize >= 3840;
+    if (!canHiRes) return;
     let alive = true;
     let hi: THREE.Texture | null = null;
     const timer = setTimeout(() => {
@@ -481,10 +488,11 @@ function Planet({
           if (!alive) return tex.dispose();
           hi = configure(tex, gl, true);
           material.map = hi;
+          material.needsUpdate = true;
           invalidate();
         })
         .catch(() => undefined);
-    }, 350);
+    }, 80);
     return () => {
       alive = false;
       clearTimeout(timer);
@@ -494,6 +502,19 @@ function Planet({
 
   useFrame((_, dt) => {
     if (cloudRef.current && !reduced) cloudRef.current.rotation.y += Math.min(dt, 0.05) * 0.006;
+    const dist = camera.position.length();
+    const proximity = Math.max(0, Math.min(1, (dist - 1.05) / 0.5));
+    if (cloudRef.current) {
+      (cloudRef.current.material as THREE.MeshStandardMaterial).opacity =
+        0.02 + 0.38 * Math.pow(proximity, 1.4);
+    }
+    if (rimRef.current) {
+      rimRef.current.visible = proximity > 0.04;
+    }
+    if (haloRef.current) {
+      haloRef.current.visible = proximity > 0.12;
+    }
+    material.bumpScale = 0.5 + 1.7 * proximity;
   });
 
   const pointAt = (e: ThreeEvent<PointerEvent | MouseEvent>): Point | null =>
@@ -530,10 +551,10 @@ function Planet({
       <mesh ref={cloudRef} material={cloudMaterial} raycast={noRaycast} renderOrder={1}>
         <sphereGeometry args={[1.011, segs, segs / 2]} />
       </mesh>
-      <mesh material={rim} raycast={noRaycast} renderOrder={2}>
+      <mesh ref={rimRef} material={rim} raycast={noRaycast} renderOrder={2}>
         <sphereGeometry args={[1.016, segs, segs / 2]} />
       </mesh>
-      <mesh material={halo} raycast={noRaycast} scale={1.13}>
+      <mesh ref={haloRef} material={halo} raycast={noRaycast} scale={1.13}>
         <sphereGeometry args={[1, 64, 32]} />
       </mesh>
     </group>
@@ -689,6 +710,7 @@ function MarkerProjector({ els }: { els: MutableRefObject<Map<string, HTMLElemen
   useFrame(() => {
     camera.updateMatrixWorld();
     const cam: Vec3 = [camera.position.x, camera.position.y, camera.position.z];
+    const camDist = camera.position.length();
     for (const m of MARKERS) {
       const el = els.current.get(m.id);
       if (!el) continue;
@@ -696,8 +718,11 @@ function MarkerProjector({ els }: { els: MutableRefObject<Map<string, HTMLElemen
       v.set(...m.pos).project(camera);
       const x = (v.x * 0.5 + 0.5) * size.width;
       const y = (-v.y * 0.5 + 0.5) * size.height;
-      el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -50%) scale(${(0.82 + 0.18 * fade).toFixed(3)})`;
-      el.style.opacity = fade.toFixed(3);
+      const isZone = el.classList.contains("pg-zone");
+      const closeScale = !isZone && camDist < 1.4 ? Math.max(0.65, (camDist - 1.0) / 0.4) : 1;
+      const scale = (isZone ? 0.95 : (0.82 + 0.18 * fade) * closeScale).toFixed(3);
+      el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -50%) scale(${scale})`;
+      el.style.opacity = (fade * (isZone ? 1 : closeScale)).toFixed(3);
       const visible = fade > 0.25;
       if (shown.current.get(m.id) !== visible) {
         shown.current.set(m.id, visible);
@@ -839,7 +864,7 @@ export default function PlanetGlobe({
           frameloop="demand"
           dpr={[1, quality.maxDpr]}
           gl={{ antialias: quality.antialias, alpha: true, powerPreference: "high-performance" }}
-          camera={{ fov: 38, near: 0.05, far: 60, position: [0, 0, 4] }}
+          camera={{ fov: 38, near: 0.005, far: 60, position: [0, 0, 4] }}
           onCreated={({ gl, scene, camera }) => {
             // Dev-only QA hook for browser checks; never present in production builds.
             if (import.meta.env.DEV) {

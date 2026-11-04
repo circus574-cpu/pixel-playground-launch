@@ -13,7 +13,7 @@ export type Vec3 = [number, number, number];
 
 /** Camera limits, as distances from the planet centre (planet radius = 1). */
 export const CAMERA = {
-  min: 1.4,
+  min: 1.05,
   /** How far beyond the fitted opening distance the user may zoom out. */
   maxFactor: 1.3,
   /** Share of the shorter screen side the planet fills at the opening view. */
@@ -115,7 +115,7 @@ export function maxDistance(aspect: number) {
 }
 
 export function focusDistance(region: MapRegion, aspect: number) {
-  const k = region.kind === "island" ? 0.34 : 0.56;
+  const k = region.kind === "island" ? 0.16 : 0.32;
   return 1 + (fitDistance(aspect) - 1) * k;
 }
 

@@ -35,3 +35,11 @@
   - **Kustosz Skarbca (`keeper`):** Dodano bezpośrednie otwarcie depozytu (`this.depotOpen = true`) prosto z okna dialogowego.
   - **Strażnik Bossa (`warden`):** Wprowadzono rolę `warden` z raportem taktycznym o słabościach i fazach bossa oraz przyciskiem otwarcia bramy leża (`action: "boss_enter"`).
   - **Obsadzenie świata:** Wprowadzono Alchemika i Strażnika Bossa do wszystkich 4 krain (`verdantia.ts`, `aether.json`, `nexus.json`, `pyra.json`), z zachowaniem 100% osiągalności i testów kolizji. Utworzono dedykowany zestaw testów regresyjnych `src/test/npc-systems.test.ts` (5/5 PASS).
+
+### 8. Płynne, głębokie przybliżanie globusa i łapanie ostrości świata (Globus 3D `/mapa`)
+- **Problem:** Globus 3D miał sztywny limit kamery `CAMERA.min = 1.4` (promień globu to 1.0), co zatrzymywało przybliżanie na odległości 0.4 jednostki w orbicie i uniemożliwiało realne zejście kamery do powierzchni kontynentów. Ponadto przy zbliżaniu chmury (krycie 0.4) i poświata atmosferyczna zamazywały widok lądów, bump-mapa powodowała ziarnisty cień, a tekstura 3840x1920 nie była rebind-owana w Three.js przez brak flagi `needsUpdate = true`.
+- **Rozwiązanie:**
+  - **Głębokie przybliżenie powierzchni:** Zmniejszono `CAMERA.min` z `1.4` na `1.05`, a `near` kamery obniżono z `0.05` do `0.005` (brak obcinania geometrii). Kamera płynnie schodzi tuż nad powierzchnię kontynentów (powiększenie sięga ponad 270%), z automatycznym spowolnieniem obrotu dla precyzyjnej nawigacji.
+  - **Dynamiczne rozpraszanie chmur i poświaty:** Wraz ze zbliżaniem kamery do ziemi (poniżej orbity 1.55) krycie chmur płynnie zanika z 0.4 do 0.02, a krawędziowy blask atmosferyczny i halo wyłączają się, odsłaniając krystalicznie czystą powierzchnię lądu.
+  - **Maksymalna ostrość tekstury (4K / Mipmapping / Anizotropia 16x):** W `configure()` włączono generowanie mipmap `LinearMipmapLinearFilter`, filtrowanie anizotropowe podniesiono do limitu sprzętowego GPU (16x), zoptymalizowano podmianę na teksturę 3840 px z flagą `material.needsUpdate = true`, a skalę reliefu `bumpScale` wygładzono przy powierzchni (z 2.2 do 0.5), eliminując artefakty cieniowania.
+  - **Czytelność etykiet i szlaków:** Przy dużym zbliżeniu duże odznaki kontynentalne delikatnie zmniejszają skalę, a złote linie dróg i punkty miast stają się wiodącym, ostrym elementem krajobrazu.
