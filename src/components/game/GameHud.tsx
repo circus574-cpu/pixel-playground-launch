@@ -114,6 +114,9 @@ const iconNames = [
   "Umiejętności",
 ];
 const POTION_COOLDOWN = POTION.cooldown;
+/** Painted icon of a racial resource bar (Żar of the Legends, Ładunek Rdzenia of the Androids). */
+const resourceIcon = (label: string) =>
+  gpuIcon(label === "Żar" ? "hud-zar" : label === "Ładunek Rdzenia" ? "hud-rdzen" : "");
 const STATUS_NAMES: Record<string, string> = {
   slow: "Spowolnienie",
   root: "Unieruchomienie",
@@ -230,6 +233,22 @@ export function GameHud({
   onStaffTeleport,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
+  // The minimap can be folded into one small icon (owner proposal 04.11.2026); the choice is remembered per browser.
+  const [mapHidden, setMapHidden] = useState(() => {
+    try {
+      return localStorage.getItem("ki-minimap-hidden") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const hideMap = (hidden: boolean) => {
+    setMapHidden(hidden);
+    try {
+      localStorage.setItem("ki-minimap-hidden", hidden ? "1" : "0");
+    } catch {
+      /* private mode: the choice just is not remembered */
+    }
+  };
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -553,6 +572,9 @@ export function GameHud({
           >
             <i style={{ width: (player.hp / state.stats.maxHp) * 100 + "%" }} />
             <span>
+              {gpuIcon("hud-hp") && (
+                <img className="ki-gpu-meter" src={gpuIcon("hud-hp")} alt="" aria-hidden />
+              )}
               {Math.ceil(player.hp)} / {state.stats.maxHp}
             </span>
           </div>
@@ -566,6 +588,9 @@ export function GameHud({
           >
             <i style={{ width: (player.ki / state.stats.maxKi) * 100 + "%" }} />
             <span>
+              {gpuIcon("hud-ki") && (
+                <img className="ki-gpu-meter" src={gpuIcon("hud-ki")} alt="" aria-hidden />
+              )}
               {Math.floor(player.ki)} / {state.stats.maxKi}
             </span>
           </div>
@@ -588,6 +613,14 @@ export function GameHud({
             >
               <i style={{ width: (state.resource.value / state.resource.max) * 100 + "%" }} />
               <span>
+                {resourceIcon(state.resource.label) && (
+                  <img
+                    className="ki-gpu-meter"
+                    src={resourceIcon(state.resource.label)}
+                    alt=""
+                    aria-hidden
+                  />
+                )}
                 {state.resource.label} {state.resource.value}
                 {state.resource.state === "overheat" ? " · PRZEGRZANIE" : ""}
               </span>
@@ -596,12 +629,25 @@ export function GameHud({
           {(state.statuses.length > 0 || state.buffs.length > 0 || state.shieldPoints > 0) && (
             <div className="ki-status-strip" aria-label="Efekty">
               {state.shieldPoints > 0 && (
-                <span className="ki-status-chip is-buff">Tarcza {state.shieldPoints}</span>
+                <span className="ki-status-chip is-buff">
+                  {gpuIcon("hud-shield") && (
+                    <img className="ki-gpu-status" src={gpuIcon("hud-shield")} alt="" aria-hidden />
+                  )}
+                  Tarcza {state.shieldPoints}
+                </span>
               )}
               {state.buffs
                 .filter((b) => !b.id.startsWith("fx-") && b.id !== "dodge")
                 .map((b) => (
                   <span key={b.id} className="ki-status-chip is-buff">
+                    {gpuIcon("buff-" + b.id) && (
+                      <img
+                        className="ki-gpu-status"
+                        src={gpuIcon("buff-" + b.id)}
+                        alt=""
+                        aria-hidden
+                      />
+                    )}
                     {b.id} · {(b.ms / 1000).toFixed(0)} s
                   </span>
                 ))}
@@ -660,53 +706,72 @@ export function GameHud({
           style={buttonStyle(preferences.controls, "gm", hudScale)}
         />
       )}
-      <section
-        className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
-        aria-label="Minimapa"
-      >
-        <div className="ki-map-title" title={world.settlement}>
-          <span className="ki-dot" />
-          {world.settlement}
-        </div>
+      {mapHidden ? (
         <button
-          className="ki-map-image"
-          aria-label="Otwórz mapę świata"
-          onClick={() => {
-            // World v2: the minimap opens the flat continent map centred on the player.
-            setMapFocus(
-              WORLD_V2 && !state.building && !player.interior
-                ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
-                : undefined,
-            );
-            toggle(WORLD_V2 ? "planet" : "map");
-          }}
+          type="button"
+          className="ki-map-collapsed ki-frame"
+          aria-label="Pokaż minimapę"
+          onClick={() => hideMap(false)}
         >
-          {WORLD_V2 && !state.building ? (
-            <V2Minimap
-              land={state.player.continent}
-              at={{ x: state.x, y: state.y }}
-              projects={state.heritageProjects}
-            />
-          ) : (
-            <LocalMinimap
-              world={world}
-              at={state.building?.door ?? { x: state.x, y: state.y }}
-              inside={!!state.building}
-              projects={state.heritageProjects}
-            />
-          )}
-          {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
+          {gpuIcon("hud-map") ? <img src={gpuIcon("hud-map")} alt="" aria-hidden /> : "Mapa"}
         </button>
-        <div className="ki-map-footer">
-          <span>{world.name.toUpperCase()}</span>
+      ) : (
+        <section
+          className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
+          aria-label="Minimapa"
+        >
+          <div className="ki-map-title" title={world.settlement}>
+            <span className="ki-dot" />
+            {world.settlement}
+            <button
+              type="button"
+              className="ki-map-collapse"
+              aria-label="Ukryj minimapę"
+              onClick={() => hideMap(true)}
+            >
+              ×
+            </button>
+          </div>
           <button
-            onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
-            aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
+            className="ki-map-image"
+            aria-label="Otwórz mapę świata"
+            onClick={() => {
+              // World v2: the minimap opens the flat continent map centred on the player.
+              setMapFocus(
+                WORLD_V2 && !state.building && !player.interior
+                  ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
+                  : undefined,
+              );
+              toggle(WORLD_V2 ? "planet" : "map");
+            }}
           >
-            {preferences.largeMinimap ? "−" : "+"}
+            {WORLD_V2 && !state.building ? (
+              <V2Minimap
+                land={state.player.continent}
+                at={{ x: state.x, y: state.y }}
+                projects={state.heritageProjects}
+              />
+            ) : (
+              <LocalMinimap
+                world={world}
+                at={state.building?.door ?? { x: state.x, y: state.y }}
+                inside={!!state.building}
+                projects={state.heritageProjects}
+              />
+            )}
+            {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
           </button>
-        </div>
-      </section>
+          <div className="ki-map-footer">
+            <span>{world.name.toUpperCase()}</span>
+            <button
+              onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
+              aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
+            >
+              {preferences.largeMinimap ? "−" : "+"}
+            </button>
+          </div>
+        </section>
+      )}
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
         {state.heritageActivity ? (
