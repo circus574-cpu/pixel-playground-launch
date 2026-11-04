@@ -1,0 +1,58 @@
+{
+ "world": "nexus-9",
+ "date": "2026-11-04",
+ "model": "gpt-image-1-mini",
+ "quality": "medium",
+ "promptSource": "art/pipeline/prompts/world/WNETRZA-v2-Nexus-9.md",
+ "status": "wygenerowane 04.11.2026 tym samym promptem v2, który właściciel zaakceptował dla Pyry; surowe obrazy, jeszcze nie przycięte do proporcji gry ani wdrożone do klienta, bez odbioru artystycznego właściciela",
+ "images": [
+  {
+   "file": "nexus-hall-interior.png",
+   "prompt": "nexus-hall-interior.prompt.txt",
+   "title": "Centrum Synchronizacji",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "9461d01f366209f991cebf582ae0b5139391cc777dd721431b9df5c8deaa4db1"
+  },
+  {
+   "file": "nexus-shop-interior.png",
+   "prompt": "nexus-shop-interior.prompt.txt",
+   "title": "Węzeł Wymiany",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "feea5de8f7dc885d0b76343d123dc296db86c30033a5e14571944c526c97585b"
+  },
+  {
+   "file": "nexus-inn-interior.png",
+   "prompt": "nexus-inn-interior.prompt.txt",
+   "title": "Moduł Regeneracji",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "68a73133b27a5f4c2f2c179320d449266fedf460eeadcd0b4f1e0c5ebeb4c7c4"
+  },
+  {
+   "file": "nexus-smithy-interior.png",
+   "prompt": "nexus-smithy-interior.prompt.txt",
+   "title": "Warsztat Uzbrojenia",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "d6446901ff57a24557490be23f761f26241e7051ca3b050dad85dce0e765ae18"
+  },
+  {
+   "file": "nexus-depot-interior.png",
+   "prompt": "nexus-depot-interior.prompt.txt",
+   "title": "Magazyn Rdzeni",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "b343ff651d7d45c3f8528f3974b38036f8cc19641f911c24efc6f6bfc80298c7"
+  },
+  {
+   "file": "nexus-arena-interior.png",
+   "prompt": "nexus-arena-interior.prompt.txt",
+   "title": "Komora Kalibracji Bojowej",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "bf5748a4cbac89d318eac70bccedd999331a0779dc9fac9fbab316766acc900b"
+  }
+ ]
+}

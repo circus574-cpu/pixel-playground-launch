@@ -1,0 +1,58 @@
+{
+ "world": "aetheria",
+ "date": "2026-11-04",
+ "model": "gpt-image-1-mini",
+ "quality": "medium",
+ "promptSource": "art/pipeline/prompts/world/WNETRZA-v2-Aetheria.md",
+ "status": "wygenerowane 04.11.2026 tym samym promptem v2, który właściciel zaakceptował dla Pyry; surowe obrazy, jeszcze nie przycięte do proporcji gry ani wdrożone do klienta, bez odbioru artystycznego właściciela",
+ "images": [
+  {
+   "file": "aether-hall-interior.png",
+   "prompt": "aether-hall-interior.prompt.txt",
+   "title": "Sala Rady Źródeł",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "a9e317b58f7251504002362b2776110012e265ebf4152272d0adbb08483b40e7"
+  },
+  {
+   "file": "aether-shop-interior.png",
+   "prompt": "aether-shop-interior.prompt.txt",
+   "title": "Pawilon Wymiany",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "c86d0916ea2ce5a35957035f3209b626e42f3b28410496452f36e49198ba2c68"
+  },
+  {
+   "file": "aether-inn-interior.png",
+   "prompt": "aether-inn-interior.prompt.txt",
+   "title": "Herbaciarnia Cichych Wód",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "315398715fe426de4aff5927ff90cf3aecaa6d463dd8f12d2b45a67c938f5b0e"
+  },
+  {
+   "file": "aether-smithy-interior.png",
+   "prompt": "aether-smithy-interior.prompt.txt",
+   "title": "Warsztat Pieczęci",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "e726531425e3014adc2576576dd6b05d7ebbe03b55f3d220436d6f9270bae105"
+  },
+  {
+   "file": "aether-depot-interior.png",
+   "prompt": "aether-depot-interior.prompt.txt",
+   "title": "Skarbiec Zwojów",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "645e6d2e50b632ef3301c0e1573546d04abee81e2c58d2f100e55fb77802d15e"
+  },
+  {
+   "file": "aether-arena-interior.png",
+   "prompt": "aether-arena-interior.prompt.txt",
+   "title": "Dziedziniec Skupienia",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "93da9a3ecf70e75fec9b9251a8b69bdfd30424ef1cd3aacf197ed1f0fd8ecc68"
+  }
+ ]
+}

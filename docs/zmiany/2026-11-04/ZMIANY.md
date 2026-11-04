@@ -95,3 +95,11 @@
   (`manifest.json`). Właściciel zaakceptował je 04.11.2026.
 - Obrazy są surowe: 1536×1024 (kuźnia 1024×1536), jeszcze nie przycięte do proporcji pokoju w grze (960:760, kuźnia 540:1100)
   i nie wdrożone do klienta. Prompty v2 zastępują wersję v1 (`WNETRZA-*` ze starego kadru izometrycznego).
+
+## Wnętrza budynków: Verdantia, Aetheria, Nexus-9 (do odbioru)
+
+- Po akceptacji wnętrz Pyry wygenerowano pozostałe 18 tym samym promptem v2 i ustawieniami (`gpt-image-1-mini`, medium,
+  1536×1024). Surowe PNG, prompty i SHA-256 w `art/production/interiors/{verdantia,aetheria,nexus-9}/`. Sześć na rasę:
+  sala, sklep, gospoda, kuźnia, skarbiec, trening.
+- To próbki bez odbioru właściciela (akceptacja dotyczyła tylko Pyry), nieprzycięte do 960:760 i niewdrożone do klienta.
+  Znane wady wspólne z Pyrą: lekko skośne ściany boczne, w części obrazów brak wyraźnego progu drzwi, kadr 3:2.

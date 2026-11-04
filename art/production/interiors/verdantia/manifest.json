@@ -1,0 +1,58 @@
+{
+ "world": "verdantia",
+ "date": "2026-11-04",
+ "model": "gpt-image-1-mini",
+ "quality": "medium",
+ "promptSource": "art/pipeline/prompts/world/WNETRZA-v2-Verdantia.md",
+ "status": "wygenerowane 04.11.2026 tym samym promptem v2, który właściciel zaakceptował dla Pyry; surowe obrazy, jeszcze nie przycięte do proporcji gry ani wdrożone do klienta, bez odbioru artystycznego właściciela",
+ "images": [
+  {
+   "file": "verdant-hall-interior.png",
+   "prompt": "verdant-hall-interior.prompt.txt",
+   "title": "Dom Zgromadzeń",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "57ecf3df5da7ae24608e372a82bb42166e14085e2f6d47332b8068ad01154f36"
+  },
+  {
+   "file": "verdant-shop-interior.png",
+   "prompt": "verdant-shop-interior.prompt.txt",
+   "title": "Dom Handlowy Mio",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "55f051125225ddd45feddff0eb9762b23e0bd2166613e0e5a25fbe230d79bcb6"
+  },
+  {
+   "file": "verdant-inn-interior.png",
+   "prompt": "verdant-inn-interior.prompt.txt",
+   "title": "Gospoda pod Liściem",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "7af20c55cb1b82294b7e6140bc5d7c74be0a45a002625d119663ff094d56685d"
+  },
+  {
+   "file": "verdant-smithy-interior.png",
+   "prompt": "verdant-smithy-interior.prompt.txt",
+   "title": "Kuźnia Taro",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "1416790ab74bcbaa269c21bfb4f8afd5fd41bcd6359c0838f718f3066ba2a95a"
+  },
+  {
+   "file": "verdant-depot-interior.png",
+   "prompt": "verdant-depot-interior.prompt.txt",
+   "title": "Depozyt Korzeni",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "eb61fb1c95b775a64a273300f63b6cbbd788776ad8b852d14303dd7bf78dc5b5"
+  },
+  {
+   "file": "verdant-arena-interior.png",
+   "prompt": "verdant-arena-interior.prompt.txt",
+   "title": "Dom Treningu",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "59c34a80122d4115ca38b1994dc9e5d21c0c77abb5a43c704ed73ca42fb250c6"
+  }
+ ]
+}
