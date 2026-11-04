@@ -8,6 +8,8 @@ export type TrialPuzzle = {
   options: { id: string; label: string }[];
   answer: string;
   modules?: { count: number; budget: number; required: string[] };
+  pack?: { count: number };
+  allocation?: { total: number; demands: readonly [number, number] };
 };
 export type PublicPuzzle = Omit<TrialPuzzle, "answer">;
 const MODULE_ROLES: Record<ModuleId, readonly string[]> = {
@@ -55,9 +57,85 @@ export function moduleSolutionValid(puzzle: TrialPuzzle, ids: ModuleId[]) {
     rule.required.every((role) => ids.some((id) => MODULE_ROLES[id].includes(role)))
   );
 }
+/** Set and allocation answers fit the existing bounded answerId transport; no client verdicts. */
+export function packAnswerValid(puzzle: TrialPuzzle, value: string) {
+  const ids = value.split(",");
+  return (
+    !!puzzle.pack &&
+    ids.length === puzzle.pack.count &&
+    new Set(ids).size === ids.length &&
+    ids.every((id) => puzzle.options.some((o) => o.id === id)) &&
+    [...ids].sort().join(",") === puzzle.answer
+  );
+}
+export function allocationAnswerValid(puzzle: TrialPuzzle, value: string) {
+  const rule = puzzle.allocation;
+  if (!rule || !/^\d+,\d+$/.test(value)) return false;
+  const parts = value.split(",").map(Number);
+  const a = parts[0]!,
+    b = parts[1]!;
+  return (
+    Number.isSafeInteger(a) &&
+    Number.isSafeInteger(b) &&
+    a >= 0 &&
+    b >= 0 &&
+    a + b === rule.total &&
+    a >= rule.demands[0] &&
+    b >= rule.demands[1]
+  );
+}
 /** Training records are explicit exercises, not new claims about the campaign's history. */
 export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle[] {
   const count = def.targets[tier - 1]!;
+  if (def.kind === "supplies") {
+    const entries = [
+      ["Liść opatrunkowy", "opatrunek"],
+      ["Owoc podróżny", "energia"],
+      ["Korzeń rozgrzewający", "ciepło"],
+      ["Żywica uszczelniająca", "naprawa bukłaka"],
+      ["Zioło przeciw ukąszeniom", "ukąszenia"],
+      ["Gorzki kwiat", "barwnik"],
+      ["Sucha kora", "ozdoba"],
+    ] as const;
+    const required = entries.slice(0, count);
+    return [
+      {
+        prompt: `Przygotuj zestaw ${count} składników. Potrzeby: ${required.map((e) => e[1]).join(", ")}.`,
+        documents: [
+          {
+            title: "Karta składników wypożyczonych",
+            text:
+              entries.map(([n, role]) => `${n}: ${role}`).join("; ") +
+              ". Wybierz dokładnie po jednym składniku na każdą potrzebę; dodatki nie są potrzebne.",
+          },
+        ],
+        options: entries.map(([label]) => ({ id: optionId(label), label })),
+        answer: required
+          .map(([label]) => optionId(label))
+          .sort()
+          .join(","),
+        pack: { count },
+      },
+    ];
+  }
+  if (def.kind === "water-allocation") {
+    const a = count / 2 - 1,
+      b = count - a;
+    return [
+      {
+        prompt: `Rozdziel ${count} jednostek przepływu pomiędzy dwie osady.`,
+        documents: [
+          {
+            title: "Zapotrzebowanie osad",
+            text: `Osada nad Brzegiem potrzebuje co najmniej ${a} jednostek. Osada pod Lasem potrzebuje co najmniej ${b} jednostek. Dostępne: ${count}. Rozdziel całość; nie można stworzyć dodatkowej wody.`,
+          },
+        ],
+        options: [],
+        answer: `${a},${b}`,
+        allocation: { total: count, demands: [a, b] },
+      },
+    ];
+  }
   if (def.kind === "modules") {
     const rules = [
       { count, budget: 6, required: ["badanie", "celowanie"] },

@@ -163,7 +163,7 @@ it("server disposal discards an unfinished loan without changing its character",
   expect(s.session.player).toEqual(before);
 });
 
-it.each(["TV01", "TV02", "TV03"] as const)(
+it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09"] as const)(
   "server authoritatively completes %s and restores only the owned grade",
   async (id) => {
     const { record, simulation: s } = await fixture("planetary");
@@ -178,7 +178,7 @@ it.each(["TV01", "TV02", "TV03"] as const)(
       action("accept");
       expect(s.session.player).toEqual(before);
       action("ready");
-      if (id === "TV02") {
+      if (["TV02", "TV07", "TV08"].includes(id)) {
         const puzzles = trialPuzzles(a.definition, 1);
         for (let i = 0; i < puzzles.length; i++) {
           const target = a.currentPoint!;
@@ -192,6 +192,17 @@ it.each(["TV01", "TV02", "TV03"] as const)(
             round: i,
             answerId: puzzles[i]!.answer,
           });
+        }
+      } else if (id === "TV09") {
+        let previous = "";
+        for (let i = 0; i < 3000 && a.snapshot().outcome === "running"; i++) {
+          const point = a.currentPoint!;
+          const key = `${point.x},${point.y}`;
+          if (key !== previous) {
+            previous = key;
+            input({ type: "move", ...point });
+          }
+          await s.tick(50);
         }
       } else {
         let last = -1,

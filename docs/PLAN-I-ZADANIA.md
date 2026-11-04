@@ -1,6 +1,20 @@
 # KI Legends — aktualny plan i zadania
 
-## Najnowsza partia — Szlaki Planetarnych
+## Najnowsza partia — Opieka Planetarnych, 04.11
+
+PR #90: TV07 Zapas dla wyprawy, TV08 Źródło dla dwóch osad, TV09 Ostatni obóz,
+każda w trzech stopniach. Opieka II odblokowuje istniejący `mv-root`.
+Łącznie **21/48 prób i 63/144 stopni**, Planetarni **12/12 prób**.
+To komplet prób tej rasy, nie komplet jej rozwoju. Pozostaje **27 prób / 81 stopni**
+pozostałych ras, sześć wariantów i trzy moduły, interakcje dziedzin w świecie,
+późne starcia, tytuły oraz pełny graf, budżet i odbiór kampanii.
+Planetarni mają 5400 praktyki z prób; teoretyczna suma katalogowa wynosi 17 800,
+ale wymaga jeszcze potwierdzenia osiągalności w całym przebiegu kampanii.
+[Zakres i dowody](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+Gałąź robocza bez scalenia i publikacji. Poniższe checkpointy opisują historię.
+
+
+## Poprzednia partia — Szlaki Planetarnych
 
 PR #90 rozbudowano o TV01/TV02/TV03 i `mv-trail` po II stopniu Szlaków.
 Łącznie **18/48 prób, 54/144 stopni**. Pozostaje 30 prób / 90 stopni, siedem

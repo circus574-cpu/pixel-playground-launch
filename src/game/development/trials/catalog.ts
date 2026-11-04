@@ -7,6 +7,9 @@ export const TRIAL_IDS = [
   "TV04",
   "TV05",
   "TV06",
+  "TV07",
+  "TV08",
+  "TV09",
   "TV10",
   "TV11",
   "TV12",
@@ -23,6 +26,9 @@ export const TRIAL_IDS = [
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "supplies"
+  | "water-allocation"
+  | "camp"
   | "wind-route"
   | "tracks"
   | "messenger"
@@ -41,7 +47,7 @@ export type TrialKind =
   | "counter"
   | "restraint"
   | "position";
-export type DomainId = "trails" | "earth" | "memory" | "seals" | "construction" | "duel";
+export type DomainId = "care" | "trails" | "earth" | "memory" | "seals" | "construction" | "duel";
 export type TrialDefinition = {
   id: TrialId;
   race: RaceId;
@@ -54,6 +60,33 @@ export type TrialDefinition = {
 };
 // Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TV07",
+    race: "planetary",
+    domain: "care",
+    name: "Zapas dla wyprawy",
+    kind: "supplies",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TV08",
+    race: "planetary",
+    domain: "care",
+    name: "Źródło dla dwóch osad",
+    kind: "water-allocation",
+    targets: [4, 6, 8],
+    maxErrors: 0,
+  },
+  {
+    id: "TV09",
+    race: "planetary",
+    domain: "care",
+    name: "Ostatni obóz",
+    kind: "camp",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
   {
     id: "TV01",
     race: "planetary",
@@ -219,6 +252,7 @@ export const TRIALS: readonly TrialDefinition[] = [
   },
 ];
 export const DOMAIN_NAMES: Record<DomainId, string> = {
+  care: "Opieka",
   trails: "Szlaki",
   earth: "Żywa Ziemia",
   memory: "Pamięć Korzeni",

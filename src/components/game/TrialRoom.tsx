@@ -30,6 +30,8 @@ export function TrialRoom({
   const [mountVersion, setMountVersion] = useState(0);
   const [zoom, setZoom] = useState(0.62);
   const [modules, setModules] = useState<ModuleId[]>([]);
+  const [pack, setPack] = useState<string[]>([]);
+  const [allocation, setAllocation] = useState<[number, number]>([0, 0]);
   const pauseReasons = useRef(new Set<string>());
   const pause = useCallback(
     (reason: string, value: boolean) => {
@@ -101,7 +103,11 @@ export function TrialRoom({
     }
   }, [attempt, loading?.phase]);
   const result = attempt.snapshot();
-  useEffect(() => setModules([]), [attempt.instanceId, result.round]);
+  useEffect(() => {
+    setModules([]);
+    setPack([]);
+    setAllocation([0, 0]);
+  }, [attempt.instanceId, result.round]);
   const puzzle = result.puzzle;
   return (
     <section
@@ -113,6 +119,8 @@ export function TrialRoom({
       data-trial-phase={result.phase}
       data-trial-round={result.round}
       data-trial-successes={result.successes}
+      data-camp-remaining={result.camp?.remainingMs}
+      data-camp-guarded={result.camp?.guarded}
       data-companion-x={result.escort?.x}
       data-companion-y={result.escort?.y}
       data-companion-hp={result.escort?.hp}
@@ -186,7 +194,63 @@ export function TrialRoom({
               <p className="ki-trial-document">{doc.text}</p>
             </article>
           ))}
-          {puzzle.modules ? (
+          {puzzle.pack ? (
+            <fieldset>
+              <legend>Wybierz składniki zestawu</legend>
+              {puzzle.options.map((option) => (
+                <label className="ki-trial-module" key={option.id}>
+                  <input
+                    type="checkbox"
+                    checked={pack.includes(option.id)}
+                    onChange={(e) =>
+                      setPack((old) =>
+                        e.target.checked
+                          ? [...old, option.id]
+                          : old.filter((id) => id !== option.id),
+                      )
+                    }
+                  />
+                  {option.label}
+                </label>
+              ))}
+              <p>
+                Składniki: {pack.length}/{puzzle.pack.count}
+              </p>
+              <button onClick={() => attempt.answer(result.round, [...pack].sort().join(","))}>
+                Przygotuj zestaw
+              </button>
+            </fieldset>
+          ) : puzzle.allocation ? (
+            <fieldset>
+              <legend>Podział przepływu</legend>
+              {["Osada nad Brzegiem", "Osada pod Lasem"].map((name, i) => (
+                <label key={name}>
+                  {name}
+                  <input
+                    aria-label={name}
+                    type="number"
+                    min={0}
+                    max={puzzle.allocation!.total}
+                    step={1}
+                    value={allocation[i]}
+                    onChange={(e) =>
+                      setAllocation((old) =>
+                        i === 0
+                          ? [Number(e.target.value), old[1]]
+                          : [old[0], Number(e.target.value)],
+                      )
+                    }
+                  />
+                </label>
+              ))}
+              <p>
+                Rozdzielono: {allocation[0] + allocation[1]}/{puzzle.allocation.total}
+              </p>
+              <button onClick={() => attempt.answer(result.round, allocation.join(","))}>
+                Zatwierdź przepływ
+              </button>
+            </fieldset>
+          ) : puzzle.modules ? (
             <fieldset>
               <legend>Wybierz moduły wypożyczonego profilu</legend>
               {puzzle.options.map((option) => (

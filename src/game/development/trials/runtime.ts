@@ -57,6 +57,16 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
         next = now + 100;
         const result = attempt.snapshot();
         marks.clear();
+        if (result.camp) {
+          for (const p of result.camp.points) {
+            marks
+              .lineStyle(2, p.current ? 0xffdc8d : 0x78c9bc)
+              .strokeRect(p.x - 16, p.y - 16, 32, 32);
+          }
+          marks
+            .lineStyle(2, 0xd47f74, 0.7)
+            .strokeCircle(result.camp.origin.x, result.camp.origin.y, 12);
+        }
         for (const h of result.routeHazards)
           marks
             .lineStyle(3, 0xeb6666)

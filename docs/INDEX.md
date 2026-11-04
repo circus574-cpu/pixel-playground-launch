@@ -1,6 +1,11 @@
 # KI Legends — dokumentacja projektu
 
-**Najnowsza partia rozwoju — Szlaki Planetarnych:** TV01/TV02/TV03, ranga Szlaków
+**Najnowsza partia rozwoju — Opieka Planetarnych:** TV07/TV08/TV09 i
+odblokowanie `mv-root` po Opiece II. Katalog **21/48 prób, 63/144 stopni**;
+Planetarni mają komplet 12 prób, ale pełny rozwój nadal nie jest ukończony.
+[Zakres i kontrole](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+
+**Poprzednia partia rozwoju — Szlaki Planetarnych:** TV01/TV02/TV03, ranga Szlaków
 i odblokowanie `mv-trail`; katalog 18/48 prób, 54/144 stopni. Pełny rozwój pozostaje
 nieukończony. [Zakres i kontrole](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
 
@@ -52,6 +57,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
 - [2026-11-03](zmiany/2026-11-03/ZMIANY.md)
 - [2026-11-02](zmiany/2026-11-02/ZMIANY.md)
 

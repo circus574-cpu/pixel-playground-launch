@@ -78,10 +78,10 @@ test.describe("touch racial trial", () => {
   });
 });
 
-async function walkToStation(page: Page, touch: boolean) {
+async function walkToStation(page: Page, touch: boolean, target?: { x: number; y: number }) {
   const stage = page.locator(".ki-trial-stage");
-  const x = Number(await stage.getAttribute("data-trial-x"));
-  const y = Number(await stage.getAttribute("data-trial-y"));
+  const x = target?.x ?? Number(await stage.getAttribute("data-trial-x"));
+  const y = target?.y ?? Number(await stage.getAttribute("data-trial-y"));
   const canvas = stage.locator(".ki-canvas");
   const point = await canvas.evaluate(
     (el, target) => {
@@ -108,6 +108,9 @@ async function walkToStation(page: Page, touch: boolean) {
 }
 
 for (const [race, id, land] of [
+  ["Planetarni", "TV07", "verdant"],
+  ["Planetarni", "TV08", "verdant"],
+  ["Planetarni", "TV09", "verdant"],
   ["Planetarni", "TV10", "verdant"],
   ["Planetarni", "TV01", "verdant"],
   ["Planetarni", "TV02", "verdant"],
@@ -150,7 +153,30 @@ for (const [race, id, land] of [
         return metrics ? JSON.parse(metrics).renderer : null;
       })
       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
-    if (id === "TV01") {
+    if (id === "TV09") {
+      let previous = "";
+      const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+      for (let i = 0; i < 800 && !(await result.count()); i++) {
+        const point = await stage.evaluate((el) => {
+          const trialX = el.dataset["trialX"],
+            trialY = el.dataset["trialY"];
+          return trialX === undefined || trialY === undefined
+            ? null
+            : { x: Number(trialX), y: Number(trialY) };
+        });
+        // The result removes the objective. Do not turn absent coordinates into (0, 0).
+        if (!point) break;
+        const key = `${point.x},${point.y}`;
+        if (key !== previous) {
+          previous = key;
+          await walkToStation(page, false, point);
+          await expect(stage).toHaveAttribute("data-camp-guarded", "true");
+        }
+        await page.waitForTimeout(100);
+      }
+      expect(Number(await stage.getAttribute("data-camp-remaining"))).toBe(0);
+      expect(Number(await stage.getAttribute("data-trial-successes"))).toBe(2);
+    } else if (id === "TV01") {
       for (let i = 0; i < 4; i++) {
         await walkToStation(page, false);
         await expect
@@ -276,7 +302,13 @@ for (const [race, id, land] of [
         await expect(stage).toHaveAttribute("data-trial-phase", "hold");
       }
     } else {
-      const rounds = id === "TN08" ? 1 : id === "TV04" ? 2 : id === "TV06" ? 6 : 3;
+      const rounds = ["TN08", "TV07", "TV08"].includes(id)
+        ? 1
+        : id === "TV04"
+          ? 2
+          : id === "TV06"
+            ? 6
+            : 3;
       for (let i = 0; i < rounds; i++) {
         await walkToStation(page, false);
         await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
@@ -285,7 +317,29 @@ for (const [race, id, land] of [
         if (i === 0)
           await page.screenshot({ path: info.outputPath(`${land}-trial-materials.png`) });
         const text = await materials.locator(".ki-trial-document").allTextContents();
-        if (id === "TN08") {
+        if (id === "TV07") {
+          const heading = await materials.getByRole("heading", { level: 2 }).innerText();
+          const roles = heading.split("Potrzeby: ")[1]!.replace(/\.$/, "").split(", ");
+          const rows = text.join(" ").split(". Wybierz")[0]!.split("; ");
+          for (const role of roles) {
+            const name = rows.find((row) => row.endsWith(": " + role))!.split(": ")[0]!;
+            await materials.getByRole("checkbox", { name, exact: true }).check();
+          }
+          await page.screenshot({ path: info.outputPath("care-supplies-selected.png") });
+          await materials.getByRole("button", { name: "Przygotuj zestaw", exact: true }).click();
+        } else if (id === "TV08") {
+          const demands = [...text.join(" ").matchAll(/co najmniej (\d+) jednostek/g)].map(
+            (m) => m[1]!,
+          );
+          await materials
+            .getByRole("spinbutton", { name: "Osada nad Brzegiem", exact: true })
+            .fill(demands[0]!);
+          await materials
+            .getByRole("spinbutton", { name: "Osada pod Lasem", exact: true })
+            .fill(demands[1]!);
+          await page.screenshot({ path: info.outputPath("care-water-allocated.png") });
+          await materials.getByRole("button", { name: "Zatwierdź przepływ", exact: true }).click();
+        } else if (id === "TN08") {
           await materials
             .getByRole("checkbox", { name: "Skaner · 2 energii", exact: true })
             .check();

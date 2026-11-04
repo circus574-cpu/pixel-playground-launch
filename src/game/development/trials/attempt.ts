@@ -1,3 +1,4 @@
+import { CampTrial } from "./camp";
 import { EscortActivity } from "../heritage/escort";
 import { ProtectedActor } from "../heritage/protectedActor";
 import { loanSession } from "../loan";
@@ -7,7 +8,13 @@ import type { ExamResult } from "../exams";
 import type { PracticeTarget } from "../targets";
 import { RestraintActivity } from "../heritage/restraint";
 import { trialDefinition, type TrialId, type TrialTier } from "./catalog";
-import { publicPuzzle, trialPuzzles, moduleSolutionValid } from "./puzzles";
+import {
+  publicPuzzle,
+  trialPuzzles,
+  moduleSolutionValid,
+  packAnswerValid,
+  allocationAnswerValid,
+} from "./puzzles";
 import type { ModuleId } from "../state";
 
 export class TrialAttempt {
@@ -34,6 +41,7 @@ export class TrialAttempt {
   private danger: Point = { x: 0, y: 0 };
   private target: PracticeTarget | undefined;
   private restraint: RestraintActivity | undefined;
+  private camp: CampTrial | undefined;
   private escort: EscortActivity | undefined;
   private companion: ProtectedActor | undefined;
   private escortHazard: { x: number; y: number; until: number } | undefined;
@@ -79,9 +87,13 @@ export class TrialAttempt {
     p.ki = this.session.kit.stats.maxKi;
     const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
     this.puzzles =
-      physical || ["wind-route", "messenger"].includes(definition.kind)
+      physical || ["wind-route", "messenger", "camp"].includes(definition.kind)
         ? []
         : trialPuzzles(definition, tier);
+    if (definition.kind === "camp") {
+      this.camp = new CampTrial(this.session, tier);
+      this.phase = "camp";
+    }
     if (definition.kind === "wind-route") this.phase = "route";
     if (definition.kind === "messenger") {
       this.phase = "escort";
@@ -190,6 +202,12 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
+    if (k === "supplies")
+      return `Przygotuj cały zestaw ${this.targetCount} wypożyczonych składników według jawnych opisów. Nie dodawaj zbędnych elementów.`;
+    if (k === "water-allocation")
+      return `Rozdziel ${this.targetCount} jednostek wody pomiędzy obie osady zgodnie z zapotrzebowaniem. Nie używasz własnych zasobów.`;
+    if (k === "camp")
+      return `Utrzymaj ${this.targetCount} punkty przez ${this.camp!.duration / 1000} s. Co najwyżej 10 s na zajęcie następnej osłony. Stań w zielonym kręgu, za rzeczywistą przeszkodą względem czerwonego źródła zagrożenia. Samo czekanie bez zmiany punktu nie wystarcza.`;
     if (k === "wind-route")
       return `Przejdź kolejno ${this.targetCount} punktów w ${this.routeLimitMs / 1000} s. Maksymalnie dwa wejścia w czerwone zagrożenie; trzecie przerywa próbę. Stanie w środku nie nalicza kolejnych wejść.`;
     if (k === "messenger")
@@ -215,6 +233,7 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
+    if (this.camp) return this.camp.point;
     if (this.escort) return this.escort.nextTarget().point;
     if (this.definition.kind === "wind-route") return this.route[this.result.successes];
     if (this.puzzles.length)
@@ -262,18 +281,26 @@ export class TrialAttempt {
     if (!puzzle) return;
     const valid = puzzle.modules
       ? !!modules && moduleSolutionValid(puzzle, modules)
-      : !modules && answerId === puzzle.answer;
+      : !modules &&
+        (puzzle.pack
+          ? packAnswerValid(puzzle, answerId)
+          : puzzle.allocation
+            ? allocationAnswerValid(puzzle, answerId)
+            : answerId === puzzle.answer);
     if (!valid) {
       this.result.errors++;
       if (this.result.errors > this.definition.maxErrors)
         this.finish("failed", "Błędne rozwiązanie. Ponów próbę i sprawdź dostępne materiały.");
       return;
     }
-    this.result.successes += puzzle.modules
-      ? this.targetCount
-      : this.definition.kind === "contamination" && this.round % 2 === 0
-        ? 0
-        : 1;
+    this.result.successes +=
+      puzzle.pack || puzzle.allocation
+        ? this.targetCount
+        : puzzle.modules
+          ? this.targetCount
+          : this.definition.kind === "contamination" && this.round % 2 === 0
+            ? 0
+            : 1;
     this.round++;
     this.reading = false;
     this.checkEnd();
@@ -283,6 +310,7 @@ export class TrialAttempt {
     this.result.reason = reason;
     this.session.paused = true;
     this.session.practiceTargets.removeOwner(this.instanceId);
+    this.camp?.dispose();
     this.restraint?.dispose();
     this.escortHazard = undefined;
     this.escort?.dispose();
@@ -310,6 +338,16 @@ export class TrialAttempt {
         "failed",
         "Profil testowy poległ. Oryginalna postać nie utraciła zasobów.",
       );
+    if (this.camp) {
+      this.camp.update(this.result.activeMs);
+      const r = this.camp.snapshot();
+      this.result.successes = r.completed;
+      if (r.phase === "failed")
+        this.finish("failed", "Nie zabezpieczono punktu osłoną w wymaganym oknie.");
+      else if (r.phase === "passed")
+        this.finish("passed", "Obóz utrzymany przez wymagany czas. Zatwierdź wynik.");
+      return;
+    }
     if (this.definition.kind === "wind-route") {
       if (this.result.activeMs > this.routeLimitMs)
         return this.finish("failed", "Przekroczono limit czasu trasy.");
@@ -405,6 +443,9 @@ export class TrialAttempt {
   snapshot() {
     const r = this.restraint?.snapshot();
     const messages: Record<string, string> = {
+      camp: this.camp
+        ? `Pozostało ${Math.ceil(this.camp.snapshot().remainingMs / 1000)} s. Okno osłony ${Math.ceil(this.camp.snapshot().windowMs / 1000)} s. ${this.camp.snapshot().guarded ? "Punkt osłonięty; przygotuj się do kolejnego." : "Podejdź do zaznaczonej osłony."}`
+        : "",
       route: `Kolejny punkt ${this.result.successes + 1}/${this.targetCount}. Czas ${Math.ceil(Math.max(0, this.routeLimitMs - this.result.activeMs) / 1000)} s.`,
       escort: this.escort
         ? `${this.escort.snapshot().message} HP: ${this.companion?.body.hp ?? 0}%`
@@ -419,6 +460,7 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      camp: this.camp?.snapshot() ?? null,
       escort:
         this.escort && this.companion
           ? {

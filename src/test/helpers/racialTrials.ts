@@ -21,7 +21,18 @@ export function walkTrial(a: TrialAttempt, point: Point) {
 }
 export function completeTrial(a: TrialAttempt) {
   a.begin();
-  if (["wind-route", "messenger"].includes(a.definition.kind)) {
+  if (a.definition.kind === "camp") {
+    let last = "";
+    for (let n = 0; n < 5000 && a.snapshot().outcome === "running"; n++) {
+      const point = a.currentPoint!,
+        key = point.x + "," + point.y;
+      if (key !== last) {
+        last = key;
+        a.session.command({ type: "move", ...point });
+      }
+      tickTrial(a);
+    }
+  } else if (["wind-route", "messenger"].includes(a.definition.kind)) {
     let last = -1,
       leading = true;
     for (let n = 0; n < 12000 && a.snapshot().outcome === "running"; n++) {

@@ -1,5 +1,36 @@
 # KI Legends — rozwój i walka
 
+## Opieka Planetarnych — kontynuacja PR #90, 04.11
+
+TV07/TV08/TV09 implementują §6.5 specyfikacji właściciela. Zapas wymaga wybrania
+całego zestawu 3/4/5 różnych, prawidłowych składników z jawnej karty opisów.
+Brak, dodatek, duplikat lub obcy identyfikator nie zalicza zestawu. To wypożyczone
+materiały próby, bez nowych przedmiotów ani zużywania własnego ekwipunku.
+Źródło wymaga jawnego podziału 4/6/8 jednostek między obie osady, zachowania całej
+sumy i spełnienia obu zapotrzebowań. Kontroler odrzuca ułamki, ujemne wartości,
+nieprawidłowy format i tworzenie dodatkowej wody; każdy wariant ma rozwiązanie.
+
+Obóz to aktywne ćwiczenie z osłonami istniejącej sali i jej nawigacją/LOS.
+Gracz zabezpiecza 2/3/4 punkty przez pełne 45/60/75 aktywnych sekund.
+Profil ćwiczebny zmienia punkt co 10 s (ostatnie okno może być krótsze);
+w każdym oknie trzeba dojść w promień 60 j. i stanąć za rzeczywistą przeszkodą
+względem czerwonego źródła zagrożenia. Osiągnięcie osłony zalicza bieżące okno;
+nie trzeba stać w nim przez całe 10 s. Samo odwiedzenie wszystkich punktów przed
+upływem czasu nie kończy próby. Brak osłony w oknie oznacza porażkę, pauza
+zatrzymuje zegar. To ćwiczenie terenowe, bez fal potworów i nowego modelu obrażeń.
+10 s i promień 60 j. są profilem sali, nie nowymi statystykami ras lub potworów.
+
+Opieka II (minimum trzech wyników) odblokowuje istniejący `mv-root`, bez zmiany
+mnożników. Istniejące serwerowe intenty przesyłają wybór zestawu/podziału wody,
+a wynik oblicza kontroler. Ledger wydaje 100/150/200 praktyki tylko raz.
+Nie zmieniono formatów zapisu 10/6 i development v3, HUD, sterowania ani kontynentów.
+Katalog obejmuje **21/48 prób i 63/144 stopni**. Planetarni mają **12/12 prób**
+i 5400 praktyki z prób; wcześniejszy teoretyczny budżet sumuje się do 17 800.
+To nie potwierdza jeszcze pełnej osiągalności i balansu kampanii ani tytułu
+Strażnika Żywych Szlaków. Interakcje dziedzin poza salą i tytuły pozostają otwarte.
+[Kontrole i granice odbioru](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+
+
 ## Szlaki Planetarnych — kontynuacja PR #90
 
 W tej partii dodano TV01/TV02/TV03, każdy w trzech stopniach. Źródło liczb:
