@@ -1,6 +1,12 @@
 name: Prompt production board staging
 on:
   workflow_dispatch:
+    inputs:
+      operation:
+        description: Read-only upload inventory or deploy the prompt panel
+        type: choice
+        options: [deploy, audit]
+        default: deploy
   push:
     branches: [feature/prompt-production-board]
     paths: [.github/workflows/prompt-board.yml, deploy/prompt-board/**]
@@ -16,15 +22,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: inputs.operation != 'audit'
         with:
           node-version: "22"
       - name: Test actual HTTP, persistence and authorization
+        if: inputs.operation != 'audit'
         run: node --test deploy/prompt-board/server.test.mjs
       - name: Prepare isolated board bundle
+        if: inputs.operation != 'audit'
         run: |
           test -s docs/design/development-prompts/prompts.json
           tar -czf /tmp/ki-prompt-board.tar.gz -C deploy/prompt-board . -C "$GITHUB_WORKSPACE/docs/design/development-prompts" prompts.json
       - name: Deploy only prompt board on staging
+        if: inputs.operation != 'audit'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
         run: |
@@ -36,3 +46,24 @@ jobs:
           ssh_args=(-i "$key" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts")
           ssh "${ssh_args[@]}" codex@85.235.150.189 'mkdir -p "$HOME/ki-prompt-board/releases/${{ github.sha }}"; tar -xzf - -C "$HOME/ki-prompt-board/releases/${{ github.sha }}"' < /tmp/ki-prompt-board.tar.gz
           ssh "${ssh_args[@]}" codex@85.235.150.189 'bash "$HOME/ki-prompt-board/releases/${{ github.sha }}/deploy.sh" "${{ github.sha }}"'
+
+      - name: Read-only prompt upload inventory
+        if: inputs.operation == 'audit'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          key="$RUNNER_TEMP/board-audit-key"
+          trap 'rm -f "$key"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key"
+          ssh -i "$key" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" codex@85.235.150.189 'python3 -' <<'PY'
+          import json
+          from pathlib import Path
+          base=Path.home()/'ki-prompt-board'
+          release=(base/'current-release').read_text().strip()
+          catalog=json.loads((base/'releases'/release/'prompts.json').read_text())
+          state=json.loads((base/'data/state.json').read_text())
+          rows=[{'id':key,'files':len(value.get('files',[])),'types':sorted(set(f.get('type','') for f in value.get('files',[]))),'revision':bool(value.get('revision'))} for key,value in state['prompts'].items()]
+          print('BOARD_AUDIT_JSON='+json.dumps({'release':release,'catalogCount':len(catalog),'uploaded':rows,'filesTotal':sum(r['files'] for r in rows)},ensure_ascii=False))
+          PY
