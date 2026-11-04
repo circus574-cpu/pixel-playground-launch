@@ -122,3 +122,32 @@
   joystick jest rysowany przez grę i mieści się w układzie telefonu.
 - Testy e2e `hud-layout` dla Planetarnych (Verdantia) są czerwone także na czystym `main` w tym środowisku (ładowanie świata,
   dysk sesji bliski pełnego), więc nie wynikają z tej zmiany; pozostałe 9 z 12 przechodzi.
+
+## Świat poza miastami: Verdantia, 20 obrazów (do odbioru)
+
+- Zasada właściciela: na kontynent po 5 rzeczy w czterech grupach (tekstury podłoża, ukształtowanie terenu, drogi, przyroda), po 1 obrazie na
+  prompt, razem 20 na kontynent. Prompty: `art/pipeline/prompts/world/PROMPTY-{Verdantia,Aetheria,Nexus-9,Pyra}-v2.md` (poprzednie
+  pliki po 52 prompty zastąpione).
+- Verdantia wygenerowana `gpt-image-1-mini` (jakość medium): `art/production/world/verdantia/` (PNG, prompt przy każdym obrazie,
+  `manifest.json` z SHA-256). Kafle i rzeka zszyte w szwach na CPU, drogi w poziomie, obiekty z alfa.
+- Pięć obrazów (trawa, skała, piasek, droga ziemna, ścieżka górska) powtórzono po poprawce promptów (strumyki w trawie i skale,
+  krzaki w piasku, schody zamiast ścieżki, droga po skosie). Obiekty mają jeszcze podstawy terenu pod spodem; prompty już poprawione.
+- To próbki bez odbioru właściciela i bez wdrożenia do klienta; gra bez zmian.
+
+## Świat poza miastami: Aetheria, 20 obrazów (do odbioru)
+
+- Aetheria wygenerowana tak jak Verdantia (`gpt-image-1-mini`, medium, 20 promptów): `art/production/world/aetheria/` z promptem przy
+  każdym obrazie i `manifest.json` (SHA-256). Kafle i rzeka zszyte w szwach na CPU.
+- Znane wady: wszystkie 8 obiektów ma podstawę (kamienna obwódka z wodą lub darń) mimo zakazu w prompcie, ścieżka leśna ma strumień
+  przy krawędzi, zielenie wychodzą żółtozielone. Próbki bez odbioru właściciela; gra bez zmian.
+
+## Świat poza miastami: Nexus-9 i Pyra (12 z 20), prompty obiektów v3
+
+- Nexus-9 i Pyra: tekstury podłoża, ocean, rzeka i drogi (12 obrazów na kontynent), `gpt-image-1-mini` medium, w
+  `art/production/world/{nexus-9,pyra}/` z promptami i `manifest.json`. Osiem obiektów na kontynent właściciel generuje sam z
+  `art/pipeline/prompts/world/PROMPTY-OBIEKTY-v3.md` (32 prompty dla czterech kontynentów).
+- Przyczyna podstaw pod obiektami i błędnych oceanów: paleta kontynentu w prompcie (woda, żarzące się szczeliny) przenikała do
+  obiektów i wody. Prompty obiektów v3 mają osobną paletę bez wody, widok z przodu pod kątem 30° zamiast „three-quarter top-down”
+  i zasadę „wycięta naklejka, pod spodem tylko przezroczystość”. Test na czterech obiektach: bez podstaw.
+- Oceany i piasek Nexus-9 oraz ocean Pyry powtórzono po poprawce palet (wcześniej woda wyglądała jak popękana skała lub lawa).
+  Prompty Verdantii i Aetherii nie zmieniają się: ich obrazy powstały ze starszych wersji, zapisanych przy obrazach.
