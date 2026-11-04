@@ -1,20 +1,12 @@
 # KI Legends — dokumentacja projektu
 
-**Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
+**Aktualny checkpoint: 04.11.2026, `main@316faad1` (po PR #102).** Host KI Legends jest już na **VPS Aruba / Coolify**, gra ma prywatną bazę **PostgreSQL 17** i sieciowy serwer Node.js / WebSocket. Konta i role, przechowywanie postaci, serwerowa sesja PvE i rewizje świata w PostgreSQL są zaimplementowane. `/admin` pobiera status rzeczywistej bazy. Gra wymaga sesji serwera i nie wraca po awarii do zapisu lokalnego. **Nie mylić serwerowego PvE z ukończonym MMO** (wspólne moby/PvP/party pozostają do oddzielnej implementacji i odbioru).
 
-**Próba oprawy Verdantii (osobna gałąź, bez publikacji):** [kod, zasoby, zrzut z gry i włączenie podglądu](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
+**Zmiany bieżące:** #76–77 konta na VPS, #79 edycja świata na serwerze, #83–86 poprawki HUD/serwera/postaci, #89 naprawa odświeżania ramek, #91 grafiki anime 35/40, #97 rangi i brak starego limitu poziomu, #99 malowane miasta i NPC, #100 mobilny HUD/kontrast, #101 skala interfejsu, #102 idempotencja celów questów (test). Zajrzyj do [dziennika 03.11](zmiany/2026-11-03/ZMIANY.md) i [04.11](zmiany/2026-11-04/ZMIANY.md).
 
-Aktualizacja: **01.11.2026, po PR #70 (`main@2026c18`) i dodaniu bramki jakości CI przed wdrożeniem**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
-Wdrożono pełny panel administracyjny postaci serwerowych (`ServerCharacterManager` w `/admin` z podglądem i edycją bazy PostgreSQL, statystyk, 8 slotów ekwipunku, torby 40 slotów, depozytu, zadań i drzewka skilli oraz akcjami live), wdrożono 8-slotowy ekwipunek, 40-slotową torbę i miejski depozyt na złoto i przedmioty, włączono 46/46 zasobów Etapu 1 oraz opublikowano gałąź `main` z automatycznym deploymentem na serwerze Aruba.
+**Nie zakończono:** pełnego multiplayera/MMO, całości rozwoju ras (#90 — otwarty), audytu rozwoju (#87 — otwarty), labiryntów z #80 (otwarty), części kontroli operacyjnych #71 i odbioru fizycznego telefonu. Stan Resend/SMTP na produkcji należy sprawdzić na żywo; wcześniejszy PR #77 odnotowywał `mail:false`. Kod, merge i działanie aktualnego deploymentu są osobnymi faktami. Automatyczny workflow produkcyjny `.github/workflows/aruba-production.yml` nie uruchamia się od zmian samych plików `docs/**`; dokumentacja nie publikuje gry.
 
-**Wdrożenie i produkcja:** Rozwój ras jest częściowo wdrożony, parametry treningu i okno statystyk są w grze, a serwer multiplayer dysponuje dedykowanym silnikiem orkiestracji procesów Node.js (`multiplayerServer.ts`). Lokalne testy integracji, pełny TypeScript i testy jednostkowe monitoringu/sterowania serwerem zakończone sukcesem.
-
-Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--01112026-po-publikacji-serwerowego-pve-panelu-postaci-ekwipunku-i-wydaniu-na-main) oraz [zamknięcie zmian 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
-
-Serwerowy zapis i rozgrywka PvE (PR #69) oraz zarządzanie postaciami w PostgreSQL zostały scalone do gałęzi `main`.
-Wdrożenie na serwerze produkcyjnym Aruba zostało opublikowane i jest aktywne.
-Aktualny protokół, testy i warunki cutoveru opisuje
-[Architektura](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
+Przed pracą agentów obowiązkowo [AGENTS.md](../AGENTS.md), [Zasady](ZASADY.md), [Architektura](ARCHITEKTURA-I-TESTY.md) i [Plan](PLAN-I-ZADANIA.md). Stare rozbieżne opisy w datowanych dziennikach to **materiał historyczny**, a nie bieżący status.
 
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
@@ -26,11 +18,15 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 | [Świat i miasta](SWIAT-I-MIASTA.md)             | Kontynenty, globus, geometria, cztery miasta, budynki, NPC i usługi.       |
 | [GPU i zasoby](GPU-I-ZASOBY.md)                 | Produkcja grafik, kontrakt paczek, import, kolejka i odtwarzanie narzędzi. |
 | [Architektura i testy](ARCHITEKTURA-I-TESTY.md) | Kod, moduły, polecenia, QA, wydajność i diagnoza usterek.                  |
-| [Fabuła i ekwipunek](FABULA-I-EKWIPUNEK.md)     | Pełny projekt przygody: 98 zadań, 177 przedmiotów, 94 receptury.           |
+| [Fabuła i ekwipunek](FABULA-I-EKWIPUNEK.md)     | Księga przygody (historyczny projekt) i nowszy katalog V2 (366 przedmiotów, 140 receptur).           |
 | [Licencje](LICENCJE.md)                         | Grafiki, modele, zależności, notices, dowody i nierozstrzygnięte prawa.    |
 | [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
 ## Historia — jeden dziennik na dzień
+
+- [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
+- [2026-11-03](zmiany/2026-11-03/ZMIANY.md)
+- [2026-11-02](zmiany/2026-11-02/ZMIANY.md)
 
 - [2026-11-01](zmiany/2026-11-01/ZMIANY.md)
 - [2026-10-31](zmiany/2026-10-31/ZMIANY.md)

@@ -1,37 +1,34 @@
-- Avoid rewriting published git history — force pushing, or rebasing/amending/squashing commits that are already pushed.
-- The sketch space uses a shared-password encrypted server session, not user accounts; verify it before every storage operation.
-- Sketch files live in a private Cloud bucket with no anonymous or authenticated storage policies; guarded server functions issue upload and short-lived download capabilities.
-- Keep upload validation in a shared client-safe schema so the browser and server enforce the same filename and size rules without restricting extensions.
-- Inline previews use session-guarded short-lived storage capabilities and local typed blob URLs; render text as plain text and never send private files to third-party viewers.
+# KI Legends — instrukcja dla agentów (stan 2026-11-04)
 
-## Ki Legends production
+**Źródło prawdy:** aktualny kod `main`, [indeks dokumentacji](docs/INDEX.md), [architektura i testy](docs/ARCHITEKTURA-I-TESTY.md), [zadania](docs/PLAN-I-ZADANIA.md) oraz [dziennik zmian](docs/zmiany/2026-11-04/ZMIANY.md). Przed rozpoczęciem przeczytaj te pliki i odpowiednie źródła. Datowane checkpointy w historii nie mogą nadpisywać aktualnego stanu.
 
-- GPU pod lifecycle is owner-only. Never call Start, Stop, Restart or Terminate, including after renders, during CPU tests, for cleanup or to retry capacity. The owner performs these actions. This explicit instruction supersedes historical advice to stop GPU rental automatically.
-- Follow `docs/ZASADY.md` and the user's current stage constraints.
-- The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/ROZWOJ-I-WALKA.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
-- Use independent terrain/object resources, never a complete concept illustration as the production world.
-- Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
-- Region art upgrades ship as GPU-importer packs of render bindings (`terrain.*`, `object.*`, optional `terrain.<world>-wall`, presentation-only `origin`), opt-in via `PREVIEW_SWITCHES` until the owner accepts them; collision footprints stay in region JSON.
-- Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.
-- Preserve `/test`, storage guards, secrets, unrelated features and published git history.
-- /mapa shows a lazily loaded WebGL globe wrapping the painted equirectangular atlas, with the flat atlas plus transparent SVG hitboxes as the 2D view and no-WebGL fallback; both views pick regions from the same traced outlines, so regenerate outlines and `scripts/build_globe_textures.py` outputs whenever the atlas changes.
+## Bieżąca infrastruktura — NIE PLANOWANA MIGRACJA
 
-## Shared project knowledge — required for every agent
+- **KI Legends korzysta już z VPS Aruba zarządzanego przez Coolify i prywatnego PostgreSQL** (konfiguracja PostgreSQL 17 w `deploy/multiplayer/compose.yml`). Domena produkcyjna: `kilegends.pl`. Migracja hostingu została zakończona; nie proponuj ponownej migracji z Lovable ani nie przedstawiaj VPS/DB jako zadań do dopiero wykonania.
+- **Gra ma działający kod serwera sieciowego i serwerowej rozgrywki PvE**, nie wyłącznie lokalne PvE. `src/server/gameServer.ts` to WebSocket + HTTP, `src/server/characters/socket.ts` i `onlineSession.ts` wykonują sesję PvE po stronie serwera, a `src/server/characters/repository.ts` przechowuje postacie i checkpointy w PostgreSQL. Klient `src/game/online/client.ts` wysyła intencje, bez lokalnego fallbacku zapisu.
+- **Nie utożsamiaj tego z pełnym MMO**: wspólne potwory i walka grupowa, PvP, party, współdzielone instancje bossów i kompletna autorytatywna symulacja wielu graczy nie są potwierdzone jako ukończone. Istnieją obecność/peers, AOI, telemetria i serwerowe PvE.
+- Konta, sesje, nicki, role i obsługa aktywacji są implementowane w `src/server/accounts/`, a frontend w `src/game/account/vpsAuth.ts`. Konta na VPS/PostgreSQL zastępują stary model Supabase jako źródło logowania gry; w kodzie pozostają komponenty i zmienne do obsługi dziedzictwa, prywatnego `/test` i migracji. Sama obecność `SUPABASE_*` **nie oznacza**, że konto/postać online jest dziś utrzymywana przez Supabase.
+- `/admin` pobiera rzeczywisty status PostgreSQL, pozwala zarządzać postaciami i publikować rewizjonowane nadpisania świata (`world_admin.revisions`). Osobno odnotowuj konfigurację poczty Resend: jej działanie na produkcji wymaga żywej kontroli `/ws/auth/status`; PR #77 raportował `mail:false`. Nie oznaczaj jej jako sprawdzonej bez nowego dowodu.
+- Konfiguracja wejścia: Caddy/Traefik → kontener `web` → aplikacja `app:3000`; `/ws/*` → demon gry na porcie 7420 (wewnętrzny). Konfiguracja: `deploy/Caddyfile`, `docker-compose.yml` + `docker-compose.online.yml`, zmienne serwera trzymane wyłącznie po stronie VPS. Nie wystawiaj PostgreSQL publicznie.
+- Przed twierdzeniem „produkcyjnie działa teraz” sprawdzaj aktualny health i QA na VPS. Stan kodu, merge, CI i aktywność usługi to **różne** dowody. Nie przypisuj sukcesu CI nowemu commitowi bez wyniku na tym SHA.
 
-- Before planning or implementing Ki Legends changes, read [docs/INDEX.md](docs/INDEX.md) and the relevant linked source documents from the current commit. Do not rely solely on chat memory or PR descriptions.
-- The owner-provided 12-page design PDF is a source document; see [docs/INDEX.md](docs/INDEX.md) for an interim text index. The original binary PDF and its 12 lossless parts are present; verify the recorded SHA-256 before claiming archival completeness.
-- Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
-- **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
-- Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
-- Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.
-- Rasy i potwory: statystyki ras, 4 drzewka (29 węzłów) i model obrażeń pochodzą z aneksu właściciela 22.10.2026, a 40 potworów z jego bestiariusza HTML; źródła liczb to generowane pliki (`nodes.generated.ts`, `base.generated.ts`) — nie edytować ich ręcznie, zmieniać źródło i generator. Opis, założenia i luki: `docs/ROZWOJ-I-WALKA.md`. Szybkość ruchu rośnie o 5% bazowej na poziom do 20 (decyzja właściciela). Właściciel 23.10.2026 zlecił generację całej planety według zatwierdzonej geometrii, z drogami, ścieżkami, ukrytymi lokacjami i labiryntami; spawny mają powstawać w osobnej generacji na gotowych danych świata. Ta decyzja zastępuje wcześniejsze odłożenie spawnów. Bezpieczne miasta pozostają bez przeciwników.
-- Region curved roads/courts (`terrain.roads`, `terrain.courts`) are presentation-only and baked into chunk textures by `src/game/world/renderRoads.ts`; collision always comes from obstacles and footprints so saves and navigation stay independent of art.
-- The planet atlas (2D/3D) is shared by /mapa and the in-game overlay via MapaView props (`current`, `onClose`); it only reads the active character continent through MapChrome and never imports game session code, keeping /mapa light.
-- Continents have the size of the painted continents (docs/SWIAT-I-MIASTA.md); each local city is a safe area of about 4000 × 2500 units (`city.bounds`, no combat, `inSafeCity`), the rest of the continent is empty but reachable ground. Region content is moved with `scripts/expand_continents.py` and the `scripts/build_*_city.py` builders; saves follow `layout`/`layoutShifts`.
+## Obowiązkowe zasady pracy
 
-## Documentation maintenance
+1. Zanim zaczniesz: `git status`, `git branch -a`, `git log`, otwarte PR, odpowiednie testy i ostatni dziennik. Nie nadpisuj równoległych zmian. Nie wyciągaj bieżącej prawdy ze starych PR, plików stagingowych ani z pamięci czatu.
+2. Pracuj na osobnej gałęzi. Nigdy nie wymuszaj push, nie przepisuj opublikowanych commitów ani nie kasuj cudzych gałęzi. Kod i dokumentacja powinny być aktualizowane razem z rzeczywistą zmianą; wpis w `docs/zmiany/YYYY-MM-DD/ZMIANY.md` zawiera zakres, PR/SHA, testy i ograniczenia.
+3. **Nie scalaj PR, nie publikuj gry, nie restartuj kontenerów, nie przełączaj domen ani produkcyjnej bazy bez osobnej wyraźnej autoryzacji właściciela.** Samo polecenie aktualizacji dokumentacji uprawnia do commita/PR dokumentacyjnego, a nie do deploymentu. Ścieżki `src/**`, `public/**`, `deploy/**` mogą uruchamiać release po pushu do `main`.
+4. Chroń postacie i zapisy: backup i próba restore przed migracją DB, bez usuwania tabel/zapisów lub rozłączania aktywnego serwera; zachowaj kontrolę wersji, lease, idempotencję i walidację po stronie serwera. W testach korzystaj z izolowanej bazy, nigdy z realnych danych graczy.
+5. Nigdy nie commituj sekretów, plików `.env`, haseł, tokenów, kopii DB i prywatnych archiwów. Nie powielaj adresów administracyjnych i danych dostępu. Oceniaj zastane pliki `.env` jako potencjalne ryzyko, nie cytuj ich treści.
+6. **GPU pozostaje wyłącznie pod kontrolą właściciela.** Agent nie uruchamia, nie zatrzymuje, nie restartuje, nie usuwa, nie skaluje i nie modyfikuje rozliczeń instancji GPU. Dozwolone jest odczytanie stanu oraz zatwierdzone zadania na działającej instancji. Nie usuwaj modeli, danych i archiwów.
+7. Kanon: anime/manga 2D, cztery rasy Planetarni, Mędrcy, Androidzi, Legendy; kontynenty Verdantia, Aetheria, Nexus-9, Pyra. Nie wracaj do medieval/pixel art, Human/Orc/Dwarf/Elf. Nie stosuj płatnych modeli AI bez zgody właściciela.
+8. W walce i rozwoju trzymaj się obecnych implementacji `src/game/combat/`, `src/game/development/` i testów. Niezależnie od istniejących w kodzie bezpieczników `LEVEL_MAX`, rozwój poziomów i punktów nie ma dawnego limitu 20 (PR #97). Rangi węzłów skalują efekty. Rozbudowa ras z PR #90 nie jest scalona; nie deklaruj jej jako gotowej.
+9. Świat Superior v2 i malowane miasta mają zachować kolizje, pozycje, zapis i istniejące zasady spawnów. Od PR #99 malowane miasta są domyślnie aktywne (`?ki-painted=0` do wyłączenia); 35/40 potworów ma oprawę anime na `main` z PR #91. Brakujące assety raportuj bez wymyślania ich jako już zaimportowanych.
+10. `/mapa` i mapa w grze współdzielą atlas i kontury. Przy zmianie atlasu zweryfikuj zgodność globusa WebGL, 2D i fallbacku; regeneruj odpowiednie wyjścia `scripts/build_globe_textures.py`. Nie zastępuj produkcyjnej geometrii pojedynczą ilustracją.
+11. Prywatna strona `/test` jest osobną chronioną funkcją ze wspólną zaszyfrowaną sesją, prywatnym bucketem, walidacją i krótkotrwałymi uprawnieniami uploadu/pobrania; nie pokazuj prywatnych plików w serwisach trzecich. Nie zmieniaj przypadkowo `src/integrations/supabase/types.ts` i `previewAuthStorage.ts`.
+12. Przed przekazaniem zmian wykonaj w miarę możliwości: `npm run typecheck`, `npm run test`, `npm run lint`, `npm run assets:check`, `python3 scripts/docs/check_documentation.py`, `npm run build`; przy zmianach interakcji także E2E i test fizycznego telefonu. Raportuj dokładnie niewykonane testy — nie wpisuj PASS na podstawie starego commita.
 
-- Keep exactly the ten thematic Markdown documents listed in `docs/INDEX.md`; update the relevant topic instead of adding status, QA, handoff or per-delivery manuals.
-- Write chronological changes in `docs/zmiany/YYYY-MM-DD/ZMIANY.md` (one journal per date); keep that day's QA evidence under its `qa/` subfolder.
-- Preserve source PDFs, canonical JSON, legal texts and provenance. These are evidence/data, not extra active manuals. Older descriptions remain in Git.
-- Run `python3 scripts/docs/check_documentation.py` after documentation changes. Do not regenerate the removed documents from old scripts.
+## Reguły dokumentacji
+
+- Zachowaj **dokładnie 10 dokumentów tematycznych** w `docs/` z `docs/INDEX.md`. Nie twórz osobnych aktywnych STATUS/HANDOFF/QA; prowadź dzienniki `docs/zmiany/YYYY-MM-DD/ZMIANY.md`, dowody w `qa/`.
+- Zmiana stanu w kodzie wymaga poprawy najpierw odpowiedniego tematu, potem indeksu i dziennika. Usuwaj lub wyraźnie oznaczaj archiwalne opisy. Nie usuwaj oryginalnych PDF, JSON, praw/licencji ani dowodów.
+- Najważniejsze aktualne odnośniki: [zasady](docs/ZASADY.md), [architektura](docs/ARCHITEKTURA-I-TESTY.md), [plan](docs/PLAN-I-ZADANIA.md), [rozwój](docs/ROZWOJ-I-WALKA.md), [świat](docs/SWIAT-I-MIASTA.md), [zmiany 04.11](docs/zmiany/2026-11-04/ZMIANY.md).

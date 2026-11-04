@@ -1,12 +1,31 @@
 # KI Legends — architektura i testy
 
-## Aktualny stan techniczny — 29.10.2026
+## Aktualna architektura — checkpoint 04.11.2026, `main@316faad1`
 
-Punkt odniesienia: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`, opublikowany na Aruba przez [run 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683). Phaser pozostaje lokalną symulacją PvE, React/TanStack obsługuje aplikację i HUD. Supabase zapewnia dotychczasowe konto/zapisy; nowy projekt właściciela nie jest jeszcze aktywnym backendem gry. Prywatny PostgreSQL VPS nie oznacza uruchomionego multiplayera.
+| Warstwa | Potwierdzony stan repozytorium |
+| --- | --- |
+| Hosting | VPS Aruba / Coolify, produkcja `kilegends.pl`. Migracja z Lovable zakończona; nie planować jej ponownie. |
+| Reverse proxy i aplikacja | Traefik (Coolify), Caddy w `web:80`, aplikacja TanStack Start/Node w `app:3000`, frontend React + Phaser 4.2.1. |
+| Serwer gry | `src/server/gameServer.ts` (Node.js / HTTP / WebSocket), port wewnętrzny 7420, domyślny tick 20 Hz, AOI 512×512, `/ws/online`, stan sesji i telemetria. |
+| PvE autorytatywne dla postaci | `src/server/characters/onlineSession.ts`, `superiorSimulation.ts`, `socket.ts`; rozgrywka wykonywana po stronie serwera. `src/game/online/client.ts` przesyła intencje i odtwarza kolejne ramki. |
+| Trwałość | Prywatny PostgreSQL 17, `DATABASE_URL` wyłącznie po stronie serwera, `game.characters`, `game.online_character_state`, blokady sesji, rewizje, trwałe receipts. Checkpoint ticków co ~2 s, komendy i wyjście zapisują natychmiast; ramki w ramach rewizji odróżnia `seq`. |
+| Konta | `src/server/accounts/` + `src/game/account/vpsAuth.ts`: rejestracja/aktywacja, login, refresh, role GM/admin, migracja użytkownika przy pierwszym logowaniu z poprzedniego dostawcy. Resend wymaga sprawdzonych sekretów; nie deklarować, że poczta działa bez live testu. |
+| Świat /admin | `world_admin.revisions` i `src/server/world/overrides.ts`: walidowane publikacje/rollback z rewizją, edycje nakładane na żywo; /admin czyta bazę VPS, nie dawny panel Supabase. |
+| Wdrożenie | `.github/workflows/aruba-production.yml` po zmianie kodu na `main` (z bramką typecheck/test/lint/assets/docs/build); pliki wyłącznie `docs/**` nie triggerują release. |
 
-`GameSession`, kity ras, `development/` i `combatTraining.ts` współpracują w jednym silniku. Klasyczny zapis **9** oraz Superior **5** zachowują oba systemy rozwoju i GM; szczegóły migracji są [poniżej](#integracja-rozwoju-i-treningu--29102026). Portret otwiera `CharacterStatsPanel`; okno Rozwój obsługuje `DevelopmentPanel`. Nie zmieniono klawiszy, joysticka ani pozycji HUD-u przy tej integracji.
+**Precyzja:** infrastruktura VPS+PostgreSQL+serwerowe PvE jest już obecna; protokół `src/game/multiplayer/protocol.ts` posiada też szersze wiadomości transportowe, ale wieloosobowe MMO (wspólne moby, PvP, party, synchronizacja pełnej walki) nie jest potwierdzonym gotowym produktem. Nie cofaj statusu do „tylko lokalne PvE”, ale nie obiecuj pełnego MMO. Samo posiadanie kodu i merged PR nie weryfikuje dzisiejszego stanu działających kontenerów.
 
-Rozróżniać cztery kontrole: lokalne 985 testów, 12 wąskich scenariuszy przeglądarkowych, pełne CI oraz test publikacji. Lokalny zestaw jednostkowy, wąskie scenariusze i test publikacji są zaliczone; pełna regresja CI nie ma zielonego odbioru. [Aktualny plan i ograniczenia](PLAN-I-ZADANIA.md#bieżący-checkpoint--29102026-po-integracji), [dowody publikacji](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji). Datowane checkpointy CPU i starsze formaty w dalszych sekcjach pozostają historią, nie bieżącą konfiguracją.
+### Ustalenia z audytu 02–04.11
+
+- PR #76–77: konta na VPS, role, panel kont; PR #69: serwerowy zapis i sesja bez local fallback; #79: edycje świata.
+- PR #85: odciążenie PostgreSQL przez checkpoint co ~2 s; #89: naprawa odrzucanych ramek, klucz `revision + seq`; #84: spójny checkpoint po edycji admina.
+- PR #91: potwory anime 35/40; PR #97: skille/rangi i brak twardego capu poziomu 20; #99: malowane miasta domyślnie oraz NPC; #100–101: HUD telefonu, kontrast i regulacja skali; #102: test zdarzeń powtórzonych dla questów.
+- **Otwarte PR:** #71 (ops/rollback/live QA), #80 (labirynty), #87 (audyt rozwoju), #90 (próby i rozwój ras). Nie traktuj ich opisu jako wdrożonego kodu `main`.
+- **Do kontroli niezależnej:** `/healthz`, `/ws/auth/status`, `/ws/online`, wejście postaci/reconnect, zapisy i restore, aktywacja Resend, współbieżność, fizyczny telefon, wydajność WebGL/WS i status release po ostatnich commitach. W niniejszej aktualizacji dokumentacyjnej nie wykonano live QA.
+
+### Archiwum chronologicznych pomiarów
+
+Dalsze datowane sekcje są **dowodami wcześniejszych etapów**; ich stary „stan aktualny” i nieukończona migracja nie zastępują checkpointu powyżej.
 
 ## Odtworzenie po wyłączeniu poda CPU
 
